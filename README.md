@@ -24,21 +24,22 @@ distribution and use.
 
 ## Features
 
-Files (static snapshot and live monitoring available)
-User accounts
-Services
-Network Ports
-Registry (Windows)
+Collection of:
+- Files (static snapshot and live monitoring available)
+- User accounts
+- Services
+- Installed Certificates
+- Network Ports
+- Registry (Windows)
 
 Future planned features:
-Certificate store
-Code signing info
-Drivers (partially covered presently under files)
-Firewall settings
-Redistributable installations
-Requested features which existed in ASA Classic
-Network traffic live monitoring
-Registry modifications (Windows) live monitoring
+- Code signing info
+- Drivers (partially covered presently under files)
+- Firewall settings
+- Redistributable installations
+- Network traffic live monitoring
+- Registry modifications (Windows) live monitoring
+- Features inspired on user feedback or drawn from ASA classic
 
 ## Installation
 
