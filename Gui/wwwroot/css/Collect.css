@@ -1,0 +1,52 @@
+﻿label{
+    font-weight:normal;
+}
+
+#left {
+    width: 400px;
+    display: grid;
+    grid-template-columns: 300px 100px;
+    grid-template-rows: auto auto auto auto auto auto auto auto auto;
+}
+
+#runid {
+    width: 300px;
+    padding: 0 10px 5px 10px;
+    border: 2px solid rgba(0, 0, 0, 0.4);
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+}
+
+#collectBody {
+    width:800px;
+}
+
+#collectHeader {
+    padding-top: 45px;
+    font-size: 36px;
+    font-weight: 600;
+}
+
+#collectExplain{
+    padding-top:20px;
+    font-size:16px;
+}
+
+p {
+    padding-bottom:15px;
+}
+
+#StartCollectionButton {
+    color: white;
+    background-color: #0078D7;
+}
+
+#choosePath {
+    color: black;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+#DirectorySelector{
+    display:none;
+}

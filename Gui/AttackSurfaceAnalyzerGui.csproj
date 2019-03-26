@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk.web">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+<TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
+<AssemblyName>AttackSurfaceAnalyzer-GUI</AssemblyName>
+<ReleaseVersion>2.0.0.0-pre-alpha</ReleaseVersion>
+<ApplicationInsightsResourceId>/subscriptions/743195b0-d049-4532-bb00-4abf3bc37af9/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/AttackSurfaceAnalyzerGui</ApplicationInsightsResourceId>
+<ApplicationInsightsAnnotationResourceId>/subscriptions/743195b0-d049-4532-bb00-4abf3bc37af9/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/AttackSurfaceAnalyzerGui</ApplicationInsightsAnnotationResourceId>
+    </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="ElectronNet.API" Version="0.0.11" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.6.1" />
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.6" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="2.2.3" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
+    <PackageReference Include="Diff.Match.Patch" Version="2.1.0" />
+    <PackageReference Include="BundlerMinifier.Core" Version="2.8.391" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lib\AttackSurfaceAnalyzerLib.csproj" />
+    <ProjectReference Include="..\Cli\AttackSurfaceAnalyzerCli.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\js\min\" />
+    <Folder Include="wwwroot\css\min\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
+  </ItemGroup>
+</Project>

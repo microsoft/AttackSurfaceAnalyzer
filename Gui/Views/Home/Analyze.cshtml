@@ -1,0 +1,302 @@
+﻿@using AttackSurfaceAnalyzer.ObjectTypes
+@using System.IO
+@model AttackSurfaceAnalyzer.Models.DataRunListModel
+@{
+    var runList = new SelectList(Model.Runs, "Key", "Text");
+    var monitorRunList = new SelectList(Model.MonitorRuns, "Key", "Text");
+}
+<link rel="stylesheet" href="~/css/Results.css" asp-append-version="true" />
+
+<br />
+<h1>Analyze Results</h1>
+<br />
+<div class="row">
+    <div class="col-2 font-weight-bold">Scan Type</div>
+    <div class="col-2">
+        <label class="radio-container" for="staticRadio">
+            <input type="radio" name="ScanType" value="Static" id="staticRadio" checked="checked">
+            Static
+        </label>
+    </div>
+    <div class="col-2">
+        <label class="radio-container" for="liveRadio">
+            <input type="radio" name="ScanType" value="Live" id="liveRadio">
+            Live Monitoring
+        </label>
+    </div>
+    <div class="col-6"></div>
+</div>
+<div class="thinspacer"></div>
+<div class="scan">
+    <div class="explain">
+        <p>
+            Compare a base scan and a product scan to determine changes made to the system.
+        </p>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <label for="SelectedBaseRunId">Base Run Id</label>
+            @Html.DropDownListFor(x => x.SelectedBaseRunId, runList, "Select Base Run")
+        </div>
+        <div class="col">
+            <label for="SelectedCompareRunId">Compare Run Id</label>
+            @Html.DropDownListFor(x => x.SelectedCompareRunId, runList, "Select Compare Run")
+        </div>
+        <div class="col">
+            <input type="button" class="btn btn-primary btn-square" id="RunAnalysisButton" value="Run Analysis" />
+        </div>
+    </div>
+    <div id="Status"></div>
+    <div class="row">
+        <div class="col" id="CompareStatus">Status messages appear here after starting analysis.</div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="row">
+        <div class="col-4">
+            <div class="row">
+                <div class="col">
+                    <i>Select a type of result to view.</i>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="ResultType" id="FileRadio" value="0" disabled>
+                        <label class="form-check-label" for="FileRadio">
+                            File
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="ResultType" id="PortRadio" value="1" disabled>
+                        <label class="form-check-label" for="PortRadio">
+                            Port
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="ResultType" id="ServiceRadio" value="4" disabled>
+                        <label class="form-check-label" for="ServiceRadio">
+                            Service
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="ResultType" id="CertificateRadio" value="3" disabled>
+                        <label class="form-check-label" for="CertificateRadio">
+                            Certificate
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="ResultType" id="RegistryRadio" value="2" disabled>
+                        <label class="form-check-label" for="RegistryRadio">
+                            Registry
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="ResultType" id="UserRadio" value="5" disabled>
+                        <label class="form-check-label" for="UserRadio">
+                            User
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row top-margin">
+                <div class="col">
+                    <input type="button" class="btn btn-primary btn-square ResultManipulationButton" id="FetchResultsButton" value="More Results" disabled/>
+                </div>
+            </div>
+            <div class="thinspacer"></div>
+            <div class="row">
+                <div class="col">
+                    <i>Export Options</i>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="DirectoryPath">Output Directory For Export</label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-8">
+                    <input type="text" class="form-control" id="DirectoryPath" placeholder="@Directory.GetCurrentDirectory()">
+                </div>
+                <div class="col-4">
+                    <label for="DirectorySelector">
+                        <input type="file" id="DirectorySelector" class="btn btn-primary" webkitdirectory />
+                        <i class="far fa-folder" style="font-size:3em"></i>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="ExportQuantity" id="ExportSelection" value="0" disabled>
+                        <label class="form-check-label" for="ExportSelection">
+                            Export only the selected result type
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="ExportQuantity" id="ExportAll" value="1" disabled>
+                        <label class="form-check-label" for="ExportAll">
+                            Export all available result types
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <input type="button" class="btn btn-primary btn-square ResultManipulationButton" id="ExportResultsButton" value="Export to JSON" disabled/>
+                </div>
+            </div>
+        </div>
+        <div class="col-1">
+            <div class="vertSpacer"></div>
+        </div>
+        <div class="col-7">
+            <div id="CountStatus"></div>
+            <table class="table table-striped table-sm files results" id="FileResultsTable">
+                <thead>
+                    <tr>
+                        <th scope="col">Change Type</th>
+                        <th scope="col">Path</th>
+                        <th scope="col">Permissions</th>
+                        <th scope="col">Size</th>
+                    </tr>
+                </thead>
+                <tbody id="FileResultsTableBody"></tbody>
+            </table>
+            <table class="table table-hover table-sm ports results" id="PortResultsTable">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Change Type</th>
+                        <th scope="col">Port</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Address</th>
+                    </tr>
+                </thead>
+                <tbody id="PortResultsTableBody"></tbody>
+            </table>
+            <table class="table table-hover table-sm users results" id="UserResultsTable">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Change Type</th>
+                        <th scope="col">Account Type</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                    </tr>
+                </thead>
+                <tbody id="UserResultsTableBody"></tbody>
+            </table>
+            <table class="table table-striped table-sm certificates results" id="CertificateResultsTable">
+                <thead>
+                    <tr>
+                        <th scope="col">Change Type</th>
+                        <th scope="col">Store Location</th>
+                        <th scope="col">Store Name</th>
+                        <th scope="col">Subject</th>
+                        <th scope="col">Hash</th>
+                    </tr>
+                </thead>
+                <tbody id="CertificateResultsTableBody"></tbody>
+            </table>
+            <table class="table table-striped table-sm services results" id="ServiceResultsTable">
+                <thead>
+                    <tr>
+                        <th scope="col">Change Type</th>
+                        <th scope="col">Service Name</th>
+                        <th scope="col">Start Type</th>
+                        <th scope="col">Display Name</th>
+                        <th scope="col">Current State</th>
+                    </tr>
+                </thead>
+                <tbody id="ServiceResultsTableBody"></tbody>
+            </table>
+            <table class="table table-striped table-sm registry results" id="RegistryResultsTable">
+                <thead>
+                    <tr>
+                        <th scope="col">Change Type</th>
+                        <th scope="col">Path</th>
+                        <th scope="col">Value</th>
+                        <th scope="col">Contents</th>
+                    </tr>
+                </thead>
+                <tbody id="RegistryResultsTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="monitor">
+    <div class="explain">
+        <p>
+            Compare a base scan and a product scan to determine changes made to the system.
+        </p>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <label for="SelectedMonitorRunId">Monitor Run Id</label>
+            @Html.DropDownListFor(x => x.SelectedMonitorRunId, monitorRunList, "Select Monitor Run")
+        </div>
+        <div class="col">
+            <input type="button" class="btn btn-primary btn-square ResultManipulationButton" id="RunMonitorAnalysisButton" value="More Results" />
+        </div>
+
+        <div class="form-check" style="display:none">
+            <label class="form-check-label" for="FileRadio">
+
+                <input class="form-check-input" type="radio" name="MonitorResultType" id="MonitorFileRadio" value="0" checked>
+                File
+            </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div id="MonitorStatus"></div>
+        </div>
+    </div>
+    <div class="thinspacer"></div>
+    <div class="row">
+        <div class="col">
+            <i>Export Options</i>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label for="DirectoryPath">Output Directory For Export</label>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-8">
+            <input type="text" class="form-control" id="DirectoryPathMonitor" placeholder="@Directory.GetCurrentDirectory()">
+        </div>
+        <div class="col-2">
+            <label for="DirectorySelectorMonitor">
+                <input type="file" id="DirectorySelectorMonitor" class="btn btn-primary" webkitdirectory />
+                <i class="far fa-folder" style="font-size:3em"></i>
+            </label>
+        </div>
+        <div class="col-2">
+            <input type="button" class="btn btn-primary btn-square ResultManipulationButton" id="ExportMonitorResults" value="Export to JSON" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+        </div>
+    </div>
+    <div id="MonitorCountStatus"></div>
+
+    <table class="table table-striped table-sm filemonitor" id="FileMonitorResultsTable">
+        <thead>
+            <tr>
+                <th scope="col">Change Type</th>
+                <th scope="col">Path</th>
+                <th scope="col">Old Path</th>
+                <th scope="col">Name</th>
+                <th scope="col">Old Name</th>
+            </tr>
+        </thead>
+        <tbody id="FileMonitorResultsTableBody"></tbody>
+    </table>
+</div>
+    @section Scripts{
+        <script type="text/javascript" src="~/js/Analyze.js" asp-append-version="true"></script> @* Visual Studio insists that scripts have a separate closing tag rather than an inclusive /> tag*@
+    }

@@ -1,0 +1,60 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+<TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
+
+    <RootNamespace>AttackSurfaceAnalyzer_Lib</RootNamespace>
+    <ReleaseVersion>2.0.0.0-pre-alpha</ReleaseVersion>
+    <PackageId>AttackSurfaceAnalyzer</PackageId>
+    <PackageVersion>2.0.0-pre-alpha</PackageVersion>
+    <Authors>Microsoft Corporation</Authors>
+    <Owners>Microsoft Corporation</Owners>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Utils\" />
+    <Folder Include="Collectors\FileSystem\" />
+    <Folder Include="Collectors\OpenPorts\" />
+    <Folder Include="Collectors\Registry\" />
+    <Folder Include="Collectors\Service\" />
+    <Folder Include="Collectors\UserAccount\" />
+    <Folder Include="Objects\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Utils\CommandOptions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Utils\ConfigurationReader.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Utils\CryptoHelpers.cs">
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.PowerShell.Commands.Diagnostics" Version="6.2.0-preview.4" />
+    <PackageReference Include="Microsoft.PowerShell.SDK" Version="6.2.0-preview.4" />
+    <PackageReference Include="Microsoft.Win32.Registry" Version="4.6.0-preview.19073.11" />
+    <PackageReference Include="murmurhash" Version="1.0.3" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="1.4.0" />
+    <PackageReference Include="System.Data.HashFunction.xxHash" Version="2.0.0" />
+    <PackageReference Include="System.Diagnostics.Process" Version="4.3.0" />
+    <PackageReference Include="System.Management" Version="4.6.0-preview.19073.11" />
+    <PackageReference Include="System.Net.NetworkInformation" Version="4.3.0" />
+    <PackageReference Include="System.IO.FileSystem.AccessControl" Version="4.6.0-preview.19073.11" />
+    <PackageReference Include="Microsoft.Win32.Registry.AccessControl" Version="4.6.0-preview.19073.11" />
+    <PackageReference Include="System.Runtime" Version="4.3.1" />
+    <PackageReference Include="System.Security.AccessControl" Version="4.6.0-preview.19073.11" />
+    <PackageReference Include="System.Threading.AccessControl" Version="4.6.0-preview.19073.11" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="NLog" Version="4.6.0-rc1" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="2.2.3" />
+    <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
+    <PackageReference Include="NuGet.Build.Packaging" Version="0.2.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="System.Net.Security" Version="4.3.2" />
+  </ItemGroup>
+</Project>

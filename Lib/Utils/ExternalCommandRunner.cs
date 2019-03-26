@@ -1,0 +1,28 @@
+﻿using System.Diagnostics;
+
+namespace AttackSurfaceAnalyzer.Utils
+{
+    class ExternalCommandRunner
+    {
+
+        public string RunExternalCommand(string command, params string[] args)
+        {
+            var process = new Process()
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = command,
+                    Arguments = string.Join(' ', args),
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                }
+            };
+            process.Start();
+            string result = process.StandardOutput.ReadToEnd();
+            process.WaitForExit();
+            return result;
+        }
+    }
+}

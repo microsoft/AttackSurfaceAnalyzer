@@ -1,0 +1,55 @@
+﻿@using Microsoft.ApplicationInsights.Extensibility;
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+@section Scripts{
+    <script type="text/javascript" src="~/js/Index.js" asp-append-version="true"></script>
+}
+<link rel="stylesheet" href="~/css/Index.css" asp-append-version="true" />
+<br />
+<h1>Welcome to Attack Surface Analyzer</h1>
+<br />
+<p>Attack Surface Analyzer catalogues the changes made to an operating system attack surface by the installation of new software. ATSAN can be used to take a snapshot of your system state before and after the installation of product(s) and displays the changes made to a number of key elements of the system attack surface allowing you to see what attack surfaces may be exposed after installation of the target product(s). ATSAN was developed by Microsoft.</p>
+<h4>Functions</h4>
+<div class="row">
+    <div class="col-2 left-col"><i class="fas fa-search-plus"></i>  Scan</div>
+    <div class="col-9 right-col">Collect snapshot data about the current state of the system and monitor for changes.</div>
+</div>
+<div class="thinspacer"></div>
+<div class="row">
+    <div class="col-2 left-col"><i class="fas fa-chart-bar"></i>&nbsp;&nbsp;Results</div>
+    <div class="col-9 right-col">Compare, view, and export Scan and Monitor results.</div>
+</div>
+<br />
+<div class="d-flex flex-row-reverse">
+    <div class="p-2">
+        <a asp-area="" asp-controller="Home" asp-action="Collect" class="btn btn-primary btn-square" id="indexGetStartedButton">Get Started</a>
+    </div>
+</div>
+@{
+    if (!TelemetryConfiguration.Active.DisableTelemetry)
+    {
+        <label for="TelemetryOpt">
+            <input type="checkbox" id="TelemetryOpt" checked /> Send usage data to Microsoft to help us improve our products.
+        </label>
+    }
+    else
+    {
+        <label for="TelemetryOpt">
+            <input type="checkbox" id="TelemetryOpt" /> Send usage data to Microsoft to help us improve our products.
+        </label>
+    }
+}
+        </label>
+        <br />
+        <h4>Version History</h4>
+        <div class="row">
+            <div class="col-2 left-col">2.0.0-pre-alpha</div>
+            <div class="col-8">Rewrite of ATSAN with new UI and support for Mac OS and Linux</div>
+            <div class="col-2 text-right">2/28/19</div>
+        </div>
+        <div class="spacer"></div>
+        <div id="moreInfo">
+            For more information, please visit our <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer">GitHub</a> page to review the ATSAN user guide, documentation and source code.
+        </div>
