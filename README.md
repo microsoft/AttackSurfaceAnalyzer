@@ -17,9 +17,9 @@ ATSAN analysis has proven to be valuable in identifying additional items to be
 considered in a threat model and detecting specific areas for additional fuzz testing.
 
 Typical users of ATSAN include:
-•	DevOps Engineers - view changes to the system attack surface introduced by your 
+*	DevOps Engineers - view changes to the system attack surface introduced by your 
 software.
-•	IT Security Auditors - evaluate risk presented by select software before general 
+*	IT Security Auditors - evaluate risk presented by select software before general 
 distribution and use.
 
 ## Features
@@ -83,21 +83,16 @@ https://github.com/microsoft/AttackSurfaceAnalyzer/wiki once it becomes availabl
 
 ## Notes and FAQ
 
--When comparing the results of two runs against one another the CLI this will output a 
+- When comparing the results of two runs against one another the CLI this will output a 
 results.html file whereas the GUI provides in application comparison.
--Collecting files is slow, due to the number of items processed.
--Collecting registry entries is slow, due to the number of items processed.
--Comparing large runs is slow.
+- Collecting files is slow, due to the number of items processed.
+- Collecting registry entries is slow, due to the number of items processed.
+- Comparing large runs is slow.
 
 GUI:
 
--Switching tabs in the GUI while an action is underway may make the application 
-unresponsive to further input.  This is being resolved in the next version.
--Status reporting in the collect tab is manual and requires pressing the get status button.
--Sometimes when collecting files in the GUI the option to get status may be 
-unresponsive.
--Debug output is enabled in the GUI in this version.
--The GUI is *not final* and is in the process of being updated.
+- Switching tabs in the GUI while an operation is underway is discouraged and may result in unexpected behaviors.
+- The GUI is *not final* and is in the process of being updated.
 
 For future assistance with use please see our FAQ list once it is available at 
 https://github.com/microsoft/AttackSurfaceAnalyzer/wiki 
