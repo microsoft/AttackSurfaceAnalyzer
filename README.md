@@ -25,9 +25,9 @@ ATSAN analysis has proven to be valuable in identifying additional items to be
 considered in a threat model and detecting specific areas for additional fuzz testing.
 
 Typical users of ATSAN include:
-• DevOps Engineers - view changes to the system attack surface introduced by your 
+* DevOps Engineers - view changes to the system attack surface introduced by your 
 software.
-• IT Security Auditors - evaluate risk presented by select software before general 
+* IT Security Auditors - evaluate risk presented by select software before general 
 distribution and use.
 
 Ideally, you would install the tool on a clean system with just the OS, the
@@ -35,21 +35,21 @@ Attack Surface Analyzer and software you plan to analyze.
 
 ## Features
 
-Files (static snapshot and live monitoring available)
-User accounts
-Services
-Network Ports
-Registry (Windows)
+- Files (static snapshot and live monitoring available)
+- User accounts
+- Services
+- Network Ports
+- Certificates
+- Registry (Windows)
 
 Future planned features:
-Certificate store
-Code signing info
-Drivers (partially covered presently under files)
-Firewall settings
-Redistributable installations
-Requested features which existed in ASA Classic
-Network traffic live monitoring
-Registry modifications (Windows) live monitoring
+- Code signing info
+- Drivers (partially covered presently under files)
+- Firewall settings
+- Redistributable installations
+- Requested features which existed in ASA Classic
+- Network traffic live monitoring
+- Registry modifications (Windows) live monitoring
 
 ## Installation
 
@@ -87,9 +87,7 @@ contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additio
 ## How to Use
 
 To run the GUI right click 
-“ElectronNet.Host.Exe” and run as Administrator.  To run the CLI, ensure you have 
-.NET Core 2.1 framework installed**,  open a command prompt as administrator 
-and run “dotnet AttackSurfaceAnalyzer-CLI.dll”.
+“ElectronNet.Host.Exe” and run as Administrator.  To run the CLI, run AttackSurfaceAnalyzerCli as root/administrator.
 
 The CLI version of the tool comes with built-in help using a help parameter i.e. ATSAN 
 /help for specifying specific collections to capture and other options.  
@@ -99,21 +97,21 @@ https://github.com/microsoft/AttackSurfaceAnalyzer/wiki once it becomes availabl
 
 ## Notes and FAQ
 
--When comparing the results of two runs against one another the CLI this will output a 
+- When comparing the results of two runs against one another the CLI this will output a 
 results.html file whereas the GUI provides in application comparison.
--Collecting files is slow, due to the number of items processed.
--Collecting registry entries is slow, due to the number of items processed.
--Comparing large runs is slow.
+- Collecting files is slow, due to the number of items processed.
+- Collecting registry entries is slow, due to the number of items processed.
+- Comparing large runs is slow.
 
 GUI:
 
--Switching tabs in the GUI while an action is underway may make the application 
+- Switching tabs in the GUI while an action is underway may make the application 
 unresponsive to further input.  This is being resolved in the next version.
--Status reporting in the collect tab is manual and requires pressing the get status button.
--Sometimes when collecting files in the GUI the option to get status may be 
+- Status reporting in the collect tab is manual and requires pressing the get status button.
+- Sometimes when collecting files in the GUI the option to get status may be 
 unresponsive.
--Debug output is enabled in the GUI in this version.
--The GUI is *not final* and is in the process of being updated.
+- Debug output is enabled in the GUI in this version.
+- The GUI is *not final* and is in the process of being updated.
 
 For future assistance with use please see our FAQ list once it is available at 
 https://github.com/microsoft/AttackSurfaceAnalyzer/wiki 

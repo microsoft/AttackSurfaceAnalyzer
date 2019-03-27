@@ -1,8 +1,53 @@
 # Build How-to
-Zeroth: Install Node.js, the .NET Core 2.1 SDK, and Visual Studio 2017. 
 
-Download the code and open the command line in the “GUI” directory.
+## Pre-requisites
 
-Run: dotnet tool install ElectronNET.CLI -g
-Followed by: npm install electron-packager --global
-Finally: electronize start
+### CLI:
+- .NET Core 2.1 SDK
+- Visual Studio 2017
+
+### GUI: 
+- Node.js 
+- .NET Core 2.1 SDK
+- Visual Studio 2017. 
+- Electron.NET CLI tool - ```dotnet tool install ElectronNET.CLI -g```
+
+## Building
+
+### CLI:
+
+#### Building a Debug version
+
+```
+dotnet build
+```
+
+#### Building a Release version
+On Windows you can use the script at Cli\Build.ps1 to build the release package.
+```
+.\build.ps1 -release Release
+```
+
+Linux
+```
+sh build-linux.sh -r Release
+```
+
+Mac
+```
+sh build-mac.sh -r Release
+```
+
+### GUI
+
+#### Running
+```
+electronize start
+```
+
+#### Building
+
+```
+electronize build /target win
+```
+Will create the Electron application in ```AttackSurfaceAnalyzer\Gui\bin\desktop```
