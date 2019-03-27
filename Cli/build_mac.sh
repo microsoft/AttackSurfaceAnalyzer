@@ -1,4 +1,4 @@
-release = "Debug"
+release="Debug"
 
 while [ "$1" != "" ]; do
     case $1 in
@@ -12,6 +12,6 @@ if ["$release" = "Debug"); then
     dotnet build
 fi
 if ["$release" = "Release"]; then
-    dotnet publish -c Release -r osx-x64 --self-contained true && ../Tools/macos-x64.warp-packer --arch osx-x64 --input_dir bin/Release/netcoreapp2.1/osx-x64/publish/ --exec AttackSurfaceAnalyzerCli --output AttackSurfaceAnalyzerCli
+    dotnet publish -c Release -r osx-x64 --self-contained true && ../Tools/macos-x64.warp-packer --arch macos-x64 --input_dir bin/Release/netcoreapp2.1/osx-x64/publish/ --exec AttackSurfaceAnalyzerCli --output AttackSurfaceAnalyzerCli
     chmod +x AttackSurfaceAnalyzerCli
 fi
