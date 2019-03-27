@@ -28,25 +28,38 @@
 </div>
 <div class="thinspacer"></div>
 <div class="scan">
-    <div class="explain">
-        <p>
-            Compare a base scan and a product scan to determine changes made to the system.
-        </p>
-    </div>
 
-    <div class="row">
-        <div class="col">
-            <label for="SelectedBaseRunId">Base Run Id</label>
-            @Html.DropDownListFor(x => x.SelectedBaseRunId, runList, "Select Base Run")
-        </div>
-        <div class="col">
-            <label for="SelectedCompareRunId">Compare Run Id</label>
-            @Html.DropDownListFor(x => x.SelectedCompareRunId, runList, "Select Compare Run")
-        </div>
-        <div class="col">
-            <input type="button" class="btn btn-primary btn-square" id="RunAnalysisButton" value="Run Analysis" />
-        </div>
-    </div>
+
+    @{
+        if (Model.Runs.Count() > 0)
+        {
+            <div class="explain">
+                <p>
+                    Compare a base scan and a product scan to determine changes made to the system.
+                </p>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="SelectedBaseRunId">Base Run Id</label>
+                    @Html.DropDownListFor(x => x.SelectedBaseRunId, runList, "Select Base Run")
+                </div>
+                <div class="col">
+                    <label for="SelectedCompareRunId">Compare Run Id</label>
+                    @Html.DropDownListFor(x => x.SelectedCompareRunId, runList, "Select Compare Run")
+                </div>
+                <div class="col">
+                    <input type="button" class="btn btn-primary btn-square" id="RunAnalysisButton" value="Run Analysis" />
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="explain card card-body warning">
+                        You must collect some results before performing analysis.
+            </div>
+        }
+    }
+
     <div id="Status"></div>
     <div class="row">
         <div class="col" id="CompareStatus">Status messages appear here after starting analysis.</div>
@@ -99,7 +112,7 @@
             </div>
             <div class="row top-margin">
                 <div class="col">
-                    <input type="button" class="btn btn-primary btn-square ResultManipulationButton" id="FetchResultsButton" value="More Results" disabled/>
+                    <input type="button" class="btn btn-primary btn-square ResultManipulationButton" id="FetchResultsButton" value="More Results" disabled />
                 </div>
             </div>
             <div class="thinspacer"></div>
@@ -142,7 +155,7 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <input type="button" class="btn btn-primary btn-square ResultManipulationButton" id="ExportResultsButton" value="Export to JSON" disabled/>
+                    <input type="button" class="btn btn-primary btn-square ResultManipulationButton" id="ExportResultsButton" value="Export to JSON" disabled />
                 </div>
             </div>
         </div>
@@ -225,29 +238,42 @@
     </div>
 </div>
 <div class="monitor">
-    <div class="explain">
-        <p>
-            Compare a base scan and a product scan to determine changes made to the system.
-        </p>
-    </div>
 
-    <div class="row">
-        <div class="col">
-            <label for="SelectedMonitorRunId">Monitor Run Id</label>
-            @Html.DropDownListFor(x => x.SelectedMonitorRunId, monitorRunList, "Select Monitor Run")
-        </div>
-        <div class="col">
-            <input type="button" class="btn btn-primary btn-square ResultManipulationButton" id="RunMonitorAnalysisButton" value="More Results" />
-        </div>
 
-        <div class="form-check" style="display:none">
-            <label class="form-check-label" for="FileRadio">
+    @{
+        if (Model.MonitorRuns.Count() > 0)
+        {
+            <div class="explain">
+                <p>
+                    Choose a monitor run to evaluate.
+                </p>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="SelectedMonitorRunId">Monitor Run Id</label>
+                    @Html.DropDownListFor(x => x.SelectedMonitorRunId, monitorRunList, "Select Monitor Run")
+                </div>
+                <div class="col">
+                    <input type="button" class="btn btn-primary btn-square ResultManipulationButton" id="RunMonitorAnalysisButton" value="More Results" />
+                </div>
 
-                <input class="form-check-input" type="radio" name="MonitorResultType" id="MonitorFileRadio" value="0" checked>
-                File
-            </label>
-        </div>
-    </div>
+                <div class="form-check" style="display:none">
+                    <label class="form-check-label" for="FileRadio">
+
+                        <input class="form-check-input" type="radio" name="MonitorResultType" id="MonitorFileRadio" value="0" checked>
+                        File
+                    </label>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="explain card card-body warning">
+                You must collect some results before performing analysis.
+            </div>
+        }
+    }
+
     <div class="row">
         <div class="col">
             <div id="MonitorStatus"></div>

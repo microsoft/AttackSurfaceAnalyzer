@@ -58,8 +58,11 @@ body {
 }
 
 #AdminWarning{
-    text-align:center;
-    font-style:italic;
-    background-color:coral;
     display:none;
+}
+
+.warning {
+    text-align: center;
+    font-style: italic;
+    background-color: coral;
 }
