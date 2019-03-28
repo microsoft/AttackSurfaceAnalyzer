@@ -88,6 +88,4 @@ See project wiki located on this site
 
 Attack Surface Analyzer 2.0 or ASA is licensed under the MIT license.
 
-## Security Support
 
-For any issues affecting the code base or product release bits that you believe includes a critical security vulnerability, please contact us at email address: secure@microsoft.com and include "Microsoft Attack Surface Analyzer" with a detailed explaination of the concern rather than post it on the Issues page of this site.  Thank you!
