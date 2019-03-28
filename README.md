@@ -1,4 +1,4 @@
-﻿# Attack Surface Analyzer v2.0
+﻿# Attack Surface Analyzer 2.0
 
 ## Version
 
