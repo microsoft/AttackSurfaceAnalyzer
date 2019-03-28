@@ -31,14 +31,14 @@ distribution and use.
 - Certificates
 - Registry (Windows)
 
-Future planned features:
+## Future planned features:
 - Code signing info
 - Drivers (partially covered presently under files)
 - Firewall settings
 - Redistributable installations
 - Requested features which existed in ASA Classic
 - Network traffic live monitoring
-- Registry modifications (Windows) live monitoring
+- Registry modifications (Windows) for Live monitoring
 
 ## Installation
 
