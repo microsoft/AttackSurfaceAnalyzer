@@ -1,20 +1,19 @@
 ﻿# Attack Surface Analyzer 
 
-## Version 2.0
+## Version 2.0-preview
 
-The current version is a Pre-release suitable for testing core features.  Check future release notes here to see what's new.  A final release is planned for late April of 2019.
+The current version is a Preview suitable for testing core features.  Check future release notes here to see what's new.  A final release is planned for late April of 2019.
 
 ## Overview
 
-Attack Surface Analyzer (ASA) is a Microsoft-developed open source security tool 
-located at https://github.com/microsoft/AttackSurfaceAnalyzer that analyzes the attack 
+Attack Surface Analyzer is a Microsoft-developed open source security tool 
+available at https://github.com/microsoft/AttackSurfaceAnalyzer that analyzes the attack 
 surface of a target system and reports on potential security vulnerabilities introduced by 
 the installation of software or by system misconfiguration. 
 
-ASA 2.0 replaces the older ASA classic version of the tool released by Microsoft in 2012 
+Attack Surface Analyzer 2.0 replaces the classic version of the Attack Surface Analyzer tool released by Microsoft in 2012 
 as a downloadable https://www.microsoft.com/en-us/download/details.aspx?id=24487 
-that is no longer supported and was limited to older versions of Microsoft Windows 
-prior to Windows 10.  
+which is no longer supported and lacks Windows 10 support.  
 
 Example users of ASA include:
 * DevOps Engineers - view changes to the system attack surface introduced by your 
@@ -43,16 +42,16 @@ distribution and use.
 ## Installation
 
 ASA runs on Windows, Linux, and macOS and is built on .NET Core.  It has both CLI and 
-Electron .NET runtime options.  There is no setup per se.
-
-The GUI version will work without installing the .NET framework, but the CLI will not*.  
-Both versions must be run as Administrator to function properly.  It is planned to package it 
-so it does not require the framework to be installed before any public release.
-See https://dotnet.microsoft.com/download, if you need the framework to run apps (not the SDK).
+Electron .NET runtime options.  There is currently no installer.
 
 ## Building
 
 To build ASA from source see the BUILD.md project file.
+
+## Misc Notes
+The release version of the CLI is a [Warp Package](https://github.com/dgiagio/warp), and on first run may take a few seconds to expand.
+
+By default data is stored in a database in your current directory named "asa.sqlite".
 
 ## Contributing
 
