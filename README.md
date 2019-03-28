@@ -9,27 +9,18 @@ The current version is a Pre-release suitable for testing core features.  Check 
 Attack Surface Analyzer (ASA) is a Microsoft-developed open source security tool 
 located at https://github.com/microsoft/AttackSurfaceAnalyzer that analyzes the attack 
 surface of a target system and reports on potential security vulnerabilities introduced by 
-the installation of software or by misconfiguration. 
+the installation of software or by system misconfiguration. 
 
 ASA 2.0 replaces the older ASA classic version of the tool released by Microsoft in 2012 
 as a downloadable https://www.microsoft.com/en-us/download/details.aspx?id=24487 
-that is outdated, no longer supported and was limited to versions of Microsoft Windows 
+that is no longer supported and was limited to older versions of Microsoft Windows 
 prior to Windows 10.  
-
-The application works by taking a snapshot before and after software installation for 
-comparing key security impactful changes.
-
-ASA analysis has proven to be valuable in identifying additional items to be 
-considered in a threat model and detecting specific areas for additional fuzz testing.
 
 Example users of ASA include:
 * DevOps Engineers - view changes to the system attack surface introduced by your 
 software.
 * IT Security Auditors - evaluate risk presented by select software before general 
 distribution and use.
-
-Ideally, you would install the tool on a clean system with just the OS, the
-Attack Surface Analyzer and software you plan to analyze.
 
 ## Features
 
@@ -51,11 +42,11 @@ Future planned features:
 
 ## Installation
 
-ATSAN runs on Windows, Linux, and macOS using .NET Core and has both CLI and 
+ASA runs on Windows, Linux, and macOS and is built on .NET Core.  It has both CLI and 
 Electron .NET runtime options.  There is no setup per se.
 
 The GUI version will work without installing the .NET framework, but the CLI will not*.  
-Both must be run as Administrator to function properly.  It is planned to package it 
+Both versions must be run as Administrator to function properly.  It is planned to package it 
 so it does not require the framework to be installed before any public release.
 See https://dotnet.microsoft.com/download, if you need the framework to run apps (not the SDK).
 
@@ -83,7 +74,7 @@ contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additio
 
 ## How to Use
 
-See project wiki
+See project wiki located on this site
 
 ## License
 
