@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "author": "Microsoft Corporation",
   "dependencies": {
     "bootstrap": "^4.3.1",
     "jquery": "^3.3.1",
@@ -19,6 +20,5 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC"
+  "license": "MIT"
 }

@@ -10,6 +10,11 @@
     <PackageVersion>2.0.0-pre-alpha</PackageVersion>
     <Authors>Microsoft Corporation</Authors>
     <Owners>Microsoft Corporation</Owners>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>Attack Surface Analyzer is a Microsoft-developed open source security tool available at https://github.com/microsoft/AttackSurfaceAnalyzer that analyzes the attack surface of a target system and reports on potential security vulnerabilities introduced by the installation of software or by system misconfiguration.
+
+This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI and GUI available on GitHub.</Description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>
