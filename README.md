@@ -1,6 +1,6 @@
-﻿# Attack Surface Analyzer 2.0
+﻿# Attack Surface Analyzer 
 
-## Version
+## Version 2.0
 
 The current version is a Pre-release suitable for testing core features.  Check future release notes here to see what's new.  A final release is planned for late April of 2019.
 
