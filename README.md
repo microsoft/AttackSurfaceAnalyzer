@@ -71,6 +71,15 @@ This project has adopted the [Microsoft Open Source Code of Conduct]
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
+## Reporting Security Issues
+
+Security issues and bugs should be reported privately, via email, to the Microsoft Security
+Response Center (MSRC) at [secure@microsoft.com](mailto:secure@microsoft.com). You should
+receive a response within 24 hours. If for some reason you do not, please follow up via
+email to ensure we received your original message. Further information, including the
+[MSRC PGP](https://technet.microsoft.com/en-us/security/dn606155) key, can be found in
+the [Security TechCenter](https://technet.microsoft.com/en-us/security/default).
+
 ## How to Use
 
 See project wiki located on this site
@@ -78,3 +87,5 @@ See project wiki located on this site
 ## License
 
 Attack Surface Analyzer 2.0 or ASA is licensed under the MIT license.
+
+
