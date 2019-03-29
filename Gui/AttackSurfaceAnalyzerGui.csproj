@@ -17,12 +17,12 @@
   <ItemGroup>
     <PackageReference Include="ElectronNet.API" Version="0.0.11" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.6.1" />
-    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.6" />
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.9" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="2.2.3" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
     <PackageReference Include="Diff.Match.Patch" Version="2.1.0" />
-    <PackageReference Include="BundlerMinifier.Core" Version="2.8.391" />
+    <PackageReference Include="BundlerMinifier.Core" Version="2.9.406" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lib\AttackSurfaceAnalyzerLib.csproj" />
