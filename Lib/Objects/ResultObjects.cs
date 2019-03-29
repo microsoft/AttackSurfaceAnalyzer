@@ -1,4 +1,6 @@
-﻿using AttackSurfaceAnalyzer.Collectors.FileSystem;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+using AttackSurfaceAnalyzer.Collectors.FileSystem;
 using AttackSurfaceAnalyzer.ObjectTypes;
 
 namespace AttackSurfaceAnalyzer.ObjectTypes

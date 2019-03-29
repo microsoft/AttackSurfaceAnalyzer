@@ -1,4 +1,6 @@
-﻿var resultOffset = 0;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+var resultOffset = 0;
 var monitorResultOffset = 0;
 
 $('#AnalyzeLink').addClass('active');

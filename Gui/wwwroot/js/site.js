@@ -1,7 +1,5 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 function appendDebugMessage(message, remote) {
     $("#debug").add("<div>").html((remote ? "Service: " : "Local: ") + message);
 }

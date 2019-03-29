@@ -1,4 +1,6 @@
-﻿using System.Security.AccessControl;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+using System.Security.AccessControl;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Win32;
 
