@@ -8,7 +8,7 @@ while [ "$1" != "" ]; do
     shift
 done
 
-if ["$release" = "Debug"); then
+if ["$release" = "Debug"]; then
     dotnet build
 fi
 if ["$release" = "Release"]; then

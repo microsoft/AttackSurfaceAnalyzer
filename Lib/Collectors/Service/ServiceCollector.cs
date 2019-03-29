@@ -37,7 +37,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
         /// <returns>True iff the operating system is Windows.</returns>
         public override bool CanRunOnPlatform()
         {
-            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         }
 
         /// <summary>
@@ -175,15 +175,18 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
                 {
                     var _fields = _line.Split('\t');
 
-                    var obj = new ServiceObject()
+                    if (_fields.Count() == 5)
                     {
-                        DisplayName = _fields[4],
-                        ServiceName = _fields[0],
-                        StartType = "Unknown",
-                        CurrentState = _fields[3],
-                    };
+                            var obj = new ServiceObject()
+                            {
+                                DisplayName = _fields[4],
+                                ServiceName = _fields[0],
+                                StartType = "Unknown",
+                                CurrentState = _fields[3],
+                            };
 
-                    Write(obj);
+                            Write(obj);
+                    }
 
                 }
                
