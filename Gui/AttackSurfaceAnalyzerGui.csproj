@@ -11,8 +11,8 @@
 <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
 <AssemblyName>AttackSurfaceAnalyzer-GUI</AssemblyName>
 <ReleaseVersion>2.0.0.0-pre-alpha</ReleaseVersion>
-<ApplicationInsightsResourceId>/subscriptions/743195b0-d049-4532-bb00-4abf3bc37af9/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/AttackSurfaceAnalyzerGui</ApplicationInsightsResourceId>
 <ApplicationInsightsAnnotationResourceId>/subscriptions/743195b0-d049-4532-bb00-4abf3bc37af9/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/AttackSurfaceAnalyzerGui</ApplicationInsightsAnnotationResourceId>
+<ApplicationInsightsResourceId>/subscriptions/743195b0-d049-4532-bb00-4abf3bc37af9/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/AttackSurfaceAnalyzerGui</ApplicationInsightsResourceId>
     </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="ElectronNet.API" Version="0.0.11" />
