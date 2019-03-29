@@ -1,4 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk.web">
+<PropertyGroup>
+    <Authors>Microsoft Corporation</Authors>
+    <Company>Microsoft Corporation</Company>
+    <Product>Attack Surface Analyzer</Product>
+  </PropertyGroup>
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
 <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>

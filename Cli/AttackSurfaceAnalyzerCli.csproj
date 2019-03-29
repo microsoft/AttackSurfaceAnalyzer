@@ -8,6 +8,12 @@
 
   </PropertyGroup>
 
+<PropertyGroup>
+    <Authors>Microsoft Corporation</Authors>
+    <Company>Microsoft Corporation</Company>
+    <Product>Attack Surface Analyzer</Product>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.4.3" />
     <PackageReference Include="RazorLight" Version="2.0.0-beta1" />
