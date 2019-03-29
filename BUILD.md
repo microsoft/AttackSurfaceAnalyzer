@@ -2,15 +2,21 @@
 
 ## Pre-requisites
 
-### CLI:
+### CLI + GUI:
 - .NET Core 2.1.9 SDK
 - Latest Visual Studio 2017
+- GitVersioning
 
 ### GUI: 
-- Latest Node.js 
-- .NET Core 2.1.9 SDK
-- Latest Visual Studio 2017
-- Electron.NET CLI tool (Execute ```dotnet tool install ElectronNET.CLI -g --version 0.0.11-custom --add-source packages``` in the Tools directory)
+- Electron.NET CLI tool 
+
+## Installing Pre-requisites
+
+### NBGV
+In the root source directory run ```dotnet tool install -g nbgv```
+
+### ElectronNet.CLI
+In the Tools directory run ```dotnet tool install ElectronNET.CLI -g --version 0.0.11-custom --add-source packages```
 
 ## Building
 
@@ -42,7 +48,7 @@ sh build-mac.sh -r Release
 
 ### GUI
 
-Run these commands in the GUI directory.
+Run the following commands in the GUI directory.
 
 #### Running
 
