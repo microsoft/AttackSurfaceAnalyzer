@@ -116,13 +116,17 @@ namespace AttackSurfaceAnalyzer.Cli
         private static readonly string SQL_GET_RUN = "select run_id from runs where run_id=@run_id";
 
 
+
         static void Main(string[] args)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 // This attempts to elevate, but should actually just check the elevation level.
-                Elevation e = new Elevation();
-                e.CheckElevation();
+                if (!Elevation.IsAdministrator())
+                {
+                    Logger.Instance.Warn("Attack Surface Enumerator must be run as Administrator.");
+                    Environment.Exit(1);
+                }
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {

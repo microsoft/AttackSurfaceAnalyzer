@@ -15,12 +15,13 @@ using System.Threading.Tasks;
 using AttackSurfaceAnalyzer_Lib.Utils;
 using Microsoft.ApplicationInsights.Extensibility;
 using System.Runtime.InteropServices;
+using Microsoft.ApplicationInsights;
 
 namespace AttackSurfaceAnalyzer.Gui.Controllers
 {
     public class HomeController : Controller
     {
-
+        private TelemetryClient telemetry = new TelemetryClient();
         private List<BaseCollector> collectors = new List<BaseCollector>();
         private List<BaseMonitor> monitors = new List<BaseMonitor>();
 
@@ -99,16 +100,18 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                Elevation e = new Elevation();
-                if (e.IsRunAsAdmin())
+                if (Elevation.IsAdministrator())
                 {
+                    telemetry.TrackEvent("LaunchedAsAdmin");
                     return Json(true);
                 }
             }
             else if ((RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) && Elevation.IsRunningAsRoot())
             {
+                telemetry.TrackEvent("LaunchedAsAdmin");
                 return Json(true);
             }
+            telemetry.TrackEvent("LaunchedAsNormal");
             return Json(false);
         }
 
@@ -228,6 +231,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
                 if ( records.Count > 0)
                 {
+                    telemetry.GetMetric("ResultsExported").TrackValue(records.Count);
 
                     JsonSerializer serializer = new JsonSerializer {
                         Formatting = Formatting.Indented,

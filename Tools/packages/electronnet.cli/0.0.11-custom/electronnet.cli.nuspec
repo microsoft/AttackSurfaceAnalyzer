@@ -17,6 +17,6 @@ This package contains the dotnet tooling to electronize your application.</descr
     <packageTypes>
       <packageType name="DotnetTool" />
     </packageTypes>
-    <repository type="git" url="https://github.com/ElectronNET/Electron.NET/" commit="078ac990984dbe88ae644ffd8986695b824961e6" />
+    <repository type="git" url="https://github.com/ElectronNET/Electron.NET/" commit="6642f9d505ff6686bfffc48cbfd96e25b205bd95" />
   </metadata>
 </package>

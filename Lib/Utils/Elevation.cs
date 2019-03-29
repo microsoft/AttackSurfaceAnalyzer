@@ -433,11 +433,21 @@ namespace AttackSurfaceAnalyzer.Utils
 
         }
 
+        // Does this cover sudo?
         public static bool IsRunningAsRoot()
         {
             var runner = new ExternalCommandRunner();
             var username = runner.RunExternalCommand("whoami");
             return username != null ? username.Contains("root") : false;
+        }
+        
+        public static bool IsAdministrator()
+        {
+            using (WindowsIdentity identity = WindowsIdentity.GetCurrent())
+            {
+                WindowsPrincipal principal = new WindowsPrincipal(identity);
+                return principal.IsInRole(WindowsBuiltInRole.Administrator);
+            }
         }
     }
 }
