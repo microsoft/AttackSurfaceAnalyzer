@@ -9,8 +9,8 @@
     "start": "tsc -p ."
   },
   "dependencies": {
+    "electron": "^4.1.2",
     "portscanner": "^2.2.0",
-    "electron": "^4.0.0",
     "socket.io": "^2.2.0"
   },
   "devDependencies": {
