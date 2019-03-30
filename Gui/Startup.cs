@@ -68,6 +68,8 @@ namespace AttackSurfaceAnalyzer.Gui
             browserWindowOptions.Height = 842;
             browserWindowOptions.Resizable = true;
             browserWindowOptions.Center = true;
+            browserWindowOptions.Title = "Attack Surface Analyzer Preview";
+            browserWindowOptions.AutoHideMenuBar = true;
 
             DatabaseManager.Setup();
             string SELECT_TELEMETRY = "select value from persisted_settings where setting='telemetry_opt_out'";
