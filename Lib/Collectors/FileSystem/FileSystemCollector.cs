@@ -28,7 +28,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 
         private System.Timers.Timer CommitTimer = new System.Timers.Timer
         {
-            Interval = 10000,
+            Interval = 1000,
             AutoReset = false,
         };
 
@@ -37,24 +37,21 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 
         private void WriteAndCommitResults()
         {
-            Console.WriteLine("Begin writing.");
             List<FileSystemObject> commitList;
 
-                Console.WriteLine("Copying list");
                 commitList = objList.ToList();
                 objList.Clear();
-                Console.WriteLine("New empty list");
+
+            var cmd = new SqliteCommand(SQL_INSERT, DatabaseManager.Connection, DatabaseManager.Transaction);
 
             foreach (FileSystemObject fso in commitList)
             {
-                var cmd = new SqliteCommand(SQL_INSERT, DatabaseManager.Connection, DatabaseManager.Transaction);
                 WriteFaster(cmd, fso);
             }
             DatabaseManager.Commit();
-            Console.WriteLine("End Writing");
             CommitTimer = new System.Timers.Timer
             {
-                Interval = 10000,
+                Interval = 1000,
                 AutoReset = false,
             };
             CommitTimer.Enabled = true;
@@ -92,6 +89,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
         public void WriteFaster(SqliteCommand cmd, FileSystemObject obj)
         {
             _numCollected++;
+            cmd.Parameters.Clear();
             cmd.Parameters.AddWithValue("@run_id", runId);
             cmd.Parameters.AddWithValue("@row_key", obj.RowKey);
             cmd.Parameters.AddWithValue("@path", obj.Path);
@@ -99,30 +97,15 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
             cmd.Parameters.AddWithValue("@size", obj.Size);
             cmd.Parameters.AddWithValue("@hash", obj.ContentHash ?? "");
             cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj));
-            cmd.ExecuteNonQuery();
-        }
-
-        public void Write(FileSystemObject obj)
-        {
-            try {
-                var cmd = new SqliteCommand(SQL_INSERT, DatabaseManager.Connection, DatabaseManager.Transaction);
-                cmd.Parameters.AddWithValue("@run_id", runId);
-                cmd.Parameters.AddWithValue("@row_key", obj.RowKey);
-                cmd.Parameters.AddWithValue("@path", obj.Path);
-                cmd.Parameters.AddWithValue("@permissions", obj.Permissions ?? "");
-                cmd.Parameters.AddWithValue("@size", obj.Size);
-                cmd.Parameters.AddWithValue("@hash", obj.ContentHash ?? "");
-                cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj));
-                cmd.ExecuteNonQuery();
-
-            }
-            catch (NullReferenceException e)
+            try
             {
-                Logger.Instance.Info(e.StackTrace);
+                cmd.ExecuteNonQuery();
             }
             catch (Exception e)
             {
+                Logger.Instance.Info(e.StackTrace);
                 Logger.Instance.Info(e.Message);
+                Logger.Instance.Info(e.GetType());
             }
         }
 
@@ -136,6 +119,8 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
             { 
                 return;
             }
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+            // the code that you want to measure comes here
 
             Start();
             Truncate(runId);
@@ -214,8 +199,12 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
             }
             //turn off commit timer
             CommitTimer.Enabled = false;
-            DatabaseManager.Commit();
+            WriteAndCommitResults();
             Stop();
+
+            watch.Stop();
+            int elapsedS = (int)watch.ElapsedMilliseconds/1000;
+            Logger.Instance.Info("Completed FileSystemCollector in " + elapsedS);
         }
     }
 }
