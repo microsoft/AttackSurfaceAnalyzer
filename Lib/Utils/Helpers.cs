@@ -2,8 +2,9 @@
 // Licensed under the MIT License.
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Reflection;
 
-namespace AttackSurfaceAnalyzer_Lib.Utils
+namespace AttackSurfaceAnalyzer.Utils
 {
     public class Helpers
     {
@@ -22,6 +23,7 @@ namespace AttackSurfaceAnalyzer_Lib.Utils
                 Process.Start("open", url);
             }
         }
+
         public static string MakeValidFileName(string name)
         {
             string invalidChars = System.Text.RegularExpressions.Regex.Escape(new string(System.IO.Path.GetInvalidFileNameChars()));
@@ -29,6 +31,15 @@ namespace AttackSurfaceAnalyzer_Lib.Utils
 
             return System.Text.RegularExpressions.Regex.Replace(name, invalidRegStr, "_");
         }
+
+        public static string GetVersionString()
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
+            return fileVersionInfo.ProductVersion;
+
+        }
+
     }
 
 

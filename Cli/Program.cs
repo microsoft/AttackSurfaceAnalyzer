@@ -121,7 +121,6 @@ namespace AttackSurfaceAnalyzer.Cli
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                // This attempts to elevate, but should actually just check the elevation level.
                 if (!Elevation.IsAdministrator())
                 {
                     Logger.Instance.Warn("Attack Surface Enumerator must be run as Administrator.");
