@@ -38,8 +38,12 @@ This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI 
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.PowerShell.Commands.Diagnostics" Version="6.2.0-preview.4" />
-    <PackageReference Include="Microsoft.PowerShell.SDK" Version="6.2.0-preview.4" />
+    <PackageReference Include="docfx.console" Version="2.41.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.PowerShell.Commands.Diagnostics" Version="6.2.0" />
+    <PackageReference Include="Microsoft.PowerShell.SDK" Version="6.2.0" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.6.0-preview.19073.11" />
     <PackageReference Include="murmurhash" Version="1.0.3" />
     <PackageReference Include="NLog.Extensions.Logging" Version="1.4.0" />
@@ -53,7 +57,7 @@ This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI 
     <PackageReference Include="System.Security.AccessControl" Version="4.6.0-preview.19073.11" />
     <PackageReference Include="System.Threading.AccessControl" Version="4.6.0-preview.19073.11" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
-    <PackageReference Include="NLog" Version="4.6.0-rc1" />
+    <PackageReference Include="NLog" Version="4.6.1" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="2.2.3" />
     <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
     <PackageReference Include="NuGet.Build.Packaging" Version="0.2.2">

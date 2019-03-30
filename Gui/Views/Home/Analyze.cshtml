@@ -1,10 +1,12 @@
 ﻿@using AttackSurfaceAnalyzer.ObjectTypes
 @using System.IO
 @model AttackSurfaceAnalyzer.Models.DataRunListModel
+
 @{
     var runList = new SelectList(Model.Runs, "Key", "Text");
     var monitorRunList = new SelectList(Model.MonitorRuns, "Key", "Text");
 }
+
 <link rel="stylesheet" href="~/css/Results.css" asp-append-version="true" />
 
 <br />
@@ -55,7 +57,7 @@
         else
         {
             <div class="explain card card-body warning">
-                        You must collect some results before performing analysis.
+                You must collect some results before performing analysis.
             </div>
         }
     }
@@ -323,6 +325,6 @@
         <tbody id="FileMonitorResultsTableBody"></tbody>
     </table>
 </div>
-    @section Scripts{
-        <script type="text/javascript" src="~/js/Analyze.js" asp-append-version="true"></script> @* Visual Studio insists that scripts have a separate closing tag rather than an inclusive /> tag*@
-    }
+@section Scripts{
+    <script type="text/javascript" src="~/js/Analyze.js" asp-append-version="true"></script> @* Visual Studio insists that scripts have a separate closing tag rather than an inclusive /> tag*@
+}

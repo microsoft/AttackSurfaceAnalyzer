@@ -1,4 +1,6 @@
-﻿$('#CollectLink').addClass('active');
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+$('#CollectLink').addClass('active');
 
 EnableCollectionFields();
 $("#StartCollectionButton").click(StartCollection);

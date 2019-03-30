@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 {
     /// <summary>
-    /// Collects metadata from the local file system.
+    /// Collects Filesystem Data from the local file system.
     /// </summary>
     public class FileSystemCollector : BaseCollector
     {
