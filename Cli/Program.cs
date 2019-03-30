@@ -133,8 +133,12 @@ namespace AttackSurfaceAnalyzer.Cli
         [Option('i', "interrogate-file-changes", Required = false, HelpText = "On a file create or change gather the post-change file size and security attributes")]
         public bool InterrogateChanges { get; set; }
 
-        [Option('r', "registry", Required = false, HelpText = "Monitor the registry for changes. (Windows Only)")]
-        public bool EnableRegistryMonitor { get; set; }
+        //[Option('r', "registry", Required = false, HelpText = "Monitor the registry for changes. (Windows Only)")]
+        //public bool EnableRegistryMonitor { get; set; }
+
+        [Option('D', "duration", Required = false, HelpText = "Duration, in minutes, to run for before automatically terminating.")]
+        public int Duration { get; set; }
+
 
         // Omitting long name, defaults to name of property, ie "--verbose"
         [Option(Default = false, HelpText = "Increase logging verbosity")]
@@ -491,11 +495,11 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
             }
 
-            if (opts.EnableRegistryMonitor)
-            {
-                var monitor = new RegistryMonitor();
-                monitors.Add(monitor);
-            }
+            //if (opts.EnableRegistryMonitor)
+            //{
+                //var monitor = new RegistryMonitor();
+                //monitors.Add(monitor);
+            //}
 
             if (monitors.Count == 0)
             {
@@ -503,6 +507,22 @@ namespace AttackSurfaceAnalyzer.Cli
                 returnValue = 1;
             }
 
+            var exitEvent = new ManualResetEvent(false);
+
+            // If duration is set, we use the secondary timer.
+            if (opts.Duration > 0)
+            {
+                Logger.Instance.Info("Monitor started for " + opts.Duration + " minute(s).");
+                var aTimer = new System.Timers.Timer
+                {
+                    Interval = opts.Duration * 60 * 1000,
+                    AutoReset = false,
+                };
+                aTimer.Elapsed += (source, e) => { exitEvent.Set(); };
+
+                // Start the timer
+                aTimer.Enabled = true;
+            }
 
             foreach (var c in monitors)
             {
@@ -510,8 +530,6 @@ namespace AttackSurfaceAnalyzer.Cli
 
                 try
                 {
-                    // How to capture when we should start?
-                    // Re use the code from ASE-Console here
                     c.Start();
                 }
                 catch (Exception ex)
@@ -520,8 +538,6 @@ namespace AttackSurfaceAnalyzer.Cli
                     returnValue = 1;
                 }
             }
-
-            var exitEvent = new ManualResetEvent(false);
 
             // Set up the event to capture CTRL+C
             Console.CancelKeyPress += (sender, eventArgs) => {
