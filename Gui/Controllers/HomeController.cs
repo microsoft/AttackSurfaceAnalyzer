@@ -14,7 +14,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
-using AttackSurfaceAnalyzer_Lib.Utils;
 using Microsoft.ApplicationInsights.Extensibility;
 using System.Runtime.InteropServices;
 using Microsoft.ApplicationInsights;

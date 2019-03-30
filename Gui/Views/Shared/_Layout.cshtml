@@ -1,5 +1,7 @@
 ﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
 @using Microsoft.ApplicationInsights.Extensibility;
+@using AttackSurfaceAnalyzer.Utils;
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,13 +10,13 @@
     <title>Attack Surface Analyzer Preview</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    @{ 
+    @{
         if (!TelemetryConfiguration.Active.DisableTelemetry)
         {
             Html.Raw(snippet.FullScript);
         }
     }
-   <script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js" integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js" integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP" crossorigin="anonymous"></script>
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
 <body>
@@ -64,7 +66,7 @@
         </div>
     </div>
     <nav class="navbar fixed-bottom navbar-light bg-light">
-        <img src="~/images/microsoft-gray.png" style="height:30px" alt="Microsoft Corporation Logo" />
+        <img src="~/images/microsoft-gray.png" style="height:30px" alt="Microsoft Corporation Logo" /> v. @Helpers.GetVersionString()
     </nav>
 
     @*<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">*@

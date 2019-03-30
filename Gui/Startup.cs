@@ -3,7 +3,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AttackSurfaceAnalyzer.Utils;
-using AttackSurfaceAnalyzer_Lib.Utils;
 using ElectronNET.API;
 using ElectronNET.API.Entities;
 using Microsoft.ApplicationInsights.Extensibility;
