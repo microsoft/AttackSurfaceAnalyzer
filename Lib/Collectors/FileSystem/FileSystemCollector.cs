@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using AttackSurfaceAnalyzer.ObjectTypes;
 using AttackSurfaceAnalyzer.Utils;
@@ -23,7 +24,41 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 
         private bool INCLUDE_CONTENT_HASH = false;
         private static readonly string SQL_TRUNCATE = "delete from file_system where run_id=@run_id";
-        private static readonly string SQL_INSERT = "insert into file_system (run_id, row_key, path, permissions, size, hash, data_hash) values (@run_id, @row_key, @path, @permissions, @size, @hash, @data_hash)";
+        private static readonly string SQL_INSERT = "insert into file_system (run_id, row_key, path, permissions, size, hash, serialized) values (@run_id, @row_key, @path, @permissions, @size, @hash, @serialized)";
+
+        private System.Timers.Timer CommitTimer = new System.Timers.Timer
+        {
+            Interval = 10000,
+            AutoReset = false,
+        };
+
+
+        private List<FileSystemObject> objList = new List<FileSystemObject>();
+
+        private void WriteAndCommitResults()
+        {
+            Console.WriteLine("Begin writing.");
+            List<FileSystemObject> commitList;
+
+                Console.WriteLine("Copying list");
+                commitList = objList.ToList();
+                objList.Clear();
+                Console.WriteLine("New empty list");
+
+            foreach (FileSystemObject fso in commitList)
+            {
+                var cmd = new SqliteCommand(SQL_INSERT, DatabaseManager.Connection, DatabaseManager.Transaction);
+                WriteFaster(cmd, fso);
+            }
+            DatabaseManager.Commit();
+            Console.WriteLine("End Writing");
+            CommitTimer = new System.Timers.Timer
+            {
+                Interval = 10000,
+                AutoReset = false,
+            };
+            CommitTimer.Enabled = true;
+        }
 
         public FileSystemCollector(string runId, Func<FileSystemInfo, bool> filter = null, bool enableHashing = false)
         {
@@ -54,11 +89,22 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
         }
 
-        public void Write(FileSystemObject obj)
+        public void WriteFaster(SqliteCommand cmd, FileSystemObject obj)
         {
             _numCollected++;
+            cmd.Parameters.AddWithValue("@run_id", runId);
+            cmd.Parameters.AddWithValue("@row_key", obj.RowKey);
+            cmd.Parameters.AddWithValue("@path", obj.Path);
+            cmd.Parameters.AddWithValue("@permissions", obj.Permissions ?? "");
+            cmd.Parameters.AddWithValue("@size", obj.Size);
+            cmd.Parameters.AddWithValue("@hash", obj.ContentHash ?? "");
+            cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj));
+            cmd.ExecuteNonQuery();
+        }
 
-            try { 
+        public void Write(FileSystemObject obj)
+        {
+            try {
                 var cmd = new SqliteCommand(SQL_INSERT, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.Parameters.AddWithValue("@run_id", runId);
                 cmd.Parameters.AddWithValue("@row_key", obj.RowKey);
@@ -68,16 +114,20 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 cmd.Parameters.AddWithValue("@hash", obj.ContentHash ?? "");
                 cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj));
                 cmd.ExecuteNonQuery();
+
             }
             catch (NullReferenceException e)
             {
                 Logger.Instance.Info(e.StackTrace);
             }
-
-            if (_numCollected % 1000 == 0)
+            catch (Exception e)
             {
-                DatabaseManager.Commit();
+                Logger.Instance.Info(e.Message);
             }
+        }
+
+        void HandleLogMessageGenerator()
+        {
         }
 
         public override void Execute()
@@ -114,13 +164,16 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 
             foreach (var root in this.roots)
             {
-                Logger.Instance.Debug("adding root " + root.ToString());
+                Logger.Instance.Warn("adding root " + root.ToString());
                 try
                 {
-                    // @TODO: Rewrite this. Walk directory traverses the whole tree already, so this is super inefficient
-                    // Either move and integrate directory walking code here. Or use Actions for the walker to alert
                     var fileInfoEnumerable = DirectoryWalker.WalkDirectory(root, this.filter);
-                    Parallel.ForEach(fileInfoEnumerable, (fileInfo =>
+                    // Start the timer
+                    CommitTimer.Elapsed += (source, e) => { WriteAndCommitResults(); };
+                    CommitTimer.Enabled = true;
+
+                    Parallel.ForEach(fileInfoEnumerable,
+                                    (fileInfo =>
                     {
                         try
                         {
@@ -146,7 +199,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                                     obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
                                 }
                             }
-                            Write(obj);
+                            objList.Add(obj);
                         }
                         catch (Exception ex)
                         {
@@ -159,7 +212,8 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                     Logger.Instance.Debug(ex, "Error collecting file system information: {0}", ex.Message);
                 }
             }
-
+            //turn off commit timer
+            CommitTimer.Enabled = false;
             DatabaseManager.Commit();
             Stop();
         }
