@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using System;
-using System.Data.HashFunction.xxHash;
 using System.IO;
 using System.Security.AccessControl;
 using AttackSurfaceAnalyzer.Utils;
@@ -52,26 +51,6 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 return fileSecurity.GetSecurityDescriptorSddlForm(AccessControlSections.All);
             else
                 return null;
-        }
-
-        protected internal static string GetFileHash(FileSystemInfo fileInfo)
-        {
-            Logger.Instance.Info(fileInfo.FullName);
-
-            string hashValue = null;
-            try
-            {
-                var hashFunction = xxHashFactory.Instance.Create();
-                using (var stream = new FileStream(fileInfo.FullName, FileMode.Open, FileAccess.Read))
-                {
-                    hashValue = hashFunction.ComputeHash(stream).AsBase64String();
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance.Warn("Unable to take hash of file: {0}: {1}", fileInfo.FullName, ex.Message);
-            }
-            return hashValue;
         }
     }
 }
