@@ -38,10 +38,6 @@ This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI 
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="docfx.console" Version="2.41.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Microsoft.PowerShell.Commands.Diagnostics" Version="6.2.0" />
     <PackageReference Include="Microsoft.PowerShell.SDK" Version="6.2.0" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.6.0-preview.19073.11" />
