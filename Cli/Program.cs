@@ -16,11 +16,12 @@ using CommandLine;
 using Microsoft.Data.Sqlite;
 using RazorLight;
 using AttackSurfaceAnalyzer.ObjectTypes;
+using Newtonsoft.Json;
 
 namespace AttackSurfaceAnalyzer.Cli
 {
 
-    [Verb("compare", HelpText = "Compare ASA executions")]
+    [Verb("compare", HelpText = "Compare ASA executions and output a .html summary")]
     public class CompareCommandOptions
     {
         [Option(Required = false, HelpText = "Name of output database (default: asa.sqlite)", Default = "asa.sqlite")]
@@ -34,6 +35,43 @@ namespace AttackSurfaceAnalyzer.Cli
 
         [Option(Required = false, HelpText = "Base name of output file (default: output)", Default = "output")]
         public string OutputBaseFilename { get; set; }
+
+        // Omitting long name, defaults to name of property, ie "--verbose"
+        [Option(Default = false, HelpText = "Increase logging verbosity")]
+        public bool Verbose { get; set; }
+
+    }
+    [Verb("export-collect", HelpText = "Compare ASA executions and output a .json report")]
+    public class ExportCollectCommandOptions
+    {
+        [Option(Required = false, HelpText = "Name of output database (default: asa.sqlite)", Default = "asa.sqlite")]
+        public string DatabaseFilename { get; set; }
+
+        [Option(Required = false, HelpText = "First run (pre-install) identifier")]
+        public string FirstRunId { get; set; }
+
+        [Option(Required = false, HelpText = "Second run (post-install) identifier")]
+        public string SecondRunId { get; set; }
+
+        [Option(Required = false, HelpText = "Directory to output to (default: .)", Default = ".")]
+        public string OutputPath { get; set; }
+
+        // Omitting long name, defaults to name of property, ie "--verbose"
+        [Option(Default = false, HelpText = "Increase logging verbosity")]
+        public bool Verbose { get; set; }
+
+    }
+    [Verb("export-monitor", HelpText = "Output a .json report for a monitor run")]
+    public class ExportMonitorCommandOptions
+    {
+        [Option(Required = false, HelpText = "Name of output database (default: asa.sqlite)", Default = "asa.sqlite")]
+        public string DatabaseFilename { get; set; }
+
+        [Option(Required = false, HelpText = "Monitor run identifier")]
+        public string MonitorRunId { get; set; }
+
+        [Option(Required = false, HelpText = "Directory to output to (default: .)", Default = ".")]
+        public string OutputPath { get; set; }
 
         // Omitting long name, defaults to name of property, ie "--verbose"
         [Option(Default = false, HelpText = "Increase logging verbosity")]
@@ -144,15 +182,232 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
             }
 
-            var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, CompareCommandOptions, MonitorCommandOptions>(args)
+            var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, CompareCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions>(args)
                 .MapResult(
                     (CollectCommandOptions opts) => RunCollectCommand(opts),
                     (CompareCommandOptions opts) => RunCompareCommand(opts),
                     (MonitorCommandOptions opts) => RunMonitorCommand(opts),
+                    (ExportCollectCommandOptions opts) => RunExportCollectCommand(opts),
+                    (ExportMonitorCommandOptions opts) => RunExportMonitorCommand(opts),
                     errs => 1
                 );
 
             Logger.Instance.Info("Attack Surface Analyzer Complete.");
+        }
+
+        private static int RunExportCollectCommand(ExportCollectCommandOptions opts)
+        {
+            DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+
+            bool RunComparisons = true;
+
+            string SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED = "select * from results where base_run_id=@base_run_id and compare_run_id=@compare_run_id";
+
+            var cmd = new SqliteCommand(SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED, DatabaseManager.Connection, DatabaseManager.Transaction);
+            cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
+            cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    RunComparisons = false;
+                }
+            }
+
+            CompareCommandOptions options = new CompareCommandOptions();
+            options.DatabaseFilename = opts.DatabaseFilename;
+            options.FirstRunId = opts.FirstRunId;
+            options.SecondRunId = opts.SecondRunId;
+
+            if (RunComparisons)
+            {
+                CompareRuns(options);
+            }
+
+            WriteScanJson(0, opts.FirstRunId, opts.SecondRunId, true, opts.OutputPath);
+
+            return 0;
+
+        }
+
+        public static void WriteScanJson(int ResultType, string BaseId, string CompareId, bool ExportAll, string OutputPath)
+        {
+            string GET_COMPARISON_RESULTS = "select * from compared where base_run_id=@base_run_id and compare_run_id=@compare_run_id and data_type=@data_type order by base_row_key;";
+            string GET_SERIALIZED_RESULTS = "select serialized from @table_name where row_key = @row_key and run_id = @run_id";
+
+            List<RESULT_TYPE> ToExport = new List<RESULT_TYPE> { (RESULT_TYPE)ResultType };
+
+            if (ExportAll)
+            {
+                ToExport = new List<RESULT_TYPE> { RESULT_TYPE.FILE, RESULT_TYPE.CERTIFICATE, RESULT_TYPE.PORT, RESULT_TYPE.REGISTRY, RESULT_TYPE.SERVICES, RESULT_TYPE.USER };
+            }
+            foreach (RESULT_TYPE ExportType in ToExport)
+            {
+                List<CompareResult> records = new List<CompareResult>();
+                var cmd = new SqliteCommand(GET_COMPARISON_RESULTS, DatabaseManager.Connection, DatabaseManager.Transaction);
+                cmd.Parameters.AddWithValue("@base_run_id", BaseId);
+                cmd.Parameters.AddWithValue("@compare_run_id", CompareId);
+                cmd.Parameters.AddWithValue("@data_type", ExportType);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        string CompareString = "";
+                        string BaseString = "";
+                        CHANGE_TYPE ChangeType = (CHANGE_TYPE)int.Parse(reader["change_type"].ToString());
+
+                        if (ChangeType == CHANGE_TYPE.CREATED || ChangeType == CHANGE_TYPE.MODIFIED)
+                        {
+                            var inner_cmd = new SqliteCommand(GET_SERIALIZED_RESULTS.Replace("@table_name", ResultTypeToTableName(ExportType)), DatabaseManager.Connection, DatabaseManager.Transaction);
+                            inner_cmd.Parameters.AddWithValue("@run_id", reader["compare_run_id"].ToString());
+                            inner_cmd.Parameters.AddWithValue("@row_key", reader["compare_row_key"].ToString());
+                            using (var inner_reader = inner_cmd.ExecuteReader())
+                            {
+                                while (inner_reader.Read())
+                                {
+                                    CompareString = inner_reader["serialized"].ToString();
+                                }
+                            }
+                        }
+                        if (ChangeType == CHANGE_TYPE.DELETED || ChangeType == CHANGE_TYPE.MODIFIED)
+                        {
+                            var inner_cmd = new SqliteCommand(GET_SERIALIZED_RESULTS.Replace("@table_name", ResultTypeToTableName(ExportType)), DatabaseManager.Connection, DatabaseManager.Transaction);
+                            inner_cmd.Parameters.AddWithValue("@run_id", reader["base_run_id"].ToString());
+                            inner_cmd.Parameters.AddWithValue("@row_key", reader["base_row_key"].ToString());
+                            using (var inner_reader = inner_cmd.ExecuteReader())
+                            {
+                                while (inner_reader.Read())
+                                {
+                                    BaseString = inner_reader["serialized"].ToString();
+                                }
+                            }
+                        }
+
+                        CompareResult obj;
+                        switch (ExportType)
+                        {
+                            case RESULT_TYPE.CERTIFICATE:
+                                obj = new CertificateResult()
+                                {
+                                    Base = JsonConvert.DeserializeObject<CertificateObject>(BaseString),
+                                    Compare = JsonConvert.DeserializeObject<CertificateObject>(CompareString)
+                                };
+                                break;
+                            case RESULT_TYPE.FILE:
+                                obj = new FileSystemResult()
+                                {
+                                    Base = JsonConvert.DeserializeObject<FileSystemObject>(BaseString),
+                                    Compare = JsonConvert.DeserializeObject<FileSystemObject>(CompareString)
+                                };
+                                break;
+                            case RESULT_TYPE.PORT:
+                                obj = new OpenPortResult()
+                                {
+                                    Base = JsonConvert.DeserializeObject<OpenPortObject>(BaseString),
+                                    Compare = JsonConvert.DeserializeObject<OpenPortObject>(CompareString)
+                                };
+                                break;
+                            case RESULT_TYPE.USER:
+                                obj = new UserAccountResult()
+                                {
+                                    Base = JsonConvert.DeserializeObject<UserAccountObject>(BaseString),
+                                    Compare = JsonConvert.DeserializeObject<UserAccountObject>(CompareString)
+                                };
+                                break;
+                            case RESULT_TYPE.SERVICES:
+                                obj = new ServiceResult()
+                                {
+                                    Base = JsonConvert.DeserializeObject<ServiceObject>(BaseString),
+                                    Compare = JsonConvert.DeserializeObject<ServiceObject>(CompareString)
+                                };
+                                break;
+                            case RESULT_TYPE.REGISTRY:
+                                obj = new RegistryResult()
+                                {
+                                    Base = JsonConvert.DeserializeObject<RegistryObject>(BaseString),
+                                    Compare = JsonConvert.DeserializeObject<RegistryObject>(CompareString)
+                                };
+                                break;
+                            default:
+                                obj = new CompareResult();
+                                break;
+                        }
+
+                        obj.BaseRowKey = reader["base_row_key"].ToString();
+                        obj.CompareRowKey = reader["compare_row_key"].ToString();
+                        obj.BaseRunId = reader["base_run_id"].ToString();
+                        obj.CompareRunId = reader["compare_run_id"].ToString();
+                        obj.ChangeType = (CHANGE_TYPE)int.Parse(reader["change_type"].ToString());
+                        obj.ResultType = (RESULT_TYPE)int.Parse(reader["data_type"].ToString());
+
+                        records.Add(obj);
+                    }
+                }
+
+                if (records.Count > 0)
+                {
+                    //telemetry.GetMetric("ResultsExported").TrackValue(records.Count);
+
+                    JsonSerializer serializer = new JsonSerializer
+                    {
+                        Formatting = Formatting.Indented,
+                        NullValueHandling = NullValueHandling.Ignore
+                    };
+
+                    serializer.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+
+                    using (StreamWriter sw = new StreamWriter(Path.Combine(OutputPath, Helpers.MakeValidFileName(BaseId + "_vs_" + CompareId + "_" + ExportType.ToString() + ".json.txt")))) //lgtm[cs/path-injection]
+                    {
+                        using (JsonWriter writer = new JsonTextWriter(sw))
+                        {
+                            serializer.Serialize(writer, records);
+                        }
+                    }
+                }
+            }
+        }
+
+        private static int RunExportMonitorCommand(ExportMonitorCommandOptions opts)
+        {
+            DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+
+            WriteMonitorJson(opts.MonitorRunId, (int)RESULT_TYPE.FILE, opts.OutputPath);
+            return 0;
+        }
+
+        public static void WriteMonitorJson(string RunId, int ResultType, string OutputPath)
+        {
+            List<FileMonitorEvent> records = new List<FileMonitorEvent>();
+            string GET_SERIALIZED_RESULTS = "select change_type,serialized from file_system_monitored where run_id = @run_id";
+
+
+            var cmd = new SqliteCommand(GET_SERIALIZED_RESULTS, DatabaseManager.Connection, DatabaseManager.Transaction);
+            cmd.Parameters.AddWithValue("@run_id", RunId);
+            using (var reader = cmd.ExecuteReader())
+            {
+                FileMonitorEvent obj;
+
+                while (reader.Read())
+                {
+                    obj = JsonConvert.DeserializeObject<FileMonitorEvent>(reader["serialized"].ToString());
+                    obj.ChangeType = (CHANGE_TYPE)int.Parse(reader["change_type"].ToString());
+                    records.Add(obj);
+                }
+            }
+
+            JsonSerializerSettings settings = new JsonSerializerSettings();
+            settings.Formatting = Formatting.Indented;
+            settings.NullValueHandling = NullValueHandling.Ignore;
+            JsonSerializer serializer = JsonSerializer.Create(settings);
+            serializer.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+
+            using (StreamWriter sw = new StreamWriter(Path.Combine(OutputPath, Helpers.MakeValidFileName(RunId + "_Monitoring_" + ((RESULT_TYPE)ResultType).ToString() + ".json.txt")))) //lgtm[cs/path-injection]
+            {
+                using (JsonWriter writer = new JsonTextWriter(sw))
+                {
+                    serializer.Serialize(writer, records);
+                }
+            }
         }
 
         private static int RunMonitorCommand(MonitorCommandOptions opts)
@@ -700,5 +955,28 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
             }
         }
+
+        public static string ResultTypeToTableName(RESULT_TYPE result_type)
+        {
+            switch (result_type)
+            {
+                case RESULT_TYPE.FILE:
+                    return "file_system";
+                case RESULT_TYPE.PORT:
+                    return "network_ports";
+                case RESULT_TYPE.REGISTRY:
+                    return "registry";
+                case RESULT_TYPE.CERTIFICATE:
+                    return "certificates";
+                case RESULT_TYPE.SERVICES:
+                    return "win_system_service";
+                case RESULT_TYPE.USER:
+                    return "user_account";
+                default:
+                    return "null";
+            }
+        }
     }
+
+
 }
