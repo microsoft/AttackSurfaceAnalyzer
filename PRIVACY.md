@@ -1,6 +1,6 @@
-Privacy and Telemetry Notice. 
+# Privacy and Telemetry Notice
 
-# Data Collection
+## Data Collection
 
 The software may collect information about your use of the 
 software and send it to Microsoft. Microsoft may use this information to provide 
@@ -14,24 +14,16 @@ statement. Our privacy statement is located at https://go.microsoft.com/fwlink/?
 You can learn more about data collection and use in the help documentation and our privacy 
 statement. Your use of the software operates as your consent to these practices.
 
-## This software
+### This software
 
 This application allows Microsoft to collect telemetry data limited to the use of the
 application such as what collection types are used and total number of run scans generated.
 It does not transmit any user or system information collected as part of the analysis performed.
 
-The telemetry feature is disabled by default and users must consent to allow said data to
-be sent to Microsoft.  Settings are saved until the user choses to update them.
+The telemetry feature is enabled by default when using the GUI, and not implemented in the CLI version.
+Users may disable telemetry at any time and settings are saved until the user chooses to change them.
 
-## Enabling Telemetry
+### Enabling/Disabling Telemetry
 
-CLI version - run from the command line "atsan /t true"
-GUI version - run application then select Options.  Then select "Send application usage 
-telemetry to Microsoft"
-
-## Disabling Telemetry
-
-CLI version - run from the command line "atsan /t false"
-GUI version - run application then select Options.  Then select "Send application usage
-telemetry to Microsoft"
-
+* **CLI version** - Telemetry is not currently implemented.
+* **GUI version** - Run application and check or uncheck the option "Send usage data to Microsoft to help us improve our products."
