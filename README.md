@@ -2,56 +2,68 @@
 
 ## Version 2.0-preview
 
-The current version is a Preview suitable for testing core features.  Check future release notes here to see what's new.  A final release is planned for late April of 2019.
+This version of Attack Surface Analyzer is in "public preview", suitable for early adopters testing core features. A final release is planned for late April, 2019.
 
 ## Overview
 
-Attack Surface Analyzer is a Microsoft-developed open source security tool 
-available at https://github.com/microsoft/AttackSurfaceAnalyzer that analyzes the attack 
-surface of a target system and reports on potential security vulnerabilities introduced by 
-the installation of software or by system misconfiguration. 
+Attack Surface Analyzer is a Microsoft-developed open source security tool that analyzes the attack 
+surface of a target system and reports on potential security vulnerabilities introduced during
+the installation of software or system misconfiguration. 
 
-Attack Surface Analyzer 2.0 replaces the classic version of the Attack Surface Analyzer tool released by Microsoft in 2012 
-as a downloadable https://www.microsoft.com/en-us/download/details.aspx?id=24487 
-which is no longer supported and lacks Windows 10 support.  
+Attack Surface Analyzer 2.0 replaces the original [Attack Surface Analzyer](https://www.microsoft.com/en-us/download/details.aspx?id=24487) tool, released publicly in 2012.
 
-Example users of ASA include:
-* DevOps Engineers - view changes to the system attack surface introduced by your 
-software.
-* IT Security Auditors - evaluate risk presented by select software before general 
-distribution and use.
+Potential users of Attack Surface Analyzer include:
 
-## Features
+* DevOps Engineers - View changes to the system attack surface introduced when your software is installed.
+* IT Security Auditors - Evaluate risk presented by when third-party software is installed.
 
-- Files (static snapshot and live monitoring available)
+## Core Features
+
+The core feature of Attack Surface Analyzer is the ability to "diff" an operating system's security configuration, 
+before and after a software component is installed. This is important because most installation processes require
+elevated privileges, and once granted, can lead to unintended system configuration changes.
+
+Attack Surface Analyzer currently reports on changes to the following operating system components:
+
+- File system (static snapshot and live monitoring available)
 - User accounts
 - Services
 - Network Ports
 - Certificates
-- Registry (Windows)
+- Registry (Windows only)
 
-## Future planned features:
+All data collected is stored in a local SQLite database called `asa.sqlite`.
+
+## How to Use Attack Surface Analyzer
+
+Information on how to use Attack Surface Analyzer can be found on our
+[wiki](https://github.com/Microsoft/AttackSurfaceAnalyzer/wiki).
+
+## Future Plans (tentative)
+
+We plan on adding additional features to Attack Surface Analyzer, including those from the list below: 
+
 - Code signing info
-- Drivers (partially covered presently under files)
+- Drivers (partially covered presently via file system monitoring)
 - Firewall settings
 - Redistributable installations
-- Requested features which existed in ASA Classic
-- Network traffic live monitoring
-- Registry modifications (Windows) for Live monitoring
+- Network traffic (live monitoring)
+- Registry (live monitoring)
+- Requested features which existed in the original Attack Surface Analyzer.
+
+If you have feedback on these or other features, please
+[open an issue](https://github.com/Microsoft/AttackSurfaceAnalyzer/issues).
 
 ## Installation
 
-ASA runs on Windows, Linux, and macOS and is built on .NET Core.  It has both CLI and 
-Electron .NET runtime options.  There is currently no installer.
+Attack Surface Analzyer runs on Windows, Linux, and MacOS, and is built using [.NET Core](https://dotnet.microsoft.com/). 
+It has both a command-line interface and Electron-based GUI option available. There no installer, but the command-line
+version is packaged as a [Warp Package](https://github.com/dgiagio/warp), and may take a few seconds to extract on first
+use.
 
 ## Building
 
-To build ASA from source see the BUILD.md project file.
-
-## Misc Notes
-The release version of the CLI is a [Warp Package](https://github.com/dgiagio/warp), and on first run may take a few seconds to expand.
-
-By default data is stored in a database in your current directory named "asa.sqlite".
+To build Attack Surface Analyzer, see [BUILD](https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/BUILD.md).
 
 ## Contributing
 
@@ -65,8 +77,8 @@ need to provide a CLA and decorate the PR appropriately (e.g., label, comment). 
 follow the instructions provided by the bot. You will only need to do this once across all 
 repos using our CLA.
 
-This project has adopted the [Microsoft Open Source Code of Conduct]
-(https://opensource.microsoft.com/codeofconduct/).
+This project has adopted the
+[Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
@@ -80,12 +92,9 @@ email to ensure we received your original message. Further information, includin
 [MSRC PGP](https://technet.microsoft.com/en-us/security/dn606155) key, can be found in
 the [Security TechCenter](https://technet.microsoft.com/en-us/security/default).
 
-## How to Use
-
-See project wiki located on this site
-
 ## License
 
-Attack Surface Analyzer 2.0 or ASA is licensed under the MIT license.
+Attack Surface Analyzer 2.0 is licensed under the
+[MIT license](https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/LICENSE).
 
 
