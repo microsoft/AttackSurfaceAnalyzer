@@ -45,8 +45,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
         /// <summary>
         /// Writes information about a single service to the database.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="transaction"></param>
+        /// <param name="obj">A ServiceObject to write.</param>
         public void Write(ServiceObject obj)
         {
             _numCollected++;
@@ -113,7 +112,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
                 // run "launchtl dumpstate" for the super detailed view
                 // However, dumpstate is difficult to parse
                 var result = runner.RunExternalCommand("launchctl", "list");
-
+                Dictionary<string, ServiceObject> outDict = new Dictionary<string, ServiceObject>();
                 foreach (var _line in result.Split('\n'))
                 {
                     // Lines are formatted like this:
@@ -133,8 +132,10 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
                         // If we have a current PID then it is running.
                         CurrentState = (_fields[0].Equals("-"))?"Stopped":"Running"
                     };
-
-                    this.Write(obj);
+                    if (!outDict.ContainsKey(obj.GetUniqueHash())){
+                        this.Write(obj);
+                        outDict.Add(obj.GetUniqueHash(), obj);
+                    }
                 }
 
                 // Then get the system processes
@@ -160,7 +161,11 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
                         CurrentState = (_fields[0].Equals("-")) ? "Stopped" : "Running"
                     };
 
-                    this.Write(obj);
+                    if (!outDict.ContainsKey(obj.GetUniqueHash()))
+                    {
+                        this.Write(obj);
+                        outDict.Add(obj.GetUniqueHash(), obj);
+                    }
                 }
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
@@ -236,145 +241,6 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
                 newname = name;
             }
             return newname;
-        }
-
-        public void GenericCompareDatabase<T>(string tableName)
-        {
-            var previousRun = new HashSet<T>();
-            var nextRun = new HashSet<T>();
-
-            var cmd = new SqliteCommand("attach 'original.sqlite' as previous", DatabaseManager.Connection);
-            cmd.ExecuteNonQuery();
-
-            cmd = new SqliteCommand(string.Format("select * from previous.{0}", tableName), DatabaseManager.Connection);
-            using (SqliteDataReader rdr = cmd.ExecuteReader())
-            {
-                while (rdr.Read())
-                {
-                    var obj = (T)Activator.CreateInstance(typeof(T));
-                    
-                    for (int i=0; i<rdr.FieldCount; i++)
-                    {
-                        var fieldName = rdr.GetName(i);
-                        var fieldValue = rdr[i];
-                        var fieldNameTitleCase = underscoreToCamelCase(fieldName);
-                        try
-                        {
-                            Logger.Instance.Info(typeof(T));
-                            var fieldInfo = typeof(T).GetField(fieldNameTitleCase, BindingFlags.Default);
-                            Logger.Instance.Info(fieldInfo == null ? "NULL" : "NOT NULL");
-                            if (fieldInfo.FieldType == typeof(string))
-                            {
-                                fieldInfo.SetValue(obj, fieldValue.ToString());
-                            }
-                            else
-                            {
-                                fieldInfo.SetValue(obj, fieldValue);
-                            }
-                        } catch(Exception ex)
-                        {
-                            Logger.Instance.Info("Unable to process field {0}: {1}", fieldNameTitleCase, ex.Message);
-                        }
-                    }
-                    previousRun.Add(obj);
-                }
-            }
-
-            cmd = new SqliteCommand(string.Format("select * from {0}", tableName), DatabaseManager.Connection);
-            using (SqliteDataReader rdr = cmd.ExecuteReader())
-            {
-                while (rdr.Read())
-                {
-                    var obj = (T)Activator.CreateInstance(typeof(T));
-
-                    for (int i = 0; i < rdr.FieldCount; i++)
-                    {
-                        var fieldName = rdr.GetName(i);
-                        var fieldValue = rdr[i];
-                        var fieldNameTitleCase = underscoreToCamelCase(fieldName);
-                        var fieldInfo = typeof(T).GetField(fieldNameTitleCase, BindingFlags.Instance);
-                        if (fieldInfo.FieldType == typeof(string))
-                        {
-                            fieldInfo.SetValue(obj, fieldValue.ToString());
-                        }
-                        else
-                        {
-                            fieldInfo.SetValue(obj, fieldValue);
-                        }
-                    }
-                    nextRun.Add(obj);
-                }
-            }
-
-            // Now everything is in an object, let's do a diff
-            
-            var tt = from _n in nextRun join _p in previousRun on _n.GetType().GetMethod("GetUniqueHash").Invoke(_n, new object[] { }) equals _p.GetType().GetMethod("GetUniqueHash").Invoke(_p, new object[] { }) into rr where !rr.Any() select _n;
-            foreach (var _t in tt)
-            {
-                Logger.Instance.Info("Previous:");
-                //var _q = previousRun.Where(item => item.ServiceName == _t.ServiceName).First();
-                //Logger.Instance.Info(_q);
-                Logger.Instance.Info("Next:");
-                Logger.Instance.Info(_t);
-            }
-        }
-
-
-        public void CompareDatabase()
-        {
-            var previousRun = new HashSet<ServiceObject>();
-            var nextRun = new HashSet<ServiceObject>();
-
-            var cmd = new SqliteCommand("attach 'original.sqlite' as previous", DatabaseManager.Connection);
-            cmd.ExecuteNonQuery();
-
-            // Gather initial dataset
-            cmd = new SqliteCommand("select * from previous.win_system_service", DatabaseManager.Connection);
-            using (SqliteDataReader rdr = cmd.ExecuteReader())
-            {
-                while (rdr.Read())
-                {
-                    var obj = new ServiceObject()
-                    {
-                        ServiceName = rdr["service_name"].ToString(),
-                        DisplayName = rdr["display_name"].ToString(),
-                        StartType = rdr["start_type"].ToString(),
-                        CurrentState = rdr["current_state"].ToString()
-                    };
-                    var key = obj.ServiceName;
-
-                    previousRun.Add(obj);
-                }
-            }
-
-            cmd = new SqliteCommand("select * from win_system_service", DatabaseManager.Connection);
-            using (SqliteDataReader rdr = cmd.ExecuteReader())
-            {
-                while (rdr.Read())
-                {
-                    var obj = new ServiceObject()
-                    {
-                        ServiceName = rdr["service_name"].ToString(),
-                        DisplayName = rdr["display_name"].ToString(),
-                        StartType = rdr["start_type"].ToString(),
-                        CurrentState = rdr["current_state"].ToString()
-                    };
-                    var key = obj.ServiceName;
-
-                    nextRun.Add(obj);
-                }
-            }
-
-            // Now everything is in an object, let's do a diff
-            var tt = from _n in nextRun join _p in previousRun on _n.GetUniqueHash() equals _p.GetUniqueHash() into rr where !rr.Any() select _n;
-            foreach (var _t in tt)
-            {
-                Logger.Instance.Info("Previous:");
-                var _q = previousRun.Where(item => item.ServiceName == _t.ServiceName).First();
-                Logger.Instance.Info(_q);
-                Logger.Instance.Info("Next:");
-                Logger.Instance.Info(_t);
-            }
         }
     }
 }
