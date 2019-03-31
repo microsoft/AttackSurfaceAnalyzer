@@ -340,400 +340,423 @@ function InsertIntoTable(result) {
 }
 
 function InsertIntoRegistryTable(result) {
-    if (result.ChangeType != CHANGE_TYPE.CREATED) {
-        tmp = $('<tr/>');
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: ChangeTypeToString(result.ChangeType)
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedBase.Path
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedBase.Value
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedBase.Contents
-        }));
-        $('#RegistryResultsTableBody').append(tmp);
+    if (result.ChangeType == CHANGE_TYPE.CREATED) {
+        appendObj = result.SerializedCompare;
     }
-    if (result.ChangeType != CHANGE_TYPE.DELETED) {
-        tmp = $('<tr/>');
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: ChangeTypeToString(result.ChangeType)
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedCompare.Path
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedCompare.Value
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedCompare.DisplayName
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedCompare.Contents
-        }));
-        $('#RegistryResultsTableBody').append(tmp);
+    else {
+        appendObj = result.SerializedBase;
     }
+    var uid = uuidv4();
+    tmp = $('<tr/>', {
+        id: uid,
+        class: 'resultTableRow Info',
+    });
+    var arrowTD = $('<td/>', {
+        scope: 'col',
+    });
+    var caretContainer = ($('<div/>'));
+    var caret = $('<i/>', {
+        class: "fas fa-caret-right",
+        id: uid + '_expansion_arrow'
+    });
+    caretContainer.append(caret);
+    arrowTD.append(caretContainer);
+    tmp.append(arrowTD);    
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: ChangeTypeToString(result.ChangeType)
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.Path
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.Value
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.Contents
+    }));
+    $('#RegistryResultsTableBody').append(tmp);
+    tmp = $('<tr/>');
+    tmp2 = $('<td/>', {
+        colspan: 5,
+        class: 'resultTableExpanded',
+        id: uid + '_expanded'
+    });
+    tmpDiv = $('<div/>', {
+        class: 'card card-body'
+    });
+    for (var prop in appendObj) {
+        if (appendObj.hasOwnProperty(prop)) {
+            tmp3 = $('<tr/>');
+            tmp4 = $('<td/>', { html: prop });
+            tmp5 = $('<td/>', { html: appendObj.prop });
+            if (result.ChangeType == CHANGE_TYPE.MODIFIED){
+                tmp6 = $('<td/>', { html: result.SerializedCompare.prop });
+            }
+            tmp3.append(tmp4);
+            tmp3.append(tmp5);
+            tmp3.append(tmp6);
+            tmpDiv.append(tmp3);
+        }
+    }
+    tmp2.append(tmpDiv);
+    tmp.append(tmp2);
+    $('#RegistryResultsTableBody').append(tmp);
 }
 
 function InsertIntoServiceTable(result) {
-    if (result.ChangeType != CHANGE_TYPE.CREATED) {
-        tmp = $('<tr/>');
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: ChangeTypeToString(result.ChangeType)
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedBase.ServiceName
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedBase.StartType
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedBase.DisplayName
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedBase.CurrentState
-        }));
-        $('#ServiceResultsTableBody').append(tmp);
+    if (result.ChangeType == CHANGE_TYPE.CREATED) {
+        appendObj = result.SerializedCompare;
+    else{
+        appendObj = result.SerializedBase;
     }
-    if (result.ChangeType != CHANGE_TYPE.DELETED) {
-        tmp = $('<tr/>');
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: ChangeTypeToString(result.ChangeType)
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedCompare.ServiceName
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedCompare.StartType
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedCompare.DisplayName
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedCompare.CurrentState
-        }));
-        $('#ServiceResultsTableBody').append(tmp);
+    var uid = uuidv4();
+    tmp = $('<tr/>', {
+        id: uid,
+        class: 'resultTableRow Info',
+    });
+    var arrowTD = $('<td/>', {
+        scope: 'col',
+    });
+    var caretContainer = ($('<div/>'));
+    var caret = $('<i/>', {
+        class: "fas fa-caret-right",
+        id: uid + '_expansion_arrow'
+    });
+    caretContainer.append(caret);
+    arrowTD.append(caretContainer);
+    tmp.append(arrowTD);  
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: ChangeTypeToString(result.ChangeType)
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.ServiceName
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.StartType
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.DisplayName
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.CurrentState
+    }));
+    $('#ServiceResultsTableBody').append(tmp);
+    tmp = $('<tr/>');
+    tmp2 = $('<td/>', {
+        colspan: 5,
+        class: 'resultTableExpanded',
+        id: uid + '_expanded'
+    });
+    tmpDiv = $('<div/>', {
+        class: 'card card-body'
+    });
+    for (var prop in appendObj) {
+        if (appendObj.hasOwnProperty(prop)) {
+            tmp3 = $('<tr/>');
+            tmp4 = $('<td/>', { html: prop });
+            tmp5 = $('<td/>', { html: appendObj.prop });
+            if (result.ChangeType == CHANGE_TYPE.MODIFIED){
+                tmp6 = $('<td/>', { html: result.SerializedCompare.prop });
+            }
+            tmp3.append(tmp4);
+            tmp3.append(tmp5);
+            tmp3.append(tmp6);
+            tmpDiv.append(tmp3);
+        }
     }
+    tmp2.append(tmpDiv);
+    tmp.append(tmp2);
+    $('#ServiceResultsTableBody').append(tmp);
 }
 
 function InsertIntoCertificateTable(result) {
-    if (result.ChangeType != CHANGE_TYPE.CREATED) {
-        tmp = $('<tr/>');
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: ChangeTypeToString(result.ChangeType)
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedBase.StoreLocation
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedBase.StoreName
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedBase.Subject
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedBase.CertificateHashString
-        }));
-        $('#CertificateResultsTableBody').append(tmp);
+    if (result.ChangeType == CHANGE_TYPE.CREATED){
+        appendObj = result.SerializedCompare;
     }
-    if (result.ChangeType != CHANGE_TYPE.DELETED) {
-        tmp = $('<tr/>');
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: ChangeTypeToString(result.ChangeType)
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedCompare.StoreLocation
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedCompare.StoreName
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedCompare.Subject
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedCompare.CertificateHashString
-        }));
-        $('#CertificateResultsTableBody').append(tmp);
+    else
+        appendObj = result.SerializedBase;
     }
+    var uid = uuidv4();
+    tmp = $('<tr/>', {
+        id: uid,
+        class: 'resultTableRow Info',
+    });
+    var arrowTD = $('<td/>', {
+        scope: 'col',
+    });
+    var caretContainer = ($('<div/>'));
+    var caret = $('<i/>', {
+        class: "fas fa-caret-right",
+        id: uid + '_expansion_arrow'
+    });
+    caretContainer.append(caret);
+    arrowTD.append(caretContainer);
+    tmp.append(arrowTD);
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: ChangeTypeToString(result.ChangeType)
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.StoreLocation
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.StoreName
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.Subject
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.CertificateHashString
+    }));
+    $('#CertificateResultsTableBody').append(tmp);
+
+    tmp = $('<tr/>');
+    tmp2 = $('<td/>', {
+        colspan: 5,
+        class: 'resultTableExpanded',
+        id: uid + '_expanded'
+    });
+    tmpDiv = $('<div/>', {
+        class: 'card card-body'
+    });
+    for (var prop in appendObj) {
+        if (appendObj.hasOwnProperty(prop)) {
+            tmp3 = $('<tr/>');
+            tmp4 = $('<td/>', { html: prop });
+            tmp5 = $('<td/>', { html: appendObj.prop });
+            if (result.ChangeType == CHANGE_TYPE.MODIFIED){
+                tmp6 = $('<td/>', { html: result.SerializedCompare.prop });
+            }
+            tmp3.append(tmp4);
+            tmp3.append(tmp5);
+            tmp3.append(tmp6);
+            tmpDiv.append(tmp3);
+        }
+    }
+    tmp2.append(tmpDiv);
+    tmp.append(tmp2);
+    $('#CertificateResultsTableBody').append(tmp);
 }
 
 function InsertIntoUserTable(result) {
-    if (result.ChangeType != CHANGE_TYPE.CREATED) {
-        var uid = uuidv4();
-        tmp = $('<tr/>', {
-            id: uid,
-            class: 'resultTableRow Info',
-        });
-        var arrowTD = $('<td/>', {
-            scope: 'col',
-        });
-        var caretContainer = ($('<div/>'));
-        var caret = $('<i/>', {
-            class: "fas fa-caret-right",
-            id: uid + '_expansion_arrow'
-        });
-        caretContainer.append(caret);
-        arrowTD.append(caretContainer);
-        tmp.append(arrowTD);
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: ChangeTypeToString(result.ChangeType)
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedBase.AccountType
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedBase.Name
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedBase.Description
-        }));
-        $('#UserResultsTableBody').append(tmp);
+    if (result.ChangeType == CHANGE_TYPE.CREATED) {
+        appendObj = result.SerializedCompare;
+    }
+    else
+    {
+        appendObj = result.SerializedBase;
+    }
 
-        tmp = $('<tr/>');
-        tmp2 = $('<td/>', {
-            colspan: 5,
-            class: 'resultTableExpanded',
-            id: uid + '_expanded'
-        });
-        tmpDiv = $('<div/>', {
-            class: 'card card-body'
-        });
-        for (var prop in result.SerializedBase) {
-            if (result.SerializedBase.hasOwnProperty(prop)) {
-                tmp3 = $('<tr/>');
-                tmp4 = $('<td/>', { html: prop });
-                tmp5 = $('<td/>', { html: result.SerializedBase.prop });
-                tmp3.append(tmp4);
-                tmp3.append(tmp5);
-                tmpDiv.append(tmp3);
+    var uid = uuidv4();
+    tmp = $('<tr/>', {
+        id: uid,
+        class: 'resultTableRow Info',
+    });
+    var arrowTD = $('<td/>', {
+        scope: 'col',
+    });
+    var caretContainer = ($('<div/>'));
+    var caret = $('<i/>', {
+        class: "fas fa-caret-right",
+        id: uid + '_expansion_arrow'
+    });
+    caretContainer.append(caret);
+    arrowTD.append(caretContainer);
+    tmp.append(arrowTD);
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: ChangeTypeToString(result.ChangeType)
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.AccountType
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.Name
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.Description
+    }));
+    $('#UserResultsTableBody').append(tmp);
+    
+    tmp = $('<tr/>');
+    tmp2 = $('<td/>', {
+        colspan: 5,
+        class: 'resultTableExpanded',
+        id: uid + '_expanded'
+    });
+    tmpDiv = $('<div/>', {
+        class: 'card card-body'
+    });
+    for (var prop in appendObj) {
+        if (appendObj.hasOwnProperty(prop)) {
+            tmp3 = $('<tr/>');
+            tmp4 = $('<td/>', { html: prop });
+            tmp5 = $('<td/>', { html: appendObj.prop });
+            if (result.ChangeType == CHANGE_TYPE.MODIFIED){
+                tmp6 = $('<td/>', { html: result.SerializedCompare.prop });
             }
+            tmp3.append(tmp4);
+            tmp3.append(tmp5);
+            tmp3.append(tmp6);
+            tmpDiv.append(tmp3);
         }
-        tmp2.append(tmpDiv);
-        tmp.append(tmp2);
-        $('#PortResultsTableBody').append(tmp);
     }
-    if (result.ChangeType != CHANGE_TYPE.DELETED) {
-        var uid = uuidv4();
-        tmp = $('<tr/>', {
-            id: uid,
-            class: 'resultTableRow Info',
-        });
-        var arrowTD = $('<td/>', {
-            scope: 'col',
-        });
-        var caretContainer = ($('<div/>'));
-        var caret = $('<i/>', {
-            class: "fas fa-caret-right",
-            id: uid + '_expansion_arrow'
-        });
-        caretContainer.append(caret);
-        arrowTD.append(caretContainer);
-        tmp.append(arrowTD);
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: ChangeTypeToString(result.ChangeType)
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedCompare.AccountType
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedCompare.Name
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedCompare.Description
-        }));
-        $('#UserResultsTableBody').append(tmp);
-
-        tmp = $('<tr/>');
-        tmp2 = $('<td/>', {
-            colspan: 5,
-            class: 'resultTableExpanded',
-            id: uid + '_expanded'
-        });
-        tmp2.append($('<div/>', {
-            html: 'Home Directory: ' + result.SerializedCompare.HomeDirectory,
-            class: 'card card-body'
-        }));
-        tmp.append(tmp2);
-        $('#PortResultsTableBody').append(tmp);
-    }
+    tmp2.append(tmpDiv);
+    tmp.append(tmp2);
+    $('#UserResultsTableBody').append(tmp);
 }
 
 function InsertIntoFileTable(result) {
     if (result.ChangeType != CHANGE_TYPE.CREATED) {
-        tmp = $('<tr/>');
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: ChangeTypeToString(result.ChangeType)
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedBase.Path
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedBase.Permissions
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedBase.Size
-        }));
-        $('#FileResultsTableBody').append(tmp);
+        appendObj = result.SerializedBase;
     }
-    if (result.ChangeType != CHANGE_TYPE.DELETED) {
-        tmp = $('<tr/>');
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: ChangeTypeToString(result.ChangeType)
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedCompare.Path
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedCompare.Permissions
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedCompare.Size
-        }));
-        $('#FileResultsTableBody').append(tmp);
+    else{
+        appendObj = result.SerializedCompare;
     }
+    var uid = uuidv4();
+    tmp = $('<tr/>', {
+        id: uid,
+        class: 'resultTableRow Info',
+    });
+    var arrowTD = $('<td/>', {
+        scope: 'col',
+    });
+    var caretContainer = ($('<div/>'));
+    var caret = $('<i/>', {
+        class: "fas fa-caret-right",
+        id: uid + '_expansion_arrow'
+    });
+    caretContainer.append(caret);
+    arrowTD.append(caretContainer);
+    tmp.append(arrowTD);
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: ChangeTypeToString(result.ChangeType)
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.Path
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.Permissions
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.Size
+    }));
+    $('#FileResultsTableBody').append(tmp);
+    tmp = $('<tr/>');
+    tmp2 = $('<td/>', {
+        colspan: 5,
+        class: 'resultTableExpanded',
+        id: uid + '_expanded'
+    });
+    tmpDiv = $('<div/>', {
+        class: 'card card-body'
+    });
+    for (var prop in appendObj) {
+        if (appendObj.hasOwnProperty(prop)) {
+            tmp3 = $('<tr/>');
+            tmp4 = $('<td/>', { html: prop });
+            tmp5 = $('<td/>', { html: appendObj.prop });
+            if (result.ChangeType == CHANGE_TYPE.MODIFIED){
+                tmp6 = $('<td/>', { html: result.SerializedCompare.prop });
+            }
+            tmp3.append(tmp4);
+            tmp3.append(tmp5);
+            tmp3.append(tmp6);
+            tmpDiv.append(tmp3);
+        }
+    }
+    tmp2.append(tmpDiv);
+    tmp.append(tmp2);
+    $('#FileResultsTableBody').append(tmp);
 }
 
 function InsertIntoPortTable(result) {
-    if (result.ChangeType != CHANGE_TYPE.CREATED) {
-        var uid = uuidv4();
-        tmp = $('<tr/>', {
-            id: uid,
-            class: 'resultTableRow'
-        });
-        var arrowTD = $('<td/>', {
-            scope: 'col',
-        });
-        var caretContainer = ($('<div/>'));
-        var caret = $('<i/>', {
-            class: "fas fa-caret-right",
-            id: uid + '_expansion_arrow'
-        });
-        caretContainer.append(caret);
-        arrowTD.append(caretContainer);
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: ChangeTypeToString(result.ChangeType)
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedBase.port
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedBase.type
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedBase.address
-        }));
-        $('#PortResultsTableBody').append(tmp);
+    var uid = uuidv4();
+    tmp = $('<tr/>', {
+        id: uid,
+        class: 'resultTableRow'
+    });
+    var arrowTD = $('<td/>', {
+        scope: 'col',
+    });
+    var caretContainer = ($('<div/>'));
+    var caret = $('<i/>', {
+        class: "fas fa-caret-right",
+        id: uid + '_expansion_arrow'
+    });
+    caretContainer.append(caret);
+    arrowTD.append(caretContainer);
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: ChangeTypeToString(result.ChangeType)
+    }));
 
-        tmp = $('<tr/>');
-        tmp2 = $('<td/>', {
-            colspan: 5,
-            class: 'resultTableExpanded',
-            id: uid + '_expanded'
-        });
-        tmp2.append($('<div/>', {
-            html: 'Process Name: ' + result.SerializedBase.processName,
-            class: 'card card-body'
-        }));
-        tmp.append(tmp2);
-        $('#PortResultsTableBody').append(tmp);
-    }
-    if (result.ChangeType != CHANGE_TYPE.DELETED) {
-        var uid = uuidv4();
-        tmp = $('<tr/>', {
-            id: uid,
-            class: 'resultTableRow Info',
-        });
-        var arrowTD = $('<td/>', {
-            scope: 'col',
-        });
-        var caretContainer = ($('<div/>'));
-        var caret = $('<i/>', {
-            class: "fas fa-caret-right",
-            id: uid + '_expansion_arrow'
-        });
-        caretContainer.append(caret);
-        arrowTD.append(caretContainer);
-        tmp.append(arrowTD);
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: ChangeTypeToString(result.ChangeType)
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedCompare.port
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedCompare.type
-        }));
-        tmp.append($('<td/>', {
-            scope: "col",
-            html: result.SerializedCompare.address
-        }));
-        $('#PortResultsTableBody').append(tmp);
 
-        tmp = $('<tr/>');
-        tmp2 = $('<td/>', {
-            colspan: 5,
-            class: 'resultTableExpanded',
-            id: uid + '_expanded'
-        });
-        tmp2.append($('<div/>', {
-            html: 'Process Name: ' + result.SerializedCompare.processName,
-            class: 'card card-body'
-        }));
-        tmp.append(tmp2);
-        $('#PortResultsTableBody').append(tmp);
+    if (result.ChangeType == CHANGE_TYPE.CREATED) {
+        appendObj = result.SerializedCompare;
     }
+    else {
+        appendObj = result.SerializedBase;
+    }
+
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.port
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.type
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.address
+    }));
+    $('#PortResultsTableBody').append(tmp);
+    
+    tmp = $('<tr/>');
+    tmp2 = $('<td/>', {
+        colspan: 5,
+        class: 'resultTableExpanded',
+        id: uid + '_expanded'
+    });
+    tmpDiv = $('<div/>', {
+        class: 'card card-body'
+    });
+    for (var prop in appendObj) {
+        if (appendObj.hasOwnProperty(prop)) {
+            tmp3 = $('<tr/>');
+            tmp4 = $('<td/>', { html: prop });
+            if (result.ChangeType == CHANGE_TYPE.MODIFIED){
+                tmp6 = $('<td/>', { html: result.SerializedCompare.prop });
+            }
+            tmp3.append(tmp4);
+            tmp3.append(tmp5);
+            tmp3.append(tmp6);
+            tmpDiv.append(tmp3);
+        }
+    }
+    tmp2.append(tmpDiv);
+    tmp.append(tmp2);
+    $('#PortResultsTableBody').append(tmp);
+
 }
