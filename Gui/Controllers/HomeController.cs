@@ -354,6 +354,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             opts.EnableRegistryCollector = Registry;
             opts.EnableUserCollector = User;
             opts.EnableCertificateCollector = Certificates;
+            opts.DatabaseFilename = "asa.sqlite";
 
             Dictionary<string, bool> dict = new Dictionary<string, bool>();
             foreach (BaseCollector c in AttackSurfaceAnalyzerCLI.GetCollectors())
