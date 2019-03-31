@@ -2,7 +2,7 @@
 
 ## Version 2.0-preview
 
-This version of Attack Surface Analyzer is in "public preview", suitable for early adopters testing core features. A final release is planned for late April, 2019.
+This version of Attack Surface Analyzer is in "public preview", suitable for early adopters testing core features. A final release of the 2.0 version is planned for late April, 2019.
 
 ## Overview
 
@@ -56,7 +56,7 @@ If you have feedback on these or other features, please
 
 ## Installation
 
-Attack Surface Analzyer runs on Windows, Linux, and MacOS, and is built using [.NET Core](https://dotnet.microsoft.com/). It has both a command-line interface and [ElectronNET](https://github.com/ElectronNET/Electron.NET) GUI option available. There no installer, but the command-line version is packaged as a [Warp Package](https://github.com/dgiagio/warp), and may take a few seconds to extract on first use.
+Attack Surface Analzyer runs on Windows, Linux, and MacOS, and is built using [.NET Core](https://dotnet.microsoft.com/). It has both a command-line interface and [ElectronNET](https://github.com/ElectronNET/Electron.NET) GUI option available. There is no installer, but the command-line version is packaged as a [Warp Package](https://github.com/dgiagio/warp), and may take a few seconds to extract on first use.
 
 Packages are available on our [releases](https://github.com/Microsoft/AttackSurfaceAnalyzer/releases) page. The GUI is distributed as a compressed archive. The CLI is available both as a compressed archive and as a [Warp Package](https://github.com/dgiagio/warp) single executable.
 
