@@ -410,6 +410,7 @@ function InsertIntoRegistryTable(result) {
 function InsertIntoServiceTable(result) {
     if (result.ChangeType == CHANGE_TYPE.CREATED) {
         appendObj = result.SerializedCompare;
+}
     else{
         appendObj = result.SerializedBase;
     }
@@ -482,7 +483,7 @@ function InsertIntoCertificateTable(result) {
     if (result.ChangeType == CHANGE_TYPE.CREATED){
         appendObj = result.SerializedCompare;
     }
-    else
+    else{
         appendObj = result.SerializedBase;
     }
     var uid = uuidv4();
