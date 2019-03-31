@@ -49,8 +49,16 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="NOTICE">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
     <Content Update="nlog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="NOTICE" />
   </ItemGroup>
 </Project>

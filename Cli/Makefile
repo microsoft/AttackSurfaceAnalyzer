@@ -30,10 +30,13 @@ prerequisites:
 all: prerequisites debug
 debug: prerequisites clean restore build_debug
 release: prerequisites clean restore build_release
-all: win mac linux
-win: RUNTIME = win10-x64
+all: win win10 mac linux
+win: RUNTIME = win-x86
 win: ALT_RUNTIME = win
 win: build_release
+win10: RUNTIME = win10-x64
+win10: ALT_RUNTIME = win10
+win10: build_release
 mac: RUNTIME = osx-x64
 mac: ALT_RUNTIME = macos
 mac: build_release
@@ -60,9 +63,3 @@ build_release:
 
 	$(DOTNET) publish -c Release -r $(RUNTIME) --self-contained true --output $(PUBLISH_DIR)
 	$(info Release build completed)
-
-build_win:
-	$(info Building windows...)
-	RUNTIME = win-x64
-	ALT_RUNTIME = win
-	build_release

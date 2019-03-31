@@ -27,10 +27,21 @@
   <ItemGroup>
     <ProjectReference Include="..\Lib\AttackSurfaceAnalyzerLib.csproj" />
     <Content Include="Output\Output.cshtml" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="NOTICE">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="NOTICE" />
   </ItemGroup>
   <ItemGroup>
     <None Update="nlog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Program.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
   </ItemGroup>
 </Project>
