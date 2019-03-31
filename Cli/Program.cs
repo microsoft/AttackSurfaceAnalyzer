@@ -249,11 +249,18 @@ namespace AttackSurfaceAnalyzer.Cli
             string GET_SERIALIZED_RESULTS = "select serialized from @table_name where row_key = @row_key and run_id = @run_id";
 
             List<RESULT_TYPE> ToExport = new List<RESULT_TYPE> { (RESULT_TYPE)ResultType };
-
+            Dictionary<RESULT_TYPE, int> actualExported = new Dictionary<RESULT_TYPE, int>();
+            JsonSerializer serializer = new JsonSerializer
+            {
+                Formatting = Formatting.Indented,
+                NullValueHandling = NullValueHandling.Ignore
+            };
             if (ExportAll)
             {
                 ToExport = new List<RESULT_TYPE> { RESULT_TYPE.FILE, RESULT_TYPE.CERTIFICATE, RESULT_TYPE.PORT, RESULT_TYPE.REGISTRY, RESULT_TYPE.SERVICES, RESULT_TYPE.USER };
             }
+
+
             foreach (RESULT_TYPE ExportType in ToExport)
             {
                 List<CompareResult> records = new List<CompareResult>();
@@ -356,16 +363,12 @@ namespace AttackSurfaceAnalyzer.Cli
                         records.Add(obj);
                     }
                 }
+                actualExported.Add(ExportType, records.Count());
+
 
                 if (records.Count > 0)
                 {
                     //telemetry.GetMetric("ResultsExported").TrackValue(records.Count);
-
-                    JsonSerializer serializer = new JsonSerializer
-                    {
-                        Formatting = Formatting.Indented,
-                        NullValueHandling = NullValueHandling.Ignore
-                    };
 
                     serializer.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
 
@@ -378,6 +381,17 @@ namespace AttackSurfaceAnalyzer.Cli
                     }
                 }
             }
+
+            serializer.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+
+            using (StreamWriter sw = new StreamWriter(Path.Combine(OutputPath, Helpers.MakeValidFileName(BaseId + "_vs_" + CompareId + "_summary.json.txt")))) //lgtm[cs/path-injection]
+            {
+                using (JsonWriter writer = new JsonTextWriter(sw))
+                {
+                    serializer.Serialize(writer, actualExported);
+                }
+            }
+
         }
 
         private static int RunExportMonitorCommand(ExportMonitorCommandOptions opts)
