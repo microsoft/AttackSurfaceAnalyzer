@@ -10,17 +10,12 @@ UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
 	RUNTIME = linux-x64
 	ALT_RUNTIME = linux-x64
-	PACKER = ../Tools/linux-x64.warp-packer
-	FULL_EXEC_PATH = bin/$(EXEC_NAME)-linux-$(VERSION)
 endif
 ifeq ($(UNAME_S),Darwin)
 	RUNTIME = osx-x64
 	ALT_RUNTIME = macos-x64
-	PACKER = ../Tools/macos-x64.warp-packer
-	FULL_EXEC_PATH = bin/$(EXEC_NAME)-macos-$(VERSION)
-
 endif
-PUBLISH_DIR = bin/Release/$(TARGET)/$(RUNTIME)/publish/
+PUBLISH_DIR = bin/AttackSurfaceAnalyzerCli-$(ALT_RUNTIME)-$(VERSION)
 
 prerequisites:
 	$(info Checking for nbgv, installing if required.)
@@ -45,10 +40,7 @@ build_debug:
 
 build_release:
 	$(info Building release...)
-	dotnet build
 	$(info Detected version as $(VERSION))
 
-	$(DOTNET) publish -c Release -r $(RUNTIME) --self-contained true
-	$(PACKER) --arch $(ALT_RUNTIME) --input_dir $(PUBLISH_DIR) --exec $(EXEC_NAME) --output $(FULL_EXEC_PATH)
-	chmod +x $(FULL_EXEC_PATH)
-	$(info Release build completed, result is located at $(FULL_EXEC_PATH))
+	$(DOTNET) publish -c Release -r $(RUNTIME) --self-contained true --output $(PUBLISH_DIR)
+	$(info Release build completed)

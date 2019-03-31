@@ -6,9 +6,9 @@ if ($release -eq "Debug"){
     dotnet build
 }
 if ($release -eq "Release"){
-    dotnet publish -c Release -r win10-x64 --self-contained true
+    dotnet publish -c Release -r win10-x64 --self-contained true --output bin\win
     if ($?) {
 		$version = (nbgv get-version -v AssemblyInformationalVersion)
-        ..\Tools\windows-x64.warp-packer.exe --arch windows-x64 --input_dir bin\Release\netcoreapp2.2\win10-x64\publish\ --exec AttackSurfaceAnalyzerCli.exe --output bin\AttackSurfaceAnalyzerCli-windows-$version.exe
+        Rename-Item -Path "bin\win\Cli" -NewName "AttackSurfaceAnalyzerCli-windows-$version"
     }
 }
