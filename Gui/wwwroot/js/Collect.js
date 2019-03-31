@@ -138,11 +138,11 @@ function GetMonitorStatus() {
                 midword = ' has ';
             }
             $('#ScanStatus').append($('<div/>', { html: icon + key + midword + runStatusToString(value), class: 'monitor' }));
-            $('#ScanStatus').append($('<div/>', { html: "<i>Monitoring is running. Please begin installation of your test product.</i>" }));
         });
         if (keepChecking) {
             DisableCollectionFields();
             setTimeout(GetMonitorStatus, 250);
+            $('#ScanStatus').append($('<div/>', { html: "<i>Monitoring is running. Please begin installation of your test product.</i>" }));
         }
         else {
             $('#ScanStatus').append($('<div/>', { html: "<i>Monitoring is completed.</i>" }));
