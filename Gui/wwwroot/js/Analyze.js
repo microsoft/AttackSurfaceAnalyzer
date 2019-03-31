@@ -392,7 +392,7 @@ function InsertIntoRegistryTable(result) {
         if (appendObj.hasOwnProperty(prop)) {
             tmp3 = $('<tr/>');
             tmp4 = $('<td/>', { html: prop });
-            tmp5 = $('<td/>', { html: appendObj.prop });
+            tmp5 = $('<td/>', { html: appendObj[prop] });
             if (result.ChangeType == CHANGE_TYPE.MODIFIED){
                 tmp6 = $('<td/>', { html: result.SerializedCompare.prop });
             }
@@ -464,7 +464,7 @@ function InsertIntoServiceTable(result) {
         if (appendObj.hasOwnProperty(prop)) {
             tmp3 = $('<tr/>');
             tmp4 = $('<td/>', { html: prop });
-            tmp5 = $('<td/>', { html: appendObj.prop });
+            tmp5 = $('<td/>', { html: appendObj[prop] });
             if (result.ChangeType == CHANGE_TYPE.MODIFIED){
                 tmp6 = $('<td/>', { html: result.SerializedCompare.prop });
             }
@@ -537,7 +537,7 @@ function InsertIntoCertificateTable(result) {
         if (appendObj.hasOwnProperty(prop)) {
             tmp3 = $('<tr/>');
             tmp4 = $('<td/>', { html: prop });
-            tmp5 = $('<td/>', { html: appendObj.prop });
+            tmp5 = $('<td/>', { html: appendObj[prop] });
             if (result.ChangeType == CHANGE_TYPE.MODIFIED){
                 tmp6 = $('<td/>', { html: result.SerializedCompare.prop });
             }
@@ -608,7 +608,7 @@ function InsertIntoUserTable(result) {
         if (appendObj.hasOwnProperty(prop)) {
             tmp3 = $('<tr/>');
             tmp4 = $('<td/>', { html: prop });
-            tmp5 = $('<td/>', { html: appendObj.prop });
+            tmp5 = $('<td/>', { html: appendObj[prop] });
             if (result.ChangeType == CHANGE_TYPE.MODIFIED){
                 tmp6 = $('<td/>', { html: result.SerializedCompare.prop });
             }
@@ -676,7 +676,7 @@ function InsertIntoFileTable(result) {
         if (appendObj.hasOwnProperty(prop)) {
             tmp3 = $('<tr/>');
             tmp4 = $('<td/>', { html: prop });
-            tmp5 = $('<td/>', { html: appendObj.prop });
+            tmp5 = $('<td/>', { html: appendObj[prop] });
             if (result.ChangeType == CHANGE_TYPE.MODIFIED){
                 tmp6 = $('<td/>', { html: result.SerializedCompare.prop });
             }
@@ -749,6 +749,7 @@ function InsertIntoPortTable(result) {
         if (appendObj.hasOwnProperty(prop)) {
             tmp3 = $('<tr/>');
             tmp4 = $('<td/>', { html: prop });
+            tpm5 = $('<td/>', { html: appendObj[prop] });
             if (result.ChangeType == CHANGE_TYPE.MODIFIED){
                 tmp6 = $('<td/>', { html: result.SerializedCompare.prop });
             }
