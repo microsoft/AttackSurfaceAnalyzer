@@ -26,7 +26,8 @@ If applicable, add screenshots to help explain your problem.
 **System Configuration (please complete the following information):**
  - OS: [e.g. Windows]
  - OS Version: [e.g. Windows 10 1803]
- - Application Version [e.g. 2.0.1-beta+50af283871]
+ - Application Version: [e.g. 2.0.1-beta+50af283871]
+ - CLI or GUI:
 
-**Additional context**
+**Additional Context**
 Add any other context about the problem here.
