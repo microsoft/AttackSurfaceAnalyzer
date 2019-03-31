@@ -20,6 +20,7 @@
     <PackageReference Include="Microsoft.Data.Sqlite" Version="2.2.3" />
     <PackageReference Include="System.Management" Version="4.6.0-preview.19073.11" />
     <PackageReference Include="System.Text.RegularExpressions" Version="4.3.0" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="2.3.138" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lib\AttackSurfaceAnalyzerLib.csproj" />

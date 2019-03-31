@@ -50,6 +50,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
             CommitTimer.Enabled = false;
             while (_queue.Count > 0)
             {
+                Logger.Instance.Warn(_queue.Count);
                 FileSystemObject fso = _queue.Dequeue();
                 Write(cmd, fso);
             }
@@ -98,13 +99,12 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 
         private static readonly string SQL_INSERT = "insert into file_system (run_id, row_key, path, permissions, size, hash, serialized) values (@run_id, @row_key, @path, @permissions, @size, @hash, @serialized)";
 
-        private readonly SqliteCommand cmd = new SqliteCommand(SQL_INSERT, DatabaseManager.Connection, DatabaseManager.Transaction);
 
+        private WriteBuffer wb;
 
-
-        public void Write(SqliteCommand cmd, FileSystemObject obj)
+        public void Write(FileSystemObject obj)
         {
-            cmd.Parameters.Clear();
+            SqliteCommand cmd = new SqliteCommand(SQL_INSERT, DatabaseManager.Connection, DatabaseManager.Transaction);
             cmd.Parameters.AddWithValue("@run_id", runId);
             cmd.Parameters.AddWithValue("@row_key", obj.RowKey);
             cmd.Parameters.AddWithValue("@path", obj.Path);
@@ -188,7 +188,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
             }
             var watch = System.Diagnostics.Stopwatch.StartNew();
             // the code that you want to measure comes here
-
+            wb = new WriteBuffer(runId);
             Start();
             Truncate(runId);
             
@@ -216,7 +216,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 
             foreach (var root in this.roots)
             {
-                Logger.Instance.Warn("adding root " + root.ToString());
+                Logger.Instance.Warn("Scanning root " + root.ToString());
                 try
                 {
                     var fileInfoEnumerable = DirectoryWalker.WalkDirectory(root, this.filter);
@@ -247,9 +247,9 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                                     obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
                                 }
                             }
-                            Write(cmd,obj);
-                        }
-                        catch (Exception ex)
+                            Write(obj);
+                                                }
+                    catch (Exception ex)
                         {
                             Logger.Instance.Debug(ex, "Error processing {0}", fileInfo?.FullName);
                         }
