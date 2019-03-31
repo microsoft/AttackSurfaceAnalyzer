@@ -190,12 +190,22 @@ function GetResultTypes() {
 
 function UpdateNumResults(total, offset, requested, actual) {
     $('#CountStatus').empty();
-    $("#CountStatus").append("Showing " + (offset + 1) + " to " + (offset + actual) + " results. " + total + " total records.");
+    if (actual == 0){
+        $("#CountStatus").append("No difference detected.");
+    }
+    else{
+        $("#CountStatus").append("Showing " + (offset + 1) + " to " + (offset + actual) + " results. " + total + " total records.");
+    }
 }
 
 function UpdateMonitorNumResults(total, offset, requested, actual) {
     $('#MonitorCountStatus').empty();
-    $("#MonitorCountStatus").append("Showing " + (offset + 1) + " to " + (offset + actual) + " results. " + total + " total records.");
+    if (actual == 0){
+        $("#CountStatus").append("No difference detected.");
+    }
+    else{
+        $("#MonitorCountStatus").append("Showing " + (offset + 1) + " to " + (offset + actual) + " results. " + total + " total records.");
+    }
 }
 
 function GetResults(type, offset, number) {
