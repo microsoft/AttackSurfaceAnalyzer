@@ -261,3 +261,4 @@ __pycache__/
 *.pyc
 
 Application Insights/
+*.sqlite-journal

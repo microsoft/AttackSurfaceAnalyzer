@@ -14,6 +14,77 @@ using Newtonsoft.Json;
 
 namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 {
+
+    public class WriteBuffer{
+        private static readonly string SQL_INSERT = "insert into file_system (run_id, row_key, path, permissions, size, hash, serialized) values (@run_id, @row_key, @path, @permissions, @size, @hash, @serialized)";
+
+        private readonly Queue<FileSystemObject> _queue = new Queue<FileSystemObject>();
+        private readonly SqliteCommand cmd = new SqliteCommand(SQL_INSERT, DatabaseManager.Connection, DatabaseManager.Transaction);
+
+        string runId;
+
+        private System.Timers.Timer CommitTimer = new System.Timers.Timer
+        {
+            Interval = 100,
+            AutoReset = true,
+        };
+
+        public void Write(FileSystemObject fso)
+        {
+            _queue.Append(fso);
+        }
+
+        public WriteBuffer(string runId)
+        {
+            this.runId = runId;
+            CommitTimer.Elapsed += (source, e) => 
+            {
+                WriteUntilEmpty(); 
+            };
+            CommitTimer.Enabled = true;
+
+        }
+
+        public void WriteUntilEmpty()
+        {
+            CommitTimer.Enabled = false;
+            while (_queue.Count > 0)
+            {
+                Logger.Instance.Warn(_queue.Count);
+                FileSystemObject fso = _queue.Dequeue();
+                Write(cmd, fso);
+            }
+            CommitTimer.Enabled = true;
+        }
+
+        public void Write(SqliteCommand cmd, FileSystemObject obj)
+        {
+            cmd.Parameters.Clear();
+            cmd.Parameters.AddWithValue("@run_id", runId);
+            cmd.Parameters.AddWithValue("@row_key", obj.RowKey);
+            cmd.Parameters.AddWithValue("@path", obj.Path);
+            cmd.Parameters.AddWithValue("@permissions", obj.Permissions ?? "");
+            cmd.Parameters.AddWithValue("@size", obj.Size);
+            cmd.Parameters.AddWithValue("@hash", obj.ContentHash ?? "");
+            cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj));
+            try
+            {
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Logger.Instance.Info(e.StackTrace);
+                Logger.Instance.Info(e.Message);
+                Logger.Instance.Info(e.GetType());
+            }
+        }
+
+        public void Stop()
+        {
+            CommitTimer.Enabled = false;
+        }
+
+    }
     /// <summary>
     /// Collects Filesystem Data from the local file system.
     /// </summary>
@@ -24,40 +95,33 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 
         private bool INCLUDE_CONTENT_HASH = false;
         private static readonly string SQL_TRUNCATE = "delete from file_system where run_id=@run_id";
+
+
         private static readonly string SQL_INSERT = "insert into file_system (run_id, row_key, path, permissions, size, hash, serialized) values (@run_id, @row_key, @path, @permissions, @size, @hash, @serialized)";
 
-        private System.Timers.Timer CommitTimer = new System.Timers.Timer
+
+        private WriteBuffer wb;
+
+        public void Write(FileSystemObject obj)
         {
-            Interval = 10000,
-            AutoReset = false,
-        };
-
-
-        private List<FileSystemObject> objList = new List<FileSystemObject>();
-
-        private void WriteAndCommitResults()
-        {
-            Console.WriteLine("Begin writing.");
-            List<FileSystemObject> commitList;
-
-                Console.WriteLine("Copying list");
-                commitList = objList.ToList();
-                objList.Clear();
-                Console.WriteLine("New empty list");
-
-            foreach (FileSystemObject fso in commitList)
+            SqliteCommand cmd = new SqliteCommand(SQL_INSERT, DatabaseManager.Connection, DatabaseManager.Transaction);
+            cmd.Parameters.AddWithValue("@run_id", runId);
+            cmd.Parameters.AddWithValue("@row_key", obj.RowKey);
+            cmd.Parameters.AddWithValue("@path", obj.Path);
+            cmd.Parameters.AddWithValue("@permissions", obj.Permissions ?? "");
+            cmd.Parameters.AddWithValue("@size", obj.Size);
+            cmd.Parameters.AddWithValue("@hash", obj.ContentHash ?? "");
+            cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj));
+            try
             {
-                var cmd = new SqliteCommand(SQL_INSERT, DatabaseManager.Connection, DatabaseManager.Transaction);
-                WriteFaster(cmd, fso);
+                cmd.ExecuteNonQuery();
             }
-            DatabaseManager.Commit();
-            Console.WriteLine("End Writing");
-            CommitTimer = new System.Timers.Timer
+            catch (Exception e)
             {
-                Interval = 10000,
-                AutoReset = false,
-            };
-            CommitTimer.Enabled = true;
+                Logger.Instance.Info(e.StackTrace);
+                Logger.Instance.Info(e.Message);
+                Logger.Instance.Info(e.GetType());
+            }
         }
 
         public FileSystemCollector(string runId, Func<FileSystemInfo, bool> filter = null, bool enableHashing = false)
@@ -89,42 +153,28 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
         }
 
-        public void WriteFaster(SqliteCommand cmd, FileSystemObject obj)
-        {
-            _numCollected++;
-            cmd.Parameters.AddWithValue("@run_id", runId);
-            cmd.Parameters.AddWithValue("@row_key", obj.RowKey);
-            cmd.Parameters.AddWithValue("@path", obj.Path);
-            cmd.Parameters.AddWithValue("@permissions", obj.Permissions ?? "");
-            cmd.Parameters.AddWithValue("@size", obj.Size);
-            cmd.Parameters.AddWithValue("@hash", obj.ContentHash ?? "");
-            cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj));
-            cmd.ExecuteNonQuery();
-        }
-
-        public void Write(FileSystemObject obj)
-        {
-            try {
-                var cmd = new SqliteCommand(SQL_INSERT, DatabaseManager.Connection, DatabaseManager.Transaction);
-                cmd.Parameters.AddWithValue("@run_id", runId);
-                cmd.Parameters.AddWithValue("@row_key", obj.RowKey);
-                cmd.Parameters.AddWithValue("@path", obj.Path);
-                cmd.Parameters.AddWithValue("@permissions", obj.Permissions ?? "");
-                cmd.Parameters.AddWithValue("@size", obj.Size);
-                cmd.Parameters.AddWithValue("@hash", obj.ContentHash ?? "");
-                cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj));
-                cmd.ExecuteNonQuery();
-
-            }
-            catch (NullReferenceException e)
-            {
-                Logger.Instance.Info(e.StackTrace);
-            }
-            catch (Exception e)
-            {
-                Logger.Instance.Info(e.Message);
-            }
-        }
+        //public void WriteFaster(SqliteCommand cmd, FileSystemObject obj)
+        //{
+        //    _numCollected++;
+        //    cmd.Parameters.Clear();
+        //    cmd.Parameters.AddWithValue("@run_id", runId);
+        //    cmd.Parameters.AddWithValue("@row_key", obj.RowKey);
+        //    cmd.Parameters.AddWithValue("@path", obj.Path);
+        //    cmd.Parameters.AddWithValue("@permissions", obj.Permissions ?? "");
+        //    cmd.Parameters.AddWithValue("@size", obj.Size);
+        //    cmd.Parameters.AddWithValue("@hash", obj.ContentHash ?? "");
+        //    cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj));
+        //    try
+        //    {
+        //        cmd.ExecuteNonQuery();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Logger.Instance.Info(e.StackTrace);
+        //        Logger.Instance.Info(e.Message);
+        //        Logger.Instance.Info(e.GetType());
+        //    }
+        //}
 
         void HandleLogMessageGenerator()
         {
@@ -136,7 +186,9 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
             { 
                 return;
             }
-
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+            // the code that you want to measure comes here
+            wb = new WriteBuffer(runId);
             Start();
             Truncate(runId);
             
@@ -164,14 +216,10 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 
             foreach (var root in this.roots)
             {
-                Logger.Instance.Warn("adding root " + root.ToString());
+                Logger.Instance.Warn("Scanning root " + root.ToString());
                 try
                 {
                     var fileInfoEnumerable = DirectoryWalker.WalkDirectory(root, this.filter);
-                    // Start the timer
-                    CommitTimer.Elapsed += (source, e) => { WriteAndCommitResults(); };
-                    CommitTimer.Enabled = true;
-
                     Parallel.ForEach(fileInfoEnumerable,
                                     (fileInfo =>
                     {
@@ -199,9 +247,9 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                                     obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
                                 }
                             }
-                            objList.Add(obj);
-                        }
-                        catch (Exception ex)
+                            Write(obj);
+                                                }
+                    catch (Exception ex)
                         {
                             Logger.Instance.Debug(ex, "Error processing {0}", fileInfo?.FullName);
                         }
@@ -212,10 +260,30 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                     Logger.Instance.Debug(ex, "Error collecting file system information: {0}", ex.Message);
                 }
             }
-            //turn off commit timer
-            CommitTimer.Enabled = false;
-            DatabaseManager.Commit();
+
             Stop();
+
+            watch.Stop();
+            TimeSpan t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
+            string answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+                                    t.Hours,
+                                    t.Minutes,
+                                    t.Seconds,
+                                    t.Milliseconds);
+            Logger.Instance.Info("Completed FileSystemCollector in " + answer);
+            Logger.Instance.Info("Flushing data");
+            watch = System.Diagnostics.Stopwatch.StartNew();
+
+            DatabaseManager.Commit();
+
+            watch.Stop();
+            t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
+            answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+                                    t.Hours,
+                                    t.Minutes,
+                                    t.Seconds,
+                                    t.Milliseconds);
+            Logger.Instance.Info("Flush completed in " + answer);
         }
     }
 }

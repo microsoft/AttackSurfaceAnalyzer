@@ -1,14 +1,26 @@
 .DEFAULT_GOAL := debug
 
 DOTNET = dotnet
-RUNTIME = linux-x64
 TARGET = netcoreapp2.2
-PACKER = ../Tools/linux-x64.warp-packer
 EXEC_NAME = AttackSurfaceAnalyzerCli
-PUBLISH_DIR = bin/Release/$(TARGET)/$(RUNTIME)/publish/
 NBGV_DIR = ../Tools
 VERSION := $(shell $(NBGV_DIR)/nbgv get-version -v AssemblyInformationalVersion)
-FULL_EXEC_PATH = bin/$(EXEC_NAME)-linux-$(VERSION)
+UNAME_S := $(shell uname -s)
+
+ifeq ($(UNAME_S),Linux)
+	RUNTIME = linux-x64
+	ALT_RUNTIME = linux-x64
+	PACKER = ../Tools/linux-x64.warp-packer
+	FULL_EXEC_PATH = bin/$(EXEC_NAME)-linux-$(VERSION)
+endif
+ifeq ($(UNAME_S),Darwin)
+	RUNTIME = osx-x64
+	ALT_RUNTIME = macos-x64
+	PACKER = ../Tools/macos-x64.warp-packer
+	FULL_EXEC_PATH = bin/$(EXEC_NAME)-macos-$(VERSION)
+
+endif
+PUBLISH_DIR = bin/Release/$(TARGET)/$(RUNTIME)/publish/
 
 prerequisites:
 	$(info Checking for nbgv, installing if required.)
@@ -37,6 +49,6 @@ build_release:
 	$(info Detected version as $(VERSION))
 
 	$(DOTNET) publish -c Release -r $(RUNTIME) --self-contained true
-	$(PACKER) --arch $(RUNTIME) --input_dir $(PUBLISH_DIR) --exec $(EXEC_NAME) --output $(FULL_EXEC_PATH)
+	$(PACKER) --arch $(ALT_RUNTIME) --input_dir $(PUBLISH_DIR) --exec $(EXEC_NAME) --output $(FULL_EXEC_PATH)
 	chmod +x $(FULL_EXEC_PATH)
 	$(info Release build completed, result is located at $(FULL_EXEC_PATH))

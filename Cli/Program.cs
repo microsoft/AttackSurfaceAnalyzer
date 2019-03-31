@@ -17,6 +17,7 @@ using Microsoft.Data.Sqlite;
 using RazorLight;
 using AttackSurfaceAnalyzer.ObjectTypes;
 using Newtonsoft.Json;
+using System.Reflection;
 
 namespace AttackSurfaceAnalyzer.Cli
 {
@@ -185,6 +186,9 @@ namespace AttackSurfaceAnalyzer.Cli
                     Environment.Exit(1);
                 }
             }
+
+            Version version = Assembly.GetEntryAssembly().GetName().Version;
+            Logger.Instance.Info("AttackSurfaceAnalyzerCli v." + version);
 
             var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, CompareCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions>(args)
                 .MapResult(
