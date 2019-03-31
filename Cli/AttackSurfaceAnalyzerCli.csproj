@@ -22,9 +22,15 @@
     <PackageReference Include="System.Management" Version="4.6.0-preview.19073.11" />
     <PackageReference Include="System.Text.RegularExpressions" Version="4.3.0" />
     <PackageReference Include="Nerdbank.GitVersioning" Version="2.3.138" />
+    <PackageReference Include="NLog" Version="4.6.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lib\AttackSurfaceAnalyzerLib.csproj" />
     <Content Include="Output\Output.cshtml" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="nlog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>
