@@ -707,6 +707,8 @@ function InsertIntoPortTable(result) {
     });
     caretContainer.append(caret);
     arrowTD.append(caretContainer);
+
+    tmp.append(arrowTD);
     tmp.append($('<td/>', {
         scope: "col",
         html: ChangeTypeToString(result.ChangeType)
