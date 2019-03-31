@@ -162,6 +162,13 @@ namespace AttackSurfaceAnalyzer.Cli
 
         static void Main(string[] args)
         {
+
+            string version = (Assembly
+                        .GetEntryAssembly()
+                        .GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false)
+                        as AssemblyInformationalVersionAttribute[])[0].InformationalVersion;
+            Logger.Instance.Info("AttackSurfaceAnalyzerCli v." + version);
+
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 if (!Elevation.IsAdministrator())
@@ -187,8 +194,6 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
             }
 
-            Version version = Assembly.GetEntryAssembly().GetName().Version;
-            Logger.Instance.Info("AttackSurfaceAnalyzerCli v." + version);
 
             var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, CompareCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions>(args)
                 .MapResult(

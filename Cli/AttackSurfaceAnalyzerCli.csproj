@@ -6,6 +6,7 @@
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
     <PreserveCompilationContext>true</PreserveCompilationContext>
 
+    <ReleaseVersion>2.0.0.0-pre-alpha</ReleaseVersion>
   </PropertyGroup>
 
 <PropertyGroup>
