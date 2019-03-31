@@ -56,9 +56,9 @@ If you have feedback on these or other features, please
 
 ## Installation
 
-Attack Surface Analzyer runs on Windows, Linux, and MacOS, and is built using [.NET Core](https://dotnet.microsoft.com/). It has both a command-line interface and [ElectronNET](https://github.com/ElectronNET/Electron.NET) GUI option available. There is no installer, but the command-line version is packaged as a [Warp Package](https://github.com/dgiagio/warp), and may take a few seconds to extract on first use.
+Attack Surface Analzyer runs on Windows, Linux, and MacOS, and is built using [.NET Core](https://dotnet.microsoft.com/). It has both a command-line interface and [ElectronNET](https://github.com/ElectronNET/Electron.NET) GUI option available. Neither version currently has an installer.
 
-Packages are available on our [releases](https://github.com/Microsoft/AttackSurfaceAnalyzer/releases) page. The GUI is distributed as a compressed archive. The CLI is available both as a compressed archive and as a [Warp Package](https://github.com/dgiagio/warp) single executable.
+Packages are available on our [releases](https://github.com/Microsoft/AttackSurfaceAnalyzer/releases) page as compressed archives.
 
 ## Building
 
