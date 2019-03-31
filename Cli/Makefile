@@ -6,6 +6,7 @@ EXEC_NAME = AttackSurfaceAnalyzerCli
 NBGV_DIR = ../Tools
 VERSION := $(shell $(NBGV_DIR)/nbgv get-version -v AssemblyInformationalVersion)
 UNAME_S := $(shell uname -s)
+PUBLISH_PATH = bin/AttackSurfaceAnalyzerCli-
 
 ifeq ($(OS),Windows_NT)
 	RUNTIME = win10-x64
@@ -25,7 +26,6 @@ endif
 prerequisites:
 	$(info Checking for nbgv, installing if required.)
 	@which $(NBGV_DIR)/nbgv || dotnet tool install --tool-path $(NBGV_DIR)/ nbgv
-	PUBLISH_DIR = bin/AttackSurfaceAnalyzerCli-$(ALT_RUNTIME)-$(VERSION)
 	$(info Setting publish directory $(PUBLISH_DIR))
 
 debug: prerequisites clean restore build_debug
@@ -64,7 +64,7 @@ build_debug:
 
 build_release:
 	$(info Building $(RUNTIME) release at $(VERSION))
-	$(DOTNET) publish -c Release -r $(RUNTIME) --self-contained true --output $(PUBLISH_DIR)
+	$(DOTNET) publish -c Release -r $(RUNTIME) --self-contained true --output $(PUBLISH_PATH)-$(ALT_RUNTIME)-$(VERSION)
 	$(info Release build completed)
 
 azure:
