@@ -859,7 +859,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             return 0;
         }
-        public static bool AdminOrQuit()
+        public static void AdminOrQuit()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
