@@ -48,10 +48,10 @@ namespace AttackSurfaceAnalyzer.Cli
         [Option(Required = false, HelpText = "Name of output database (default: asa.sqlite)", Default = "asa.sqlite")]
         public string DatabaseFilename { get; set; }
 
-        [Option(Required = false, HelpText = "First run (pre-install) identifier")]
+        [Option(Required = true, HelpText = "First run (pre-install) identifier")]
         public string FirstRunId { get; set; }
 
-        [Option(Required = false, HelpText = "Second run (post-install) identifier")]
+        [Option(Required = true, HelpText = "Second run (post-install) identifier")]
         public string SecondRunId { get; set; }
 
         [Option(Required = false, HelpText = "Directory to output to (default: .)", Default = ".")]
@@ -68,7 +68,7 @@ namespace AttackSurfaceAnalyzer.Cli
         [Option(Required = false, HelpText = "Name of output database (default: asa.sqlite)", Default = "asa.sqlite")]
         public string DatabaseFilename { get; set; }
 
-        [Option(Required = false, HelpText = "Monitor run identifier")]
+        [Option(Required = true, HelpText = "Monitor run identifier")]
         public string MonitorRunId { get; set; }
 
         [Option(Required = false, HelpText = "Directory to output to (default: .)", Default = ".")]
