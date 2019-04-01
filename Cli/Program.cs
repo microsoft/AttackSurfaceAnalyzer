@@ -185,13 +185,14 @@ namespace AttackSurfaceAnalyzer.Cli
 
         private static int RunExportCollectCommand(ExportCollectCommandOptions opts)
         {
+            DatabaseManager._ReadOnly = true;
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
             bool RunComparisons = true;
 
             string SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED = "select * from results where base_run_id=@base_run_id and compare_run_id=@compare_run_id";
 
-            var cmd = new SqliteCommand(SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED, DatabaseManager.Connection, DatabaseManager.Transaction);
+            var cmd = new SqliteCommand(SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED, DatabaseManager.Connection);
             cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
             cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
             using (var reader = cmd.ExecuteReader())
@@ -239,7 +240,7 @@ namespace AttackSurfaceAnalyzer.Cli
             foreach (RESULT_TYPE ExportType in ToExport)
             {
                 List<CompareResult> records = new List<CompareResult>();
-                var cmd = new SqliteCommand(GET_COMPARISON_RESULTS, DatabaseManager.Connection, DatabaseManager.Transaction);
+                var cmd = new SqliteCommand(GET_COMPARISON_RESULTS, DatabaseManager.Connection);
                 cmd.Parameters.AddWithValue("@base_run_id", BaseId);
                 cmd.Parameters.AddWithValue("@compare_run_id", CompareId);
                 cmd.Parameters.AddWithValue("@data_type", ExportType);
@@ -253,7 +254,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
                         if (ChangeType == CHANGE_TYPE.CREATED || ChangeType == CHANGE_TYPE.MODIFIED)
                         {
-                            var inner_cmd = new SqliteCommand(GET_SERIALIZED_RESULTS.Replace("@table_name", ResultTypeToTableName(ExportType)), DatabaseManager.Connection, DatabaseManager.Transaction);
+                            var inner_cmd = new SqliteCommand(GET_SERIALIZED_RESULTS.Replace("@table_name", ResultTypeToTableName(ExportType)), DatabaseManager.Connection);
                             inner_cmd.Parameters.AddWithValue("@run_id", reader["compare_run_id"].ToString());
                             inner_cmd.Parameters.AddWithValue("@row_key", reader["compare_row_key"].ToString());
                             using (var inner_reader = inner_cmd.ExecuteReader())
@@ -266,7 +267,7 @@ namespace AttackSurfaceAnalyzer.Cli
                         }
                         if (ChangeType == CHANGE_TYPE.DELETED || ChangeType == CHANGE_TYPE.MODIFIED)
                         {
-                            var inner_cmd = new SqliteCommand(GET_SERIALIZED_RESULTS.Replace("@table_name", ResultTypeToTableName(ExportType)), DatabaseManager.Connection, DatabaseManager.Transaction);
+                            var inner_cmd = new SqliteCommand(GET_SERIALIZED_RESULTS.Replace("@table_name", ResultTypeToTableName(ExportType)), DatabaseManager.Connection);
                             inner_cmd.Parameters.AddWithValue("@run_id", reader["base_run_id"].ToString());
                             inner_cmd.Parameters.AddWithValue("@row_key", reader["base_row_key"].ToString());
                             using (var inner_reader = inner_cmd.ExecuteReader())
@@ -383,7 +384,7 @@ namespace AttackSurfaceAnalyzer.Cli
             string GET_SERIALIZED_RESULTS = "select change_type,serialized from file_system_monitored where run_id = @run_id";
 
 
-            var cmd = new SqliteCommand(GET_SERIALIZED_RESULTS, DatabaseManager.Connection, DatabaseManager.Transaction);
+            var cmd = new SqliteCommand(GET_SERIALIZED_RESULTS, DatabaseManager.Connection);
             cmd.Parameters.AddWithValue("@run_id", RunId);
             using (var reader = cmd.ExecuteReader())
             {
@@ -440,7 +441,7 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
-            var cmd = new SqliteCommand(SQL_GET_RUN, DatabaseManager.Connection, DatabaseManager.Transaction);
+            var cmd = new SqliteCommand(SQL_GET_RUN, DatabaseManager.Connection);
             cmd.Parameters.AddWithValue("@run_id", opts.RunId);
             using (var reader = cmd.ExecuteReader())
             {
@@ -633,7 +634,7 @@ namespace AttackSurfaceAnalyzer.Cli
         {
             string GET_SERIALIZED_RESULTS = "select * from runs where run_id = @run_id or run_id=@run_id_2";
             int count = 0;
-            var cmd = new SqliteCommand(GET_SERIALIZED_RESULTS, DatabaseManager.Connection, DatabaseManager.Transaction);
+            var cmd = new SqliteCommand(GET_SERIALIZED_RESULTS, DatabaseManager.Connection);
             cmd.Parameters.AddWithValue("@run_id", BaseRunId);
             cmd.Parameters.AddWithValue("@run_id", CompareRunId);
             using (var reader = cmd.ExecuteReader())
@@ -659,7 +660,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             comparators = new List<BaseCompare>();
 
-            var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES, DatabaseManager.Connection, DatabaseManager.Transaction);
+            var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES, DatabaseManager.Connection);
             cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
             cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
 
@@ -850,7 +851,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             int returnValue = (int)ERRORS.NONE;
 
-            var cmd = new SqliteCommand(SQL_GET_RUN, DatabaseManager.Connection, DatabaseManager.Transaction);
+            var cmd = new SqliteCommand(SQL_GET_RUN, DatabaseManager.Connection);
             cmd.Parameters.AddWithValue("@run_id", opts.RunId);
             using (var reader = cmd.ExecuteReader())
             {
