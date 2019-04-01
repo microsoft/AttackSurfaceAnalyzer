@@ -27,22 +27,22 @@ namespace AttackSurfaceAnalyzer.Utils
             var config = new LoggingConfiguration();
 
             // Step 2. Create targets
-            var consoleTarget = new ColoredConsoleTarget("target1")
+            var consoleTarget = new ColoredConsoleTarget("console")
             {
                 Layout = @"${date:format=HH\:mm\:ss} ${level} ${message} ${exception}"
             };
             config.AddTarget(consoleTarget);
 
-            var fileTarget = new FileTarget("target2")
+            var fileTarget = new FileTarget("debug")
             {
-                FileName = "${basedir}/file.txt",
+                FileName = "asa.debug.log",
                 Layout = "${longdate} ${level} ${message}  ${exception}"
             };
             config.AddTarget(fileTarget);
 
             if (debug)
             {
-                config.AddRuleForOneLevel(LogLevel.Debug, fileTarget); // only errors to file
+                config.AddRuleForOneLevel(LogLevel.Debug, fileTarget); 
                 config.AddRuleForOneLevel(LogLevel.Warn, consoleTarget);
                 config.AddRuleForOneLevel(LogLevel.Error, consoleTarget);
                 config.AddRuleForOneLevel(LogLevel.Fatal, consoleTarget);
@@ -50,7 +50,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
             if (verbose)
             {
-                config.AddRuleForAllLevels(consoleTarget); // all to console
+                config.AddRuleForAllLevels(consoleTarget);
             }
             else
             {
