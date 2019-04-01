@@ -39,8 +39,5 @@ namespace AttackSurfaceAnalyzer.Utils
             return fileVersionInfo.ProductVersion;
 
         }
-
     }
-
-
 }
