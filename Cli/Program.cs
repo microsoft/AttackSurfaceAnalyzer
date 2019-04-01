@@ -49,10 +49,10 @@ namespace AttackSurfaceAnalyzer.Cli
         [Option(Required = false, HelpText = "Name of output database (default: asa.sqlite)", Default = "asa.sqlite")]
         public string DatabaseFilename { get; set; }
 
-        [Option(Required = false, HelpText = "First run (pre-install) identifier")]
+        [Option(Required = true, HelpText = "First run (pre-install) identifier")]
         public string FirstRunId { get; set; }
 
-        [Option(Required = false, HelpText = "Second run (post-install) identifier")]
+        [Option(Required = true, HelpText = "Second run (post-install) identifier")]
         public string SecondRunId { get; set; }
 
         [Option(Required = false, HelpText = "Directory to output to (default: .)", Default = ".")]
@@ -69,8 +69,8 @@ namespace AttackSurfaceAnalyzer.Cli
         [Option(Required = false, HelpText = "Name of output database (default: asa.sqlite)", Default = "asa.sqlite")]
         public string DatabaseFilename { get; set; }
 
-        [Option(Required = false, HelpText = "Monitor run identifier")]
-        public string MonitorRunId { get; set; }
+        [Option(Required = true, HelpText = "Monitor run identifier")]
+        public string RunId { get; set; }
 
         [Option(Required = false, HelpText = "Directory to output to (default: .)", Default = ".")]
         public string OutputPath { get; set; }
@@ -132,7 +132,7 @@ namespace AttackSurfaceAnalyzer.Cli
         [Option('d', "directories", Required = false, HelpText = "Comma-separated list of directories to monitor.")]
         public string MonitoredDirectories { get; set; }
 
-        [Option('i', "interrogate-file-changes", Required = false, HelpText = "On a file create or change gather the post-change file size and security attributes")]
+        [Option('i', "interrogate-file-changes", Required = false, HelpText = "On a file create or change gather the post-change file size and security attributes (Linux/Mac only)")]
         public bool InterrogateChanges { get; set; }
 
         //[Option('r', "registry", Required = false, HelpText = "Monitor the registry for changes. (Windows Only)")]
@@ -145,7 +145,19 @@ namespace AttackSurfaceAnalyzer.Cli
         // Omitting long name, defaults to name of property, ie "--verbose"
         [Option(Default = false, HelpText = "Increase logging verbosity")]
         public bool Verbose { get; set; }
+    }
 
+    [Verb("list", HelpText = "List runs in the database")]
+    public class ListCommandOptions
+    {
+        [Option(Required = false, HelpText = "Name of output database (default: asa.sqlite)", Default = "asa.sqlite")]
+        public string DatabaseFilename { get; set; }
+
+        [Option('m', "monitor", Required = false, HelpText = "List monitor runs")]
+        public bool ListMonitorRuns { get; set; }
+
+        [Option('c', "collect", Required = false, HelpText = "List collection runs")]
+        public bool ListCollectRuns { get; set; }
     }
 
     public static class AttackSurfaceAnalyzerCLI
@@ -160,7 +172,6 @@ namespace AttackSurfaceAnalyzer.Cli
         private static readonly string SQL_GET_RUN = "select run_id from runs where run_id=@run_id";
 
 
-
         static void Main(string[] args)
         {
             Logger.Setup();
@@ -169,44 +180,53 @@ namespace AttackSurfaceAnalyzer.Cli
                         .GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false)
                         as AssemblyInformationalVersionAttribute[])[0].InformationalVersion;
             Logger.Instance.Info("AttackSurfaceAnalyzerCli v." + version);
+            Logger.Instance.Debug(version);
 
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                if (!Elevation.IsAdministrator())
-                {
-                    Logger.Instance.Warn("Attack Surface Enumerator must be run as Administrator.");
-                    Environment.Exit(1);
-                }
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                if (!Elevation.IsRunningAsRoot())
-                {
-                    Logger.Instance.Fatal("Attack Surface Enumerator must be run as root.");
-                    Environment.Exit(1);
-                }
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                if (!Elevation.IsRunningAsRoot())
-                {
-                    Logger.Instance.Fatal("Attack Surface Enumerator must be run as root.");
-                    Environment.Exit(1);
-                }
-            }
-
-
-            var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, CompareCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions>(args)
+            var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, CompareCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions, ListCommandOptions>(args)
                 .MapResult(
                     (CollectCommandOptions opts) => RunCollectCommand(opts),
                     (CompareCommandOptions opts) => RunCompareCommand(opts),
                     (MonitorCommandOptions opts) => RunMonitorCommand(opts),
                     (ExportCollectCommandOptions opts) => RunExportCollectCommand(opts),
                     (ExportMonitorCommandOptions opts) => RunExportMonitorCommand(opts),
+                    (ListCommandOptions opts) => ListRuns(opts),
                     errs => 1
                 );
 
             Logger.Instance.Info("Attack Surface Analyzer Complete.");
+        }
+
+        private static int ListRuns(ListCommandOptions opts)
+        {
+            DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+
+            if (!opts.ListCollectRuns && !opts.ListMonitorRuns)
+            {
+                opts.ListCollectRuns = true;
+                opts.ListMonitorRuns = true;
+            }
+            if (opts.ListCollectRuns)
+            {
+                Logger.Instance.Info("Begin Collect Run Ids");
+                List<string> CollectRuns = GetRuns("collect");
+                foreach (string RunId in CollectRuns)
+                {
+                    Logger.Instance.Info(RunId);
+                }
+                Logger.Instance.Info("End Collect Run Ids");
+            }
+            if (opts.ListMonitorRuns)
+            {
+                Logger.Instance.Info("Begin Monitor Run Ids");
+                List<string> MonitorRuns = GetRuns("monitor");
+                foreach (string RunId in MonitorRuns)
+                {
+                    Logger.Instance.Info(RunId);
+                }
+                Logger.Instance.Info("End Monitor Run Ids");
+            }
+
+            return 0;
         }
 
         private static int RunExportCollectCommand(ExportCollectCommandOptions opts)
@@ -223,7 +243,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             string SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED = "select * from results where base_run_id=@base_run_id and compare_run_id=@compare_run_id";
 
-            var cmd = new SqliteCommand(SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED, DatabaseManager.Connection, DatabaseManager.Transaction);
+            var cmd = new SqliteCommand(SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED, DatabaseManager.Connection);
             cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
             cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
             using (var reader = cmd.ExecuteReader())
@@ -271,7 +291,7 @@ namespace AttackSurfaceAnalyzer.Cli
             foreach (RESULT_TYPE ExportType in ToExport)
             {
                 List<CompareResult> records = new List<CompareResult>();
-                var cmd = new SqliteCommand(GET_COMPARISON_RESULTS, DatabaseManager.Connection, DatabaseManager.Transaction);
+                var cmd = new SqliteCommand(GET_COMPARISON_RESULTS, DatabaseManager.Connection);
                 cmd.Parameters.AddWithValue("@base_run_id", BaseId);
                 cmd.Parameters.AddWithValue("@compare_run_id", CompareId);
                 cmd.Parameters.AddWithValue("@data_type", ExportType);
@@ -285,7 +305,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
                         if (ChangeType == CHANGE_TYPE.CREATED || ChangeType == CHANGE_TYPE.MODIFIED)
                         {
-                            var inner_cmd = new SqliteCommand(GET_SERIALIZED_RESULTS.Replace("@table_name", ResultTypeToTableName(ExportType)), DatabaseManager.Connection, DatabaseManager.Transaction);
+                            var inner_cmd = new SqliteCommand(GET_SERIALIZED_RESULTS.Replace("@table_name", ResultTypeToTableName(ExportType)), DatabaseManager.Connection);
                             inner_cmd.Parameters.AddWithValue("@run_id", reader["compare_run_id"].ToString());
                             inner_cmd.Parameters.AddWithValue("@row_key", reader["compare_row_key"].ToString());
                             using (var inner_reader = inner_cmd.ExecuteReader())
@@ -298,7 +318,7 @@ namespace AttackSurfaceAnalyzer.Cli
                         }
                         if (ChangeType == CHANGE_TYPE.DELETED || ChangeType == CHANGE_TYPE.MODIFIED)
                         {
-                            var inner_cmd = new SqliteCommand(GET_SERIALIZED_RESULTS.Replace("@table_name", ResultTypeToTableName(ExportType)), DatabaseManager.Connection, DatabaseManager.Transaction);
+                            var inner_cmd = new SqliteCommand(GET_SERIALIZED_RESULTS.Replace("@table_name", ResultTypeToTableName(ExportType)), DatabaseManager.Connection);
                             inner_cmd.Parameters.AddWithValue("@run_id", reader["base_run_id"].ToString());
                             inner_cmd.Parameters.AddWithValue("@row_key", reader["base_row_key"].ToString());
                             using (var inner_reader = inner_cmd.ExecuteReader())
@@ -410,7 +430,7 @@ namespace AttackSurfaceAnalyzer.Cli
 #endif
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
-            WriteMonitorJson(opts.MonitorRunId, (int)RESULT_TYPE.FILE, opts.OutputPath);
+            WriteMonitorJson(opts.RunId, (int)RESULT_TYPE.FILE, opts.OutputPath);
             return 0;
         }
 
@@ -420,7 +440,7 @@ namespace AttackSurfaceAnalyzer.Cli
             string GET_SERIALIZED_RESULTS = "select change_type,serialized from file_system_monitored where run_id = @run_id";
 
 
-            var cmd = new SqliteCommand(GET_SERIALIZED_RESULTS, DatabaseManager.Connection, DatabaseManager.Transaction);
+            var cmd = new SqliteCommand(GET_SERIALIZED_RESULTS, DatabaseManager.Connection);
             cmd.Parameters.AddWithValue("@run_id", RunId);
             using (var reader = cmd.ExecuteReader())
             {
@@ -456,9 +476,34 @@ namespace AttackSurfaceAnalyzer.Cli
 #else
             Logger.Setup(false, opts.Verbose);
 #endif
+                      if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                if (!Elevation.IsAdministrator())
+                {
+                    Logger.Instance.Warn("Attack Surface Enumerator must be run as Administrator.");
+                    Environment.Exit(1);
+                }
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                if (!Elevation.IsRunningAsRoot())
+                {
+                    Logger.Instance.Fatal("Attack Surface Enumerator must be run as root.");
+                    Environment.Exit(1);
+                }
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                if (!Elevation.IsRunningAsRoot())
+                {
+                    Logger.Instance.Fatal("Attack Surface Enumerator must be run as root.");
+                    Environment.Exit(1);
+                }
+            }
+
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
-            var cmd = new SqliteCommand(SQL_GET_RUN, DatabaseManager.Connection, DatabaseManager.Transaction);
+            var cmd = new SqliteCommand(SQL_GET_RUN, DatabaseManager.Connection);
             cmd.Parameters.AddWithValue("@run_id", opts.RunId);
             using (var reader = cmd.ExecuteReader())
             {
@@ -651,7 +696,7 @@ namespace AttackSurfaceAnalyzer.Cli
         {
             string GET_SERIALIZED_RESULTS = "select * from runs where run_id = @run_id or run_id=@run_id_2";
             int count = 0;
-            var cmd = new SqliteCommand(GET_SERIALIZED_RESULTS, DatabaseManager.Connection, DatabaseManager.Transaction);
+            var cmd = new SqliteCommand(GET_SERIALIZED_RESULTS, DatabaseManager.Connection);
             cmd.Parameters.AddWithValue("@run_id", BaseRunId);
             cmd.Parameters.AddWithValue("@run_id", CompareRunId);
             using (var reader = cmd.ExecuteReader())
@@ -677,7 +722,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             comparators = new List<BaseCompare>();
 
-            var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES, DatabaseManager.Connection, DatabaseManager.Transaction);
+            var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES, DatabaseManager.Connection);
             cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
             cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
 
@@ -845,11 +890,36 @@ namespace AttackSurfaceAnalyzer.Cli
 #else
             Logger.Setup(false, opts.Verbose);
 #endif
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                if (!Elevation.IsAdministrator())
+                {
+                    Logger.Instance.Warn("Attack Surface Enumerator must be run as Administrator.");
+                    Environment.Exit(1);
+                }
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                if (!Elevation.IsRunningAsRoot())
+                {
+                    Logger.Instance.Fatal("Attack Surface Enumerator must be run as root.");
+                    Environment.Exit(1);
+                }
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                if (!Elevation.IsRunningAsRoot())
+                {
+                    Logger.Instance.Fatal("Attack Surface Enumerator must be run as root.");
+                    Environment.Exit(1);
+                }
+            }
+
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
             int returnValue = (int)ERRORS.NONE;
 
-            var cmd = new SqliteCommand(SQL_GET_RUN, DatabaseManager.Connection, DatabaseManager.Transaction);
+            var cmd = new SqliteCommand(SQL_GET_RUN, DatabaseManager.Connection);
             cmd.Parameters.AddWithValue("@run_id", opts.RunId);
             using (var reader = cmd.ExecuteReader())
             {
@@ -951,13 +1021,19 @@ namespace AttackSurfaceAnalyzer.Cli
             return returnValue;
         }
 
-        public static List<string> GetRuns()
+        public static List<string> GetMonitorRuns()
         {
-            string Select_Runs = "select distinct run_id from runs;";
+            return GetRuns("monitor");
+        }
+
+        public static List<string> GetRuns(string type)
+        {
+            string Select_Runs = "select distinct run_id from runs where type=@type;";
 
             List<string> Runs = new List<string>();
 
-            var cmd = new SqliteCommand(Select_Runs, DatabaseManager.Connection);
+            var cmd = new SqliteCommand(Select_Runs, DatabaseManager.Connection, DatabaseManager.Transaction);
+            cmd.Parameters.AddWithValue("@type", type);
             using (var reader = cmd.ExecuteReader())
             {
                 while (reader.Read())
@@ -965,8 +1041,12 @@ namespace AttackSurfaceAnalyzer.Cli
                     Runs.Add((string)reader["run_id"]);
                 }
             }
-
             return Runs;
+        }
+
+        public static List<string> GetRuns()
+        {
+            return GetRuns("collect");
         }
 
         public static void ClearCollectors()

@@ -35,6 +35,7 @@ namespace AttackSurfaceAnalyzer.Utils
         private static readonly string SQL_CREATE_DEFAULT_SETTINGS = "insert or ignore into persisted_settings (setting, value) values ('telemetry_opt_out','false')";
 
         public static SqliteConnection Connection;
+        public static SqliteConnection ReadOnlyConnection;
 
         private static SqliteTransaction _transaction;
 
@@ -109,18 +110,6 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
                 return _transaction;
             }
-            // This setter is unused
-            private set
-            {
-                try
-                {
-                    _transaction = value;
-                }
-                catch (Exception)
-                {
-                    // @TODO: How should we handle a failure here, could this even fail?
-                }
-            }
         }
 
         public static void Commit()
@@ -134,6 +123,8 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private static string _SqliteFilename = "asa.sqlite";
 
+        public static bool _ReadOnly;
+
         public static string SqliteFilename
         {
             get
@@ -144,10 +135,21 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 try
                 {
-                    if (Connection != null)
+                    if (_ReadOnly)
                     {
-                        CloseDatabase();
+                        if (ReadOnlyConnection != null)
+                        {
+                            CloseDatabase();
+                        }
                     }
+                    else
+                    {
+                        if (Connection != null)
+                        {
+                            CloseDatabase();
+                        }
+                    }
+
                 }
                 catch (Exception)
                 {
@@ -156,17 +158,30 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 try
                 {
-                    // @TODO: Why doesn't passing the filename in work with the Electron path?
-                    // It is hardcoded for now so that it works for testing.
-                    // Connection = new SqliteConnection($"Filename="+value);
                     _SqliteFilename = value;
-                    Setup();
+                    //This doesn't work?
+                    //_ReadOnly ? SetupReadOnly() : Setup();
+                    if (_ReadOnly)
+                    {
+                        SetupReadOnly();
+                    }
+                    else
+                    {
+                        Setup();
+                    }
+
                 }
                 catch (Exception ex)
                 {
                     Logger.Instance.Warn(ex, "Unable to open SQLite connection to {0}: {1}", value, ex.Message);
                 }
             }
+        }
+
+        private static void SetupReadOnly()
+        {
+            Connection = new SqliteConnection($"Filename=" + _SqliteFilename);
+            Connection.Open();
         }
 
         static void CloseDatabase()
