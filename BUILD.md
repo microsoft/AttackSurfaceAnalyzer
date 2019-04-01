@@ -3,7 +3,7 @@
 ## Pre-requisites
 
 ### CLI + GUI:
-- .NET Core 2.1.9 SDK
+- .NET Core 2.2.3 SDK
 - Latest Visual Studio 2017
 - GitVersioning
 
@@ -25,25 +25,27 @@ Run these commands in the CLI directory.
 
 #### Building a Debug version
 
+Windows
 ```
+dotnet clean
 dotnet build
+```
+
+Linux/Mac
+```
+make
 ```
 
 #### Building a Release version
 
 Windows
 ```
-.\build.ps1 -release Release
+dotnet publish -c Release -r win10-x64
 ```
 
-Linux
+Linux/Mac
 ```
-sh build-linux.sh -r Release
-```
-
-Mac
-```
-sh build-mac.sh -r Release
+make release
 ```
 
 ### GUI
