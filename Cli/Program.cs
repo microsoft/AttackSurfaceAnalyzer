@@ -144,7 +144,19 @@ namespace AttackSurfaceAnalyzer.Cli
         // Omitting long name, defaults to name of property, ie "--verbose"
         [Option(Default = false, HelpText = "Increase logging verbosity")]
         public bool Verbose { get; set; }
+    }
 
+    [Verb("list", HelpText = "List runs in the database")]
+    public class ListCommandOptions
+    {
+        [Option(Required = false, HelpText = "Name of output database (default: asa.sqlite)", Default = "asa.sqlite")]
+        public string DatabaseFilename { get; set; }
+
+        [Option('m', "monitor", Required = false, HelpText = "List monitor runs")]
+        public bool ListMonitorRuns { get; set; }
+
+        [Option('c', "collect", Required = false, HelpText = "List collection runs")]
+        public bool ListCollectRuns { get; set; }
     }
 
     public static class AttackSurfaceAnalyzerCLI
@@ -159,7 +171,6 @@ namespace AttackSurfaceAnalyzer.Cli
         private static readonly string SQL_GET_RUN = "select run_id from runs where run_id=@run_id";
 
 
-
         static void Main(string[] args)
         {
 
@@ -170,22 +181,50 @@ namespace AttackSurfaceAnalyzer.Cli
             Logger.Instance.Info("AttackSurfaceAnalyzerCli v." + version);
             Logger.Instance.Debug(version);
 
-            var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, CompareCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions>(args)
+            var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, CompareCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions, ListCommandOptions>(args)
                 .MapResult(
                     (CollectCommandOptions opts) => RunCollectCommand(opts),
                     (CompareCommandOptions opts) => RunCompareCommand(opts),
                     (MonitorCommandOptions opts) => RunMonitorCommand(opts),
                     (ExportCollectCommandOptions opts) => RunExportCollectCommand(opts),
                     (ExportMonitorCommandOptions opts) => RunExportMonitorCommand(opts),
+                    (ListCommandOptions opts) => ListRuns(opts),
                     errs => 1
                 );
 
             Logger.Instance.Info("Attack Surface Analyzer Complete.");
         }
 
+        private static int ListRuns(ListCommandOptions opts)
+        {
+            DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+
+            if (opts.ListCollectRuns)
+            {
+                Logger.Instance.Info("Begin Collect Run Ids");
+                List<string> CollectRuns = GetRuns("collect");
+                foreach (string RunId in CollectRuns)
+                {
+                    Logger.Instance.Info(RunId);
+                }
+                Logger.Instance.Info("End Collect Run Ids");
+            }
+            if (opts.ListMonitorRuns)
+            {
+                Logger.Instance.Info("Begin Monitor Run Ids");
+                List<string> MonitorRuns = GetRuns("monitor");
+                foreach (string RunId in MonitorRuns)
+                {
+                    Logger.Instance.Info(RunId);
+                }
+                Logger.Instance.Info("End Monitor Run Ids");
+            }
+
+            return 0;
+        }
+
         private static int RunExportCollectCommand(ExportCollectCommandOptions opts)
         {
-            DatabaseManager._ReadOnly = true;
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
             bool RunComparisons = true;
@@ -372,7 +411,6 @@ namespace AttackSurfaceAnalyzer.Cli
 
         private static int RunExportMonitorCommand(ExportMonitorCommandOptions opts)
         {
-            DatabaseManager._ReadOnly = true;
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
             WriteMonitorJson(opts.RunId, (int)RESULT_TYPE.FILE, opts.OutputPath);
@@ -954,13 +992,19 @@ namespace AttackSurfaceAnalyzer.Cli
             return returnValue;
         }
 
-        public static List<string> GetRuns()
+        public static List<string> GetMonitorRuns()
         {
-            string Select_Runs = "select distinct run_id from runs;";
+            return GetRuns("monitor");
+        }
+
+        public static List<string> GetRuns(string type)
+        {
+            string Select_Runs = "select distinct run_id from runs where type=@type;";
 
             List<string> Runs = new List<string>();
 
-            var cmd = new SqliteCommand(Select_Runs, DatabaseManager.Connection);
+            var cmd = new SqliteCommand(Select_Runs, DatabaseManager.Connection, DatabaseManager.Transaction);
+            cmd.Parameters.AddWithValue("@type", type);
             using (var reader = cmd.ExecuteReader())
             {
                 while (reader.Read())
@@ -968,8 +1012,12 @@ namespace AttackSurfaceAnalyzer.Cli
                     Runs.Add((string)reader["run_id"]);
                 }
             }
-
             return Runs;
+        }
+
+        public static List<string> GetRuns()
+        {
+            return GetRuns("collect");
         }
 
         public static void ClearCollectors()
