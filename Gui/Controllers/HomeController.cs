@@ -496,7 +496,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         private IEnumerable<DataRunModel> GetMonitorRunModels()
         {
-            List<string> Runs = GetMonitorRuns();
+            List<string> Runs = AttackSurfaceAnalyzerCLI.GetRuns("monitor");
 
             List<DataRunModel> runModels = new List<DataRunModel>();
 
@@ -510,19 +510,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         private IEnumerable<DataRunModel> GetRunModels()
         {
-            string Select_Runs = "select distinct run_id from runs where type=@type;";
-
-            List<string> Runs = new List<string>();
-
-            var cmd = new SqliteCommand(Select_Runs, DatabaseManager.Connection, DatabaseManager.Transaction);
-            cmd.Parameters.AddWithValue("@type", "collect");
-            using (var reader = cmd.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    Runs.Add((string)reader["run_id"]);
-                }
-            }
+            List<string> Runs = AttackSurfaceAnalyzerCLI.GetRuns("collect");
 
             List<DataRunModel> runModels = new List<DataRunModel>();
 
