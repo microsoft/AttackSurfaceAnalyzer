@@ -27,12 +27,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Lib\AttackSurfaceAnalyzerLib.csproj" />
     <Content Include="Output\Output.cshtml" CopyToPublishDirectory="PreserveNewest" />
-    <Content Include="NOTICE">
+    <Content Include="..\NOTICE">
+      <Link>NOTICE</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="NOTICE" />
   </ItemGroup>
   <ItemGroup>
     <None Update="nlog.config">

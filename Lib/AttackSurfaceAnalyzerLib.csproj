@@ -63,10 +63,8 @@ This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI 
     <PackageReference Include="System.Net.Security" Version="4.3.2" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="NOTICE" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="NOTICE">
+    <Content Include="..\NOTICE">
+      <Link>NOTICE</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
