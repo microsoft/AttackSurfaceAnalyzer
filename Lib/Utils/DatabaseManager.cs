@@ -96,7 +96,6 @@ namespace AttackSurfaceAnalyzer.Utils
                 cmd = new SqliteCommand(SQL_CREATE_RESULT_COMPARE_RUN_ID_INDEX, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.ExecuteNonQuery();
                 Commit();
-                Logger.Instance.Warn("Done setting up.");
             }
         }
 

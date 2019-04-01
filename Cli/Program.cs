@@ -18,6 +18,7 @@ using RazorLight;
 using AttackSurfaceAnalyzer.ObjectTypes;
 using Newtonsoft.Json;
 using System.Reflection;
+using System.Diagnostics;
 
 namespace AttackSurfaceAnalyzer.Cli
 {
@@ -162,7 +163,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
         static void Main(string[] args)
         {
-
+            Logger.Setup();
             string version = (Assembly
                         .GetEntryAssembly()
                         .GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false)
@@ -210,6 +211,12 @@ namespace AttackSurfaceAnalyzer.Cli
 
         private static int RunExportCollectCommand(ExportCollectCommandOptions opts)
         {
+#if DEBUG
+            Logger.Setup(true, opts.Verbose);
+#else
+            Logger.Setup(false, opts.Verbose);
+#endif
+
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
             bool RunComparisons = true;
@@ -396,6 +403,11 @@ namespace AttackSurfaceAnalyzer.Cli
 
         private static int RunExportMonitorCommand(ExportMonitorCommandOptions opts)
         {
+#if DEBUG
+            Logger.Setup(true, opts.Verbose);
+#else
+            Logger.Setup(false, opts.Verbose);
+#endif
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
             WriteMonitorJson(opts.MonitorRunId, (int)RESULT_TYPE.FILE, opts.OutputPath);
@@ -439,6 +451,11 @@ namespace AttackSurfaceAnalyzer.Cli
 
         private static int RunMonitorCommand(MonitorCommandOptions opts)
         {
+#if DEBUG
+            Logger.Setup(true, opts.Verbose);
+#else
+            Logger.Setup(false, opts.Verbose);
+#endif
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
             var cmd = new SqliteCommand(SQL_GET_RUN, DatabaseManager.Connection, DatabaseManager.Transaction);
@@ -823,6 +840,11 @@ namespace AttackSurfaceAnalyzer.Cli
 
         public static int RunCollectCommand(CollectCommandOptions opts)
         {
+#if DEBUG
+            Logger.Setup(true, opts.Verbose);
+#else
+            Logger.Setup(false, opts.Verbose);
+#endif
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
             int returnValue = (int)ERRORS.NONE;
@@ -959,6 +981,11 @@ namespace AttackSurfaceAnalyzer.Cli
         
         private static int RunCompareCommand(CompareCommandOptions opts)
         {
+#if DEBUG
+            Logger.Setup(true, opts.Verbose);
+#else
+            Logger.Setup(false, opts.Verbose);
+#endif
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
             var results = CompareRuns(opts);
