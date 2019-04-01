@@ -476,30 +476,7 @@ namespace AttackSurfaceAnalyzer.Cli
 #else
             Logger.Setup(false, opts.Verbose);
 #endif
-                      if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                if (!Elevation.IsAdministrator())
-                {
-                    Logger.Instance.Warn("Attack Surface Enumerator must be run as Administrator.");
-                    Environment.Exit(1);
-                }
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                if (!Elevation.IsRunningAsRoot())
-                {
-                    Logger.Instance.Fatal("Attack Surface Enumerator must be run as root.");
-                    Environment.Exit(1);
-                }
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                if (!Elevation.IsRunningAsRoot())
-                {
-                    Logger.Instance.Fatal("Attack Surface Enumerator must be run as root.");
-                    Environment.Exit(1);
-                }
-            }
+            AdminOrQuit();
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
@@ -882,14 +859,8 @@ namespace AttackSurfaceAnalyzer.Cli
 
             return 0;
         }
-
-        public static int RunCollectCommand(CollectCommandOptions opts)
+        public static bool AdminOrQuit()
         {
-#if DEBUG
-            Logger.Setup(true, opts.Verbose);
-#else
-            Logger.Setup(false, opts.Verbose);
-#endif
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 if (!Elevation.IsAdministrator())
@@ -914,6 +885,16 @@ namespace AttackSurfaceAnalyzer.Cli
                     Environment.Exit(1);
                 }
             }
+        }
+
+        public static int RunCollectCommand(CollectCommandOptions opts)
+        {
+#if DEBUG
+            Logger.Setup(true, opts.Verbose);
+#else
+            Logger.Setup(false, opts.Verbose);
+#endif
+            AdminOrQuit();
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
