@@ -199,6 +199,11 @@ namespace AttackSurfaceAnalyzer.Cli
         {
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
+            if (!opts.ListCollectRuns && !opts.ListMonitorRuns)
+            {
+                opts.ListCollectRuns = true;
+                opts.ListMonitorRuns = true;
+            }
             if (opts.ListCollectRuns)
             {
                 Logger.Instance.Info("Begin Collect Run Ids");
