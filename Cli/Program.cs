@@ -131,7 +131,7 @@ namespace AttackSurfaceAnalyzer.Cli
         [Option('d', "directories", Required = false, HelpText = "Comma-separated list of directories to monitor.")]
         public string MonitoredDirectories { get; set; }
 
-        [Option('i', "interrogate-file-changes", Required = false, HelpText = "On a file create or change gather the post-change file size and security attributes")]
+        [Option('i', "interrogate-file-changes", Required = false, HelpText = "On a file create or change gather the post-change file size and security attributes (Linux/Mac only)")]
         public bool InterrogateChanges { get; set; }
 
         //[Option('r', "registry", Required = false, HelpText = "Monitor the registry for changes. (Windows Only)")]
