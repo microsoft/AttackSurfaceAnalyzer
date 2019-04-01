@@ -372,6 +372,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
         private static int RunExportMonitorCommand(ExportMonitorCommandOptions opts)
         {
+            DatabaseManager._ReadOnly = true;
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
             WriteMonitorJson(opts.MonitorRunId, (int)RESULT_TYPE.FILE, opts.OutputPath);
