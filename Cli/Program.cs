@@ -168,32 +168,7 @@ namespace AttackSurfaceAnalyzer.Cli
                         .GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false)
                         as AssemblyInformationalVersionAttribute[])[0].InformationalVersion;
             Logger.Instance.Info("AttackSurfaceAnalyzerCli v." + version);
-
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                if (!Elevation.IsAdministrator())
-                {
-                    Logger.Instance.Warn("Attack Surface Enumerator must be run as Administrator.");
-                    Environment.Exit(1);
-                }
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                if (!Elevation.IsRunningAsRoot())
-                {
-                    Logger.Instance.Fatal("Attack Surface Enumerator must be run as root.");
-                    Environment.Exit(1);
-                }
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                if (!Elevation.IsRunningAsRoot())
-                {
-                    Logger.Instance.Fatal("Attack Surface Enumerator must be run as root.");
-                    Environment.Exit(1);
-                }
-            }
-
+            Logger.Instance.Debug(version);
 
             var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, CompareCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions>(args)
                 .MapResult(
@@ -439,6 +414,30 @@ namespace AttackSurfaceAnalyzer.Cli
 
         private static int RunMonitorCommand(MonitorCommandOptions opts)
         {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                if (!Elevation.IsAdministrator())
+                {
+                    Logger.Instance.Warn("Attack Surface Enumerator must be run as Administrator.");
+                    Environment.Exit(1);
+                }
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                if (!Elevation.IsRunningAsRoot())
+                {
+                    Logger.Instance.Fatal("Attack Surface Enumerator must be run as root.");
+                    Environment.Exit(1);
+                }
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                if (!Elevation.IsRunningAsRoot())
+                {
+                    Logger.Instance.Fatal("Attack Surface Enumerator must be run as root.");
+                    Environment.Exit(1);
+                }
+            }
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
             var cmd = new SqliteCommand(SQL_GET_RUN, DatabaseManager.Connection, DatabaseManager.Transaction);
@@ -823,6 +822,30 @@ namespace AttackSurfaceAnalyzer.Cli
 
         public static int RunCollectCommand(CollectCommandOptions opts)
         {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                if (!Elevation.IsAdministrator())
+                {
+                    Logger.Instance.Warn("Attack Surface Enumerator must be run as Administrator.");
+                    Environment.Exit(1);
+                }
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                if (!Elevation.IsRunningAsRoot())
+                {
+                    Logger.Instance.Fatal("Attack Surface Enumerator must be run as root.");
+                    Environment.Exit(1);
+                }
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                if (!Elevation.IsRunningAsRoot())
+                {
+                    Logger.Instance.Fatal("Attack Surface Enumerator must be run as root.");
+                    Environment.Exit(1);
+                }
+            }
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
             int returnValue = (int)ERRORS.NONE;
