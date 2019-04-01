@@ -69,7 +69,7 @@ namespace AttackSurfaceAnalyzer.Cli
         public string DatabaseFilename { get; set; }
 
         [Option(Required = true, HelpText = "Monitor run identifier")]
-        public string MonitorRunId { get; set; }
+        public string RunId { get; set; }
 
         [Option(Required = false, HelpText = "Directory to output to (default: .)", Default = ".")]
         public string OutputPath { get; set; }
@@ -375,7 +375,7 @@ namespace AttackSurfaceAnalyzer.Cli
             DatabaseManager._ReadOnly = true;
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
-            WriteMonitorJson(opts.MonitorRunId, (int)RESULT_TYPE.FILE, opts.OutputPath);
+            WriteMonitorJson(opts.RunId, (int)RESULT_TYPE.FILE, opts.OutputPath);
             return 0;
         }
 

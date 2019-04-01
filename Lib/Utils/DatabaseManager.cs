@@ -181,7 +181,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private static void SetupReadOnly()
         {
-            Connection = new SqliteConnection($"Filename=" + _SqliteFilename + ";Version=3;Read Only=True;");
+            Connection = new SqliteConnection($"Filename=" + _SqliteFilename);
             Connection.Open();
         }
 
