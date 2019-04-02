@@ -23,10 +23,8 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void Setup(bool debug, bool verbose)
         {
-            // Step 1. Create configuration object 
             var config = new LoggingConfiguration();
 
-            // Step 2. Create targets
             var consoleTarget = new ColoredConsoleTarget("console")
             {
                 Layout = @"${date:format=HH\:mm\:ss} ${level} ${message} ${exception}"
@@ -40,18 +38,22 @@ namespace AttackSurfaceAnalyzer.Utils
             };
             config.AddTarget(fileTarget);
 
-            if (debug)
+            if (debug || verbose)
             {
                 config.AddRuleForOneLevel(LogLevel.Debug, fileTarget); 
                 config.AddRuleForOneLevel(LogLevel.Warn, consoleTarget);
                 config.AddRuleForOneLevel(LogLevel.Error, consoleTarget);
                 config.AddRuleForOneLevel(LogLevel.Fatal, consoleTarget);
             }
-
-            if (verbose)
+            if (debug)
             {
-                config.AddRuleForAllLevels(consoleTarget);
+                config.AddRuleForAllLevels(fileTarget);
             }
+            //if (trace)
+            //{
+            //    config.AddRuleForAllLevels(fileTarget);
+            //    config.AddRuleForAllLevels(consoleTarget);
+            //}
             else
             {
                 config.AddRuleForOneLevel(LogLevel.Info, consoleTarget);
@@ -60,9 +62,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 config.AddRuleForOneLevel(LogLevel.Fatal, consoleTarget);
             }
 
-            // Step 4. Activate the configuration
             LogManager.Configuration = config;
         }
-
     }
 }
