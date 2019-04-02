@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+using System.Collections.Generic;
 using System.Security.AccessControl;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Win32;
@@ -10,11 +11,7 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
     {
 
         public RegistryKey Key;
-
-        public string Path;
-        public bool IsKey;
-        public string Value;
-        public string Contents;
+        public Dictionary<string, string> Values;
 
         public string RowKey
         {
@@ -24,19 +21,10 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
             }
         }
 
-        public override string ToString()
-        {
-            return string.Format("Key={0}, Value={1}, Contents={2}, IsKey={3}, Permissions={4}", Key.Name, Value, Contents, IsKey, Key.GetAccessControl().GetSecurityDescriptorSddlForm(AccessControlSections.All));
-        }
-
-        public RegistryObject(RegistryKey Key, bool isKey) : this(Key, "", "", isKey) { }
-
-        public RegistryObject(RegistryKey Key, string Value, string Contents, bool isKey)
+        public RegistryObject(RegistryKey Key, Dictionary<string,string> Values)
         {
             this.Key = Key;
-            this.Value = Value;
-            this.Contents = Contents;
-            this.IsKey = isKey;
+            this.Values = Values;
         }
 
         public RegistryObject()

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Security.AccessControl;
+using System.Threading.Tasks;
 using AttackSurfaceAnalyzer.ObjectTypes;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
@@ -27,7 +28,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
         private Action<RegistryObject> customCrawlHandler = null;
 
         private static readonly string SQL_TRUNCATE = "delete from file_system where run_id=@run_id";
-        private static readonly string SQL_INSERT = "insert into registry (run_id, row_key, key, value, contents, iskey, permissions, serialized) values (@run_id, @row_key, @key, @value, @contents, @iskey, @permissions, @serialized)";
+        private static readonly string SQL_INSERT = "insert into registry (run_id, row_key, key, values, permissions, serialized) values (@run_id, @row_key, @key, @values, @permissions, @serialized)";
 
         public RegistryCollector(string RunId) : this(RunId, DefaultHives, null) { }
 
@@ -67,15 +68,14 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
         public void Write(RegistryObject obj)
         {
             _numCollected++;
-            string hashSeed = String.Format("{0}{1}{2}{3}", obj.Key.Name, obj.Value, obj.Contents, obj.IsKey);
+            string hashSeed = String.Format("{0}{1}", obj.Key.Name, JsonConvert.SerializeObject(obj.Values));
+
             using (var cmd = new SqliteCommand(SQL_INSERT, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
                 cmd.Parameters.AddWithValue("@run_id", this.runId);
                 cmd.Parameters.AddWithValue("@row_key", CryptoHelpers.CreateHash(hashSeed));
                 cmd.Parameters.AddWithValue("@key", obj.Key.Name);
-                cmd.Parameters.AddWithValue("@value", obj.Value);
-                cmd.Parameters.AddWithValue("@contents", obj.Contents ?? "");
-                cmd.Parameters.AddWithValue("@iskey", obj.IsKey);
+                cmd.Parameters.AddWithValue("@values", JsonConvert.SerializeObject(obj.Values));
                 try
                 {
                     cmd.Parameters.AddWithValue("@permissions", obj.Key.GetAccessControl().GetSecurityDescriptorSddlForm(AccessControlSections.All));
@@ -98,13 +98,8 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
             customCrawlHandler?.Invoke(obj);
         }
 
-        private void AddSubKeysAndValues(RegistryKey key, string path)
+        private Dictionary<string,string> GetValues(RegistryKey key)
         {
-            _keys.Add(key);
-            var regObj = new RegistryObject(key, true);
-
-            Write(regObj);
-
             Dictionary<string,string> values = new Dictionary<string,string>();
             // Write values under key and commit
             foreach (var value in key.GetValueNames())
@@ -141,37 +136,8 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                     str = Value.ToString();
                 }
                 values.Add(value, str);
-                regObj = new RegistryObject(key, value, str, false);
-                _values.Add(regObj);
-
-                Write(regObj);
             }
-
-            // Do the same for all subkeys
-            foreach (var subkey in key.GetSubKeyNames())
-            {
-                try
-                {
-                    var next = key.OpenSubKey(subkey, false);
-                    AddSubKeysAndValues(next, path + subkey + "\\");
-                }
-                // These are expected as we are running as administrator, not System.
-                catch (System.Security.SecurityException e)
-                {
-                    Logger.Instance.Debug(e.GetType() + " " + e.Message + " " + path + subkey);
-                }
-                // There seem to be some keys which are listed as existing by the APIs but don't actually exist.
-                // Unclear if these are just super transient keys or what the other cause might be.
-                // Since this isn't use actionable, also just supress these to the debug stream.
-                catch (System.IO.IOException e)
-                {
-                    Logger.Instance.Debug(e.GetType() + " " + e.Message + " " + path + subkey);
-                }
-                catch (Exception e)
-                {
-                    Logger.Instance.Info(e.GetType() + " " + e.Message + " " + path + subkey);
-                }
-            }
+            return values;
         }
 
         public override void Execute()
@@ -186,9 +152,18 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
 
             foreach (RegistryHive Hive in Hives)
             {
-                Logger.Instance.Info("Starting on Hive: " + Hive);
-                var BaseKey = RegistryKey.OpenBaseKey(Hive, RegistryView.Default);
-                AddSubKeysAndValues(BaseKey, Hive + "\\");
+                var registryInfoEnumerable = RegistryWalker.WalkHive(Hive);
+                Parallel.ForEach(registryInfoEnumerable,
+                                (registryKey =>
+                                {
+                                    var ValDict = GetValues(registryKey);
+                                    var regObj = new RegistryObject(registryKey, ValDict);
+                                    Write(regObj);
+                                }));
+
+                //                    Logger.Instance.Info("Starting on Hive: " + Hive);
+                //var BaseKey = RegistryKey.OpenBaseKey(Hive, RegistryView.Default);
+                //AddSubKeysAndValues(BaseKey, Hive + "\\");
             }
             DatabaseManager.Commit();
             Stop();
