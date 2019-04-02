@@ -105,6 +105,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
 
             Write(regObj);
 
+            Dictionary<string,string> values = new Dictionary<string,string>();
             // Write values under key and commit
             foreach (var value in key.GetValueNames())
             {
@@ -139,7 +140,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                     }
                     str = Value.ToString();
                 }
-
+                values.Add(value, str);
                 regObj = new RegistryObject(key, value, str, false);
                 _values.Add(regObj);
 
