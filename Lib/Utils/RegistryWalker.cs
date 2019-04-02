@@ -11,47 +11,7 @@ namespace AttackSurfaceAnalyzer.Utils
     public class RegistryWalker
     {
 
-        private static Dictionary<string, string> GetValues(RegistryKey key)
-        {
-            Dictionary<string, string> values = new Dictionary<string, string>();
-            // Write values under key and commit
-            foreach (var value in key.GetValueNames())
-            {
-                var Value = key.GetValue(value);
-                string str = "";
-
-                // This is okay. It is a zero-length value
-                if (Value == null)
-                {
-                    // We can leave this empty
-                }
-
-                else if (Value.ToString() == "System.Byte[]")
-                {
-                    str = Convert.ToBase64String((System.Byte[])Value);
-                }
-
-                else if (Value.ToString() == "System.String[]")
-                {
-                    str = "";
-                    foreach (String st in (System.String[])Value)
-                    {
-                        str += st;
-                    }
-                }
-
-                else
-                {
-                    if (Value.ToString() == Value.GetType().ToString())
-                    {
-                        Logger.Instance.Warn("Uh oh, this type isn't handled. " + Value.ToString());
-                    }
-                    str = Value.ToString();
-                }
-                values.Add(value, str);
-            }
-            return values;
-        }
+       
 
         public static IEnumerable<RegistryObject> WalkHive(RegistryHive Hive)
         {
@@ -101,8 +61,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         Logger.Instance.Info(e.GetType() + " " + e.Message + " " + currentKey.Name);
                     }
                 }
-                var ValDict = GetValues(currentKey);
-                var regObj = new RegistryObject(currentKey, ValDict);
+                var regObj = new RegistryObject(currentKey);
 
                 yield return regObj;
             }

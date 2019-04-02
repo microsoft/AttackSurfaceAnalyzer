@@ -11,10 +11,10 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
 {
     public class RegistryCompare : BaseCompare
     {
-        private static readonly string SELECT_MODIFIED_SQL = @"select a.key as 'a_key', a.serialized as 'a_serialized', a.row_key as 'a_row_key', b.serialized as 'b_serialized', b.row_key as 'b_row_key' from registry a, registry b where a.run_id=@first_run_id and b.run_id=@second_run_id and a.key = b.key and a.value == b.value and a.iskey == b.iskey and (a.contents != b.contents or a.permissions != b.permissions)";
+        private static readonly string SELECT_MODIFIED_SQL = @"select a.key as 'a_key', a.serialized as 'a_serialized', a.row_key as 'a_row_key', b.serialized as 'b_serialized', b.row_key as 'b_row_key' from registry a, registry b where a.run_id=@first_run_id and b.run_id=@second_run_id and a.key = b.key and (a.row_key != b.row_key)";
 
-        private static readonly string SELECT_INSERTED_SQL = "select * from registry b where b.run_id = @second_run_id and b.row_key not in (select row_key from registry a where a.run_id = @first_run_id);";
-        private static readonly string SELECT_DELETED_SQL = "select * from registry a where a.run_id = @first_run_id and a.row_key not in (select row_key from registry b where b.run_id = @second_run_id);";
+        private static readonly string SELECT_INSERTED_SQL = "select * from registry b where b.run_id = @second_run_id and b.key not in (select key from registry a where a.run_id = @first_run_id);";
+        private static readonly string SELECT_DELETED_SQL = "select * from registry a where a.run_id = @first_run_id and a.key not in (select key from registry b where b.run_id = @second_run_id);";
 
         public RegistryCompare()
         {

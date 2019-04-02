@@ -28,7 +28,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
         private Action<RegistryObject> customCrawlHandler = null;
 
         private static readonly string SQL_TRUNCATE = "delete from file_system where run_id=@run_id";
-        private static readonly string SQL_INSERT = "insert into registry (run_id, row_key, key, value, permissions, serialized) values (@run_id, @row_key, @key, @value, @permissions, @serialized)";
+        private static readonly string SQL_INSERT = "insert into registry (run_id, row_key, key, value, subkeys, permissions, serialized) values (@run_id, @row_key, @key, @value, @subkeys, @permissions, @serialized)";
 
         public RegistryCollector(string RunId) : this(RunId, DefaultHives, null) { }
 
@@ -68,22 +68,15 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
         public void Write(RegistryObject obj)
         {
             _numCollected++;
-            string hashSeed = String.Format("{0}{1}", obj.Key.Name, JsonConvert.SerializeObject(obj.Values));
+            string hashSeed = String.Format("{0}{1}", obj.Key, JsonConvert.SerializeObject(obj));
             using (var cmd = new SqliteCommand(SQL_INSERT, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
                 cmd.Parameters.AddWithValue("@run_id", this.runId);
                 cmd.Parameters.AddWithValue("@row_key", CryptoHelpers.CreateHash(hashSeed));
-                cmd.Parameters.AddWithValue("@key", obj.Key.Name);
+                cmd.Parameters.AddWithValue("@key", obj.Key);
                 cmd.Parameters.AddWithValue("@value", JsonConvert.SerializeObject(obj.Values));
-                try
-                {
-                    cmd.Parameters.AddWithValue("@permissions", obj.Key.GetAccessControl().GetSecurityDescriptorSddlForm(AccessControlSections.All));
-                }
-                catch (ArgumentException)
-                {
-                    cmd.Parameters.AddWithValue("@permissions", "");
-                    Logger.Instance.Debug("Couldn't get permissions for {0}", obj.Key.Name);
-                }
+                cmd.Parameters.AddWithValue("@subkeys", JsonConvert.SerializeObject(obj.Subkeys));
+                cmd.Parameters.AddWithValue("@permissions", obj.Permissions);
                 cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj));
                 try
                 {
@@ -115,37 +108,33 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
             }
             Truncate(this.runId);
 
-            foreach (RegistryHive Hive in Hives)
-            {
-                Logger.Instance.Info("Unpacking {0}", Hive.ToString());
-                var registryInfoEnumerable = RegistryWalker.WalkHive(Hive);
-                try
+            Parallel.ForEach(Hives,
+                (hive =>
                 {
-                    Parallel.ForEach(registryInfoEnumerable,
-                                (registryObject =>
+                    var registryInfoEnumerable = RegistryWalker.WalkHive(hive);
+                    try
+                    {
+                        Parallel.ForEach(registryInfoEnumerable,
+                            (registryObject =>
+                            {
+                                try
                                 {
-                                    try
-                                    {
-                                        Write(registryObject);
-                                    }
-                                    catch (Exception e)
-                                    {
-                                        Logger.Instance.Debug("Walk of {0} fziled", Hive.ToString());
-                                        Logger.Instance.Debug(e.GetType());
-                                    }
-                                }));
-                }
-                catch(Exception e)
-                {
-                    Logger.Instance.Debug(e.GetType());
-                    Logger.Instance.Debug(e.Message);
-                }
-                
-
-                //                    Logger.Instance.Info("Starting on Hive: " + Hive);
-                //var BaseKey = RegistryKey.OpenBaseKey(Hive, RegistryView.Default);
-                //AddSubKeysAndValues(BaseKey, Hive + "\\");
-            }
+                                    Write(registryObject);
+                                }
+                                catch (Exception e)
+                                {
+                                    Logger.Instance.Debug("Walk of {0} fziled", hive.ToString());
+                                    Logger.Instance.Debug(e.GetType());
+                                }
+                            }));
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Instance.Debug(e.GetType());
+                        Logger.Instance.Debug(e.Message);
+                    }
+                }));
+            
             DatabaseManager.Commit();
             Stop();
         }
