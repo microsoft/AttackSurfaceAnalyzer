@@ -111,6 +111,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
             Parallel.ForEach(Hives,
                 (hive =>
                 {
+                    Logger.Instance.Debug("Starting " + hive.ToString());
                     var registryInfoEnumerable = RegistryWalker.WalkHive(hive);
                     try
                     {
