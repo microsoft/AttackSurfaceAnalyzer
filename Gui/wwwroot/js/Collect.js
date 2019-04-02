@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+"use strict"
 $('#CollectLink').addClass('active');
 
 EnableCollectionFields();
@@ -111,8 +112,9 @@ function StartCollection()
 
 function GetMonitorStatus() {
     $.getJSON('GetMonitorStatus', function (result) {
-        data = JSON.parse(result);
-        keepChecking = false;
+        var data = JSON.parse(result);
+        var keepChecking = false;
+        var icon, midword;
         $('#ScanStatus').empty();
 
         $.each(data, function (key, value) {
@@ -153,9 +155,10 @@ function GetMonitorStatus() {
 
 function GetCollectors() {
     $.getJSON('GetCollectors', function (result) {
-        data = JSON.parse(result);
-        keepChecking = false;
-        anyCollectors = false;
+        var data = JSON.parse(result);
+        var keepChecking = false;
+        var anyCollectors = false;
+        var icon, midword;
         $('#ScanStatus').empty();
 
         $.each(data, function (key, value) {
