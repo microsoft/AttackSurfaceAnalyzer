@@ -26,12 +26,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "File", "Path", "Exclude", currentDir))
                 {
-                    //Logger.Instance.Debug("Excluding: {0}", currentDir);
                     continue;
-                }
-                else
-                {
-                    //Logger.Instance.Debug("Not excluding: {0}", currentDir);
                 }
 
                 string[] subDirs;
@@ -107,7 +102,6 @@ namespace AttackSurfaceAnalyzer.Utils
                     string FullPath = String.Format("{0}{1}{2}", currentDir, Path.PathSeparator, file);
                     if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "File", "Path", "Exclude", FullPath))
                     {
-                        Logger.Instance.Debug("Excluding: {0}", FullPath);
                         continue;
                     }
                     yield return fileInfo;

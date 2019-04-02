@@ -207,9 +207,9 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 
         private void OnChanged(object source, FileSystemEventArgs e)
         {
+            Logger.Instance.Debug(e.FullPath);
             if (Filter.IsFiltered(Filter.RuntimeString(), "Monitor", "File", "Path", "Exclude", e.FullPath))
             {
-                Logger.Instance.Debug("Excluding: {0}", e.FullPath);
                 return;
             }
             
@@ -241,7 +241,6 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
         {
             if (Filter.IsFiltered(Filter.RuntimeString(), "Monitor", "File", "Path", "Exclude", e.FullPath))
             {
-                Logger.Instance.Debug("Excluding: {0}", e.FullPath);
                 return;
             }
 

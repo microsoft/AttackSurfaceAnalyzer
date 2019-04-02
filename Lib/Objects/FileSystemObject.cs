@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Management.Automation;
+using System.Runtime.InteropServices;
 using System.Text;
 using AttackSurfaceAnalyzer.Utils;
 using Newtonsoft.Json;
@@ -103,15 +104,22 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
 
         public bool NeedsSignature()
         {
-            var _p = Path.ToLower().Trim();
-            foreach (var ext in SIGNED_EXTENSIONS)
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (_p.EndsWith("." + ext))
+                var _p = Path.ToLower().Trim();
+                foreach (var ext in SIGNED_EXTENSIONS)
                 {
-                    return true;
+                    if (_p.EndsWith("." + ext))
+                    {
+                        return true;
+                    }
                 }
+                return false;
             }
-            return false;
+            else
+            {
+                return false;
+            }
         }
 
         public override string ToString()
