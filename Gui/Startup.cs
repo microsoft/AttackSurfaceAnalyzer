@@ -72,14 +72,18 @@ namespace AttackSurfaceAnalyzer.Gui
             browserWindowOptions.AutoHideMenuBar = true;
 
             DatabaseManager.Setup();
-            string SELECT_TELEMETRY = "select value from persisted_settings where setting='telemetry_opt_out'";
-            var cmd = new SqliteCommand(SELECT_TELEMETRY, DatabaseManager.Connection, DatabaseManager.Transaction);
+
+            string SELECT_TELEMETRY = "select value from persisted_settings where setting='telemetry_opt_out'";//lgtm [cs/literal-as-local]
             bool OptOut = false;
-            using (var reader = cmd.ExecuteReader())
+
+            using (var cmd = new SqliteCommand(SELECT_TELEMETRY, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
-                while (reader.Read())
+                using (var reader = cmd.ExecuteReader())
                 {
-                    OptOut = bool.Parse(reader["value"].ToString());
+                    while (reader.Read())
+                    {
+                        OptOut = bool.Parse(reader["value"].ToString());
+                    }
                 }
             }
 
