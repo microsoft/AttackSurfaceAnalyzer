@@ -114,11 +114,20 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void Commit()
         {
-            if (_transaction != null)
+            try
             {
-                _transaction.Commit();
-                _transaction = null;
+                if (_transaction != null)
+                {
+                    _transaction.Commit();
+                }
             }
+            catch (Exception)
+            {
+                Logger.Instance.Debug("Commit collision");
+            }
+
+            _transaction = null;
+
         }
 
         private static string _SqliteFilename = "asa.sqlite";

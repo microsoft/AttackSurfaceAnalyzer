@@ -69,7 +69,6 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
         {
             _numCollected++;
             string hashSeed = String.Format("{0}{1}", obj.Key.Name, JsonConvert.SerializeObject(obj.Values));
-
             using (var cmd = new SqliteCommand(SQL_INSERT, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
                 cmd.Parameters.AddWithValue("@run_id", this.runId);
@@ -86,8 +85,14 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                     Logger.Instance.Debug("Couldn't get permissions for {0}", obj.Key.Name);
                 }
                 cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj));
-
-                cmd.ExecuteNonQuery();
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                catch(Exception e)
+                {
+                    Logger.Instance.Debug(e.GetType() + "thrown in registry collector");
+                }
 
                 if (_numCollected % 1000 == 0)
                 {
@@ -98,47 +103,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
             customCrawlHandler?.Invoke(obj);
         }
 
-        private Dictionary<string,string> GetValues(RegistryKey key)
-        {
-            Dictionary<string,string> values = new Dictionary<string,string>();
-            // Write values under key and commit
-            foreach (var value in key.GetValueNames())
-            {
-                var Value = key.GetValue(value);
-                string str = "";
-
-                // This is okay. It is a zero-length value
-                if (Value == null)
-                {
-                    // We can leave this empty
-                }
-                    
-                else if (Value.ToString() == "System.Byte[]")
-                {
-                    str = Convert.ToBase64String((System.Byte[])Value);
-                }
-
-                else if (Value.ToString() == "System.String[]")
-                {
-                    str = "";
-                    foreach (String st in (System.String[])Value)
-                    {
-                        str += st;
-                    }
-                }
-
-                else
-                {
-                    if (Value.ToString() == Value.GetType().ToString())
-                    {
-                        Logger.Instance.Warn("Uh oh, this type isn't handled. " + Value.ToString());
-                    }
-                    str = Value.ToString();
-                }
-                values.Add(value, str);
-            }
-            return values;
-        }
+        
 
         public override void Execute()
         {
@@ -152,14 +117,30 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
 
             foreach (RegistryHive Hive in Hives)
             {
+                Logger.Instance.Info("Unpacking {0}", Hive.ToString());
                 var registryInfoEnumerable = RegistryWalker.WalkHive(Hive);
-                Parallel.ForEach(registryInfoEnumerable,
-                                (registryKey =>
+                try
+                {
+                    Parallel.ForEach(registryInfoEnumerable,
+                                (registryObject =>
                                 {
-                                    var ValDict = GetValues(registryKey);
-                                    var regObj = new RegistryObject(registryKey, ValDict);
-                                    Write(regObj);
+                                    try
+                                    {
+                                        Write(registryObject);
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        Logger.Instance.Debug("Walk of {0} fziled", Hive.ToString());
+                                        Logger.Instance.Debug(e.GetType());
+                                    }
                                 }));
+                }
+                catch(Exception e)
+                {
+                    Logger.Instance.Debug(e.GetType());
+                    Logger.Instance.Debug(e.Message);
+                }
+                
 
                 //                    Logger.Instance.Info("Starting on Hive: " + Hive);
                 //var BaseKey = RegistryKey.OpenBaseKey(Hive, RegistryView.Default);
