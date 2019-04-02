@@ -79,8 +79,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                         var obj = new RegistryResult()
                         {
                             Base = JsonConvert.DeserializeObject<RegistryObject>(reader["serialized"].ToString()),
-                            BaseRowKey = reader["a_row_key"].ToString(),
-                            CompareRowKey = reader["b_row_key"].ToString(),
+                            BaseRowKey = reader["row_key"].ToString(),
                             BaseRunId = firstRunId,
                             CompareRunId = secondRunId,
                             ResultType = RESULT_TYPE.REGISTRY,
