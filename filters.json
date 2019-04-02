@@ -1,0 +1,9 @@
+{
+  "Macos": {
+    "Monitor": {
+      "File": {
+        "Exclude": [ "/private/var/db/uuidtext" ]
+      }
+    }
+  }
+}
