@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+"use strict"
 function appendDebugMessage(message, remote) {
     $("#debug").add("<div>").html((remote ? "Service: " : "Local: ") + message);
 }

@@ -904,7 +904,6 @@ namespace AttackSurfaceAnalyzer.Cli
             AdminOrQuit();
             Filter.LoadFilters(opts.FilterLocation);
 
-
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
             int returnValue = (int)ERRORS.NONE;

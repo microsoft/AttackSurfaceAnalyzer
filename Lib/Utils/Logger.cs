@@ -23,10 +23,8 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void Setup(bool debug, bool verbose)
         {
-            // Step 1. Create configuration object 
             var config = new LoggingConfiguration();
 
-            // Step 2. Create targets
             var consoleTarget = new ColoredConsoleTarget("console")
             {
                 Layout = @"${date:format=HH\:mm\:ss} ${level} ${message} ${exception}"
@@ -64,9 +62,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 config.AddRuleForOneLevel(LogLevel.Fatal, consoleTarget);
             }
 
-            // Step 4. Activate the configuration
             LogManager.Configuration = config;
         }
-
     }
 }
