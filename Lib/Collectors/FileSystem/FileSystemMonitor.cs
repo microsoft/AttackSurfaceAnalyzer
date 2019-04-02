@@ -3,8 +3,6 @@
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.ComTypes;
-using System.Security.AccessControl;
 using AttackSurfaceAnalyzer.ObjectTypes;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
@@ -204,45 +202,39 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
             cmd.ExecuteNonQuery();
         }
 
-
         private void OnChanged(object source, FileSystemEventArgs e)
         {
-            if (Filter.IsFiltered(Filter.RuntimeString(), "Monitor", "File", "Path", "Exclude", e.FullPath))
-            {
-                return;
-            }
-            
-            // Inspect the file
+            // No reasons to check on the state of a deleted file
             if (getFileDetails && e.ChangeType != WatcherChangeTypes.Deleted)
             {
-                // Switch to using Mono here
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 {
-                    var unixFileInfo = new Mono.Unix.UnixFileInfo(e.FullPath);
-                    var result = unixFileInfo.FileAccessPermissions.ToString();
-                    WriteChange(e, result);
-                    return;
+                    // @TODO: Improve this.  This is an exclusion of "noisy" directories that don't provide much value.
+                    // This one, on OS X, appears to have a file which changes everytime something is outputted to the console
+                    // which causes an infinite loop of change fire events.  Alternate solution: cache when things were last changed
+                    // for 100ms~ and ignore subsequent events in the same time period of the same type
+                    if (!e.FullPath.Contains("/private/var/db/uuidtext"))
+                    {
+                        var runner = new ExternalCommandRunner();
+                        var result = runner.RunExternalCommand("ls", "-lA \"" + e.FullPath + "\"");
+                        WriteChange(e, result);
+                        return;
+                    }
                 }
+
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
-                    // Found this example but it isn't working on osx
-                    //FileSecurity fSecurity = File.GetAccessControl(e.FullPath);
-
-                    // @TODO
-                    //
+                    // @TODO: Windows code here.
                 }
             }
+
             WriteChange(e);
+
             customChangeHandler?.Invoke(e);
         }
 
         private void OnRenamed(object source, RenamedEventArgs e)
         {
-            if (Filter.IsFiltered(Filter.RuntimeString(), "Monitor", "File", "Path", "Exclude", e.FullPath))
-            {
-                return;
-            }
-
             WriteRename(e);
         }
 

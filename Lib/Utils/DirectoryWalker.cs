@@ -8,7 +8,7 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public class DirectoryWalker
     {     
-        public static IEnumerable<FileSystemInfo> WalkDirectory(string root)
+        public static IEnumerable<FileSystemInfo> WalkDirectory(string root, Func<FileSystemInfo, bool> filter)
         {
             // Data structure to hold names of subfolders to be
             // examined for files.
@@ -23,12 +23,6 @@ namespace AttackSurfaceAnalyzer.Utils
             while (dirs.Count > 0)
             {
                 string currentDir = dirs.Pop();
-
-                if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "File", "Path", "Exclude", currentDir))
-                {
-                    continue;
-                }
-
                 string[] subDirs;
                 try
                 {
@@ -58,9 +52,9 @@ namespace AttackSurfaceAnalyzer.Utils
                 // even though its not a directory on Mac OS.
                 // System.IO.Directory.GetDirectories is how we get the 
                 // directories.
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    //Logger.Instance.Debug(ex.StackTrace);
+                    Logger.Instance.Debug(ex.StackTrace);
                     continue;
                 }
 
@@ -99,12 +93,10 @@ namespace AttackSurfaceAnalyzer.Utils
                         Logger.Instance.Debug(e.Message);
                         continue;
                     }
-                    string FullPath = String.Format("{0}{1}{2}", currentDir, Path.PathSeparator, file);
-                    if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "File", "Path", "Exclude", FullPath))
+                    if (filter == null || filter(fileInfo))
                     {
-                        continue;
+                        yield return fileInfo;
                     }
-                    yield return fileInfo;
 
                 }
 
@@ -136,8 +128,11 @@ namespace AttackSurfaceAnalyzer.Utils
                         Logger.Instance.Debug(e.Message);
                         continue;
                     }
-                    dirs.Push(str);
-                    yield return fileInfo;
+                    if (filter == null || filter(fileInfo))
+                    {
+                        dirs.Push(str);
+                        yield return fileInfo;
+                    }
                 }
             }
         }

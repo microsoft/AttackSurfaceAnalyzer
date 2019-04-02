@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using AttackSurfaceAnalyzer.ObjectTypes;
@@ -57,7 +56,6 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
             }
             CommitTimer.Enabled = true;
         }
-
 
         public void Write(SqliteCommand cmd, FileSystemObject obj)
         {
@@ -221,7 +219,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 Logger.Instance.Warn("Scanning root " + root.ToString());
                 try
                 {
-                    var fileInfoEnumerable = DirectoryWalker.WalkDirectory(root);
+                    var fileInfoEnumerable = DirectoryWalker.WalkDirectory(root, this.filter);
                     Parallel.ForEach(fileInfoEnumerable,
                                     (fileInfo =>
                     {

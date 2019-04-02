@@ -18,6 +18,7 @@ This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI 
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Utils\" />
     <Folder Include="Collectors\FileSystem\" />
     <Folder Include="Collectors\OpenPorts\" />
     <Folder Include="Collectors\Registry\" />
