@@ -542,6 +542,8 @@ namespace AttackSurfaceAnalyzer.Cli
                     }
                 }
 
+                Filter.LoadFilters();
+
                 List<NotifyFilters> filterOptions = new List<NotifyFilters>
                 {
                     NotifyFilters.Attributes, NotifyFilters.CreationTime, NotifyFilters.DirectoryName, NotifyFilters.FileName, NotifyFilters.LastAccess, NotifyFilters.LastWrite, NotifyFilters.Security, NotifyFilters.Size
@@ -915,7 +917,6 @@ namespace AttackSurfaceAnalyzer.Cli
 
             cmd = new SqliteCommand(INSERT_RUN, DatabaseManager.Connection, DatabaseManager.Transaction);
 
-
             if (opts.EnableAllCollectors)
             {
                 cmd.Parameters.AddWithValue("@file_system", true);
@@ -984,6 +985,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             foreach (BaseCollector c in collectors)
             {
+                // c.Filters = read filters in here
                 Logger.Instance.Info("Executing: {0}", c.GetType().Name);
                 try
                 {
@@ -1078,7 +1080,14 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
                 if (Console.CursorLeft > 0)
                 {
-                    Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
+                    try
+                    {
+                        Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+                        Console.SetCursorPosition(0, Console.CursorTop);
+                    }
                 }
             }
         }
