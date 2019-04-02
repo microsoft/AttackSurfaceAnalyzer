@@ -67,22 +67,32 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
         public void Write(RegistryObject obj)
         {
             _numCollected++;
-
-            var cmd = new SqliteCommand(SQL_INSERT, DatabaseManager.Connection, DatabaseManager.Transaction);
-            cmd.Parameters.AddWithValue("@run_id", this.runId);
-            cmd.Parameters.AddWithValue("@row_key", CryptoHelpers.CreateHash(obj.ToString()));
-            cmd.Parameters.AddWithValue("@key", obj.Key.Name);
-            cmd.Parameters.AddWithValue("@value", obj.Value);
-            cmd.Parameters.AddWithValue("@contents", obj.Contents ?? "");
-            cmd.Parameters.AddWithValue("@iskey", obj.IsKey);
-            cmd.Parameters.AddWithValue("@permissions", obj.Key.GetAccessControl().GetSecurityDescriptorSddlForm(AccessControlSections.All));
-            cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj));
-
-            cmd.ExecuteNonQuery();
-
-            if (_numCollected % 1000 == 0)
+            string hashSeed = String.Format("{0}{1}{2}{3}", obj.Key.Name, obj.Value, obj.Contents, obj.IsKey);
+            using (var cmd = new SqliteCommand(SQL_INSERT, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
-                DatabaseManager.Commit();
+                cmd.Parameters.AddWithValue("@run_id", this.runId);
+                cmd.Parameters.AddWithValue("@row_key", CryptoHelpers.CreateHash(hashSeed));
+                cmd.Parameters.AddWithValue("@key", obj.Key.Name);
+                cmd.Parameters.AddWithValue("@value", obj.Value);
+                cmd.Parameters.AddWithValue("@contents", obj.Contents ?? "");
+                cmd.Parameters.AddWithValue("@iskey", obj.IsKey);
+                try
+                {
+                    cmd.Parameters.AddWithValue("@permissions", obj.Key.GetAccessControl().GetSecurityDescriptorSddlForm(AccessControlSections.All));
+                }
+                catch (ArgumentException)
+                {
+                    cmd.Parameters.AddWithValue("@permissions", "");
+                    Logger.Instance.Debug("Couldn't get permissions for {0}", obj.Key.Name);
+                }
+                cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj));
+
+                cmd.ExecuteNonQuery();
+
+                if (_numCollected % 1000 == 0)
+                {
+                    DatabaseManager.Commit();
+                }
             }
 
             customCrawlHandler?.Invoke(obj);
