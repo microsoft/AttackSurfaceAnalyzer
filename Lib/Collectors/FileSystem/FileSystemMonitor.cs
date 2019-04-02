@@ -207,7 +207,6 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 
         private void OnChanged(object source, FileSystemEventArgs e)
         {
-            Logger.Instance.Debug(e.FullPath);
             if (Filter.IsFiltered(Filter.RuntimeString(), "Monitor", "File", "Path", "Exclude", e.FullPath))
             {
                 return;
