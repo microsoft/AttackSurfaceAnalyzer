@@ -221,7 +221,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 Logger.Instance.Warn("Scanning root " + root.ToString());
                 try
                 {
-                    var fileInfoEnumerable = DirectoryWalker.WalkDirectory(root, this.filter);
+                    var fileInfoEnumerable = DirectoryWalker.WalkDirectory(root);
                     Parallel.ForEach(fileInfoEnumerable,
                                     (fileInfo =>
                     {

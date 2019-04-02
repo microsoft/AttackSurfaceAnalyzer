@@ -28,39 +28,59 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             return "Unknown";
         }
-        public static bool IsFiltered(string Platform, string ScanType, string ItemType, string FilterType, string Target)
+        public static bool IsFiltered(string Platform, string ScanType, string ItemType, string Property, string FilterType, string Target)
         {
             if (config == null)
             {
                 return false;
             }
-
-            JArray filters = (JArray)config[Platform][ScanType][ItemType][FilterType];
-            Logger.Instance.Debug("Filter Entry {0}, {1}, {2}, {3}, {4}", Platform, ScanType, ItemType, FilterType, Target);
-            Logger.Instance.Debug(JsonConvert.SerializeObject(filters));
-            foreach (JValue filter in filters)
+            try
             {
-                // TODO: cache these. Check Regex class cache setting
-                Regex rgx = new Regex(filter.ToString());
-                if (rgx.IsMatch(Target))
+                JArray filters = (JArray)config[Platform][ScanType][ItemType][Property][FilterType];
+                foreach (JValue filter in filters)
                 {
-                    return true;
+                    // TODO: cache these. Check Regex class cache setting
+                    Regex rgx = new Regex(filter.ToString());
+                    if (rgx.IsMatch(Target))
+                    {
+                        Logger.Instance.Debug("Filtered {0}", Target);
+                        return true;
+                    }
                 }
             }
+            catch (NullReferenceException)
+            {
+                Logger.Instance.Debug(JsonConvert.SerializeObject(config));
+                // No filter entry for that Platform, Scantype, Itemtype, Property
+                Logger.Instance.Debug("No Filter Entry {0}, {1}, {2}, {3}, {4}", Platform, ScanType, ItemType, Property, FilterType);
+            }
+
             return false;
         }
         
         public static void LoadFilters(string filterLoc = "filters.json")
         {
-            using (StreamReader file = File.OpenText(filterLoc))
-            using (JsonTextReader reader = new JsonTextReader(file))
+            Logger.Instance.Debug("Loading filters");
+            try
             {
-                config = (JObject)JToken.ReadFrom(reader);
+                using (StreamReader file = File.OpenText(filterLoc))
+                using (JsonTextReader reader = new JsonTextReader(file))
+                {
+                    config = (JObject)JToken.ReadFrom(reader);
+                }
+                if (config == null)
+                {
+                    Logger.Instance.Debug("Out of entries");
+                }
             }
-            if (config == null)
+            catch (System.IO.FileNotFoundException)
             {
-                Logger.Instance.Debug("{0} is missing (filter configuration file)",filterLoc);
+                //That's fine, we just don't have any filters to load
+                Logger.Instance.Debug("{0} is missing (filter configuration file)", filterLoc);
+
+                return;
             }
+
         }
         
     }

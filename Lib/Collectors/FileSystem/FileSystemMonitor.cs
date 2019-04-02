@@ -3,6 +3,8 @@
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
+using System.Security.AccessControl;
 using AttackSurfaceAnalyzer.ObjectTypes;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
@@ -205,7 +207,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 
         private void OnChanged(object source, FileSystemEventArgs e)
         {
-            if (Filter.IsFiltered(Filter.RuntimeString(), "Monitor", "File", "Exclude", e.FullPath))
+            if (Filter.IsFiltered(Filter.RuntimeString(), "Monitor", "File", "Path", "Exclude", e.FullPath))
             {
                 Logger.Instance.Debug("Excluding: {0}", e.FullPath);
                 return;
@@ -217,13 +219,16 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 // Switch to using Mono here
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                 {
-                    var runner = new ExternalCommandRunner();
-                    var result = runner.RunExternalCommand("ls", "-lA \"" + e.FullPath + "\"");
+                    var unixFileInfo = new Mono.Unix.UnixFileInfo(e.FullPath);
+                    var result = unixFileInfo.FileAccessPermissions.ToString();
                     WriteChange(e, result);
                     return;
                 }
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
+                    // Found this example but it isn't working on osx
+                    //FileSecurity fSecurity = File.GetAccessControl(e.FullPath);
+
                     // @TODO
                     //
                 }
@@ -234,7 +239,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 
         private void OnRenamed(object source, RenamedEventArgs e)
         {
-            if (Filter.IsFiltered(Filter.RuntimeString(), "Monitor", "File", "Exclude", e.FullPath))
+            if (Filter.IsFiltered(Filter.RuntimeString(), "Monitor", "File", "Path", "Exclude", e.FullPath))
             {
                 Logger.Instance.Debug("Excluding: {0}", e.FullPath);
                 return;
