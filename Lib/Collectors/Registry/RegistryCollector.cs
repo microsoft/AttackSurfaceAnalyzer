@@ -28,7 +28,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
         private Action<RegistryObject> customCrawlHandler = null;
 
         private static readonly string SQL_TRUNCATE = "delete from file_system where run_id=@run_id";
-        private static readonly string SQL_INSERT = "insert into registry (run_id, row_key, key, values, permissions, serialized) values (@run_id, @row_key, @key, @values, @permissions, @serialized)";
+        private static readonly string SQL_INSERT = "insert into registry (run_id, row_key, key, value, permissions, serialized) values (@run_id, @row_key, @key, @value, @permissions, @serialized)";
 
         public RegistryCollector(string RunId) : this(RunId, DefaultHives, null) { }
 
@@ -75,7 +75,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                 cmd.Parameters.AddWithValue("@run_id", this.runId);
                 cmd.Parameters.AddWithValue("@row_key", CryptoHelpers.CreateHash(hashSeed));
                 cmd.Parameters.AddWithValue("@key", obj.Key.Name);
-                cmd.Parameters.AddWithValue("@values", JsonConvert.SerializeObject(obj.Values));
+                cmd.Parameters.AddWithValue("@value", JsonConvert.SerializeObject(obj.Values));
                 try
                 {
                     cmd.Parameters.AddWithValue("@permissions", obj.Key.GetAccessControl().GetSecurityDescriptorSddlForm(AccessControlSections.All));
