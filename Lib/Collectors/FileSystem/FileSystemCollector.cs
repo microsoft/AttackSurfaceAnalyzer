@@ -22,9 +22,6 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
         private readonly Queue<FileSystemObject> _queue = new Queue<FileSystemObject>();
         private readonly SqliteCommand cmd = new SqliteCommand(SQL_INSERT, DatabaseManager.Connection, DatabaseManager.Transaction);
 
-        public List<Regex> ignoreFilters;
-        public List<Regex> keepFilters;
-
         string runId;
 
         private System.Timers.Timer CommitTimer = new System.Timers.Timer
@@ -64,7 +61,6 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 
         public void Write(SqliteCommand cmd, FileSystemObject obj)
         {
-
             cmd.Parameters.Clear();
             cmd.Parameters.AddWithValue("@run_id", runId);
             cmd.Parameters.AddWithValue("@row_key", obj.RowKey);

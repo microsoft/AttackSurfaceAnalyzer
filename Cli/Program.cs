@@ -135,6 +135,9 @@ namespace AttackSurfaceAnalyzer.Cli
         [Option('i', "interrogate-file-changes", Required = false, HelpText = "On a file create or change gather the post-change file size and security attributes (Linux/Mac only)")]
         public bool InterrogateChanges { get; set; }
 
+        [Option('f', "filter", Required = false, HelpText = "Provide a JSON filter file.", Default = "filter.json"]
+        public string FilterLocation { get; set; }
+
         //[Option('r', "registry", Required = false, HelpText = "Monitor the registry for changes. (Windows Only)")]
         //public bool EnableRegistryMonitor { get; set; }
 
@@ -477,6 +480,7 @@ namespace AttackSurfaceAnalyzer.Cli
             Logger.Setup(false, opts.Verbose);
 #endif
             AdminOrQuit();
+            Filter.LoadFilters(opts.FilterLocation);
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
@@ -541,8 +545,6 @@ namespace AttackSurfaceAnalyzer.Cli
                         directories.Add("/");
                     }
                 }
-
-                Filter.LoadFilters();
 
                 List<NotifyFilters> filterOptions = new List<NotifyFilters>
                 {
@@ -897,6 +899,8 @@ namespace AttackSurfaceAnalyzer.Cli
             Logger.Setup(false, opts.Verbose);
 #endif
             AdminOrQuit();
+            Filter.LoadFilters(opts.FilterLocation);
+
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 

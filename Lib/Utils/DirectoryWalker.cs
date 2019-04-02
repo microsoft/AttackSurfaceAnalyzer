@@ -8,7 +8,7 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public class DirectoryWalker
     {     
-        public static IEnumerable<FileSystemInfo> WalkDirectory(string root, Func<FileSystemInfo, bool> filter)
+        public static IEnumerable<FileSystemInfo> WalkDirectory(string root)
         {
             // Data structure to hold names of subfolders to be
             // examined for files.
@@ -93,10 +93,13 @@ namespace AttackSurfaceAnalyzer.Utils
                         Logger.Instance.Debug(e.Message);
                         continue;
                     }
-                    if (filter == null || filter(fileInfo))
+                    string FullPath = String.Format("{0}{1}{2}", currentDir, Path.PathSeparator, file);
+                    if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "File", "Exclude", FullPath))
                     {
-                        yield return fileInfo;
+                        Logger.Instance.Debug("Excluding: {0}", FullPath);
+                        continue;
                     }
+                    yield return fileInfo;
 
                 }
 
@@ -128,11 +131,13 @@ namespace AttackSurfaceAnalyzer.Utils
                         Logger.Instance.Debug(e.Message);
                         continue;
                     }
-                    if (filter == null || filter(fileInfo))
+                    if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "File", "Exclude", str))
                     {
-                        dirs.Push(str);
-                        yield return fileInfo;
+                        Logger.Instance.Debug("Excluding: {0}", str);
+                        continue;
                     }
+                    dirs.Push(str);
+                    yield return fileInfo;
                 }
             }
         }
