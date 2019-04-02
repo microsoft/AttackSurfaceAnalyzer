@@ -30,6 +30,12 @@ namespace AttackSurfaceAnalyzer.Utils
             while (keys.Count > 0)
             {
                 RegistryKey currentKey = keys.Pop();
+
+                if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "Registry", "Key", "Exclude", currentKey.Name))
+                {
+                    continue;
+                }
+
                 string[] subKeys = currentKey.GetSubKeyNames();
 
                 if (currentKey == null)

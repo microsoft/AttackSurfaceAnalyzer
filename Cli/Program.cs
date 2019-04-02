@@ -110,6 +110,9 @@ namespace AttackSurfaceAnalyzer.Cli
         [Option('a', "all", Required = false, HelpText = "Enable all collectors")]
         public bool EnableAllCollectors { get; set; }
 
+        [Option("filter", Required = false, HelpText = "Provide a JSON filter file.", Default = "filters.json")]
+        public string FilterLocation { get; set; }
+
         [Option('h',"gather-hashes", Required = false, HelpText = "Hashes every file when using the File Collector.  May dramatically increase run time of the scan.")]
         public bool GatherHashes { get; set; }
 
@@ -134,6 +137,9 @@ namespace AttackSurfaceAnalyzer.Cli
 
         [Option('i', "interrogate-file-changes", Required = false, HelpText = "On a file create or change gather the post-change file size and security attributes (Linux/Mac only)")]
         public bool InterrogateChanges { get; set; }
+
+        [Option("filter", Required = false, HelpText = "Provide a JSON filter file.", Default = "filters.json")]
+        public string FilterLocation { get; set; }
 
         //[Option('r', "registry", Required = false, HelpText = "Monitor the registry for changes. (Windows Only)")]
         //public bool EnableRegistryMonitor { get; set; }
@@ -477,6 +483,7 @@ namespace AttackSurfaceAnalyzer.Cli
             Logger.Setup(false, opts.Verbose);
 #endif
             AdminOrQuit();
+            Filter.LoadFilters(opts.FilterLocation);
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
@@ -895,6 +902,7 @@ namespace AttackSurfaceAnalyzer.Cli
             Logger.Setup(false, opts.Verbose);
 #endif
             AdminOrQuit();
+            Filter.LoadFilters(opts.FilterLocation);
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
@@ -914,7 +922,6 @@ namespace AttackSurfaceAnalyzer.Cli
             string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, type) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @type)";
 
             cmd = new SqliteCommand(INSERT_RUN, DatabaseManager.Connection, DatabaseManager.Transaction);
-
 
             if (opts.EnableAllCollectors)
             {
@@ -984,6 +991,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             foreach (BaseCollector c in collectors)
             {
+                // c.Filters = read filters in here
                 Logger.Instance.Info("Executing: {0}", c.GetType().Name);
                 try
                 {
@@ -1077,7 +1085,14 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
                 if (Console.CursorLeft > 0)
                 {
-                    Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
+                    try
+                    {
+                        Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+                        Console.SetCursorPosition(0, Console.CursorTop);
+                    }
                 }
             }
         }

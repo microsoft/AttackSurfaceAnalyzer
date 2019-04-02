@@ -112,27 +112,34 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                 (hive =>
                 {
                     Logger.Instance.Debug("Starting " + hive.ToString());
-                    var registryInfoEnumerable = RegistryWalker.WalkHive(hive);
-                    try
+                    if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "Registry", "Hive", "Exclude", hive.ToString()))
                     {
-                        Parallel.ForEach(registryInfoEnumerable,
-                            (registryObject =>
-                            {
-                                try
-                                {
-                                    Write(registryObject);
-                                }
-                                catch (Exception e)
-                                {
-                                    Logger.Instance.Debug("Walk of {0} fziled", hive.ToString());
-                                    Logger.Instance.Debug(e.GetType());
-                                }
-                            }));
+                        Logger.Instance.Debug("Hive {0} is filtered.", hive.ToString());
                     }
-                    catch (Exception e)
+                    else
                     {
-                        Logger.Instance.Debug(e.GetType());
-                        Logger.Instance.Debug(e.Message);
+                        var registryInfoEnumerable = RegistryWalker.WalkHive(hive);
+                        try
+                        {
+                            Parallel.ForEach(registryInfoEnumerable,
+                                (registryObject =>
+                                {
+                                    try
+                                    {
+                                        Write(registryObject);
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        Logger.Instance.Debug("Walk of {0} fziled", hive.ToString());
+                                        Logger.Instance.Debug(e.GetType());
+                                    }
+                                }));
+                        }
+                        catch (Exception e)
+                        {
+                            Logger.Instance.Debug(e.GetType());
+                            Logger.Instance.Debug(e.Message);
+                        }
                     }
                 }));
             
