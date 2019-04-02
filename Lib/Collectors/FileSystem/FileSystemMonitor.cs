@@ -209,7 +209,6 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
         {
             if (Filter.IsFiltered(Filter.RuntimeString(), "Monitor", "File", "Path", "Exclude", e.FullPath))
             {
-                Logger.Instance.Debug("Excluding: {0}", e.FullPath);
                 return;
             }
             
@@ -241,7 +240,6 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
         {
             if (Filter.IsFiltered(Filter.RuntimeString(), "Monitor", "File", "Path", "Exclude", e.FullPath))
             {
-                Logger.Instance.Debug("Excluding: {0}", e.FullPath);
                 return;
             }
 

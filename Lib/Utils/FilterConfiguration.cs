@@ -43,7 +43,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     Regex rgx = new Regex(filter.ToString());
                     if (rgx.IsMatch(Target))
                     {
-                        Logger.Instance.Debug("Filtered {0}", Target);
+                        Logger.Instance.Debug("{0} caught {1}", rgx, Target);
                         return true;
                     }
                 }
