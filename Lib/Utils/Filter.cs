@@ -51,15 +51,15 @@ namespace AttackSurfaceAnalyzer.Utils
 
                         if (rgx.IsMatch(Target))
                         {
-                            Logger.Instance.Debug("{0} caught {1}", rgx, Target);
+                            Logger.Instance.Trace("{0} caught {1}", rgx, Target);
                             return true;
                         }
                     }
                     catch (Exception e)
                     {
-                        Logger.Instance.Debug("Probably this is omse of those garbled keys or a bad regex");
-                        Logger.Instance.Debug(e.GetType());
-                        Logger.Instance.Debug(filter.ToString());
+                        Logger.Instance.Trace("Probably this is omse of those garbled keys or a bad regex");
+                        Logger.Instance.Trace(e.GetType());
+                        Logger.Instance.Trace(filter.ToString());
 
                     }
 

@@ -189,10 +189,8 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 return;
             }
             var watch = System.Diagnostics.Stopwatch.StartNew();
-            // the code that you want to measure comes here
             wb = new WriteBuffer(runId);
             Start();
-            Truncate(runId);
             
             if (this.roots == null || this.roots.Count() == 0)
             {

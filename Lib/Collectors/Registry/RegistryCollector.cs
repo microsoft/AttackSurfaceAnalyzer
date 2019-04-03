@@ -69,7 +69,6 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
         {
             try
             {
-                _numCollected++;
                 string hashSeed = String.Format("{0}{1}", obj.Key, JsonConvert.SerializeObject(obj));
 
                 using (var cmd = new SqliteCommand(SQL_INSERT, DatabaseManager.Connection, DatabaseManager.Transaction))
@@ -94,9 +93,9 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                         Logger.Instance.Debug(e.GetType() + "thrown in registry collector");
                     }
 
-                    if (_numCollected % 100000 == 0)
+                    if (_numCollected++ % 100000 == 0)
                     {
-                        Logger.Instance.Debug(_numCollected + (" of 6-800k"));
+                        Logger.Instance.Info(_numCollected + (" of 6-800k"));
                     }
                 }
             }
@@ -130,7 +129,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                     Logger.Instance.Debug("Starting " + hive.ToString());
                     if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "Registry", "Hive", "Exclude", hive.ToString()))
                     {
-                        Logger.Instance.Debug("Hive {0} is filtered.", hive.ToString());
+                        Logger.Instance.Debug("Excluding {0} due to filter.", hive.ToString());
                     }
                     else
                     {
