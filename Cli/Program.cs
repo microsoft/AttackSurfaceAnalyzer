@@ -188,7 +188,6 @@ namespace AttackSurfaceAnalyzer.Cli
         private static readonly string SQL_GET_RESULT_TYPES_SINGLE = "select * from runs where run_id = @run_id";
 
         private static readonly string SQL_GET_RUN = "select run_id from runs where run_id=@run_id";
-        private static readonly string UPDATE_TELEMETRY = "replace into persisted_settings values ('telemetry_opt_out',@TelemetryOptOut)"; //lgtm [cs/literal-as-local]
 
 
         static void Main(string[] args)
@@ -294,17 +293,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
                 if (opts.TelemetryOptOut != null)
                 {
-                    TelemetryConfiguration.Active.DisableTelemetry = bool.Parse(opts.TelemetryOptOut);
-
-
-                    using (var cmd = new SqliteCommand(UPDATE_TELEMETRY, DatabaseManager.Connection, DatabaseManager.Transaction))
-                    {
-                        cmd.Parameters.AddWithValue("@TelemetryOptOut", bool.Parse(opts.TelemetryOptOut).ToString());
-                        cmd.ExecuteNonQuery();
-                    }
-
-                    DatabaseManager.Commit();
-
+                    Telemetry.SetOptOut(bool.Parse(opts.TelemetryOptOut));
                     Logger.Instance.Info("Your current telemetry opt out setting is {0}.", (bool.Parse(opts.TelemetryOptOut)) ? "Opted out" : "Opted in");
                 }
                 if (opts.DeleteRunId != null)
@@ -328,7 +317,12 @@ namespace AttackSurfaceAnalyzer.Cli
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
             DatabaseManager.Commit();
+            Telemetry.Setup();
+            Dictionary<string, string> StartEvent = new Dictionary<string, string>();
+            StartEvent.Add("Version", Helpers.GetVersionString());
+            StartEvent.Add("OutputPathSet", (opts.OutputPath != null).ToString());
 
+            Telemetry.Client.TrackEvent("Begin Export Compare", StartEvent);
             bool RunComparisons = true;
 
             string SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED = "select * from results where base_run_id=@base_run_id and compare_run_id=@compare_run_id";
@@ -519,6 +513,12 @@ namespace AttackSurfaceAnalyzer.Cli
             Logger.Setup(false, opts.Verbose);
 #endif
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+            Telemetry.Setup();
+            Dictionary<string, string> StartEvent = new Dictionary<string, string>();
+            StartEvent.Add("Version", Helpers.GetVersionString());
+            StartEvent.Add("OutputPathSet", (opts.OutputPath != null).ToString());
+
+            Telemetry.Client.TrackEvent("Begin Export Monitor", StartEvent);
 
             WriteMonitorJson(opts.RunId, (int)RESULT_TYPE.FILE, opts.OutputPath);
             return 0;
@@ -568,6 +568,10 @@ namespace AttackSurfaceAnalyzer.Cli
 #endif
             AdminOrQuit();
             Filter.LoadFilters(opts.FilterLocation);
+            Telemetry.Setup();
+            Dictionary<string, string> StartEvent = new Dictionary<string, string>();
+            StartEvent.Add("Version", Helpers.GetVersionString());
+            Telemetry.Client.TrackEvent("Begin monitoring", StartEvent);
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
@@ -996,6 +1000,19 @@ namespace AttackSurfaceAnalyzer.Cli
 #endif
             AdminOrQuit();
             Filter.LoadFilters(opts.FilterLocation);
+            Telemetry.Setup();
+            Dictionary<string, string> StartEvent = new Dictionary<string, string>();
+            StartEvent.Add("Version", Helpers.GetVersionString());
+            StartEvent.Add("Files", opts.EnableFileSystemCollector.ToString());
+            StartEvent.Add("Ports", opts.EnableNetworkPortCollector.ToString());
+            StartEvent.Add("Users", opts.EnableUserCollector.ToString());
+            StartEvent.Add("Certificates", opts.EnableCertificateCollector.ToString());
+            StartEvent.Add("Registry", opts.EnableRegistryCollector.ToString());
+            StartEvent.Add("Service", opts.EnableServiceCollector.ToString());
+            StartEvent.Add("Files", opts.EnableFileSystemCollector.ToString());
+            StartEvent.Add("Files", opts.EnableFileSystemCollector.ToString());
+
+            Telemetry.Client.TrackEvent("Begin collecting", StartEvent);
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 

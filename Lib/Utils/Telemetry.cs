@@ -1,0 +1,50 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.Data.Sqlite;
+
+namespace AttackSurfaceAnalyzer.Utils
+{
+    public class Telemetry
+    {
+        private static readonly string UPDATE_TELEMETRY = "replace into persisted_settings values ('telemetry_opt_out',@TelemetryOptOut)"; //lgtm [cs/literal-as-local]
+        private static readonly string CHECK_TELEMETRY = "select value from persisted_settings where setting='telemetry_opt_out'";
+
+        public static TelemetryClient Client;
+
+        public static void Setup()
+        {
+            using (var cmd = new SqliteCommand(CHECK_TELEMETRY, DatabaseManager.Connection, DatabaseManager.Transaction))
+            {
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        TelemetryConfiguration.Active.DisableTelemetry = bool.Parse(reader["value"].ToString());
+                    }
+                }
+            }
+            TelemetryConfiguration.Active.InstrumentationKey = "e44cb140-4cde-4973-a219-2106a560093d";
+            Client =  new TelemetryClient();
+        }
+
+        public static void Flush()
+        {
+            Client.Flush();
+        }
+
+        public static void SetOptOut(bool OptOut)
+        {
+            TelemetryConfiguration.Active.DisableTelemetry = OptOut;
+            using (var cmd = new SqliteCommand(UPDATE_TELEMETRY, DatabaseManager.Connection, DatabaseManager.Transaction))
+            {
+                cmd.Parameters.AddWithValue("@TelemetryOptOut", OptOut.ToString());
+                cmd.ExecuteNonQuery();
+            }
+
+            DatabaseManager.Commit();
+        }
+    }
+}
