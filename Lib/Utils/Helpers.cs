@@ -3,6 +3,7 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Reflection;
+using AttackSurfaceAnalyzer.ObjectTypes;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -38,6 +39,27 @@ namespace AttackSurfaceAnalyzer.Utils
             FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
             return fileVersionInfo.ProductVersion;
 
+        }
+
+        public static string ResultTypeToTableName(RESULT_TYPE result_type)
+        {
+            switch (result_type)
+            {
+                case RESULT_TYPE.FILE:
+                    return "file_system";
+                case RESULT_TYPE.PORT:
+                    return "network_ports";
+                case RESULT_TYPE.REGISTRY:
+                    return "registry";
+                case RESULT_TYPE.CERTIFICATE:
+                    return "certificates";
+                case RESULT_TYPE.SERVICES:
+                    return "win_system_service";
+                case RESULT_TYPE.USER:
+                    return "user_account";
+                default:
+                    return "null";
+            }
         }
     }
 }

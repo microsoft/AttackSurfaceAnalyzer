@@ -31,7 +31,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
         private static readonly string GET_MONITOR_RESULTS = "select * from file_system_monitored where run_id=@run_id order by timestamp limit @offset,@limit;"; //lgtm [cs/literal-as-local]
         private static readonly string GET_RESULT_COUNT_MONITORED = "select count(*) from file_system_monitored where run_id=@run_id;"; //lgtm [cs/literal-as-local]
         private static readonly string SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED = "select * from results where base_run_id=@base_run_id and compare_run_id=@compare_run_id"; //lgtm [cs/literal-as-local]
-        private static readonly string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, type) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @type)"; //lgtm [cs/literal-as-local]
+        private static readonly string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, type, timestamp, version) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @type, @timestamp, @version)"; //lgtm [cs/literal-as-local]
         private static readonly string GET_COMPARISON_RESULTS = "select * from compared where base_run_id=@base_run_id and compare_run_id=@compare_run_id and data_type=@data_type order by base_row_key limit @offset,@limit;"; //lgtm [cs/literal-as-local]
         private static readonly string GET_SERIALIZED_RESULTS = "select serialized from @table_name where row_key = @row_key and run_id = @run_id"; //lgtm [cs/literal-as-local]
         private static readonly string GET_RESULT_COUNT = "select count(*) from compared where base_run_id=@base_run_id and compare_run_id=@compare_run_id and data_type=@data_type"; //lgtm [cs/literal-as-local]
@@ -45,27 +45,6 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
         public IActionResult Index()
         {
             return View();
-        }
-
-        public string ResultTypeToTableName(RESULT_TYPE result_type)
-        {
-            switch (result_type)
-            {
-                case RESULT_TYPE.FILE:
-                    return "file_system";
-                case RESULT_TYPE.PORT:
-                    return "network_ports";
-                case RESULT_TYPE.REGISTRY:
-                    return "registry";
-                case RESULT_TYPE.CERTIFICATE:
-                    return "certificates";
-                case RESULT_TYPE.SERVICES:
-                    return "win_system_service";
-                case RESULT_TYPE.USER:
-                    return "user_account";
-                default:
-                    return "null";
-            }
         }
 
         public ActionResult WriteMonitorJson(string RunId, int ResultType, string OutputPath)
@@ -191,7 +170,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             {
                 if (obj.ChangeType == CHANGE_TYPE.CREATED || obj.ChangeType == CHANGE_TYPE.MODIFIED)
                 {
-                    using (var cmd = new SqliteCommand(GET_SERIALIZED_RESULTS.Replace("@table_name", ResultTypeToTableName(obj.ResultType)), DatabaseManager.Connection, DatabaseManager.Transaction))
+                    using (var cmd = new SqliteCommand(GET_SERIALIZED_RESULTS.Replace("@table_name", Helpers.ResultTypeToTableName(obj.ResultType)), DatabaseManager.Connection, DatabaseManager.Transaction))
                     {
                         cmd.Parameters.AddWithValue("@run_id", obj.CompareRunId);
                         cmd.Parameters.AddWithValue("@row_key", obj.CompareRowKey);
@@ -206,7 +185,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 }
                 if (obj.ChangeType == CHANGE_TYPE.DELETED || obj.ChangeType == CHANGE_TYPE.MODIFIED)
                 {
-                    using (var cmd = new SqliteCommand(GET_SERIALIZED_RESULTS.Replace("@table_name", ResultTypeToTableName(obj.ResultType)), DatabaseManager.Connection, DatabaseManager.Transaction))
+                    using (var cmd = new SqliteCommand(GET_SERIALIZED_RESULTS.Replace("@table_name", Helpers.ResultTypeToTableName(obj.ResultType)), DatabaseManager.Connection, DatabaseManager.Transaction))
                     {
                         cmd.Parameters.AddWithValue("@run_id", obj.BaseRunId);
                         cmd.Parameters.AddWithValue("@row_key", obj.BaseRowKey);
@@ -432,6 +411,8 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 cmd.Parameters.AddWithValue("@registry", false);
                 cmd.Parameters.AddWithValue("@certificates", false);
                 cmd.Parameters.AddWithValue("@type", "monitor");
+                cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                cmd.Parameters.AddWithValue("@version", Helpers.GetVersionString());
                 try
                 {
                     cmd.ExecuteNonQuery();

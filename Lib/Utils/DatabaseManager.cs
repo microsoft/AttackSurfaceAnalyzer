@@ -10,7 +10,7 @@ namespace AttackSurfaceAnalyzer.Utils
         // Creates the run_id table, used to optimize the speed of query to determine which runs are available to select between.
         // Each of the file_system, ports, users, services variables can be considered booleans, which indicate if the type of collection is enabled or not. Type is between "collect" and "monitor".
         // TODO: Add timestamp
-        private static readonly string SQL_CREATE_RUNS = "create table if not exists runs (run_id text, file_system int, ports int, users int, services int, registry int, certificates int, type text, unique(run_id))";
+        private static readonly string SQL_CREATE_RUNS = "create table if not exists runs (run_id text, file_system int, ports int, users int, services int, registry int, certificates int, type text, timestamp text, version text, unique(run_id))";
         private static readonly string SQL_CREATE_FILE_MONITORED = "create table if not exists file_system_monitored (run_id text, row_key text, timestamp text, change_type int, path text, old_path text, name text, old_name text, extended_results text, notify_filters text, serialized text)";
 
         private static readonly string SQL_CREATE_FILE_SYSTEM_COLLECTION = "create table if not exists file_system (run_id text, row_key text, path text, permissions text, size int, hash text, serialized text)";
@@ -36,6 +36,19 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private static readonly string SQL_CREATE_PERSISTED_SETTINGS = "create table if not exists persisted_settings (setting text, value text, unique(setting))";
         private static readonly string SQL_CREATE_DEFAULT_SETTINGS = "insert or ignore into persisted_settings (setting, value) values ('telemetry_opt_out','false')";
+
+
+        private static readonly string SQL_GET_RESULT_TYPES_SINGLE = "select * from runs where run_id = @run_id";
+        private static readonly string SQL_TRUNCATE_CERTIFICATES = "delete from certificates where run_id=@run_id";
+        private static readonly string SQL_TRUNCATE_FILES = "delete from file_system where run_id=@run_id";
+        private static readonly string SQL_TRUNCATE_USERS = "delete from user_account where run_id = @run_id";
+        private static readonly string SQL_TRUNCATE_SERVICES = "delete from win_system_service where run_id = @run_id";
+        private static readonly string SQL_TRUNCATE_REGISTRY = "delete from registry where run_id=@run_id";
+        private static readonly string SQL_TRUNCATE_PORTS = "delete from network_ports where run_id = @run_id";
+        private static readonly string SQL_TRUNCATE_FILES_MONITORED = "delete from file_system_monitored where run_id=@run_id";
+        private static readonly string SQL_TRUNCATE_RUN = "delete from runs where run_id=@run_id";
+
+
 
         public static SqliteConnection Connection;
         public static SqliteConnection ReadOnlyConnection;
@@ -97,8 +110,8 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 cmd = new SqliteCommand(SQL_CREATE_REGISTRY_RUN_ID_INDEX, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.ExecuteNonQuery();
-        
 
+                Logger.Instance.Debug("Halfway");
 
                 cmd = new SqliteCommand(SQL_CREATE_RESULT_CHANGE_TYPE_INDEX, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.ExecuteNonQuery();
@@ -108,6 +121,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 cmd = new SqliteCommand(SQL_CREATE_RESULT_COMPARE_RUN_ID_INDEX, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.ExecuteNonQuery();
+
                 DatabaseManager.Transaction.Commit();
                 _transaction = null;
                 Logger.Instance.Debug("Done with database setup");
@@ -115,8 +129,8 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        public static SqliteTransaction Transaction 
-        { 
+        public static SqliteTransaction Transaction
+        {
             get
             {
                 if (_transaction == null)
@@ -216,6 +230,90 @@ namespace AttackSurfaceAnalyzer.Utils
             // Close and null
             Connection.Close();
             Connection = null;
+        }
+
+        public static void DeleteRun(string runid)
+        {
+            using (var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES_SINGLE, DatabaseManager.Connection, DatabaseManager.Transaction))
+            {
+                cmd.Parameters.AddWithValue("@run_id", runid);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        using (var inner_cmd = new SqliteCommand(SQL_TRUNCATE_RUN, DatabaseManager.Connection, DatabaseManager.Transaction))
+                        {
+                            inner_cmd.Parameters.AddWithValue("@run_id", runid);
+                            inner_cmd.ExecuteNonQuery();
+                        }
+                        if (reader["type"].ToString() == "monitor")
+                        {
+                            if ((int.Parse(reader["file_system"].ToString()) != 0))
+                            {
+                                using (var inner_cmd = new SqliteCommand(SQL_TRUNCATE_FILES_MONITORED, DatabaseManager.Connection, DatabaseManager.Transaction))
+                                {
+                                    inner_cmd.Parameters.AddWithValue("@run_id", runid);
+                                    inner_cmd.ExecuteNonQuery();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if ((int.Parse(reader["file_system"].ToString()) != 0))
+                            {
+                                using (var inner_cmd = new SqliteCommand(SQL_TRUNCATE_FILES, DatabaseManager.Connection, DatabaseManager.Transaction))
+                                {
+                                    inner_cmd.Parameters.AddWithValue("@run_id", runid);
+                                    inner_cmd.ExecuteNonQuery();
+                                }
+                            }
+                            if ((int.Parse(reader["ports"].ToString()) != 0))
+                            {
+                                using (var inner_cmd = new SqliteCommand(SQL_TRUNCATE_PORTS, DatabaseManager.Connection, DatabaseManager.Transaction))
+                                {
+                                    inner_cmd.Parameters.AddWithValue("@run_id", runid);
+                                    inner_cmd.ExecuteNonQuery();
+                                }
+                            }
+
+
+                            if ((int.Parse(reader["users"].ToString()) != 0))
+                            {
+                                using (var inner_cmd = new SqliteCommand(SQL_TRUNCATE_USERS, DatabaseManager.Connection, DatabaseManager.Transaction))
+                                {
+                                    inner_cmd.Parameters.AddWithValue("@run_id", runid);
+                                    inner_cmd.ExecuteNonQuery();
+                                }
+                            }
+                            if ((int.Parse(reader["services"].ToString()) != 0))
+                            {
+                                using (var inner_cmd = new SqliteCommand(SQL_TRUNCATE_SERVICES, DatabaseManager.Connection, DatabaseManager.Transaction))
+                                {
+                                    inner_cmd.Parameters.AddWithValue("@run_id", runid);
+                                    inner_cmd.ExecuteNonQuery();
+                                }
+                            }
+                            if ((int.Parse(reader["registry"].ToString()) != 0))
+                            {
+                                using (var inner_cmd = new SqliteCommand(SQL_TRUNCATE_REGISTRY, DatabaseManager.Connection, DatabaseManager.Transaction))
+                                {
+                                    inner_cmd.Parameters.AddWithValue("@run_id", runid);
+                                    inner_cmd.ExecuteNonQuery();
+                                }
+                            }
+                            if ((int.Parse(reader["certificates"].ToString()) != 0))
+                            {
+                                using (var inner_cmd = new SqliteCommand(SQL_TRUNCATE_CERTIFICATES, DatabaseManager.Connection, DatabaseManager.Transaction))
+                                {
+                                    inner_cmd.Parameters.AddWithValue("@run_id", runid);
+                                    inner_cmd.ExecuteNonQuery();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            DatabaseManager.Commit();
         }
     }
 }

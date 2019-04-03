@@ -39,7 +39,6 @@ namespace AttackSurfaceAnalyzer.Cli
         [Option(Required = false, HelpText = "Base name of output file (default: output)", Default = "output")]
         public string OutputBaseFilename { get; set; }
 
-        // Omitting long name, defaults to name of property, ie "--verbose"
         [Option(Default = false, HelpText = "Increase logging verbosity")]
         public bool Verbose { get; set; }
 
@@ -59,7 +58,6 @@ namespace AttackSurfaceAnalyzer.Cli
         [Option(Required = false, HelpText = "Directory to output to (default: .)", Default = ".")]
         public string OutputPath { get; set; }
 
-        // Omitting long name, defaults to name of property, ie "--verbose"
         [Option(Default = false, HelpText = "Increase logging verbosity")]
         public bool Verbose { get; set; }
 
@@ -76,7 +74,6 @@ namespace AttackSurfaceAnalyzer.Cli
         [Option(Required = false, HelpText = "Directory to output to (default: .)", Default = ".")]
         public string OutputPath { get; set; }
 
-        // Omitting long name, defaults to name of property, ie "--verbose"
         [Option(Default = false, HelpText = "Increase logging verbosity")]
         public bool Verbose { get; set; }
 
@@ -120,7 +117,9 @@ namespace AttackSurfaceAnalyzer.Cli
         [Option('h',"gather-hashes", Required = false, HelpText = "Hashes every file when using the File Collector.  May dramatically increase run time of the scan.")]
         public bool GatherHashes { get; set; }
 
-        // Omitting long name, defaults to name of property, ie "--verbose"
+        [Option(Default =false, HelpText ="If the specified runid already exists delete all data from that run before proceeding.")]
+        public bool Overwrite { get; set; }
+
         [Option(Default = false, HelpText = "Increase logging verbosity")]
         public bool Verbose { get; set; }
     }
@@ -151,8 +150,9 @@ namespace AttackSurfaceAnalyzer.Cli
         [Option('D', "duration", Required = false, HelpText = "Duration, in minutes, to run for before automatically terminating.")]
         public int Duration { get; set; }
 
+        [Option(Default = false, HelpText = "If the specified runid already exists delete all data from that run before proceeding.")]
+        public bool Overwrite {get; set;}
 
-        // Omitting long name, defaults to name of property, ie "--verbose"
         [Option(Default = false, HelpText = "Increase logging verbosity")]
         public bool Verbose { get; set; }
     }
@@ -163,7 +163,7 @@ namespace AttackSurfaceAnalyzer.Cli
         [Option(Required = false, HelpText = "Name of output database (default: asa.sqlite)", Default = "asa.sqlite")]
         public string DatabaseFilename { get; set; }
 
-        [Option("list-runs", Required = false, HelpText = "List monitor runs")]
+        [Option("list-runs", Required = false, HelpText = "List runs in the database")]
         public bool ListRuns { get; set; }
 
         [Option("reset-database", Required = false, HelpText = "Delete the output database")]
@@ -171,6 +171,9 @@ namespace AttackSurfaceAnalyzer.Cli
 
         [Option("telemetry-opt-out", Required = false, HelpText = "Change your telemetry opt out setting")]
         public string TelemetryOptOut { get; set; }
+
+        [Option("delete-run", Required = false, HelpText = "Delete a specific run from the database")]
+        public string DeleteRunId { get; set; }
     }
 
     public static class AttackSurfaceAnalyzerCLI
@@ -216,44 +219,101 @@ namespace AttackSurfaceAnalyzer.Cli
         {
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
-
-            if (opts.ListRuns)
-            {
-                Logger.Instance.Info("Begin Collect Run Ids");
-                List<string> CollectRuns = GetRuns("collect");
-                foreach (string RunId in CollectRuns)
-                {
-                    Logger.Instance.Info(RunId);
-                }
-                Logger.Instance.Info("End Collect Run Ids");
-                Logger.Instance.Info("Begin Monitor Run Ids");
-                List<string> MonitorRuns = GetRuns("monitor");
-                foreach (string RunId in MonitorRuns)
-                {
-                    Logger.Instance.Info(RunId);
-                }
-                Logger.Instance.Info("End Monitor Run Ids");
-            }
             if (opts.ResetDatabase)
             {
                 DatabaseManager.CloseDatabase();
                 File.Delete(opts.DatabaseFilename);
+                Logger.Instance.Info("Deleted Database");
             }
-            if (opts.TelemetryOptOut != null)
+            else
             {
-                TelemetryConfiguration.Active.DisableTelemetry = bool.Parse(opts.TelemetryOptOut);
-
-
-                using (var cmd = new SqliteCommand(UPDATE_TELEMETRY, DatabaseManager.Connection, DatabaseManager.Transaction))
+                if (opts.ListRuns)
                 {
-                    cmd.Parameters.AddWithValue("@TelemetryOptOut", bool.Parse(opts.TelemetryOptOut).ToString());
-                    cmd.ExecuteNonQuery();
+
+                    Logger.Instance.Info("Begin Collect Run Ids");
+                    List<string> CollectRuns = GetRuns("collect");
+                    foreach (string run in CollectRuns)
+                    {
+                        using (var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES_SINGLE, DatabaseManager.Connection, DatabaseManager.Transaction))
+                        {
+                            cmd.Parameters.AddWithValue("@run_id", run);
+                            using (var reader = cmd.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    string output = String.Format("{0} {1} {2} {3}",
+                                                                    reader["timestamp"].ToString(),
+                                                                    reader["version"].ToString(),
+                                                                    reader["type"].ToString(),
+                                                                    reader["run_id"].ToString());
+                                    Logger.Instance.Info(output);
+                                    output = String.Format("{0} {1} {2} {3} {4} {5}",
+                                                            (int.Parse(reader["file_system"].ToString()) != 0) ? "FILES" : "",
+                                                            (int.Parse(reader["ports"].ToString()) != 0) ? "PORTS" : "",
+                                                            (int.Parse(reader["users"].ToString()) != 0) ? "USERS" : "",
+                                                            (int.Parse(reader["services"].ToString()) != 0) ? "SERVICES" : "",
+                                                            (int.Parse(reader["certificates"].ToString()) != 0) ? "CERTIFICATES" : "",
+                                                            (int.Parse(reader["registry"].ToString()) != 0) ? "REGISTRY" : "");
+                                    Logger.Instance.Info(output);
+
+                                }
+                            }
+                        }
+                    }
+                    Logger.Instance.Info("Begin monitor Run Ids");
+                    List<string> MonitorRuns = GetRuns("monitor");
+                    foreach (string monitorRun in MonitorRuns)
+                    {
+                        using (var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES_SINGLE, DatabaseManager.Connection, DatabaseManager.Transaction))
+                        {
+                            cmd.Parameters.AddWithValue("@run_id", monitorRun);
+                            using (var reader = cmd.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    string output = String.Format("{0} {1} {2} {3}",
+                                                                    reader["timestamp"].ToString(),
+                                                                    reader["version"].ToString(),
+                                                                    reader["type"].ToString(),
+                                                                    reader["run_id"].ToString());
+                                    Logger.Instance.Info(output);
+                                    output = String.Format("{0} {1} {2} {3} {4} {5}",
+                                                            (int.Parse(reader["file_system"].ToString()) != 0) ? "FILES" : "",
+                                                            (int.Parse(reader["ports"].ToString()) != 0) ? "PORTS" : "",
+                                                            (int.Parse(reader["users"].ToString()) != 0) ? "USERS" : "",
+                                                            (int.Parse(reader["services"].ToString()) != 0) ? "SERVICES" : "",
+                                                            (int.Parse(reader["certificates"].ToString()) != 0) ? "CERTIFICATES" : "",
+                                                            (int.Parse(reader["registry"].ToString()) != 0) ? "REGISTRY" : "");
+                                    Logger.Instance.Info(output);
+
+                                }
+                            }
+                        }
+                    }
                 }
 
-                DatabaseManager.Commit();
+                if (opts.TelemetryOptOut != null)
+                {
+                    TelemetryConfiguration.Active.DisableTelemetry = bool.Parse(opts.TelemetryOptOut);
 
-                Logger.Instance.Info("Your current telemetry opt out setting is {0}.", (bool.Parse(opts.TelemetryOptOut)) ? "Opted out" : "Opted in");
+
+                    using (var cmd = new SqliteCommand(UPDATE_TELEMETRY, DatabaseManager.Connection, DatabaseManager.Transaction))
+                    {
+                        cmd.Parameters.AddWithValue("@TelemetryOptOut", bool.Parse(opts.TelemetryOptOut).ToString());
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    DatabaseManager.Commit();
+
+                    Logger.Instance.Info("Your current telemetry opt out setting is {0}.", (bool.Parse(opts.TelemetryOptOut)) ? "Opted out" : "Opted in");
+                }
+                if (opts.DeleteRunId != null)
+                {
+                    DatabaseManager.DeleteRun(opts.DeleteRunId);
+                }
             }
+
+
 
             return 0;
         }
@@ -335,7 +395,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
                         if (ChangeType == CHANGE_TYPE.CREATED || ChangeType == CHANGE_TYPE.MODIFIED)
                         {
-                            var inner_cmd = new SqliteCommand(GET_SERIALIZED_RESULTS.Replace("@table_name", ResultTypeToTableName(ExportType)), DatabaseManager.Connection);
+                            var inner_cmd = new SqliteCommand(GET_SERIALIZED_RESULTS.Replace("@table_name", Helpers.ResultTypeToTableName(ExportType)), DatabaseManager.Connection);
                             inner_cmd.Parameters.AddWithValue("@run_id", reader["compare_run_id"].ToString());
                             inner_cmd.Parameters.AddWithValue("@row_key", reader["compare_row_key"].ToString());
                             using (var inner_reader = inner_cmd.ExecuteReader())
@@ -348,7 +408,7 @@ namespace AttackSurfaceAnalyzer.Cli
                         }
                         if (ChangeType == CHANGE_TYPE.DELETED || ChangeType == CHANGE_TYPE.MODIFIED)
                         {
-                            var inner_cmd = new SqliteCommand(GET_SERIALIZED_RESULTS.Replace("@table_name", ResultTypeToTableName(ExportType)), DatabaseManager.Connection);
+                            var inner_cmd = new SqliteCommand(GET_SERIALIZED_RESULTS.Replace("@table_name", Helpers.ResultTypeToTableName(ExportType)), DatabaseManager.Connection);
                             inner_cmd.Parameters.AddWithValue("@run_id", reader["base_run_id"].ToString());
                             inner_cmd.Parameters.AddWithValue("@row_key", reader["base_row_key"].ToString());
                             using (var inner_reader = inner_cmd.ExecuteReader())
@@ -511,20 +571,28 @@ namespace AttackSurfaceAnalyzer.Cli
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
-            var cmd = new SqliteCommand(SQL_GET_RUN, DatabaseManager.Connection);
-            cmd.Parameters.AddWithValue("@run_id", opts.RunId);
-            using (var reader = cmd.ExecuteReader())
+            if (opts.Overwrite)
             {
-                while (reader.Read())
+                DatabaseManager.DeleteRun(opts.RunId);
+            }
+            else
+            {
+                var inner_cmd = new SqliteCommand(SQL_GET_RUN, DatabaseManager.Connection, DatabaseManager.Transaction);
+                inner_cmd.Parameters.AddWithValue("@run_id", opts.RunId);
+                using (var reader = inner_cmd.ExecuteReader())
                 {
-                    Logger.Instance.Error("That runid was already used. Must use a unique runid for each run.");
-                    return (int)ERRORS.UNIQUE_ID;
+                    while (reader.Read())
+                    {
+                        Logger.Instance.Error("That runid was already used. Must use a unique runid for each run. Use --overwrite to discard previous run information.");
+                        return (int)ERRORS.UNIQUE_ID;
+                    }
                 }
+
             }
 
-            string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, type) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @type)";
+            string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, type, timestamp, version) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @type, @timestamp, @version)";
 
-            cmd = new SqliteCommand(INSERT_RUN, DatabaseManager.Connection, DatabaseManager.Transaction);
+            var cmd = new SqliteCommand(INSERT_RUN, DatabaseManager.Connection, DatabaseManager.Transaction);
             cmd.Parameters.AddWithValue("@run_id", opts.RunId);
             cmd.Parameters.AddWithValue("@file_system", opts.EnableFileSystemMonitor);
             cmd.Parameters.AddWithValue("@ports", false);
@@ -533,6 +601,8 @@ namespace AttackSurfaceAnalyzer.Cli
             cmd.Parameters.AddWithValue("@registry", false);
             cmd.Parameters.AddWithValue("@certificates", false);
             cmd.Parameters.AddWithValue("@type", "monitor");
+            cmd.Parameters.AddWithValue("@timestamp",DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+            cmd.Parameters.AddWithValue("@version", Helpers.GetVersionString());
             try
             {
                 cmd.ExecuteNonQuery();
@@ -931,20 +1001,28 @@ namespace AttackSurfaceAnalyzer.Cli
 
             int returnValue = (int)ERRORS.NONE;
 
-            var cmd = new SqliteCommand(SQL_GET_RUN, DatabaseManager.Connection);
-            cmd.Parameters.AddWithValue("@run_id", opts.RunId);
-            using (var reader = cmd.ExecuteReader())
+            if (opts.Overwrite)
             {
-                while (reader.Read())
+                DatabaseManager.DeleteRun(opts.RunId);
+            }
+            else
+            {
+                var cmd = new SqliteCommand(SQL_GET_RUN, DatabaseManager.Connection);
+                cmd.Parameters.AddWithValue("@run_id", opts.RunId);
+                using (var reader = cmd.ExecuteReader())
                 {
-                    Logger.Instance.Error("That runid was already used. Must use a unique runid for each run.");
-                    return (int)ERRORS.UNIQUE_ID;
+                    while (reader.Read())
+                    {
+                        Logger.Instance.Error("That runid was already used. Must use a unique runid for each run. Use --overwrite to discard previous run information.");
+                        return (int)ERRORS.UNIQUE_ID;
+                    }
                 }
             }
 
-            string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, type) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @type)";
 
-            using (cmd = new SqliteCommand(INSERT_RUN, DatabaseManager.Connection, DatabaseManager.Transaction))
+            string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, type, timestamp, version) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @type, @timestamp, @version)";
+
+            using (var cmd = new SqliteCommand(INSERT_RUN, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
                 if (opts.MatchedCollectorId != null)
                 {
@@ -987,6 +1065,8 @@ namespace AttackSurfaceAnalyzer.Cli
                 cmd.Parameters.AddWithValue("@run_id", opts.RunId);
 
                 cmd.Parameters.AddWithValue("@type", "collect");
+                cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                cmd.Parameters.AddWithValue("@version", Helpers.GetVersionString());
                 try
                 {
                     cmd.ExecuteNonQuery();
@@ -1143,28 +1223,5 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
             }
         }
-
-        public static string ResultTypeToTableName(RESULT_TYPE result_type)
-        {
-            switch (result_type)
-            {
-                case RESULT_TYPE.FILE:
-                    return "file_system";
-                case RESULT_TYPE.PORT:
-                    return "network_ports";
-                case RESULT_TYPE.REGISTRY:
-                    return "registry";
-                case RESULT_TYPE.CERTIFICATE:
-                    return "certificates";
-                case RESULT_TYPE.SERVICES:
-                    return "win_system_service";
-                case RESULT_TYPE.USER:
-                    return "user_account";
-                default:
-                    return "null";
-            }
-        }
     }
-
-
 }
