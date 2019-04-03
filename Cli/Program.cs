@@ -19,6 +19,7 @@ using AttackSurfaceAnalyzer.ObjectTypes;
 using Newtonsoft.Json;
 using System.Reflection;
 using System.Diagnostics;
+using Microsoft.ApplicationInsights.Extensibility;
 
 namespace AttackSurfaceAnalyzer.Cli
 {
@@ -110,6 +111,9 @@ namespace AttackSurfaceAnalyzer.Cli
         [Option('a', "all", Required = false, HelpText = "Enable all collectors")]
         public bool EnableAllCollectors { get; set; }
 
+        [Option("match-run-id", Required = false, HelpText = "Match the collectors used on another run id")]
+        public string MatchedCollectorId { get; set; }
+
         [Option("filter", Required = false, HelpText = "Provide a JSON filter file.", Default = "filters.json")]
         public string FilterLocation { get; set; }
 
@@ -153,17 +157,20 @@ namespace AttackSurfaceAnalyzer.Cli
         public bool Verbose { get; set; }
     }
 
-    [Verb("list", HelpText = "List runs in the database")]
-    public class ListCommandOptions
+    [Verb("config", HelpText = "List runs in the database")]
+    public class ConfigCommandOptions
     {
         [Option(Required = false, HelpText = "Name of output database (default: asa.sqlite)", Default = "asa.sqlite")]
         public string DatabaseFilename { get; set; }
 
-        [Option('m', "monitor", Required = false, HelpText = "List monitor runs")]
-        public bool ListMonitorRuns { get; set; }
+        [Option("list-runs", Required = false, HelpText = "List monitor runs")]
+        public bool ListRuns { get; set; }
 
-        [Option('c', "collect", Required = false, HelpText = "List collection runs")]
-        public bool ListCollectRuns { get; set; }
+        [Option("reset-database", Required = false, HelpText = "Delete the output database")]
+        public bool ResetDatabase { get; set; }
+
+        [Option("telemetry-opt-out", Required = false, HelpText = "Change your telemetry opt out setting")]
+        public string TelemetryOptOut { get; set; }
     }
 
     public static class AttackSurfaceAnalyzerCLI
@@ -175,7 +182,10 @@ namespace AttackSurfaceAnalyzer.Cli
         private static readonly string INSERT_RUN_INTO_RESULT_TABLE_SQL = "insert into results (base_run_id, compare_run_id, status) values (@base_run_id, @compare_run_id, @status);";
         private static readonly string UPDATE_RUN_IN_RESULT_TABLE = "update results set status = @status where (base_run_id = @base_run_id and compare_run_id = @compare_run_id)";
         private static readonly string SQL_GET_RESULT_TYPES = "select * from runs where run_id = @base_run_id or run_id = @compare_run_id";
+        private static readonly string SQL_GET_RESULT_TYPES_SINGLE = "select * from runs where run_id = @run_id";
+
         private static readonly string SQL_GET_RUN = "select run_id from runs where run_id=@run_id";
+        private static readonly string UPDATE_TELEMETRY = "replace into persisted_settings values ('telemetry_opt_out',@TelemetryOptOut)"; //lgtm [cs/literal-as-local]
 
 
         static void Main(string[] args)
@@ -188,30 +198,26 @@ namespace AttackSurfaceAnalyzer.Cli
             Logger.Instance.Info("AttackSurfaceAnalyzerCli v." + version);
             Logger.Instance.Debug(version);
 
-            var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, CompareCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions, ListCommandOptions>(args)
+            var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, CompareCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions, ConfigCommandOptions>(args)
                 .MapResult(
                     (CollectCommandOptions opts) => RunCollectCommand(opts),
                     (CompareCommandOptions opts) => RunCompareCommand(opts),
                     (MonitorCommandOptions opts) => RunMonitorCommand(opts),
                     (ExportCollectCommandOptions opts) => RunExportCollectCommand(opts),
                     (ExportMonitorCommandOptions opts) => RunExportMonitorCommand(opts),
-                    (ListCommandOptions opts) => ListRuns(opts),
+                    (ConfigCommandOptions opts) => SetupConfig(opts),
                     errs => 1
                 );
 
             Logger.Instance.Info("Attack Surface Analyzer Complete.");
         }
 
-        private static int ListRuns(ListCommandOptions opts)
+        private static int SetupConfig(ConfigCommandOptions opts)
         {
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
-            if (!opts.ListCollectRuns && !opts.ListMonitorRuns)
-            {
-                opts.ListCollectRuns = true;
-                opts.ListMonitorRuns = true;
-            }
-            if (opts.ListCollectRuns)
+
+            if (opts.ListRuns)
             {
                 Logger.Instance.Info("Begin Collect Run Ids");
                 List<string> CollectRuns = GetRuns("collect");
@@ -220,9 +226,6 @@ namespace AttackSurfaceAnalyzer.Cli
                     Logger.Instance.Info(RunId);
                 }
                 Logger.Instance.Info("End Collect Run Ids");
-            }
-            if (opts.ListMonitorRuns)
-            {
                 Logger.Instance.Info("Begin Monitor Run Ids");
                 List<string> MonitorRuns = GetRuns("monitor");
                 foreach (string RunId in MonitorRuns)
@@ -230,6 +233,26 @@ namespace AttackSurfaceAnalyzer.Cli
                     Logger.Instance.Info(RunId);
                 }
                 Logger.Instance.Info("End Monitor Run Ids");
+            }
+            if (opts.ResetDatabase)
+            {
+                DatabaseManager.CloseDatabase();
+                File.Delete(opts.DatabaseFilename);
+            }
+            if (opts.TelemetryOptOut != null)
+            {
+                TelemetryConfiguration.Active.DisableTelemetry = bool.Parse(opts.TelemetryOptOut);
+
+
+                using (var cmd = new SqliteCommand(UPDATE_TELEMETRY, DatabaseManager.Connection, DatabaseManager.Transaction))
+                {
+                    cmd.Parameters.AddWithValue("@TelemetryOptOut", bool.Parse(opts.TelemetryOptOut).ToString());
+                    cmd.ExecuteNonQuery();
+                }
+
+                DatabaseManager.Commit();
+
+                Logger.Instance.Info("Your current telemetry opt out setting is {0}.", (bool.Parse(opts.TelemetryOptOut)) ? "Opted out" : "Opted in");
             }
 
             return 0;
@@ -921,41 +944,65 @@ namespace AttackSurfaceAnalyzer.Cli
 
             string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, type) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @type)";
 
-            cmd = new SqliteCommand(INSERT_RUN, DatabaseManager.Connection, DatabaseManager.Transaction);
+            using (cmd = new SqliteCommand(INSERT_RUN, DatabaseManager.Connection, DatabaseManager.Transaction))
+            {
+                if (opts.MatchedCollectorId != null)
+                {
+                    using (var inner_cmd = new SqliteCommand(SQL_GET_RESULT_TYPES_SINGLE, DatabaseManager.Connection, DatabaseManager.Transaction))
+                    {
+                        inner_cmd.Parameters.AddWithValue("@run_id", opts.MatchedCollectorId);
+                        using (var reader = inner_cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                opts.EnableFileSystemCollector = (int.Parse(reader["file_system"].ToString()) != 0);
+                                opts.EnableNetworkPortCollector = (int.Parse(reader["ports"].ToString()) != 0);
+                                opts.EnableUserCollector = (int.Parse(reader["users"].ToString()) != 0);
+                                opts.EnableServiceCollector = (int.Parse(reader["services"].ToString()) != 0);
+                                opts.EnableRegistryCollector = (int.Parse(reader["registry"].ToString()) != 0);
+                                opts.EnableCertificateCollector = (int.Parse(reader["certificates"].ToString()) != 0);
+                            }
+                        }
+                    }
+                }
+                else if (opts.EnableAllCollectors)
+                {
+                    opts.EnableFileSystemCollector = true;
+                    opts.EnableNetworkPortCollector = true;
+                    opts.EnableUserCollector = true;
+                    opts.EnableServiceCollector = true;
+                    opts.EnableRegistryCollector = true;
+                    opts.EnableCertificateCollector = true;
+                }
 
-            if (opts.EnableAllCollectors)
-            {
-                cmd.Parameters.AddWithValue("@file_system", true);
-                cmd.Parameters.AddWithValue("@ports", true);
-                cmd.Parameters.AddWithValue("@users", true);
-                cmd.Parameters.AddWithValue("@services", true);
-                cmd.Parameters.AddWithValue("@registry", true);
-                cmd.Parameters.AddWithValue("@certificates", true);
-            }
-            else
-            {
+
                 cmd.Parameters.AddWithValue("@file_system", opts.EnableFileSystemCollector);
                 cmd.Parameters.AddWithValue("@ports", opts.EnableNetworkPortCollector);
                 cmd.Parameters.AddWithValue("@users", opts.EnableUserCollector);
                 cmd.Parameters.AddWithValue("@services", opts.EnableServiceCollector);
                 cmd.Parameters.AddWithValue("@registry", opts.EnableRegistryCollector);
                 cmd.Parameters.AddWithValue("@certificates", opts.EnableCertificateCollector);
+                
+
+                cmd.Parameters.AddWithValue("@run_id", opts.RunId);
+
+                cmd.Parameters.AddWithValue("@type", "collect");
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                    DatabaseManager.Commit();
+                }
+                catch (Exception e)
+                {
+                    Logger.Instance.Warn(e.StackTrace);
+                    Logger.Instance.Warn(e.Message);
+                    returnValue = (int)ERRORS.UNIQUE_ID;
+                }
             }
 
-            cmd.Parameters.AddWithValue("@run_id", opts.RunId);
 
-            cmd.Parameters.AddWithValue("@type", "collect");
-            try
-            {
-                cmd.ExecuteNonQuery();
-                DatabaseManager.Commit();
-            }
-            catch (Exception e)
-            {
-                Logger.Instance.Warn(e.StackTrace);
-                Logger.Instance.Warn(e.Message);
-                returnValue = (int)ERRORS.UNIQUE_ID;
-            }
+
+
             if (opts.EnableFileSystemCollector || opts.EnableAllCollectors)
             {
                 collectors.Add(new FileSystemCollector(opts.RunId, enableHashing:opts.GatherHashes));

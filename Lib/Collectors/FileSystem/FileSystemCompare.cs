@@ -11,7 +11,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 {
     public class FileSystemCompare : BaseCompare
     {
-        private static readonly string SELECT_MODIFIED_SQL = "select a.row_key as 'base_row_key', a.serialized as 'a_serialized', b.row_key as 'b_row_key', b.serialized as 'b_serialized' from file_system a, file_system b where a.run_id=@first_run_id and b.run_id=@second_run_id and a.path = b.path and a.row_key != b.row_key";
+        private static readonly string SELECT_MODIFIED_SQL = "select a.row_key as 'a_row_key', a.serialized as 'a_serialized', b.row_key as 'b_row_key', b.serialized as 'b_serialized' from file_system a, file_system b where a.run_id=@first_run_id and b.run_id=@second_run_id and a.path = b.path and a.row_key != b.row_key";
 
         private static readonly string SELECT_INSERTED_SQL = "select row_key, serialized from file_system b where b.run_id = @second_run_id and path not in (select path from file_system a where a.run_id = @first_run_id);";
         private static readonly string SELECT_DELETED_SQL = "select row_key, serialized from file_system a where a.run_id = @first_run_id and path not in (select path from file_system b where b.run_id = @second_run_id);";
