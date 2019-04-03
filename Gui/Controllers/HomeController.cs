@@ -31,7 +31,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
         private static readonly string GET_MONITOR_RESULTS = "select * from file_system_monitored where run_id=@run_id order by timestamp limit @offset,@limit;"; //lgtm [cs/literal-as-local]
         private static readonly string GET_RESULT_COUNT_MONITORED = "select count(*) from file_system_monitored where run_id=@run_id;"; //lgtm [cs/literal-as-local]
         private static readonly string SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED = "select * from results where base_run_id=@base_run_id and compare_run_id=@compare_run_id"; //lgtm [cs/literal-as-local]
-        private static readonly string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, type) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @type)"; //lgtm [cs/literal-as-local]
+        private static readonly string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, type, timestamp, version) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @type, @timestamp, @version)"; //lgtm [cs/literal-as-local]
         private static readonly string GET_COMPARISON_RESULTS = "select * from compared where base_run_id=@base_run_id and compare_run_id=@compare_run_id and data_type=@data_type order by base_row_key limit @offset,@limit;"; //lgtm [cs/literal-as-local]
         private static readonly string GET_SERIALIZED_RESULTS = "select serialized from @table_name where row_key = @row_key and run_id = @run_id"; //lgtm [cs/literal-as-local]
         private static readonly string GET_RESULT_COUNT = "select count(*) from compared where base_run_id=@base_run_id and compare_run_id=@compare_run_id and data_type=@data_type"; //lgtm [cs/literal-as-local]
@@ -411,6 +411,8 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 cmd.Parameters.AddWithValue("@registry", false);
                 cmd.Parameters.AddWithValue("@certificates", false);
                 cmd.Parameters.AddWithValue("@type", "monitor");
+                cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                cmd.Parameters.AddWithValue("@version", Helpers.GetVersionString());
                 try
                 {
                     cmd.ExecuteNonQuery();

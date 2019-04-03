@@ -163,7 +163,7 @@ namespace AttackSurfaceAnalyzer.Cli
         [Option(Required = false, HelpText = "Name of output database (default: asa.sqlite)", Default = "asa.sqlite")]
         public string DatabaseFilename { get; set; }
 
-        [Option("list-runs", Required = false, HelpText = "List monitor runs")]
+        [Option("list-runs", Required = false, HelpText = "List runs in the database")]
         public bool ListRuns { get; set; }
 
         [Option("reset-database", Required = false, HelpText = "Delete the output database")]
@@ -229,20 +229,67 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 if (opts.ListRuns)
                 {
+
                     Logger.Instance.Info("Begin Collect Run Ids");
                     List<string> CollectRuns = GetRuns("collect");
-                    foreach (string RunId in CollectRuns)
+                    foreach (string run in CollectRuns)
                     {
-                        Logger.Instance.Info(RunId);
+                        using (var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES_SINGLE, DatabaseManager.Connection, DatabaseManager.Transaction))
+                        {
+                            cmd.Parameters.AddWithValue("@run_id", run);
+                            using (var reader = cmd.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    string output = String.Format("{0} {1} {2} {3}",
+                                                                    reader["timestamp"].ToString(),
+                                                                    reader["version"].ToString(),
+                                                                    reader["type"].ToString(),
+                                                                    reader["run_id"].ToString());
+                                    Logger.Instance.Info(output);
+                                    output = String.Format("{0} {1} {2} {3} {4} {5}",
+                                                            (int.Parse(reader["file_system"].ToString()) != 0) ? "FILES" : "",
+                                                            (int.Parse(reader["ports"].ToString()) != 0) ? "PORTS" : "",
+                                                            (int.Parse(reader["users"].ToString()) != 0) ? "USERS" : "",
+                                                            (int.Parse(reader["services"].ToString()) != 0) ? "SERVICES" : "",
+                                                            (int.Parse(reader["certificates"].ToString()) != 0) ? "CERTIFICATES" : "",
+                                                            (int.Parse(reader["registry"].ToString()) != 0) ? "REGISTRY" : "");
+                                    Logger.Instance.Info(output);
+
+                                }
+                            }
+                        }
                     }
-                    Logger.Instance.Info("End Collect Run Ids");
-                    Logger.Instance.Info("Begin Monitor Run Ids");
+                    Logger.Instance.Info("Begin monitor Run Ids");
                     List<string> MonitorRuns = GetRuns("monitor");
-                    foreach (string RunId in MonitorRuns)
+                    foreach (string monitorRun in MonitorRuns)
                     {
-                        Logger.Instance.Info(RunId);
+                        using (var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES_SINGLE, DatabaseManager.Connection, DatabaseManager.Transaction))
+                        {
+                            cmd.Parameters.AddWithValue("@run_id", monitorRun);
+                            using (var reader = cmd.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    string output = String.Format("{0} {1} {2} {3}",
+                                                                    reader["timestamp"].ToString(),
+                                                                    reader["version"].ToString(),
+                                                                    reader["type"].ToString(),
+                                                                    reader["run_id"].ToString());
+                                    Logger.Instance.Info(output);
+                                    output = String.Format("{0} {1} {2} {3} {4} {5}",
+                                                            (int.Parse(reader["file_system"].ToString()) != 0) ? "FILES" : "",
+                                                            (int.Parse(reader["ports"].ToString()) != 0) ? "PORTS" : "",
+                                                            (int.Parse(reader["users"].ToString()) != 0) ? "USERS" : "",
+                                                            (int.Parse(reader["services"].ToString()) != 0) ? "SERVICES" : "",
+                                                            (int.Parse(reader["certificates"].ToString()) != 0) ? "CERTIFICATES" : "",
+                                                            (int.Parse(reader["registry"].ToString()) != 0) ? "REGISTRY" : "");
+                                    Logger.Instance.Info(output);
+
+                                }
+                            }
+                        }
                     }
-                    Logger.Instance.Info("End Monitor Run Ids");
                 }
 
                 if (opts.TelemetryOptOut != null)
@@ -530,7 +577,7 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             else
             {
-                var inner_cmd = new SqliteCommand(SQL_GET_RUN, DatabaseManager.Connection);
+                var inner_cmd = new SqliteCommand(SQL_GET_RUN, DatabaseManager.Connection, DatabaseManager.Transaction);
                 inner_cmd.Parameters.AddWithValue("@run_id", opts.RunId);
                 using (var reader = inner_cmd.ExecuteReader())
                 {
@@ -543,7 +590,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             }
 
-            string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, type) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @type)";
+            string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, type, timestamp, version) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @type, @timestamp, @version)";
 
             var cmd = new SqliteCommand(INSERT_RUN, DatabaseManager.Connection, DatabaseManager.Transaction);
             cmd.Parameters.AddWithValue("@run_id", opts.RunId);
@@ -554,6 +601,8 @@ namespace AttackSurfaceAnalyzer.Cli
             cmd.Parameters.AddWithValue("@registry", false);
             cmd.Parameters.AddWithValue("@certificates", false);
             cmd.Parameters.AddWithValue("@type", "monitor");
+            cmd.Parameters.AddWithValue("@timestamp",DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+            cmd.Parameters.AddWithValue("@version", Helpers.GetVersionString());
             try
             {
                 cmd.ExecuteNonQuery();
@@ -971,7 +1020,7 @@ namespace AttackSurfaceAnalyzer.Cli
             }
 
 
-            string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, type) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @type)";
+            string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, type, timestamp, version) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @type, @timestamp, @version)";
 
             using (var cmd = new SqliteCommand(INSERT_RUN, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
@@ -1016,6 +1065,8 @@ namespace AttackSurfaceAnalyzer.Cli
                 cmd.Parameters.AddWithValue("@run_id", opts.RunId);
 
                 cmd.Parameters.AddWithValue("@type", "collect");
+                cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                cmd.Parameters.AddWithValue("@version", Helpers.GetVersionString());
                 try
                 {
                     cmd.ExecuteNonQuery();
