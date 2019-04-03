@@ -208,7 +208,7 @@ namespace AttackSurfaceAnalyzer.Utils
             Connection.Open();
         }
 
-        static void CloseDatabase()
+        public static void CloseDatabase()
         {
             // Abandon any in-progress transaction
             _transaction = null;
