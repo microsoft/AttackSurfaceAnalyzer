@@ -603,7 +603,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.Error(ex, "Error collecting from {0}: {1}", c.GetType().Name, ex.Message);
+                    Logger.Instance.Error(ex, "Error collecting from {0}: {1} {2}", c.GetType().Name, ex.Message, ex.StackTrace);
                     returnValue = 1;
                 }
             }
@@ -839,7 +839,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.Error(ex, "Error collecting from {0}: {1}", c.GetType().Name, ex.Message);
+                    Logger.Instance.Error(ex, "Error collecting from {0}: {1} {2}", c.GetType().Name, ex.Message, ex.StackTrace);
                 }
             }
 
@@ -999,8 +999,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.Info(ex.Message);
-                    Logger.Instance.Error(ex, "Error collecting from {0}: {1}", c.GetType().Name, ex.Message);
+                    Logger.Instance.Error(ex, "Error collecting from {0}: {1} {2}", c.GetType().Name, ex.Message, ex.StackTrace);
                     returnValue = 1;
                 }
                 Logger.Instance.Info("Completed: {0}", c.GetType().Name);

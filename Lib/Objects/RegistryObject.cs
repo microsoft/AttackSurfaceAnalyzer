@@ -1,5 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+using System;
+using System.Collections.Generic;
 using System.Security.AccessControl;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Win32;
@@ -9,12 +11,11 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
     public class RegistryObject
     {
 
-        public RegistryKey Key;
-
-        public string Path;
-        public bool IsKey;
-        public string Value;
-        public string Contents;
+        public string Key;
+        public Dictionary<string, string> Values;
+        public List<string> Subkeys;
+        public string Permissions;
+        
 
         public string RowKey
         {
@@ -24,19 +25,67 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
             }
         }
 
-        public override string ToString()
+        private static List<string> GetSubkeys(RegistryKey key)
         {
-            return string.Format("Key={0}, Value={1}, Contents={2}, IsKey={3}, Permissions={4}", Key.Name, Value, Contents, IsKey, Key.GetAccessControl().GetSecurityDescriptorSddlForm(AccessControlSections.All));
+            return new List<string>(key.GetSubKeyNames());
         }
 
-        public RegistryObject(RegistryKey Key, bool isKey) : this(Key, "", "", isKey) { }
-
-        public RegistryObject(RegistryKey Key, string Value, string Contents, bool isKey)
+                private static Dictionary<string, string> GetValues(RegistryKey key)
         {
-            this.Key = Key;
-            this.Value = Value;
-            this.Contents = Contents;
-            this.IsKey = isKey;
+            Dictionary<string, string> values = new Dictionary<string, string>();
+            // Write values under key and commit
+            foreach (var value in key.GetValueNames())
+            {
+                var Value = key.GetValue(value);
+                string str = "";
+
+                // This is okay. It is a zero-length value
+                if (Value == null)
+                {
+                    // We can leave this empty
+                }
+
+                else if (Value.ToString() == "System.Byte[]")
+                {
+                    str = Convert.ToBase64String((System.Byte[])Value);
+                }
+
+                else if (Value.ToString() == "System.String[]")
+                {
+                    str = "";
+                    foreach (String st in (System.String[])Value)
+                    {
+                        str += st;
+                    }
+                }
+
+                else
+                {
+                    if (Value.ToString() == Value.GetType().ToString())
+                    {
+                        Logger.Instance.Warn("Uh oh, this type isn't handled. " + Value.ToString());
+                    }
+                    str = Value.ToString();
+                }
+                values.Add(value, str);
+            }
+            return values;
+        }
+
+        public RegistryObject(RegistryKey Key)
+        {
+            this.Key = Key.Name;
+            this.Values = GetValues(Key);
+            this.Subkeys = GetSubkeys(Key);
+            this.Permissions = "";
+            try
+            {
+                Permissions = Key.GetAccessControl().GetSecurityDescriptorSddlForm(AccessControlSections.All);
+            }
+            catch(Exception e)
+            {
+                Logger.Instance.Debug(e.GetType() + " failed to get security descriptor for " + Key.Name);
+            }
         }
 
         public RegistryObject()
