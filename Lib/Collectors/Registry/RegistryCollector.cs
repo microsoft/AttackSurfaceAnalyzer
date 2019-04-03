@@ -94,9 +94,9 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                         Logger.Instance.Debug(e.GetType() + "thrown in registry collector");
                     }
 
-                    if (_numCollected % 10000 == 0)
+                    if (_numCollected % 100000 == 0)
                     {
-                        Logger.Instance.Debug(_numCollected);
+                        Logger.Instance.Debug(_numCollected + (" of 6-800k"));
                     }
                 }
             }
