@@ -791,8 +791,6 @@ namespace AttackSurfaceAnalyzer.Cli
 
             foreach (var c in comparators)
             {
-                Console.WriteLine("Line");
-                Logger.Instance.Fatal(c.GetType());
                 if (!c.TryCompare(opts.FirstRunId, opts.SecondRunId))
                 {
                     Logger.Instance.Warn("Error when comparing {0}", c.GetType().FullName);
