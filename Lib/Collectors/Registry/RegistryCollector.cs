@@ -67,30 +67,41 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
 
         public void Write(RegistryObject obj)
         {
-            _numCollected++;
-            string hashSeed = String.Format("{0}{1}", obj.Key, JsonConvert.SerializeObject(obj));
-            using (var cmd = new SqliteCommand(SQL_INSERT, DatabaseManager.Connection, DatabaseManager.Transaction))
+            try
             {
-                cmd.Parameters.AddWithValue("@run_id", this.runId);
-                cmd.Parameters.AddWithValue("@row_key", CryptoHelpers.CreateHash(hashSeed));
-                cmd.Parameters.AddWithValue("@key", obj.Key);
-                cmd.Parameters.AddWithValue("@value", JsonConvert.SerializeObject(obj.Values));
-                cmd.Parameters.AddWithValue("@subkeys", JsonConvert.SerializeObject(obj.Subkeys));
-                cmd.Parameters.AddWithValue("@permissions", obj.Permissions);
-                cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj));
-                try
-                {
-                    cmd.ExecuteNonQuery();
-                }
-                catch(Exception e)
-                {
-                    Logger.Instance.Debug(e.GetType() + "thrown in registry collector");
-                }
+                string hashSeed = String.Format("{0}{1}", obj.Key, JsonConvert.SerializeObject(obj));
 
-                if (_numCollected % 1000 == 0)
+                using (var cmd = new SqliteCommand(SQL_INSERT, DatabaseManager.Connection, DatabaseManager.Transaction))
                 {
-                    DatabaseManager.Commit();
+                    cmd.Parameters.AddWithValue("@run_id", this.runId);
+                    cmd.Parameters.AddWithValue("@row_key", CryptoHelpers.CreateHash(hashSeed));
+                    cmd.Parameters.AddWithValue("@key", obj.Key);
+                   
+                        cmd.Parameters.AddWithValue("@value", JsonConvert.SerializeObject(obj.Values));
+                   
+
+                    cmd.Parameters.AddWithValue("@subkeys", JsonConvert.SerializeObject(obj.Subkeys));
+                    cmd.Parameters.AddWithValue("@permissions", obj.Permissions);
+                    cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj));
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Instance.Debug(e.GetType() + "thrown in registry collector");
+                    }
+
+                    if (_numCollected++ % 100000 == 0)
+                    {
+                        Logger.Instance.Info(_numCollected + (" of 6-800k"));
+                    }
                 }
+            }
+            catch(Exception)
+            {
+                Logger.Instance.Trace("Had trouble writing {0}",obj.Key);
             }
 
             customCrawlHandler?.Invoke(obj);
@@ -100,7 +111,11 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
 
         public override void Execute()
         {
-            Start(); 
+            Start();
+
+            Console.WriteLine("Starting");
+            Logger.Instance.Info("Starting");
+            Logger.Instance.Info(JsonConvert.SerializeObject(DefaultHives));
 
             if (!this.CanRunOnPlatform())
             {
@@ -112,27 +127,35 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                 (hive =>
                 {
                     Logger.Instance.Debug("Starting " + hive.ToString());
-                    var registryInfoEnumerable = RegistryWalker.WalkHive(hive);
-                    try
+                    if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "Registry", "Hive", "Exclude", hive.ToString()))
                     {
-                        Parallel.ForEach(registryInfoEnumerable,
-                            (registryObject =>
-                            {
-                                try
-                                {
-                                    Write(registryObject);
-                                }
-                                catch (Exception e)
-                                {
-                                    Logger.Instance.Debug("Walk of {0} fziled", hive.ToString());
-                                    Logger.Instance.Debug(e.GetType());
-                                }
-                            }));
+                        Logger.Instance.Debug("Excluding {0} due to filter.", hive.ToString());
                     }
-                    catch (Exception e)
+                    else
                     {
-                        Logger.Instance.Debug(e.GetType());
-                        Logger.Instance.Debug(e.Message);
+                        var registryInfoEnumerable = RegistryWalker.WalkHive(hive);
+                        try
+                        {
+                            Parallel.ForEach(registryInfoEnumerable,
+                                (registryObject =>
+                                {
+                                    try
+                                    {
+                                        Write(registryObject);
+                                    }
+                                    // Some registry keys don't get along
+                                    catch (InvalidOperationException e)
+                                    {
+                                        Logger.Instance.Debug(registryObject.Key + " " + e.GetType());
+                                    }
+                                }));
+                        }
+                        catch (Exception e)
+                        {
+                            Logger.Instance.Debug(e.GetType());
+                            Logger.Instance.Debug(e.Message);
+                            Logger.Instance.Debug(e.StackTrace);
+                        }
                     }
                 }));
             

@@ -1,4 +1,21 @@
 {
+  "Windows": {
+    "Scan": {
+      "Registry": {
+        "Key": {
+          "Exclude": [
+            "HKEY_CLASSES_ROOT\\WOW6432Node\\Interface\\",
+            "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Class\\"
+          ]
+        },
+        "Hive": {
+          "Exclude": [
+            "ClassesRoot"
+          ]
+        }
+      }
+    }
+  },
   "Macos": {
     "Monitor": {
       "File": {

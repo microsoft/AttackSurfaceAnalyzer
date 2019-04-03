@@ -11,8 +11,6 @@ namespace AttackSurfaceAnalyzer.Utils
     public class RegistryWalker
     {
 
-       
-
         public static IEnumerable<RegistryObject> WalkHive(RegistryHive Hive)
         {
             // Data structure to hold names of subfolders to be
@@ -30,12 +28,16 @@ namespace AttackSurfaceAnalyzer.Utils
             while (keys.Count > 0)
             {
                 RegistryKey currentKey = keys.Pop();
-                string[] subKeys = currentKey.GetSubKeyNames();
 
                 if (currentKey == null)
                 {
                     continue;
                 }
+                if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "Registry", "Key", "Exclude", currentKey.Name))
+                {
+                    continue;
+                }
+
                 // First push all the new subkeys onto our stack.
                 foreach (string key in currentKey.GetSubKeyNames())
                 {
@@ -47,7 +49,8 @@ namespace AttackSurfaceAnalyzer.Utils
                     // These are expected as we are running as administrator, not System.
                     catch (System.Security.SecurityException e)
                     {
-                        Logger.Instance.Debug(e.GetType() + " " + e.Message + " " + currentKey.Name);
+                        Logger.Instance.Trace(e.GetType() + " " + e.Message + " " + currentKey.Name);
+
                     }
                     // There seem to be some keys which are listed as existing by the APIs but don't actually exist.
                     // Unclear if these are just super transient keys or what the other cause might be.
@@ -61,9 +64,18 @@ namespace AttackSurfaceAnalyzer.Utils
                         Logger.Instance.Info(e.GetType() + " " + e.Message + " " + currentKey.Name);
                     }
                 }
-                var regObj = new RegistryObject(currentKey);
+                RegistryObject regObj = null;
+                try
+                {
+                    regObj = new RegistryObject(currentKey);
 
-                yield return regObj;
+                }
+                catch (Exception) { Logger.Instance.Debug("I'm blue"); }
+                if (regObj != null)
+                {
+                    yield return regObj;
+                }
+
             }
         }
     }

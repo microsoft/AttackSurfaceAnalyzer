@@ -244,6 +244,7 @@ namespace AttackSurfaceAnalyzer.Cli
 #endif
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+            DatabaseManager.Commit();
 
             bool RunComparisons = true;
 
@@ -790,7 +791,6 @@ namespace AttackSurfaceAnalyzer.Cli
 
             foreach (var c in comparators)
             {
-                Logger.Instance.Debug(c.GetType());
                 if (!c.TryCompare(opts.FirstRunId, opts.SecondRunId))
                 {
                     Logger.Instance.Warn("Error when comparing {0}", c.GetType().FullName);

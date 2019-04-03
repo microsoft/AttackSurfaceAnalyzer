@@ -25,7 +25,10 @@ namespace AttackSurfaceAnalyzer.Utils
         private static readonly string SQL_CREATE_ANALYZED_TABLE = "create table if not exists results (base_run_id text, compare_run_id text, status int)";
 
         private static readonly string SQL_CREATE_FILE_SYSTEM_INDEX = "create index if not exists path_index on file_system(path)";
-        private static readonly string SQL_CREATE_REGISTRY_INDEX = "create index if not exists path_index on registry(key)";
+        private static readonly string SQL_CREATE_REGISTRY_KEY_INDEX = "create index if not exists registry_key_index on registry(key)";
+        private static readonly string SQL_CREATE_REGISTRY_ROW_KEY_INDEX = "create index if not exists registry_row_key_index on registry(row_key)";
+        private static readonly string SQL_CREATE_REGISTRY_RUN_ID_INDEX = "create index if not exists registry_run_id_index on registry(run_id)";
+
 
         private static readonly string SQL_CREATE_RESULT_CHANGE_TYPE_INDEX = "create index if not exists change_type_index on compared(change_type)";
         private static readonly string SQL_CREATE_RESULT_BASE_RUN_ID_INDEX = "create index if not exists base_run_index on compared(base_run_id)";
@@ -43,6 +46,7 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             if (Connection == null)
             {
+                Logger.Instance.Debug("Starting database setup");
                 Connection = new SqliteConnection($"Filename=" + _SqliteFilename);
                 Connection.Open();
 
@@ -85,8 +89,16 @@ namespace AttackSurfaceAnalyzer.Utils
                 cmd = new SqliteCommand(SQL_CREATE_FILE_SYSTEM_INDEX, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.ExecuteNonQuery();
 
-                cmd = new SqliteCommand(SQL_CREATE_REGISTRY_INDEX, DatabaseManager.Connection, DatabaseManager.Transaction);
+                cmd = new SqliteCommand(SQL_CREATE_REGISTRY_KEY_INDEX, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.ExecuteNonQuery();
+
+                cmd = new SqliteCommand(SQL_CREATE_REGISTRY_ROW_KEY_INDEX, DatabaseManager.Connection, DatabaseManager.Transaction);
+                cmd.ExecuteNonQuery();
+
+                cmd = new SqliteCommand(SQL_CREATE_REGISTRY_RUN_ID_INDEX, DatabaseManager.Connection, DatabaseManager.Transaction);
+                cmd.ExecuteNonQuery();
+        
+
 
                 cmd = new SqliteCommand(SQL_CREATE_RESULT_CHANGE_TYPE_INDEX, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.ExecuteNonQuery();
@@ -96,7 +108,10 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 cmd = new SqliteCommand(SQL_CREATE_RESULT_COMPARE_RUN_ID_INDEX, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.ExecuteNonQuery();
-                Commit();
+                DatabaseManager.Transaction.Commit();
+                _transaction = null;
+                Logger.Instance.Debug("Done with database setup");
+
             }
         }
 
