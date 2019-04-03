@@ -10,7 +10,7 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public class RegistryWalker
     {
-        
+
         public static IEnumerable<RegistryObject> WalkHive(RegistryHive Hive)
         {
             // Data structure to hold names of subfolders to be
@@ -38,9 +38,6 @@ namespace AttackSurfaceAnalyzer.Utils
                     continue;
                 }
 
-
-                string[] subKeys = currentKey.GetSubKeyNames();
-
                 // First push all the new subkeys onto our stack.
                 foreach (string key in currentKey.GetSubKeyNames())
                 {
@@ -48,12 +45,12 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         var next = currentKey.OpenSubKey(key, false);
                         keys.Push(next);
-                       
                     }
                     // These are expected as we are running as administrator, not System.
                     catch (System.Security.SecurityException e)
                     {
                         Logger.Instance.Trace(e.GetType() + " " + e.Message + " " + currentKey.Name);
+
                     }
                     // There seem to be some keys which are listed as existing by the APIs but don't actually exist.
                     // Unclear if these are just super transient keys or what the other cause might be.
@@ -78,6 +75,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     yield return regObj;
                 }
+
             }
         }
     }
