@@ -27,7 +27,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
 
         private Action<RegistryObject> customCrawlHandler = null;
 
-        private static readonly string SQL_TRUNCATE = "delete from file_system where run_id=@run_id";
+        private static readonly string SQL_TRUNCATE = "delete from registry where run_id=@run_id";
         private static readonly string SQL_INSERT = "insert into registry (run_id, row_key, key, value, subkeys, permissions, serialized) values (@run_id, @row_key, @key, @value, @subkeys, @permissions, @serialized)";
 
         public RegistryCollector(string RunId) : this(RunId, DefaultHives, null) { }

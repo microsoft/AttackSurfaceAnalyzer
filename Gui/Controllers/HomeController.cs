@@ -47,27 +47,6 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             return View();
         }
 
-        public string ResultTypeToTableName(RESULT_TYPE result_type)
-        {
-            switch (result_type)
-            {
-                case RESULT_TYPE.FILE:
-                    return "file_system";
-                case RESULT_TYPE.PORT:
-                    return "network_ports";
-                case RESULT_TYPE.REGISTRY:
-                    return "registry";
-                case RESULT_TYPE.CERTIFICATE:
-                    return "certificates";
-                case RESULT_TYPE.SERVICES:
-                    return "win_system_service";
-                case RESULT_TYPE.USER:
-                    return "user_account";
-                default:
-                    return "null";
-            }
-        }
-
         public ActionResult WriteMonitorJson(string RunId, int ResultType, string OutputPath)
         {
             AttackSurfaceAnalyzerCLI.WriteMonitorJson(RunId, ResultType, OutputPath);
@@ -191,7 +170,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             {
                 if (obj.ChangeType == CHANGE_TYPE.CREATED || obj.ChangeType == CHANGE_TYPE.MODIFIED)
                 {
-                    using (var cmd = new SqliteCommand(GET_SERIALIZED_RESULTS.Replace("@table_name", ResultTypeToTableName(obj.ResultType)), DatabaseManager.Connection, DatabaseManager.Transaction))
+                    using (var cmd = new SqliteCommand(GET_SERIALIZED_RESULTS.Replace("@table_name", Helpers.ResultTypeToTableName(obj.ResultType)), DatabaseManager.Connection, DatabaseManager.Transaction))
                     {
                         cmd.Parameters.AddWithValue("@run_id", obj.CompareRunId);
                         cmd.Parameters.AddWithValue("@row_key", obj.CompareRowKey);
@@ -206,7 +185,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 }
                 if (obj.ChangeType == CHANGE_TYPE.DELETED || obj.ChangeType == CHANGE_TYPE.MODIFIED)
                 {
-                    using (var cmd = new SqliteCommand(GET_SERIALIZED_RESULTS.Replace("@table_name", ResultTypeToTableName(obj.ResultType)), DatabaseManager.Connection, DatabaseManager.Transaction))
+                    using (var cmd = new SqliteCommand(GET_SERIALIZED_RESULTS.Replace("@table_name", Helpers.ResultTypeToTableName(obj.ResultType)), DatabaseManager.Connection, DatabaseManager.Transaction))
                     {
                         cmd.Parameters.AddWithValue("@run_id", obj.BaseRunId);
                         cmd.Parameters.AddWithValue("@row_key", obj.BaseRowKey);
