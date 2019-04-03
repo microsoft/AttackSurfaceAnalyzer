@@ -46,6 +46,7 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             if (Connection == null)
             {
+                Logger.Instance.Debug("Starting database setup");
                 Connection = new SqliteConnection($"Filename=" + _SqliteFilename);
                 Connection.Open();
 
@@ -99,7 +100,7 @@ namespace AttackSurfaceAnalyzer.Utils
         
 
 
-        cmd = new SqliteCommand(SQL_CREATE_RESULT_CHANGE_TYPE_INDEX, DatabaseManager.Connection, DatabaseManager.Transaction);
+                cmd = new SqliteCommand(SQL_CREATE_RESULT_CHANGE_TYPE_INDEX, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.ExecuteNonQuery();
 
                 cmd = new SqliteCommand(SQL_CREATE_RESULT_BASE_RUN_ID_INDEX, DatabaseManager.Connection, DatabaseManager.Transaction);
@@ -107,7 +108,10 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 cmd = new SqliteCommand(SQL_CREATE_RESULT_COMPARE_RUN_ID_INDEX, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.ExecuteNonQuery();
-                Commit();
+                DatabaseManager.Transaction.Commit();
+                _transaction = null;
+                Logger.Instance.Debug("Done with database setup");
+
             }
         }
 
