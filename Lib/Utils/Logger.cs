@@ -40,7 +40,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
             if (debug || verbose)
             {
-                config.AddRuleForOneLevel(LogLevel.Debug, fileTarget); 
+                config.AddRuleForOneLevel(LogLevel.Debug, consoleTarget);
                 config.AddRuleForOneLevel(LogLevel.Warn, consoleTarget);
                 config.AddRuleForOneLevel(LogLevel.Error, consoleTarget);
                 config.AddRuleForOneLevel(LogLevel.Fatal, consoleTarget);

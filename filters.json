@@ -2,14 +2,15 @@
   "Windows": {
     "Scan": {
       "Registry": {
-        "Key": { 
+        "Key": {
           "Exclude": [
-            "Local"
+            "HKEY_CLASSES_ROOT\\WOW6432Node\\Interface\\",
+            "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Class\\"
           ]
         },
         "Hive": {
           "Exclude": [
-            "HKEY_LOCAL_MACHINE"
+            "ClassesRoot"
           ]
         }
       }

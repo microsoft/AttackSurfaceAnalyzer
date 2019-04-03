@@ -11,10 +11,10 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
     public class RegistryObject
     {
 
-        public string Key;
-        public Dictionary<string, string> Values;
-        public List<string> Subkeys;
-        public string Permissions;
+        public string Key = "";
+        public Dictionary<string, string> Values = new Dictionary<string, string>();
+        public List<string> Subkeys = new List<string>();
+        public string Permissions = "";
         
 
         public string RowKey
@@ -84,7 +84,7 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
             }
             catch(Exception e)
             {
-                Logger.Instance.Debug(e.GetType() + " failed to get security descriptor for " + Key.Name);
+                Logger.Instance.Trace(e.GetType() + " failed to get security descriptor for " + Key.Name);
             }
         }
 

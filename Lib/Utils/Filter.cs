@@ -40,12 +40,29 @@ namespace AttackSurfaceAnalyzer.Utils
                 foreach (JValue filter in filters)
                 {
                     // TODO: cache these. Check Regex class cache setting
-                    Regex rgx = new Regex(filter.ToString());
-                    if (rgx.IsMatch(Target))
+                    try
                     {
-                        Logger.Instance.Debug("{0} caught {1}", rgx, Target);
-                        return true;
+                        var testString = filter.ToString();
+                        if (ItemType == "Registry")
+                        {
+                            testString = filter.ToString().Replace("\\", "\\\\");
+                        }
+                        Regex rgx = new Regex(testString);
+
+                        if (rgx.IsMatch(Target))
+                        {
+                            Logger.Instance.Debug("{0} caught {1}", rgx, Target);
+                            return true;
+                        }
                     }
+                    catch (Exception e)
+                    {
+                        Logger.Instance.Debug("Probably this is omse of those garbled keys or a bad regex");
+                        Logger.Instance.Debug(e.GetType());
+                        Logger.Instance.Debug(filter.ToString());
+
+                    }
+
                 }
             }
             catch (NullReferenceException)
