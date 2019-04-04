@@ -323,34 +323,30 @@ namespace AttackSurfaceAnalyzer.Cli
             StartEvent.Add("OutputPathSet", (opts.OutputPath != null).ToString());
 
             Telemetry.Client.TrackEvent("Begin Export Compare", StartEvent);
-            bool RunComparisons = true;
-            //string SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED = "select * from results where base_run_id=@base_run_id and compare_run_id=@compare_run_id";
-
-            //var cmd = new SqliteCommand(SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED, DatabaseManager.Connection);
-            //cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
-            //cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
-            //using (var reader = cmd.ExecuteReader())
-            //{
-            //    while (reader.Read())
-            //    {
-            //        RunComparisons = false;
-            //    }
-            //}
             Logger.Instance.Debug("Halfway RunExportCollectCommand");
 
             CompareCommandOptions options = new CompareCommandOptions();
             options.DatabaseFilename = opts.DatabaseFilename;
             options.FirstRunId = opts.FirstRunId;
             options.SecondRunId = opts.SecondRunId;
-
-            if (RunComparisons)
+            
+            var results = CompareRuns(options);
+            JsonSerializer serializer = new JsonSerializer
             {
-                CompareRuns(options);
-            }
+                Formatting = Formatting.Indented,
+                NullValueHandling = NullValueHandling.Ignore
+            };
+            serializer.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
             Logger.Instance.Debug("Done comparing RunExportCollectCommand");
 
-            WriteScanJson(0, opts.FirstRunId, opts.SecondRunId, true, opts.OutputPath);
-
+            using (StreamWriter sw = new StreamWriter(Path.Combine(opts.OutputPath, Helpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId + "_summary.json.txt")))) //lgtm[cs/path-injection]
+            {
+                using (JsonWriter writer = new JsonTextWriter(sw))
+                {
+                    serializer.Serialize(writer, results);
+                }
+            }
+            Logger.Instance.Info("Done writing");
             return 0;
 
         }
@@ -807,9 +803,8 @@ namespace AttackSurfaceAnalyzer.Cli
 
             comparators = new List<BaseCompare>();
 
+            var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES, DatabaseManager.Connection, DatabaseManager.Transaction);
             Logger.Instance.Debug("Getting result types");
-
-            var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES, DatabaseManager.Connection);
             cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
             cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
 
