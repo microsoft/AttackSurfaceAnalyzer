@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Security.AccessControl;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AttackSurfaceAnalyzer.ObjectTypes;
 using AttackSurfaceAnalyzer.Utils;
@@ -127,9 +128,10 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                 (hive =>
                 {
                     Logger.Instance.Debug("Starting " + hive.ToString());
-                    if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "Registry", "Hive", "Exclude", hive.ToString()))
+                    if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "Registry", "Hive", "Exclude", hive.ToString(), out Regex Capturer))
                     {
-                        Logger.Instance.Debug("Excluding {0} due to filter.", hive.ToString());
+                        Logger.Instance.Info("Hi mom");
+                        Logger.Instance.Info("Excluding hive '{0}' due to filter '{1}'.", hive.ToString(), Capturer.ToString());
                     }
                     else
                     {
