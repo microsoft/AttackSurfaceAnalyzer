@@ -998,25 +998,59 @@ namespace AttackSurfaceAnalyzer.Cli
 #else
             Logger.Setup(false, opts.Verbose);
 #endif
+            int returnValue = (int)ERRORS.NONE;
             AdminOrQuit();
-            Filter.LoadFilters(opts.FilterLocation);
-            Telemetry.Setup();
-            Dictionary<string, string> StartEvent = new Dictionary<string, string>();
-            StartEvent.Add("Version", Helpers.GetVersionString());
-            StartEvent.Add("Files", opts.EnableFileSystemCollector.ToString());
-            StartEvent.Add("Ports", opts.EnableNetworkPortCollector.ToString());
-            StartEvent.Add("Users", opts.EnableUserCollector.ToString());
-            StartEvent.Add("Certificates", opts.EnableCertificateCollector.ToString());
-            StartEvent.Add("Registry", opts.EnableRegistryCollector.ToString());
-            StartEvent.Add("Service", opts.EnableServiceCollector.ToString());
-            StartEvent.Add("Files", opts.EnableFileSystemCollector.ToString());
-            StartEvent.Add("Files", opts.EnableFileSystemCollector.ToString());
 
-            Telemetry.Client.TrackEvent("Begin collecting", StartEvent);
+            if (opts.EnableFileSystemCollector || opts.EnableAllCollectors)
+            {
+                collectors.Add(new FileSystemCollector(opts.RunId, enableHashing: opts.GatherHashes));
+            }
+            if (opts.EnableNetworkPortCollector || opts.EnableAllCollectors)
+            {
+                collectors.Add(new OpenPortCollector(opts.RunId));
+            }
+            if (opts.EnableServiceCollector || opts.EnableAllCollectors)
+            {
+                collectors.Add(new ServiceCollector(opts.RunId));
+            }
+            if (opts.EnableUserCollector || opts.EnableAllCollectors)
+            {
+                collectors.Add(new UserAccountCollector(opts.RunId));
+            }
+            if (opts.EnableRegistryCollector || (opts.EnableAllCollectors && RuntimeInformation.IsOSPlatform(OSPlatform.Windows)))
+            {
+                collectors.Add(new RegistryCollector(opts.RunId));
+            }
+            if (opts.EnableCertificateCollector || opts.EnableAllCollectors)
+            {
+                collectors.Add(new CertificateCollector(opts.RunId));
+            }
+
+            if (collectors.Count == 0)
+            {
+                Logger.Instance.Warn("No collectors have been defined.");
+                return -1;
+            }
+
+            Filter.LoadFilters(opts.FilterLocation);
+            Console.WriteLine("Before telemetry");
+            //Telemetry.Setup();
+            //Dictionary<string, string> StartEvent = new Dictionary<string, string>();
+            //StartEvent.Add("Version", Helpers.GetVersionString());
+            //StartEvent.Add("Files", opts.EnableFileSystemCollector.ToString());
+            //StartEvent.Add("Ports", opts.EnableNetworkPortCollector.ToString());
+            //StartEvent.Add("Users", opts.EnableUserCollector.ToString());
+            //StartEvent.Add("Certificates", opts.EnableCertificateCollector.ToString());
+            //StartEvent.Add("Registry", opts.EnableRegistryCollector.ToString());
+            //StartEvent.Add("Service", opts.EnableServiceCollector.ToString());
+            //StartEvent.Add("Files", opts.EnableFileSystemCollector.ToString());
+            //StartEvent.Add("Files", opts.EnableFileSystemCollector.ToString());
+
+            //Telemetry.Client.TrackEvent("Begin collecting", StartEvent);
+            Console.WriteLine("After telemetry");
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
-            int returnValue = (int)ERRORS.NONE;
 
             if (opts.Overwrite)
             {
@@ -1096,43 +1130,7 @@ namespace AttackSurfaceAnalyzer.Cli
                     returnValue = (int)ERRORS.UNIQUE_ID;
                 }
             }
-
-
-
-
-            if (opts.EnableFileSystemCollector || opts.EnableAllCollectors)
-            {
-                collectors.Add(new FileSystemCollector(opts.RunId, enableHashing:opts.GatherHashes));
-            }
-            if (opts.EnableNetworkPortCollector || opts.EnableAllCollectors)
-            {
-                collectors.Add(new OpenPortCollector(opts.RunId));
-            }
-            if (opts.EnableServiceCollector || opts.EnableAllCollectors)
-            {
-                collectors.Add(new ServiceCollector(opts.RunId));
-            }
-            if (opts.EnableUserCollector || opts.EnableAllCollectors)
-            {
-                collectors.Add(new UserAccountCollector(opts.RunId));
-            }
-            if (opts.EnableRegistryCollector || (opts.EnableAllCollectors && RuntimeInformation.IsOSPlatform(OSPlatform.Windows)))
-            {
-                collectors.Add(new RegistryCollector(opts.RunId));
-            }
-            if (opts.EnableCertificateCollector || opts.EnableAllCollectors)
-            {
-                collectors.Add(new CertificateCollector(opts.RunId));
-            }
-
-            if (collectors.Count == 0)
-            {
-                Logger.Instance.Warn("No collectors have been defined.");
-                returnValue = 1;
-            }
-
-            Logger.Instance.Info("Started {0} collectors",collectors.Count.ToString());
-
+            
             foreach (BaseCollector c in collectors)
             {
                 // c.Filters = read filters in here
@@ -1148,6 +1146,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
                 Logger.Instance.Info("Completed: {0}", c.GetType().Name);
             }
+            Logger.Instance.Info("Started {0} collectors", collectors.Count.ToString());
 
             DatabaseManager.Commit();
             return returnValue;

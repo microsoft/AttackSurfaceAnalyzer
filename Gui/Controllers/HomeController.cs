@@ -348,6 +348,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             opts.EnableUserCollector = User;
             opts.EnableCertificateCollector = Certificates;
             opts.DatabaseFilename = "asa.sqlite";
+            opts.FilterLocation = "filters.json";
 
             Dictionary<string, bool> dict = new Dictionary<string, bool>();
             foreach (BaseCollector c in AttackSurfaceAnalyzerCLI.GetCollectors())
@@ -431,6 +432,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 RunId = RunId,
                 EnableFileSystemMonitor = true,
                 MonitoredDirectories = Directory,
+                FilterLocation = "filters.json"
             };
             AttackSurfaceAnalyzerCLI.ClearMonitors();
             return Json(AttackSurfaceAnalyzerCLI.RunGuiMonitorCommand(opts));

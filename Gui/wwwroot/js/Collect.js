@@ -103,7 +103,7 @@ function StartCollection()
                 }
                 else {
                     $('#ScanStatus').append($('<div/>', { html: '<i class="fas fa-cog fa-spin"></i>  <i>Collection has started. Please do not close the application or navigate to other pages until collection is complete.</i>' }));
-                    setTimeout(GetCollectors, 500)
+                    setTimeout(GetCollectors, 1000)
                 }
             });
         }
@@ -173,6 +173,7 @@ function GetCollectors() {
                 midword = ' has ';
             }
             else if (value === RUN_STATUS.NOT_STARTED) {
+                keepChecking = true;
                 icon = '<i class="fas fa-cog"></i>  ';
                 midword = ' has ';
             }

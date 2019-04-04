@@ -97,6 +97,12 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 return;
             }
+            catch (NullReferenceException)
+            {
+                Logger.Instance.Debug("{0} is missing (filter configuration file)", filterLoc);
+                return;
+
+            }
 
         }
         
