@@ -35,7 +35,6 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
         private static readonly string GET_COMPARISON_RESULTS = "select * from compared where base_run_id=@base_run_id and compare_run_id=@compare_run_id and data_type=@data_type order by base_row_key limit @offset,@limit;"; //lgtm [cs/literal-as-local]
         private static readonly string GET_SERIALIZED_RESULTS = "select serialized from @table_name where row_key = @row_key and run_id = @run_id"; //lgtm [cs/literal-as-local]
         private static readonly string GET_RESULT_COUNT = "select count(*) from compared where base_run_id=@base_run_id and compare_run_id=@compare_run_id and data_type=@data_type"; //lgtm [cs/literal-as-local]
-        private static readonly string UPDATE_TELEMETRY = "replace into persisted_settings values ('telemetry_opt_out',@TelemetryOptOut)"; //lgtm [cs/literal-as-local]
 
         public HomeController()
         {
