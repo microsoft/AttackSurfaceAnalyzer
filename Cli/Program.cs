@@ -320,8 +320,7 @@ namespace AttackSurfaceAnalyzer.Cli
             Log.Debug("Entering RunExportCollectCommand");
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
-
-            Telemetry.Setup();
+            Telemetry.Setup(false);
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("Version", Helpers.GetVersionString());
             StartEvent.Add("OutputPathSet", (opts.OutputPath != null).ToString());
@@ -518,7 +517,7 @@ namespace AttackSurfaceAnalyzer.Cli
             Logger.Setup(false, opts.Verbose);
 #endif
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
-            Telemetry.Setup();
+            Telemetry.Setup(false);
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("Version", Helpers.GetVersionString());
             StartEvent.Add("OutputPathSet", (opts.OutputPath != null).ToString());
@@ -573,7 +572,7 @@ namespace AttackSurfaceAnalyzer.Cli
 #endif
             AdminOrQuit();
             Filter.LoadFilters(opts.FilterLocation);
-            Telemetry.Setup();
+            Telemetry.Setup(false);
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("Version", Helpers.GetVersionString());
             Telemetry.Client.TrackEvent("Begin monitoring", StartEvent);
@@ -999,7 +998,7 @@ namespace AttackSurfaceAnalyzer.Cli
             Log.Debug("Before telemetry");
             try
             {
-                Telemetry.Setup();
+                Telemetry.Setup(false);
                 Dictionary<string, string> StartEvent = new Dictionary<string, string>();
                 StartEvent.Add("Version", Helpers.GetVersionString());
                 StartEvent.Add("Files", opts.EnableFileSystemCollector.ToString());
@@ -1010,7 +1009,6 @@ namespace AttackSurfaceAnalyzer.Cli
                 StartEvent.Add("Service", opts.EnableServiceCollector.ToString());
 
                 Telemetry.Client.TrackEvent("Begin collecting", StartEvent);
-
             }
             catch (Exception e)
             {

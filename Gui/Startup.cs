@@ -35,13 +35,16 @@ namespace AttackSurfaceAnalyzer.Gui
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            DatabaseManager.Setup();
+            Logger.Setup();
+            Telemetry.Setup(true);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -74,23 +77,6 @@ namespace AttackSurfaceAnalyzer.Gui
 #else
             browserWindowOptions.AutoHideMenuBar = true;
 #endif
-            DatabaseManager.Setup();
-
-            string SELECT_TELEMETRY = "select value from persisted_settings where setting='telemetry_opt_out'";//lgtm [cs/literal-as-local]
-            bool OptOut = false;
-
-            using (var cmd = new SqliteCommand(SELECT_TELEMETRY, DatabaseManager.Connection, DatabaseManager.Transaction))
-            {
-                using (var reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        OptOut = bool.Parse(reader["value"].ToString());
-                    }
-                }
-            }
-
-            TelemetryConfiguration.Active.DisableTelemetry = OptOut;
 
             Task.Run(async () =>
             {

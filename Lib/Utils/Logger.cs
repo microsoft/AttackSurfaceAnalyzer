@@ -38,9 +38,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         .WriteTo.File("asa.log.txt")
                         .WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Information)
                         .CreateLogger();
-
             }
-
         }
     }
 }
