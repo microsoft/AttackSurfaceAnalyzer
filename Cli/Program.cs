@@ -1031,6 +1031,7 @@ namespace AttackSurfaceAnalyzer.Cli
             int returnValue = (int)ERRORS.NONE;
             AdminOrQuit();
 
+
             if (opts.EnableFileSystemCollector || opts.EnableAllCollectors)
             {
                 collectors.Add(new FileSystemCollector(opts.RunId, enableHashing: opts.GatherHashes));
@@ -1058,24 +1059,26 @@ namespace AttackSurfaceAnalyzer.Cli
 
             if (collectors.Count == 0)
             {
-                Log.Warning("No collectors have been defined.");
+                Logger.Instance.Warn("No collectors have been defined.");
                 return -1;
             }
 
             Filter.LoadFilters(opts.FilterLocation);
-            Telemetry.Setup();
-            Dictionary<string, string> StartEvent = new Dictionary<string, string>();
-            StartEvent.Add("Version", Helpers.GetVersionString());
-            StartEvent.Add("Files", opts.EnableFileSystemCollector.ToString());
-            StartEvent.Add("Ports", opts.EnableNetworkPortCollector.ToString());
-            StartEvent.Add("Users", opts.EnableUserCollector.ToString());
-            StartEvent.Add("Certificates", opts.EnableCertificateCollector.ToString());
-            StartEvent.Add("Registry", opts.EnableRegistryCollector.ToString());
-            StartEvent.Add("Service", opts.EnableServiceCollector.ToString());
-            StartEvent.Add("Files", opts.EnableFileSystemCollector.ToString());
-            StartEvent.Add("Files", opts.EnableFileSystemCollector.ToString());
+            Console.WriteLine("Before telemetry");
+            //Telemetry.Setup();
+            //Dictionary<string, string> StartEvent = new Dictionary<string, string>();
+            //StartEvent.Add("Version", Helpers.GetVersionString());
+            //StartEvent.Add("Files", opts.EnableFileSystemCollector.ToString());
+            //StartEvent.Add("Ports", opts.EnableNetworkPortCollector.ToString());
+            //StartEvent.Add("Users", opts.EnableUserCollector.ToString());
+            //StartEvent.Add("Certificates", opts.EnableCertificateCollector.ToString());
+            //StartEvent.Add("Registry", opts.EnableRegistryCollector.ToString());
+            //StartEvent.Add("Service", opts.EnableServiceCollector.ToString());
+            //StartEvent.Add("Files", opts.EnableFileSystemCollector.ToString());
+            //StartEvent.Add("Files", opts.EnableFileSystemCollector.ToString());
 
-            Telemetry.Client.TrackEvent("Begin collecting", StartEvent);
+            //Telemetry.Client.TrackEvent("Begin collecting", StartEvent);
+            Console.WriteLine("After telemetry");
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
@@ -1174,7 +1177,11 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
                 Log.Information("Completed: {0}", c.GetType().Name);
             }
+<<<<<<< HEAD
             Log.Information("Started {0} collectors", collectors.Count.ToString());
+=======
+            Logger.Instance.Info("Started {0} collectors", collectors.Count.ToString());
+>>>>>>> Fixes GUI collection.
 
             DatabaseManager.Commit();
             return returnValue;
