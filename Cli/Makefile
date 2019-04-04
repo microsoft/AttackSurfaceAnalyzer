@@ -66,5 +66,10 @@ build_debug:
 build_release:
 	$(info Building $(RUNTIME) release at $(VERSION))
 	$(DOTNET) publish -c Release -r $(RUNTIME) --self-contained true --output $(PUBLISH_PATH)-$(ALT_RUNTIME)-$(VERSION)/res
-	cp -f AttackSurfaceAnalyzerCli.sh $(PUBLISH_PATH)-$(ALT_RUNTIME)-$(VERSION)/AttackSurfaceAnalyzerCli.sh
+ifeq ($(RUNTIME),win10-x64)
+	cp -f AsaLaunch.bat $(PUBLISH_PATH)-$(ALT_RUNTIME)-$(VERSION)/AsaLaunch.bat
+else
+	cp -f AsaLaunch.sh $(PUBLISH_PATH)-$(ALT_RUNTIME)-$(VERSION)/AsaLaunch.sh
+endif
+	cp -f ../filters.json $(PUBLISH_PATH)-$(ALT_RUNTIME)-$(VERSION)/filters.json
 	$(info Release build completed)
