@@ -1076,8 +1076,15 @@ namespace AttackSurfaceAnalyzer.Cli
             StartEvent.Add("Service", opts.EnableServiceCollector.ToString());
             StartEvent.Add("Files", opts.EnableFileSystemCollector.ToString());
             StartEvent.Add("Files", opts.EnableFileSystemCollector.ToString());
+            try
+            {
+                Telemetry.Client.TrackEvent("Begin collecting", StartEvent);
 
-            Telemetry.Client.TrackEvent("Begin collecting", StartEvent);
+            }
+            catch(Exception e)
+            {
+                Logger.Instance.Debug(e.GetType());
+            }
             Console.WriteLine("After telemetry");
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
