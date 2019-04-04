@@ -128,37 +128,40 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                 (hive =>
                 {
                     Logger.Instance.Debug("Starting " + hive.ToString());
-                    if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "Registry", "Hive", "Exclude", hive.ToString(), out Regex Capturer))
+                    if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "Registry", "Hive", "Include", hive.ToString()))
                     {
-                        Logger.Instance.Info("Hi mom");
+                    }
+                    else if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "Registry", "Hive", "Exclude", hive.ToString(), out Regex Capturer))
+                    {
                         Logger.Instance.Info("Excluding hive '{0}' due to filter '{1}'.", hive.ToString(), Capturer.ToString());
+
+                        return;
                     }
-                    else
+
+                    var registryInfoEnumerable = RegistryWalker.WalkHive(hive);
+                    try
                     {
-                        var registryInfoEnumerable = RegistryWalker.WalkHive(hive);
-                        try
-                        {
-                            Parallel.ForEach(registryInfoEnumerable,
-                                (registryObject =>
+                        Parallel.ForEach(registryInfoEnumerable,
+                            (registryObject =>
+                            {
+                                try
                                 {
-                                    try
-                                    {
-                                        Write(registryObject);
-                                    }
-                                    // Some registry keys don't get along
-                                    catch (InvalidOperationException e)
-                                    {
-                                        Logger.Instance.Debug(registryObject.Key + " " + e.GetType());
-                                    }
-                                }));
-                        }
-                        catch (Exception e)
-                        {
-                            Logger.Instance.Debug(e.GetType());
-                            Logger.Instance.Debug(e.Message);
-                            Logger.Instance.Debug(e.StackTrace);
-                        }
+                                    Write(registryObject);
+                                }
+                                // Some registry keys don't get along
+                                catch (InvalidOperationException e)
+                                {
+                                    Logger.Instance.Debug(registryObject.Key + " " + e.GetType());
+                                }
+                            }));
                     }
+                    catch (Exception e)
+                    {
+                        Logger.Instance.Debug(e.GetType());
+                        Logger.Instance.Debug(e.Message);
+                        Logger.Instance.Debug(e.StackTrace);
+                    }
+
                 }));
             
             DatabaseManager.Commit();
