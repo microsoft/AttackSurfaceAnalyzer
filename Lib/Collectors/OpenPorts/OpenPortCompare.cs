@@ -122,7 +122,7 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
             //{
             //    while (reader.Read())
             //    {
-            //        Logger.Instance.Warn("Modified row: {0}", reader["row_key"]?.ToString());
+            //        Log.Warning("Modified row: {0}", reader["row_key"]?.ToString());
             //        var obj = new OpenPortObject()
             //        {
             //            address = reader["address"].ToString(),

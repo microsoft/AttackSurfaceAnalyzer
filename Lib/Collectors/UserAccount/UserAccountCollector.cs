@@ -10,6 +10,7 @@ using AttackSurfaceAnalyzer.ObjectTypes;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace AttackSurfaceAnalyzer.Collectors.UserAccount
 {
@@ -26,7 +27,7 @@ namespace AttackSurfaceAnalyzer.Collectors.UserAccount
 
         public UserAccountCollector(string runId, Func<UserAccountObject, bool> filter = null)
         {
-            Logger.Instance.Debug("Initializing a new UserAccountCollector object.");
+            Log.Debug("Initializing a new UserAccountCollector object.");
             this.runId = runId;
             this.filter = filter;
         }
@@ -88,7 +89,7 @@ using (ManagementObjectCollection results = search.Get())
 
    {
 
-      Logger.Instance.Info(result["Name"]);
+      Log.Information(result["Name"]);
 
    };
 
@@ -112,7 +113,7 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
 
       ManagementObject account = new ManagementObject(user["PartComponent"].ToString());
 
-      Logger.Instance.Info(" " + account["Name"]);
+      Log.Information(" " + account["Name"]);
 
    };
 
@@ -124,7 +125,7 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
 
             if (!this.CanRunOnPlatform())
             {
-                Logger.Instance.Warn("UserAccountCollector is not available on {0}", RuntimeInformation.OSDescription);
+                Log.Warning("UserAccountCollector is not available on {0}", RuntimeInformation.OSDescription);
                 return;
             }
 
@@ -144,7 +145,7 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
             }
             else
             {
-                Logger.Instance.Warn("UserAccountCollector is not available on {0}", RuntimeInformation.OSDescription);
+                Log.Warning("UserAccountCollector is not available on {0}", RuntimeInformation.OSDescription);
             }
 
             Stop();
@@ -155,7 +156,7 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
         /// </summary>
         public void ExecuteWindows()
         {
-            Logger.Instance.Debug("ExecuteWindows()");
+            Log.Debug("ExecuteWindows()");
 
             SelectQuery query = new SelectQuery("Win32_UserAccount", "LocalAccount = 'True'");
             ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
@@ -191,7 +192,7 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
         /// </summary>
         private void ExecuteLinux()
         {
-            Logger.Instance.Debug("ExecuteLinux()");
+            Log.Debug("ExecuteLinux()");
             var runner = new ExternalCommandRunner();
 
             var etc_passwd_lines = File.ReadAllLines("/etc/passwd");
@@ -255,7 +256,7 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
 
         private void ExecuteOsX()
         {
-            Logger.Instance.Debug("ExecuteOsX()");
+            Log.Debug("ExecuteOsX()");
 
             var runner = new ExternalCommandRunner();
 

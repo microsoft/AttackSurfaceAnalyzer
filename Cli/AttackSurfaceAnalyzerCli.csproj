@@ -17,16 +17,20 @@
 
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.4.3" />
+    <PackageReference Include="Microsoft.ApplicationInsights.NLogTarget" Version="2.9.1" />
     <PackageReference Include="RazorLight" Version="2.0.0-beta1" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="2.2.3" />
+    <PackageReference Include="Serilog" Version="2.8.0" />
     <PackageReference Include="System.Management" Version="4.6.0-preview.19073.11" />
     <PackageReference Include="System.Text.RegularExpressions" Version="4.3.0" />
     <PackageReference Include="Nerdbank.GitVersioning" Version="2.3.138" />
-    <PackageReference Include="NLog" Version="4.6.1" />
+    <PackageReference Include="NLog" Version="4.6.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lib\AttackSurfaceAnalyzerLib.csproj" />
-    <Content Include="Output\Output.cshtml" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="Output\Output.cshtml" CopyToPublishDirectory="PreserveNewest">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\LICENSE.txt">
       <Link>LICENSE.txt</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

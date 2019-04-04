@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using AttackSurfaceAnalyzer.Utils;
 using Newtonsoft.Json;
+using Serilog;
 
 
 namespace AttackSurfaceAnalyzer.ObjectTypes
@@ -40,7 +41,7 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
                         {
                             return "Not signed";
                         }
-                        else if (certStatus.Equals("Valid")) // lgtm[cs/hardcoded-credentials]
+                        else if (certStatus.Equals("Valid")) // lgtm [cs/hardcoded-credentials]
                         {
                             return "Valid";
                         }
@@ -52,7 +53,7 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
                 }
                 catch(Exception ex)
                 {
-                    Logger.Instance.Debug(ex.StackTrace);
+                    Log.Debug(ex.StackTrace);
                     // Fall back to a call out to powershell.exe
                     try
                     {
@@ -72,11 +73,11 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
                         var certStatus = process.StandardOutput.ReadToEnd().Trim();
                         process.WaitForExit();
 
-                        if (certStatus == null || certStatus.Equals("NotSigned"))
+                        if (certStatus == null || certStatus.Equals("NotSigned")) //lgtm [cs/hardcoded-credentials]
                         {
                             return "Not signed";
                         }
-                        else if (certStatus.Equals("Valid"))
+                        else if (certStatus.Equals("Valid")) //lgtm [cs/hardcoded-credentials]
                         {
                             return "Valid";
                         }
@@ -87,7 +88,7 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
                     }
                     catch(Exception ex2)
                     {
-                        Logger.Instance.Debug(ex2.StackTrace);
+                        Log.Debug(ex2.StackTrace);
                     }
                     return null;
                 }

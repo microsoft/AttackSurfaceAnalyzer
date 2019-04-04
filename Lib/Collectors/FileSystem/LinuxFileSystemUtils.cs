@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using AttackSurfaceAnalyzer.Utils;
 using Mono.Unix;
+using Serilog;
 
 namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 {
@@ -24,7 +25,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.Warn("Unable to get access control for {0}: {1}", fileInfo.FullName, ex.Message);
+                    Log.Warning("Unable to get access control for {0}: {1}", fileInfo.FullName, ex.Message);
                 }
             }
             else if (fileInfo is DirectoryInfo)
@@ -35,7 +36,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.Warn("Unable to get access control for {0}: {1}", fileInfo.FullName, ex.Message);
+                    Log.Warning("Unable to get access control for {0}: {1}", fileInfo.FullName, ex.Message);
                 }
             }
             else

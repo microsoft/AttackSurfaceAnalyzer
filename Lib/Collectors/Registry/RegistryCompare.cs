@@ -6,6 +6,7 @@ using AttackSurfaceAnalyzer.ObjectTypes;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace AttackSurfaceAnalyzer.Collectors.Registry
 {
@@ -42,7 +43,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
 
                 // TODO: Check if this comparison has already been completed
                 // Skip the rest if it has
-                Logger.Instance.Info("Starting RegistryCompare Created");
+                Log.Information("Starting RegistryCompare Created");
                 var addObjects = new List<RegistryResult>();
                 var cmd = new SqliteCommand(SELECT_INSERTED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
@@ -66,7 +67,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                 }
 
                 Results["registry_add"] = addObjects;
-                Logger.Instance.Info("Starting RegistryCompare Deleted");
+                Log.Information("Starting RegistryCompare Deleted");
                 // Which files are gone?
                 var removeObjects = new List<RegistryResult>();
                 cmd = new SqliteCommand(SELECT_DELETED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
@@ -91,7 +92,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                 }
 
                 Results["registry_remove"] = removeObjects;
-                Logger.Instance.Info("Starting RegistryCompare Modified");
+                Log.Information("Starting RegistryCompare Modified");
                 // Which files had some other property modified?
                 var modifyObjects = new List<RegistryResult>();
                 cmd = new SqliteCommand(SELECT_MODIFIED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
@@ -123,7 +124,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
             }
             catch (Exception e)
             {
-                Logger.Instance.Info(e.Message);
+                Log.Information(e.Message);
             }
         }
     }

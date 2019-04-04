@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
+using Serilog;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -66,7 +67,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
                     if (Proc.ExitCode != 0)
                     {
-                        Logger.Instance.Error("Unable to run netstat.exe. Open ports will not be available.");
+                        Log.Error("Unable to run netstat.exe. Open ports will not be available.");
                         return ProcessPorts;
                     }
 
@@ -114,22 +115,22 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
                                 if (!outputLine.StartsWith("Proto") && !outputLine.StartsWith("Active") && !String.IsNullOrWhiteSpace(outputLine))
                                 {
-                                    Logger.Instance.Warn("Primary Parsing error when processing netstat.exe output: {0}", outputLine);
+                                    Log.Warning("Primary Parsing error when processing netstat.exe output: {0}", outputLine);
                                 }
                             }
                         }
                         catch (Exception e)
                         {
-                            Logger.Instance.Warn("Secondary Parsing error when processing netstat.exe output: {0}", outputLine);
-                            Logger.Instance.Warn(e.Message);
-                            Logger.Instance.Warn(e.GetType().ToString());
+                            Log.Warning("Secondary Parsing error when processing netstat.exe output: {0}", outputLine);
+                            Log.Warning(e.Message);
+                            Log.Warning(e.GetType().ToString());
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                Logger.Instance.Warn("Error processing open ports: {0}", ex.Message);
+                Log.Warning("Error processing open ports: {0}", ex.Message);
             }
             return ProcessPorts;
         }

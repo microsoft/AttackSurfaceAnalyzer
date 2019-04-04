@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Security.AccessControl;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Win32;
+using Serilog;
 
 namespace AttackSurfaceAnalyzer.ObjectTypes
 {
@@ -62,7 +63,7 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
                 {
                     if (Value.ToString() == Value.GetType().ToString())
                     {
-                        Logger.Instance.Warn("Uh oh, this type isn't handled. " + Value.ToString());
+                        Log.Warning("Uh oh, this type isn't handled. " + Value.ToString());
                     }
                     str = Value.ToString();
                 }
@@ -83,7 +84,7 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
             }
             catch(Exception e)
             {
-                Logger.Instance.Trace(e.GetType() + " failed to get security descriptor for " + Key.Name);
+                Log.Debug(e.GetType() + " failed to get security descriptor for " + Key.Name);
 
             }
         }

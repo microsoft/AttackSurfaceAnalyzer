@@ -6,6 +6,7 @@ using AttackSurfaceAnalyzer.ObjectTypes;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace AttackSurfaceAnalyzer.Collectors.UserAccount
 {
@@ -96,7 +97,7 @@ namespace AttackSurfaceAnalyzer.Collectors.UserAccount
                 {
                     while (reader.Read())
                     {
-                        Logger.Instance.Warn("Modified row: {0}", reader["row_key"]?.ToString());
+                        Log.Warning("Modified row: {0}", reader["row_key"]?.ToString());
                         var obj = new UserAccountResult()
                         {
                             Base = JsonConvert.DeserializeObject<UserAccountObject>(reader["a_serialized"].ToString()),
@@ -117,8 +118,8 @@ namespace AttackSurfaceAnalyzer.Collectors.UserAccount
             }
             catch(Exception e)
             {
-                Logger.Instance.Warn(e.StackTrace);
-                Logger.Instance.Warn(e.GetType());
+                Log.Warning(e.StackTrace);
+                Log.Warning(e.GetType().ToString());
             }
         }
     }

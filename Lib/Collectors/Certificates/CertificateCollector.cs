@@ -11,6 +11,7 @@ using Microsoft.Data.Sqlite;
 using System.Security.Cryptography.X509Certificates;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Serilog;
 
 namespace AttackSurfaceAnalyzer.Collectors.Certificates
 {
@@ -70,11 +71,11 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
             }
             catch (NullReferenceException e)
             {
-                Logger.Instance.Warn(e.StackTrace);
+                Log.Warning(e.StackTrace);
             }
             catch (Microsoft.Data.Sqlite.SqliteException e)
             {
-                Logger.Instance.Warn(e.Message);
+                Log.Warning(e.Message);
                 //This catches duplicate certificates
             }
         }
@@ -106,9 +107,9 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
                     }
                     catch (Exception e)
                     {
-                        Logger.Instance.Debug(e.StackTrace);
-                        Logger.Instance.Debug(e.GetType());
-                        Logger.Instance.Debug(e.Message);
+                        Log.Debug(e.StackTrace);
+                        Log.Debug(e.GetType().ToString());
+                        Log.Debug(e.Message);
                     }
                 }
             }

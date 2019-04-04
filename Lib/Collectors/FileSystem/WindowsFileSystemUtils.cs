@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Security.AccessControl;
 using AttackSurfaceAnalyzer.Utils;
+using Serilog;
 
 namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 {
@@ -26,8 +27,8 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.Debug("Unable to get access control for {0}: {1}", fileInfo.FullName, ex.Message);
-                    //Logger.Instance.Debug(ex.StackTrace);
+                    Log.Debug("Unable to get access control for {0}: {1}", fileInfo.FullName, ex.Message);
+                    //Log.Debug(ex.StackTrace);
                 }
             }
             else if (fileInfo is DirectoryInfo)
@@ -38,8 +39,8 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.Debug("Unable to get access control for {0}: {1}", fileInfo.FullName, ex.Message);
-                    //Logger.Instance.Debug(ex.StackTrace);
+                    Log.Debug("Unable to get access control for {0}: {1}", fileInfo.FullName, ex.Message);
+                    //Log.Debug(ex.StackTrace);
 
                 }
             }

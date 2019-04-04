@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using AttackSurfaceAnalyzer.Utils;
 using Murmur;
+using Serilog;
 
 namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 {
@@ -31,7 +32,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 
         protected internal static string GetFileHash(FileSystemInfo fileInfo)
         {
-            Logger.Instance.Debug("Generating file hash for {0}", fileInfo.FullName);
+            Log.Debug("Generating file hash for {0}", fileInfo.FullName);
 
             string hashValue = null;
             try
@@ -43,7 +44,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
             }
             catch (Exception ex)
             {
-                Logger.Instance.Warn("Unable to take hash of file: {0}: {1}", fileInfo.FullName, ex.Message);
+                Log.Warning("Unable to take hash of file: {0}: {1}", fileInfo.FullName, ex.Message);
             }
             return hashValue;
         }
@@ -75,7 +76,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
             }
             catch(Exception ex)
             {
-                Logger.Instance.Debug(ex, "Exception checking for file signature for {0}: {1}", path, ex.Message);
+                Log.Debug(ex, "Exception checking for file signature for {0}: {1}", path, ex.Message);
                 return new KeyValuePair<bool, X509Certificate2>(false, certificate);
             }
 

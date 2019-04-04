@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using AttackSurfaceAnalyzer.ObjectTypes;
 using Microsoft.Win32;
+using Serilog;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -33,7 +34,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     continue;
                 }
-                if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "Registry", "Key", "Exclude", currentKey.Name))
+                if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "Registry", "Key", currentKey.Name))
                 {
                     continue;
                 }
@@ -49,7 +50,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     // These are expected as we are running as administrator, not System.
                     catch (System.Security.SecurityException e)
                     {
-                        Logger.Instance.Trace(e.GetType() + " " + e.Message + " " + currentKey.Name);
+                        Log.Debug(e.GetType() + " " + e.Message + " " + currentKey.Name);
 
                     }
                     // There seem to be some keys which are listed as existing by the APIs but don't actually exist.
@@ -57,11 +58,11 @@ namespace AttackSurfaceAnalyzer.Utils
                     // Since this isn't use actionable, also just supress these to the debug stream.
                     catch (System.IO.IOException e)
                     {
-                        Logger.Instance.Debug(e.GetType() + " " + e.Message + " " + currentKey.Name);
+                        Log.Debug(e.GetType() + " " + e.Message + " " + currentKey.Name);
                     }
                     catch (Exception e)
                     {
-                        Logger.Instance.Info(e.GetType() + " " + e.Message + " " + currentKey.Name);
+                        Log.Information(e.GetType() + " " + e.Message + " " + currentKey.Name);
                     }
                 }
                 RegistryObject regObj = null;
@@ -70,7 +71,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     regObj = new RegistryObject(currentKey);
 
                 }
-                catch (Exception) { Logger.Instance.Debug("I'm blue"); }
+                catch (Exception) { Log.Debug("I'm blue"); }
                 if (regObj != null)
                 {
                     yield return regObj;

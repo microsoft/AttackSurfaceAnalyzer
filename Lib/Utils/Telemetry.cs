@@ -12,7 +12,6 @@ namespace AttackSurfaceAnalyzer.Utils
         private static readonly string UPDATE_TELEMETRY = "replace into persisted_settings values ('telemetry_opt_out',@TelemetryOptOut)"; //lgtm [cs/literal-as-local]
         private static readonly string CHECK_TELEMETRY = "select value from persisted_settings where setting='telemetry_opt_out'";
 
-
         public static TelemetryClient Client;
 
         public static void Setup(bool Gui)
@@ -27,10 +26,10 @@ namespace AttackSurfaceAnalyzer.Utils
                     }
                 }
             }
-
             TelemetryConfiguration.Active.InstrumentationKey = (Gui)? TelemetryConfig.IntrumentationKeyGui : TelemetryConfig.InstrumentationKeyCli;
             Client =  new TelemetryClient();
             Client.Context.Component.Version = Helpers.GetVersionString();
+
         }
 
         public static void Flush()

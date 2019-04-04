@@ -3,6 +3,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Serilog;
+
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -12,8 +14,8 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public readonly List<EventArgs> EventList = new List<EventArgs>();
 
-        private static readonly Action<EventArgs> DefaultChangedDelegate = (e) => { FileSystemEventArgs i_e = (FileSystemEventArgs)e; Logger.Instance.Info(i_e.ChangeType.ToString() + " " + i_e.FullPath.ToString()); };
-        private static readonly Action<EventArgs> DefaultRenamedDelegate = (e) => { RenamedEventArgs i_e = (RenamedEventArgs)e; Logger.Instance.Info(i_e.ChangeType.ToString() + " " + i_e.OldFullPath.ToString() + " " + i_e.FullPath.ToString()); };
+        private static readonly Action<EventArgs> DefaultChangedDelegate = (e) => { FileSystemEventArgs i_e = (FileSystemEventArgs)e; Log.Information(i_e.ChangeType.ToString() + " " + i_e.FullPath.ToString()); };
+        private static readonly Action<EventArgs> DefaultRenamedDelegate = (e) => { RenamedEventArgs i_e = (RenamedEventArgs)e; Log.Information(i_e.ChangeType.ToString() + " " + i_e.OldFullPath.ToString() + " " + i_e.FullPath.ToString()); };
 
         private static readonly NotifyFilters DefaultFilters = NotifyFilters.Attributes
                                                 | NotifyFilters.CreationTime
