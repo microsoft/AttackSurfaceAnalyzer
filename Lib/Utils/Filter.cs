@@ -29,6 +29,15 @@ namespace AttackSurfaceAnalyzer.Utils
             return "Unknown";
         }
 
+        public static bool IsFiltered(string Platform, string ScanType, string ItemType, string Property, string Target)
+        {
+            if (IsFiltered(Platform, ScanType, ItemType, Property, "include", Target))
+            {
+                return false;
+            }
+            return IsFiltered(Platform, ScanType, ItemType, Property, "exclude", Target);
+        }
+
         public static bool IsFiltered(string Platform, string ScanType, string ItemType, string Property, string FilterType, string Target) => IsFiltered(Platform, ScanType, ItemType, Property, FilterType, Target, out Regex dummy);
 
         public static bool IsFiltered(string Platform, string ScanType, string ItemType, string Property, string FilterType, string Target, out Regex regex)

@@ -33,7 +33,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     continue;
                 }
-                if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "Registry", "Key", "Exclude", currentKey.Name))
+                if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "Registry", "Key", currentKey.Name))
                 {
                     continue;
                 }

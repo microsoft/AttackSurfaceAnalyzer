@@ -24,7 +24,7 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 string currentDir = dirs.Pop();
 
-                if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "File", "Path", "Exclude", currentDir))
+                if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "File", "Path", currentDir))
                 {
                     continue;
                 }
@@ -100,7 +100,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         continue;
                     }
                     string FullPath = String.Format("{0}{1}{2}", currentDir, Path.PathSeparator, file);
-                    if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "File", "Path", "Exclude", FullPath))
+                    if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "File", "Path", FullPath))
                     {
                         continue;
                     }
