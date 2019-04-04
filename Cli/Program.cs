@@ -322,32 +322,45 @@ namespace AttackSurfaceAnalyzer.Cli
             StartEvent.Add("OutputPathSet", (opts.OutputPath != null).ToString());
 
             Telemetry.Client.TrackEvent("Begin Export Compare", StartEvent);
-            bool RunComparisons = true;
+            //bool RunComparisons = true;
 
-            string SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED = "select * from results where base_run_id=@base_run_id and compare_run_id=@compare_run_id";
+            //string SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED = "select * from results where base_run_id=@base_run_id and compare_run_id=@compare_run_id";
 
-            var cmd = new SqliteCommand(SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED, DatabaseManager.Connection);
-            cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
-            cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
-            using (var reader = cmd.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    RunComparisons = false;
-                }
-            }
+            //var cmd = new SqliteCommand(SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED, DatabaseManager.Connection);
+            //cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
+            //cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
+            //using (var reader = cmd.ExecuteReader())
+            //{
+            //    while (reader.Read())
+            //    {
+            //        RunComparisons = false;
+            //    }
+            //}
 
             CompareCommandOptions options = new CompareCommandOptions();
             options.DatabaseFilename = opts.DatabaseFilename;
             options.FirstRunId = opts.FirstRunId;
             options.SecondRunId = opts.SecondRunId;
 
-            if (RunComparisons)
+            //if (RunComparisons)
+            //{
+                var results = CompareRuns(options);
+            //}
+            JsonSerializer serializer = new JsonSerializer
             {
-                CompareRuns(options);
-            }
+                Formatting = Formatting.Indented,
+                NullValueHandling = NullValueHandling.Ignore
+            };
+            serializer.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
 
-            WriteScanJson(0, opts.FirstRunId, opts.SecondRunId, true, opts.OutputPath);
+            using (StreamWriter sw = new StreamWriter(Path.Combine(opts.OutputPath, Helpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId + "_summary.json.txt")))) //lgtm[cs/path-injection]
+            {
+                using (JsonWriter writer = new JsonTextWriter(sw))
+                {
+                    serializer.Serialize(writer, results);
+                }
+            }
+            //WriteScanJson(0, opts.FirstRunId, opts.SecondRunId, true, opts.OutputPath);
 
             return 0;
 
