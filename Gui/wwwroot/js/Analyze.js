@@ -385,11 +385,11 @@ function InsertIntoRegistryTable(result) {
     }));
     tmp.append($('<td/>', {
         scope: "col",
-        html: appendObj.Value
+        html: JSON.stringify(appendObj.Subkeys)
     }));
     tmp.append($('<td/>', {
         scope: "col",
-        html: appendObj.Contents
+        html: JSON.stringify(appendObj.Values)
     }));
     $('#RegistryResultsTableBody').append(tmp);
     tmp = $('<tr/>');
