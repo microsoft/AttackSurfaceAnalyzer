@@ -40,7 +40,7 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
                         {
                             return "Not signed";
                         }
-                        else if (certStatus.Equals("Valid")) // lgtm[cs/hardcoded-credentials]
+                        else if (certStatus.Equals("Valid")) // lgtm [cs/hardcoded-credentials]
                         {
                             return "Valid";
                         }
@@ -72,11 +72,11 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
                         var certStatus = process.StandardOutput.ReadToEnd().Trim();
                         process.WaitForExit();
 
-                        if (certStatus == null || certStatus.Equals("NotSigned"))
+                        if (certStatus == null || certStatus.Equals("NotSigned")) //lgtm [cs/hardcoded-credentials]
                         {
                             return "Not signed";
                         }
-                        else if (certStatus.Equals("Valid"))
+                        else if (certStatus.Equals("Valid")) //lgtm [cs/hardcoded-credentials]
                         {
                             return "Valid";
                         }
