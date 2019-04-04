@@ -1020,6 +1020,7 @@ namespace AttackSurfaceAnalyzer.Cli
             Log.Debug("After telemetry");
             return RunCollectCommand(opts);
 
+
         }
 
         public static int RunCollectCommand(CollectCommandOptions opts)
@@ -1163,11 +1164,8 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
                 Log.Information("Completed: {0}", c.GetType().Name);
             }
-<<<<<<< HEAD
             Log.Information("Started {0} collectors", collectors.Count.ToString());
-=======
-            Logger.Instance.Info("Started {0} collectors", collectors.Count.ToString());
->>>>>>> Fixes GUI collection.
+
 
             DatabaseManager.Commit();
             return returnValue;
