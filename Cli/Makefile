@@ -65,5 +65,6 @@ build_debug:
 
 build_release:
 	$(info Building $(RUNTIME) release at $(VERSION))
-	$(DOTNET) publish -c Release -r $(RUNTIME) --self-contained true --output $(PUBLISH_PATH)-$(ALT_RUNTIME)-$(VERSION)
+	$(DOTNET) publish -c Release -r $(RUNTIME) --self-contained true --output $(PUBLISH_PATH)-$(ALT_RUNTIME)-$(VERSION)/res
+	cp -f AttackSurfaceAnalyzerCli.sh $(PUBLISH_PATH)-$(ALT_RUNTIME)-$(VERSION)/AttackSurfaceAnalyzerCli.sh
 	$(info Release build completed)
