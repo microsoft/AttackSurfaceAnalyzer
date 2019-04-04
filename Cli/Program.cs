@@ -1014,7 +1014,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 Logger.Instance.Debug(e.Message);
             }
             Logger.Instance.Debug("After telemetry");
-            return RunCollectCommand(opts);f
+            return RunCollectCommand(opts);
         }
 
         public static int RunCollectCommand(CollectCommandOptions opts)
