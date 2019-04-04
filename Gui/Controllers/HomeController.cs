@@ -39,7 +39,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         public HomeController()
         {
-            DatabaseManager.Setup();
+
         }
 
         public IActionResult Index()
@@ -385,16 +385,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         public ActionResult ChangeTelemetryState(bool DisableTelemetry)
         {
-            TelemetryConfiguration.Active.DisableTelemetry = DisableTelemetry;
-
-
-            using (var cmd = new SqliteCommand(UPDATE_TELEMETRY, DatabaseManager.Connection, DatabaseManager.Transaction))
-            {
-                cmd.Parameters.AddWithValue("@TelemetryOptOut", DisableTelemetry.ToString());
-                cmd.ExecuteNonQuery();
-            }
-
-            DatabaseManager.Commit();
+            Telemetry.SetOptOut(DisableTelemetry);
 
             return Json(true);
         }

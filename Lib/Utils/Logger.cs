@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+using Microsoft.ApplicationInsights.NLogTarget;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
@@ -25,6 +26,9 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             var config = new LoggingConfiguration();
 
+
+            LogManager.Configuration = config;
+
             var consoleTarget = new ColoredConsoleTarget("console")
             {
                 Layout = @"${date:format=HH\:mm\:ss} ${level} ${message} ${exception}"
@@ -49,11 +53,6 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 config.AddRuleForAllLevels(fileTarget);
             }
-            //if (trace)
-            //{
-            //    config.AddRuleForAllLevels(fileTarget);
-            //    config.AddRuleForAllLevels(consoleTarget);
-            //}
             else
             {
                 config.AddRuleForOneLevel(LogLevel.Info, consoleTarget);
@@ -61,6 +60,10 @@ namespace AttackSurfaceAnalyzer.Utils
                 config.AddRuleForOneLevel(LogLevel.Error, consoleTarget);
                 config.AddRuleForOneLevel(LogLevel.Fatal, consoleTarget);
             }
+
+            ApplicationInsightsTarget target = new ApplicationInsightsTarget();
+            LoggingRule rule = new LoggingRule("*", LogLevel.Trace, target);
+            config.LoggingRules.Add(rule);
 
             LogManager.Configuration = config;
         }

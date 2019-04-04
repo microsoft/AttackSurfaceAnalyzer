@@ -12,9 +12,10 @@ namespace AttackSurfaceAnalyzer.Utils
         private static readonly string UPDATE_TELEMETRY = "replace into persisted_settings values ('telemetry_opt_out',@TelemetryOptOut)"; //lgtm [cs/literal-as-local]
         private static readonly string CHECK_TELEMETRY = "select value from persisted_settings where setting='telemetry_opt_out'";
 
+
         public static TelemetryClient Client;
 
-        public static void Setup()
+        public static void Setup(bool Gui)
         {
             using (var cmd = new SqliteCommand(CHECK_TELEMETRY, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
@@ -26,8 +27,10 @@ namespace AttackSurfaceAnalyzer.Utils
                     }
                 }
             }
-            TelemetryConfiguration.Active.InstrumentationKey = "e44cb140-4cde-4973-a219-2106a560093d";
+
+            TelemetryConfiguration.Active.InstrumentationKey = (Gui)? TelemetryConfig.IntrumentationKeyGui : TelemetryConfig.InstrumentationKeyCli;
             Client =  new TelemetryClient();
+            Client.Context.Component.Version = Helpers.GetVersionString();
         }
 
         public static void Flush()
@@ -43,7 +46,6 @@ namespace AttackSurfaceAnalyzer.Utils
                 cmd.Parameters.AddWithValue("@TelemetryOptOut", OptOut.ToString());
                 cmd.ExecuteNonQuery();
             }
-
             DatabaseManager.Commit();
         }
     }
