@@ -314,7 +314,6 @@ namespace AttackSurfaceAnalyzer.Cli
 #else
             Logger.Setup(false, opts.Verbose);
 #endif
-
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
             Telemetry.Setup(false);
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
