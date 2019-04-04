@@ -10,6 +10,7 @@ using AttackSurfaceAnalyzer.ObjectTypes;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace AttackSurfaceAnalyzer.Collectors.Service
 {
@@ -76,7 +77,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
 
             if (!this.CanRunOnPlatform())
             {
-                Logger.Instance.Info("ServiceCollector cannot run on this platform.");
+                Log.Information("ServiceCollector cannot run on this platform.");
                 return;
             }
 
@@ -89,7 +90,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
                 {
                     if (this.filter != null && !this.filter(service))
                     {
-                        Logger.Instance.Info("Service [{0}] did not pass filter, ignoring.", service.ToString());
+                        Log.Information("Service [{0}] did not pass filter, ignoring.", service.ToString());
                         continue;
                     }
 

@@ -10,6 +10,7 @@ using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
 using AttackSurfaceAnalyzer.ObjectTypes;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
 {
@@ -23,7 +24,7 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
 
         public OpenPortCollector(string runId)
         {
-            Logger.Instance.Debug("Initializing a new OpenPortCollector object.");
+            Log.Debug("Initializing a new OpenPortCollector object.");
             if (runId == null)
             {
                 throw new ArgumentException("runIdentifier may not be null.");
@@ -50,7 +51,7 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
                 osRelease = osRelease.ToLower();
                 if (osRelease.Contains("microsoft") || osRelease.Contains("wsl"))
                 {
-                    Logger.Instance.Debug("OpenPortCollector cannot run on WSL until https://github.com/Microsoft/WSL/issues/2249 is fixed.");
+                    Log.Debug("OpenPortCollector cannot run on WSL until https://github.com/Microsoft/WSL/issues/2249 is fixed.");
                     return false;
                 }
             }
@@ -69,7 +70,7 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
             var objStr = obj.ToString();
             if (this.processedObjects.Contains(objStr))
             {
-                Logger.Instance.Debug("Object already exists, ignoring: {0}", objStr);
+                Log.Debug("Object already exists, ignoring: {0}", objStr);
                 return;
             }
 
@@ -90,7 +91,7 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
         public override void Execute()
         {
             Start();
-            Logger.Instance.Debug("Collecting open port information...");
+            Log.Debug("Collecting open port information...");
             Truncate(runId);
 
             if (!this.CanRunOnPlatform())
@@ -112,7 +113,7 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
             }
             else
             {
-                Logger.Instance.Warn("OpenPortCollector is not available on {0}", RuntimeInformation.OSDescription);
+                Log.Warning("OpenPortCollector is not available on {0}", RuntimeInformation.OSDescription);
             }
             Stop();
         }
@@ -124,7 +125,7 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
         /// </summary>
         public void ExecuteWindows()
         {
-            Logger.Instance.Debug("Collecting open port information (Windows implementation)");
+            Log.Debug("Collecting open port information (Windows implementation)");
             var properties = IPGlobalProperties.GetIPGlobalProperties();
 
             foreach (var endpoint in properties.GetActiveTcpListeners())
@@ -168,7 +169,7 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
         /// </summary>
         private void ExecuteLinux()
         {
-            Logger.Instance.Debug("ExecuteLinux()");
+            Log.Debug("ExecuteLinux()");
             var runner = new ExternalCommandRunner();
             var result = runner.RunExternalCommand("ss", "-ln");
 
@@ -213,7 +214,7 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
         /// </summary>
         private void ExecuteOsX()
         {
-            Logger.Instance.Debug("ExecuteOsX()");
+            Log.Debug("ExecuteOsX()");
             var runner = new ExternalCommandRunner();
             var result = runner.RunExternalCommand("sudo", "lsof -Pn -i4 -i6");
 
@@ -298,7 +299,7 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
                 }
                 if (!afterSet.Contains(b))
                 {
-                    Logger.Instance.Info("Open port no longer open: {0}", b.ToString());
+                    Log.Information("Open port no longer open: {0}", b.ToString());
                 }
             }
 
@@ -306,7 +307,7 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
             {
                 if (!beforeSet.Contains(b))
                 {
-                    Logger.Instance.Info("New open port: {0}", b.ToString());
+                    Log.Information("New open port: {0}", b.ToString());
                 }
             }
         }

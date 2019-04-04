@@ -4,6 +4,7 @@ using System;
 using System.Text;
 using AttackSurfaceAnalyzer.Utils;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace AttackSurfaceAnalyzer.ObjectTypes
 {
@@ -50,7 +51,7 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
             {
                 if (this.port == "135" && other.port == "135")
                 {
-                    Logger.Instance.Info("Comparing {0} to {1}, result={2}", this.ToString(), obj.ToString(), result);
+                    Log.Information("Comparing {0} to {1}, result={2}", this.ToString(), obj.ToString(), result);
                 }
                 return result.Value;
             }

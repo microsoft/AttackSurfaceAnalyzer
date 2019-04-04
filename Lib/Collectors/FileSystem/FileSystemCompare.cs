@@ -6,6 +6,7 @@ using AttackSurfaceAnalyzer.ObjectTypes;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 {
@@ -123,7 +124,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
             catch (Exception e)
             {
                 // Debugging
-                Logger.Instance.Info(e.Message);
+                Log.Information(e.Message);
             }
         }
     }

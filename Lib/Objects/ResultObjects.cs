@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Collectors.FileSystem;
 using AttackSurfaceAnalyzer.ObjectTypes;
+using Serilog;
 
 namespace AttackSurfaceAnalyzer.ObjectTypes
 {

@@ -20,6 +20,9 @@ using Newtonsoft.Json;
 using System.Reflection;
 using System.Diagnostics;
 using Microsoft.ApplicationInsights.Extensibility;
+using System.Threading.Tasks;
+using Serilog;
+
 
 namespace AttackSurfaceAnalyzer.Cli
 {
@@ -197,8 +200,8 @@ namespace AttackSurfaceAnalyzer.Cli
                         .GetEntryAssembly()
                         .GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false)
                         as AssemblyInformationalVersionAttribute[])[0].InformationalVersion;
-            Logger.Instance.Info("AttackSurfaceAnalyzerCli v." + version);
-            Logger.Instance.Debug(version);
+            Log.Information("AttackSurfaceAnalyzerCli v." + version);
+            Log.Debug(version);
 
             var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, CompareCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions, ConfigCommandOptions>(args)
                 .MapResult(
@@ -211,7 +214,7 @@ namespace AttackSurfaceAnalyzer.Cli
                     errs => 1
                 );
 
-            Logger.Instance.Info("Attack Surface Analyzer Complete.");
+            Log.Information("Attack Surface Analyzer Complete.");
         }
 
         private static int SetupConfig(ConfigCommandOptions opts)
@@ -222,14 +225,14 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 DatabaseManager.CloseDatabase();
                 File.Delete(opts.DatabaseFilename);
-                Logger.Instance.Info("Deleted Database");
+                Log.Information("Deleted Database");
             }
             else
             {
                 if (opts.ListRuns)
                 {
 
-                    Logger.Instance.Info("Begin Collect Run Ids");
+                    Log.Information("Begin Collect Run Ids");
                     List<string> CollectRuns = GetRuns("collect");
                     foreach (string run in CollectRuns)
                     {
@@ -245,7 +248,7 @@ namespace AttackSurfaceAnalyzer.Cli
                                                                     reader["version"].ToString(),
                                                                     reader["type"].ToString(),
                                                                     reader["run_id"].ToString());
-                                    Logger.Instance.Info(output);
+                                    Log.Information(output);
                                     output = String.Format("{0} {1} {2} {3} {4} {5}",
                                                             (int.Parse(reader["file_system"].ToString()) != 0) ? "FILES" : "",
                                                             (int.Parse(reader["ports"].ToString()) != 0) ? "PORTS" : "",
@@ -253,13 +256,13 @@ namespace AttackSurfaceAnalyzer.Cli
                                                             (int.Parse(reader["services"].ToString()) != 0) ? "SERVICES" : "",
                                                             (int.Parse(reader["certificates"].ToString()) != 0) ? "CERTIFICATES" : "",
                                                             (int.Parse(reader["registry"].ToString()) != 0) ? "REGISTRY" : "");
-                                    Logger.Instance.Info(output);
+                                    Log.Information(output);
 
                                 }
                             }
                         }
                     }
-                    Logger.Instance.Info("Begin monitor Run Ids");
+                    Log.Information("Begin monitor Run Ids");
                     List<string> MonitorRuns = GetRuns("monitor");
                     foreach (string monitorRun in MonitorRuns)
                     {
@@ -275,7 +278,7 @@ namespace AttackSurfaceAnalyzer.Cli
                                                                     reader["version"].ToString(),
                                                                     reader["type"].ToString(),
                                                                     reader["run_id"].ToString());
-                                    Logger.Instance.Info(output);
+                                    Log.Information(output);
                                     output = String.Format("{0} {1} {2} {3} {4} {5}",
                                                             (int.Parse(reader["file_system"].ToString()) != 0) ? "FILES" : "",
                                                             (int.Parse(reader["ports"].ToString()) != 0) ? "PORTS" : "",
@@ -283,7 +286,7 @@ namespace AttackSurfaceAnalyzer.Cli
                                                             (int.Parse(reader["services"].ToString()) != 0) ? "SERVICES" : "",
                                                             (int.Parse(reader["certificates"].ToString()) != 0) ? "CERTIFICATES" : "",
                                                             (int.Parse(reader["registry"].ToString()) != 0) ? "REGISTRY" : "");
-                                    Logger.Instance.Info(output);
+                                    Log.Information(output);
 
                                 }
                             }
@@ -294,7 +297,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 if (opts.TelemetryOptOut != null)
                 {
                     Telemetry.SetOptOut(bool.Parse(opts.TelemetryOptOut));
-                    Logger.Instance.Info("Your current telemetry opt out setting is {0}.", (bool.Parse(opts.TelemetryOptOut)) ? "Opted out" : "Opted in");
+                    Log.Information("Your current telemetry opt out setting is {0}.", (bool.Parse(opts.TelemetryOptOut)) ? "Opted out" : "Opted in");
                 }
                 if (opts.DeleteRunId != null)
                 {
@@ -314,7 +317,7 @@ namespace AttackSurfaceAnalyzer.Cli
 #else
             Logger.Setup(false, opts.Verbose);
 #endif
-            Logger.Instance.Debug("Entering RunExportCollectCommand");
+            Log.Debug("Entering RunExportCollectCommand");
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
             Telemetry.Setup();
@@ -323,7 +326,7 @@ namespace AttackSurfaceAnalyzer.Cli
             StartEvent.Add("OutputPathSet", (opts.OutputPath != null).ToString());
 
             Telemetry.Client.TrackEvent("Begin Export Compare", StartEvent);
-            Logger.Instance.Debug("Halfway RunExportCollectCommand");
+            Log.Debug("Halfway RunExportCollectCommand");
 
             CompareCommandOptions options = new CompareCommandOptions();
             options.DatabaseFilename = opts.DatabaseFilename;
@@ -337,7 +340,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 NullValueHandling = NullValueHandling.Ignore
             };
             serializer.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
-            Logger.Instance.Debug("Done comparing RunExportCollectCommand");
+            Log.Debug("Done comparing RunExportCollectCommand");
 
             using (StreamWriter sw = new StreamWriter(Path.Combine(opts.OutputPath, Helpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId + "_summary.json.txt")))) //lgtm[cs/path-injection]
             {
@@ -346,7 +349,7 @@ namespace AttackSurfaceAnalyzer.Cli
                     serializer.Serialize(writer, results);
                 }
             }
-            Logger.Instance.Info("Done writing");
+            Log.Information("Done writing");
             return 0;
 
         }
@@ -356,7 +359,7 @@ namespace AttackSurfaceAnalyzer.Cli
             string GET_COMPARISON_RESULTS = "select * from compared where base_run_id=@base_run_id and compare_run_id=@compare_run_id and data_type=@data_type order by base_row_key;";
             string GET_SERIALIZED_RESULTS = "select serialized from @table_name where row_key = @row_key and run_id = @run_id";
 
-            Logger.Instance.Debug("Starting WriteScanJson");
+            Log.Debug("Starting WriteScanJson");
 
             List<RESULT_TYPE> ToExport = new List<RESULT_TYPE> { (RESULT_TYPE)ResultType };
             Dictionary<RESULT_TYPE, int> actualExported = new Dictionary<RESULT_TYPE, int>();
@@ -586,7 +589,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 {
                     while (reader.Read())
                     {
-                        Logger.Instance.Error("That runid was already used. Must use a unique runid for each run. Use --overwrite to discard previous run information.");
+                        Log.Error("That runid was already used. Must use a unique runid for each run. Use --overwrite to discard previous run information.");
                         return (int)ERRORS.UNIQUE_ID;
                     }
                 }
@@ -613,8 +616,8 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             catch (Exception e)
             {
-                Logger.Instance.Warn(e.StackTrace);
-                Logger.Instance.Warn(e.Message);
+                Log.Warning(e.StackTrace);
+                Log.Warning(e.Message);
             }
             int returnValue = 0;
 
@@ -669,7 +672,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             if (monitors.Count == 0)
             {
-                Logger.Instance.Warn("No monitors have been defined.");
+                Log.Warning("No monitors have been defined.");
                 returnValue = 1;
             }
 
@@ -678,7 +681,7 @@ namespace AttackSurfaceAnalyzer.Cli
             // If duration is set, we use the secondary timer.
             if (opts.Duration > 0)
             {
-                Logger.Instance.Info("Monitor started for " + opts.Duration + " minute(s).");
+                Log.Information("Monitor started for " + opts.Duration + " minute(s).");
                 var aTimer = new System.Timers.Timer
                 {
                     Interval = opts.Duration * 60 * 1000,
@@ -692,7 +695,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             foreach (var c in monitors)
             {
-                Logger.Instance.Info("Executing: {0}", c.GetType().Name);
+                Log.Information("Executing: {0}", c.GetType().Name);
 
                 try
                 {
@@ -700,7 +703,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.Error(ex, "Error collecting from {0}: {1} {2}", c.GetType().Name, ex.Message, ex.StackTrace);
+                    Log.Error(ex, "Error collecting from {0}: {1} {2}", c.GetType().Name, ex.Message, ex.StackTrace);
                     returnValue = 1;
                 }
             }
@@ -715,11 +718,11 @@ namespace AttackSurfaceAnalyzer.Cli
 
             // Write a spinner and wait until CTRL+C
             WriteSpinner(exitEvent);
-            Logger.Instance.Info("");
+            Log.Information("");
 
             foreach (var c in monitors)
             {
-                Logger.Instance.Info("Stopping: {0}", c.GetType().Name);
+                Log.Information("Stopping: {0}", c.GetType().Name);
 
                 try
                 {
@@ -727,7 +730,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.Error(ex, "Error stopping {0}: {1}", c.GetType().Name, ex.Message);
+                    Log.Error(ex, "Error stopping {0}: {1}", c.GetType().Name, ex.Message);
                     returnValue = 1;
                 }
             }
@@ -804,7 +807,7 @@ namespace AttackSurfaceAnalyzer.Cli
             comparators = new List<BaseCompare>();
 
             var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES, DatabaseManager.Connection, DatabaseManager.Transaction);
-            Logger.Instance.Debug("Getting result types");
+            Log.Debug("Getting result types");
             cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
             cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
 
@@ -879,23 +882,18 @@ namespace AttackSurfaceAnalyzer.Cli
                     }
                 }
             }
-            Logger.Instance.Debug("Inserting run into results table as running");
 
-            cmd = new SqliteCommand(INSERT_RUN_INTO_RESULT_TABLE_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
-            cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
-            cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
-            cmd.Parameters.AddWithValue("@status", RUN_STATUS.RUNNING);
-            cmd.ExecuteNonQuery();
-
-            foreach (var c in comparators)
+            // Logging stops at this loop
+            Parallel.ForEach(comparators,
+                (c =>
             {
-                Logger.Instance.Info("Starting {0}", c.GetType());
+                Log.Information("Starting {0}", c.GetType());
                 if (!c.TryCompare(opts.FirstRunId, opts.SecondRunId))
                 {
-                    Logger.Instance.Warn("Error when comparing {0}", c.GetType().FullName);
+                    Log.Warning("Error when comparing {0}", c.GetType().FullName);
                 }
                 c.Results.ToList().ForEach(x => results.Add(x.Key, x.Value));
-            }
+            }));
             cmd = new SqliteCommand(UPDATE_RUN_IN_RESULT_TABLE, DatabaseManager.Connection, DatabaseManager.Transaction);
             cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
             cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
@@ -927,7 +925,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             if (monitors.Count == 0)
             {
-                Logger.Instance.Warn("No monitors have been defined.");
+                Log.Warning("No monitors have been defined.");
             }
 
             foreach (var c in monitors)
@@ -938,7 +936,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.Error(ex, "Error collecting from {0}: {1} {2}", c.GetType().Name, ex.Message, ex.StackTrace);
+                    Log.Error(ex, "Error collecting from {0}: {1} {2}", c.GetType().Name, ex.Message, ex.StackTrace);
                 }
             }
 
@@ -949,7 +947,7 @@ namespace AttackSurfaceAnalyzer.Cli
         {
             foreach (var c in monitors)
             {
-                Logger.Instance.Info("Stopping: {0}", c.GetType().Name);
+                Log.Information("Stopping: {0}", c.GetType().Name);
 
                 try
                 {
@@ -957,7 +955,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.Error(ex, "Error stopping {0}: {1}", c.GetType().Name, ex.Message);
+                    Log.Error(ex, "Error stopping {0}: {1}", c.GetType().Name, ex.Message);
                 }
             }
 
@@ -971,7 +969,7 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 if (!Elevation.IsAdministrator())
                 {
-                    Logger.Instance.Warn("Attack Surface Enumerator must be run as Administrator.");
+                    Log.Warning("Attack Surface Enumerator must be run as Administrator.");
                     Environment.Exit(1);
                 }
             }
@@ -979,7 +977,7 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 if (!Elevation.IsRunningAsRoot())
                 {
-                    Logger.Instance.Fatal("Attack Surface Enumerator must be run as root.");
+                    Log.Fatal("Attack Surface Enumerator must be run as root.");
                     Environment.Exit(1);
                 }
             }
@@ -987,7 +985,7 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 if (!Elevation.IsRunningAsRoot())
                 {
-                    Logger.Instance.Fatal("Attack Surface Enumerator must be run as root.");
+                    Log.Fatal("Attack Surface Enumerator must be run as root.");
                     Environment.Exit(1);
                 }
             }
@@ -995,7 +993,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
         public static int SetupTelemetryAndRunCollectCommand(CollectCommandOptions opts)
         {
-            Logger.Instance.Debug("Before telemetry");
+            Log.Debug("Before telemetry");
             try
             {
                 Telemetry.Setup();
@@ -1013,10 +1011,10 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             catch (Exception e)
             {
-                Logger.Instance.Debug(e.GetType());
-                Logger.Instance.Debug(e.Message);
+                Log.Debug(e.GetType().ToString());
+                Log.Debug(e.Message);
             }
-            Logger.Instance.Debug("After telemetry");
+            Log.Debug("After telemetry");
             return RunCollectCommand(opts);
         }
 
@@ -1057,7 +1055,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             if (collectors.Count == 0)
             {
-                Logger.Instance.Warn("No collectors have been defined.");
+                Log.Warning("No collectors have been defined.");
                 return -1;
             }
 
@@ -1078,7 +1076,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 {
                     while (reader.Read())
                     {
-                        Logger.Instance.Error("That runid was already used. Must use a unique runid for each run. Use --overwrite to discard previous run information.");
+                        Log.Error("That runid was already used. Must use a unique runid for each run. Use --overwrite to discard previous run information.");
                         return (int)ERRORS.UNIQUE_ID;
                     }
                 }
@@ -1139,8 +1137,8 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
                 catch (Exception e)
                 {
-                    Logger.Instance.Warn(e.StackTrace);
-                    Logger.Instance.Warn(e.Message);
+                    Log.Warning(e.StackTrace);
+                    Log.Warning(e.Message);
                     returnValue = (int)ERRORS.UNIQUE_ID;
                 }
             }
@@ -1148,19 +1146,19 @@ namespace AttackSurfaceAnalyzer.Cli
             foreach (BaseCollector c in collectors)
             {
                 // c.Filters = read filters in here
-                Logger.Instance.Info("Executing: {0}", c.GetType().Name);
+                Log.Information("Executing: {0}", c.GetType().Name);
                 try
                 {
                     c.Execute();
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.Error(ex, "Error collecting from {0}: {1} {2}", c.GetType().Name, ex.Message, ex.StackTrace);
+                    Log.Error(ex, "Error collecting from {0}: {1} {2}", c.GetType().Name, ex.Message, ex.StackTrace);
                     returnValue = 1;
                 }
-                Logger.Instance.Info("Completed: {0}", c.GetType().Name);
+                Log.Information("Completed: {0}", c.GetType().Name);
             }
-            Logger.Instance.Info("Started {0} collectors", collectors.Count.ToString());
+            Log.Information("Started {0} collectors", collectors.Count.ToString());
 
             DatabaseManager.Commit();
             return returnValue;
@@ -1213,7 +1211,7 @@ namespace AttackSurfaceAnalyzer.Cli
 #endif
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
-            Logger.Instance.Debug("Starting CompareRuns");
+            Log.Debug("Starting CompareRuns");
             var results = CompareRuns(opts);
 
             var engine = new RazorLightEngineBuilder()

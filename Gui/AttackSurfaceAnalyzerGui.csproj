@@ -22,6 +22,7 @@
     <PackageReference Include="Diff.Match.Patch" Version="2.1.0" />
     <PackageReference Include="BundlerMinifier.Core" Version="2.9.406" />
       <PackageReference Include="Microsoft.AspNetCore.App" />
+      <PackageReference Include="Serilog" Version="2.8.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lib\AttackSurfaceAnalyzerLib.csproj" />

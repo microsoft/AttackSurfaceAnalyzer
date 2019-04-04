@@ -11,6 +11,7 @@ using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
 using Microsoft.Win32;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace AttackSurfaceAnalyzer.Collectors.Registry
 {
@@ -91,18 +92,18 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                     }
                     catch (Exception e)
                     {
-                        Logger.Instance.Debug(e.GetType() + "thrown in registry collector");
+                        Log.Debug(e.GetType() + "thrown in registry collector");
                     }
 
                     if (_numCollected++ % 100000 == 0)
                     {
-                        Logger.Instance.Info(_numCollected + (" of 6-800k"));
+                        Log.Information(_numCollected + (" of 6-800k"));
                     }
                 }
             }
             catch(Exception)
             {
-                Logger.Instance.Trace("Had trouble writing {0}",obj.Key);
+                Log.Debug("Had trouble writing {0}",obj.Key);
             }
 
             customCrawlHandler?.Invoke(obj);
@@ -115,8 +116,8 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
             Start();
 
             Console.WriteLine("Starting");
-            Logger.Instance.Info("Starting");
-            Logger.Instance.Info(JsonConvert.SerializeObject(DefaultHives));
+            Log.Information("Starting");
+            Log.Information(JsonConvert.SerializeObject(DefaultHives));
 
             if (!this.CanRunOnPlatform())
             {
@@ -127,13 +128,13 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
             Parallel.ForEach(Hives,
                 (hive =>
                 {
-                    Logger.Instance.Debug("Starting " + hive.ToString());
+                    Log.Debug("Starting " + hive.ToString());
                     if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "Registry", "Hive", "Include", hive.ToString()))
                     {
                     }
                     else if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "Registry", "Hive", "Exclude", hive.ToString(), out Regex Capturer))
                     {
-                        Logger.Instance.Info("Excluding hive '{0}' due to filter '{1}'.", hive.ToString(), Capturer.ToString());
+                        Log.Information("Excluding hive '{0}' due to filter '{1}'.", hive.ToString(), Capturer.ToString());
 
                         return;
                     }
@@ -151,15 +152,15 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                                 // Some registry keys don't get along
                                 catch (InvalidOperationException e)
                                 {
-                                    Logger.Instance.Debug(registryObject.Key + " " + e.GetType());
+                                    Log.Debug(registryObject.Key + " " + e.GetType());
                                 }
                             }));
                     }
                     catch (Exception e)
                     {
-                        Logger.Instance.Debug(e.GetType());
-                        Logger.Instance.Debug(e.Message);
-                        Logger.Instance.Debug(e.StackTrace);
+                        Log.Debug(e.GetType().ToString());
+                        Log.Debug(e.Message);
+                        Log.Debug(e.StackTrace);
                     }
 
                 }));
