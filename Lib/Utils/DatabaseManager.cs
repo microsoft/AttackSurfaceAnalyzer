@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 using System;
 using Microsoft.Data.Sqlite;
+using Serilog;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -62,7 +63,7 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             if (Connection == null)
             {
-                Logger.Instance.Debug("Starting database setup");
+                Log.Debug("Starting database setup");
                 Connection = new SqliteConnection($"Filename=" + _SqliteFilename);
                 Connection.Open();
 
@@ -114,7 +115,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 cmd = new SqliteCommand(SQL_CREATE_REGISTRY_RUN_ID_INDEX, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.ExecuteNonQuery();
 
-                Logger.Instance.Debug("Halfway");
+                Log.Debug("Halfway");
 
                 cmd = new SqliteCommand(SQL_CREATE_RESULT_CHANGE_TYPE_INDEX, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.ExecuteNonQuery();
@@ -133,7 +134,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 
                 DatabaseManager.Transaction.Commit();
                 _transaction = null;
-                Logger.Instance.Debug("Done with database setup");
+                Log.Debug("Done with database setup");
 
             }
         }
@@ -161,7 +162,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             catch (Exception)
             {
-                Logger.Instance.Debug("Commit collision");
+                Log.Debug("Commit collision");
             }
 
             _transaction = null;
@@ -220,7 +221,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.Warn(ex, "Unable to open SQLite connection to {0}: {1}", value, ex.Message);
+                    Log.Warning(ex, "Unable to open SQLite connection to {0}: {1}", value, ex.Message);
                 }
             }
         }

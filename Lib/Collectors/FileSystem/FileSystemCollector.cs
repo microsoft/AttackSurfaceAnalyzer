@@ -12,6 +12,7 @@ using AttackSurfaceAnalyzer.ObjectTypes;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 {
@@ -51,7 +52,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
             CommitTimer.Enabled = false;
             while (_queue.Count > 0)
             {
-                Logger.Instance.Warn(_queue.Count);
+                Log.Warning(_queue.Count.ToString());
                 FileSystemObject fso = _queue.Dequeue();
                 Write(cmd, fso);
             }
@@ -75,9 +76,9 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
             }
             catch (Exception e)
             {
-                Logger.Instance.Info(e.StackTrace);
-                Logger.Instance.Info(e.Message);
-                Logger.Instance.Info(e.GetType());
+                Log.Information(e.StackTrace);
+                Log.Information(e.Message);
+                Log.Information(e.GetType().ToString());
             }
         }
 
@@ -120,9 +121,9 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
             }
             catch (Exception e)
             {
-                Logger.Instance.Info(e.StackTrace);
-                Logger.Instance.Info(e.Message);
-                Logger.Instance.Info(e.GetType());
+                Log.Information(e.StackTrace);
+                Log.Information(e.Message);
+                Log.Information(e.GetType().ToString());
             }
         }
 
@@ -172,9 +173,9 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
         //    }
         //    catch (Exception e)
         //    {
-        //        Logger.Instance.Info(e.StackTrace);
-        //        Logger.Instance.Info(e.Message);
-        //        Logger.Instance.Info(e.GetType());
+        //        Log.Information(e.StackTrace);
+        //        Log.Information(e.Message);
+        //        Log.Information(e.GetType());
         //    }
         //}
 
@@ -216,7 +217,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 
             foreach (var root in this.roots)
             {
-                Logger.Instance.Warn("Scanning root " + root.ToString());
+                Log.Warning("Scanning root " + root.ToString());
                 try
                 {
                     var fileInfoEnumerable = DirectoryWalker.WalkDirectory(root);
@@ -251,13 +252,13 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                                                 }
                     catch (Exception ex)
                         {
-                            Logger.Instance.Debug(ex, "Error processing {0}", fileInfo?.FullName);
+                            Log.Debug(ex, "Error processing {0}", fileInfo?.FullName);
                         }
                     }));
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.Debug(ex, "Error collecting file system information: {0}", ex.Message);
+                    Log.Debug(ex, "Error collecting file system information: {0}", ex.Message);
                 }
             }
 
@@ -270,8 +271,8 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                                     t.Minutes,
                                     t.Seconds,
                                     t.Milliseconds);
-            Logger.Instance.Info("Completed FileSystemCollector in " + answer);
-            Logger.Instance.Info("Flushing data");
+            Log.Information("Completed FileSystemCollector in " + answer);
+            Log.Information("Flushing data");
             watch = System.Diagnostics.Stopwatch.StartNew();
 
             DatabaseManager.Commit();
@@ -283,7 +284,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                                     t.Minutes,
                                     t.Seconds,
                                     t.Milliseconds);
-            Logger.Instance.Info("Flush completed in " + answer);
+            Log.Information("Flush completed in " + answer);
         }
     }
 }

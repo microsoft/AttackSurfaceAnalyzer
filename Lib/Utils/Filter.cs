@@ -6,6 +6,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using Serilog;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -65,15 +66,15 @@ namespace AttackSurfaceAnalyzer.Utils
                         if (rgx.IsMatch(Target))
                         {
                             regex = rgx;
-                            Logger.Instance.Debug("{0} caught {1}", rgx, Target);
+                            Log.Debug("{0} caught {1}", rgx, Target);
                             return true;
                         }
                     }
                     catch (Exception e)
                     {
-                        Logger.Instance.Trace("Probably this is omse of those garbled keys or a bad regex");
-                        Logger.Instance.Trace(e.GetType());
-                        Logger.Instance.Trace(filter.ToString());
+                        Log.Debug("Probably this is omse of those garbled keys or a bad regex");
+                        Log.Debug(e.GetType().ToString());
+                        Log.Debug(filter.ToString());
 
                     }
 
@@ -81,9 +82,9 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             catch (NullReferenceException)
             {
-                Logger.Instance.Debug(JsonConvert.SerializeObject(config));
+                Log.Debug(JsonConvert.SerializeObject(config));
                 // No filter entry for that Platform, Scantype, Itemtype, Property
-                Logger.Instance.Debug("No Filter Entry {0}, {1}, {2}, {3}, {4}", Platform, ScanType, ItemType, Property, FilterType);
+                Log.Debug("No Filter Entry {0}, {1}, {2}, {3}, {4}", Platform, ScanType, ItemType, Property, FilterType);
             }
 
             return false;
@@ -91,7 +92,7 @@ namespace AttackSurfaceAnalyzer.Utils
         
         public static void LoadFilters(string filterLoc = "filters.json")
         {
-            Logger.Instance.Debug("Loading filters");
+            Log.Debug("Loading filters");
             try
             {
                 using (StreamReader file = File.OpenText(filterLoc))
@@ -101,19 +102,19 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
                 if (config == null)
                 {
-                    Logger.Instance.Debug("Out of entries");
+                    Log.Debug("Out of entries");
                 }
             }
             catch (System.IO.FileNotFoundException)
             {
                 //That's fine, we just don't have any filters to load
-                Logger.Instance.Debug("{0} is missing (filter configuration file)", filterLoc);
+                Log.Debug("{0} is missing (filter configuration file)", filterLoc);
 
                 return;
             }
             catch (NullReferenceException)
             {
-                Logger.Instance.Debug("{0} is missing (filter configuration file)", filterLoc);
+                Log.Debug("{0} is missing (filter configuration file)", filterLoc);
                 return;
 
             }

@@ -9,6 +9,7 @@ using AttackSurfaceAnalyzer.ObjectTypes;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 {

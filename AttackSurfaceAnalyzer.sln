@@ -12,14 +12,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		BUILD.md = BUILD.md
 		CONTRIBUTING.md = CONTRIBUTING.md
+		filters.json = filters.json
 		global.json = global.json
+		LICENSE = LICENSE
 		PRIVACY.md = PRIVACY.md
 		README.md = README.md
 		version.json = version.json
-		filters.json = filters.json
-		LICENSE.txt = LICENSE.txt
-		nlog.config = nlog.config
-		NOTICE.txt = NOTICE.txt
 	EndProjectSection
 EndProject
 Global

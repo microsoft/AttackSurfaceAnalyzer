@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using AttackSurfaceAnalyzer.Utils;
+using Serilog;
 
 namespace AttackSurfaceAnalyzer.Collectors.Registry
 {
@@ -20,7 +21,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
         
         public void MyOnEntryWritten(object source, EntryWrittenEventArgs e)
         {
-            Logger.Instance.Info(e.Entry.Source);
+            Log.Information(e.Entry.Source);
         }
 
         public override void Start()

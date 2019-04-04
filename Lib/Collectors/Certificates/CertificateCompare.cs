@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
 using AttackSurfaceAnalyzer.ObjectTypes;
+using Serilog;
 
 namespace AttackSurfaceAnalyzer.Collectors.Certificates
 {
@@ -98,8 +99,8 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
             }
             catch (Exception e)
             {
-                Logger.Instance.Debug(e.StackTrace);
-                Logger.Instance.Debug(e.Message);
+                Log.Debug(e.StackTrace);
+                Log.Debug(e.Message);
             }
         }
     }

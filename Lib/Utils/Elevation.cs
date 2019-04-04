@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
+using Serilog;
 
 /*********************************** Module Header ***********************************\
  Module Name:  MainForm.cs
@@ -423,7 +424,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             else
             {
-                Logger.Instance.Debug("Running as admin.");
+                Log.Debug("Running as admin.");
             }
         }
 

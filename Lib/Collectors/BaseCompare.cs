@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using AttackSurfaceAnalyzer.ObjectTypes;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
+using Serilog;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -37,8 +38,8 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
             catch(Exception ex)
             {
-                Logger.Instance.Warn(ex, "Exception from Compare(): {0}", ex.StackTrace);
-                Logger.Instance.Warn(ex.Message);
+                Log.Warning(ex, "Exception from Compare(): {0}", ex.StackTrace);
+                Log.Warning(ex.Message);
                 Stop();
                 return false;
             }

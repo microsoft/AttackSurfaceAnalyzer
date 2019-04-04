@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using AttackSurfaceAnalyzer.Utils;
 using Newtonsoft.Json;
+using Serilog;
 
 
 namespace AttackSurfaceAnalyzer.ObjectTypes
@@ -52,7 +53,7 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
                 }
                 catch(Exception ex)
                 {
-                    Logger.Instance.Debug(ex.StackTrace);
+                    Log.Debug(ex.StackTrace);
                     // Fall back to a call out to powershell.exe
                     try
                     {
@@ -87,7 +88,7 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
                     }
                     catch(Exception ex2)
                     {
-                        Logger.Instance.Debug(ex2.StackTrace);
+                        Log.Debug(ex2.StackTrace);
                     }
                     return null;
                 }

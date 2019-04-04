@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using Microsoft.ApplicationInsights.Extensibility;
 using System.Runtime.InteropServices;
 using Microsoft.ApplicationInsights;
+using Serilog;
 
 namespace AttackSurfaceAnalyzer.Gui.Controllers
 {
@@ -421,8 +422,8 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 }
                 catch (Exception e)
                 {
-                    Logger.Instance.Warn(e.StackTrace);
-                    Logger.Instance.Warn(e.Message);
+                    Log.Warning(e.StackTrace);
+                    Log.Warning(e.Message);
                     return Json((int)ERRORS.UNIQUE_ID);
                 }
             }

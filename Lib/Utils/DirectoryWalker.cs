@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Serilog;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -45,12 +46,12 @@ namespace AttackSurfaceAnalyzer.Utils
                 // about the systems on which this code will run.
                 catch (UnauthorizedAccessException e)
                 {
-                    Logger.Instance.Debug(e.Message);
+                    Log.Debug(e.Message);
                     continue;
                 }
                 catch (System.IO.DirectoryNotFoundException e)
                 {
-                    Logger.Instance.Debug(e.Message);
+                    Log.Debug(e.Message);
                     continue;
                 }
                 // @TODO: Improve this catch. 
@@ -60,7 +61,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 // directories.
                 catch (Exception)
                 {
-                    //Logger.Instance.Debug(ex.StackTrace);
+                    //Log.Debug(ex.StackTrace);
                     continue;
                 }
 
@@ -73,13 +74,13 @@ namespace AttackSurfaceAnalyzer.Utils
                 catch (UnauthorizedAccessException e)
                 {
 
-                    Logger.Instance.Debug(e.Message);
+                    Log.Debug(e.Message);
                     continue;
                 }
 
                 catch (System.IO.DirectoryNotFoundException e)
                 {
-                    Logger.Instance.Debug(e.Message);
+                    Log.Debug(e.Message);
                     continue;
                 }
                 // Perform the required action on each file here.
@@ -96,7 +97,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         // If file was deleted by a separate application
                         //  or thread since the call to TraverseTree()
                         // then just continue.
-                        Logger.Instance.Debug(e.Message);
+                        Log.Debug(e.Message);
                         continue;
                     }
                     string FullPath = String.Format("{0}{1}{2}", currentDir, Path.PathSeparator, file);
@@ -128,12 +129,12 @@ namespace AttackSurfaceAnalyzer.Utils
                         // If file was deleted by a separate application
                         //  or thread since the call to TraverseTree()
                         // then just continue.
-                        Logger.Instance.Debug(e.Message);
+                        Log.Debug(e.Message);
                         continue;
                     }
                     catch (Exception e)
                     {
-                        Logger.Instance.Debug(e.Message);
+                        Log.Debug(e.Message);
                         continue;
                     }
                     dirs.Push(str);
