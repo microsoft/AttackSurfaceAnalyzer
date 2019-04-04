@@ -816,7 +816,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             comparators = new List<BaseCompare>();
 
-            var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES, DatabaseManager.Connection);
+            var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES, DatabaseManager.Connection, DatabaseManager.Transaction);
             cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
             cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
 
