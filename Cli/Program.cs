@@ -27,7 +27,7 @@ namespace AttackSurfaceAnalyzer.Cli
     [Verb("compare", HelpText = "Compare ASA executions and output a .html summary")]
     public class CompareCommandOptions
     {
-        [Option(Required = false, HelpText = "Name of output database (default: asa.sqlite)", Default = "asa.sqlite")]
+        [Option(Required = false, HelpText = "Name of output database", Default = "asa.sqlite")]
         public string DatabaseFilename { get; set; }
 
         [Option(Required = true, HelpText = "First run (pre-install) identifier")]
@@ -36,7 +36,7 @@ namespace AttackSurfaceAnalyzer.Cli
         [Option(Required = true, HelpText = "Second run (post-install) identifier")]
         public string SecondRunId { get; set; }
 
-        [Option(Required = false, HelpText = "Base name of output file (default: output)", Default = "output")]
+        [Option(Required = false, HelpText = "Base name of output file", Default = "output")]
         public string OutputBaseFilename { get; set; }
 
         [Option(Default = false, HelpText = "Increase logging verbosity")]
@@ -46,7 +46,7 @@ namespace AttackSurfaceAnalyzer.Cli
     [Verb("export-collect", HelpText = "Compare ASA executions and output a .json report")]
     public class ExportCollectCommandOptions
     {
-        [Option(Required = false, HelpText = "Name of output database (default: asa.sqlite)", Default = "asa.sqlite")]
+        [Option(Required = false, HelpText = "Name of output database", Default = "asa.sqlite")]
         public string DatabaseFilename { get; set; }
 
         [Option(Required = true, HelpText = "First run (pre-install) identifier")]
@@ -55,7 +55,7 @@ namespace AttackSurfaceAnalyzer.Cli
         [Option(Required = true, HelpText = "Second run (post-install) identifier")]
         public string SecondRunId { get; set; }
 
-        [Option(Required = false, HelpText = "Directory to output to (default: .)", Default = ".")]
+        [Option(Required = false, HelpText = "Directory to output to", Default = ".")]
         public string OutputPath { get; set; }
 
         [Option(Default = false, HelpText = "Increase logging verbosity")]
@@ -65,13 +65,13 @@ namespace AttackSurfaceAnalyzer.Cli
     [Verb("export-monitor", HelpText = "Output a .json report for a monitor run")]
     public class ExportMonitorCommandOptions
     {
-        [Option(Required = false, HelpText = "Name of output database (default: asa.sqlite)", Default = "asa.sqlite")]
+        [Option(Required = false, HelpText = "Name of output database", Default = "asa.sqlite")]
         public string DatabaseFilename { get; set; }
 
         [Option(Required = true, HelpText = "Monitor run identifier")]
         public string RunId { get; set; }
 
-        [Option(Required = false, HelpText = "Directory to output to (default: .)", Default = ".")]
+        [Option(Required = false, HelpText = "Directory to output to", Default = ".")]
         public string OutputPath { get; set; }
 
         [Option(Default = false, HelpText = "Increase logging verbosity")]
@@ -84,7 +84,7 @@ namespace AttackSurfaceAnalyzer.Cli
         [Option(Required = true, HelpText = "Identifies which run this is (used during comparison)")]
         public string RunId { get; set; }
 
-        [Option(Required = false, HelpText = "Name of output database (default: asa.sqlite)", Default = "asa.sqlite")]
+        [Option(Required = false, HelpText = "Name of output database", Default = "asa.sqlite")]
         public string DatabaseFilename { get; set; }
 
         [Option('c', "certificates", Required = false, HelpText = "Enable the certificate store collector")]
@@ -129,7 +129,7 @@ namespace AttackSurfaceAnalyzer.Cli
         [Option(Required = true, HelpText = "Identifies which run this is. Monitor output can be combined with collect output, but doesn't need to be compared.")]
         public string RunId { get; set; }
 
-        [Option(Required = false, HelpText = "Name of output database (default: asa.sqlite)", Default = "asa.sqlite")]
+        [Option(Required = false, HelpText = "Name of output database", Default = "asa.sqlite")]
         public string DatabaseFilename { get; set; }
 
         [Option('f', "file-system", Required = false, HelpText = "Enable the file system monitor. Unless -d is specified will monitor the entire file system.")]
@@ -800,6 +800,8 @@ namespace AttackSurfaceAnalyzer.Cli
 
             comparators = new List<BaseCompare>();
 
+            Logger.Instance.Debug("Getting result types");
+
             var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES, DatabaseManager.Connection);
             cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
             cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
@@ -875,7 +877,8 @@ namespace AttackSurfaceAnalyzer.Cli
                     }
                 }
             }
-            
+            Logger.Instance.Debug("Inserting run into results table as running");
+
             cmd = new SqliteCommand(INSERT_RUN_INTO_RESULT_TABLE_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
             cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
             cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
@@ -884,6 +887,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             foreach (var c in comparators)
             {
+                Logger.Instance.Info("Starting {0}", c.GetType());
                 if (!c.TryCompare(opts.FirstRunId, opts.SecondRunId))
                 {
                     Logger.Instance.Warn("Error when comparing {0}", c.GetType().FullName);
@@ -1183,6 +1187,7 @@ namespace AttackSurfaceAnalyzer.Cli
 #endif
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
+            Logger.Instance.Debug("Starting CompareRuns");
             var results = CompareRuns(opts);
 
             var engine = new RazorLightEngineBuilder()

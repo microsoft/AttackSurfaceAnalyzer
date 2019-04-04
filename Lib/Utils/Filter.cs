@@ -28,8 +28,12 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             return "Unknown";
         }
-        public static bool IsFiltered(string Platform, string ScanType, string ItemType, string Property, string FilterType, string Target)
+
+        public static bool IsFiltered(string Platform, string ScanType, string ItemType, string Property, string FilterType, string Target) => IsFiltered(Platform, ScanType, ItemType, Property, FilterType, Target, out Regex dummy);
+
+        public static bool IsFiltered(string Platform, string ScanType, string ItemType, string Property, string FilterType, string Target, out Regex regex)
         {
+            regex = null;
             if (config == null)
             {
                 return false;
@@ -51,7 +55,8 @@ namespace AttackSurfaceAnalyzer.Utils
 
                         if (rgx.IsMatch(Target))
                         {
-                            Logger.Instance.Trace("{0} caught {1}", rgx, Target);
+                            regex = rgx;
+                            Logger.Instance.Debug("{0} caught {1}", rgx, Target);
                             return true;
                         }
                     }
