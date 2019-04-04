@@ -1033,28 +1033,28 @@ namespace AttackSurfaceAnalyzer.Cli
             }
 
             Filter.LoadFilters(opts.FilterLocation);
-            Console.WriteLine("Before telemetry");
-            Telemetry.Setup();
-            Dictionary<string, string> StartEvent = new Dictionary<string, string>();
-            StartEvent.Add("Version", Helpers.GetVersionString());
-            StartEvent.Add("Files", opts.EnableFileSystemCollector.ToString());
-            StartEvent.Add("Ports", opts.EnableNetworkPortCollector.ToString());
-            StartEvent.Add("Users", opts.EnableUserCollector.ToString());
-            StartEvent.Add("Certificates", opts.EnableCertificateCollector.ToString());
-            StartEvent.Add("Registry", opts.EnableRegistryCollector.ToString());
-            StartEvent.Add("Service", opts.EnableServiceCollector.ToString());
-            StartEvent.Add("Files", opts.EnableFileSystemCollector.ToString());
-            StartEvent.Add("Files", opts.EnableFileSystemCollector.ToString());
+            Logger.Instance.Debug("Before telemetry");
             try
             {
+                Telemetry.Setup();
+                Dictionary<string, string> StartEvent = new Dictionary<string, string>();
+                StartEvent.Add("Version", Helpers.GetVersionString());
+                StartEvent.Add("Files", opts.EnableFileSystemCollector.ToString());
+                StartEvent.Add("Ports", opts.EnableNetworkPortCollector.ToString());
+                StartEvent.Add("Users", opts.EnableUserCollector.ToString());
+                StartEvent.Add("Certificates", opts.EnableCertificateCollector.ToString());
+                StartEvent.Add("Registry", opts.EnableRegistryCollector.ToString());
+                StartEvent.Add("Service", opts.EnableServiceCollector.ToString());
+
                 Telemetry.Client.TrackEvent("Begin collecting", StartEvent);
 
             }
             catch(Exception e)
             {
                 Logger.Instance.Debug(e.GetType());
+                Logger.Instance.Debug(e.Message);
             }
-            Console.WriteLine("After telemetry");
+            Logger.Instance.Debug("After telemetry");
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
