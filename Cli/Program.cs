@@ -325,24 +325,25 @@ namespace AttackSurfaceAnalyzer.Cli
 #else
             Logger.Setup(false, opts.Verbose);
 #endif
+            Logger.Instance.Debug("Entering RunExportCollectCommand");
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
             DatabaseManager.Commit();
 
             bool RunComparisons = true;
+            //string SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED = "select * from results where base_run_id=@base_run_id and compare_run_id=@compare_run_id";
 
-            string SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED = "select * from results where base_run_id=@base_run_id and compare_run_id=@compare_run_id";
-
-            var cmd = new SqliteCommand(SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED, DatabaseManager.Connection);
-            cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
-            cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
-            using (var reader = cmd.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    RunComparisons = false;
-                }
-            }
+            //var cmd = new SqliteCommand(SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED, DatabaseManager.Connection);
+            //cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
+            //cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
+            //using (var reader = cmd.ExecuteReader())
+            //{
+            //    while (reader.Read())
+            //    {
+            //        RunComparisons = false;
+            //    }
+            //}
+            Logger.Instance.Debug("Halfway RunExportCollectCommand");
 
             CompareCommandOptions options = new CompareCommandOptions();
             options.DatabaseFilename = opts.DatabaseFilename;
@@ -353,6 +354,7 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 CompareRuns(options);
             }
+            Logger.Instance.Debug("Done comparing RunExportCollectCommand");
 
             WriteScanJson(0, opts.FirstRunId, opts.SecondRunId, true, opts.OutputPath);
 
@@ -364,6 +366,8 @@ namespace AttackSurfaceAnalyzer.Cli
         {
             string GET_COMPARISON_RESULTS = "select * from compared where base_run_id=@base_run_id and compare_run_id=@compare_run_id and data_type=@data_type order by base_row_key;";
             string GET_SERIALIZED_RESULTS = "select serialized from @table_name where row_key = @row_key and run_id = @run_id";
+
+            Logger.Instance.Debug("Starting WriteScanJson");
 
             List<RESULT_TYPE> ToExport = new List<RESULT_TYPE> { (RESULT_TYPE)ResultType };
             Dictionary<RESULT_TYPE, int> actualExported = new Dictionary<RESULT_TYPE, int>();
