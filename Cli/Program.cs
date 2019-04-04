@@ -202,7 +202,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, CompareCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions, ConfigCommandOptions>(args)
                 .MapResult(
-                    (CollectCommandOptions opts) => RunCollectCommand(opts),
+                    (CollectCommandOptions opts) => SetupTelemetryAndRunCollectCommand(opts),
                     (CompareCommandOptions opts) => RunCompareCommand(opts),
                     (MonitorCommandOptions opts) => RunMonitorCommand(opts),
                     (ExportCollectCommandOptions opts) => RunExportCollectCommand(opts),
@@ -316,7 +316,6 @@ namespace AttackSurfaceAnalyzer.Cli
 #endif
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
-            DatabaseManager.Commit();
             Telemetry.Setup();
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("Version", Helpers.GetVersionString());
@@ -991,6 +990,33 @@ namespace AttackSurfaceAnalyzer.Cli
             }
         }
 
+        public static int SetupTelemetryAndRunCollectCommand(CollectCommandOptions opts)
+        {
+            Logger.Instance.Debug("Before telemetry");
+            try
+            {
+                Telemetry.Setup();
+                Dictionary<string, string> StartEvent = new Dictionary<string, string>();
+                StartEvent.Add("Version", Helpers.GetVersionString());
+                StartEvent.Add("Files", opts.EnableFileSystemCollector.ToString());
+                StartEvent.Add("Ports", opts.EnableNetworkPortCollector.ToString());
+                StartEvent.Add("Users", opts.EnableUserCollector.ToString());
+                StartEvent.Add("Certificates", opts.EnableCertificateCollector.ToString());
+                StartEvent.Add("Registry", opts.EnableRegistryCollector.ToString());
+                StartEvent.Add("Service", opts.EnableServiceCollector.ToString());
+
+                Telemetry.Client.TrackEvent("Begin collecting", StartEvent);
+
+            }
+            catch (Exception e)
+            {
+                Logger.Instance.Debug(e.GetType());
+                Logger.Instance.Debug(e.Message);
+            }
+            Logger.Instance.Debug("After telemetry");
+            return RunCollectCommand(opts);f
+        }
+
         public static int RunCollectCommand(CollectCommandOptions opts)
         {
 #if DEBUG
@@ -1033,28 +1059,6 @@ namespace AttackSurfaceAnalyzer.Cli
             }
 
             Filter.LoadFilters(opts.FilterLocation);
-            Logger.Instance.Debug("Before telemetry");
-            try
-            {
-                Telemetry.Setup();
-                Dictionary<string, string> StartEvent = new Dictionary<string, string>();
-                StartEvent.Add("Version", Helpers.GetVersionString());
-                StartEvent.Add("Files", opts.EnableFileSystemCollector.ToString());
-                StartEvent.Add("Ports", opts.EnableNetworkPortCollector.ToString());
-                StartEvent.Add("Users", opts.EnableUserCollector.ToString());
-                StartEvent.Add("Certificates", opts.EnableCertificateCollector.ToString());
-                StartEvent.Add("Registry", opts.EnableRegistryCollector.ToString());
-                StartEvent.Add("Service", opts.EnableServiceCollector.ToString());
-
-                Telemetry.Client.TrackEvent("Begin collecting", StartEvent);
-
-            }
-            catch(Exception e)
-            {
-                Logger.Instance.Debug(e.GetType());
-                Logger.Instance.Debug(e.Message);
-            }
-            Logger.Instance.Debug("After telemetry");
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
