@@ -60,16 +60,16 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             {
                 if (Elevation.IsAdministrator())
                 {
-                    telemetry.TrackEvent("LaunchedAsAdmin");
+                    Telemetry.Client.TrackEvent("LaunchedAsAdmin");
                     return Json(true);
                 }
             }
             else if ((RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) && Elevation.IsRunningAsRoot())
             {
-                telemetry.TrackEvent("LaunchedAsAdmin");
+                Telemetry.Client.TrackEvent("LaunchedAsAdmin");
                 return Json(true);
             }
-            telemetry.TrackEvent("LaunchedAsNormal");
+            Telemetry.Client.TrackEvent("LaunchedAsNormal");
             return Json(false);
         }
 
