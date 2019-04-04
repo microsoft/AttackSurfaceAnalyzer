@@ -317,6 +317,7 @@ namespace AttackSurfaceAnalyzer.Cli
 #else
             Logger.Setup(false, opts.Verbose);
 #endif
+
             Log.Debug("Entering RunExportCollectCommand");
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
@@ -518,6 +519,7 @@ namespace AttackSurfaceAnalyzer.Cli
 #endif
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
             Telemetry.Setup(false);
+
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("Version", Helpers.GetVersionString());
             StartEvent.Add("OutputPathSet", (opts.OutputPath != null).ToString());
@@ -995,6 +997,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
         public static int SetupTelemetryAndRunCollectCommand(CollectCommandOptions opts)
         {
+
             Log.Debug("Before telemetry");
             try
             {
@@ -1059,7 +1062,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             if (collectors.Count == 0)
             {
-                Logger.Instance.Warn("No collectors have been defined.");
+                Log.Warning("No collectors have been defined.");
                 return -1;
             }
 
@@ -1162,6 +1165,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
                 Log.Information("Completed: {0}", c.GetType().Name);
             }
+
             Log.Information("Started {0} collectors", collectors.Count.ToString());
 
 
