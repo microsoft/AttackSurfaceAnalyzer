@@ -188,7 +188,6 @@ namespace AttackSurfaceAnalyzer.Cli
         private static readonly string SQL_GET_RESULT_TYPES_SINGLE = "select * from runs where run_id = @run_id";
 
         private static readonly string SQL_GET_RUN = "select run_id from runs where run_id=@run_id";
-        private static readonly string UPDATE_TELEMETRY = "replace into persisted_settings values ('telemetry_opt_out',@TelemetryOptOut)"; //lgtm [cs/literal-as-local]
 
 
         static void Main(string[] args)
@@ -203,7 +202,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, CompareCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions, ConfigCommandOptions>(args)
                 .MapResult(
-                    (CollectCommandOptions opts) => RunCollectCommand(opts),
+                    (CollectCommandOptions opts) => SetupTelemetryAndRunCollectCommand(opts),
                     (CompareCommandOptions opts) => RunCompareCommand(opts),
                     (MonitorCommandOptions opts) => RunMonitorCommand(opts),
                     (ExportCollectCommandOptions opts) => RunExportCollectCommand(opts),
@@ -294,17 +293,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
                 if (opts.TelemetryOptOut != null)
                 {
-                    TelemetryConfiguration.Active.DisableTelemetry = bool.Parse(opts.TelemetryOptOut);
-
-
-                    using (var cmd = new SqliteCommand(UPDATE_TELEMETRY, DatabaseManager.Connection, DatabaseManager.Transaction))
-                    {
-                        cmd.Parameters.AddWithValue("@TelemetryOptOut", bool.Parse(opts.TelemetryOptOut).ToString());
-                        cmd.ExecuteNonQuery();
-                    }
-
-                    DatabaseManager.Commit();
-
+                    Telemetry.SetOptOut(bool.Parse(opts.TelemetryOptOut));
                     Logger.Instance.Info("Your current telemetry opt out setting is {0}.", (bool.Parse(opts.TelemetryOptOut)) ? "Opted out" : "Opted in");
                 }
                 if (opts.DeleteRunId != null)
@@ -327,8 +316,12 @@ namespace AttackSurfaceAnalyzer.Cli
 #endif
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
-            DatabaseManager.Commit();
+            Telemetry.Setup();
+            Dictionary<string, string> StartEvent = new Dictionary<string, string>();
+            StartEvent.Add("Version", Helpers.GetVersionString());
+            StartEvent.Add("OutputPathSet", (opts.OutputPath != null).ToString());
 
+            Telemetry.Client.TrackEvent("Begin Export Compare", StartEvent);
             bool RunComparisons = true;
 
             string SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED = "select * from results where base_run_id=@base_run_id and compare_run_id=@compare_run_id";
@@ -519,6 +512,12 @@ namespace AttackSurfaceAnalyzer.Cli
             Logger.Setup(false, opts.Verbose);
 #endif
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+            Telemetry.Setup();
+            Dictionary<string, string> StartEvent = new Dictionary<string, string>();
+            StartEvent.Add("Version", Helpers.GetVersionString());
+            StartEvent.Add("OutputPathSet", (opts.OutputPath != null).ToString());
+
+            Telemetry.Client.TrackEvent("Begin Export Monitor", StartEvent);
 
             WriteMonitorJson(opts.RunId, (int)RESULT_TYPE.FILE, opts.OutputPath);
             return 0;
@@ -568,6 +567,10 @@ namespace AttackSurfaceAnalyzer.Cli
 #endif
             AdminOrQuit();
             Filter.LoadFilters(opts.FilterLocation);
+            Telemetry.Setup();
+            Dictionary<string, string> StartEvent = new Dictionary<string, string>();
+            StartEvent.Add("Version", Helpers.GetVersionString());
+            Telemetry.Client.TrackEvent("Begin monitoring", StartEvent);
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
@@ -987,6 +990,33 @@ namespace AttackSurfaceAnalyzer.Cli
             }
         }
 
+        public static int SetupTelemetryAndRunCollectCommand(CollectCommandOptions opts)
+        {
+            Logger.Instance.Debug("Before telemetry");
+            try
+            {
+                Telemetry.Setup();
+                Dictionary<string, string> StartEvent = new Dictionary<string, string>();
+                StartEvent.Add("Version", Helpers.GetVersionString());
+                StartEvent.Add("Files", opts.EnableFileSystemCollector.ToString());
+                StartEvent.Add("Ports", opts.EnableNetworkPortCollector.ToString());
+                StartEvent.Add("Users", opts.EnableUserCollector.ToString());
+                StartEvent.Add("Certificates", opts.EnableCertificateCollector.ToString());
+                StartEvent.Add("Registry", opts.EnableRegistryCollector.ToString());
+                StartEvent.Add("Service", opts.EnableServiceCollector.ToString());
+
+                Telemetry.Client.TrackEvent("Begin collecting", StartEvent);
+
+            }
+            catch (Exception e)
+            {
+                Logger.Instance.Debug(e.GetType());
+                Logger.Instance.Debug(e.Message);
+            }
+            Logger.Instance.Debug("After telemetry");
+            return RunCollectCommand(opts);
+        }
+
         public static int RunCollectCommand(CollectCommandOptions opts)
         {
 #if DEBUG
@@ -994,12 +1024,44 @@ namespace AttackSurfaceAnalyzer.Cli
 #else
             Logger.Setup(false, opts.Verbose);
 #endif
+            int returnValue = (int)ERRORS.NONE;
             AdminOrQuit();
+
+            if (opts.EnableFileSystemCollector || opts.EnableAllCollectors)
+            {
+                collectors.Add(new FileSystemCollector(opts.RunId, enableHashing: opts.GatherHashes));
+            }
+            if (opts.EnableNetworkPortCollector || opts.EnableAllCollectors)
+            {
+                collectors.Add(new OpenPortCollector(opts.RunId));
+            }
+            if (opts.EnableServiceCollector || opts.EnableAllCollectors)
+            {
+                collectors.Add(new ServiceCollector(opts.RunId));
+            }
+            if (opts.EnableUserCollector || opts.EnableAllCollectors)
+            {
+                collectors.Add(new UserAccountCollector(opts.RunId));
+            }
+            if (opts.EnableRegistryCollector || (opts.EnableAllCollectors && RuntimeInformation.IsOSPlatform(OSPlatform.Windows)))
+            {
+                collectors.Add(new RegistryCollector(opts.RunId));
+            }
+            if (opts.EnableCertificateCollector || opts.EnableAllCollectors)
+            {
+                collectors.Add(new CertificateCollector(opts.RunId));
+            }
+
+            if (collectors.Count == 0)
+            {
+                Logger.Instance.Warn("No collectors have been defined.");
+                return -1;
+            }
+
             Filter.LoadFilters(opts.FilterLocation);
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
-            int returnValue = (int)ERRORS.NONE;
 
             if (opts.Overwrite)
             {
@@ -1079,43 +1141,7 @@ namespace AttackSurfaceAnalyzer.Cli
                     returnValue = (int)ERRORS.UNIQUE_ID;
                 }
             }
-
-
-
-
-            if (opts.EnableFileSystemCollector || opts.EnableAllCollectors)
-            {
-                collectors.Add(new FileSystemCollector(opts.RunId, enableHashing:opts.GatherHashes));
-            }
-            if (opts.EnableNetworkPortCollector || opts.EnableAllCollectors)
-            {
-                collectors.Add(new OpenPortCollector(opts.RunId));
-            }
-            if (opts.EnableServiceCollector || opts.EnableAllCollectors)
-            {
-                collectors.Add(new ServiceCollector(opts.RunId));
-            }
-            if (opts.EnableUserCollector || opts.EnableAllCollectors)
-            {
-                collectors.Add(new UserAccountCollector(opts.RunId));
-            }
-            if (opts.EnableRegistryCollector || (opts.EnableAllCollectors && RuntimeInformation.IsOSPlatform(OSPlatform.Windows)))
-            {
-                collectors.Add(new RegistryCollector(opts.RunId));
-            }
-            if (opts.EnableCertificateCollector || opts.EnableAllCollectors)
-            {
-                collectors.Add(new CertificateCollector(opts.RunId));
-            }
-
-            if (collectors.Count == 0)
-            {
-                Logger.Instance.Warn("No collectors have been defined.");
-                returnValue = 1;
-            }
-
-            Logger.Instance.Info("Started {0} collectors",collectors.Count.ToString());
-
+            
             foreach (BaseCollector c in collectors)
             {
                 // c.Filters = read filters in here
@@ -1131,6 +1157,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
                 Logger.Instance.Info("Completed: {0}", c.GetType().Name);
             }
+            Logger.Instance.Info("Started {0} collectors", collectors.Count.ToString());
 
             DatabaseManager.Commit();
             return returnValue;

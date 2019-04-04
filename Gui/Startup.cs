@@ -69,8 +69,11 @@ namespace AttackSurfaceAnalyzer.Gui
             browserWindowOptions.Resizable = true;
             browserWindowOptions.Center = true;
             browserWindowOptions.Title = "Attack Surface Analyzer Preview";
+#if DEBUG
+            browserWindowOptions.AutoHideMenuBar = false;
+#else
             browserWindowOptions.AutoHideMenuBar = true;
-
+#endif
             DatabaseManager.Setup();
 
             string SELECT_TELEMETRY = "select value from persisted_settings where setting='telemetry_opt_out'";//lgtm [cs/literal-as-local]

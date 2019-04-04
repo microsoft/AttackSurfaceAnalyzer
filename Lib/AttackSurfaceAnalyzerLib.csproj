@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
 <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
 
-    <RootNamespace>AttackSurfaceAnalyzer_Lib</RootNamespace>
+    <RootNamespace>AttackSurfaceAnalyzer</RootNamespace>
     <ReleaseVersion>2.0.0.0-pre-alpha</ReleaseVersion>
     <PackageId>AttackSurfaceAnalyzer</PackageId>
     <PackageVersion>2.0.0-pre-alpha</PackageVersion>

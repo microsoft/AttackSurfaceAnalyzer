@@ -72,7 +72,6 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
                 Logger.Instance.Debug("Object already exists, ignoring: {0}", objStr);
                 return;
             }
-            Logger.Instance.Debug("Port");
 
             this.processedObjects.Add(objStr);
 
