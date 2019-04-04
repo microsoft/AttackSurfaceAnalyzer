@@ -317,13 +317,16 @@ namespace AttackSurfaceAnalyzer.Cli
 #else
             Logger.Setup(false, opts.Verbose);
 #endif
+
             Log.Debug("Entering RunExportCollectCommand");
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
-            Telemetry.Setup();
+            Telemetry.Setup(false);
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("Version", Helpers.GetVersionString());
             StartEvent.Add("OutputPathSet", (opts.OutputPath != null).ToString());
+
+            Telemetry.Client.TrackEvent("Begin Export Compare", StartEvent);
 
             Telemetry.Client.TrackEvent("Begin Export Compare", StartEvent);
             Log.Debug("Halfway RunExportCollectCommand");
@@ -515,7 +518,8 @@ namespace AttackSurfaceAnalyzer.Cli
             Logger.Setup(false, opts.Verbose);
 #endif
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
-            Telemetry.Setup();
+            Telemetry.Setup(false);
+
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("Version", Helpers.GetVersionString());
             StartEvent.Add("OutputPathSet", (opts.OutputPath != null).ToString());
@@ -570,7 +574,7 @@ namespace AttackSurfaceAnalyzer.Cli
 #endif
             AdminOrQuit();
             Filter.LoadFilters(opts.FilterLocation);
-            Telemetry.Setup();
+            Telemetry.Setup(false);
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("Version", Helpers.GetVersionString());
             Telemetry.Client.TrackEvent("Begin monitoring", StartEvent);
@@ -993,10 +997,11 @@ namespace AttackSurfaceAnalyzer.Cli
 
         public static int SetupTelemetryAndRunCollectCommand(CollectCommandOptions opts)
         {
+
             Log.Debug("Before telemetry");
             try
             {
-                Telemetry.Setup();
+                Telemetry.Setup(false);
                 Dictionary<string, string> StartEvent = new Dictionary<string, string>();
                 StartEvent.Add("Version", Helpers.GetVersionString());
                 StartEvent.Add("Files", opts.EnableFileSystemCollector.ToString());
@@ -1007,7 +1012,6 @@ namespace AttackSurfaceAnalyzer.Cli
                 StartEvent.Add("Service", opts.EnableServiceCollector.ToString());
 
                 Telemetry.Client.TrackEvent("Begin collecting", StartEvent);
-
             }
             catch (Exception e)
             {
@@ -1016,6 +1020,8 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             Log.Debug("After telemetry");
             return RunCollectCommand(opts);
+
+
         }
 
         public static int RunCollectCommand(CollectCommandOptions opts)
@@ -1027,6 +1033,7 @@ namespace AttackSurfaceAnalyzer.Cli
 #endif
             int returnValue = (int)ERRORS.NONE;
             AdminOrQuit();
+
 
             if (opts.EnableFileSystemCollector || opts.EnableAllCollectors)
             {
@@ -1158,7 +1165,9 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
                 Log.Information("Completed: {0}", c.GetType().Name);
             }
+
             Log.Information("Started {0} collectors", collectors.Count.ToString());
+
 
             DatabaseManager.Commit();
             return returnValue;

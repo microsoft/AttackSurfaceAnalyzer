@@ -36,11 +36,10 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
         private static readonly string GET_COMPARISON_RESULTS = "select * from compared where base_run_id=@base_run_id and compare_run_id=@compare_run_id and data_type=@data_type order by base_row_key limit @offset,@limit;"; //lgtm [cs/literal-as-local]
         private static readonly string GET_SERIALIZED_RESULTS = "select serialized from @table_name where row_key = @row_key and run_id = @run_id"; //lgtm [cs/literal-as-local]
         private static readonly string GET_RESULT_COUNT = "select count(*) from compared where base_run_id=@base_run_id and compare_run_id=@compare_run_id and data_type=@data_type"; //lgtm [cs/literal-as-local]
-        private static readonly string UPDATE_TELEMETRY = "replace into persisted_settings values ('telemetry_opt_out',@TelemetryOptOut)"; //lgtm [cs/literal-as-local]
 
         public HomeController()
         {
-            DatabaseManager.Setup();
+
         }
 
         public IActionResult Index()
@@ -61,16 +60,16 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             {
                 if (Elevation.IsAdministrator())
                 {
-                    telemetry.TrackEvent("LaunchedAsAdmin");
+                    Telemetry.Client.TrackEvent("LaunchedAsAdmin");
                     return Json(true);
                 }
             }
             else if ((RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) && Elevation.IsRunningAsRoot())
             {
-                telemetry.TrackEvent("LaunchedAsAdmin");
+                Telemetry.Client.TrackEvent("LaunchedAsAdmin");
                 return Json(true);
             }
-            telemetry.TrackEvent("LaunchedAsNormal");
+            Telemetry.Client.TrackEvent("LaunchedAsNormal");
             return Json(false);
         }
 
@@ -386,16 +385,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         public ActionResult ChangeTelemetryState(bool DisableTelemetry)
         {
-            TelemetryConfiguration.Active.DisableTelemetry = DisableTelemetry;
-
-
-            using (var cmd = new SqliteCommand(UPDATE_TELEMETRY, DatabaseManager.Connection, DatabaseManager.Transaction))
-            {
-                cmd.Parameters.AddWithValue("@TelemetryOptOut", DisableTelemetry.ToString());
-                cmd.ExecuteNonQuery();
-            }
-
-            DatabaseManager.Commit();
+            Telemetry.SetOptOut(DisableTelemetry);
 
             return Json(true);
         }

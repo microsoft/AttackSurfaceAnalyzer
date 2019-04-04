@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+
 using Serilog;
 using Serilog.Events;
 
@@ -38,9 +39,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         .WriteTo.File("asa.log.txt")
                         .WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Information)
                         .CreateLogger();
-
             }
-
         }
     }
 }
