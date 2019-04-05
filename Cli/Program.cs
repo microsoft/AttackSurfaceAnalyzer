@@ -329,9 +329,6 @@ namespace AttackSurfaceAnalyzer.Cli
 
             Telemetry.Client.TrackEvent("Begin Export Compare", StartEvent);
 
-            Telemetry.Client.TrackEvent("Begin Export Compare", StartEvent);
-            Log.Debug("Halfway RunExportCollectCommand");
-
             CompareCommandOptions options = new CompareCommandOptions();
             options.DatabaseFilename = opts.DatabaseFilename;
             options.FirstRunId = opts.FirstRunId;

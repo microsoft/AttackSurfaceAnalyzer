@@ -74,7 +74,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
         /// </summary>
         public override void Execute()
         {
-            Log.Information("Executing {0}.", this.GetType().Name);
+            
 
             Start();
 
