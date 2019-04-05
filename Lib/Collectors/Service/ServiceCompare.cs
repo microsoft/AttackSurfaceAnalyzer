@@ -69,7 +69,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
             }
             Results["services_add"] = addObjects;
 
-            Log.Information("Found {0} Added Results", addObjects.Count);
+            Log.Information("Found {0} Created", addObjects.Count);
 
             var removeObjects = new List<ServiceResult>();
             cmd = new SqliteCommand(SELECT_DELETED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
@@ -94,7 +94,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
             }
             Results["services_remove"] = removeObjects;
 
-            Log.Information("Found {0} Deleted Results", removeObjects.Count);
+            Log.Information("Found {0} Deleted", removeObjects.Count);
 
             var modifyObjects = new List<ServiceResult>();
             cmd = new SqliteCommand(SELECT_MODIFIED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
@@ -121,7 +121,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
             }
             Results["services_modify"] = modifyObjects;
 
-            Log.Information("Found {0} Modified Results", modifyObjects.Count);
+            Log.Information("Found {0} Modified", modifyObjects.Count);
 
         }
     }

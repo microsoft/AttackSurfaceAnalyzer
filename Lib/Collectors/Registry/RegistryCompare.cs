@@ -66,7 +66,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                 }
                 Results["registry_add"] = addObjects;
 
-                Log.Information("Found {0} Created Results", addObjects.Count);
+                Log.Information("Found {0} Created", addObjects.Count);
 
                 var removeObjects = new List<RegistryResult>();
                 cmd = new SqliteCommand(SELECT_DELETED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
@@ -92,7 +92,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
 
                 Results["registry_remove"] = removeObjects;
 
-                Log.Information("Found {0} Deleted Results", addObjects.Count);
+                Log.Information("Found {0} Deleted", addObjects.Count);
 
                 var modifyObjects = new List<RegistryResult>();
                 cmd = new SqliteCommand(SELECT_MODIFIED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
@@ -120,7 +120,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
 
                 Results["registry_modify"] = modifyObjects;
 
-                Log.Information("Found {0} Modified Results", addObjects.Count);
+                Log.Information("Found {0} Modified", addObjects.Count);
             }
             catch (Exception e)
             {

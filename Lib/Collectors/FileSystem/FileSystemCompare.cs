@@ -65,7 +65,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                     }
                 }
                 Results["files_add"] = addObjects;
-                Log.Information("Found {0} Added Results", addObjects.Count);
+                Log.Information("Found {0} Created", addObjects.Count);
 
                 var removeObjects = new List<FileSystemResult>();
                 cmd = new SqliteCommand(SELECT_DELETED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
@@ -91,7 +91,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 }
                 Results["files_remove"] = removeObjects;
 
-                Log.Information("Found {0} Deleted Results", removeObjects.Count);
+                Log.Information("Found {0} Deleted", removeObjects.Count);
 
                 var modifyObjects = new List<FileSystemResult>();
                 cmd = new SqliteCommand(SELECT_MODIFIED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
@@ -118,7 +118,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 }
                 Results["files_modify"] = modifyObjects;
 
-                Log.Information("Found {0} Modified Results", modifyObjects.Count);
+                Log.Information("Found {0} Modified", modifyObjects.Count);
             }
             catch (Exception e)
             {

@@ -80,7 +80,7 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
             }
             Results["ports_add"] = addObjects;
 
-            Log.Information("Found {0} Added Results", addObjects.Count);
+            Log.Information("Found {0} Created", addObjects.Count);
 
             var removeObjects = new List<OpenPortResult>();
             cmd = new SqliteCommand(SELECT_DELETED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
@@ -114,7 +114,7 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
             }
             Results["ports_remove"] = removeObjects;
 
-            Log.Information("Found {0} Deleted Results", removeObjects.Count);
+            Log.Information("Found {0} Deleted", removeObjects.Count);
             //// Which ports had some other property modified?
             //var modifyObjects = new List<OpenPortObject>();
 
