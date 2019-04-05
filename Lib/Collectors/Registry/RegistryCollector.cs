@@ -38,6 +38,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
 
         public RegistryCollector(string RunId, List<RegistryHive> Hives, Action<RegistryObject> customHandler)
         {
+            Log.Debug("Initializing a new {0} object.", this.GetType().Name);
             this.runId = RunId;
             this.Hives = Hives;
             this.roots = new HashSet<string>();
@@ -114,9 +115,8 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
         public override void Execute()
         {
             Start();
+            Log.Information("Executing {0}.", this.GetType().Name);
 
-            Console.WriteLine("Starting");
-            Log.Information("Starting");
             Log.Information(JsonConvert.SerializeObject(DefaultHives));
 
             if (!this.CanRunOnPlatform())

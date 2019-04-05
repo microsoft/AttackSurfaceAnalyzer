@@ -30,6 +30,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
 
         public ServiceCollector(string runId, Func<ServiceController, bool> filter = null)
         {
+            Log.Debug("Initializing a new {0} object.", this.GetType().Name);
             this.runId = runId;
             this.filter = filter;
         }
@@ -73,6 +74,8 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
         /// </summary>
         public override void Execute()
         {
+            Log.Information("Executing {0}.", this.GetType().Name);
+
             Start();
 
             if (!this.CanRunOnPlatform())

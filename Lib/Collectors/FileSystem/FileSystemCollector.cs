@@ -129,6 +129,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 
         public FileSystemCollector(string runId, Func<FileSystemInfo, bool> filter = null, bool enableHashing = false)
         {
+            Log.Debug("Initializing a new {0} object.", this.GetType().Name);
             this.filter = filter;
             this.runId = runId;
             this.roots = new HashSet<string>();
@@ -162,6 +163,8 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
             { 
                 return;
             }
+            Log.Information("Executing {0}.", this.GetType().Name);
+
             Dictionary<string, string> EndEvent = new Dictionary<string, string>();
             EndEvent.Add("Version", Helpers.GetVersionString());
             Telemetry.Client.TrackEvent("Start file collector", EndEvent);
@@ -228,13 +231,13 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                         }
                         catch (Exception ex)
                         {
-                            Log.Verbose(ex, "Error processing {0}", fileInfo?.FullName);
+                            Log.Warning(ex, "Error processing {0}", fileInfo?.FullName);
                         }
                     }));
                 }
                 catch (Exception ex)
                 {
-                    Log.Verbose(ex, "Error collecting file system information: {0}", ex.Message);
+                    Log.Warning(ex, "Error collecting file system information: {0}", ex.Message);
                 }
             }
 
