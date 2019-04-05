@@ -30,7 +30,6 @@ namespace AttackSurfaceAnalyzer.Utils
             TelemetryConfiguration.Active.InstrumentationKey = (Gui)? TelemetryConfig.IntrumentationKeyGui : TelemetryConfig.InstrumentationKeyCli;
             Client =  new TelemetryClient();
             Client.Context.Component.Version = Helpers.GetVersionString();
-
             // Force some values to static values to prevent gathering unneeded data
             Client.Context.Cloud.RoleInstance = (Gui) ? "GUI" : "CLI";
             Client.Context.Cloud.RoleName = (Gui) ? "GUI" : "CLI";
