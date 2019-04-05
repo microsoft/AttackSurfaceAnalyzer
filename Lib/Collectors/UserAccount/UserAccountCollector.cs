@@ -121,7 +121,7 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
 */
         public override void Execute()
         {
-            Log.Information("Executing {0}.", this.GetType().Name);
+            
 
             Start();
 

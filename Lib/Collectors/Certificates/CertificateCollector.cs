@@ -87,7 +87,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
             {
                 return;
             }
-            Log.Information("Executing {0}.", this.GetType().Name);
+            
 
             Start();
             Truncate(runId);
