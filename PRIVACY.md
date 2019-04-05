@@ -20,10 +20,10 @@ This application allows Microsoft to collect telemetry data limited to the use o
 application such as what collection types are used and total number of run scans generated.
 It does not transmit any user or system information collected as part of the analysis performed.
 
-The telemetry feature is enabled by default when using the GUI, and not implemented in the CLI version.
+The telemetry feature is enabled by default when using the GUI, and disabled by default in the CLI version.
 Users may disable telemetry at any time and settings are saved until the user chooses to change them.
 
 ### Enabling/Disabling Telemetry
 
-* **CLI version** - Telemetry is not currently implemented.
+* **CLI version** - See help by running AttackSurfaceAnalyzerCli.exe help for instructions
 * **GUI version** - Run application and check or uncheck the option "Send usage data to Microsoft to help us improve our products."
