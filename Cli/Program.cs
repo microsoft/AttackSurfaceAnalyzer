@@ -185,7 +185,7 @@ namespace AttackSurfaceAnalyzer.Cli
         private static List<BaseMonitor> monitors = new List<BaseMonitor>();
         private static List<BaseCompare> comparators = new List<BaseCompare>();
 
-        private static readonly string INSERT_RUN_INTO_RESULT_TABLE_SQL = "insert into results (base_run_id, compare_run_id, status) values (@base_run_id, @compare_run_id, @status);";
+        //private static readonly string INSERT_RUN_INTO_RESULT_TABLE_SQL = "insert into results (base_run_id, compare_run_id, status) values (@base_run_id, @compare_run_id, @status);";
         private static readonly string UPDATE_RUN_IN_RESULT_TABLE = "update results set status = @status where (base_run_id = @base_run_id and compare_run_id = @compare_run_id)";
         private static readonly string SQL_GET_RESULT_TYPES = "select * from runs where run_id = @base_run_id or run_id = @compare_run_id";
         private static readonly string SQL_GET_RESULT_TYPES_SINGLE = "select * from runs where run_id = @run_id";
@@ -202,6 +202,7 @@ namespace AttackSurfaceAnalyzer.Cli
                         as AssemblyInformationalVersionAttribute[])[0].InformationalVersion;
             Log.Information("AttackSurfaceAnalyzerCli v." + version);
             Log.Debug(version);
+            DatabaseManager.Setup();
             Telemetry.Setup(false);
 
             var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, CompareCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions, ConfigCommandOptions>(args)
@@ -1046,7 +1047,7 @@ namespace AttackSurfaceAnalyzer.Cli
             }
 
             Filter.LoadFilters(opts.FilterLocation);
-
+            Filter.DumpFilters();
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
 

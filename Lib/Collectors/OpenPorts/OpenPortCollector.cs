@@ -24,7 +24,7 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
 
         public OpenPortCollector(string runId)
         {
-            Log.Debug("Initializing a new OpenPortCollector object.");
+            Log.Debug("Initializing a new {0} object.", this.GetType().Name);
             if (runId == null)
             {
                 throw new ArgumentException("runIdentifier may not be null.");
@@ -90,6 +90,8 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
 
         public override void Execute()
         {
+            Log.Information("Executing {0}.", this.GetType().Name);
+
             Start();
             Log.Debug("Collecting open port information...");
             Truncate(runId);

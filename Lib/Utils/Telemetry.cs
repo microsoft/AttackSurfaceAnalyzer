@@ -30,7 +30,11 @@ namespace AttackSurfaceAnalyzer.Utils
             TelemetryConfiguration.Active.InstrumentationKey = (Gui)? TelemetryConfig.IntrumentationKeyGui : TelemetryConfig.InstrumentationKeyCli;
             Client =  new TelemetryClient();
             Client.Context.Component.Version = Helpers.GetVersionString();
-            Client.Context.Cloud.RoleName = "_";
+
+            // Force some values to static values to prevent gathering unneeded data
+            Client.Context.Cloud.RoleInstance = (Gui) ? "GUI" : "CLI";
+            Client.Context.Cloud.RoleName = (Gui) ? "GUI" : "CLI";
+            Client.Context.Location.Ip = "1.2.3.4";
         }
 
         public static void Flush()
@@ -45,8 +49,8 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 cmd.Parameters.AddWithValue("@TelemetryOptOut", OptOut.ToString());
                 cmd.ExecuteNonQuery();
+                DatabaseManager.Commit();
             }
-            DatabaseManager.Commit();
         }
     }
 }

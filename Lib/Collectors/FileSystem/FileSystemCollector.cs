@@ -129,6 +129,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 
         public FileSystemCollector(string runId, Func<FileSystemInfo, bool> filter = null, bool enableHashing = false)
         {
+            Log.Debug("Initializing a new {0} object.", this.GetType().Name);
             this.filter = filter;
             this.runId = runId;
             this.roots = new HashSet<string>();
@@ -162,6 +163,8 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
             { 
                 return;
             }
+            Log.Information("Executing {0}.", this.GetType().Name);
+
             Dictionary<string, string> EndEvent = new Dictionary<string, string>();
             EndEvent.Add("Version", Helpers.GetVersionString());
             Telemetry.Client.TrackEvent("Start file collector", EndEvent);
@@ -193,7 +196,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 
             foreach (var root in this.roots)
             {
-                Log.Warning("Scanning root " + root.ToString());
+                Log.Information("Scanning root {0}",root.ToString());
                 try
                 {
                     var fileInfoEnumerable = DirectoryWalker.WalkDirectory(root);
@@ -225,16 +228,16 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                                 }
                             }
                             Write(obj);
-                                                }
-                    catch (Exception ex)
+                        }
+                        catch (Exception ex)
                         {
-                            Log.Debug(ex, "Error processing {0}", fileInfo?.FullName);
+                            Log.Warning(ex, "Error processing {0}", fileInfo?.FullName);
                         }
                     }));
                 }
                 catch (Exception ex)
                 {
-                    Log.Debug(ex, "Error collecting file system information: {0}", ex.Message);
+                    Log.Warning(ex, "Error collecting file system information: {0}", ex.Message);
                 }
             }
 
@@ -250,12 +253,11 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
             Log.Information("Completed FileSystemCollector in " + answer);
             Log.Information("Flushing data");
 
-            Dictionary<string, string> EndEvent = new Dictionary<string, string>();
+            EndEvent = new Dictionary<string, string>();
             EndEvent.Add("Version", Helpers.GetVersionString());
-            EndEvent.Add("Duration", t.ToString())
+            EndEvent.Add("Duration", t.ToString());
             Telemetry.Client.TrackEvent("End file collector", EndEvent);
             DatabaseManager.Commit();
-
         }
     }
 }
