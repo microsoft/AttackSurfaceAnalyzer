@@ -41,7 +41,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
 
         public override bool CanRunOnPlatform()
         {
-            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
         }
 
         public void Write(StoreLocation storeLocation, StoreName storeName, X509Certificate2 obj)
@@ -86,8 +86,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
             if (!CanRunOnPlatform())
             {
                 return;
-            }
-            Log.Information("Executing {0}.", this.GetType().Name);
+            }            
 
             Start();
             Truncate(runId);

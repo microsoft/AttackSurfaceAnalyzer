@@ -41,7 +41,6 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 {
                     throw new ArgumentNullException("secondRunId");
                 }
-
                 var addObjects = new List<FileSystemResult>();
                 var cmd = new SqliteCommand(SELECT_INSERTED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
@@ -66,8 +65,8 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                     }
                 }
                 Results["files_add"] = addObjects;
+                Log.Information("Found {0} Created", addObjects.Count);
 
-                // Which files are gone?
                 var removeObjects = new List<FileSystemResult>();
                 cmd = new SqliteCommand(SELECT_DELETED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
@@ -92,8 +91,8 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 }
                 Results["files_remove"] = removeObjects;
 
+                Log.Information("Found {0} Deleted", removeObjects.Count);
 
-                // Which files had some other property modified?
                 var modifyObjects = new List<FileSystemResult>();
                 cmd = new SqliteCommand(SELECT_MODIFIED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
@@ -119,7 +118,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 }
                 Results["files_modify"] = modifyObjects;
 
-                DatabaseManager.Commit();
+                Log.Information("Found {0} Modified", modifyObjects.Count);
             }
             catch (Exception e)
             {

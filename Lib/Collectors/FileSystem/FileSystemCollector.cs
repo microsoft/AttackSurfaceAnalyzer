@@ -163,12 +163,10 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
             { 
                 return;
             }
-            Log.Information("Executing {0}.", this.GetType().Name);
 
             Dictionary<string, string> EndEvent = new Dictionary<string, string>();
             EndEvent.Add("Version", Helpers.GetVersionString());
             Telemetry.Client.TrackEvent("Start file collector", EndEvent);
-            var watch = System.Diagnostics.Stopwatch.StartNew();
             wb = new WriteBuffer(runId);
             Start();
             
@@ -243,20 +241,6 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 
             Stop();
 
-            watch.Stop();
-            TimeSpan t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
-            string answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
-                                    t.Hours,
-                                    t.Minutes,
-                                    t.Seconds,
-                                    t.Milliseconds);
-            Log.Information("Completed FileSystemCollector in " + answer);
-            Log.Information("Flushing data");
-
-            EndEvent = new Dictionary<string, string>();
-            EndEvent.Add("Version", Helpers.GetVersionString());
-            EndEvent.Add("Duration", t.ToString());
-            Telemetry.Client.TrackEvent("End file collector", EndEvent);
             DatabaseManager.Commit();
         }
     }

@@ -41,9 +41,8 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                     throw new ArgumentNullException("secondRunId");
                 }
 
-                // TODO: Check if this comparison has already been completed
-                // Skip the rest if it has
-                Log.Information("Starting RegistryCompare Created");
+                
+
                 var addObjects = new List<RegistryResult>();
                 var cmd = new SqliteCommand(SELECT_INSERTED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
@@ -65,10 +64,10 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                         InsertResult(obj);
                     }
                 }
-
                 Results["registry_add"] = addObjects;
-                Log.Information("Starting RegistryCompare Deleted");
-                // Which files are gone?
+
+                Log.Information("Found {0} Created", addObjects.Count);
+
                 var removeObjects = new List<RegistryResult>();
                 cmd = new SqliteCommand(SELECT_DELETED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
@@ -92,8 +91,9 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                 }
 
                 Results["registry_remove"] = removeObjects;
-                Log.Information("Starting RegistryCompare Modified");
-                // Which files had some other property modified?
+
+                Log.Information("Found {0} Deleted", addObjects.Count);
+
                 var modifyObjects = new List<RegistryResult>();
                 cmd = new SqliteCommand(SELECT_MODIFIED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
@@ -120,7 +120,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
 
                 Results["registry_modify"] = modifyObjects;
 
-                DatabaseManager.Commit();
+                Log.Information("Found {0} Modified", addObjects.Count);
             }
             catch (Exception e)
             {

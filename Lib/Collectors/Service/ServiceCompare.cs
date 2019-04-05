@@ -46,7 +46,6 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
                 throw new ArgumentNullException("secondRunId");
             }
 
-            // Which new services were installed?
             var addObjects = new List<ServiceResult>();
             var cmd = new SqliteCommand(SELECT_INSERTED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
             cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
@@ -70,7 +69,8 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
             }
             Results["services_add"] = addObjects;
 
-            // Which services are gone?
+            Log.Information("Found {0} Created", addObjects.Count);
+
             var removeObjects = new List<ServiceResult>();
             cmd = new SqliteCommand(SELECT_DELETED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
             cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
@@ -94,7 +94,8 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
             }
             Results["services_remove"] = removeObjects;
 
-            // Which services were modified?
+            Log.Information("Found {0} Deleted", removeObjects.Count);
+
             var modifyObjects = new List<ServiceResult>();
             cmd = new SqliteCommand(SELECT_MODIFIED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
             cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
@@ -119,7 +120,9 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
                 }
             }
             Results["services_modify"] = modifyObjects;
-            DatabaseManager.Commit();
+
+            Log.Information("Found {0} Modified", modifyObjects.Count);
+
         }
     }
 }

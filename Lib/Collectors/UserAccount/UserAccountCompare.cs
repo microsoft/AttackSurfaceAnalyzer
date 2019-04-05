@@ -38,7 +38,8 @@ namespace AttackSurfaceAnalyzer.Collectors.UserAccount
                 throw new ArgumentNullException("secondRunId");
             }
 
-            // Which new users were created?
+            
+
             var addObjects = new List<UserAccountResult>();
             var cmd = new SqliteCommand(SELECT_INSERTED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
             cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
@@ -64,7 +65,8 @@ namespace AttackSurfaceAnalyzer.Collectors.UserAccount
                 }
                 Results["users_add"] = addObjects;
 
-                // Which users are gone?
+                Log.Information("Found {0} Created", addObjects.Count);
+
                 var removeObjects = new List<UserAccountResult>();
                 cmd = new SqliteCommand(SELECT_DELETED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
@@ -88,7 +90,8 @@ namespace AttackSurfaceAnalyzer.Collectors.UserAccount
                 }
                 Results["users_remove"] = removeObjects;
 
-                // Which users were modified?
+                Log.Information("Found {0} Deleted", removeObjects.Count);
+
                 var modifyObjects = new List<UserAccountResult>();
                 cmd = new SqliteCommand(SELECT_MODIFIED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
@@ -114,7 +117,9 @@ namespace AttackSurfaceAnalyzer.Collectors.UserAccount
                     }
                 }
                 Results["users_modify"] = modifyObjects;
-                DatabaseManager.Commit();
+
+                Log.Information("Found {0} Modified", removeObjects.Count);
+
             }
             catch(Exception e)
             {
