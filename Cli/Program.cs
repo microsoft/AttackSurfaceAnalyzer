@@ -52,13 +52,13 @@ namespace AttackSurfaceAnalyzer.Cli
         [Option(HelpText = "Name of output database", Default = "asa.sqlite")]
         public string DatabaseFilename { get; set; }
 
-        [Option(Required = true, HelpText = "First run (pre-install) identifier")]
+        [Option(HelpText = "First run (pre-install) identifier", Default = "Timestamps")]
         public string FirstRunId { get; set; }
 
-        [Option(Required = true, HelpText = "Second run (post-install) identifier")]
+        [Option(HelpText = "Second run (post-install) identifier", Default = "Timestamps")]
         public string SecondRunId { get; set; }
 
-        [Option(Required = false, HelpText = "Directory to output to", Default = ".")]
+        [Option(HelpText = "Directory to output to", Default = ".")]
         public string OutputPath { get; set; }
 
         [Option(Default = false, HelpText = "Increase logging verbosity")]
@@ -132,7 +132,7 @@ namespace AttackSurfaceAnalyzer.Cli
         [Option(HelpText = "Identifies which run this is. Monitor output can be combined with collect output, but doesn't need to be compared.", Default="Timestamp")]
         public string RunId { get; set; }
 
-        [Option(Required = false, HelpText = "Name of output database", Default = "asa.sqlite")]
+        [Option(HelpText = "Name of output database", Default = "asa.sqlite")]
         public string DatabaseFilename { get; set; }
 
         [Option('f', "file-system", Required = false, HelpText = "Enable the file system monitor. Unless -d is specified will monitor the entire file system.")]
@@ -323,6 +323,43 @@ namespace AttackSurfaceAnalyzer.Cli
             Log.Debug("Entering RunExportCollectCommand");
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+
+
+            if (opts.FirstRunId.Equals("Timestamps") || opts.SecondRunId.Equals("Timestamps"))
+            {
+                Log.Information("Run IDs missing, using latest two runs");
+                string SELECT_LATEST_TWO_RUNS = "select run_id from runs where type = 'collect' order by timestamp desc limit 0,2;";
+
+                using (var cmd = new SqliteCommand(SELECT_LATEST_TWO_RUNS, DatabaseManager.Connection))
+                {
+                    try
+                    {
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            reader.Read();
+                            opts.SecondRunId = reader["run_id"].ToString();
+                            reader.Read();
+                            opts.FirstRunId = reader["run_id"].ToString();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Warning(e.GetType().ToString());
+                        Log.Warning(e.Message);
+                        Log.Fatal("Couldn't determine latest two run ids. Can't continue.");
+                        System.Environment.Exit(-1);
+                    }
+                }
+            }
+
+            if (opts.FirstRunId.Equals("") || opts.SecondRunId.Equals(""))
+            {
+                Log.Fatal("Couldn't determine latest two run ids. Can't continue.");
+                System.Environment.Exit(-1);
+            }
+
+            Log.Information("Comparing {0} vs {1}", opts.FirstRunId, opts.SecondRunId);
+
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("Version", Helpers.GetVersionString());
             StartEvent.Add("OutputPathSet", (opts.OutputPath != null).ToString());
