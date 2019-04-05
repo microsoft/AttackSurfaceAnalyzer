@@ -84,10 +84,10 @@ namespace AttackSurfaceAnalyzer.Cli
     [Verb("collect", HelpText = "Collect operating system metrics")]
     public class CollectCommandOptions
     {
-        [Option(Required = true, HelpText = "Identifies which run this is (used during comparison)")]
+        [Option(HelpText = "Identifies which run this is (used during comparison)", Default = "Timestamp")]
         public string RunId { get; set; }
 
-        [Option(Required = false, HelpText = "Name of output database", Default = "asa.sqlite")]
+        [Option(HelpText = "Name of output database", Default = "asa.sqlite")]
         public string DatabaseFilename { get; set; }
 
         [Option('c', "certificates", Required = false, HelpText = "Enable the certificate store collector")]
@@ -1042,9 +1042,12 @@ namespace AttackSurfaceAnalyzer.Cli
             }
 
             Filter.LoadFilters(opts.FilterLocation);
-            Filter.DumpFilters();
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
+            if (opts.RunId.Equals("Timestamp"))
+            {
+                opts.RunId = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            }
 
             if (opts.Overwrite)
             {
@@ -1063,6 +1066,8 @@ namespace AttackSurfaceAnalyzer.Cli
                     }
                 }
             }
+
+            Log.Information("Starting run {0}", opts.RunId);
 
             string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, type, timestamp, version) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @type, @timestamp, @version)";
 
