@@ -1068,7 +1068,6 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
             }
 
-
             string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, type, timestamp, version) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @type, @timestamp, @version)";
 
             using (var cmd = new SqliteCommand(INSERT_RUN, DatabaseManager.Connection, DatabaseManager.Transaction))
@@ -1102,7 +1101,6 @@ namespace AttackSurfaceAnalyzer.Cli
                     opts.EnableCertificateCollector = true;
                 }
 
-
                 cmd.Parameters.AddWithValue("@file_system", opts.EnableFileSystemCollector);
                 cmd.Parameters.AddWithValue("@ports", opts.EnableNetworkPortCollector);
                 cmd.Parameters.AddWithValue("@users", opts.EnableUserCollector);
@@ -1128,7 +1126,8 @@ namespace AttackSurfaceAnalyzer.Cli
                     returnValue = (int)ERRORS.UNIQUE_ID;
                 }
             }
-            
+            Log.Information("Starting {0} collectors", collectors.Count.ToString());
+
             foreach (BaseCollector c in collectors)
             {
                 // c.Filters = read filters in here
@@ -1144,9 +1143,6 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
                 Log.Information("Completed: {0}", c.GetType().Name);
             }
-
-            Log.Information("Started {0} collectors", collectors.Count.ToString());
-
 
             DatabaseManager.Commit();
             return returnValue;
