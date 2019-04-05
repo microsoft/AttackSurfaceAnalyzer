@@ -13,6 +13,7 @@ namespace AttackSurfaceAnalyzer.Utils
     public static class Filter
     {
         static JObject config = null;
+        static Dictionary<string, List<Regex>> _filters = new Dictionary<string, List<Regex>>();
         public static string RuntimeString()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
@@ -32,11 +33,11 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static bool IsFiltered(string Platform, string ScanType, string ItemType, string Property, string Target)
         {
-            if (IsFiltered(Platform, ScanType, ItemType, Property, "include", Target))
+            if (IsFiltered(Platform, ScanType, ItemType, Property, "Include", Target))
             {
                 return false;
             }
-            return IsFiltered(Platform, ScanType, ItemType, Property, "exclude", Target);
+            return IsFiltered(Platform, ScanType, ItemType, Property, "Exclude", Target);
         }
 
         public static bool IsFiltered(string Platform, string ScanType, string ItemType, string Property, string FilterType, string Target) => IsFiltered(Platform, ScanType, ItemType, Property, FilterType, Target, out Regex dummy);
@@ -50,29 +51,61 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             try
             {
-                JArray filters = (JArray)config[Platform][ScanType][ItemType][Property][FilterType];
-                foreach (JValue filter in filters)
+                string key = String.Format("{0}{1}{2}{3}{4}", Platform, ScanType, ItemType, Property, FilterType);
+                List<Regex> filters = new List<Regex>();
+
+                try
                 {
-                    // TODO: cache these. Check Regex class cache setting
+                    filters = _filters[key];
+                }
+                catch (KeyNotFoundException)
+                {
                     try
                     {
-                        var testString = filter.ToString();
-                        if (ItemType == "Registry")
+                        JArray jFilters = (JArray)config[Platform][ScanType][ItemType][Property][FilterType];
+                        Log.Debug(jFilters.ToString());
+                        foreach (var filter in jFilters)
                         {
-                            testString = filter.ToString().Replace("\\", "\\\\");
+                            Log.Debug(filter.ToString());
+                            filters.Add(new Regex(filter.ToString()));
                         }
-                        Regex rgx = new Regex(testString);
+                        _filters.Add(key, filters);
+                        Log.Warning("Successfully parsed {0} {1} {2} {3} {4}", Platform, ScanType, ItemType, Property, FilterType);
+                    }
+                    catch (NullReferenceException)
+                    {
+                        //Log.Debug(ex.GetType().ToString());
+                        //Log.Debug(ex.Message);
+                        //Log.Debug(ex.StackTrace);
+                        //Log.Debug("Failed adding");
+                        Log.Debug("Failed parsing {0} {1} {2} {3} {4} (no entry?)", Platform, ScanType, ItemType, Property, FilterType);
+                        _filters.Add(key, new List<Regex>());
+                        return false;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Log.Debug(e.GetType().ToString());
+                    Log.Debug(e.Message);
+                    Log.Debug(e.StackTrace);
+                }
 
-                        if (rgx.IsMatch(Target))
+                Log.Verbose("We are making it past. {0}{1}{2}{3}{4}",Platform,ScanType,ItemType,Property,FilterType);
+                //JArray filters = (JArray)config[Platform][ScanType][ItemType][Property][FilterType];
+                foreach (Regex filter in _filters[key])
+                {
+                    try
+                    {
+                        if (filter.IsMatch(Target))
                         {
-                            regex = rgx;
-                            Log.Debug("{0} caught {1}", rgx, Target);
+                            regex = filter;
+                            Log.Debug("{0} caught {1}", filter, Target);
                             return true;
                         }
                     }
                     catch (Exception e)
                     {
-                        Log.Debug("Probably this is omse of those garbled keys or a bad regex");
+                        Log.Debug("Probably this is some of those garbled keys or a bad regex");
                         Log.Debug(e.GetType().ToString());
                         Log.Debug(filter.ToString());
 
@@ -80,19 +113,29 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 }
             }
-            catch (NullReferenceException)
+            catch (NullReferenceException e)
             {
-                Log.Verbose(JsonConvert.SerializeObject(config));
+                //Log.Verbose(JsonConvert.SerializeObject(config));
                 // No filter entry for that Platform, Scantype, Itemtype, Property
-                Log.Verbose("No Filter Entry {0}, {1}, {2}, {3}, {4}", Platform, ScanType, ItemType, Property, FilterType);
+                Log.Debug("No Filter Entry {0}, {1}, {2}, {3}, {4}", Platform, ScanType, ItemType, Property, FilterType);
+                Log.Debug(e.Message);
+                Log.Debug(e.Source);
+                Log.Debug(e.StackTrace);
             }
 
             return false;
         }
-        
+
+        public static void DumpFilters()
+        {
+            foreach (var filter in config)
+            {
+                Log.Verbose(filter.Value.ToString());
+            }
+        }
+
         public static void LoadFilters(string filterLoc = "filters.json")
         {
-            Log.Debug("Loading filters");
             try
             {
                 using (StreamReader file = File.OpenText(filterLoc))

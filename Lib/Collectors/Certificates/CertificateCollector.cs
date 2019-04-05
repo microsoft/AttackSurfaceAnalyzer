@@ -28,6 +28,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
 
         public CertificateCollector(string runId)
         {
+            Log.Debug("Initializing a new {0} object.", this.GetType().Name);
             this.runId = runId;
         }
 
@@ -86,6 +87,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
             {
                 return;
             }
+            Log.Information("Executing {0}.", this.GetType().Name);
 
             Start();
             Truncate(runId);

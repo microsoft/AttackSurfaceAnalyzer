@@ -1047,7 +1047,7 @@ namespace AttackSurfaceAnalyzer.Cli
             }
 
             Filter.LoadFilters(opts.FilterLocation);
-
+            Filter.DumpFilters();
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
 
