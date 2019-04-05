@@ -41,7 +41,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                     throw new ArgumentNullException("secondRunId");
                 }
 
-                Log.Information("{0} Starting Created Results", this.GetType().ToString());
+                Log.Information("{0} Starting Created Results", this.GetType().Name);
 
                 var addObjects = new List<RegistryResult>();
                 var cmd = new SqliteCommand(SELECT_INSERTED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
@@ -66,8 +66,8 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                 }
                 Results["registry_add"] = addObjects;
 
-                Log.Information("Found Created {0} Results", addObjects.Count);
-                Log.Information("{0} Starting Deleted Results", this.GetType().ToString());
+                Log.Information("Found Added {0} Results", addObjects.Count);
+                Log.Information("{0} Starting Deleted Results", this.GetType().Name);
 
                 var removeObjects = new List<RegistryResult>();
                 cmd = new SqliteCommand(SELECT_DELETED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
@@ -94,7 +94,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                 Results["registry_remove"] = removeObjects;
 
                 Log.Information("Found Deleted {0} Results", removeObjects.Count);
-                Log.Information("{0} Starting Modified Results", this.GetType().ToString());
+                Log.Information("{0} Starting Modified Results", this.GetType().Name);
 
                 var modifyObjects = new List<RegistryResult>();
                 cmd = new SqliteCommand(SELECT_MODIFIED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
@@ -123,8 +123,6 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                 Results["registry_modify"] = modifyObjects;
 
                 Log.Information("Found Deleted {0} Results", modifyObjects.Count);
-
-                DatabaseManager.Commit();
             }
             catch (Exception e)
             {

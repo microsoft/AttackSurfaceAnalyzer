@@ -38,7 +38,8 @@ namespace AttackSurfaceAnalyzer.Collectors.UserAccount
                 throw new ArgumentNullException("secondRunId");
             }
 
-            // Which new users were created?
+            Log.Information("{0} Starting Added Results", this.GetType().Name);
+
             var addObjects = new List<UserAccountResult>();
             var cmd = new SqliteCommand(SELECT_INSERTED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
             cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
@@ -64,7 +65,9 @@ namespace AttackSurfaceAnalyzer.Collectors.UserAccount
                 }
                 Results["users_add"] = addObjects;
 
-                // Which users are gone?
+                Log.Information("Found Added {0} Results", addObjects.Count);
+                Log.Information("{0} Starting Deleted Results", this.GetType().Name);
+
                 var removeObjects = new List<UserAccountResult>();
                 cmd = new SqliteCommand(SELECT_DELETED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
@@ -88,7 +91,9 @@ namespace AttackSurfaceAnalyzer.Collectors.UserAccount
                 }
                 Results["users_remove"] = removeObjects;
 
-                // Which users were modified?
+                Log.Information("Found Deleted {0} Results", removeObjects.Count);
+                Log.Information("{0} Starting Modified Results", this.GetType().Name);
+
                 var modifyObjects = new List<UserAccountResult>();
                 cmd = new SqliteCommand(SELECT_MODIFIED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
@@ -114,7 +119,9 @@ namespace AttackSurfaceAnalyzer.Collectors.UserAccount
                     }
                 }
                 Results["users_modify"] = modifyObjects;
-                DatabaseManager.Commit();
+
+                Log.Information("Found Modified {0} Results", removeObjects.Count);
+
             }
             catch(Exception e)
             {

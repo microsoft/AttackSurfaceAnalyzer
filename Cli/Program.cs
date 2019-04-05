@@ -883,17 +883,15 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
             }
 
-            // Logging stops at this loop
-            Parallel.ForEach(comparators,
-                (c =>
+            foreach(BaseCompare c in comparators)
             {
-                Log.Information("Starting {0}", c.GetType());
+                Log.Information("Starting {0}", c.GetType().Name);
                 if (!c.TryCompare(opts.FirstRunId, opts.SecondRunId))
                 {
-                    Log.Warning("Error when comparing {0}", c.GetType().FullName);
+                    Log.Warning("Error when comparing {0}", c.GetType().Name);
                 }
                 c.Results.ToList().ForEach(x => results.Add(x.Key, x.Value));
-            }));
+            }
             cmd = new SqliteCommand(UPDATE_RUN_IN_RESULT_TABLE, DatabaseManager.Connection, DatabaseManager.Transaction);
             cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
             cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);

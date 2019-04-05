@@ -37,7 +37,8 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
                 {
                     throw new ArgumentNullException("secondRunId");
                 }
-                
+                Log.Information("{0} Starting Added Results", this.GetType().Name);
+
                 var addObjects = new List<CertificateResult>();
                 var cmd = new SqliteCommand(SELECT_INSERTED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
@@ -67,6 +68,9 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
                 }
                 Results["certs_add"] = addObjects;
 
+                Log.Information("Found Added {0} Results", addObjects.Count);
+                Log.Information("{0} Starting Deleted Results", this.GetType().Name);
+
                 var removeObjects = new List<string>();
                 cmd = new SqliteCommand(SELECT_DELETED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
@@ -95,7 +99,8 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
                     }
                 }
                 Results["certs_remove"] = removeObjects;
-                DatabaseManager.Commit();
+
+                Log.Information("Found Deleted {0} Results", addObjects.Count);
             }
             catch (Exception e)
             {

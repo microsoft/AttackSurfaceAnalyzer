@@ -41,7 +41,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 {
                     throw new ArgumentNullException("secondRunId");
                 }
-                Log.Debug("{0} Starting Created Results", this.GetType().ToString());
+                Log.Debug("{0} Starting Created Results", this.GetType().Name);
                 var addObjects = new List<FileSystemResult>();
                 var cmd = new SqliteCommand(SELECT_INSERTED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
@@ -66,9 +66,9 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                     }
                 }
                 Results["files_add"] = addObjects;
-                Log.Information("Found Created {0} Results", addObjects.Count);
+                Log.Information("Found Added {0} Results", addObjects.Count);
 
-                Log.Information("{0} Starting Deleted Results", this.GetType().ToString());
+                Log.Information("{0} Starting Deleted Results", this.GetType().Name);
 
                 // Which files are gone?
                 var removeObjects = new List<FileSystemResult>();
@@ -96,7 +96,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 Results["files_remove"] = removeObjects;
                 Log.Information("Found Deleted {0} Results", removeObjects.Count);
 
-                Log.Information("{0} Starting Deleted Results", this.GetType().ToString());
+                Log.Information("{0} Starting Deleted Results", this.GetType().Name);
 
                 // Which files had some other property modified?
                 var modifyObjects = new List<FileSystemResult>();
@@ -124,8 +124,6 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 }
                 Results["files_modify"] = modifyObjects;
                 Log.Information("Found Modified {0} Results", modifyObjects.Count);
-
-                DatabaseManager.Commit();
             }
             catch (Exception e)
             {

@@ -50,7 +50,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             Log.Debug(t.ToString());
             var EndEvent = new Dictionary<string, string>();
             EndEvent.Add("Version", Helpers.GetVersionString());
-            EndEvent.Add("Scanner", this.GetType().ToString());
+            EndEvent.Add("Scanner", this.GetType().Name);
             EndEvent.Add("Duration", watch.ElapsedMilliseconds.ToString());
             Telemetry.Client.TrackEvent("EndScanFunction", EndEvent);
         }
