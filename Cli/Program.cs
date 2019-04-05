@@ -30,16 +30,16 @@ namespace AttackSurfaceAnalyzer.Cli
     [Verb("compare", HelpText = "Compare ASA executions and output a .html summary")]
     public class CompareCommandOptions
     {
-        [Option(Required = false, HelpText = "Name of output database", Default = "asa.sqlite")]
+        [Option(HelpText = "Name of output database", Default = "asa.sqlite")]
         public string DatabaseFilename { get; set; }
 
-        [Option(Required = true, HelpText = "First run (pre-install) identifier")]
+        [Option(HelpText = "First run (pre-install) identifier", Default = "Timestamps")]
         public string FirstRunId { get; set; }
 
-        [Option(Required = true, HelpText = "Second run (post-install) identifier")]
+        [Option(HelpText = "Second run (post-install) identifier", Default = "Timestamps")]
         public string SecondRunId { get; set; }
 
-        [Option(Required = false, HelpText = "Base name of output file", Default = "output")]
+        [Option(HelpText = "Base name of output file", Default = "output")]
         public string OutputBaseFilename { get; set; }
 
         [Option(Default = false, HelpText = "Increase logging verbosity")]
@@ -49,7 +49,7 @@ namespace AttackSurfaceAnalyzer.Cli
     [Verb("export-collect", HelpText = "Compare ASA executions and output a .json report")]
     public class ExportCollectCommandOptions
     {
-        [Option(Required = false, HelpText = "Name of output database", Default = "asa.sqlite")]
+        [Option(HelpText = "Name of output database", Default = "asa.sqlite")]
         public string DatabaseFilename { get; set; }
 
         [Option(Required = true, HelpText = "First run (pre-install) identifier")]
@@ -798,6 +798,42 @@ namespace AttackSurfaceAnalyzer.Cli
 
         public static Dictionary<string, object> CompareRuns(CompareCommandOptions opts)
         {
+            if (opts.FirstRunId.Equals("Timestamps") || opts.SecondRunId.Equals("Timestamps"))
+            {
+                Log.Information("Run IDs missing, using latest two runs");
+                string SELECT_LATEST_TWO_RUNS = "select run_id from runs order by timestamp desc limit 0,2;";
+
+                using (var cmd = new SqliteCommand(SELECT_LATEST_TWO_RUNS, DatabaseManager.Connection))
+                { 
+                    try
+                    {
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            reader.Read();
+                            opts.SecondRunId = reader["run_id"].ToString();
+                            reader.Read();
+                            opts.FirstRunId = reader["run_id"].ToString();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Warning(e.GetType().ToString());
+                        Log.Warning(e.Message);
+                        Log.Fatal("Couldn't determine latest two run ids. Can't continue.");
+                        System.Environment.Exit(-1);
+                    }
+                }
+            }
+
+            if (opts.FirstRunId.Equals("") || opts.SecondRunId.Equals(""))
+            {
+                Log.Fatal("Couldn't determine latest two run ids. Can't continue.");
+                System.Environment.Exit(-1);
+            }
+
+            Log.Information("Comparing {0} vs {1}",opts.FirstRunId,opts.SecondRunId);
+
+
             var results = new Dictionary<string, object>
             {
                 ["BeforeRunId"] = opts.FirstRunId,
@@ -806,48 +842,50 @@ namespace AttackSurfaceAnalyzer.Cli
 
             comparators = new List<BaseCompare>();
 
-            var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES, DatabaseManager.Connection, DatabaseManager.Transaction);
-            Log.Debug("Getting result types");
-            cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
-            cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
-
-            var count = new Dictionary<string, int>()
-            {
-                { "File", 0 },
-                { "Certificate", 0 },
-                { "Registry", 0 },
-                { "Port", 0 },
-                { "Service", 0 },
-                { "User", 0 }
-            };
-
-            using (var reader = cmd.ExecuteReader())
-            {
-                while (reader.Read())
+            Dictionary<string, int> count = new Dictionary<string, int>()
                 {
-                    if (int.Parse(reader["file_system"].ToString()) != 0)
+                    { "File", 0 },
+                    { "Certificate", 0 },
+                    { "Registry", 0 },
+                    { "Port", 0 },
+                    { "Service", 0 },
+                    { "User", 0 }
+                };
+
+            using (var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES, DatabaseManager.Connection, DatabaseManager.Transaction))
+            {
+                Log.Debug("Getting result types");
+                cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
+                cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
                     {
-                        count["File"]++;
-                    }
-                    if (int.Parse(reader["ports"].ToString()) != 0)
-                    {
-                        count["Port"]++;
-                    }
-                    if (int.Parse(reader["users"].ToString()) != 0)
-                    {
-                        count["User"]++;
-                    }
-                    if (int.Parse(reader["services"].ToString()) != 0)
-                    {
-                        count["Service"]++;
-                    }
-                    if (int.Parse(reader["registry"].ToString()) != 0)
-                    {
-                        count["Registry"]++;
-                    }
-                    if (int.Parse(reader["certificates"].ToString()) != 0)
-                    {
-                        count["Certificate"]++;
+                        if (int.Parse(reader["file_system"].ToString()) != 0)
+                        {
+                            count["File"]++;
+                        }
+                        if (int.Parse(reader["ports"].ToString()) != 0)
+                        {
+                            count["Port"]++;
+                        }
+                        if (int.Parse(reader["users"].ToString()) != 0)
+                        {
+                            count["User"]++;
+                        }
+                        if (int.Parse(reader["services"].ToString()) != 0)
+                        {
+                            count["Service"]++;
+                        }
+                        if (int.Parse(reader["registry"].ToString()) != 0)
+                        {
+                            count["Registry"]++;
+                        }
+                        if (int.Parse(reader["certificates"].ToString()) != 0)
+                        {
+                            count["Certificate"]++;
+                        }
                     }
                 }
             }
@@ -892,11 +930,13 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
                 c.Results.ToList().ForEach(x => results.Add(x.Key, x.Value));
             }
-            cmd = new SqliteCommand(UPDATE_RUN_IN_RESULT_TABLE, DatabaseManager.Connection, DatabaseManager.Transaction);
-            cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
-            cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
-            cmd.Parameters.AddWithValue("@status", RUN_STATUS.COMPLETED);
-            cmd.ExecuteNonQuery();
+            using (var cmd = new SqliteCommand(UPDATE_RUN_IN_RESULT_TABLE, DatabaseManager.Connection, DatabaseManager.Transaction))
+            {
+                cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
+                cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
+                cmd.Parameters.AddWithValue("@status", RUN_STATUS.COMPLETED);
+                cmd.ExecuteNonQuery();
+            }
 
             DatabaseManager.Commit();
             return results;
