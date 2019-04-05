@@ -82,13 +82,11 @@ namespace AttackSurfaceAnalyzer.Utils
             return watcher.EnableRaisingEvents;
         }
 
-        // Begin watching.
         public void Start()
         {
             watcher.EnableRaisingEvents = true;
         }
 
-        // Stop watching.
         public void Stop()
         {
             watcher.EnableRaisingEvents = false;
@@ -113,7 +111,6 @@ namespace AttackSurfaceAnalyzer.Utils
             OnDeletedDelegate(e);
         }
 
-        // Default event for when a file is renamed.
         private void OnRenamed(object source, FileSystemEventArgs e)
         {
             EventList.Add(e);

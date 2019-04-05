@@ -74,10 +74,6 @@ namespace AttackSurfaceAnalyzer.Utils
                     }
                     catch (NullReferenceException)
                     {
-                        //Log.Debug(ex.GetType().ToString());
-                        //Log.Debug(ex.Message);
-                        //Log.Debug(ex.StackTrace);
-                        //Log.Debug("Failed adding");
                         Log.Debug("Failed parsing {0} {1} {2} {3} {4} (no entry?)", Platform, ScanType, ItemType, Property, FilterType);
                         _filters.Add(key, new List<Regex>());
                         return false;
