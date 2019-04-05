@@ -28,6 +28,9 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
             }
             TelemetryConfiguration.Active.InstrumentationKey = (Gui)? TelemetryConfig.IntrumentationKeyGui : TelemetryConfig.InstrumentationKeyCli;
+            var builder = TelemetryConfiguration.Active.TelemetryProcessorChainBuilder;
+            builder.Use((next) => new StripIpFilter(next));
+            builder.Build();
             Client =  new TelemetryClient();
             Client.Context.Component.Version = Helpers.GetVersionString();
             // Force some values to static values to prevent gathering unneeded data
