@@ -193,7 +193,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 
             foreach (var root in this.roots)
             {
-                Log.Warning("Scanning root " + root.ToString());
+                Log.Information("Scanning root {0}",root.ToString());
                 try
                 {
                     var fileInfoEnumerable = DirectoryWalker.WalkDirectory(root);
@@ -225,16 +225,16 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                                 }
                             }
                             Write(obj);
-                                                }
-                    catch (Exception ex)
+                        }
+                        catch (Exception ex)
                         {
-                            Log.Debug(ex, "Error processing {0}", fileInfo?.FullName);
+                            Log.Verbose(ex, "Error processing {0}", fileInfo?.FullName);
                         }
                     }));
                 }
                 catch (Exception ex)
                 {
-                    Log.Debug(ex, "Error collecting file system information: {0}", ex.Message);
+                    Log.Verbose(ex, "Error collecting file system information: {0}", ex.Message);
                 }
             }
 

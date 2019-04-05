@@ -202,6 +202,7 @@ namespace AttackSurfaceAnalyzer.Cli
                         as AssemblyInformationalVersionAttribute[])[0].InformationalVersion;
             Log.Information("AttackSurfaceAnalyzerCli v." + version);
             Log.Debug(version);
+            DatabaseManager.Setup();
             Telemetry.Setup(false);
 
             var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, CompareCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions, ConfigCommandOptions>(args)
