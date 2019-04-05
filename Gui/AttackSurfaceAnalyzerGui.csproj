@@ -16,7 +16,6 @@
   <ItemGroup>
     <PackageReference Include="ElectronNet.API" Version="0.0.11" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.6.1" />
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="2.2.3" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
     <PackageReference Include="Diff.Match.Patch" Version="2.1.0" />

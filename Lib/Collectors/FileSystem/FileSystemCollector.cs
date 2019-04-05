@@ -250,12 +250,11 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
             Log.Information("Completed FileSystemCollector in " + answer);
             Log.Information("Flushing data");
 
-            Dictionary<string, string> EndEvent = new Dictionary<string, string>();
+            EndEvent = new Dictionary<string, string>();
             EndEvent.Add("Version", Helpers.GetVersionString());
-            EndEvent.Add("Duration", t.ToString())
+            EndEvent.Add("Duration", t.ToString());
             Telemetry.Client.TrackEvent("End file collector", EndEvent);
             DatabaseManager.Commit();
-
         }
     }
 }
