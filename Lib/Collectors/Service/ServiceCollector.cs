@@ -196,12 +196,29 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
 
                             Write(obj);
                     }
-
                 }
-               
+
+                result = runner.RunExternalCommand("ls", "/etc/init.d/ -l");
+
+                lines = result.Split('\n');
+                lines.ToList().RemoveAt(0);
+
+                foreach (var _line in lines)
+                {
+                    var _fields = _line.Split('\t');
+                    var obj = new ServiceObject()
+                    {
+                        DisplayName = _fields[8],
+                        ServiceName = _fields[8],
+                        StartType = "Unknown",
+                        CurrentState = "Unknown"
+                    };
+
+                    Write(obj);
+                }
+
                 // without systemd (maybe just CentOS)
                 // chkconfig --list
-                // look at init.d?
 
                 // BSD
                 // service -l
