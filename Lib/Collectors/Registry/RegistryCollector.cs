@@ -115,7 +115,6 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
         public override void Execute()
         {
             Start();
-            
 
             Log.Information(JsonConvert.SerializeObject(DefaultHives));
 

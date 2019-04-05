@@ -74,8 +74,6 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
         /// </summary>
         public override void Execute()
         {
-            
-
             Start();
 
             if (!this.CanRunOnPlatform())

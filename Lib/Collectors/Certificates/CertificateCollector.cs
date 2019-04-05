@@ -86,8 +86,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
             if (!CanRunOnPlatform())
             {
                 return;
-            }
-            
+            }            
 
             Start();
             Truncate(runId);

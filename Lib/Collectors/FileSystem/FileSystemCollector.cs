@@ -241,8 +241,6 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 
             Stop();
 
-            Log.Information("Flushing data");
-
             DatabaseManager.Commit();
         }
     }

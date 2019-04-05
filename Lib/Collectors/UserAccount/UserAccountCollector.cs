@@ -121,8 +121,6 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
 */
         public override void Execute()
         {
-            
-
             Start();
 
             if (!this.CanRunOnPlatform())

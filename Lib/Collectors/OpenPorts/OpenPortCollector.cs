@@ -90,7 +90,6 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
 
         public override void Execute()
         {
-            
 
             Start();
             Log.Debug("Collecting open port information...");
