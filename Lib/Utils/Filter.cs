@@ -90,8 +90,6 @@ namespace AttackSurfaceAnalyzer.Utils
                     Log.Debug(e.StackTrace);
                 }
 
-                Log.Verbose("We are making it past. {0}{1}{2}{3}{4}",Platform,ScanType,ItemType,Property,FilterType);
-                //JArray filters = (JArray)config[Platform][ScanType][ItemType][Property][FilterType];
                 foreach (Regex filter in _filters[key])
                 {
                     try
@@ -115,8 +113,6 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             catch (NullReferenceException e)
             {
-                //Log.Verbose(JsonConvert.SerializeObject(config));
-                // No filter entry for that Platform, Scantype, Itemtype, Property
                 Log.Debug("No Filter Entry {0}, {1}, {2}, {3}, {4}", Platform, ScanType, ItemType, Property, FilterType);
                 Log.Debug(e.Message);
                 Log.Debug(e.Source);
