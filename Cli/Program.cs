@@ -1128,8 +1128,6 @@ namespace AttackSurfaceAnalyzer.Cli
 
             foreach (BaseCollector c in collectors)
             {
-                // c.Filters = read filters in here
-                Log.Information("Executing: {0}", c.GetType().Name);
                 try
                 {
                     c.Execute();
