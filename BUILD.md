@@ -77,7 +77,3 @@ electronize build /target macos /package-json package.json /relative-path bin
 ```
 
 Will create the Electron application in ```AttackSurfaceAnalyzer\Gui\bin\```
-
-## Debugging
-
-This project uses NLog with a helper class implemented in the library. To see your debug statements on the console run in --verbose mode. Projects compiled in Debug mode automatically output Debug prints into "asa.debug.txt".
