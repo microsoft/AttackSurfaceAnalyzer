@@ -68,13 +68,13 @@ namespace AttackSurfaceAnalyzer.Cli
     [Verb("export-monitor", HelpText = "Output a .json report for a monitor run")]
     public class ExportMonitorCommandOptions
     {
-        [Option(Required = false, HelpText = "Name of output database", Default = "asa.sqlite")]
+        [Option(HelpText = "Name of output database", Default = "asa.sqlite")]
         public string DatabaseFilename { get; set; }
 
-        [Option(Required = true, HelpText = "Monitor run identifier")]
+        [Option(HelpText = "Monitor run identifier", Default = "Timestamp")]
         public string RunId { get; set; }
 
-        [Option(Required = false, HelpText = "Directory to output to", Default = ".")]
+        [Option(HelpText = "Directory to output to", Default = ".")]
         public string OutputPath { get; set; }
 
         [Option(Default = false, HelpText = "Increase logging verbosity")]
@@ -129,7 +129,7 @@ namespace AttackSurfaceAnalyzer.Cli
     [Verb("monitor", HelpText = "Continue running and monitor activity")]
     public class MonitorCommandOptions
     {
-        [Option(Required = true, HelpText = "Identifies which run this is. Monitor output can be combined with collect output, but doesn't need to be compared.")]
+        [Option(HelpText = "Identifies which run this is. Monitor output can be combined with collect output, but doesn't need to be compared.", Default="Timestamp")]
         public string RunId { get; set; }
 
         [Option(Required = false, HelpText = "Name of output database", Default = "asa.sqlite")]
@@ -515,7 +515,41 @@ namespace AttackSurfaceAnalyzer.Cli
 #else
             Logger.Setup(false, opts.Verbose);
 #endif
+
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+
+            if (opts.RunId.Equals("Timestamp"))
+            {
+                Log.Information("Run ID missing, using latest run");
+                string SELECT_LATEST_TWO_RUNS = "select run_id from runs where type = 'monitor' order by timestamp desc limit 0,1;";
+
+                using (var cmd = new SqliteCommand(SELECT_LATEST_TWO_RUNS, DatabaseManager.Connection))
+                {
+                    try
+                    {
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            reader.Read();
+                            opts.RunId = reader["run_id"].ToString();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Warning(e.GetType().ToString());
+                        Log.Warning(e.Message);
+                        Log.Fatal("Couldn't determine latest run id. Can't continue.");
+                        System.Environment.Exit(-1);
+                    }
+                }
+            }
+
+            if (opts.RunId.Equals(""))
+            {
+                Log.Fatal("Couldn't determine latest run id. Can't continue.");
+                System.Environment.Exit(-1);
+            }
+
+            Log.Information("Exporting {0}", opts.RunId);
 
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("Version", Helpers.GetVersionString());
@@ -571,6 +605,10 @@ namespace AttackSurfaceAnalyzer.Cli
 #endif
             AdminOrQuit();
             Filter.LoadFilters(opts.FilterLocation);
+            if (opts.RunId.Equals("Timestamp"))
+            {
+                opts.RunId = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            }
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("Version", Helpers.GetVersionString());
             Telemetry.Client.TrackEvent("Begin monitoring", StartEvent);
@@ -801,7 +839,7 @@ namespace AttackSurfaceAnalyzer.Cli
             if (opts.FirstRunId.Equals("Timestamps") || opts.SecondRunId.Equals("Timestamps"))
             {
                 Log.Information("Run IDs missing, using latest two runs");
-                string SELECT_LATEST_TWO_RUNS = "select run_id from runs order by timestamp desc limit 0,2;";
+                string SELECT_LATEST_TWO_RUNS = "select run_id from runs where type = 'collect' order by timestamp desc limit 0,2;";
 
                 using (var cmd = new SqliteCommand(SELECT_LATEST_TWO_RUNS, DatabaseManager.Connection))
                 { 
