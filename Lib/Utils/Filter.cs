@@ -82,9 +82,9 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             catch (NullReferenceException)
             {
-                Log.Debug(JsonConvert.SerializeObject(config));
+                Log.Verbose(JsonConvert.SerializeObject(config));
                 // No filter entry for that Platform, Scantype, Itemtype, Property
-                Log.Debug("No Filter Entry {0}, {1}, {2}, {3}, {4}", Platform, ScanType, ItemType, Property, FilterType);
+                Log.Verbose("No Filter Entry {0}, {1}, {2}, {3}, {4}", Platform, ScanType, ItemType, Property, FilterType);
             }
 
             return false;
@@ -99,6 +99,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 using (JsonTextReader reader = new JsonTextReader(file))
                 {
                     config = (JObject)JToken.ReadFrom(reader);
+                    Log.Information("Loaded filters from {0}", filterLoc);
                 }
                 if (config == null)
                 {
