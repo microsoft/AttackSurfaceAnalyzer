@@ -3,17 +3,17 @@
 ## Pre-requisites
 
 ### CLI + GUI:
-- .NET Core 2.2.3 SDK
+- .NET Core 2.2.3 SDK (https://dotnet.microsoft.com/download)
 - Latest Visual Studio 2017
-- GitVersioning
+- GitVersioning (see below)
 
 ### GUI: 
-- Node.js
-- Electron.NET CLI tool 
+- Node.js (https://nodejs.org/en/)
+- Electron.NET CLI tool (see below)
 
 ## Installing Pre-requisites
 
-### NBGV
+### GitVersioning
 In the root source directory run ```dotnet tool install -g nbgv```
 
 ### ElectronNet.CLI
