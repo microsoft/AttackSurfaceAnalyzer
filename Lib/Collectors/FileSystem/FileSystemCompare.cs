@@ -41,7 +41,6 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 {
                     throw new ArgumentNullException("secondRunId");
                 }
-                Log.Debug("{0} Starting Created Results", this.GetType().Name);
                 var addObjects = new List<FileSystemResult>();
                 var cmd = new SqliteCommand(SELECT_INSERTED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
@@ -66,11 +65,8 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                     }
                 }
                 Results["files_add"] = addObjects;
-                Log.Information("Found Added {0} Results", addObjects.Count);
+                Log.Information("Found {0} Added Results", addObjects.Count);
 
-                Log.Information("{0} Starting Deleted Results", this.GetType().Name);
-
-                // Which files are gone?
                 var removeObjects = new List<FileSystemResult>();
                 cmd = new SqliteCommand(SELECT_DELETED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
@@ -94,11 +90,9 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                     }
                 }
                 Results["files_remove"] = removeObjects;
-                Log.Information("Found Deleted {0} Results", removeObjects.Count);
 
-                Log.Information("{0} Starting Deleted Results", this.GetType().Name);
+                Log.Information("Found {0} Deleted Results", removeObjects.Count);
 
-                // Which files had some other property modified?
                 var modifyObjects = new List<FileSystemResult>();
                 cmd = new SqliteCommand(SELECT_MODIFIED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
@@ -123,7 +117,8 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                     }
                 }
                 Results["files_modify"] = modifyObjects;
-                Log.Information("Found Modified {0} Results", modifyObjects.Count);
+
+                Log.Information("Found {0} Modified Results", modifyObjects.Count);
             }
             catch (Exception e)
             {

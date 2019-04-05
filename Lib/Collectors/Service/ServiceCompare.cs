@@ -46,8 +46,6 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
                 throw new ArgumentNullException("secondRunId");
             }
 
-            Log.Information("{0} Starting Added Results", this.GetType().Name);
-
             var addObjects = new List<ServiceResult>();
             var cmd = new SqliteCommand(SELECT_INSERTED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
             cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
@@ -71,8 +69,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
             }
             Results["services_add"] = addObjects;
 
-            Log.Information("Found Added {0} Results", addObjects.Count);
-            Log.Information("{0} Starting Deleted Results", this.GetType().Name);
+            Log.Information("Found {0} Added Results", addObjects.Count);
 
             var removeObjects = new List<ServiceResult>();
             cmd = new SqliteCommand(SELECT_DELETED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
@@ -97,8 +94,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
             }
             Results["services_remove"] = removeObjects;
 
-            Log.Information("Found Deleted {0} Results", removeObjects.Count);
-            Log.Information("{0} Starting Modified Results", this.GetType().Name);
+            Log.Information("Found {0} Deleted Results", removeObjects.Count);
 
             var modifyObjects = new List<ServiceResult>();
             cmd = new SqliteCommand(SELECT_MODIFIED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
@@ -125,7 +121,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
             }
             Results["services_modify"] = modifyObjects;
 
-            Log.Information("Found Modified {0} Results", modifyObjects.Count);
+            Log.Information("Found {0} Modified Results", modifyObjects.Count);
 
         }
     }
