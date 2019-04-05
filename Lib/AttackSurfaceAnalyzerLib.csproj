@@ -62,7 +62,6 @@ This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI 
     <PackageReference Include="System.Net.Security" Version="4.3.2" />
     <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
     <PackageReference Include="MonoMac.NetStandard" Version="0.0.4" />
-    <PackageReference Include="Microsoft.ApplicationInsights.NLogTarget" Version="2.9.1" />
     <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="3.0.3" />
   </ItemGroup>
   <ItemGroup>
