@@ -32,6 +32,7 @@ namespace AttackSurfaceAnalyzer.Utils
             Client.Context.Component.Version = Helpers.GetVersionString();
             Client.Context.Cloud.RoleInstance = (Gui) ? "GUI" : "CLI";
             Client.Context.Cloud.RoleName = (Gui) ? "GUI" : "CLI";
+            Client.Context.Location.Ip = "1.2.3.4";
         }
 
         public static void Flush()
