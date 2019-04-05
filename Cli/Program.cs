@@ -324,38 +324,20 @@ namespace AttackSurfaceAnalyzer.Cli
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
-
-            if (opts.FirstRunId.Equals("Timestamps") || opts.SecondRunId.Equals("Timestamps"))
+            if (opts.FirstRunId == "Timestamps" || opts.SecondRunId == "Timestamps")
             {
-                Log.Information("Run IDs missing, using latest two runs");
-                string SELECT_LATEST_TWO_RUNS = "select run_id from runs where type = 'collect' order by timestamp desc limit 0,2;";
+                List<string> runIds = DatabaseManager.GetLatestRunIds(2, "collect");
 
-                using (var cmd = new SqliteCommand(SELECT_LATEST_TWO_RUNS, DatabaseManager.Connection))
+                if (runIds.Count < 2)
                 {
-                    try
-                    {
-                        using (var reader = cmd.ExecuteReader())
-                        {
-                            reader.Read();
-                            opts.SecondRunId = reader["run_id"].ToString();
-                            reader.Read();
-                            opts.FirstRunId = reader["run_id"].ToString();
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Warning(e.GetType().ToString());
-                        Log.Warning(e.Message);
-                        Log.Fatal("Couldn't determine latest two run ids. Can't continue.");
-                        System.Environment.Exit(-1);
-                    }
+                    Log.Fatal("Couldn't determine latest two run ids. Can't continue.");
+                    System.Environment.Exit(-1);
                 }
-            }
-
-            if (opts.FirstRunId.Equals("") || opts.SecondRunId.Equals(""))
-            {
-                Log.Fatal("Couldn't determine latest two run ids. Can't continue.");
-                System.Environment.Exit(-1);
+                else
+                {
+                    opts.SecondRunId = runIds.First();
+                    opts.FirstRunId = runIds.ElementAt(1);
+                }
             }
 
             Log.Information("Comparing {0} vs {1}", opts.FirstRunId, opts.SecondRunId);
@@ -557,33 +539,18 @@ namespace AttackSurfaceAnalyzer.Cli
 
             if (opts.RunId.Equals("Timestamp"))
             {
-                Log.Information("Run ID missing, using latest run");
-                string SELECT_LATEST_TWO_RUNS = "select run_id from runs where type = 'monitor' order by timestamp desc limit 0,1;";
 
-                using (var cmd = new SqliteCommand(SELECT_LATEST_TWO_RUNS, DatabaseManager.Connection))
+                List<string> runIds = DatabaseManager.GetLatestRunIds(1, "monitor");
+
+                if (runIds.Count < 1)
                 {
-                    try
-                    {
-                        using (var reader = cmd.ExecuteReader())
-                        {
-                            reader.Read();
-                            opts.RunId = reader["run_id"].ToString();
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Warning(e.GetType().ToString());
-                        Log.Warning(e.Message);
-                        Log.Fatal("Couldn't determine latest run id. Can't continue.");
-                        System.Environment.Exit(-1);
-                    }
+                    Log.Fatal("Couldn't determine latest run id. Can't continue.");
+                    System.Environment.Exit(-1);
                 }
-            }
-
-            if (opts.RunId.Equals(""))
-            {
-                Log.Fatal("Couldn't determine latest run id. Can't continue.");
-                System.Environment.Exit(-1);
+                else
+                {
+                    opts.RunId = runIds.First();
+                }
             }
 
             Log.Information("Exporting {0}", opts.RunId);
@@ -873,39 +840,6 @@ namespace AttackSurfaceAnalyzer.Cli
 
         public static Dictionary<string, object> CompareRuns(CompareCommandOptions opts)
         {
-            if (opts.FirstRunId.Equals("Timestamps") || opts.SecondRunId.Equals("Timestamps"))
-            {
-                Log.Information("Run IDs missing, using latest two runs");
-                string SELECT_LATEST_TWO_RUNS = "select run_id from runs where type = 'collect' order by timestamp desc limit 0,2;";
-
-                using (var cmd = new SqliteCommand(SELECT_LATEST_TWO_RUNS, DatabaseManager.Connection))
-                { 
-                    try
-                    {
-                        using (var reader = cmd.ExecuteReader())
-                        {
-                            reader.Read();
-                            opts.SecondRunId = reader["run_id"].ToString();
-                            reader.Read();
-                            opts.FirstRunId = reader["run_id"].ToString();
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Warning(e.GetType().ToString());
-                        Log.Warning(e.Message);
-                        Log.Fatal("Couldn't determine latest two run ids. Can't continue.");
-                        System.Environment.Exit(-1);
-                    }
-                }
-            }
-
-            if (opts.FirstRunId.Equals("") || opts.SecondRunId.Equals(""))
-            {
-                Log.Fatal("Couldn't determine latest two run ids. Can't continue.");
-                System.Environment.Exit(-1);
-            }
-
             Log.Information("Comparing {0} vs {1}",opts.FirstRunId,opts.SecondRunId);
 
 
@@ -1312,6 +1246,23 @@ namespace AttackSurfaceAnalyzer.Cli
             StartEvent.Add("Version", Helpers.GetVersionString());
 
             Telemetry.Client.TrackEvent("Begin Compare Command", StartEvent);
+
+            if (opts.FirstRunId == "Timestamps" || opts.SecondRunId == "Timestamps")
+            {
+                List<string> runIds = DatabaseManager.GetLatestRunIds(2, "collect");
+
+                if (runIds.Count < 2)
+                {
+                    Log.Fatal("Couldn't determine latest two run ids. Can't continue.");
+                    System.Environment.Exit(-1);
+                }
+                else
+                {
+                    opts.SecondRunId = runIds.First();
+                    opts.FirstRunId = runIds.ElementAt(1);
+                }
+            }
+
             Log.Debug("Starting CompareRuns");
             var results = CompareRuns(opts);
 
