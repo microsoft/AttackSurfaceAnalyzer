@@ -160,7 +160,7 @@ namespace AttackSurfaceAnalyzer.Cli
         public bool Verbose { get; set; }
     }
 
-    [Verb("config", HelpText = "List runs in the database")]
+    [Verb("config", HelpText = "Configure and query the database")]
     public class ConfigCommandOptions
     {
         [Option(Required = false, HelpText = "Name of output database (default: asa.sqlite)", Default = "asa.sqlite")]
