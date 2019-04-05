@@ -8,6 +8,7 @@
 - GitVersioning
 
 ### GUI: 
+- Node.js
 - Electron.NET CLI tool 
 
 ## Installing Pre-requisites
