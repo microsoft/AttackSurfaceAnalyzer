@@ -156,39 +156,15 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
         }
 
-        //public void WriteFaster(SqliteCommand cmd, FileSystemObject obj)
-        //{
-        //    _numCollected++;
-        //    cmd.Parameters.Clear();
-        //    cmd.Parameters.AddWithValue("@run_id", runId);
-        //    cmd.Parameters.AddWithValue("@row_key", obj.RowKey);
-        //    cmd.Parameters.AddWithValue("@path", obj.Path);
-        //    cmd.Parameters.AddWithValue("@permissions", obj.Permissions ?? "");
-        //    cmd.Parameters.AddWithValue("@size", obj.Size);
-        //    cmd.Parameters.AddWithValue("@hash", obj.ContentHash ?? "");
-        //    cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj));
-        //    try
-        //    {
-        //        cmd.ExecuteNonQuery();
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Log.Information(e.StackTrace);
-        //        Log.Information(e.Message);
-        //        Log.Information(e.GetType());
-        //    }
-        //}
-
-        void HandleLogMessageGenerator()
-        {
-        }
-
         public override void Execute()
         {
             if (!CanRunOnPlatform())
             { 
                 return;
             }
+            Dictionary<string, string> EndEvent = new Dictionary<string, string>();
+            EndEvent.Add("Version", Helpers.GetVersionString());
+            Telemetry.Client.TrackEvent("Start file collector", EndEvent);
             var watch = System.Diagnostics.Stopwatch.StartNew();
             wb = new WriteBuffer(runId);
             Start();
@@ -273,18 +249,13 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                                     t.Milliseconds);
             Log.Information("Completed FileSystemCollector in " + answer);
             Log.Information("Flushing data");
-            watch = System.Diagnostics.Stopwatch.StartNew();
 
+            Dictionary<string, string> EndEvent = new Dictionary<string, string>();
+            EndEvent.Add("Version", Helpers.GetVersionString());
+            EndEvent.Add("Duration", t.ToString())
+            Telemetry.Client.TrackEvent("End file collector", EndEvent);
             DatabaseManager.Commit();
 
-            watch.Stop();
-            t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
-            answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
-                                    t.Hours,
-                                    t.Minutes,
-                                    t.Seconds,
-                                    t.Milliseconds);
-            Log.Information("Flush completed in " + answer);
         }
     }
 }

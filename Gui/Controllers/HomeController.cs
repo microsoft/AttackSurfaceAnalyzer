@@ -83,10 +83,6 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
         {
 
             var results = new List<OutputFileMonitorResult>();
-
-
-
-
             using (var cmd = new SqliteCommand(GET_MONITOR_RESULTS, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
                 cmd.Parameters.AddWithValue("@run_id", RunId);
@@ -138,7 +134,6 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         public ActionResult GetResults(string BaseId, string CompareId, int ResultType, int Offset, int NumResults)
         {
-
             var results = new List<OutputCompareResult>();
 
             using (var cmd = new SqliteCommand(GET_COMPARISON_RESULTS, DatabaseManager.Connection, DatabaseManager.Transaction))
