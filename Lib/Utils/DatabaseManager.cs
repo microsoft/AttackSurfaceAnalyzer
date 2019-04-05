@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using System;
+using System.Collections.Generic;
 using Microsoft.Data.Sqlite;
 using Serilog;
 
@@ -52,6 +53,7 @@ namespace AttackSurfaceAnalyzer.Utils
         private static readonly string SQL_TRUNCATE_FILES_MONITORED = "delete from file_system_monitored where run_id=@run_id";
         private static readonly string SQL_TRUNCATE_RUN = "delete from runs where run_id=@run_id";
 
+        private static readonly string SQL_SELECT_LATEST_N_RUNS = "select run_id from runs where type = @type order by timestamp desc limit 0,@limit;";
 
 
         public static SqliteConnection Connection;
@@ -136,6 +138,36 @@ namespace AttackSurfaceAnalyzer.Utils
 
             }
         }
+
+        public static List<string> GetLatestRunIds(int numberOfIds, string type)
+        {
+
+
+            List<string> output = new List<string>();
+            using (var cmd = new SqliteCommand(SQL_SELECT_LATEST_N_RUNS, DatabaseManager.Connection))
+            {
+                cmd.Parameters.AddWithValue("@type", type);
+                cmd.Parameters.AddWithValue("@limit", numberOfIds);
+                try
+                {
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            output.Add(reader["run_id"].ToString());
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Log.Debug(e.GetType().ToString());
+                    Log.Debug(e.Message);
+                    Log.Debug("Couldn't determine latest {0} run ids.",numberOfIds);
+                }
+            }
+            return output;
+        }
+
 
         public static SqliteTransaction Transaction
         {

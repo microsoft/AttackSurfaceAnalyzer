@@ -30,16 +30,16 @@ namespace AttackSurfaceAnalyzer.Cli
     [Verb("compare", HelpText = "Compare ASA executions and output a .html summary")]
     public class CompareCommandOptions
     {
-        [Option(Required = false, HelpText = "Name of output database", Default = "asa.sqlite")]
+        [Option(HelpText = "Name of output database", Default = "asa.sqlite")]
         public string DatabaseFilename { get; set; }
 
-        [Option(Required = true, HelpText = "First run (pre-install) identifier")]
+        [Option(HelpText = "First run (pre-install) identifier", Default = "Timestamps")]
         public string FirstRunId { get; set; }
 
-        [Option(Required = true, HelpText = "Second run (post-install) identifier")]
+        [Option(HelpText = "Second run (post-install) identifier", Default = "Timestamps")]
         public string SecondRunId { get; set; }
 
-        [Option(Required = false, HelpText = "Base name of output file", Default = "output")]
+        [Option(HelpText = "Base name of output file", Default = "output")]
         public string OutputBaseFilename { get; set; }
 
         [Option(Default = false, HelpText = "Increase logging verbosity")]
@@ -49,16 +49,16 @@ namespace AttackSurfaceAnalyzer.Cli
     [Verb("export-collect", HelpText = "Compare ASA executions and output a .json report")]
     public class ExportCollectCommandOptions
     {
-        [Option(Required = false, HelpText = "Name of output database", Default = "asa.sqlite")]
+        [Option(HelpText = "Name of output database", Default = "asa.sqlite")]
         public string DatabaseFilename { get; set; }
 
-        [Option(Required = true, HelpText = "First run (pre-install) identifier")]
+        [Option(HelpText = "First run (pre-install) identifier", Default = "Timestamps")]
         public string FirstRunId { get; set; }
 
-        [Option(Required = true, HelpText = "Second run (post-install) identifier")]
+        [Option(HelpText = "Second run (post-install) identifier", Default = "Timestamps")]
         public string SecondRunId { get; set; }
 
-        [Option(Required = false, HelpText = "Directory to output to", Default = ".")]
+        [Option(HelpText = "Directory to output to", Default = ".")]
         public string OutputPath { get; set; }
 
         [Option(Default = false, HelpText = "Increase logging verbosity")]
@@ -68,13 +68,13 @@ namespace AttackSurfaceAnalyzer.Cli
     [Verb("export-monitor", HelpText = "Output a .json report for a monitor run")]
     public class ExportMonitorCommandOptions
     {
-        [Option(Required = false, HelpText = "Name of output database", Default = "asa.sqlite")]
+        [Option(HelpText = "Name of output database", Default = "asa.sqlite")]
         public string DatabaseFilename { get; set; }
 
-        [Option(Required = true, HelpText = "Monitor run identifier")]
+        [Option(HelpText = "Monitor run identifier", Default = "Timestamp")]
         public string RunId { get; set; }
 
-        [Option(Required = false, HelpText = "Directory to output to", Default = ".")]
+        [Option(HelpText = "Directory to output to", Default = ".")]
         public string OutputPath { get; set; }
 
         [Option(Default = false, HelpText = "Increase logging verbosity")]
@@ -84,10 +84,10 @@ namespace AttackSurfaceAnalyzer.Cli
     [Verb("collect", HelpText = "Collect operating system metrics")]
     public class CollectCommandOptions
     {
-        [Option(Required = true, HelpText = "Identifies which run this is (used during comparison)")]
+        [Option(HelpText = "Identifies which run this is (used during comparison)", Default = "Timestamp")]
         public string RunId { get; set; }
 
-        [Option(Required = false, HelpText = "Name of output database", Default = "asa.sqlite")]
+        [Option(HelpText = "Name of output database", Default = "asa.sqlite")]
         public string DatabaseFilename { get; set; }
 
         [Option('c', "certificates", Required = false, HelpText = "Enable the certificate store collector")]
@@ -129,10 +129,10 @@ namespace AttackSurfaceAnalyzer.Cli
     [Verb("monitor", HelpText = "Continue running and monitor activity")]
     public class MonitorCommandOptions
     {
-        [Option(Required = true, HelpText = "Identifies which run this is. Monitor output can be combined with collect output, but doesn't need to be compared.")]
+        [Option(HelpText = "Identifies which run this is. Monitor output can be combined with collect output, but doesn't need to be compared.", Default="Timestamp")]
         public string RunId { get; set; }
 
-        [Option(Required = false, HelpText = "Name of output database", Default = "asa.sqlite")]
+        [Option(HelpText = "Name of output database", Default = "asa.sqlite")]
         public string DatabaseFilename { get; set; }
 
         [Option('f', "file-system", Required = false, HelpText = "Enable the file system monitor. Unless -d is specified will monitor the entire file system.")]
@@ -323,6 +323,25 @@ namespace AttackSurfaceAnalyzer.Cli
             Log.Debug("Entering RunExportCollectCommand");
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+
+            if (opts.FirstRunId == "Timestamps" || opts.SecondRunId == "Timestamps")
+            {
+                List<string> runIds = DatabaseManager.GetLatestRunIds(2, "collect");
+
+                if (runIds.Count < 2)
+                {
+                    Log.Fatal("Couldn't determine latest two run ids. Can't continue.");
+                    System.Environment.Exit(-1);
+                }
+                else
+                {
+                    opts.SecondRunId = runIds.First();
+                    opts.FirstRunId = runIds.ElementAt(1);
+                }
+            }
+
+            Log.Information("Comparing {0} vs {1}", opts.FirstRunId, opts.SecondRunId);
+
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("Version", Helpers.GetVersionString());
             StartEvent.Add("OutputPathSet", (opts.OutputPath != null).ToString());
@@ -515,7 +534,26 @@ namespace AttackSurfaceAnalyzer.Cli
 #else
             Logger.Setup(false, opts.Verbose);
 #endif
+
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+
+            if (opts.RunId.Equals("Timestamp"))
+            {
+
+                List<string> runIds = DatabaseManager.GetLatestRunIds(1, "monitor");
+
+                if (runIds.Count < 1)
+                {
+                    Log.Fatal("Couldn't determine latest run id. Can't continue.");
+                    System.Environment.Exit(-1);
+                }
+                else
+                {
+                    opts.RunId = runIds.First();
+                }
+            }
+
+            Log.Information("Exporting {0}", opts.RunId);
 
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("Version", Helpers.GetVersionString());
@@ -571,6 +609,10 @@ namespace AttackSurfaceAnalyzer.Cli
 #endif
             AdminOrQuit();
             Filter.LoadFilters(opts.FilterLocation);
+            if (opts.RunId.Equals("Timestamp"))
+            {
+                opts.RunId = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            }
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("Version", Helpers.GetVersionString());
             Telemetry.Client.TrackEvent("Begin monitoring", StartEvent);
@@ -798,6 +840,9 @@ namespace AttackSurfaceAnalyzer.Cli
 
         public static Dictionary<string, object> CompareRuns(CompareCommandOptions opts)
         {
+            Log.Information("Comparing {0} vs {1}",opts.FirstRunId,opts.SecondRunId);
+
+
             var results = new Dictionary<string, object>
             {
                 ["BeforeRunId"] = opts.FirstRunId,
@@ -806,48 +851,50 @@ namespace AttackSurfaceAnalyzer.Cli
 
             comparators = new List<BaseCompare>();
 
-            var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES, DatabaseManager.Connection, DatabaseManager.Transaction);
-            Log.Debug("Getting result types");
-            cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
-            cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
-
-            var count = new Dictionary<string, int>()
-            {
-                { "File", 0 },
-                { "Certificate", 0 },
-                { "Registry", 0 },
-                { "Port", 0 },
-                { "Service", 0 },
-                { "User", 0 }
-            };
-
-            using (var reader = cmd.ExecuteReader())
-            {
-                while (reader.Read())
+            Dictionary<string, int> count = new Dictionary<string, int>()
                 {
-                    if (int.Parse(reader["file_system"].ToString()) != 0)
+                    { "File", 0 },
+                    { "Certificate", 0 },
+                    { "Registry", 0 },
+                    { "Port", 0 },
+                    { "Service", 0 },
+                    { "User", 0 }
+                };
+
+            using (var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES, DatabaseManager.Connection, DatabaseManager.Transaction))
+            {
+                Log.Debug("Getting result types");
+                cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
+                cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
                     {
-                        count["File"]++;
-                    }
-                    if (int.Parse(reader["ports"].ToString()) != 0)
-                    {
-                        count["Port"]++;
-                    }
-                    if (int.Parse(reader["users"].ToString()) != 0)
-                    {
-                        count["User"]++;
-                    }
-                    if (int.Parse(reader["services"].ToString()) != 0)
-                    {
-                        count["Service"]++;
-                    }
-                    if (int.Parse(reader["registry"].ToString()) != 0)
-                    {
-                        count["Registry"]++;
-                    }
-                    if (int.Parse(reader["certificates"].ToString()) != 0)
-                    {
-                        count["Certificate"]++;
+                        if (int.Parse(reader["file_system"].ToString()) != 0)
+                        {
+                            count["File"]++;
+                        }
+                        if (int.Parse(reader["ports"].ToString()) != 0)
+                        {
+                            count["Port"]++;
+                        }
+                        if (int.Parse(reader["users"].ToString()) != 0)
+                        {
+                            count["User"]++;
+                        }
+                        if (int.Parse(reader["services"].ToString()) != 0)
+                        {
+                            count["Service"]++;
+                        }
+                        if (int.Parse(reader["registry"].ToString()) != 0)
+                        {
+                            count["Registry"]++;
+                        }
+                        if (int.Parse(reader["certificates"].ToString()) != 0)
+                        {
+                            count["Certificate"]++;
+                        }
                     }
                 }
             }
@@ -892,11 +939,13 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
                 c.Results.ToList().ForEach(x => results.Add(x.Key, x.Value));
             }
-            cmd = new SqliteCommand(UPDATE_RUN_IN_RESULT_TABLE, DatabaseManager.Connection, DatabaseManager.Transaction);
-            cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
-            cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
-            cmd.Parameters.AddWithValue("@status", RUN_STATUS.COMPLETED);
-            cmd.ExecuteNonQuery();
+            using (var cmd = new SqliteCommand(UPDATE_RUN_IN_RESULT_TABLE, DatabaseManager.Connection, DatabaseManager.Transaction))
+            {
+                cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
+                cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
+                cmd.Parameters.AddWithValue("@status", RUN_STATUS.COMPLETED);
+                cmd.ExecuteNonQuery();
+            }
 
             DatabaseManager.Commit();
             return results;
@@ -1042,9 +1091,12 @@ namespace AttackSurfaceAnalyzer.Cli
             }
 
             Filter.LoadFilters(opts.FilterLocation);
-            Filter.DumpFilters();
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
+            if (opts.RunId.Equals("Timestamp"))
+            {
+                opts.RunId = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            }
 
             if (opts.Overwrite)
             {
@@ -1063,6 +1115,8 @@ namespace AttackSurfaceAnalyzer.Cli
                     }
                 }
             }
+
+            Log.Information("Starting run {0}", opts.RunId);
 
             string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, type, timestamp, version) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @type, @timestamp, @version)";
 
@@ -1192,6 +1246,23 @@ namespace AttackSurfaceAnalyzer.Cli
             StartEvent.Add("Version", Helpers.GetVersionString());
 
             Telemetry.Client.TrackEvent("Begin Compare Command", StartEvent);
+
+            if (opts.FirstRunId == "Timestamps" || opts.SecondRunId == "Timestamps")
+            {
+                List<string> runIds = DatabaseManager.GetLatestRunIds(2, "collect");
+
+                if (runIds.Count < 2)
+                {
+                    Log.Fatal("Couldn't determine latest two run ids. Can't continue.");
+                    System.Environment.Exit(-1);
+                }
+                else
+                {
+                    opts.SecondRunId = runIds.First();
+                    opts.FirstRunId = runIds.ElementAt(1);
+                }
+            }
+
             Log.Debug("Starting CompareRuns");
             var results = CompareRuns(opts);
 

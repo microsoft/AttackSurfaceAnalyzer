@@ -33,6 +33,10 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static bool IsFiltered(string Platform, string ScanType, string ItemType, string Property, string Target)
         {
+            if (config == null)
+            {
+                return false;
+            }
             if (IsFiltered(Platform, ScanType, ItemType, Property, "Include", Target))
             {
                 return false;
@@ -135,6 +139,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     config = (JObject)JToken.ReadFrom(reader);
                     Log.Information("Loaded filters from {0}", filterLoc);
+                    DumpFilters();
                 }
                 if (config == null)
                 {
@@ -144,13 +149,14 @@ namespace AttackSurfaceAnalyzer.Utils
             catch (System.IO.FileNotFoundException)
             {
                 //That's fine, we just don't have any filters to load
+                config = null;
                 Log.Debug("{0} is missing (filter configuration file)", filterLoc);
 
                 return;
             }
             catch (NullReferenceException)
             {
-
+                config = null;
                 Log.Debug("{0} is missing (filter configuration file)", filterLoc);
 
                 return;
