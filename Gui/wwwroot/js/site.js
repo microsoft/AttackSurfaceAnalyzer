@@ -54,12 +54,3 @@ function runStatusToString(runStatus) {
             return "No Results"
     }
 }
-
-$.getJSON('Home/CheckAdmin', function (result) {
-    if (JSON.parse(result) == true) {
-        $("#AdminWarning").hide();
-    }
-    else {
-        $("#AdminWarning").show();
-    }
-});

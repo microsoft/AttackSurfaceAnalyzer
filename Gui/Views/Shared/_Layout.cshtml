@@ -1,6 +1,7 @@
 ﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
 @using Microsoft.ApplicationInsights.Extensibility;
 @using AttackSurfaceAnalyzer.Utils;
+@using System.Runtime.InteropServices;
 
 <!DOCTYPE html>
 <html lang="en">
@@ -34,26 +35,44 @@
                     <a asp-area="" asp-controller="Home" asp-action="Analyze" id="AnalyzeLink" class="nav-link">Results</a>
                 </li>
                 <li class="nav-item">
-                    <a href="https://github.com/microsoft/attacksurfaceanalyzer/wiki"  target="_blank" id="Help" class="nav-link">Help</a>
+                    <a href="https://github.com/microsoft/attacksurfaceanalyzer/wiki" target="_blank" id="Help" class="nav-link">Help</a>
                 </li>
             </ul>
         </div>
     </nav>
-    <div class="row no-gutters">
-        <div class="col-1">
+    @{
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            if (Elevation.IsAdministrator())
+            {
+                Telemetry.Client.TrackEvent("LaunchedAsAdmin");
+            }
+        }
+        else if ((RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) && Elevation.IsRunningAsRoot())
+        {
+            Telemetry.Client.TrackEvent("LaunchedAsAdmin");
+        }
+        else
+        {
+            Telemetry.Client.TrackEvent("LaunchedAsNormal");
+            <div class="row no-gutters">
+                <div class="col-1">
 
-        </div>
-        <div class="col">
-            <div class="container">
-                <div class="row no-gutters card card-body warning" id="AdminWarning">
-                    Attack Surface Analyzer is not running as Administrator/Root and can only provide limited results.
+                </div>
+                <div class="col">
+                    <div class="container">
+                        <div class="row no-gutters card card-body warning" id="AdminWarning">
+                            Attack Surface Analyzer is not running as Administrator/Root and can only provide limited results.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-1">
                 </div>
             </div>
-        </div>
+        }
+    }
 
-        <div class="col-1">
-        </div>
-    </div>
 
     <div class="row no-gutters">
         <div class="col-1">
