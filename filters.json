@@ -13,11 +13,24 @@
             "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\ControlSet001\\\\Enum$",
             "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\ControlSet001\\\\Control$",
             "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\ControlSet001\\\\Services$"
-          ],
+          ]
         },
         "Hive": {
           "Exclude": [
             "ClassesRoot"
+          ]
+        }
+      },
+      "File": {
+        "Path": {
+          "Exclude": [
+            "[A-Z]:\\\\pagefile.sys",
+            "[A-Z]:\\\\hiberfil.sys",
+            "[A-Z]:\\\\swapfile.sys",
+            "[A-Z]:\\\\Windows\\\\CSC",
+            "[A-Z]:\\\\Windows\\\\System32\\\\LogFiles\\\\WMI\\\\RTBackup",
+            "[A-Z]:\\\\Windows\\\\ServiceProfiles\\\\LocalService\\\\AppData\\\\Local\\\\Microsoft\\\\NGC"
+
           ]
         }
       }
