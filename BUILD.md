@@ -10,6 +10,7 @@
 ### GUI: 
 - Node.js (https://nodejs.org/en/)
 - Electron.NET CLI tool (see below)
+- ASP.NET Components in Visual Studio (You will otherwise receive an error opening this project)
 
 ## Installing Pre-requisites
 
@@ -17,7 +18,7 @@
 In the root source directory run ```dotnet tool install -g nbgv```
 
 ### ElectronNet.CLI
-In the Tools directory run ```dotnet tool install ElectronNET.CLI -g --version 0.0.11-custom --add-source packages```
+In the `Tools` directory run ```dotnet tool install ElectronNET.CLI -g --version 0.0.11-custom --add-source packages```
 
 ## Building
 

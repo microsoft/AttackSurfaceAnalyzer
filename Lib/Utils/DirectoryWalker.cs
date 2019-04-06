@@ -100,8 +100,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         Log.Debug(e.Message);
                         continue;
                     }
-                    string FullPath = String.Format("{0}{1}{2}", currentDir, Path.PathSeparator, file);
-                    if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "File", "Path", FullPath))
+                    if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "File", "Path", file))
                     {
                         continue;
                     }
