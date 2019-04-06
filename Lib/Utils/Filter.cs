@@ -71,17 +71,41 @@ namespace AttackSurfaceAnalyzer.Utils
                         foreach (var filter in jFilters)
                         {
                             Log.Debug(filter.ToString());
-                            filters.Add(new Regex(filter.ToString()));
+                            try
+                            {
+                                filters.Add(new Regex(filter.ToString()));
+                            }
+                            catch (Exception e)
+                            {
+                                Log.Debug(e.GetType().ToString());
+                                Log.Debug("Failed to make a regex from {0}", filter.ToString());
+                            }
                         }
-                        _filters.Add(key, filters);
+                        try
+                        {
+                            _filters.Add(key, filters);
+                        }
+                        catch (ArgumentException)
+                        {
+                            // We are running in parallel, its possible someone added it in between the original check and now. No problem here.
+                            filters = _filters[key];
+                        }
                         Log.Warning("Successfully parsed {0} {1} {2} {3} {4}", Platform, ScanType, ItemType, Property, FilterType);
                     }
                     catch (NullReferenceException)
                     {
                         Log.Debug("Failed parsing {0} {1} {2} {3} {4} (no entry?)", Platform, ScanType, ItemType, Property, FilterType);
-                        _filters.Add(key, new List<Regex>());
+                        try
+                        {
+                            _filters.Add(key, new List<Regex>());
+                        }
+                        catch (ArgumentException)
+                        {
+                            // We are running in parallel, its possible someone added it in between the original check and now. No problem here.
+                        }
                         return false;
                     }
+
                 }
                 catch (Exception e)
                 {
