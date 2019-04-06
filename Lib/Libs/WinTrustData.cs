@@ -1,9 +1,11 @@
-﻿using System.Runtime.InteropServices;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Runtime.InteropServices;
 using System;
 using Serilog;
 // Adapted from
-// https://docs.microsoft.com/en-us/windows/desktop/seccrypto/example-c-program--verifying-the-signature-of-a-pe-file
-// and https://www.pinvoke.net/default.aspx/wintrust.winverifytrust
+// https://www.pinvoke.net/default.aspx/wintrust.winverifytrust
 
 namespace AttackSurfaceAnalyzer.Libs
 {
