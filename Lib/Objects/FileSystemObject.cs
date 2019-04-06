@@ -10,6 +10,7 @@ using System.Text;
 using AttackSurfaceAnalyzer.Utils;
 using Newtonsoft.Json;
 using Serilog;
+using AttackSurfaceAnalyzer.Libs;
 
 
 namespace AttackSurfaceAnalyzer.ObjectTypes
@@ -31,67 +32,9 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
                 {
                     return "No signature required";
                 }
+                string sigStatus = AuthenticodeTools.WinVerifyTrust(Path);
 
-                //try
-                //{
-                //    using (var ps = PowerShell.Create())
-                //    {
-                //        var certStatus = ps.AddScript($"(Get-AuthenticodeSignature '{Path}').Status").Invoke().First();
-                //        if (certStatus == null || certStatus.Equals("NotSigned")) // lgtm[cs/hardcoded-credentials]
-                //        {
-                //            return "Not signed";
-                //        }
-                //        else if (certStatus.Equals("Valid")) // lgtm [cs/hardcoded-credentials]
-                //        {
-                //            return "Valid";
-                //        }
-                //        else
-                //        {
-                //            return $"Signature error: {certStatus}";
-                //        }
-                //    }
-                //}
-                //catch(Exception ex)
-                //{
-                //    Log.Verbose(ex.StackTrace);
-                try
-                {
-                    var _path = Path.Replace("'", "`'");
-                    var process = new Process()
-                    {
-                        StartInfo = new ProcessStartInfo()
-                        {
-                            FileName = "powershell.exe",
-                            Arguments = string.Format("(Get-AuthenticodeSignature '{0}').Status", Path),
-                            RedirectStandardOutput = true,
-                            UseShellExecute = false,
-                            CreateNoWindow = true,
-                        }
-                    };
-                    process.Start();
-                    var certStatus = process.StandardOutput.ReadToEnd().Trim();
-                    process.WaitForExit();
-
-                    if (certStatus == null || certStatus.Equals("NotSigned")) //lgtm [cs/hardcoded-credentials]
-                    {
-                        return "Not signed";
-                    }
-                    else if (certStatus.Equals("Valid")) //lgtm [cs/hardcoded-credentials]
-                    {
-                        return "Valid";
-                    }
-                    else
-                    {
-                        return $"Signature error: {certStatus.Substring(0, Math.Min(15, certStatus.Length - 1))}";
-                    }
-                }
-                catch(Exception ex2)
-                {
-                    Log.Debug("Failed to get signature status");
-                    Log.Debug(ex2.StackTrace);
-                }
-                return null;
-                
+                return sigStatus;
             }
         }
 
