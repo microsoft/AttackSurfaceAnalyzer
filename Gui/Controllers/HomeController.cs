@@ -54,25 +54,6 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             return Json(true);
         }
 
-        public ActionResult CheckAdmin()
-        {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                if (Elevation.IsAdministrator())
-                {
-                    Telemetry.Client.TrackEvent("LaunchedAsAdmin");
-                    return Json(true);
-                }
-            }
-            else if ((RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) && Elevation.IsRunningAsRoot())
-            {
-                Telemetry.Client.TrackEvent("LaunchedAsAdmin");
-                return Json(true);
-            }
-            Telemetry.Client.TrackEvent("LaunchedAsNormal");
-            return Json(false);
-        }
-
         public ActionResult WriteScanJson(int ResultType, string BaseId, string CompareId, bool ExportAll, string OutputPath)
         {
             AttackSurfaceAnalyzerCLI.WriteScanJson(ResultType, BaseId, CompareId, ExportAll, OutputPath);
