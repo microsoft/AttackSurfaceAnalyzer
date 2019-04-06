@@ -24,13 +24,20 @@
       "File": {
         "Path": {
           "Exclude": [
-            "[A-Z]:\\\\pagefile.sys",
-            "[A-Z]:\\\\hiberfil.sys",
-            "[A-Z]:\\\\swapfile.sys",
-            "[A-Z]:\\\\Windows\\\\CSC",
-            "[A-Z]:\\\\Windows\\\\System32\\\\LogFiles\\\\WMI\\\\RTBackup",
-            "[A-Z]:\\\\Windows\\\\ServiceProfiles\\\\LocalService\\\\AppData\\\\Local\\\\Microsoft\\\\NGC"
-
+            "^[A-Z]:\\\\pagefile.sys$",
+            "^[A-Z]:\\\\hiberfil.sys$",
+            "^[A-Z]:\\\\swapfile.sys$",
+            "^[A-Z]:\\\\Windows\\\\CSC$",
+            "^[A-Z]:\\\\Windows\\\\System32\\\\LogFiles\\\\WMI\\\\RTBackup$",
+            "^[A-Z]:\\\\Windows\\\\ServiceProfiles\\\\LocalService\\\\AppData\\\\Local\\\\Microsoft\\\\NGC$",
+            "^[A-Z]:\\\\Users\\\\Gstoc\\\\AppData\\\\Local\\\\Packages\\\\Microsoft.Windows.ContentDeliveryManager.*BackgroundTransferApi",
+            "^[A-Z]:\\\\Windows\\\\ServiceProfiles\\\\NetworkService\\\\AppData\\\\Local\\\\Microsoft\\\\Windows\\\\DeliveryOptimization\\\\Logs",
+            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows\\\\AppRepository\\\\Packages\\\\Microsoft.Windows.ContentDeliveryManager",
+            "^[A-Z]:\\\\Users\\\\Gstoc\\\\ntuser.dat",
+            "^[A-Z]:\\\\Windows\\\\Prefetch",
+            "^[A-Z]:\\\\Windows\\\\ServiceProfiles\\\\NetworkService\\\\AppData\\\\Local\\\\Microsoft\\\\Windows\\\\DeliveryOptimization\\\\Logs",
+            "^[A-Z]:\\\\Windows\\\\System32\\\\config\\\\SYSTEM.LOG",
+            "^[A-Z]:\\\\Windows\\\\System32\\\\config\\\\BBI.LOG"
           ]
         }
       }
