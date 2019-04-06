@@ -4,13 +4,33 @@
       "Registry": {
         "Key": {
           "Exclude": [
-            "HKEY_CLASSES_ROOT\\WOW6432Node\\Interface\\",
-            "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Class\\"
+            "^HKEY_CLASSES_ROOT\\\\WOW6432Node\\\\Interface$",
+            "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Control$",
+            "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\DriverDatabase\\\\DriverPackages$",
+            "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Enum$",
+            "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Services\\\\DeviceAssociationService\\\\State\\\\Store$",
+            "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Services\\\\mpssvc\\\\Parameters$",
+            "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\ControlSet001\\\\Enum$",
+            "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\ControlSet001\\\\Control$",
+            "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\ControlSet001\\\\Services$"
           ]
         },
         "Hive": {
           "Exclude": [
             "ClassesRoot"
+          ]
+        }
+      },
+      "File": {
+        "Path": {
+          "Exclude": [
+            "[A-Z]:\\\\pagefile.sys",
+            "[A-Z]:\\\\hiberfil.sys",
+            "[A-Z]:\\\\swapfile.sys",
+            "[A-Z]:\\\\Windows\\\\CSC",
+            "[A-Z]:\\\\Windows\\\\System32\\\\LogFiles\\\\WMI\\\\RTBackup",
+            "[A-Z]:\\\\Windows\\\\ServiceProfiles\\\\LocalService\\\\AppData\\\\Local\\\\Microsoft\\\\NGC"
+
           ]
         }
       }

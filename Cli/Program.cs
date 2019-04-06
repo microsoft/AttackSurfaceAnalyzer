@@ -1057,7 +1057,10 @@ namespace AttackSurfaceAnalyzer.Cli
             StartEvent.Add("Service", opts.EnableServiceCollector.ToString());
 
             Telemetry.Client.TrackEvent("Begin collecting", StartEvent);
-
+            if (opts.RunId.Equals("Timestamp"))
+            {
+                opts.RunId = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            }
 
             if (opts.EnableFileSystemCollector || opts.EnableAllCollectors)
             {
@@ -1092,11 +1095,6 @@ namespace AttackSurfaceAnalyzer.Cli
 
             Filter.LoadFilters(opts.FilterLocation);
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
-
-            if (opts.RunId.Equals("Timestamp"))
-            {
-                opts.RunId = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            }
 
             if (opts.Overwrite)
             {
