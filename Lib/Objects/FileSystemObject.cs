@@ -32,7 +32,7 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
                 {
                     return "No signature required";
                 }
-                string sigStatus = AuthenticodeTools.WinVerifyTrust(Path);
+                string sigStatus = WinTrust.VerifyEmbeddedSignature(Path);
 
                 return sigStatus;
             }
