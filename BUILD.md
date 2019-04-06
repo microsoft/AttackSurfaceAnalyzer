@@ -10,6 +10,7 @@
 ### GUI: 
 - Node.js (https://nodejs.org/en/)
 - Electron.NET CLI tool (see below)
+- ASP.NET Components in Visual Studio (You will otherwise receive an error opening this project)
 
 ## Installing Pre-requisites
 
