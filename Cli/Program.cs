@@ -218,8 +218,9 @@ namespace AttackSurfaceAnalyzer.Cli
                     (ConfigCommandOptions opts) => SetupConfig(opts),
                     errs => 1
                 );
-
+            
             Log.Information("Attack Surface Analyzer Complete.");
+            Log.CloseAndFlush();
         }
 
         private static int SetupConfig(ConfigCommandOptions opts)
