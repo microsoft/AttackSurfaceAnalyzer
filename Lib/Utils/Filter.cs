@@ -161,6 +161,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void DumpFilters()
         {
+            Log.Verbose("Filter dump:");
             foreach (var filter in config)
             {
                 Log.Verbose(filter.Value.ToString());

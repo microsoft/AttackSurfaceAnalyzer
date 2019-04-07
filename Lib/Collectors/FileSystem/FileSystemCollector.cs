@@ -164,9 +164,6 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 return;
             }
 
-            Dictionary<string, string> EndEvent = new Dictionary<string, string>();
-            EndEvent.Add("Version", Helpers.GetVersionString());
-            Telemetry.Client.TrackEvent("Start file collector", EndEvent);
             wb = new WriteBuffer(runId);
             Start();
             
