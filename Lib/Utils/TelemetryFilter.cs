@@ -24,7 +24,7 @@ namespace AttackSurfaceAnalyzer.Utils
         // Example: replace with your own modifiers.
         private void ModifyItem(ITelemetry item)
         {
-            item.Context.Location.Ip = "";
+            item.Context.Location.Ip = "1.1.1.1";
         }
     }
 

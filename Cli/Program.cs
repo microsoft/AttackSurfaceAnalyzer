@@ -933,9 +933,12 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
             }
 
+            MethodBase m = MethodBase.GetCurrentMethod();
+            string methodName = string.Format("{0}.{1}", m.ReflectedType.Name, m.Name);
+
             Dictionary<string, string> EndEvent = new Dictionary<string, string>();
             EndEvent.Add("Version", Helpers.GetVersionString());
-            EndEvent.Add("Function", Helpers.GetCurrentMethod());
+            EndEvent.Add("Function", methodName);
 
             foreach ( BaseCompare c in comparators)
             {
@@ -1058,9 +1061,13 @@ namespace AttackSurfaceAnalyzer.Cli
 #endif
             int returnValue = (int)ERRORS.NONE;
             AdminOrQuit();
+
+            MethodBase m = MethodBase.GetCurrentMethod();
+            string methodName = string.Format("{0}.{1}", m.ReflectedType.Name, m.Name);
+
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("Version", Helpers.GetVersionString());
-            StartEvent.Add("Function", Helpers.GetCurrentMethod());
+            StartEvent.Add("Function", methodName);
             StartEvent.Add("Files", opts.EnableFileSystemCollector.ToString());
             StartEvent.Add("Ports", opts.EnableNetworkPortCollector.ToString());
             StartEvent.Add("Users", opts.EnableUserCollector.ToString());
@@ -1190,7 +1197,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             Dictionary<string, string> EndEvent = new Dictionary<string, string>();
             EndEvent.Add("Version", Helpers.GetVersionString());
-            EndEvent.Add("Function", Helpers.GetCurrentMethod());
+            EndEvent.Add("Function", methodName);
 
             foreach (BaseCollector c in collectors)
             {
