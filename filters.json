@@ -37,7 +37,15 @@
             "^[A-Z]:\\\\Windows\\\\Prefetch",
             "^[A-Z]:\\\\Windows\\\\ServiceProfiles\\\\NetworkService\\\\AppData\\\\Local\\\\Microsoft\\\\Windows\\\\DeliveryOptimization\\\\Logs",
             "^[A-Z]:\\\\Windows\\\\System32\\\\config\\\\SYSTEM.LOG",
-            "^[A-Z]:\\\\Windows\\\\System32\\\\config\\\\BBI.LOG"
+            "^[A-Z]:\\\\Windows\\\\System32\\\\config\\\\BBI.LOG",
+            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows Defender Advanced Threat Protection\\\\Cache$",
+            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows Defender Advanced Threat Protection\\\\Cyber$",
+            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows Defender Advanced Threat Protection\\\\Trace$",
+            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows Defender\\\\Scans\\\\History\\\\CacheManager$",
+            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows\\\\SystemData$",
+            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Diagnosis$",
+            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Crypto\\\\RSA\\\\MachineKeys$"
+
           ]
         }
       }

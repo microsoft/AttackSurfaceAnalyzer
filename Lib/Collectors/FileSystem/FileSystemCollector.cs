@@ -203,7 +203,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                     {
                         try
                         {
-                            FileSystemObject obj = default(FileSystemObject);
+                            FileSystemObject obj = null;
                             if (fileInfo is DirectoryInfo)
                             {
                                 if (!Filter.IsFiltered(Filter.RuntimeString(), "Scan", "File", "Path", fileInfo.FullName))
@@ -231,7 +231,10 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                                     }
                                 }
                             }
-                            Write(obj);
+                            if (obj != null)
+                            {
+                                Write(obj);
+                            }
                         }
                         catch (Exception ex)
                         {
