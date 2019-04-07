@@ -1,9 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-<TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
-
+    <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
     <RootNamespace>AttackSurfaceAnalyzer</RootNamespace>
     <ReleaseVersion>2.0.0.0-pre-alpha</ReleaseVersion>
     <PackageId>AttackSurfaceAnalyzer</PackageId>
@@ -15,8 +13,10 @@
 
 This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI and GUI available on GitHub.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <FileUpgradeFlags>40</FileUpgradeFlags>
+    <UpgradeBackupLocation>C:\Users\Gstoc\Documents\GitHub\AttackSurfaceAnalyzer\Backup\Lib\</UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
   </PropertyGroup>
-
   <ItemGroup>
     <Folder Include="Collectors\FileSystem\" />
     <Folder Include="Collectors\OpenPorts\" />

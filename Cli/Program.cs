@@ -1,4 +1,7 @@
-﻿using System;
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -1057,6 +1060,7 @@ namespace AttackSurfaceAnalyzer.Cli
             StartEvent.Add("Service", opts.EnableServiceCollector.ToString());
 
             Telemetry.Client.TrackEvent("Begin collecting", StartEvent);
+
             if (opts.RunId.Equals("Timestamp"))
             {
                 opts.RunId = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
