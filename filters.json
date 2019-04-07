@@ -51,8 +51,7 @@
             "^[A-Z]:\\\\Windows\\Temp\\MpCmdRun.log$",
             "^[A-Z]:\\\\Windows\\Temp\\MpSigStub.log$",
             "^[A-Z]:\\\\Windows\\\\System32\\\\LogFiles\\\\WMI\\\\LwtNetLog.etl$",
-            "^[A-Z]:\\\\Windows\\\\System32\\\\LogFiles\\\\WMI\\\\LwtNetLog.etl$",
-            "^[A-Z]:\\\\Windows\\\\System32\\\\LogFiles\\\\WMI\\\\LwtNetLog.etl$"
+            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows Defender\\\\Support\\\\MpWppTracing$"
           ]
         }
       }
