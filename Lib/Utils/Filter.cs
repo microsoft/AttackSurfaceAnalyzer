@@ -110,7 +110,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         try
                         {
                             _filters.Add(key, filters);
-                            Log.Info("Something appears to be wrong with your filters file {0}{1}{2}{3}{4}", Platform, ScanType, ItemType, Property, FilterType);
+                            Log.Information("Something appears to be wrong with your filters file {0}{1}{2}{3}{4}", Platform, ScanType, ItemType, Property, FilterType);
                         }
                         catch (ArgumentException)
                         {

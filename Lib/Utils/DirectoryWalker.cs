@@ -46,7 +46,6 @@ namespace AttackSurfaceAnalyzer.Utils
                 // about the systems on which this code will run.
                 catch (UnauthorizedAccessException e)
                 {
-                    Log.Debug("Failed enumerating directories");
                     Log.Debug(e.Message);
                     continue;
                 }

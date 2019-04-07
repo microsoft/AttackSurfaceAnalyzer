@@ -28,8 +28,8 @@
             "^[A-Z]:\\\\hiberfil.sys$",
             "^[A-Z]:\\\\swapfile.sys$",
             "^[A-Z]:\\\\Windows\\\\CSC$",
-            "^[A-Z]:\\\\Windows\\\\System32\\\\LogFiles\\\\WMI\\\\RTBackup$",
-            "^[A-Z]:\\\\Windows\\\\ServiceProfiles\\\\LocalService\\\\AppData\\\\Local\\\\Microsoft\\\\NGC$",
+            "^[A-Z]:\\\\Windows\\\\System32\\\\LogFiles\\\\WMI\\\\RtBackup$",
+            "^[A-Z]:\\\\Windows\\\\ServiceProfiles\\\\LocalService\\\\AppData\\\\Local\\\\Microsoft\\\\Ngc$",
             "^[A-Z]:\\\\Users\\\\Gstoc\\\\AppData\\\\Local\\\\Packages\\\\Microsoft.Windows.ContentDeliveryManager.*BackgroundTransferApi",
             "^[A-Z]:\\\\Windows\\\\ServiceProfiles\\\\NetworkService\\\\AppData\\\\Local\\\\Microsoft\\\\Windows\\\\DeliveryOptimization\\\\Logs",
             "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows\\\\AppRepository\\\\Packages\\\\Microsoft.Windows.ContentDeliveryManager",
@@ -44,8 +44,15 @@
             "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows Defender\\\\Scans\\\\History\\\\CacheManager$",
             "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows\\\\SystemData$",
             "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Diagnosis$",
-            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Crypto\\\\RSA\\\\MachineKeys$"
-
+            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Crypto\\\\RSA\\\\MachineKeys$",
+            "^[A-Z]:\\\\System Volume Information$",
+            "^[A-Z]:\\\\Windows\\\\System32\\\\LogFiles\\\\WMI\\\\LwtNetLog.etl$",
+            "^[A-Z]:\\\\Windows\\\\Logs\\\\WindowsUpdate$",
+            "^[A-Z]:\\\\Windows\\Temp\\MpCmdRun.log$",
+            "^[A-Z]:\\\\Windows\\Temp\\MpSigStub.log$",
+            "^[A-Z]:\\\\Windows\\\\System32\\\\LogFiles\\\\WMI\\\\LwtNetLog.etl$",
+            "^[A-Z]:\\\\Windows\\\\System32\\\\LogFiles\\\\WMI\\\\LwtNetLog.etl$",
+            "^[A-Z]:\\\\Windows\\\\System32\\\\LogFiles\\\\WMI\\\\LwtNetLog.etl$"
           ]
         }
       }
@@ -57,7 +64,6 @@
         "Path": {
           "Exclude": [
             "/private/var/db/uuidtext",
-            "/Users",
             "/dev"
           ]
         }
