@@ -933,7 +933,11 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
             }
 
-            foreach(BaseCompare c in comparators)
+            Dictionary<string, string> EndEvent = new Dictionary<string, string>();
+            EndEvent.Add("Version", Helpers.GetVersionString());
+            EndEvent.Add("Function", Helpers.GetCurrentMethod());
+
+            foreach ( BaseCompare c in comparators)
             {
                 Log.Information("Starting {0}", c.GetType().Name);
                 if (!c.TryCompare(opts.FirstRunId, opts.SecondRunId))
@@ -941,7 +945,11 @@ namespace AttackSurfaceAnalyzer.Cli
                     Log.Warning("Error when comparing {0}", c.GetType().Name);
                 }
                 c.Results.ToList().ForEach(x => results.Add(x.Key, x.Value));
+                EndEvent.Add(c.GetType().ToString(), c.GetNumResults().ToString());
             }
+
+            Telemetry.Client.TrackEvent("End Command", EndEvent);
+            
             using (var cmd = new SqliteCommand(UPDATE_RUN_IN_RESULT_TABLE, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
                 cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
@@ -1059,7 +1067,6 @@ namespace AttackSurfaceAnalyzer.Cli
             StartEvent.Add("Certificates", opts.EnableCertificateCollector.ToString());
             StartEvent.Add("Registry", opts.EnableRegistryCollector.ToString());
             StartEvent.Add("Service", opts.EnableServiceCollector.ToString());
-
             Telemetry.Client.TrackEvent("Run Command", StartEvent);
 
             if (opts.RunId.Equals("Timestamp"))
