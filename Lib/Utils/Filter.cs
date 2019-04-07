@@ -90,14 +90,27 @@ namespace AttackSurfaceAnalyzer.Utils
                             // We are running in parallel, its possible someone added it in between the original check and now. No problem here.
                             filters = _filters[key];
                         }
-                        Log.Warning("Successfully parsed {0} {1} {2} {3} {4}", Platform, ScanType, ItemType, Property, FilterType);
+                        Log.Information("Successfully parsed {0} {1} {2} {3} {4}", Platform, ScanType, ItemType, Property, FilterType);
                     }
                     catch (NullReferenceException)
                     {
-                        Log.Debug("Failed parsing {0} {1} {2} {3} {4} (no entry?)", Platform, ScanType, ItemType, Property, FilterType);
                         try
                         {
-                            _filters.Add(key, new List<Regex>());
+                            _filters.Add(key, filters);
+                            Log.Debug("Failed parsing {0} {1} {2} {3} {4} (no entry?)", Platform, ScanType, ItemType, Property, FilterType);
+                        }
+                        catch (ArgumentException)
+                        {
+                            // We are running in parallel, its possible someone added it in between the original check and now. No problem here.
+                        }
+                        return false;
+                    }
+                    catch (JsonReaderException)
+                    {
+                        try
+                        {
+                            _filters.Add(key, filters);
+                            Log.Information("Something appears to be wrong with your filters file {0}{1}{2}{3}{4}", Platform, ScanType, ItemType, Property, FilterType);
                         }
                         catch (ArgumentException)
                         {

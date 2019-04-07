@@ -203,29 +203,38 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                     {
                         try
                         {
-                            FileSystemObject obj = default(FileSystemObject);
+                            FileSystemObject obj = null;
                             if (fileInfo is DirectoryInfo)
                             {
-                                obj = new FileSystemObject()
+                                if (!Filter.IsFiltered(Filter.RuntimeString(), "Scan", "File", "Path", fileInfo.FullName))
                                 {
-                                    Path = fileInfo.FullName,
-                                    Permissions = FileSystemUtils.GetFilePermissions(fileInfo)
-                                };
+                                    obj = new FileSystemObject()
+                                    {
+                                        Path = fileInfo.FullName,
+                                        Permissions = FileSystemUtils.GetFilePermissions(fileInfo)
+                                    };
+                                }
                             }
                             else
                             {
-                                obj = new FileSystemObject()
+                                if (!Filter.IsFiltered(Filter.RuntimeString(), "Scan", "File", "Path", fileInfo.FullName))
                                 {
-                                    Path = fileInfo.FullName,
-                                    Permissions = FileSystemUtils.GetFilePermissions(fileInfo),
-                                    Size = (ulong)(fileInfo as FileInfo).Length
-                                };
-                                if (INCLUDE_CONTENT_HASH)
-                                {
-                                    obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
+                                    obj = new FileSystemObject()
+                                    {
+                                        Path = fileInfo.FullName,
+                                        Permissions = FileSystemUtils.GetFilePermissions(fileInfo),
+                                        Size = (ulong)(fileInfo as FileInfo).Length
+                                    };
+                                    if (INCLUDE_CONTENT_HASH)
+                                    {
+                                        obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
+                                    }
                                 }
                             }
-                            Write(obj);
+                            if (obj != null)
+                            {
+                                Write(obj);
+                            }
                         }
                         catch (Exception ex)
                         {
