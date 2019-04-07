@@ -28,15 +28,13 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
             }
             TelemetryConfiguration.Active.InstrumentationKey = (Gui)? TelemetryConfig.IntrumentationKeyGui : TelemetryConfig.InstrumentationKeyCli;
-            var builder = TelemetryConfiguration.Active.TelemetryProcessorChainBuilder;
-            builder.Use((next) => new StripIpFilter(next));
-            builder.Build();
+
             Client =  new TelemetryClient();
             Client.Context.Component.Version = Helpers.GetVersionString();
             // Force some values to static values to prevent gathering unneeded data
             Client.Context.Cloud.RoleInstance = (Gui) ? "GUI" : "CLI";
             Client.Context.Cloud.RoleName = (Gui) ? "GUI" : "CLI";
-            Client.Context.Location.Ip = "1.2.3.4";
+            Client.Context.Location.Ip = "1.1.1.1";
         }
 
         public static void Flush()
