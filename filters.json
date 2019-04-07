@@ -12,7 +12,18 @@
             "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Services\\\\mpssvc\\\\Parameters$",
             "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\ControlSet001\\\\Enum$",
             "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\ControlSet001\\\\Control$",
-            "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\ControlSet001\\\\Services$"
+            "^HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\Microsoft\\\\WwanSvc$",
+            "^HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\AppModel$",
+            "^HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Microsoft\\Windows NT\\CurrentVersion\\Perflib\\CurrentLanguage$",
+            "^HKEY_USERS\\S-1-5-20\\Software\\Microsoft\\SystemCertificates\\Root$",
+            "^HKEY_USERS\\S-1-5-19\\Software\\Microsoft\\SystemCertificates\\ROOT$",
+            "^HKEY_USERS\\S-1-5-19\\Software\\Microsoft\\Cryptography$",
+            "^HKEY_USERS\\.DEFAULT\\Software\\Microsoft\\SystemCertificates\\Root$",
+            "^HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Perflib",
+            "^HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\CIT$",
+            "^HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion",
+            "^HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\WcmSvc\\wifinetworkmanager$",
+            "^HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\EAPSIMMethods"
           ]
         },
         "Hive": {
