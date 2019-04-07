@@ -1052,6 +1052,7 @@ namespace AttackSurfaceAnalyzer.Cli
             AdminOrQuit();
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("Version", Helpers.GetVersionString());
+            StartEvent.Add("Function", Helpers.GetCurrentMethod());
             StartEvent.Add("Files", opts.EnableFileSystemCollector.ToString());
             StartEvent.Add("Ports", opts.EnableNetworkPortCollector.ToString());
             StartEvent.Add("Users", opts.EnableUserCollector.ToString());
@@ -1059,7 +1060,7 @@ namespace AttackSurfaceAnalyzer.Cli
             StartEvent.Add("Registry", opts.EnableRegistryCollector.ToString());
             StartEvent.Add("Service", opts.EnableServiceCollector.ToString());
 
-            Telemetry.Client.TrackEvent("Begin collecting", StartEvent);
+            Telemetry.Client.TrackEvent("Run Command", StartEvent);
 
             if (opts.RunId.Equals("Timestamp"))
             {
@@ -1180,11 +1181,16 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             Log.Information("Starting {0} collectors", collectors.Count.ToString());
 
+            Dictionary<string, string> EndEvent = new Dictionary<string, string>();
+            EndEvent.Add("Version", Helpers.GetVersionString());
+            EndEvent.Add("Function", Helpers.GetCurrentMethod());
+
             foreach (BaseCollector c in collectors)
             {
                 try
                 {
                     c.Execute();
+                    EndEvent.Add(c.GetType().ToString(), c.NumCollected().ToString());
                 }
                 catch (Exception ex)
                 {
@@ -1193,6 +1199,8 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
                 Log.Information("Completed: {0}", c.GetType().Name);
             }
+
+            Telemetry.Client.TrackEvent("End Command", EndEvent);
 
             DatabaseManager.Commit();
             return returnValue;
