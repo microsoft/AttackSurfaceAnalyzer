@@ -94,6 +94,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                     catch (Exception e)
                     {
                         Log.Debug(e.GetType() + "thrown in registry collector");
+                        Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                     }
                 }
             }
@@ -123,10 +124,10 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                 (hive =>
                 {
                     Log.Debug("Starting " + hive.ToString());
-                    if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "Registry", "Hive", "Include", hive.ToString()))
+                    if (Filter.IsFiltered(Helpers.RuntimeString(), "Scan", "Registry", "Hive", "Include", hive.ToString()))
                     {
                     }
-                    else if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "Registry", "Hive", "Exclude", hive.ToString(), out Regex Capturer))
+                    else if (Filter.IsFiltered(Helpers.RuntimeString(), "Scan", "Registry", "Hive", "Exclude", hive.ToString(), out Regex Capturer))
                     {
                         Log.Information("Excluding hive '{0}' due to filter '{1}'.", hive.ToString(), Capturer.ToString());
 
@@ -155,6 +156,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                         Log.Debug(e.GetType().ToString());
                         Log.Debug(e.Message);
                         Log.Debug(e.StackTrace);
+                        Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                     }
 
                 }));

@@ -14,22 +14,6 @@ namespace AttackSurfaceAnalyzer.Utils
     {
         static JObject config = null;
         static Dictionary<string, List<Regex>> _filters = new Dictionary<string, List<Regex>>();
-        public static string RuntimeString()
-        {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                return "Linux";
-            }
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                return "Windows";
-            }
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                return "Macos";
-            }
-            return "Unknown";
-        }
 
         public static bool IsFiltered(string Platform, string ScanType, string ItemType, string Property, string Target)
         {
@@ -79,6 +63,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
                                 Log.Debug(e.GetType().ToString());
                                 Log.Debug("Failed to make a regex from {0}", filter.ToString());
+                                Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                             }
                         }
                         try
@@ -125,6 +110,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     Log.Debug(e.GetType().ToString());
                     Log.Debug(e.Message);
                     Log.Debug(e.StackTrace);
+                    Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                 }
 
                 foreach (Regex filter in _filters[key])
@@ -143,7 +129,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         Log.Debug("Probably this is some of those garbled keys or a bad regex");
                         Log.Debug(e.GetType().ToString());
                         Log.Debug(filter.ToString());
-
+                        Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                     }
 
                 }
@@ -161,6 +147,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void DumpFilters()
         {
+            Log.Verbose("Filter dump:");
             foreach (var filter in config)
             {
                 Log.Verbose(filter.Value.ToString());

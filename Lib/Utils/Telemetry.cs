@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Data.Sqlite;
+using Microsoft.ApplicationInsights.DataContracts;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -27,13 +29,13 @@ namespace AttackSurfaceAnalyzer.Utils
                     }
                 }
             }
-            TelemetryConfiguration.Active.InstrumentationKey = (Gui)? TelemetryConfig.IntrumentationKeyGui : TelemetryConfig.InstrumentationKeyCli;
+            TelemetryConfiguration.Active.InstrumentationKey = "719e5a56-dae8-425f-be07-877db7ae4d3b";
             Client =  new TelemetryClient();
             Client.Context.Component.Version = Helpers.GetVersionString();
             // Force some values to static values to prevent gathering unneeded data
             Client.Context.Cloud.RoleInstance = (Gui) ? "GUI" : "CLI";
             Client.Context.Cloud.RoleName = (Gui) ? "GUI" : "CLI";
-            Client.Context.Location.Ip = "1.2.3.4";
+            Client.Context.Location.Ip = "1.1.1.1";
         }
 
         public static void Flush()
@@ -50,6 +52,26 @@ namespace AttackSurfaceAnalyzer.Utils
                 cmd.ExecuteNonQuery();
                 DatabaseManager.Commit();
             }
+        }
+
+        public static void TrackEvent(string name, Dictionary<string,string> evt)
+        {
+            evt.Add("Version", Helpers.GetVersionString());
+            evt.Add("OS", Helpers.GetOsName());
+            evt.Add("OS_Version", Helpers.GetOsVersion());
+            evt.Add("Method", new System.Diagnostics.StackFrame(1).GetMethod().Name);
+            Client.TrackEvent(name, evt);
+        }
+
+        public static void TrackTrace(SeverityLevel severityLevel, Exception e)
+        {
+            var evt = new Dictionary<string, string>();
+            evt.Add("Version", Helpers.GetVersionString());
+            evt.Add("OS", Helpers.GetOsName());
+            evt.Add("OS_Version", Helpers.GetOsVersion());
+            evt.Add("Method", new System.Diagnostics.StackFrame(1).GetMethod().Name);
+            evt.Add("Stack", e.StackTrace);
+            Client.TrackTrace("Exception", severityLevel, evt);
         }
     }
 }

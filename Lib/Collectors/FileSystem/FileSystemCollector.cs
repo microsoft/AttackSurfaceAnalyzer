@@ -79,6 +79,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 Log.Information(e.StackTrace);
                 Log.Information(e.Message);
                 Log.Information(e.GetType().ToString());
+                Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
             }
         }
 
@@ -124,6 +125,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 Log.Information(e.StackTrace);
                 Log.Information(e.Message);
                 Log.Information(e.GetType().ToString());
+                Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
             }
         }
 
@@ -164,9 +166,6 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 return;
             }
 
-            Dictionary<string, string> EndEvent = new Dictionary<string, string>();
-            EndEvent.Add("Version", Helpers.GetVersionString());
-            Telemetry.Client.TrackEvent("Start file collector", EndEvent);
             wb = new WriteBuffer(runId);
             Start();
             
@@ -206,7 +205,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                             FileSystemObject obj = null;
                             if (fileInfo is DirectoryInfo)
                             {
-                                if (!Filter.IsFiltered(Filter.RuntimeString(), "Scan", "File", "Path", fileInfo.FullName))
+                                if (!Filter.IsFiltered(Helpers.RuntimeString(), "Scan", "File", "Path", fileInfo.FullName))
                                 {
                                     obj = new FileSystemObject()
                                     {
@@ -217,7 +216,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                             }
                             else
                             {
-                                if (!Filter.IsFiltered(Filter.RuntimeString(), "Scan", "File", "Path", fileInfo.FullName))
+                                if (!Filter.IsFiltered(Helpers.RuntimeString(), "Scan", "File", "Path", fileInfo.FullName))
                                 {
                                     obj = new FileSystemObject()
                                     {

@@ -25,7 +25,7 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 string currentDir = dirs.Pop();
                 Log.Verbose(currentDir);
-                if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "File", "Path", currentDir))
+                if (Filter.IsFiltered(Helpers.RuntimeString(), "Scan", "File", "Path", currentDir))
                 {
                     continue;
                 }
@@ -101,7 +101,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         Log.Debug(e.Message);
                         continue;
                     }
-                    if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "File", "Path", file))
+                    if (Filter.IsFiltered(Helpers.RuntimeString(), "Scan", "File", "Path", file))
                     {
                         continue;
                     }
@@ -135,6 +135,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     catch (Exception e)
                     {
                         Log.Debug(e.Message);
+                        Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Warning,e);
                         continue;
                     }
                     dirs.Push(str);

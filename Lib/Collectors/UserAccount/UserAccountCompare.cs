@@ -125,6 +125,7 @@ namespace AttackSurfaceAnalyzer.Collectors.UserAccount
             {
                 Log.Warning(e.StackTrace);
                 Log.Warning(e.GetType().ToString());
+                Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
             }
         }
     }

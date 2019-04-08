@@ -125,6 +125,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
             catch (Exception e)
             {
                 Log.Information(e.Message);
+                Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
             }
         }
     }

@@ -49,10 +49,10 @@ namespace AttackSurfaceAnalyzer.Collectors
             Log.Information("Completed {0} in {1}", this.GetType().Name, answer);
             Log.Debug(t.ToString());
             var EndEvent = new Dictionary<string, string>();
-            EndEvent.Add("Version", Helpers.GetVersionString());
             EndEvent.Add("Scanner", this.GetType().Name);
             EndEvent.Add("Duration", watch.ElapsedMilliseconds.ToString());
-            Telemetry.Client.TrackEvent("EndScanFunction", EndEvent);
+            EndEvent.Add("NumResults", _numCollected.ToString());
+            Telemetry.TrackEvent("EndScanFunction", EndEvent);
         }
 
         public int NumCollected()

@@ -111,6 +111,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
                         Log.Debug(e.StackTrace);
                         Log.Debug(e.GetType().ToString());
                         Log.Debug(e.Message);
+                        Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                     }
                 }
             }

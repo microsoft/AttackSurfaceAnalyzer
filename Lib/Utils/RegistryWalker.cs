@@ -34,7 +34,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     continue;
                 }
-                if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "Registry", "Key", currentKey.Name))
+                if (Filter.IsFiltered(Helpers.RuntimeString(), "Scan", "Registry", "Key", currentKey.Name))
                 {
                     continue;
                 }
@@ -63,6 +63,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     catch (Exception e)
                     {
                         Log.Information(e.GetType() + " " + e.Message + " " + currentKey.Name);
+                        Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                     }
                 }
                 RegistryObject regObj = null;
