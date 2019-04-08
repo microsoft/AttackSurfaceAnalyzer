@@ -128,10 +128,10 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                 (hive =>
                 {
                     Log.Debug("Starting " + hive.ToString());
-                    if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "Registry", "Hive", "Include", hive.ToString()))
+                    if (Filter.IsFiltered(Helpers.RuntimeString(), "Scan", "Registry", "Hive", "Include", hive.ToString()))
                     {
                     }
-                    else if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "Registry", "Hive", "Exclude", hive.ToString(), out Regex Capturer))
+                    else if (Filter.IsFiltered(Helpers.RuntimeString(), "Scan", "Registry", "Hive", "Exclude", hive.ToString(), out Regex Capturer))
                     {
                         Log.Information("Excluding hive '{0}' due to filter '{1}'.", hive.ToString(), Capturer.ToString());
 

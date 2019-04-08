@@ -34,7 +34,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     continue;
                 }
-                if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "Registry", "Key", currentKey.Name))
+                if (Filter.IsFiltered(Helpers.RuntimeString(), "Scan", "Registry", "Key", currentKey.Name))
                 {
                     continue;
                 }

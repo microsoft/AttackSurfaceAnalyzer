@@ -77,5 +77,33 @@ namespace AttackSurfaceAnalyzer.Utils
                     return "null";
             }
         }
+
+        public static string GetOsVersion()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return System.Environment.OSVersion.VersionString;
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                ExternalCommandRunner runner = new ExternalCommandRunner();
+                return runner.RunExternalCommand("uname", "-r");
+            }
+            return "";
+        }
+
+        public static string GetOsName()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return Helpers.RuntimeString();
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                ExternalCommandRunner runner = new ExternalCommandRunner();
+                return runner.RunExternalCommand("uname", "-s");
+            }
+            return "";
+        }
     }
 }

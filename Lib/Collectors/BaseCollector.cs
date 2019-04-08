@@ -51,7 +51,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             var EndEvent = new Dictionary<string, string>();
             EndEvent.Add("Scanner", this.GetType().Name);
             EndEvent.Add("Duration", watch.ElapsedMilliseconds.ToString());
-            EndEvent.Add("NumResults", NumCollected);
+            EndEvent.Add("NumResults", _numCollected.ToString());
             Telemetry.TrackEvent("EndScanFunction", EndEvent);
         }
 

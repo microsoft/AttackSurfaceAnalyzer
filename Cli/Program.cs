@@ -1056,13 +1056,14 @@ namespace AttackSurfaceAnalyzer.Cli
             AdminOrQuit();
 
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
-            StartEvent.Add("Files", opts.EnableFileSystemCollector.ToString());
-            StartEvent.Add("Ports", opts.EnableNetworkPortCollector.ToString());
-            StartEvent.Add("Users", opts.EnableUserCollector.ToString());
-            StartEvent.Add("Certificates", opts.EnableCertificateCollector.ToString());
-            StartEvent.Add("Registry", opts.EnableRegistryCollector.ToString());
-            StartEvent.Add("Service", opts.EnableServiceCollector.ToString());
+            StartEvent.Add("Files", opts.EnableAllCollectors ? "True" : opts.EnableFileSystemCollector.ToString());
+            StartEvent.Add("Ports", opts.EnableAllCollectors ? "True" : opts.EnableNetworkPortCollector.ToString());
+            StartEvent.Add("Users", opts.EnableAllCollectors ? "True" : opts.EnableUserCollector.ToString());
+            StartEvent.Add("Certificates", opts.EnableAllCollectors ? "True" : opts.EnableCertificateCollector.ToString());
+            StartEvent.Add("Registry", opts.EnableAllCollectors ? "True" : opts.EnableRegistryCollector.ToString());
+            StartEvent.Add("Service", opts.EnableAllCollectors ? "True" : opts.EnableServiceCollector.ToString());
             Telemetry.TrackEvent("Run Command", StartEvent);
+
 
             if (opts.RunId.Equals("Timestamp"))
             {
@@ -1184,8 +1185,6 @@ namespace AttackSurfaceAnalyzer.Cli
             Log.Information("Starting {0} collectors", collectors.Count.ToString());
 
             Dictionary<string, string> EndEvent = new Dictionary<string, string>();
-            EndEvent.Add("Function", methodName);
-
             foreach (BaseCollector c in collectors)
             {
                 try

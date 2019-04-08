@@ -203,7 +203,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                             FileSystemObject obj = null;
                             if (fileInfo is DirectoryInfo)
                             {
-                                if (!Filter.IsFiltered(Filter.RuntimeString(), "Scan", "File", "Path", fileInfo.FullName))
+                                if (!Filter.IsFiltered(Helpers.RuntimeString(), "Scan", "File", "Path", fileInfo.FullName))
                                 {
                                     obj = new FileSystemObject()
                                     {
@@ -214,7 +214,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                             }
                             else
                             {
-                                if (!Filter.IsFiltered(Filter.RuntimeString(), "Scan", "File", "Path", fileInfo.FullName))
+                                if (!Filter.IsFiltered(Helpers.RuntimeString(), "Scan", "File", "Path", fileInfo.FullName))
                                 {
                                     obj = new FileSystemObject()
                                     {

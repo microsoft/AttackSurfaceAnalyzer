@@ -54,15 +54,12 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        public static void TrackEvent(string name, Dictionary<string,object> evt)
+        public static void TrackEvent(string name, Dictionary<string,string> evt)
         {
             evt.Add("Version", Helpers.GetVersionString());
-            evt.Add("OS", Helpers.RuntimeString());
-            if (Helpers.RuntimeString() == "Windows")
-            {
-                evt.Add("OS_Version", System.Environment.OSVersion);
-            }
-            evt.add("Method", new StackFrame(1).GetMethod().Name);
+            evt.Add("OS", Helpers.GetOsName());
+            evt.Add("OS_Version", Helpers.GetOsVersion());
+            evt.Add("Method", new StackFrame(1).GetMethod().Name);
             Client.TrackEvent(name, evt);
         }
     }
