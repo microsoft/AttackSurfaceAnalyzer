@@ -38,7 +38,23 @@ namespace AttackSurfaceAnalyzer.Utils
             Assembly assembly = Assembly.GetExecutingAssembly();
             FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
             return fileVersionInfo.ProductVersion;
+        }
 
+        public static string RuntimeString()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                return "Linux";
+            }
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return "Windows";
+            }
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                return "Macos";
+            }
+            return "Unknown";
         }
 
         public static string ResultTypeToTableName(RESULT_TYPE result_type)

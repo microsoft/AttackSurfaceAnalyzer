@@ -347,10 +347,9 @@ namespace AttackSurfaceAnalyzer.Cli
             Log.Information("Comparing {0} vs {1}", opts.FirstRunId, opts.SecondRunId);
 
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
-            StartEvent.Add("Version", Helpers.GetVersionString());
             StartEvent.Add("OutputPathSet", (opts.OutputPath != null).ToString());
 
-            Telemetry.Client.TrackEvent("Begin Export Compare", StartEvent);
+            Telemetry.TrackEvent("Begin Export Compare", StartEvent);
 
             CompareCommandOptions options = new CompareCommandOptions();
             options.DatabaseFilename = opts.DatabaseFilename;
@@ -560,10 +559,9 @@ namespace AttackSurfaceAnalyzer.Cli
             Log.Information("Exporting {0}", opts.RunId);
 
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
-            StartEvent.Add("Version", Helpers.GetVersionString());
             StartEvent.Add("OutputPathSet", (opts.OutputPath != null).ToString());
 
-            Telemetry.Client.TrackEvent("Begin Export Monitor", StartEvent);
+            Telemetry.TrackEvent("Begin Export Monitor", StartEvent);
 
             WriteMonitorJson(opts.RunId, (int)RESULT_TYPE.FILE, opts.OutputPath);
             return 0;
@@ -618,8 +616,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 opts.RunId = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             }
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
-            StartEvent.Add("Version", Helpers.GetVersionString());
-            Telemetry.Client.TrackEvent("Begin monitoring", StartEvent);
+            Telemetry.TrackEvent("Begin monitoring", StartEvent);
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
@@ -934,12 +931,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
             }
 
-            MethodBase m = MethodBase.GetCurrentMethod();
-            string methodName = string.Format("{0}.{1}", m.ReflectedType.Name, m.Name);
-
             Dictionary<string, string> EndEvent = new Dictionary<string, string>();
-            EndEvent.Add("Version", Helpers.GetVersionString());
-            EndEvent.Add("Function", methodName);
 
             foreach ( BaseCompare c in comparators)
             {
@@ -952,7 +944,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 EndEvent.Add(c.GetType().ToString(), c.GetNumResults().ToString());
             }
 
-            Telemetry.Client.TrackEvent("End Command", EndEvent);
+            Telemetry.TrackEvent("End Command", EndEvent);
             
             using (var cmd = new SqliteCommand(UPDATE_RUN_IN_RESULT_TABLE, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
@@ -1063,19 +1055,14 @@ namespace AttackSurfaceAnalyzer.Cli
             int returnValue = (int)ERRORS.NONE;
             AdminOrQuit();
 
-            MethodBase m = MethodBase.GetCurrentMethod();
-            string methodName = string.Format("{0}.{1}", m.ReflectedType.Name, m.Name);
-
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
-            StartEvent.Add("Version", Helpers.GetVersionString());
-            StartEvent.Add("Function", methodName);
             StartEvent.Add("Files", opts.EnableFileSystemCollector.ToString());
             StartEvent.Add("Ports", opts.EnableNetworkPortCollector.ToString());
             StartEvent.Add("Users", opts.EnableUserCollector.ToString());
             StartEvent.Add("Certificates", opts.EnableCertificateCollector.ToString());
             StartEvent.Add("Registry", opts.EnableRegistryCollector.ToString());
             StartEvent.Add("Service", opts.EnableServiceCollector.ToString());
-            Telemetry.Client.TrackEvent("Run Command", StartEvent);
+            Telemetry.TrackEvent("Run Command", StartEvent);
 
             if (opts.RunId.Equals("Timestamp"))
             {
@@ -1197,7 +1184,6 @@ namespace AttackSurfaceAnalyzer.Cli
             Log.Information("Starting {0} collectors", collectors.Count.ToString());
 
             Dictionary<string, string> EndEvent = new Dictionary<string, string>();
-            EndEvent.Add("Version", Helpers.GetVersionString());
             EndEvent.Add("Function", methodName);
 
             foreach (BaseCollector c in collectors)
@@ -1215,7 +1201,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 Log.Information("Completed: {0}", c.GetType().Name);
             }
 
-            Telemetry.Client.TrackEvent("End Command", EndEvent);
+            Telemetry.TrackEvent("End Command", EndEvent);
 
             DatabaseManager.Commit();
             return returnValue;
@@ -1268,9 +1254,8 @@ namespace AttackSurfaceAnalyzer.Cli
 #endif
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
-            StartEvent.Add("Version", Helpers.GetVersionString());
 
-            Telemetry.Client.TrackEvent("Begin Compare Command", StartEvent);
+            Telemetry.TrackEvent("Begin Compare Command", StartEvent);
 
             if (opts.FirstRunId == "Timestamps" || opts.SecondRunId == "Timestamps")
             {
@@ -1298,7 +1283,6 @@ namespace AttackSurfaceAnalyzer.Cli
 
             var result = engine.CompileRenderAsync("Output" + Path.DirectorySeparatorChar + "Output.cshtml", results).Result;
             File.WriteAllText($"{opts.OutputBaseFilename}.html", result);
-            Telemetry.Client.TrackEvent("Finish Compare Command", StartEvent);
 
             return 0;
         }

@@ -14,22 +14,6 @@ namespace AttackSurfaceAnalyzer.Utils
     {
         static JObject config = null;
         static Dictionary<string, List<Regex>> _filters = new Dictionary<string, List<Regex>>();
-        public static string RuntimeString()
-        {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                return "Linux";
-            }
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                return "Windows";
-            }
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                return "Macos";
-            }
-            return "Unknown";
-        }
 
         public static bool IsFiltered(string Platform, string ScanType, string ItemType, string Property, string Target)
         {

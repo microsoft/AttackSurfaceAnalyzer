@@ -41,20 +41,7 @@
         </div>
     </nav>
     @{
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-        {
-            if (Elevation.IsAdministrator())
-            {
-                Telemetry.Client.TrackEvent("LaunchedAsAdmin");
-            }
-        }
-        else if ((RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) && Elevation.IsRunningAsRoot())
-        {
-            Telemetry.Client.TrackEvent("LaunchedAsAdmin");
-        }
-        else
-        {
-            Telemetry.Client.TrackEvent("LaunchedAsNormal");
+        if (! ( (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && Elevation.IsAdministrator()) || ((RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) && Elevation.IsRunningAsRoot()) ) )
             <div class="row no-gutters">
                 <div class="col-1">
 

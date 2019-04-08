@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.ApplicationInsights;
@@ -51,6 +52,14 @@ namespace AttackSurfaceAnalyzer.Utils
                 cmd.ExecuteNonQuery();
                 DatabaseManager.Commit();
             }
+        }
+
+        public static void TrackEvent(string name, Dictionary<string,object> evt)
+        {
+            evt.Add("Version", Helpers.GetVersionString());
+            evt.Add("OS", Helpers.RuntimeString());
+            evt.add("Method", new StackFrame(1).GetMethod().Name);
+            Client.TrackEvent(name, evt);
         }
     }
 }
