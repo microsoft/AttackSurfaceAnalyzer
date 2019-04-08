@@ -58,6 +58,10 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             evt.Add("Version", Helpers.GetVersionString());
             evt.Add("OS", Helpers.RuntimeString());
+            if (Helpers.RuntimeString() == "Windows")
+            {
+                evt.Add("OS_Version", System.Environment.OSVersion);
+            }
             evt.add("Method", new StackFrame(1).GetMethod().Name);
             Client.TrackEvent(name, evt);
         }
