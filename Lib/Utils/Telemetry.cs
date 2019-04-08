@@ -29,8 +29,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     }
                 }
             }
-            TelemetryConfiguration.Active.InstrumentationKey = (Gui)? TelemetryConfig.IntrumentationKeyGui : TelemetryConfig.InstrumentationKeyCli;
-
+            TelemetryConfiguration.Active.InstrumentationKey = "719e5a56-dae8-425f-be07-877db7ae4d3b";
             Client =  new TelemetryClient();
             Client.Context.Component.Version = Helpers.GetVersionString();
             // Force some values to static values to prevent gathering unneeded data
