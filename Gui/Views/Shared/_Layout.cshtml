@@ -41,7 +41,8 @@
         </div>
     </nav>
     @{
-        if (! ( (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && Elevation.IsAdministrator()) || ((RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) && Elevation.IsRunningAsRoot()) ) )
+        if (! ( (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && Elevation.IsAdministrator()) || ((RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) && Elevation.IsRunningAsRoot()) ))
+        {
             <div class="row no-gutters">
                 <div class="col-1">
 
