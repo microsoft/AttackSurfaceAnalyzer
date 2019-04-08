@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Data.Sqlite;
+using Microsoft.ApplicationInsights.DataContracts;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -59,8 +60,19 @@ namespace AttackSurfaceAnalyzer.Utils
             evt.Add("Version", Helpers.GetVersionString());
             evt.Add("OS", Helpers.GetOsName());
             evt.Add("OS_Version", Helpers.GetOsVersion());
-            evt.Add("Method", new StackFrame(1).GetMethod().Name);
+            evt.Add("Method", new System.Diagnostics.StackFrame(1).GetMethod().Name);
             Client.TrackEvent(name, evt);
+        }
+
+        public static void TrackTrace(SeverityLevel severityLevel, Exception e)
+        {
+            var evt = new Dictionary<string, string>();
+            evt.Add("Version", Helpers.GetVersionString());
+            evt.Add("OS", Helpers.GetOsName());
+            evt.Add("OS_Version", Helpers.GetOsVersion());
+            evt.Add("Method", new System.Diagnostics.StackFrame(1).GetMethod().Name);
+            evt.Add("Stack", e.StackTrace);
+            Client.TrackTrace("Exception", severityLevel, evt);
         }
     }
 }

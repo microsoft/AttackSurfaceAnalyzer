@@ -63,6 +63,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     catch (Exception e)
                     {
                         Log.Information(e.GetType() + " " + e.Message + " " + currentKey.Name);
+                        Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                     }
                 }
                 RegistryObject regObj = null;

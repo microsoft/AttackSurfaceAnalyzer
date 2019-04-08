@@ -63,6 +63,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
                                 Log.Debug(e.GetType().ToString());
                                 Log.Debug("Failed to make a regex from {0}", filter.ToString());
+                                Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                             }
                         }
                         try
@@ -109,6 +110,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     Log.Debug(e.GetType().ToString());
                     Log.Debug(e.Message);
                     Log.Debug(e.StackTrace);
+                    Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                 }
 
                 foreach (Regex filter in _filters[key])
@@ -127,7 +129,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         Log.Debug("Probably this is some of those garbled keys or a bad regex");
                         Log.Debug(e.GetType().ToString());
                         Log.Debug(filter.ToString());
-
+                        Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                     }
 
                 }

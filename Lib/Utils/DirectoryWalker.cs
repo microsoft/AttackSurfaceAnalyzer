@@ -135,6 +135,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     catch (Exception e)
                     {
                         Log.Debug(e.Message);
+                        Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Warning,e);
                         continue;
                     }
                     dirs.Push(str);

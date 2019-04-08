@@ -94,6 +94,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                     catch (Exception e)
                     {
                         Log.Debug(e.GetType() + "thrown in registry collector");
+                        Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                     }
 
                     if (_numCollected++ % 100000 == 0)
@@ -160,6 +161,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                         Log.Debug(e.GetType().ToString());
                         Log.Debug(e.Message);
                         Log.Debug(e.StackTrace);
+                        Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                     }
 
                 }));

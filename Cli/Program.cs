@@ -661,6 +661,7 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 Log.Warning(e.StackTrace);
                 Log.Warning(e.Message);
+                Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
             }
             int returnValue = 0;
 
@@ -1180,6 +1181,7 @@ namespace AttackSurfaceAnalyzer.Cli
                     Log.Warning(e.StackTrace);
                     Log.Warning(e.Message);
                     returnValue = (int)ERRORS.UNIQUE_ID;
+                    Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                 }
             }
             Log.Information("Starting {0} collectors", collectors.Count.ToString());

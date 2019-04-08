@@ -79,6 +79,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 Log.Information(e.StackTrace);
                 Log.Information(e.Message);
                 Log.Information(e.GetType().ToString());
+                Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
             }
         }
 
@@ -124,6 +125,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 Log.Information(e.StackTrace);
                 Log.Information(e.Message);
                 Log.Information(e.GetType().ToString());
+                Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
             }
         }
 
