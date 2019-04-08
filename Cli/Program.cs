@@ -123,6 +123,9 @@ namespace AttackSurfaceAnalyzer.Cli
         [Option('h',"gather-hashes", Required = false, HelpText = "Hashes every file when using the File Collector.  May dramatically increase run time of the scan.")]
         public bool GatherHashes { get; set; }
 
+        [Option("directories", Required = false, HelpText = "Comma separated list of paths to scan with FileSystemCollector")]
+        public string SelectedDirectories { get; set; }
+
         [Option(Default =false, HelpText ="If the specified runid already exists delete all data from that run before proceeding.")]
         public bool Overwrite { get; set; }
 
@@ -1073,7 +1076,14 @@ namespace AttackSurfaceAnalyzer.Cli
 
             if (opts.EnableFileSystemCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new FileSystemCollector(opts.RunId, enableHashing: opts.GatherHashes));
+                if (opts.SelectedDirectories.Equals(""))
+                {
+                    collectors.Add(new FileSystemCollector(opts.RunId, enableHashing: opts.GatherHashes));
+                }
+                else
+                {
+                    collectors.Add(new FileSystemCollector(opts.RunId, enableHashing: opts.GatherHashes, directories: opts.SelectedDirectories));
+                }
             }
             if (opts.EnableNetworkPortCollector || opts.EnableAllCollectors)
             {

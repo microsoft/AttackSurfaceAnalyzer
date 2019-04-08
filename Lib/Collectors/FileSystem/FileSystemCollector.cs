@@ -94,7 +94,6 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
     /// </summary>
     public class FileSystemCollector : BaseCollector
     {
-        private readonly Func<FileSystemInfo, bool> filter;
         private readonly HashSet<string> roots;
 
         private bool INCLUDE_CONTENT_HASH = false;
@@ -129,13 +128,24 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
             }
         }
 
-        public FileSystemCollector(string runId, Func<FileSystemInfo, bool> filter = null, bool enableHashing = false)
+        public FileSystemCollector(string runId, bool enableHashing = false, string directories = "")
         {
             Log.Debug("Initializing a new {0} object.", this.GetType().Name);
-            this.filter = filter;
             this.runId = runId;
             this.roots = new HashSet<string>();
             INCLUDE_CONTENT_HASH = enableHashing;
+            if (directories.Equals(""))
+            {
+
+            }
+            else
+            {
+                foreach (string path in directories.Split(','))
+                {
+                    AddRoot(path);
+                }
+            }
+
         }
 
         public void Truncate(string runid)
