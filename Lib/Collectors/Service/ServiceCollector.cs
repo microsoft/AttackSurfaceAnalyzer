@@ -11,6 +11,7 @@ using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
 using Serilog;
+using System.Text.RegularExpressions;
 
 namespace AttackSurfaceAnalyzer.Collectors.Service
 {
@@ -201,15 +202,18 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
                 result = runner.RunExternalCommand("ls", "/etc/init.d/ -l");
 
                 lines = result.Split('\n');
-                lines.ToList().RemoveAt(0);
+                String pattern = @".*\s(.*)";
 
                 foreach (var _line in lines)
                 {
-                    var _fields = _line.Split('\t');
+                    Match match = Regex.Match(_line, pattern);
+                    GroupCollection groups = match.Groups;
+                    var serviceName = groups[1].ToString();
+                    
                     var obj = new ServiceObject()
                     {
-                        DisplayName = _fields[8],
-                        ServiceName = _fields[8],
+                        DisplayName = serviceName,
+                        ServiceName = serviceName,
                         StartType = "Unknown",
                         CurrentState = "Unknown"
                     };
