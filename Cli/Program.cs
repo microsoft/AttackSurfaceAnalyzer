@@ -982,7 +982,7 @@ namespace AttackSurfaceAnalyzer.Cli
                         FileSystemMonitor newMon = new FileSystemMonitor(opts.RunId, dir, opts.InterrogateChanges);
                         monitors.Add(newMon);
                     }
-                    catch (ArgumentException e)
+                    catch (ArgumentException)
                     {
                         Log.Information("{0} is an invalid path.",dir);
                         return ERRORS.INVALID_PATH;
