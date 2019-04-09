@@ -49,7 +49,6 @@ function StartCollection()
         }
         else
         {
-
             var monitor = { 
                 RunId: ($('#RunId').val() == "") ? $('#RunId').attr('placeholder') : $('#RunId').val(),
                 Directory: ($('#DirectoryPath').val() == "") ? $('#DirectoryPath').attr('placeholder'): $('#DirectoryPath').val(),
@@ -60,6 +59,10 @@ function StartCollection()
                 $('#ScanStatus').empty();
                 if (result === ERRORS.UNIQUE_ID) {
                     $('#ScanStatus').append($('<div/>', { html: "Must supply unique run id." }));
+                    EnableCollectionFields();
+                }
+                else if (result === ERRORS.INVALID_PATH) {
+                    $('#ScanStatus').append($('<div/>', { html: "Provided path is invalid." }));
                     EnableCollectionFields();
                 }
                 else {

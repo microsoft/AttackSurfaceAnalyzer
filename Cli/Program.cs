@@ -962,7 +962,7 @@ namespace AttackSurfaceAnalyzer.Cli
             return results;
         }
 
-        public static int RunGuiMonitorCommand(MonitorCommandOptions opts)
+        public static ERRORS RunGuiMonitorCommand(MonitorCommandOptions opts)
         {
             if (opts.EnableFileSystemMonitor)
             {
@@ -974,10 +974,20 @@ namespace AttackSurfaceAnalyzer.Cli
                     directories.Add(part);
                 }
 
+
                 foreach (String dir in directories)
                 {
-                    FileSystemMonitor newMon = new FileSystemMonitor(opts.RunId, dir, opts.InterrogateChanges);
-                    monitors.Add(newMon);
+                    try
+                    {
+                        FileSystemMonitor newMon = new FileSystemMonitor(opts.RunId, dir, opts.InterrogateChanges);
+                        monitors.Add(newMon);
+                    }
+                    catch (ArgumentException e)
+                    {
+                        Log.Information("{0} is an invalid path.",dir);
+                        Log.Information(e.StackTrace);
+                        return ERRORS.INVALID_PATH;
+                    }
                 }
             }
 
@@ -998,7 +1008,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
             }
 
-            return 0;
+            return ERRORS.NONE;
         }
 
         public static int StopMonitors()
