@@ -16,14 +16,12 @@ statement. Your use of the software operates as your consent to these practices.
 
 ### This software
 
-This application allows Microsoft to collect telemetry data limited to the use of the
-application such as what collection types are used and total number of run scans generated.
-It does not transmit any user or system information collected as part of the analysis performed.
+This application allows Microsoft to collect telemetry data about usage of the application. Each telemetry data point we collect includes the version of Attack Surface Analyzer and the OS version. It does not transmit any user or system information collected as part of the analysis performed.
 
-The telemetry feature is enabled by default when using the GUI, and disabled by default in the CLI version.
+The telemetry feature is enabled by default.
 Users may disable telemetry at any time and settings are saved until the user chooses to change them.
 
 ### Enabling/Disabling Telemetry
 
-* **CLI version** - Run "AttackSurfaceAnalyzerCli -config ----telemetry-opt-out [true|false]" or AtackSurfaceAnalyzerCli.exe help config for more
+* **CLI version** - Run ```AttackSurfaceAnalyzerCli -config --telemetry-opt-out [true|false]``` or AttackSurfaceAnalyzerCli.exe help config for more
 * **GUI version** - Run application and check or uncheck the option "Send usage data to Microsoft to help us improve our products."
