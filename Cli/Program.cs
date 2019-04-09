@@ -1334,5 +1334,16 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
             }
         }
+
+        public static string GetLatestRunId()
+        {
+            if (collectors.Count > 0)
+            {
+                return collectors[0].runId;
+            }
+            return "No run id";
+        }
     }
+
+
 }
