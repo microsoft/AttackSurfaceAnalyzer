@@ -273,15 +273,26 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
         public ActionResult GetCollectors()
         {
             Dictionary<string, RUN_STATUS> dict = new Dictionary<string, RUN_STATUS>();
+            string RunId = "Error obtaining run Id";
+
+            //TODO: Improve this to not have to change this variable on every loop, without having to call GetCollectors twice.
             foreach (BaseCollector c in AttackSurfaceAnalyzerCLI.GetCollectors())
             {
                 var fullString = c.GetType().ToString();
                 var splits = fullString.Split('.');
                 dict.Add(splits[splits.Count()-1], c.IsRunning());
+                RunId = c.runId;
             }
-
+            Dictionary<string, object> output = new Dictionary<string, object>();
+            output.Add("RunId", RunId);
+            output.Add("Runs", dict);
             //@TODO: Also return the RunId
-            return Json(JsonConvert.SerializeObject(dict));
+            return Json(JsonConvert.SerializeObject(output));
+        }
+
+        public ActionResult GetLatestRunId()
+        {
+            
         }
 
         public ActionResult GetMonitorStatus()

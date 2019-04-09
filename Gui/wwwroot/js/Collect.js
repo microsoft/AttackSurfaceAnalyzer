@@ -156,12 +156,17 @@ function GetMonitorStatus() {
 function GetCollectors() {
     $.getJSON('GetCollectors', function (result) {
         var data = JSON.parse(result);
+        var rundata = data.Runs;
         var keepChecking = false;
         var anyCollectors = false;
         var icon, midword;
         $('#ScanStatus').empty();
 
-        $.each(data, function (key, value) {
+        if (Object.keys(rundata).length > 0) {
+            $('#ScanStatus').append($('<div/>', { html: "<i>Status report for " + data.RunId + ".</i>" }));
+        }
+
+        $.each(rundata, function (key, value) {
             anyCollectors = true;
             if (value === RUN_STATUS.RUNNING) {
                 keepChecking = true;
