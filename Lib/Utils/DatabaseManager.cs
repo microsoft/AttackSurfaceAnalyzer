@@ -279,6 +279,11 @@ namespace AttackSurfaceAnalyzer.Utils
                 cmd.Parameters.AddWithValue("@run_id", runid);
                 using (var reader = cmd.ExecuteReader())
                 {
+                    if (!reader.HasRows)
+                    {
+                        Log.Warning("That Run ID wasn't found in the database");
+                        return;
+                    }
                     while (reader.Read())
                     {
                         using (var inner_cmd = new SqliteCommand(SQL_TRUNCATE_RUN, DatabaseManager.Connection, DatabaseManager.Transaction))
