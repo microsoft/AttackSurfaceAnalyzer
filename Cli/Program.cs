@@ -126,10 +126,10 @@ namespace AttackSurfaceAnalyzer.Cli
         [Option("directories", Required = false, HelpText = "Comma separated list of paths to scan with FileSystemCollector")]
         public string SelectedDirectories { get; set; }
 
-        [Option(Default =false, HelpText ="If the specified runid already exists delete all data from that run before proceeding.")]
+        [Option(HelpText ="If the specified runid already exists delete all data from that run before proceeding.")]
         public bool Overwrite { get; set; }
 
-        [Option(Default = false, HelpText = "Increase logging verbosity")]
+        [Option(HelpText = "Increase logging verbosity")]
         public bool Verbose { get; set; }
     }
     [Verb("monitor", HelpText = "Continue running and monitor activity")]
@@ -1076,7 +1076,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             if (opts.EnableFileSystemCollector || opts.EnableAllCollectors)
             {
-                if (opts.SelectedDirectories.Equals(""))
+                if (String.IsNullOrEmpty(opts.SelectedDirectories))
                 {
                     collectors.Add(new FileSystemCollector(opts.RunId, enableHashing: opts.GatherHashes));
                 }
