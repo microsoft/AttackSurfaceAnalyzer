@@ -218,7 +218,7 @@ namespace AttackSurfaceAnalyzer.Cli
                     (MonitorCommandOptions opts) => RunMonitorCommand(opts),
                     (ExportCollectCommandOptions opts) => RunExportCollectCommand(opts),
                     (ExportMonitorCommandOptions opts) => RunExportMonitorCommand(opts),
-                    (ConfigCommandOptions opts) => SetupConfig(opts),
+                    (ConfigCommandOptions opts) => RunConfigCommand(opts),
                     errs => 1
                 );
             
@@ -226,7 +226,7 @@ namespace AttackSurfaceAnalyzer.Cli
             Log.CloseAndFlush();
         }
 
-        private static int SetupConfig(ConfigCommandOptions opts)
+        private static int RunConfigCommand(ConfigCommandOptions opts)
         {
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
@@ -982,9 +982,9 @@ namespace AttackSurfaceAnalyzer.Cli
                         FileSystemMonitor newMon = new FileSystemMonitor(opts.RunId, dir, opts.InterrogateChanges);
                         monitors.Add(newMon);
                     }
-                    catch (ArgumentException e)
+                    catch (ArgumentException)
                     {
-                        Log.Information("{0} is an invalid path.",dir);
+                        Log.Warning("{0} is an invalid path.",dir);
                         return ERRORS.INVALID_PATH;
                     }
                 }
