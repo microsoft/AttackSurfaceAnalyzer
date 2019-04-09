@@ -178,7 +178,7 @@ namespace AttackSurfaceAnalyzer.Cli
         [Option("reset-database", Required = false, HelpText = "Delete the output database")]
         public bool ResetDatabase { get; set; }
 
-        [Option("telemetry-opt-out", Required = false, HelpText = "Change your telemetry opt out setting")]
+        [Option("telemetry-opt-out", Required = false, HelpText = "Change your telemetry opt out setting [True | False]")]
         public string TelemetryOptOut { get; set; }
 
         [Option("delete-run", Required = false, HelpText = "Delete a specific run from the database")]
@@ -306,7 +306,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 if (opts.TelemetryOptOut != null)
                 {
                     Telemetry.SetOptOut(bool.Parse(opts.TelemetryOptOut));
-                    Log.Information("Your current telemetry opt out setting is {0}.", (bool.Parse(opts.TelemetryOptOut)) ? "Opted out" : "Opted in");
+                    Log.Information("Your telemetry opt out setting is now {0}.", (bool.Parse(opts.TelemetryOptOut)) ? "Opted out" : "Opted in");
                 }
                 if (opts.DeleteRunId != null)
                 {
