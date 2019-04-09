@@ -402,7 +402,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 FilterLocation = "filters.json"
             };
             AttackSurfaceAnalyzerCLI.ClearMonitors();
-            return Json(AttackSurfaceAnalyzerCLI.RunGuiMonitorCommand(opts));
+            return Json((int)AttackSurfaceAnalyzerCLI.RunGuiMonitorCommand(opts));
         }
 
         public ActionResult StopMonitoring()

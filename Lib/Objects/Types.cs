@@ -33,6 +33,7 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
     public enum ERRORS
     {
         NONE,
-        UNIQUE_ID
+        UNIQUE_ID,
+        INVALID_PATH
     }
 }
