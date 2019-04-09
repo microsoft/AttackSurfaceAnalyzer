@@ -25,5 +25,5 @@ Users may disable telemetry at any time and settings are saved until the user ch
 
 ### Enabling/Disabling Telemetry
 
-* **CLI version** - See help by running AttackSurfaceAnalyzerCli.exe help for instructions
+* **CLI version** - Run "AttackSurfaceAnalyzerCli -config ----telemetry-opt-out [true|false]" or AtackSurfaceAnalyzerCli.exe help config for more
 * **GUI version** - Run application and check or uncheck the option "Send usage data to Microsoft to help us improve our products."
