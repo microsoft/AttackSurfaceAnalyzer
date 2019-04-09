@@ -985,7 +985,6 @@ namespace AttackSurfaceAnalyzer.Cli
                     catch (ArgumentException e)
                     {
                         Log.Information("{0} is an invalid path.",dir);
-                        Log.Information(e.StackTrace);
                         return ERRORS.INVALID_PATH;
                     }
                 }
