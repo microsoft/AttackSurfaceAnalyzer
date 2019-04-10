@@ -117,7 +117,58 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Begin" xml:space="preserve">
+    <value>Begin</value>
+  </data>
+  <data name="Comparing" xml:space="preserve">
+    <value>Comparing</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>Completed</value>
+  </data>
+  <data name="DeletedDatabase" xml:space="preserve">
+    <value>Successfully deleted database.</value>
+  </data>
+  <data name="DoneWriting" xml:space="preserve">
+    <value>Done writing!</value>
+  </data>
+  <data name="End" xml:space="preserve">
+    <value>End</value>
+  </data>
+  <data name="EnumeratingCollectRunIds" xml:space="preserve">
+    <value>Enumerating Collect Run Ids</value>
+  </data>
+  <data name="EnumeratingMonitorRunIds" xml:space="preserve">
+    <value>Enumerating Monitor Run Ids</value>
+  </data>
+  <data name="Err_CollectingFrom" xml:space="preserve">
+    <value>Error collecting from</value>
+  </data>
+  <data name="Err_CouldntDetermineOneRun" xml:space="preserve">
+    <value>Couldn't determine latest run id. Can't continue.</value>
+  </data>
+  <data name="Err_CouldntDetermineTwoRun" xml:space="preserve">
+    <value>Couldn't determine latest two run ids. Can't continue.</value>
+  </data>
+  <data name="Err_NoMonitors" xml:space="preserve">
+    <value>No monitors have been defined.</value>
+  </data>
+  <data name="Err_RunIdAlreadyUsed" xml:space="preserve">
+    <value>That runid was already used. Must use a unique runid for each run. Use --overwrite to discard previous run information.</value>
+  </data>
+  <data name="Exporting" xml:space="preserve">
+    <value>Exporting</value>
+  </data>
   <data name="InvalidPath" xml:space="preserve">
     <value>The path supplied was invalid.</value>
+  </data>
+  <data name="MonitoringPressC" xml:space="preserve">
+    <value>Monitoring, press CTRL+C to stop...</value>
+  </data>
+  <data name="MonitorStartedFor" xml:space="preserve">
+    <value>Monitor started for</value>
+  </data>
+  <data name="TelemetryOptOut" xml:space="preserve">
+    <value>Your telemetry opt out setting is now</value>
   </data>
 </root>
