@@ -23,6 +23,8 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         private Stopwatch watch;
 
+        private Strings R = new Strings();
+
         public RUN_STATUS IsRunning()
         {
             return _running;
@@ -33,7 +35,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             _running = RUN_STATUS.RUNNING;
             watch = System.Diagnostics.Stopwatch.StartNew();
 
-            Log.Information("Executing {0}.", this.GetType().Name);
+            Log.Information("{0} {1}.",Strings.Get("Starting"), this.GetType().Name);
         }
 
         public void Stop()
@@ -46,7 +48,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     t.Minutes,
                                     t.Seconds,
                                     t.Milliseconds);
-            Log.Information("Completed {0} in {1}", this.GetType().Name, answer);
+            Log.Information("{0} {1} in {2}",Strings.Get("Completed"), this.GetType().Name, answer);
             Log.Debug(t.ToString());
             var EndEvent = new Dictionary<string, string>();
             EndEvent.Add("Scanner", this.GetType().Name);

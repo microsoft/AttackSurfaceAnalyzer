@@ -24,7 +24,6 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
 
         public OpenPortCollector(string runId)
         {
-            Log.Debug("Initializing a new {0} object.", this.GetType().Name);
             if (runId == null)
             {
                 throw new ArgumentException("runIdentifier may not be null.");
@@ -250,65 +249,6 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
                         processName = parts[0]
                     };
                     Write(obj);
-                }
-            }
-        }
-
-        public void Compare(string beforeKey, string afterKey)
-        {
-            var beforeSet = new HashSet<OpenPortObject>();
-            var afterSet = new HashSet<OpenPortObject>();
-
-            var cmd = new SqliteCommand("select * from network_ports where run_id = @before_run_id or run_id = @after_run_id", DatabaseManager.Connection);
-            cmd.Parameters.AddWithValue("@before_run_id", beforeKey);
-            cmd.Parameters.AddWithValue("@after_run_id", beforeKey);
-
-            using (SqliteDataReader rdr = cmd.ExecuteReader())
-            {
-                while (rdr.Read())
-                {
-                    var runId = rdr["run_id"].ToString();
-                    var obj = new OpenPortObject()
-                    {
-                        address = rdr["address"].ToString(),
-                        family = rdr["family"].ToString(),
-                        port = rdr["port"].ToString(),
-                        processName = rdr["process_name"].ToString()
-                    };
-                    if (runId == beforeKey)
-                    {
-                        beforeSet.Add(obj);
-                    }
-                    else if (runId == afterKey)
-                    {
-                        afterSet.Add(obj);
-                    }
-                }
-            }
-            var newEntries = new HashSet<OpenPortObject>();
-            var goneEntries = new HashSet<OpenPortObject>();
-
-            newEntries.UnionWith(beforeSet);
-            foreach (var b in beforeSet)
-            {
-                foreach (var a in afterSet)
-                {
-                    if (a.Equals(b))
-                    {
-
-                    }
-                }
-                if (!afterSet.Contains(b))
-                {
-                    Log.Information("Open port no longer open: {0}", b.ToString());
-                }
-            }
-
-            foreach (var b in afterSet)
-            {
-                if (!beforeSet.Contains(b))
-                {
-                    Log.Information("New open port: {0}", b.ToString());
                 }
             }
         }

@@ -203,7 +203,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 
             foreach (var root in this.roots)
             {
-                Log.Information("Scanning root {0}",root.ToString());
+                Log.Information("{0} root {1}",Strings.Get("Scanning"),root.ToString());
                 try
                 {
                     var fileInfoEnumerable = DirectoryWalker.WalkDirectory(root);

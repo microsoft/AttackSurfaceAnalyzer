@@ -97,6 +97,24 @@ namespace AttackSurfaceAnalyzer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Created.
+        /// </summary>
+        internal static string Created {
+            get {
+                return ResourceManager.GetString("Created", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleted.
+        /// </summary>
+        internal static string Deleted {
+            get {
+                return ResourceManager.GetString("Deleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Successfully deleted database..
         /// </summary>
         internal static string DeletedDatabase {
@@ -111,6 +129,15 @@ namespace AttackSurfaceAnalyzer.Properties {
         internal static string DoneWriting {
             get {
                 return ResourceManager.GetString("DoneWriting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to due to filter.
+        /// </summary>
+        internal static string DueToFilter {
+            get {
+                return ResourceManager.GetString("DueToFilter", resourceCulture);
             }
         }
         
@@ -138,6 +165,15 @@ namespace AttackSurfaceAnalyzer.Properties {
         internal static string EnumeratingMonitorRunIds {
             get {
                 return ResourceManager.GetString("EnumeratingMonitorRunIds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to get access control for.
+        /// </summary>
+        internal static string Err_AccessControl {
+            get {
+                return ResourceManager.GetString("Err_AccessControl", resourceCulture);
             }
         }
         
@@ -174,6 +210,24 @@ namespace AttackSurfaceAnalyzer.Properties {
         internal static string Err_CouldntDetermineTwoRun {
             get {
                 return ResourceManager.GetString("Err_CouldntDetermineTwoRun", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exception checking for file signature for.
+        /// </summary>
+        internal static string Err_ExceptionCheckSig {
+            get {
+                return ResourceManager.GetString("Err_ExceptionCheckSig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Something appears to be wrong with your filters file.
+        /// </summary>
+        internal static string Err_FiltersFile {
+            get {
+                return ResourceManager.GetString("Err_FiltersFile", resourceCulture);
             }
         }
         
@@ -223,6 +277,15 @@ namespace AttackSurfaceAnalyzer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ServiceCollector cannot run on this platform..
+        /// </summary>
+        internal static string Err_ServiceCollectorIncompat {
+            get {
+                return ResourceManager.GetString("Err_ServiceCollectorIncompat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error stopping.
         /// </summary>
         internal static string Err_Stopping {
@@ -232,11 +295,56 @@ namespace AttackSurfaceAnalyzer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to take hash of file.
+        /// </summary>
+        internal static string Err_UnableToHash {
+            get {
+                return ResourceManager.GetString("Err_UnableToHash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Excluding hive.
+        /// </summary>
+        internal static string ExcludingHive {
+            get {
+                return ResourceManager.GetString("ExcludingHive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exporting.
         /// </summary>
         internal static string Exporting {
             get {
                 return ResourceManager.GetString("Exporting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed parsing (no entry?).
+        /// </summary>
+        internal static string FailedParsed {
+            get {
+                return ResourceManager.GetString("FailedParsed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Generating file hash for.
+        /// </summary>
+        internal static string FileHash {
+            get {
+                return ResourceManager.GetString("FileHash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Found.
+        /// </summary>
+        internal static string Found {
+            get {
+                return ResourceManager.GetString("Found", resourceCulture);
             }
         }
         
@@ -259,6 +367,24 @@ namespace AttackSurfaceAnalyzer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loaded filters from.
+        /// </summary>
+        internal static string LoadedFilters {
+            get {
+                return ResourceManager.GetString("LoadedFilters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modified.
+        /// </summary>
+        internal static string Modified {
+            get {
+                return ResourceManager.GetString("Modified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Monitoring, press CTRL+C to stop....
         /// </summary>
         internal static string MonitoringPressC {
@@ -277,11 +403,29 @@ namespace AttackSurfaceAnalyzer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Scanning.
+        /// </summary>
+        internal static string Scanning {
+            get {
+                return ResourceManager.GetString("Scanning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Starting.
         /// </summary>
         internal static string Starting {
             get {
                 return ResourceManager.GetString("Starting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully parsed.
+        /// </summary>
+        internal static string SuccessParsed {
+            get {
+                return ResourceManager.GetString("SuccessParsed", resourceCulture);
             }
         }
         

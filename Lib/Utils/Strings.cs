@@ -6,18 +6,14 @@ using System.Text;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
-    public class Strings
+    public static class Strings
     {
 //        var names = assembly.GetManifestResourceNames();
-        public string Get(string key)
+        public static string Get(string key)
         {
             return rm.GetString(key);
         }
-        ResourceManager rm;
         // Default locale
-        public Strings()
-        {
-            rm = new ResourceManager("AttackSurfaceAnalyzer.Properties.Resources", Assembly.GetEntryAssembly());
-        }
+        static readonly ResourceManager rm = new ResourceManager("AttackSurfaceAnalyzer.Properties.Resources", Assembly.GetEntryAssembly());
     }
 }

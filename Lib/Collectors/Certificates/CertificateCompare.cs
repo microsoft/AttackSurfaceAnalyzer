@@ -14,6 +14,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
         private static readonly string SELECT_INSERTED_SQL = "select * from certificates b where b.run_id = @second_run_id and hash_plus_store not in (select hash_plus_store from certificates a where a.run_id = @first_run_id);";
         private static readonly string SELECT_DELETED_SQL = "select * from certificates a where a.run_id = @first_run_id and hash_plus_store not in (select hash_plus_store from certificates b where b.run_id = @second_run_id);";
 
+        private Strings R = new Strings();
         public CertificateCompare()
         {
             Results = new Dictionary<string, object>
@@ -68,7 +69,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
                 }
                 Results["certs_add"] = addObjects;
 
-                                Log.Information("Found {0} Created", addObjects.Count);
+                Log.Information("{0} {1} {2}",Strings.Get("Found"), addObjects.Count, Strings.Get("Created"));
 
                 var removeObjects = new List<string>();
                 cmd = new SqliteCommand(SELECT_DELETED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
@@ -99,7 +100,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
                 }
                 Results["certs_remove"] = removeObjects;
 
-                Log.Information("Found Deleted {0} Results", addObjects.Count);
+                Log.Information("{0} {1} {2}", Strings.Get("Found"), addObjects.Count, Strings.Get("Deleted"));
             }
             catch (Exception e)
             {
