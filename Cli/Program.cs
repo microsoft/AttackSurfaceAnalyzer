@@ -21,13 +21,10 @@ using RazorLight;
 using AttackSurfaceAnalyzer.ObjectTypes;
 using Newtonsoft.Json;
 using System.Reflection;
-using System.Diagnostics;
-using Microsoft.ApplicationInsights.Extensibility;
-using System.Threading.Tasks;
 using Serilog;
+using System.Resources;
 
-
-namespace AttackSurfaceAnalyzer.Cli
+namespace AttackSurfaceAnalyzer
 {
 
     [Verb("compare", HelpText = "Compare ASA executions and output a .html summary")]
@@ -198,6 +195,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
         private static readonly string SQL_GET_RUN = "select run_id from runs where run_id=@run_id";
 
+        public static Strings Resources;
 
         static void Main(string[] args)
         {
@@ -209,7 +207,17 @@ namespace AttackSurfaceAnalyzer.Cli
             Log.Information("AttackSurfaceAnalyzerCli v." + version);
             Log.Debug(version);
             DatabaseManager.Setup();
-            Telemetry.Setup(false);
+            Telemetry.Setup(Gui : false);
+
+            var assembly = Assembly.GetEntryAssembly();
+            var names = assembly.GetManifestResourceNames();
+
+            Log.Information(JsonConvert.SerializeObject(names));
+
+
+            Resources = new Utils.Strings();
+            Log.Information(Resources.Get("InvalidPath"));
+
 
             var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, CompareCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions, ConfigCommandOptions>(args)
                 .MapResult(
@@ -984,7 +992,7 @@ namespace AttackSurfaceAnalyzer.Cli
                     }
                     catch (ArgumentException)
                     {
-                        Log.Warning("{0} is an invalid path.",dir);
+                        Log.Warning("{1}: {0}",dir, Resources.Get("InvalidPath"));
                         return ERRORS.INVALID_PATH;
                     }
                 }
