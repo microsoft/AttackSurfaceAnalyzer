@@ -273,9 +273,6 @@
   <data name="Permissions" xml:space="preserve">
     <value>Permissions</value>
   </data>
-  <data name="Port" xml:space="preserve">
-    <value>Port</value>
-  </data>
   <data name="Ports" xml:space="preserve">
     <value>Ports</value>
   </data>
