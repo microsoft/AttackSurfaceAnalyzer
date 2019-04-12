@@ -197,7 +197,7 @@ function UpdateNumResults(total, offset, requested, actual) {
         $("#CountStatus").append(l("%Error.NoDifference"));
     }
     else{
-        $("#CountStatus").append("Showing " + (offset + 1) + " to " + (offset + actual) + " results. " + total + " total records.");
+        $("#CountStatus").append(l("%Showing") + (offset + 1) + " - " + (offset + actual) +l("%Results") + total + l("%TotalRecords"));
     }
 }
 
@@ -207,7 +207,7 @@ function UpdateMonitorNumResults(total, offset, requested, actual) {
         $("#CountStatus").append(l("%Error.NoDifference"));
     }
     else{
-        $("#MonitorCountStatus").append("Showing " + (offset + 1) + " to " + (offset + actual) + " results. " + total + " total records.");
+        $("#MonitorCountStatus").append(l("%Showing ") + (offset + 1) + " - " + (offset + actual) + l("%Results") + total + l("%TotalRecords"));
     }
 }
 
@@ -266,15 +266,15 @@ function GetMonitorResults(type, offset, number) {
 function ChangeTypeToString(change_type) {
     switch (change_type) {
         case CHANGE_TYPE.DELETED:
-            return "Deleted";
+            return l("%Deleted");
         case CHANGE_TYPE.CREATED:
-            return "Created";
+            return l("%Created");
         case CHANGE_TYPE.MODIFIED:
-            return "Modified";
+            return l("%Modified");
         case CHANGE_TYPE.RENAMED:
-            return "Renamed";
+            return l("%Renamed");
         default:
-            return "Invalid change type";
+            return l("%InvalidChange");
     }
 }
 

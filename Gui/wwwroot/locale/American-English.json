@@ -11,6 +11,9 @@
     "%MonitoringCompleted": "<i>Monitoring is completed.</i>",
     "%StatusReportFor": "<i>Status report for ",
     "%CollectionCompleted": "<i>Collection is completed.</i>",
-    "%ReadyToBeginCollection": "<i>Ready to begin collection.</i>"
+    "%ReadyToBeginCollection": "<i>Ready to begin collection.</i>",
+    "%Showing": "Showing ",
+    "%Results": " Results",
+    "%TotalRecords": " total records.",
   }
 }
