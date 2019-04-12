@@ -171,4 +171,181 @@
   <data name="TelemetryOptOut" xml:space="preserve">
     <value>Your telemetry opt out setting is now</value>
   </data>
+  <data name="WelcomeHeader" xml:space="preserve">
+    <value>Welcome to Attack Surface Analyzer</value>
+  </data>
+  <data name="AccountType" xml:space="preserve">
+    <value>Account Type</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="AnalyzeResults" xml:space="preserve">
+    <value>Analyze Results</value>
+  </data>
+  <data name="BaseRunId" xml:space="preserve">
+    <value>Base Run Id</value>
+  </data>
+  <data name="BaseStatus" xml:space="preserve">
+    <value>Status messages appear here after starting analysis.</value>
+  </data>
+  <data name="Certificates" xml:space="preserve">
+    <value>Certificates</value>
+  </data>
+  <data name="ChangeType" xml:space="preserve">
+    <value>Change Type</value>
+  </data>
+  <data name="ChooseCollectors" xml:space="preserve">
+    <value>Choose Collectors</value>
+  </data>
+  <data name="ChooseMonitor" xml:space="preserve">
+    <value>Choose a monitor run to evaluate.</value>
+  </data>
+  <data name="CollectSnapshotDesc" xml:space="preserve">
+    <value>Collect snapshot data about the current state of the system and monitor for changes.</value>
+  </data>
+  <data name="CompareDesc" xml:space="preserve">
+    <value>Compare a base scan and a product scan to determine changes made to the system.</value>
+  </data>
+  <data name="CompareRunId" xml:space="preserve">
+    <value>Product Run Id</value>
+  </data>
+  <data name="Contents" xml:space="preserve">
+    <value>Contents</value>
+  </data>
+  <data name="CurrentState" xml:space="preserve">
+    <value>Current State</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="DisplayName" xml:space="preserve">
+    <value>DIsplay Name</value>
+  </data>
+  <data name="Err_NeedResults" xml:space="preserve">
+    <value>You must collect some results before performing analysis.</value>
+  </data>
+  <data name="ExportAll" xml:space="preserve">
+    <value>Export all available result types</value>
+  </data>
+  <data name="ExportDirectory" xml:space="preserve">
+    <value>Output Directory For Export</value>
+  </data>
+  <data name="ExportOnly" xml:space="preserve">
+    <value>Export only the selected result type</value>
+  </data>
+  <data name="ExportOptions" xml:space="preserve">
+    <value>Export Options</value>
+  </data>
+  <data name="Files" xml:space="preserve">
+    <value>Files</value>
+  </data>
+  <data name="FirstScanDesc" xml:space="preserve">
+    <value>The first, pre-installation scan should be run on a clean system without the software under test installed.</value>
+  </data>
+  <data name="Hash" xml:space="preserve">
+    <value>Hash</value>
+  </data>
+  <data name="LiveMonitoring" xml:space="preserve">
+    <value>Live Monitoring</value>
+  </data>
+  <data name="LiveMonitoringDesc" xml:space="preserve">
+    <value>This will monitor your system for changes as they happen.</value>
+  </data>
+  <data name="MoreInfo1" xml:space="preserve">
+    <value>For more information, please visit our</value>
+  </data>
+  <data name="MoreInfo2" xml:space="preserve">
+    <value>page to review the ASA user guide, documentation and source code.</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="OldName" xml:space="preserve">
+    <value>Old Name</value>
+  </data>
+  <data name="OldPath" xml:space="preserve">
+    <value>Old Path</value>
+  </data>
+  <data name="Path" xml:space="preserve">
+    <value>Path</value>
+  </data>
+  <data name="Permissions" xml:space="preserve">
+    <value>Permissions</value>
+  </data>
+  <data name="Port" xml:space="preserve">
+    <value>Port</value>
+  </data>
+  <data name="Ports" xml:space="preserve">
+    <value>Ports</value>
+  </data>
+  <data name="ReadyToScan" xml:space="preserve">
+    <value>Ready to scan.</value>
+  </data>
+  <data name="Registry" xml:space="preserve">
+    <value>Registry</value>
+  </data>
+  <data name="ResultsDesc" xml:space="preserve">
+    <value>Compare, view, and export Scan and Monitor results.</value>
+  </data>
+  <data name="RunStatus" xml:space="preserve">
+    <value>Run Status</value>
+  </data>
+  <data name="ScanId" xml:space="preserve">
+    <value>Run Id</value>
+  </data>
+  <data name="ScanType" xml:space="preserve">
+    <value>Scan Type</value>
+  </data>
+  <data name="SecondScanDesc" xml:space="preserve">
+    <value>The second, post-installation scan should be run after installing the software onto the system.</value>
+  </data>
+  <data name="SelectResultType" xml:space="preserve">
+    <value>Select a type of result to view.</value>
+  </data>
+  <data name="ServiceName" xml:space="preserve">
+    <value>Service Name</value>
+  </data>
+  <data name="Services" xml:space="preserve">
+    <value>Services</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="StartType" xml:space="preserve">
+    <value>Start Type</value>
+  </data>
+  <data name="StaticScan" xml:space="preserve">
+    <value>Static Scan</value>
+  </data>
+  <data name="StaticScanDesc" xml:space="preserve">
+    <value>This will scan your system to gather a snapshot of the chosen parameters.  To determine the changes made by the installation of a specific piece of software the system must be scanned at least twice.</value>
+  </data>
+  <data name="StoreLocation" xml:space="preserve">
+    <value>Store Location</value>
+  </data>
+  <data name="StoreName" xml:space="preserve">
+    <value>Store Name</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value>Output Directory For Export</value>
+  </data>
+  <data name="Subject" xml:space="preserve">
+    <value>Subject</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="UsageData" xml:space="preserve">
+    <value>Send usage data to Microsoft to help us improve our products.</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Users</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="WelcomeBody" xml:space="preserve">
+    <value>Attack Surface Analyzer catalogues the changes made to an operating system attack surface by the installation of new software. ASA can be used to take a snapshot of your system state before and after the installation of product(s) and displays the changes made to a number of key elements of the system attack surface allowing you to see what attack surfaces may be exposed after installation of the target product(s). ASA was developed by Microsoft.</value>
+  </data>
 </root>

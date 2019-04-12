@@ -1,4 +1,5 @@
 ﻿@using System.Runtime.InteropServices;
+@using  AttackSurfaceAnalyzer.Utils;
 
 @{
     ViewData["Title"] = "Collect";
@@ -10,17 +11,16 @@
 <br />
 <h1>Configure Scan</h1>
 <div class="explain">
-        <div class="card card-body">
-            <h6>Static Scan</h6>
-
-                This will scan your system to gather a snapshot of the chosen parameters.  To determine the changes made by the installation of a specific piece of software the system must be scanned at least twice.
-            <ul>
-                <li>The first, pre-installation scan should be run on a clean system without the software under test installed.</li>
-                <li>The second, post-installation scan should be run after installing the software onto the system.</li>
-            </ul>
-            <h6>Live Monitoring</h6>
-                This will monitor your system for changes as they happen.
-        </div>
+    <div class="card card-body">
+        <h6>@Strings.Get("StaticScan")</h6>
+        @Strings.Get("StaticScanDesc")
+        <ul>
+            <li>@Strings.Get("FirstScanDesc")</li>
+            <li>@Strings.Get("SecondScanDesc")</li>
+        </ul>
+        <h6>@Strings.Get("LiveMonitoring")</h6>
+        @Strings.Get("LiveMonitoringDesc")
+    </div>
 </div>
 <div class="row">
     <div class="col-6">
@@ -29,13 +29,13 @@
             <div class="col-4">
                 <label class="radio-container" for="staticRadio">
                     <input type="radio" name="ScanType" value="Static" id="staticRadio" checked="checked">
-                    Static Scan
+                    @Strings.Get("StaticScan")
                 </label>
             </div>
             <div class="col-4">
                 <label class="radio-container" for="liveRadio">
                     <input type="radio" name="ScanType" value="Live" id="liveRadio">
-                    Live Monitoring
+                    @Strings.Get("LiveMonitoring")
                 </label>
             </div>
         </div>
@@ -43,7 +43,7 @@
         <div class="spacer"></div>
 
         <div class="form-group row">
-            <label for="RunId" class="font-weight-bold col-sm-2 col-form-label">Scan ID</label>
+            <label for="RunId" class="font-weight-bold col-sm-2 col-form-label">@Strings.Get("ScanId")</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" id="RunId" placeholder="@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")">
             </div>
@@ -51,26 +51,25 @@
 
 
         @*
-                @TODO: Support static collection of specific directory.
-            <div id="scanDetails">
-            <b>Scan specific file directories (optional)</b>
-            <div id="path">
-                No path chosen
-            </div>
-            <button id="choosePath">
-                Choose Path
-            </button>
-            <div class="line" />
-        </div>*@
-
+                    @TODO: Support static collection of specific directory.
+                <div id="scanDetails">
+                <b>Scan specific file directories (optional)</b>
+                <div id="path">
+                    No path chosen
+                </div>
+                <button id="choosePath">
+                    Choose Path
+                </button>
+                <div class="line" />
+            </div>*@
         <div class="spacer"></div>
 
-
         @* Begin Scan Section *@
+
         <div class="scan">
             <div class="row font-weight-bold">
                 <div class="col">
-                    Choose Collectors
+                    @Strings.Get("ChooseCollectors")
                 </div>
             </div>
             <div class="thinspacer"></div>
@@ -78,13 +77,13 @@
                 <div class="col">
                     <label class="checkbox-container">
                         <input type="checkbox" id="enableFileCollector" class="ScanType">
-                        Files
+                        @Strings.Get("Files")
                     </label>
                 </div>
                 <div class="col">
                     <label class="checkbox-container">
                         <input type="checkbox" id="enableCertificateCollector" class="ScanType" checked>
-                        Certificates
+                        @Strings.Get("Certificates")
                     </label>
                 </div>
             </div>
@@ -92,13 +91,13 @@
                 <div class="col">
                     <label class="checkbox-container">
                         <input type="checkbox" id="enablePortCollector" class="ScanType" checked>
-                        Ports
+                        @Strings.Get("Ports")
                     </label>
                 </div>
                 <div class="col">
                     <label class="checkbox-container">
                         <input type="checkbox" id="enableServiceCollector" class="ScanType" checked>
-                        Services
+                        @Strings.Get("Services")
                     </label>
                 </div>
             </div>
@@ -116,16 +115,20 @@
 
                             <label class="checkbox-container">
                                 <input type="checkbox" id="enableRegistryCollector" class="ScanType">
-                                Registry
+                                @Strings.Get("Registry")
                             </label>
                         </div>
                     }
                 }
             </div>
         </div>
+
         @* End Scan Section *@
 
+
+
         @* Begin Monitor Section *@
+
         <div class="form-group row monitor">
             <label for="DirectoryPath" class="font-weight-bold col-sm-2 col-form-label">Directory</label>
             <div class="col-8">
@@ -150,7 +153,9 @@
                 </label>
             </div>
         </div>
+
         @* End Monitor Section *@
+
         <div class="d-flex flex-row-reverse">
             <div class="p-2">
                 <button class="btn btn-primary btn-square" id="StartCollectionButton">Collect Data</button>
@@ -163,10 +168,11 @@
 
     @* Status section *@
 
+
     <div class="col-6" id="RunStatus">
         <div class="row font-weight-bold">
             <div class="col">
-                Run Status
+                @Strings.Get("RunStatus")
             </div>
         </div>
         <div class="container d-flex h-100">
@@ -175,7 +181,7 @@
             </div>
             <div class="row justify-content-center align-self-center">
                 <div class="col justify-content-center" id="ScanStatus">
-                    Ready to scan.
+                    @Strings.Get("ReadyToScan")
                 </div>
             </div>
         </div>

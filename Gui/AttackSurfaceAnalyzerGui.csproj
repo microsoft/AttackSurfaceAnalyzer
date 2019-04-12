@@ -15,6 +15,9 @@
 <RootNamespace>AttackSurfaceAnalyzer</RootNamespace>
     </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\Cli\Properties\Resources.designer.cs" Link="Properties\Resources.designer.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="ElectronNet.API" Version="0.0.11" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.6.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.2.0" />
@@ -36,19 +39,6 @@
     <WCFMetadata Include="Connected Services" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="..\LICENSE.txt">
       <Link>LICENSE.txt</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -65,6 +55,9 @@
       <Link>README.md</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Cli\Properties\Resources.resx" Link="Properties\Resources.resx" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="nlog.config">
