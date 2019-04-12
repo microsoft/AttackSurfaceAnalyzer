@@ -703,10 +703,18 @@ namespace AttackSurfaceAnalyzer.Cli
 
                 foreach (String dir in directories)
                 {
-                    foreach (NotifyFilters filter in filterOptions)
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                     {
-                        var newMon = new FileSystemMonitor(opts.RunId, dir, (filter != NotifyFilters.LastAccess) && opts.InterrogateChanges, filter);
-                        monitors.Add(newMon);
+                        var newMon = new FileSystemMonitor(opts.RunId, dir, false);
+                    }
+                    else
+                    {
+                        foreach (NotifyFilters filter in filterOptions)
+                        {
+                            Log.Information("Adding Path {0} Filter Type {1}", dir, filter.ToString());
+                            var newMon = new FileSystemMonitor(opts.RunId, dir, false, filter);
+                            monitors.Add(newMon);
+                        }
                     }
                 }
             }
@@ -740,7 +748,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 aTimer.Enabled = true;
             }
 
-            foreach (var c in monitors)
+            foreach (FileSystemMonitor c in monitors)
             {
                 Log.Information("Executing: {0}", c.GetType().Name);
 

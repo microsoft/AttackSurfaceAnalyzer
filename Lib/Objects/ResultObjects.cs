@@ -3,6 +3,7 @@
 using AttackSurfaceAnalyzer.Collectors.FileSystem;
 using AttackSurfaceAnalyzer.ObjectTypes;
 using Serilog;
+using System.IO;
 
 namespace AttackSurfaceAnalyzer.ObjectTypes
 {
@@ -51,6 +52,12 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
         {
             ResultType = RESULT_TYPE.FILE;
         }
+    }
+
+    public class FileSystemMonitorResult
+    {
+        public FileSystemEventArgs evt;
+        public NotifyFilters filter;
     }
 
     public class OpenPortResult: CompareResult
