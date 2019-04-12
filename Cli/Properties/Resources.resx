@@ -345,4 +345,7 @@
   <data name="WelcomeBody" xml:space="preserve">
     <value>Attack Surface Analyzer catalogues the changes made to an operating system attack surface by the installation of new software. ASA can be used to take a snapshot of your system state before and after the installation of product(s) and displays the changes made to a number of key elements of the system attack surface allowing you to see what attack surfaces may be exposed after installation of the target product(s). ASA was developed by Microsoft.</value>
   </data>
+  <data name="RunStarted" xml:space="preserve">
+    <value>Run started.</value>
+  </data>
 </root>

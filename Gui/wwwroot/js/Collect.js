@@ -44,7 +44,7 @@ function StartCollection()
         if ($("#directory").val() == "")
         {
             $('#ScanStatus').empty();
-            $('#ScanStatus').append($('<div/>', { html: "ERROR: Must specify a directory to watch.", class: 'scan' }));
+            $('#ScanStatus').append($('<div/>', { html: l("%NoDirSpecified"), class: 'scan' }));
             EnableCollectionFields();
         }
         else
@@ -58,15 +58,15 @@ function StartCollection()
             $.getJSON("StartMonitoring", monitor, function (result) {
                 $('#ScanStatus').empty();
                 if (result === ERRORS.UNIQUE_ID) {
-                    $('#ScanStatus').append($('<div/>', { html: "Must supply unique run id." }));
+                    $('#ScanStatus').append($('<div/>', { html: l("%UniqueId") }));
                     EnableCollectionFields();
                 }
                 else if (result === ERRORS.INVALID_PATH) {
-                    $('#ScanStatus').append($('<div/>', { html: "Provided path is invalid." }));
+                    $('#ScanStatus').append($('<div/>', { html: l("%PathInvalid") }));
                     EnableCollectionFields();
                 }
                 else {
-                    $('#ScanStatus').append($('<div/>', { html: "Run started." }));
+                    $('#ScanStatus').append($('<div/>', { html: l("%RunStarted") }));
                     setTimeout(GetMonitorStatus, 250)
                 }
             });
@@ -82,7 +82,7 @@ function StartCollection()
             $('#enableCertificateCollector').is(":checked") == false)
         {
             $('#ScanStatus').empty();
-            $('#ScanStatus').append($('<div/>', { html: "ERROR: Must select at least one collector.", class: 'scan' }));
+            $('#ScanStatus').append($('<div/>', { html: l("%NoCollectSelect"), class: 'scan' }));
             EnableCollectionFields();
         }
         else
@@ -101,11 +101,11 @@ function StartCollection()
             $.getJSON("StartCollection", collect, function (result) {
                 $('#ScanStatus').empty();
                 if (result === ERRORS.UNIQUE_ID) {
-                    $('#ScanStatus').append($('<div/>', { html: "Must supply unique run id." }));
+                    $('#ScanStatus').append($('<div/>', { html: l("%UniqueId") }));
                     EnableCollectionFields();
                 }
                 else {
-                    $('#ScanStatus').append($('<div/>', { html: '<i class="fas fa-cog fa-spin"></i>  <i>Collection has started. Please do not close the application or navigate to other pages until collection is complete.</i>' }));
+                    $('#ScanStatus').append($('<div/>', { html: '<i class="fas fa-cog fa-spin"></i>  <i>'+l('CollectionHasStarted')+'</i>' }));
                     setTimeout(GetCollectors, 1000)
                 }
             });
@@ -147,10 +147,10 @@ function GetMonitorStatus() {
         if (keepChecking) {
             DisableCollectionFields();
             setTimeout(GetMonitorStatus, 250);
-            $('#ScanStatus').append($('<div/>', { html: "<i>Monitoring is running. Please begin installation of your test product.</i>" }));
+            $('#ScanStatus').append($('<div/>', { html: l("%MonitoringRunning") }));
         }
         else {
-            $('#ScanStatus').append($('<div/>', { html: "<i>Monitoring is completed.</i>" }));
+            $('#ScanStatus').append($('<div/>', { html: l("%MonitoringCompleted") }));
             EnableCollectionFields();
         }
     });
@@ -166,7 +166,7 @@ function GetCollectors() {
         $('#ScanStatus').empty();
 
         if (Object.keys(rundata).length > 0) {
-            $('#ScanStatus').append($('<div/>', { html: "<i>Status report for " + data.RunId + ".</i>" }));
+            $('#ScanStatus').append($('<div/>', { html: l("StatusReportFor") + data.RunId + ".</i>" }));
         }
 
         $.each(rundata, function (key, value) {
@@ -197,15 +197,15 @@ function GetCollectors() {
         });
         if (keepChecking) {
             DisableCollectionFields();
-            $('#ScanStatus').append($('<div/>', { html: '<i>Collection has started. Please do not close the application or navigate to other pages until collection is complete.</i>' }));
+            $('#ScanStatus').append($('<div/>', { html: l("%CollectionHasStarted") }));
             setTimeout(GetCollectors, 250);
         }
         else {
             if (anyCollectors) {
-                $('#ScanStatus').append($('<div/>', { html: "<i>Collection is completed.</i>" }));
+                $('#ScanStatus').append($('<div/>', { html: l("%CollectionCompleted") }));
             }
             else {
-                $('#ScanStatus').append($('<div/>', { html: "<i>Ready to begin collection.</i>" }));
+                $('#ScanStatus').append($('<div/>', { html: l("%ReadyToBeginCollection") }));
             }
             EnableCollectionFields();
         }

@@ -68,7 +68,7 @@ namespace AttackSurfaceAnalyzer.Gui
 
             BrowserWindowOptions browserWindowOptions = new BrowserWindowOptions();
             browserWindowOptions.Width = 1200;
-            browserWindowOptions.Height = 842;
+            browserWindowOptions.Height = 1000;
             browserWindowOptions.Resizable = true;
             browserWindowOptions.Center = true;
             browserWindowOptions.Title = "Attack Surface Analyzer Preview";
