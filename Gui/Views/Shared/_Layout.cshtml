@@ -11,6 +11,7 @@
     <title>Attack Surface Analyzer Preview</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="localizations" hreflang="en-US" href="~/locale/american-english.json" type="application/vnd.oftn.l10n+json" />
     @{
         if (!TelemetryConfiguration.Active.DisableTelemetry)
         {
@@ -41,7 +42,7 @@
         </div>
     </nav>
     @{
-        if (! ( (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && Elevation.IsAdministrator()) || ((RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) && Elevation.IsRunningAsRoot()) ))
+        if (!((RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && Elevation.IsAdministrator()) || ((RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) && Elevation.IsRunningAsRoot())))
         {
             <div class="row no-gutters">
                 <div class="col-1">
@@ -79,26 +80,11 @@
         <img src="~/images/microsoft-gray.png" style="height:30px" alt="Microsoft Corporation Logo" /> v. @Helpers.GetVersionString()
     </nav>
 
-    @*<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">*@
-    <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/lib/l10n.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
 
-
-    </environment>
-    <environment exclude="Development">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity=""></script>
-
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-    </environment>
     @RenderSection("Scripts", required: false)
 </body>
 

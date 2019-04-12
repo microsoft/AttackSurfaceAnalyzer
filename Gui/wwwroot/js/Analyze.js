@@ -194,7 +194,7 @@ function GetResultTypes() {
 function UpdateNumResults(total, offset, requested, actual) {
     $('#CountStatus').empty();
     if (actual == 0){
-        $("#CountStatus").append("No difference detected.");
+        $("#CountStatus").append(l("%Error.NoDifference"));
     }
     else{
         $("#CountStatus").append("Showing " + (offset + 1) + " to " + (offset + actual) + " results. " + total + " total records.");
@@ -204,7 +204,7 @@ function UpdateNumResults(total, offset, requested, actual) {
 function UpdateMonitorNumResults(total, offset, requested, actual) {
     $('#MonitorCountStatus').empty();
     if (actual == 0){
-        $("#CountStatus").append("No difference detected.");
+        $("#CountStatus").append(l("%Error.NoDifference"));
     }
     else{
         $("#MonitorCountStatus").append("Showing " + (offset + 1) + " to " + (offset + actual) + " results. " + total + " total records.");

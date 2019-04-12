@@ -14,7 +14,6 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
         private static readonly string SELECT_INSERTED_SQL = "select * from certificates b where b.run_id = @second_run_id and hash_plus_store not in (select hash_plus_store from certificates a where a.run_id = @first_run_id);";
         private static readonly string SELECT_DELETED_SQL = "select * from certificates a where a.run_id = @first_run_id and hash_plus_store not in (select hash_plus_store from certificates b where b.run_id = @second_run_id);";
 
-        private Strings R = new Strings();
         public CertificateCompare()
         {
             Results = new Dictionary<string, object>

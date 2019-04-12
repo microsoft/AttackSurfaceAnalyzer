@@ -23,8 +23,6 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         private Stopwatch watch;
 
-        private Strings R = new Strings();
-
         public RUN_STATUS IsRunning()
         {
             return _running;
