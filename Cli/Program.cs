@@ -21,13 +21,10 @@ using RazorLight;
 using AttackSurfaceAnalyzer.ObjectTypes;
 using Newtonsoft.Json;
 using System.Reflection;
-using System.Diagnostics;
-using Microsoft.ApplicationInsights.Extensibility;
-using System.Threading.Tasks;
 using Serilog;
+using System.Resources;
 
-
-namespace AttackSurfaceAnalyzer.Cli
+namespace AttackSurfaceAnalyzer
 {
 
     [Verb("compare", HelpText = "Compare ASA executions and output a .html summary")]
@@ -198,7 +195,6 @@ namespace AttackSurfaceAnalyzer.Cli
 
         private static readonly string SQL_GET_RUN = "select run_id from runs where run_id=@run_id";
 
-
         static void Main(string[] args)
         {
             Logger.Setup();
@@ -209,7 +205,12 @@ namespace AttackSurfaceAnalyzer.Cli
             Log.Information("AttackSurfaceAnalyzerCli v." + version);
             Log.Debug(version);
             DatabaseManager.Setup();
-            Telemetry.Setup(false);
+            Telemetry.Setup(Gui : false);
+
+            var assembly = Assembly.GetEntryAssembly();
+            var names = assembly.GetManifestResourceNames();
+
+            Log.Information(JsonConvert.SerializeObject(names));
 
             var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, CompareCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions, ConfigCommandOptions>(args)
                 .MapResult(
@@ -222,7 +223,7 @@ namespace AttackSurfaceAnalyzer.Cli
                     errs => 1
                 );
             
-            Log.Information("Attack Surface Analyzer Complete.");
+            Log.Information("Attack Surface Analyzer {0}.", Strings.Get("Completed"));
             Log.CloseAndFlush();
         }
 
@@ -234,14 +235,14 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 DatabaseManager.CloseDatabase();
                 File.Delete(opts.DatabaseFilename);
-                Log.Information("Deleted Database");
+                Log.Information("{0}", Strings.Get("DeletedDatabase"));
             }
             else
             {
                 if (opts.ListRuns)
                 {
 
-                    Log.Information("Begin Collect Run Ids");
+                    Log.Information("{0} {1}", Strings.Get("Begin"), Strings.Get("EnumeratingCollectRunIds"));
                     List<string> CollectRuns = GetRuns("collect");
                     foreach (string run in CollectRuns)
                     {
@@ -271,7 +272,7 @@ namespace AttackSurfaceAnalyzer.Cli
                             }
                         }
                     }
-                    Log.Information("Begin monitor Run Ids");
+                    Log.Information("{0} {1}", Strings.Get("Begin"), Strings.Get("EnumeratingMonitorRunIds"));
                     List<string> MonitorRuns = GetRuns("monitor");
                     foreach (string monitorRun in MonitorRuns)
                     {
@@ -306,7 +307,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 if (opts.TelemetryOptOut != null)
                 {
                     Telemetry.SetOptOut(bool.Parse(opts.TelemetryOptOut));
-                    Log.Information("Your telemetry opt out setting is now {0}.", (bool.Parse(opts.TelemetryOptOut)) ? "Opted out" : "Opted in");
+                    Log.Information("{1} {0}.", Strings.Get("TelemetryOptOut"), (bool.Parse(opts.TelemetryOptOut)) ? "Opted out" : "Opted in");
                 }
                 if (opts.DeleteRunId != null)
                 {
@@ -327,7 +328,7 @@ namespace AttackSurfaceAnalyzer.Cli
             Logger.Setup(false, opts.Verbose);
 #endif
 
-            Log.Debug("Entering RunExportCollectCommand");
+            Log.Debug("{0} RunExportCollectCommand", Strings.Get("Begin"));
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
@@ -337,7 +338,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
                 if (runIds.Count < 2)
                 {
-                    Log.Fatal("Couldn't determine latest two run ids. Can't continue.");
+                    Log.Fatal(Strings.Get("Err_CouldntDetermineTwoRun"));
                     System.Environment.Exit(-1);
                 }
                 else
@@ -347,12 +348,12 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
             }
 
-            Log.Information("Comparing {0} vs {1}", opts.FirstRunId, opts.SecondRunId);
+            Log.Information("{0} {1} vs {2}", Strings.Get("Comparing"), opts.FirstRunId, opts.SecondRunId);
 
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("OutputPathSet", (opts.OutputPath != null).ToString());
 
-            Telemetry.TrackEvent("Begin Export Compare", StartEvent);
+            Telemetry.TrackEvent("{0} Export Compare", StartEvent);
 
             CompareCommandOptions options = new CompareCommandOptions();
             options.DatabaseFilename = opts.DatabaseFilename;
@@ -366,7 +367,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 NullValueHandling = NullValueHandling.Ignore
             };
             serializer.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
-            Log.Debug("Done comparing RunExportCollectCommand");
+            Log.Debug("{0} RunExportCollectCommand", Strings.Get("End"));
 
             using (StreamWriter sw = new StreamWriter(Path.Combine(opts.OutputPath, Helpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId + "_summary.json.txt")))) //lgtm[cs/path-injection]
             {
@@ -375,7 +376,7 @@ namespace AttackSurfaceAnalyzer.Cli
                     serializer.Serialize(writer, results);
                 }
             }
-            Log.Information("Done writing");
+            Log.Information(Strings.Get("DoneWriting"));
             return 0;
 
         }
@@ -385,7 +386,7 @@ namespace AttackSurfaceAnalyzer.Cli
             string GET_COMPARISON_RESULTS = "select * from compared where base_run_id=@base_run_id and compare_run_id=@compare_run_id and data_type=@data_type order by base_row_key;";
             string GET_SERIALIZED_RESULTS = "select serialized from @table_name where row_key = @row_key and run_id = @run_id";
 
-            Log.Debug("Starting WriteScanJson");
+            Log.Debug("{0} WriteScanJson", Strings.Get("Begin"));
 
             List<RESULT_TYPE> ToExport = new List<RESULT_TYPE> { (RESULT_TYPE)ResultType };
             Dictionary<RESULT_TYPE, int> actualExported = new Dictionary<RESULT_TYPE, int>();
@@ -550,7 +551,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
                 if (runIds.Count < 1)
                 {
-                    Log.Fatal("Couldn't determine latest run id. Can't continue.");
+                    Log.Fatal(Strings.Get("Err_CouldntDetermineOneRun"));
                     System.Environment.Exit(-1);
                 }
                 else
@@ -559,7 +560,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
             }
 
-            Log.Information("Exporting {0}", opts.RunId);
+            Log.Information("{0} {1}", Strings.Get("Exporting"), opts.RunId);
 
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("OutputPathSet", (opts.OutputPath != null).ToString());
@@ -573,7 +574,7 @@ namespace AttackSurfaceAnalyzer.Cli
         public static void WriteMonitorJson(string RunId, int ResultType, string OutputPath)
         {
             List<FileMonitorEvent> records = new List<FileMonitorEvent>();
-            string GET_SERIALIZED_RESULTS = "select change_type,serialized from file_system_monitored where run_id = @run_id";
+            string GET_SERIALIZED_RESULTS = "select change_type, Serialized from file_system_monitored where run_id = @run_id";
 
 
             var cmd = new SqliteCommand(GET_SERIALIZED_RESULTS, DatabaseManager.Connection);
@@ -635,7 +636,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 {
                     while (reader.Read())
                     {
-                        Log.Error("That runid was already used. Must use a unique runid for each run. Use --overwrite to discard previous run information.");
+                        Log.Error(Strings.Get("Err_RunIdAlreadyUsed"));
                         return (int)ERRORS.UNIQUE_ID;
                     }
                 }
@@ -719,7 +720,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             if (monitors.Count == 0)
             {
-                Log.Warning("No monitors have been defined.");
+                Log.Warning(Strings.Get("Err_NoMonitors"));
                 returnValue = 1;
             }
 
@@ -728,7 +729,7 @@ namespace AttackSurfaceAnalyzer.Cli
             // If duration is set, we use the secondary timer.
             if (opts.Duration > 0)
             {
-                Log.Information("Monitor started for " + opts.Duration + " minute(s).");
+                Log.Information("{0} {1} {2}.", Strings.Get("MonitorStartedFor"),opts.Duration, Strings.Get("Minutes"));
                 var aTimer = new System.Timers.Timer
                 {
                     Interval = opts.Duration * 60 * 1000,
@@ -742,7 +743,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             foreach (var c in monitors)
             {
-                Log.Information("Executing: {0}", c.GetType().Name);
+                Log.Information("{0}: {1}", Strings.Get("Begin"), c.GetType().Name);
 
                 try
                 {
@@ -750,7 +751,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
                 catch (Exception ex)
                 {
-                    Log.Error(ex, "Error collecting from {0}: {1} {2}", c.GetType().Name, ex.Message, ex.StackTrace);
+                    Log.Error(ex, "{3} {0}: {1} {2}", c.GetType().Name, ex.Message, ex.StackTrace, Strings.Get("Err_CollectingFrom"));
                     returnValue = 1;
                 }
             }
@@ -761,7 +762,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 exitEvent.Set();
             };
 
-            Console.Write("Monitoring, press CTRL+C to stop...  ");
+            Console.Write(Strings.Get("MonitoringPressC"));
 
             // Write a spinner and wait until CTRL+C
             WriteSpinner(exitEvent);
@@ -769,7 +770,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             foreach (var c in monitors)
             {
-                Log.Information("Stopping: {0}", c.GetType().Name);
+                Log.Information("{0}: {1}", Strings.Get("End"),c.GetType().Name);
 
                 try
                 {
@@ -777,7 +778,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
                 catch (Exception ex)
                 {
-                    Log.Error(ex, "Error stopping {0}: {1}", c.GetType().Name, ex.Message);
+                    Log.Error(ex, " {0}: {1}", c.GetType().Name, ex.Message, Strings.Get("Err_Stopping"));
                     returnValue = 1;
                 }
             }
@@ -845,7 +846,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
         public static Dictionary<string, object> CompareRuns(CompareCommandOptions opts)
         {
-            Log.Information("Comparing {0} vs {1}",opts.FirstRunId,opts.SecondRunId);
+            Log.Information("{0} {1} vs {2}", Strings.Get("Comparing"),opts.FirstRunId,opts.SecondRunId);
 
 
             var results = new Dictionary<string, object>
@@ -868,7 +869,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             using (var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
-                Log.Debug("Getting result types");
+                Log.Debug(Strings.Get("GettingResultTypes"));
                 cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
                 cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
 
@@ -939,10 +940,10 @@ namespace AttackSurfaceAnalyzer.Cli
 
             foreach ( BaseCompare c in comparators)
             {
-                Log.Information("Starting {0}", c.GetType().Name);
+                Log.Information("{0} {1}", Strings.Get("Begin"), c.GetType().Name);
                 if (!c.TryCompare(opts.FirstRunId, opts.SecondRunId))
                 {
-                    Log.Warning("Error when comparing {0}", c.GetType().Name);
+                    Log.Warning("{0} {1}", Strings.Get("Err_Comparing"),c.GetType().Name);
                 }
                 c.Results.ToList().ForEach(x => results.Add(x.Key, x.Value));
                 EndEvent.Add(c.GetType().ToString(), c.GetNumResults().ToString());
@@ -984,7 +985,7 @@ namespace AttackSurfaceAnalyzer.Cli
                     }
                     catch (ArgumentException)
                     {
-                        Log.Warning("{0} is an invalid path.",dir);
+                        Log.Warning("{1}: {0}",dir, Strings.Get("InvalidPath"));
                         return ERRORS.INVALID_PATH;
                     }
                 }
@@ -992,7 +993,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             if (monitors.Count == 0)
             {
-                Log.Warning("No monitors have been defined.");
+                Log.Warning(Strings.Get("Err_NoMonitors"));
             }
 
             foreach (var c in monitors)
@@ -1003,7 +1004,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
                 catch (Exception ex)
                 {
-                    Log.Error(ex, "Error collecting from {0}: {1} {2}", c.GetType().Name, ex.Message, ex.StackTrace);
+                    Log.Error(ex, "{3} {0}: {1} {2}", c.GetType().Name, ex.Message, ex.StackTrace, Strings.Get("Err_CollectingFrom"));
                 }
             }
 
@@ -1014,7 +1015,7 @@ namespace AttackSurfaceAnalyzer.Cli
         {
             foreach (var c in monitors)
             {
-                Log.Information("Stopping: {0}", c.GetType().Name);
+                Log.Information("{0}: {1}", Strings.Get("End"), c.GetType().Name);
 
                 try
                 {
@@ -1022,7 +1023,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
                 catch (Exception ex)
                 {
-                    Log.Error(ex, "Error stopping {0}: {1}", c.GetType().Name, ex.Message);
+                    Log.Error(ex, "{2} {0}: {1}", c.GetType().Name, ex.Message, Strings.Get("Err_Stopping"));
                 }
             }
 
@@ -1036,7 +1037,7 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 if (!Elevation.IsAdministrator())
                 {
-                    Log.Warning("Attack Surface Enumerator must be run as Administrator.");
+                    Log.Warning(Strings.Get("Err_RunAsAdmin"));
                     Environment.Exit(1);
                 }
             }
@@ -1044,7 +1045,7 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 if (!Elevation.IsRunningAsRoot())
                 {
-                    Log.Fatal("Attack Surface Enumerator must be run as root.");
+                    Log.Fatal(Strings.Get("Err_RunAsRoot"));
                     Environment.Exit(1);
                 }
             }
@@ -1052,7 +1053,7 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 if (!Elevation.IsRunningAsRoot())
                 {
-                    Log.Fatal("Attack Surface Enumerator must be run as root.");
+                    Log.Fatal(Strings.Get("Err_RunAsRoot"));
                     Environment.Exit(1);
                 }
             }
@@ -1117,7 +1118,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             if (collectors.Count == 0)
             {
-                Log.Warning("No collectors have been defined.");
+                Log.Warning(Strings.Get("Err_NoCollectors"));
                 return -1;
             }
 
@@ -1136,13 +1137,13 @@ namespace AttackSurfaceAnalyzer.Cli
                 {
                     while (reader.Read())
                     {
-                        Log.Error("That runid was already used. Must use a unique runid for each run. Use --overwrite to discard previous run information.");
+                        Log.Error(Strings.Get("Err_RunIdAlreadyUsed"));
                         return (int)ERRORS.UNIQUE_ID;
                     }
                 }
             }
 
-            Log.Information("Starting run {0}", opts.RunId);
+            Log.Information("{0} {1}", Strings.Get("Begin"), opts.RunId);
 
             string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, type, timestamp, version) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @type, @timestamp, @version)";
 
@@ -1203,7 +1204,7 @@ namespace AttackSurfaceAnalyzer.Cli
                     Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                 }
             }
-            Log.Information("Starting {0} collectors", collectors.Count.ToString());
+            Log.Information("{0} {1} {2}", Strings.Get("Starting"), collectors.Count.ToString(), Strings.Get("Collectors"));
 
             Dictionary<string, string> EndEvent = new Dictionary<string, string>();
             foreach (BaseCollector c in collectors)
@@ -1215,10 +1216,10 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
                 catch (Exception ex)
                 {
-                    Log.Error(ex, "Error collecting from {0}: {1} {2}", c.GetType().Name, ex.Message, ex.StackTrace);
+                    Log.Error(ex, "{0} {1}: {2} {3}", Strings.Get("Err_CollectingFrom"), c.GetType().Name, ex.Message, ex.StackTrace);
                     returnValue = 1;
                 }
-                Log.Information("Completed: {0}", c.GetType().Name);
+                Log.Information("{0}: {1}", Strings.Get("End"), c.GetType().Name);
             }
 
             Telemetry.TrackEvent("End Command", EndEvent);
@@ -1283,7 +1284,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
                 if (runIds.Count < 2)
                 {
-                    Log.Fatal("Couldn't determine latest two run ids. Can't continue.");
+                    Log.Fatal(Strings.Get("Err_CouldntDetermineTwoRun"));
                     System.Environment.Exit(-1);
                 }
                 else
@@ -1293,7 +1294,6 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
             }
 
-            Log.Debug("Starting CompareRuns");
             var results = CompareRuns(opts);
 
             var engine = new RazorLightEngineBuilder()

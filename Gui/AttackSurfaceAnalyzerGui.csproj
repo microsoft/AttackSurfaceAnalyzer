@@ -12,6 +12,7 @@
 <AssemblyName>AttackSurfaceAnalyzer-GUI</AssemblyName>
 <ReleaseVersion>2.0.0.0-pre-alpha</ReleaseVersion>
 <ApplicationInsightsAnnotationResourceId>/subscriptions/743195b0-d049-4532-bb00-4abf3bc37af9/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/AttackSurfaceAnalyzerGui</ApplicationInsightsAnnotationResourceId>
+<RootNamespace>AttackSurfaceAnalyzer</RootNamespace>
     </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="ElectronNet.API" Version="0.0.11" />
@@ -33,19 +34,6 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\LICENSE.txt">

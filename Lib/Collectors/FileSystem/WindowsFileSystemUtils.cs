@@ -27,7 +27,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 }
                 catch (Exception ex)
                 {
-                    Log.Debug("Unable to get access control for {0}: {1}", fileInfo.FullName, ex.Message);
+                    Log.Debug("{0} {1}: {2}", Strings.Get("Err_AccessControl"),fileInfo.FullName, ex.Message);
                     //Log.Debug(ex.StackTrace);
                 }
             }
@@ -39,7 +39,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 }
                 catch (Exception ex)
                 {
-                    Log.Debug("Unable to get access control for {0}: {1}", fileInfo.FullName, ex.Message);
+                    Log.Debug("{0} {1}: {2}", Strings.Get("Err_AccessControl"), fileInfo.FullName, ex.Message);
                     //Log.Debug(ex.StackTrace);
 
                 }

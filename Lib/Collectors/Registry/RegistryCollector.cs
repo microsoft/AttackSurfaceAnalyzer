@@ -38,7 +38,6 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
 
         public RegistryCollector(string RunId, List<RegistryHive> Hives, Action<RegistryObject> customHandler)
         {
-            Log.Debug("Initializing a new {0} object.", this.GetType().Name);
             this.runId = RunId;
             this.Hives = Hives;
             this.roots = new HashSet<string>();
@@ -129,7 +128,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                     }
                     else if (Filter.IsFiltered(Helpers.RuntimeString(), "Scan", "Registry", "Hive", "Exclude", hive.ToString(), out Regex Capturer))
                     {
-                        Log.Information("Excluding hive '{0}' due to filter '{1}'.", hive.ToString(), Capturer.ToString());
+                        Log.Information("{0} '{1}' {2}due to filter '{3}'.",Strings.Get("ExcludingHive"), hive.ToString(), Strings.Get("DueToFilter"),Capturer.ToString());
 
                         return;
                     }

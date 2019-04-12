@@ -55,3 +55,7 @@ function runStatusToString(runStatus) {
             return "No Results"
     }
 }
+
+var l = function (string) {
+    return string.toLocaleString();
+};

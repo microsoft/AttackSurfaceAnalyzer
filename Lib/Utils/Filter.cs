@@ -75,14 +75,14 @@ namespace AttackSurfaceAnalyzer.Utils
                             // We are running in parallel, its possible someone added it in between the original check and now. No problem here.
                             filters = _filters[key];
                         }
-                        Log.Information("Successfully parsed {0} {1} {2} {3} {4}", Platform, ScanType, ItemType, Property, FilterType);
+                        Log.Information("{0} {1} {2} {3} {4} {5}", Strings.Get("SuccessParsed"), Platform, ScanType, ItemType, Property, FilterType);
                     }
                     catch (NullReferenceException)
                     {
                         try
                         {
                             _filters.Add(key, filters);
-                            Log.Debug("Failed parsing {0} {1} {2} {3} {4} (no entry?)", Platform, ScanType, ItemType, Property, FilterType);
+                            Log.Debug("{0} {1} {2} {3} {4} {5}", Strings.Get("FailedParsed"), Platform, ScanType, ItemType, Property, FilterType);
                         }
                         catch (ArgumentException)
                         {
@@ -95,7 +95,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         try
                         {
                             _filters.Add(key, filters);
-                            Log.Information("Something appears to be wrong with your filters file {0}{1}{2}{3}{4}", Platform, ScanType, ItemType, Property, FilterType);
+                            Log.Information("{0} {1} {2} {3} {4} {5}", Strings.Get("Err_FiltersFile"), Platform, ScanType, ItemType, Property, FilterType);
                         }
                         catch (ArgumentException)
                         {
@@ -162,7 +162,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 using (JsonTextReader reader = new JsonTextReader(file))
                 {
                     config = (JObject)JToken.ReadFrom(reader);
-                    Log.Information("Loaded filters from {0}", filterLoc);
+                    Log.Information("{0} {1}",Strings.Get("LoadedFilters"), filterLoc);
                     DumpFilters();
                 }
                 if (config == null)
