@@ -23,7 +23,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
     {
 
         private static readonly string SQL_TRUNCATE = "delete from certificates where run_id=@run_id";
-        private static readonly string SQL_INSERT = "insert into certificates (run_id, row_key, store_location, store_name, hash, hash_plus_store, cn, pkcs12) values (@run_id, @row_key, @store_location, @store_name, @hash, @hash_plus_store, @cn, @pkcs12)";
+        private static readonly string SQL_INSERT = "insert into certificates (run_id, row_key, store_location, store_name, hash, hash_plus_store, cn, pkcs12, serialized) values (@run_id, @row_key, @store_location, @store_name, @hash, @hash_plus_store, @cn, @pkcs12, @serialized)";
 
         private int recordCounter = 0;
 
