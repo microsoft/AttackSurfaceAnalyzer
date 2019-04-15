@@ -12,6 +12,7 @@ using System.Security.Cryptography.X509Certificates;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Serilog;
+using AttackSurfaceAnalyzer.ObjectTypes;
 
 namespace AttackSurfaceAnalyzer.Collectors.Certificates
 {
@@ -22,12 +23,13 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
     {
 
         private static readonly string SQL_TRUNCATE = "delete from certificates where run_id=@run_id";
-        private static readonly string SQL_INSERT = "insert into certificates (run_id, row_key, store_location, store_name, hash, hash_plus_store, cn, pkcs12) values (@run_id, @row_key, @store_location, @store_name, @hash, @hash_plus_store, @cn, @pkcs12)";
+        private static readonly string SQL_INSERT = "insert into certificates (run_id, row_key, store_location, store_name, hash, hash_plus_store, cn, pkcs12, serialized) values (@run_id, @row_key, @store_location, @store_name, @hash, @hash_plus_store, @cn, @pkcs12, @serialized)";
 
         private int recordCounter = 0;
 
         public CertificateCollector(string runId)
         {
+            Log.Debug("Initializing a new {0} object.", this.GetType().Name);
             this.runId = runId;
         }
 
@@ -67,6 +69,15 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
 
                 cmd.Parameters.AddWithValue("@row_key", CryptoHelpers.CreateHash(runId + recordCounter));
 
+                var cert = new CertificateObject()
+                {
+                    StoreLocation = storeLocation.ToString(),
+                    StoreName = storeName.ToString(),
+                    CertificateHashString = obj.GetCertHashString(),
+                    Subject = obj.Subject
+                };
+
+                cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(cert));
                 cmd.ExecuteNonQuery();
             }
             catch (NullReferenceException e)
@@ -85,7 +96,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
             if (!CanRunOnPlatform())
             {
                 return;
-            }            
+            }
 
             Start();
             Truncate(runId);
