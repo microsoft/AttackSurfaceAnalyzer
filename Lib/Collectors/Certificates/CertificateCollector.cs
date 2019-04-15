@@ -12,6 +12,7 @@ using System.Security.Cryptography.X509Certificates;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Serilog;
+using AttackSurfaceAnalyzer.ObjectTypes;
 
 namespace AttackSurfaceAnalyzer.Collectors.Certificates
 {
@@ -28,6 +29,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
 
         public CertificateCollector(string runId)
         {
+            Log.Debug("Initializing a new {0} object.", this.GetType().Name);
             this.runId = runId;
         }
 
@@ -67,6 +69,15 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
 
                 cmd.Parameters.AddWithValue("@row_key", CryptoHelpers.CreateHash(runId + recordCounter));
 
+                var cert = new CertificateObject()
+                {
+                    StoreLocation = storeLocation.ToString(),
+                    StoreName = storeName.ToString(),
+                    CertificateHashString = obj.GetCertHashString(),
+                    Subject = obj.Subject
+                };
+
+                cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(cert));
                 cmd.ExecuteNonQuery();
             }
             catch (NullReferenceException e)
@@ -85,7 +96,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
             if (!CanRunOnPlatform())
             {
                 return;
-            }            
+            }
 
             Start();
             Truncate(runId);
