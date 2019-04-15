@@ -324,7 +324,7 @@
   <data name="StoreName" xml:space="preserve">
     <value>Store Name</value>
   </data>
-  <data name="String1" xml:space="preserve">
+  <data name="OutputDirectory" xml:space="preserve">
     <value>Output Directory For Export</value>
   </data>
   <data name="Subject" xml:space="preserve">
@@ -374,6 +374,9 @@
   </data>
   <data name="LoadedFilters" xml:space="preserve">
     <value>Loaded filters:</value>
+  </data>
+  <data name="Modified" xml:space="preserve">
+    <value>Modified</value>
   </data>
   <data name="Scanning" xml:space="preserve">
     <value>Scanning</value>
