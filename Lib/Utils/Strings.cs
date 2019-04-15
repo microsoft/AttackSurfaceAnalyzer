@@ -13,7 +13,13 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             return rm.GetString(key);
         }
+
+        public static void Setup()
+        {
+            rm = new ResourceManager("AttackSurfaceAnalyzer.Properties.Resources", Assembly.GetEntryAssembly());
+        }
+
         // Default locale
-        static readonly ResourceManager rm = new ResourceManager("AttackSurfaceAnalyzer.Properties.Resources", Assembly.GetEntryAssembly());
+        static ResourceManager rm;
     }
 }

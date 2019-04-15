@@ -324,7 +324,7 @@
   <data name="StoreName" xml:space="preserve">
     <value>Store Name</value>
   </data>
-  <data name="String1" xml:space="preserve">
+  <data name="OutputDirectory" xml:space="preserve">
     <value>Output Directory For Export</value>
   </data>
   <data name="Subject" xml:space="preserve">
@@ -347,5 +347,44 @@
   </data>
   <data name="RunStarted" xml:space="preserve">
     <value>Run started.</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Created</value>
+  </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>Deleted</value>
+  </data>
+  <data name="Err_NoCollectors" xml:space="preserve">
+    <value>No collectors have been defined.</value>
+  </data>
+  <data name="Found" xml:space="preserve">
+    <value>Found</value>
+  </data>
+  <data name="Collectors" xml:space="preserve">
+    <value>Collectors</value>
+  </data>
+  <data name="Err_AccessControl" xml:space="preserve">
+    <value>Could not get file permissions</value>
+  </data>
+  <data name="Err_FiltersFile" xml:space="preserve">
+    <value>Json error parsing your filters.json file.</value>
+  </data>
+  <data name="FailedParsed" xml:space="preserve">
+    <value>Could not parse</value>
+  </data>
+  <data name="LoadedFilters" xml:space="preserve">
+    <value>Loaded filters:</value>
+  </data>
+  <data name="Modified" xml:space="preserve">
+    <value>Modified</value>
+  </data>
+  <data name="Scanning" xml:space="preserve">
+    <value>Scanning</value>
+  </data>
+  <data name="Starting" xml:space="preserve">
+    <value>Starting</value>
+  </data>
+  <data name="SuccessParsed" xml:space="preserve">
+    <value>Successfully Parsed</value>
   </data>
 </root>
