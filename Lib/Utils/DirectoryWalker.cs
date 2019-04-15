@@ -44,15 +44,14 @@ namespace AttackSurfaceAnalyzer.Utils
                 // choice of which exceptions to catch depends entirely on the specific task 
                 // you are intending to perform and also on how much you know with certainty 
                 // about the systems on which this code will run.
-                catch (UnauthorizedAccessException e)
+                catch (UnauthorizedAccessException)
                 {
-                    Log.Debug("Failed enumerating directories");
-                    Log.Debug(e.Message);
+                    Log.Debug("Unable to access: {0}",currentDir);
                     continue;
                 }
-                catch (System.IO.DirectoryNotFoundException e)
+                catch (System.IO.DirectoryNotFoundException)
                 {
-                    Log.Debug(e.Message);
+                    Log.Debug("Directory not found: {0}",currentDir);
                     continue;
                 }
                 // @TODO: Improve this catch. 
@@ -60,9 +59,10 @@ namespace AttackSurfaceAnalyzer.Utils
                 // even though its not a directory on Mac OS.
                 // System.IO.Directory.GetDirectories is how we get the 
                 // directories.
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    //Log.Debug(ex.StackTrace);
+                    Log.Debug(ex.StackTrace);
+                    Log.Debug(ex.GetType().ToString());
                     continue;
                 }
 
@@ -119,8 +119,10 @@ namespace AttackSurfaceAnalyzer.Utils
                         fileInfo = new DirectoryInfo(str);
 
                         // Skip symlinks to avoid loops
+                        // Future improvement: log it as a symlink in the data
                         if (fileInfo.Attributes.HasFlag(FileAttributes.ReparsePoint))
                         {
+                            Log.Debug("Skipping symlink {0}", str);
                             continue;
                         }
                     }
@@ -130,11 +132,14 @@ namespace AttackSurfaceAnalyzer.Utils
                         //  or thread since the call to TraverseTree()
                         // then just continue.
                         Log.Debug(e.Message);
+                        Log.Debug(e.GetType().ToString());
+
                         continue;
                     }
                     catch (Exception e)
                     {
                         Log.Debug(e.Message);
+                        Log.Debug(e.GetType().ToString());
                         Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Warning,e);
                         continue;
                     }

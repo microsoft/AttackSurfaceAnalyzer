@@ -204,7 +204,7 @@ namespace AttackSurfaceAnalyzer
                         .GetEntryAssembly()
                         .GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false)
                         as AssemblyInformationalVersionAttribute[])[0].InformationalVersion;
-            Log.Information("AttackSurfaceAnalyzerCli v." + version);
+            Log.Information("AttackSurfaceAnalyzerCli v.{0}",version);
             Log.Debug(version);
             DatabaseManager.Setup();
             Telemetry.Setup(Gui : false);
@@ -239,7 +239,7 @@ namespace AttackSurfaceAnalyzer
                 if (opts.ListRuns)
                 {
 
-                    Log.Information("{0} {1}", Strings.Get("Begin"), Strings.Get("EnumeratingCollectRunIds"));
+                    Log.Information(Strings.Get("Begin")+" {0}", Strings.Get("EnumeratingCollectRunIds"));
                     List<string> CollectRuns = GetRuns("collect");
                     foreach (string run in CollectRuns)
                     {
@@ -269,7 +269,7 @@ namespace AttackSurfaceAnalyzer
                             }
                         }
                     }
-                    Log.Information("{0} {1}", Strings.Get("Begin"), Strings.Get("EnumeratingMonitorRunIds"));
+                    Log.Information(Strings.Get("Begin") + " {0}", Strings.Get("EnumeratingMonitorRunIds"));
                     List<string> MonitorRuns = GetRuns("monitor");
                     foreach (string monitorRun in MonitorRuns)
                     {
@@ -748,7 +748,8 @@ namespace AttackSurfaceAnalyzer
 
             foreach (FileSystemMonitor c in monitors)
             {
-                Log.Information("{0}: {1}", Strings.Get("Begin"), c.GetType().Name);
+
+                Log.Information(Strings.Get("Begin")+" : {0}", c.GetType().Name);
 
                 try
                 {
@@ -945,10 +946,10 @@ namespace AttackSurfaceAnalyzer
 
             foreach ( BaseCompare c in comparators)
             {
-                Log.Information("{0} {1}", Strings.Get("Begin"), c.GetType().Name);
+                Log.Information(Strings.Get("Begin") + " : {0}", c.GetType().Name);
                 if (!c.TryCompare(opts.FirstRunId, opts.SecondRunId))
                 {
-                    Log.Warning("{0} {1}", Strings.Get("Err_Comparing"),c.GetType().Name);
+                    Log.Warning(Strings.Get("Err_Comparing") + " : {0}", c.GetType().Name);
                 }
                 c.Results.ToList().ForEach(x => results.Add(x.Key, x.Value));
                 EndEvent.Add(c.GetType().ToString(), c.GetNumResults().ToString());

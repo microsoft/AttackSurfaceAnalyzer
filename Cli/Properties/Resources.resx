@@ -360,4 +360,28 @@
   <data name="Found" xml:space="preserve">
     <value>Found</value>
   </data>
+  <data name="Collectors" xml:space="preserve">
+    <value>Collectors</value>
+  </data>
+  <data name="Err_AccessControl" xml:space="preserve">
+    <value>Could not get file permissions</value>
+  </data>
+  <data name="Err_FiltersFile" xml:space="preserve">
+    <value>Json error parsing your filters.json file.</value>
+  </data>
+  <data name="FailedParsed" xml:space="preserve">
+    <value>Could not parse</value>
+  </data>
+  <data name="LoadedFilters" xml:space="preserve">
+    <value>Loaded filters:</value>
+  </data>
+  <data name="Scanning" xml:space="preserve">
+    <value>Scanning</value>
+  </data>
+  <data name="Starting" xml:space="preserve">
+    <value>Starting</value>
+  </data>
+  <data name="SuccessParsed" xml:space="preserve">
+    <value>Successfully Parsed</value>
+  </data>
 </root>
