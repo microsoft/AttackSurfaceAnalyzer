@@ -198,6 +198,8 @@ namespace AttackSurfaceAnalyzer
         static void Main(string[] args)
         {
             Logger.Setup();
+            Strings.Setup();
+
             string version = (Assembly
                         .GetEntryAssembly()
                         .GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false)
@@ -206,11 +208,6 @@ namespace AttackSurfaceAnalyzer
             Log.Debug(version);
             DatabaseManager.Setup();
             Telemetry.Setup(Gui : false);
-
-            var assembly = Assembly.GetEntryAssembly();
-            var names = assembly.GetManifestResourceNames();
-
-            Log.Information(JsonConvert.SerializeObject(names));
 
             var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, CompareCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions, ConfigCommandOptions>(args)
                 .MapResult(

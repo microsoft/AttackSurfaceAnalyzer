@@ -348,4 +348,16 @@
   <data name="RunStarted" xml:space="preserve">
     <value>Run started.</value>
   </data>
+  <data name="Created" xml:space="preserve">
+    <value>Created</value>
+  </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>Deleted</value>
+  </data>
+  <data name="Err_NoCollectors" xml:space="preserve">
+    <value>No collectors have been defined.</value>
+  </data>
+  <data name="Found" xml:space="preserve">
+    <value>Found</value>
+  </data>
 </root>
