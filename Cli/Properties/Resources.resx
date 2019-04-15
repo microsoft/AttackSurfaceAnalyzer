@@ -387,4 +387,10 @@
   <data name="SuccessParsed" xml:space="preserve">
     <value>Successfully Parsed</value>
   </data>
+  <data name="DueToFilter" xml:space="preserve">
+    <value>Due To Filter</value>
+  </data>
+  <data name="ExcludingHive" xml:space="preserve">
+    <value>Excluding Hive</value>
+  </data>
 </root>

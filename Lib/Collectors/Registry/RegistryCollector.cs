@@ -128,7 +128,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                     }
                     else if (Filter.IsFiltered(Helpers.RuntimeString(), "Scan", "Registry", "Hive", "Exclude", hive.ToString(), out Regex Capturer))
                     {
-                        Log.Information("{0} '{1}' {2}due to filter '{3}'.",Strings.Get("ExcludingHive"), hive.ToString(), Strings.Get("DueToFilter"),Capturer.ToString());
+                        Log.Information("{0} '{1}' {2} '{3}'.",Strings.Get("ExcludingHive"), hive.ToString(), Strings.Get("DueToFilter"),Capturer.ToString());
 
                         return;
                     }

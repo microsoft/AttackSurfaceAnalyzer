@@ -277,6 +277,15 @@ namespace AttackSurfaceAnalyzer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Due To Filter.
+        /// </summary>
+        public static string DueToFilter {
+            get {
+                return ResourceManager.GetString("DueToFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to End.
         /// </summary>
         public static string End {
@@ -381,6 +390,15 @@ namespace AttackSurfaceAnalyzer.Properties {
         public static string Err_RunIdAlreadyUsed {
             get {
                 return ResourceManager.GetString("Err_RunIdAlreadyUsed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Excluding Hive.
+        /// </summary>
+        public static string ExcludingHive {
+            get {
+                return ResourceManager.GetString("ExcludingHive", resourceCulture);
             }
         }
         
