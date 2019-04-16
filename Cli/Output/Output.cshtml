@@ -543,6 +543,8 @@
                                         }
                                         @foreach (CertificateResult i in Model["certs_add"])
                                         {
+                                            try
+                                            {
                                             <tr>
                                                 <td>Added</td>
                                                 <td>@i.Compare.StoreLocation</td>
@@ -550,6 +552,11 @@
                                                 <td>@i.Compare.Subject</td>
                                                 <td>@i.Compare.CertificateHashString</td>
                                             </tr>
+                                            }
+                                            catch(Exception e)
+                                            {
+                                                e.Message;
+                                            }
                                         }
                                     </tbody>
                                 </table>
