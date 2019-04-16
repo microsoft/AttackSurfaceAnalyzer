@@ -70,7 +70,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
 
                 Log.Information("{0} {1} {2}",Strings.Get("Found"), addObjects.Count, Strings.Get("Created"));
 
-                var removeObjects = new List<string>();
+                var removeObjects = new List<CertificateResult>();
                 cmd = new SqliteCommand(SELECT_DELETED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
                 cmd.Parameters.AddWithValue("@second_run_id", secondRunId);
@@ -93,7 +93,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
                             ChangeType = CHANGE_TYPE.DELETED,
                             ResultType = RESULT_TYPE.CERTIFICATE
                         };
-                        addObjects.Add(obj);
+                        removeObjects.Add(obj);
                         InsertResult(obj);
                     }
                 }
