@@ -99,7 +99,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
                 }
                 Results["certs_remove"] = removeObjects;
 
-                Log.Information("{0} {1} {2}", Strings.Get("Found"), addObjects.Count, Strings.Get("Deleted"));
+                Log.Information("{0} {1} {2}", Strings.Get("Found"), removeObjects.Count, Strings.Get("Deleted"));
             }
             catch (Exception e)
             {
