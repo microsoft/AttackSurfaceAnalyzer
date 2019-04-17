@@ -236,6 +236,8 @@ namespace AttackSurfaceAnalyzer
             }
             else
             {
+                DatabaseManager.VerifySchemaVersion();
+
                 if (opts.ListRuns)
                 {
 
@@ -311,9 +313,7 @@ namespace AttackSurfaceAnalyzer
                     DatabaseManager.DeleteRun(opts.DeleteRunId);
                 }
             }
-
-
-
+            
             return 0;
         }
 
@@ -326,6 +326,7 @@ namespace AttackSurfaceAnalyzer
 #endif
 
             Log.Debug("{0} RunExportCollectCommand", Strings.Get("Begin"));
+            DatabaseManager.VerifySchemaVersion();
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
@@ -538,6 +539,7 @@ namespace AttackSurfaceAnalyzer
 #else
             Logger.Setup(false, opts.Verbose);
 #endif
+            DatabaseManager.VerifySchemaVersion();
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
@@ -1074,6 +1076,7 @@ namespace AttackSurfaceAnalyzer
 #endif
             int returnValue = (int)ERRORS.NONE;
             AdminOrQuit();
+            DatabaseManager.VerifySchemaVersion();
 
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("Files", opts.EnableAllCollectors ? "True" : opts.EnableFileSystemCollector.ToString());
@@ -1279,6 +1282,8 @@ namespace AttackSurfaceAnalyzer
 #else
             Logger.Setup(false, opts.Verbose);
 #endif
+            DatabaseManager.VerifySchemaVersion();
+
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
 

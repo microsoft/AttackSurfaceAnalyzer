@@ -39,8 +39,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
 
         private static readonly string SQL_CREATE_PERSISTED_SETTINGS = "create table if not exists persisted_settings (setting text, value text, unique(setting))";
-        private static readonly string SQL_CREATE_DEFAULT_SETTINGS = "insert or ignore into persisted_settings (setting, value) values ('telemetry_opt_out','false')";
-
+        private static readonly string SQL_CREATE_DEFAULT_SETTINGS = "insert or ignore into persisted_settings (setting, value) values ('telemetry_opt_out','false'),('schema_version',@schema_version)";
 
         private static readonly string SQL_GET_RESULT_TYPES_SINGLE = "select * from runs where run_id = @run_id";
 
@@ -55,6 +54,9 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private static readonly string SQL_SELECT_LATEST_N_RUNS = "select run_id from runs where type = @type order by timestamp desc limit 0,@limit;";
 
+        private static readonly string SQL_GET_SCHEMA_VERSION = "select value from persisted_settings where setting = 'schema_version' limit 0,1";
+
+        private static readonly string SCHEMA_VERSION = "1";
 
         public static SqliteConnection Connection;
         public static SqliteConnection ReadOnlyConnection;
@@ -103,6 +105,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 cmd.ExecuteNonQuery();
 
                 cmd = new SqliteCommand(SQL_CREATE_DEFAULT_SETTINGS, DatabaseManager.Connection, DatabaseManager.Transaction);
+                cmd.Parameters.AddWithValue("@schema_version", SCHEMA_VERSION);
                 cmd.ExecuteNonQuery();
 
                 cmd = new SqliteCommand(SQL_CREATE_FILE_SYSTEM_INDEX, DatabaseManager.Connection, DatabaseManager.Transaction);
@@ -135,14 +138,26 @@ namespace AttackSurfaceAnalyzer.Utils
                 DatabaseManager.Transaction.Commit();
                 _transaction = null;
                 Log.Debug("Done with database setup");
-
+                cmd.Dispose();
             }
+        }
+
+        public static void VerifySchemaVersion()
+        {
+            using (var cmd = new SqliteCommand(SQL_GET_SCHEMA_VERSION, DatabaseManager.Connection, DatabaseManager.Transaction))
+                using (var reader = cmd.ExecuteReader())
+                {
+                    reader.Read();
+                    if (!reader["value"].ToString().Equals(SCHEMA_VERSION))
+                    {
+                        Log.Fatal("Schema version of database is {0} but {1} is required. Use config --reset-database to delete the incompatible database.", reader["value"].ToString(), SCHEMA_VERSION);
+                        Environment.Exit(-1);
+                    }
+                }
         }
 
         public static List<string> GetLatestRunIds(int numberOfIds, string type)
         {
-
-
             List<string> output = new List<string>();
             using (var cmd = new SqliteCommand(SQL_SELECT_LATEST_N_RUNS, DatabaseManager.Connection))
             {
