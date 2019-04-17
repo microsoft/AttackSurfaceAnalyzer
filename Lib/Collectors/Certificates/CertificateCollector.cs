@@ -163,7 +163,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
             // On macos we use the keychain and export the certificates as .pem.
             // However, on macos Certificate2 doesn't support loading from a pem, 
             // so first we need pkcs12s instead, we convert using openssl, which requires we set a password
-            // we import the pkcs12 with all our certs, iterate over it and then delete the temp files
+            // we import the pkcs12 with all our certs, delete the temp files and then iterate over it the certs
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
                 var runner = new ExternalCommandRunner();
