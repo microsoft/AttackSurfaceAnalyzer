@@ -42,7 +42,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
 
         public override bool CanRunOnPlatform()
         {
-            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         }
 
         public void Write(StoreLocation storeLocation, StoreName storeName, X509Certificate2 obj)
@@ -101,30 +101,61 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
             Start();
             Truncate(runId);
 
-            foreach (StoreLocation storeLocation in (StoreLocation[])Enum.GetValues(typeof(StoreLocation)))
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                foreach (StoreName storeName in (StoreName[])Enum.GetValues(typeof(StoreName)))
+                foreach (StoreLocation storeLocation in (StoreLocation[])Enum.GetValues(typeof(StoreLocation)))
                 {
-                    try
+                    foreach (StoreName storeName in (StoreName[])Enum.GetValues(typeof(StoreName)))
                     {
-                        X509Store store = new X509Store(storeName, storeLocation);
-                        store.Open(OpenFlags.ReadOnly);
-
-                        foreach (X509Certificate2 certificate in store.Certificates)
+                        try
                         {
-                            Write(storeLocation, storeName, certificate);
+                            X509Store store = new X509Store(storeName, storeLocation);
+                            store.Open(OpenFlags.ReadOnly);
+
+                            foreach (X509Certificate2 certificate in store.Certificates)
+                            {
+                                Write(storeLocation, storeName, certificate);
+                            }
+                            store.Close();
                         }
-                        store.Close();
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Debug(e.StackTrace);
-                        Log.Debug(e.GetType().ToString());
-                        Log.Debug(e.Message);
-                        Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
+                        catch (Exception e)
+                        {
+                            Log.Debug(e.StackTrace);
+                            Log.Debug(e.GetType().ToString());
+                            Log.Debug(e.Message);
+                            Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
+                        }
                     }
                 }
             }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                var runner = new ExternalCommandRunner();
+
+                var result = runner.RunExternalCommand("ls", new string[] { "/etc/ssl/certs", "-A" });
+                Log.Debug("{0}", result);
+
+                foreach (var _line in result.Split('\n'))
+                {
+                    Log.Debug("{0}",_line);
+                    try
+                    {
+                        X509Certificate2 cert = new X509Certificate2("/etc/ssl/certs/" + _line);
+                        Write(StoreLocation.LocalMachine, StoreName.Root, cert);
+                    }
+                    catch(Exception e)
+                    {
+                        Log.Debug("{0} {1} Issue creating certificate based on /etc/ssl/certs/{2}", e.GetType().ToString(), e.Message, _line);
+                        Log.Debug("{0}", e.StackTrace);
+
+                    }
+                }
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+
+            }
+            
             DatabaseManager.Commit();
             Stop();
         }
