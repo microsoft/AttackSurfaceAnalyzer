@@ -8,7 +8,6 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public static class Strings
     {
-//        var names = assembly.GetManifestResourceNames();
         public static string Get(string key)
         {
             return rm.GetString(key);
@@ -16,10 +15,9 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void Setup()
         {
-            rm = new ResourceManager("AttackSurfaceAnalyzer.Properties.Resources", Assembly.GetEntryAssembly());
         }
 
         // Default locale
-        static ResourceManager rm;
+        static ResourceManager rm = new ResourceManager("AttackSurfaceAnalyzer.Properties.Resources", Assembly.GetEntryAssembly());
     }
 }
