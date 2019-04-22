@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AttackSurfaceAnalyzer.Utils;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 
 namespace AttackSurfaceAnalyzer.Gui
 {
@@ -57,6 +59,7 @@ namespace AttackSurfaceAnalyzer.Gui
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
             app.UseCookiePolicy();
 
             app.UseMvc(routes =>

@@ -393,4 +393,13 @@
   <data name="ExcludingHive" xml:space="preserve">
     <value>Excluding Hive</value>
   </data>
+  <data name="CollectionHasStarted" xml:space="preserve">
+    <value>Collection has started.</value>
+  </data>
+  <data name="ReadyToBeginCollection" xml:space="preserve">
+    <value>Ready to begin collection</value>
+  </data>
+  <data name="StatusReportFor" xml:space="preserve">
+    <value>Status report for</value>
+  </data>
 </root>

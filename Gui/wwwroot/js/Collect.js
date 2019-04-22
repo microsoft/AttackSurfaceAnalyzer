@@ -166,7 +166,7 @@ function GetCollectors() {
         $('#ScanStatus').empty();
 
         if (Object.keys(rundata).length > 0) {
-            $('#ScanStatus').append($('<div/>', { html: l("StatusReportFor") + data.RunId + ".</i>" }));
+            $('#ScanStatus').append($('<div/>', { html: l("%StatusReportFor") + data.RunId + ".</i>" }));
         }
 
         $.each(rundata, function (key, value) {
