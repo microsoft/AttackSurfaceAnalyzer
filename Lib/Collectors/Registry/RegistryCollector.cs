@@ -133,6 +133,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                         return;
                     }
 
+                    Filter.IsFiltered(Helpers.RuntimeString(), "Scan", "Registry", "Key", "Exclude", hive.ToString());
                     var registryInfoEnumerable = RegistryWalker.WalkHive(hive);
                     try
                     {

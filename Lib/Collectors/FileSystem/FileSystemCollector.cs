@@ -130,7 +130,6 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 
         public FileSystemCollector(string runId, bool enableHashing = false, string directories = "")
         {
-            Log.Debug("Initializing a new {0} object.", this.GetType().Name);
             this.runId = runId;
             this.roots = new HashSet<string>();
             INCLUDE_CONTENT_HASH = enableHashing;
