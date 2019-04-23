@@ -169,8 +169,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
                 var result = runner.RunExternalCommand("systemctl", "list-units --type service");
 
                 //Split lines and remove header
-                var lines = result.Split('\n');
-                lines.ToList().RemoveAt(0);
+                var lines = result.Split('\n').Skip(1);
 
                 foreach (var _line in lines)
                 {
@@ -192,7 +191,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
 
                 result = runner.RunExternalCommand("ls", "/etc/init.d/ -l");
 
-                lines = result.Split('\n');
+                lines = result.Split('\n').Skip(1);
                 String pattern = @".*\s(.*)";
 
                 foreach (var _line in lines)
