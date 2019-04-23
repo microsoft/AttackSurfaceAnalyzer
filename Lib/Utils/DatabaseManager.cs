@@ -109,6 +109,8 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 cmd = new SqliteCommand(SQL_CREATE_DEFAULT_SETTINGS, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.Parameters.AddWithValue("@schema_version", SCHEMA_VERSION);
+
+                //If the number of rows changed is zero, the values already exist so this isn't the first run
                 if(cmd.ExecuteNonQuery() == 0)
                 {
                     _firstRun = false;
