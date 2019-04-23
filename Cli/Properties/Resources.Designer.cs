@@ -844,7 +844,7 @@ namespace AttackSurfaceAnalyzer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your telemetry opt out setting is now.
+        ///   Looks up a localized string similar to Your telemetry opt out setting is now {0}..
         /// </summary>
         public static string TelemetryOptOut {
             get {

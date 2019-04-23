@@ -310,7 +310,7 @@ namespace AttackSurfaceAnalyzer
                 if (opts.TelemetryOptOut != null)
                 {
                     Telemetry.SetOptOut(bool.Parse(opts.TelemetryOptOut));
-                    Log.Information("{1} {0}.", Strings.Get("TelemetryOptOut"), (bool.Parse(opts.TelemetryOptOut)) ? "Opted out" : "Opted in");
+                    Log.Information(Strings.Get("TelemetryOptOut"), (bool.Parse(opts.TelemetryOptOut)) ? "Opted out" : "Opted in");
                 }
                 if (opts.DeleteRunId != null)
                 {
