@@ -105,7 +105,7 @@ function StartCollection()
                     EnableCollectionFields();
                 }
                 else {
-                    $('#ScanStatus').append($('<div/>', { html: '<i class="fas fa-cog fa-spin"></i>  <i>'+l('CollectionHasStarted')+'</i>' }));
+                    $('#ScanStatus').append($('<div/>', { html: '<i class="fas fa-cog fa-spin"></i>  <i>'+l('%CollectionHasStarted')+'</i>' }));
                     setTimeout(GetCollectors, 1000)
                 }
             });

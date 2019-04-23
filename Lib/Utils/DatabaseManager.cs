@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 using System;
 using System.Collections.Generic;
+using AttackSurfaceAnalyzer.ObjectTypes;
 using Microsoft.Data.Sqlite;
 using Serilog;
 
@@ -54,6 +55,7 @@ namespace AttackSurfaceAnalyzer.Utils
         private static readonly string SQL_SELECT_LATEST_N_RUNS = "select run_id from runs where type = @type order by timestamp desc limit 0,@limit;";
 
         private static readonly string SQL_GET_SCHEMA_VERSION = "select value from persisted_settings where setting = 'schema_version' limit 0,1";
+        private static readonly string SQL_GET_NUM_RESULTS = "select count(*) as the_count from @table_name where run_id = @run_id";
 
         private static readonly string SCHEMA_VERSION = "1";
 
@@ -195,6 +197,32 @@ namespace AttackSurfaceAnalyzer.Utils
             return output;
         }
 
+        public static int GetNumResults(RESULT_TYPE ResultType, string runId)
+        {
+            try
+            {
+                using (var cmd = new SqliteCommand(SQL_GET_NUM_RESULTS.Replace("@table_name", Helpers.ResultTypeToTableName(ResultType)), DatabaseManager.Connection, DatabaseManager.Transaction))
+                {
+                    cmd.Parameters.AddWithValue("@run_id", runId);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+
+                        while (reader.Read())
+                        {
+                            return int.Parse(reader["the_count"].ToString());
+                        }
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                Log.Debug(e.GetType().ToString());
+                Log.Debug(e.Message);
+            }
+            return -1;
+        }
+
 
         public static SqliteTransaction Transaction
         {
@@ -223,7 +251,6 @@ namespace AttackSurfaceAnalyzer.Utils
             }
 
             _transaction = null;
-
         }
 
         private static string _SqliteFilename = "asa.sqlite";
