@@ -197,7 +197,11 @@ namespace AttackSurfaceAnalyzer
 
         static void Main(string[] args)
         {
-            Logger.Setup();
+#if DEBUG
+            Logger.Setup(true,false);
+#else
+            Logger.Setup(false,false);
+#endif
             Strings.Setup();
 
             string version = (Assembly
@@ -252,21 +256,41 @@ namespace AttackSurfaceAnalyzer
                             {
                                 while (reader.Read())
                                 {
-                                    string output = String.Format("{0} {1} {2} {3}",
-                                                                    reader["timestamp"].ToString(),
-                                                                    reader["version"].ToString(),
-                                                                    reader["type"].ToString(),
-                                                                    reader["run_id"].ToString());
-                                    Log.Information(output);
-                                    output = String.Format("{0} {1} {2} {3} {4} {5}",
-                                                            (int.Parse(reader["file_system"].ToString()) != 0) ? "FILES" : "",
-                                                            (int.Parse(reader["ports"].ToString()) != 0) ? "PORTS" : "",
-                                                            (int.Parse(reader["users"].ToString()) != 0) ? "USERS" : "",
-                                                            (int.Parse(reader["services"].ToString()) != 0) ? "SERVICES" : "",
-                                                            (int.Parse(reader["certificates"].ToString()) != 0) ? "CERTIFICATES" : "",
-                                                            (int.Parse(reader["registry"].ToString()) != 0) ? "REGISTRY" : "");
-                                    Log.Information(output);
+                                    Log.Information("RunId:{2} Timestamp:{0} AsaVersion:{1} ",
+                                                                    reader["timestamp"],
+                                                                    reader["version"],
+                                                                    reader["run_id"]);
+                                    List<RESULT_TYPE> resultTypes = new List<RESULT_TYPE>();
+                                    if (int.Parse(reader["file_system"].ToString()) != 0)
+                                    {
+                                        resultTypes.Add(RESULT_TYPE.FILE);
+                                    }
+                                    if (int.Parse(reader["ports"].ToString()) != 0)
+                                    {
+                                        resultTypes.Add(RESULT_TYPE.PORT);
+                                    }
+                                    if (int.Parse(reader["users"].ToString()) != 0)
+                                    {
+                                        resultTypes.Add(RESULT_TYPE.USER);
+                                    }
+                                    if (int.Parse(reader["services"].ToString()) != 0)
+                                    {
+                                        resultTypes.Add(RESULT_TYPE.SERVICES);
+                                    }
+                                    if (int.Parse(reader["certificates"].ToString()) != 0)
+                                    {
+                                        resultTypes.Add(RESULT_TYPE.CERTIFICATE);
+                                    }
+                                    if (int.Parse(reader["registry"].ToString()) != 0)
+                                    {
+                                        resultTypes.Add(RESULT_TYPE.REGISTRY);
+                                    }
 
+                                    foreach (RESULT_TYPE type in resultTypes)
+                                    {
+                                        int num = DatabaseManager.GetNumResults(type, reader["run_id"].ToString());
+                                        Log.Information("{0} : {1}", type, num);
+                                    }
                                 }
                             }
                         }
@@ -415,32 +439,36 @@ namespace AttackSurfaceAnalyzer
                         string BaseString = "";
                         CHANGE_TYPE ChangeType = (CHANGE_TYPE)int.Parse(reader["change_type"].ToString());
 
-                        if (ChangeType == CHANGE_TYPE.CREATED || ChangeType == CHANGE_TYPE.MODIFIED)
+                        using (var inner_cmd = new SqliteCommand(GET_SERIALIZED_RESULTS.Replace("@table_name", Helpers.ResultTypeToTableName(ExportType)), DatabaseManager.Connection))
                         {
-                            var inner_cmd = new SqliteCommand(GET_SERIALIZED_RESULTS.Replace("@table_name", Helpers.ResultTypeToTableName(ExportType)), DatabaseManager.Connection);
-                            inner_cmd.Parameters.AddWithValue("@run_id", reader["compare_run_id"].ToString());
-                            inner_cmd.Parameters.AddWithValue("@row_key", reader["compare_row_key"].ToString());
-                            using (var inner_reader = inner_cmd.ExecuteReader())
+                            if (ChangeType == CHANGE_TYPE.CREATED || ChangeType == CHANGE_TYPE.MODIFIED)
                             {
-                                while (inner_reader.Read())
+                                inner_cmd.Parameters.Clear();
+                                inner_cmd.Parameters.AddWithValue("@run_id", reader["compare_run_id"].ToString());
+                                inner_cmd.Parameters.AddWithValue("@row_key", reader["compare_row_key"].ToString());
+                                using (var inner_reader = inner_cmd.ExecuteReader())
                                 {
-                                    CompareString = inner_reader["serialized"].ToString();
+                                    while (inner_reader.Read())
+                                    {
+                                        CompareString = inner_reader["serialized"].ToString();
+                                    }
+                                }
+                            }
+                            if (ChangeType == CHANGE_TYPE.DELETED || ChangeType == CHANGE_TYPE.MODIFIED)
+                            {
+                                inner_cmd.Parameters.Clear();
+                                inner_cmd.Parameters.AddWithValue("@run_id", reader["base_run_id"].ToString());
+                                inner_cmd.Parameters.AddWithValue("@row_key", reader["base_row_key"].ToString());
+                                using (var inner_reader = inner_cmd.ExecuteReader())
+                                {
+                                    while (inner_reader.Read())
+                                    {
+                                        BaseString = inner_reader["serialized"].ToString();
+                                    }
                                 }
                             }
                         }
-                        if (ChangeType == CHANGE_TYPE.DELETED || ChangeType == CHANGE_TYPE.MODIFIED)
-                        {
-                            var inner_cmd = new SqliteCommand(GET_SERIALIZED_RESULTS.Replace("@table_name", Helpers.ResultTypeToTableName(ExportType)), DatabaseManager.Connection);
-                            inner_cmd.Parameters.AddWithValue("@run_id", reader["base_run_id"].ToString());
-                            inner_cmd.Parameters.AddWithValue("@row_key", reader["base_row_key"].ToString());
-                            using (var inner_reader = inner_cmd.ExecuteReader())
-                            {
-                                while (inner_reader.Read())
-                                {
-                                    BaseString = inner_reader["serialized"].ToString();
-                                }
-                            }
-                        }
+
 
                         CompareResult obj;
                         switch (ExportType)
