@@ -111,8 +111,6 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
         {
             Start();
 
-            Log.Information(JsonConvert.SerializeObject(DefaultHives));
-
             if (!this.CanRunOnPlatform())
             {
                 return;
