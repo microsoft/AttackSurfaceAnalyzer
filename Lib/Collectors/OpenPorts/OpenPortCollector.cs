@@ -182,7 +182,7 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
                     continue;
                 }
                 var parts = Regex.Split(line, @"\s+");
-                if (parts.Length <= 7)
+                if (parts.Length < 5)
                 {
                     continue;       // Not long enough, must be an error
                 }
