@@ -212,7 +212,9 @@ namespace AttackSurfaceAnalyzer
             if (DatabaseManager.IsFirstRun())
             {
                 _isFirstRun = true;
-                Log.Information(Strings.Get("ApplicationHasTelemetry"), "config --telemetry-opt-out true", "https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/PRIVACY.md");
+                string exeStr = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "AttackSurfaceAnalyzerCli.exe config --telemetry-opt-out true" : "AttackSurfaceAnalyzerCli config --telemetry-opt-out true";
+                Log.Information(Strings.Get("ApplicationHasTelemetry"));
+                Log.Information(Strings.Get("ApplicationHasTelemetry2"), exeStr, "https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/PRIVACY.md");
             }
             Telemetry.Setup(Gui : false);
 

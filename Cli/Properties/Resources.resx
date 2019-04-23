@@ -397,7 +397,10 @@
     <value>Output written to: {0}</value>
   </data>
   <data name="ApplicationHasTelemetry" xml:space="preserve">
-    <value>This application collects usage data to help us improve Attack Surface Analyzer. For our privacy policy visit: {1}. To disable telemetry run '{0}'.</value>
+    <value>This application collects usage data to help us improve Attack Surface Analyzer.</value>
+  </data>
+  <data name="ApplicationHasTelemetry2" xml:space="preserve">
+    <value>For our privacy policy visit: {1}. To disable telemetry run '{0}'.</value>
   </data>
   <data name="DumpingDataFromDatabase" xml:space="preserve">
     <value>Dumping data from database located at {0}.</value>
