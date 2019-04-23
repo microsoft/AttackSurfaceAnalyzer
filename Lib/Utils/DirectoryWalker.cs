@@ -122,7 +122,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         // Future improvement: log it as a symlink in the data
                         if (fileInfo.Attributes.HasFlag(FileAttributes.ReparsePoint))
                         {
-                            Log.Debug("Skipping symlink {0}", str);
+                            Log.Verbose("Skipping symlink {0}", str);
                             continue;
                         }
                     }
