@@ -214,7 +214,8 @@ namespace AttackSurfaceAnalyzer
                 _isFirstRun = true;
                 string exeStr = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "AttackSurfaceAnalyzerCli.exe config --telemetry-opt-out true" : "AttackSurfaceAnalyzerCli config --telemetry-opt-out true";
                 Log.Information(Strings.Get("ApplicationHasTelemetry"));
-                Log.Information(Strings.Get("ApplicationHasTelemetry2"), exeStr, "https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/PRIVACY.md");
+                Log.Information(Strings.Get("ApplicationHasTelemetry2"), "https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/PRIVACY.md");
+                Log.Information(Strings.Get("ApplicationHasTelemetry3"), exeStr);
             }
             Telemetry.Setup(Gui : false);
 
@@ -252,7 +253,7 @@ namespace AttackSurfaceAnalyzer
 
                     if (_isFirstRun)
                     {
-                        Log.Warning(Strings.Get("FirstRunListRunsError"));
+                        Log.Warning(Strings.Get("FirstRunListRunsError"), opts.DatabaseFilename);
                     }
                     else
                     {

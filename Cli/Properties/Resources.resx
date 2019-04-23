@@ -400,7 +400,10 @@
     <value>This application collects usage data to help us improve Attack Surface Analyzer.</value>
   </data>
   <data name="ApplicationHasTelemetry2" xml:space="preserve">
-    <value>For our privacy policy visit: {1}. To disable telemetry run '{0}'.</value>
+    <value>For our privacy policy visit: {0}.</value>
+  </data>
+  <data name="ApplicationHasTelemetry3" xml:space="preserve">
+    <value>To disable telemetry run '{0}'.</value>
   </data>
   <data name="DumpingDataFromDatabase" xml:space="preserve">
     <value>Dumping data from database located at {0}.</value>
@@ -410,5 +413,8 @@
   </data>
   <data name="NoMonitorRuns" xml:space="preserve">
     <value>There were no monitor runs in the database.</value>
+  </data>
+      <data name="FirstRunListRunsError" xml:space="preserve">
+    <value>This appears to be the first run with database {0}. There are no runs to list.</value>
   </data>
 </root>
