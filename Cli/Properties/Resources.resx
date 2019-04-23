@@ -399,4 +399,13 @@
   <data name="ApplicationHasTelemetry" xml:space="preserve">
     <value>This application collects usage data to help us improve Attack Surface Analyzer. For our privacy policy visit: {1}. To disable telemetry run '{0}'.</value>
   </data>
+  <data name="DumpingDataFromDatabase" xml:space="preserve">
+    <value>Dumping data from database located at {0}.</value>
+  </data>
+  <data name="NoCollectRuns" xml:space="preserve">
+    <value>There were no collect runs in the database.</value>
+  </data>
+  <data name="NoMonitorRuns" xml:space="preserve">
+    <value>There were no monitor runs in the database.</value>
+  </data>
 </root>

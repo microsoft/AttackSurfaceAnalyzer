@@ -295,6 +295,15 @@ namespace AttackSurfaceAnalyzer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dumping data from database located at {0}..
+        /// </summary>
+        public static string DumpingDataFromDatabase {
+            get {
+                return ResourceManager.GetString("DumpingDataFromDatabase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to End.
         /// </summary>
         public static string End {
@@ -588,6 +597,24 @@ namespace AttackSurfaceAnalyzer.Properties {
         public static string Name {
             get {
                 return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There were no collect runs in the database..
+        /// </summary>
+        public static string NoCollectRuns {
+            get {
+                return ResourceManager.GetString("NoCollectRuns", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There were no monitor runs in the database..
+        /// </summary>
+        public static string NoMonitorRuns {
+            get {
+                return ResourceManager.GetString("NoMonitorRuns", resourceCulture);
             }
         }
         
