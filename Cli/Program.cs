@@ -198,15 +198,19 @@ namespace AttackSurfaceAnalyzer
         static void Main(string[] args)
         {
             Logger.Setup();
-            Strings.Setup();
 
             string version = (Assembly
                         .GetEntryAssembly()
                         .GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false)
                         as AssemblyInformationalVersionAttribute[])[0].InformationalVersion;
             Log.Information("AttackSurfaceAnalyzerCli v.{0}",version);
-            Log.Debug(version);
+
+            Strings.Setup();
             DatabaseManager.Setup();
+            if (DatabaseManager.IsFirstRun())
+            {
+                Log.Information(Strings.Get("ApplicationHasTelemetry"), "config --telemetry-opt-out true", "https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/PRIVACY.md");
+            }
             Telemetry.Setup(Gui : false);
 
             var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, CompareCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions, ConfigCommandOptions>(args)

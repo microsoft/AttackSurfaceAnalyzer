@@ -88,6 +88,15 @@ namespace AttackSurfaceAnalyzer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This application collects usage data to help us improve Attack Surface Analyzer. For our privacy policy visit: {1}. To disable telemetry run &apos;{0}&apos;..
+        /// </summary>
+        public static string ApplicationHasTelemetry {
+            get {
+                return ResourceManager.GetString("ApplicationHasTelemetry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Base Run Id.
         /// </summary>
         public static string BaseRunId {

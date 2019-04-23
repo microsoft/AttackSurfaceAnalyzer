@@ -396,4 +396,7 @@
   <data name="OutputWrittenTo" xml:space="preserve">
     <value>Output written to: {0}</value>
   </data>
+  <data name="ApplicationHasTelemetry" xml:space="preserve">
+    <value>This application collects usage data to help us improve Attack Surface Analyzer. For our privacy policy visit: {1}. To disable telemetry run '{0}'.</value>
+  </data>
 </root>
