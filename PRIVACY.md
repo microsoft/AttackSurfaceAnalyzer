@@ -25,5 +25,5 @@ Users may disable telemetry at any time and settings are saved until the user ch
 
 ### Enabling/Disabling Telemetry
 
-* **CLI version** - Telemetry is not currently implemented.
+* **CLI version** - Run ```AttackSurfaceAnalyzerCli config --telemetry-opt-out true``` to disable telemetry.
 * **GUI version** - Run application and check or uncheck the option "Send usage data to Microsoft to help us improve our products."
