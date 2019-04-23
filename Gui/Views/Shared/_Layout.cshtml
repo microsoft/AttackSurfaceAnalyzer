@@ -24,10 +24,10 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
         <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Attack Surface Analyzer</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarItems" aria-controls="navbarItems" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="navbar-collapse collapse">
+        <div class="navbar-collapse collapse" id="navbarItems">
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a asp-area="" asp-controller="Home" asp-action="Collect" id="CollectLink" class="nav-link">Scan</a>
