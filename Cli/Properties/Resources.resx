@@ -393,4 +393,7 @@
   <data name="ExcludingHive" xml:space="preserve">
     <value>Excluding Hive</value>
   </data>
+  <data name="OutputWrittenTo" xml:space="preserve">
+    <value>Output written to: {0}</value>
+  </data>
 </root>

@@ -366,15 +366,16 @@ namespace AttackSurfaceAnalyzer
             };
             serializer.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
             Log.Debug("{0} RunExportCollectCommand", Strings.Get("End"));
+            string path = Path.Combine(opts.OutputPath, Helpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId + "_summary.json.txt"));
 
-            using (StreamWriter sw = new StreamWriter(Path.Combine(opts.OutputPath, Helpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId + "_summary.json.txt")))) //lgtm[cs/path-injection]
+            using (StreamWriter sw = new StreamWriter(path)) //lgtm[cs/path-injection]
             {
                 using (JsonWriter writer = new JsonTextWriter(sw))
                 {
                     serializer.Serialize(writer, results);
                 }
             }
-            Log.Information(Strings.Get("DoneWriting"));
+            Log.Information(Strings.Get("OutputWrittenTo"), path);
             return 0;
 
         }
@@ -567,6 +568,7 @@ namespace AttackSurfaceAnalyzer
             Telemetry.TrackEvent("Begin Export Monitor", StartEvent);
 
             WriteMonitorJson(opts.RunId, (int)RESULT_TYPE.FILE, opts.OutputPath);
+
             return 0;
         }
 
@@ -596,13 +598,17 @@ namespace AttackSurfaceAnalyzer
             JsonSerializer serializer = JsonSerializer.Create(settings);
             serializer.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
 
-            using (StreamWriter sw = new StreamWriter(Path.Combine(OutputPath, Helpers.MakeValidFileName(RunId + "_Monitoring_" + ((RESULT_TYPE)ResultType).ToString() + ".json.txt")))) //lgtm[cs/path-injection]
+            string path = Path.Combine(OutputPath, Helpers.MakeValidFileName(RunId + "_Monitoring_" + ((RESULT_TYPE)ResultType).ToString() + ".json.txt"));
+
+            using (StreamWriter sw = new StreamWriter(path)) //lgtm[cs/path-injection]
             {
                 using (JsonWriter writer = new JsonTextWriter(sw))
                 {
                     serializer.Serialize(writer, records);
                 }
             }
+            Log.Information(Strings.Get("OutputWrittenTo"), path);
+
         }
 
         private static int RunMonitorCommand(MonitorCommandOptions opts)
@@ -1314,6 +1320,7 @@ namespace AttackSurfaceAnalyzer
 
             var result = engine.CompileRenderAsync("Output" + Path.DirectorySeparatorChar + "Output.cshtml", results).Result;
             File.WriteAllText($"{opts.OutputBaseFilename}.html", result);
+            Log.Information(Strings.Get("OutputWrittenTo"), opts.OutputBaseFilename + ".html");
 
             return 0;
         }
