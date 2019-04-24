@@ -195,8 +195,11 @@ namespace AttackSurfaceAnalyzer
 
         private static readonly string SQL_GET_RUN = "select run_id from runs where run_id=@run_id";
 
+        private static bool _isFirstRun = false;
+
         static void Main(string[] args)
         {
+
 #if DEBUG
             Logger.Setup(true,false);
 #else
@@ -209,8 +212,17 @@ namespace AttackSurfaceAnalyzer
                         .GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false)
                         as AssemblyInformationalVersionAttribute[])[0].InformationalVersion;
             Log.Information("AttackSurfaceAnalyzerCli v.{0}",version);
-            Log.Debug(version);
+
+            Strings.Setup();
             DatabaseManager.Setup();
+            if (DatabaseManager.IsFirstRun())
+            {
+                _isFirstRun = true;
+                string exeStr = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "AttackSurfaceAnalyzerCli.exe config --telemetry-opt-out true" : "AttackSurfaceAnalyzerCli config --telemetry-opt-out true";
+                Log.Information(Strings.Get("ApplicationHasTelemetry"));
+                Log.Information(Strings.Get("ApplicationHasTelemetry2"), "https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/PRIVACY.md");
+                Log.Information(Strings.Get("ApplicationHasTelemetry3"), exeStr);
+            }
             Telemetry.Setup(Gui : false);
 
             var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, CompareCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions, ConfigCommandOptions>(args)
@@ -245,84 +257,108 @@ namespace AttackSurfaceAnalyzer
                 if (opts.ListRuns)
                 {
 
-                    Log.Information(Strings.Get("Begin")+" {0}", Strings.Get("EnumeratingCollectRunIds"));
-                    List<string> CollectRuns = GetRuns("collect");
-                    foreach (string run in CollectRuns)
+                    if (_isFirstRun)
                     {
-                        using (var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES_SINGLE, DatabaseManager.Connection, DatabaseManager.Transaction))
+                        Log.Warning(Strings.Get("FirstRunListRunsError"), opts.DatabaseFilename);
+                    }
+                    else
+                    {
+                        Log.Information(Strings.Get("DumpingDataFromDatabase"), opts.DatabaseFilename);
+                        List<string> CollectRuns = GetRuns("collect");
+                        if(CollectRuns.Count > 0)
                         {
-                            cmd.Parameters.AddWithValue("@run_id", run);
-                            using (var reader = cmd.ExecuteReader())
+                            Log.Information(Strings.Get("Begin") + " {0}", Strings.Get("EnumeratingCollectRunIds"));
+                            foreach (string run in CollectRuns)
                             {
-                                while (reader.Read())
+                                using (var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES_SINGLE, DatabaseManager.Connection, DatabaseManager.Transaction))
                                 {
-                                    Log.Information("RunId:{2} Timestamp:{0} AsaVersion:{1} ",
-                                                                    reader["timestamp"],
-                                                                    reader["version"],
-                                                                    reader["run_id"]);
-                                    List<RESULT_TYPE> resultTypes = new List<RESULT_TYPE>();
-                                    if (int.Parse(reader["file_system"].ToString()) != 0)
+                                    cmd.Parameters.AddWithValue("@run_id", run);
+                                    using (var reader = cmd.ExecuteReader())
                                     {
-                                        resultTypes.Add(RESULT_TYPE.FILE);
-                                    }
-                                    if (int.Parse(reader["ports"].ToString()) != 0)
-                                    {
-                                        resultTypes.Add(RESULT_TYPE.PORT);
-                                    }
-                                    if (int.Parse(reader["users"].ToString()) != 0)
-                                    {
-                                        resultTypes.Add(RESULT_TYPE.USER);
-                                    }
-                                    if (int.Parse(reader["services"].ToString()) != 0)
-                                    {
-                                        resultTypes.Add(RESULT_TYPE.SERVICES);
-                                    }
-                                    if (int.Parse(reader["certificates"].ToString()) != 0)
-                                    {
-                                        resultTypes.Add(RESULT_TYPE.CERTIFICATE);
-                                    }
-                                    if (int.Parse(reader["registry"].ToString()) != 0)
-                                    {
-                                        resultTypes.Add(RESULT_TYPE.REGISTRY);
-                                    }
+                                        while (reader.Read())
+                                        {
+                                            Log.Information("RunId:{2} Timestamp:{0} AsaVersion:{1} ",
+                                                                            reader["timestamp"],
+                                                                            reader["version"],
+                                                                            reader["run_id"]);
+                                            List<RESULT_TYPE> resultTypes = new List<RESULT_TYPE>();
+                                            if (int.Parse(reader["file_system"].ToString()) != 0)
+                                            {
+                                                resultTypes.Add(RESULT_TYPE.FILE);
+                                            }
+                                            if (int.Parse(reader["ports"].ToString()) != 0)
+                                            {
+                                                resultTypes.Add(RESULT_TYPE.PORT);
+                                            }
+                                            if (int.Parse(reader["users"].ToString()) != 0)
+                                            {
+                                                resultTypes.Add(RESULT_TYPE.USER);
+                                            }
+                                            if (int.Parse(reader["services"].ToString()) != 0)
+                                            {
+                                                resultTypes.Add(RESULT_TYPE.SERVICES);
+                                            }
+                                            if (int.Parse(reader["certificates"].ToString()) != 0)
+                                            {
+                                                resultTypes.Add(RESULT_TYPE.CERTIFICATE);
+                                            }
+                                            if (int.Parse(reader["registry"].ToString()) != 0)
+                                            {
+                                                resultTypes.Add(RESULT_TYPE.REGISTRY);
+                                            }
 
-                                    foreach (RESULT_TYPE type in resultTypes)
-                                    {
-                                        int num = DatabaseManager.GetNumResults(type, reader["run_id"].ToString());
-                                        Log.Information("{0} : {1}", type, num);
+                                            foreach (RESULT_TYPE type in resultTypes)
+                                            {
+                                                int num = DatabaseManager.GetNumResults(type, reader["run_id"].ToString());
+                                                Log.Information("{0} : {1}", type, num);
+                                            }
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
-                    Log.Information(Strings.Get("Begin") + " {0}", Strings.Get("EnumeratingMonitorRunIds"));
-                    List<string> MonitorRuns = GetRuns("monitor");
-                    foreach (string monitorRun in MonitorRuns)
-                    {
-                        using (var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES_SINGLE, DatabaseManager.Connection, DatabaseManager.Transaction))
+                        else
                         {
-                            cmd.Parameters.AddWithValue("@run_id", monitorRun);
-                            using (var reader = cmd.ExecuteReader())
-                            {
-                                while (reader.Read())
-                                {
-                                    string output = String.Format("{0} {1} {2} {3}",
-                                                                    reader["timestamp"].ToString(),
-                                                                    reader["version"].ToString(),
-                                                                    reader["type"].ToString(),
-                                                                    reader["run_id"].ToString());
-                                    Log.Information(output);
-                                    output = String.Format("{0} {1} {2} {3} {4} {5}",
-                                                            (int.Parse(reader["file_system"].ToString()) != 0) ? "FILES" : "",
-                                                            (int.Parse(reader["ports"].ToString()) != 0) ? "PORTS" : "",
-                                                            (int.Parse(reader["users"].ToString()) != 0) ? "USERS" : "",
-                                                            (int.Parse(reader["services"].ToString()) != 0) ? "SERVICES" : "",
-                                                            (int.Parse(reader["certificates"].ToString()) != 0) ? "CERTIFICATES" : "",
-                                                            (int.Parse(reader["registry"].ToString()) != 0) ? "REGISTRY" : "");
-                                    Log.Information(output);
+                            Log.Information(Strings.Get("NoCollectRuns"));
+                        }
+                        
+                        List<string> MonitorRuns = GetRuns("monitor");
+                        if (MonitorRuns.Count > 0)
+                        {
+                            Log.Information(Strings.Get("Begin") + " {0}", Strings.Get("EnumeratingMonitorRunIds"));
 
+                            foreach (string monitorRun in MonitorRuns)
+                            {
+                                using (var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES_SINGLE, DatabaseManager.Connection, DatabaseManager.Transaction))
+                                {
+                                    cmd.Parameters.AddWithValue("@run_id", monitorRun);
+                                    using (var reader = cmd.ExecuteReader())
+                                    {
+                                        while (reader.Read())
+                                        {
+                                            string output = String.Format("{0} {1} {2} {3}",
+                                                                            reader["timestamp"].ToString(),
+                                                                            reader["version"].ToString(),
+                                                                            reader["type"].ToString(),
+                                                                            reader["run_id"].ToString());
+                                            Log.Information(output);
+                                            output = String.Format("{0} {1} {2} {3} {4} {5}",
+                                                                    (int.Parse(reader["file_system"].ToString()) != 0) ? "FILES" : "",
+                                                                    (int.Parse(reader["ports"].ToString()) != 0) ? "PORTS" : "",
+                                                                    (int.Parse(reader["users"].ToString()) != 0) ? "USERS" : "",
+                                                                    (int.Parse(reader["services"].ToString()) != 0) ? "SERVICES" : "",
+                                                                    (int.Parse(reader["certificates"].ToString()) != 0) ? "CERTIFICATES" : "",
+                                                                    (int.Parse(reader["registry"].ToString()) != 0) ? "REGISTRY" : "");
+                                            Log.Information(output);
+
+                                        }
+                                    }
                                 }
                             }
+                        }
+                        else
+                        {
+                            Log.Information(Strings.Get("NoMonitorRuns"));
                         }
                     }
                 }
@@ -330,7 +366,7 @@ namespace AttackSurfaceAnalyzer
                 if (opts.TelemetryOptOut != null)
                 {
                     Telemetry.SetOptOut(bool.Parse(opts.TelemetryOptOut));
-                    Log.Information("{1} {0}.", Strings.Get("TelemetryOptOut"), (bool.Parse(opts.TelemetryOptOut)) ? "Opted out" : "Opted in");
+                    Log.Information(Strings.Get("TelemetryOptOut"), (bool.Parse(opts.TelemetryOptOut)) ? "Opted out" : "Opted in");
                 }
                 if (opts.DeleteRunId != null)
                 {

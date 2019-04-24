@@ -23,7 +23,6 @@ namespace AttackSurfaceAnalyzer.Utils
         private static readonly string SQL_CREATE_REGISTRY_COLLECTION = "create table if not exists registry (run_id text, row_key text, key text, value text, subkeys text, permissions text, serialized text)";
         private static readonly string SQL_CREATE_CERTIFICATES_COLLECTION = "create table if not exists certificates (run_id text, row_key text, pkcs12 text, store_location text, store_name text, hash text, hash_plus_store text, cert text, cn text, serialized text)";
 
-
         private static readonly string SQL_CREATE_ANALYZED_TABLE = "create table if not exists results (base_run_id text, compare_run_id text, status int)";
 
         private static readonly string SQL_CREATE_FILE_SYSTEM_INDEX = "create index if not exists path_index on file_system(path)";
@@ -65,7 +64,9 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private static SqliteTransaction _transaction;
 
-        public static void Setup()
+        private static bool _firstRun = true;
+
+        public static bool Setup()
         {
             if (Connection == null)
             {
@@ -109,7 +110,10 @@ namespace AttackSurfaceAnalyzer.Utils
 
                     cmd.CommandText = SQL_CREATE_DEFAULT_SETTINGS;
                     cmd.Parameters.AddWithValue("@schema_version", SCHEMA_VERSION);
-                    cmd.ExecuteNonQuery();
+                    if(cmd.ExecuteNonQuery() == 0)
+                    {
+                        _firstRun = false;
+                    }                
 
                     cmd.CommandText = SQL_CREATE_FILE_SYSTEM_INDEX;
                     cmd.ExecuteNonQuery();
@@ -142,7 +146,14 @@ namespace AttackSurfaceAnalyzer.Utils
                 DatabaseManager.Transaction.Commit();
                 _transaction = null;
                 Log.Debug("Done with database setup");
+                return true;
             }
+            return false;
+        }
+
+        public static bool IsFirstRun()
+        {
+            return _firstRun;
         }
 
         public static void VerifySchemaVersion()

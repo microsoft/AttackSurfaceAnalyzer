@@ -604,5 +604,47 @@ namespace AttackSurfaceAnalyzer.Properties {
                 return ResourceManager.GetString("OutputWrittenTo", resourceCulture);
             }
         }
+        
+        public static string ApplicationHasTelemetry {
+            get {
+                return ResourceManager.GetString("ApplicationHasTelemetry", resourceCulture);
+            }
+        }
+        
+        public static string ApplicationHasTelemetry2 {
+            get {
+                return ResourceManager.GetString("ApplicationHasTelemetry2", resourceCulture);
+            }
+        }
+        
+        public static string ApplicationHasTelemetry3 {
+            get {
+                return ResourceManager.GetString("ApplicationHasTelemetry3", resourceCulture);
+            }
+        }
+        
+        public static string DumpingDataFromDatabase {
+            get {
+                return ResourceManager.GetString("DumpingDataFromDatabase", resourceCulture);
+            }
+        }
+        
+        public static string NoCollectRuns {
+            get {
+                return ResourceManager.GetString("NoCollectRuns", resourceCulture);
+            }
+        }
+        
+        public static string NoMonitorRuns {
+            get {
+                return ResourceManager.GetString("NoMonitorRuns", resourceCulture);
+            }
+        }
+        
+        public static string FirstRunListRunsError {
+            get {
+                return ResourceManager.GetString("FirstRunListRunsError", resourceCulture);
+            }
+        }
     }
 }
