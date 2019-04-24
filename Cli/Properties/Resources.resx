@@ -364,7 +364,7 @@
     <value>Collectors</value>
   </data>
   <data name="Err_AccessControl" xml:space="preserve">
-    <value>Could not get file permissions</value>
+    <value>Could not get file permissions for: {0}</value>
   </data>
   <data name="Err_FiltersFile" xml:space="preserve">
     <value>Json error parsing your filters.json file.</value>

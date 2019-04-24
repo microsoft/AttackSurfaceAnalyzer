@@ -31,7 +31,6 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
 
         public CertificateCollector(string runId)
         {
-            Log.Debug("Initializing a new {0} object.", this.GetType().Name);
             this.runId = runId;
         }
 

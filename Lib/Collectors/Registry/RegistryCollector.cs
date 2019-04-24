@@ -111,8 +111,6 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
         {
             Start();
 
-            Log.Information(JsonConvert.SerializeObject(DefaultHives));
-
             if (!this.CanRunOnPlatform())
             {
                 return;
@@ -133,6 +131,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                         return;
                     }
 
+                    Filter.IsFiltered(Helpers.RuntimeString(), "Scan", "Registry", "Key", "Exclude", hive.ToString());
                     var registryInfoEnumerable = RegistryWalker.WalkHive(hive);
                     try
                     {

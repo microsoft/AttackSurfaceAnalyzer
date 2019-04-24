@@ -51,10 +51,8 @@ namespace AttackSurfaceAnalyzer.Utils
                     try
                     {
                         JArray jFilters = (JArray)config[Platform][ScanType][ItemType][Property][FilterType];
-                        Log.Debug(jFilters.ToString());
                         foreach (var filter in jFilters)
                         {
-                            Log.Debug(filter.ToString());
                             try
                             {
                                 filters.Add(new Regex(filter.ToString()));
@@ -120,7 +118,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         if (filter.IsMatch(Target))
                         {
                             regex = filter;
-                            Log.Debug("{0} caught {1}", filter, Target);
+                            Log.Verbose("{0} caught {1}", filter, Target);
                             return true;
                         }
                     }
