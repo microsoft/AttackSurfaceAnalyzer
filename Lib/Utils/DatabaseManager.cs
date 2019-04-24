@@ -73,74 +73,75 @@ namespace AttackSurfaceAnalyzer.Utils
                 Connection = new SqliteConnection($"Filename=" + _SqliteFilename);
                 Connection.Open();
 
-                var cmd = new SqliteCommand(SQL_CREATE_RUNS, DatabaseManager.Connection, DatabaseManager.Transaction);
-                cmd.ExecuteNonQuery();
+                using (var cmd = new SqliteCommand(SQL_CREATE_RUNS, DatabaseManager.Connection, DatabaseManager.Transaction))
+                {
+                    cmd.ExecuteNonQuery();
 
-                cmd = new SqliteCommand(SQL_CREATE_FILE_MONITORED, DatabaseManager.Connection, DatabaseManager.Transaction);
-                cmd.ExecuteNonQuery();
+                    cmd.CommandText = SQL_CREATE_FILE_MONITORED;
+                    cmd.ExecuteNonQuery();
 
-                cmd = new SqliteCommand(SQL_CREATE_FILE_SYSTEM_COLLECTION, DatabaseManager.Connection, DatabaseManager.Transaction);
-                cmd.ExecuteNonQuery();
+                    cmd.CommandText = SQL_CREATE_FILE_SYSTEM_COLLECTION;
+                    cmd.ExecuteNonQuery();
 
-                cmd = new SqliteCommand(SQL_CREATE_OPEN_PORT_COLLECTION, DatabaseManager.Connection, DatabaseManager.Transaction);
-                cmd.ExecuteNonQuery();
+                    cmd.CommandText = SQL_CREATE_OPEN_PORT_COLLECTION;
+                    cmd.ExecuteNonQuery();
 
-                cmd = new SqliteCommand(SQL_CREATE_SERVICE_COLLECTION, DatabaseManager.Connection, DatabaseManager.Transaction);
-                cmd.ExecuteNonQuery();
+                    cmd.CommandText = SQL_CREATE_SERVICE_COLLECTION;
+                    cmd.ExecuteNonQuery();
 
-                cmd = new SqliteCommand(SQL_CREATE_USER_COLLECTION, DatabaseManager.Connection, DatabaseManager.Transaction);
-                cmd.ExecuteNonQuery();
+                    cmd.CommandText = SQL_CREATE_USER_COLLECTION;
+                    cmd.ExecuteNonQuery();
 
-                cmd = new SqliteCommand(SQL_CREATE_REGISTRY_COLLECTION, DatabaseManager.Connection, DatabaseManager.Transaction);
-                cmd.ExecuteNonQuery();
+                    cmd.CommandText = SQL_CREATE_REGISTRY_COLLECTION;
+                    cmd.ExecuteNonQuery();
 
-                cmd = new SqliteCommand(SQL_CREATE_CERTIFICATES_COLLECTION, DatabaseManager.Connection, DatabaseManager.Transaction);
-                cmd.ExecuteNonQuery();
+                    cmd.CommandText = SQL_CREATE_CERTIFICATES_COLLECTION;
+                    cmd.ExecuteNonQuery();
 
-                cmd = new SqliteCommand(SQL_CREATE_COMPARE_RESULT_TABLE, DatabaseManager.Connection, DatabaseManager.Transaction);
-                cmd.ExecuteNonQuery();
+                    cmd.CommandText = SQL_CREATE_COMPARE_RESULT_TABLE;
+                    cmd.ExecuteNonQuery();
 
-                cmd = new SqliteCommand(SQL_CREATE_ANALYZED_TABLE, DatabaseManager.Connection, DatabaseManager.Transaction);
-                cmd.ExecuteNonQuery();
+                    cmd.CommandText = SQL_CREATE_ANALYZED_TABLE;
+                    cmd.ExecuteNonQuery();
 
-                cmd = new SqliteCommand(SQL_CREATE_PERSISTED_SETTINGS, DatabaseManager.Connection, DatabaseManager.Transaction);
-                cmd.ExecuteNonQuery();
+                    cmd.CommandText = SQL_CREATE_PERSISTED_SETTINGS;
+                    cmd.ExecuteNonQuery();
 
-                cmd = new SqliteCommand(SQL_CREATE_DEFAULT_SETTINGS, DatabaseManager.Connection, DatabaseManager.Transaction);
-                cmd.Parameters.AddWithValue("@schema_version", SCHEMA_VERSION);
-                cmd.ExecuteNonQuery();
+                    cmd.CommandText = SQL_CREATE_DEFAULT_SETTINGS;
+                    cmd.Parameters.AddWithValue("@schema_version", SCHEMA_VERSION);
+                    cmd.ExecuteNonQuery();
 
-                cmd = new SqliteCommand(SQL_CREATE_FILE_SYSTEM_INDEX, DatabaseManager.Connection, DatabaseManager.Transaction);
-                cmd.ExecuteNonQuery();
+                    cmd.CommandText = SQL_CREATE_FILE_SYSTEM_INDEX;
+                    cmd.ExecuteNonQuery();
 
-                cmd = new SqliteCommand(SQL_CREATE_REGISTRY_KEY_INDEX, DatabaseManager.Connection, DatabaseManager.Transaction);
-                cmd.ExecuteNonQuery();
+                    cmd.CommandText = SQL_CREATE_REGISTRY_KEY_INDEX;
+                    cmd.ExecuteNonQuery();
 
-                cmd = new SqliteCommand(SQL_CREATE_REGISTRY_ROW_KEY_INDEX, DatabaseManager.Connection, DatabaseManager.Transaction);
-                cmd.ExecuteNonQuery();
+                    cmd.CommandText = SQL_CREATE_REGISTRY_ROW_KEY_INDEX;
+                    cmd.ExecuteNonQuery();
 
-                cmd = new SqliteCommand(SQL_CREATE_REGISTRY_RUN_ID_INDEX, DatabaseManager.Connection, DatabaseManager.Transaction);
-                cmd.ExecuteNonQuery();
-                
-                cmd = new SqliteCommand(SQL_CREATE_RESULT_CHANGE_TYPE_INDEX, DatabaseManager.Connection, DatabaseManager.Transaction);
-                cmd.ExecuteNonQuery();
+                    cmd.CommandText = SQL_CREATE_REGISTRY_RUN_ID_INDEX;
+                    cmd.ExecuteNonQuery();
 
-                cmd = new SqliteCommand(SQL_CREATE_RESULT_BASE_RUN_ID_INDEX, DatabaseManager.Connection, DatabaseManager.Transaction);
-                cmd.ExecuteNonQuery();
+                    cmd.CommandText = SQL_CREATE_RESULT_CHANGE_TYPE_INDEX;
+                    cmd.ExecuteNonQuery();
 
-                cmd = new SqliteCommand(SQL_CREATE_RESULT_COMPARE_RUN_ID_INDEX, DatabaseManager.Connection, DatabaseManager.Transaction);
-                cmd.ExecuteNonQuery();
+                    cmd.CommandText = SQL_CREATE_RESULT_BASE_RUN_ID_INDEX;
+                    cmd.ExecuteNonQuery();
 
-                cmd = new SqliteCommand(SQL_CREATE_RESULT_BASE_ROW_KEY_INDEX, DatabaseManager.Connection, DatabaseManager.Transaction);
-                cmd.ExecuteNonQuery();
+                    cmd.CommandText = SQL_CREATE_RESULT_COMPARE_RUN_ID_INDEX;
+                    cmd.ExecuteNonQuery();
 
-                cmd = new SqliteCommand(SQL_CREATE_RESULT_DATA_TYPE_INDEX, DatabaseManager.Connection, DatabaseManager.Transaction);
-                cmd.ExecuteNonQuery();
-                
+                    cmd.CommandText = SQL_CREATE_RESULT_BASE_ROW_KEY_INDEX;
+                    cmd.ExecuteNonQuery();
+
+                    cmd.CommandText = SQL_CREATE_RESULT_DATA_TYPE_INDEX;
+                    cmd.ExecuteNonQuery();
+                }
+
                 DatabaseManager.Transaction.Commit();
                 _transaction = null;
                 Log.Debug("Done with database setup");
-                cmd.Dispose();
             }
         }
 
