@@ -58,6 +58,13 @@ ResultTypeGroup.change(function () {
     }
 });
 
+var ExportQuantityGroup = $('input[type=radio][name=ExportQuantity]');
+ExportQuantityGroup.change(function () {
+    $("#ExportResultsButton").attr('disabled', false);
+})
+
+
+
 $('#SelectedBaseRunId').change(function () { ResetResults(); } );
 $('#SelectedCompareRunId').change(function () { ResetResults(); } );
 
