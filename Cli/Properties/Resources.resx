@@ -414,7 +414,7 @@
   <data name="NoMonitorRuns" xml:space="preserve">
     <value>There were no monitor runs in the database.</value>
   </data>
-      <data name="FirstRunListRunsError" xml:space="preserve">
+  <data name="FirstRunListRunsError" xml:space="preserve">
     <value>This appears to be the first run with database {0}. There are no runs to list.</value>
   </data>
 </root>

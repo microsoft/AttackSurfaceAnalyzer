@@ -14,6 +14,11 @@
     "%ReadyToBeginCollection": "<i>Ready to begin collection.</i>",
     "%Showing": "Showing ",
     "%Results": " Results",
-    "%TotalRecords": " total records."
+    "%TotalRecords": " total records.",
+    "%Created": "Created",
+    "%Deleted": "Deleted",
+    "%Modified": "Modified",
+    "%Renamed": "Renamed",
+    "%InvalidChange": "Invalid Change Type"
   }
 }

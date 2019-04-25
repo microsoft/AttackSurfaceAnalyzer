@@ -3,10 +3,9 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Text.RegularExpressions;
 using Serilog;
+using System.Reflection;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -149,6 +148,44 @@ namespace AttackSurfaceAnalyzer.Utils
             foreach (var filter in config)
             {
                 Log.Verbose(filter.Value.ToString());
+            }
+        }
+
+        public static void LoadEmbeddedFilters()
+        {
+            try
+            {
+                var assembly = Assembly.GetExecutingAssembly();
+                var resourceName = "AttackSurfaceAnalyzer.filters.json";
+
+                using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+                using (StreamReader streamreader = new StreamReader(stream))
+                using (JsonTextReader reader = new JsonTextReader(streamreader))
+                {
+                    config = (JObject)JToken.ReadFrom(reader);
+                    Log.Information("{0} {1}", Strings.Get("LoadedFilters"), "Embedded");
+                    DumpFilters();
+                }
+                if (config == null)
+                {
+                    Log.Debug("Out of entries");
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                //That's fine, we just don't have any filters to load
+                config = null;
+                Log.Debug("{0} is missing (filter configuration file)", "Embedded");
+
+                return;
+            }
+            catch (NullReferenceException)
+            {
+                config = null;
+                Log.Debug("{0} is missing (filter configuration file)", "Embedded");
+
+                return;
+
             }
         }
 

@@ -29,6 +29,7 @@
     <ProjectReference Include="..\Cli\AttackSurfaceAnalyzerCli.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="locale\" />
     <Folder Include="wwwroot\js\min\" />
     <Folder Include="wwwroot\css\min\" />
   </ItemGroup>
