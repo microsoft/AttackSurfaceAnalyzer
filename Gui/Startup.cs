@@ -70,11 +70,11 @@ namespace AttackSurfaceAnalyzer.Gui
             browserWindowOptions.Resizable = true;
             browserWindowOptions.Center = true;
             browserWindowOptions.Title = "Attack Surface Analyzer Preview";
-#if DEBUG
+            //#if DEBUG
             browserWindowOptions.AutoHideMenuBar = false;
-#else
-            browserWindowOptions.AutoHideMenuBar = true;
-#endif
+            //#else
+            //browserWindowOptions.AutoHideMenuBar = true;
+            //#endif
 
             Task.Run(async () =>
             {

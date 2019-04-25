@@ -20,6 +20,16 @@
     }
     <script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js" integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP" crossorigin="anonymous"></script>
     @Html.Raw(JavaScriptSnippet.FullScript)
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+            asp-fallback-src="~/lib/jquery.min.js"
+            asp-fallback-test="window.jQuery"
+            crossorigin="anonymous"
+            integrity=""></script>
+    <script src="~/lib/l10n.js"></script>
+    <script src="~/lib/popper.min.js"></script>
+    <script src="~/lib/bootstrap.min.js"></script>
+
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
@@ -79,15 +89,7 @@
     <nav class="navbar fixed-bottom navbar-light bg-light">
         <img src="~/images/microsoft-gray.png" style="height:30px" alt="Microsoft Corporation Logo" /> v. @Helpers.GetVersionString()
     </nav>
-
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
-            asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-            asp-fallback-test="window.jQuery"
-            crossorigin="anonymous"
-            integrity=""></script>    <script src="~/lib/popper.min.js"></script>
-    <script src="~/lib/bootstrap.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/lib/l10n.js"></script>
 
     @RenderSection("Scripts", required: false)
 </body>
