@@ -114,8 +114,11 @@ namespace AttackSurfaceAnalyzer
         [Option("match-run-id", Required = false, HelpText = "Match the collectors used on another run id")]
         public string MatchedCollectorId { get; set; }
 
-        [Option("filter", Required = false, HelpText = "Provide a JSON filter file.", Default = "filters.json")]
+        [Option("filter", Required = false, HelpText = "Provide a JSON filter file.", Default = "Use embedded filters.")]
         public string FilterLocation { get; set; }
+
+        [Option(HelpText = "Disables the embedded filters.")]
+        public bool NoFilters { get; set; }
 
         [Option('h',"gather-hashes", Required = false, HelpText = "Hashes every file when using the File Collector.  May dramatically increase run time of the scan.")]
         public bool GatherHashes { get; set; }
@@ -1200,8 +1203,18 @@ namespace AttackSurfaceAnalyzer
                 Log.Warning(Strings.Get("Err_NoCollectors"));
                 return -1;
             }
-
-            Filter.LoadFilters(opts.FilterLocation);
+            Log.Information(opts.FilterLocation);
+            if (!opts.NoFilters)
+            {
+                if (opts.FilterLocation.Equals("Use embedded filters."))
+                {
+                    Filter.LoadEmbeddedFilters();
+                }
+                else
+                {
+                    Filter.LoadFilters(opts.FilterLocation);
+                }
+            }
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
             if (opts.Overwrite)
@@ -1378,11 +1391,13 @@ namespace AttackSurfaceAnalyzer
             var results = CompareRuns(opts);
 
             var engine = new RazorLightEngineBuilder()
-              .UseFilesystemProject(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location))
+              .UseEmbeddedResourcesProject(typeof(AttackSurfaceAnalyzerCLI))
               .UseMemoryCachingProvider()
               .Build();
 
-            var result = engine.CompileRenderAsync("Output" + Path.DirectorySeparatorChar + "Output.cshtml", results).Result;
+            var assembly = Assembly.GetExecutingAssembly();
+
+            var result = engine.CompileRenderAsync("Output.Output.cshtml", results).Result;
             File.WriteAllText($"{opts.OutputBaseFilename}.html", result);
             Log.Information(Strings.Get("OutputWrittenTo"), opts.OutputBaseFilename + ".html");
 

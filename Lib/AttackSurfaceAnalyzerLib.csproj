@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
@@ -66,6 +66,7 @@ This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI 
     <PackageReference Include="Nerdbank.GitVersioning" Version="2.3.138" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="..\filters.json" Link="filters.json" />
     <Content Include="..\LICENSE.txt">
       <Link>LICENSE.txt</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -58,6 +58,13 @@ ResultTypeGroup.change(function () {
     }
 });
 
+var ExportQuantityGroup = $('input[type=radio][name=ExportQuantity]');
+ExportQuantityGroup.change(function () {
+    $("#ExportResultsButton").attr('disabled', false);
+})
+
+
+
 $('#SelectedBaseRunId').change(function () { ResetResults(); } );
 $('#SelectedCompareRunId').change(function () { ResetResults(); } );
 
@@ -135,7 +142,7 @@ function GetComparators() {
                 icon = '<i class="far fa-check-circle" style="color:green"></i>  ';
             }
             else if (value === RUN_STATUS.NOT_STARTED) {
-                icon = '<i class="fas fa-pause"></i>  ';
+                icon = '<i class="fas fa-cog"></i>  ';
             }
             else if (value === RUN_STATUS.NO_RESULTS) {
                 icon = '<i class="fas fa-level-down-alt"></i>  ';
