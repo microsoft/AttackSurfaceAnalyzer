@@ -47,6 +47,12 @@ namespace AttackSurfaceAnalyzer.Properties {
             }
         }
         
+        public static string AdminWarning {
+            get {
+                return ResourceManager.GetString("AdminWarning", resourceCulture);
+            }
+        }
+        
         public static string Begin {
             get {
                 return ResourceManager.GetString("Begin", resourceCulture);

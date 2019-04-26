@@ -27,7 +27,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Lib\AttackSurfaceAnalyzerLib.csproj" />
     <EmbeddedResource Include="Output\Output.cshtml" CopyToPublishDirectory="PreserveNewest">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="..\LICENSE.txt">
       <Link>LICENSE.txt</Link>
