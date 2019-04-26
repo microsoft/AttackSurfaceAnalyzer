@@ -22,7 +22,13 @@ group.change(function () {
     $('.monitor').toggle(group.filter(':checked').val() === 'Live');
 }).change();
 
-GetCollectors();
+
+if ($('#AdminWarning').length) {
+    DisableCollectionFields();
+}
+else {
+    GetCollectors();
+}
 
 function StopMonitoring()
 {
