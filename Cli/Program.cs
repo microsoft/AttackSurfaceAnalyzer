@@ -191,7 +191,7 @@ namespace AttackSurfaceAnalyzer
         private static List<BaseMonitor> monitors = new List<BaseMonitor>();
         private static List<BaseCompare> comparators = new List<BaseCompare>();
 
-        //private static readonly string INSERT_RUN_INTO_RESULT_TABLE_SQL = "insert into results (base_run_id, compare_run_id, status) values (@base_run_id, @compare_run_id, @status);";
+        private static readonly string INSERT_RUN_INTO_RESULT_TABLE_SQL = "insert into results (base_run_id, compare_run_id, status) values (@base_run_id, @compare_run_id, @status);";
         private static readonly string UPDATE_RUN_IN_RESULT_TABLE = "update results set status = @status where (base_run_id = @base_run_id and compare_run_id = @compare_run_id)";
         private static readonly string SQL_GET_RESULT_TYPES = "select * from runs where run_id = @base_run_id or run_id = @compare_run_id";
         private static readonly string SQL_GET_RESULT_TYPES_SINGLE = "select * from runs where run_id = @run_id";
@@ -449,6 +449,7 @@ namespace AttackSurfaceAnalyzer
             string GET_SERIALIZED_RESULTS = "select serialized from @table_name where row_key = @row_key and run_id = @run_id";
 
             Log.Debug("{0} WriteScanJson", Strings.Get("Begin"));
+            Log.Information("Write scan json");
 
             List<RESULT_TYPE> ToExport = new List<RESULT_TYPE> { (RESULT_TYPE)ResultType };
             Dictionary<RESULT_TYPE, int> actualExported = new Dictionary<RESULT_TYPE, int>();
@@ -465,21 +466,25 @@ namespace AttackSurfaceAnalyzer
 
             foreach (RESULT_TYPE ExportType in ToExport)
             {
+                Log.Information("{0}", ExportType);
                 List<CompareResult> records = new List<CompareResult>();
-                var cmd = new SqliteCommand(GET_COMPARISON_RESULTS, DatabaseManager.Connection);
-                cmd.Parameters.AddWithValue("@base_run_id", BaseId);
-                cmd.Parameters.AddWithValue("@compare_run_id", CompareId);
-                cmd.Parameters.AddWithValue("@data_type", ExportType);
-                using (var reader = cmd.ExecuteReader())
+                using (var inner_cmd = new SqliteCommand(GET_SERIALIZED_RESULTS.Replace("@table_name", Helpers.ResultTypeToTableName(ExportType)), DatabaseManager.Connection, DatabaseManager.Transaction))
+                using (var cmd = new SqliteCommand(GET_COMPARISON_RESULTS, DatabaseManager.Connection, DatabaseManager.Transaction))
                 {
-                    while (reader.Read())
+                    cmd.Parameters.AddWithValue("@base_run_id", BaseId);
+                    cmd.Parameters.AddWithValue("@compare_run_id", CompareId);
+                    cmd.Parameters.AddWithValue("@data_type", ExportType);
+                    int i = 0;
+                    using (var reader = cmd.ExecuteReader())
                     {
-                        string CompareString = "";
-                        string BaseString = "";
-                        CHANGE_TYPE ChangeType = (CHANGE_TYPE)int.Parse(reader["change_type"].ToString());
-
-                        using (var inner_cmd = new SqliteCommand(GET_SERIALIZED_RESULTS.Replace("@table_name", Helpers.ResultTypeToTableName(ExportType)), DatabaseManager.Connection))
+                        while (reader.Read())
                         {
+                            Log.Information("{0}", ++i);
+                            string CompareString = "";
+                            string BaseString = "";
+                            CHANGE_TYPE ChangeType = (CHANGE_TYPE)int.Parse(reader["change_type"].ToString());
+
+                            Log.Information(inner_cmd.CommandText);
                             if (ChangeType == CHANGE_TYPE.CREATED || ChangeType == CHANGE_TYPE.MODIFIED)
                             {
                                 inner_cmd.Parameters.Clear();
@@ -493,6 +498,7 @@ namespace AttackSurfaceAnalyzer
                                     }
                                 }
                             }
+                            Log.Information("Halfway");
                             if (ChangeType == CHANGE_TYPE.DELETED || ChangeType == CHANGE_TYPE.MODIFIED)
                             {
                                 inner_cmd.Parameters.Clear();
@@ -506,69 +512,69 @@ namespace AttackSurfaceAnalyzer
                                     }
                                 }
                             }
+                        
+                            CompareResult obj;
+                            switch (ExportType)
+                            {
+                                case RESULT_TYPE.CERTIFICATE:
+                                    obj = new CertificateResult()
+                                    {
+                                        Base = JsonConvert.DeserializeObject<CertificateObject>(BaseString),
+                                        Compare = JsonConvert.DeserializeObject<CertificateObject>(CompareString)
+                                    };
+                                    break;
+                                case RESULT_TYPE.FILE:
+                                    obj = new FileSystemResult()
+                                    {
+                                        Base = JsonConvert.DeserializeObject<FileSystemObject>(BaseString),
+                                        Compare = JsonConvert.DeserializeObject<FileSystemObject>(CompareString)
+                                    };
+                                    break;
+                                case RESULT_TYPE.PORT:
+                                    obj = new OpenPortResult()
+                                    {
+                                        Base = JsonConvert.DeserializeObject<OpenPortObject>(BaseString),
+                                        Compare = JsonConvert.DeserializeObject<OpenPortObject>(CompareString)
+                                    };
+                                    break;
+                                case RESULT_TYPE.USER:
+                                    obj = new UserAccountResult()
+                                    {
+                                        Base = JsonConvert.DeserializeObject<UserAccountObject>(BaseString),
+                                        Compare = JsonConvert.DeserializeObject<UserAccountObject>(CompareString)
+                                    };
+                                    break;
+                                case RESULT_TYPE.SERVICES:
+                                    obj = new ServiceResult()
+                                    {
+                                        Base = JsonConvert.DeserializeObject<ServiceObject>(BaseString),
+                                        Compare = JsonConvert.DeserializeObject<ServiceObject>(CompareString)
+                                    };
+                                    break;
+                                case RESULT_TYPE.REGISTRY:
+                                    obj = new RegistryResult()
+                                    {
+                                        Base = JsonConvert.DeserializeObject<RegistryObject>(BaseString),
+                                        Compare = JsonConvert.DeserializeObject<RegistryObject>(CompareString)
+                                    };
+                                    break;
+                                default:
+                                    obj = new CompareResult();
+                                    break;
+                            }
+
+                            obj.BaseRowKey = reader["base_row_key"].ToString();
+                            obj.CompareRowKey = reader["compare_row_key"].ToString();
+                            obj.BaseRunId = reader["base_run_id"].ToString();
+                            obj.CompareRunId = reader["compare_run_id"].ToString();
+                            obj.ChangeType = (CHANGE_TYPE)int.Parse(reader["change_type"].ToString());
+                            obj.ResultType = (RESULT_TYPE)int.Parse(reader["data_type"].ToString());
+
+                            records.Add(obj);
                         }
-
-
-                        CompareResult obj;
-                        switch (ExportType)
-                        {
-                            case RESULT_TYPE.CERTIFICATE:
-                                obj = new CertificateResult()
-                                {
-                                    Base = JsonConvert.DeserializeObject<CertificateObject>(BaseString),
-                                    Compare = JsonConvert.DeserializeObject<CertificateObject>(CompareString)
-                                };
-                                break;
-                            case RESULT_TYPE.FILE:
-                                obj = new FileSystemResult()
-                                {
-                                    Base = JsonConvert.DeserializeObject<FileSystemObject>(BaseString),
-                                    Compare = JsonConvert.DeserializeObject<FileSystemObject>(CompareString)
-                                };
-                                break;
-                            case RESULT_TYPE.PORT:
-                                obj = new OpenPortResult()
-                                {
-                                    Base = JsonConvert.DeserializeObject<OpenPortObject>(BaseString),
-                                    Compare = JsonConvert.DeserializeObject<OpenPortObject>(CompareString)
-                                };
-                                break;
-                            case RESULT_TYPE.USER:
-                                obj = new UserAccountResult()
-                                {
-                                    Base = JsonConvert.DeserializeObject<UserAccountObject>(BaseString),
-                                    Compare = JsonConvert.DeserializeObject<UserAccountObject>(CompareString)
-                                };
-                                break;
-                            case RESULT_TYPE.SERVICES:
-                                obj = new ServiceResult()
-                                {
-                                    Base = JsonConvert.DeserializeObject<ServiceObject>(BaseString),
-                                    Compare = JsonConvert.DeserializeObject<ServiceObject>(CompareString)
-                                };
-                                break;
-                            case RESULT_TYPE.REGISTRY:
-                                obj = new RegistryResult()
-                                {
-                                    Base = JsonConvert.DeserializeObject<RegistryObject>(BaseString),
-                                    Compare = JsonConvert.DeserializeObject<RegistryObject>(CompareString)
-                                };
-                                break;
-                            default:
-                                obj = new CompareResult();
-                                break;
-                        }
-
-                        obj.BaseRowKey = reader["base_row_key"].ToString();
-                        obj.CompareRowKey = reader["compare_row_key"].ToString();
-                        obj.BaseRunId = reader["base_run_id"].ToString();
-                        obj.CompareRunId = reader["compare_run_id"].ToString();
-                        obj.ChangeType = (CHANGE_TYPE)int.Parse(reader["change_type"].ToString());
-                        obj.ResultType = (RESULT_TYPE)int.Parse(reader["data_type"].ToString());
-
-                        records.Add(obj);
                     }
                 }
+
                 actualExported.Add(ExportType, records.Count());
 
 
@@ -929,6 +935,13 @@ namespace AttackSurfaceAnalyzer
         {
             Log.Information("{0} {1} vs {2}", Strings.Get("Comparing"),opts.FirstRunId,opts.SecondRunId);
 
+            using (var cmd = new SqliteCommand(INSERT_RUN_INTO_RESULT_TABLE_SQL, DatabaseManager.Connection, DatabaseManager.Transaction))
+            {
+                cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
+                cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
+                cmd.Parameters.AddWithValue("@status", RUN_STATUS.RUNNING);
+                cmd.ExecuteNonQuery();
+            }
 
             var results = new Dictionary<string, object>
             {
@@ -1031,8 +1044,8 @@ namespace AttackSurfaceAnalyzer
             }
 
             Telemetry.TrackEvent("End Command", EndEvent);
-            
-            using (var cmd = new SqliteCommand(UPDATE_RUN_IN_RESULT_TABLE, DatabaseManager.Connection, DatabaseManager.Transaction))
+
+            using(var cmd = new SqliteCommand(UPDATE_RUN_IN_RESULT_TABLE, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
                 cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
                 cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);

@@ -9,7 +9,9 @@
 }
 
 <link rel="stylesheet" href="~/css/Results.css" asp-append-version="true" />
-
+@section Scripts{
+    <script type="text/javascript" src="~/js/Results.js" asp-append-version="true"></script>
+}
 <br />
 <h1>@Strings.Get("AnalyzeResults")</h1>
 <br />
@@ -324,6 +326,4 @@
         <tbody id="FileMonitorResultsTableBody"></tbody>
     </table>
 </div>
-@section Scripts{
-    <script type="text/javascript" src="~/js/Analyze.js" asp-append-version="true"></script> @* Visual Studio insists that scripts have a separate closing tag rather than an inclusive /> tag*@
-}
+
