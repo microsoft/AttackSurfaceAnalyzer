@@ -466,7 +466,7 @@ namespace AttackSurfaceAnalyzer
 
             foreach (RESULT_TYPE ExportType in ToExport)
             {
-                Log.Information("{0}", ExportType);
+                Log.Information("Exporting {0}", ExportType);
                 List<CompareResult> records = new List<CompareResult>();
                 using (var inner_cmd = new SqliteCommand(GET_SERIALIZED_RESULTS.Replace("@table_name", Helpers.ResultTypeToTableName(ExportType)), DatabaseManager.Connection, DatabaseManager.Transaction))
                 using (var cmd = new SqliteCommand(GET_COMPARISON_RESULTS, DatabaseManager.Connection, DatabaseManager.Transaction))
@@ -474,17 +474,14 @@ namespace AttackSurfaceAnalyzer
                     cmd.Parameters.AddWithValue("@base_run_id", BaseId);
                     cmd.Parameters.AddWithValue("@compare_run_id", CompareId);
                     cmd.Parameters.AddWithValue("@data_type", ExportType);
-                    int i = 0;
                     using (var reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            Log.Information("{0}", ++i);
                             string CompareString = "";
                             string BaseString = "";
                             CHANGE_TYPE ChangeType = (CHANGE_TYPE)int.Parse(reader["change_type"].ToString());
 
-                            Log.Information(inner_cmd.CommandText);
                             if (ChangeType == CHANGE_TYPE.CREATED || ChangeType == CHANGE_TYPE.MODIFIED)
                             {
                                 inner_cmd.Parameters.Clear();
