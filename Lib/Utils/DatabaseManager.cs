@@ -23,12 +23,25 @@ namespace AttackSurfaceAnalyzer.Utils
         private static readonly string SQL_CREATE_REGISTRY_COLLECTION = "create table if not exists registry (run_id text, row_key text, key text, value text, subkeys text, permissions text, serialized text)";
         private static readonly string SQL_CREATE_CERTIFICATES_COLLECTION = "create table if not exists certificates (run_id text, row_key text, pkcs12 text, store_location text, store_name text, hash text, hash_plus_store text, cert text, cn text, serialized text)";
 
+        private static readonly string SQL_CREATE_FILE_SYSTEM_ROW_KEY_INDEX = "create index if not exists i_file_system_row_key on file_system(row_key)";
+        private static readonly string SQL_CREATE_FILE_SYSTEM_RUN_ID_INDEX = "create index if not exists i_file_system_run_id on file_system(run_id)";
+        private static readonly string SQL_CREATE_OPEN_PORT_ROW_KEY_INDEX = "create index if not exists i_network_ports_row_key on network_ports(row_key)";
+        private static readonly string SQL_CREATE_OPEN_PORT_RUN_ID_INDEX = "create index if not exists i_network_ports_run_id on network_ports(run_id)";
+        private static readonly string SQL_CREATE_SERVICE_ROW_KEY_INDEX = "create index if not exists i_win_system_service_row_key on win_system_service(row_key)";
+        private static readonly string SQL_CREATE_SERVICE_RUN_ID_INDEX = "create index if not exists i_win_system_service_run_id on win_system_service(run_id)";
+        private static readonly string SQL_CREATE_USER_ROW_KEY_INDEX = "create index if not exists i_user_account_row_key on user_account(row_key)";
+        private static readonly string SQL_CREATE_USER_RUN_ID_INDEX = "create index if not exists i_user_account_run_id on user_account(run_id)";
+        private static readonly string SQL_CREATE_REGISTRY_ROW_KEY_INDEX = "create index if not exists i_registry_row_key on registry(row_key)";
+        private static readonly string SQL_CREATE_REGISTRY_RUN_ID_INDEX = "create index if not exists i_registry_run_id on registry(run_id)";
+        private static readonly string SQL_CREATE_CERTIFICATES_ROW_KEY_INDEX = "create index if not exists i_certificates_row_key on certificates(row_key)";
+        private static readonly string SQL_CREATE_CERTIFICATES_RUN_ID_INDEX = "create index if not exists i_certificates_run_id on certificates(run_id)";
+
+        private static readonly string SQL_CREATE_FILE_COMBINED_INDEX = "create index if not exists i_filesystem_row_run_combined on file_system(run_id, row_key)";
+
         private static readonly string SQL_CREATE_ANALYZED_TABLE = "create table if not exists results (base_run_id text, compare_run_id text, status int)";
 
         private static readonly string SQL_CREATE_FILE_SYSTEM_INDEX = "create index if not exists path_index on file_system(path)";
         private static readonly string SQL_CREATE_REGISTRY_KEY_INDEX = "create index if not exists registry_key_index on registry(key)";
-        private static readonly string SQL_CREATE_REGISTRY_ROW_KEY_INDEX = "create index if not exists registry_row_key_index on registry(row_key)";
-        private static readonly string SQL_CREATE_REGISTRY_RUN_ID_INDEX = "create index if not exists registry_run_id_index on registry(run_id)";
 
         private static readonly string SQL_CREATE_COMPARE_RESULT_TABLE = "create table if not exists compared (base_run_id text, compare_run_id test, change_type int, base_row_key text, compare_row_key text, data_type int)";
         private static readonly string SQL_CREATE_RESULT_CHANGE_TYPE_INDEX = "create index if not exists i_compared_change_type_index on compared(change_type)";
@@ -36,7 +49,6 @@ namespace AttackSurfaceAnalyzer.Utils
         private static readonly string SQL_CREATE_RESULT_COMPARE_RUN_ID_INDEX = "create index if not exists i_compared_compare_run_id on compared(compare_run_id)";
         private static readonly string SQL_CREATE_RESULT_BASE_ROW_KEY_INDEX = "create index if not exists i_compared_base_row_key on compared(base_row_key)";
         private static readonly string SQL_CREATE_RESULT_DATA_TYPE_INDEX = "create index if not exists i_compared_data_type_index on compared(data_type)";
-
 
         private static readonly string SQL_CREATE_PERSISTED_SETTINGS = "create table if not exists persisted_settings (setting text, value text, unique(setting))";
         private static readonly string SQL_CREATE_DEFAULT_SETTINGS = "insert or ignore into persisted_settings (setting, value) values ('telemetry_opt_out','false'),('schema_version',@schema_version)";
@@ -110,10 +122,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
                     cmd.CommandText = SQL_CREATE_DEFAULT_SETTINGS;
                     cmd.Parameters.AddWithValue("@schema_version", SCHEMA_VERSION);
-                    if(cmd.ExecuteNonQuery() == 0)
-                    {
-                        _firstRun = false;
-                    }                
+                    _firstRun &= cmd.ExecuteNonQuery() != 0;                
 
                     cmd.CommandText = SQL_CREATE_FILE_SYSTEM_INDEX;
                     cmd.ExecuteNonQuery();
@@ -121,10 +130,40 @@ namespace AttackSurfaceAnalyzer.Utils
                     cmd.CommandText = SQL_CREATE_REGISTRY_KEY_INDEX;
                     cmd.ExecuteNonQuery();
 
+                    cmd.CommandText = SQL_CREATE_FILE_SYSTEM_ROW_KEY_INDEX;
+                    cmd.ExecuteNonQuery();
+
+                    cmd.CommandText = SQL_CREATE_FILE_SYSTEM_RUN_ID_INDEX;
+                    cmd.ExecuteNonQuery();
+
+                    cmd.CommandText = SQL_CREATE_OPEN_PORT_ROW_KEY_INDEX;
+                    cmd.ExecuteNonQuery();
+
+                    cmd.CommandText = SQL_CREATE_OPEN_PORT_RUN_ID_INDEX;
+                    cmd.ExecuteNonQuery();
+
+                    cmd.CommandText = SQL_CREATE_USER_ROW_KEY_INDEX;
+                    cmd.ExecuteNonQuery();
+
+                    cmd.CommandText = SQL_CREATE_USER_RUN_ID_INDEX;
+                    cmd.ExecuteNonQuery();
+
+                    cmd.CommandText = SQL_CREATE_SERVICE_ROW_KEY_INDEX;
+                    cmd.ExecuteNonQuery();
+
+                    cmd.CommandText = SQL_CREATE_SERVICE_RUN_ID_INDEX;
+                    cmd.ExecuteNonQuery();
+
                     cmd.CommandText = SQL_CREATE_REGISTRY_ROW_KEY_INDEX;
                     cmd.ExecuteNonQuery();
 
                     cmd.CommandText = SQL_CREATE_REGISTRY_RUN_ID_INDEX;
+                    cmd.ExecuteNonQuery();
+
+                    cmd.CommandText = SQL_CREATE_CERTIFICATES_ROW_KEY_INDEX;
+                    cmd.ExecuteNonQuery();
+
+                    cmd.CommandText = SQL_CREATE_CERTIFICATES_RUN_ID_INDEX;
                     cmd.ExecuteNonQuery();
 
                     cmd.CommandText = SQL_CREATE_RESULT_CHANGE_TYPE_INDEX;
@@ -140,6 +179,9 @@ namespace AttackSurfaceAnalyzer.Utils
                     cmd.ExecuteNonQuery();
 
                     cmd.CommandText = SQL_CREATE_RESULT_DATA_TYPE_INDEX;
+                    cmd.ExecuteNonQuery();
+
+                    cmd.CommandText = SQL_CREATE_FILE_COMBINED_INDEX;
                     cmd.ExecuteNonQuery();
                 }
 
