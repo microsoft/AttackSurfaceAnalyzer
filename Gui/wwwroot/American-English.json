@@ -13,7 +13,7 @@
     "%CollectionCompleted": "<i>Collection is completed.</i>",
     "%ReadyToBeginCollection": "<i>Ready to begin collection.</i>",
     "%Showing": "Showing ",
-    "%Results": " Results",
+    "%Results": " Results. ",
     "%TotalRecords": " total records.",
     "%Created": "Created",
     "%Deleted": "Deleted",
