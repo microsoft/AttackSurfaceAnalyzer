@@ -1,8 +1,8 @@
 ﻿# Attack Surface Analyzer 
 
-## Version 2.0-preview
+## Version 2.1
 
-This version of Attack Surface Analyzer is in "public preview", suitable for early adopters testing core features. A final release of the 2.0 version is planned for late April, 2019.
+Attack Surface Analyzer was first released for the general audience starting in version 2.0 (see Release\v2.0).  Subsequent versions on master are meant to advance the general features and issues fixed.
 
 ## Overview
 
