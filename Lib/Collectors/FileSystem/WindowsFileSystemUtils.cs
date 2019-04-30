@@ -25,9 +25,9 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 {
                     fileSecurity = new FileSecurity(filename, AccessControlSections.All);
                 }
-                catch (Exception ex)
+                catch (UnauthorizedAccessException)
                 {
-                    Log.Debug("Unable to get access control for {0}: {1}", fileInfo.FullName, ex.Message);
+                    Log.Verbose(Strings.Get("Err_AccessControl"), fileInfo.FullName);
                     //Log.Debug(ex.StackTrace);
                 }
             }
@@ -37,9 +37,9 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 {
                     fileSecurity = new DirectorySecurity(filename, AccessControlSections.All);
                 }
-                catch (Exception ex)
+                catch (UnauthorizedAccessException)
                 {
-                    Log.Debug("Unable to get access control for {0}: {1}", fileInfo.FullName, ex.Message);
+                    Log.Verbose(Strings.Get("Err_AccessControl"), fileInfo.FullName);
                     //Log.Debug(ex.StackTrace);
 
                 }
@@ -51,7 +51,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
             if (fileSecurity != null)
                 return fileSecurity.GetSecurityDescriptorSddlForm(AccessControlSections.All);
             else
-                return null;
+                return "";
         }
     }
 }

@@ -2,12 +2,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AttackSurfaceAnalyzerGui", "Gui\AttackSurfaceAnalyzerGui.csproj", "{2B0AC364-0713-406C-8B07-795574F15EC6}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AttackSurfaceAnalyzerLib", "Lib\AttackSurfaceAnalyzerLib.csproj", "{5069C7AB-2264-4768-AB42-358251B0863A}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AttackSurfaceAnalyzerCli", "Cli\AttackSurfaceAnalyzerCli.csproj", "{431FFEB4-57C2-4C5B-B329-DDF6ED229C3A}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0E30E3FA-AECD-4BF3-9EAA-9D6C16D5E991}"
 	ProjectSection(SolutionItems) = preProject
 		BUILD.md = BUILD.md
@@ -19,6 +13,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 		version.json = version.json
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AttackSurfaceAnalyzerGui", "Gui\AttackSurfaceAnalyzerGui.csproj", "{2B0AC364-0713-406C-8B07-795574F15EC6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AttackSurfaceAnalyzerLib", "Lib\AttackSurfaceAnalyzerLib.csproj", "{5069C7AB-2264-4768-AB42-358251B0863A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AttackSurfaceAnalyzerCli", "Cli\AttackSurfaceAnalyzerCli.csproj", "{431FFEB4-57C2-4C5B-B329-DDF6ED229C3A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -79,6 +79,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 Log.Information(e.StackTrace);
                 Log.Information(e.Message);
                 Log.Information(e.GetType().ToString());
+                Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
             }
         }
 
@@ -93,7 +94,6 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
     /// </summary>
     public class FileSystemCollector : BaseCollector
     {
-        private readonly Func<FileSystemInfo, bool> filter;
         private readonly HashSet<string> roots;
 
         private bool INCLUDE_CONTENT_HASH = false;
@@ -124,16 +124,27 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 Log.Information(e.StackTrace);
                 Log.Information(e.Message);
                 Log.Information(e.GetType().ToString());
+                Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
             }
         }
 
-        public FileSystemCollector(string runId, Func<FileSystemInfo, bool> filter = null, bool enableHashing = false)
+        public FileSystemCollector(string runId, bool enableHashing = false, string directories = "")
         {
-            Log.Debug("Initializing a new {0} object.", this.GetType().Name);
-            this.filter = filter;
             this.runId = runId;
             this.roots = new HashSet<string>();
             INCLUDE_CONTENT_HASH = enableHashing;
+            if (directories.Equals(""))
+            {
+
+            }
+            else
+            {
+                foreach (string path in directories.Split(','))
+                {
+                    AddRoot(path);
+                }
+            }
+
         }
 
         public void Truncate(string runid)
@@ -164,9 +175,6 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 return;
             }
 
-            Dictionary<string, string> EndEvent = new Dictionary<string, string>();
-            EndEvent.Add("Version", Helpers.GetVersionString());
-            Telemetry.Client.TrackEvent("Start file collector", EndEvent);
             wb = new WriteBuffer(runId);
             Start();
             
@@ -194,7 +202,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 
             foreach (var root in this.roots)
             {
-                Log.Information("Scanning root {0}",root.ToString());
+                Log.Information("{0} root {1}",Strings.Get("Scanning"),root.ToString());
                 try
                 {
                     var fileInfoEnumerable = DirectoryWalker.WalkDirectory(root);
@@ -203,29 +211,38 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                     {
                         try
                         {
-                            FileSystemObject obj = default(FileSystemObject);
+                            FileSystemObject obj = null;
                             if (fileInfo is DirectoryInfo)
                             {
-                                obj = new FileSystemObject()
+                                if (!Filter.IsFiltered(Helpers.RuntimeString(), "Scan", "File", "Path", fileInfo.FullName))
                                 {
-                                    Path = fileInfo.FullName,
-                                    Permissions = FileSystemUtils.GetFilePermissions(fileInfo)
-                                };
+                                    obj = new FileSystemObject()
+                                    {
+                                        Path = fileInfo.FullName,
+                                        Permissions = FileSystemUtils.GetFilePermissions(fileInfo)
+                                    };
+                                }
                             }
                             else
                             {
-                                obj = new FileSystemObject()
+                                if (!Filter.IsFiltered(Helpers.RuntimeString(), "Scan", "File", "Path", fileInfo.FullName))
                                 {
-                                    Path = fileInfo.FullName,
-                                    Permissions = FileSystemUtils.GetFilePermissions(fileInfo),
-                                    Size = (ulong)(fileInfo as FileInfo).Length
-                                };
-                                if (INCLUDE_CONTENT_HASH)
-                                {
-                                    obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
+                                    obj = new FileSystemObject()
+                                    {
+                                        Path = fileInfo.FullName,
+                                        Permissions = FileSystemUtils.GetFilePermissions(fileInfo),
+                                        Size = (ulong)(fileInfo as FileInfo).Length
+                                    };
+                                    if (INCLUDE_CONTENT_HASH)
+                                    {
+                                        obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
+                                    }
                                 }
                             }
-                            Write(obj);
+                            if (obj != null)
+                            {
+                                Write(obj);
+                            }
                         }
                         catch (Exception ex)
                         {

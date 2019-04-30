@@ -57,10 +57,6 @@ body {
     color: #000000 !important;
 }
 
-#AdminWarning{
-    display:none;
-}
-
 .warning {
     text-align: center;
     font-style: italic;

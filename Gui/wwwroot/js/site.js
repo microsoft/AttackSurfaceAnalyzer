@@ -37,7 +37,8 @@ var RUN_STATUS = {
 }
 var ERRORS = {
     NONE: 0,
-    UNIQUE_ID: 1
+    UNIQUE_ID: 1,
+    INVALID_PATH: 2
 }
 //There is a better way to do this
 function runStatusToString(runStatus) {
@@ -55,11 +56,6 @@ function runStatusToString(runStatus) {
     }
 }
 
-$.getJSON('Home/CheckAdmin', function (result) {
-    if (JSON.parse(result) == true) {
-        $("#AdminWarning").hide();
-    }
-    else {
-        $("#AdminWarning").show();
-    }
-});
+var l = function (string) {
+    return string.toLocaleString();
+};

@@ -38,7 +38,23 @@ namespace AttackSurfaceAnalyzer.Utils
             Assembly assembly = Assembly.GetExecutingAssembly();
             FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
             return fileVersionInfo.ProductVersion;
+        }
 
+        public static string RuntimeString()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                return "Linux";
+            }
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return "Windows";
+            }
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                return "Macos";
+            }
+            return "Unknown";
         }
 
         public static string ResultTypeToTableName(RESULT_TYPE result_type)
@@ -60,6 +76,34 @@ namespace AttackSurfaceAnalyzer.Utils
                 default:
                     return "null";
             }
+        }
+
+        public static string GetOsVersion()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return System.Environment.OSVersion.VersionString;
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                ExternalCommandRunner runner = new ExternalCommandRunner();
+                return runner.RunExternalCommand("uname", "-r");
+            }
+            return "";
+        }
+
+        public static string GetOsName()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return Helpers.RuntimeString();
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                ExternalCommandRunner runner = new ExternalCommandRunner();
+                return runner.RunExternalCommand("uname", "-s");
+            }
+            return "";
         }
     }
 }

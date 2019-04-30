@@ -12,6 +12,9 @@ using System.Security.Cryptography.X509Certificates;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Serilog;
+using AttackSurfaceAnalyzer.ObjectTypes;
+using System.Text.RegularExpressions;
+using System.Text;
 
 namespace AttackSurfaceAnalyzer.Collectors.Certificates
 {
@@ -22,13 +25,12 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
     {
 
         private static readonly string SQL_TRUNCATE = "delete from certificates where run_id=@run_id";
-        private static readonly string SQL_INSERT = "insert into certificates (run_id, row_key, store_location, store_name, hash, hash_plus_store, cn, pkcs12) values (@run_id, @row_key, @store_location, @store_name, @hash, @hash_plus_store, @cn, @pkcs12)";
+        private static readonly string SQL_INSERT = "insert into certificates (run_id, row_key, store_location, store_name, hash, hash_plus_store, cn, pkcs12, serialized) values (@run_id, @row_key, @store_location, @store_name, @hash, @hash_plus_store, @cn, @pkcs12, @serialized)";
 
         private int recordCounter = 0;
 
         public CertificateCollector(string runId)
         {
-            Log.Debug("Initializing a new {0} object.", this.GetType().Name);
             this.runId = runId;
         }
 
@@ -41,7 +43,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
 
         public override bool CanRunOnPlatform()
         {
-            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
         }
 
         public void Write(StoreLocation storeLocation, StoreName storeName, X509Certificate2 obj)
@@ -63,11 +65,19 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
                 }
                 else
                 {
-                    cmd.Parameters.AddWithValue("@pkcs12", obj.Export(X509ContentType.Pkcs12));
+                    cmd.Parameters.AddWithValue("@pkcs12", obj.Export(X509ContentType.Pfx));
                 }
 
                 cmd.Parameters.AddWithValue("@row_key", CryptoHelpers.CreateHash(runId + recordCounter));
 
+                var cert = new CertificateObject()
+                {
+                    StoreLocation = storeLocation.ToString(),
+                    StoreName = storeName.ToString(),
+                    CertificateHashString = obj.GetCertHashString(),
+                    Subject = obj.Subject
+                };
+                cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(cert));
                 cmd.ExecuteNonQuery();
             }
             catch (NullReferenceException e)
@@ -79,6 +89,11 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
                 Log.Warning(e.Message);
                 //This catches duplicate certificates
             }
+            catch (Exception e)
+            {
+                Log.Warning(e.GetType().ToString());
+                Log.Warning(e.StackTrace);
+            }
         }
 
         public override void Execute()
@@ -86,34 +101,93 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
             if (!CanRunOnPlatform())
             {
                 return;
-            }            
+            }
 
             Start();
             Truncate(runId);
 
-            foreach (StoreLocation storeLocation in (StoreLocation[])Enum.GetValues(typeof(StoreLocation)))
+            // On Windows we can use the .NET API to iterate through all the stores.
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                foreach (StoreName storeName in (StoreName[])Enum.GetValues(typeof(StoreName)))
+                foreach (StoreLocation storeLocation in (StoreLocation[])Enum.GetValues(typeof(StoreLocation)))
                 {
-                    try
+                    foreach (StoreName storeName in (StoreName[])Enum.GetValues(typeof(StoreName)))
                     {
-                        X509Store store = new X509Store(storeName, storeLocation);
-                        store.Open(OpenFlags.ReadOnly);
-
-                        foreach (X509Certificate2 certificate in store.Certificates)
+                        try
                         {
-                            Write(storeLocation, storeName, certificate);
+                            X509Store store = new X509Store(storeName, storeLocation);
+                            store.Open(OpenFlags.ReadOnly);
+
+                            foreach (X509Certificate2 certificate in store.Certificates)
+                            {
+                                Write(storeLocation, storeName, certificate);
+                            }
+                            store.Close();
                         }
-                        store.Close();
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Debug(e.StackTrace);
-                        Log.Debug(e.GetType().ToString());
-                        Log.Debug(e.Message);
+                        catch (Exception e)
+                        {
+                            Log.Debug(e.StackTrace);
+                            Log.Debug(e.GetType().ToString());
+                            Log.Debug(e.Message);
+                            Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
+                        }
                     }
                 }
             }
+            // On linux we check the central trusted root store (a folder), which has symlinks to actual cert locations scattered across the db
+            // We list all the certificates and then create a new X509Certificate2 object for each by filename.
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                var runner = new ExternalCommandRunner();
+
+                var result = runner.RunExternalCommand("ls", new string[] { "/etc/ssl/certs", "-A" });
+                Log.Debug("{0}", result);
+
+                foreach (var _line in result.Split('\n'))
+                {
+                    Log.Debug("{0}",_line);
+                    try
+                    {
+                        X509Certificate2 cert = new X509Certificate2("/etc/ssl/certs/" + _line);
+                        Write(StoreLocation.LocalMachine, StoreName.Root, cert);
+                    }
+                    catch(Exception e)
+                    {
+                        Log.Debug("{0} {1} Issue creating certificate based on /etc/ssl/certs/{2}", e.GetType().ToString(), e.Message, _line);
+                        Log.Debug("{0}", e.StackTrace);
+
+                    }
+                }
+            }
+            // On macos we use the keychain and export the certificates as .pem.
+            // However, on macos Certificate2 doesn't support loading from a pem, 
+            // so first we need pkcs12s instead, we convert using openssl, which requires we set a password
+            // we import the pkcs12 with all our certs, delete the temp files and then iterate over it the certs
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                var runner = new ExternalCommandRunner();
+
+                var result = runner.RunExternalCommand("security", new string[] { "find-certificate", "-ap", "/System/Library/Keychains/SystemRootCertificates.keychain" });
+                string tmpPath = Path.Combine(Directory.GetCurrentDirectory(), "tmpcert.pem");
+                string pkPath = Path.Combine(Directory.GetCurrentDirectory(), "tmpcert.pk12");
+
+                File.WriteAllText(tmpPath, result);
+                _ = runner.RunExternalCommand("openssl", new string[] { "pkcs12",  "-export",  "-nokeys" , "-out", pkPath, "-passout pass:pass", "-in", tmpPath });
+
+                X509Certificate2Collection xcert = new X509Certificate2Collection();
+                xcert.Import(pkPath,"pass",X509KeyStorageFlags.DefaultKeySet);
+
+                File.Delete(tmpPath);
+                File.Delete(pkPath);
+
+                var X509Certificate2Enumerator = xcert.GetEnumerator();
+
+                while (X509Certificate2Enumerator.MoveNext())
+                {
+                    Write(StoreLocation.LocalMachine, StoreName.Root, X509Certificate2Enumerator.Current);
+                }
+            }
+
             DatabaseManager.Commit();
             Stop();
         }

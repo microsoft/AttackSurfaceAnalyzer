@@ -11,7 +11,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 {
     public abstract class BaseCollector : PlatformRunnable
     {
-        protected string runId = null;
+        public string runId = null;
 
         private RUN_STATUS _running = RUN_STATUS.NOT_STARTED;
 
@@ -33,7 +33,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             _running = RUN_STATUS.RUNNING;
             watch = System.Diagnostics.Stopwatch.StartNew();
 
-            Log.Information("Executing {0}.", this.GetType().Name);
+            Log.Information("{0} {1}.",Strings.Get("Starting"), this.GetType().Name);
         }
 
         public void Stop()
@@ -46,13 +46,12 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     t.Minutes,
                                     t.Seconds,
                                     t.Milliseconds);
-            Log.Information("Completed {0} in {1}", this.GetType().Name, answer);
-            Log.Debug(t.ToString());
+            Log.Information("{0} {1} in {2}",Strings.Get("Completed"), this.GetType().Name, answer);
             var EndEvent = new Dictionary<string, string>();
-            EndEvent.Add("Version", Helpers.GetVersionString());
             EndEvent.Add("Scanner", this.GetType().Name);
             EndEvent.Add("Duration", watch.ElapsedMilliseconds.ToString());
-            Telemetry.Client.TrackEvent("EndScanFunction", EndEvent);
+            EndEvent.Add("NumResults", _numCollected.ToString());
+            Telemetry.TrackEvent("EndScanFunction", EndEvent);
         }
 
         public int NumCollected()

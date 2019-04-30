@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using AttackSurfaceAnalyzer.Cli;
+using AttackSurfaceAnalyzer;
 using AttackSurfaceAnalyzer.Collectors;
 using AttackSurfaceAnalyzer.Utils;
 using AttackSurfaceAnalyzer.Models;
@@ -52,25 +52,6 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             AttackSurfaceAnalyzerCLI.WriteMonitorJson(RunId, ResultType, OutputPath);
 
             return Json(true);
-        }
-
-        public ActionResult CheckAdmin()
-        {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                if (Elevation.IsAdministrator())
-                {
-                    Telemetry.Client.TrackEvent("LaunchedAsAdmin");
-                    return Json(true);
-                }
-            }
-            else if ((RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) && Elevation.IsRunningAsRoot())
-            {
-                Telemetry.Client.TrackEvent("LaunchedAsAdmin");
-                return Json(true);
-            }
-            Telemetry.Client.TrackEvent("LaunchedAsNormal");
-            return Json(false);
         }
 
         public ActionResult WriteScanJson(int ResultType, string BaseId, string CompareId, bool ExportAll, string OutputPath)
@@ -292,15 +273,25 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
         public ActionResult GetCollectors()
         {
             Dictionary<string, RUN_STATUS> dict = new Dictionary<string, RUN_STATUS>();
+            string RunId = AttackSurfaceAnalyzerCLI.GetLatestRunId();
+
+            //TODO: Improve this to not have to change this variable on every loop, without having to call GetCollectors twice.
             foreach (BaseCollector c in AttackSurfaceAnalyzerCLI.GetCollectors())
             {
                 var fullString = c.GetType().ToString();
                 var splits = fullString.Split('.');
                 dict.Add(splits[splits.Count()-1], c.IsRunning());
             }
-
+            Dictionary<string, object> output = new Dictionary<string, object>();
+            output.Add("RunId", RunId);
+            output.Add("Runs", dict);
             //@TODO: Also return the RunId
-            return Json(JsonConvert.SerializeObject(dict));
+            return Json(JsonConvert.SerializeObject(output));
+        }
+
+        public ActionResult GetLatestRunId()
+        {
+            return Json(AttackSurfaceAnalyzerCLI.GetLatestRunId());
         }
 
         public ActionResult GetMonitorStatus()
@@ -421,7 +412,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 FilterLocation = "filters.json"
             };
             AttackSurfaceAnalyzerCLI.ClearMonitors();
-            return Json(AttackSurfaceAnalyzerCLI.RunGuiMonitorCommand(opts));
+            return Json((int)AttackSurfaceAnalyzerCLI.RunGuiMonitorCommand(opts));
         }
 
         public ActionResult StopMonitoring()

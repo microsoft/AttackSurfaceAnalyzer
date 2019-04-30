@@ -3,21 +3,28 @@
 ## Pre-requisites
 
 ### CLI + GUI:
-- .NET Core 2.2.3 SDK (https://dotnet.microsoft.com/download)
-- Latest Visual Studio 2017
+- .NET Core SDK 2.2.105 or better* (https://dotnet.microsoft.com/download)
+- Visual Studio 2017 or 2019
 - GitVersioning (see below)
 
 ### GUI: 
 - Node.js (https://nodejs.org/en/)
 - Electron.NET CLI tool (see below)
+- ASP.NET Components in Visual Studio (You will otherwise receive an error opening this project)
 
 ## Installing Pre-requisites
+
+## .NET Core SDK
+
+If you are using Visual Studio 2017, you must use the latest release that explicitly supports Visual Studio 2017.  It appears that releases in the 2.2.1* series are okay, but after 2.2.202 they stop being compatible.
+
+If you are using Visual Studio 2019, use the latest release.
 
 ### GitVersioning
 In the root source directory run ```dotnet tool install -g nbgv```
 
 ### ElectronNet.CLI
-In the Tools directory run ```dotnet tool install ElectronNET.CLI -g --version 0.0.11-custom --add-source packages```
+In the `Tools` directory run ```dotnet tool install ElectronNET.CLI -g --version 0.0.11-custom --add-source packages```
 
 ## Building
 

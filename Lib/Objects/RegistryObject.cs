@@ -85,7 +85,6 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
             catch(Exception e)
             {
                 Log.Debug(e.GetType() + " failed to get security descriptor for " + Key.Name);
-
             }
         }
 

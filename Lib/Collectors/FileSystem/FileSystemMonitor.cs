@@ -48,7 +48,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 
         public override bool CanRunOnPlatform()
         {
-            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
         }
 
         public void Truncate(string runid)
@@ -107,6 +107,11 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
             cmd.Parameters.AddWithValue("@extended_results", "");
             cmd.Parameters.AddWithValue("@notify_filters", watcher.NotifyFilter.ToString());
             cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj));
+            FileSystemMonitorResult fileSystemObject = new FileSystemMonitorResult()
+            {
+                evt = obj,
+                filter = watcher.NotifyFilter
+            };
 
             cmd.ExecuteNonQuery();
         }
@@ -208,7 +213,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 
         private void OnChanged(object source, FileSystemEventArgs e)
         {
-            if (Filter.IsFiltered(Filter.RuntimeString(), "Monitor", "File", "Path", e.FullPath))
+            if (Filter.IsFiltered(Helpers.RuntimeString(), "Monitor", "File", "Path", e.FullPath))
             {
                 return;
             }
@@ -217,7 +222,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
             if (getFileDetails && e.ChangeType != WatcherChangeTypes.Deleted)
             {
                 // Switch to using Mono here
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                 {
                     var unixFileInfo = new Mono.Unix.UnixFileInfo(e.FullPath);
                     var result = unixFileInfo.FileAccessPermissions.ToString();
@@ -228,9 +233,6 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 {
                     // Found this example but it isn't working on osx
                     //FileSecurity fSecurity = File.GetAccessControl(e.FullPath);
-
-                    // @TODO
-                    //
                 }
             }
             WriteChange(e);
@@ -239,7 +241,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 
         private void OnRenamed(object source, RenamedEventArgs e)
         {
-            if (Filter.IsFiltered(Filter.RuntimeString(), "Monitor", "File", "Path", e.FullPath))
+            if (Filter.IsFiltered(Helpers.RuntimeString(), "Monitor", "File", "Path", e.FullPath))
             {
                 return;
             }

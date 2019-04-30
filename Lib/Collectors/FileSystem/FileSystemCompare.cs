@@ -124,6 +124,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
             {
                 // Debugging
                 Log.Information(e.Message);
+                Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
             }
         }
     }

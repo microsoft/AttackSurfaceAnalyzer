@@ -11,6 +11,7 @@ using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
 using Serilog;
+using System.Text.RegularExpressions;
 
 namespace AttackSurfaceAnalyzer.Collectors.Service
 {
@@ -22,17 +23,14 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
         /// <summary>
         /// A filter supplied to this function. All files must pass this filter in order to be included.
         /// </summary>
-        private Func<ServiceController, bool> filter;
 
         //private static readonly string CREATE_SQL = "create table if not exists win_system_service (run_id text, row_key text, service_name text, display_name text, start_type text, current_state text)";
         private static readonly string SQL_TRUNCATE = "delete from win_system_service where run_id = @run_id";
         private static readonly string INSERT_SQL = "insert into win_system_service (run_id, row_key, service_name, display_name, start_type, current_state, serialized) values (@run_id, @row_key, @service_name, @display_name, @start_type, @current_state, @serialized)";
 
-        public ServiceCollector(string runId, Func<ServiceController, bool> filter = null)
+        public ServiceCollector(string runId)
         {
-            Log.Debug("Initializing a new {0} object.", this.GetType().Name);
             this.runId = runId;
-            this.filter = filter;
         }
 
         /// <summary>
@@ -78,7 +76,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
 
             if (!this.CanRunOnPlatform())
             {
-                Log.Information("ServiceCollector cannot run on this platform.");
+                Log.Information(Strings.Get("Err_ServiceCollectorIncompat"));
                 return;
             }
 
@@ -89,12 +87,6 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
                 // This gathers official "services" on Windows, but perhaps neglects other startup items
                 foreach (ServiceController service in ServiceController.GetServices())
                 {
-                    if (this.filter != null && !this.filter(service))
-                    {
-                        Log.Information("Service [{0}] did not pass filter, ignoring.", service.ToString());
-                        continue;
-                    }
-
                     var obj = new ServiceObject()
                     {
                         DisplayName = service.DisplayName,
@@ -177,8 +169,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
                 var result = runner.RunExternalCommand("systemctl", "list-units --type service");
 
                 //Split lines and remove header
-                var lines = result.Split('\n');
-                lines.ToList().RemoveAt(0);
+                var lines = result.Split('\n').Skip(1);
 
                 foreach (var _line in lines)
                 {
@@ -200,16 +191,19 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
 
                 result = runner.RunExternalCommand("ls", "/etc/init.d/ -l");
 
-                lines = result.Split('\n');
-                lines.ToList().RemoveAt(0);
+                lines = result.Split('\n').Skip(1);
+                String pattern = @".*\s(.*)";
 
                 foreach (var _line in lines)
                 {
-                    var _fields = _line.Split('\t');
+                    Match match = Regex.Match(_line, pattern);
+                    GroupCollection groups = match.Groups;
+                    var serviceName = groups[1].ToString();
+                    
                     var obj = new ServiceObject()
                     {
-                        DisplayName = _fields[8],
-                        ServiceName = _fields[8],
+                        DisplayName = serviceName,
+                        ServiceName = serviceName,
                         StartType = "Unknown",
                         CurrentState = "Unknown"
                     };

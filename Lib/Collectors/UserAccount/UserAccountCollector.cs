@@ -27,7 +27,6 @@ namespace AttackSurfaceAnalyzer.Collectors.UserAccount
 
         public UserAccountCollector(string runId, Func<UserAccountObject, bool> filter = null)
         {
-            Log.Debug("Initializing a new {0} object.", this.GetType().Name);
             this.runId = runId;
             this.filter = filter;
         }

@@ -80,7 +80,7 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
             }
             Results["ports_add"] = addObjects;
 
-            Log.Information("Found {0} Created", addObjects.Count);
+            Log.Information("{0} {1} {2}", Strings.Get("Found"), addObjects.Count, Strings.Get("Created")); ;
 
             var removeObjects = new List<OpenPortResult>();
             cmd = new SqliteCommand(SELECT_DELETED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
@@ -114,32 +114,7 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
             }
             Results["ports_remove"] = removeObjects;
 
-            Log.Information("Found {0} Deleted", removeObjects.Count);
-            //// Which ports had some other property modified?
-            //var modifyObjects = new List<OpenPortObject>();
-
-            //cmd = new SqliteCommand(SELECT_MODIFIED_SQL, DatabaseManager.Connection);
-            //cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
-            //cmd.Parameters.AddWithValue("@second_run_id", secondRunId);
-            //using (var reader = cmd.ExecuteReader())
-            //{
-            //    while (reader.Read())
-            //    {
-            //        Log.Warning("Modified row: {0}", reader["row_key"]?.ToString());
-            //        var obj = new OpenPortObject()
-            //        {
-            //            address = reader["address"].ToString(),
-            //            family = reader["family"].ToString(),
-            //            port = reader["port"].ToString(),
-            //            processName = reader["process_name"].ToString(),
-            //            type = reader["type"].ToString()
-            //        };
-            //        modifyObjects.Add(obj);
-            //    }
-            //}
-
-            //Results["ports_modify"] = modifyObjects;
-
+            Log.Information("{0} {1} {2}", Strings.Get("Found"), removeObjects.Count, Strings.Get("Deleted"));
         }
     }
 }

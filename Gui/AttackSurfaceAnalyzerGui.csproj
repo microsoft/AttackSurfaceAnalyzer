@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
 <PropertyGroup>
     <Authors>Microsoft Corporation</Authors>
@@ -12,6 +12,7 @@
 <AssemblyName>AttackSurfaceAnalyzer-GUI</AssemblyName>
 <ReleaseVersion>2.0.0.0-pre-alpha</ReleaseVersion>
 <ApplicationInsightsAnnotationResourceId>/subscriptions/743195b0-d049-4532-bb00-4abf3bc37af9/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/AttackSurfaceAnalyzerGui</ApplicationInsightsAnnotationResourceId>
+<RootNamespace>AttackSurfaceAnalyzer</RootNamespace>
     </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="ElectronNet.API" Version="0.0.11" />
@@ -28,24 +29,7 @@
     <ProjectReference Include="..\Cli\AttackSurfaceAnalyzerCli.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="wwwroot\js\min\" />
-    <Folder Include="wwwroot\css\min\" />
-  </ItemGroup>
-  <ItemGroup>
     <WCFMetadata Include="Connected Services" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\LICENSE.txt">
@@ -63,11 +47,6 @@
     <Content Include="..\README.md">
       <Link>README.md</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Update="nlog.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 </Project>

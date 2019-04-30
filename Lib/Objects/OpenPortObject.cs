@@ -51,7 +51,8 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
             {
                 if (this.port == "135" && other.port == "135")
                 {
-                    Log.Information("Comparing {0} to {1}, result={2}", this.ToString(), obj.ToString(), result);
+                    //Investigate why this was here
+                    //Log.Information("Comparing {0} to {1}, result={2}", this.ToString(), obj.ToString(), result);
                 }
                 return result.Value;
             }

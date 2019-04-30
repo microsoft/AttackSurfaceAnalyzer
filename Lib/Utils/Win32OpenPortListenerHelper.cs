@@ -124,6 +124,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             Log.Warning("Secondary Parsing error when processing netstat.exe output: {0}", outputLine);
                             Log.Warning(e.Message);
                             Log.Warning(e.GetType().ToString());
+                            Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                         }
                     }
                 }

@@ -1,1 +1,1 @@
-start res\AttackSurfaceAnalyzerCli.exe %*
+res\AttackSurfaceAnalyzerCli.exe %*

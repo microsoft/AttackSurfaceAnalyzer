@@ -38,7 +38,6 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
 
         public RegistryCollector(string RunId, List<RegistryHive> Hives, Action<RegistryObject> customHandler)
         {
-            Log.Debug("Initializing a new {0} object.", this.GetType().Name);
             this.runId = RunId;
             this.Hives = Hives;
             this.roots = new HashSet<string>();
@@ -94,11 +93,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                     catch (Exception e)
                     {
                         Log.Debug(e.GetType() + "thrown in registry collector");
-                    }
-
-                    if (_numCollected++ % 100000 == 0)
-                    {
-                        Log.Information(_numCollected + (" of 6-800k"));
+                        Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                     }
                 }
             }
@@ -116,8 +111,6 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
         {
             Start();
 
-            Log.Information(JsonConvert.SerializeObject(DefaultHives));
-
             if (!this.CanRunOnPlatform())
             {
                 return;
@@ -128,16 +121,17 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                 (hive =>
                 {
                     Log.Debug("Starting " + hive.ToString());
-                    if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "Registry", "Hive", "Include", hive.ToString()))
+                    if (Filter.IsFiltered(Helpers.RuntimeString(), "Scan", "Registry", "Hive", "Include", hive.ToString()))
                     {
                     }
-                    else if (Filter.IsFiltered(Filter.RuntimeString(), "Scan", "Registry", "Hive", "Exclude", hive.ToString(), out Regex Capturer))
+                    else if (Filter.IsFiltered(Helpers.RuntimeString(), "Scan", "Registry", "Hive", "Exclude", hive.ToString(), out Regex Capturer))
                     {
-                        Log.Information("Excluding hive '{0}' due to filter '{1}'.", hive.ToString(), Capturer.ToString());
+                        Log.Information("{0} '{1}' {2} '{3}'.",Strings.Get("ExcludingHive"), hive.ToString(), Strings.Get("DueToFilter"),Capturer.ToString());
 
                         return;
                     }
 
+                    Filter.IsFiltered(Helpers.RuntimeString(), "Scan", "Registry", "Key", "Exclude", hive.ToString());
                     var registryInfoEnumerable = RegistryWalker.WalkHive(hive);
                     try
                     {
@@ -160,6 +154,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                         Log.Debug(e.GetType().ToString());
                         Log.Debug(e.Message);
                         Log.Debug(e.StackTrace);
+                        Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                     }
 
                 }));
