@@ -495,7 +495,6 @@ namespace AttackSurfaceAnalyzer
                                     }
                                 }
                             }
-                            Log.Information("Halfway");
                             if (ChangeType == CHANGE_TYPE.DELETED || ChangeType == CHANGE_TYPE.MODIFIED)
                             {
                                 inner_cmd.Parameters.Clear();

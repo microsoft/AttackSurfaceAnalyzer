@@ -190,14 +190,14 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                         result_count = int.Parse(reader["count(*)"].ToString());
                     }
                 }
-
-                output["Results"] = results;
-                output["TotalCount"] = result_count;
-                output["Offset"] = Offset;
-                output["Requested"] = NumResults;
-                output["Actual"] = results.Count;
-                return Json(JsonConvert.SerializeObject(output));
             }
+
+            output["Results"] = results;
+            output["TotalCount"] = result_count;
+            output["Offset"] = Offset;
+            output["Requested"] = NumResults;
+            output["Actual"] = results.Count;
+            return Json(JsonConvert.SerializeObject(output));
 
         }
 

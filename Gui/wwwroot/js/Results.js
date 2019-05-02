@@ -360,6 +360,7 @@ function InsertIntoTable(result) {
 }
 
 function InsertIntoRegistryTable(result) {
+    var appendObj;
     if (result.ChangeType == CHANGE_TYPE.CREATED) {
         appendObj = result.SerializedCompare;
     }
@@ -381,22 +382,14 @@ function InsertIntoRegistryTable(result) {
     });
     caretContainer.append(caret);
     arrowTD.append(caretContainer);
-    tmp.append(arrowTD);    
+    tmp.append(arrowTD);
     tmp.append($('<td/>', {
         scope: "col",
         html: ChangeTypeToString(result.ChangeType)
     }));
     tmp.append($('<td/>', {
         scope: "col",
-        html: appendObj.Path
-    }));
-    tmp.append($('<td/>', {
-        scope: "col",
-        html: JSON.stringify(appendObj.Subkeys)
-    }));
-    tmp.append($('<td/>', {
-        scope: "col",
-        html: JSON.stringify(appendObj.Values)
+        html: appendObj.Key
     }));
     $('#RegistryResultsTableBody').append(tmp);
     tmp = $('<tr/>');
@@ -413,8 +406,8 @@ function InsertIntoRegistryTable(result) {
             var tmp3 = $('<tr/>');
             var tmp4 = $('<td/>', { html: prop });
             var tmp5 = $('<td/>', { html: appendObj[prop] });
-            if (result.ChangeType == CHANGE_TYPE.MODIFIED){
-                var tmp6 = $('<td/>', { html: result.SerializedCompare.prop });
+            if (result.ChangeType == CHANGE_TYPE.MODIFIED) {
+                var tmp6 = $('<td/>', { html: result.SerializedCompare[prop] });
             }
             tmp3.append(tmp4);
             tmp3.append(tmp5);

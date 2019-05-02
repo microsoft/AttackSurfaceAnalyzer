@@ -17,14 +17,6 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
         public List<string> Subkeys = new List<string>();
         public string Permissions = "";
 
-        public string RowKey
-        {
-            get
-            {
-                return CryptoHelpers.CreateHash(this.ToString());
-            }
-        }
-
         private static List<string> GetSubkeys(RegistryKey key)
         {
             return new List<string>(key.GetSubKeyNames());
