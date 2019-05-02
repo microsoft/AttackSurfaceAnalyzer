@@ -78,25 +78,37 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         try
                         {
-                            _filters.Add(key, filters);
+                            _filters.Add(key, new List<Regex>());
                             Log.Debug("{0} {1} {2} {3} {4} {5}", Strings.Get("FailedParsed"), Platform, ScanType, ItemType, Property, FilterType);
                         }
                         catch (ArgumentException)
                         {
                             // We are running in parallel, its possible someone added it in between the original check and now. No problem here.
                         }
+                        catch(Exception e)
+                        {
+                            Log.Debug("{0}:{1}",e.GetType().ToString(),e.Message);
+                            Log.Debug(e.StackTrace);
+                        }
+
+                        //Since there were no filters for this, it is not filtered
                         return false;
                     }
                     catch (JsonReaderException)
                     {
                         try
                         {
-                            _filters.Add(key, filters);
+                            _filters.Add(key, new List<Regex>());
                             Log.Information("{0} {1} {2} {3} {4} {5}", Strings.Get("Err_FiltersFile"), Platform, ScanType, ItemType, Property, FilterType);
                         }
                         catch (ArgumentException)
                         {
                             // We are running in parallel, its possible someone added it in between the original check and now. No problem here.
+                        }
+                        catch (Exception e)
+                        {
+                            Log.Debug("{0}:{1}", e.GetType().ToString(), e.Message);
+                            Log.Debug(e.StackTrace);
                         }
                         return false;
                     }

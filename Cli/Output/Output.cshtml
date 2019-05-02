@@ -484,14 +484,14 @@
                                             <tr>
                                                 <td>Modified:Before</td>
                                                 <td>@i.Base.Key</td>
-                                                <td>JsonConvert.SerializeObject(@i.Base.Subkeys)</td>
-                                                <td>JsonConvert.SerializeObject(@i.Base.Values)</td>
+                                                <td>@JsonConvert.SerializeObject(i.Base.Subkeys)</td>
+                                                <td>@JsonConvert.SerializeObject(i.Base.Values)</td>
                                             </tr>
                                             <tr>
                                                 <td>Modified:After</td>
                                                 <td>@i.Compare.Key</td>
-                                                <td>JsonConvert.SerializeObject(@i.Compare.Subkeys)</td>
-                                                <td>JsonConvert.SerializeObject(@i.Compare.Values)</td>
+                                                <td>@JsonConvert.SerializeObject(i.Compare.Subkeys)</td>
+                                                <td>@JsonConvert.SerializeObject(i.Compare.Values)</td>
                                             </tr>
                                         }
                                     </tbody>

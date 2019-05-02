@@ -82,7 +82,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
                         {
                             BaseRunId = firstRunId,
                             CompareRunId = secondRunId,
-                            CompareRowKey = reader["row_key"].ToString(),
+                            BaseRowKey = reader["row_key"].ToString(),
                             Base = new CertificateObject()
                             {
                                 StoreLocation = reader["store_location"].ToString(),
