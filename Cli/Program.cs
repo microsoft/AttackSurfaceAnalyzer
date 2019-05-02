@@ -430,12 +430,14 @@ namespace AttackSurfaceAnalyzer
             serializer.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
             Log.Debug("{0} RunExportCollectCommand", Strings.Get("End"));
             string path = Path.Combine(opts.OutputPath, Helpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId + "_summary.json.txt"));
-
+            var output = new Dictionary<string, Object>();
+            output["results"] = results;
+            output["metadata"] = Helpers.GenerateMetadata();
             using (StreamWriter sw = new StreamWriter(path)) //lgtm[cs/path-injection]
             {
                 using (JsonWriter writer = new JsonTextWriter(sw))
                 {
-                    serializer.Serialize(writer, results);
+                    serializer.Serialize(writer, output);
                 }
             }
             Log.Information(Strings.Get("OutputWrittenTo"), path);
@@ -495,7 +497,6 @@ namespace AttackSurfaceAnalyzer
                                     }
                                 }
                             }
-                            Log.Information("Halfway");
                             if (ChangeType == CHANGE_TYPE.DELETED || ChangeType == CHANGE_TYPE.MODIFIED)
                             {
                                 inner_cmd.Parameters.Clear();
@@ -580,24 +581,28 @@ namespace AttackSurfaceAnalyzer
                     //telemetry.GetMetric("ResultsExported").TrackValue(records.Count);
 
                     serializer.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
-
+                    var o = new Dictionary<string, Object>();
+                    o["results"] = records;
+                    o["metadata"] = Helpers.GenerateMetadata();
                     using (StreamWriter sw = new StreamWriter(Path.Combine(OutputPath, Helpers.MakeValidFileName(BaseId + "_vs_" + CompareId + "_" + ExportType.ToString() + ".json.txt")))) //lgtm[cs/path-injection]
                     {
                         using (JsonWriter writer = new JsonTextWriter(sw))
                         {
-                            serializer.Serialize(writer, records);
+                            serializer.Serialize(writer, o);
                         }
                     }
                 }
             }
 
             serializer.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
-
+            var output = new Dictionary<string, Object>();
+            output["results"] = actualExported;
+            output["metadata"] = Helpers.GenerateMetadata();
             using (StreamWriter sw = new StreamWriter(Path.Combine(OutputPath, Helpers.MakeValidFileName(BaseId + "_vs_" + CompareId + "_summary.json.txt")))) //lgtm[cs/path-injection]
             {
                 using (JsonWriter writer = new JsonTextWriter(sw))
                 {
-                    serializer.Serialize(writer, actualExported);
+                    serializer.Serialize(writer, output);
                 }
             }
 
@@ -648,17 +653,20 @@ namespace AttackSurfaceAnalyzer
             string GET_SERIALIZED_RESULTS = "select change_type, Serialized from file_system_monitored where run_id = @run_id";
 
 
-            var cmd = new SqliteCommand(GET_SERIALIZED_RESULTS, DatabaseManager.Connection);
-            cmd.Parameters.AddWithValue("@run_id", RunId);
-            using (var reader = cmd.ExecuteReader())
+            using (var cmd = new SqliteCommand(GET_SERIALIZED_RESULTS, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
-                FileMonitorEvent obj;
-
-                while (reader.Read())
+                cmd.Parameters.AddWithValue("@run_id", RunId);
+                using (var reader = cmd.ExecuteReader())
                 {
-                    obj = JsonConvert.DeserializeObject<FileMonitorEvent>(reader["serialized"].ToString());
-                    obj.ChangeType = (CHANGE_TYPE)int.Parse(reader["change_type"].ToString());
-                    records.Add(obj);
+
+                    FileMonitorEvent obj;
+
+                    while (reader.Read())
+                    {
+                        obj = JsonConvert.DeserializeObject<FileMonitorEvent>(reader["serialized"].ToString());
+                        obj.ChangeType = (CHANGE_TYPE)int.Parse(reader["change_type"].ToString());
+                        records.Add(obj);
+                    }
                 }
             }
 
@@ -667,16 +675,17 @@ namespace AttackSurfaceAnalyzer
             settings.NullValueHandling = NullValueHandling.Ignore;
             JsonSerializer serializer = JsonSerializer.Create(settings);
             serializer.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
-
+            var output = new Dictionary<string, Object>();
+            output["results"] = records;
+            output["metadata"] = Helpers.GenerateMetadata();
             string path = Path.Combine(OutputPath, Helpers.MakeValidFileName(RunId + "_Monitoring_" + ((RESULT_TYPE)ResultType).ToString() + ".json.txt"));
 
             using (StreamWriter sw = new StreamWriter(path)) //lgtm[cs/path-injection]
-            {
                 using (JsonWriter writer = new JsonTextWriter(sw))
                 {
-                    serializer.Serialize(writer, records);
+                    serializer.Serialize(writer, output);
                 }
-            }
+
             Log.Information(Strings.Get("OutputWrittenTo"), path);
 
         }
@@ -690,6 +699,7 @@ namespace AttackSurfaceAnalyzer
 #endif
             AdminOrQuit();
             Filter.LoadFilters(opts.FilterLocation);
+            opts.RunId = opts.RunId.Trim();
             if (opts.RunId.Equals("Timestamp"))
             {
                 opts.RunId = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -1160,7 +1170,7 @@ namespace AttackSurfaceAnalyzer
             int returnValue = (int)ERRORS.NONE;
             AdminOrQuit();
             DatabaseManager.VerifySchemaVersion();
-
+            opts.RunId = opts.RunId.Trim();
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("Files", opts.EnableAllCollectors ? "True" : opts.EnableFileSystemCollector.ToString());
             StartEvent.Add("Ports", opts.EnableAllCollectors ? "True" : opts.EnableNetworkPortCollector.ToString());

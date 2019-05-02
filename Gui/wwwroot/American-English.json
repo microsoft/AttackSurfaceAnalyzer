@@ -1,6 +1,6 @@
 {
   "en-US": {
-    "%NoDifference": "No difference detected.",
+    "%Error.NoDifference": "No difference detected.",
     "%NoDirSpecified": "ERROR: Must specify a directory to watch.",
     "%PathInvalid": "Provided path is invalid.",
     "%UniqueId": "Must supply unique Run Id",

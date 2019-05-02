@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Reflection;
 using AttackSurfaceAnalyzer.ObjectTypes;
+using System.Collections.Generic;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -104,6 +105,17 @@ namespace AttackSurfaceAnalyzer.Utils
                 return runner.RunExternalCommand("uname", "-s");
             }
             return "";
+        }
+
+        public static Dictionary<string,string> GenerateMetadata()
+        {
+            var dict = new Dictionary<string, string>();
+
+            dict["version"] = GetVersionString();
+            dict["os"] = GetOsName();
+            dict["osversion"] = GetOsVersion();
+
+            return dict;
         }
     }
 }

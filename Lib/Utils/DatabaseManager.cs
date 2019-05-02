@@ -37,6 +37,8 @@ namespace AttackSurfaceAnalyzer.Utils
         private static readonly string SQL_CREATE_CERTIFICATES_RUN_ID_INDEX = "create index if not exists i_certificates_run_id on certificates(run_id)";
 
         private static readonly string SQL_CREATE_FILE_COMBINED_INDEX = "create index if not exists i_filesystem_row_run_combined on file_system(run_id, row_key)";
+        private static readonly string SQL_CREATE_REGISTRY_COMBINED_INDEX = "create index if not exists i_registry_row_run_combined on registry(run_id, row_key)";
+        private static readonly string SQL_CREATE_COMPARED_COMBINED_INDEX = "create index if not exists i_compared_base_compare_data_combined on compared(base_run_id, compare_run_id, data_type)";
 
         private static readonly string SQL_CREATE_ANALYZED_TABLE = "create table if not exists results (base_run_id text, compare_run_id text, status int)";
 
@@ -182,6 +184,12 @@ namespace AttackSurfaceAnalyzer.Utils
                     cmd.ExecuteNonQuery();
 
                     cmd.CommandText = SQL_CREATE_FILE_COMBINED_INDEX;
+                    cmd.ExecuteNonQuery();
+
+                    cmd.CommandText = SQL_CREATE_REGISTRY_COMBINED_INDEX;
+                    cmd.ExecuteNonQuery();
+
+                    cmd.CommandText = SQL_CREATE_COMPARED_COMBINED_INDEX;
                     cmd.ExecuteNonQuery();
                 }
 
