@@ -647,17 +647,20 @@ namespace AttackSurfaceAnalyzer
             string GET_SERIALIZED_RESULTS = "select change_type, Serialized from file_system_monitored where run_id = @run_id";
 
 
-            var cmd = new SqliteCommand(GET_SERIALIZED_RESULTS, DatabaseManager.Connection);
-            cmd.Parameters.AddWithValue("@run_id", RunId);
-            using (var reader = cmd.ExecuteReader())
+            using (var cmd = new SqliteCommand(GET_SERIALIZED_RESULTS, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
-                FileMonitorEvent obj;
-
-                while (reader.Read())
+                cmd.Parameters.AddWithValue("@run_id", RunId);
+                using (var reader = cmd.ExecuteReader())
                 {
-                    obj = JsonConvert.DeserializeObject<FileMonitorEvent>(reader["serialized"].ToString());
-                    obj.ChangeType = (CHANGE_TYPE)int.Parse(reader["change_type"].ToString());
-                    records.Add(obj);
+
+                    FileMonitorEvent obj;
+
+                    while (reader.Read())
+                    {
+                        obj = JsonConvert.DeserializeObject<FileMonitorEvent>(reader["serialized"].ToString());
+                        obj.ChangeType = (CHANGE_TYPE)int.Parse(reader["change_type"].ToString());
+                        records.Add(obj);
+                    }
                 }
             }
 
@@ -670,12 +673,11 @@ namespace AttackSurfaceAnalyzer
             string path = Path.Combine(OutputPath, Helpers.MakeValidFileName(RunId + "_Monitoring_" + ((RESULT_TYPE)ResultType).ToString() + ".json.txt"));
 
             using (StreamWriter sw = new StreamWriter(path)) //lgtm[cs/path-injection]
-            {
                 using (JsonWriter writer = new JsonTextWriter(sw))
                 {
                     serializer.Serialize(writer, records);
                 }
-            }
+
             Log.Information(Strings.Get("OutputWrittenTo"), path);
 
         }
