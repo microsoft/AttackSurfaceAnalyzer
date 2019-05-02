@@ -689,6 +689,7 @@ namespace AttackSurfaceAnalyzer
 #endif
             AdminOrQuit();
             Filter.LoadFilters(opts.FilterLocation);
+            opts.RunId = opts.RunId.Trim();
             if (opts.RunId.Equals("Timestamp"))
             {
                 opts.RunId = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -1159,7 +1160,7 @@ namespace AttackSurfaceAnalyzer
             int returnValue = (int)ERRORS.NONE;
             AdminOrQuit();
             DatabaseManager.VerifySchemaVersion();
-
+            opts.RunId = opts.RunId.Trim();
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("Files", opts.EnableAllCollectors ? "True" : opts.EnableFileSystemCollector.ToString());
             StartEvent.Add("Ports", opts.EnableAllCollectors ? "True" : opts.EnableNetworkPortCollector.ToString());

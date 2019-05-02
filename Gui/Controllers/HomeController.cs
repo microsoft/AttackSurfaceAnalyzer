@@ -326,7 +326,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
         public ActionResult StartCollection(string Id, bool File, bool Port, bool Service, bool User, bool Registry, bool Certificates)
         {
             CollectCommandOptions opts = new CollectCommandOptions();
-            opts.RunId = Id;
+            opts.RunId = Id.Trim();
             opts.EnableFileSystemCollector = File;
             opts.EnableNetworkPortCollector = Port;
             opts.EnableServiceCollector = Service;
@@ -381,7 +381,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
             using (var cmd = new SqliteCommand(INSERT_RUN, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
-                cmd.Parameters.AddWithValue("@run_id", RunId);
+                cmd.Parameters.AddWithValue("@run_id", RunId.Trim());
                 cmd.Parameters.AddWithValue("@file_system", true);
                 cmd.Parameters.AddWithValue("@ports", false);
                 cmd.Parameters.AddWithValue("@users", false);
