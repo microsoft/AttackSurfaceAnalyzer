@@ -581,14 +581,14 @@ namespace AttackSurfaceAnalyzer
                     //telemetry.GetMetric("ResultsExported").TrackValue(records.Count);
 
                     serializer.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
-                    var output = new Dictionary<string, Object>();
-                    output["results"] = records;
-                    output["metadata"] = Helpers.GenerateMetadata();
+                    var o = new Dictionary<string, Object>();
+                    o["results"] = records;
+                    o["metadata"] = Helpers.GenerateMetadata();
                     using (StreamWriter sw = new StreamWriter(Path.Combine(OutputPath, Helpers.MakeValidFileName(BaseId + "_vs_" + CompareId + "_" + ExportType.ToString() + ".json.txt")))) //lgtm[cs/path-injection]
                     {
                         using (JsonWriter writer = new JsonTextWriter(sw))
                         {
-                            serializer.Serialize(writer, output);
+                            serializer.Serialize(writer, o);
                         }
                     }
                 }
