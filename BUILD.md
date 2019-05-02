@@ -4,7 +4,6 @@
 
 ### CLI + GUI:
 - .NET Core SDK 2.2.105 or better* (https://dotnet.microsoft.com/download)
-- Visual Studio 2017 or 2019
 - GitVersioning (see below)
 
 ### GUI: 
@@ -14,8 +13,7 @@
 
 ## Installing Pre-requisites
 
-## .NET Core SDK
-
+## .NET Core SDK - Note for Visual Studio Users
 If you are using Visual Studio 2017, you must use the latest release that explicitly supports Visual Studio 2017.  It appears that releases in the 2.2.1* series are okay, but after 2.2.202 they stop being compatible.
 
 If you are using Visual Studio 2019, use the latest release.
@@ -28,8 +26,8 @@ In the `Tools` directory run ```dotnet tool install ElectronNET.CLI -g --version
 
 ## Building
 
-### CLI:
-Run these commands in the CLI directory.
+### CLI/Slim GUI:
+Run these commands in the CLI/GUI directory.
 
 #### Building a Debug version
 
@@ -56,7 +54,7 @@ Linux/Mac
 make release
 ```
 
-### GUI
+### GUI (Electron Packaged)
 
 Run the following commands in the GUI directory.
 
