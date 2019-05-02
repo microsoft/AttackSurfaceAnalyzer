@@ -151,7 +151,7 @@
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="ExportQuantity" id="ExportAll" value="1" disabled>
+                        <input class="form-check-input" type="radio" name="ExportQuantity" id="ExportAll" value="1" disabled selected>
                         <label class="form-check-label" for="ExportAll">
                             @Strings.Get("ExportAll")
                         </label>
@@ -172,6 +172,7 @@
             <table class="table table-striped table-sm files results" id="FileResultsTable">
                 <thead>
                     <tr>
+                        <th scope="col"></th>
                         <th scope="col">@Strings.Get("ChangeType")</th>
                         <th scope="col">@Strings.Get("Path")")</th>
                         <th scope="col">@Strings.Get("Permissions")</th>
@@ -183,6 +184,7 @@
             <table class="table table-hover table-sm ports results" id="PortResultsTable">
                 <thead>
                     <tr>
+                        <th scope="col"></th>
                         <th scope="col">@Strings.Get("ChangeType")</th>
                         <th scope="col">@Strings.Get("Port")</th>
                         <th scope="col">@Strings.Get("Type")</th>
@@ -194,10 +196,11 @@
             <table class="table table-hover table-sm users results" id="UserResultsTable">
                 <thead>
                     <tr>
+                        <th scope="col"></th>
                         <th scope="col">@Strings.Get("ChangeType")</th>
                         <th scope="col">@Strings.Get("Account Type")</th>
                         <th scope="col">@Strings.Get("Name")</th>
-                        <th scope="col"> @Strings.Get("Description")</th>
+                        <th scope="col">@Strings.Get("Description")</th>
                     </tr>
                 </thead>
                 <tbody id="UserResultsTableBody"></tbody>
@@ -205,6 +208,7 @@
             <table class="table table-striped table-sm certificates results" id="CertificateResultsTable">
                 <thead>
                     <tr>
+                        <th scope="col"></th>
                         <th scope="col">@Strings.Get("ChangeType")</th>
                         <th scope="col">@Strings.Get("Store Location")</th>
                         <th scope="col">@Strings.Get("Store Name")</th>
@@ -217,6 +221,7 @@
             <table class="table table-striped table-sm services results" id="ServiceResultsTable">
                 <thead>
                     <tr>
+                        <th scope="col"></th>
                         <th scope="col">@Strings.Get("ChangeType")</th>
                         <th scope="col">@Strings.Get("Service Name")</th>
                         <th scope="col">@Strings.Get("Start Type")</th>
@@ -229,10 +234,9 @@
             <table class="table table-striped table-sm registry results" id="RegistryResultsTable">
                 <thead>
                     <tr>
+                        <th scope="col"></th>
                         <th scope="col">@Strings.Get("ChangeType")</th>
                         <th scope="col">@Strings.Get("Path")</th>
-                        <th scope="col">@Strings.Get("Value")</th>
-                        <th scope="col"> @Strings.Get("Contents")</th>
                     </tr>
                 </thead>
                 <tbody id="RegistryResultsTableBody"></tbody>
