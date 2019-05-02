@@ -430,12 +430,14 @@ namespace AttackSurfaceAnalyzer
             serializer.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
             Log.Debug("{0} RunExportCollectCommand", Strings.Get("End"));
             string path = Path.Combine(opts.OutputPath, Helpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId + "_summary.json.txt"));
-
+            var output = new Dictionary<string, Object>();
+            output["results"] = results;
+            output["metadata"] = Helpers.GenerateMetadata();
             using (StreamWriter sw = new StreamWriter(path)) //lgtm[cs/path-injection]
             {
                 using (JsonWriter writer = new JsonTextWriter(sw))
                 {
-                    serializer.Serialize(writer, results);
+                    serializer.Serialize(writer, output);
                 }
             }
             Log.Information(Strings.Get("OutputWrittenTo"), path);
@@ -579,24 +581,28 @@ namespace AttackSurfaceAnalyzer
                     //telemetry.GetMetric("ResultsExported").TrackValue(records.Count);
 
                     serializer.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
-
+                    var output = new Dictionary<string, Object>();
+                    output["results"] = records;
+                    output["metadata"] = Helpers.GenerateMetadata();
                     using (StreamWriter sw = new StreamWriter(Path.Combine(OutputPath, Helpers.MakeValidFileName(BaseId + "_vs_" + CompareId + "_" + ExportType.ToString() + ".json.txt")))) //lgtm[cs/path-injection]
                     {
                         using (JsonWriter writer = new JsonTextWriter(sw))
                         {
-                            serializer.Serialize(writer, records);
+                            serializer.Serialize(writer, output);
                         }
                     }
                 }
             }
 
             serializer.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
-
+            var output = new Dictionary<string, Object>();
+            output["results"] = actualExported;
+            output["metadata"] = Helpers.GenerateMetadata();
             using (StreamWriter sw = new StreamWriter(Path.Combine(OutputPath, Helpers.MakeValidFileName(BaseId + "_vs_" + CompareId + "_summary.json.txt")))) //lgtm[cs/path-injection]
             {
                 using (JsonWriter writer = new JsonTextWriter(sw))
                 {
-                    serializer.Serialize(writer, actualExported);
+                    serializer.Serialize(writer, output);
                 }
             }
 
@@ -669,13 +675,15 @@ namespace AttackSurfaceAnalyzer
             settings.NullValueHandling = NullValueHandling.Ignore;
             JsonSerializer serializer = JsonSerializer.Create(settings);
             serializer.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
-
+            var output = new Dictionary<string, Object>();
+            output["results"] = records;
+            output["metadata"] = Helpers.GenerateMetadata();
             string path = Path.Combine(OutputPath, Helpers.MakeValidFileName(RunId + "_Monitoring_" + ((RESULT_TYPE)ResultType).ToString() + ".json.txt"));
 
             using (StreamWriter sw = new StreamWriter(path)) //lgtm[cs/path-injection]
                 using (JsonWriter writer = new JsonTextWriter(sw))
                 {
-                    serializer.Serialize(writer, records);
+                    serializer.Serialize(writer, output);
                 }
 
             Log.Information(Strings.Get("OutputWrittenTo"), path);
