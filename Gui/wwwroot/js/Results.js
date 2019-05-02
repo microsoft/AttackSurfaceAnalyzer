@@ -34,7 +34,7 @@ var ResultTypeGroup = $('input[type=radio][name=ResultType]');
 ResultTypeGroup.change(function () {
     $('.results').hide();
     resultOffset = 0;
-    $("#ExportResultsButton").attr('disabled', false);
+    $("#ExportSelection").attr('disabled', false);
     GetResults($('input[name=ResultType]:checked').val(), resultOffset, 100);
     switch (parseInt(ResultTypeGroup.filter(':checked').val())){
         case RESULT_TYPE.PORT:
@@ -57,11 +57,6 @@ ResultTypeGroup.change(function () {
             break;
     }
 });
-
-var ExportQuantityGroup = $('input[type=radio][name=ExportQuantity]');
-ExportQuantityGroup.change(function () {
-    $("#ExportResultsButton").attr('disabled', false);
-})
 
 
 
@@ -187,7 +182,7 @@ function GetResultTypes() {
         if ((result.File || result.Port || result.Certificate || result.Service || result.Registry || result.User) == false) {
             SetStatus("The two runs selected have no common collectors.");
         } else {
-            $('input[name=ExportQuantity]').prop('disabled', false);
+            $("#ExportResultsButton").attr('disabled', false);
         }
         $('#FileRadio').attr('disabled', (result.File) ? false : true);
         $('#PortRadio').attr('disabled', (result.Port) ? false : true);
