@@ -231,12 +231,11 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                                     {
                                         Path = fileInfo.FullName,
                                         Permissions = FileSystemUtils.GetFilePermissions(fileInfo),
-                                        Size = (ulong)(fileInfo as FileInfo).Length
+                                        Size = (ulong)(fileInfo as FileInfo).Length,
+                                        Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(fileInfo.FullName),
+                                        SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(fileInfo.FullName),
+                                        ContentHash = (INCLUDE_CONTENT_HASH) ? FileSystemUtils.GetFileHash(fileInfo) : ""
                                     };
-                                    if (INCLUDE_CONTENT_HASH)
-                                    {
-                                        obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
-                                    }
                                 }
                             }
                             if (obj != null)
