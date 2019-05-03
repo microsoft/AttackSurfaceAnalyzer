@@ -62,3 +62,8 @@ body {
     font-style: italic;
     background-color: coral;
 }
+
+.bordered{
+    border-bottom:1px solid black;
+    border-top:1px solid black;
+}
