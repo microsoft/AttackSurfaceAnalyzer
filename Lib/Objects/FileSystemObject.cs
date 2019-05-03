@@ -66,25 +66,34 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
             }
         }
 
-        public ushort GetDllCharacteristics
+        public List<string> DllCharacteristics
         {
             get
             {
                 if (!NeedsSignature())
                 {
-                    return 0;
+                    return new List<string>();
                 }
                 try
                 {
+                    List<string> l = new List<string>();
                     var peHeader1 = new PeNet.PeFile(this.Path);
-                    return peHeader1.ImageNtHeaders.OptionalHeader.DllCharacteristics;
+                    ushort characteristics = peHeader1.ImageNtHeaders.OptionalHeader.DllCharacteristics;
+                    foreach (DLLCHARACTERISTICS characteristic in Enum.GetValues(typeof(DLLCHARACTERISTICS)))
+                    {
+                        if (((ushort)characteristic & characteristics) == (ushort)characteristic)
+                        {
+                            l.Add(characteristic.ToString());
+                        }
+                    }
+                    return l;
                 }
                 catch (Exception e)
                 {
                     Log.Debug("{0}:{1}", e.GetType().ToString(), e.Message);
                     Log.Debug(e.StackTrace);
                 }
-                return 0;
+                return new List<string>();
             }
         }
 

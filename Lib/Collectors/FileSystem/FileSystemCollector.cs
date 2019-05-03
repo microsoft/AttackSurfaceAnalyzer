@@ -69,7 +69,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
             cmd.Parameters.AddWithValue("@permissions", obj.Permissions ?? "");
             cmd.Parameters.AddWithValue("@size", obj.Size);
             cmd.Parameters.AddWithValue("@hash", obj.ContentHash ?? "");
-            cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj));
+            cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj, new Newtonsoft.Json.Converters.StringEnumConverter()));
             try
             {
                 cmd.ExecuteNonQuery();
