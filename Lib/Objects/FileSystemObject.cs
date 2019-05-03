@@ -66,6 +66,28 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
             }
         }
 
+        public ushort GetDllCharacteristics
+        {
+            get
+            {
+                if (!NeedsSignature())
+                {
+                    return 0;
+                }
+                try
+                {
+                    var peHeader1 = new PeNet.PeFile(this.Path);
+                    return peHeader1.ImageNtHeaders.OptionalHeader.DllCharacteristics;
+                }
+                catch (Exception e)
+                {
+                    Log.Debug("{0}:{1}", e.GetType().ToString(), e.Message);
+                    Log.Debug(e.StackTrace);
+                }
+                return 0;
+            }
+        }
+
         public override string ToString()
         {
             return string.Format("Path={0}, Permission={1}, Size={2}, ContentHash={3}", Path, Permissions, Size, ContentHash);
