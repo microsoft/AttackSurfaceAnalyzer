@@ -69,7 +69,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
             cmd.Parameters.AddWithValue("@permissions", obj.Permissions ?? "");
             cmd.Parameters.AddWithValue("@size", obj.Size);
             cmd.Parameters.AddWithValue("@hash", obj.ContentHash ?? "");
-            cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj));
+            cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj, new Newtonsoft.Json.Converters.StringEnumConverter()));
             try
             {
                 cmd.ExecuteNonQuery();
@@ -231,8 +231,13 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                                     {
                                         Path = fileInfo.FullName,
                                         Permissions = FileSystemUtils.GetFilePermissions(fileInfo),
-                                        Size = (ulong)(fileInfo as FileInfo).Length
+                                        Size = (ulong)(fileInfo as FileInfo).Length,
                                     };
+                                    if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
+                                    {
+                                        obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(fileInfo.FullName);
+                                        obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(fileInfo.FullName);
+                                    }
                                     if (INCLUDE_CONTENT_HASH)
                                     {
                                         obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
