@@ -20,7 +20,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
         {
             if (!WindowsFileSystemUtils.NeedsSignature(Path))
             {
-                return "No signature required";
+                return "";
             }
             string sigStatus = WinTrust.VerifyEmbeddedSignature(Path);
 
