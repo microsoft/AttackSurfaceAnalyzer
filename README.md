@@ -2,7 +2,7 @@
 
 ## Version 2.1
 
-Attack Surface Analyzer was first released for the general audience starting in version 2.0 (see Release\v2.0).  Subsequent versions on master are meant to advance the general features and issues fixed.
+Attack Surface Analyzer was first released for the general audience starting in version 2.0 (see [Release\v2.0](https://github.com/Microsoft/AttackSurfaceAnalyzer/tree/release/v2.0)).  The master branch tracks continuing development and is innapropriate for production use. To obtain the latest official release, click [here](https://github.com/Microsoft/AttackSurfaceAnalyzer/releases/latest).
 
 ## Overview
 
