@@ -19,6 +19,9 @@
     "%Deleted": "Deleted",
     "%Modified": "Modified",
     "%Renamed": "Renamed",
-    "%InvalidChange": "Invalid Change Type"
+    "%InvalidChange": "Invalid Change Type",
+    "%Property": "Property",
+    "%Before": "Before",
+    "%After": "After"
   }
 }
