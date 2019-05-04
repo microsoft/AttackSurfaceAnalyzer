@@ -388,31 +388,67 @@ function InsertIntoRegistryTable(result) {
     }));
     $('#RegistryResultsTableBody').append(tmp);
     tmp = $('<tr/>');
+
     var tmp2 = $('<td/>', {
         colspan: 5,
         class: 'resultTableExpanded',
         id: uid + '_expanded'
-    });
-    var tmpDiv = $('<div/>', {
-        class: 'card card-body'
-    });
-    for (var prop in appendObj) {
-        if (appendObj.hasOwnProperty(prop)) {
-            var tmp3 = $('<tr/>');
-            var tmp4 = $('<td/>', { html: prop });
-            var tmp5 = $('<td/>', { html: appendObj[prop] });
-            if (result.ChangeType == CHANGE_TYPE.MODIFIED) {
-                var tmp6 = $('<td/>', { html: result.SerializedCompare[prop] });
-            }
-            tmp3.append(tmp4);
-            tmp3.append(tmp5);
-            tmp3.append(tmp6);
-            tmpDiv.append(tmp3);
-        }
-    }
-    tmp2.append(tmpDiv);
+    }).append(GenerateExpandedResultsCard(result));
+
     tmp.append(tmp2);
     $('#RegistryResultsTableBody').append(tmp);
+}
+
+function GenerateExpandedResultsCard(result) {
+    var card = $('<div/>', {
+        class: 'card card-body'
+    });
+    var header = $('<div/>', {
+        class: 'row'
+    }).append($('<div/>', {
+        class: 'col', html: l('%Property')
+    })).append($('<div/>', {
+        class: 'col', html: result.BaseRunId
+    })).append($('<div/>', {
+        class: 'col', html: result.CompareRunId
+    }))
+    card.append(header);
+
+    if (result.ChangeType == CHANGE_TYPE.CREATED) {
+        var protoObj = result.SerializedCompare;
+    }
+    else {
+        var protoObj = result.SerializedBase;
+    }
+    for (var prop in protoObj) {
+        if (protoObj.hasOwnProperty(prop)) {
+            var before, after;
+            var row = $('<div/>', {
+                class: 'row bordered'
+            });
+
+            var property = $('<div/>', { class: 'col-2', html: prop });
+
+            if (result.ChangeType == CHANGE_TYPE.DELETED) {
+                before = $('<div/>', { class: 'col-5', html: result.SerializedBase[prop] });
+                after = $('<div/>', { class: 'col-5' });
+            }
+            else if (result.ChangeType == CHANGE_TYPE.CREATED) {
+                before = $('<div/>', { class: 'col-5' });
+                after = $('<div/>', { class: 'col-5', html: result.SerializedCompare[prop] });
+            }
+            else if (result.ChangeType == CHANGE_TYPE.MODIFIED) {
+                before = $('<div/>', { class: 'col-5', html: result.SerializedBase[prop] });
+                after = $('<div/>', { class: 'col-5', html: result.SerializedCompare[prop] });
+            }
+            row.append(property);
+            row.append(before);
+            row.append(after);
+
+            card.append(row);
+        }
+    }
+    return card;
 }
 
 function InsertIntoServiceTable(result) {
@@ -465,25 +501,7 @@ function InsertIntoServiceTable(result) {
         colspan: 5,
         class: 'resultTableExpanded',
         id: uid + '_expanded'
-    });
-    var tmpDiv = $('<div/>', {
-        class: 'card card-body'
-    });
-    for (var prop in appendObj) {
-        if (appendObj.hasOwnProperty(prop)) {
-            var tmp3 = $('<tr/>');
-            var tmp4 = $('<td/>', { html: prop });
-            var tmp5 = $('<td/>', { html: appendObj[prop] });
-            if (result.ChangeType == CHANGE_TYPE.MODIFIED){
-                var tmp6 = $('<td/>', { html: result.SerializedCompare[prop] });
-            }
-            tmp3.append(tmp4);
-            tmp3.append(tmp5);
-            tmp3.append(tmp6);
-            tmpDiv.append(tmp3);
-        }
-    }
-    tmp2.append(tmpDiv);
+    }).append(GenerateExpandedResultsCard(result));
     tmp.append(tmp2);
     $('#ServiceResultsTableBody').append(tmp);
 }
@@ -539,25 +557,7 @@ function InsertIntoCertificateTable(result) {
         colspan: 5,
         class: 'resultTableExpanded',
         id: uid + '_expanded'
-    });
-    var tmpDiv = $('<div/>', {
-        class: 'card card-body'
-    });
-    for (var prop in appendObj) {
-        if (appendObj.hasOwnProperty(prop)) {
-            var tmp3 = $('<tr/>');
-            var tmp4 = $('<td/>', { html: prop });
-            var tmp5 = $('<td/>', { html: appendObj[prop] });
-            if (result.ChangeType == CHANGE_TYPE.MODIFIED){
-                var tmp6 = $('<td/>', { html: result.SerializedCompare.prop });
-            }
-            tmp3.append(tmp4);
-            tmp3.append(tmp5);
-            tmp3.append(tmp6);
-            tmpDiv.append(tmp3);
-        }
-    }
-    tmp2.append(tmpDiv);
+    }).append(GenerateExpandedResultsCard(result));
     tmp.append(tmp2);
     $('#CertificateResultsTableBody').append(tmp);
 }
@@ -611,25 +611,7 @@ function InsertIntoUserTable(result) {
         colspan: 5,
         class: 'resultTableExpanded',
         id: uid + '_expanded'
-    });
-    var tmpDiv = $('<div/>', {
-        class: 'card card-body'
-    });
-    for (var prop in appendObj) {
-        if (appendObj.hasOwnProperty(prop)) {
-            var tmp3 = $('<tr/>');
-            var tmp4 = $('<td/>', { html: prop });
-            var tmp5 = $('<td/>', { html: appendObj[prop] });
-            if (result.ChangeType == CHANGE_TYPE.MODIFIED){
-                tmp6 = $('<td/>', { html: result.SerializedCompare.prop });
-            }
-            tmp3.append(tmp4);
-            tmp3.append(tmp5);
-            tmp3.append(tmp6);
-            tmpDiv.append(tmp3);
-        }
-    }
-    tmp2.append(tmpDiv);
+    }).append(GenerateExpandedResultsCard(result));
     tmp.append(tmp2);
     $('#UserResultsTableBody').append(tmp);
 }
@@ -680,25 +662,7 @@ function InsertIntoFileTable(result) {
         colspan: 5,
         class: 'resultTableExpanded',
         id: uid + '_expanded'
-    });
-    var tmpDiv = $('<div/>', {
-        class: 'card card-body'
-    });
-    for (var prop in appendObj) {
-        if (appendObj.hasOwnProperty(prop)) {
-            var tmp3 = $('<tr/>');
-            var tmp4 = $('<td/>', { html: prop });
-            var tmp5 = $('<td/>', { html: appendObj[prop] });
-            if (result.ChangeType == CHANGE_TYPE.MODIFIED){
-                var tmp6 = $('<td/>', { html: result.SerializedCompare.prop });
-            }
-            tmp3.append(tmp4);
-            tmp3.append(tmp5);
-            tmp3.append(tmp6);
-            tmpDiv.append(tmp3);
-        }
-    }
-    tmp2.append(tmpDiv);
+    }).append(GenerateExpandedResultsCard(result));
     tmp.append(tmp2);
     $('#FileResultsTableBody').append(tmp);
 }
@@ -753,25 +717,7 @@ function InsertIntoPortTable(result) {
         colspan: 5,
         class: 'resultTableExpanded',
         id: uid + '_expanded'
-    });
-    var tmpDiv = $('<div/>', {
-        class: 'card card-body'
-    });
-    for (var prop in appendObj) {
-        if (appendObj.hasOwnProperty(prop)) {
-            var tmp3 = $('<tr/>');
-            var tmp4 = $('<td/>', { html: prop });
-            var tpm5 = $('<td/>', { html: appendObj[prop] });
-            if (result.ChangeType == CHANGE_TYPE.MODIFIED){
-                var tmp6 = $('<td/>', { html: result.SerializedCompare.prop });
-            }
-            tmp3.append(tmp4);
-            tmp3.append(tmp5);
-            tmp3.append(tmp6);
-            tmpDiv.append(tmp3);
-        }
-    }
-    tmp2.append(tmpDiv);
+    }).append(GenerateExpandedResultsCard(result));
     tmp.append(tmp2);
     $('#PortResultsTableBody').append(tmp);
 
