@@ -10,13 +10,14 @@
   },
   "dependencies": {
     "portscanner": "^2.2.0",
-    "socket.io": "^2.2.0",
-    "electron": "4.1.5"
+    "electron": "4.1.5",
+    "socket.io": "^2.2.0"
   },
   "devDependencies": {
     "@types/node": "^10.12.18",
     "@types/socket.io": "^2.1.2",
     "tslint": "^5.14.0",
-    "typescript": "^3.4.1"
+    "typescript": "^3.4.1",
+    "electron": "4.1.5"
   }
 }
