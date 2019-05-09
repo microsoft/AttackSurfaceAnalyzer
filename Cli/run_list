@@ -1,0 +1,13 @@
+[20:35:53 INF] AttackSurfaceAnalyzerCli v.1.0.0
+[20:35:53 DBG] Starting database setup
+[20:35:53 DBG] Done with database setup
+[20:35:53 DBG] Starting database setup
+[20:35:53 DBG] Done with database setup
+[20:35:53 INF] Dumping data from database located at asa.sqlite.
+[20:35:53 INF] Begin Enumerating Collect Run Ids
+[20:35:53 INF] RunId:2019-05-07 20:33:54 Timestamp:2019-05-07 20:33:55 AsaVersion:1.0.0 
+[20:35:53 INF] CERTIFICATE : 179
+[20:35:53 INF] RunId:2019-05-07 20:35:13 Timestamp:2019-05-07 20:35:13 AsaVersion:1.0.0 
+[20:35:53 INF] CERTIFICATE : 179
+[20:35:53 INF] There were no monitor runs in the database.
+[20:35:53 INF] Attack Surface Analyzer Completed.
