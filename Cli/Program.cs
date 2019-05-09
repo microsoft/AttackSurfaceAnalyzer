@@ -183,6 +183,10 @@ namespace AttackSurfaceAnalyzer
 
         [Option("delete-run", Required = false, HelpText = "Delete a specific run from the database")]
         public string DeleteRunId { get; set; }
+
+        [Option("trim-to-latest", HelpText = "Delete all runs except the latest.")]
+        public bool TrimToLatest { get; set; }
+
     }
 
     public static class AttackSurfaceAnalyzerCLI
@@ -259,7 +263,6 @@ namespace AttackSurfaceAnalyzer
 
                 if (opts.ListRuns)
                 {
-
                     if (_isFirstRun)
                     {
                         Log.Warning(Strings.Get("FirstRunListRunsError"), opts.DatabaseFilename);
@@ -374,6 +377,24 @@ namespace AttackSurfaceAnalyzer
                 if (opts.DeleteRunId != null)
                 {
                     DatabaseManager.DeleteRun(opts.DeleteRunId);
+                }
+                if (opts.TrimToLatest)
+                {
+                    string GET_RUNS = "select run_id from runs order by timestamp desc;";
+
+                    List<string> Runs = new List<string>();
+
+                    var cmd = new SqliteCommand(GET_RUNS, DatabaseManager.Connection, DatabaseManager.Transaction);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        //Skip first row, that is the one we want to keep
+                        reader.Read();
+
+                        while (reader.Read())
+                        {
+                            DatabaseManager.DeleteRun((string)reader["run_id"]);
+                        }
+                    }
                 }
             }
             
@@ -1347,7 +1368,7 @@ namespace AttackSurfaceAnalyzer
 
         public static List<string> GetRuns(string type)
         {
-            string Select_Runs = "select distinct run_id from runs where type=@type;";
+            string Select_Runs = "select distinct run_id from runs where type=@type order by timestamp asc;";
 
             List<string> Runs = new List<string>();
 
