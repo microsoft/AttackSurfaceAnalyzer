@@ -315,63 +315,37 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             set
             {
-                try
+                if (_SqliteFilename != value)
                 {
-                    if (_ReadOnly)
-                    {
-                        if (ReadOnlyConnection != null)
-                        {
-                            CloseDatabase();
-                        }
-                    }
-                    else
+                    try
                     {
                         if (Connection != null)
                         {
                             CloseDatabase();
                         }
                     }
-
-                }
-                catch (Exception)
-                {
-                    // OK to ignore
-                }
-
-                try
-                {
-                    _SqliteFilename = value;
-                    //This doesn't work?
-                    //_ReadOnly ? SetupReadOnly() : Setup();
-                    if (_ReadOnly)
+                    catch (Exception e)
                     {
-                        SetupReadOnly();
+                        Log.Debug("{0}:: {1}: {2}", System.Reflection.MethodBase.GetCurrentMethod().Name, e.GetType().ToString(), e.Message);
                     }
-                    else
+
+                    try
                     {
+                        _SqliteFilename = value;
                         Setup();
                     }
+                    catch (Exception e)
+                    {
+                        Log.Fatal(e, "'{0}' {0}:: {1}: {2}", value, System.Reflection.MethodBase.GetCurrentMethod().Name, e.GetType().ToString(), e.Message);
+                    }
+                }
 
-                }
-                catch (Exception ex)
-                {
-                    Log.Warning(ex, "Unable to open SQLite connection to {0}: {1}", value, ex.Message);
-                }
             }
-        }
-
-        private static void SetupReadOnly()
-        {
-            Connection = new SqliteConnection($"Filename=" + _SqliteFilename);
-            Connection.Open();
         }
 
         public static void CloseDatabase()
         {
-            // Abandon any in-progress transaction
-            _transaction = null;
-
-            // Close and null
+            _transaction.Commit();
             Connection.Close();
             Connection = null;
         }

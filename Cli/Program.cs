@@ -215,8 +215,6 @@ namespace AttackSurfaceAnalyzer
 #else
             Logger.Setup(false,false);
 #endif
-            Strings.Setup();
-
             string version = (Assembly
                         .GetEntryAssembly()
                         .GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false)
@@ -224,7 +222,7 @@ namespace AttackSurfaceAnalyzer
             Log.Information("AttackSurfaceAnalyzerCli v.{0}",version);
 
             Strings.Setup();
-            DatabaseManager.Setup();
+
             if (DatabaseManager.IsFirstRun())
             {
                 _isFirstRun = true;
@@ -233,7 +231,6 @@ namespace AttackSurfaceAnalyzer
                 Log.Information(Strings.Get("ApplicationHasTelemetry2"), "https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/PRIVACY.md");
                 Log.Information(Strings.Get("ApplicationHasTelemetry3"), exeStr);
             }
-            Telemetry.Setup(Gui : false);
 
             var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, CompareCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions, ConfigCommandOptions>(args)
                 .MapResult(
@@ -246,19 +243,27 @@ namespace AttackSurfaceAnalyzer
                     errs => 1
                 );
             
-            Log.Information("Attack Surface Analyzer {0}.", Strings.Get("Completed"));
             Log.CloseAndFlush();
         }
 
         private static int RunConfigCommand(ConfigCommandOptions opts)
         {
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+            Telemetry.Setup(Gui: false);
 
             if (opts.ResetDatabase)
             {
                 DatabaseManager.CloseDatabase();
-                File.Delete(opts.DatabaseFilename);
-                Log.Information("{0}", Strings.Get("DeletedDatabase"));
+                try
+                {
+                    File.Delete(opts.DatabaseFilename);
+                }
+                catch (Exception e)
+                {
+                    Log.Fatal(e, Strings.Get("FailedToDeleteDatabase"), opts.DatabaseFilename, e.GetType().ToString(), e.Message);
+                    Environment.Exit(-1);
+                }
+                Log.Information(Strings.Get("DeletedDatabaseAt"), opts.DatabaseFilename);
             }
             else
             {
@@ -413,9 +418,9 @@ namespace AttackSurfaceAnalyzer
 #endif
 
             Log.Debug("{0} RunExportCollectCommand", Strings.Get("Begin"));
-            DatabaseManager.VerifySchemaVersion();
-
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+            Telemetry.Setup(Gui: false);
+            DatabaseManager.VerifySchemaVersion();
 
             if (opts.FirstRunId == "Timestamps" || opts.SecondRunId == "Timestamps")
             {
@@ -661,9 +666,9 @@ namespace AttackSurfaceAnalyzer
 #else
             Logger.Setup(false, opts.Verbose);
 #endif
-            DatabaseManager.VerifySchemaVersion();
-
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+            Telemetry.Setup(Gui: false);
+            DatabaseManager.VerifySchemaVersion();
 
             if (opts.RunId.Equals("Timestamp"))
             {
@@ -743,6 +748,10 @@ namespace AttackSurfaceAnalyzer
 #else
             Logger.Setup(false, opts.Verbose);
 #endif
+            DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+            Telemetry.Setup(Gui: false);
+            DatabaseManager.VerifySchemaVersion();
+
             AdminOrQuit();
             Filter.LoadFilters(opts.FilterLocation);
             opts.RunId = opts.RunId.Trim();
@@ -753,7 +762,6 @@ namespace AttackSurfaceAnalyzer
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             Telemetry.TrackEvent("Begin monitoring", StartEvent);
 
-            DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
             if (opts.Overwrite)
             {
@@ -986,8 +994,6 @@ namespace AttackSurfaceAnalyzer
 
         public static Dictionary<string, object> CompareRuns(CompareCommandOptions opts)
         {
-            Log.Information("{0} {1} vs {2}", Strings.Get("Comparing"),opts.FirstRunId,opts.SecondRunId);
-
             using (var cmd = new SqliteCommand(INSERT_RUN_INTO_RESULT_TABLE_SQL, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
                 cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
@@ -1213,9 +1219,12 @@ namespace AttackSurfaceAnalyzer
 #else
             Logger.Setup(false, opts.Verbose);
 #endif
-            int returnValue = (int)ERRORS.NONE;
             AdminOrQuit();
+            DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+            Telemetry.Setup(Gui: false);
             DatabaseManager.VerifySchemaVersion();
+
+            int returnValue = (int)ERRORS.NONE;
             opts.RunId = opts.RunId.Trim();
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("Files", opts.EnableAllCollectors ? "True" : opts.EnableFileSystemCollector.ToString());
@@ -1281,7 +1290,6 @@ namespace AttackSurfaceAnalyzer
                     Filter.LoadFilters(opts.FilterLocation);
                 }
             }
-            DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
             if (opts.Overwrite)
             {
@@ -1431,9 +1439,10 @@ namespace AttackSurfaceAnalyzer
 #else
             Logger.Setup(false, opts.Verbose);
 #endif
+            DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+            Telemetry.Setup(Gui: false);
             DatabaseManager.VerifySchemaVersion();
 
-            DatabaseManager.SqliteFilename = opts.DatabaseFilename;
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
 
             Telemetry.TrackEvent("Begin Compare Command", StartEvent);

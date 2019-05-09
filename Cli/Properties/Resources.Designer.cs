@@ -652,5 +652,17 @@ namespace AttackSurfaceAnalyzer.Properties {
                 return ResourceManager.GetString("FirstRunListRunsError", resourceCulture);
             }
         }
+        
+        public static string FailedToDeleteDatabase {
+            get {
+                return ResourceManager.GetString("FailedToDeleteDatabase", resourceCulture);
+            }
+        }
+        
+        public static string DeletedDatabaseAt {
+            get {
+                return ResourceManager.GetString("DeletedDatabaseAt", resourceCulture);
+            }
+        }
     }
 }
