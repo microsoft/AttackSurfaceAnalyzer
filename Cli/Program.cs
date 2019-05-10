@@ -177,6 +177,9 @@ namespace AttackSurfaceAnalyzer
         [Option(Default = false, HelpText = "If the specified runid already exists delete all data from that run before proceeding.")]
         public bool Overwrite {get; set;}
 
+        [Option(HelpText = "Show debug logging statements.")]
+        public bool Debug { get; set; }
+
         [Option(Default = false, HelpText = "Increase logging verbosity")]
         public bool Verbose { get; set; }
     }
