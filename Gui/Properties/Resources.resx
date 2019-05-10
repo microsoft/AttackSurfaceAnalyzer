@@ -133,7 +133,7 @@
     <value>Done writing!</value>
   </data>
   <data name="End" xml:space="preserve">
-    <value>End</value>
+    <value>End {0}.</value>
   </data>
   <data name="EnumeratingCollectRunIds" xml:space="preserve">
     <value>Enumerating Collect Run Ids</value>

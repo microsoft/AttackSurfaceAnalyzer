@@ -384,6 +384,9 @@
   <data name="Starting" xml:space="preserve">
     <value>Starting {0}.</value>
   </data>
+  <data name="StartingCollectors" xml:space="preserve">
+    <value>Starting {0} {1}.</value>
+  </data>
   <data name="SuccessParsed" xml:space="preserve">
     <value>Successfully Parsed</value>
   </data>

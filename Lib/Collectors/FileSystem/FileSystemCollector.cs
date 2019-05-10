@@ -144,7 +144,6 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                     AddRoot(path);
                 }
             }
-
         }
 
         public void Truncate(string runid)

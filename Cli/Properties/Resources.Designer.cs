@@ -889,6 +889,15 @@ namespace AttackSurfaceAnalyzer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Starting {0} {1}..
+        /// </summary>
+        public static string StartingCollectors {
+            get {
+                return ResourceManager.GetString("StartingCollectors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Start Type.
         /// </summary>
         public static string StartType {

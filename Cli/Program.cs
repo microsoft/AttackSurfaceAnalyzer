@@ -1398,7 +1398,7 @@ namespace AttackSurfaceAnalyzer
                     Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                 }
             }
-            Log.Information("{0} {1} {2}", Strings.Get("Starting"), collectors.Count.ToString(), Strings.Get("Collectors"));
+            Log.Information(Strings.Get("Starting"), collectors.Count.ToString(), Strings.Get("Collectors"));
 
             Dictionary<string, string> EndEvent = new Dictionary<string, string>();
             foreach (BaseCollector c in collectors)
@@ -1413,7 +1413,6 @@ namespace AttackSurfaceAnalyzer
                     Log.Error(ex, Strings.Get("Err_CollectingFrom"), c.GetType().Name, ex.Message, ex.StackTrace);
                     returnValue = 1;
                 }
-                Log.Information(Strings.Get("End"), c.GetType().Name);
             }
 
             Telemetry.TrackEvent("End Command", EndEvent);
