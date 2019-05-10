@@ -46,7 +46,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     t.Minutes,
                                     t.Seconds,
                                     t.Milliseconds);
-            Log.Information("{0} {1} in {2}",Strings.Get("Completed"), this.GetType().Name, answer);
+            Log.Information(Strings.Get("Completed"), this.GetType().Name, answer);
             var EndEvent = new Dictionary<string, string>();
             EndEvent.Add("Scanner", this.GetType().Name);
             EndEvent.Add("Duration", watch.ElapsedMilliseconds.ToString());

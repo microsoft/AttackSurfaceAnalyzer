@@ -24,6 +24,10 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
             {
                 return LinuxFileSystemUtils.GetFilePermissions(fileInfo);
             }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                return LinuxFileSystemUtils.GetFilePermissions(fileInfo);
+            }
             else
             {
                 return null;

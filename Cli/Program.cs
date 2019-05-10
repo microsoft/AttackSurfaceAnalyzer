@@ -42,6 +42,9 @@ namespace AttackSurfaceAnalyzer
         [Option(HelpText = "Base name of output file", Default = "output")]
         public string OutputBaseFilename { get; set; }
 
+        [Option(HelpText = "Show debug logging statements.")]
+        public bool Debug { get; set; }
+
         [Option(Default = false, HelpText = "Increase logging verbosity")]
         public bool Verbose { get; set; }
 
@@ -64,6 +67,9 @@ namespace AttackSurfaceAnalyzer
         [Option(HelpText = "Exploded output")]
         public bool ExplodedOutput { get; set; }
 
+        [Option(HelpText = "Show debug logging statements.")]
+        public bool Debug { get; set; }
+
         [Option(Default = false, HelpText = "Increase logging verbosity")]
         public bool Verbose { get; set; }
 
@@ -79,6 +85,9 @@ namespace AttackSurfaceAnalyzer
 
         [Option(HelpText = "Directory to output to", Default = ".")]
         public string OutputPath { get; set; }
+
+        [Option(HelpText = "Show debug logging statements.")]
+        public bool Debug { get; set; }
 
         [Option(Default = false, HelpText = "Increase logging verbosity")]
         public bool Verbose { get; set; }
@@ -120,7 +129,7 @@ namespace AttackSurfaceAnalyzer
         [Option("filter", Required = false, HelpText = "Provide a JSON filter file.", Default = "Use embedded filters.")]
         public string FilterLocation { get; set; }
 
-        [Option(HelpText = "Disables the embedded filters.")]
+        [Option("no-filters",HelpText = "Disables the embedded filters.")]
         public bool NoFilters { get; set; }
 
         [Option('h',"gather-hashes", Required = false, HelpText = "Hashes every file when using the File Collector.  May dramatically increase run time of the scan.")]
@@ -132,7 +141,10 @@ namespace AttackSurfaceAnalyzer
         [Option(HelpText ="If the specified runid already exists delete all data from that run before proceeding.")]
         public bool Overwrite { get; set; }
 
-        [Option(HelpText = "Increase logging verbosity")]
+        [Option(HelpText = "Show debug logging statements.")]
+        public bool Debug { get; set; }
+
+        [Option(HelpText = "See all logging statements.")]
         public bool Verbose { get; set; }
     }
     [Verb("monitor", HelpText = "Continue running and monitor activity")]
@@ -215,8 +227,6 @@ namespace AttackSurfaceAnalyzer
 #else
             Logger.Setup(false,false);
 #endif
-            Strings.Setup();
-
             string version = (Assembly
                         .GetEntryAssembly()
                         .GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false)
@@ -224,7 +234,7 @@ namespace AttackSurfaceAnalyzer
             Log.Information("AttackSurfaceAnalyzerCli v.{0}",version);
 
             Strings.Setup();
-            DatabaseManager.Setup();
+
             if (DatabaseManager.IsFirstRun())
             {
                 _isFirstRun = true;
@@ -233,7 +243,6 @@ namespace AttackSurfaceAnalyzer
                 Log.Information(Strings.Get("ApplicationHasTelemetry2"), "https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/PRIVACY.md");
                 Log.Information(Strings.Get("ApplicationHasTelemetry3"), exeStr);
             }
-            Telemetry.Setup(Gui : false);
 
             var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, CompareCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions, ConfigCommandOptions>(args)
                 .MapResult(
@@ -246,19 +255,28 @@ namespace AttackSurfaceAnalyzer
                     errs => 1
                 );
             
-            Log.Information("Attack Surface Analyzer {0}.", Strings.Get("Completed"));
             Log.CloseAndFlush();
         }
 
         private static int RunConfigCommand(ConfigCommandOptions opts)
         {
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+            DatabaseManager.Setup();
+            Telemetry.Setup(Gui: false);
 
             if (opts.ResetDatabase)
             {
                 DatabaseManager.CloseDatabase();
-                File.Delete(opts.DatabaseFilename);
-                Log.Information("{0}", Strings.Get("DeletedDatabase"));
+                try
+                {
+                    File.Delete(opts.DatabaseFilename);
+                }
+                catch (Exception e)
+                {
+                    Log.Fatal(e, Strings.Get("FailedToDeleteDatabase"), opts.DatabaseFilename, e.GetType().ToString(), e.Message);
+                    Environment.Exit(-1);
+                }
+                Log.Information(Strings.Get("DeletedDatabaseAt"), opts.DatabaseFilename);
             }
             else
             {
@@ -409,13 +427,14 @@ namespace AttackSurfaceAnalyzer
 #if DEBUG
             Logger.Setup(true, opts.Verbose);
 #else
-            Logger.Setup(false, opts.Verbose);
+            Logger.Setup(opts.Debug, opts.Verbose);
 #endif
 
             Log.Debug("{0} RunExportCollectCommand", Strings.Get("Begin"));
-            DatabaseManager.VerifySchemaVersion();
-
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+            DatabaseManager.Setup();
+            Telemetry.Setup(Gui: false);
+            DatabaseManager.VerifySchemaVersion();
 
             if (opts.FirstRunId == "Timestamps" || opts.SecondRunId == "Timestamps")
             {
@@ -433,7 +452,7 @@ namespace AttackSurfaceAnalyzer
                 }
             }
 
-            Log.Information("{0} {1} vs {2}", Strings.Get("Comparing"), opts.FirstRunId, opts.SecondRunId);
+            Log.Information(Strings.Get("Comparing"), opts.FirstRunId, opts.SecondRunId);
 
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("OutputPathSet", (opts.OutputPath != null).ToString());
@@ -659,11 +678,12 @@ namespace AttackSurfaceAnalyzer
 #if DEBUG
             Logger.Setup(true, opts.Verbose);
 #else
-            Logger.Setup(false, opts.Verbose);
+            Logger.Setup(opts.Debug, opts.Verbose);
 #endif
-            DatabaseManager.VerifySchemaVersion();
-
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+            DatabaseManager.Setup();
+            Telemetry.Setup(Gui: false);
+            DatabaseManager.VerifySchemaVersion();
 
             if (opts.RunId.Equals("Timestamp"))
             {
@@ -741,8 +761,13 @@ namespace AttackSurfaceAnalyzer
 #if DEBUG
             Logger.Setup(true, opts.Verbose);
 #else
-            Logger.Setup(false, opts.Verbose);
+            Logger.Setup(opts.Debug, opts.Verbose);
 #endif
+            DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+            DatabaseManager.Setup();
+            Telemetry.Setup(Gui: false);
+            DatabaseManager.VerifySchemaVersion();
+
             AdminOrQuit();
             Filter.LoadFilters(opts.FilterLocation);
             opts.RunId = opts.RunId.Trim();
@@ -753,7 +778,6 @@ namespace AttackSurfaceAnalyzer
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             Telemetry.TrackEvent("Begin monitoring", StartEvent);
 
-            DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
             if (opts.Overwrite)
             {
@@ -891,7 +915,7 @@ namespace AttackSurfaceAnalyzer
                 }
                 catch (Exception ex)
                 {
-                    Log.Error(ex, "{3} {0}: {1} {2}", c.GetType().Name, ex.Message, ex.StackTrace, Strings.Get("Err_CollectingFrom"));
+                    Log.Error(ex, Strings.Get("Err_CollectingFrom"), c.GetType().Name, ex.Message, ex.StackTrace);
                     returnValue = 1;
                 }
             }
@@ -910,7 +934,7 @@ namespace AttackSurfaceAnalyzer
 
             foreach (var c in monitors)
             {
-                Log.Information("{0}: {1}", Strings.Get("End"),c.GetType().Name);
+                Log.Information(Strings.Get("End"),c.GetType().Name);
 
                 try
                 {
@@ -986,8 +1010,6 @@ namespace AttackSurfaceAnalyzer
 
         public static Dictionary<string, object> CompareRuns(CompareCommandOptions opts)
         {
-            Log.Information("{0} {1} vs {2}", Strings.Get("Comparing"),opts.FirstRunId,opts.SecondRunId);
-
             using (var cmd = new SqliteCommand(INSERT_RUN_INTO_RESULT_TABLE_SQL, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
                 cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
@@ -1151,7 +1173,7 @@ namespace AttackSurfaceAnalyzer
                 }
                 catch (Exception ex)
                 {
-                    Log.Error(ex, "{3} {0}: {1} {2}", c.GetType().Name, ex.Message, ex.StackTrace, Strings.Get("Err_CollectingFrom"));
+                    Log.Error(ex, Strings.Get("Err_CollectingFrom"), c.GetType().Name, ex.Message, ex.StackTrace);
                 }
             }
 
@@ -1162,7 +1184,7 @@ namespace AttackSurfaceAnalyzer
         {
             foreach (var c in monitors)
             {
-                Log.Information("{0}: {1}", Strings.Get("End"), c.GetType().Name);
+                Log.Information(Strings.Get("End"), c.GetType().Name);
 
                 try
                 {
@@ -1211,11 +1233,15 @@ namespace AttackSurfaceAnalyzer
 #if DEBUG
             Logger.Setup(true, opts.Verbose);
 #else
-            Logger.Setup(false, opts.Verbose);
+            Logger.Setup(opts.Debug, opts.Verbose);
 #endif
-            int returnValue = (int)ERRORS.NONE;
             AdminOrQuit();
+            DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+            DatabaseManager.Setup();
+            Telemetry.Setup(Gui: false);
             DatabaseManager.VerifySchemaVersion();
+
+            int returnValue = (int)ERRORS.NONE;
             opts.RunId = opts.RunId.Trim();
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("Files", opts.EnableAllCollectors ? "True" : opts.EnableFileSystemCollector.ToString());
@@ -1281,7 +1307,6 @@ namespace AttackSurfaceAnalyzer
                     Filter.LoadFilters(opts.FilterLocation);
                 }
             }
-            DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
             if (opts.Overwrite)
             {
@@ -1374,10 +1399,10 @@ namespace AttackSurfaceAnalyzer
                 }
                 catch (Exception ex)
                 {
-                    Log.Error(ex, "{0} {1}: {2} {3}", Strings.Get("Err_CollectingFrom"), c.GetType().Name, ex.Message, ex.StackTrace);
+                    Log.Error(ex, Strings.Get("Err_CollectingFrom"), c.GetType().Name, ex.Message, ex.StackTrace);
                     returnValue = 1;
                 }
-                Log.Information("{0}: {1}", Strings.Get("End"), c.GetType().Name);
+                Log.Information(Strings.Get("End"), c.GetType().Name);
             }
 
             Telemetry.TrackEvent("End Command", EndEvent);
@@ -1429,11 +1454,13 @@ namespace AttackSurfaceAnalyzer
 #if DEBUG
             Logger.Setup(true, opts.Verbose);
 #else
-            Logger.Setup(false, opts.Verbose);
+            Logger.Setup(opts.Debug, opts.Verbose);
 #endif
+            DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+            DatabaseManager.Setup();
+            Telemetry.Setup(Gui: false);
             DatabaseManager.VerifySchemaVersion();
 
-            DatabaseManager.SqliteFilename = opts.DatabaseFilename;
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
 
             Telemetry.TrackEvent("Begin Compare Command", StartEvent);

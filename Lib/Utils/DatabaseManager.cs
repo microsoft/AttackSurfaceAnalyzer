@@ -10,9 +10,6 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public static class DatabaseManager
     {
-        // Creates the run_id table, used to optimize the speed of query to determine which runs are available to select between.
-        // Each of the file_system, ports, users, services variables can be considered booleans, which indicate if the type of collection is enabled or not. Type is between "collect" and "monitor".
-        // TODO: Add timestamp
         private static readonly string SQL_CREATE_RUNS = "create table if not exists runs (run_id text, file_system int, ports int, users int, services int, registry int, certificates int, type text, timestamp text, version text, unique(run_id))";
         private static readonly string SQL_CREATE_FILE_MONITORED = "create table if not exists file_system_monitored (run_id text, row_key text, timestamp text, change_type int, path text, old_path text, name text, old_name text, extended_results text, notify_filters text, serialized text)";
 
@@ -65,11 +62,14 @@ namespace AttackSurfaceAnalyzer.Utils
         private static readonly string SQL_TRUNCATE_PORTS = "delete from network_ports where run_id = @run_id";
         private static readonly string SQL_TRUNCATE_FILES_MONITORED = "delete from file_system_monitored where run_id=@run_id";
         private static readonly string SQL_TRUNCATE_RUN = "delete from runs where run_id=@run_id";
+        private static readonly string SQL_TRUNCATE_RESULTS = "delete from results where base_run_id=@run_id or compare_run_id=@run_id";
 
         private static readonly string SQL_SELECT_LATEST_N_RUNS = "select run_id from runs where type = @type order by timestamp desc limit 0,@limit;";
 
         private static readonly string SQL_GET_SCHEMA_VERSION = "select value from persisted_settings where setting = 'schema_version' limit 0,1";
         private static readonly string SQL_GET_NUM_RESULTS = "select count(*) as the_count from @table_name where run_id = @run_id";
+
+        private static readonly string PRAGMA_AUTOVACUUM = "PRAGMA AUTO_VACUUM=true";
 
         private static readonly string SCHEMA_VERSION = "1";
 
@@ -90,6 +90,9 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 using (var cmd = new SqliteCommand(SQL_CREATE_RUNS, DatabaseManager.Connection, DatabaseManager.Transaction))
                 {
+                    cmd.ExecuteNonQuery();
+
+                    cmd.CommandText = PRAGMA_AUTOVACUUM;
                     cmd.ExecuteNonQuery();
 
                     cmd.CommandText = SQL_CREATE_FILE_MONITORED;
@@ -208,7 +211,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void VerifySchemaVersion()
         {
-            using (var cmd = new SqliteCommand(SQL_GET_SCHEMA_VERSION, DatabaseManager.Connection, DatabaseManager.Transaction))
+            using (var cmd = new SqliteCommand(SQL_GET_SCHEMA_VERSION, DatabaseManager.Connection))
                 using (var reader = cmd.ExecuteReader())
                 {
                     reader.Read();
@@ -315,63 +318,37 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             set
             {
-                try
+                if (_SqliteFilename != value)
                 {
-                    if (_ReadOnly)
-                    {
-                        if (ReadOnlyConnection != null)
-                        {
-                            CloseDatabase();
-                        }
-                    }
-                    else
+                    try
                     {
                         if (Connection != null)
                         {
                             CloseDatabase();
                         }
                     }
-
-                }
-                catch (Exception)
-                {
-                    // OK to ignore
-                }
-
-                try
-                {
-                    _SqliteFilename = value;
-                    //This doesn't work?
-                    //_ReadOnly ? SetupReadOnly() : Setup();
-                    if (_ReadOnly)
+                    catch (Exception e)
                     {
-                        SetupReadOnly();
+                        Log.Debug("{0}:: {1}: {2}", System.Reflection.MethodBase.GetCurrentMethod().Name, e.GetType().ToString(), e.Message);
                     }
-                    else
+
+                    try
                     {
+                        _SqliteFilename = value;
                         Setup();
                     }
+                    catch (Exception e)
+                    {
+                        Log.Fatal(e, "'{0}' {0}:: {1}: {2}", value, System.Reflection.MethodBase.GetCurrentMethod().Name, e.GetType().ToString(), e.Message);
+                    }
+                }
 
-                }
-                catch (Exception ex)
-                {
-                    Log.Warning(ex, "Unable to open SQLite connection to {0}: {1}", value, ex.Message);
-                }
             }
-        }
-
-        private static void SetupReadOnly()
-        {
-            Connection = new SqliteConnection($"Filename=" + _SqliteFilename);
-            Connection.Open();
         }
 
         public static void CloseDatabase()
         {
-            // Abandon any in-progress transaction
-            _transaction = null;
-
-            // Close and null
+            _transaction.Commit();
             Connection.Close();
             Connection = null;
         }
@@ -408,6 +385,12 @@ namespace AttackSurfaceAnalyzer.Utils
                         }
                         else
                         {
+                            using (var inner_cmd = new SqliteCommand(SQL_TRUNCATE_RESULTS, DatabaseManager.Connection, DatabaseManager.Transaction))
+                            {
+                                inner_cmd.Parameters.AddWithValue("@run_id", runid);
+                                inner_cmd.ExecuteNonQuery();
+                            }
+
                             if ((int.Parse(reader["file_system"].ToString()) != 0))
                             {
                                 using (var inner_cmd = new SqliteCommand(SQL_TRUNCATE_FILES, DatabaseManager.Connection, DatabaseManager.Transaction))

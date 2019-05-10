@@ -129,9 +129,6 @@
   <data name="Completed" xml:space="preserve">
     <value>Completed</value>
   </data>
-  <data name="DeletedDatabase" xml:space="preserve">
-    <value>Successfully deleted database.</value>
-  </data>
   <data name="DoneWriting" xml:space="preserve">
     <value>Done writing!</value>
   </data>
