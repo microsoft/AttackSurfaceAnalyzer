@@ -19,7 +19,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void Setup(bool Gui)
         {
-            using (var cmd = new SqliteCommand(CHECK_TELEMETRY, DatabaseManager.Connection, DatabaseManager.Transaction))
+            using (var cmd = new SqliteCommand(CHECK_TELEMETRY, DatabaseManager.Connection))
             {
                 using (var reader = cmd.ExecuteReader())
                 {

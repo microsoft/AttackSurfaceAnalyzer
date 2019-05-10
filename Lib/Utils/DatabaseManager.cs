@@ -208,7 +208,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void VerifySchemaVersion()
         {
-            using (var cmd = new SqliteCommand(SQL_GET_SCHEMA_VERSION, DatabaseManager.Connection, DatabaseManager.Transaction))
+            using (var cmd = new SqliteCommand(SQL_GET_SCHEMA_VERSION, DatabaseManager.Connection))
                 using (var reader = cmd.ExecuteReader())
                 {
                     reader.Read();

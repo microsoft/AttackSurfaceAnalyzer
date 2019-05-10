@@ -249,6 +249,7 @@ namespace AttackSurfaceAnalyzer
         private static int RunConfigCommand(ConfigCommandOptions opts)
         {
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+            DatabaseManager.Setup();
             Telemetry.Setup(Gui: false);
 
             if (opts.ResetDatabase)
@@ -419,6 +420,7 @@ namespace AttackSurfaceAnalyzer
 
             Log.Debug("{0} RunExportCollectCommand", Strings.Get("Begin"));
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+            DatabaseManager.Setup();
             Telemetry.Setup(Gui: false);
             DatabaseManager.VerifySchemaVersion();
 
@@ -667,6 +669,7 @@ namespace AttackSurfaceAnalyzer
             Logger.Setup(false, opts.Verbose);
 #endif
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+            DatabaseManager.Setup();
             Telemetry.Setup(Gui: false);
             DatabaseManager.VerifySchemaVersion();
 
@@ -749,6 +752,7 @@ namespace AttackSurfaceAnalyzer
             Logger.Setup(false, opts.Verbose);
 #endif
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+            DatabaseManager.Setup();
             Telemetry.Setup(Gui: false);
             DatabaseManager.VerifySchemaVersion();
 
@@ -1221,6 +1225,7 @@ namespace AttackSurfaceAnalyzer
 #endif
             AdminOrQuit();
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+            DatabaseManager.Setup();
             Telemetry.Setup(Gui: false);
             DatabaseManager.VerifySchemaVersion();
 
@@ -1440,6 +1445,7 @@ namespace AttackSurfaceAnalyzer
             Logger.Setup(false, opts.Verbose);
 #endif
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+            DatabaseManager.Setup();
             Telemetry.Setup(Gui: false);
             DatabaseManager.VerifySchemaVersion();
 
