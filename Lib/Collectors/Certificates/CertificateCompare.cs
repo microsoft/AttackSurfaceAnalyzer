@@ -68,7 +68,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
                 }
                 Results["certs_add"] = addObjects;
 
-                Log.Information("{0} {1} {2}",Strings.Get("Found"), addObjects.Count, Strings.Get("Created"));
+                Log.Information(Strings.Get("FoundCreated"), addObjects.Count);
 
                 var removeObjects = new List<CertificateResult>();
                 cmd = new SqliteCommand(SELECT_DELETED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
@@ -99,7 +99,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
                 }
                 Results["certs_remove"] = removeObjects;
 
-                Log.Information("{0} {1} {2}", Strings.Get("Found"), removeObjects.Count, Strings.Get("Deleted"));
+                Log.Information(Strings.Get("FoundDeleted"), addObjects.Count);
             }
             catch (Exception e)
             {

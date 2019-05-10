@@ -80,7 +80,7 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
             }
             Results["ports_add"] = addObjects;
 
-            Log.Information("{0} {1} {2}", Strings.Get("Found"), addObjects.Count, Strings.Get("Created")); ;
+            Log.Information(Strings.Get("FoundCreated"), addObjects.Count);
 
             var removeObjects = new List<OpenPortResult>();
             cmd = new SqliteCommand(SELECT_DELETED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
@@ -114,7 +114,7 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
             }
             Results["ports_remove"] = removeObjects;
 
-            Log.Information("{0} {1} {2}", Strings.Get("Found"), removeObjects.Count, Strings.Get("Deleted"));
+            Log.Information(Strings.Get("FoundDeleted"), addObjects.Count);
         }
     }
 }

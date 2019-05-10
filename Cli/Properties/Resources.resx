@@ -126,9 +126,6 @@
   <data name="Comparing" xml:space="preserve">
     <value>Comparing {0} vs {1}.</value>
   </data>
-  <data name="Completed" xml:space="preserve">
-    <value>Completed</value>
-  </data>
   <data name="DeletedDatabase" xml:space="preserve">
     <value>Successfully deleted database.</value>
   </data>
@@ -145,7 +142,7 @@
     <value>Enumerating Monitor Run Ids</value>
   </data>
   <data name="Err_CollectingFrom" xml:space="preserve">
-    <value>Error collecting from</value>
+    <value>Error collecting from {1}: {2} {3}</value>
   </data>
   <data name="Err_CouldntDetermineOneRun" xml:space="preserve">
     <value>Couldn't determine latest run id. Can't continue.</value>
@@ -385,7 +382,7 @@
     <value>Scanning</value>
   </data>
   <data name="Starting" xml:space="preserve">
-    <value>Starting</value>
+    <value>Starting {0}.</value>
   </data>
   <data name="SuccessParsed" xml:space="preserve">
     <value>Successfully Parsed</value>
@@ -425,5 +422,17 @@
   </data>
   <data name="DeletedDatabaseAt" xml:space="preserve">
     <value>Deleted database at {0}. 💣</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>Completed {0} in {1}.</value>
+  </data>
+  <data name="FoundCreated" xml:space="preserve">
+    <value>Found {0} created.</value>
+  </data>
+  <data name="FoundDeleted" xml:space="preserve">
+    <value>Found {0} deleted.</value>
+  </data>
+  <data name="FoundModified" xml:space="preserve">
+    <value>Found {0} modified.</value>
   </data>
 </root>
