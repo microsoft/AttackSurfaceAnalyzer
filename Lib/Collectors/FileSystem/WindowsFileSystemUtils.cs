@@ -69,11 +69,11 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 // Catches exceptions that PeNet throws when trying to read headers
                 catch (ArgumentNullException)
                 {
-                    Log.Verbose("Failed to get PE headers for {0}", Path);
+                    Log.Verbose("Null argument. Failed to get PE headers for {0}", Path);
                 }
                 catch (IndexOutOfRangeException)
                 {
-                    Log.Verbose("Failed to get PE headers for {0}", Path);
+                    Log.Verbose("Index OOR. Failed to get PE headers for {0}", Path);
                 }
                 catch (Exception e)
                 {
@@ -103,7 +103,11 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 catch (UnauthorizedAccessException)
                 {
                     Log.Verbose(Strings.Get("Err_AccessControl"), fileInfo.FullName);
-                    //Log.Debug(ex.StackTrace);
+                }
+                // Some system files return this
+                catch (InvalidOperationException)
+                {
+                    Log.Verbose(Strings.Get("Err_InvalidOperation"), fileInfo.FullName);
                 }
             }
             else if (fileInfo is DirectoryInfo)

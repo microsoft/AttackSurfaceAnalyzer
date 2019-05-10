@@ -360,4 +360,7 @@
   <data name="Found" xml:space="preserve">
     <value>Found</value>
   </data>
+  <data name="Err_InvalidOperation" xml:space="preserve">
+    <value>Invalid Operation checking permissions: {0}</value>
+  </data>
 </root>
