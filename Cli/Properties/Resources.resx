@@ -124,7 +124,7 @@
     <value>Begin</value>
   </data>
   <data name="Comparing" xml:space="preserve">
-    <value>Comparing</value>
+    <value>Comparing {0} vs {1}.</value>
   </data>
   <data name="Completed" xml:space="preserve">
     <value>Completed</value>

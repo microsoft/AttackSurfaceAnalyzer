@@ -440,7 +440,7 @@ namespace AttackSurfaceAnalyzer
                 }
             }
 
-            Log.Information("{0} {1} vs {2}", Strings.Get("Comparing"), opts.FirstRunId, opts.SecondRunId);
+            Log.Information(Strings.Get("Comparing"), opts.FirstRunId, opts.SecondRunId);
 
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("OutputPathSet", (opts.OutputPath != null).ToString());
@@ -903,7 +903,7 @@ namespace AttackSurfaceAnalyzer
                 }
                 catch (Exception ex)
                 {
-                    Log.Error(ex, "{3} {0}: {1} {2}", c.GetType().Name, ex.Message, ex.StackTrace, Strings.Get("Err_CollectingFrom"));
+                    Log.Error(ex, Strings.Get("Err_CollectingFrom"), c.GetType().Name, ex.Message, ex.StackTrace);
                     returnValue = 1;
                 }
             }
@@ -922,7 +922,7 @@ namespace AttackSurfaceAnalyzer
 
             foreach (var c in monitors)
             {
-                Log.Information("{0}: {1}", Strings.Get("End"),c.GetType().Name);
+                Log.Information(Strings.Get("End"),c.GetType().Name);
 
                 try
                 {
@@ -1161,7 +1161,7 @@ namespace AttackSurfaceAnalyzer
                 }
                 catch (Exception ex)
                 {
-                    Log.Error(ex, "{3} {0}: {1} {2}", c.GetType().Name, ex.Message, ex.StackTrace, Strings.Get("Err_CollectingFrom"));
+                    Log.Error(ex, Strings.Get("Err_CollectingFrom"), c.GetType().Name, ex.Message, ex.StackTrace);
                 }
             }
 
@@ -1172,7 +1172,7 @@ namespace AttackSurfaceAnalyzer
         {
             foreach (var c in monitors)
             {
-                Log.Information("{0}: {1}", Strings.Get("End"), c.GetType().Name);
+                Log.Information(Strings.Get("End"), c.GetType().Name);
 
                 try
                 {
@@ -1387,10 +1387,10 @@ namespace AttackSurfaceAnalyzer
                 }
                 catch (Exception ex)
                 {
-                    Log.Error(ex, "{0} {1}: {2} {3}", Strings.Get("Err_CollectingFrom"), c.GetType().Name, ex.Message, ex.StackTrace);
+                    Log.Error(ex, Strings.Get("Err_CollectingFrom"), c.GetType().Name, ex.Message, ex.StackTrace);
                     returnValue = 1;
                 }
-                Log.Information("{0}: {1}", Strings.Get("End"), c.GetType().Name);
+                Log.Information(Strings.Get("End"), c.GetType().Name);
             }
 
             Telemetry.TrackEvent("End Command", EndEvent);
