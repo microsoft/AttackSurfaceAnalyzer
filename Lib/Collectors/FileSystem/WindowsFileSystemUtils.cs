@@ -49,6 +49,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 
         protected internal static List<DLLCHARACTERISTICS> GetDllCharacteristics(string Path)
         {
+            // Piggyback on executable files as defined by signature checking.
             if (NeedsSignature(Path))
             {
                 try
@@ -65,14 +66,18 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                     }
                     return l;
                 }
-                // Catches a case where the line establising the PeFile fails with Index outside bounds of the array.
+                // Catches exceptions that PeNet throws when trying to read headers
+                catch (ArgumentNullException)
+                {
+                    Log.Verbose("Failed to get PE headers for {0}", Path);
+                }
                 catch (IndexOutOfRangeException)
                 {
                     Log.Verbose("Failed to get PE headers for {0}", Path);
                 }
                 catch (Exception e)
                 {
-                    Log.Debug("{0}:{1}", e.GetType().ToString(), e.Message);
+                    Log.Debug("{0} = {1}:{2}", Path, e.GetType().ToString(), e.Message);
                     Log.Debug(e.StackTrace);
                 }
             }

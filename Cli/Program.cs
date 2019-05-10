@@ -238,15 +238,6 @@ namespace AttackSurfaceAnalyzer
 
             Strings.Setup();
 
-            if (DatabaseManager.IsFirstRun())
-            {
-                _isFirstRun = true;
-                string exeStr = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "AttackSurfaceAnalyzerCli.exe config --telemetry-opt-out true" : "AttackSurfaceAnalyzerCli config --telemetry-opt-out true";
-                Log.Information(Strings.Get("ApplicationHasTelemetry"));
-                Log.Information(Strings.Get("ApplicationHasTelemetry2"), "https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/PRIVACY.md");
-                Log.Information(Strings.Get("ApplicationHasTelemetry3"), exeStr);
-            }
-
             var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, CompareCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions, ConfigCommandOptions>(args)
                 .MapResult(
                     (CollectCommandOptions opts) => RunCollectCommand(opts),
@@ -261,10 +252,23 @@ namespace AttackSurfaceAnalyzer
             Log.CloseAndFlush();
         }
 
+        private static void CheckFirstRun()
+        {
+            if (DatabaseManager.IsFirstRun())
+            {
+                _isFirstRun = true;
+                string exeStr = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "AttackSurfaceAnalyzerCli.exe config --telemetry-opt-out true" : "AttackSurfaceAnalyzerCli config --telemetry-opt-out true";
+                Log.Information(Strings.Get("ApplicationHasTelemetry"));
+                Log.Information(Strings.Get("ApplicationHasTelemetry2"), "https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/PRIVACY.md");
+                Log.Information(Strings.Get("ApplicationHasTelemetry3"), exeStr);
+            }
+        }
+
         private static int RunConfigCommand(ConfigCommandOptions opts)
         {
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
             DatabaseManager.Setup();
+            CheckFirstRun();
             Telemetry.Setup(Gui: false);
 
             if (opts.ResetDatabase)
@@ -436,6 +440,7 @@ namespace AttackSurfaceAnalyzer
             Log.Debug("{0} RunExportCollectCommand", Strings.Get("Begin"));
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
             DatabaseManager.Setup();
+            CheckFirstRun();
             Telemetry.Setup(Gui: false);
             DatabaseManager.VerifySchemaVersion();
 
@@ -685,6 +690,7 @@ namespace AttackSurfaceAnalyzer
 #endif
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
             DatabaseManager.Setup();
+            CheckFirstRun();
             Telemetry.Setup(Gui: false);
             DatabaseManager.VerifySchemaVersion();
 
@@ -768,6 +774,7 @@ namespace AttackSurfaceAnalyzer
 #endif
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
             DatabaseManager.Setup();
+            CheckFirstRun();
             Telemetry.Setup(Gui: false);
             DatabaseManager.VerifySchemaVersion();
 
@@ -1241,6 +1248,7 @@ namespace AttackSurfaceAnalyzer
             AdminOrQuit();
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
             DatabaseManager.Setup();
+            CheckFirstRun();
             Telemetry.Setup(Gui: false);
             DatabaseManager.VerifySchemaVersion();
 
@@ -1461,6 +1469,7 @@ namespace AttackSurfaceAnalyzer
 #endif
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
             DatabaseManager.Setup();
+            CheckFirstRun();
             Telemetry.Setup(Gui: false);
             DatabaseManager.VerifySchemaVersion();
 
