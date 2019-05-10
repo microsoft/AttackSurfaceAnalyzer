@@ -10,9 +10,6 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public static class DatabaseManager
     {
-        // Creates the run_id table, used to optimize the speed of query to determine which runs are available to select between.
-        // Each of the file_system, ports, users, services variables can be considered booleans, which indicate if the type of collection is enabled or not. Type is between "collect" and "monitor".
-        // TODO: Add timestamp
         private static readonly string SQL_CREATE_RUNS = "create table if not exists runs (run_id text, file_system int, ports int, users int, services int, registry int, certificates int, type text, timestamp text, version text, unique(run_id))";
         private static readonly string SQL_CREATE_FILE_MONITORED = "create table if not exists file_system_monitored (run_id text, row_key text, timestamp text, change_type int, path text, old_path text, name text, old_name text, extended_results text, notify_filters text, serialized text)";
 
