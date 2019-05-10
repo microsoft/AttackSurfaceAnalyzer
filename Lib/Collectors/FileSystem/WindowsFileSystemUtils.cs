@@ -65,6 +65,11 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                     }
                     return l;
                 }
+                // Catches a case where the line establising the PeFile fails with Index outside bounds of the array.
+                catch (IndexOutOfRangeException)
+                {
+                    Log.Verbose("Failed to get PE headers for {0}", Path);
+                }
                 catch (Exception e)
                 {
                     Log.Debug("{0}:{1}", e.GetType().ToString(), e.Message);
