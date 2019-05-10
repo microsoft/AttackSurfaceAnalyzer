@@ -1,9 +1,11 @@
 #!/bin/bash
-cd ~/AsaCli/
+cd ~
+mkdir output
+mkdir ingested
 
-./AttackSurfaceAnalyzerCli collect -a
-./AttackSurfaceAnalyzerCli export-collect --outputpath output --explodedoutput
-./AttackSurfaceAnalyzerCli config --trim-to-latest
+~/AsaCli/res/AttackSurfaceAnalyzerCli collect -a --no-filters --debug
+~/AsaCli/res/AttackSurfaceAnalyzerCli export-collect --outputpath output --explodedoutput
+~/AsaCli/res/AttackSurfaceAnalyzerCli config --trim-to-latest
 
 cd output
 
@@ -25,6 +27,6 @@ do
     fi
     done
     cd ..
-    rm -rf $d
-    echo "Deleting parsed directory $d"
+    mv $d ~/ingested/
+    echo "Moving ingested directory directory $d"
 done
