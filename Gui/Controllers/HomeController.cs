@@ -389,7 +389,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 cmd.Parameters.AddWithValue("@registry", false);
                 cmd.Parameters.AddWithValue("@certificates", false);
                 cmd.Parameters.AddWithValue("@type", "monitor");
-                cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss"));
                 cmd.Parameters.AddWithValue("@version", Helpers.GetVersionString());
                 try
                 {

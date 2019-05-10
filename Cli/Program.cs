@@ -783,7 +783,7 @@ namespace AttackSurfaceAnalyzer
             opts.RunId = opts.RunId.Trim();
             if (opts.RunId.Equals("Timestamp"))
             {
-                opts.RunId = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                opts.RunId = DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss");
             }
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             Telemetry.TrackEvent("Begin monitoring", StartEvent);
@@ -819,7 +819,7 @@ namespace AttackSurfaceAnalyzer
             cmd.Parameters.AddWithValue("@registry", false);
             cmd.Parameters.AddWithValue("@certificates", false);
             cmd.Parameters.AddWithValue("@type", "monitor");
-            cmd.Parameters.AddWithValue("@timestamp",DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+            cmd.Parameters.AddWithValue("@timestamp",DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss"));
             cmd.Parameters.AddWithValue("@version", Helpers.GetVersionString());
             try
             {
@@ -1266,7 +1266,7 @@ namespace AttackSurfaceAnalyzer
 
             if (opts.RunId.Equals("Timestamp"))
             {
-                opts.RunId = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                opts.RunId = DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss");
             }
 
             if (opts.EnableFileSystemCollector || opts.EnableAllCollectors)
@@ -1383,7 +1383,7 @@ namespace AttackSurfaceAnalyzer
                 cmd.Parameters.AddWithValue("@run_id", opts.RunId);
 
                 cmd.Parameters.AddWithValue("@type", "collect");
-                cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss"));
                 cmd.Parameters.AddWithValue("@version", Helpers.GetVersionString());
                 try
                 {
