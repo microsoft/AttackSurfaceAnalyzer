@@ -33,8 +33,6 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
             }
         }
 
-        
-
         public override string ToString()
         {
             return string.Format("Path={0}, Permission={1}, Size={2}, ContentHash={3}", Path, Permissions, Size, ContentHash);
