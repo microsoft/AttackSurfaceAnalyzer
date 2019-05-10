@@ -42,6 +42,9 @@ namespace AttackSurfaceAnalyzer
         [Option(HelpText = "Base name of output file", Default = "output")]
         public string OutputBaseFilename { get; set; }
 
+        [Option(HelpText = "Show debug logging statements.")]
+        public bool Debug { get; set; }
+
         [Option(Default = false, HelpText = "Increase logging verbosity")]
         public bool Verbose { get; set; }
 
@@ -64,6 +67,9 @@ namespace AttackSurfaceAnalyzer
         [Option(HelpText = "Exploded output")]
         public bool ExplodedOutput { get; set; }
 
+        [Option(HelpText = "Show debug logging statements.")]
+        public bool Debug { get; set; }
+
         [Option(Default = false, HelpText = "Increase logging verbosity")]
         public bool Verbose { get; set; }
 
@@ -79,6 +85,9 @@ namespace AttackSurfaceAnalyzer
 
         [Option(HelpText = "Directory to output to", Default = ".")]
         public string OutputPath { get; set; }
+
+        [Option(HelpText = "Show debug logging statements.")]
+        public bool Debug { get; set; }
 
         [Option(Default = false, HelpText = "Increase logging verbosity")]
         public bool Verbose { get; set; }
@@ -120,7 +129,7 @@ namespace AttackSurfaceAnalyzer
         [Option("filter", Required = false, HelpText = "Provide a JSON filter file.", Default = "Use embedded filters.")]
         public string FilterLocation { get; set; }
 
-        [Option(HelpText = "Disables the embedded filters.")]
+        [Option("no-filters",HelpText = "Disables the embedded filters.")]
         public bool NoFilters { get; set; }
 
         [Option('h',"gather-hashes", Required = false, HelpText = "Hashes every file when using the File Collector.  May dramatically increase run time of the scan.")]
@@ -132,7 +141,10 @@ namespace AttackSurfaceAnalyzer
         [Option(HelpText ="If the specified runid already exists delete all data from that run before proceeding.")]
         public bool Overwrite { get; set; }
 
-        [Option(HelpText = "Increase logging verbosity")]
+        [Option(HelpText = "Show debug logging statements.")]
+        public bool Debug { get; set; }
+
+        [Option(HelpText = "See all logging statements.")]
         public bool Verbose { get; set; }
     }
     [Verb("monitor", HelpText = "Continue running and monitor activity")]
@@ -415,7 +427,7 @@ namespace AttackSurfaceAnalyzer
 #if DEBUG
             Logger.Setup(true, opts.Verbose);
 #else
-            Logger.Setup(false, opts.Verbose);
+            Logger.Setup(opts.Debug, opts.Verbose);
 #endif
 
             Log.Debug("{0} RunExportCollectCommand", Strings.Get("Begin"));
@@ -666,7 +678,7 @@ namespace AttackSurfaceAnalyzer
 #if DEBUG
             Logger.Setup(true, opts.Verbose);
 #else
-            Logger.Setup(false, opts.Verbose);
+            Logger.Setup(opts.Debug, opts.Verbose);
 #endif
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
             DatabaseManager.Setup();
@@ -749,7 +761,7 @@ namespace AttackSurfaceAnalyzer
 #if DEBUG
             Logger.Setup(true, opts.Verbose);
 #else
-            Logger.Setup(false, opts.Verbose);
+            Logger.Setup(opts.Debug, opts.Verbose);
 #endif
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
             DatabaseManager.Setup();
@@ -1221,7 +1233,7 @@ namespace AttackSurfaceAnalyzer
 #if DEBUG
             Logger.Setup(true, opts.Verbose);
 #else
-            Logger.Setup(false, opts.Verbose);
+            Logger.Setup(opts.Debug, opts.Verbose);
 #endif
             AdminOrQuit();
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
@@ -1442,7 +1454,7 @@ namespace AttackSurfaceAnalyzer
 #if DEBUG
             Logger.Setup(true, opts.Verbose);
 #else
-            Logger.Setup(false, opts.Verbose);
+            Logger.Setup(opts.Debug, opts.Verbose);
 #endif
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
             DatabaseManager.Setup();
