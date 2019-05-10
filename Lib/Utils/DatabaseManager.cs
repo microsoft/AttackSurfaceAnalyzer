@@ -65,11 +65,14 @@ namespace AttackSurfaceAnalyzer.Utils
         private static readonly string SQL_TRUNCATE_PORTS = "delete from network_ports where run_id = @run_id";
         private static readonly string SQL_TRUNCATE_FILES_MONITORED = "delete from file_system_monitored where run_id=@run_id";
         private static readonly string SQL_TRUNCATE_RUN = "delete from runs where run_id=@run_id";
+        private static readonly string SQL_TRUNCATE_RESULTS = "delete from results where base_run_id=@run_id or compare_run_id=@run_id";
 
         private static readonly string SQL_SELECT_LATEST_N_RUNS = "select run_id from runs where type = @type order by timestamp desc limit 0,@limit;";
 
         private static readonly string SQL_GET_SCHEMA_VERSION = "select value from persisted_settings where setting = 'schema_version' limit 0,1";
         private static readonly string SQL_GET_NUM_RESULTS = "select count(*) as the_count from @table_name where run_id = @run_id";
+
+        private static readonly string PRAGMA_AUTOVACUUM = "PRAGMA AUTO_VACUUM=true";
 
         private static readonly string SCHEMA_VERSION = "1";
 
@@ -90,6 +93,9 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 using (var cmd = new SqliteCommand(SQL_CREATE_RUNS, DatabaseManager.Connection, DatabaseManager.Transaction))
                 {
+                    cmd.ExecuteNonQuery();
+
+                    cmd.CommandText = PRAGMA_AUTOVACUUM;
                     cmd.ExecuteNonQuery();
 
                     cmd.CommandText = SQL_CREATE_FILE_MONITORED;
@@ -382,6 +388,12 @@ namespace AttackSurfaceAnalyzer.Utils
                         }
                         else
                         {
+                            using (var inner_cmd = new SqliteCommand(SQL_TRUNCATE_RESULTS, DatabaseManager.Connection, DatabaseManager.Transaction))
+                            {
+                                inner_cmd.Parameters.AddWithValue("@run_id", runid);
+                                inner_cmd.ExecuteNonQuery();
+                            }
+
                             if ((int.Parse(reader["file_system"].ToString()) != 0))
                             {
                                 using (var inner_cmd = new SqliteCommand(SQL_TRUNCATE_FILES, DatabaseManager.Connection, DatabaseManager.Transaction))
