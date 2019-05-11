@@ -12,10 +12,10 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
     public class RegistryObject
     {
 
-        public string Key = "";
+        public string Key;
         public Dictionary<string, string> Values = new Dictionary<string, string>();
         public List<string> Subkeys = new List<string>();
-        public string Permissions = "";
+        public string Permissions;
 
         private static List<string> GetSubkeys(RegistryKey key)
         {
@@ -69,7 +69,6 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
             this.Key = Key.Name;
             this.Values = GetValues(Key);
             this.Subkeys = GetSubkeys(Key);
-            this.Permissions = "";
             try
             {
                 Permissions = Key.GetAccessControl().GetSecurityDescriptorSddlForm(AccessControlSections.All);
