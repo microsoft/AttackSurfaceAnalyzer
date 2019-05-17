@@ -1,6 +1,14 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 "use strict"
+
+if (isIE()) {
+    $("#IeWarning").show();
+}
+else {
+    $("#IeWarning").remove();
+}
+
 function appendDebugMessage(message, remote) {
     $("#debug").add("<div>").html((remote ? "Service: " : "Local: ") + message);
 }
@@ -59,3 +67,18 @@ function runStatusToString(runStatus) {
 var l = function (string) {
     return string.toLocaleString();
 };
+
+function isIE() {
+    var ua = window.navigator.userAgent;
+
+    var msie = ua.indexOf('MSIE ');
+    var trident = ua.indexOf('Trident/');
+    var edge = ua.indexOf('Edge/');
+
+    if (msie > 0 || trident > 0 || edge > 0) {
+        return true
+    }
+
+    return false;
+}
+

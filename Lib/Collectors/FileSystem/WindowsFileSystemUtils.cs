@@ -103,6 +103,11 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 {
                     Log.Verbose("Invalid operation exception {0}.", fileInfo.FullName);
                 }
+                catch (Exception e)
+                {
+                    Log.Debug("Exception {0}: {1}", e.GetType().ToString(), fileInfo.FullName);
+                    Log.Debug(e.StackTrace);
+                }
             }
             else if (fileInfo is DirectoryInfo)
             {
@@ -117,6 +122,11 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 catch (InvalidOperationException)
                 {
                     Log.Verbose("Invalid operation exception {0}.", fileInfo.FullName);
+                }
+                catch (Exception e)
+                {
+                    Log.Debug("Exception {0}: {1}", e.GetType().ToString(), fileInfo.FullName);
+                    Log.Debug(e.StackTrace);
                 }
             }
             else
