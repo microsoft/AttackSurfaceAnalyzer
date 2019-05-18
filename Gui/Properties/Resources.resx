@@ -363,4 +363,7 @@
   <data name="Found" xml:space="preserve">
     <value>Found</value>
   </data>
+  <data name="IeWarning" xml:space="preserve">
+    <value>Attack Surface Analyzer GUI may not be compatible with your browser.</value>
+  </data>
 </root>

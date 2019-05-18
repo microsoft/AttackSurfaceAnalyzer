@@ -93,7 +93,15 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 catch (UnauthorizedAccessException)
                 {
                     Log.Verbose(Strings.Get("Err_AccessControl"), fileInfo.FullName);
-                    //Log.Debug(ex.StackTrace);
+                }
+                catch (InvalidOperationException)
+                {
+                    Log.Verbose("Invalid operation exception {0}.", fileInfo.FullName);
+                }
+                catch (Exception e)
+                {
+                    Log.Debug("Exception {0}: {1}", e.GetType().ToString(), fileInfo.FullName);
+                    Log.Debug(e.StackTrace);
                 }
             }
             else if (fileInfo is DirectoryInfo)
@@ -105,8 +113,15 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 catch (UnauthorizedAccessException)
                 {
                     Log.Verbose(Strings.Get("Err_AccessControl"), fileInfo.FullName);
-                    //Log.Debug(ex.StackTrace);
-
+                }
+                catch (InvalidOperationException)
+                {
+                    Log.Verbose("Invalid operation exception {0}.", fileInfo.FullName);
+                }
+                catch (Exception e)
+                {
+                    Log.Debug("Exception {0}: {1}", e.GetType().ToString(), fileInfo.FullName);
+                    Log.Debug(e.StackTrace);
                 }
             }
             else
