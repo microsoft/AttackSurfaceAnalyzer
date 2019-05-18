@@ -127,7 +127,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
                     cmd.CommandText = SQL_CREATE_DEFAULT_SETTINGS;
                     cmd.Parameters.AddWithValue("@schema_version", SCHEMA_VERSION);
-                    _firstRun &= cmd.ExecuteNonQuery() != 0;                
+                    _firstRun &= cmd.ExecuteNonQuery() != 0;        
 
                     cmd.CommandText = SQL_CREATE_FILE_SYSTEM_INDEX;
                     cmd.ExecuteNonQuery();
