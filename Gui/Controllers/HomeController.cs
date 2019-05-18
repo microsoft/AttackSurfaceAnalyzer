@@ -325,15 +325,18 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         public ActionResult StartCollection(string Id, bool File, bool Port, bool Service, bool User, bool Registry, bool Certificates)
         {
-            CollectCommandOptions opts = new CollectCommandOptions();
-            opts.RunId = Id.Trim();
-            opts.EnableFileSystemCollector = File;
-            opts.EnableNetworkPortCollector = Port;
-            opts.EnableServiceCollector = Service;
-            opts.EnableRegistryCollector = Registry;
-            opts.EnableUserCollector = User;
-            opts.EnableCertificateCollector = Certificates;
-            opts.DatabaseFilename = "asa.sqlite";
+            CollectCommandOptions opts = new CollectCommandOptions
+            {
+                RunId = Id.Trim(),
+                EnableFileSystemCollector = File,
+                EnableNetworkPortCollector = Port,
+                EnableServiceCollector = Service,
+                EnableCertificateCollector = Certificates,
+                EnableRegistryCollector = Registry,
+                EnableUserCollector = User,
+                FilterLocation = "Use embedded filters.",
+                DatabaseFilename = "asa.sqlite"
+            };
 
             Dictionary<string, bool> dict = new Dictionary<string, bool>();
             foreach (BaseCollector c in AttackSurfaceAnalyzerCLI.GetCollectors())
@@ -408,7 +411,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 RunId = RunId,
                 EnableFileSystemMonitor = true,
                 MonitoredDirectories = Directory,
-                FilterLocation = "filters.json"
+                DatabaseFilename = "asa.sqlite"
             };
             AttackSurfaceAnalyzerCLI.ClearMonitors();
             return Json((int)AttackSurfaceAnalyzerCLI.RunGuiMonitorCommand(opts));

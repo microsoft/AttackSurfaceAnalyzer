@@ -41,7 +41,7 @@ namespace AttackSurfaceAnalyzer.Gui
         {
             DatabaseManager.Setup();
             Logger.Setup();
-            Telemetry.Setup(true);
+            Telemetry.Setup(Gui:true);
 
             if (env.IsDevelopment())
             {

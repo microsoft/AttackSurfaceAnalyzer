@@ -1138,7 +1138,7 @@ namespace AttackSurfaceAnalyzer
             {
                 if (!Elevation.IsAdministrator())
                 {
-                    Log.Warning(Strings.Get("Err_RunAsAdmin"));
+                    Log.Fatal(Strings.Get("Err_RunAsAdmin"));
                     Environment.Exit(1);
                 }
             }
@@ -1167,6 +1167,7 @@ namespace AttackSurfaceAnalyzer
 #else
             Logger.Setup(false, opts.Verbose);
 #endif
+            DatabaseManager.SqliteFilename = opts.DatabaseFilename;
             int returnValue = (int)ERRORS.NONE;
             AdminOrQuit();
             DatabaseManager.VerifySchemaVersion();
@@ -1179,8 +1180,7 @@ namespace AttackSurfaceAnalyzer
             StartEvent.Add("Registry", opts.EnableAllCollectors ? "True" : opts.EnableRegistryCollector.ToString());
             StartEvent.Add("Service", opts.EnableAllCollectors ? "True" : opts.EnableServiceCollector.ToString());
             Telemetry.TrackEvent("Run Command", StartEvent);
-
-
+            
             if (opts.RunId.Equals("Timestamp"))
             {
                 opts.RunId = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -1223,7 +1223,7 @@ namespace AttackSurfaceAnalyzer
                 Log.Warning(Strings.Get("Err_NoCollectors"));
                 return -1;
             }
-            Log.Information(opts.FilterLocation);
+
             if (!opts.NoFilters)
             {
                 if (opts.FilterLocation.Equals("Use embedded filters."))
@@ -1235,7 +1235,7 @@ namespace AttackSurfaceAnalyzer
                     Filter.LoadFilters(opts.FilterLocation);
                 }
             }
-            DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+            Console.WriteLine("After Filters Loaded");
 
             if (opts.Overwrite)
             {
@@ -1243,7 +1243,7 @@ namespace AttackSurfaceAnalyzer
             }
             else
             {
-                var cmd = new SqliteCommand(SQL_GET_RUN, DatabaseManager.Connection);
+                var cmd = new SqliteCommand(SQL_GET_RUN, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.Parameters.AddWithValue("@run_id", opts.RunId);
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -1256,7 +1256,7 @@ namespace AttackSurfaceAnalyzer
             }
 
             Log.Information("{0} {1}", Strings.Get("Begin"), opts.RunId);
-
+            Console.WriteLine("After Begin String");
             string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, type, timestamp, version) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @type, @timestamp, @version)";
 
             using (var cmd = new SqliteCommand(INSERT_RUN, DatabaseManager.Connection, DatabaseManager.Transaction))
@@ -1317,7 +1317,6 @@ namespace AttackSurfaceAnalyzer
                 }
             }
             Log.Information("{0} {1} {2}", Strings.Get("Starting"), collectors.Count.ToString(), Strings.Get("Collectors"));
-
             Dictionary<string, string> EndEvent = new Dictionary<string, string>();
             foreach (BaseCollector c in collectors)
             {

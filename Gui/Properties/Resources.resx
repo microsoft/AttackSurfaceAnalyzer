@@ -366,4 +366,7 @@
   <data name="IeWarning" xml:space="preserve">
     <value>Attack Surface Analyzer GUI may not be compatible with your browser.</value>
   </data>
+  <data name="LoadedFilters" xml:space="preserve">
+    <value>Loaded filters:</value>
+  </data>
 </root>
