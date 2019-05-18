@@ -1,8 +1,8 @@
-﻿# Attack Surface Analyzer 
+# Attack Surface Analyzer 
 
 ## Version 2.1
 
-Attack Surface Analyzer was first released for the general audience starting in version 2.0 (see [Release\v2.0](https://github.com/Microsoft/AttackSurfaceAnalyzer/tree/release/v2.0)).  The master branch tracks continuing development and is innapropriate for production use. To obtain the latest official release, click [here](https://github.com/Microsoft/AttackSurfaceAnalyzer/releases/latest).
+Attack Surface Analyzer was first released for the general audience starting in version 2.0 (see [Release\v2.0](https://github.com/Microsoft/AttackSurfaceAnalyzer/tree/release/v2.0)).  The master branch tracks continuing development and is inappropriate for production use. To obtain the latest official release, click [here](https://github.com/Microsoft/AttackSurfaceAnalyzer/releases/latest).
 
 ## Overview
 
@@ -10,7 +10,7 @@ Attack Surface Analyzer is a Microsoft-developed open source security tool that 
 surface of a target system and reports on potential security vulnerabilities introduced during
 the installation of software or system misconfiguration. 
 
-Attack Surface Analyzer 2.0 replaces the original [Attack Surface Analzyer](https://www.microsoft.com/en-us/download/details.aspx?id=24487) tool, released publicly in 2012.
+Attack Surface Analyzer 2.0 replaces the original [Attack Surface Analyzer](https://www.microsoft.com/en-us/download/details.aspx?id=24487) tool, released publicly in 2012.
 
 Potential users of Attack Surface Analyzer include:
 
@@ -56,7 +56,7 @@ If you have feedback on these or other features, please
 
 ## Installation
 
-Attack Surface Analzyer runs on Windows, Linux, and MacOS, and is built using [.NET Core](https://dotnet.microsoft.com/). It has both a command-line interface and [ElectronNET](https://github.com/ElectronNET/Electron.NET) GUI option available. Neither version currently has an installer.
+Attack Surface Analyzer runs on Windows, Linux, and MacOS, and is built using [.NET Core](https://dotnet.microsoft.com/). It has both a command-line interface and [ElectronNET](https://github.com/ElectronNET/Electron.NET) GUI option available. Neither version currently has an installer.
 
 Packages are available on our [releases](https://github.com/Microsoft/AttackSurfaceAnalyzer/releases) page as compressed archives.
 
