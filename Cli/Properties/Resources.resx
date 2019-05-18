@@ -121,7 +121,7 @@
     <value>Attack Surface Analyzer is not running as Administrator/Root and cannot run collections.</value>
   </data>
   <data name="Begin" xml:space="preserve">
-    <value>Begin</value>
+    <value>Begin {0}.</value>
   </data>
   <data name="Comparing" xml:space="preserve">
     <value>Comparing {0} vs {1}.</value>
@@ -133,7 +133,7 @@
     <value>Done writing!</value>
   </data>
   <data name="End" xml:space="preserve">
-    <value>End</value>
+    <value>End {0}.</value>
   </data>
   <data name="EnumeratingCollectRunIds" xml:space="preserve">
     <value>Enumerating Collect Run Ids</value>
@@ -373,7 +373,7 @@
     <value>Could not parse</value>
   </data>
   <data name="LoadedFilters" xml:space="preserve">
-    <value>Loaded filters:</value>
+    <value>Loaded filters: {0}</value>
   </data>
   <data name="Modified" xml:space="preserve">
     <value>Modified</value>
@@ -434,5 +434,8 @@
   </data>
   <data name="FoundModified" xml:space="preserve">
     <value>Found {0} modified.</value>
+  </data>
+  <data name="StartingN" xml:space="preserve">
+    <value>Starting {0} {1}.</value>
   </data>
 </root>

@@ -142,7 +142,7 @@ namespace AttackSurfaceAnalyzer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Begin.
+        ///   Looks up a localized string similar to Begin {0}..
         /// </summary>
         public static string Begin {
             get {
@@ -340,7 +340,7 @@ namespace AttackSurfaceAnalyzer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to End.
+        ///   Looks up a localized string similar to End {0}..
         /// </summary>
         public static string End {
             get {
@@ -619,7 +619,7 @@ namespace AttackSurfaceAnalyzer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Loaded filters:.
+        ///   Looks up a localized string similar to Loaded filters: {0}.
         /// </summary>
         public static string LoadedFilters {
             get {
@@ -885,6 +885,15 @@ namespace AttackSurfaceAnalyzer.Properties {
         public static string Starting {
             get {
                 return ResourceManager.GetString("Starting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Starting {0} {1}..
+        /// </summary>
+        public static string StartingN {
+            get {
+                return ResourceManager.GetString("StartingN", resourceCulture);
             }
         }
         

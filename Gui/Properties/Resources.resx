@@ -121,7 +121,7 @@
     <value>Attack Surface Analyzer is not running as Administrator/Root and cannot run collections.</value>
   </data>
   <data name="Begin" xml:space="preserve">
-    <value>Begin</value>
+    <value>Begin {0}.</value>
   </data>
   <data name="Comparing" xml:space="preserve">
     <value>Comparing</value>
@@ -133,7 +133,7 @@
     <value>Done writing!</value>
   </data>
   <data name="End" xml:space="preserve">
-    <value>End</value>
+    <value>End {0}.</value>
   </data>
   <data name="EnumeratingCollectRunIds" xml:space="preserve">
     <value>Enumerating Collect Run Ids</value>
@@ -362,5 +362,8 @@
   </data>
   <data name="IeWarning" xml:space="preserve">
     <value>Attack Surface Analyzer GUI may not be compatible with your browser.</value>
+  </data>
+  <data name="StartingN" xml:space="preserve">
+    <value>Starting {0} {1}.</value>
   </data>
 </root>

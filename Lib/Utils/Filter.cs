@@ -175,7 +175,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 using (JsonTextReader reader = new JsonTextReader(streamreader))
                 {
                     config = (JObject)JToken.ReadFrom(reader);
-                    Log.Information("{0} {1}", Strings.Get("LoadedFilters"), "Embedded");
+                    Log.Information(Strings.Get("LoadedFilters"), "Embedded");
                     DumpFilters();
                 }
                 if (config == null)
@@ -209,7 +209,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 using (JsonTextReader reader = new JsonTextReader(file))
                 {
                     config = (JObject)JToken.ReadFrom(reader);
-                    Log.Information("{0} {1}",Strings.Get("LoadedFilters"), filterLoc);
+                    Log.Information(Strings.Get("LoadedFilters"), filterLoc);
                     DumpFilters();
                 }
                 if (config == null)
