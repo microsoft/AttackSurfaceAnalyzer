@@ -1,46 +1,63 @@
-AttackSurfaceAnalyzerCli.exe collect -a
-AttackSurfaceAnalyzerCli.exe export-collect --outputpath output --explodedoutput
-AttackSurfaceAnalyzerCli.exe config --trim-to-latest
+$wd = pwd
 
-cd output
+if (-not (Test-Path ~\stage) ){
+    New-Item -Path ~\stage -ItemType "directory"
+}
+if (-not (Test-Path ~\stage\output) ){
+    New-Item -Path ~\stage\output -ItemType "directory"
+}
+if (-not (Test-Path ~\stage\ingested) ){
+    New-Item -Path ~\stage\ingested -ItemType "directory"
+}
+cd ~\stage
 
-$p = Get-Content ~/CREDENTIAL
-$u = Get-Content ~/USER
+~\AsaCli\res\AttackSurfaceAnalyzerCli.exe collect -a --no-filters --debug
+~\AsaCli\res\AttackSurfaceAnalyzerCli.exe export-collect --outputpath output --explodedoutput
+~\AsaCli\res\AttackSurfaceAnalyzerCli.exe config --trim-to-latest
+
+
+
+$p = Get-Content ~/CREDENTIAL.txt
+$u = Get-Content ~/USER.txt
 $c = "windows"
-
 
 $files = @()
 $registry = @()
 
-
-Get-ChildItem -Recurse -Directory | ForEach-Object {
-    $dir = $_
+Get-ChildItem -Recurse -Directory output | ForEach-Object {
+    $dir = $_.FullName
     Get-ChildItem -File -Filter files_* $dir | ForEach-Object{
         if ( $(Get-content $_.FullName | Measure-Object -Line).Lines -gt 1){
             Get-Content $_.FullName | Select-String -SimpleMatch -Pattern "`"Path`"" | ForEach-Object{
                 $a = $_.Line.Split('`"')[3]
-                $files += "INSERT INTO FILES (Path) VALUES (`"$a`");"
+                $files += "$a"
             }
         }
     }
-    
-    Get-ChildItem -File -Filter registry_* $_ | ForEach-Object{
+    $files = $files | sort -unique
+
+    Add-Content ~\files.txt $files
+
+    Get-ChildItem -File -Filter registry_* $dir | ForEach-Object{
         if ( $(Get-content $_.FullName | Measure-Object -Line).Lines -gt 1){
             Get-Content $_.FullName | Select-String -SimpleMatch -Pattern "`"Key`"" | ForEach-Object{
                 $a = $_.Line.Split('`"')[3]
-                $registry += "INSERT INTO REGISTRY (Key) VALUES (`"$a`");"
+                $registry += "$a"
             }
         }
     }
+
+    $registry = $registry | sort -unique
+    Add-Content ~\registry.txt $registry
+
+    $registry=@()
+    $files=@()
+
+    Move-Item -Path $dir -Destination ~\stage\ingested\
 }
-# Dedupe modified results which report the path twice
-$files = $files | sort -unique
-$registry = $registry | sort -unique
 
-Add-Content data.sql $files
-Add-Content data.sql $registry
+C:\Program` Files\Microsoft` SQL` Server\Client` SDK\ODBC\110\Tools\Binn\bcp.exe windows_files in ~\files.txt -S asa-noise-2.database.windows.net -d asa-noise -U $u -P $p -q -c -t
+C:\Program` Files\Microsoft` SQL` Server\Client` SDK\ODBC\110\Tools\Binn\bcp.exe registry in ~\registry.txt -S asa-noise-2.database.windows.net -d asa-noise -U $u -P $p -q -c -t
 
-Get-Content data.sql | "C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe" -h asa-noise-2.database.windows.net -u $u -p $p asa-noise 
-del data.sql
-
-cd ..
+del C:\users\noise\files.txt
+del C:\users\noise\registry.txt
