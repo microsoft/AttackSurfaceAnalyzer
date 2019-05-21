@@ -1,6 +1,4 @@
-﻿exit
-
-$wd = pwd
+﻿$wd = pwd
 
 if (-not (Test-Path ~\stage) ){
     New-Item -Path ~\stage -ItemType "directory"
