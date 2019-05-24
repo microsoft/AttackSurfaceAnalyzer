@@ -69,7 +69,7 @@ namespace AttackSurfaceAnalyzer.Utils
         private static readonly string SQL_GET_SCHEMA_VERSION = "select value from persisted_settings where setting = 'schema_version' limit 0,1";
         private static readonly string SQL_GET_NUM_RESULTS = "select count(*) as the_count from @table_name where run_id = @run_id";
 
-        private static readonly string PRAGMA_AUTOVACUUM = "PRAGMA auto-vacuum=FULL";
+        private static readonly string PRAGMAS = "PRAGMA main.auto_vacuum = 1; PRAGMA main.journal_mode = 0; PRAGMA main.temp_store = 0;";
 
         private static readonly string SCHEMA_VERSION = "1";
 
@@ -92,7 +92,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     cmd.ExecuteNonQuery();
 
-                    cmd.CommandText = PRAGMA_AUTOVACUUM;
+                    cmd.CommandText = PRAGMAS;
                     cmd.ExecuteNonQuery();
 
                     cmd.CommandText = SQL_CREATE_FILE_MONITORED;
