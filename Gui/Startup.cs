@@ -75,7 +75,9 @@ namespace AttackSurfaceAnalyzer.Gui
 #else
             browserWindowOptions.AutoHideMenuBar = true;
 #endif
-
+            browserWindowOptions.WebPreferences = new WebPreferences();
+            browserWindowOptions.WebPreferences.NodeIntegration = false;
+            browserWindowOptions.WebPreferences.ContextIsolation = true;
             Task.Run(async () =>
             {
                 await Electron.WindowManager.CreateWindowAsync(browserWindowOptions);
