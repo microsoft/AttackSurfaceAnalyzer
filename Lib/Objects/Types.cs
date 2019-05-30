@@ -34,7 +34,9 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
     {
         NONE,
         UNIQUE_ID,
-        INVALID_PATH
+        INVALID_PATH,
+        ALREADY_RUNNING,
+        NO_COLLECTORS
     }
 
     public enum DLLCHARACTERISTICS

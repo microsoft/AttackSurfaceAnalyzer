@@ -69,7 +69,7 @@ namespace AttackSurfaceAnalyzer.Utils
         private static readonly string SQL_GET_SCHEMA_VERSION = "select value from persisted_settings where setting = 'schema_version' limit 0,1";
         private static readonly string SQL_GET_NUM_RESULTS = "select count(*) as the_count from @table_name where run_id = @run_id";
 
-        private static readonly string PRAGMAS = "PRAGMA main.auto_vacuum = 1; PRAGMA main.journal_mode = 0; PRAGMA main.temp_store = 0;";
+        private static readonly string PRAGMAS = "PRAGMA main.auto_vacuum = 1;";
 
         private static readonly string SCHEMA_VERSION = "1";
 
@@ -82,9 +82,11 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static bool Setup()
         {
+            Log.Warning("Before Conn Check");
             if (Connection == null)
             {
-                Log.Debug("Starting database setup");
+                Log.Warning("After Conn Check");
+
                 Connection = new SqliteConnection($"Filename=" + _SqliteFilename);
                 Connection.Open();
 
@@ -93,7 +95,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     cmd.ExecuteNonQuery();
 
                     cmd.CommandText = PRAGMAS;
-                    cmd.ExecuteNonQuery();
+                    //cmd.ExecuteNonQuery();
 
                     cmd.CommandText = SQL_CREATE_FILE_MONITORED;
                     cmd.ExecuteNonQuery();
@@ -196,11 +198,11 @@ namespace AttackSurfaceAnalyzer.Utils
                     cmd.ExecuteNonQuery();
                 }
 
-                DatabaseManager.Transaction.Commit();
-                _transaction = null;
-                Log.Debug("Done with database setup");
+                Console.WriteLine("Set up database.");
+                Commit();
                 return true;
             }
+            Log.Warning("Failed to set up database");
             return false;
         }
 
@@ -211,7 +213,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void VerifySchemaVersion()
         {
-            using (var cmd = new SqliteCommand(SQL_GET_SCHEMA_VERSION, DatabaseManager.Connection))
+            using (var cmd = new SqliteCommand(SQL_GET_SCHEMA_VERSION, DatabaseManager.Connection, DatabaseManager.Transaction))
                 using (var reader = cmd.ExecuteReader())
                 {
                     reader.Read();

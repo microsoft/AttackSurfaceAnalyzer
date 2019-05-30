@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Collections.Generic;
-using System.Text;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Data.Sqlite;
 using Microsoft.ApplicationInsights.DataContracts;
+using Serilog;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -19,23 +18,26 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void Setup(bool Gui)
         {
-            using (var cmd = new SqliteCommand(CHECK_TELEMETRY, DatabaseManager.Connection))
+            if (Client == null)
             {
-                using (var reader = cmd.ExecuteReader())
+                using (var cmd = new SqliteCommand(CHECK_TELEMETRY, DatabaseManager.Connection))
                 {
-                    while (reader.Read())
+                    using (var reader = cmd.ExecuteReader())
                     {
-                        TelemetryConfiguration.Active.DisableTelemetry = bool.Parse(reader["value"].ToString());
+                        while (reader.Read())
+                        {
+                            TelemetryConfiguration.Active.DisableTelemetry = bool.Parse(reader["value"].ToString());
+                        }
                     }
                 }
+                TelemetryConfiguration.Active.InstrumentationKey = "719e5a56-dae8-425f-be07-877db7ae4d3b";
+                Client = new TelemetryClient();
+                Client.Context.Component.Version = Helpers.GetVersionString();
+                // Force some values to static values to prevent gathering unneeded data
+                Client.Context.Cloud.RoleInstance = (Gui) ? "GUI" : "CLI";
+                Client.Context.Cloud.RoleName = (Gui) ? "GUI" : "CLI";
+                Client.Context.Location.Ip = "1.1.1.1";
             }
-            TelemetryConfiguration.Active.InstrumentationKey = "719e5a56-dae8-425f-be07-877db7ae4d3b";
-            Client =  new TelemetryClient();
-            Client.Context.Component.Version = Helpers.GetVersionString();
-            // Force some values to static values to prevent gathering unneeded data
-            Client.Context.Cloud.RoleInstance = (Gui) ? "GUI" : "CLI";
-            Client.Context.Cloud.RoleName = (Gui) ? "GUI" : "CLI";
-            Client.Context.Location.Ip = "1.1.1.1";
         }
 
         public static void Flush()

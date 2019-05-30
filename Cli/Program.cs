@@ -1213,7 +1213,7 @@ namespace AttackSurfaceAnalyzer
             {
                 if (!Elevation.IsAdministrator())
                 {
-                    Log.Warning(Strings.Get("Err_RunAsAdmin"));
+                    Log.Fatal(Strings.Get("Err_RunAsAdmin"));
                     Environment.Exit(1);
                 }
             }
@@ -1248,7 +1248,7 @@ namespace AttackSurfaceAnalyzer
             CheckFirstRun();
             Telemetry.Setup(Gui: false);
             DatabaseManager.VerifySchemaVersion();
-
+            Log.Warning("Schema Verified");
             int returnValue = (int)ERRORS.NONE;
             opts.RunId = opts.RunId.Trim();
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
@@ -1259,11 +1259,11 @@ namespace AttackSurfaceAnalyzer
             StartEvent.Add("Registry", opts.EnableAllCollectors ? "True" : opts.EnableRegistryCollector.ToString());
             StartEvent.Add("Service", opts.EnableAllCollectors ? "True" : opts.EnableServiceCollector.ToString());
             Telemetry.TrackEvent("Run Command", StartEvent);
-
+            Log.Warning("1");
 
             if (opts.RunId.Equals("Timestamp"))
             {
-                opts.RunId = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                opts.RunId = DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss");
             }
 
             if (opts.EnableFileSystemCollector || opts.EnableAllCollectors)
@@ -1297,13 +1297,14 @@ namespace AttackSurfaceAnalyzer
             {
                 collectors.Add(new CertificateCollector(opts.RunId));
             }
-
+            
             if (collectors.Count == 0)
             {
                 Log.Warning(Strings.Get("Err_NoCollectors"));
-                return -1;
+                return (int)ERRORS.NO_COLLECTORS;
             }
-            Log.Information(opts.FilterLocation);
+            Log.Warning("2");
+
             if (!opts.NoFilters)
             {
                 if (opts.FilterLocation.Equals("Use embedded filters."))
@@ -1315,6 +1316,7 @@ namespace AttackSurfaceAnalyzer
                     Filter.LoadFilters(opts.FilterLocation);
                 }
             }
+            Log.Warning("3");
 
             if (opts.Overwrite)
             {
@@ -1333,7 +1335,6 @@ namespace AttackSurfaceAnalyzer
                     }
                 }
             }
-
             Log.Information(Strings.Get("Begin"), opts.RunId);
 
             string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, type, timestamp, version) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @type, @timestamp, @version)";
@@ -1412,7 +1413,6 @@ namespace AttackSurfaceAnalyzer
                 }
                 Log.Information(Strings.Get("End"), c.GetType().Name);
             }
-
             Telemetry.TrackEvent("End Command", EndEvent);
 
             DatabaseManager.Commit();

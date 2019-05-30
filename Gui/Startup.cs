@@ -39,9 +39,10 @@ namespace AttackSurfaceAnalyzer.Gui
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            DatabaseManager.SqliteFilename = "asa.sqlite";
             DatabaseManager.Setup();
             Logger.Setup();
-            Telemetry.Setup(true);
+            Telemetry.Setup(Gui:true);
 
             if (env.IsDevelopment())
             {
