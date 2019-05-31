@@ -999,7 +999,7 @@ namespace AttackSurfaceAnalyzer
         {
             string GET_SERIALIZED_RESULTS = "select * from runs where run_id = @run_id or run_id=@run_id_2";
             int count = 0;
-            var cmd = new SqliteCommand(GET_SERIALIZED_RESULTS, DatabaseManager.Connection);
+            var cmd = new SqliteCommand(GET_SERIALIZED_RESULTS, DatabaseManager.Connection, DatabaseManager.Transaction);
             cmd.Parameters.AddWithValue("@run_id", BaseRunId);
             cmd.Parameters.AddWithValue("@run_id", CompareRunId);
             using (var reader = cmd.ExecuteReader())
@@ -1237,18 +1237,17 @@ namespace AttackSurfaceAnalyzer
 
         public static int RunCollectCommand(CollectCommandOptions opts)
         {
-#if DEBUG
+//#if DEBUG
             Logger.Setup(true, opts.Verbose);
-#else
-            Logger.Setup(opts.Debug, opts.Verbose);
-#endif
+//#else
+//            Logger.Setup(opts.Debug, opts.Verbose);
+//#endif
             AdminOrQuit();
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
             DatabaseManager.Setup();
             CheckFirstRun();
             Telemetry.Setup(Gui: false);
             DatabaseManager.VerifySchemaVersion();
-            Log.Warning("Schema Verified");
             int returnValue = (int)ERRORS.NONE;
             opts.RunId = opts.RunId.Trim();
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
@@ -1259,7 +1258,6 @@ namespace AttackSurfaceAnalyzer
             StartEvent.Add("Registry", opts.EnableAllCollectors ? "True" : opts.EnableRegistryCollector.ToString());
             StartEvent.Add("Service", opts.EnableAllCollectors ? "True" : opts.EnableServiceCollector.ToString());
             Telemetry.TrackEvent("Run Command", StartEvent);
-            Log.Warning("1");
 
             if (opts.RunId.Equals("Timestamp"))
             {
@@ -1303,7 +1301,6 @@ namespace AttackSurfaceAnalyzer
                 Log.Warning(Strings.Get("Err_NoCollectors"));
                 return (int)ERRORS.NO_COLLECTORS;
             }
-            Log.Warning("2");
 
             if (!opts.NoFilters)
             {
@@ -1316,7 +1313,6 @@ namespace AttackSurfaceAnalyzer
                     Filter.LoadFilters(opts.FilterLocation);
                 }
             }
-            Log.Warning("3");
 
             if (opts.Overwrite)
             {
@@ -1324,7 +1320,7 @@ namespace AttackSurfaceAnalyzer
             }
             else
             {
-                var cmd = new SqliteCommand(SQL_GET_RUN, DatabaseManager.Connection);
+                var cmd = new SqliteCommand(SQL_GET_RUN, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.Parameters.AddWithValue("@run_id", opts.RunId);
                 using (var reader = cmd.ExecuteReader())
                 {

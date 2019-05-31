@@ -185,7 +185,6 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             catch (FileNotFoundException)
             {
-                //That's fine, we just don't have any filters to load
                 config = null;
                 Log.Debug("{0} is missing (filter configuration file)", "Embedded");
 
@@ -202,6 +201,7 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 config = null;
                 Log.Warning("Could not load filters {0} {1}", "Embedded", e.GetType().ToString());
+
                 return;
             }
         }

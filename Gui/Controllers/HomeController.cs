@@ -334,6 +334,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             opts.EnableUserCollector = User;
             opts.EnableCertificateCollector = Certificates;
             opts.DatabaseFilename = "asa.sqlite";
+            opts.FilterLocation = "Use embedded filters.";
 
             Dictionary<string, bool> dict = new Dictionary<string, bool>();
             foreach (BaseCollector c in AttackSurfaceAnalyzerCLI.GetCollectors())

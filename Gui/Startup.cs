@@ -42,7 +42,7 @@ namespace AttackSurfaceAnalyzer.Gui
             DatabaseManager.SqliteFilename = "asa.sqlite";
             DatabaseManager.Setup();
             Logger.Setup();
-            Telemetry.Setup(Gui:true);
+            Telemetry.Setup(Gui: true);
 
             if (env.IsDevelopment())
             {
@@ -65,20 +65,25 @@ namespace AttackSurfaceAnalyzer.Gui
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            BrowserWindowOptions browserWindowOptions = new BrowserWindowOptions();
-            browserWindowOptions.Width = 1200;
-            browserWindowOptions.Height = 1000;
-            browserWindowOptions.Resizable = true;
-            browserWindowOptions.Center = true;
-            browserWindowOptions.Title = string.Format("Attack Surface Analyzer v{0}",Helpers.GetVersionString());
+            WebPreferences wp = new WebPreferences();
+            wp.NodeIntegration = false;
+            wp.ContextIsolation = true;
+
+            BrowserWindowOptions browserWindowOptions = new BrowserWindowOptions
+            {
 #if DEBUG
-            browserWindowOptions.AutoHideMenuBar = false;
+                AutoHideMenuBar = false,
 #else
-            browserWindowOptions.AutoHideMenuBar = true;
+                AutoHideMenuBar = true,
 #endif
-            browserWindowOptions.WebPreferences = new WebPreferences();
-            browserWindowOptions.WebPreferences.NodeIntegration = false;
-            browserWindowOptions.WebPreferences.ContextIsolation = true;
+                Width = 1200,
+                Height = 1000,
+                Resizable = true,
+                Center = true,
+                Title = string.Format("Attack Surface Analyzer {0}", Helpers.GetVersionString()),
+                WebPreferences = wp
+            };
+
             Task.Run(async () =>
             {
                 await Electron.WindowManager.CreateWindowAsync(browserWindowOptions);
