@@ -1,10 +1,10 @@
 # Attack Surface Analyzer 
 
 ## Getting Attack Surface Analyzer
-To obtain the latest official release, click [here](https://github.com/Microsoft/AttackSurfaceAnalyzer/releases/latest).
+The latest release is available on [GitHub](https://github.com/Microsoft/AttackSurfaceAnalyzer/releases/latest).
 
 ## Note on Version
-The current version of Attack Surface Analyzer is 2.0 (see [Release\v2.0](https://github.com/Microsoft/AttackSurfaceAnalyzer/tree/release/v2.0)).  
+The latest released version of Attack Surface Analyzer is 2.0 (see [Release\v2.0](https://github.com/Microsoft/AttackSurfaceAnalyzer/tree/release/v2.0)).  
 You are currently viewing the master branch, which tracks continuing development and is not recommended for production use.
 
 ## Overview
