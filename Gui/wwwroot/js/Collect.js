@@ -56,7 +56,7 @@ function StartCollection()
         else
         {
             var monitor = { 
-                RunId: ($('#RunId').val() == "") ? $('#RunId').attr('placeholder') : $('#RunId').val(),
+                RunId: ($('#RunId').val() == "") ? $('#RunId').attr('placeholder') : encodeURIComponent($('#RunId').val()),
                 Directory: ($('#DirectoryPath').val() == "") ? $('#DirectoryPath').attr('placeholder'): $('#DirectoryPath').val(),
                 Extension:$('#extension').val()
             }
@@ -95,7 +95,7 @@ function StartCollection()
         {
 
             var collect = { 
-                Id: ($('#RunId').val()=="")?$('#RunId').attr('placeholder'):$('#RunId').val(),
+                Id: ($('#RunId').val() == "") ? $('#RunId').attr('placeholder') : encodeURIComponent($('#RunId').val()),
                 File:$('#enableFileCollector').is(":checked"),
                 Port:$('#enablePortCollector').is(":checked"),
                 Service:$('#enableServiceCollector').is(":checked"),

@@ -922,7 +922,7 @@ namespace AttackSurfaceAnalyzer
         {
             string GET_SERIALIZED_RESULTS = "select * from runs where run_id = @run_id or run_id=@run_id_2";
             int count = 0;
-            var cmd = new SqliteCommand(GET_SERIALIZED_RESULTS, DatabaseManager.Connection);
+            var cmd = new SqliteCommand(GET_SERIALIZED_RESULTS, DatabaseManager.Connection, DatabaseManager.Transaction);
             cmd.Parameters.AddWithValue("@run_id", BaseRunId);
             cmd.Parameters.AddWithValue("@run_id", CompareRunId);
             using (var reader = cmd.ExecuteReader())
@@ -1162,15 +1162,18 @@ namespace AttackSurfaceAnalyzer
 
         public static int RunCollectCommand(CollectCommandOptions opts)
         {
+            AdminOrQuit();
 #if DEBUG
             Logger.Setup(true, opts.Verbose);
 #else
             Logger.Setup(false, opts.Verbose);
 #endif
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
-            int returnValue = (int)ERRORS.NONE;
-            AdminOrQuit();
+            DatabaseManager.Setup();
+            Telemetry.Setup(Gui: false);
             DatabaseManager.VerifySchemaVersion();
+            int returnValue = (int)ERRORS.NONE;
+
             opts.RunId = opts.RunId.Trim();
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("Files", opts.EnableAllCollectors ? "True" : opts.EnableFileSystemCollector.ToString());
@@ -1180,10 +1183,10 @@ namespace AttackSurfaceAnalyzer
             StartEvent.Add("Registry", opts.EnableAllCollectors ? "True" : opts.EnableRegistryCollector.ToString());
             StartEvent.Add("Service", opts.EnableAllCollectors ? "True" : opts.EnableServiceCollector.ToString());
             Telemetry.TrackEvent("Run Command", StartEvent);
-            
+
             if (opts.RunId.Equals("Timestamp"))
             {
-                opts.RunId = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                opts.RunId = DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss");
             }
 
             if (opts.EnableFileSystemCollector || opts.EnableAllCollectors)
@@ -1217,11 +1220,11 @@ namespace AttackSurfaceAnalyzer
             {
                 collectors.Add(new CertificateCollector(opts.RunId));
             }
-
+            
             if (collectors.Count == 0)
             {
                 Log.Warning(Strings.Get("Err_NoCollectors"));
-                return -1;
+                return (int)ERRORS.NO_COLLECTORS;
             }
 
             if (!opts.NoFilters)
@@ -1255,8 +1258,8 @@ namespace AttackSurfaceAnalyzer
                 }
             }
 
-            Log.Information("{0} {1}", Strings.Get("Begin"), opts.RunId);
-            Console.WriteLine("After Begin String");
+            Log.Information(Strings.Get("Begin"), opts.RunId);
+
             string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, type, timestamp, version) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @type, @timestamp, @version)";
 
             using (var cmd = new SqliteCommand(INSERT_RUN, DatabaseManager.Connection, DatabaseManager.Transaction))
@@ -1330,9 +1333,7 @@ namespace AttackSurfaceAnalyzer
                     Log.Error(ex, "{0} {1}: {2} {3}", Strings.Get("Err_CollectingFrom"), c.GetType().Name, ex.Message, ex.StackTrace);
                     returnValue = 1;
                 }
-                Log.Information("{0}: {1}", Strings.Get("End"), c.GetType().Name);
             }
-
             Telemetry.TrackEvent("End Command", EndEvent);
 
             DatabaseManager.Commit();

@@ -33,7 +33,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             _running = RUN_STATUS.RUNNING;
             watch = System.Diagnostics.Stopwatch.StartNew();
 
-            Log.Information("{0} {1}.",Strings.Get("Starting"), this.GetType().Name);
+            Log.Information("{0} {1}.",Strings.Get("Begin"), this.GetType().Name);
         }
 
         public void Stop()
@@ -52,6 +52,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             EndEvent.Add("Duration", watch.ElapsedMilliseconds.ToString());
             EndEvent.Add("NumResults", _numCollected.ToString());
             Telemetry.TrackEvent("EndScanFunction", EndEvent);
+            Log.Information("{0}: {1}", Strings.Get("End"), c.GetType().Name);
         }
 
         public int NumCollected()

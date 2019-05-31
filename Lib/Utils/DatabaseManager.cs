@@ -71,6 +71,8 @@ namespace AttackSurfaceAnalyzer.Utils
         private static readonly string SQL_GET_SCHEMA_VERSION = "select value from persisted_settings where setting = 'schema_version' limit 0,1";
         private static readonly string SQL_GET_NUM_RESULTS = "select count(*) as the_count from @table_name where run_id = @run_id";
 
+        private static readonly string PRAGMAS = "PRAGMA main.auto_vacuum = 1;";
+
         private static readonly string SCHEMA_VERSION = "1";
 
         public static SqliteConnection Connection;
@@ -82,14 +84,19 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static bool Setup()
         {
+            Log.Warning("Before Conn Check");
             if (Connection == null)
             {
-                Log.Debug("Starting database setup");
+                Log.Warning("After Conn Check");
+
                 Connection = new SqliteConnection($"Filename=" + _SqliteFilename);
                 Connection.Open();
 
                 using (var cmd = new SqliteCommand(SQL_CREATE_RUNS, DatabaseManager.Connection, DatabaseManager.Transaction))
                 {
+                    cmd.ExecuteNonQuery();
+
+                    cmd.CommandText = PRAGMAS;
                     cmd.ExecuteNonQuery();
 
                     cmd.CommandText = SQL_CREATE_FILE_MONITORED;
@@ -193,11 +200,11 @@ namespace AttackSurfaceAnalyzer.Utils
                     cmd.ExecuteNonQuery();
                 }
 
-                DatabaseManager.Transaction.Commit();
-                _transaction = null;
-                Log.Debug("Done with database setup");
+                Console.WriteLine("Set up database.");
+                Commit();
                 return true;
             }
+            Log.Warning("Failed to set up database");
             return false;
         }
 
@@ -223,7 +230,7 @@ namespace AttackSurfaceAnalyzer.Utils
         public static List<string> GetLatestRunIds(int numberOfIds, string type)
         {
             List<string> output = new List<string>();
-            using (var cmd = new SqliteCommand(SQL_SELECT_LATEST_N_RUNS, DatabaseManager.Connection))
+            using (var cmd = new SqliteCommand(SQL_SELECT_LATEST_N_RUNS, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
                 cmd.Parameters.AddWithValue("@type", type);
                 cmd.Parameters.AddWithValue("@limit", numberOfIds);
