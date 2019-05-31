@@ -334,6 +334,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             opts.EnableUserCollector = User;
             opts.EnableCertificateCollector = Certificates;
             opts.DatabaseFilename = "asa.sqlite";
+            opts.FilterLocation = "Use embedded filters.";
 
             Dictionary<string, bool> dict = new Dictionary<string, bool>();
             foreach (BaseCollector c in AttackSurfaceAnalyzerCLI.GetCollectors())
@@ -342,7 +343,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 // We won't start new collections while existing ones are ongoing.
                 if (c.IsRunning() == RUN_STATUS.RUNNING)
                 {
-                    return Json(false);
+                    return Json(ERRORS.ALREADY_RUNNING);
                 }
             }
             AttackSurfaceAnalyzerCLI.ClearCollectors();
@@ -359,6 +360,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                     }
                 }
             }
+
             Task.Factory.StartNew<int>(() => AttackSurfaceAnalyzerCLI.RunCollectCommand(opts));
             return Json(ERRORS.NONE);
         }

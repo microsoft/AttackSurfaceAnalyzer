@@ -185,7 +185,6 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             catch (FileNotFoundException)
             {
-                //That's fine, we just don't have any filters to load
                 config = null;
                 Log.Debug("{0} is missing (filter configuration file)", "Embedded");
 
@@ -197,7 +196,13 @@ namespace AttackSurfaceAnalyzer.Utils
                 Log.Debug("{0} is missing (filter configuration file)", "Embedded");
 
                 return;
+            }
+            catch (Exception e)
+            {
+                config = null;
+                Log.Warning("Could not load filters {0} {1}", "Embedded", e.GetType().ToString());
 
+                return;
             }
         }
 
@@ -221,17 +226,22 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 //That's fine, we just don't have any filters to load
                 config = null;
-                Log.Debug("{0} is missing (filter configuration file)", filterLoc);
+                Log.Warning("{0} is missing (filter configuration file)", filterLoc);
 
                 return;
             }
             catch (NullReferenceException)
             {
                 config = null;
-                Log.Debug("{0} is missing (filter configuration file)", filterLoc);
+                Log.Warning("{0} is missing (filter configuration file)", filterLoc);
 
                 return;
-
+            }
+            catch (Exception e)
+            {
+                config = null;
+                Log.Warning("Could not load filters {0} {1}", filterLoc, e.GetType().ToString());
+                return;
             }
 
         }

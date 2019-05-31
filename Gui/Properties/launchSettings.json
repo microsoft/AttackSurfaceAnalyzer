@@ -1,19 +1,19 @@
 {
   "iisSettings": {
-    "windowsAuthentication": false, 
-    "anonymousAuthentication": true, 
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
     "iisExpress": {
       "applicationUrl": "http://localhost:35950",
       "sslPort": 44321
     }
   },
   "profiles": {
-"Electron.NET App": {
-"commandName": "Executable",
-"executablePath": "C:\\Program Files\\dotnet\\dotnet.exe",
-"commandLineArgs": "electronize start"
-},
-
+    "Electron.NET App": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Users\\Gstoc\\.dotnet\\tools\\electronize.exe",
+      "commandLineArgs": "start",
+      "workingDirectory": "C:\\Users\\Gstoc\\Documents\\GitHub\\AttackSurfaceAnalyzer\\Gui"
+    },
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
@@ -24,10 +24,10 @@
     "AttackSurfaceAnalyzerGui": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "applicationUrl": "http://localhost:5000"
     }
   }
 }

@@ -46,7 +46,9 @@ var RUN_STATUS = {
 var ERRORS = {
     NONE: 0,
     UNIQUE_ID: 1,
-    INVALID_PATH: 2
+    INVALID_PATH: 2,
+    ALREADY_RUNNING: 3,
+    NO_COLLECTORS: 4
 }
 //There is a better way to do this
 function runStatusToString(runStatus) {
