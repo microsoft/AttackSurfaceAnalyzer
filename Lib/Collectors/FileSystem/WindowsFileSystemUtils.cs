@@ -16,6 +16,35 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
     {
         public static List<string> SIGNED_EXTENSIONS = new List<string> { "dll", "exe", "cab", "ocx" };
 
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct WIN32_FILE_ATTRIBUTE_DATA
+        {
+            public uint dwFileAttributes;
+            public System.Runtime.InteropServices.ComTypes.FILETIME ftCreationTime;
+            public System.Runtime.InteropServices.ComTypes.FILETIME ftLastAccessTime;
+            public System.Runtime.InteropServices.ComTypes.FILETIME ftLastWriteTime;
+            public uint nFileSizeHigh;
+            public uint nFileSizeLow;
+        }
+
+        public enum GET_FILEEX_INFO_LEVELS
+        {
+            GetFileExInfoStandard,
+            GetFileExMaxInfoLevel
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public class FILETIME
+        {
+            public uint dwLowDateTime;
+            public uint dwHighDateTime;
+        }
+
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool GetFileAttributesEx(string lpFileName, GET_FILEEX_INFO_LEVELS fInfoLevelId, out WIN32_FILE_ATTRIBUTE_DATA fileData);
+
         protected internal static string GetSignatureStatus(string Path)
         {
             if (!WindowsFileSystemUtils.NeedsSignature(Path))
@@ -45,6 +74,18 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
             {
                 return false;
             }
+        }
+
+        protected internal static bool IsLocal(string path)
+        {
+            WIN32_FILE_ATTRIBUTE_DATA fileData;
+            GetFileAttributesEx(path, GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out fileData);
+
+            if ((fileData.dwFileAttributes & (0x00100000 + 0x00040000 + 0x00400000)) == 0)
+            {
+                return false;
+            }
+            return true;
         }
 
         protected internal static List<DLLCHARACTERISTICS> GetDllCharacteristics(string Path)
