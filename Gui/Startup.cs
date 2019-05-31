@@ -70,7 +70,7 @@ namespace AttackSurfaceAnalyzer.Gui
             browserWindowOptions.Height = 1000;
             browserWindowOptions.Resizable = true;
             browserWindowOptions.Center = true;
-            browserWindowOptions.Title = "Attack Surface Analyzer v2.0";
+            browserWindowOptions.Title = string.Format("Attack Surface Analyzer v{0}",Helpers.GetVersionString());
 #if DEBUG
             browserWindowOptions.AutoHideMenuBar = false;
 #else
