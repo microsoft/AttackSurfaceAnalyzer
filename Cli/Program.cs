@@ -138,6 +138,9 @@ namespace AttackSurfaceAnalyzer
         [Option("directories", Required = false, HelpText = "Comma separated list of paths to scan with FileSystemCollector")]
         public string SelectedDirectories { get; set; }
 
+        [Option(HelpText = "Download files from thin Cloud Folders (like OneDrive) to check them.", Default = false)]
+        public bool DownloadCloud { get; set; }
+
         [Option(HelpText ="If the specified runid already exists delete all data from that run before proceeding.")]
         public bool Overwrite { get; set; }
 
@@ -1237,11 +1240,11 @@ namespace AttackSurfaceAnalyzer
 
         public static int RunCollectCommand(CollectCommandOptions opts)
         {
-//#if DEBUG
+#if DEBUG
             Logger.Setup(true, opts.Verbose);
-//#else
-//            Logger.Setup(opts.Debug, opts.Verbose);
-//#endif
+#else
+            Logger.Setup(opts.Debug, opts.Verbose);
+#endif
             AdminOrQuit();
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
             DatabaseManager.Setup();
@@ -1268,11 +1271,11 @@ namespace AttackSurfaceAnalyzer
             {
                 if (String.IsNullOrEmpty(opts.SelectedDirectories))
                 {
-                    collectors.Add(new FileSystemCollector(opts.RunId, enableHashing: opts.GatherHashes));
+                    collectors.Add(new FileSystemCollector(opts.RunId, enableHashing: opts.GatherHashes, downloadCloud: opts.DownloadCloud));
                 }
                 else
                 {
-                    collectors.Add(new FileSystemCollector(opts.RunId, enableHashing: opts.GatherHashes, directories: opts.SelectedDirectories));
+                    collectors.Add(new FileSystemCollector(opts.RunId, enableHashing: opts.GatherHashes, directories: opts.SelectedDirectories, downloadCloud: opts.DownloadCloud));
                 }
             }
             if (opts.EnableNetworkPortCollector || opts.EnableAllCollectors)
