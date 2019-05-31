@@ -52,7 +52,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             EndEvent.Add("Duration", watch.ElapsedMilliseconds.ToString());
             EndEvent.Add("NumResults", _numCollected.ToString());
             Telemetry.TrackEvent("EndScanFunction", EndEvent);
-            Log.Information("{0}: {1}", Strings.Get("End"), c.GetType().Name);
+            Log.Information("{0}: {1}", Strings.Get("End"), this.GetType().Name);
         }
 
         public int NumCollected()
