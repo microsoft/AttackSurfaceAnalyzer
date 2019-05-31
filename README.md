@@ -2,7 +2,7 @@
 
 ## Version 2.0
 
-This version of Attack Surface Analyzer is our first general audience release of the tool. To obtain the latest official release, click [here](https://github.com/Microsoft/AttackSurfaceAnalyzer/releases/latest).
+This version of Attack Surface Analyzer is our first general audience release of the tool. Binaries are available [here](https://github.com/Microsoft/AttackSurfaceAnalyzer/releases/latest).
 
 ## Overview
 
