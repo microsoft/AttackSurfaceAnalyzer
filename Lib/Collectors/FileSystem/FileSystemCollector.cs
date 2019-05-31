@@ -104,6 +104,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 
 
         private WriteBuffer wb;
+        bool downloadCloud;
 
         public void Write(FileSystemObject obj)
         {
@@ -128,10 +129,11 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
             }
         }
 
-        public FileSystemCollector(string runId, bool enableHashing = false, string directories = "")
+        public FileSystemCollector(string runId, bool enableHashing = false, string directories = "", bool downloadCloud = false)
         {
             this.runId = runId;
             this.roots = new HashSet<string>();
+            this.downloadCloud = downloadCloud;
             INCLUDE_CONTENT_HASH = enableHashing;
             if (directories.Equals(""))
             {
@@ -235,8 +237,15 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                                     };
                                     if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
                                     {
-                                        obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(fileInfo.FullName);
-                                        obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(fileInfo.FullName);
+                                        if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
+                                        {
+                                            obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(fileInfo.FullName);
+                                            obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(fileInfo.FullName);
+                                        }
+                                        else
+                                        {
+                                            obj.SignatureStatus = "Cloud";
+                                        }
                                     }
                                     if (INCLUDE_CONTENT_HASH)
                                     {
