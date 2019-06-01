@@ -18,11 +18,14 @@
     <Win32Resource />
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="CommandLineParser" Version="2.4.3" />
+    <PackageReference Include="CommandLineParser" Version="2.5.0" />
     <PackageReference Include="RazorLight" Version="2.0.0-beta1" />
     <PackageReference Include="System.Management" Version="4.6.0-preview.19073.11" />
-    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.0" />
-    <PackageReference Include="Nerdbank.GitVersioning" Version="2.3.138" />
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="2.3.167">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lib\AttackSurfaceAnalyzerLib.csproj" />
