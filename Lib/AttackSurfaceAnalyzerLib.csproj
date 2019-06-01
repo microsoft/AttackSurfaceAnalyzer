@@ -37,11 +37,11 @@ This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI 
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.PowerShell.Commands.Diagnostics" Version="6.2.0" />
-    <PackageReference Include="Microsoft.PowerShell.SDK" Version="6.2.0" />
+    <PackageReference Include="Microsoft.PowerShell.Commands.Diagnostics" Version="6.2.1" />
+    <PackageReference Include="Microsoft.PowerShell.SDK" Version="6.2.1" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.6.0-preview.19073.11" />
     <PackageReference Include="murmurhash" Version="1.0.3" />
-    <PackageReference Include="PeNet" Version="1.0.4" />
+    <PackageReference Include="PeNet" Version="1.0.5" />
     <PackageReference Include="Serilog" Version="2.8.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
     <PackageReference Include="Serilog.Sinks.File" Version="4.0.0" />
@@ -54,8 +54,8 @@ This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI 
     <PackageReference Include="System.Runtime" Version="4.3.1" />
     <PackageReference Include="System.Security.AccessControl" Version="4.6.0-preview.19073.11" />
     <PackageReference Include="System.Threading.AccessControl" Version="4.6.0-preview.19073.11" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="2.2.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="2.2.4" />
     <PackageReference Include="NuGet.Build.Packaging" Version="0.2.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -64,7 +64,10 @@ This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI 
     <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
     <PackageReference Include="MonoMac.NetStandard" Version="0.0.4" />
     <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="3.0.3" />
-    <PackageReference Include="Nerdbank.GitVersioning" Version="2.3.138" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="2.3.167">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\filters.json" Link="filters.json" />
