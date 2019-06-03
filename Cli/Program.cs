@@ -1217,6 +1217,7 @@ namespace AttackSurfaceAnalyzer
                 if (!Elevation.IsAdministrator())
                 {
                     Log.Fatal(Strings.Get("Err_RunAsAdmin"));
+                    Log.CloseAndFlush();
                     Environment.Exit(1);
                 }
             }
@@ -1225,6 +1226,7 @@ namespace AttackSurfaceAnalyzer
                 if (!Elevation.IsRunningAsRoot())
                 {
                     Log.Fatal(Strings.Get("Err_RunAsRoot"));
+                    Log.CloseAndFlush();
                     Environment.Exit(1);
                 }
             }
@@ -1233,6 +1235,7 @@ namespace AttackSurfaceAnalyzer
                 if (!Elevation.IsRunningAsRoot())
                 {
                     Log.Fatal(Strings.Get("Err_RunAsRoot"));
+                    Log.CloseAndFlush();
                     Environment.Exit(1);
                 }
             }

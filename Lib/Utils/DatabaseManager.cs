@@ -82,10 +82,8 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static bool Setup()
         {
-            Log.Warning("Before Conn Check");
             if (Connection == null)
             {
-                Log.Warning("After Conn Check");
 
                 Connection = new SqliteConnection($"Filename=" + _SqliteFilename);
                 Connection.Open();
