@@ -438,4 +438,10 @@
   <data name="StartingN" xml:space="preserve">
     <value>Starting {0} {1}.</value>
   </data>
+  <data name="Err_RunAsAdmin" xml:space="preserve">
+    <value>Attack Surface Analyzer must be run as Administrator.</value>
+  </data>
+  <data name="Err_RunAsRoot" xml:space="preserve">
+    <value>Attack Surace Analyzer must be run as root.</value>
+  </data>
 </root>

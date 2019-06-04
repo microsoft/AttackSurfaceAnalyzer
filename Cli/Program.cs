@@ -774,15 +774,16 @@ namespace AttackSurfaceAnalyzer
 #endif
             AdminOrQuit();
 
+            DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+            DatabaseManager.Setup();
+            Telemetry.Setup(Gui: false);
+
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("Files", opts.EnableFileSystemMonitor.ToString());
             StartEvent.Add("Admin", Helpers.IsAdmin().ToString());
             Telemetry.TrackEvent("Begin monitoring", StartEvent);
 
-            DatabaseManager.SqliteFilename = opts.DatabaseFilename;
-            DatabaseManager.Setup();
             CheckFirstRun();
-            Telemetry.Setup(Gui: false);
             DatabaseManager.VerifySchemaVersion();
 
             Filter.LoadFilters(opts.FilterLocation);
@@ -1253,6 +1254,10 @@ namespace AttackSurfaceAnalyzer
 #else
             Logger.Setup(opts.Debug, opts.Verbose);
 #endif
+            DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+            DatabaseManager.Setup();
+            Telemetry.Setup(Gui: false);
+
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("Files", opts.EnableAllCollectors ? "True" : opts.EnableFileSystemCollector.ToString());
             StartEvent.Add("Ports", opts.EnableAllCollectors ? "True" : opts.EnableNetworkPortCollector.ToString());
@@ -1265,10 +1270,7 @@ namespace AttackSurfaceAnalyzer
 
             AdminOrQuit();
 
-            DatabaseManager.SqliteFilename = opts.DatabaseFilename;
-            DatabaseManager.Setup();
             CheckFirstRun();
-            Telemetry.Setup(Gui: false);
             DatabaseManager.VerifySchemaVersion();
 
 

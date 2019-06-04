@@ -21,7 +21,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 Log.Logger = new LoggerConfiguration()
                     .MinimumLevel.Verbose()
                     .WriteTo.File("asa.log.txt")
-                    .WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Verbose)
+                    .WriteTo.Console()
                     .CreateLogger();
             }
             else if (debug)
