@@ -772,22 +772,28 @@ namespace AttackSurfaceAnalyzer
 #else
             Logger.Setup(opts.Debug, opts.Verbose);
 #endif
+            AdminOrQuit();
+
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
             DatabaseManager.Setup();
-            CheckFirstRun();
             Telemetry.Setup(Gui: false);
-            DatabaseManager.VerifySchemaVersion();
 
-            AdminOrQuit();
-            Filter.LoadFilters(opts.FilterLocation);
-            opts.RunId = opts.RunId.Trim();
-            if (opts.RunId.Equals("Timestamp"))
-            {
-                opts.RunId = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            }
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
+            StartEvent.Add("Files", opts.EnableFileSystemMonitor.ToString());
+            StartEvent.Add("Admin", Helpers.IsAdmin().ToString());
             Telemetry.TrackEvent("Begin monitoring", StartEvent);
 
+            CheckFirstRun();
+            DatabaseManager.VerifySchemaVersion();
+
+            Filter.LoadFilters(opts.FilterLocation);
+
+            opts.RunId = opts.RunId.Trim();
+
+            if (opts.RunId.Equals("Timestamp"))
+            {
+                opts.RunId = DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss");
+            }
 
             if (opts.Overwrite)
             {
@@ -1217,6 +1223,7 @@ namespace AttackSurfaceAnalyzer
                 if (!Elevation.IsAdministrator())
                 {
                     Log.Fatal(Strings.Get("Err_RunAsAdmin"));
+                    Log.CloseAndFlush();
                     Environment.Exit(1);
                 }
             }
@@ -1225,6 +1232,7 @@ namespace AttackSurfaceAnalyzer
                 if (!Elevation.IsRunningAsRoot())
                 {
                     Log.Fatal(Strings.Get("Err_RunAsRoot"));
+                    Log.CloseAndFlush();
                     Environment.Exit(1);
                 }
             }
@@ -1233,6 +1241,7 @@ namespace AttackSurfaceAnalyzer
                 if (!Elevation.IsRunningAsRoot())
                 {
                     Log.Fatal(Strings.Get("Err_RunAsRoot"));
+                    Log.CloseAndFlush();
                     Environment.Exit(1);
                 }
             }
@@ -1245,14 +1254,10 @@ namespace AttackSurfaceAnalyzer
 #else
             Logger.Setup(opts.Debug, opts.Verbose);
 #endif
-            AdminOrQuit();
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
             DatabaseManager.Setup();
-            CheckFirstRun();
             Telemetry.Setup(Gui: false);
-            DatabaseManager.VerifySchemaVersion();
-            int returnValue = (int)ERRORS.NONE;
-            opts.RunId = opts.RunId.Trim();
+
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("Files", opts.EnableAllCollectors ? "True" : opts.EnableFileSystemCollector.ToString());
             StartEvent.Add("Ports", opts.EnableAllCollectors ? "True" : opts.EnableNetworkPortCollector.ToString());
@@ -1260,7 +1265,18 @@ namespace AttackSurfaceAnalyzer
             StartEvent.Add("Certificates", opts.EnableAllCollectors ? "True" : opts.EnableCertificateCollector.ToString());
             StartEvent.Add("Registry", opts.EnableAllCollectors ? "True" : opts.EnableRegistryCollector.ToString());
             StartEvent.Add("Service", opts.EnableAllCollectors ? "True" : opts.EnableServiceCollector.ToString());
+            StartEvent.Add("Admin", Helpers.IsAdmin().ToString());
             Telemetry.TrackEvent("Run Command", StartEvent);
+
+            AdminOrQuit();
+
+            CheckFirstRun();
+            DatabaseManager.VerifySchemaVersion();
+
+
+
+            int returnValue = (int)ERRORS.NONE;
+            opts.RunId = opts.RunId.Trim();
 
             if (opts.RunId.Equals("Timestamp"))
             {

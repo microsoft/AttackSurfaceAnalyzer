@@ -82,11 +82,8 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static bool Setup()
         {
-            Log.Warning("Before Conn Check");
             if (Connection == null)
             {
-                Log.Warning("After Conn Check");
-
                 Connection = new SqliteConnection($"Filename=" + _SqliteFilename);
                 Connection.Open();
 
@@ -198,11 +195,9 @@ namespace AttackSurfaceAnalyzer.Utils
                     cmd.ExecuteNonQuery();
                 }
 
-                Console.WriteLine("Set up database.");
                 Commit();
                 return true;
             }
-            Log.Warning("Failed to set up database");
             return false;
         }
 

@@ -439,6 +439,24 @@ namespace AttackSurfaceAnalyzer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Attack Surface Analyzer must be run as Administrator..
+        /// </summary>
+        public static string Err_RunAsAdmin {
+            get {
+                return ResourceManager.GetString("Err_RunAsAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attack Surace Analyzer must be run as root..
+        /// </summary>
+        public static string Err_RunAsRoot {
+            get {
+                return ResourceManager.GetString("Err_RunAsRoot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to That runid was already used. Must use a unique runid for each run. Use --overwrite to discard previous run information..
         /// </summary>
         public static string Err_RunIdAlreadyUsed {

@@ -170,8 +170,8 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
         private void ExecuteLinux()
         {
             Log.Debug("ExecuteLinux()");
-            var runner = new ExternalCommandRunner();
-            var result = runner.RunExternalCommand("ss", "-ln");
+            
+            var result = ExternalCommandRunner.RunExternalCommand("ss", "-ln");
 
             foreach (var _line in result.Split('\n'))
             {
@@ -215,8 +215,8 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
         private void ExecuteOsX()
         {
             Log.Debug("ExecuteOsX()");
-            var runner = new ExternalCommandRunner();
-            var result = runner.RunExternalCommand("sudo", "lsof -Pn -i4 -i6");
+            
+            var result = ExternalCommandRunner.RunExternalCommand("sudo", "lsof -Pn -i4 -i6");
 
             foreach (var _line in result.Split('\n'))
             {

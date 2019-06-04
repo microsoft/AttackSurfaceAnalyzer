@@ -138,9 +138,9 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
             // We list all the certificates and then create a new X509Certificate2 object for each by filename.
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                var runner = new ExternalCommandRunner();
+                
 
-                var result = runner.RunExternalCommand("ls", new string[] { "/etc/ssl/certs", "-A" });
+                var result = ExternalCommandRunner.RunExternalCommand("ls", new string[] { "/etc/ssl/certs", "-A" });
                 Log.Debug("{0}", result);
 
                 foreach (var _line in result.Split('\n'))
@@ -165,14 +165,14 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
             // we import the pkcs12 with all our certs, delete the temp files and then iterate over it the certs
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                var runner = new ExternalCommandRunner();
+                
 
-                var result = runner.RunExternalCommand("security", new string[] { "find-certificate", "-ap", "/System/Library/Keychains/SystemRootCertificates.keychain" });
+                var result = ExternalCommandRunner.RunExternalCommand("security", new string[] { "find-certificate", "-ap", "/System/Library/Keychains/SystemRootCertificates.keychain" });
                 string tmpPath = Path.Combine(Directory.GetCurrentDirectory(), "tmpcert.pem");
                 string pkPath = Path.Combine(Directory.GetCurrentDirectory(), "tmpcert.pk12");
 
                 File.WriteAllText(tmpPath, result);
-                _ = runner.RunExternalCommand("openssl", new string[] { "pkcs12",  "-export",  "-nokeys" , "-out", pkPath, "-passout pass:pass", "-in", tmpPath });
+                _ = ExternalCommandRunner.RunExternalCommand("openssl", new string[] { "pkcs12",  "-export",  "-nokeys" , "-out", pkPath, "-passout pass:pass", "-in", tmpPath });
 
                 X509Certificate2Collection xcert = new X509Certificate2Collection();
                 xcert.Import(pkPath,"pass",X509KeyStorageFlags.DefaultKeySet);
