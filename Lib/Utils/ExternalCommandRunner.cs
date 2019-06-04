@@ -4,10 +4,10 @@ using System.Diagnostics;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
-    class ExternalCommandRunner
+    public static class ExternalCommandRunner
     {
 
-        public string RunExternalCommand(string command, params string[] args)
+        public static string RunExternalCommand(string command, params string[] args)
         {
             var process = new Process()
             {

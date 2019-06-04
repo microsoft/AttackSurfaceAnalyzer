@@ -26,10 +26,10 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
 
         public override void Start()
         {
-            var runner = new ExternalCommandRunner();
+            
 
             // backup the current auditpolicy
-            runner.RunExternalCommand("auditpol", String.Format("/backup /file:{0}", tmpFileName));
+            ExternalCommandRunner.RunExternalCommand("auditpol", String.Format("/backup /file:{0}", tmpFileName));
 
             // start listening to the event log
             log.EntryWritten += new EntryWrittenEventHandler(MyOnEntryWritten);
@@ -38,19 +38,19 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
             // Enable auditing for registry events
             // GUID for Registry subcategory of audit policy
             // https://msdn.microsoft.com/en-us/library/dd973928.aspx
-            runner.RunExternalCommand("auditpol", "/set /subcategory:{0CCE921E-69AE-11D9-BED3-505054503030} /success:enable /failure:enable");
+            ExternalCommandRunner.RunExternalCommand("auditpol", "/set /subcategory:{0CCE921E-69AE-11D9-BED3-505054503030} /success:enable /failure:enable");
                 
         }
 
         public override void Stop()
         {
-            var runner = new ExternalCommandRunner();
+            
 
             // restore the old auditpolicy
-            runner.RunExternalCommand("auditpol", String.Format("/restore /file:{0}", tmpFileName));
+            ExternalCommandRunner.RunExternalCommand("auditpol", String.Format("/restore /file:{0}", tmpFileName));
 
             //delete temporary file
-            runner.RunExternalCommand("del", tmpFileName);
+            ExternalCommandRunner.RunExternalCommand("del", tmpFileName);
 
             log.EnableRaisingEvents = false;
         }

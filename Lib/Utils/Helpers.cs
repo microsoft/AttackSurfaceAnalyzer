@@ -87,8 +87,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                ExternalCommandRunner runner = new ExternalCommandRunner();
-                return runner.RunExternalCommand("uname", "-r");
+                return ExternalCommandRunner.RunExternalCommand("uname", "-r");
             }
             return "";
         }
@@ -101,8 +100,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                ExternalCommandRunner runner = new ExternalCommandRunner();
-                return runner.RunExternalCommand("uname", "-s");
+                return ExternalCommandRunner.RunExternalCommand("uname", "-s");
             }
             return "";
         }

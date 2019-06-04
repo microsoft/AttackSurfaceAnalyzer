@@ -100,12 +100,12 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                var runner = new ExternalCommandRunner();
+                
 
                 // Get the user processes
                 // run "launchtl dumpstate" for the super detailed view
                 // However, dumpstate is difficult to parse
-                var result = runner.RunExternalCommand("launchctl", "list");
+                var result = ExternalCommandRunner.RunExternalCommand("launchctl", "list");
                 Dictionary<string, ServiceObject> outDict = new Dictionary<string, ServiceObject>();
                 foreach (var _line in result.Split('\n'))
                 {
@@ -133,7 +133,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
                 }
 
                 // Then get the system processes
-                result = runner.RunExternalCommand("sudo", "launchctl list");
+                result = ExternalCommandRunner.RunExternalCommand("sudo", "launchctl list");
 
                 foreach (var _line in result.Split('\n'))
                 {
@@ -164,9 +164,9 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                var runner = new ExternalCommandRunner();
+                
 
-                var result = runner.RunExternalCommand("systemctl", "list-units --type service");
+                var result = ExternalCommandRunner.RunExternalCommand("systemctl", "list-units --type service");
 
                 //Split lines and remove header
                 var lines = result.Split('\n').Skip(1);
@@ -189,7 +189,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
                     }
                 }
 
-                result = runner.RunExternalCommand("ls", "/etc/init.d/ -l");
+                result = ExternalCommandRunner.RunExternalCommand("ls", "/etc/init.d/ -l");
 
                 lines = result.Split('\n').Skip(1);
                 String pattern = @".*\s(.*)";

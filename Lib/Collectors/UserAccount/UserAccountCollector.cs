@@ -192,7 +192,7 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
         private void ExecuteLinux()
         {
             Log.Debug("ExecuteLinux()");
-            var runner = new ExternalCommandRunner();
+            
 
             var etc_passwd_lines = File.ReadAllLines("/etc/passwd");
             var etc_shadow_lines = File.ReadAllLines("/etc/shadow");
@@ -257,10 +257,10 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
         {
             Log.Debug("ExecuteOsX()");
 
-            var runner = new ExternalCommandRunner();
+            
 
             // Admin user details
-            var result = runner.RunExternalCommand("dscacheutil", "-q group -a name admin");
+            var result = ExternalCommandRunner.RunExternalCommand("dscacheutil", "-q group -a name admin");
 
             var lines = result.Split('\n');
 
@@ -269,7 +269,7 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
             var admins = (lines[3].Split(':')[1]).Split(' ');
 
             // details for all users
-            result = runner.RunExternalCommand("dscacheutil", "-q user");
+            result = ExternalCommandRunner.RunExternalCommand("dscacheutil", "-q user");
 
             var accountDetails = new Dictionary<string, UserAccountObject>();
 
