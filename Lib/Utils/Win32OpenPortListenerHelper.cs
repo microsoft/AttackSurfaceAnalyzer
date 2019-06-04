@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 using Serilog;
 
 namespace AttackSurfaceAnalyzer.Utils
@@ -95,8 +96,8 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
                                 if(!Tokens[3].Equals("LISTENING")) { continue; }
                                 ProcessPorts.Add(new ProcessPort(
-                                    GetProcessName(Convert.ToInt16(Tokens[4])),
-                                    Convert.ToInt16(Tokens[4]),
+                                    GetProcessName(Convert.ToInt32(Tokens[4])),
+                                    Convert.ToInt32(Tokens[4]),
                                     IpAddress.Contains("1.1.1.1") ? String.Format("{0}v6", Tokens[1]) : String.Format("{0}v4", Tokens[1]),
                                     Convert.ToInt32(IpAddress.Split(':')[1])
                                 ));
@@ -105,8 +106,8 @@ namespace AttackSurfaceAnalyzer.Utils
                             else if (Tokens.Length == 4 && (Tokens[0].Equals("UDP")))
                             {
                                 ProcessPorts.Add(new ProcessPort(
-                                    GetProcessName(Convert.ToInt16(Tokens[3])),
-                                    Convert.ToInt16(Tokens[3]),
+                                    GetProcessName(Convert.ToInt32(Tokens[3])),
+                                    Convert.ToInt32(Tokens[3]),
                                     IpAddress.Contains("1.1.1.1") ? String.Format("{0}v6", Tokens[1]) : String.Format("{0}v4", Tokens[1]),
                                     Convert.ToInt32(IpAddress.Split(':')[1])
                                 ));
