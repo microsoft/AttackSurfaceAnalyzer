@@ -21,8 +21,8 @@ namespace AttackSurfaceAnalyzer
                         Log.CloseAndFlush();
                         Environment.Exit(-1);
                     }
-                    var user = System.Guid.NewGuid();
-                    var password = System.Guid.NewGuid();
+                    var user = System.Guid.NewGuid().ToString().Substring(0,10);
+                    var password = System.Guid.NewGuid().ToString().Substring(0,10);
                     var cmd = string.Format("user /add {0} {1}", user, password);
                     ExternalCommandRunner.RunExternalCommand("net",cmd);
 

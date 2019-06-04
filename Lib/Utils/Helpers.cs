@@ -26,6 +26,11 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
+        public static bool IsAdmin()
+        {
+            return Elevation.IsAdministrator() || Elevation.IsRunningAsRoot();
+        }
+
         public static string MakeValidFileName(string name)
         {
             string invalidChars = System.Text.RegularExpressions.Regex.Escape(new string(System.IO.Path.GetInvalidFileNameChars()));

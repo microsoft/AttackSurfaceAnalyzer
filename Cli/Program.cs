@@ -772,22 +772,27 @@ namespace AttackSurfaceAnalyzer
 #else
             Logger.Setup(opts.Debug, opts.Verbose);
 #endif
+            AdminOrQuit();
+
+            Dictionary<string, string> StartEvent = new Dictionary<string, string>();
+            StartEvent.Add("Files", opts.EnableFileSystemMonitor.ToString());
+            StartEvent.Add("Admin", Helpers.IsAdmin().ToString());
+            Telemetry.TrackEvent("Begin monitoring", StartEvent);
+
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
             DatabaseManager.Setup();
             CheckFirstRun();
             Telemetry.Setup(Gui: false);
             DatabaseManager.VerifySchemaVersion();
 
-            AdminOrQuit();
             Filter.LoadFilters(opts.FilterLocation);
+
             opts.RunId = opts.RunId.Trim();
+
             if (opts.RunId.Equals("Timestamp"))
             {
-                opts.RunId = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                opts.RunId = DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss");
             }
-            Dictionary<string, string> StartEvent = new Dictionary<string, string>();
-            Telemetry.TrackEvent("Begin monitoring", StartEvent);
-
 
             if (opts.Overwrite)
             {
@@ -1248,14 +1253,6 @@ namespace AttackSurfaceAnalyzer
 #else
             Logger.Setup(opts.Debug, opts.Verbose);
 #endif
-            AdminOrQuit();
-            DatabaseManager.SqliteFilename = opts.DatabaseFilename;
-            DatabaseManager.Setup();
-            CheckFirstRun();
-            Telemetry.Setup(Gui: false);
-            DatabaseManager.VerifySchemaVersion();
-            int returnValue = (int)ERRORS.NONE;
-            opts.RunId = opts.RunId.Trim();
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("Files", opts.EnableAllCollectors ? "True" : opts.EnableFileSystemCollector.ToString());
             StartEvent.Add("Ports", opts.EnableAllCollectors ? "True" : opts.EnableNetworkPortCollector.ToString());
@@ -1263,7 +1260,21 @@ namespace AttackSurfaceAnalyzer
             StartEvent.Add("Certificates", opts.EnableAllCollectors ? "True" : opts.EnableCertificateCollector.ToString());
             StartEvent.Add("Registry", opts.EnableAllCollectors ? "True" : opts.EnableRegistryCollector.ToString());
             StartEvent.Add("Service", opts.EnableAllCollectors ? "True" : opts.EnableServiceCollector.ToString());
+            StartEvent.Add("Admin", Helpers.IsAdmin().ToString());
             Telemetry.TrackEvent("Run Command", StartEvent);
+
+            AdminOrQuit();
+
+            DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+            DatabaseManager.Setup();
+            CheckFirstRun();
+            Telemetry.Setup(Gui: false);
+            DatabaseManager.VerifySchemaVersion();
+
+
+
+            int returnValue = (int)ERRORS.NONE;
+            opts.RunId = opts.RunId.Trim();
 
             if (opts.RunId.Equals("Timestamp"))
             {
