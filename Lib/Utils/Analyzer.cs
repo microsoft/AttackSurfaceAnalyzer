@@ -10,25 +10,45 @@ using AttackSurfaceAnalyzer.ObjectTypes;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
-    public static class Analyzer
-    {
+    public class Analyzer
+    {   
+        JObject config = null;
+        Dictionary<string, List<Regex>> _filters = new Dictionary<string, List<Regex>>();
+        string OsName;
+        
+        Analyzer(string Os)
 
-        static JObject config = null;
-        static Dictionary<string, List<Regex>> _filters = new Dictionary<string, List<Regex>>();
-
-        public static ANALYSIS_RESULT_TYPE Analyze(CompareResult compareResult)
+        public  ANALYSIS_RESULT_TYPE Analyze(CompareResult compareResult)
         {
             if (config == null)
             {
                 return ANALYSIS_RESULT_TYPE.INFORMATION;
             }
 
-            return ANALYSIS_RESULT_TYPE.INFORMATION;
+            return compareResult.GetType().MapResult(
+            (CertificateResult res) => AnalyzeCertificate(res),
+            (FileSystemResult res) => AnalyzeFile(res),
+            (OpenPortResult res) => AnalyzePort(res),
+            (RegistryResult res) => AnalyzeRegistry(res),
+            (ServiceResult res) => AnalyzeService(res),
+            (UserAccountResult res) => AnalyzeUser(res),
+            errs = 1); 
         }
 
-            public static bool IsFiltered(string Platform, string ScanType, string ItemType, string Property, string FilterType, string Target) => IsFiltered(Platform, ScanType, ItemType, Property, FilterType, Target, out Regex dummy);
+        public  ANALYSIS_RESULT_TYPE AnalyzeCertificate(CertificateResult compareResult)
+        {
+            if (config == null)
+            {
+                return ANALYSIS_RESULT_TYPE.INFORMATION;
+            }
 
-            public static bool IsFiltered(string Platform, string ScanType, string ItemType, string Property, string FilterType, string Target, out Regex regex)
+            JArray jFilters = (JArray)config[][ScanType][ItemType][Property][FilterType];
+
+        }
+
+        public  bool IsFiltered(string Platform, string ScanType, string ItemType, string Property, string FilterType, string Target) => IsFiltered(Platform, ScanType, ItemType, Property, FilterType, Target, out Regex dummy);
+
+            public  bool IsFiltered(string Platform, string ScanType, string ItemType, string Property, string FilterType, string Target, out Regex regex)
             {
                 regex = null;
                 if (config == null)
@@ -153,7 +173,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 return false;
             }
 
-            public static void DumpFilters()
+            public  void DumpFilters()
             {
                 Log.Verbose("Filter dump:");
                 foreach (var filter in config)
@@ -162,7 +182,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
             }
 
-            public static void LoadEmbeddedFilters()
+            public  void LoadEmbeddedFilters()
             {
                 try
                 {
@@ -205,7 +225,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
             }
 
-            public static void LoadFilters(string filterLoc = "filters.json")
+            public  void LoadFilters(string filterLoc = "filters.json")
             {
             try
             {
