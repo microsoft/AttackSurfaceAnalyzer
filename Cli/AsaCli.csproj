@@ -28,7 +28,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Lib\AttackSurfaceAnalyzerLib.csproj" />
     <EmbeddedResource Include="Output\Output.cshtml">
     </EmbeddedResource>
     <Content Include="..\LICENSE.txt">
@@ -59,5 +58,8 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lib\AsaLib.csproj" />
   </ItemGroup>
 </Project>

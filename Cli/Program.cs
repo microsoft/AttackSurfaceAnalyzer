@@ -208,7 +208,6 @@ namespace AttackSurfaceAnalyzer
         [Option("trim-to-latest", HelpText = "Delete all runs except the latest.")]
         public bool TrimToLatest { get; set; }
 
-    }
 
     public static class AttackSurfaceAnalyzerCLI
     {

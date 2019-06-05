@@ -53,4 +53,16 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
         IMAGE_DLLCHARACTERISTICS_GUARD_CF = 0x4000,
         IMAGE_DLLCHARACTERISTICS_TERMINAL_SERVER_AWARE = 0x8000
     }
+
+    // These need better names. But the heirarchy of these makes sense to me as a model.
+    // These are flags that can be defined in an analyze.json to arrange output by importance.
+    public enum ANALYSIS_RESULT_TYPE
+    {
+        VERBOSE,
+        DEBUG,
+        INFORMATION,
+        WARNING,
+        ERROR,
+        FATAL
+    }
 }
