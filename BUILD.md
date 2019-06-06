@@ -68,17 +68,17 @@ electronize start
 
 Windows
 ```
-electronize build /target win /package-json package.json /relative-path bin
+electronize build /target win /package-json package.json
 ```
 
 Linux
 ```
-electronize build /target linux /package-json package.json /relative-path bin
+electronize build /target linux /package-json package.json
 ```
 
 Mac
 ```
-electronize build /target macos /package-json package.json /relative-path bin
+electronize build /target macos /package-json package.json
 ```
 
-Will create the Electron application in ```AttackSurfaceAnalyzer\Gui\bin\```
+Will create the output in ```bin\{platform}-unpacked```.
