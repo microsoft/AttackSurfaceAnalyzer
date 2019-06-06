@@ -18,21 +18,28 @@ namespace AttackSurfaceAnalyzer.Utils
         
         Analyzer(string Os)
 
-        public  ANALYSIS_RESULT_TYPE Analyze(CompareResult compareResult)
+        public ANALYSIS_RESULT_TYPE Analyze(CompareResult compareResult)
         {
             if (config == null)
             {
                 return ANALYSIS_RESULT_TYPE.INFORMATION;
             }
 
-            return compareResult.GetType().MapResult(
-            (CertificateResult res) => AnalyzeCertificate(res),
-            (FileSystemResult res) => AnalyzeFile(res),
-            (OpenPortResult res) => AnalyzePort(res),
-            (RegistryResult res) => AnalyzeRegistry(res),
-            (ServiceResult res) => AnalyzeService(res),
-            (UserAccountResult res) => AnalyzeUser(res),
-            errs = 1); 
+            switch (compareResult)
+            {
+                case CertificateResult res:
+                    AnalyzeCertificate(res); break;
+                case FileSystemResult res:
+                    AnalyzeFile(res); break;
+                case OpenPortResult res:
+                    AnalyzePort(res); break;
+                case RegistryResult res:
+                    AnalyzeRegistry(res); break;
+                case ServiceResult res:
+                    AnalyzeService(res); break;
+                case UserAccountResult res:
+                    AnalyzeUser(res); break;
+            }
         }
 
         public  ANALYSIS_RESULT_TYPE AnalyzeCertificate(CertificateResult compareResult)
