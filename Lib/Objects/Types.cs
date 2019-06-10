@@ -65,4 +65,14 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
         ERROR,
         FATAL
     }
+
+    public enum OPERATION
+    {
+        REGEX,
+        EQ,
+        NEQ,
+        LT,
+        GT,
+        CONTAINS
+    }
 }

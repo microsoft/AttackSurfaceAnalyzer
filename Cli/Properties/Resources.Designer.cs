@@ -637,6 +637,15 @@ namespace AttackSurfaceAnalyzer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loaded Analyses from {0}..
+        /// </summary>
+        public static string LoadedAnalyses {
+            get {
+                return ResourceManager.GetString("LoadedAnalyses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loaded filters: {0}.
         /// </summary>
         public static string LoadedFilters {

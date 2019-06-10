@@ -24,7 +24,7 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
         public string BaseRunId;
         public string CompareRunId;
         public CHANGE_TYPE ChangeType;
-        public RESULT_TYPE ResultType;
+        public RESULT_TYPE ResultType; 
     }
 
     public class OutputFileMonitorResult
