@@ -31,7 +31,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
     public class Analyzer
     {
-        Dictionary<RESULT_TYPE,List<FieldInfo>> fields;
+        Dictionary<RESULT_TYPE,List<FieldInfo>> _Fields;
 
 
         JObject config = null;
@@ -51,12 +51,12 @@ namespace AttackSurfaceAnalyzer.Utils
 
         protected void populateFields()
         {
-            fields[RESULT_TYPE.FILE] = new List<FieldInfo>(new FileSystemObject().GetType().GetFields());
-            fields[RESULT_TYPE.CERTIFICATE] = new List<FieldInfo>(new CertificateObject().GetType().GetFields());
-            fields[RESULT_TYPE.PORT] = new List<FieldInfo>(new OpenPortObject().GetType().GetFields());
-            fields[RESULT_TYPE.REGISTRY] = new List<FieldInfo>(new RegistryObject().GetType().GetFields());
-            fields[RESULT_TYPE.SERVICES] = new List<FieldInfo>(new ServiceObject().GetType().GetFields());
-            fields[RESULT_TYPE.USER] = new List<FieldInfo>(new UserAccountObject().GetType().GetFields());
+            _Fields[RESULT_TYPE.FILE] = new List<FieldInfo>(new FileSystemObject().GetType().GetFields());
+            _Fields[RESULT_TYPE.CERTIFICATE] = new List<FieldInfo>(new CertificateObject().GetType().GetFields());
+            _Fields[RESULT_TYPE.PORT] = new List<FieldInfo>(new OpenPortObject().GetType().GetFields());
+            _Fields[RESULT_TYPE.REGISTRY] = new List<FieldInfo>(new RegistryObject().GetType().GetFields());
+            _Fields[RESULT_TYPE.SERVICES] = new List<FieldInfo>(new ServiceObject().GetType().GetFields());
+            _Fields[RESULT_TYPE.USER] = new List<FieldInfo>(new UserAccountObject().GetType().GetFields());
         }
 
         public  ANALYSIS_RESULT_TYPE Analyze(CompareResult compareResult)
@@ -102,11 +102,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         protected ANALYSIS_RESULT_TYPE ApplyCertificateRule(Rule rule, CertificateResult res)
         {
-            List<FieldInfo> fields = new List<FieldInfo>(res.Compare.GetType().GetFields());
-            if (fields == null)
-            {
-                fields = new List<FieldInfo>(res.Base.GetType().GetFields());
-            }
+            var fields = _Fields[RESULT_TYPE.CERTIFICATE];
 
             foreach (Clause clause in rule.clauses)
             {
