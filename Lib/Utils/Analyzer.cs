@@ -7,240 +7,276 @@ using System.Text.RegularExpressions;
 using Serilog;
 using System.Reflection;
 using AttackSurfaceAnalyzer.ObjectTypes;
+using System.Runtime.InteropServices;
+using System.Linq;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
+
+    public class Rule
+    {
+        public string name;
+        public ANALYSIS_RESULT_TYPE flag;
+        public OSPlatform platform;
+        public RESULT_TYPE resultType;
+        public List<Clause> clauses;
+    }
+
+    public class Clause
+    {
+        public string field;
+        public OPERATION op;
+        public List<string> data;
+    }
+
     public class Analyzer
-    {   
+    {
+        Dictionary<RESULT_TYPE,List<FieldInfo>> _Fields;
+
+
         JObject config = null;
-        Dictionary<string, List<Regex>> _filters = new Dictionary<string, List<Regex>>();
+        Dictionary<string, Dictionary<string, List<Rule>>> _filters = new Dictionary<string, Dictionary<string,List<Rule>>>();
         string OsName;
-        
-        Analyzer(string Os)
+        ANALYSIS_RESULT_TYPE DEFAULT_RESULT_TYPE;
+
+        Dictionary<RESULT_TYPE,List<Rule>> rules;
+
+        public Analyzer() : this(useEmbedded:true) { }
+        public Analyzer(string filterLocation = "filters.json", bool useEmbedded = false, ANALYSIS_RESULT_TYPE defaultResultType = ANALYSIS_RESULT_TYPE.INFORMATION) {
+            if (useEmbedded) { LoadEmbeddedFilters(); }
+            else { LoadFilters(filterLocation); }
+            if (config != null) { ParseFilters(); }
+            DEFAULT_RESULT_TYPE = defaultResultType;
+            PopulateFields();
+        }
+
+        protected void ParseFilters()
+        {
+            foreach (string o in Enum.GetNames(typeof(OSPlatform)))
+            {
+                _filters[o] = new Dictionary<string, List<Rule>>();
+                foreach (string t in Enum.GetNames(typeof(RESULT_TYPE)))
+                {
+                    _filters[o][t] = new List<Rule>();
+                }
+                try
+                {
+                    JArray jFilters = (JArray)config[o];
+                    foreach (var R in jFilters)
+                    {
+                        Rule r = R.ToObject<Rule>();
+                        _filters[o][r.resultType.ToString()].Add(r);
+                    }
+                }
+                catch(Exception e)
+                {
+                    Log.Debug("{0} {1} {2}", e.GetType().ToString(), e.Message, e.StackTrace);
+                }
+            }
+        }
+
+        protected void PopulateFields()
+        {
+            _Fields[RESULT_TYPE.FILE] = new List<FieldInfo>(new FileSystemObject().GetType().GetFields());
+            _Fields[RESULT_TYPE.CERTIFICATE] = new List<FieldInfo>(new CertificateObject().GetType().GetFields());
+            _Fields[RESULT_TYPE.PORT] = new List<FieldInfo>(new OpenPortObject().GetType().GetFields());
+            _Fields[RESULT_TYPE.REGISTRY] = new List<FieldInfo>(new RegistryObject().GetType().GetFields());
+            _Fields[RESULT_TYPE.SERVICES] = new List<FieldInfo>(new ServiceObject().GetType().GetFields());
+            _Fields[RESULT_TYPE.USER] = new List<FieldInfo>(new UserAccountObject().GetType().GetFields());
+        }
 
         public ANALYSIS_RESULT_TYPE Analyze(CompareResult compareResult)
         {
-            if (config == null)
+            if (config == null) { return DEFAULT_RESULT_TYPE; }
+            RESULT_TYPE ruleFilter = compareResult.ResultType;
+
+            foreach (Rule rule in rules[compareResult.ResultType])
             {
-                return ANALYSIS_RESULT_TYPE.INFORMATION;
+                var next = Apply(rule, compareResult);
+                if (next != DEFAULT_RESULT_TYPE) { return next; }
             }
 
-            switch (compareResult)
-            {
-                case CertificateResult res:
-                    AnalyzeCertificate(res); break;
-                case FileSystemResult res:
-                    AnalyzeFile(res); break;
-                case OpenPortResult res:
-                    AnalyzePort(res); break;
-                case RegistryResult res:
-                    AnalyzeRegistry(res); break;
-                case ServiceResult res:
-                    AnalyzeService(res); break;
-                case UserAccountResult res:
-                    AnalyzeUser(res); break;
-            }
+            return DEFAULT_RESULT_TYPE;
         }
 
-        public  ANALYSIS_RESULT_TYPE AnalyzeCertificate(CertificateResult compareResult)
+        protected ANALYSIS_RESULT_TYPE Apply(Rule rule, CompareResult compareResult)
         {
-            if (config == null)
+            var fields = _Fields[compareResult.ResultType];
+
+            foreach (Clause clause in rule.clauses)
             {
-                return ANALYSIS_RESULT_TYPE.INFORMATION;
-            }
+                FieldInfo field = fields.FirstOrDefault(iField => iField.Name.Equals(clause.field));
 
-            JArray jFilters = (JArray)config[][ScanType][ItemType][Property][FilterType];
-
-        }
-
-        public  bool IsFiltered(string Platform, string ScanType, string ItemType, string Property, string FilterType, string Target) => IsFiltered(Platform, ScanType, ItemType, Property, FilterType, Target, out Regex dummy);
-
-            public  bool IsFiltered(string Platform, string ScanType, string ItemType, string Property, string FilterType, string Target, out Regex regex)
-            {
-                regex = null;
-                if (config == null)
+                if (field == null)
                 {
-                    return false;
+                    //Custom field logic
+                    return DEFAULT_RESULT_TYPE;
                 }
-                try
+                else
                 {
-                    string key = String.Format("{0}{1}{2}{3}{4}", Platform, ScanType, ItemType, Property, FilterType);
-                    List<Regex> filters = new List<Regex>();
-
+                    var val = default(object);
+                    var baseVal = default(object);
                     try
                     {
-                        filters = _filters[key];
-                    }
-                    catch (KeyNotFoundException)
-                    {
-                        try
+                        if (compareResult.Compare != null)
                         {
-                            JArray jFilters = (JArray)config[Platform][ScanType][ItemType][Property][FilterType];
-                            foreach (var filter in jFilters)
-                            {
-                                try
-                                {
-                                    filters.Add(new Regex(filter.ToString()));
-                                }
-                                catch (Exception e)
-                                {
-                                    Log.Debug(e.GetType().ToString());
-                                    Log.Debug("Failed to make a regex from {0}", filter.ToString());
-                                    Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
-                                }
-                            }
-                            try
-                            {
-                                _filters.Add(key, filters);
-                            }
-                            catch (ArgumentException)
-                            {
-                                // We are running in parallel, its possible someone added it in between the original check and now. No problem here.
-                                filters = _filters[key];
-                            }
-                            Log.Information("{0} {1} {2} {3} {4} {5}", Strings.Get("SuccessParsed"), Platform, ScanType, ItemType, Property, FilterType);
+                            val = GetValueByPropertyName(compareResult.Compare, field.Name);
                         }
-                        catch (NullReferenceException)
+                        if (compareResult.Base != null)
                         {
-                            try
-                            {
-                                _filters.Add(key, new List<Regex>());
-                                Log.Debug("{0} {1} {2} {3} {4} {5}", Strings.Get("FailedParsed"), Platform, ScanType, ItemType, Property, FilterType);
-                            }
-                            catch (ArgumentException)
-                            {
-                                // We are running in parallel, its possible someone added it in between the original check and now. No problem here.
-                            }
-                            catch (Exception e)
-                            {
-                                Log.Debug("{0}:{1}", e.GetType().ToString(), e.Message);
-                                Log.Debug(e.StackTrace);
-                            }
+                            baseVal = GetValueByPropertyName(compareResult.Base, field.Name);
+                        }
+                        var complete = false;
 
-                            //Since there were no filters for this, it is not filtered
-                            return false;
-                        }
-                        catch (JsonReaderException)
+                        switch (clause.op)
                         {
-                            try
-                            {
-                                _filters.Add(key, new List<Regex>());
-                                Log.Information("{0} {1} {2} {3} {4} {5}", Strings.Get("Err_FiltersFile"), Platform, ScanType, ItemType, Property, FilterType);
-                            }
-                            catch (ArgumentException)
-                            {
-                                // We are running in parallel, its possible someone added it in between the original check and now. No problem here.
-                            }
-                            catch (Exception e)
-                            {
-                                Log.Debug("{0}:{1}", e.GetType().ToString(), e.Message);
-                                Log.Debug(e.StackTrace);
-                            }
-                            return false;
-                        }
+                            case OPERATION.EQ:
+                                foreach (string datum in clause.data)
+                                {
+                                    if (datum.Equals(val))
+                                    {
+                                        complete = true;
+                                    }
+                                }
+                                if (complete) { break; }
+                                return DEFAULT_RESULT_TYPE;
 
+                            case OPERATION.NEQ:
+                                foreach (string datum in clause.data)
+                                {
+                                    if (!datum.Equals(val))
+                                    {
+                                        complete = true;
+                                    }
+                                }
+                                if (complete) { break; }
+                                return DEFAULT_RESULT_TYPE;
+
+                            case OPERATION.CONTAINS:
+                                foreach (string datum in clause.data)
+                                {
+                                    var fld = GetValueByPropertyName(compareResult.Compare, field.Name).ToString();
+                                    if (fld.Contains(datum))
+                                    {
+                                        complete = true;
+                                    }
+                                }
+                                if (complete) { break; }
+                                return DEFAULT_RESULT_TYPE;
+
+                            case OPERATION.GT:
+                                if (Int32.Parse(val.ToString()) > Int32.Parse(clause.data[0]))
+                                {
+                                    break;
+                                }
+                                return DEFAULT_RESULT_TYPE;
+
+                            case OPERATION.LT:
+                                if (Int32.Parse(val.ToString()) < Int32.Parse(clause.data[0]))
+                                {
+                                    break;
+                                }
+                                return DEFAULT_RESULT_TYPE;
+
+                            case OPERATION.REGEX:
+                                foreach (string datum in clause.data)
+                                {
+                                    var r = new Regex(datum);
+                                    if (r.IsMatch(val.ToString()))
+                                    {
+                                        complete = true;
+                                    }
+                                }
+                                if (complete) { break ; }
+                                return DEFAULT_RESULT_TYPE;
+                            case OPERATION.WAS_MODIFIED:
+                                if (!val.ToString().Equals(baseVal.ToString()))
+                                {
+                                    break;
+                                }
+                                return DEFAULT_RESULT_TYPE;
+                            default:
+                                Log.Debug("Unimplemented operation {0}", clause.op);
+                                break;
+                        }
                     }
                     catch (Exception e)
                     {
-                        Log.Debug(e.GetType().ToString());
-                        Log.Debug(e.Message);
-                        Log.Debug(e.StackTrace);
-                        Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
+                        Log.Debug("{0} {1} {2}", e.GetType().ToString(), e.Message, e.StackTrace);
+                        return DEFAULT_RESULT_TYPE;
                     }
-
-                    foreach (Regex filter in _filters[key])
-                    {
-                        try
-                        {
-                            if (filter.IsMatch(Target))
-                            {
-                                regex = filter;
-                                Log.Verbose("{0} caught {1}", filter, Target);
-                                return true;
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            Log.Debug("Probably this is some of those garbled keys or a bad regex");
-                            Log.Debug(e.GetType().ToString());
-                            Log.Debug(filter.ToString());
-                            Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
-                        }
-
-                    }
-                }
-                catch (NullReferenceException e)
-                {
-                    Log.Debug("No Filter Entry {0}, {1}, {2}, {3}, {4}", Platform, ScanType, ItemType, Property, FilterType);
-                    Log.Debug(e.Message);
-                    Log.Debug(e.Source);
-                    Log.Debug(e.StackTrace);
-                }
-
-                return false;
-            }
-
-            public  void DumpFilters()
-            {
-                Log.Verbose("Filter dump:");
-                foreach (var filter in config)
-                {
-                    Log.Verbose(filter.Value.ToString());
                 }
             }
 
-            public  void LoadEmbeddedFilters()
+            return rule.flag;
+        }
+
+        private object GetValueByPropertyName<T>(T obj, string propertyName)
+        {
+            return typeof(T).GetProperty(propertyName).GetValue(obj);
+        }
+
+        public  void DumpFilters()
+        {
+            Log.Verbose("Filter dump:");
+            foreach (var filter in config)
             {
-                try
-                {
-                    var assembly = Assembly.GetExecutingAssembly();
-                    var resourceName = "AttackSurfaceAnalyzer.filters.json";
+                Log.Verbose(filter.Value.ToString());
+            }
+        }
 
-                    using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-                    using (StreamReader streamreader = new StreamReader(stream))
-                    using (JsonTextReader reader = new JsonTextReader(streamreader))
-                    {
-                        config = (JObject)JToken.ReadFrom(reader);
-                        Log.Information(Strings.Get("LoadedFilters"), "Embedded");
-                        DumpFilters();
-                    }
-                    if (config == null)
-                    {
-                        Log.Debug("Out of entries");
-                    }
+        public  void LoadEmbeddedFilters()
+        {
+            try
+            {
+                var assembly = Assembly.GetExecutingAssembly();
+                var resourceName = "AttackSurfaceAnalyzer.analyses.json";
+
+                using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+                using (StreamReader streamreader = new StreamReader(stream))
+                using (JsonTextReader reader = new JsonTextReader(streamreader))
+                {
+                    config = (JObject)JToken.ReadFrom(reader);
+                    Log.Information(Strings.Get("LoadedAnalyses"), "Embedded");
+                    DumpFilters();
                 }
-                catch (FileNotFoundException)
+                if (config == null)
                 {
-                    config = null;
-                    Log.Debug("{0} is missing (filter configuration file)", "Embedded");
-
-                    return;
-                }
-                catch (NullReferenceException)
-                {
-                    config = null;
-                    Log.Debug("{0} is missing (filter configuration file)", "Embedded");
-
-                    return;
-                }
-                catch (Exception e)
-                {
-                    config = null;
-                    Log.Warning("Could not load filters {0} {1}", "Embedded", e.GetType().ToString());
-
-                    return;
+                    Log.Debug("Out of entries");
                 }
             }
-
-            public  void LoadFilters(string filterLoc = "filters.json")
+            catch (FileNotFoundException)
             {
+                config = null;
+                Log.Debug("{0} is missing (filter configuration file)", "Embedded");
+
+                return;
+            }
+            catch (NullReferenceException)
+            {
+                config = null;
+                Log.Debug("{0} is missing (filter configuration file)", "Embedded");
+
+                return;
+            }
+            catch (Exception e)
+            {
+                config = null;
+                Log.Warning("Could not load filters {0} {1}", "Embedded", e.GetType().ToString());
+
+                return;
+            }
+        }
+
+        public void LoadFilters(string filterLoc = "analyses.json")
+        {
             try
             {
                 using (StreamReader file = File.OpenText(filterLoc))
                 using (JsonTextReader reader = new JsonTextReader(file))
                 {
                     config = (JObject)JToken.ReadFrom(reader);
-                    Log.Information(Strings.Get("LoadedFilters"), filterLoc);
+                    Log.Information(Strings.Get("LoadedAnalyses"), filterLoc);
                     DumpFilters();
                 }
                 if (config == null)

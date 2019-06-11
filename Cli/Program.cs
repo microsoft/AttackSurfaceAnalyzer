@@ -23,6 +23,7 @@ using Newtonsoft.Json;
 using System.Reflection;
 using Serilog;
 using System.Resources;
+using CommandLine.Text;
 
 namespace AttackSurfaceAnalyzer
 {
@@ -41,6 +42,9 @@ namespace AttackSurfaceAnalyzer
 
         [Option(HelpText = "Base name of output file", Default = "output")]
         public string OutputBaseFilename { get; set; }
+
+        [Option(HelpText = "Enable Analysis.", Default = true)]
+        public bool Analyze { get; set; }
 
         [Option(HelpText = "Show debug logging statements.")]
         public bool Debug { get; set; }
@@ -129,10 +133,10 @@ namespace AttackSurfaceAnalyzer
         [Option("filter", Required = false, HelpText = "Provide a JSON filter file.", Default = "Use embedded filters.")]
         public string FilterLocation { get; set; }
 
-        [Option("no-filters",HelpText = "Disables the embedded filters.")]
+        [Option("no-filters", HelpText = "Disables the embedded filters.")]
         public bool NoFilters { get; set; }
 
-        [Option('h',"gather-hashes", Required = false, HelpText = "Hashes every file when using the File Collector.  May dramatically increase run time of the scan.")]
+        [Option('h', "gather-hashes", Required = false, HelpText = "Hashes every file when using the File Collector.  May dramatically increase run time of the scan.")]
         public bool GatherHashes { get; set; }
 
         [Option("directories", Required = false, HelpText = "Comma separated list of paths to scan with FileSystemCollector")]
@@ -141,7 +145,7 @@ namespace AttackSurfaceAnalyzer
         [Option(HelpText = "Download files from thin Cloud Folders (like OneDrive) to check them.", Default = false)]
         public bool DownloadCloud { get; set; }
 
-        [Option(HelpText ="If the specified runid already exists delete all data from that run before proceeding.")]
+        [Option(HelpText = "If the specified runid already exists delete all data from that run before proceeding.")]
         public bool Overwrite { get; set; }
 
         [Option(HelpText = "Show debug logging statements.")]
@@ -153,7 +157,7 @@ namespace AttackSurfaceAnalyzer
     [Verb("monitor", HelpText = "Continue running and monitor activity")]
     public class MonitorCommandOptions
     {
-        [Option(HelpText = "Identifies which run this is. Monitor output can be combined with collect output, but doesn't need to be compared.", Default="Timestamp")]
+        [Option(HelpText = "Identifies which run this is. Monitor output can be combined with collect output, but doesn't need to be compared.", Default = "Timestamp")]
         public string RunId { get; set; }
 
         [Option(HelpText = "Name of output database", Default = "asa.sqlite")]
@@ -178,7 +182,7 @@ namespace AttackSurfaceAnalyzer
         public int Duration { get; set; }
 
         [Option(Default = false, HelpText = "If the specified runid already exists delete all data from that run before proceeding.")]
-        public bool Overwrite {get; set;}
+        public bool Overwrite { get; set; }
 
         [Option(HelpText = "Show debug logging statements.")]
         public bool Debug { get; set; }
@@ -207,7 +211,7 @@ namespace AttackSurfaceAnalyzer
 
         [Option("trim-to-latest", HelpText = "Delete all runs except the latest.")]
         public bool TrimToLatest { get; set; }
-
+    }
 
     public static class AttackSurfaceAnalyzerCLI
     {
@@ -228,7 +232,7 @@ namespace AttackSurfaceAnalyzer
         {
 
 #if DEBUG
-            Logger.Setup(true,false);
+            Logger.Setup(true, false);
 #else
             Logger.Setup(false,false);
 #endif
@@ -236,7 +240,7 @@ namespace AttackSurfaceAnalyzer
                         .GetEntryAssembly()
                         .GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false)
                         as AssemblyInformationalVersionAttribute[])[0].InformationalVersion;
-            Log.Information("AttackSurfaceAnalyzerCli v.{0}",version);
+            Log.Information("AttackSurfaceAnalyzerCli v.{0}", version);
 
             Strings.Setup();
 
@@ -250,7 +254,7 @@ namespace AttackSurfaceAnalyzer
                     (ConfigCommandOptions opts) => RunConfigCommand(opts),
                     errs => 1
                 );
-            
+
             Log.CloseAndFlush();
         }
 
@@ -289,7 +293,7 @@ namespace AttackSurfaceAnalyzer
                     {
                         Log.Information(Strings.Get("DumpingDataFromDatabase"), opts.DatabaseFilename);
                         List<string> CollectRuns = GetRuns("collect");
-                        if(CollectRuns.Count > 0)
+                        if (CollectRuns.Count > 0)
                         {
                             Log.Information(Strings.Get("Begin"), Strings.Get("EnumeratingCollectRunIds"));
                             foreach (string run in CollectRuns)
@@ -345,7 +349,7 @@ namespace AttackSurfaceAnalyzer
                         {
                             Log.Information(Strings.Get("NoCollectRuns"));
                         }
-                        
+
                         List<string> MonitorRuns = GetRuns("monitor");
                         if (MonitorRuns.Count > 0)
                         {
@@ -415,7 +419,7 @@ namespace AttackSurfaceAnalyzer
                     }
                 }
             }
-            
+
             return 0;
         }
 
@@ -461,7 +465,8 @@ namespace AttackSurfaceAnalyzer
             options.FirstRunId = opts.FirstRunId;
             options.SecondRunId = opts.SecondRunId;
 
-            var results = CompareRuns(options);
+            Dictionary<string, object> results = CompareRuns(options);
+
             JsonSerializer serializer = new JsonSerializer
             {
                 Formatting = Formatting.Indented,
@@ -469,13 +474,12 @@ namespace AttackSurfaceAnalyzer
             };
             serializer.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
 
-
             if (opts.ExplodedOutput)
             {
                 results.Add("metadata", Helpers.GenerateMetadata());
                 string path = Path.Combine(opts.OutputPath, Helpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId));
                 Directory.CreateDirectory(path);
-                foreach(var key in results.Keys)
+                foreach (var key in results.Keys)
                 {
                     string filePath = Path.Combine(path, Helpers.MakeValidFileName(key));
                     using (StreamWriter sw = new StreamWriter(filePath)) //lgtm[cs/path-injection]
@@ -571,7 +575,7 @@ namespace AttackSurfaceAnalyzer
                                     }
                                 }
                             }
-                        
+
                             CompareResult obj;
                             switch (ExportType)
                             {
@@ -755,10 +759,10 @@ namespace AttackSurfaceAnalyzer
             string path = Path.Combine(OutputPath, Helpers.MakeValidFileName(RunId + "_Monitoring_" + ((RESULT_TYPE)ResultType).ToString() + ".json.txt"));
 
             using (StreamWriter sw = new StreamWriter(path)) //lgtm[cs/path-injection]
-                using (JsonWriter writer = new JsonTextWriter(sw))
-                {
-                    serializer.Serialize(writer, output);
-                }
+            using (JsonWriter writer = new JsonTextWriter(sw))
+            {
+                serializer.Serialize(writer, output);
+            }
 
             Log.Information(Strings.Get("OutputWrittenTo"), path);
 
@@ -824,7 +828,7 @@ namespace AttackSurfaceAnalyzer
             cmd.Parameters.AddWithValue("@registry", false);
             cmd.Parameters.AddWithValue("@certificates", false);
             cmd.Parameters.AddWithValue("@type", "monitor");
-            cmd.Parameters.AddWithValue("@timestamp",DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+            cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
             cmd.Parameters.AddWithValue("@version", Helpers.GetVersionString());
             try
             {
@@ -892,8 +896,8 @@ namespace AttackSurfaceAnalyzer
 
             //if (opts.EnableRegistryMonitor)
             //{
-                //var monitor = new RegistryMonitor();
-                //monitors.Add(monitor);
+            //var monitor = new RegistryMonitor();
+            //monitors.Add(monitor);
             //}
 
             if (monitors.Count == 0)
@@ -907,7 +911,7 @@ namespace AttackSurfaceAnalyzer
             // If duration is set, we use the secondary timer.
             if (opts.Duration > 0)
             {
-                Log.Information("{0} {1} {2}.", Strings.Get("MonitorStartedFor"),opts.Duration, Strings.Get("Minutes"));
+                Log.Information("{0} {1} {2}.", Strings.Get("MonitorStartedFor"), opts.Duration, Strings.Get("Minutes"));
                 var aTimer = new System.Timers.Timer
                 {
                     Interval = opts.Duration * 60 * 1000,
@@ -936,7 +940,8 @@ namespace AttackSurfaceAnalyzer
             }
 
             // Set up the event to capture CTRL+C
-            Console.CancelKeyPress += (sender, eventArgs) => {
+            Console.CancelKeyPress += (sender, eventArgs) =>
+            {
                 eventArgs.Cancel = true;
                 exitEvent.Set();
             };
@@ -949,7 +954,7 @@ namespace AttackSurfaceAnalyzer
 
             foreach (var c in monitors)
             {
-                Log.Information(Strings.Get("End"),c.GetType().Name);
+                Log.Information(Strings.Get("End"), c.GetType().Name);
 
                 try
                 {
@@ -1033,23 +1038,19 @@ namespace AttackSurfaceAnalyzer
                 cmd.ExecuteNonQuery();
             }
 
-            var results = new Dictionary<string, object>
-            {
-                ["BeforeRunId"] = opts.FirstRunId,
-                ["AfterRunId"] = opts.SecondRunId
-            };
+            var results = new Dictionary<string, object>();
 
             comparators = new List<BaseCompare>();
 
             Dictionary<string, int> count = new Dictionary<string, int>()
-                {
-                    { "File", 0 },
-                    { "Certificate", 0 },
-                    { "Registry", 0 },
-                    { "Port", 0 },
-                    { "Service", 0 },
-                    { "User", 0 }
-                };
+            {
+                { RESULT_TYPE.FILE.ToString(), 0 },
+                { RESULT_TYPE.CERTIFICATE.ToString(), 0 },
+                { RESULT_TYPE.REGISTRY.ToString(), 0 },
+                { RESULT_TYPE.PORT.ToString(), 0 },
+                { RESULT_TYPE.SERVICES.ToString(), 0 },
+                { RESULT_TYPE.USER.ToString(), 0 }
+            };
 
             using (var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
@@ -1122,7 +1123,7 @@ namespace AttackSurfaceAnalyzer
 
             Dictionary<string, string> EndEvent = new Dictionary<string, string>();
 
-            foreach ( BaseCompare c in comparators)
+            foreach (BaseCompare c in comparators)
             {
                 Log.Information(Strings.Get("Begin"), c.GetType().Name);
                 if (!c.TryCompare(opts.FirstRunId, opts.SecondRunId))
@@ -1133,9 +1134,21 @@ namespace AttackSurfaceAnalyzer
                 EndEvent.Add(c.GetType().ToString(), c.GetNumResults().ToString());
             }
 
+            if (opts.Analyze)
+            {
+                Analyzer analyzer = new Analyzer();
+                foreach (var key in results.Keys)
+                {
+                    foreach (CompareResult result in results[key] as List<CompareResult>)
+                    {
+                        result.Analysis = analyzer.Analyze(result);
+                    }
+                }
+            }
+
             Telemetry.TrackEvent("End Command", EndEvent);
 
-            using(var cmd = new SqliteCommand(UPDATE_RUN_IN_RESULT_TABLE, DatabaseManager.Connection, DatabaseManager.Transaction))
+            using (var cmd = new SqliteCommand(UPDATE_RUN_IN_RESULT_TABLE, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
                 cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
                 cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
@@ -1169,7 +1182,7 @@ namespace AttackSurfaceAnalyzer
                     }
                     catch (ArgumentException)
                     {
-                        Log.Warning("{1}: {0}",dir, Strings.Get("InvalidPath"));
+                        Log.Warning("{1}: {0}", dir, Strings.Get("InvalidPath"));
                         return ERRORS.INVALID_PATH;
                     }
                 }
@@ -1313,7 +1326,7 @@ namespace AttackSurfaceAnalyzer
             {
                 collectors.Add(new CertificateCollector(opts.RunId));
             }
-            
+
             if (collectors.Count == 0)
             {
                 Log.Warning(Strings.Get("Err_NoCollectors"));
@@ -1390,7 +1403,7 @@ namespace AttackSurfaceAnalyzer
                 cmd.Parameters.AddWithValue("@services", opts.EnableServiceCollector);
                 cmd.Parameters.AddWithValue("@registry", opts.EnableRegistryCollector);
                 cmd.Parameters.AddWithValue("@certificates", opts.EnableCertificateCollector);
-                
+
 
                 cmd.Parameters.AddWithValue("@run_id", opts.RunId);
 
@@ -1410,7 +1423,7 @@ namespace AttackSurfaceAnalyzer
                     Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                 }
             }
-            Log.Information(Strings.Get("StartingN"), collectors.Count.ToString() , Strings.Get("Collectors"));
+            Log.Information(Strings.Get("StartingN"), collectors.Count.ToString(), Strings.Get("Collectors"));
 
             Dictionary<string, string> EndEvent = new Dictionary<string, string>();
             foreach (BaseCollector c in collectors)
@@ -1470,7 +1483,7 @@ namespace AttackSurfaceAnalyzer
         {
             collectors = new List<BaseCollector>();
         }
-        
+
         private static int RunCompareCommand(CompareCommandOptions opts)
         {
 #if DEBUG
@@ -1557,6 +1570,4 @@ namespace AttackSurfaceAnalyzer
             return "No run id";
         }
     }
-
-
 }

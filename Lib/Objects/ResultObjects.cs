@@ -25,6 +25,9 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
         public string CompareRunId;
         public CHANGE_TYPE ChangeType;
         public RESULT_TYPE ResultType;
+        public object Base;
+        public object Compare;
+        public ANALYSIS_RESULT_TYPE Analysis;
     }
 
     public class OutputFileMonitorResult
@@ -46,8 +49,8 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
 
     public class FileSystemResult : CompareResult
     {
-        public FileSystemObject Base;
-        public FileSystemObject Compare;
+        new public FileSystemObject Base;
+        new public FileSystemObject Compare;
         public FileSystemResult()
         {
             ResultType = RESULT_TYPE.FILE;
@@ -62,8 +65,8 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
 
     public class OpenPortResult: CompareResult
     {
-        public OpenPortObject Base;
-        public OpenPortObject Compare;
+        new public OpenPortObject Base;
+        new public OpenPortObject Compare;
         public OpenPortResult()
         {
             ResultType = RESULT_TYPE.PORT;
@@ -72,8 +75,8 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
 
     public class RegistryResult: CompareResult
     {
-        public RegistryObject Base;
-        public RegistryObject Compare;
+        new public RegistryObject Base;
+        new public RegistryObject Compare;
         public RegistryResult()
         {
             ResultType = RESULT_TYPE.REGISTRY;
@@ -82,8 +85,8 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
 
     public class ServiceResult : CompareResult
     {
-        public ServiceObject Base;
-        public ServiceObject Compare;
+        new public ServiceObject Base;
+        new public ServiceObject Compare;
         public ServiceResult()
         {
             ResultType = RESULT_TYPE.SERVICES;
@@ -92,8 +95,8 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
 
     public class UserAccountResult : CompareResult
     {
-        public UserAccountObject Base;
-        public UserAccountObject Compare;
+        new public UserAccountObject Base;
+        new public UserAccountObject Compare;
         public UserAccountResult()
         {
             ResultType = RESULT_TYPE.USER;
@@ -102,8 +105,8 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
 
     public class CertificateResult: CompareResult
     {
-        public CertificateObject Base;
-        public CertificateObject Compare;
+        new public CertificateObject Base;
+        new public CertificateObject Compare;
         public CertificateResult()
         {
             ResultType = RESULT_TYPE.CERTIFICATE;
