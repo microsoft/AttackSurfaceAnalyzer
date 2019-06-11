@@ -30,6 +30,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Output\Output.cshtml">
     </EmbeddedResource>
+    <EmbeddedResource Include="..\analyses.json" Link="analyses.json" />
     <Content Include="..\LICENSE.txt">
       <Link>LICENSE.txt</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
