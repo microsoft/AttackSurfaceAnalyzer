@@ -338,7 +338,6 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 DatabaseFilename = "asa.sqlite"
             };
 
-            Dictionary<string, bool> dict = new Dictionary<string, bool>();
             foreach (BaseCollector c in AttackSurfaceAnalyzerCLI.GetCollectors())
             {
                 // The GUI *should* prevent us from getting here. But this is extra protection.
