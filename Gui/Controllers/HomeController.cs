@@ -336,7 +336,6 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             opts.DatabaseFilename = "asa.sqlite";
             opts.FilterLocation = "Use embedded filters.";
 
-            Dictionary<string, bool> dict = new Dictionary<string, bool>();
             foreach (BaseCollector c in AttackSurfaceAnalyzerCLI.GetCollectors())
             {
                 // The GUI *should* prevent us from getting here. But this is extra protection.
