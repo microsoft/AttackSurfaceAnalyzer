@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-"use strict"
+"use strict";
 
 var resultOffset = 0;
 var monitorResultOffset = 0;
