@@ -11,6 +11,8 @@ using System.Runtime.InteropServices;
 using System.Linq;
 using AttackSurfaceAnalyzer.Objects;
 using Newtonsoft.Json.Converters;
+using PeNet.Structures.MetaDataTables;
+using Markdig.Extensions.Tables;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -204,10 +206,7 @@ namespace AttackSurfaceAnalyzer.Utils
             return rule.flag;
         }
 
-        private object GetValueByPropertyName<T>(T obj, string propertyName)
-        {
-            return typeof(T).GetProperty(propertyName).GetValue(obj);
-        }
+        private object GetValueByPropertyName(object obj, string propertyName) => obj.GetType().GetField(propertyName).GetValue(obj);
 
         public void DumpFilters()
         {
@@ -220,7 +219,7 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             try
             {
-                var assembly = Assembly.GetExecutingAssembly();
+                var assembly = System.Reflection.Assembly.GetExecutingAssembly();
                 var resourceName = "AttackSurfaceAnalyzer.analyses.json";
 
                 using (Stream stream = assembly.GetManifestResourceStream(resourceName))
@@ -265,7 +264,7 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             try
             {
-                using (StreamReader file = File.OpenText(filterLoc))
+                using (StreamReader file = System.IO.File.OpenText(filterLoc))
                 using (JsonTextReader reader = new JsonTextReader(file))
                 {
                     config = (JObject)JToken.ReadFrom(reader);

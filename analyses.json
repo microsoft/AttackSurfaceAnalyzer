@@ -1,33 +1,6 @@
 {"rules":
   [
     {
-      "name": "rule1",
-      "desc": "An example rule",
-      "flag": "VERBOSE",
-      "platforms": [
-        "WINDOWS"
-      ],
-      "resultType": "CERTIFICATE",
-      "clauses": [
-        {
-          "field": "Subject",
-          "op": "REGEX",
-          "data": [
-            "1234",
-            "4567"
-          ]
-        },
-        {
-          "field": "Category",
-          "op": "EQ",
-          "data": [
-            "8901",
-            "2345"
-          ]
-        }
-      ]
-    },
-    {
       "name": "Privileged ports",
       "desc": "Flag when privileged ports are opened.",
       "flag": "WARNING",
