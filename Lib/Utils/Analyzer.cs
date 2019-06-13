@@ -22,18 +22,15 @@ namespace AttackSurfaceAnalyzer.Utils
         Dictionary<PLATFORM, Dictionary<RESULT_TYPE, List<Rule>>> _filters = new Dictionary<PLATFORM, Dictionary<RESULT_TYPE,List<Rule>>>();
         PLATFORM OsName;
         ANALYSIS_RESULT_TYPE DEFAULT_RESULT_TYPE;
-        
-        public Analyzer(OSPlatform platform) : this(platform: platform, useEmbedded:true) { }
-        public Analyzer(OSPlatform platform, string filterLocation = "analyses.json", bool useEmbedded = false, ANALYSIS_RESULT_TYPE defaultResultType = ANALYSIS_RESULT_TYPE.INFORMATION) {
+
+        public Analyzer(PLATFORM platform) : this(platform: platform, useEmbedded:true) { }
+        public Analyzer(PLATFORM platform, string filterLocation = "analyses.json", bool useEmbedded = false, ANALYSIS_RESULT_TYPE defaultResultType = ANALYSIS_RESULT_TYPE.INFORMATION) {
             if (useEmbedded) { LoadEmbeddedFilters(); }
             else { LoadFilters(filterLocation); }
             if (config != null) { ParseFilters(); }
+
             DEFAULT_RESULT_TYPE = defaultResultType;
-
-            if (platform.Equals(OSPlatform.Windows)) { OsName = PLATFORM.WINDOWS; }
-            if (platform.Equals(OSPlatform.Linux)) { OsName = PLATFORM.LINUX; }
-            if (platform.Equals(OSPlatform.OSX)) { OsName = PLATFORM.MACOS; }
-
+            OsName = platform;
             PopulateFields();
         }
 
@@ -101,99 +98,97 @@ namespace AttackSurfaceAnalyzer.Utils
                     //Custom field logic will go here
                     return DEFAULT_RESULT_TYPE;
                 }
-                else
+
+                var val = default(object);
+                var baseVal = default(object);
+                try
                 {
-                    var val = default(object);
-                    var baseVal = default(object);
-                    try
+                    if (compareResult.Compare != null)
                     {
-                        if (compareResult.Compare != null)
-                        {
-                            val = GetValueByPropertyName(compareResult.Compare, field.Name);
-                        }
-                        if (compareResult.Base != null)
-                        {
-                            baseVal = GetValueByPropertyName(compareResult.Base, field.Name);
-                        }
-                        var complete = false;
+                        val = GetValueByPropertyName(compareResult.Compare, field.Name);
+                    }
+                    if (compareResult.Base != null)
+                    {
+                        baseVal = GetValueByPropertyName(compareResult.Base, field.Name);
+                    }
+                    var complete = false;
 
-                        switch (clause.op)
-                        {
-                            case OPERATION.EQ:
-                                foreach (string datum in clause.data)
+                    switch (clause.op)
+                    {
+                        case OPERATION.EQ:
+                            foreach (string datum in clause.data)
+                            {
+                                if (datum.Equals(val))
                                 {
-                                    if (datum.Equals(val))
-                                    {
-                                        complete = true;
-                                    }
+                                    complete = true;
                                 }
-                                if (complete) { break; }
-                                return DEFAULT_RESULT_TYPE;
+                            }
+                            if (complete) { break; }
+                            return DEFAULT_RESULT_TYPE;
 
-                            case OPERATION.NEQ:
-                                foreach (string datum in clause.data)
+                        case OPERATION.NEQ:
+                            foreach (string datum in clause.data)
+                            {
+                                if (!datum.Equals(val))
                                 {
-                                    if (!datum.Equals(val))
-                                    {
-                                        complete = true;
-                                    }
+                                    complete = true;
                                 }
-                                if (complete) { break; }
-                                return DEFAULT_RESULT_TYPE;
+                            }
+                            if (complete) { break; }
+                            return DEFAULT_RESULT_TYPE;
 
-                            case OPERATION.CONTAINS:
-                                foreach (string datum in clause.data)
+                        case OPERATION.CONTAINS:
+                            foreach (string datum in clause.data)
+                            {
+                                var fld = GetValueByPropertyName(compareResult.Compare, field.Name).ToString();
+                                if (fld.Contains(datum))
                                 {
-                                    var fld = GetValueByPropertyName(compareResult.Compare, field.Name).ToString();
-                                    if (fld.Contains(datum))
-                                    {
-                                        complete = true;
-                                    }
+                                    complete = true;
                                 }
-                                if (complete) { break; }
-                                return DEFAULT_RESULT_TYPE;
+                            }
+                            if (complete) { break; }
+                            return DEFAULT_RESULT_TYPE;
 
-                            case OPERATION.GT:
-                                if (Int32.Parse(val.ToString()) > Int32.Parse(clause.data[0]))
-                                {
-                                    break;
-                                }
-                                return DEFAULT_RESULT_TYPE;
-
-                            case OPERATION.LT:
-                                if (Int32.Parse(val.ToString()) < Int32.Parse(clause.data[0]))
-                                {
-                                    break;
-                                }
-                                return DEFAULT_RESULT_TYPE;
-
-                            case OPERATION.REGEX:
-                                foreach (string datum in clause.data)
-                                {
-                                    var r = new Regex(datum);
-                                    if (r.IsMatch(val.ToString()))
-                                    {
-                                        complete = true;
-                                    }
-                                }
-                                if (complete) { break ; }
-                                return DEFAULT_RESULT_TYPE;
-                            case OPERATION.WAS_MODIFIED:
-                                if (!val.ToString().Equals(baseVal.ToString()))
-                                {
-                                    break;
-                                }
-                                return DEFAULT_RESULT_TYPE;
-                            default:
-                                Log.Debug("Unimplemented operation {0}", clause.op);
+                        case OPERATION.GT:
+                            if (Int32.Parse(val.ToString()) > Int32.Parse(clause.data[0]))
+                            {
                                 break;
-                        }
+                            }
+                            return DEFAULT_RESULT_TYPE;
+
+                        case OPERATION.LT:
+                            if (Int32.Parse(val.ToString()) < Int32.Parse(clause.data[0]))
+                            {
+                                break;
+                            }
+                            return DEFAULT_RESULT_TYPE;
+
+                        case OPERATION.REGEX:
+                            foreach (string datum in clause.data)
+                            {
+                                var r = new Regex(datum);
+                                if (r.IsMatch(val.ToString()))
+                                {
+                                    complete = true;
+                                }
+                            }
+                            if (complete) { break; }
+                            return DEFAULT_RESULT_TYPE;
+                        case OPERATION.WAS_MODIFIED:
+                            if (!val.ToString().Equals(baseVal.ToString()))
+                            {
+                                break;
+                            }
+                            return DEFAULT_RESULT_TYPE;
+                        default:
+                            Log.Debug("Unimplemented operation {0}", clause.op);
+                            return DEFAULT_RESULT_TYPE;
                     }
-                    catch (Exception e)
-                    {
-                        Log.Debug("{0} {1} {2}", e.GetType().ToString(), e.Message, e.StackTrace);
-                        return DEFAULT_RESULT_TYPE;
-                    }
+                }
+                catch (Exception e)
+                {
+                    Log.Debug("{0} {1} {2}", e.GetType().ToString(), e.Message, e.StackTrace);
+                    return DEFAULT_RESULT_TYPE;
                 }
             }
             compareResult.Rules.Add(rule);

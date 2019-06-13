@@ -68,6 +68,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private static readonly string SQL_GET_SCHEMA_VERSION = "select value from persisted_settings where setting = 'schema_version' limit 0,1";
         private static readonly string SQL_GET_NUM_RESULTS = "select count(*) as the_count from @table_name where run_id = @run_id";
+        private static readonly string SQL_GET_PLATFORM_FROM_RUNID = "select platform from runs where run_id = @run_id";
 
         private static readonly string PRAGMAS = "PRAGMA main.auto_vacuum = 1;";
 
@@ -204,6 +205,18 @@ namespace AttackSurfaceAnalyzer.Utils
         public static bool IsFirstRun()
         {
             return _firstRun;
+        }
+
+        public static PLATFORM RunIdToPlatform(string runid)
+        {
+            using (var cmd = new SqliteCommand(SQL_GET_PLATFORM_FROM_RUNID, DatabaseManager.Connection, DatabaseManager.Transaction))
+            {
+                using (var reader = cmd.ExecuteReader())
+                {
+                    reader.Read();
+                    return (PLATFORM)Enum.Parse(typeof(PLATFORM), reader["platform"].ToString());
+                }
+            }
         }
 
         public static void VerifySchemaVersion()

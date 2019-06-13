@@ -26,6 +26,7 @@ using System.Resources;
 using CommandLine.Text;
 using System.Threading.Tasks;
 using AttackSurfaceAnalyzer.Objects;
+using Newtonsoft.Json.Converters;
 
 namespace AttackSurfaceAnalyzer
 {
@@ -1147,14 +1148,23 @@ namespace AttackSurfaceAnalyzer
             //{
                 Log.Information("Analysis begins");
                 // TODO: Correctly set the OSPlatform variable based on the dataset
-                // Is this data currently queryable?
-                Analyzer analyzer = new Analyzer(OSPlatform.Windows);
+                PLATFORM platform = DatabaseManager.RunIdToPlatform(opts.FirstRunId);
+                Analyzer analyzer = new Analyzer(platform);
+                Log.Debug(JsonConvert.SerializeObject(results, new StringEnumConverter()));
                 foreach (var key in results.Keys)
                 {
-                    foreach (CompareResult result in results[key] as List<CompareResult>)
+                    try
                     {
-                        result.Analysis = analyzer.Analyze(result);
+                        foreach (CompareResult result in results[key] as List<CompareResult>)
+                        {
+                            result.Analysis = analyzer.Analyze(result);
+                        }
                     }
+                    catch (Exception e)
+                    { 
+                        Log.Debug("{0} {1} {2} {3}", key,e.GetType().ToString(), e.Message, e.StackTrace); 
+                    }
+                    
                 }
                 //Parallel.ForEach(results[key] as List<CompareResult>, (result) =>
 
