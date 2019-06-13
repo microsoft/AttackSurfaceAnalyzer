@@ -1143,21 +1143,16 @@ namespace AttackSurfaceAnalyzer
                 EndEvent.Add(c.GetType().ToString(), c.GetNumResults().ToString());
             }
 
-            Log.Information("Before analysis check");
-            //if (opts.Analyze)
-            //{
             Log.Information("Analysis begins");
-            PLATFORM platform = DatabaseManager.RunIdToPlatform(opts.FirstRunId);
-            Analyzer analyzer = new Analyzer(platform);
-            Log.Debug(JsonConvert.SerializeObject(results, new StringEnumConverter()));
+            Analyzer analyzer = new Analyzer(DatabaseManager.RunIdToPlatform(opts.FirstRunId));
             foreach (var key in results.Keys)
             {
                 try
                 {
-                    foreach (CompareResult result in results[key] as List<CompareResult>)
+                    Parallel.ForEach(results[key] as List<CompareResult>, (result) =>
                     {
                         result.Analysis = analyzer.Analyze(result);
-                    }
+                    });
                 }
                 catch (Exception e)
                 { 
@@ -1165,13 +1160,8 @@ namespace AttackSurfaceAnalyzer
                 }
                 
             }
-                //Parallel.ForEach(results[key] as List<CompareResult>, (result) =>
 
-                //});
-
-            //}
             Log.Information("Analysis ends");
-            //}
 
             Telemetry.TrackEvent("End Command", EndEvent);
 

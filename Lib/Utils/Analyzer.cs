@@ -110,10 +110,6 @@ namespace AttackSurfaceAnalyzer.Utils
                 var baseVal = default(object);
                 try
                 {
-                    Log.Debug("Before null check");
-                    //Log.Debug(JsonConvert.SerializeObject(compareResult));
-                    Log.Debug((compareResult.Compare == null).ToString());
-
                     if (compareResult.Compare != null)
                     { 
                         val = GetValueByPropertyName(compareResult.Compare, field.Name);
@@ -212,7 +208,7 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             Log.Verbose("Filter dump:");
 
-            Log.Information(JsonConvert.SerializeObject(_filters, new StringEnumConverter()));
+            Log.Verbose(JsonConvert.SerializeObject(_filters, new StringEnumConverter()));
         }
 
         public  void LoadEmbeddedFilters()
