@@ -20,9 +20,9 @@ namespace AttackSurfaceAnalyzer.Collectors.UserAccount
         {
             Results = new Dictionary<string, object>
             {
-                ["users_add"] = new List<UserAccountResult>(), 
-                ["users_remove"] = new List<UserAccountResult>(),
-                ["users_modify"] = new List<UserAccountResult>(),
+                ["users_add"] = new List<CompareResult>(), 
+                ["users_remove"] = new List<CompareResult>(),
+                ["users_modify"] = new List<CompareResult>(),
             };
             _type = RESULT_TYPE.USER;
         }
@@ -40,7 +40,7 @@ namespace AttackSurfaceAnalyzer.Collectors.UserAccount
 
             
 
-            var addObjects = new List<UserAccountResult>();
+            var addObjects = new List<CompareResult>();
             var cmd = new SqliteCommand(SELECT_INSERTED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
             cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
             cmd.Parameters.AddWithValue("@second_run_id", secondRunId);
@@ -67,7 +67,7 @@ namespace AttackSurfaceAnalyzer.Collectors.UserAccount
 
                 Log.Information(Strings.Get("FoundCreated"), addObjects.Count);
 
-                var removeObjects = new List<UserAccountResult>();
+                var removeObjects = new List<CompareResult>();
                 cmd = new SqliteCommand(SELECT_DELETED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
                 cmd.Parameters.AddWithValue("@second_run_id", secondRunId);
@@ -92,7 +92,7 @@ namespace AttackSurfaceAnalyzer.Collectors.UserAccount
 
                 Log.Information(Strings.Get("FoundDeleted"), addObjects.Count);
 
-                var modifyObjects = new List<UserAccountResult>();
+                var modifyObjects = new List<CompareResult>();
                 cmd = new SqliteCommand(SELECT_MODIFIED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
                 cmd.Parameters.AddWithValue("@second_run_id", secondRunId);

@@ -825,7 +825,7 @@ namespace AttackSurfaceAnalyzer
 
             }
 
-            string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, type, timestamp, version) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @type, @timestamp, @version)";
+            string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, type, timestamp, version, platform) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @type, @timestamp, @version, @platform)";
 
             var cmd = new SqliteCommand(INSERT_RUN, DatabaseManager.Connection, DatabaseManager.Transaction);
             cmd.Parameters.AddWithValue("@run_id", opts.RunId);
@@ -1146,26 +1146,25 @@ namespace AttackSurfaceAnalyzer
             Log.Information("Before analysis check");
             //if (opts.Analyze)
             //{
-                Log.Information("Analysis begins");
-                // TODO: Correctly set the OSPlatform variable based on the dataset
-                PLATFORM platform = DatabaseManager.RunIdToPlatform(opts.FirstRunId);
-                Analyzer analyzer = new Analyzer(platform);
-                Log.Debug(JsonConvert.SerializeObject(results, new StringEnumConverter()));
-                foreach (var key in results.Keys)
+            Log.Information("Analysis begins");
+            PLATFORM platform = DatabaseManager.RunIdToPlatform(opts.FirstRunId);
+            Analyzer analyzer = new Analyzer(platform);
+            Log.Debug(JsonConvert.SerializeObject(results, new StringEnumConverter()));
+            foreach (var key in results.Keys)
+            {
+                try
                 {
-                    try
+                    foreach (CompareResult result in results[key] as List<CompareResult>)
                     {
-                        foreach (CompareResult result in results[key] as List<CompareResult>)
-                        {
-                            result.Analysis = analyzer.Analyze(result);
-                        }
+                        result.Analysis = analyzer.Analyze(result);
                     }
-                    catch (Exception e)
-                    { 
-                        Log.Debug("{0} {1} {2} {3}", key,e.GetType().ToString(), e.Message, e.StackTrace); 
-                    }
-                    
                 }
+                catch (Exception e)
+                { 
+                    Log.Debug("{0} {1} {2} {3}", key,e.GetType().ToString(), e.Message, e.StackTrace); 
+                }
+                
+            }
                 //Parallel.ForEach(results[key] as List<CompareResult>, (result) =>
 
                 //});
@@ -1392,7 +1391,7 @@ namespace AttackSurfaceAnalyzer
             }
             Log.Information(Strings.Get("Begin"), opts.RunId);
 
-            string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, type, timestamp, version) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @type, @timestamp, @version)";
+            string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, type, timestamp, version, platform) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @type, @timestamp, @version, @platform)";
 
             using (var cmd = new SqliteCommand(INSERT_RUN, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
@@ -1436,6 +1435,7 @@ namespace AttackSurfaceAnalyzer
                 cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                 cmd.Parameters.AddWithValue("@version", Helpers.GetVersionString());
                 cmd.Parameters.AddWithValue("@platform", Helpers.GetPlatformString());
+                Log.Debug("{0} is the platform string",Helpers.GetPlatformString());
 
                 try
                 {

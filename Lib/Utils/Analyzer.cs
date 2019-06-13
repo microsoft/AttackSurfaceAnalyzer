@@ -77,12 +77,17 @@ namespace AttackSurfaceAnalyzer.Utils
             if (config == null) { return DEFAULT_RESULT_TYPE; }
             var results = new List<ANALYSIS_RESULT_TYPE>();
 
-            foreach (Rule rule in _filters[OsName][compareResult.ResultType])
+            if (_filters[OsName][compareResult.ResultType].Count > 0)
             {
-                results.Add(Apply(rule, compareResult));
-            }
+                foreach (Rule rule in _filters[OsName][compareResult.ResultType])
+                {
+                    results.Add(Apply(rule, compareResult));
+                }
 
-            return results.Max();
+                return results.Max();
+            }
+            //If there are no filters for a result type
+            return DEFAULT_RESULT_TYPE;
         }
 
         protected ANALYSIS_RESULT_TYPE Apply(Rule rule, CompareResult compareResult)
@@ -103,8 +108,12 @@ namespace AttackSurfaceAnalyzer.Utils
                 var baseVal = default(object);
                 try
                 {
+                    Log.Debug("Before null check");
+                    //Log.Debug(JsonConvert.SerializeObject(compareResult));
+                    Log.Debug((compareResult.Compare == null).ToString());
+
                     if (compareResult.Compare != null)
-                    {
+                    { 
                         val = GetValueByPropertyName(compareResult.Compare, field.Name);
                     }
                     if (compareResult.Base != null)

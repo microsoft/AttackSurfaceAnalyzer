@@ -18,9 +18,9 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
         {
             Results = new Dictionary<string, object>
             {
-                ["certs_add"] = new List<CertificateResult>(),
-                ["certs_remove"] = new List<CertificateResult>(),
-                ["certs_modify"] = new List<CertificateResult>(),
+                ["certs_add"] = new List<CompareResult>(),
+                ["certs_remove"] = new List<CompareResult>(),
+                ["certs_modify"] = new List<CompareResult>(),
             };
             _type = RESULT_TYPE.CERTIFICATE;
         }
@@ -39,7 +39,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
                 }
                 
 
-                var addObjects = new List<CertificateResult>();
+                var addObjects = new List<CompareResult>();
                 var cmd = new SqliteCommand(SELECT_INSERTED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
                 cmd.Parameters.AddWithValue("@second_run_id", secondRunId);
@@ -70,7 +70,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
 
                 Log.Information(Strings.Get("FoundCreated"), addObjects.Count);
 
-                var removeObjects = new List<CertificateResult>();
+                var removeObjects = new List<CompareResult>();
                 cmd = new SqliteCommand(SELECT_DELETED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
                 cmd.Parameters.AddWithValue("@second_run_id", secondRunId);

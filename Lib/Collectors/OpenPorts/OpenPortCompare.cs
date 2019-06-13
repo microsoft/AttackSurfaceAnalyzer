@@ -28,9 +28,9 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
         {
             Results = new Dictionary<string, object>
             {
-                ["ports_add"] = new List<OpenPortResult>(),
-                ["ports_remove"] = new List<OpenPortResult>(),
-                ["ports_modify"] = new List<OpenPortResult>(),
+                ["ports_add"] = new List<CompareResult>(),
+                ["ports_remove"] = new List<CompareResult>(),
+                ["ports_modify"] = new List<CompareResult>(),
             };
             _type = RESULT_TYPE.PORT;
         }
@@ -48,7 +48,7 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
 
             
 
-            var addObjects = new List<OpenPortResult>();
+            var addObjects = new List<CompareResult>();
             var cmd = new SqliteCommand(SELECT_INSERTED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
             cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
             cmd.Parameters.AddWithValue("@second_run_id", secondRunId);
@@ -82,7 +82,7 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
 
             Log.Information(Strings.Get("FoundCreated"), addObjects.Count);
 
-            var removeObjects = new List<OpenPortResult>();
+            var removeObjects = new List<CompareResult>();
             cmd = new SqliteCommand(SELECT_DELETED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
             cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
             cmd.Parameters.AddWithValue("@second_run_id", secondRunId);

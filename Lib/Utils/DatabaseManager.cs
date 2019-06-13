@@ -211,6 +211,7 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             using (var cmd = new SqliteCommand(SQL_GET_PLATFORM_FROM_RUNID, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
+                cmd.Parameters.AddWithValue("@run_id", runid);
                 using (var reader = cmd.ExecuteReader())
                 {
                     reader.Read();

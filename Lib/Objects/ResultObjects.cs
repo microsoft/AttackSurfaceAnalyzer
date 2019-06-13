@@ -27,7 +27,7 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
         public object Base;
         public object Compare;
         public ANALYSIS_RESULT_TYPE Analysis;
-        public List<Rule> Rules;
+        public List<Rule> Rules = new List<Rule>();
     }
 
     public class OutputFileMonitorResult
