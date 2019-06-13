@@ -10,7 +10,7 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public static class DatabaseManager
     {
-        private static readonly string SQL_CREATE_RUNS = "create table if not exists runs (run_id text, file_system int, ports int, users int, services int, registry int, certificates int, type text, timestamp text, version text, unique(run_id))";
+        private static readonly string SQL_CREATE_RUNS = "create table if not exists runs (run_id text, file_system int, ports int, users int, services int, registry int, certificates int, type text, timestamp text, version text, platform text, unique(run_id))";
         private static readonly string SQL_CREATE_FILE_MONITORED = "create table if not exists file_system_monitored (run_id text, row_key text, timestamp text, change_type int, path text, old_path text, name text, old_name text, extended_results text, notify_filters text, serialized text)";
 
         private static readonly string SQL_CREATE_FILE_SYSTEM_COLLECTION = "create table if not exists file_system (run_id text, row_key text, path text, permissions text, size int, hash text, serialized text)";
@@ -71,7 +71,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private static readonly string PRAGMAS = "PRAGMA main.auto_vacuum = 1;";
 
-        private static readonly string SCHEMA_VERSION = "1";
+        private static readonly string SCHEMA_VERSION = "2";
 
         public static SqliteConnection Connection;
         public static SqliteConnection ReadOnlyConnection;

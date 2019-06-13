@@ -24,6 +24,8 @@ using System.Reflection;
 using Serilog;
 using System.Resources;
 using CommandLine.Text;
+using System.Threading.Tasks;
+using AttackSurfaceAnalyzer.Objects;
 
 namespace AttackSurfaceAnalyzer
 {
@@ -70,6 +72,9 @@ namespace AttackSurfaceAnalyzer
 
         [Option(HelpText = "Exploded output")]
         public bool ExplodedOutput { get; set; }
+
+        [Option(HelpText = "Enable Analysis.", Default = true)]
+        public bool Analyze { get; set; }
 
         [Option(HelpText = "Show debug logging statements.")]
         public bool Debug { get; set; }
@@ -476,6 +481,8 @@ namespace AttackSurfaceAnalyzer
 
             if (opts.ExplodedOutput)
             {
+                // TODO: Add the rules to the output here. They're parsed in an Analyzer object inside of CompareRuns.
+                //results.Add("rules", );
                 results.Add("metadata", Helpers.GenerateMetadata());
                 string path = Path.Combine(opts.OutputPath, Helpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId));
                 Directory.CreateDirectory(path);
@@ -830,6 +837,7 @@ namespace AttackSurfaceAnalyzer
             cmd.Parameters.AddWithValue("@type", "monitor");
             cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
             cmd.Parameters.AddWithValue("@version", Helpers.GetVersionString());
+            cmd.Parameters.AddWithValue("@platform", Helpers.GetPlatformString());
             try
             {
                 cmd.ExecuteNonQuery();
@@ -1042,14 +1050,14 @@ namespace AttackSurfaceAnalyzer
 
             comparators = new List<BaseCompare>();
 
-            Dictionary<string, int> count = new Dictionary<string, int>()
+            Dictionary<RESULT_TYPE, int> count = new Dictionary<RESULT_TYPE, int>()
             {
-                { RESULT_TYPE.FILE.ToString(), 0 },
-                { RESULT_TYPE.CERTIFICATE.ToString(), 0 },
-                { RESULT_TYPE.REGISTRY.ToString(), 0 },
-                { RESULT_TYPE.PORT.ToString(), 0 },
-                { RESULT_TYPE.SERVICES.ToString(), 0 },
-                { RESULT_TYPE.USER.ToString(), 0 }
+                { RESULT_TYPE.FILE, 0 },
+                { RESULT_TYPE.CERTIFICATE, 0 },
+                { RESULT_TYPE.REGISTRY, 0 },
+                { RESULT_TYPE.PORT, 0 },
+                { RESULT_TYPE.SERVICES, 0 },
+                { RESULT_TYPE.USER, 0 }
             };
 
             using (var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES, DatabaseManager.Connection, DatabaseManager.Transaction))
@@ -1064,57 +1072,57 @@ namespace AttackSurfaceAnalyzer
                     {
                         if (int.Parse(reader["file_system"].ToString()) != 0)
                         {
-                            count["File"]++;
+                            count[RESULT_TYPE.FILE]++;
                         }
                         if (int.Parse(reader["ports"].ToString()) != 0)
                         {
-                            count["Port"]++;
+                            count[RESULT_TYPE.PORT]++;
                         }
                         if (int.Parse(reader["users"].ToString()) != 0)
                         {
-                            count["User"]++;
+                            count[RESULT_TYPE.USER]++;
                         }
                         if (int.Parse(reader["services"].ToString()) != 0)
                         {
-                            count["Service"]++;
+                            count[RESULT_TYPE.SERVICES]++;
                         }
                         if (int.Parse(reader["registry"].ToString()) != 0)
                         {
-                            count["Registry"]++;
+                            count[RESULT_TYPE.REGISTRY]++;
                         }
                         if (int.Parse(reader["certificates"].ToString()) != 0)
                         {
-                            count["Certificate"]++;
+                            count[RESULT_TYPE.CERTIFICATE]++;
                         }
                     }
                 }
             }
 
-            foreach (KeyValuePair<string, int> entry in count)
+            foreach (KeyValuePair<RESULT_TYPE, int> entry in count)
             {
                 if (entry.Value == 2)
                 {
-                    if (entry.Key.Equals("File"))
+                    if (entry.Key.Equals(RESULT_TYPE.FILE))
                     {
                         comparators.Add(new FileSystemCompare());
                     }
-                    if (entry.Key.Equals("Certificate"))
+                    if (entry.Key.Equals(RESULT_TYPE.CERTIFICATE))
                     {
                         comparators.Add(new CertificateCompare());
                     }
-                    if (entry.Key.Equals("Registry"))
+                    if (entry.Key.Equals(RESULT_TYPE.REGISTRY))
                     {
                         comparators.Add(new RegistryCompare());
                     }
-                    if (entry.Key.Equals("Port"))
+                    if (entry.Key.Equals(RESULT_TYPE.PORT))
                     {
                         comparators.Add(new OpenPortCompare());
                     }
-                    if (entry.Key.Equals("Service"))
+                    if (entry.Key.Equals(RESULT_TYPE.SERVICES))
                     {
                         comparators.Add(new ServiceCompare());
                     }
-                    if (entry.Key.Equals("User"))
+                    if (entry.Key.Equals(RESULT_TYPE.USER))
                     {
                         comparators.Add(new UserAccountCompare());
                     }
@@ -1134,9 +1142,13 @@ namespace AttackSurfaceAnalyzer
                 EndEvent.Add(c.GetType().ToString(), c.GetNumResults().ToString());
             }
 
-            if (opts.Analyze)
-            {
-                Analyzer analyzer = new Analyzer();
+            Log.Information("Before analysis check");
+            //if (opts.Analyze)
+            //{
+                Log.Information("Analysis begins");
+                // TODO: Correctly set the OSPlatform variable based on the dataset
+                // Is this data currently queryable?
+                Analyzer analyzer = new Analyzer(OSPlatform.Windows);
                 foreach (var key in results.Keys)
                 {
                     foreach (CompareResult result in results[key] as List<CompareResult>)
@@ -1144,7 +1156,13 @@ namespace AttackSurfaceAnalyzer
                         result.Analysis = analyzer.Analyze(result);
                     }
                 }
-            }
+                //Parallel.ForEach(results[key] as List<CompareResult>, (result) =>
+
+                //});
+
+            //}
+            Log.Information("Analysis ends");
+            //}
 
             Telemetry.TrackEvent("End Command", EndEvent);
 
@@ -1403,13 +1421,12 @@ namespace AttackSurfaceAnalyzer
                 cmd.Parameters.AddWithValue("@services", opts.EnableServiceCollector);
                 cmd.Parameters.AddWithValue("@registry", opts.EnableRegistryCollector);
                 cmd.Parameters.AddWithValue("@certificates", opts.EnableCertificateCollector);
-
-
                 cmd.Parameters.AddWithValue("@run_id", opts.RunId);
-
                 cmd.Parameters.AddWithValue("@type", "collect");
                 cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                 cmd.Parameters.AddWithValue("@version", Helpers.GetVersionString());
+                cmd.Parameters.AddWithValue("@platform", Helpers.GetPlatformString());
+
                 try
                 {
                     cmd.ExecuteNonQuery();

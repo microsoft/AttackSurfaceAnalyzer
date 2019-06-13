@@ -13,11 +13,11 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         private static readonly string INSERT_RESULT_SQL = "insert into compared (base_run_id, compare_run_id, change_type, base_row_key, compare_row_key, data_type) values (@base_run_id, @compare_run_id, @change_type, @base_row_key, @compare_row_key, @data_type);";
 
-        public Dictionary<string, List<CompareResult>> Results { get; protected set; }
+        public Dictionary<string, object> Results { get; protected set; }
 
         public BaseCompare()
         {
-            Results = new Dictionary<string, List<CompareResult>>();
+            Results = new Dictionary<string, object>();
         }
 
         private int numResults = 0;

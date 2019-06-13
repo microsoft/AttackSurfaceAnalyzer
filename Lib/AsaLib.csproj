@@ -29,10 +29,6 @@ This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI 
     <Compile Remove="Utils\CommandOptions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Utils\ConfigurationReader.cs" />
-    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Utils\CryptoHelpers.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Microsoft.PowerShell.Commands.Diagnostics" Version="6.2.1" />
     <PackageReference Include="Microsoft.PowerShell.SDK" Version="6.2.1" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.6.0-preview.19073.11" />
@@ -83,5 +79,8 @@ This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI 
       <Link>README.md</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="..\analyses.json">
+      <Link>analyses.json</Link>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

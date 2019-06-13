@@ -46,21 +46,22 @@ namespace AttackSurfaceAnalyzer.Utils
             return fileVersionInfo.ProductVersion;
         }
 
-        public static string RuntimeString()
+
+        public static string GetPlatformString()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                return "Linux";
+                return PLATFORM.LINUX.ToString();
             }
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                return "Windows";
+                return PLATFORM.WINDOWS.ToString();
             }
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                return "Macos";
+                return PLATFORM.MACOS.ToString();
             }
-            return "Unknown";
+            return PLATFORM.UNKNOWN.ToString();
         }
 
         public static string ResultTypeToTableName(RESULT_TYPE result_type)
@@ -101,7 +102,7 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                return Helpers.RuntimeString();
+                return Helpers.GetPlatformString();
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {

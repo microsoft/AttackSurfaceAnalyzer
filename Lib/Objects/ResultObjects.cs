@@ -1,8 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using AttackSurfaceAnalyzer.Collectors.FileSystem;
-using AttackSurfaceAnalyzer.ObjectTypes;
-using Serilog;
+using AttackSurfaceAnalyzer.Objects;
+using System.Collections.Generic;
 using System.IO;
 
 namespace AttackSurfaceAnalyzer.ObjectTypes
@@ -28,6 +27,7 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
         public object Base;
         public object Compare;
         public ANALYSIS_RESULT_TYPE Analysis;
+        public List<Rule> Rules;
     }
 
     public class OutputFileMonitorResult

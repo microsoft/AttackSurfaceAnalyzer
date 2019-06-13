@@ -58,6 +58,7 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
     // These are flags that can be defined in an analyze.json to arrange output by importance.
     public enum ANALYSIS_RESULT_TYPE
     {
+        NONE,
         VERBOSE,
         DEBUG,
         INFORMATION,
@@ -75,5 +76,13 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
         GT,
         CONTAINS,
         WAS_MODIFIED
+    }
+
+    public enum PLATFORM
+    { 
+        WINDOWS,
+        LINUX,
+        MACOS,
+        UNKNOWN
     }
 }

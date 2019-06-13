@@ -9,69 +9,59 @@ using System.Reflection;
 using AttackSurfaceAnalyzer.ObjectTypes;
 using System.Runtime.InteropServices;
 using System.Linq;
+using AttackSurfaceAnalyzer.Objects;
+using Newtonsoft.Json.Converters;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
-
-    public class Rule
-    {
-        public string name;
-        public ANALYSIS_RESULT_TYPE flag;
-        public OSPlatform platform;
-        public RESULT_TYPE resultType;
-        public List<Clause> clauses;
-    }
-
-    public class Clause
-    {
-        public string field;
-        public OPERATION op;
-        public List<string> data;
-    }
-
     public class Analyzer
     {
-        Dictionary<RESULT_TYPE,List<FieldInfo>> _Fields;
-
+        Dictionary<RESULT_TYPE, List<FieldInfo>> _Fields = new Dictionary<RESULT_TYPE, List<FieldInfo>>();
 
         JObject config = null;
-        Dictionary<string, Dictionary<string, List<Rule>>> _filters = new Dictionary<string, Dictionary<string,List<Rule>>>();
-        string OsName;
+        Dictionary<PLATFORM, Dictionary<RESULT_TYPE, List<Rule>>> _filters = new Dictionary<PLATFORM, Dictionary<RESULT_TYPE,List<Rule>>>();
+        PLATFORM OsName;
         ANALYSIS_RESULT_TYPE DEFAULT_RESULT_TYPE;
-
-        Dictionary<RESULT_TYPE,List<Rule>> rules;
-
-        public Analyzer() : this(useEmbedded:true) { }
-        public Analyzer(string filterLocation = "filters.json", bool useEmbedded = false, ANALYSIS_RESULT_TYPE defaultResultType = ANALYSIS_RESULT_TYPE.INFORMATION) {
+        
+        public Analyzer(OSPlatform platform) : this(platform: platform, useEmbedded:true) { }
+        public Analyzer(OSPlatform platform, string filterLocation = "analyses.json", bool useEmbedded = false, ANALYSIS_RESULT_TYPE defaultResultType = ANALYSIS_RESULT_TYPE.INFORMATION) {
             if (useEmbedded) { LoadEmbeddedFilters(); }
             else { LoadFilters(filterLocation); }
             if (config != null) { ParseFilters(); }
             DEFAULT_RESULT_TYPE = defaultResultType;
+
+            if (platform.Equals(OSPlatform.Windows)) { OsName = PLATFORM.WINDOWS; }
+            if (platform.Equals(OSPlatform.Linux)) { OsName = PLATFORM.LINUX; }
+            if (platform.Equals(OSPlatform.OSX)) { OsName = PLATFORM.MACOS; }
+
             PopulateFields();
         }
 
         protected void ParseFilters()
         {
-            foreach (string o in Enum.GetNames(typeof(OSPlatform)))
+            foreach (PLATFORM o in Enum.GetValues(typeof(PLATFORM)))
             {
-                _filters[o] = new Dictionary<string, List<Rule>>();
-                foreach (string t in Enum.GetNames(typeof(RESULT_TYPE)))
+                _filters[o] = new Dictionary<RESULT_TYPE, List<Rule>>();
+                foreach (RESULT_TYPE t in Enum.GetValues(typeof(RESULT_TYPE)))
                 {
                     _filters[o][t] = new List<Rule>();
                 }
-                try
+            }
+            try
+            {
+                JArray jFilters = (JArray)config["rules"];
+                foreach (var R in jFilters)
                 {
-                    JArray jFilters = (JArray)config[o];
-                    foreach (var R in jFilters)
+                    Rule r = R.ToObject<Rule>();
+                    foreach (PLATFORM platform in r.platforms)
                     {
-                        Rule r = R.ToObject<Rule>();
-                        _filters[o][r.resultType.ToString()].Add(r);
+                        _filters[platform][r.resultType].Add(r);
                     }
                 }
-                catch(Exception e)
-                {
-                    Log.Debug("{0} {1} {2}", e.GetType().ToString(), e.Message, e.StackTrace);
-                }
+            }
+            catch(Exception e)
+            {
+                Log.Debug("{0} {1} {2}", e.GetType().ToString(), e.Message, e.StackTrace);
             }
         }
 
@@ -88,15 +78,14 @@ namespace AttackSurfaceAnalyzer.Utils
         public ANALYSIS_RESULT_TYPE Analyze(CompareResult compareResult)
         {
             if (config == null) { return DEFAULT_RESULT_TYPE; }
-            RESULT_TYPE ruleFilter = compareResult.ResultType;
+            var results = new List<ANALYSIS_RESULT_TYPE>();
 
-            foreach (Rule rule in rules[compareResult.ResultType])
+            foreach (Rule rule in _filters[OsName][compareResult.ResultType])
             {
-                var next = Apply(rule, compareResult);
-                if (next != DEFAULT_RESULT_TYPE) { return next; }
+                results.Add(Apply(rule, compareResult));
             }
 
-            return DEFAULT_RESULT_TYPE;
+            return results.Max();
         }
 
         protected ANALYSIS_RESULT_TYPE Apply(Rule rule, CompareResult compareResult)
@@ -109,7 +98,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 if (field == null)
                 {
-                    //Custom field logic
+                    //Custom field logic will go here
                     return DEFAULT_RESULT_TYPE;
                 }
                 else
@@ -207,7 +196,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     }
                 }
             }
-
+            compareResult.Rules.Add(rule);
             return rule.flag;
         }
 
@@ -216,13 +205,11 @@ namespace AttackSurfaceAnalyzer.Utils
             return typeof(T).GetProperty(propertyName).GetValue(obj);
         }
 
-        public  void DumpFilters()
+        public void DumpFilters()
         {
             Log.Verbose("Filter dump:");
-            foreach (var filter in config)
-            {
-                Log.Verbose(filter.Value.ToString());
-            }
+
+            Log.Information(JsonConvert.SerializeObject(_filters, new StringEnumConverter()));
         }
 
         public  void LoadEmbeddedFilters()
@@ -238,12 +225,14 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     config = (JObject)JToken.ReadFrom(reader);
                     Log.Information(Strings.Get("LoadedAnalyses"), "Embedded");
-                    DumpFilters();
                 }
                 if (config == null)
                 {
-                    Log.Debug("Out of entries");
+                    Log.Debug("No filters today.");
+                    return;
                 }
+                ParseFilters();
+                DumpFilters();
             }
             catch (FileNotFoundException)
             {
@@ -277,12 +266,14 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     config = (JObject)JToken.ReadFrom(reader);
                     Log.Information(Strings.Get("LoadedAnalyses"), filterLoc);
-                    DumpFilters();
                 }
                 if (config == null)
                 {
-                    Log.Debug("Out of entries");
+                    Log.Debug("No filters this time.");
+                    return;
                 }
+                ParseFilters();
+                DumpFilters();
             }
             catch (System.IO.FileNotFoundException)
             {
