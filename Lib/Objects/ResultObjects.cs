@@ -4,10 +4,10 @@ using AttackSurfaceAnalyzer.Objects;
 using System.Collections.Generic;
 using System.IO;
 
-namespace AttackSurfaceAnalyzer.ObjectTypes
+namespace AttackSurfaceAnalyzer.Objects
 {
 
-    public class FileMonitorEvent
+    public class FileMonitorEvent : CollectObject
     {
         public CHANGE_TYPE ChangeType;
         public string Path;

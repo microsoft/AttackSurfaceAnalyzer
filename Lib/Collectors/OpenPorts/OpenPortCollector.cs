@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
-using AttackSurfaceAnalyzer.ObjectTypes;
+using AttackSurfaceAnalyzer.Objects;
 using Newtonsoft.Json;
 using Serilog;
 

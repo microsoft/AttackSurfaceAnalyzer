@@ -12,7 +12,7 @@ using System.Security.Cryptography.X509Certificates;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Serilog;
-using AttackSurfaceAnalyzer.ObjectTypes;
+using AttackSurfaceAnalyzer.Objects;
 using System.Text.RegularExpressions;
 using System.Text;
 
@@ -68,6 +68,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
                     cmd.Parameters.AddWithValue("@pkcs12", obj.Export(X509ContentType.Pfx));
                 }
 
+                // TODO: Fix this
                 cmd.Parameters.AddWithValue("@row_key", CryptoHelpers.CreateHash(runId + recordCounter));
 
                 var cert = new CertificateObject()

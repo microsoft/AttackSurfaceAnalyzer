@@ -7,9 +7,9 @@ using AttackSurfaceAnalyzer.Utils;
 using Newtonsoft.Json;
 using Serilog;
 
-namespace AttackSurfaceAnalyzer.ObjectTypes
+namespace AttackSurfaceAnalyzer.Objects
 { 
-    public class UserAccountObject
+    public class UserAccountObject : CollectObject
     {
         public string AccountType;
         public string Caption;
@@ -33,14 +33,6 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
         public string PasswordStorageAlgorithm;
 
         public Dictionary<string, string> Properties;
-
-        public string RowKey
-        {
-            get
-            {
-                return CryptoHelpers.CreateHash(this.ToString());
-            }
-        }
 
         public string PropertiesString()
         {

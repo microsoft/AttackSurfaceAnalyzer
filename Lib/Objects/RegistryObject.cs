@@ -7,15 +7,15 @@ using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Win32;
 using Serilog;
 
-namespace AttackSurfaceAnalyzer.ObjectTypes
+namespace AttackSurfaceAnalyzer.Objects
 {
-    public class RegistryObject
+    public class RegistryObject : CollectObject
     {
 
-        public string Key = "";
+        public string Key;
         public Dictionary<string, string> Values = new Dictionary<string, string>();
         public List<string> Subkeys = new List<string>();
-        public string Permissions = "";
+        public string Permissions;
 
         private static List<string> GetSubkeys(RegistryKey key)
         {

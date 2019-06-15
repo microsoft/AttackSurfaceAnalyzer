@@ -18,7 +18,7 @@ using AttackSurfaceAnalyzer.Utils;
 using CommandLine;
 using Microsoft.Data.Sqlite;
 using RazorLight;
-using AttackSurfaceAnalyzer.ObjectTypes;
+using AttackSurfaceAnalyzer.Objects;
 using Newtonsoft.Json;
 using System.Reflection;
 using Serilog;
@@ -1143,8 +1143,13 @@ namespace AttackSurfaceAnalyzer
                 EndEvent.Add(c.GetType().ToString(), c.GetNumResults().ToString());
             }
 
-            Log.Information("Analysis begins");
+            Log.Information(Strings.Get("Begin"),"Analysis");
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+
+
+
             Analyzer analyzer = new Analyzer(DatabaseManager.RunIdToPlatform(opts.FirstRunId));
+
             foreach (var key in results.Keys)
             {
                 try
@@ -1158,10 +1163,15 @@ namespace AttackSurfaceAnalyzer
                 { 
                     Log.Debug("{0} {1} {2} {3}", key,e.GetType().ToString(), e.Message, e.StackTrace); 
                 }
-                
             }
-
-            Log.Information("Analysis ends");
+            watch.Stop();
+            TimeSpan t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
+            string answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+                                    t.Hours,
+                                    t.Minutes,
+                                    t.Seconds,
+                                    t.Milliseconds);
+            Log.Information(Strings.Get("Completed"),"Analysis",answer);
 
             Telemetry.TrackEvent("End Command", EndEvent);
 

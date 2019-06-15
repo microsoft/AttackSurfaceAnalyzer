@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.ServiceProcess;
-using AttackSurfaceAnalyzer.ObjectTypes;
+using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
@@ -52,7 +52,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
 
             var cmd = new SqliteCommand(INSERT_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
             cmd.Parameters.AddWithValue("@run_id", this.runId);
-            cmd.Parameters.AddWithValue("@row_key", obj.GetUniqueHash());
+            cmd.Parameters.AddWithValue("@row_key", obj.RowKey);
             cmd.Parameters.AddWithValue("@service_name", obj.ServiceName);
             cmd.Parameters.AddWithValue("@display_name", obj.DisplayName);
             cmd.Parameters.AddWithValue("@start_type", obj.StartType);
@@ -126,9 +126,9 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
                         // If we have a current PID then it is running.
                         CurrentState = (_fields[0].Equals("-"))?"Stopped":"Running"
                     };
-                    if (!outDict.ContainsKey(obj.GetUniqueHash())){
+                    if (!outDict.ContainsKey(obj.RowKey)){
                         this.Write(obj);
-                        outDict.Add(obj.GetUniqueHash(), obj);
+                        outDict.Add(obj.RowKey, obj);
                     }
                 }
 
@@ -155,10 +155,10 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
                         CurrentState = (_fields[0].Equals("-")) ? "Stopped" : "Running"
                     };
 
-                    if (!outDict.ContainsKey(obj.GetUniqueHash()))
+                    if (!outDict.ContainsKey(obj.RowKey))
                     {
                         this.Write(obj);
-                        outDict.Add(obj.GetUniqueHash(), obj);
+                        outDict.Add(obj.RowKey, obj);
                     }
                 }
             }

@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using AttackSurfaceAnalyzer.ObjectTypes;
+using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
 using Microsoft.Win32;
@@ -76,7 +76,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                 using (var cmd = new SqliteCommand(SQL_INSERT, DatabaseManager.Connection, DatabaseManager.Transaction))
                 {
                     cmd.Parameters.AddWithValue("@run_id", this.runId);
-                    cmd.Parameters.AddWithValue("@row_key", CryptoHelpers.CreateHash(hashSeed));
+                    cmd.Parameters.AddWithValue("@row_key", obj.RowKey);
                     cmd.Parameters.AddWithValue("@key", obj.Key);
                    
                         cmd.Parameters.AddWithValue("@value", JsonConvert.SerializeObject(obj.Values));

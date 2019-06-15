@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
-using AttackSurfaceAnalyzer.ObjectTypes;
+using AttackSurfaceAnalyzer.Objects;
 using Serilog;
 
 namespace AttackSurfaceAnalyzer.Collectors.Certificates

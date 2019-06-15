@@ -9,7 +9,7 @@ using AttackSurfaceAnalyzer;
 using AttackSurfaceAnalyzer.Collectors;
 using AttackSurfaceAnalyzer.Utils;
 using AttackSurfaceAnalyzer.Models;
-using AttackSurfaceAnalyzer.ObjectTypes;
+using AttackSurfaceAnalyzer.Objects;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;

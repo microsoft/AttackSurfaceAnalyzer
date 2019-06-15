@@ -3,7 +3,7 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Reflection;
-using AttackSurfaceAnalyzer.ObjectTypes;
+using AttackSurfaceAnalyzer.Objects;
 using System.Collections.Generic;
 
 namespace AttackSurfaceAnalyzer.Utils
