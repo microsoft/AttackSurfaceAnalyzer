@@ -30,7 +30,6 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
         private Action<RegistryObject> customCrawlHandler = null;
 
         private static readonly string SQL_TRUNCATE = "delete from registry where run_id=@run_id";
-        private static readonly string SQL_INSERT = "insert into registry (run_id, row_key, key, value, subkeys, permissions, serialized) values (@run_id, @row_key, @key, @value, @subkeys, @permissions, @serialized)";
 
         public RegistryCollector(string RunId) : this(RunId, DefaultHives, null) { }
 
@@ -67,46 +66,6 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
         }
 
-        public void Write(RegistryObject obj)
-        {
-            try
-            {
-                string hashSeed = String.Format("{0}{1}", obj.Key, JsonConvert.SerializeObject(obj));
-
-                using (var cmd = new SqliteCommand(SQL_INSERT, DatabaseManager.Connection, DatabaseManager.Transaction))
-                {
-                    cmd.Parameters.AddWithValue("@run_id", this.runId);
-                    cmd.Parameters.AddWithValue("@row_key", obj.RowKey);
-                    cmd.Parameters.AddWithValue("@key", obj.Key);
-                   
-                        cmd.Parameters.AddWithValue("@value", JsonConvert.SerializeObject(obj.Values));
-                   
-
-                    cmd.Parameters.AddWithValue("@subkeys", JsonConvert.SerializeObject(obj.Subkeys));
-                    cmd.Parameters.AddWithValue("@permissions", obj.Permissions);
-                    cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj));
-
-                    try
-                    {
-                        cmd.ExecuteNonQuery();
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Debug(e.GetType() + "thrown in registry collector");
-                        Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
-                    }
-                }
-            }
-            catch(Exception)
-            {
-                Log.Debug("Had trouble writing {0}",obj.Key);
-            }
-
-            customCrawlHandler?.Invoke(obj);
-        }
-
-        
-
         public override void Execute()
         {
             Start();
@@ -140,7 +99,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Registry
                             {
                                 try
                                 {
-                                    Write(registryObject);
+                                    DatabaseManager.Write(registryObject, this.runId);
                                 }
                                 // Some registry keys don't get along
                                 catch (InvalidOperationException e)

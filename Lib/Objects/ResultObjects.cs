@@ -7,7 +7,7 @@ using System.IO;
 namespace AttackSurfaceAnalyzer.Objects
 {
 
-    public class FileMonitorEvent : CollectObject
+    public class FileMonitorEvent
     {
         public CHANGE_TYPE ChangeType;
         public string Path;

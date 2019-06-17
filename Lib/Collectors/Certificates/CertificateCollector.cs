@@ -23,78 +23,14 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
     /// </summary>
     public class CertificateCollector : BaseCollector
     {
-
-        private static readonly string SQL_TRUNCATE = "delete from certificates where run_id=@run_id";
-        private static readonly string SQL_INSERT = "insert into certificates (run_id, row_key, store_location, store_name, hash, hash_plus_store, cn, pkcs12, serialized) values (@run_id, @row_key, @store_location, @store_name, @hash, @hash_plus_store, @cn, @pkcs12, @serialized)";
-
-        private int recordCounter = 0;
-
         public CertificateCollector(string runId)
         {
             this.runId = runId;
         }
 
-        public void Truncate(string runid)
-        {
-            var cmd = new SqliteCommand(SQL_TRUNCATE, DatabaseManager.Connection, DatabaseManager.Transaction);
-            cmd.Parameters.AddWithValue("@run_id", runId);
-            cmd.ExecuteNonQuery();
-        }
-
         public override bool CanRunOnPlatform()
         {
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
-        }
-
-        public void Write(StoreLocation storeLocation, StoreName storeName, X509Certificate2 obj)
-        {
-            try
-            {
-                recordCounter++;
-                var cmd = new SqliteCommand(SQL_INSERT, DatabaseManager.Connection, DatabaseManager.Transaction);
-                cmd.Parameters.AddWithValue("@run_id", runId);
-                cmd.Parameters.AddWithValue("@store_location", storeLocation.ToString());
-                cmd.Parameters.AddWithValue("@store_name", storeName.ToString());
-                cmd.Parameters.AddWithValue("@hash", obj.GetCertHashString());
-                cmd.Parameters.AddWithValue("@hash_plus_store", obj.GetCertHashString() + storeLocation.ToString() + storeName.ToString());
-                cmd.Parameters.AddWithValue("@cn", obj.Subject);
-
-                if (obj.HasPrivateKey)
-                {
-                    cmd.Parameters.AddWithValue("@pkcs12", "redacted");
-                }
-                else
-                {
-                    cmd.Parameters.AddWithValue("@pkcs12", obj.Export(X509ContentType.Pfx));
-                }
-
-                // TODO: Fix this
-                cmd.Parameters.AddWithValue("@row_key", CryptoHelpers.CreateHash(runId + recordCounter));
-
-                var cert = new CertificateObject()
-                {
-                    StoreLocation = storeLocation.ToString(),
-                    StoreName = storeName.ToString(),
-                    CertificateHashString = obj.GetCertHashString(),
-                    Subject = obj.Subject
-                };
-                cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(cert));
-                cmd.ExecuteNonQuery();
-            }
-            catch (NullReferenceException e)
-            {
-                Log.Warning(e.StackTrace);
-            }
-            catch (Microsoft.Data.Sqlite.SqliteException e)
-            {
-                Log.Warning(e.Message);
-                //This catches duplicate certificates
-            }
-            catch (Exception e)
-            {
-                Log.Warning(e.GetType().ToString());
-                Log.Warning(e.StackTrace);
-            }
         }
 
         public override void Execute()
@@ -105,7 +41,6 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
             }
 
             Start();
-            Truncate(runId);
 
             // On Windows we can use the .NET API to iterate through all the stores.
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -123,10 +58,13 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
                             {
                                 var obj = new CertificateObject()
                                 {
+                                    StoreLocation = storeLocation.ToString(),
                                     StoreName = storeName.ToString(),
-                                    StoreLocation = storeLocation.ToString()
+                                    CertificateHashString = certificate.GetCertHashString(),
+                                    Subject = certificate.Subject,
+                                    Pkcs12 = certificate.HasPrivateKey ? "redacted" : certificate.Export(X509ContentType.Pkcs12).ToString()
                                 };
-                                Write(storeLocation, storeName, certificate);
+                                DatabaseManager.Write(obj, this.runId);
                             }
                             store.Close();
                         }
@@ -154,8 +92,17 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
                     Log.Debug("{0}",_line);
                     try
                     {
-                        X509Certificate2 cert = new X509Certificate2("/etc/ssl/certs/" + _line);
-                        Write(StoreLocation.LocalMachine, StoreName.Root, cert);
+                        X509Certificate2 certificate = new X509Certificate2("/etc/ssl/certs/" + _line);
+
+                        var obj = new CertificateObject()
+                        {
+                            StoreLocation = StoreLocation.LocalMachine.ToString(),
+                            StoreName = StoreName.Root.ToString(),
+                            CertificateHashString = certificate.GetCertHashString(),
+                            Subject = certificate.Subject,
+                            Pkcs12 = certificate.HasPrivateKey ? "redacted" : certificate.Export(X509ContentType.Pkcs12).ToString()
+                        };
+                        DatabaseManager.Write(obj, this.runId);
                     }
                     catch(Exception e)
                     {
@@ -190,7 +137,15 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
 
                 while (X509Certificate2Enumerator.MoveNext())
                 {
-                    Write(StoreLocation.LocalMachine, StoreName.Root, X509Certificate2Enumerator.Current);
+                    var obj = new CertificateObject()
+                    {
+                        StoreLocation = StoreLocation.LocalMachine.ToString(),
+                        StoreName = StoreName.Root.ToString(),
+                        CertificateHashString = X509Certificate2Enumerator.Current.GetCertHashString(),
+                        Subject = X509Certificate2Enumerator.Current.Subject,
+                        Pkcs12 = X509Certificate2Enumerator.Current.HasPrivateKey ? "redacted" : X509Certificate2Enumerator.Current.Export(X509ContentType.Pkcs12).ToString()
+                    };
+                    DatabaseManager.Write(obj, this.runId);
                 }
             }
 

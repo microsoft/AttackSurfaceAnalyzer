@@ -25,8 +25,6 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
         /// </summary>
 
         //private static readonly string CREATE_SQL = "create table if not exists win_system_service (run_id text, row_key text, service_name text, display_name text, start_type text, current_state text)";
-        private static readonly string SQL_TRUNCATE = "delete from win_system_service where run_id = @run_id";
-        private static readonly string INSERT_SQL = "insert into win_system_service (run_id, row_key, service_name, display_name, start_type, current_state, serialized) values (@run_id, @row_key, @service_name, @display_name, @start_type, @current_state, @serialized)";
 
         public ServiceCollector(string runId)
         {
@@ -36,37 +34,12 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
         /// <summary>
         /// Determines whether the ServiceCollector can run or not.
         /// </summary>
-        /// <returns>True iff the operating system is Windows.</returns>
+        /// <returns>True on Windows, Linux, Mac OS</returns>
         public override bool CanRunOnPlatform()
         {
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         }
 
-        /// <summary>
-        /// Writes information about a single service to the database.
-        /// </summary>
-        /// <param name="obj">A ServiceObject to write.</param>
-        public void Write(ServiceObject obj)
-        {
-            _numCollected++;
-
-            var cmd = new SqliteCommand(INSERT_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
-            cmd.Parameters.AddWithValue("@run_id", this.runId);
-            cmd.Parameters.AddWithValue("@row_key", obj.RowKey);
-            cmd.Parameters.AddWithValue("@service_name", obj.ServiceName);
-            cmd.Parameters.AddWithValue("@display_name", obj.DisplayName);
-            cmd.Parameters.AddWithValue("@start_type", obj.StartType);
-            cmd.Parameters.AddWithValue("@current_state", obj.CurrentState);
-            cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj));
-
-            cmd.ExecuteNonQuery();
-        }
-
-        public void Truncate(string runid)
-        {
-            var cmd = new SqliteCommand(SQL_TRUNCATE, DatabaseManager.Connection, DatabaseManager.Transaction);
-            cmd.Parameters.AddWithValue("@run_id", runId);
-        }
         /// <summary>
         /// Executes the ServiceCollector (main entrypoint).
         /// </summary>
@@ -79,9 +52,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
                 Log.Information(Strings.Get("Err_ServiceCollectorIncompat"));
                 return;
             }
-
-            Truncate(runId);
-
+            
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 // This gathers official "services" on Windows, but perhaps neglects other startup items
@@ -95,7 +66,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
                         CurrentState = service.Status.ToString()
                     };
 
-                    this.Write(obj);
+                    DatabaseManager.Write(obj, this.runId);
                 }
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
@@ -127,7 +98,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
                         CurrentState = (_fields[0].Equals("-"))?"Stopped":"Running"
                     };
                     if (!outDict.ContainsKey(obj.RowKey)){
-                        this.Write(obj);
+                        DatabaseManager.Write(obj, this.runId);
                         outDict.Add(obj.RowKey, obj);
                     }
                 }
@@ -157,7 +128,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
 
                     if (!outDict.ContainsKey(obj.RowKey))
                     {
-                        this.Write(obj);
+                        DatabaseManager.Write(obj, this.runId);
                         outDict.Add(obj.RowKey, obj);
                     }
                 }
@@ -185,7 +156,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
                                 CurrentState = _fields[3],
                             };
 
-                            Write(obj);
+                            DatabaseManager.Write(obj, this.runId);
                     }
                 }
 
@@ -208,7 +179,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
                         CurrentState = "Unknown"
                     };
 
-                    Write(obj);
+                    DatabaseManager.Write(obj, this.runId);
                 }
 
                 // without systemd (maybe just CentOS)

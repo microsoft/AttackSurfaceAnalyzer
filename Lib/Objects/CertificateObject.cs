@@ -8,7 +8,7 @@ namespace AttackSurfaceAnalyzer.Objects
         public string StoreName;
         public string CertificateHashString;
         public string Subject;
-        public string pkcs12;
+        public string Pkcs12;
 
         public override string Identity
         {

@@ -18,10 +18,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 {
 
     public class WriteBuffer{
-        private static readonly string SQL_INSERT = "insert into file_system (run_id, row_key, path, permissions, size, hash, serialized) values (@run_id, @row_key, @path, @permissions, @size, @hash, @serialized)";
-
         private readonly Queue<FileSystemObject> _queue = new Queue<FileSystemObject>();
-        private readonly SqliteCommand cmd = new SqliteCommand(SQL_INSERT, DatabaseManager.Connection, DatabaseManager.Transaction);
 
         string runId;
 
@@ -54,33 +51,9 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
             {
                 Log.Warning(_queue.Count.ToString());
                 FileSystemObject fso = _queue.Dequeue();
-                Write(cmd, fso);
+                DatabaseManager.Write(fso, this.runId);
             }
             CommitTimer.Enabled = true;
-        }
-
-
-        public void Write(SqliteCommand cmd, FileSystemObject obj)
-        {
-            cmd.Parameters.Clear();
-            cmd.Parameters.AddWithValue("@run_id", runId);
-            cmd.Parameters.AddWithValue("@row_key", obj.RowKey);
-            cmd.Parameters.AddWithValue("@path", obj.Path);
-            cmd.Parameters.AddWithValue("@permissions", obj.Permissions ?? "");
-            cmd.Parameters.AddWithValue("@size", obj.Size);
-            cmd.Parameters.AddWithValue("@hash", obj.ContentHash ?? "");
-            cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj, new Newtonsoft.Json.Converters.StringEnumConverter()));
-            try
-            {
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                Log.Information(e.StackTrace);
-                Log.Information(e.Message);
-                Log.Information(e.GetType().ToString());
-                Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
-            }
         }
 
         public void Stop()
