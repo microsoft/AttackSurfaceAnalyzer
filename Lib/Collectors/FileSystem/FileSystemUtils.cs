@@ -10,7 +10,7 @@ using AttackSurfaceAnalyzer.Utils;
 using Murmur;
 using Serilog;
 
-namespace AttackSurfaceAnalyzer.Collectors.FileSystem
+namespace AttackSurfaceAnalyzer.Collectors
 {
     public class FileSystemUtils
     {

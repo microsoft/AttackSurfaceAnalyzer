@@ -6,7 +6,7 @@ using AttackSurfaceAnalyzer.Utils;
 using Mono.Unix;
 using Serilog;
 
-namespace AttackSurfaceAnalyzer.Collectors.FileSystem
+namespace AttackSurfaceAnalyzer.Collectors
 {
     public class LinuxFileSystemUtils
     {

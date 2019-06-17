@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 using Serilog;
 using System.Text.RegularExpressions;
 
-namespace AttackSurfaceAnalyzer.Collectors.Service
+namespace AttackSurfaceAnalyzer.Collectors
 {
     /// <summary>
     /// Collects metadata from the local file system.
@@ -97,9 +97,9 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
                         // If we have a current PID then it is running.
                         CurrentState = (_fields[0].Equals("-"))?"Stopped":"Running"
                     };
-                    if (!outDict.ContainsKey(obj.RowKey)){
+                    if (!outDict.ContainsKey(obj.Identity)){
                         DatabaseManager.Write(obj, this.runId);
-                        outDict.Add(obj.RowKey, obj);
+                        outDict.Add(obj.Identity, obj);
                     }
                 }
 
@@ -126,10 +126,10 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
                         CurrentState = (_fields[0].Equals("-")) ? "Stopped" : "Running"
                     };
 
-                    if (!outDict.ContainsKey(obj.RowKey))
+                    if (!outDict.ContainsKey(obj.Identity))
                     {
                         DatabaseManager.Write(obj, this.runId);
-                        outDict.Add(obj.RowKey, obj);
+                        outDict.Add(obj.Identity, obj);
                     }
                 }
             }

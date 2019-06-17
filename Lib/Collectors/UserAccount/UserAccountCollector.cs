@@ -12,7 +12,7 @@ using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
 using Serilog;
 
-namespace AttackSurfaceAnalyzer.Collectors.UserAccount
+namespace AttackSurfaceAnalyzer.Collectors
 {
     public class UserAccountCollector : BaseCollector
     {
@@ -118,22 +118,23 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
             ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
             foreach (ManagementObject user in searcher.Get())
             {
-                var obj = new UserAccountObject();
-                obj.AccountType = Convert.ToString(user["AccountType"]);
-                obj.Caption = Convert.ToString(user["Caption"]);
-                obj.Description = Convert.ToString(user["Description"]);
-                obj.Disabled = Convert.ToString(user["Disabled"]);
-                obj.Domain = Convert.ToString(user["Domain"]);
-                obj.InstallDate = Convert.ToString(user["InstallDate"]);
-                obj.LocalAccount = Convert.ToString(user["LocalAccount"]);
-                obj.Lockout = Convert.ToString(user["Lockout"]);
-                obj.Name = Convert.ToString(user["Name"]);
-                obj.FullName = Convert.ToString(user["FullName"]);
-                obj.PasswordChangeable = Convert.ToString(user["PasswordChangeable"]);
-                obj.PasswordExpires = Convert.ToString(user["PasswordExpires"]);
-                obj.PasswordRequired = Convert.ToString(user["PasswordRequired"]);
-                obj.SID = Convert.ToString(user["SID"]);
-                obj.Properties = null;
+                var obj = new UserAccountObject()
+                {
+                    AccountType = Convert.ToString(user["AccountType"]),
+                    Caption = Convert.ToString(user["Caption"]),
+                    Description = Convert.ToString(user["Description"]),
+                    Disabled = Convert.ToString(user["Disabled"]),
+                    Domain = Convert.ToString(user["Domain"]),
+                    InstallDate = Convert.ToString(user["InstallDate"]),
+                    LocalAccount = Convert.ToString(user["LocalAccount"]),
+                    Lockout = Convert.ToString(user["Lockout"]),
+                    Name = Convert.ToString(user["Name"]),
+                    FullName = Convert.ToString(user["FullName"]),
+                    PasswordChangeable = Convert.ToString(user["PasswordChangeable"]),
+                    PasswordExpires = Convert.ToString(user["PasswordExpires"]),
+                    PasswordRequired = Convert.ToString(user["PasswordRequired"]),
+                    SID = Convert.ToString(user["SID"]),
+                };
 
                 if (this.filter == null || this.filter(obj))
                 {
@@ -272,7 +273,7 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
                         newUser.Shell = value;
                         break;
                     case "gecos":
-                        newUser.FullName = value;                            
+                        newUser.FullName = value;                           
                         break;
                     default:
                         break;

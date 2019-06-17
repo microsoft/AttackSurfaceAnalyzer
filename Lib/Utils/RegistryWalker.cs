@@ -69,7 +69,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 RegistryObject regObj = null;
                 try
                 {
-                    regObj = new RegistryObject(currentKey);
+                    regObj = new RegistryObject();
 
                 }
                 catch (Exception) { Log.Debug("I'm blue"); }

@@ -13,7 +13,7 @@ using Microsoft.Win32;
 using Newtonsoft.Json;
 using Serilog;
 
-namespace AttackSurfaceAnalyzer.Collectors.Registry
+namespace AttackSurfaceAnalyzer.Collectors
 {
     public class RegistryCollector : BaseCollector
     {

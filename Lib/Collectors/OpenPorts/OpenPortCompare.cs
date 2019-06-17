@@ -7,7 +7,7 @@ using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
 using Serilog;
 
-namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
+namespace AttackSurfaceAnalyzer.Collectors
 {
     public class OpenPortCompare : BaseCompare
     {

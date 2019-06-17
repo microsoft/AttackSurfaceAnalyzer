@@ -8,21 +8,8 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public abstract class CollectObject
     {
-        public abstract RESULT_TYPE ResultType
-        {
-            get;
-        }
+        public RESULT_TYPE ResultType;
 
-        public string RowKey
-        {
-            get
-            {
-                return CryptoHelpers.CreateHash(JsonConvert.SerializeObject(this));
-            }
-        }
-
-        public abstract string Identity {
-            get;
-        }
+        public abstract string Identity { get; }
     }
 }

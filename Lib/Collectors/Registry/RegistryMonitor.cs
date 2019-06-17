@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using AttackSurfaceAnalyzer.Utils;
 using Serilog;
 
-namespace AttackSurfaceAnalyzer.Collectors.Registry
+namespace AttackSurfaceAnalyzer.Collectors
 {
     public class RegistryMonitor : BaseMonitor
     {

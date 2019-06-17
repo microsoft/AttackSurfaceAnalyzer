@@ -63,4 +63,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Lib\AsaLib.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="asa.log.txt" />
+    <None Remove="run_list" />
+  </ItemGroup>
 </Project>

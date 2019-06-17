@@ -8,7 +8,7 @@ using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
 using Serilog;
 
-namespace AttackSurfaceAnalyzer.Collectors.Service
+namespace AttackSurfaceAnalyzer.Collectors
 {
     public class ServiceCompare : BaseCompare
     {

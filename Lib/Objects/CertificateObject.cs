@@ -10,19 +10,16 @@ namespace AttackSurfaceAnalyzer.Objects
         public string Subject;
         public string Pkcs12;
 
+        public CertificateObject()
+        {
+            ResultType = RESULT_TYPE.CERTIFICATE;
+        }
+
         public override string Identity
         {
             get
             {
-                return (StoreName + StoreLocation + CertificateHashString);
-            }
-        }
-
-        public override RESULT_TYPE ResultType
-        {
-            get
-            {
-                return RESULT_TYPE.CERTIFICATE;
+                return CertificateHashString;
             }
         }
     }

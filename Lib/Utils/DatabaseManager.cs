@@ -49,7 +49,7 @@ namespace AttackSurfaceAnalyzer.Utils
         private static readonly string SQL_GET_NUM_RESULTS = "select count(*) as the_count from @table_name where run_id = @run_id";
         private static readonly string SQL_GET_PLATFORM_FROM_RUNID = "select platform from runs where run_id = @run_id";
 
-        private static readonly string SQL_INSERT_COLLECT_RESULT = "insert into collect (run_id, row_key, identity, serialized) values (@run_id, @row_key, @identity, @serialized)";
+        private static readonly string SQL_INSERT_COLLECT_RESULT = "insert into collect (run_id, result_type, row_key, identity, serialized) values (@run_id, @result_type, @row_key, @identity, @serialized)";
 
         private static readonly string PRAGMAS = "PRAGMA main.auto_vacuum = 1;";
 
@@ -302,9 +302,10 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             var cmd = new SqliteCommand(SQL_INSERT_COLLECT_RESULT, DatabaseManager.Connection, DatabaseManager.Transaction);
             cmd.Parameters.AddWithValue("@run_id", runId);
-            cmd.Parameters.AddWithValue("@row_key", obj.RowKey);
+            cmd.Parameters.AddWithValue("@row_key", CryptoHelpers.CreateHash(JsonConvert.SerializeObject(obj)));
             cmd.Parameters.AddWithValue("@identity", obj.Identity);
             cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj));
+            cmd.Parameters.AddWithValue("@result_type", obj.ResultType.ToString());
 
             cmd.ExecuteNonQuery();
         }

@@ -7,19 +7,14 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using AttackSurfaceAnalyzer.Utils;
-using Microsoft.Data.Sqlite;
 using System.Security.Cryptography.X509Certificates;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Serilog;
 using AttackSurfaceAnalyzer.Objects;
-using System.Text.RegularExpressions;
-using System.Text;
 
-namespace AttackSurfaceAnalyzer.Collectors.Certificates
+namespace AttackSurfaceAnalyzer.Collectors
 {
     /// <summary>
-    /// Collects metadata from the local file system.
+    /// Collects metadata from the local certificate stores.
     /// </summary>
     public class CertificateCollector : BaseCollector
     {

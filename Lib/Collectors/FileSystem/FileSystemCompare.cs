@@ -8,7 +8,7 @@ using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
 using Serilog;
 
-namespace AttackSurfaceAnalyzer.Collectors.FileSystem
+namespace AttackSurfaceAnalyzer.Collectors
 {
     public class FileSystemCompare : BaseCompare
     {

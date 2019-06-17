@@ -8,12 +8,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using AttackSurfaceAnalyzer.Collectors;
-using AttackSurfaceAnalyzer.Collectors.FileSystem;
-using AttackSurfaceAnalyzer.Collectors.OpenPorts;
-using AttackSurfaceAnalyzer.Collectors.Registry;
-using AttackSurfaceAnalyzer.Collectors.Service;
-using AttackSurfaceAnalyzer.Collectors.UserAccount;
-using AttackSurfaceAnalyzer.Collectors.Certificates;
 using AttackSurfaceAnalyzer.Utils;
 using CommandLine;
 using Microsoft.Data.Sqlite;
@@ -22,11 +16,7 @@ using AttackSurfaceAnalyzer.Objects;
 using Newtonsoft.Json;
 using System.Reflection;
 using Serilog;
-using System.Resources;
-using CommandLine.Text;
 using System.Threading.Tasks;
-using AttackSurfaceAnalyzer.Objects;
-using Newtonsoft.Json.Converters;
 
 namespace AttackSurfaceAnalyzer
 {

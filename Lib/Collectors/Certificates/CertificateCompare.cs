@@ -7,7 +7,7 @@ using Microsoft.Data.Sqlite;
 using AttackSurfaceAnalyzer.Objects;
 using Serilog;
 
-namespace AttackSurfaceAnalyzer.Collectors.Certificates
+namespace AttackSurfaceAnalyzer.Collectors
 {
     public class CertificateCompare : BaseCompare
     {

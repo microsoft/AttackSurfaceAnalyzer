@@ -18,18 +18,16 @@ namespace AttackSurfaceAnalyzer.Objects
         public string SignatureStatus;
         public bool IsExecutable;
 
-        public override string Identity {
-            get
-            {
-                return Path;
-            }
+        public FileSystemObject()
+        {
+            ResultType = RESULT_TYPE.FILE;
         }
 
-        public override RESULT_TYPE ResultType
+        public override string Identity
         {
             get
             {
-                return RESULT_TYPE.FILE;
+                return Path;
             }
         }
     }

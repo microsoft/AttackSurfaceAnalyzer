@@ -16,19 +16,16 @@ namespace AttackSurfaceAnalyzer.Objects
         public string port;
         public string processName;
 
+        public OpenPortObject()
+        {
+            ResultType = RESULT_TYPE.PORT;
+        }
+
         public override string Identity
         {
             get
             {
-                return port;
-            }
-        }
-
-        public override RESULT_TYPE ResultType
-        {
-            get
-            {
-                return RESULT_TYPE.PORT;
+                return family+":"+type+":"+port;
             }
         }
     }

@@ -27,6 +27,8 @@ This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI 
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Utils\CommandOptions.cs" />
+    <Compile Remove="Collectors\OpenPorts\LinuxOpenPortUtils.cs" />
+    <Compile Remove="Collectors\OpenPorts\WindowsOpenPortUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.PowerShell.Commands.Diagnostics" Version="6.2.1" />

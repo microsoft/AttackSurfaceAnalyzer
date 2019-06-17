@@ -17,20 +17,9 @@ namespace AttackSurfaceAnalyzer.Objects
         public List<string> Subkeys = new List<string>();
         public string Permissions;
 
-        public override string Identity
+        public RegistryObject()
         {
-            get
-            {
-                return Key;
-            }
-        }
-
-        public override RESULT_TYPE ResultType
-        {
-            get
-            {
-                return RESULT_TYPE.REGISTRY;
-            }
+            ResultType = RESULT_TYPE.REGISTRY;
         }
 
         private static List<string> GetSubkeys(RegistryKey key)
@@ -83,9 +72,11 @@ namespace AttackSurfaceAnalyzer.Objects
         public RegistryObject(RegistryKey Key)
         {
             this.Key = Key.Name;
-            this.Values = GetValues(Key);
-            this.Subkeys = GetSubkeys(Key);
-            this.Permissions = "";
+            ResultType = RESULT_TYPE.REGISTRY;
+            Values = GetValues(Key);
+            Subkeys = GetSubkeys(Key);
+            Permissions = "";
+
             try
             {
                 Permissions = Key.GetAccessControl().GetSecurityDescriptorSddlForm(AccessControlSections.All);
@@ -96,7 +87,12 @@ namespace AttackSurfaceAnalyzer.Objects
             }
         }
 
-        public RegistryObject()
-        { }
+        public override string Identity
+        {
+            get
+            {
+                return this.Key;
+            }
+        }
     }
 }

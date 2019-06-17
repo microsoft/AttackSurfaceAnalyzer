@@ -5,8 +5,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
@@ -14,54 +12,8 @@ using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
 using Serilog;
 
-namespace AttackSurfaceAnalyzer.Collectors.FileSystem
+namespace AttackSurfaceAnalyzer.Collectors
 {
-
-    public class WriteBuffer{
-        private readonly Queue<FileSystemObject> _queue = new Queue<FileSystemObject>();
-
-        string runId;
-
-        private System.Timers.Timer CommitTimer = new System.Timers.Timer
-        {
-            Interval = 100,
-            AutoReset = true,
-        };
-
-        public void Write(FileSystemObject fso)
-        {
-            _queue.Append(fso);
-        }
-
-        public WriteBuffer(string runId)
-        {
-            this.runId = runId;
-            CommitTimer.Elapsed += (source, e) => 
-            {
-                WriteUntilEmpty(); 
-            };
-            CommitTimer.Enabled = true;
-
-        }
-
-        public void WriteUntilEmpty()
-        {
-            CommitTimer.Enabled = false;
-            while (_queue.Count > 0)
-            {
-                Log.Warning(_queue.Count.ToString());
-                FileSystemObject fso = _queue.Dequeue();
-                DatabaseManager.Write(fso, this.runId);
-            }
-            CommitTimer.Enabled = true;
-        }
-
-        public void Stop()
-        {
-            CommitTimer.Enabled = false;
-        }
-
-    }
     /// <summary>
     /// Collects Filesystem Data from the local file system.
     /// </summary>
@@ -70,50 +22,19 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
         private readonly HashSet<string> roots;
 
         private bool INCLUDE_CONTENT_HASH = false;
-        private static readonly string SQL_TRUNCATE = "delete from file_system where run_id=@run_id";
 
-
-        private static readonly string SQL_INSERT = "insert into file_system (run_id, row_key, path, permissions, size, hash, serialized) values (@run_id, @row_key, @path, @permissions, @size, @hash, @serialized)";
-
-
-        private WriteBuffer wb;
         bool downloadCloud;
-
-        public void Write(FileSystemObject obj)
-        {
-            SqliteCommand cmd = new SqliteCommand(SQL_INSERT, DatabaseManager.Connection, DatabaseManager.Transaction);
-            cmd.Parameters.AddWithValue("@run_id", runId);
-            cmd.Parameters.AddWithValue("@row_key", obj.RowKey);
-            cmd.Parameters.AddWithValue("@path", obj.Path);
-            cmd.Parameters.AddWithValue("@permissions", obj.Permissions ?? "");
-            cmd.Parameters.AddWithValue("@size", obj.Size);
-            cmd.Parameters.AddWithValue("@hash", obj.ContentHash ?? "");
-            cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj));
-            try
-            {
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                Log.Information(e.StackTrace);
-                Log.Information(e.Message);
-                Log.Information(e.GetType().ToString());
-                Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
-            }
-        }
 
         public FileSystemCollector(string runId, bool enableHashing = false, string directories = "", bool downloadCloud = false)
         {
             this.runId = runId;
-            this.roots = new HashSet<string>();
             this.downloadCloud = downloadCloud;
-            INCLUDE_CONTENT_HASH = enableHashing;
-            if (directories.Equals(""))
-            {
 
-            }
-            else
-            {
+            roots = new HashSet<string>();
+            INCLUDE_CONTENT_HASH = enableHashing;
+
+            if (!directories.Equals("")) 
+            { 
                 foreach (string path in directories.Split(','))
                 {
                     AddRoot(path);
@@ -122,20 +43,14 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 
         }
 
-        public void Truncate(string runid)
-        {
-            var cmd = new SqliteCommand(SQL_TRUNCATE, DatabaseManager.Connection, DatabaseManager.Transaction);
-            cmd.Parameters.AddWithValue("@run_id", runId);
-        }
-
         public void AddRoot(string root)
         {
-            this.roots.Add(root);
+            roots.Add(root);
         }
 
         public void ClearRoots()
         {
-            this.roots.Clear();
+            roots.Clear();
         }
 
         public override bool CanRunOnPlatform()
@@ -150,10 +65,11 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 return;
             }
 
-            wb = new WriteBuffer(runId);
             Start();
+            //Ensure the transaction is started to prevent collisions on the multithreaded code ahead
+            _ = DatabaseManager.Transaction;
             
-            if (this.roots == null || this.roots.Count() == 0)
+            if (roots == null || !roots.Any())
             {
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
@@ -161,21 +77,21 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                     {
                         if (driveInfo.IsReady && driveInfo.DriveType == DriveType.Fixed)
                         {
-                            this.roots.Add(driveInfo.Name);
+                            roots.Add(driveInfo.Name);
                         }
                     }
                 }
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                 {
-                    this.roots.Add("/");   // @TODO Improve this
+                    roots.Add("/");   // @TODO Improve this
                 }
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 {
-                    this.roots.Add("/"); // @TODO Improve this
+                    roots.Add("/"); // @TODO Improve this
                 }
             }
 
-            foreach (var root in this.roots)
+            foreach (var root in roots)
             {
                 Log.Information("{0} root {1}",Strings.Get("Scanning"),root.ToString());
                 try
@@ -228,7 +144,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                             }
                             if (obj != null)
                             {
-                                Write(obj);
+                                DatabaseManager.Write(obj,this.runId);
                             }
                         }
                         catch (Exception ex)

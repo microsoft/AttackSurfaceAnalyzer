@@ -10,7 +10,7 @@ using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using Serilog;
 
-namespace AttackSurfaceAnalyzer.Collectors.FileSystem
+namespace AttackSurfaceAnalyzer.Collectors
 {
     public class WindowsFileSystemUtils
     {

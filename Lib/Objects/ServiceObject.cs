@@ -14,19 +14,16 @@ namespace AttackSurfaceAnalyzer.Objects
         public string DisplayName { get; set; }
         public string CurrentState { get; set; }
 
+        public ServiceObject()
+        {
+            ResultType = RESULT_TYPE.SERVICES;
+        }
+
         public override string Identity
         {
             get
             {
                 return ServiceName;
-            }
-        }
-
-        public override RESULT_TYPE ResultType
-        {
-            get
-            {
-                return RESULT_TYPE.SERVICES;
             }
         }
     }

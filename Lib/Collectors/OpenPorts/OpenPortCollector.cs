@@ -12,7 +12,7 @@ using AttackSurfaceAnalyzer.Objects;
 using Newtonsoft.Json;
 using Serilog;
 
-namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
+namespace AttackSurfaceAnalyzer.Collectors
 {
     public class OpenPortCollector : BaseCollector
     {
@@ -212,7 +212,15 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
                         type = parts[7],
                         processName = parts[0]
                     };
-                    DatabaseManager.Write(obj, this.runId);
+                    try
+                    {
+                        DatabaseManager.Write(obj, this.runId);
+
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Debug("{0} {1} {2}", e.GetType().ToString(), e.Message, e.StackTrace);
+                    }
                 }
             }
         }

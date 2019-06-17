@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Reflection;
 using AttackSurfaceAnalyzer.Objects;
 using System.Collections.Generic;
+using Serilog;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
