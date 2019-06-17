@@ -17,5 +17,20 @@ namespace AttackSurfaceAnalyzer.Objects
         public List<DLLCHARACTERISTICS> Characteristics;
         public string SignatureStatus;
         public bool IsExecutable;
+
+        public override string Identity {
+            get
+            {
+                return Path;
+            }
+        }
+
+        public override RESULT_TYPE ResultType
+        {
+            get
+            {
+                return RESULT_TYPE.FILE;
+            }
+        }
     }
 }

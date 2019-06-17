@@ -6,14 +6,23 @@ using Newtonsoft.Json;
 
 namespace AttackSurfaceAnalyzer.Objects
 {
-    public class CollectObject
+    public abstract class CollectObject
     {
+        public abstract RESULT_TYPE ResultType
+        {
+            get;
+        }
+
         public string RowKey
         {
             get
             {
                 return CryptoHelpers.CreateHash(JsonConvert.SerializeObject(this));
             }
+        }
+
+        public abstract string Identity {
+            get;
         }
     }
 }

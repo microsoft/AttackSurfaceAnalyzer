@@ -17,6 +17,22 @@ namespace AttackSurfaceAnalyzer.Objects
         public List<string> Subkeys = new List<string>();
         public string Permissions;
 
+        public override string Identity
+        {
+            get
+            {
+                return Key;
+            }
+        }
+
+        public override RESULT_TYPE ResultType
+        {
+            get
+            {
+                return RESULT_TYPE.REGISTRY;
+            }
+        }
+
         private static List<string> GetSubkeys(RegistryKey key)
         {
             return new List<string>(key.GetSubKeyNames());

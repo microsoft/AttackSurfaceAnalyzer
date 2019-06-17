@@ -58,10 +58,5 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             return _numCollected;
         }
-
-        public BaseCollector()
-        {
-            
-        }
     }
 }

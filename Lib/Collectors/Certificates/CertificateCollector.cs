@@ -121,6 +121,11 @@ namespace AttackSurfaceAnalyzer.Collectors.Certificates
 
                             foreach (X509Certificate2 certificate in store.Certificates)
                             {
+                                var obj = new CertificateObject()
+                                {
+                                    StoreName = storeName.ToString(),
+                                    StoreLocation = storeLocation.ToString()
+                                };
                                 Write(storeLocation, storeName, certificate);
                             }
                             store.Close();

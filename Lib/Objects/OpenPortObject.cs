@@ -15,5 +15,21 @@ namespace AttackSurfaceAnalyzer.Objects
         public string type;
         public string port;
         public string processName;
+
+        public override string Identity
+        {
+            get
+            {
+                return port;
+            }
+        }
+
+        public override RESULT_TYPE ResultType
+        {
+            get
+            {
+                return RESULT_TYPE.PORT;
+            }
+        }
     }
 }

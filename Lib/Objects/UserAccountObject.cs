@@ -34,6 +34,22 @@ namespace AttackSurfaceAnalyzer.Objects
 
         public Dictionary<string, string> Properties;
 
+        public override string Identity
+        {
+            get
+            {
+                return FullName;
+            }
+        }
+
+        public override RESULT_TYPE ResultType
+        {
+            get
+            {
+                return RESULT_TYPE.USER;
+            }
+        }
+
         public string PropertiesString()
         {
             if (this.Properties == null)
