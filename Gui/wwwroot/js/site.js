@@ -50,6 +50,15 @@ var ERRORS = {
     ALREADY_RUNNING: 3,
     NO_COLLECTORS: 4
 }
+var ANALYSIS_RESULT_TYPE = {
+    NONE: 0,
+    VERBOSE: 1,
+    DEBUG: 2,
+    INFORMATION: 3,
+    WARNING: 4,
+    ERROR: 5,
+    FATAL: 6
+}
 //There is a better way to do this
 function runStatusToString(runStatus) {
     switch (runStatus) {
