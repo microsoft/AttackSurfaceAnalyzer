@@ -7,6 +7,21 @@ using System.IO;
 namespace AttackSurfaceAnalyzer.Objects
 {
 
+    public class RawCollectResult
+    {
+        public RESULT_TYPE ResultType;
+        public string RowKey;
+        public string RunId;
+        public string Identity;
+        public string Serialized;
+    }
+
+    public class RawModifiedResult
+    {
+        public RawCollectResult First;
+        public RawCollectResult Second;
+    }
+
     public class FileMonitorEvent
     {
         public CHANGE_TYPE ChangeType;
@@ -18,14 +33,16 @@ namespace AttackSurfaceAnalyzer.Objects
 
     public class CompareResult
     {
+        public CHANGE_TYPE ChangeType;
+        public RESULT_TYPE ResultType;
+
         public string BaseRowKey;
         public string CompareRowKey;
         public string BaseRunId;
         public string CompareRunId;
-        public CHANGE_TYPE ChangeType;
-        public RESULT_TYPE ResultType;
         public object Base;
         public object Compare;
+
         public ANALYSIS_RESULT_TYPE Analysis;
         public List<Rule> Rules = new List<Rule>();
     }
@@ -47,18 +64,18 @@ namespace AttackSurfaceAnalyzer.Objects
         public string SerializedCompare;
     }
 
+    public class FileSystemMonitorResult
+    {
+        public FileSystemEventArgs evt;
+        public NotifyFilters filter;
+    }
+
     public class FileSystemResult : CompareResult
     {
         public FileSystemResult()
         {
             ResultType = RESULT_TYPE.FILE;
         }
-    }
-
-    public class FileSystemMonitorResult
-    {
-        public FileSystemEventArgs evt;
-        public NotifyFilters filter;
     }
 
     public class OpenPortResult: CompareResult
