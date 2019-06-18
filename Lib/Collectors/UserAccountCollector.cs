@@ -204,14 +204,16 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
                 tempDict.Inactive = parts[6];
                 tempDict.Disabled = parts[7];
 
-                var result = ExternalCommandRunner.RunExternalCommand("grep", "'^sudo:.*$' /etc/group | cut - d: -f4");
-
-
-                tempDict.Privileged = 
-
                 accountDetails[username] = tempDict;
             }
-            
+
+            var result = ExternalCommandRunner.RunExternalCommand("grep", "'^sudo:.*$' /etc/group | cut - d: -f4");
+
+            foreach (var _line in result.Split('\n'))
+            {
+                accountDetails[_line].Privileged = true;
+            }
+
             foreach (var username in accountDetails.Keys)
             {
                 DatabaseManager.Write(accountDetails[username], this.runId);
