@@ -25,8 +25,8 @@
     <PackageReference Include="Serilog" Version="2.8.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Lib\AttackSurfaceAnalyzerLib.csproj" />
-    <ProjectReference Include="..\Cli\AttackSurfaceAnalyzerCli.csproj" />
+    <ProjectReference Include="..\Cli\AsaCli.csproj" />
+    <ProjectReference Include="..\Lib\AsaLib.csproj" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services" />

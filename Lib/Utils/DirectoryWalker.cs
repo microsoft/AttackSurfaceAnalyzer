@@ -25,7 +25,7 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 string currentDir = dirs.Pop();
                 Log.Verbose(currentDir);
-                if (Filter.IsFiltered(Helpers.RuntimeString(), "Scan", "File", "Path", currentDir))
+                if (Filter.IsFiltered(Helpers.GetPlatformString(), "Scan", "File", "Path", currentDir))
                 {
                     continue;
                 }
@@ -101,7 +101,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         Log.Debug(e.Message);
                         continue;
                     }
-                    if (Filter.IsFiltered(Helpers.RuntimeString(), "Scan", "File", "Path", file))
+                    if (Filter.IsFiltered(Helpers.GetPlatformString(), "Scan", "File", "Path", file))
                     {
                         continue;
                     }

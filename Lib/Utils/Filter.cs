@@ -197,6 +197,11 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 return;
             }
+            catch (ArgumentNullException)
+            {
+                config = null;
+                Log.Debug("{0} is missing (filter configuration file)", "Embedded");
+            }
             catch (Exception e)
             {
                 config = null;

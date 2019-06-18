@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using AttackSurfaceAnalyzer.ObjectTypes;
+using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using Serilog;
 
@@ -57,11 +57,6 @@ namespace AttackSurfaceAnalyzer.Collectors
         public int NumCollected()
         {
             return _numCollected;
-        }
-
-        public BaseCollector()
-        {
-            
         }
     }
 }

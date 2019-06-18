@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 using System;
 using System.Collections.Generic;
-using AttackSurfaceAnalyzer.ObjectTypes;
+using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
 using Serilog;
 
-namespace AttackSurfaceAnalyzer.Collectors.FileSystem
+namespace AttackSurfaceAnalyzer.Collectors
 {
     public class FileSystemCompare : BaseCompare
     {
@@ -22,9 +22,9 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
         {
             Results = new Dictionary<string, object>
             {
-                ["files_add"] = new List<FileSystemResult>(),
-                ["files_remove"] = new List<FileSystemResult>(),
-                ["files_modify"] = new List<FileSystemResult>(),
+                ["files_add"] = new List<CompareResult>(),
+                ["files_remove"] = new List<CompareResult>(),
+                ["files_modify"] = new List<CompareResult>(),
             };
             _type = RESULT_TYPE.FILE;
         }
@@ -41,7 +41,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 {
                     throw new ArgumentNullException("secondRunId");
                 }
-                var addObjects = new List<FileSystemResult>();
+                var addObjects = new List<CompareResult>();
                 var cmd = new SqliteCommand(SELECT_INSERTED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
                 cmd.Parameters.AddWithValue("@second_run_id", secondRunId);
@@ -67,7 +67,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
                 Results["files_add"] = addObjects;
                 Log.Information("Found {0} Created", addObjects.Count);
 
-                var removeObjects = new List<FileSystemResult>();
+                var removeObjects = new List<CompareResult>();
                 cmd = new SqliteCommand(SELECT_DELETED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
                 cmd.Parameters.AddWithValue("@second_run_id", secondRunId);
@@ -93,7 +93,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 
                 Log.Information("Found {0} Deleted", removeObjects.Count);
 
-                var modifyObjects = new List<FileSystemResult>();
+                var modifyObjects = new List<CompareResult>();
                 cmd = new SqliteCommand(SELECT_MODIFIED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
                 cmd.Parameters.AddWithValue("@second_run_id", secondRunId);

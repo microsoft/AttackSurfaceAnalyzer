@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using AttackSurfaceAnalyzer.ObjectTypes;
+using AttackSurfaceAnalyzer.Objects;
 using Microsoft.Win32;
 using Serilog;
 
@@ -34,7 +34,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     continue;
                 }
-                if (Filter.IsFiltered(Helpers.RuntimeString(), "Scan", "Registry", "Key", currentKey.Name))
+                if (Filter.IsFiltered(Helpers.GetPlatformString(), "Scan", "Registry", "Key", currentKey.Name))
                 {
                     continue;
                 }
@@ -69,7 +69,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 RegistryObject regObj = null;
                 try
                 {
-                    regObj = new RegistryObject(currentKey);
+                    regObj = new RegistryObject();
 
                 }
                 catch (Exception) { Log.Debug("I'm blue"); }

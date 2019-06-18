@@ -8,19 +8,16 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
-using AttackSurfaceAnalyzer.ObjectTypes;
+using AttackSurfaceAnalyzer.Objects;
 using Newtonsoft.Json;
 using Serilog;
 
-namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
+namespace AttackSurfaceAnalyzer.Collectors
 {
     public class OpenPortCollector : BaseCollector
     {
 
         private HashSet<string> processedObjects;
-
-        private static readonly string SQL_INSERT = "insert into network_ports (run_id, row_key, family, address, type, port, process_name, serialized) values (@run_id, @row_key, @family, @address, @type, @port, @process_name, @serialized)";
-        private static readonly string SQL_TRUNCATE = "delete from network_ports where run_id = @run_id";
 
         public OpenPortCollector(string runId)
         {
@@ -30,13 +27,6 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
             }
             this.runId = runId;
             this.processedObjects = new HashSet<string>();
-        }
-
-        public void Truncate(string runid)
-        {
-            var cmd = new SqliteCommand(SQL_TRUNCATE, DatabaseManager.Connection, DatabaseManager.Transaction);
-            cmd.Parameters.AddWithValue("@run_id", runId);
-            cmd.ExecuteNonQuery();
         }
 
         /**
@@ -62,37 +52,11 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
         }
 
-        public void Write(OpenPortObject obj)
-        {
-            _numCollected++;
-
-            var objStr = obj.ToString();
-            if (this.processedObjects.Contains(objStr))
-            {
-                Log.Debug("Object already exists, ignoring: {0}", objStr);
-                return;
-            }
-
-            this.processedObjects.Add(objStr);
-
-            var cmd = new SqliteCommand(SQL_INSERT, DatabaseManager.Connection, DatabaseManager.Transaction);
-            cmd.Parameters.AddWithValue("@run_id", this.runId);
-            cmd.Parameters.AddWithValue("@row_key", obj.RowKey);
-            cmd.Parameters.AddWithValue("@family", obj.family);
-            cmd.Parameters.AddWithValue("@address", obj.address);
-            cmd.Parameters.AddWithValue("@type", obj.type);
-            cmd.Parameters.AddWithValue("@port", obj.port);
-            cmd.Parameters.AddWithValue("@process_name", obj.processName ?? "");
-            cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj));
-            cmd.ExecuteNonQuery();
-        }
-
         public override void Execute()
         {
 
             Start();
             Log.Debug("Collecting open port information...");
-            Truncate(runId);
 
             if (!this.CanRunOnPlatform())
             {
@@ -142,7 +106,7 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
                     obj.processName = p.ProcessName;
                 }
 
-                Write(obj);
+                DatabaseManager.Write(obj, this.runId);
             }
 
             foreach (var endpoint in properties.GetActiveUdpListeners())
@@ -159,7 +123,7 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
                     obj.processName = p.ProcessName;
                 }
 
-                Write(obj);
+                DatabaseManager.Write(obj, this.runId);
             }
         }
 
@@ -202,7 +166,7 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
                         port = port,
                         type = parts[0]
                     };
-                    Write(obj);
+                    DatabaseManager.Write(obj, this.runId);
                 }
             }
         }
@@ -248,7 +212,15 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
                         type = parts[7],
                         processName = parts[0]
                     };
-                    Write(obj);
+                    try
+                    {
+                        DatabaseManager.Write(obj, this.runId);
+
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Debug("{0} {1} {2}", e.GetType().ToString(), e.Message, e.StackTrace);
+                    }
                 }
             }
         }

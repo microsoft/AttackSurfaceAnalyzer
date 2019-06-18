@@ -3,15 +3,12 @@
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.ComTypes;
-using System.Security.AccessControl;
-using AttackSurfaceAnalyzer.ObjectTypes;
+using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
-using Serilog;
 
-namespace AttackSurfaceAnalyzer.Collectors.FileSystem
+namespace AttackSurfaceAnalyzer.Collectors
 {
     public class FileSystemMonitor : BaseMonitor
     {
@@ -213,7 +210,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 
         private void OnChanged(object source, FileSystemEventArgs e)
         {
-            if (Filter.IsFiltered(Helpers.RuntimeString(), "Monitor", "File", "Path", e.FullPath))
+            if (Filter.IsFiltered(Helpers.GetPlatformString(), "Monitor", "File", "Path", e.FullPath))
             {
                 return;
             }
@@ -241,7 +238,7 @@ namespace AttackSurfaceAnalyzer.Collectors.FileSystem
 
         private void OnRenamed(object source, RenamedEventArgs e)
         {
-            if (Filter.IsFiltered(Helpers.RuntimeString(), "Monitor", "File", "Path", e.FullPath))
+            if (Filter.IsFiltered(Helpers.GetPlatformString(), "Monitor", "File", "Path", e.FullPath))
             {
                 return;
             }

@@ -6,11 +6,11 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using AttackSurfaceAnalyzer.Libs;
-using AttackSurfaceAnalyzer.ObjectTypes;
+using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using Serilog;
 
-namespace AttackSurfaceAnalyzer.Collectors.FileSystem
+namespace AttackSurfaceAnalyzer.Collectors
 {
     public class WindowsFileSystemUtils
     {

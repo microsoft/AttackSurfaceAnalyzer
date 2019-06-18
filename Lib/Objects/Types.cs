@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-namespace AttackSurfaceAnalyzer.ObjectTypes
+namespace AttackSurfaceAnalyzer.Objects
 {
     public enum RESULT_TYPE {
         FILE,
@@ -52,5 +52,37 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
         IMAGE_DLLCHARACTERISTICS_WDM_DRIVER = 0x2000,
         IMAGE_DLLCHARACTERISTICS_GUARD_CF = 0x4000,
         IMAGE_DLLCHARACTERISTICS_TERMINAL_SERVER_AWARE = 0x8000
+    }
+
+    // These need better names. But the heirarchy of these makes sense to me as a model.
+    // These are flags that can be defined in an analyze.json to arrange output by importance.
+    public enum ANALYSIS_RESULT_TYPE
+    {
+        NONE,
+        VERBOSE,
+        DEBUG,
+        INFORMATION,
+        WARNING,
+        ERROR,
+        FATAL
+    }
+
+    public enum OPERATION
+    {
+        REGEX,
+        EQ,
+        NEQ,
+        LT,
+        GT,
+        CONTAINS,
+        WAS_MODIFIED
+    }
+
+    public enum PLATFORM
+    { 
+        WINDOWS,
+        LINUX,
+        MACOS,
+        UNKNOWN
     }
 }

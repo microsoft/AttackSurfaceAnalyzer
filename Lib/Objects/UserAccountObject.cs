@@ -7,9 +7,9 @@ using AttackSurfaceAnalyzer.Utils;
 using Newtonsoft.Json;
 using Serilog;
 
-namespace AttackSurfaceAnalyzer.ObjectTypes
+namespace AttackSurfaceAnalyzer.Objects
 { 
-    public class UserAccountObject
+    public class UserAccountObject : CollectObject
     {
         public string AccountType;
         public string Caption;
@@ -34,11 +34,16 @@ namespace AttackSurfaceAnalyzer.ObjectTypes
 
         public Dictionary<string, string> Properties;
 
-        public string RowKey
+        public UserAccountObject()
+        {
+            ResultType = RESULT_TYPE.USER;
+        }
+
+        public override string Identity
         {
             get
             {
-                return CryptoHelpers.CreateHash(this.ToString());
+                return Name;
             }
         }
 

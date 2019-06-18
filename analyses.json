@@ -1,0 +1,24 @@
+{"rules":
+  [
+    {
+      "name": "Privileged ports",
+      "desc": "Flag when privileged ports are opened.",
+      "flag": "WARNING",
+      "platforms": [
+        "LINUX",
+        "MACOS",
+        "WINDOWS"
+      ],
+      "resultType": "PORT",
+      "clauses": [
+        {
+          "field": "port",
+          "op": "LT",
+          "data": [
+            "1024"
+          ]
+        }
+      ]
+    }
+  ]
+}

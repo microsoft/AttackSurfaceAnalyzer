@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 using System;
 using System.Collections.Generic;
-using AttackSurfaceAnalyzer.ObjectTypes;
+using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
 using Serilog;
 
-namespace AttackSurfaceAnalyzer.Collectors.Service
+namespace AttackSurfaceAnalyzer.Collectors
 {
     public class ServiceCompare : BaseCompare
     {
@@ -28,9 +28,9 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
         {
             Results = new Dictionary<string, object>
             {
-                ["services_add"] = new List<ServiceResult>(),
-                ["services_remove"] = new List<ServiceResult>(),
-                ["services_modify"] = new List<ServiceResult>(),
+                ["services_add"] = new List<CompareResult>(),
+                ["services_remove"] = new List<CompareResult>(),
+                ["services_modify"] = new List<CompareResult>(),
             };
             _type = RESULT_TYPE.SERVICES;
         }
@@ -46,7 +46,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
                 throw new ArgumentNullException("secondRunId");
             }
 
-            var addObjects = new List<ServiceResult>();
+            var addObjects = new List<CompareResult>();
             var cmd = new SqliteCommand(SELECT_INSERTED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
             cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
             cmd.Parameters.AddWithValue("@second_run_id", secondRunId);
@@ -71,7 +71,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
 
             Log.Information(Strings.Get("FoundCreated"), addObjects.Count);
 
-            var removeObjects = new List<ServiceResult>();
+            var removeObjects = new List<CompareResult>();
             cmd = new SqliteCommand(SELECT_DELETED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
             cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
             cmd.Parameters.AddWithValue("@second_run_id", secondRunId);
@@ -96,7 +96,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
 
             Log.Information(Strings.Get("FoundDeleted"), addObjects.Count);
 
-            var modifyObjects = new List<ServiceResult>();
+            var modifyObjects = new List<CompareResult>();
             cmd = new SqliteCommand(SELECT_MODIFIED_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
             cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
             cmd.Parameters.AddWithValue("@second_run_id", secondRunId);
