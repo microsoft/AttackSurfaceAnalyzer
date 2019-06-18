@@ -19,6 +19,26 @@
           ]
         }
       ]
+    },
+    {
+      "name": "Privileged users",
+      "desc": "Flag when privileged ports are created.",
+      "flag": "WARNING",
+      "platforms": [
+        "LINUX",
+        "MACOS",
+        "WINDOWS"
+      ],
+      "resultType": "USER",
+      "clauses": [
+        {
+          "field": "Privileged",
+          "op": "EQ",
+          "data": [
+            "True"
+          ]
+        }
+      ]
     }
   ]
 }

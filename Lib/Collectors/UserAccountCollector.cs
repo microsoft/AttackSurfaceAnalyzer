@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 using System;
 using System.Collections.Generic;
+using System.DirectoryServices.AccountManagement;
 using System.IO;
 using System.Linq;
 using System.Management;
@@ -114,31 +115,37 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
         {
             Log.Debug("ExecuteWindows()");
 
-            SelectQuery query = new SelectQuery("Win32_UserAccount", "LocalAccount = 'True'");
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
-            foreach (ManagementObject user in searcher.Get())
+            using (PrincipalContext pc = new PrincipalContext(ContextType.Machine, null))
             {
-                var obj = new UserAccountObject()
+                ManagementObjectSearcher searcher = new ManagementObjectSearcher(@"SELECT * FROM Win32_UserAccount");
+                foreach (ManagementObject user in searcher.Get())
                 {
-                    AccountType = Convert.ToString(user["AccountType"]),
-                    Caption = Convert.ToString(user["Caption"]),
-                    Description = Convert.ToString(user["Description"]),
-                    Disabled = Convert.ToString(user["Disabled"]),
-                    Domain = Convert.ToString(user["Domain"]),
-                    InstallDate = Convert.ToString(user["InstallDate"]),
-                    LocalAccount = Convert.ToString(user["LocalAccount"]),
-                    Lockout = Convert.ToString(user["Lockout"]),
-                    Name = Convert.ToString(user["Name"]),
-                    FullName = Convert.ToString(user["FullName"]),
-                    PasswordChangeable = Convert.ToString(user["PasswordChangeable"]),
-                    PasswordExpires = Convert.ToString(user["PasswordExpires"]),
-                    PasswordRequired = Convert.ToString(user["PasswordRequired"]),
-                    SID = Convert.ToString(user["SID"]),
-                };
+                    var up = UserPrincipal.FindByIdentity(pc, IdentityType.SamAccountName, user["Name"].ToString());
+                    GroupPrincipal gp = GroupPrincipal.FindByIdentity(pc, "builtin.administrators");
 
-                if (this.filter == null || this.filter(obj))
-                {
-                    DatabaseManager.Write(obj, this.runId);
+                    var obj = new UserAccountObject()
+                    {
+                        AccountType = Convert.ToString(user["AccountType"]),
+                        Caption = Convert.ToString(user["Caption"]),
+                        Description = Convert.ToString(user["Description"]),
+                        Disabled = Convert.ToString(user["Disabled"]),
+                        Domain = Convert.ToString(user["Domain"]),
+                        InstallDate = Convert.ToString(user["InstallDate"]),
+                        LocalAccount = Convert.ToString(user["LocalAccount"]),
+                        Lockout = Convert.ToString(user["Lockout"]),
+                        Name = Convert.ToString(user["Name"]),
+                        FullName = Convert.ToString(user["FullName"]),
+                        PasswordChangeable = Convert.ToString(user["PasswordChangeable"]),
+                        PasswordExpires = Convert.ToString(user["PasswordExpires"]),
+                        PasswordRequired = Convert.ToString(user["PasswordRequired"]),
+                        SID = Convert.ToString(user["SID"]),
+                        Privileged = (bool)up.IsMemberOf(gp)
+                    };
+
+                    if (this.filter == null || this.filter(obj))
+                    {
+                        DatabaseManager.Write(obj, this.runId);
+                    }
                 }
             }
         }
@@ -160,24 +167,19 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
             foreach (var _line in etc_passwd_lines)
             {
                 var parts = _line.Split(':');
-
-                var username = parts[0];
-
-                if (!accountDetails.ContainsKey(username))
+                
+                if (!accountDetails.ContainsKey(parts[0]))
                 {
-                    accountDetails[username] = new UserAccountObject()
+                    accountDetails[parts[0]] = new UserAccountObject()
                     {
-                        Name = username
+                        Name = parts[0],
+                        UID = parts[2],
+                        GID = parts[3],
+                        FullName = parts[4],
+                        HomeDirectory = parts[5],
+                        Shell = parts[6]
                     };
                 }
-                var tempDict = accountDetails[username];
-
-                tempDict.UID = parts[2];
-                tempDict.GID = parts[3];
-                tempDict.FullName = parts[4];
-                tempDict.HomeDirectory = parts[5];
-                tempDict.Shell = parts[6];
-                accountDetails[username] = tempDict;
             }
 
             foreach (var _line in etc_shadow_lines)
@@ -202,6 +204,11 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
                 tempDict.Inactive = parts[6];
                 tempDict.Disabled = parts[7];
 
+                var result = ExternalCommandRunner.RunExternalCommand("grep", "'^sudo:.*$' /etc/group | cut - d: -f4");
+
+
+                tempDict.Privileged = 
+
                 accountDetails[username] = tempDict;
             }
             
@@ -214,8 +221,6 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
         private void ExecuteOsX()
         {
             Log.Debug("ExecuteOsX()");
-
-            
 
             // Admin user details
             var result = ExternalCommandRunner.RunExternalCommand("dscacheutil", "-q group -a name admin");
@@ -253,7 +258,8 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
                         accountDetails[value] = new UserAccountObject()
                         {
                             Name = value,
-                            AccountType = (admins.Contains(value)) ? "administrator" : "standard"
+                            AccountType = (admins.Contains(value)) ? "administrator" : "standard",
+                            Privileged = (admins.Contains(value))
                         };
                         newUser = accountDetails[value];
 
