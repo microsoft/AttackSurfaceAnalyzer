@@ -25,7 +25,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
                 catch (Exception ex)
                 {
-                    Log.Warning("Unable to get access control for {0}: {1}", fileInfo.FullName, ex.Message);
+                    Log.Debug("Unable to get access control for {0}: {1}", fileInfo.FullName, ex.Message);
                 }
             }
             else if (fileInfo is DirectoryInfo)
@@ -36,7 +36,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
                 catch (Exception ex)
                 {
-                    Log.Warning("Unable to get access control for {0}: {1}", fileInfo.FullName, ex.Message);
+                    Log.Debug("Unable to get access control for {0}: {1}", fileInfo.FullName, ex.Message);
                 }
             }
             else
