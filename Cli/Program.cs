@@ -537,7 +537,7 @@ namespace AttackSurfaceAnalyzer
                     {
                         while (reader.Read())
                         {
-                            records.Add(JsonConvert.DeserializeObject<CompareResult>(reader["serialized"].ToString());
+                            records.Add(JsonConvert.DeserializeObject<CompareResult>(reader["serialized"].ToString()));
                         }
                     }
                 }

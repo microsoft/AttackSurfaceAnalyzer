@@ -140,9 +140,8 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             var result_count = 0;
             using (var cmd = new SqliteCommand(GET_RESULT_COUNT, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
-                cmd.Parameters.AddWithValue("@base_run_id", BaseId);
-                cmd.Parameters.AddWithValue("@compare_run_id", CompareId);
-                cmd.Parameters.AddWithValue("@data_type", ResultType);
+                cmd.Parameters.AddWithValue("@comparison_id", Helpers.RunIdsToCompareId(BaseId,CompareId));
+                cmd.Parameters.AddWithValue("@result_type", ((RESULT_TYPE)ResultType).ToString());
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
