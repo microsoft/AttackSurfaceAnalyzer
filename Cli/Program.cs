@@ -217,7 +217,6 @@ namespace AttackSurfaceAnalyzer
 
         private static readonly string INSERT_RUN_INTO_RESULT_TABLE_SQL = "insert into results (base_run_id, compare_run_id, status) values (@base_run_id, @compare_run_id, @status);";
         private static readonly string UPDATE_RUN_IN_RESULT_TABLE = "update results set status = @status where (base_run_id = @base_run_id and compare_run_id = @compare_run_id)";
-        private static readonly string SQL_GET_RESULT_TYPES = "select * from runs where run_id = @base_run_id or run_id = @compare_run_id";
         private static readonly string SQL_GET_RESULT_TYPES_SINGLE = "select * from runs where run_id = @run_id";
 
         private static readonly string SQL_GET_RUN = "select run_id from runs where run_id=@run_id";
@@ -1051,92 +1050,26 @@ namespace AttackSurfaceAnalyzer
                 { RESULT_TYPE.USER, 0 }
             };
 
-            using (var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES, DatabaseManager.Connection, DatabaseManager.Transaction))
-            {
-                Log.Debug(Strings.Get("GettingResultTypes"));
-                cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
-                cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
-
-                using (var reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        if (int.Parse(reader["file_system"].ToString()) != 0)
-                        {
-                            count[RESULT_TYPE.FILE]++;
-                        }
-                        if (int.Parse(reader["ports"].ToString()) != 0)
-                        {
-                            count[RESULT_TYPE.PORT]++;
-                        }
-                        if (int.Parse(reader["users"].ToString()) != 0)
-                        {
-                            count[RESULT_TYPE.USER]++;
-                        }
-                        if (int.Parse(reader["services"].ToString()) != 0)
-                        {
-                            count[RESULT_TYPE.SERVICES]++;
-                        }
-                        if (int.Parse(reader["registry"].ToString()) != 0)
-                        {
-                            count[RESULT_TYPE.REGISTRY]++;
-                        }
-                        if (int.Parse(reader["certificates"].ToString()) != 0)
-                        {
-                            count[RESULT_TYPE.CERTIFICATE]++;
-                        }
-                    }
-                }
-            }
-
-            foreach (KeyValuePair<RESULT_TYPE, int> entry in count)
-            {
-                if (entry.Value == 2)
-                {
-                    if (entry.Key.Equals(RESULT_TYPE.FILE))
-                    {
-                        comparators.Add(new FileSystemCompare());
-                    }
-                    if (entry.Key.Equals(RESULT_TYPE.CERTIFICATE))
-                    {
-                        comparators.Add(new CertificateCompare());
-                    }
-                    if (entry.Key.Equals(RESULT_TYPE.REGISTRY))
-                    {
-                        comparators.Add(new RegistryCompare());
-                    }
-                    if (entry.Key.Equals(RESULT_TYPE.PORT))
-                    {
-                        comparators.Add(new OpenPortCompare());
-                    }
-                    if (entry.Key.Equals(RESULT_TYPE.SERVICES))
-                    {
-                        comparators.Add(new ServiceCompare());
-                    }
-                    if (entry.Key.Equals(RESULT_TYPE.USER))
-                    {
-                        comparators.Add(new UserAccountCompare());
-                    }
-                }
-            }
-
             Dictionary<string, string> EndEvent = new Dictionary<string, string>();
-
-            foreach (BaseCompare c in comparators)
+            BaseCompare c = new BaseCompare();
+            Log.Information(Strings.Get("Begin"), "Comparing");
+            var watch = System.Diagnostics.Stopwatch.StartNew(); 
+            if (!c.TryCompare(opts.FirstRunId, opts.SecondRunId))
             {
-                Log.Information(Strings.Get("Begin"), c.GetType().Name);
-                if (!c.TryCompare(opts.FirstRunId, opts.SecondRunId))
-                {
-                    Log.Warning(Strings.Get("Err_Comparing") + " : {0}", c.GetType().Name);
-                }
-                c.Results.ToList().ForEach(x => results.Add(x.Key, x.Value));
-                EndEvent.Add(c.GetType().ToString(), c.GetNumResults().ToString());
+                Log.Warning(Strings.Get("Err_Comparing") + " : {0}", c.GetType().Name);
             }
+            c.Results.ToList().ForEach(x => results.Add(x.Key, x.Value));
 
-            Log.Information(Strings.Get("Begin"),"Analysis");
-            var watch = System.Diagnostics.Stopwatch.StartNew();
+            watch.Stop();
+            TimeSpan t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
+            string answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+                                    t.Hours,
+                                    t.Minutes,
+                                    t.Seconds,
+                                    t.Milliseconds);
+            Log.Information(Strings.Get("Completed"), "Comparing", answer);
 
-
+            watch = System.Diagnostics.Stopwatch.StartNew();
 
             Analyzer analyzer = new Analyzer(DatabaseManager.RunIdToPlatform(opts.FirstRunId));
 
@@ -1155,8 +1088,8 @@ namespace AttackSurfaceAnalyzer
                 }
             }
             watch.Stop();
-            TimeSpan t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
-            string answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+            t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
+            answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
                                     t.Hours,
                                     t.Minutes,
                                     t.Seconds,
