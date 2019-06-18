@@ -12,8 +12,6 @@
     "start": "tsc -p ."
   },
   "dependencies": {
-    "electron-builder": "^20.44.1",
-    "electron-updater": "^4.0.6",
     "image-size": "^0.7.4",
     "portscanner": "^2.2.0",
     "socket.io": "^2.2.0"
