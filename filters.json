@@ -101,34 +101,8 @@
         "Path": {
           "Exclude": [
             "^/private/var/db/uuidtext",
-            "^/private/var/folders/", 
-            "^/private/var/db/ConfigurationProfiles/Store", 
-            "^/private/var/db/dslocal/nodes",
             "^/dev/",
-            "^/.Spotlight-V100",
-            "^/Library/Application Support/com.apple.TCC",
-            "^/Users/[^/^\\\\]*/Library/Caches/com.apple.homed",
-            "^/Users/[^/^\\\\]*/Library/Caches/com.apple.Safari.SafeBrowsing",
-            "^/Users/[^/^\\\\]*/Library/Caches/com.apple.Safari",
-            "^/Users/[^/^\\\\]*/Library/Caches/CloudKit/com.apple.Safari",
-            "^/Users/[^/^\\\\]*/Library/Caches/com.apple.HomeKit.configurations",
-            "^/Users/[^/^\\\\]*/Library/Caches/com.apple.safaridavclient",
-            "^/Users/[^/^\\\\]*/Library/Cookies",
-            "^/Users/[^/^\\\\]*/Library/VoiceTrigger/SAT",
-            "^/Users/[^/^\\\\]*/Library/Metadata/com.apple.IntelligentSuggestions",
-            "^/Users/[^/^\\\\]*/Library/Metadata/CoreSpotlight",
-            "^/Users/[^/^\\\\]*/Library/PersonalizationPortrait",
-            "^/Users/[^/^\\\\]*/Library/Suggestions",
-            "^/Users/[^/^\\\\]*/Library/Safari",
-            "^/Users/[^/^\\\\]*/Library/Mail",
-            "^/Users/[^/^\\\\]*/Library/HomeKit",
-            "^/Users/[^/^\\\\]*/Library/Messages",
-            "^/Users/[^/^\\\\]*/Library/IdentityServices",
-            "^/Users/[^/^\\\\]*/Library/Application Support/CallHistoryDB",
-            "^/Users/[^/^\\\\]*/Library/Application Support/com.apple.TCC",
-            "^/Users/[^/^\\\\]*/Library/Application Support/CallHistoryTransactions",
-            "^/Users/[^/^\\\\]*/Library/Application Support/MobileSync",
-            "^/Users/[^/^\\\\]*/Library/Containers/"
+            "^/.Spotlight-V100"
           ]
         }
       }
