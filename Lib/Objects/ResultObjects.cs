@@ -36,6 +36,7 @@ namespace AttackSurfaceAnalyzer.Objects
         public CHANGE_TYPE ChangeType;
         public RESULT_TYPE ResultType;
 
+        public string Identity;
         public string BaseRowKey;
         public string CompareRowKey;
         public string BaseRunId;

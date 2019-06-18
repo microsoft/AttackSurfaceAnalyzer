@@ -471,8 +471,6 @@ namespace AttackSurfaceAnalyzer
 
             if (opts.ExplodedOutput)
             {
-                // TODO: Add the rules to the output here. They're parsed in an Analyzer object inside of CompareRuns.
-                //results.Add("rules", );
                 results.Add("metadata", Helpers.GenerateMetadata());
                 string path = Path.Combine(opts.OutputPath, Helpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId));
                 Directory.CreateDirectory(path);
@@ -510,8 +508,7 @@ namespace AttackSurfaceAnalyzer
 
         public static void WriteScanJson(int ResultType, string BaseId, string CompareId, bool ExportAll, string OutputPath)
         {
-            string GET_COMPARISON_RESULTS = "select * from compared where base_run_id=@base_run_id and compare_run_id=@compare_run_id and data_type=@data_type order by base_row_key;";
-            string GET_SERIALIZED_RESULTS = "select serialized from @table_name where row_key = @row_key and run_id = @run_id";
+            string GET_COMPARISON_RESULTS = "select * from findings where comparison_id = @comparison_id and result_type=@result_type order by level des;";
 
             Log.Information("Write scan json");
 
@@ -532,105 +529,15 @@ namespace AttackSurfaceAnalyzer
             {
                 Log.Information("Exporting {0}", ExportType);
                 List<CompareResult> records = new List<CompareResult>();
-                using (var inner_cmd = new SqliteCommand(GET_SERIALIZED_RESULTS.Replace("@table_name", Helpers.ResultTypeToTableName(ExportType)), DatabaseManager.Connection, DatabaseManager.Transaction))
                 using (var cmd = new SqliteCommand(GET_COMPARISON_RESULTS, DatabaseManager.Connection, DatabaseManager.Transaction))
                 {
-                    cmd.Parameters.AddWithValue("@base_run_id", BaseId);
-                    cmd.Parameters.AddWithValue("@compare_run_id", CompareId);
-                    cmd.Parameters.AddWithValue("@data_type", ExportType);
+                    cmd.Parameters.AddWithValue("@comparison_id", Helpers.RunIdsToCompareId(BaseId,CompareId));
+                    cmd.Parameters.AddWithValue("@result_type", ExportType);
                     using (var reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            string CompareString = "";
-                            string BaseString = "";
-                            CHANGE_TYPE ChangeType = (CHANGE_TYPE)int.Parse(reader["change_type"].ToString());
-
-                            if (ChangeType == CHANGE_TYPE.CREATED || ChangeType == CHANGE_TYPE.MODIFIED)
-                            {
-                                inner_cmd.Parameters.Clear();
-                                inner_cmd.Parameters.AddWithValue("@run_id", reader["compare_run_id"].ToString());
-                                inner_cmd.Parameters.AddWithValue("@row_key", reader["compare_row_key"].ToString());
-                                using (var inner_reader = inner_cmd.ExecuteReader())
-                                {
-                                    while (inner_reader.Read())
-                                    {
-                                        CompareString = inner_reader["serialized"].ToString();
-                                    }
-                                }
-                            }
-                            if (ChangeType == CHANGE_TYPE.DELETED || ChangeType == CHANGE_TYPE.MODIFIED)
-                            {
-                                inner_cmd.Parameters.Clear();
-                                inner_cmd.Parameters.AddWithValue("@run_id", reader["base_run_id"].ToString());
-                                inner_cmd.Parameters.AddWithValue("@row_key", reader["base_row_key"].ToString());
-                                using (var inner_reader = inner_cmd.ExecuteReader())
-                                {
-                                    while (inner_reader.Read())
-                                    {
-                                        BaseString = inner_reader["serialized"].ToString();
-                                    }
-                                }
-                            }
-
-                            CompareResult obj;
-                            switch (ExportType)
-                            {
-                                case RESULT_TYPE.CERTIFICATE:
-                                    obj = new CertificateResult()
-                                    {
-                                        Base = JsonConvert.DeserializeObject<CertificateObject>(BaseString),
-                                        Compare = JsonConvert.DeserializeObject<CertificateObject>(CompareString)
-                                    };
-                                    break;
-                                case RESULT_TYPE.FILE:
-                                    obj = new FileSystemResult()
-                                    {
-                                        Base = JsonConvert.DeserializeObject<FileSystemObject>(BaseString),
-                                        Compare = JsonConvert.DeserializeObject<FileSystemObject>(CompareString)
-                                    };
-                                    break;
-                                case RESULT_TYPE.PORT:
-                                    obj = new OpenPortResult()
-                                    {
-                                        Base = JsonConvert.DeserializeObject<OpenPortObject>(BaseString),
-                                        Compare = JsonConvert.DeserializeObject<OpenPortObject>(CompareString)
-                                    };
-                                    break;
-                                case RESULT_TYPE.USER:
-                                    obj = new UserAccountResult()
-                                    {
-                                        Base = JsonConvert.DeserializeObject<UserAccountObject>(BaseString),
-                                        Compare = JsonConvert.DeserializeObject<UserAccountObject>(CompareString)
-                                    };
-                                    break;
-                                case RESULT_TYPE.SERVICES:
-                                    obj = new ServiceResult()
-                                    {
-                                        Base = JsonConvert.DeserializeObject<ServiceObject>(BaseString),
-                                        Compare = JsonConvert.DeserializeObject<ServiceObject>(CompareString)
-                                    };
-                                    break;
-                                case RESULT_TYPE.REGISTRY:
-                                    obj = new RegistryResult()
-                                    {
-                                        Base = JsonConvert.DeserializeObject<RegistryObject>(BaseString),
-                                        Compare = JsonConvert.DeserializeObject<RegistryObject>(CompareString)
-                                    };
-                                    break;
-                                default:
-                                    obj = new CompareResult();
-                                    break;
-                            }
-
-                            obj.BaseRowKey = reader["base_row_key"].ToString();
-                            obj.CompareRowKey = reader["compare_row_key"].ToString();
-                            obj.BaseRunId = reader["base_run_id"].ToString();
-                            obj.CompareRunId = reader["compare_run_id"].ToString();
-                            obj.ChangeType = (CHANGE_TYPE)int.Parse(reader["change_type"].ToString());
-                            obj.ResultType = (RESULT_TYPE)int.Parse(reader["data_type"].ToString());
-
-                            records.Add(obj);
+                            records.Add(JsonConvert.DeserializeObject<CompareResult>(reader["serialized"].ToString());
                         }
                     }
                 }
@@ -1097,6 +1004,22 @@ namespace AttackSurfaceAnalyzer
             Log.Information(Strings.Get("Completed"),"Analysis",answer);
 
             Telemetry.TrackEvent("End Command", EndEvent);
+
+
+            foreach (var key in results.Keys)
+            {
+                try
+                {
+                    foreach (var result in results[key] as List<CompareResult>)
+                    {
+                        DatabaseManager.InsertAnalyzed(result);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Log.Debug("{0} {1} {2} {3}", key, e.GetType().ToString(), e.Message, e.StackTrace);
+                }
+            }
 
             using (var cmd = new SqliteCommand(UPDATE_RUN_IN_RESULT_TABLE, DatabaseManager.Connection, DatabaseManager.Transaction))
             {

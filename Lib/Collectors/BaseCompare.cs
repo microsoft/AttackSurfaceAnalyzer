@@ -69,7 +69,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                     CompareRunId = secondRunId,
                     CompareRowKey = added.RowKey,
                     ChangeType = CHANGE_TYPE.CREATED,
-                    ResultType = added.ResultType
+                    ResultType = added.ResultType,
+                    Identity = added.Identity
                 };
 
                 if (results.ContainsKey(String.Format("{0}_{1}", added.ResultType.ToString(), CHANGE_TYPE.CREATED.ToString()))){
@@ -89,7 +90,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                     CompareRunId = secondRunId,
                     BaseRowKey = removed.RowKey,
                     ChangeType = CHANGE_TYPE.DELETED,
-                    ResultType = removed.ResultType
+                    ResultType = removed.ResultType,
+                    Identity = removed.Identity
                 };
                 if (results.ContainsKey(String.Format("{0}_{1}", removed.ResultType.ToString(), CHANGE_TYPE.DELETED.ToString()))){
                     results[String.Format("{0}_{1}", removed.ResultType.ToString(), CHANGE_TYPE.DELETED.ToString())].Add(obj);
@@ -110,7 +112,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                     BaseRowKey = modified.First.RowKey,
                     CompareRowKey = modified.Second.RowKey,
                     ChangeType = CHANGE_TYPE.MODIFIED,
-                    ResultType = modified.First.ResultType
+                    ResultType = modified.First.ResultType,
+                    Identity = modified.First.Identity
                 };
                 if (results.ContainsKey(String.Format("{0}_{1}", modified.First.ResultType.ToString(), CHANGE_TYPE.MODIFIED.ToString())))
                 {

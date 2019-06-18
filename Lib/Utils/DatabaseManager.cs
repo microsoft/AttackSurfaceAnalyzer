@@ -49,6 +49,7 @@ namespace AttackSurfaceAnalyzer.Utils
         private static readonly string SQL_GET_PLATFORM_FROM_RUNID = "select platform from runs where run_id = @run_id";
 
         private static readonly string SQL_INSERT_COLLECT_RESULT = "insert into collect (run_id, result_type, row_key, identity, serialized) values (@run_id, @result_type, @row_key, @identity, @serialized)";
+        private static readonly string SQL_INSERT_FINDINGS_RESULT = "insert into findings (comparison_id, result_type, level, identity, serialized) values (@comparison_id, @result_type, @level, @identity, @serialized)";
 
         private static readonly string SQL_GET_COLLECT_MISSING_IN_B = "select * from collect b where b.run_id = @second_run_id and b.identity not in (select identity from collect a where a.run_id = @first_run_id);";
         private static readonly string SQL_GET_COLLECT_MODIFIED = "select a.row_key as 'a_row_key', a.serialized as 'a_serialized', a.result_type as 'a_result_type', a.identity as 'a_identity', a.run_id as 'a_run_id', b.row_key as 'b_row_key', b.serialized as 'b_serialized', b.result_type as 'b_result_type', b.identity as 'b_identity', b.run_id as 'b_run_id' from collect a, collect b where a.run_id=@first_run_id and b.run_id=@second_run_id and a.identity = b.identity and a.row_key != b.row_key;";
@@ -146,6 +147,19 @@ namespace AttackSurfaceAnalyzer.Utils
                     reader.Read();
                     return (PLATFORM)Enum.Parse(typeof(PLATFORM), reader["platform"].ToString());
                 }
+            }
+        }
+
+        public static void InsertAnalyzed(CompareResult obj)
+        {
+            using (var cmd = new SqliteCommand(SQL_INSERT_FINDINGS_RESULT, DatabaseManager.Connection, DatabaseManager.Transaction))
+            {
+                cmd.Parameters.AddWithValue("@comparison_id", Helpers.RunIdsToCompareId(obj.BaseRunId, obj.CompareRunId));
+                cmd.Parameters.AddWithValue("@result_type", obj.ResultType.ToString());
+                cmd.Parameters.AddWithValue("@level", obj.Analysis.ToString());
+                cmd.Parameters.AddWithValue("@identity", obj.Identity);
+                cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj));
+                cmd.ExecuteNonQuery();
             }
         }
 

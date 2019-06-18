@@ -122,5 +122,10 @@ namespace AttackSurfaceAnalyzer.Utils
 
             return dict;
         }
+
+        public static string RunIdsToCompareId(string firstRunId, string secondRunId)
+        {
+            return string.Format("{0} & {1}", firstRunId, secondRunId);
+        }
     }
 }
