@@ -118,13 +118,6 @@
             "^/Users/[^/^\\\\]*/Library/Metadata/com.apple.IntelligentSuggestions",
             "^/Users/[^/^\\\\]*/Library/Metadata/CoreSpotlight",
             "^/Users/[^/^\\\\]*/Library/PersonalizationPortrait",
-            "^/Users/[^/^\\\\]*/Library/Containers/com.apple.stocks",
-            "^/Users/[^/^\\\\]*/Library/Containers/com.apple.news",
-            "^/Users/[^/^\\\\]*/Library/Containers/com.apple.mail",
-            "^/Users/[^/^\\\\]*/Library/Containers/com.apple.iChat",
-            "^/Users/[^/^\\\\]*/Library/Containers/com.apple.Safari",
-            "^/Users/[^/^\\\\]*/Library/Containers/com.apple.Home",
-            "^/Users/[^/^\\\\]*/Library/Containers/com.apple.VoiceMemos",
             "^/Users/[^/^\\\\]*/Library/Suggestions",
             "^/Users/[^/^\\\\]*/Library/Safari",
             "^/Users/[^/^\\\\]*/Library/Mail",
@@ -135,6 +128,7 @@
             "^/Users/[^/^\\\\]*/Library/Application Support/com.apple.TCC",
             "^/Users/[^/^\\\\]*/Library/Application Support/CallHistoryTransactions",
             "^/Users/[^/^\\\\]*/Library/Application Support/MobileSync",
+            "^/Users/[^/^\\\\]*/Library/Containers/"
           ]
         }
       }
