@@ -124,27 +124,49 @@ namespace AttackSurfaceAnalyzer.Collectors
                                         Permissions = FileSystemUtils.GetFilePermissions(fileInfo),
                                         Size = (ulong)(fileInfo as FileInfo).Length,
                                     };
-                                    if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
+
+                                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                                     {
                                         if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
                                         {
-                                            obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(fileInfo.FullName);
-                                            obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(fileInfo.FullName);
-                                        }
-                                        else
-                                        {
-                                            obj.SignatureStatus = "Cloud";
+                                            if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
+                                            {
+                                                obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(fileInfo.FullName);
+                                                obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(fileInfo.FullName);
+                                            }
+                                            else
+                                            {
+                                                obj.SignatureStatus = "Cloud";
+                                            }
                                         }
                                     }
+
                                     if (INCLUDE_CONTENT_HASH)
                                     {
                                         obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
                                     }
+
+                                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                                    {
+                                        if (obj.Permissions.Contains("Execute"))
+                                        {
+                                            obj.IsExecutable = true;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        // TODO: Improve this to detect executables more intelligently
+                                        if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
+                                        {
+                                            obj.IsExecutable = true;
+                                        }
+                                    }
                                 }
                             }
+
                             if (obj != null)
                             {
-                                DatabaseManager.Write(obj,this.runId);
+                                DatabaseManager.Write(obj,runId);
                             }
                         }
                         catch (Exception ex)
