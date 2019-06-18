@@ -32,7 +32,7 @@ namespace AttackSurfaceAnalyzer.Objects
         public string Shell;
         public string PasswordStorageAlgorithm;
 
-        // Is the user Windows Administrator/root/sudoer etc.
+        // Is the user Windows Administrator/sudoer
         public bool Privileged;
 
         public Dictionary<string, string> Properties;
