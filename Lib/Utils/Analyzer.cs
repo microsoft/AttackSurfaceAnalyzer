@@ -20,7 +20,7 @@ namespace AttackSurfaceAnalyzer.Utils
         Dictionary<RESULT_TYPE, List<FieldInfo>> _Fields = new Dictionary<RESULT_TYPE, List<FieldInfo>>();
 
         JObject config = null;
-        Dictionary<PLATFORM, Dictionary<RESULT_TYPE, List<Rule>>> _filters = new Dictionary<PLATFORM, Dictionary<RESULT_TYPE,List<Rule>>>();
+        List<Rule> _filters = new List<Rule>();
         PLATFORM OsName;
         ANALYSIS_RESULT_TYPE DEFAULT_RESULT_TYPE;
 
@@ -37,24 +37,12 @@ namespace AttackSurfaceAnalyzer.Utils
 
         protected void ParseFilters()
         {
-            foreach (PLATFORM o in Enum.GetValues(typeof(PLATFORM)))
-            {
-                _filters[o] = new Dictionary<RESULT_TYPE, List<Rule>>();
-                foreach (RESULT_TYPE t in Enum.GetValues(typeof(RESULT_TYPE)))
-                {
-                    _filters[o][t] = new List<Rule>();
-                }
-            }
+            _filters = new List<Rule>();
             try
             {
-                JArray jFilters = (JArray)config["rules"];
-                foreach (var R in jFilters)
+                foreach (var R in (JArray)config["rules"])
                 {
-                    Rule r = R.ToObject<Rule>();
-                    foreach (PLATFORM platform in r.platforms)
-                    {
-                        _filters[platform][r.resultType].Add(r);
-                    }
+                    _filters.Add(R.ToObject<Rule>());
                 }
             }
             catch(Exception e)
@@ -77,10 +65,12 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             if (config == null) { return DEFAULT_RESULT_TYPE; }
             var results = new List<ANALYSIS_RESULT_TYPE>();
-
-            if (_filters[OsName][compareResult.ResultType].Count > 0)
+            var curFilters = _filters.Where((rule) => (rule.changeTypes.Contains(compareResult.ChangeType) || rule.changeTypes == null)
+                                                     && (rule.platforms.Contains(OsName) || rule.platforms == null))
+                                .ToList();
+            if (curFilters.Count > 0)
             {
-                foreach (Rule rule in _filters[OsName][compareResult.ResultType])
+                foreach (Rule rule in curFilters)
                 {
                     results.Add(Apply(rule, compareResult));
                 }
@@ -249,7 +239,7 @@ namespace AttackSurfaceAnalyzer.Utils
             catch (Exception e)
             {
                 config = null;
-                Log.Warning("Could not load filters {0} {1}", "Embedded", e.GetType().ToString());
+                Log.Warning("Could not load filters {0} {1} {2}", "Embedded", e.GetType().ToString(), e.StackTrace);
 
                 return;
             }
@@ -291,7 +281,7 @@ namespace AttackSurfaceAnalyzer.Utils
             catch (Exception e)
             {
                 config = null;
-                Log.Warning("Could not load filters {0} {1}", filterLoc, e.GetType().ToString());
+                Log.Warning("Could not load filters {0} {1} {2}", filterLoc, e.GetType().ToString(), e.StackTrace);
                 return;
             }
         }

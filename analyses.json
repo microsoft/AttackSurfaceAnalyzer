@@ -4,11 +4,6 @@
       "name": "Privileged ports",
       "desc": "Flag when privileged ports are opened.",
       "flag": "WARNING",
-      "platforms": [
-        "LINUX",
-        "MACOS",
-        "WINDOWS"
-      ],
       "resultType": "PORT",
       "clauses": [
         {
