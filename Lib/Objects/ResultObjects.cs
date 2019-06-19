@@ -36,6 +36,7 @@ namespace AttackSurfaceAnalyzer.Objects
         public CHANGE_TYPE ChangeType;
         public RESULT_TYPE ResultType;
 
+        public string Identity;
         public string BaseRowKey;
         public string CompareRowKey;
         public string BaseRunId;
@@ -98,7 +99,7 @@ namespace AttackSurfaceAnalyzer.Objects
     {
         public ServiceResult()
         {
-            ResultType = RESULT_TYPE.SERVICES;
+            ResultType = RESULT_TYPE.SERVICE;
         }
     }
 

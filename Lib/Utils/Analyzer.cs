@@ -18,42 +18,38 @@ namespace AttackSurfaceAnalyzer.Utils
     public class Analyzer
     {
         Dictionary<RESULT_TYPE, List<FieldInfo>> _Fields = new Dictionary<RESULT_TYPE, List<FieldInfo>>();
+        Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DEFAULT_RESULT_TYPE_MAP = new Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>();
 
         JObject config = null;
-        Dictionary<PLATFORM, Dictionary<RESULT_TYPE, List<Rule>>> _filters = new Dictionary<PLATFORM, Dictionary<RESULT_TYPE,List<Rule>>>();
+        List<Rule> _filters = new List<Rule>();
         PLATFORM OsName;
-        ANALYSIS_RESULT_TYPE DEFAULT_RESULT_TYPE;
 
         public Analyzer(PLATFORM platform) : this(platform: platform, useEmbedded:true) { }
-        public Analyzer(PLATFORM platform, string filterLocation = "analyses.json", bool useEmbedded = false, ANALYSIS_RESULT_TYPE defaultResultType = ANALYSIS_RESULT_TYPE.INFORMATION) {
+        public Analyzer(PLATFORM platform, string filterLocation = "analyses.json", bool useEmbedded = false) {
             if (useEmbedded) { LoadEmbeddedFilters(); }
             else { LoadFilters(filterLocation); }
             if (config != null) { ParseFilters(); }
 
-            DEFAULT_RESULT_TYPE = defaultResultType;
             OsName = platform;
             PopulateFields();
         }
 
         protected void ParseFilters()
         {
-            foreach (PLATFORM o in Enum.GetValues(typeof(PLATFORM)))
-            {
-                _filters[o] = new Dictionary<RESULT_TYPE, List<Rule>>();
-                foreach (RESULT_TYPE t in Enum.GetValues(typeof(RESULT_TYPE)))
-                {
-                    _filters[o][t] = new List<Rule>();
-                }
-            }
+            _filters = new List<Rule>();
             try
             {
-                JArray jFilters = (JArray)config["rules"];
-                foreach (var R in jFilters)
+                foreach (var R in (JArray)config["rules"])
                 {
-                    Rule r = R.ToObject<Rule>();
-                    foreach (PLATFORM platform in r.platforms)
+                    _filters.Add(R.ToObject<Rule>());
+                }
+                foreach (var R in (JObject)config["meta"])
+                {
+                    switch (R.Key)
                     {
-                        _filters[platform][r.resultType].Add(r);
+                        case "defaultLevels":
+                            DEFAULT_RESULT_TYPE_MAP = R.Value.ToObject<Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>>();
+                            break;
                     }
                 }
             }
@@ -69,18 +65,20 @@ namespace AttackSurfaceAnalyzer.Utils
             _Fields[RESULT_TYPE.CERTIFICATE] = new List<FieldInfo>(new CertificateObject().GetType().GetFields());
             _Fields[RESULT_TYPE.PORT] = new List<FieldInfo>(new OpenPortObject().GetType().GetFields());
             _Fields[RESULT_TYPE.REGISTRY] = new List<FieldInfo>(new RegistryObject().GetType().GetFields());
-            _Fields[RESULT_TYPE.SERVICES] = new List<FieldInfo>(new ServiceObject().GetType().GetFields());
+            _Fields[RESULT_TYPE.SERVICE] = new List<FieldInfo>(new ServiceObject().GetType().GetFields());
             _Fields[RESULT_TYPE.USER] = new List<FieldInfo>(new UserAccountObject().GetType().GetFields());
         }
 
         public ANALYSIS_RESULT_TYPE Analyze(CompareResult compareResult)
         {
-            if (config == null) { return DEFAULT_RESULT_TYPE; }
+            if (config == null) { return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType]; }
             var results = new List<ANALYSIS_RESULT_TYPE>();
-
-            if (_filters[OsName][compareResult.ResultType].Count > 0)
+            var curFilters = _filters.Where((rule) => (rule.changeTypes.Contains(compareResult.ChangeType) || rule.changeTypes == null)
+                                                     && (rule.platforms.Contains(OsName) || rule.platforms == null))
+                                .ToList();
+            if (curFilters.Count > 0)
             {
-                foreach (Rule rule in _filters[OsName][compareResult.ResultType])
+                foreach (Rule rule in curFilters)
                 {
                     results.Add(Apply(rule, compareResult));
                 }
@@ -88,7 +86,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 return results.Max();
             }
             //If there are no filters for a result type
-            return DEFAULT_RESULT_TYPE;
+            return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
         }
 
         protected ANALYSIS_RESULT_TYPE Apply(Rule rule, CompareResult compareResult)
@@ -102,7 +100,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 if (field == null)
                 {
                     //Custom field logic will go here
-                    return DEFAULT_RESULT_TYPE;
+                    return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
                 }
 
                 var val = default(object);
@@ -130,7 +128,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                 }
                             }
                             if (complete) { break; }
-                            return DEFAULT_RESULT_TYPE;
+                            return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
 
                         case OPERATION.NEQ:
                             foreach (string datum in clause.data)
@@ -141,7 +139,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                 }
                             }
                             if (complete) { break; }
-                            return DEFAULT_RESULT_TYPE;
+                            return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
 
                         case OPERATION.CONTAINS:
                             foreach (string datum in clause.data)
@@ -153,21 +151,21 @@ namespace AttackSurfaceAnalyzer.Utils
                                 }
                             }
                             if (complete) { break; }
-                            return DEFAULT_RESULT_TYPE;
+                            return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
 
                         case OPERATION.GT:
                             if (Int32.Parse(val.ToString()) > Int32.Parse(clause.data[0]))
                             {
                                 break;
                             }
-                            return DEFAULT_RESULT_TYPE;
+                            return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
 
                         case OPERATION.LT:
                             if (Int32.Parse(val.ToString()) < Int32.Parse(clause.data[0]))
                             {
                                 break;
                             }
-                            return DEFAULT_RESULT_TYPE;
+                            return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
 
                         case OPERATION.REGEX:
                             foreach (string datum in clause.data)
@@ -179,22 +177,22 @@ namespace AttackSurfaceAnalyzer.Utils
                                 }
                             }
                             if (complete) { break; }
-                            return DEFAULT_RESULT_TYPE;
+                            return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
                         case OPERATION.WAS_MODIFIED:
                             if (!val.ToString().Equals(baseVal.ToString()))
                             {
                                 break;
                             }
-                            return DEFAULT_RESULT_TYPE;
+                            return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
                         default:
                             Log.Debug("Unimplemented operation {0}", clause.op);
-                            return DEFAULT_RESULT_TYPE;
+                            return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
                     }
                 }
                 catch (Exception e)
                 {
                     Log.Debug("{0} {1} {2}", e.GetType().ToString(), e.Message, e.StackTrace);
-                    return DEFAULT_RESULT_TYPE;
+                    return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
                 }
             }
             compareResult.Rules.Add(rule);
@@ -246,10 +244,15 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 return;
             }
+            catch (JsonReaderException)
+            {
+                config = null;
+                Log.Warning("Error when parsing '{0}' analyses file. This is likely an issue with your JSON formatting.", "Embedded");
+            }
             catch (Exception e)
             {
                 config = null;
-                Log.Warning("Could not load filters {0} {1}", "Embedded", e.GetType().ToString());
+                Log.Warning("Could not load filters {0} {1} {2}", "Embedded", e.GetType().ToString(), e.StackTrace);
 
                 return;
             }
@@ -288,10 +291,15 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 return;
             }
+            catch (JsonReaderException)
+            {
+                config = null;
+                Log.Warning("Error when parsing '{0}' analyses file. This is likely an issue with your JSON formatting.",filterLoc);
+            }
             catch (Exception e)
             {
                 config = null;
-                Log.Warning("Could not load filters {0} {1}", filterLoc, e.GetType().ToString());
+                Log.Warning("Could not load filters {0} {1} {2}", filterLoc, e.GetType().ToString(), e.StackTrace);
                 return;
             }
         }

@@ -16,7 +16,7 @@ namespace AttackSurfaceAnalyzer.Objects
 
         public ServiceObject()
         {
-            ResultType = RESULT_TYPE.SERVICES;
+            ResultType = RESULT_TYPE.SERVICE;
         }
 
         public override string Identity

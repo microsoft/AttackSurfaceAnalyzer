@@ -4,11 +4,6 @@
       "name": "Privileged ports",
       "desc": "Flag when privileged ports are opened.",
       "flag": "WARNING",
-      "platforms": [
-        "LINUX",
-        "MACOS",
-        "WINDOWS"
-      ],
       "resultType": "PORT",
       "clauses": [
         {
@@ -20,15 +15,10 @@
         }
       ]
     },
-    {
+    {      
       "name": "Privileged users",
       "desc": "Flag when privileged ports are created.",
       "flag": "WARNING",
-      "platforms": [
-        "LINUX",
-        "MACOS",
-        "WINDOWS"
-      ],
       "resultType": "USER",
       "clauses": [
         {
@@ -37,13 +27,36 @@
           "data": [
             "True"
           ]
+        },
+    {
+      "name": "Unsigned binaries",
+      "desc": "Flag when unsigned/incorrectly signed binaries are added.",
+      "flag": "WARNING",
+      "platform": [
+        "WINDOWS"
+      ],
+      "changeTypes": [
+        "CREATED",
+        "MODIFIED"
+      ],
+      "resultType": "FILE",
+      "clauses": [
+        {
+          "field": "IsExecutable",
+
+        {
+          "field": "SigningStatus",
+          "op": "NEQ",
+          "data": [
+            "Valid"
+          ]
         }
       ]
     },
     {
       "name": "Executables",
       "desc": "Flag when executables are created.",
-      "flag": "WARNING",
+      "flag": "INFORMATION",
       "platforms": [
         "LINUX",
         "MACOS",
@@ -60,5 +73,15 @@
         }
       ]
     }
-  ]
+  ],
+ "meta": {
+   "defaultLevels": {
+    "PORT": "INFORMATION",
+    "FILE": "DEBUG",
+    "SERVICE": "INFORMATION",
+    "CERTIFICATE": "INFORMATION",
+    "USER": "INFORMATION",
+    "REGISTRY": "DEBUG"
+   }
+  }
 }

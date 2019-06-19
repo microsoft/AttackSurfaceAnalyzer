@@ -24,14 +24,13 @@ namespace AttackSurfaceAnalyzer.Utils
         private static readonly string SQL_CREATE_COLLECT_RUN_TYPE_COMBINED_INDEX = "create index if not exists i_collect_row_type on collect(run_id, result_type)";
         private static readonly string SQL_CREATE_COLLECT_KEY_IDENTITY_COMBINED_INDEX = "create index if not exists i_collect_row_type on collect(identity, row_key)";
 
-        private static readonly string SQL_CREATE_ANALYZED_TABLE = "create table if not exists results (base_run_id text, compare_run_id text, status int)";
+        private static readonly string SQL_CREATE_FINDINGS_RESULTS = "create table if not exists findings (comparison_id text, level text, result_type text, identity text, serialized text)";
+        
+        private static readonly string SQL_CREATE_FINDINGS_LEVEL_INDEX = "create index if not exists i_findings_level on findings(level)";
+        private static readonly string SQL_CREATE_FINDINGS_RESULT_TYPE_INDEX = "create index if not exists i_findings_result_type on findings(result_type)";
+        private static readonly string SQL_CREATE_FINDINGS_IDENTITY_INDEX = "create index if not exists i_findings_identity on findings(identity)";
 
-        private static readonly string SQL_CREATE_COMPARE_RESULT_TABLE = "create table if not exists compared (base_run_id text, compare_run_id test, change_type int, base_row_key text, compare_row_key text, data_type int)";
-        private static readonly string SQL_CREATE_RESULT_CHANGE_TYPE_INDEX = "create index if not exists i_compared_change_type_index on compared(change_type)";
-        private static readonly string SQL_CREATE_RESULT_BASE_RUN_ID_INDEX = "create index if not exists i_compared_base_run_id on compared(base_run_id)";
-        private static readonly string SQL_CREATE_RESULT_COMPARE_RUN_ID_INDEX = "create index if not exists i_compared_compare_run_id on compared(compare_run_id)";
-        private static readonly string SQL_CREATE_RESULT_BASE_ROW_KEY_INDEX = "create index if not exists i_compared_base_row_key on compared(base_row_key)";
-        private static readonly string SQL_CREATE_RESULT_DATA_TYPE_INDEX = "create index if not exists i_compared_data_type_index on compared(data_type)";
+        private static readonly string SQL_CREATE_FINDINGS_LEVEL_RESULT_TYPE_INDEX = "create index if not exists i_findings_level_result_type on findings(level, result_type)";
 
         private static readonly string SQL_CREATE_PERSISTED_SETTINGS = "create table if not exists persisted_settings (setting text, value text, unique(setting))";
         private static readonly string SQL_CREATE_DEFAULT_SETTINGS = "insert or ignore into persisted_settings (setting, value) values ('telemetry_opt_out','false'),('schema_version',@schema_version)";
@@ -50,6 +49,7 @@ namespace AttackSurfaceAnalyzer.Utils
         private static readonly string SQL_GET_PLATFORM_FROM_RUNID = "select platform from runs where run_id = @run_id";
 
         private static readonly string SQL_INSERT_COLLECT_RESULT = "insert into collect (run_id, result_type, row_key, identity, serialized) values (@run_id, @result_type, @row_key, @identity, @serialized)";
+        private static readonly string SQL_INSERT_FINDINGS_RESULT = "insert into findings (comparison_id, result_type, level, identity, serialized) values (@comparison_id, @result_type, @level, @identity, @serialized)";
 
         private static readonly string SQL_GET_COLLECT_MISSING_IN_B = "select * from collect b where b.run_id = @second_run_id and b.identity not in (select identity from collect a where a.run_id = @first_run_id);";
         private static readonly string SQL_GET_COLLECT_MODIFIED = "select a.row_key as 'a_row_key', a.serialized as 'a_serialized', a.result_type as 'a_result_type', a.identity as 'a_identity', a.run_id as 'a_run_id', b.row_key as 'b_row_key', b.serialized as 'b_serialized', b.result_type as 'b_result_type', b.identity as 'b_identity', b.run_id as 'b_run_id' from collect a, collect b where a.run_id=@first_run_id and b.run_id=@second_run_id and a.identity = b.identity and a.row_key != b.row_key;";
@@ -100,13 +100,22 @@ namespace AttackSurfaceAnalyzer.Utils
                     cmd.CommandText = SQL_CREATE_COLLECT_KEY_IDENTITY_COMBINED_INDEX;
                     cmd.ExecuteNonQuery();
 
+                    cmd.CommandText = SQL_CREATE_FINDINGS_RESULTS;
+                    cmd.ExecuteNonQuery();
+
+                    cmd.CommandText = SQL_CREATE_FINDINGS_LEVEL_INDEX;
+                    cmd.ExecuteNonQuery();
+
+                    cmd.CommandText = SQL_CREATE_FINDINGS_RESULT_TYPE_INDEX;
+                    cmd.ExecuteNonQuery();
+
+                    cmd.CommandText = SQL_CREATE_FINDINGS_IDENTITY_INDEX;
+                    cmd.ExecuteNonQuery();
+
+                    cmd.CommandText = SQL_CREATE_FINDINGS_LEVEL_RESULT_TYPE_INDEX;
+                    cmd.ExecuteNonQuery();
+
                     cmd.CommandText = SQL_CREATE_FILE_MONITORED;
-                    cmd.ExecuteNonQuery();
-
-                    cmd.CommandText = SQL_CREATE_COMPARE_RESULT_TABLE;
-                    cmd.ExecuteNonQuery();
-
-                    cmd.CommandText = SQL_CREATE_ANALYZED_TABLE;
                     cmd.ExecuteNonQuery();
 
                     cmd.CommandText = SQL_CREATE_PERSISTED_SETTINGS;
@@ -115,22 +124,6 @@ namespace AttackSurfaceAnalyzer.Utils
                     cmd.CommandText = SQL_CREATE_DEFAULT_SETTINGS;
                     cmd.Parameters.AddWithValue("@schema_version", SCHEMA_VERSION);
                     _firstRun &= cmd.ExecuteNonQuery() != 0;
-
-                    cmd.CommandText = SQL_CREATE_RESULT_CHANGE_TYPE_INDEX;
-                    cmd.ExecuteNonQuery();
-
-                    cmd.CommandText = SQL_CREATE_RESULT_BASE_RUN_ID_INDEX;
-                    cmd.ExecuteNonQuery();
-
-                    cmd.CommandText = SQL_CREATE_RESULT_COMPARE_RUN_ID_INDEX;
-                    cmd.ExecuteNonQuery();
-
-                    cmd.CommandText = SQL_CREATE_RESULT_BASE_ROW_KEY_INDEX;
-                    cmd.ExecuteNonQuery();
-
-                    cmd.CommandText = SQL_CREATE_RESULT_DATA_TYPE_INDEX;
-                    cmd.ExecuteNonQuery();
-
                 }
 
                 Commit();
@@ -154,6 +147,19 @@ namespace AttackSurfaceAnalyzer.Utils
                     reader.Read();
                     return (PLATFORM)Enum.Parse(typeof(PLATFORM), reader["platform"].ToString());
                 }
+            }
+        }
+
+        public static void InsertAnalyzed(CompareResult obj)
+        {
+            using (var cmd = new SqliteCommand(SQL_INSERT_FINDINGS_RESULT, DatabaseManager.Connection, DatabaseManager.Transaction))
+            {
+                cmd.Parameters.AddWithValue("@comparison_id", Helpers.RunIdsToCompareId(obj.BaseRunId, obj.CompareRunId));
+                cmd.Parameters.AddWithValue("@result_type", obj.ResultType.ToString());
+                cmd.Parameters.AddWithValue("@level", obj.Analysis.ToString());
+                cmd.Parameters.AddWithValue("@identity", obj.Identity);
+                cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj));
+                cmd.ExecuteNonQuery();
             }
         }
 
