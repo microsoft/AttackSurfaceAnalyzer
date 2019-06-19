@@ -35,7 +35,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     return JsonConvert.DeserializeObject<OpenPortObject>(res.Serialized);
                 case RESULT_TYPE.REGISTRY:
                     return JsonConvert.DeserializeObject<RegistryObject>(res.Serialized);
-                case RESULT_TYPE.SERVICES:
+                case RESULT_TYPE.SERVICE:
                     return JsonConvert.DeserializeObject<ServiceObject>(res.Serialized);
                 case RESULT_TYPE.USER:
                     return JsonConvert.DeserializeObject<UserAccountObject>(res.Serialized);

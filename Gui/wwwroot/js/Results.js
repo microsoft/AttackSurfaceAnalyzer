@@ -49,7 +49,7 @@ ResultTypeGroup.change(function () {
         case RESULT_TYPE.CERTIFICATE:
             $('.certificates').show();
             break;
-        case RESULT_TYPE.SERVICES:
+        case RESULT_TYPE.SERVICE:
             $('.services').show();
             break;
         case RESULT_TYPE.REGISTRY:
@@ -340,7 +340,7 @@ function InsertIntoTable(result) {
         case RESULT_TYPE.CERTIFICATE:
             InsertIntoCertificateTable(result);
             break;
-        case RESULT_TYPE.SERVICES:
+        case RESULT_TYPE.SERVICE:
             InsertIntoServiceTable(result);
             break;
         case RESULT_TYPE.USER:

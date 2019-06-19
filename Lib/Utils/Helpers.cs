@@ -77,7 +77,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     return "registry";
                 case RESULT_TYPE.CERTIFICATE:
                     return "certificates";
-                case RESULT_TYPE.SERVICES:
+                case RESULT_TYPE.SERVICE:
                     return "win_system_service";
                 case RESULT_TYPE.USER:
                     return "user_account";

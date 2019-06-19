@@ -7,7 +7,7 @@ namespace AttackSurfaceAnalyzer.Objects
         PORT,
         REGISTRY,
         CERTIFICATE,
-        SERVICES,
+        SERVICE,
         USER,
         UNKNOWN
     };

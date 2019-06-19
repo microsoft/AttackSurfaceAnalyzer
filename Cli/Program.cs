@@ -319,7 +319,7 @@ namespace AttackSurfaceAnalyzer
                                             }
                                             if (int.Parse(reader["services"].ToString()) != 0)
                                             {
-                                                resultTypes.Add(RESULT_TYPE.SERVICES);
+                                                resultTypes.Add(RESULT_TYPE.SERVICE);
                                             }
                                             if (int.Parse(reader["certificates"].ToString()) != 0)
                                             {
@@ -521,7 +521,7 @@ namespace AttackSurfaceAnalyzer
             };
             if (ExportAll)
             {
-                ToExport = new List<RESULT_TYPE> { RESULT_TYPE.FILE, RESULT_TYPE.CERTIFICATE, RESULT_TYPE.PORT, RESULT_TYPE.REGISTRY, RESULT_TYPE.SERVICES, RESULT_TYPE.USER };
+                ToExport = new List<RESULT_TYPE> { RESULT_TYPE.FILE, RESULT_TYPE.CERTIFICATE, RESULT_TYPE.PORT, RESULT_TYPE.REGISTRY, RESULT_TYPE.SERVICE, RESULT_TYPE.USER };
             }
 
 
@@ -904,7 +904,7 @@ namespace AttackSurfaceAnalyzer
                     return "registry";
                 case RESULT_TYPE.CERTIFICATE:
                     return "certificates";
-                case RESULT_TYPE.SERVICES:
+                case RESULT_TYPE.SERVICE:
                     return "services";
                 case RESULT_TYPE.USER:
                     return "users";
@@ -953,13 +953,12 @@ namespace AttackSurfaceAnalyzer
                 { RESULT_TYPE.CERTIFICATE, 0 },
                 { RESULT_TYPE.REGISTRY, 0 },
                 { RESULT_TYPE.PORT, 0 },
-                { RESULT_TYPE.SERVICES, 0 },
+                { RESULT_TYPE.SERVICE, 0 },
                 { RESULT_TYPE.USER, 0 }
             };
 
             Dictionary<string, string> EndEvent = new Dictionary<string, string>();
             BaseCompare c = new BaseCompare();
-            Log.Information(Strings.Get("Begin"), "Comparing");
             var watch = System.Diagnostics.Stopwatch.StartNew(); 
             if (!c.TryCompare(opts.FirstRunId, opts.SecondRunId))
             {

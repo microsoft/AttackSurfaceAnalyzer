@@ -14,6 +14,60 @@
           ]
         }
       ]
+    },
+    {
+      "name": "Unsigned binaries",
+      "desc": "Flag when unsigned/incorrectly signed binaries are added.",
+      "flag": "WARNING",
+      "platform": [
+        "WINDOWS"
+      ],
+      "changeTypes": [
+        "CREATED",
+        "MODIFIED"
+      ],
+      "resultType": "FILE",
+      "clauses": [
+        {
+          "field": "IsExecutable",
+          "op": "EQ",
+          "data": [
+            "True"
+          ]
+        },
+        {
+          "field": "SigningStatus",
+          "op": "NEQ",
+          "data": [
+            "Valid"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Binaries",
+      "desc": "Flag binaries.",
+      "flag": "INFORMATION",
+      "resultType": "FILE",
+      "clauses": [
+        {
+          "field": "IsExecutable",
+          "op": "EQ",
+          "data": [
+            "True"
+          ]
+        }
+      ]
     }
-  ]
+  ],
+ "meta": {
+   "defaultLevels": {
+    "PORT": "INFORMATION",
+    "FILE": "DEBUG",
+    "SERVICE": "INFORMATION",
+    "CERTIFICATE": "INFORMATION",
+    "USER": "INFORMATION",
+    "REGISTRY": "DEBUG"
+   }
+  }
 }

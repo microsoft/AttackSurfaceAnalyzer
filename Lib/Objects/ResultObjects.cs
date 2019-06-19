@@ -99,7 +99,7 @@ namespace AttackSurfaceAnalyzer.Objects
     {
         public ServiceResult()
         {
-            ResultType = RESULT_TYPE.SERVICES;
+            ResultType = RESULT_TYPE.SERVICE;
         }
     }
 
