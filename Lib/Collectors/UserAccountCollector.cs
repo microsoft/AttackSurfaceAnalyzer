@@ -114,39 +114,49 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
         public void ExecuteWindows()
         {
             Log.Debug("ExecuteWindows()");
-
-            using (PrincipalContext pc = new PrincipalContext(ContextType.Machine, null))
+            try
             {
-                ManagementObjectSearcher searcher = new ManagementObjectSearcher(@"SELECT * FROM Win32_UserAccount");
-                foreach (ManagementObject user in searcher.Get())
+                SelectQuery query = new SelectQuery("Win32_UserAccount","LocalAccount = true");
+                ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
+
+                using (PrincipalContext pc = new PrincipalContext(ContextType.Machine, null))
                 {
-                    var up = UserPrincipal.FindByIdentity(pc, IdentityType.SamAccountName, user["Name"].ToString());
-                    GroupPrincipal gp = GroupPrincipal.FindByIdentity(pc, "builtin.administrators");
-
-                    var obj = new UserAccountObject()
+                    foreach (ManagementObject user in searcher.Get())
                     {
-                        AccountType = Convert.ToString(user["AccountType"]),
-                        Caption = Convert.ToString(user["Caption"]),
-                        Description = Convert.ToString(user["Description"]),
-                        Disabled = Convert.ToString(user["Disabled"]),
-                        Domain = Convert.ToString(user["Domain"]),
-                        InstallDate = Convert.ToString(user["InstallDate"]),
-                        LocalAccount = Convert.ToString(user["LocalAccount"]),
-                        Lockout = Convert.ToString(user["Lockout"]),
-                        Name = Convert.ToString(user["Name"]),
-                        FullName = Convert.ToString(user["FullName"]),
-                        PasswordChangeable = Convert.ToString(user["PasswordChangeable"]),
-                        PasswordExpires = Convert.ToString(user["PasswordExpires"]),
-                        PasswordRequired = Convert.ToString(user["PasswordRequired"]),
-                        SID = Convert.ToString(user["SID"]),
-                        Privileged = (bool)up.IsMemberOf(gp)
-                    };
+                        // Used for Privileged flag below. Won't work until .NET Core 3.0.
+                        // var up = UserPrincipal.FindByIdentity(pc, IdentityType.SamAccountName, user["Name"].ToString());
+                        // GroupPrincipal gp = GroupPrincipal.FindByIdentity(pc, "Administrators");
 
-                    if (this.filter == null || this.filter(obj))
-                    {
-                        DatabaseManager.Write(obj, this.runId);
+                        var obj = new UserAccountObject()
+                        {
+                            AccountType = Convert.ToString(user["AccountType"]),
+                            Caption = Convert.ToString(user["Caption"]),
+                            Description = Convert.ToString(user["Description"]),
+                            Disabled = Convert.ToString(user["Disabled"]),
+                            Domain = Convert.ToString(user["Domain"]),
+                            InstallDate = Convert.ToString(user["InstallDate"]),
+                            LocalAccount = Convert.ToString(user["LocalAccount"]),
+                            Lockout = Convert.ToString(user["Lockout"]),
+                            Name = Convert.ToString(user["Name"]),
+                            FullName = Convert.ToString(user["FullName"]),
+                            PasswordChangeable = Convert.ToString(user["PasswordChangeable"]),
+                            PasswordExpires = Convert.ToString(user["PasswordExpires"]),
+                            PasswordRequired = Convert.ToString(user["PasswordRequired"]),
+                            SID = Convert.ToString(user["SID"]),
+                            // Not supported until .NET Core 3.0, see https://github.com/dotnet/corefx/issues/30011
+                            // Privileged = (bool)up.IsMemberOf(gp)
+                        };
+
+                        if (this.filter == null || this.filter(obj))
+                        {
+                            DatabaseManager.Write(obj, this.runId);
+                        }
                     }
                 }
+            }
+            catch(Exception e)
+            {
+                Log.Debug("{0} {1} {2}", e.GetType().ToString(), e.Message, e.StackTrace);
             }
         }
 
