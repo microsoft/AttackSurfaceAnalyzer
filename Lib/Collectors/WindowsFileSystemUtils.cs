@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.AccessControl;
+using System.Text;
 using AttackSurfaceAnalyzer.Libs;
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
@@ -68,12 +69,26 @@ namespace AttackSurfaceAnalyzer.Collectors
                         return true;
                     }
                 }
+                if (IsExecutable(Path))
+                {
+                    return true;
+                }
                 return false;
             }
             else
             {
                 return false;
             }
+        }
+
+        protected internal static bool IsExecutable(string filePath)
+        {
+            var twoBytes = new byte[2];
+            using (var fileStream = File.Open(filePath, FileMode.Open))
+            {
+                fileStream.Read(twoBytes, 0, 2);
+            }
+            return Encoding.UTF8.GetString(twoBytes) == "MZ";
         }
 
         protected internal static bool IsLocal(string path)
