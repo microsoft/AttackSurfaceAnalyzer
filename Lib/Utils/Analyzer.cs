@@ -17,7 +17,15 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public class Analyzer
     {
-        Dictionary<RESULT_TYPE, List<FieldInfo>> _Fields = new Dictionary<RESULT_TYPE, List<FieldInfo>>();
+        Dictionary<RESULT_TYPE, List<FieldInfo>> _Fields = new Dictionary<RESULT_TYPE, List<FieldInfo>>()
+        {
+            {RESULT_TYPE.FILE , new List<FieldInfo>(new FileSystemObject().GetType().GetFields()) },
+            {RESULT_TYPE.CERTIFICATE, new List<FieldInfo>(new CertificateObject().GetType().GetFields()) },
+            {RESULT_TYPE.PORT, new List<FieldInfo>(new OpenPortObject().GetType().GetFields()) },
+            {RESULT_TYPE.REGISTRY, new List<FieldInfo>(new RegistryObject().GetType().GetFields()) },
+            {RESULT_TYPE.SERVICE, new List<FieldInfo>(new ServiceObject().GetType().GetFields()) },
+            {RESULT_TYPE.USER, new List<FieldInfo>(new UserAccountObject().GetType().GetFields()) }
+        };
         Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DEFAULT_RESULT_TYPE_MAP = new Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>()
         {
             { RESULT_TYPE.CERTIFICATE, ANALYSIS_RESULT_TYPE.INFORMATION },
@@ -37,10 +45,8 @@ namespace AttackSurfaceAnalyzer.Utils
         public Analyzer(PLATFORM platform, string filterLocation = "analyses.json", bool useEmbedded = false) {
             if (useEmbedded) { LoadEmbeddedFilters(); }
             else { LoadFilters(filterLocation); }
-            if (config != null) { ParseFilters(); }
 
             OsName = platform;
-            PopulateFields();
         }
 
         protected void ParseFilters()
@@ -71,16 +77,6 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 Log.Debug("{0} {1} {2}", e.GetType().ToString(), e.Message, e.StackTrace);
             }
-        }
-
-        protected void PopulateFields()
-        {
-            _Fields[RESULT_TYPE.FILE] = new List<FieldInfo>(new FileSystemObject().GetType().GetFields());
-            _Fields[RESULT_TYPE.CERTIFICATE] = new List<FieldInfo>(new CertificateObject().GetType().GetFields());
-            _Fields[RESULT_TYPE.PORT] = new List<FieldInfo>(new OpenPortObject().GetType().GetFields());
-            _Fields[RESULT_TYPE.REGISTRY] = new List<FieldInfo>(new RegistryObject().GetType().GetFields());
-            _Fields[RESULT_TYPE.SERVICE] = new List<FieldInfo>(new ServiceObject().GetType().GetFields());
-            _Fields[RESULT_TYPE.USER] = new List<FieldInfo>(new UserAccountObject().GetType().GetFields());
         }
 
         public ANALYSIS_RESULT_TYPE Analyze(CompareResult compareResult)
