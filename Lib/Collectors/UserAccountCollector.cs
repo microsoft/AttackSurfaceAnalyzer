@@ -111,11 +111,10 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
         /// </summary>
         public void ExecuteWindows()
         {
-            Log.Debug("ExecuteWindows()");
             try
             {
                 List<string> lines = new List<string>(ExternalCommandRunner.RunExternalCommand("net", "localgroup").Split('\n'));
-
+                
                 lines.RemoveRange(0, 4);
 
                 foreach(string line in lines)
@@ -124,10 +123,9 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
                     {
                         var groupName = line.Substring(1).Trim();
                         var args = string.Format("/Node:\"{0}\" path win32_groupuser where (groupcomponent=\"win32_group.name=\\\"{1}\\\",domain=\\\"{2}\\\"\")",Environment.MachineName,groupName,Environment.MachineName);
-                        Log.Debug(args);
                         List<string> lines_int = new List<string>(ExternalCommandRunner.RunExternalCommand("wmic", args).Split('\n'));
-                        Log.Debug(ExternalCommandRunner.RunExternalCommand("wmic", args));
                         lines_int.RemoveRange(0, 1);
+
                         foreach (string line_int in lines_int)
                         {
                             var userName = line_int.Trim();
@@ -143,20 +141,17 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
                                 SelectQuery query = new SelectQuery("SELECT * FROM Win32_UserAccount where Name='" + userName + "'");
                                 ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
 
-                                //using (PrincipalContext pc = new PrincipalContext(ContextType.Machine, null))
-                                //{
-
-                                    foreach (ManagementObject user in searcher.Get())
+                                foreach (ManagementObject user in searcher.Get())
+                                {
+                                    if (users.ContainsKey(userName))
                                     {
-                                        // Used for Privileged flag below. Won't work until .NET Core 3.0.
-                                        // var up = UserPrincipal.FindByIdentity(pc, IdentityType.SamAccountName, user["Name"].ToString());
-                                        if (users.ContainsKey(userName))
+                                        if (groupName.Equals("Administrators"))
                                         {
-                                            if (groupName.Equals("Administrators"))
-                                            {
-                                                users[userName].Privileged = true;
-                                            }
+                                            users[userName].Privileged = true;
                                         }
+                                    }
+                                    else
+                                    {
                                         var obj = new UserAccountObject()
                                         {
                                             AccountType = Convert.ToString(user["AccountType"]),
@@ -173,12 +168,11 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
                                             PasswordExpires = Convert.ToString(user["PasswordExpires"]),
                                             PasswordRequired = Convert.ToString(user["PasswordRequired"]),
                                             SID = Convert.ToString(user["SID"]),
-                                            // Not supported until .NET Core 3.0, see https://github.com/dotnet/corefx/issues/30011
                                             Privileged = (bool)groupName.Equals("Administrators")
                                         };
                                         users.Add(userName, obj);
-                                    }
-                                //}
+                                    }        
+                                }
                             }
                         }
                     }
@@ -199,10 +193,7 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
         /// command and parses the output, sending the output to the database.
         /// </summary>
         private void ExecuteLinux()
-        {
-            Log.Debug("ExecuteLinux()");
-            
-
+        {            
             var etc_passwd_lines = File.ReadAllLines("/etc/passwd");
             var etc_shadow_lines = File.ReadAllLines("/etc/shadow");
 
@@ -266,8 +257,6 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
 
         private void ExecuteOsX()
         {
-            Log.Debug("ExecuteOsX()");
-
             // Admin user details
             var result = ExternalCommandRunner.RunExternalCommand("dscacheutil", "-q group -a name admin");
 

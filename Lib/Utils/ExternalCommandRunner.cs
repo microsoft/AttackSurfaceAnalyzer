@@ -21,7 +21,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     CreateNoWindow = true
                 }
             };
-            Serilog.Log.Debug("Starting {0} {1}", command, Newtonsoft.Json.JsonConvert.SerializeObject(args));
+            Serilog.Log.Verbose("Running external command {0} {1}", command, Newtonsoft.Json.JsonConvert.SerializeObject(args));
             process.Start();
             string result = process.StandardOutput.ReadToEnd();
             process.WaitForExit();
