@@ -352,6 +352,39 @@ function InsertIntoTable(result) {
     }
 }
 
+function FlagToStyle(flag) {
+    switch (flag) {
+        case ANALYSIS_RESULT_TYPE.WARNING:
+            return "table-warning";
+        case ANALYSIS_RESULT_TYPE.ERROR:
+            return "table-danger";
+        case ANALYSIS_RESULT_TYPE.FATAL:
+            return "table-danger";
+        case ANALYSIS_RESULT_TYPE.INFORMATION:
+            return "table-info";
+        default:
+            return "";
+    }
+}
+
+function FlagToString(flag) {
+    switch (flag) {
+        case ANALYSIS_RESULT_TYPE.VERBOSE:
+            return "Verbose";
+        case ANALYSIS_RESULT_TYPE.DEBUG:
+            return "Debug";
+        case ANALYSIS_RESULT_TYPE.INFORMATION:
+            return "Info";
+        case ANALYSIS_RESULT_TYPE.WARNING:
+            return "Warning";
+        case ANALYSIS_RESULT_TYPE.ERROR:
+            return "Error";
+        case ANALYSIS_RESULT_TYPE.FATAL:
+            return "Fatal";
+
+    }
+}
+
 function InsertIntoRegistryTable(result) {
     var appendObj;
     if (result.ChangeType == CHANGE_TYPE.CREATED) {
@@ -363,7 +396,7 @@ function InsertIntoRegistryTable(result) {
     var uid = uuidv4();
     var tmp = $('<tr/>', {
         id: uid,
-        class: 'resultTableRow Info',
+        class: 'resultTableRow Info ' + FlagToStyle(result.Analysis),
     });
     var arrowTD = $('<td/>', {
         scope: 'col',
@@ -376,6 +409,10 @@ function InsertIntoRegistryTable(result) {
     caretContainer.append(caret);
     arrowTD.append(caretContainer);
     tmp.append(arrowTD);
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: FlagToString(result.Analysis)
+    }));
     tmp.append($('<td/>', {
         scope: "col",
         html: ChangeTypeToString(result.ChangeType)
@@ -460,7 +497,7 @@ function InsertIntoServiceTable(result) {
     var uid = uuidv4();
     var tmp = $('<tr/>', {
         id: uid,
-        class: 'resultTableRow Info',
+        class: 'resultTableRow Info ' + FlagToStyle(result.Analysis),
     });
     var arrowTD = $('<td/>', {
         scope: 'col',
@@ -473,6 +510,10 @@ function InsertIntoServiceTable(result) {
     caretContainer.append(caret);
     arrowTD.append(caretContainer);
     tmp.append(arrowTD);  
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: FlagToString(result.Analysis)
+    }));
     tmp.append($('<td/>', {
         scope: "col",
         html: ChangeTypeToString(result.ChangeType)
@@ -515,7 +556,7 @@ function InsertIntoCertificateTable(result) {
     var uid = uuidv4();
     var tmp = $('<tr/>', {
         id: uid,
-        class: 'resultTableRow Info',
+        class: 'resultTableRow Info ' + FlagToStyle(result.Analysis),
     });
     var arrowTD = $('<td/>', {
         scope: 'col',
@@ -528,6 +569,10 @@ function InsertIntoCertificateTable(result) {
     caretContainer.append(caret);
     arrowTD.append(caretContainer);
     tmp.append(arrowTD);
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: FlagToString(result.Analysis)
+    }));
     tmp.append($('<td/>', {
         scope: "col",
         html: ChangeTypeToString(result.ChangeType)
@@ -573,7 +618,7 @@ function InsertIntoUserTable(result) {
     var uid = uuidv4();
     var tmp = $('<tr/>', {
         id: uid,
-        class: 'resultTableRow Info',
+        class: 'resultTableRow Info ' + FlagToStyle(result.Analysis),
     });
     var arrowTD = $('<td/>', {
         scope: 'col',
@@ -586,6 +631,10 @@ function InsertIntoUserTable(result) {
     caretContainer.append(caret);
     arrowTD.append(caretContainer);
     tmp.append(arrowTD);
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: FlagToString(result.Analysis)
+    }));
     tmp.append($('<td/>', {
         scope: "col",
         html: ChangeTypeToString(result.ChangeType)
@@ -625,7 +674,7 @@ function InsertIntoFileTable(result) {
     var uid = uuidv4();
     var tmp = $('<tr/>', {
         id: uid,
-        class: 'resultTableRow Info',
+        class: 'resultTableRow Info ' + FlagToStyle(result.Analysis),
     });
     var arrowTD = $('<td/>', {
         scope: 'col',
@@ -638,6 +687,10 @@ function InsertIntoFileTable(result) {
     caretContainer.append(caret);
     arrowTD.append(caretContainer);
     tmp.append(arrowTD);
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: FlagToString(result.Analysis)
+    }));
     tmp.append($('<td/>', {
         scope: "col",
         html: ChangeTypeToString(result.ChangeType)
@@ -669,7 +722,7 @@ function InsertIntoPortTable(result) {
     var uid = uuidv4();
     var tmp = $('<tr/>', {
         id: uid,
-        class: 'resultTableRow'
+        class: 'resultTableRow Info ' + FlagToStyle(result.Analysis)
     });
     var arrowTD = $('<td/>', {
         scope: 'col',
@@ -683,6 +736,10 @@ function InsertIntoPortTable(result) {
     arrowTD.append(caretContainer);
 
     tmp.append(arrowTD);
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: FlagToString(result.Analysis)
+    }));
     tmp.append($('<td/>', {
         scope: "col",
         html: ChangeTypeToString(result.ChangeType)
@@ -719,4 +776,56 @@ function InsertIntoPortTable(result) {
     tmp.append(tmp2);
     $('#PortResultsTableBody').append(tmp);
 
+}
+
+function GenerateExpandedResultsCard(result) {
+    var card = $('<div/>', {
+        class: 'card card-body'
+    });
+    var header = $('<div/>', {
+        class: 'row'
+    }).append($('<div/>', {
+        class: 'col', html: l('%Property')
+    })).append($('<div/>', {
+        class: 'col', html: result.BaseRunId
+    })).append($('<div/>', {
+        class: 'col', html: result.CompareRunId
+    }))
+    card.append(header);
+
+    if (result.ChangeType == CHANGE_TYPE.CREATED) {
+        var protoObj = result.Compare;
+    }
+    else {
+        var protoObj = result.Base;
+    }
+    for (var prop in protoObj) {
+        if (protoObj.hasOwnProperty(prop)) {
+            var before, after;
+            var row = $('<div/>', {
+                class: 'row bordered'
+            });
+
+            var property = $('<div/>', { class: 'col-2', html: prop });
+
+            if (result.ChangeType == CHANGE_TYPE.DELETED) {
+                before = $('<div/>', { class: 'col-5', html: result.Base[prop] });
+                after = $('<div/>', { class: 'col-5' });
+            }
+            else if (result.ChangeType == CHANGE_TYPE.CREATED) {
+                before = $('<div/>', { class: 'col-5' });
+                after = $('<div/>', { class: 'col-5', html: result.Compare[prop] });
+            }
+            else if (result.ChangeType == CHANGE_TYPE.MODIFIED) {
+                before = $('<div/>', { class: 'col-5', html: result.Base[prop] });
+                after = $('<div/>', { class: 'col-5', html: result.Compare[prop] });
+            }
+            row.append(property);
+            row.append(before);
+            row.append(after);
+
+            card.append(row);
+        }
+    }
+    return card;
 }

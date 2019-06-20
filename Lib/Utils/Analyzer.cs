@@ -17,8 +17,25 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public class Analyzer
     {
-        Dictionary<RESULT_TYPE, List<FieldInfo>> _Fields = new Dictionary<RESULT_TYPE, List<FieldInfo>>();
-        Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DEFAULT_RESULT_TYPE_MAP = new Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>();
+        Dictionary<RESULT_TYPE, List<FieldInfo>> _Fields = new Dictionary<RESULT_TYPE, List<FieldInfo>>()
+        {
+            {RESULT_TYPE.FILE , new List<FieldInfo>(new FileSystemObject().GetType().GetFields()) },
+            {RESULT_TYPE.CERTIFICATE, new List<FieldInfo>(new CertificateObject().GetType().GetFields()) },
+            {RESULT_TYPE.PORT, new List<FieldInfo>(new OpenPortObject().GetType().GetFields()) },
+            {RESULT_TYPE.REGISTRY, new List<FieldInfo>(new RegistryObject().GetType().GetFields()) },
+            {RESULT_TYPE.SERVICE, new List<FieldInfo>(new ServiceObject().GetType().GetFields()) },
+            {RESULT_TYPE.USER, new List<FieldInfo>(new UserAccountObject().GetType().GetFields()) }
+        };
+        Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DEFAULT_RESULT_TYPE_MAP = new Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>()
+        {
+            { RESULT_TYPE.CERTIFICATE, ANALYSIS_RESULT_TYPE.INFORMATION },
+            { RESULT_TYPE.FILE, ANALYSIS_RESULT_TYPE.INFORMATION },
+            { RESULT_TYPE.PORT, ANALYSIS_RESULT_TYPE.INFORMATION },
+            { RESULT_TYPE.REGISTRY, ANALYSIS_RESULT_TYPE.INFORMATION },
+            { RESULT_TYPE.SERVICE, ANALYSIS_RESULT_TYPE.INFORMATION },
+            { RESULT_TYPE.USER, ANALYSIS_RESULT_TYPE.INFORMATION },
+            { RESULT_TYPE.UNKNOWN, ANALYSIS_RESULT_TYPE.INFORMATION }
+        };
 
         JObject config = null;
         List<Rule> _filters = new List<Rule>();
@@ -28,15 +45,18 @@ namespace AttackSurfaceAnalyzer.Utils
         public Analyzer(PLATFORM platform, string filterLocation = "analyses.json", bool useEmbedded = false) {
             if (useEmbedded) { LoadEmbeddedFilters(); }
             else { LoadFilters(filterLocation); }
-            if (config != null) { ParseFilters(); }
 
             OsName = platform;
-            PopulateFields();
         }
 
         protected void ParseFilters()
         {
             _filters = new List<Rule>();
+            DEFAULT_RESULT_TYPE_MAP = new Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>();
+            foreach(RESULT_TYPE r in Enum.GetValues(typeof(RESULT_TYPE)))
+            {
+                DEFAULT_RESULT_TYPE_MAP.Add(r, ANALYSIS_RESULT_TYPE.INFORMATION);
+            }
             try
             {
                 foreach (var R in (JArray)config["rules"])
@@ -57,16 +77,6 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 Log.Debug("{0} {1} {2}", e.GetType().ToString(), e.Message, e.StackTrace);
             }
-        }
-
-        protected void PopulateFields()
-        {
-            _Fields[RESULT_TYPE.FILE] = new List<FieldInfo>(new FileSystemObject().GetType().GetFields());
-            _Fields[RESULT_TYPE.CERTIFICATE] = new List<FieldInfo>(new CertificateObject().GetType().GetFields());
-            _Fields[RESULT_TYPE.PORT] = new List<FieldInfo>(new OpenPortObject().GetType().GetFields());
-            _Fields[RESULT_TYPE.REGISTRY] = new List<FieldInfo>(new RegistryObject().GetType().GetFields());
-            _Fields[RESULT_TYPE.SERVICE] = new List<FieldInfo>(new ServiceObject().GetType().GetFields());
-            _Fields[RESULT_TYPE.USER] = new List<FieldInfo>(new UserAccountObject().GetType().GetFields());
         }
 
         public ANALYSIS_RESULT_TYPE Analyze(CompareResult compareResult)
@@ -103,28 +113,40 @@ namespace AttackSurfaceAnalyzer.Utils
                     return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
                 }
 
-                var val = default(object);
+                var compareVal = default(object);
                 var baseVal = default(object);
                 try
                 {
                     if (compareResult.Compare != null)
                     { 
-                        val = GetValueByPropertyName(compareResult.Compare, field.Name);
+                        compareVal = GetValueByPropertyName(compareResult.Compare, field.Name);
                     }
                     if (compareResult.Base != null)
                     {
                         baseVal = GetValueByPropertyName(compareResult.Base, field.Name);
                     }
                     var complete = false;
+                    var valsToCheck = new List<string>();
+                    if (compareResult.ChangeType == CHANGE_TYPE.CREATED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
+                    {
+                        valsToCheck.Add(compareVal.ToString());
+                    }
+                    if (compareResult.ChangeType == CHANGE_TYPE.DELETED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
+                    {
+                        valsToCheck.Add(baseVal.ToString());
+                    }
 
                     switch (clause.op)
                     {
                         case OPERATION.EQ:
                             foreach (string datum in clause.data)
                             {
-                                if (datum.Equals(val))
+                                foreach (string val in valsToCheck)
                                 {
-                                    complete = true;
+                                    if (datum.Equals(val))
+                                    {
+                                        complete = true;
+                                    }
                                 }
                             }
                             if (complete) { break; }
@@ -133,9 +155,12 @@ namespace AttackSurfaceAnalyzer.Utils
                         case OPERATION.NEQ:
                             foreach (string datum in clause.data)
                             {
-                                if (!datum.Equals(val))
+                                foreach (string val in valsToCheck)
                                 {
-                                    complete = true;
+                                    if (!datum.Equals(val))
+                                    {
+                                        complete = true;
+                                    }
                                 }
                             }
                             if (complete) { break; }
@@ -144,45 +169,63 @@ namespace AttackSurfaceAnalyzer.Utils
                         case OPERATION.CONTAINS:
                             foreach (string datum in clause.data)
                             {
-                                var fld = GetValueByPropertyName(compareResult.Compare, field.Name).ToString();
-                                if (fld.Contains(datum))
+                                foreach (string val in valsToCheck)
                                 {
-                                    complete = true;
+                                    if (val.Contains(datum))
+                                    {
+                                        complete = true;
+                                    }
                                 }
                             }
                             if (complete) { break; }
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
 
                         case OPERATION.GT:
-                            if (Int32.Parse(val.ToString()) > Int32.Parse(clause.data[0]))
+                            foreach (string val in valsToCheck)
                             {
-                                break;
+                                if (Int32.Parse(val.ToString()) > Int32.Parse(clause.data[0]))
+                                {
+                                    complete=true;
+                                }
                             }
+                            if (complete) { break; }
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
 
                         case OPERATION.LT:
-                            if (Int32.Parse(val.ToString()) < Int32.Parse(clause.data[0]))
+                            foreach (string val in valsToCheck)
                             {
-                                break;
+                                if (Int32.Parse(val.ToString()) < Int32.Parse(clause.data[0]))
+                                {
+                                    complete=true;
+                                }
                             }
+                            if (complete) { break; }
+
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
 
                         case OPERATION.REGEX:
-                            foreach (string datum in clause.data)
+                            foreach (string val in valsToCheck)
                             {
-                                var r = new Regex(datum);
-                                if (r.IsMatch(val.ToString()))
+                                foreach (string datum in clause.data)
                                 {
-                                    complete = true;
+                                    var r = new Regex(datum);
+                                    if (r.IsMatch(val.ToString()))
+                                    {
+                                        complete = true;
+                                    }
                                 }
                             }
                             if (complete) { break; }
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
                         case OPERATION.WAS_MODIFIED:
-                            if (!val.ToString().Equals(baseVal.ToString()))
+                            foreach (string val in valsToCheck)
                             {
-                                break;
+                                if (!val.ToString().Equals(baseVal.ToString()))
+                                {
+                                    complete=true;
+                                }
                             }
+                            if (complete) { break; }
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
                         default:
                             Log.Debug("Unimplemented operation {0}", clause.op);

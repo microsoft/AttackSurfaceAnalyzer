@@ -15,9 +15,9 @@
         }
       ]
     },
-    {      
+    {
       "name": "Privileged users",
-      "desc": "Flag when privileged ports are created.",
+      "desc": "Flag when privileged users are modified.",
       "flag": "WARNING",
       "resultType": "USER",
       "clauses": [
@@ -27,7 +27,9 @@
           "data": [
             "True"
           ]
-        },
+        }
+      ]
+    },
     {
       "name": "Unsigned binaries",
       "desc": "Flag when unsigned/incorrectly signed binaries are added.",
@@ -43,7 +45,11 @@
       "clauses": [
         {
           "field": "IsExecutable",
-
+          "op": "EQ",
+          "data": [
+            "True"
+          ]
+        },
         {
           "field": "SigningStatus",
           "op": "NEQ",

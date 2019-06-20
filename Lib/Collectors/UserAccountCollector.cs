@@ -7,25 +7,23 @@ using System.IO;
 using System.Linq;
 using System.Management;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
 using Serilog;
 
+
 namespace AttackSurfaceAnalyzer.Collectors
 {
     public class UserAccountCollector : BaseCollector
     {
-        /// <summary>
-        /// A filter supplied to this function. All files must pass this filter in order to be included.
-        /// </summary>
-        private Func<UserAccountObject, bool> filter;
+        Dictionary<string, UserAccountObject> users = new Dictionary<string, UserAccountObject>();
 
-        public UserAccountCollector(string runId, Func<UserAccountObject, bool> filter = null)
+        public UserAccountCollector(string runId)
         {
             this.runId = runId;
-            this.filter = filter;
         }
 
         public override bool CanRunOnPlatform()
@@ -113,40 +111,92 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
         /// </summary>
         public void ExecuteWindows()
         {
-            Log.Debug("ExecuteWindows()");
-
-            using (PrincipalContext pc = new PrincipalContext(ContextType.Machine, null))
+            try
             {
-                ManagementObjectSearcher searcher = new ManagementObjectSearcher(@"SELECT * FROM Win32_UserAccount");
-                foreach (ManagementObject user in searcher.Get())
+                List<string> lines = new List<string>(ExternalCommandRunner.RunExternalCommand("net", "localgroup").Split('\n'));
+                
+                lines.RemoveRange(0, 4);
+
+                foreach(string line in lines)
                 {
-                    var up = UserPrincipal.FindByIdentity(pc, IdentityType.SamAccountName, user["Name"].ToString());
-                    GroupPrincipal gp = GroupPrincipal.FindByIdentity(pc, "builtin.administrators");
-
-                    var obj = new UserAccountObject()
+                    if (line.Contains('*'))
                     {
-                        AccountType = Convert.ToString(user["AccountType"]),
-                        Caption = Convert.ToString(user["Caption"]),
-                        Description = Convert.ToString(user["Description"]),
-                        Disabled = Convert.ToString(user["Disabled"]),
-                        Domain = Convert.ToString(user["Domain"]),
-                        InstallDate = Convert.ToString(user["InstallDate"]),
-                        LocalAccount = Convert.ToString(user["LocalAccount"]),
-                        Lockout = Convert.ToString(user["Lockout"]),
-                        Name = Convert.ToString(user["Name"]),
-                        FullName = Convert.ToString(user["FullName"]),
-                        PasswordChangeable = Convert.ToString(user["PasswordChangeable"]),
-                        PasswordExpires = Convert.ToString(user["PasswordExpires"]),
-                        PasswordRequired = Convert.ToString(user["PasswordRequired"]),
-                        SID = Convert.ToString(user["SID"]),
-                        Privileged = (bool)up.IsMemberOf(gp)
-                    };
+                        var groupName = line.Substring(1).Trim();
+                        var args = string.Format("/Node:\"{0}\" path win32_groupuser where (groupcomponent=\"win32_group.name=\\\"{1}\\\",domain=\\\"{2}\\\"\")",Environment.MachineName,groupName,Environment.MachineName);
+                        List<string> lines_int = new List<string>(ExternalCommandRunner.RunExternalCommand("wmic", args).Split('\n'));
+                        lines_int.RemoveRange(0, 1);
 
-                    if (this.filter == null || this.filter(obj))
-                    {
-                        DatabaseManager.Write(obj, this.runId);
+                        foreach (string line_int in lines_int)
+                        {
+                            var userName = line_int.Trim();
+                            if (userName.Equals("") || !userName.Contains("Domain"))
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                Regex r = new Regex(@".*Win32_UserAccount.Domain=""(.*?)"",Name=""(.*?)""");
+
+                                var domain = r.Match(userName).Groups[1].Value.ToString();
+                                userName = r.Match(userName).Groups[2].Value.ToString();
+
+                                if (userName.Equals(""))
+                                {
+                                    continue;
+                                }
+
+                                Log.Debug("Found {0}\\{1} as member of {2}", domain, userName, groupName);
+
+                                SelectQuery query = new SelectQuery("SELECT * FROM Win32_UserAccount where Domain='"+domain+"' and Name='" + userName + "'");
+                                ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
+
+                                foreach (ManagementObject user in searcher.Get())
+                                {
+                                    if (users.ContainsKey(userName))
+                                    {
+                                        users[userName].Groups.Add(groupName);
+
+                                        if (groupName.Equals("Administrators"))
+                                        {
+                                            users[userName].Privileged = true;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        var obj = new UserAccountObject()
+                                        {
+                                            AccountType = Convert.ToString(user["AccountType"]),
+                                            Caption = Convert.ToString(user["Caption"]),
+                                            Description = Convert.ToString(user["Description"]),
+                                            Disabled = Convert.ToString(user["Disabled"]),
+                                            Domain = Convert.ToString(user["Domain"]),
+                                            InstallDate = Convert.ToString(user["InstallDate"]),
+                                            LocalAccount = Convert.ToString(user["LocalAccount"]),
+                                            Lockout = Convert.ToString(user["Lockout"]),
+                                            Name = Convert.ToString(user["Name"]),
+                                            FullName = Convert.ToString(user["FullName"]),
+                                            PasswordChangeable = Convert.ToString(user["PasswordChangeable"]),
+                                            PasswordExpires = Convert.ToString(user["PasswordExpires"]),
+                                            PasswordRequired = Convert.ToString(user["PasswordRequired"]),
+                                            SID = Convert.ToString(user["SID"]),
+                                            Privileged = (bool)groupName.Equals("Administrators"),
+                                            Groups = new List<string>() { groupName }
+                                        };
+                                        users.Add(userName, obj);
+                                    }        
+                                }
+                            }
+                        }
                     }
                 }
+            }
+            catch(Exception e)
+            {
+                Log.Debug("{0} {1} {2}", e.GetType().ToString(), e.Message, e.StackTrace);
+            }
+            foreach (var user in users)
+            {
+                DatabaseManager.Write(user.Value, runId);
             }
         }
 
@@ -155,10 +205,7 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
         /// command and parses the output, sending the output to the database.
         /// </summary>
         private void ExecuteLinux()
-        {
-            Log.Debug("ExecuteLinux()");
-            
-
+        {            
             var etc_passwd_lines = File.ReadAllLines("/etc/passwd");
             var etc_shadow_lines = File.ReadAllLines("/etc/shadow");
 
@@ -222,8 +269,6 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
 
         private void ExecuteOsX()
         {
-            Log.Debug("ExecuteOsX()");
-
             // Admin user details
             var result = ExternalCommandRunner.RunExternalCommand("dscacheutil", "-q group -a name admin");
 

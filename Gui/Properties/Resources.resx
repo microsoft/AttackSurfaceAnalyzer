@@ -366,4 +366,10 @@
   <data name="StartingN" xml:space="preserve">
     <value>Starting {0} {1}.</value>
   </data>
+  <data name="Analysis" xml:space="preserve">
+    <value>Analysis</value>
+  </data>
+  <data name="Port" xml:space="preserve">
+    <value>Port</value>
+  </data>
 </root>
