@@ -794,10 +794,10 @@ function GenerateExpandedResultsCard(result) {
     card.append(header);
 
     if (result.ChangeType == CHANGE_TYPE.CREATED) {
-        var protoObj = result.SerializedCompare;
+        var protoObj = result.Compare;
     }
     else {
-        var protoObj = result.SerializedBase;
+        var protoObj = result.Base;
     }
     for (var prop in protoObj) {
         if (protoObj.hasOwnProperty(prop)) {
@@ -809,16 +809,16 @@ function GenerateExpandedResultsCard(result) {
             var property = $('<div/>', { class: 'col-2', html: prop });
 
             if (result.ChangeType == CHANGE_TYPE.DELETED) {
-                before = $('<div/>', { class: 'col-5', html: result.SerializedBase[prop] });
+                before = $('<div/>', { class: 'col-5', html: result.Base[prop] });
                 after = $('<div/>', { class: 'col-5' });
             }
             else if (result.ChangeType == CHANGE_TYPE.CREATED) {
                 before = $('<div/>', { class: 'col-5' });
-                after = $('<div/>', { class: 'col-5', html: result.SerializedCompare[prop] });
+                after = $('<div/>', { class: 'col-5', html: result.Compare[prop] });
             }
             else if (result.ChangeType == CHANGE_TYPE.MODIFIED) {
-                before = $('<div/>', { class: 'col-5', html: result.SerializedBase[prop] });
-                after = $('<div/>', { class: 'col-5', html: result.SerializedCompare[prop] });
+                before = $('<div/>', { class: 'col-5', html: result.Base[prop] });
+                after = $('<div/>', { class: 'col-5', html: result.Compare[prop] });
             }
             row.append(property);
             row.append(before);
