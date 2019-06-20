@@ -6,6 +6,10 @@ using AttackSurfaceAnalyzer.Objects;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
 using Serilog;
+using Mono.Unix;
+using System.IO;
+using System.Runtime.InteropServices;
+using System.Security.AccessControl;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -69,6 +73,20 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             if (Connection == null)
             {
+                if (!File.Exists(_SqliteFilename))
+                {
+                    File.Create(_SqliteFilename);
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                    {
+                        var unixFileInfo = new UnixFileInfo(_SqliteFilename);
+                        // set file permission to 666
+                        unixFileInfo.FileAccessPermissions =
+                            FileAccessPermissions.UserRead | FileAccessPermissions.UserWrite
+                            | FileAccessPermissions.GroupRead | FileAccessPermissions.GroupWrite
+                            | FileAccessPermissions.OtherRead | FileAccessPermissions.OtherWrite;
+                    }
+                }
+
                 Connection = new SqliteConnection($"Filename=" + _SqliteFilename);
                 Connection.Open();
 

@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Management;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
@@ -18,15 +19,11 @@ namespace AttackSurfaceAnalyzer.Collectors
 {
     public class UserAccountCollector : BaseCollector
     {
-        /// <summary>
-        /// A filter supplied to this function. All files must pass this filter in order to be included.
-        /// </summary>
-        private Func<UserAccountObject, bool> filter;
+        Dictionary<string, UserAccountObject> users = new Dictionary<string, UserAccountObject>();
 
-        public UserAccountCollector(string runId, Func<UserAccountObject, bool> filter = null)
+        public UserAccountCollector(string runId)
         {
             this.runId = runId;
-            this.filter = filter;
         }
 
         public override bool CanRunOnPlatform()
@@ -117,40 +114,72 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
             Log.Debug("ExecuteWindows()");
             try
             {
-                SelectQuery query = new SelectQuery("Win32_UserAccount","LocalAccount = true");
-                ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
+                List<string> lines = new List<string>(ExternalCommandRunner.RunExternalCommand("net", "localgroup").Split('\n'));
 
-                using (PrincipalContext pc = new PrincipalContext(ContextType.Machine, null))
+                lines.RemoveRange(0, 4);
+
+                foreach(string line in lines)
                 {
-                    foreach (ManagementObject user in searcher.Get())
+                    if (line.Contains('*'))
                     {
-                        // Used for Privileged flag below. Won't work until .NET Core 3.0.
-                        // var up = UserPrincipal.FindByIdentity(pc, IdentityType.SamAccountName, user["Name"].ToString());
-                        // GroupPrincipal gp = GroupPrincipal.FindByIdentity(pc, "Administrators");
-
-                        var obj = new UserAccountObject()
+                        var groupName = line.Substring(1).Trim();
+                        var args = string.Format("/Node:\"{0}\" path win32_groupuser where (groupcomponent=\"win32_group.name=\\\"{1}\\\",domain=\\\"{2}\\\"\")",Environment.MachineName,groupName,Environment.MachineName);
+                        Log.Debug(args);
+                        List<string> lines_int = new List<string>(ExternalCommandRunner.RunExternalCommand("wmic", args).Split('\n'));
+                        Log.Debug(ExternalCommandRunner.RunExternalCommand("wmic", args));
+                        lines_int.RemoveRange(0, 1);
+                        foreach (string line_int in lines_int)
                         {
-                            AccountType = Convert.ToString(user["AccountType"]),
-                            Caption = Convert.ToString(user["Caption"]),
-                            Description = Convert.ToString(user["Description"]),
-                            Disabled = Convert.ToString(user["Disabled"]),
-                            Domain = Convert.ToString(user["Domain"]),
-                            InstallDate = Convert.ToString(user["InstallDate"]),
-                            LocalAccount = Convert.ToString(user["LocalAccount"]),
-                            Lockout = Convert.ToString(user["Lockout"]),
-                            Name = Convert.ToString(user["Name"]),
-                            FullName = Convert.ToString(user["FullName"]),
-                            PasswordChangeable = Convert.ToString(user["PasswordChangeable"]),
-                            PasswordExpires = Convert.ToString(user["PasswordExpires"]),
-                            PasswordRequired = Convert.ToString(user["PasswordRequired"]),
-                            SID = Convert.ToString(user["SID"]),
-                            // Not supported until .NET Core 3.0, see https://github.com/dotnet/corefx/issues/30011
-                            // Privileged = (bool)up.IsMemberOf(gp)
-                        };
+                            var userName = line_int.Trim();
+                            if (userName.Equals(""))
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                Regex r = new Regex(@".*Name=""(.*?)""");
+                                userName = userName.Split()[2];
+                                userName = r.Match(userName).Groups[1].Value.ToString();
+                                SelectQuery query = new SelectQuery("SELECT * FROM Win32_UserAccount where Name='" + userName + "'");
+                                ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
 
-                        if (this.filter == null || this.filter(obj))
-                        {
-                            DatabaseManager.Write(obj, this.runId);
+                                //using (PrincipalContext pc = new PrincipalContext(ContextType.Machine, null))
+                                //{
+
+                                    foreach (ManagementObject user in searcher.Get())
+                                    {
+                                        // Used for Privileged flag below. Won't work until .NET Core 3.0.
+                                        // var up = UserPrincipal.FindByIdentity(pc, IdentityType.SamAccountName, user["Name"].ToString());
+                                        if (users.ContainsKey(userName))
+                                        {
+                                            if (groupName.Equals("Administrators"))
+                                            {
+                                                users[userName].Privileged = true;
+                                            }
+                                        }
+                                        var obj = new UserAccountObject()
+                                        {
+                                            AccountType = Convert.ToString(user["AccountType"]),
+                                            Caption = Convert.ToString(user["Caption"]),
+                                            Description = Convert.ToString(user["Description"]),
+                                            Disabled = Convert.ToString(user["Disabled"]),
+                                            Domain = Convert.ToString(user["Domain"]),
+                                            InstallDate = Convert.ToString(user["InstallDate"]),
+                                            LocalAccount = Convert.ToString(user["LocalAccount"]),
+                                            Lockout = Convert.ToString(user["Lockout"]),
+                                            Name = Convert.ToString(user["Name"]),
+                                            FullName = Convert.ToString(user["FullName"]),
+                                            PasswordChangeable = Convert.ToString(user["PasswordChangeable"]),
+                                            PasswordExpires = Convert.ToString(user["PasswordExpires"]),
+                                            PasswordRequired = Convert.ToString(user["PasswordRequired"]),
+                                            SID = Convert.ToString(user["SID"]),
+                                            // Not supported until .NET Core 3.0, see https://github.com/dotnet/corefx/issues/30011
+                                            Privileged = (bool)groupName.Equals("Administrators")
+                                        };
+                                        users.Add(userName, obj);
+                                    }
+                                //}
+                            }
                         }
                     }
                 }
@@ -158,6 +187,10 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
             catch(Exception e)
             {
                 Log.Debug("{0} {1} {2}", e.GetType().ToString(), e.Message, e.StackTrace);
+            }
+            foreach (var user in users)
+            {
+                DatabaseManager.Write(user.Value, runId);
             }
         }
 

@@ -29,6 +29,7 @@ This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI 
     <PackageReference Include="Microsoft.PowerShell.Commands.Diagnostics" Version="6.2.1" />
     <PackageReference Include="Microsoft.PowerShell.SDK" Version="6.2.1" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.6.0-preview.19073.11" />
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="2.1.1" />
     <PackageReference Include="murmurhash" Version="1.0.3" />
     <PackageReference Include="PeNet" Version="1.0.5" />
     <PackageReference Include="Serilog" Version="2.8.0" />
@@ -38,7 +39,7 @@ This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI 
     <PackageReference Include="System.Diagnostics.Process" Version="4.3.0" />
     <PackageReference Include="System.Management" Version="4.6.0-preview.19073.11" />
     <PackageReference Include="System.Net.NetworkInformation" Version="4.3.0" />
-    <PackageReference Include="System.IO.FileSystem.AccessControl" Version="4.6.0-preview.19073.11" />
+    <PackageReference Include="System.IO.FileSystem.AccessControl" Version="4.5.0" />
     <PackageReference Include="Microsoft.Win32.Registry.AccessControl" Version="4.6.0-preview.19073.11" />
     <PackageReference Include="System.Runtime" Version="4.3.1" />
     <PackageReference Include="System.Security.AccessControl" Version="4.6.0-preview.19073.11" />
