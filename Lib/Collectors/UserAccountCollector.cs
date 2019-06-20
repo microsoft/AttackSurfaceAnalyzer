@@ -129,22 +129,33 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
                         foreach (string line_int in lines_int)
                         {
                             var userName = line_int.Trim();
-                            if (userName.Equals(""))
+                            if (userName.Equals("") || !userName.Contains("Domain"))
                             {
                                 continue;
                             }
                             else
                             {
-                                Regex r = new Regex(@".*Name=""(.*?)""");
-                                userName = userName.Split()[2];
-                                userName = r.Match(userName).Groups[1].Value.ToString();
-                                SelectQuery query = new SelectQuery("SELECT * FROM Win32_UserAccount where Name='" + userName + "'");
+                                Regex r = new Regex(@".*Win32_UserAccount.Domain=""(.*?)"",Name=""(.*?)""");
+
+                                var domain = r.Match(userName).Groups[1].Value.ToString();
+                                userName = r.Match(userName).Groups[2].Value.ToString();
+
+                                if (userName.Equals(""))
+                                {
+                                    continue;
+                                }
+
+                                Log.Debug("Found {0}\\{1} as member of {2}", domain, userName, groupName);
+
+                                SelectQuery query = new SelectQuery("SELECT * FROM Win32_UserAccount where Domain='"+domain+"' and Name='" + userName + "'");
                                 ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
 
                                 foreach (ManagementObject user in searcher.Get())
                                 {
                                     if (users.ContainsKey(userName))
                                     {
+                                        users[userName].Groups.Add(groupName);
+
                                         if (groupName.Equals("Administrators"))
                                         {
                                             users[userName].Privileged = true;
@@ -168,7 +179,8 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
                                             PasswordExpires = Convert.ToString(user["PasswordExpires"]),
                                             PasswordRequired = Convert.ToString(user["PasswordRequired"]),
                                             SID = Convert.ToString(user["SID"]),
-                                            Privileged = (bool)groupName.Equals("Administrators")
+                                            Privileged = (bool)groupName.Equals("Administrators"),
+                                            Groups = new List<string>() { groupName }
                                         };
                                         users.Add(userName, obj);
                                     }        

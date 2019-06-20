@@ -32,6 +32,8 @@ namespace AttackSurfaceAnalyzer.Objects
         public string Shell;
         public string PasswordStorageAlgorithm;
 
+        public List<string> Groups;
+
         // Is the user Windows Administrator/sudoer
         public bool Privileged;
 
