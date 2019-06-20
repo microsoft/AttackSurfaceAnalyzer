@@ -18,7 +18,16 @@ namespace AttackSurfaceAnalyzer.Utils
     public class Analyzer
     {
         Dictionary<RESULT_TYPE, List<FieldInfo>> _Fields = new Dictionary<RESULT_TYPE, List<FieldInfo>>();
-        Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DEFAULT_RESULT_TYPE_MAP = new Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>();
+        Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DEFAULT_RESULT_TYPE_MAP = new Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>()
+        {
+            { RESULT_TYPE.CERTIFICATE, ANALYSIS_RESULT_TYPE.INFORMATION },
+            { RESULT_TYPE.FILE, ANALYSIS_RESULT_TYPE.INFORMATION },
+            { RESULT_TYPE.PORT, ANALYSIS_RESULT_TYPE.INFORMATION },
+            { RESULT_TYPE.REGISTRY, ANALYSIS_RESULT_TYPE.INFORMATION },
+            { RESULT_TYPE.SERVICE, ANALYSIS_RESULT_TYPE.INFORMATION },
+            { RESULT_TYPE.USER, ANALYSIS_RESULT_TYPE.INFORMATION },
+            { RESULT_TYPE.UNKNOWN, ANALYSIS_RESULT_TYPE.INFORMATION }
+        };
 
         JObject config = null;
         List<Rule> _filters = new List<Rule>();
@@ -37,6 +46,11 @@ namespace AttackSurfaceAnalyzer.Utils
         protected void ParseFilters()
         {
             _filters = new List<Rule>();
+            DEFAULT_RESULT_TYPE_MAP = new Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>();
+            foreach(RESULT_TYPE r in Enum.GetValues(typeof(RESULT_TYPE)))
+            {
+                DEFAULT_RESULT_TYPE_MAP.Add(r, ANALYSIS_RESULT_TYPE.INFORMATION);
+            }
             try
             {
                 foreach (var R in (JArray)config["rules"])

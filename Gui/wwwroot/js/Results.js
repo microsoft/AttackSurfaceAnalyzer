@@ -434,7 +434,6 @@ function InsertIntoRegistryTable(result) {
     $('#RegistryResultsTableBody').append(tmp);
 }
 
-<<<<<<< HEAD
 function GenerateExpandedResultsCard(result) {
     var card = $('<div/>', {
         class: 'card card-body'
@@ -487,8 +486,6 @@ function GenerateExpandedResultsCard(result) {
     return card;
 }
 
-=======
->>>>>>> Adds coloring to GUI output for Info/Danger/Warning/Fatal etc flags during result display.
 function InsertIntoServiceTable(result) {
     var appendObj;
     if (result.ChangeType == CHANGE_TYPE.CREATED) {
@@ -500,7 +497,7 @@ function InsertIntoServiceTable(result) {
     var uid = uuidv4();
     var tmp = $('<tr/>', {
         id: uid,
-        class: 'resultTableRow Info' + FlagToStyle(result.Analysis),
+        class: 'resultTableRow Info ' + FlagToStyle(result.Analysis),
     });
     var arrowTD = $('<td/>', {
         scope: 'col',
@@ -559,7 +556,7 @@ function InsertIntoCertificateTable(result) {
     var uid = uuidv4();
     var tmp = $('<tr/>', {
         id: uid,
-        class: 'resultTableRow Info' + FlagToStyle(result.Analysis),
+        class: 'resultTableRow Info ' + FlagToStyle(result.Analysis),
     });
     var arrowTD = $('<td/>', {
         scope: 'col',
@@ -621,7 +618,7 @@ function InsertIntoUserTable(result) {
     var uid = uuidv4();
     var tmp = $('<tr/>', {
         id: uid,
-        class: 'resultTableRow Info' + FlagToStyle(result.Analysis),
+        class: 'resultTableRow Info ' + FlagToStyle(result.Analysis),
     });
     var arrowTD = $('<td/>', {
         scope: 'col',
@@ -677,7 +674,7 @@ function InsertIntoFileTable(result) {
     var uid = uuidv4();
     var tmp = $('<tr/>', {
         id: uid,
-        class: 'resultTableRow Info' + FlagToStyle(result.Analysis),
+        class: 'resultTableRow Info ' + FlagToStyle(result.Analysis),
     });
     var arrowTD = $('<td/>', {
         scope: 'col',
@@ -725,7 +722,7 @@ function InsertIntoPortTable(result) {
     var uid = uuidv4();
     var tmp = $('<tr/>', {
         id: uid,
-        class: 'resultTableRow Info' + FlagToStyle(result.Analysis)
+        class: 'resultTableRow Info ' + FlagToStyle(result.Analysis)
     });
     var arrowTD = $('<td/>', {
         scope: 'col',
