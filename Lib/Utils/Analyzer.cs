@@ -113,28 +113,40 @@ namespace AttackSurfaceAnalyzer.Utils
                     return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
                 }
 
-                var val = default(object);
+                var compareVal = default(object);
                 var baseVal = default(object);
                 try
                 {
                     if (compareResult.Compare != null)
                     { 
-                        val = GetValueByPropertyName(compareResult.Compare, field.Name);
+                        compareVal = GetValueByPropertyName(compareResult.Compare, field.Name);
                     }
                     if (compareResult.Base != null)
                     {
                         baseVal = GetValueByPropertyName(compareResult.Base, field.Name);
                     }
                     var complete = false;
+                    var valsToCheck = new List<string>();
+                    if (compareResult.ChangeType == CHANGE_TYPE.CREATED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
+                    {
+                        valsToCheck.Add(compareVal.ToString());
+                    }
+                    if (compareResult.ChangeType == CHANGE_TYPE.DELETED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
+                    {
+                        valsToCheck.Add(baseVal.ToString());
+                    }
 
                     switch (clause.op)
                     {
                         case OPERATION.EQ:
                             foreach (string datum in clause.data)
                             {
-                                if (datum.Equals(val))
+                                foreach (string val in valsToCheck)
                                 {
-                                    complete = true;
+                                    if (datum.Equals(val))
+                                    {
+                                        complete = true;
+                                    }
                                 }
                             }
                             if (complete) { break; }
@@ -143,9 +155,12 @@ namespace AttackSurfaceAnalyzer.Utils
                         case OPERATION.NEQ:
                             foreach (string datum in clause.data)
                             {
-                                if (!datum.Equals(val))
+                                foreach (string val in valsToCheck)
                                 {
-                                    complete = true;
+                                    if (!datum.Equals(val))
+                                    {
+                                        complete = true;
+                                    }
                                 }
                             }
                             if (complete) { break; }
@@ -154,45 +169,63 @@ namespace AttackSurfaceAnalyzer.Utils
                         case OPERATION.CONTAINS:
                             foreach (string datum in clause.data)
                             {
-                                var fld = GetValueByPropertyName(compareResult.Compare, field.Name).ToString();
-                                if (fld.Contains(datum))
+                                foreach (string val in valsToCheck)
                                 {
-                                    complete = true;
+                                    if (val.Contains(datum))
+                                    {
+                                        complete = true;
+                                    }
                                 }
                             }
                             if (complete) { break; }
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
 
                         case OPERATION.GT:
-                            if (Int32.Parse(val.ToString()) > Int32.Parse(clause.data[0]))
+                            foreach (string val in valsToCheck)
                             {
-                                break;
+                                if (Int32.Parse(val.ToString()) > Int32.Parse(clause.data[0]))
+                                {
+                                    complete=true;
+                                }
                             }
+                            if (complete) { break; }
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
 
                         case OPERATION.LT:
-                            if (Int32.Parse(val.ToString()) < Int32.Parse(clause.data[0]))
+                            foreach (string val in valsToCheck)
                             {
-                                break;
+                                if (Int32.Parse(val.ToString()) < Int32.Parse(clause.data[0]))
+                                {
+                                    complete=true;
+                                }
                             }
+                            if (complete) { break; }
+
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
 
                         case OPERATION.REGEX:
-                            foreach (string datum in clause.data)
+                            foreach (string val in valsToCheck)
                             {
-                                var r = new Regex(datum);
-                                if (r.IsMatch(val.ToString()))
+                                foreach (string datum in clause.data)
                                 {
-                                    complete = true;
+                                    var r = new Regex(datum);
+                                    if (r.IsMatch(val.ToString()))
+                                    {
+                                        complete = true;
+                                    }
                                 }
                             }
                             if (complete) { break; }
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
                         case OPERATION.WAS_MODIFIED:
-                            if (!val.ToString().Equals(baseVal.ToString()))
+                            foreach (string val in valsToCheck)
                             {
-                                break;
+                                if (!val.ToString().Equals(baseVal.ToString()))
+                                {
+                                    complete=true;
+                                }
                             }
+                            if (complete) { break; }
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
                         default:
                             Log.Debug("Unimplemented operation {0}", clause.op);
