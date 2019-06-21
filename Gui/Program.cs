@@ -11,6 +11,10 @@ namespace AttackSurfaceAnalyzer.Gui
         public static void Main(string[] args)
         {
             CreateWebHostBuilder(args).Build().Run();
+            if (!HybridSupport.IsElectronActive)
+            {
+                Helpers.OpenBrowser("http://localhost:5000");
+            }
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
