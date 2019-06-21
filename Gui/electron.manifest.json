@@ -1,7 +1,7 @@
 {
   "executable": "AttackSurfaceAnalyzer-Gui",
   "splashscreen": {
-    "imageFile": ""
+    "imageFile": "../../../wwwroot/microsoft-gray.png"
   },
   "singleInstance": false,
   "build": {
