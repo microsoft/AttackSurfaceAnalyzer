@@ -1,0 +1,87 @@
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
+    <RootNamespace>AttackSurfaceAnalyzer</RootNamespace>
+    <ReleaseVersion>2.0.0.0-pre-alpha</ReleaseVersion>
+    <PackageId>AttackSurfaceAnalyzer</PackageId>
+    <PackageVersion>2.0.0-pre-alpha</PackageVersion>
+    <Authors>Microsoft Corporation</Authors>
+    <Owners>Microsoft Corporation</Owners>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>Attack Surface Analyzer is a Microsoft-developed open source security tool available at https://github.com/microsoft/AttackSurfaceAnalyzer that analyzes the attack surface of a target system and reports on potential security vulnerabilities introduced by the installation of software or by system misconfiguration.
+
+This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI and GUI available on GitHub.</Description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <FileUpgradeFlags>40</FileUpgradeFlags>
+    <UpgradeBackupLocation>C:\Users\Gstoc\Documents\GitHub\AttackSurfaceAnalyzer\Backup\Lib\</UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Collectors\FileSystem\" />
+    <Folder Include="Collectors\OpenPorts\" />
+    <Folder Include="Collectors\Registry\" />
+    <Folder Include="Collectors\Service\" />
+    <Folder Include="Collectors\UserAccount\" />
+    <Folder Include="Objects\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Utils\CommandOptions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Utils\ConfigurationReader.cs" />
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Utils\CryptoHelpers.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.PowerShell.Commands.Diagnostics" Version="6.2.1" />
+    <PackageReference Include="Microsoft.PowerShell.SDK" Version="6.2.1" />
+    <PackageReference Include="Microsoft.Win32.Registry" Version="4.6.0-preview.19073.11" />
+    <PackageReference Include="murmurhash" Version="1.0.3" />
+    <PackageReference Include="PeNet" Version="1.0.5" />
+    <PackageReference Include="Serilog" Version="2.8.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+    <PackageReference Include="Serilog.Sinks.File" Version="4.0.0" />
+    <PackageReference Include="System.Data.HashFunction.xxHash" Version="2.0.0" />
+    <PackageReference Include="System.Diagnostics.Process" Version="4.3.0" />
+    <PackageReference Include="System.Management" Version="4.6.0-preview.19073.11" />
+    <PackageReference Include="System.Net.NetworkInformation" Version="4.3.0" />
+    <PackageReference Include="System.IO.FileSystem.AccessControl" Version="4.6.0-preview.19073.11" />
+    <PackageReference Include="Microsoft.Win32.Registry.AccessControl" Version="4.6.0-preview.19073.11" />
+    <PackageReference Include="System.Runtime" Version="4.3.1" />
+    <PackageReference Include="System.Security.AccessControl" Version="4.6.0-preview.19073.11" />
+    <PackageReference Include="System.Threading.AccessControl" Version="4.6.0-preview.19073.11" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="2.2.4" />
+    <PackageReference Include="NuGet.Build.Packaging" Version="0.2.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="System.Net.Security" Version="4.3.2" />
+    <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
+    <PackageReference Include="MonoMac.NetStandard" Version="0.0.4" />
+    <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="3.0.3" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="2.3.167">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\filters.json" Link="filters.json" />
+    <Content Include="..\LICENSE.txt">
+      <Link>LICENSE.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\NOTICE.txt">
+      <Link>NOTICE.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\PRIVACY.md">
+      <Link>PRIVACY.md</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\README.md">
+      <Link>README.md</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+</Project>
