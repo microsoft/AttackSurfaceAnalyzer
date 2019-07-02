@@ -20,8 +20,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AttackSurfaceAnalyzerLib", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AttackSurfaceAnalyzerCli", "Cli\AttackSurfaceAnalyzerCli.csproj", "{431FFEB4-57C2-4C5B-B329-DDF6ED229C3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{75F6AB05-32FD-4AF4-B4A2-2C8170D8D0EA}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,10 +38,6 @@ Global
 		{431FFEB4-57C2-4C5B-B329-DDF6ED229C3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{431FFEB4-57C2-4C5B-B329-DDF6ED229C3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{431FFEB4-57C2-4C5B-B329-DDF6ED229C3A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{75F6AB05-32FD-4AF4-B4A2-2C8170D8D0EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{75F6AB05-32FD-4AF4-B4A2-2C8170D8D0EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{75F6AB05-32FD-4AF4-B4A2-2C8170D8D0EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{75F6AB05-32FD-4AF4-B4A2-2C8170D8D0EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

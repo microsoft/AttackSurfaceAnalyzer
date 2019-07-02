@@ -29,12 +29,8 @@ This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI 
     <Compile Remove="Utils\CommandOptions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Utils\ConfigurationReader.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Utils\CryptoHelpers.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Utils\ConfigurationReader.cs" />
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Utils\CryptoHelpers.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.PowerShell.Commands.Diagnostics" Version="6.2.1" />
@@ -64,7 +60,7 @@ This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI 
     <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
     <PackageReference Include="MonoMac.NetStandard" Version="0.0.4" />
     <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="3.0.3" />
-    <PackageReference Include="Nerdbank.GitVersioning" Version="2.3.167">
+    <PackageReference Include="Nerdbank.GitVersioning" Version="2.3.183">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
