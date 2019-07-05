@@ -36,6 +36,10 @@ namespace AttackSurfaceAnalyzer
 
                     Log.Information("Created service {0} for not-present exe {1}", serviceName, exeName);
                 }
+                else
+                {
+                    Log.Fatal("Only supported on Windows.");
+                }
 
             }
             catch (Exception ex)
