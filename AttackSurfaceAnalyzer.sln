@@ -20,7 +20,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsaLib", "Lib\AsaLib.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsaCli", "Cli\AsaCli.csproj", "{431FFEB4-57C2-4C5B-B329-DDF6ED229C3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsaDemoGenerator", "AsaDemoGenerator\AsaDemoGenerator.csproj", "{299969FB-DEDB-4993-89DD-0991A0D38E77}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsaDemoGenerator", "AsaDemoGenerator\AsaDemoGenerator.csproj", "{299969FB-DEDB-4993-89DD-0991A0D38E77}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

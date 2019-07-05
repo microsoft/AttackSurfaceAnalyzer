@@ -10,4 +10,8 @@
     <ProjectReference Include="..\Lib\AsaLib.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Update="Nerdbank.GitVersioning" Version="2.3.183" />
+  </ItemGroup>
+
 </Project>
