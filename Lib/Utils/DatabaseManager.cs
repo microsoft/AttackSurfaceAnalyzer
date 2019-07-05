@@ -28,6 +28,8 @@ namespace AttackSurfaceAnalyzer.Utils
         private static readonly string SQL_CREATE_COLLECT_RUN_TYPE_COMBINED_INDEX = "create index if not exists i_collect_row_type on collect(run_id, result_type)";
         private static readonly string SQL_CREATE_COLLECT_KEY_IDENTITY_COMBINED_INDEX = "create index if not exists i_collect_row_type on collect(identity, row_key)";
 
+        private static readonly string SQL_CREATE_RESULTS = "create table if not exists results (base_run_id text, compare_run_id text, status text);";
+
         private static readonly string SQL_CREATE_FINDINGS_RESULTS = "create table if not exists findings (comparison_id text, level text, result_type text, identity text, serialized text)";
         
         private static readonly string SQL_CREATE_FINDINGS_LEVEL_INDEX = "create index if not exists i_findings_level on findings(level)";
@@ -112,6 +114,9 @@ namespace AttackSurfaceAnalyzer.Utils
                     cmd.ExecuteNonQuery();
 
                     cmd.CommandText = SQL_CREATE_COLLECT_KEY_IDENTITY_COMBINED_INDEX;
+                    cmd.ExecuteNonQuery();
+
+                    cmd.CommandText = SQL_CREATE_RESULTS;
                     cmd.ExecuteNonQuery();
 
                     cmd.CommandText = SQL_CREATE_FINDINGS_RESULTS;

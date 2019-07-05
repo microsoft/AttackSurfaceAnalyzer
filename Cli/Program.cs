@@ -36,7 +36,7 @@ namespace AttackSurfaceAnalyzer
         [Option(HelpText = "Base name of output file", Default = "output")]
         public string OutputBaseFilename { get; set; }
 
-        [Option(HelpText = "Enable Analysis.", Default = true)]
+        [Option(HelpText = "Set Enable/Disable Analysis.", Default = true)]
         public bool Analyze { get; set; }
 
         [Option(HelpText = "Custom analysis rules file.")]
@@ -67,7 +67,7 @@ namespace AttackSurfaceAnalyzer
         [Option(HelpText = "Exploded output")]
         public bool ExplodedOutput { get; set; }
 
-        [Option(HelpText = "Enable Analysis.", Default = true)]
+        [Option(HelpText = "Set Enable/Disable Analysis.", Default = true)]
         public bool Analyze { get; set; }
 
         [Option(HelpText = "Custom analysis rules file.")]
@@ -465,6 +465,8 @@ namespace AttackSurfaceAnalyzer
             options.DatabaseFilename = opts.DatabaseFilename;
             options.FirstRunId = opts.FirstRunId;
             options.SecondRunId = opts.SecondRunId;
+            options.AnalysesFile = opts.AnalysesFile;
+            options.Analyze = opts.Analyze;
 
             Dictionary<string, object> results = CompareRuns(options);
 
