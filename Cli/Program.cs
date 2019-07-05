@@ -39,6 +39,9 @@ namespace AttackSurfaceAnalyzer
         [Option(HelpText = "Enable Analysis.", Default = true)]
         public bool Analyze { get; set; }
 
+        [Option(HelpText = "Custom analysis rules file.")]
+        public string AnalysesFile { get; set; }
+
         [Option(HelpText = "Show debug logging statements.")]
         public bool Debug { get; set; }
 
@@ -66,6 +69,9 @@ namespace AttackSurfaceAnalyzer
 
         [Option(HelpText = "Enable Analysis.", Default = true)]
         public bool Analyze { get; set; }
+
+        [Option(HelpText = "Custom analysis rules file.")]
+        public string AnalysesFile { get; set; }
 
         [Option(HelpText = "Show debug logging statements.")]
         public bool Debug { get; set; }
@@ -975,35 +981,35 @@ namespace AttackSurfaceAnalyzer
                                     t.Milliseconds);
             Log.Information(Strings.Get("Completed"), "Comparing", answer);
 
-            watch = System.Diagnostics.Stopwatch.StartNew();
-
-            Analyzer analyzer = new Analyzer(DatabaseManager.RunIdToPlatform(opts.FirstRunId));
-
-            foreach (var key in results.Keys)
+            if (opts.Analyze)
             {
-                try
+                watch = System.Diagnostics.Stopwatch.StartNew();
+
+                Analyzer analyzer = new Analyzer(DatabaseManager.RunIdToPlatform(opts.FirstRunId), opts.AnalysesFile);
+
+                foreach (var key in results.Keys)
                 {
-                    Parallel.ForEach(results[key] as List<CompareResult>, (result) =>
+                    try
                     {
-                        result.Analysis = analyzer.Analyze(result);
-                    });
+                        Parallel.ForEach(results[key] as List<CompareResult>, (result) =>
+                        {
+                            result.Analysis = analyzer.Analyze(result);
+                        });
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Debug("{0} {1} {2} {3}", key, e.GetType().ToString(), e.Message, e.StackTrace);
+                    }
                 }
-                catch (Exception e)
-                { 
-                    Log.Debug("{0} {1} {2} {3}", key,e.GetType().ToString(), e.Message, e.StackTrace); 
-                }
+                watch.Stop();
+                t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
+                answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+                                        t.Hours,
+                                        t.Minutes,
+                                        t.Seconds,
+                                        t.Milliseconds);
+                Log.Information(Strings.Get("Completed"), "Analysis", answer);
             }
-            watch.Stop();
-            t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
-            answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
-                                    t.Hours,
-                                    t.Minutes,
-                                    t.Seconds,
-                                    t.Milliseconds);
-            Log.Information(Strings.Get("Completed"),"Analysis",answer);
-
-            Telemetry.TrackEvent("End Command", EndEvent);
-
 
             foreach (var key in results.Keys)
             {
@@ -1029,6 +1035,7 @@ namespace AttackSurfaceAnalyzer
             }
 
             DatabaseManager.Commit();
+            Telemetry.TrackEvent("End Command", EndEvent);
             return results;
         }
 

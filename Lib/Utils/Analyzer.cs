@@ -41,9 +41,8 @@ namespace AttackSurfaceAnalyzer.Utils
         List<Rule> _filters = new List<Rule>();
         PLATFORM OsName;
 
-        public Analyzer(PLATFORM platform) : this(platform: platform, useEmbedded:true) { }
-        public Analyzer(PLATFORM platform, string filterLocation = "analyses.json", bool useEmbedded = false) {
-            if (useEmbedded) { LoadEmbeddedFilters(); }
+        public Analyzer(PLATFORM platform, string filterLocation = null) {
+            if (filterLocation == null) { LoadEmbeddedFilters(); }
             else { LoadFilters(filterLocation); }
 
             OsName = platform;
