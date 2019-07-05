@@ -36,8 +36,11 @@ namespace AttackSurfaceAnalyzer
         [Option(HelpText = "Base name of output file", Default = "output")]
         public string OutputBaseFilename { get; set; }
 
-        [Option(HelpText = "Enable Analysis.", Default = true)]
+        [Option(HelpText = "Set Enable/Disable Analysis.", Default = true)]
         public bool Analyze { get; set; }
+
+        [Option(HelpText = "Custom analysis rules file.")]
+        public string AnalysesFile { get; set; }
 
         [Option(HelpText = "Show debug logging statements.")]
         public bool Debug { get; set; }
@@ -64,8 +67,11 @@ namespace AttackSurfaceAnalyzer
         [Option(HelpText = "Exploded output")]
         public bool ExplodedOutput { get; set; }
 
-        [Option(HelpText = "Enable Analysis.", Default = true)]
+        [Option(HelpText = "Set Enable/Disable Analysis.", Default = true)]
         public bool Analyze { get; set; }
+
+        [Option(HelpText = "Custom analysis rules file.")]
+        public string AnalysesFile { get; set; }
 
         [Option(HelpText = "Show debug logging statements.")]
         public bool Debug { get; set; }
@@ -459,6 +465,8 @@ namespace AttackSurfaceAnalyzer
             options.DatabaseFilename = opts.DatabaseFilename;
             options.FirstRunId = opts.FirstRunId;
             options.SecondRunId = opts.SecondRunId;
+            options.AnalysesFile = opts.AnalysesFile;
+            options.Analyze = opts.Analyze;
 
             Dictionary<string, object> results = CompareRuns(options);
 
@@ -945,17 +953,7 @@ namespace AttackSurfaceAnalyzer
 
             var results = new Dictionary<string, object>();
 
-            comparators = new List<BaseCompare>();
-
-            Dictionary<RESULT_TYPE, int> count = new Dictionary<RESULT_TYPE, int>()
-            {
-                { RESULT_TYPE.FILE, 0 },
-                { RESULT_TYPE.CERTIFICATE, 0 },
-                { RESULT_TYPE.REGISTRY, 0 },
-                { RESULT_TYPE.PORT, 0 },
-                { RESULT_TYPE.SERVICE, 0 },
-                { RESULT_TYPE.USER, 0 }
-            };
+			comparators = new List<BaseCompare>();
 
             Dictionary<string, string> EndEvent = new Dictionary<string, string>();
             BaseCompare c = new BaseCompare();
@@ -964,7 +962,8 @@ namespace AttackSurfaceAnalyzer
             {
                 Log.Warning(Strings.Get("Err_Comparing") + " : {0}", c.GetType().Name);
             }
-            c.Results.ToList().ForEach(x => results.Add(x.Key, x.Value));
+
+			c.Results.ToList().ForEach(x => results.Add(x.Key, x.Value));
 
             watch.Stop();
             TimeSpan t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
@@ -973,37 +972,38 @@ namespace AttackSurfaceAnalyzer
                                     t.Minutes,
                                     t.Seconds,
                                     t.Milliseconds);
+
             Log.Information(Strings.Get("Completed"), "Comparing", answer);
 
-            watch = System.Diagnostics.Stopwatch.StartNew();
-
-            Analyzer analyzer = new Analyzer(DatabaseManager.RunIdToPlatform(opts.FirstRunId));
-
-            foreach (var key in results.Keys)
+            if (opts.Analyze)
             {
-                try
+                watch = System.Diagnostics.Stopwatch.StartNew();
+
+                Analyzer analyzer = new Analyzer(DatabaseManager.RunIdToPlatform(opts.FirstRunId), opts.AnalysesFile);
+
+                foreach (var key in results.Keys)
                 {
-                    Parallel.ForEach(results[key] as List<CompareResult>, (result) =>
+                    try
                     {
-                        result.Analysis = analyzer.Analyze(result);
-                    });
+                        Parallel.ForEach(results[key] as List<CompareResult>, (result) =>
+                        {
+                            result.Analysis = analyzer.Analyze(result);
+                        });
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Debug("{0} {1} {2} {3}", key, e.GetType().ToString(), e.Message, e.StackTrace);
+                    }
                 }
-                catch (Exception e)
-                { 
-                    Log.Debug("{0} {1} {2} {3}", key,e.GetType().ToString(), e.Message, e.StackTrace); 
-                }
+                watch.Stop();
+                t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
+                answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+                                        t.Hours,
+                                        t.Minutes,
+                                        t.Seconds,
+                                        t.Milliseconds);
+                Log.Information(Strings.Get("Completed"), "Analysis", answer);
             }
-            watch.Stop();
-            t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
-            answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
-                                    t.Hours,
-                                    t.Minutes,
-                                    t.Seconds,
-                                    t.Milliseconds);
-            Log.Information(Strings.Get("Completed"),"Analysis",answer);
-
-            Telemetry.TrackEvent("End Command", EndEvent);
-
 
             foreach (var key in results.Keys)
             {
@@ -1029,6 +1029,7 @@ namespace AttackSurfaceAnalyzer
             }
 
             DatabaseManager.Commit();
+            Telemetry.TrackEvent("End Command", EndEvent);
             return results;
         }
 
@@ -1390,16 +1391,30 @@ namespace AttackSurfaceAnalyzer
             }
 
             var results = CompareRuns(opts);
+			results["BeforeRunId"] = opts.FirstRunId;
+			results["AfterRunId"] = opts.SecondRunId;
 
-            var engine = new RazorLightEngineBuilder()
-              .UseEmbeddedResourcesProject(typeof(AttackSurfaceAnalyzerCLI))
-              .UseMemoryCachingProvider()
-              .Build();
+			var watch = System.Diagnostics.Stopwatch.StartNew();
+            
+			var engine = new RazorLightEngineBuilder()
+			  .UseEmbeddedResourcesProject(typeof(AttackSurfaceAnalyzerCLI))
+			  .UseMemoryCachingProvider()
+			  .Build();
 
-            var assembly = Assembly.GetExecutingAssembly();
+			var assembly = Assembly.GetExecutingAssembly();
 
-            var result = engine.CompileRenderAsync("Output.Output.cshtml", results).Result;
-            File.WriteAllText($"{opts.OutputBaseFilename}.html", result);
+			var result = engine.CompileRenderAsync("Output.Output.cshtml", results).Result;
+			File.WriteAllText($"{opts.OutputBaseFilename}.html", result);
+
+			watch.Stop();
+			TimeSpan t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
+			string answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+									t.Hours,
+									t.Minutes,
+									t.Seconds,
+									t.Milliseconds);
+			Log.Information(Strings.Get("Completed"),"HTML Export", answer);
+
             Log.Information(Strings.Get("OutputWrittenTo"), opts.OutputBaseFilename + ".html");
 
             return 0;

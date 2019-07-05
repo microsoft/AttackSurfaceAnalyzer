@@ -21,7 +21,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             Results = new Dictionary<string, object>();
         }
 
-        private int numResults = 0;
+        private int numResults;
 
         public CollectObject Hydrate(RawCollectResult res)
         {

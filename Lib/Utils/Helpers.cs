@@ -116,9 +116,9 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             var dict = new Dictionary<string, string>();
 
-            dict["version"] = GetVersionString();
-            dict["os"] = GetOsName();
-            dict["osversion"] = GetOsVersion();
+            dict["compare-version"] = GetVersionString();
+            dict["compare-os"] = GetOsName();
+            dict["compare-osversion"] = GetOsVersion();
 
             return dict;
         }

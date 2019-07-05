@@ -41,9 +41,8 @@ namespace AttackSurfaceAnalyzer.Utils
         List<Rule> _filters = new List<Rule>();
         PLATFORM OsName;
 
-        public Analyzer(PLATFORM platform) : this(platform: platform, useEmbedded:true) { }
-        public Analyzer(PLATFORM platform, string filterLocation = "analyses.json", bool useEmbedded = false) {
-            if (useEmbedded) { LoadEmbeddedFilters(); }
+        public Analyzer(PLATFORM platform, string filterLocation = null) {
+            if (filterLocation == null) { LoadEmbeddedFilters(); }
             else { LoadFilters(filterLocation); }
 
             OsName = platform;
@@ -113,27 +112,18 @@ namespace AttackSurfaceAnalyzer.Utils
                     return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
                 }
 
-                var compareVal = default(object);
-                var baseVal = default(object);
                 try
                 {
-                    if (compareResult.Compare != null)
-                    { 
-                        compareVal = GetValueByPropertyName(compareResult.Compare, field.Name);
-                    }
-                    if (compareResult.Base != null)
-                    {
-                        baseVal = GetValueByPropertyName(compareResult.Base, field.Name);
-                    }
                     var complete = false;
                     var valsToCheck = new List<string>();
+
                     if (compareResult.ChangeType == CHANGE_TYPE.CREATED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
                     {
-                        valsToCheck.Add(compareVal.ToString());
+                        valsToCheck.Add(GetValueByPropertyName(compareResult.Compare, field.Name).ToString());
                     }
                     if (compareResult.ChangeType == CHANGE_TYPE.DELETED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
                     {
-                        valsToCheck.Add(baseVal.ToString());
+                        valsToCheck.Add(GetValueByPropertyName(compareResult.Base, field.Name).ToString());
                     }
 
                     switch (clause.op)
@@ -143,10 +133,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
                                 foreach (string val in valsToCheck)
                                 {
-                                    if (datum.Equals(val))
-                                    {
-                                        complete = true;
-                                    }
+                                    complete |= datum.Equals(val);
                                 }
                             }
                             if (complete) { break; }
@@ -157,10 +144,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
                                 foreach (string val in valsToCheck)
                                 {
-                                    if (!datum.Equals(val))
-                                    {
-                                        complete = true;
-                                    }
+                                    complete |= !datum.Equals(val);
                                 }
                             }
                             if (complete) { break; }
@@ -171,10 +155,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
                                 foreach (string val in valsToCheck)
                                 {
-                                    if (val.Contains(datum))
-                                    {
-                                        complete = true;
-                                    }
+                                    complete |= val.Contains(datum);
                                 }
                             }
                             if (complete) { break; }
@@ -183,10 +164,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         case OPERATION.GT:
                             foreach (string val in valsToCheck)
                             {
-                                if (Int32.Parse(val.ToString()) > Int32.Parse(clause.data[0]))
-                                {
-                                    complete=true;
-                                }
+                                complete|= Int32.Parse(val.ToString()) > Int32.Parse(clause.data[0]);
                             }
                             if (complete) { break; }
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
@@ -194,10 +172,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         case OPERATION.LT:
                             foreach (string val in valsToCheck)
                             {
-                                if (Int32.Parse(val.ToString()) < Int32.Parse(clause.data[0]))
-                                {
-                                    complete=true;
-                                }
+                                complete|= Int32.Parse(val.ToString()) < Int32.Parse(clause.data[0]);
                             }
                             if (complete) { break; }
 
@@ -209,7 +184,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                 foreach (string datum in clause.data)
                                 {
                                     var r = new Regex(datum);
-                                    if (r.IsMatch(val.ToString()))
+                                    if (r.IsMatch(val))
                                     {
                                         complete = true;
                                     }
@@ -218,14 +193,10 @@ namespace AttackSurfaceAnalyzer.Utils
                             if (complete) { break; }
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
                         case OPERATION.WAS_MODIFIED:
-                            foreach (string val in valsToCheck)
+                            if ((valsToCheck.Count == 2) && (valsToCheck[0] == valsToCheck[1]))
                             {
-                                if (!val.ToString().Equals(baseVal.ToString()))
-                                {
-                                    complete=true;
-                                }
+                                break;
                             }
-                            if (complete) { break; }
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
                         default:
                             Log.Debug("Unimplemented operation {0}", clause.op);
@@ -247,7 +218,6 @@ namespace AttackSurfaceAnalyzer.Utils
         public void DumpFilters()
         {
             Log.Verbose("Filter dump:");
-
             Log.Verbose(JsonConvert.SerializeObject(_filters, new StringEnumConverter()));
         }
 
