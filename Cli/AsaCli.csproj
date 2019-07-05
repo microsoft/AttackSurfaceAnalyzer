@@ -66,5 +66,6 @@
   <ItemGroup>
     <None Remove="asa.log.txt" />
     <None Remove="run_list" />
+    <None Remove="asa.sqlite" />
   </ItemGroup>
 </Project>
