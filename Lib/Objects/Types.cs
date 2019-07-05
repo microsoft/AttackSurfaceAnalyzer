@@ -12,7 +12,7 @@ namespace AttackSurfaceAnalyzer.Objects
         UNKNOWN
     };
 
-     public enum CHANGE_TYPE
+    public enum CHANGE_TYPE
     {
         CREATED,
         DELETED,

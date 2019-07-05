@@ -953,17 +953,7 @@ namespace AttackSurfaceAnalyzer
 
             var results = new Dictionary<string, object>();
 
-            comparators = new List<BaseCompare>();
-
-            Dictionary<RESULT_TYPE, int> count = new Dictionary<RESULT_TYPE, int>()
-            {
-                { RESULT_TYPE.FILE, 0 },
-                { RESULT_TYPE.CERTIFICATE, 0 },
-                { RESULT_TYPE.REGISTRY, 0 },
-                { RESULT_TYPE.PORT, 0 },
-                { RESULT_TYPE.SERVICE, 0 },
-                { RESULT_TYPE.USER, 0 }
-            };
+			comparators = new List<BaseCompare>();
 
             Dictionary<string, string> EndEvent = new Dictionary<string, string>();
             BaseCompare c = new BaseCompare();
@@ -972,7 +962,8 @@ namespace AttackSurfaceAnalyzer
             {
                 Log.Warning(Strings.Get("Err_Comparing") + " : {0}", c.GetType().Name);
             }
-            c.Results.ToList().ForEach(x => results.Add(x.Key, x.Value));
+
+			c.Results.ToList().ForEach(x => results.Add(x.Key, x.Value));
 
             watch.Stop();
             TimeSpan t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
@@ -981,6 +972,7 @@ namespace AttackSurfaceAnalyzer
                                     t.Minutes,
                                     t.Seconds,
                                     t.Milliseconds);
+
             Log.Information(Strings.Get("Completed"), "Comparing", answer);
 
             if (opts.Analyze)
@@ -1399,16 +1391,30 @@ namespace AttackSurfaceAnalyzer
             }
 
             var results = CompareRuns(opts);
+			results["BeforeRunId"] = opts.FirstRunId;
+			results["AfterRunId"] = opts.SecondRunId;
 
-            var engine = new RazorLightEngineBuilder()
-              .UseEmbeddedResourcesProject(typeof(AttackSurfaceAnalyzerCLI))
-              .UseMemoryCachingProvider()
-              .Build();
+			var watch = System.Diagnostics.Stopwatch.StartNew();
+            
+			var engine = new RazorLightEngineBuilder()
+			  .UseEmbeddedResourcesProject(typeof(AttackSurfaceAnalyzerCLI))
+			  .UseMemoryCachingProvider()
+			  .Build();
 
-            var assembly = Assembly.GetExecutingAssembly();
+			var assembly = Assembly.GetExecutingAssembly();
 
-            var result = engine.CompileRenderAsync("Output.Output.cshtml", results).Result;
-            File.WriteAllText($"{opts.OutputBaseFilename}.html", result);
+			var result = engine.CompileRenderAsync("Output.Output.cshtml", results).Result;
+			File.WriteAllText($"{opts.OutputBaseFilename}.html", result);
+
+			watch.Stop();
+			TimeSpan t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
+			string answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+									t.Hours,
+									t.Minutes,
+									t.Seconds,
+									t.Milliseconds);
+			Log.Information(Strings.Get("Completed"),"HTML Export", answer);
+
             Log.Information(Strings.Get("OutputWrittenTo"), opts.OutputBaseFilename + ".html");
 
             return 0;

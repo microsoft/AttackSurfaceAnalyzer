@@ -67,5 +67,6 @@
     <None Remove="asa.log.txt" />
     <None Remove="run_list" />
     <None Remove="asa.sqlite" />
+    <None Remove="Output\Output.cshtml" />
   </ItemGroup>
 </Project>
