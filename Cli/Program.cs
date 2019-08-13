@@ -432,6 +432,12 @@ namespace AttackSurfaceAnalyzer
             Logger.Setup(opts.Debug, opts.Verbose);
 #endif
 
+            if (opts.OutputPath != null && !Directory.Exists(opts.OutputPath))
+            {
+                Log.Fatal(Strings.Get("Err_OutputPathNotExist"), opts.OutputPath);
+                return 0;
+            }
+
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
             DatabaseManager.Setup();
             CheckFirstRun();
@@ -604,6 +610,12 @@ namespace AttackSurfaceAnalyzer
 #else
             Logger.Setup(opts.Debug, opts.Verbose);
 #endif
+            if (opts.OutputPath != null && !Directory.Exists(opts.OutputPath))
+            {
+                Log.Fatal(Strings.Get("Err_OutputPathNotExist"), opts.OutputPath);
+                return 0;
+            }
+
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
             DatabaseManager.Setup();
             CheckFirstRun();

@@ -225,6 +225,9 @@
   <data name="Err_NeedResults" xml:space="preserve">
     <value>You must collect some results before performing analysis.</value>
   </data>
+  <data name="Err_OutputPathNotExist" xml:space="preserve">
+    <value>Provided output path {0} does not exist.</value>
+  </data>
   <data name="ExportAll" xml:space="preserve">
     <value>Export all available result types</value>
   </data>
