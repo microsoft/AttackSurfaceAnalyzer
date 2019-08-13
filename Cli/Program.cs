@@ -629,6 +629,7 @@ namespace AttackSurfaceAnalyzer
 				Log.Fatal("Provided output directory '{0}' does not exist.", opts.OutputPath);
 				return 0;
 			}
+
 			DatabaseManager.VerifySchemaVersion();
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
