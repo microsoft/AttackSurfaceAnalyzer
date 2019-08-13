@@ -435,6 +435,7 @@ namespace AttackSurfaceAnalyzer
             if (opts.OutputPath != null && !Directory.Exists(opts.OutputPath))
             {
                 Log.Fatal(Strings.Get("Err_OutputPathNotExist"), opts.OutputPath);
+                return 0;
             }
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
@@ -612,6 +613,7 @@ namespace AttackSurfaceAnalyzer
             if (opts.OutputPath != null && !Directory.Exists(opts.OutputPath))
             {
                 Log.Fatal(Strings.Get("Err_OutputPathNotExist"), opts.OutputPath);
+                return 0;
             }
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
