@@ -390,8 +390,13 @@ namespace AttackSurfaceAnalyzer
 #else
             Logger.Setup(false, opts.Verbose);
 #endif
+			if (opts.OutputPath != null && !Directory.Exists(opts.OutputPath))
+			{
+				Log.Fatal("Provided output directory '{0}' does not exist.", opts.OutputPath);
+				return 0;
+			}
 
-            Log.Debug("{0} RunExportCollectCommand", Strings.Get("Begin"));
+			Log.Debug("{0} RunExportCollectCommand", Strings.Get("Begin"));
             DatabaseManager.VerifySchemaVersion();
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
@@ -432,6 +437,7 @@ namespace AttackSurfaceAnalyzer
             };
             serializer.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
             Log.Debug("{0} RunExportCollectCommand", Strings.Get("End"));
+
             string path = Path.Combine(opts.OutputPath, Helpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId + "_summary.json.txt"));
             var output = new Dictionary<string, Object>();
             output["results"] = results;
@@ -450,7 +456,7 @@ namespace AttackSurfaceAnalyzer
 
         public static void WriteScanJson(int ResultType, string BaseId, string CompareId, bool ExportAll, string OutputPath)
         {
-            string GET_COMPARISON_RESULTS = "select * from compared where base_run_id=@base_run_id and compare_run_id=@compare_run_id and data_type=@data_type order by base_row_key;";
+			string GET_COMPARISON_RESULTS = "select * from compared where base_run_id=@base_run_id and compare_run_id=@compare_run_id and data_type=@data_type order by base_row_key;";
             string GET_SERIALIZED_RESULTS = "select serialized from @table_name where row_key = @row_key and run_id = @run_id";
 
             Log.Debug("{0} WriteScanJson", Strings.Get("Begin"));
@@ -618,7 +624,13 @@ namespace AttackSurfaceAnalyzer
 #else
             Logger.Setup(false, opts.Verbose);
 #endif
-            DatabaseManager.VerifySchemaVersion();
+			if (opts.OutputPath != null && !Directory.Exists(opts.OutputPath))
+			{
+				Log.Fatal("Provided output directory '{0}' does not exist.", opts.OutputPath);
+				return 0;
+			}
+
+			DatabaseManager.VerifySchemaVersion();
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
 
@@ -1303,7 +1315,6 @@ namespace AttackSurfaceAnalyzer
                 cmd.Parameters.AddWithValue("@registry", opts.EnableRegistryCollector);
                 cmd.Parameters.AddWithValue("@certificates", opts.EnableCertificateCollector);
                 
-
                 cmd.Parameters.AddWithValue("@run_id", opts.RunId);
 
                 cmd.Parameters.AddWithValue("@type", "collect");
