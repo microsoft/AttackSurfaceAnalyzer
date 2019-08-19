@@ -170,40 +170,49 @@ namespace AttackSurfaceAnalyzer.Collectors.OpenPorts
         private void ExecuteLinux()
         {
             Log.Debug("ExecuteLinux()");
+
             var runner = new ExternalCommandRunner();
-            var result = runner.RunExternalCommand("ss", "-ln");
-
-            foreach (var _line in result.Split('\n'))
+            try
             {
-                var line = _line;
-                line = line.ToLower();
-                if (!line.Contains("listen"))
-                {
-                    continue;
-                }
-                var parts = Regex.Split(line, @"\s+");
-                if (parts.Length < 5)
-                {
-                    continue;       // Not long enough, must be an error
-                }
-                string address = null;
-                string port = null;
+                var result = runner.RunExternalCommand("ss", "-ln");
 
-                var addressMatches = Regex.Match(parts[4], @"^(.*):(\d+)$");
-                if (addressMatches.Success)
+                foreach (var _line in result.Split('\n'))
                 {
-                    address = addressMatches.Groups[1].ToString();
-                    port = addressMatches.Groups[2].ToString();
-
-                    var obj = new OpenPortObject()
+                    var line = _line;
+                    line = line.ToLower();
+                    if (!line.Contains("listen"))
                     {
-                        family = parts[0],//@TODO: Determine IPV4 vs IPv6 via looking at the address
-                        address = address,
-                        port = port,
-                        type = parts[0]
-                    };
-                    Write(obj);
+                        continue;
+                    }
+                    var parts = Regex.Split(line, @"\s+");
+                    if (parts.Length < 5)
+                    {
+                        continue;       // Not long enough, must be an error
+                    }
+                    string address = null;
+                    string port = null;
+
+                    var addressMatches = Regex.Match(parts[4], @"^(.*):(\d+)$");
+                    if (addressMatches.Success)
+                    {
+                        address = addressMatches.Groups[1].ToString();
+                        port = addressMatches.Groups[2].ToString();
+
+                        var obj = new OpenPortObject()
+                        {
+                            family = parts[0],//@TODO: Determine IPV4 vs IPv6 via looking at the address
+                            address = address,
+                            port = port,
+                            type = parts[0]
+                        };
+                        Write(obj);
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                Log.Error("Couldn't 'ss'. Please install the `iproute2` package.");
+                Log.Debug("{0} {1}: {2}", e.GetType().ToString(), e.Message, e.StackTrace);
             }
         }
 

@@ -166,17 +166,19 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
             {
                 var runner = new ExternalCommandRunner();
 
-                var result = runner.RunExternalCommand("systemctl", "list-units --type service");
-
-                //Split lines and remove header
-                var lines = result.Split('\n').Skip(1);
-
-                foreach (var _line in lines)
+                try
                 {
-                    var _fields = _line.Split('\t');
+                    var result = runner.RunExternalCommand("systemctl", "list-units --type service");
 
-                    if (_fields.Count() == 5)
+                    //Split lines and remove header
+                    var lines = result.Split('\n').Skip(1);
+
+                    foreach (var _line in lines)
                     {
+                        var _fields = _line.Split('\t');
+
+                        if (_fields.Count() == 5)
+                        {
                             var obj = new ServiceObject()
                             {
                                 DisplayName = _fields[4],
@@ -186,29 +188,43 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
                             };
 
                             Write(obj);
+                        }
                     }
                 }
-
-                result = runner.RunExternalCommand("ls", "/etc/init.d/ -l");
-
-                lines = result.Split('\n').Skip(1);
-                String pattern = @".*\s(.*)";
-
-                foreach (var _line in lines)
+                catch (Exception e)
                 {
-                    Match match = Regex.Match(_line, pattern);
-                    GroupCollection groups = match.Groups;
-                    var serviceName = groups[1].ToString();
-                    
-                    var obj = new ServiceObject()
-                    {
-                        DisplayName = serviceName,
-                        ServiceName = serviceName,
-                        StartType = "Unknown",
-                        CurrentState = "Unknown"
-                    };
+                    Log.Debug("Couldn't 'systemctl'. Systemd is likely not present.");
+                    Log.Debug("{0} {1}: {2}", e.GetType().ToString(), e.Message, e.StackTrace);
+                }
 
-                    Write(obj);
+                try
+                {
+                    var result = runner.RunExternalCommand("ls", "/etc/init.d/ -l");
+
+                    lines = result.Split('\n').Skip(1);
+                    String pattern = @".*\s(.*)";
+
+                    foreach (var _line in lines)
+                    {
+                        Match match = Regex.Match(_line, pattern);
+                        GroupCollection groups = match.Groups;
+                        var serviceName = groups[1].ToString();
+
+                        var obj = new ServiceObject()
+                        {
+                            DisplayName = serviceName,
+                            ServiceName = serviceName,
+                            StartType = "Unknown",
+                            CurrentState = "Unknown"
+                        };
+
+                        Write(obj);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Log.Debug("Couldn't get /etc/init.d");
+                    Log.Debug("{0} {1}: {2}", e.GetType().ToString(), e.Message, e.StackTrace);
                 }
 
                 // without systemd (maybe just CentOS)
