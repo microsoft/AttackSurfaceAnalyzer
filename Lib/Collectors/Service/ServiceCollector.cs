@@ -201,7 +201,7 @@ namespace AttackSurfaceAnalyzer.Collectors.Service
                 {
                     var result = runner.RunExternalCommand("ls", "/etc/init.d/ -l");
 
-                    lines = result.Split('\n').Skip(1);
+                    var lines = result.Split('\n').Skip(1);
                     String pattern = @".*\s(.*)";
 
                     foreach (var _line in lines)
