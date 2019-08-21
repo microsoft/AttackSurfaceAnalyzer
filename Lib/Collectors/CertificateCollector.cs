@@ -76,14 +76,14 @@ namespace AttackSurfaceAnalyzer.Collectors
                                             }
                                             if (fileInfo.FullName.EndsWith(".cer", StringComparison.CurrentCulture))
                                             {
-                                                var certificate = new X509Certificate2(File.ReadAllBytes(fileInfo.FullName));
+                                                var certificate = X509Certificate.CreateFromCertFile(fileInfo.FullName);
                                                 var obj = new CertificateObject()
                                                 {
                                                     StoreLocation = fileInfo.FullName,
                                                     StoreName = "Disk",
                                                     CertificateHashString = certificate.GetCertHashString(),
                                                     Subject = certificate.Subject,
-                                                    Pkcs12 = certificate.HasPrivateKey ? "redacted" : certificate.Export(X509ContentType.Pkcs12).ToString()
+                                                    Pkcs12 = certificate.Export(X509ContentType.Pkcs12).ToString()
                                                 };
                                                 DatabaseManager.Write(obj, this.runId);
                                             }
@@ -91,7 +91,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                         catch (Exception e)
                                         {
                                             Log.Debug("Couldn't parse certificate file {0}", fileInfo.FullName);
-                                            Log.Debug(e.StackTrace);
+                                            Log.Debug("{0} {1}-{2}",e.GetType().ToString(), e.Message, e.StackTrace);
                                         }
                                     }));
 
