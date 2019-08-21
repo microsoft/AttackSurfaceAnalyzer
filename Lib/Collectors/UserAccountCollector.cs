@@ -192,7 +192,7 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
             }
             catch(Exception e)
             {
-                Log.Debug("{0} {1} {2}", e.GetType().ToString(), e.Message, e.StackTrace);
+                Logger.DebugException(e);
             }
             foreach (var user in users)
             {

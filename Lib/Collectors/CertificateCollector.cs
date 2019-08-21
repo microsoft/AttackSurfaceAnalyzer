@@ -65,9 +65,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         }
                         catch (Exception e)
                         {
-                            Log.Debug(e.StackTrace);
-                            Log.Debug(e.GetType().ToString());
-                            Log.Debug(e.Message);
+                            Logger.DebugException(e);
                             Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                         }
                     }

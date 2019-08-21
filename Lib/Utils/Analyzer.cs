@@ -74,7 +74,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             catch(Exception e)
             {
-                Log.Debug("{0} {1} {2}", e.GetType().ToString(), e.Message, e.StackTrace);
+                Logger.DebugException(e);
             }
         }
 
@@ -205,7 +205,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
                 catch (Exception e)
                 {
-                    Log.Debug("{0} {1} {2}", e.GetType().ToString(), e.Message, e.StackTrace);
+                    Logger.DebugException(e);
                     return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
                 }
             }

@@ -128,8 +128,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
                 catch (Exception e)
                 {
-                    Log.Debug("{0}:{1}", e.GetType().ToString(), e.Message);
-                    Log.Debug(e.StackTrace);
+                    Logger.DebugException(e);
                 }
             }
             
@@ -161,8 +160,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
                 catch (Exception e)
                 {
-                    Log.Debug("Exception {0}: {1}", e.GetType().ToString(), fileInfo.FullName);
-                    Log.Debug(e.StackTrace);
+                    Logger.DebugException(e);
                 }
             }
             else if (fileInfo is DirectoryInfo)
@@ -181,8 +179,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
                 catch (Exception e)
                 {
-                    Log.Debug("Exception {0}: {1}", e.GetType().ToString(), fileInfo.FullName);
-                    Log.Debug(e.StackTrace);
+                    Logger.DebugException(e);
                 }
             }
             else
