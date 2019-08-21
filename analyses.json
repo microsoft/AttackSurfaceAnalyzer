@@ -60,24 +60,46 @@
       ]
     },
     {
-      "name": "Executables",
-      "desc": "Flag when executables are created.",
-      "flag": "INFORMATION",
-      "platforms": [
-        "LINUX",
-        "MACOS",
-        "WINDOWS"
-      ],
-      "resultType": "FILE",
-      "clauses": [
-        {
-          "field": "IsExecutable",
-          "op": "EQ",
-          "data": [
-            "True"
-          ]
-        }
-      ]
+        "name": "Executables",
+        "desc": "Flag when executables are created.",
+        "flag": "INFORMATION",
+        "platforms": [
+            "LINUX",
+            "MACOS",
+            "WINDOWS"
+        ],
+        "resultType": "FILE",
+        "clauses": [
+            {
+                "field": "IsExecutable",
+                "op": "EQ",
+                "data": [
+                    "True"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Certificates",
+        "desc": "Flag when executables are placed on disk.",
+        "flag": "INFORMATION",
+        "platforms": [
+            "LINUX",
+            "MACOS",
+            "WINDOWS"
+        ],
+        "resultType": "FILE",
+        "clauses": [
+            {
+                "field": "Path",
+                "op": "ENDS_WITH",
+                "data": [
+                    ".cer",
+                    ".der",
+                    ".crt"
+                ]
+            }
+        ]
     }
   ],
  "meta": {

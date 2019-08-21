@@ -9,7 +9,7 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public class DirectoryWalker
     {     
-        public static IEnumerable<FileSystemInfo> WalkDirectory(string root)
+        public static IEnumerable<FileSystemInfo> WalkDirectory(string root, string filterPlatform)
         {
             // Data structure to hold names of subfolders to be
             // examined for files.
@@ -25,7 +25,7 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 string currentDir = dirs.Pop();
                 Log.Verbose(currentDir);
-                if (Filter.IsFiltered(Helpers.GetPlatformString(), "Scan", "File", "Path", currentDir))
+                if (Filter.IsFiltered(filterPlatform, "Scan", "File", "Path", currentDir))
                 {
                     continue;
                 }
@@ -101,7 +101,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         Log.Debug(e.Message);
                         continue;
                     }
-                    if (Filter.IsFiltered(Helpers.GetPlatformString(), "Scan", "File", "Path", file))
+                    if (Filter.IsFiltered(filterPlatform, "Scan", "File", "Path", file))
                     {
                         continue;
                     }
@@ -126,7 +126,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             continue;
                         }
                     }
-                    catch (System.IO.DirectoryNotFoundException e)
+                    catch (System.IO.DirectoryNotFoundException)
                     {
                         // If file was deleted by a separate application
                         //  or thread since the call to TraverseTree()

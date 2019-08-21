@@ -18,9 +18,12 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class CertificateCollector : BaseCollector
     {
-        public CertificateCollector(string runId)
+        private bool gatherFromFiles = false;
+
+        public CertificateCollector(string runId, bool gatherFromFiles)
         {
             this.runId = runId;
+            this.gatherFromFiles = gatherFromFiles;
         }
 
         public override bool CanRunOnPlatform()
@@ -36,6 +39,65 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
 
             Start();
+
+            if (gatherFromFiles)
+            {
+                var roots = new List<string>();
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    foreach (var driveInfo in DriveInfo.GetDrives())
+                    {
+                        if (driveInfo.IsReady && driveInfo.DriveType == DriveType.Fixed)
+                        {
+                            roots.Add(driveInfo.Name);
+                        }
+                    }
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                {
+                    roots.Add("/");   // @TODO Improve this
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                {
+                    roots.Add("/"); // @TODO Improve this
+                }
+                foreach (var root in roots)
+                {
+
+                    var fileInfoEnumerable = DirectoryWalker.WalkDirectory(root, "Certificate");
+                    Parallel.ForEach(fileInfoEnumerable,
+                                    (fileInfo =>
+                                    {
+                                        try
+                                        {
+                                            if (fileInfo is DirectoryInfo)
+                                            {
+                                                return;
+                                            }
+                                            if (fileInfo.FullName.EndsWith(".cer", StringComparison.CurrentCulture))
+                                            {
+                                                var certificate = X509Certificate.CreateFromCertFile(fileInfo.FullName);
+                                                var obj = new CertificateObject()
+                                                {
+                                                    StoreLocation = fileInfo.FullName,
+                                                    StoreName = "Disk",
+                                                    CertificateHashString = certificate.GetCertHashString(),
+                                                    Subject = certificate.Subject,
+                                                    Pkcs12 = certificate.Export(X509ContentType.Pkcs12).ToString()
+                                                };
+                                                DatabaseManager.Write(obj, this.runId);
+                                            }
+                                        }
+                                        catch (Exception e)
+                                        {
+                                            Log.Debug("Couldn't parse certificate file {0}", fileInfo.FullName);
+                                            Log.Debug("{0} {1}-{2}",e.GetType().ToString(), e.Message, e.StackTrace);
+                                        }
+                                    }));
+
+
+                }
+            }
 
             // On Windows we can use the .NET API to iterate through all the stores.
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -75,7 +137,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             // We list all the certificates and then create a new X509Certificate2 object for each by filename.
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-
                 try
                 {
                     var result = ExternalCommandRunner.RunExternalCommand("ls", new string[] { "/etc/ssl/certs", "-A" });
