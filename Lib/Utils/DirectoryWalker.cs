@@ -131,8 +131,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         // If file was deleted by a separate application
                         //  or thread since the call to TraverseTree()
                         // then just continue.
-                        Log.Debug(e.Message);
-                        Log.Debug(e.GetType().ToString());
+                        
 
                         continue;
                     }

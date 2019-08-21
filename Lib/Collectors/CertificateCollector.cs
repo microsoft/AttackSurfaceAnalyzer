@@ -18,9 +18,12 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class CertificateCollector : BaseCollector
     {
-        public CertificateCollector(string runId)
+        private bool gatherFromFiles = false;
+
+        public CertificateCollector(string runId, bool gatherFromFiles)
         {
             this.runId = runId;
+            this.gatherFromFiles = gatherFromFiles;
         }
 
         public override bool CanRunOnPlatform()
@@ -36,6 +39,11 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
 
             Start();
+
+            if (gatherFromFiles)
+            {
+
+            }
 
             // On Windows we can use the .NET API to iterate through all the stores.
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -76,9 +84,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             // On linux we check the central trusted root store (a folder), which has symlinks to actual cert locations scattered across the db
             // We list all the certificates and then create a new X509Certificate2 object for each by filename.
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                
-
+            {                
                 var result = ExternalCommandRunner.RunExternalCommand("ls", new string[] { "/etc/ssl/certs", "-A" });
                 Log.Debug("{0}", result);
 
