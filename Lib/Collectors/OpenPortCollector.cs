@@ -133,42 +133,49 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// </summary>
         private void ExecuteLinux()
         {
-            Log.Debug("ExecuteLinux()");
-            
-            var result = ExternalCommandRunner.RunExternalCommand("ss", "-ln");
-
-            foreach (var _line in result.Split('\n'))
+            try
             {
-                var line = _line;
-                line = line.ToLower();
-                if (!line.Contains("listen"))
-                {
-                    continue;
-                }
-                var parts = Regex.Split(line, @"\s+");
-                if (parts.Length < 5)
-                {
-                    continue;       // Not long enough, must be an error
-                }
-                string address = null;
-                string port = null;
+                var result = ExternalCommandRunner.RunExternalCommand("ss", "-ln");
 
-                var addressMatches = Regex.Match(parts[4], @"^(.*):(\d+)$");
-                if (addressMatches.Success)
+                foreach (var _line in result.Split('\n'))
                 {
-                    address = addressMatches.Groups[1].ToString();
-                    port = addressMatches.Groups[2].ToString();
-
-                    var obj = new OpenPortObject()
+                    var line = _line;
+                    line = line.ToLower();
+                    if (!line.Contains("listen"))
                     {
-                        family = parts[0],//@TODO: Determine IPV4 vs IPv6 via looking at the address
-                        address = address,
-                        port = port,
-                        type = parts[0]
-                    };
-                    DatabaseManager.Write(obj, this.runId);
+                        continue;
+                    }
+                    var parts = Regex.Split(line, @"\s+");
+                    if (parts.Length < 5)
+                    {
+                        continue;       // Not long enough, must be an error
+                    }
+                    string address = null;
+                    string port = null;
+
+                    var addressMatches = Regex.Match(parts[4], @"^(.*):(\d+)$");
+                    if (addressMatches.Success)
+                    {
+                        address = addressMatches.Groups[1].ToString();
+                        port = addressMatches.Groups[2].ToString();
+
+                        var obj = new OpenPortObject()
+                        {
+                            family = parts[0],//@TODO: Determine IPV4 vs IPv6 via looking at the address
+                            address = address,
+                            port = port,
+                            type = parts[0]
+                        };
+                        DatabaseManager.Write(obj, this.runId);
+                    }
                 }
             }
+            catch(Exception e)
+            {
+                Log.Warning(Strings.Get("Err_Iproute2"));
+                Logger.DebugException(e);
+            }
+            
         }
 
         /// <summary>
@@ -178,50 +185,56 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// </summary>
         private void ExecuteOsX()
         {
-            Log.Debug("ExecuteOsX()");
-            
-            var result = ExternalCommandRunner.RunExternalCommand("sudo", "lsof -Pn -i4 -i6");
-
-            foreach (var _line in result.Split('\n'))
+            try
             {
-                var line = _line.ToLower();
-                if (!line.Contains("listen"))
-                {
-                    continue; // Skip any lines which aren't open listeners
-                }
-                var parts = Regex.Split(line, @"\s+");
-                if (parts.Length <= 9)
-                {
-                    continue;       // Not long enough
-                }
-                string address = null;
-                string port = null;
+                var result = ExternalCommandRunner.RunExternalCommand("sudo", "lsof -Pn -i4 -i6");
 
-                var addressMatches = Regex.Match(parts[8], @"^(.*):(\d+)$");
-                if (addressMatches.Success)
+                foreach (var _line in result.Split('\n'))
                 {
-                    address = addressMatches.Groups[1].ToString();
-                    port = addressMatches.Groups[2].ToString();
-
-                    var obj = new OpenPortObject()
+                    var line = _line.ToLower();
+                    if (!line.Contains("listen"))
                     {
-                        // Assuming family means IPv6 vs IPv4
-                        family = parts[4],
-                        address = address,
-                        port = port,
-                        type = parts[7],
-                        processName = parts[0]
-                    };
-                    try
-                    {
-                        DatabaseManager.Write(obj, this.runId);
-
+                        continue; // Skip any lines which aren't open listeners
                     }
-                    catch (Exception e)
+                    var parts = Regex.Split(line, @"\s+");
+                    if (parts.Length <= 9)
                     {
-                        Log.Debug("{0} {1} {2}", e.GetType().ToString(), e.Message, e.StackTrace);
+                        continue;       // Not long enough
+                    }
+                    string address = null;
+                    string port = null;
+
+                    var addressMatches = Regex.Match(parts[8], @"^(.*):(\d+)$");
+                    if (addressMatches.Success)
+                    {
+                        address = addressMatches.Groups[1].ToString();
+                        port = addressMatches.Groups[2].ToString();
+
+                        var obj = new OpenPortObject()
+                        {
+                            // Assuming family means IPv6 vs IPv4
+                            family = parts[4],
+                            address = address,
+                            port = port,
+                            type = parts[7],
+                            processName = parts[0]
+                        };
+                        try
+                        {
+                            DatabaseManager.Write(obj, this.runId);
+
+                        }
+                        catch (Exception e)
+                        {
+                            Logger.DebugException(e);
+                        }
                     }
                 }
+            }
+            catch(Exception e)
+            {
+                Log.Error(Strings.Get("Err_Lsof"));
+                Logger.DebugException(e);
             }
         }
     }

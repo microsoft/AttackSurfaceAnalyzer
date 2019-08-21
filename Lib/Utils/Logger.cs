@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using Serilog;
 using Serilog.Events;
 
@@ -40,6 +41,11 @@ namespace AttackSurfaceAnalyzer.Utils
                         .WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Information)
                         .CreateLogger();
             }
+        }
+
+        public static void DebugException(Exception e)
+        {
+            Log.Debug("{0} {1} {2}", e.GetType().ToString(), e.Message, e.StackTrace);
         }
     }
 }

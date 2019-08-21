@@ -71,83 +71,94 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                
+
 
                 // Get the user processes
                 // run "launchtl dumpstate" for the super detailed view
                 // However, dumpstate is difficult to parse
-                var result = ExternalCommandRunner.RunExternalCommand("launchctl", "list");
-                Dictionary<string, ServiceObject> outDict = new Dictionary<string, ServiceObject>();
-                foreach (var _line in result.Split('\n'))
+                try
                 {
-                    // Lines are formatted like this:
-                    // PID   Exit  Name
-                    //1015    0   com.apple.appstoreagent
-                    var _fields = _line.Split('\t');
-                    if (_fields.Length < 3 || _fields[0].Contains("PID"))
+                    var result = ExternalCommandRunner.RunExternalCommand("launchctl", "list");
+                    Dictionary<string, ServiceObject> outDict = new Dictionary<string, ServiceObject>();
+                    foreach (var _line in result.Split('\n'))
                     {
-                        continue;
+                        // Lines are formatted like this:
+                        // PID   Exit  Name
+                        //1015    0   com.apple.appstoreagent
+                        var _fields = _line.Split('\t');
+                        if (_fields.Length < 3 || _fields[0].Contains("PID"))
+                        {
+                            continue;
 
+                        }
+                        var obj = new ServiceObject()
+                        {
+                            DisplayName = _fields[2],
+                            ServiceName = _fields[2],
+                            StartType = "Unknown",
+                            // If we have a current PID then it is running.
+                            CurrentState = (_fields[0].Equals("-")) ? "Stopped" : "Running"
+                        };
+                        if (!outDict.ContainsKey(obj.Identity))
+                        {
+                            DatabaseManager.Write(obj, this.runId);
+                            outDict.Add(obj.Identity, obj);
+                        }
                     }
-                    var obj = new ServiceObject()
+                
+                    // Then get the system processes
+                
+                    result = ExternalCommandRunner.RunExternalCommand("sudo", "launchctl list");
+
+                    foreach (var _line in result.Split('\n'))
                     {
-                        DisplayName = _fields[2],
-                        ServiceName = _fields[2],
-                        StartType = "Unknown",
-                        // If we have a current PID then it is running.
-                        CurrentState = (_fields[0].Equals("-"))?"Stopped":"Running"
-                    };
-                    if (!outDict.ContainsKey(obj.Identity)){
-                        DatabaseManager.Write(obj, this.runId);
-                        outDict.Add(obj.Identity, obj);
+                        // Lines are formatted like this, with single tab separation:
+                        //  PID     Exit    Name
+                        //  1015    0       com.apple.appstoreagent
+                        var _fields = _line.Split('\t');
+                        if (_fields.Length < 3 || _fields[0].Contains("PID"))
+                        {
+                            continue;
+
+                        }
+                        var obj = new ServiceObject()
+                        {
+                            DisplayName = _fields[2],
+                            ServiceName = _fields[2],
+                            StartType = "Unknown",
+                            // If we have a current PID then it is running.
+                            CurrentState = (_fields[0].Equals("-")) ? "Stopped" : "Running"
+                        };
+
+                        if (!outDict.ContainsKey(obj.Identity))
+                        {
+                            DatabaseManager.Write(obj, this.runId);
+                            outDict.Add(obj.Identity, obj);
+                        }
                     }
                 }
-
-                // Then get the system processes
-                result = ExternalCommandRunner.RunExternalCommand("sudo", "launchctl list");
-
-                foreach (var _line in result.Split('\n'))
+                catch (Exception e)
                 {
-                    // Lines are formatted like this, with single tab separation:
-                    //  PID     Exit    Name
-                    //  1015    0       com.apple.appstoreagent
-                    var _fields = _line.Split('\t');
-                    if (_fields.Length < 3 || _fields[0].Contains("PID"))
-                    {
-                        continue;
-
-                    }
-                    var obj = new ServiceObject()
-                    {
-                        DisplayName = _fields[2],
-                        ServiceName = _fields[2],
-                        StartType = "Unknown",
-                        // If we have a current PID then it is running.
-                        CurrentState = (_fields[0].Equals("-")) ? "Stopped" : "Running"
-                    };
-
-                    if (!outDict.ContainsKey(obj.Identity))
-                    {
-                        DatabaseManager.Write(obj, this.runId);
-                        outDict.Add(obj.Identity, obj);
-                    }
+                    Logger.DebugException(e);
                 }
+
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                
 
-                var result = ExternalCommandRunner.RunExternalCommand("systemctl", "list-units --type service");
-
-                //Split lines and remove header
-                var lines = result.Split('\n').Skip(1);
-
-                foreach (var _line in lines)
+                try
                 {
-                    var _fields = _line.Split('\t');
+                    var result = ExternalCommandRunner.RunExternalCommand("systemctl", "list-units --type service");
 
-                    if (_fields.Count() == 5)
+                    //Split lines and remove header
+                    var lines = result.Split('\n').Skip(1);
+
+                    foreach (var _line in lines)
                     {
+                        var _fields = _line.Split('\t');
+
+                        if (_fields.Count() == 5)
+                        {
                             var obj = new ServiceObject()
                             {
                                 DisplayName = _fields[4],
@@ -157,32 +168,45 @@ namespace AttackSurfaceAnalyzer.Collectors
                             };
 
                             DatabaseManager.Write(obj, this.runId);
+                        }
                     }
                 }
-
-                result = ExternalCommandRunner.RunExternalCommand("ls", "/etc/init.d/ -l");
-
-                lines = result.Split('\n').Skip(1);
-                String pattern = @".*\s(.*)";
-
-                foreach (var _line in lines)
+                catch(Exception e)
                 {
-                    Match match = Regex.Match(_line, pattern);
-                    GroupCollection groups = match.Groups;
-                    var serviceName = groups[1].ToString();
-                    
-                    var obj = new ServiceObject()
-                    {
-                        DisplayName = serviceName,
-                        ServiceName = serviceName,
-                        StartType = "Unknown",
-                        CurrentState = "Unknown"
-                    };
-
-                    DatabaseManager.Write(obj, this.runId);
+                    Logger.DebugException(e);
                 }
 
-                // without systemd (maybe just CentOS)
+                try
+                {
+                    var result = ExternalCommandRunner.RunExternalCommand("ls", "/etc/init.d/ -l");
+
+                    var lines = result.Split('\n').Skip(1);
+                    String pattern = @".*\s(.*)";
+
+                    foreach (var _line in lines)
+                    {
+                        Match match = Regex.Match(_line, pattern);
+                        GroupCollection groups = match.Groups;
+                        var serviceName = groups[1].ToString();
+
+                        var obj = new ServiceObject()
+                        {
+                            DisplayName = serviceName,
+                            ServiceName = serviceName,
+                            StartType = "Unknown",
+                            CurrentState = "Unknown"
+                        };
+
+                        DatabaseManager.Write(obj, this.runId);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Logger.DebugException(e);
+                }
+                
+
+                // CentOS
                 // chkconfig --list
 
                 // BSD

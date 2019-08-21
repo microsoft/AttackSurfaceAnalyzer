@@ -61,7 +61,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             }
                             catch (Exception e)
                             {
-                                Log.Debug(e.GetType().ToString());
+                                Logger.DebugException(e);
                                 Log.Debug("Failed to make a regex from {0}", filter.ToString());
                                 Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                             }
@@ -90,7 +90,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         }
                         catch(Exception e)
                         {
-                            Log.Debug("{0}:{1}",e.GetType().ToString(),e.Message);
+                            Logger.DebugException(e);
                             Log.Debug(e.StackTrace);
                         }
 
@@ -110,7 +110,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         }
                         catch (Exception e)
                         {
-                            Log.Debug("{0}:{1}", e.GetType().ToString(), e.Message);
+                            Logger.DebugException(e);
                             Log.Debug(e.StackTrace);
                         }
                         return false;
@@ -119,9 +119,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
                 catch (Exception e)
                 {
-                    Log.Debug(e.GetType().ToString());
-                    Log.Debug(e.Message);
-                    Log.Debug(e.StackTrace);
+                    Logger.DebugException(e);
                     Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                 }
 
@@ -139,7 +137,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     catch (Exception e)
                     {
                         Log.Debug("Probably this is some of those garbled keys or a bad regex");
-                        Log.Debug(e.GetType().ToString());
+                        Logger.DebugException(e);
                         Log.Debug(filter.ToString());
                         Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                     }
@@ -149,9 +147,7 @@ namespace AttackSurfaceAnalyzer.Utils
             catch (NullReferenceException e)
             {
                 Log.Debug("No Filter Entry {0}, {1}, {2}, {3}, {4}", Platform, ScanType, ItemType, Property, FilterType);
-                Log.Debug(e.Message);
-                Log.Debug(e.Source);
-                Log.Debug(e.StackTrace);
+                Logger.DebugException(e);
             }
 
             return false;

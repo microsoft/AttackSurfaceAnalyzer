@@ -215,8 +215,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
                 catch (Exception e)
                 {
-                    Log.Debug(e.GetType().ToString());
-                    Log.Debug(e.Message);
+                    Logger.DebugException(e);
                     Log.Debug("Couldn't determine latest {0} run ids.",numberOfIds);
                 }
             }
@@ -243,8 +242,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             catch(Exception e)
             {
-                Log.Debug(e.GetType().ToString());
-                Log.Debug(e.Message);
+                Logger.DebugException(e);
             }
             return -1;
         }
