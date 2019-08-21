@@ -144,6 +144,9 @@ namespace AttackSurfaceAnalyzer
         [Option("directories", Required = false, HelpText = "Comma separated list of paths to scan with FileSystemCollector")]
         public string SelectedDirectories { get; set; }
 
+        [Option("certificate-files", Default = false, HelpText = "Scan the filesystem for certificates (high overhead).")]
+        public bool CertificatesFromFiles { get; set; }
+
         [Option(HelpText = "Download files from thin Cloud Folders (like OneDrive) to check them.", Default = false)]
         public bool DownloadCloud { get; set; }
 
@@ -1209,7 +1212,7 @@ namespace AttackSurfaceAnalyzer
             }
             if (opts.EnableCertificateCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new CertificateCollector(opts.RunId));
+                collectors.Add(new CertificateCollector(opts.RunId,opts.CertificatesFromFiles));
             }
 
             if (collectors.Count == 0)
