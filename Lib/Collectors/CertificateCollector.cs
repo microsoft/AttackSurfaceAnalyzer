@@ -75,35 +75,42 @@ namespace AttackSurfaceAnalyzer.Collectors
             // We list all the certificates and then create a new X509Certificate2 object for each by filename.
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                
 
-                var result = ExternalCommandRunner.RunExternalCommand("ls", new string[] { "/etc/ssl/certs", "-A" });
-                Log.Debug("{0}", result);
-
-                foreach (var _line in result.Split('\n'))
+                try
                 {
-                    Log.Debug("{0}",_line);
-                    try
-                    {
-                        X509Certificate2 certificate = new X509Certificate2("/etc/ssl/certs/" + _line);
+                    var result = ExternalCommandRunner.RunExternalCommand("ls", new string[] { "/etc/ssl/certs", "-A" });
 
-                        var obj = new CertificateObject()
+                    foreach (var _line in result.Split('\n'))
+                    {
+                        Log.Debug("{0}", _line);
+                        try
                         {
-                            StoreLocation = StoreLocation.LocalMachine.ToString(),
-                            StoreName = StoreName.Root.ToString(),
-                            CertificateHashString = certificate.GetCertHashString(),
-                            Subject = certificate.Subject,
-                            Pkcs12 = certificate.HasPrivateKey ? "redacted" : certificate.Export(X509ContentType.Pkcs12).ToString()
-                        };
-                        DatabaseManager.Write(obj, this.runId);
-                    }
-                    catch(Exception e)
-                    {
-                        Log.Debug("{0} {1} Issue creating certificate based on /etc/ssl/certs/{2}", e.GetType().ToString(), e.Message, _line);
-                        Log.Debug("{0}", e.StackTrace);
+                            X509Certificate2 certificate = new X509Certificate2("/etc/ssl/certs/" + _line);
 
+                            var obj = new CertificateObject()
+                            {
+                                StoreLocation = StoreLocation.LocalMachine.ToString(),
+                                StoreName = StoreName.Root.ToString(),
+                                CertificateHashString = certificate.GetCertHashString(),
+                                Subject = certificate.Subject,
+                                Pkcs12 = certificate.HasPrivateKey ? "redacted" : certificate.Export(X509ContentType.Pkcs12).ToString()
+                            };
+                            DatabaseManager.Write(obj, this.runId);
+                        }
+                        catch (Exception e)
+                        {
+                            Log.Debug("{0} {1} Issue creating certificate based on /etc/ssl/certs/{2}", e.GetType().ToString(), e.Message, _line);
+                            Log.Debug("{0}", e.StackTrace);
+
+                        }
                     }
                 }
+                catch (Exception e)
+                {
+                    Log.Error("Failed to dump certificates from 'ls /etc/ssl/certs -A'.");
+                    Logger.DebugException(e);
+                }
+                
             }
             // On macos we use the keychain and export the certificates as .pem.
             // However, on macos Certificate2 doesn't support loading from a pem, 
@@ -111,34 +118,41 @@ namespace AttackSurfaceAnalyzer.Collectors
             // we import the pkcs12 with all our certs, delete the temp files and then iterate over it the certs
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                
 
-                var result = ExternalCommandRunner.RunExternalCommand("security", new string[] { "find-certificate", "-ap", "/System/Library/Keychains/SystemRootCertificates.keychain" });
-                string tmpPath = Path.Combine(Directory.GetCurrentDirectory(), "tmpcert.pem");
-                string pkPath = Path.Combine(Directory.GetCurrentDirectory(), "tmpcert.pk12");
-
-                File.WriteAllText(tmpPath, result);
-                _ = ExternalCommandRunner.RunExternalCommand("openssl", new string[] { "pkcs12",  "-export",  "-nokeys" , "-out", pkPath, "-passout pass:pass", "-in", tmpPath });
-
-                X509Certificate2Collection xcert = new X509Certificate2Collection();
-                xcert.Import(pkPath,"pass",X509KeyStorageFlags.DefaultKeySet);
-
-                File.Delete(tmpPath);
-                File.Delete(pkPath);
-
-                var X509Certificate2Enumerator = xcert.GetEnumerator();
-
-                while (X509Certificate2Enumerator.MoveNext())
+                try
                 {
-                    var obj = new CertificateObject()
+                    var result = ExternalCommandRunner.RunExternalCommand("security", new string[] { "find-certificate", "-ap", "/System/Library/Keychains/SystemRootCertificates.keychain" });
+                    string tmpPath = Path.Combine(Directory.GetCurrentDirectory(), "tmpcert.pem");
+                    string pkPath = Path.Combine(Directory.GetCurrentDirectory(), "tmpcert.pk12");
+
+                    File.WriteAllText(tmpPath, result);
+                    _ = ExternalCommandRunner.RunExternalCommand("openssl", new string[] { "pkcs12", "-export", "-nokeys", "-out", pkPath, "-passout pass:pass", "-in", tmpPath });
+
+                    X509Certificate2Collection xcert = new X509Certificate2Collection();
+                    xcert.Import(pkPath, "pass", X509KeyStorageFlags.DefaultKeySet);
+
+                    File.Delete(tmpPath);
+                    File.Delete(pkPath);
+
+                    var X509Certificate2Enumerator = xcert.GetEnumerator();
+
+                    while (X509Certificate2Enumerator.MoveNext())
                     {
-                        StoreLocation = StoreLocation.LocalMachine.ToString(),
-                        StoreName = StoreName.Root.ToString(),
-                        CertificateHashString = X509Certificate2Enumerator.Current.GetCertHashString(),
-                        Subject = X509Certificate2Enumerator.Current.Subject,
-                        Pkcs12 = X509Certificate2Enumerator.Current.HasPrivateKey ? "redacted" : X509Certificate2Enumerator.Current.Export(X509ContentType.Pkcs12).ToString()
-                    };
-                    DatabaseManager.Write(obj, this.runId);
+                        var obj = new CertificateObject()
+                        {
+                            StoreLocation = StoreLocation.LocalMachine.ToString(),
+                            StoreName = StoreName.Root.ToString(),
+                            CertificateHashString = X509Certificate2Enumerator.Current.GetCertHashString(),
+                            Subject = X509Certificate2Enumerator.Current.Subject,
+                            Pkcs12 = X509Certificate2Enumerator.Current.HasPrivateKey ? "redacted" : X509Certificate2Enumerator.Current.Export(X509ContentType.Pkcs12).ToString()
+                        };
+                        DatabaseManager.Write(obj, this.runId);
+                    }
+                }
+                catch(Exception e)
+                {
+                    Log.Error("Failed to dump certificates from 'security' or 'openssl'.");
+                    Logger.DebugException(e);
                 }
             }
 

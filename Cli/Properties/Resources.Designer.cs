@@ -125,6 +125,18 @@ namespace AttackSurfaceAnalyzer.Properties {
             }
         }
         
+        public static string Err_Iproute2 {
+            get {
+                return ResourceManager.GetString("Err_Iproute2", resourceCulture);
+            }
+        }
+        
+        public static string Err_Lsof {
+            get {
+                return ResourceManager.GetString("Err_Lsof", resourceCulture);
+            }
+        }
+        
         public static string Exporting {
             get {
                 return ResourceManager.GetString("Exporting", resourceCulture);

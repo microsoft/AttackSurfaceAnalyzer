@@ -436,12 +436,18 @@ namespace AttackSurfaceAnalyzer.Utils
 
         }
 
-        // Does this cover sudo?
         public static bool IsRunningAsRoot()
         {
-            
-            var username = ExternalCommandRunner.RunExternalCommand("whoami");
-            return username != null ? username.Contains("root") : false;
+            var username = "notroot";
+            try
+            {
+                username = ExternalCommandRunner.RunExternalCommand("whoami");
+            }
+            catch (Exception)
+            {
+                Log.Fatal("Couldn't run 'whoami' to determine root.");
+            }
+            return username != null ? username.Equals("root") : false;
         }
         
         public static bool IsAdministrator()

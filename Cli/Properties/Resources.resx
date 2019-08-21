@@ -156,6 +156,12 @@
   <data name="Err_RunIdAlreadyUsed" xml:space="preserve">
     <value>That runid was already used. Must use a unique runid for each run. Use --overwrite to discard previous run information.</value>
   </data>
+  <data name="Err_Iproute2" xml:space="preserve">
+    <value>Could not run 'ss' do you have 'iproute2' installed?</value>
+  </data>
+  <data name="Err_Lsof" xml:space="preserve">
+    <value>Could not run/parse 'lsof'.</value>
+  </data>
   <data name="Exporting" xml:space="preserve">
     <value>Exporting</value>
   </data>
