@@ -96,7 +96,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 Log.Information("{0} root {1}",Strings.Get("Scanning"),root.ToString());
                 try
                 {
-                    var fileInfoEnumerable = DirectoryWalker.WalkDirectory(root);
+                    var fileInfoEnumerable = DirectoryWalker.WalkDirectory(root, Helpers.GetPlatformString());
                     Parallel.ForEach(fileInfoEnumerable,
                                     (fileInfo =>
                     {
@@ -105,61 +105,55 @@ namespace AttackSurfaceAnalyzer.Collectors
                             FileSystemObject obj = null;
                             if (fileInfo is DirectoryInfo)
                             {
-                                if (!Filter.IsFiltered(Helpers.GetPlatformString(), "Scan", "File", "Path", fileInfo.FullName))
+                                obj = new FileSystemObject()
                                 {
-                                    obj = new FileSystemObject()
-                                    {
-                                        Path = fileInfo.FullName,
-                                        Permissions = FileSystemUtils.GetFilePermissions(fileInfo)
-                                    };
-                                }
+                                    Path = fileInfo.FullName,
+                                    Permissions = FileSystemUtils.GetFilePermissions(fileInfo)
+                                };
                             }
                             else
                             {
-                                if (!Filter.IsFiltered(Helpers.GetPlatformString(), "Scan", "File", "Path", fileInfo.FullName))
+                                obj = new FileSystemObject()
                                 {
-                                    obj = new FileSystemObject()
-                                    {
-                                        Path = fileInfo.FullName,
-                                        Permissions = FileSystemUtils.GetFilePermissions(fileInfo),
-                                        Size = (ulong)(fileInfo as FileInfo).Length,
-                                    };
+                                    Path = fileInfo.FullName,
+                                    Permissions = FileSystemUtils.GetFilePermissions(fileInfo),
+                                    Size = (ulong)(fileInfo as FileInfo).Length,
+                                };
 
-                                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                                {
+                                    if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
                                     {
-                                        if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
-                                        {
-                                            if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
-                                            {
-                                                obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(fileInfo.FullName);
-                                                obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(fileInfo.FullName);
-                                            }
-                                            else
-                                            {
-                                                obj.SignatureStatus = "Cloud";
-                                            }
-                                        }
-                                    }
-
-                                    if (INCLUDE_CONTENT_HASH)
-                                    {
-                                        obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
-                                    }
-
-                                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                                    {
-                                        if (obj.Permissions.Contains("Execute"))
-                                        {
-                                            obj.IsExecutable = true;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        // TODO: Improve this to detect executables more intelligently
                                         if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
                                         {
-                                            obj.IsExecutable = true;
+                                            obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(fileInfo.FullName);
+                                            obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(fileInfo.FullName);
                                         }
+                                        else
+                                        {
+                                            obj.SignatureStatus = "Cloud";
+                                        }
+                                    }
+                                }
+
+                                if (INCLUDE_CONTENT_HASH)
+                                {
+                                    obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
+                                }
+
+                                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                                {
+                                    if (obj.Permissions.Contains("Execute"))
+                                    {
+                                        obj.IsExecutable = true;
+                                    }
+                                }
+                                else
+                                {
+                                    // TODO: Improve this to detect executables more intelligently
+                                    if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
+                                    {
+                                        obj.IsExecutable = true;
                                     }
                                 }
                             }

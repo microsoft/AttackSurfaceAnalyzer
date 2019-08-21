@@ -12,7 +12,10 @@ namespace AttackSurfaceAnalyzer.Utils
     public static class Filter
     {
         static JObject config = null;
-        static Dictionary<string, List<Regex>> _filters = new Dictionary<string, List<Regex>>();
+        static Dictionary<string, List<Regex>> _filters = new Dictionary<string, List<Regex>>() {
+            { "Certificates:Scan:File:Path:Include",new List<Regex>(){ new Regex("^.*\\.cer$") } },
+            { "Certificates:Scan:File:Path:Exclude",new List<Regex>(){ new Regex(".*") } }
+        };
 
         public static bool IsFiltered(string Platform, string ScanType, string ItemType, string Property, string Target)
         {
@@ -38,7 +41,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             try
             {
-                string key = String.Format("{0}{1}{2}{3}{4}", Platform, ScanType, ItemType, Property, FilterType);
+                string key = String.Format("{0}:{1}:{2}:{3}:{4}", Platform, ScanType, ItemType, Property, FilterType);
                 List<Regex> filters = new List<Regex>();
 
                 try

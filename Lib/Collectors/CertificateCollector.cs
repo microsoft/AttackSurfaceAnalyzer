@@ -42,7 +42,61 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             if (gatherFromFiles)
             {
+                var roots = new List<string>();
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    foreach (var driveInfo in DriveInfo.GetDrives())
+                    {
+                        if (driveInfo.IsReady && driveInfo.DriveType == DriveType.Fixed)
+                        {
+                            roots.Add(driveInfo.Name);
+                        }
+                    }
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                {
+                    roots.Add("/");   // @TODO Improve this
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                {
+                    roots.Add("/"); // @TODO Improve this
+                }
+                foreach (var root in roots)
+                {
 
+                    var fileInfoEnumerable = DirectoryWalker.WalkDirectory(root, "Certificate");
+                    Parallel.ForEach(fileInfoEnumerable,
+                                    (fileInfo =>
+                                    {
+                                        try
+                                        {
+                                            if (fileInfo is DirectoryInfo)
+                                            {
+                                                return;
+                                            }
+                                            if (fileInfo.FullName.EndsWith(".cer", StringComparison.CurrentCulture))
+                                            {
+                                                var certificate = new X509Certificate2(File.ReadAllBytes(fileInfo.FullName));
+                                                var obj = new CertificateObject()
+                                                {
+                                                    StoreLocation = fileInfo.FullName,
+                                                    StoreName = "Disk",
+                                                    CertificateHashString = certificate.GetCertHashString(),
+                                                    Subject = certificate.Subject,
+                                                    Pkcs12 = certificate.HasPrivateKey ? "redacted" : certificate.Export(X509ContentType.Pkcs12).ToString()
+                                                };
+                                                DatabaseManager.Write(obj, this.runId);
+                                            }
+                                        }
+                                        catch (Exception e)
+                                        {
+                                            Log.Debug("Couldn't parse certificate file {0}", fileInfo.FullName);
+                                            Log.Debug(e.StackTrace);
+                                        }
+                                    }));
+
+
+                }
             }
 
             // On Windows we can use the .NET API to iterate through all the stores.
