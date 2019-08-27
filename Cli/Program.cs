@@ -1223,7 +1223,7 @@ namespace AttackSurfaceAnalyzer
             }
             if (opts.EnableCertificateCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new CertificateCollector(opts.RunId,opts.CertificatesFromFiles));
+                collectors.Add(new CertificateCollector(opts.RunId,opts.CertificatesFromFiles || opts.EnableAllCollectors));
             }
 
             if (collectors.Count == 0)
