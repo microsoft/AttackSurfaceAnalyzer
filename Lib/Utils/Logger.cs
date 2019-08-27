@@ -15,8 +15,7 @@ namespace AttackSurfaceAnalyzer.Utils
             Setup(false, false);
         }
 
-        public static void Setup(bool debug, bool verbose)
-        {
+        public static void Setup(bool debug, bool verbose) {
             Setup(debug, verbose, false);
         }
 
@@ -48,8 +47,9 @@ namespace AttackSurfaceAnalyzer.Utils
             else
             {
                 Log.Logger = new LoggerConfiguration()
-                        .WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Information)
-                        .CreateLogger();
+                   .MinimumLevel.Information()
+                   .WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Information)
+                   .CreateLogger();
             }
         }
 
