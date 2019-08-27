@@ -976,7 +976,6 @@ namespace AttackSurfaceAnalyzer
                 cmd.Parameters.AddWithValue("@status", RUN_STATUS.RUNNING);
                 cmd.ExecuteNonQuery();
             }
-
             var results = new Dictionary<string, object>();
 
 			comparators = new List<BaseCompare>();
