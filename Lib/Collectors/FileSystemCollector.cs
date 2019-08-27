@@ -171,9 +171,17 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 DatabaseManager.Write(obj,runId);
                             }
                         }
+                        catch (System.UnauthorizedAccessException ex)
+                        {
+                            Log.Verbose(ex, "Access Denied {0}", fileInfo?.FullName);
+                        }
+                        catch (System.IO.IOException ex)
+                        {
+                            Log.Verbose(ex, "Access Denied {0}", fileInfo?.FullName);
+                        }
                         catch (Exception ex)
                         {
-                            Log.Warning(ex, "Error processing {0}", fileInfo?.FullName);
+                            Log.Debug(ex, "Access Denied {0}", fileInfo?.FullName);
                         }
                     }));
                 }

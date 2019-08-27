@@ -443,9 +443,6 @@ namespace AttackSurfaceAnalyzer.Utils
                         }
                     }
                 }
-
-                cmd.CommandText = "VACUUM";
-                cmd.ExecuteNonQuery();
             }
             DatabaseManager.Commit();
         }

@@ -101,9 +101,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 {
                                     DatabaseManager.Write(registryObject, this.runId);
                                 }
-                                // Sometimes we get here and the Key field is blank
                                 catch (InvalidOperationException)
                                 {
+                                    Log.Debug(JsonConvert.SerializeObject(registryObject)+ " invalid op exept");
                                 }
                             }));
                     }

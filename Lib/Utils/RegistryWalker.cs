@@ -55,7 +55,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     }
                     // There seem to be some keys which are listed as existing by the APIs but don't actually exist.
                     // Unclear if these are just super transient keys or what the other cause might be.
-                    // Since this isn't use actionable, also just supress these to the debug stream.
+                    // Since this isn't user actionable, also just supress these to the debug stream.
                     catch (System.IO.IOException e)
                     {
                         Log.Debug(e.GetType() + " " + e.Message + " " + currentKey.Name);
@@ -69,11 +69,36 @@ namespace AttackSurfaceAnalyzer.Utils
                 RegistryObject regObj = null;
                 try
                 {
-                    regObj = new RegistryObject();
+                    regObj = new RegistryObject()
+                    {
+                        Subkeys = new List<string>(currentKey.GetSubKeyNames()),
+                        Key = currentKey.Name,
+                        Permissions = "Unknown",
+                        Values = new Dictionary<string, string>()
+                    };
+
+                    foreach (string valueName in currentKey.GetValueNames())
+                    {
+                        try
+                        {
+                            if (currentKey.GetValue(valueName) == null)
+                            {
+
+                            }
+                            regObj.Values.Add(valueName, (currentKey.GetValue(valueName) == null)?"":(currentKey.GetValue(valueName).ToString()));
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.Debug(ex, "Found an exception processing registry values.");
+                        }
+                    }
 
                 }
-                catch (Exception) {
+                catch (Exception e)
+                {
+                    Log.Debug(e, "Couldn't process reg key {0}", currentKey.Name);
                 }
+
                 if (regObj != null)
                 {
                     yield return regObj;
