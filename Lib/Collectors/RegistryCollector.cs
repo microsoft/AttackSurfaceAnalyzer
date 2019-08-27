@@ -102,9 +102,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     DatabaseManager.Write(registryObject, this.runId);
                                 }
                                 // Some registry keys don't get along
-                                catch (InvalidOperationException e)
+                                catch (InvalidOperationException)
                                 {
-                                    Log.Debug(registryObject.Key + " " + e.GetType());
+                                    Log.Debug(JsonConvert.SerializeObject(registryObject)+ " invalid op exept");
                                 }
                             }));
                     }
