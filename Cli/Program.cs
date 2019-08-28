@@ -79,6 +79,9 @@ namespace AttackSurfaceAnalyzer
         [Option(Default = false, HelpText = "Increase logging verbosity")]
         public bool Verbose { get; set; }
 
+        [Option(HelpText = "Suppress all logging statements below WARN")]
+        public bool Quiet { set; get; }
+
     }
     [Verb("export-monitor", HelpText = "Output a .json report for a monitor run")]
     public class ExportMonitorCommandOptions
@@ -158,6 +161,9 @@ namespace AttackSurfaceAnalyzer
 
         [Option(HelpText = "See all logging statements.")]
         public bool Verbose { get; set; }
+
+        [Option(HelpText = "Suppress all logging statements below WARN")]
+        public bool Quiet { set; get; }
     }
     [Verb("monitor", HelpText = "Continue running and monitor activity")]
     public class MonitorCommandOptions
@@ -430,9 +436,9 @@ namespace AttackSurfaceAnalyzer
         private static int RunExportCollectCommand(ExportCollectCommandOptions opts)
         {
 #if DEBUG
-            Logger.Setup(true, opts.Verbose);
+            Logger.Setup(true, opts.Verbose, opts.Quiet);
 #else
-            Logger.Setup(opts.Debug, opts.Verbose);
+            Logger.Setup(opts.Debug, opts.Verbose, opts.Quiet);
 #endif
 
             if (opts.OutputPath != null && !Directory.Exists(opts.OutputPath))
@@ -1150,9 +1156,9 @@ namespace AttackSurfaceAnalyzer
         public static int RunCollectCommand(CollectCommandOptions opts)
         {
 #if DEBUG
-            Logger.Setup(true, opts.Verbose);
+            Logger.Setup(true, opts.Verbose, opts.Quiet);
 #else
-            Logger.Setup(opts.Debug, opts.Verbose);
+            Logger.Setup(opts.Debug, opts.Verbose, opts.Quiet);
 #endif
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
             DatabaseManager.Setup();

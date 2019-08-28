@@ -17,7 +17,19 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void Setup(bool debug, bool verbose)
         {
-            if (verbose)
+            Setup(debug, verbose, false);
+        }
+
+        public static void Setup(bool debug, bool verbose, bool quiet)
+        {
+            if (quiet)
+            {
+                Log.Logger = new LoggerConfiguration()
+                    .MinimumLevel.Warning()
+                    .WriteTo.Console()
+                    .CreateLogger();
+            }
+            else if (verbose)
             {
                 Log.Logger = new LoggerConfiguration()
                     .MinimumLevel.Verbose()
@@ -36,8 +48,6 @@ namespace AttackSurfaceAnalyzer.Utils
             else
             {
                 Log.Logger = new LoggerConfiguration()
-                        .MinimumLevel.Debug()
-                        .WriteTo.File("asa.log.txt")
                         .WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Information)
                         .CreateLogger();
             }
