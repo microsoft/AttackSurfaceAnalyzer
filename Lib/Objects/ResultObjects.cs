@@ -46,6 +46,17 @@ namespace AttackSurfaceAnalyzer.Objects
         public string CompareRunId;
         public object Base;
         public object Compare;
+
+        public bool ShouldSerializeDiffs()
+        {
+            return (Diffs.Count > 0);
+        }
+
+        public bool ShouldSerializeRules()
+        {
+            return (Rules.Count > 0);
+        }
+
     }
 
     public class OutputFileMonitorResult

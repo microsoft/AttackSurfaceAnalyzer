@@ -17,6 +17,16 @@ namespace AttackSurfaceAnalyzer.Objects
         public List<string> Subkeys = new List<string>();
         public string Permissions;
 
+        public bool ShouldSerializeValues()
+        {
+            return (Values.Count > 0);
+        }
+
+        public bool ShouldSerializeSubkeys()
+        {
+            return (Subkeys.Count > 0);
+        }
+
         public RegistryObject()
         {
             ResultType = RESULT_TYPE.REGISTRY;
