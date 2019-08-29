@@ -126,15 +126,20 @@ namespace AttackSurfaceAnalyzer.Collectors
                 {
                     try
                     {
-                        List<string> added = new List<string>();
-                        List<string> removed = new List<string>();
+                        var fieldName = field.Name;
+                        List<Diff> diffs;
+                        object added = new List<string>();
+                        object removed = new List<string>();
+                        object changed = new object();
                         if (field.GetValue(first) == null)
                         {
-                            added = ((List<string>)field.GetValue(second));
+                            added = field.GetValue(second);
+                            diffs = GetDiffs(field, added, null);
                         }
-                        else if(field.GetValue(second)==null)
+                        else if (field.GetValue(second) == null)
                         {
-                            removed = ((List<string>)field.GetValue(first));
+                            removed = field.GetValue(first);
+                            diffs = GetDiffs(field, null, removed);
                         }
                         else if (field.GetValue(first).Equals(field.GetValue(second)))
                         {
@@ -142,31 +147,45 @@ namespace AttackSurfaceAnalyzer.Collectors
                         }
                         else
                         {
-                            added = ((List<string>)field.GetValue(second)).Except((List<string>)field.GetValue(first)).ToList();
-                            removed = ((List<string>)field.GetValue(first)).Except((List<string>)field.GetValue(second)).ToList();
-                        }
+                            var firstVal = field.GetValue(first);
+                            var secondVal = field.GetValue(second);
 
-                        foreach (var add in added)
-                        {
-                            obj.Diffs.Add(new AddDiff()
+                            if (Helpers.IsList(firstVal))
                             {
-                                Field = field.Name,
-                                Added = add
-                            });
+                                added = ((List<string>)field.GetValue(second)).Except((List<string>)field.GetValue(first));
+                                removed = ((List<string>)field.GetValue(first)).Except((List<string>)field.GetValue(second));
+                                if (((IEnumerable<string>)added).Count() == 0)
+                                {
+                                    added = null;
+                                }
+                                if (((IEnumerable<string>)removed).Count() == 0)
+                                {
+                                    removed = null;
+                                }
+                            }
+                            else if (Helpers.IsDictionary(firstVal))
+                            {
+                                added = ((Dictionary<string, string>)secondVal)
+                                    .Except((Dictionary<string, string>)firstVal);
+                                removed = ((Dictionary<string, string>)firstVal)
+                                    .Except((Dictionary<string, string>)secondVal);
+                             }
+
+                            diffs = GetDiffs(field, added, removed);
                         }
-                        foreach (var remove in removed)
+                        if (diffs.Count > 0)
                         {
-                            obj.Diffs.Add(new RemoveDiff()
-                            {
-                                Field = field.Name,
-                                Removed = remove
-                            });
+                            obj.Diffs = diffs;
                         }
                     }
-                    catch(Exception e)
+                    catch(InvalidCastException e)
+                    {
+                        Log.Debug("Failed to cast something to dictionary or string");
+                        Logger.DebugException(e);
+                    }
+                    catch (Exception e)
                     {
                         Logger.DebugException(e);
-                        Log.Debug("That probably just wasn't a List<string>");
                     }
                 }
 
@@ -183,6 +202,28 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 Results[key] = results[key];
             }
+        }
+
+        public List<Diff> GetDiffs(FieldInfo field, object added, object removed)
+        {
+            List<Diff> diffsOut = new List<Diff>();
+            if(added != null)
+            {
+                diffsOut.Add(new AddDiff()
+                {
+                    Field = field.Name,
+                    Added = added
+                });
+            }
+            if(removed != null)
+            {
+                diffsOut.Add(new RemoveDiff()
+                {
+                    Field = field.Name,
+                    Removed = removed
+                });
+            }
+            return diffsOut;
         }
 
 

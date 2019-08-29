@@ -6,6 +6,7 @@ using System.Reflection;
 using AttackSurfaceAnalyzer.Objects;
 using System.Collections.Generic;
 using Serilog;
+using System.Collections;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -126,6 +127,22 @@ namespace AttackSurfaceAnalyzer.Utils
         public static string RunIdsToCompareId(string firstRunId, string secondRunId)
         {
             return string.Format("{0} & {1}", firstRunId, secondRunId);
+        }
+
+        public static bool IsList(object o)
+        {
+            if (o == null) return false;
+            return o is IList &&
+                   o.GetType().IsGenericType &&
+                   o.GetType().GetGenericTypeDefinition().IsAssignableFrom(typeof(List<>));
+        }
+
+        public static bool IsDictionary(object o)
+        {
+            if (o == null) return false;
+            return o is IDictionary &&
+                   o.GetType().IsGenericType &&
+                   o.GetType().GetGenericTypeDefinition().IsAssignableFrom(typeof(Dictionary<,>));
         }
     }
 }
