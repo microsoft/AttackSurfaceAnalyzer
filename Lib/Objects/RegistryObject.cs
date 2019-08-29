@@ -16,15 +16,23 @@ namespace AttackSurfaceAnalyzer.Objects
         public Dictionary<string, string> Values = new Dictionary<string, string>();
         public List<string> Subkeys = new List<string>();
         public string Permissions;
+        public int ValueCount
+        {
+            get { return Values.Count; }
+        }
+        public int SubkeyCount
+        {
+            get { return Subkeys.Count; }
+        }
 
         public bool ShouldSerializeValues()
         {
-            return (Values.Count > 0);
+            return false;
         }
 
         public bool ShouldSerializeSubkeys()
         {
-            return (Subkeys.Count > 0);
+            return false;
         }
 
         public RegistryObject()
