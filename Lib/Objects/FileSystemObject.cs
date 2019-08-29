@@ -10,13 +10,14 @@ namespace AttackSurfaceAnalyzer.Objects
     public class FileSystemObject : CollectObject
     {
 
-        public string Path;
-        public string Permissions;
-        public ulong Size;
-        public string ContentHash;
+        public string Path { get; set; }
+        public string Permissions { get; set; }
+        public ulong Size { get; set; }
+        public string ContentHash { get; set; }
         public List<DLLCHARACTERISTICS> Characteristics;
-        public string SignatureStatus;
-        public bool IsExecutable;
+        public string SignatureStatus { get; set; }
+        public bool IsExecutable { get; set; }
+        public bool IsDirectory { get; set; }
 
         public FileSystemObject()
         {

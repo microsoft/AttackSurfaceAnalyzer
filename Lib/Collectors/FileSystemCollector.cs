@@ -108,7 +108,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 obj = new FileSystemObject()
                                 {
                                     Path = fileInfo.FullName,
-                                    Permissions = FileSystemUtils.GetFilePermissions(fileInfo)
+                                    Permissions = FileSystemUtils.GetFilePermissions(fileInfo),
+                                    IsDirectory = true
                                 };
                             }
                             else
@@ -118,6 +119,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     Path = fileInfo.FullName,
                                     Permissions = FileSystemUtils.GetFilePermissions(fileInfo),
                                     Size = (ulong)(fileInfo as FileInfo).Length,
+                                    IsDirectory = false
                                 };
 
                                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -156,6 +158,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                                         obj.IsExecutable = true;
                                     }
                                 }
+
+                                if ()
                             }
 
                             if (obj != null)
