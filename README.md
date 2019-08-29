@@ -1,7 +1,11 @@
 # Attack Surface Analyzer 
 
 ## Getting Attack Surface Analyzer
-The latest release is available on [GitHub](https://github.com/Microsoft/AttackSurfaceAnalyzer/releases/latest).
+Attack Surface Analyzer is distributed via our GitHub [releases](https://github.com/Microsoft/AttackSurfaceAnalyzer/releases/latest) page.  
+- `AsaCli` builds include only the command-line interface. 
+- `AsaGui` builds include only a graphical user interface available either via your own browser (`AsaGui-slim-*` packages) or via an integrated Electron application (`AsaGui-Win10-*`) 
+
+The database format is compatible between the Cli and Gui versions.
 
 ## Note on Version
 The latest released version of Attack Surface Analyzer is 2.0 (see [Release\v2.0](https://github.com/Microsoft/AttackSurfaceAnalyzer/tree/release/v2.0)).  
