@@ -72,7 +72,8 @@ namespace AttackSurfaceAnalyzer.Utils
                     regObj = new RegistryObject();
 
                 }
-                catch (Exception) { Log.Debug("I'm blue"); }
+                catch (Exception) {
+                }
                 if (regObj != null)
                 {
                     yield return regObj;

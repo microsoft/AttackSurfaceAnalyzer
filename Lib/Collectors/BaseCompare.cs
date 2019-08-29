@@ -2,11 +2,13 @@
 // Licensed under the MIT License.
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
 using Serilog;
+using System.Linq;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -103,10 +105,12 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
             foreach (var modified in modifyObjects)
             {
+                var first = Hydrate(modified.First);
+                var second = Hydrate(modified.Second);
                 var obj = new CompareResult()
                 {
-                    Base = Hydrate(modified.First),
-                    Compare = Hydrate(modified.Second),
+                    Base = first,
+                    Compare = second,
                     BaseRunId = firstRunId,
                     CompareRunId = secondRunId,
                     BaseRowKey = modified.First.RowKey,
@@ -115,6 +119,43 @@ namespace AttackSurfaceAnalyzer.Collectors
                     ResultType = modified.First.ResultType,
                     Identity = modified.First.Identity
                 };
+
+                var fields = first.GetType().GetFields();
+
+                foreach (var field in fields)
+                {
+                    if (field.GetValue(first).Equals(field.GetValue(second)))
+                    {
+                        continue;
+                    }
+                    try
+                    {
+                        var added = ((List<string>)field.GetValue(first)).Except((List<string>)field.GetValue(second));
+                        var removed = ((List<string>)field.GetValue(second)).Except((List<string>)field.GetValue(first));
+                        foreach (var add in added)
+                        {
+                            obj.Diffs.Add(new AddDiff()
+                            {
+                                Field = field.Name,
+                                Added = added
+                            });
+                        }
+                        foreach (var add in removed)
+                        {
+                            obj.Diffs.Add(new AddDiff()
+                            {
+                                Field = field.Name,
+                                Added = added
+                            });
+                        }
+                    }
+                    catch(Exception e)
+                    {
+                        Logger.DebugException(e);
+                        Log.Debug("That probably just wasn't a List<string>");
+                    }
+                }
+
                 if (results.ContainsKey(String.Format("{0}_{1}", modified.First.ResultType.ToString(), CHANGE_TYPE.MODIFIED.ToString())))
                 {
                     results[String.Format("{0}_{1}", modified.First.ResultType.ToString(), CHANGE_TYPE.MODIFIED.ToString())].Add(obj);

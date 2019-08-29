@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 namespace AttackSurfaceAnalyzer.Objects
 {
+
     public enum RESULT_TYPE {
         FILE,
         PORT,

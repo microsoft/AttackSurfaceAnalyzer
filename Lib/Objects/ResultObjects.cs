@@ -33,19 +33,19 @@ namespace AttackSurfaceAnalyzer.Objects
 
     public class CompareResult
     {
+        public string Identity;
         public CHANGE_TYPE ChangeType;
         public RESULT_TYPE ResultType;
+        public ANALYSIS_RESULT_TYPE Analysis;
+        public List<Rule> Rules = new List<Rule>();
+        public List<Diff> Diffs = new List<Diff>();
 
-        public string Identity;
         public string BaseRowKey;
         public string CompareRowKey;
         public string BaseRunId;
         public string CompareRunId;
         public object Base;
         public object Compare;
-
-        public ANALYSIS_RESULT_TYPE Analysis;
-        public List<Rule> Rules = new List<Rule>();
     }
 
     public class OutputFileMonitorResult

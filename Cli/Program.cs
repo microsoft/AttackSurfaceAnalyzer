@@ -488,7 +488,8 @@ namespace AttackSurfaceAnalyzer
             JsonSerializer serializer = new JsonSerializer
             {
                 Formatting = Formatting.Indented,
-                NullValueHandling = NullValueHandling.Ignore
+                NullValueHandling = NullValueHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Ignore
             };
             serializer.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
 
@@ -684,6 +685,7 @@ namespace AttackSurfaceAnalyzer
             JsonSerializerSettings settings = new JsonSerializerSettings();
             settings.Formatting = Formatting.Indented;
             settings.NullValueHandling = NullValueHandling.Ignore;
+            settings.DefaultValueHandling = DefaultValueHandling.Ignore;
             JsonSerializer serializer = JsonSerializer.Create(settings);
             serializer.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
             var output = new Dictionary<string, Object>();

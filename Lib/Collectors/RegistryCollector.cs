@@ -101,10 +101,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 {
                                     DatabaseManager.Write(registryObject, this.runId);
                                 }
-                                // Some registry keys don't get along
-                                catch (InvalidOperationException e)
+                                // Sometimes we get here and the Key field is blank
+                                catch (InvalidOperationException)
                                 {
-                                    Log.Debug(registryObject.Key + " " + e.GetType());
                                 }
                             }));
                     }

@@ -18,9 +18,6 @@ This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI 
     <OldToolsVersion>2.0</OldToolsVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="Objects\" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Remove="Utils\CommandOptions.cs" />
     <Compile Remove="Collectors\OpenPorts\LinuxOpenPortUtils.cs" />
     <Compile Remove="Collectors\OpenPorts\WindowsOpenPortUtils.cs" />

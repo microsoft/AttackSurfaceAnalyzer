@@ -80,9 +80,10 @@
             "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows Defender\\\\Support\\\\MpWppTracing$",
             "^[A-Z]:\\\\Windows\\\\CCM\\\\ScriptStore",
             "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows\\\\Containers\\\\BaseImages\\\\.*?\\\\Files\\\\System Volume Information",
-            "^[A-Z]:\\\\WcSandboxState$",
-            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows Defender Advanced Threat Protection$",
-            "^[A-Z]:\\\\Program Files\\\\Windows Defender Advanced Threat Protection\\\\Classification\\\\Configuration$"
+            "^[A-Z]:\\\\WcSandboxState",
+            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows Defender Advanced Threat Protection",
+            "^[A-Z]:\\\\Program Files\\\\Windows Defender Advanced Threat Protection\\\\Classification\\\\Configuration",
+            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows\\\\WER\\\\Temp"
           ]
         }
       }

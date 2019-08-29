@@ -152,14 +152,18 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 }
                                 else
                                 {
-                                    // TODO: Improve this to detect executables more intelligently
-                                    if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
+                                    try
                                     {
-                                        obj.IsExecutable = true;
+                                        if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
+                                        {
+                                            obj.IsExecutable = true;
+                                        }
+                                    }
+                                    catch (System.UnauthorizedAccessException)
+                                    {
+                                        Log.Verbose("Couldn't access {0} to check if signature is needed.");
                                     }
                                 }
-
-                                if ()
                             }
 
                             if (obj != null)
