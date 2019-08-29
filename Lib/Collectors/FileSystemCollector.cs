@@ -96,7 +96,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 Log.Information("{0} root {1}",Strings.Get("Scanning"),root.ToString());
                 try
                 {
-                    var fileInfoEnumerable = DirectoryWalker.WalkDirectory(root, Helpers.GetPlatformString());
+                    var fileInfoEnumerable = DirectoryWalker.WalkDirectory(root);
                     Parallel.ForEach(fileInfoEnumerable,
                                     (fileInfo =>
                     {

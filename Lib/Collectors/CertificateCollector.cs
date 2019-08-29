@@ -64,7 +64,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 foreach (var root in roots)
                 {
 
-                    var fileInfoEnumerable = DirectoryWalker.WalkDirectory(root, "Certificate");
+                    var fileInfoEnumerable = DirectoryWalker.WalkDirectory(root);
                     Parallel.ForEach(fileInfoEnumerable,
                                     (fileInfo =>
                                     {
@@ -74,6 +74,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                             {
                                                 return;
                                             }
+                                            // TODO: Broaden this catch
                                             if (fileInfo.FullName.EndsWith(".cer", StringComparison.CurrentCulture))
                                             {
                                                 var certificate = X509Certificate.CreateFromCertFile(fileInfo.FullName);

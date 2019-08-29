@@ -8,8 +8,8 @@ using Serilog;
 namespace AttackSurfaceAnalyzer.Utils
 {
     public class DirectoryWalker
-    {     
-        public static IEnumerable<FileSystemInfo> WalkDirectory(string root, string filterPlatform)
+    { 
+        public static IEnumerable<FileSystemInfo> WalkDirectory(string root)
         {
             // Data structure to hold names of subfolders to be
             // examined for files.
@@ -25,7 +25,7 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 string currentDir = dirs.Pop();
                 Log.Verbose(currentDir);
-                if (Filter.IsFiltered(filterPlatform, "Scan", "File", "Path", currentDir))
+                if (Filter.IsFiltered(Helpers.GetPlatformString(), "Scan", "File", "Path", currentDir))
                 {
                     continue;
                 }
@@ -101,7 +101,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         Log.Debug(e.Message);
                         continue;
                     }
-                    if (Filter.IsFiltered(filterPlatform, "Scan", "File", "Path", file))
+                    if (Filter.IsFiltered(Helpers.GetPlatformString(), "Scan", "File", "Path", file))
                     {
                         continue;
                     }
