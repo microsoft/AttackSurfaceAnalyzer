@@ -124,28 +124,42 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 foreach (var field in fields)
                 {
-                    if (field.GetValue(first).Equals(field.GetValue(second)))
-                    {
-                        continue;
-                    }
                     try
                     {
-                        var added = ((List<string>)field.GetValue(first)).Except((List<string>)field.GetValue(second));
-                        var removed = ((List<string>)field.GetValue(second)).Except((List<string>)field.GetValue(first));
+                        List<string> added = new List<string>();
+                        List<string> removed = new List<string>();
+                        if (field.GetValue(first) == null)
+                        {
+                            added = ((List<string>)field.GetValue(second));
+                        }
+                        else if(field.GetValue(second)==null)
+                        {
+                            removed = ((List<string>)field.GetValue(first));
+                        }
+                        else if (field.GetValue(first).Equals(field.GetValue(second)))
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            added = ((List<string>)field.GetValue(second)).Except((List<string>)field.GetValue(first)).ToList();
+                            removed = ((List<string>)field.GetValue(first)).Except((List<string>)field.GetValue(second)).ToList();
+                        }
+
                         foreach (var add in added)
                         {
                             obj.Diffs.Add(new AddDiff()
                             {
                                 Field = field.Name,
-                                Added = added
+                                Added = add
                             });
                         }
-                        foreach (var add in removed)
+                        foreach (var remove in removed)
                         {
-                            obj.Diffs.Add(new AddDiff()
+                            obj.Diffs.Add(new RemoveDiff()
                             {
                                 Field = field.Name,
-                                Added = added
+                                Removed = remove
                             });
                         }
                     }
