@@ -14,16 +14,12 @@ namespace AttackSurfaceAnalyzer.Collectors
 {
     public class BaseCompare
     {
-        private static readonly string INSERT_RESULT_SQL = "insert into compared (base_run_id, compare_run_id, change_type, base_row_key, compare_row_key, data_type) values (@base_run_id, @compare_run_id, @change_type, @base_row_key, @compare_row_key, @data_type);";
-
         public Dictionary<string, object> Results { get; protected set; }
 
         public BaseCompare()
         {
             Results = new Dictionary<string, object>();
         }
-
-        private int numResults;
 
         public CollectObject Hydrate(RawCollectResult res)
         {
@@ -187,7 +183,13 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     removed = null;
                                 }
                             }
-                            else if (firstVal is string || firstVal is int || firstVal is bool)
+                            else if (firstVal is string || firstVal is int || firstVal is bool || firstVal is ulong)
+                            {
+                                added = null;
+                                removed = null;
+                                obj.Diffs.Add(new ModifiedDiff(field.Name, firstVal, secondVal));
+                            }
+                            else
                             {
                                 added = secondVal;
                                 removed = firstVal;
@@ -271,8 +273,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                             }
                             else if (firstVal is string || firstVal is int || firstVal is bool)
                             {
-                                added = secondVal;
-                                removed = firstVal;
+                                added = null;
+                                removed = null;
+                                obj.Diffs.Add(new ModifiedDiff(prop.Name, firstVal, secondVal));
                             }
 
                             diffs = GetDiffs(prop, added, removed);
@@ -369,19 +372,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
-        protected void InsertResult(CompareResult obj)
-        {
-            numResults++;
-            var cmd = new SqliteCommand(INSERT_RESULT_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
-            cmd.Parameters.AddWithValue("@base_run_id", obj.BaseRunId);
-            cmd.Parameters.AddWithValue("@compare_run_id", obj.CompareRunId);
-            cmd.Parameters.AddWithValue("@change_type", obj.ChangeType);
-            cmd.Parameters.AddWithValue("@base_row_key", obj.BaseRowKey ?? "");
-            cmd.Parameters.AddWithValue("@compare_row_key", obj.CompareRowKey ?? "");
-            cmd.Parameters.AddWithValue("@data_type", obj.ResultType);
-            cmd.ExecuteNonQuery();
-        }
-
         private RUN_STATUS _running = RUN_STATUS.NOT_STARTED;
 
         protected RESULT_TYPE _type = RESULT_TYPE.UNKNOWN;
@@ -399,12 +389,8 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public void Stop()
         {
-           _running = (numResults == 0) ? RUN_STATUS.NO_RESULTS : RUN_STATUS.COMPLETED;
+           _running = RUN_STATUS.COMPLETED;
         }
 
-        public int GetNumResults()
-        {
-            return numResults;
-        }
     }
 }

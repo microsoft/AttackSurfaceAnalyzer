@@ -20,6 +20,13 @@ namespace AttackSurfaceAnalyzer.Objects
     }
     class ModifiedDiff : Diff
     {
+        public ModifiedDiff(string name, object before, object after)
+        {
+            Field = name;
+            Before = before;
+            After = after;
+
+        }
         public object Before { get; set; }
         public object After { get; set; }
     }

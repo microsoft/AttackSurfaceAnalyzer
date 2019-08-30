@@ -533,7 +533,7 @@ namespace AttackSurfaceAnalyzer
 
         public class HideBigFieldsContractResolver : DefaultContractResolver
         {
-            public new static readonly HideBigFieldsContractResolver Instance = new HideBigFieldsContractResolver();
+            public static readonly HideBigFieldsContractResolver Instance = new HideBigFieldsContractResolver();
 
             protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
             {
