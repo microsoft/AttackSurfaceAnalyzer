@@ -543,23 +543,9 @@ namespace AttackSurfaceAnalyzer
 
                 if (property.DeclaringType == typeof(RegistryObject))
                 {
-                    if (property.PropertyName == "Subkeys")
+                    if (property.PropertyName == "Subkeys" || property.PropertyName == "Values")
                     {
-                        property.ShouldSerialize =
-                            instance =>
-                            {
-                                RegistryObject e = (RegistryObject)instance;
-                                return (e.Subkeys.Count > 0);
-                            };
-                    }
-                    else if (property.PropertyName == "Values")
-                    {
-                        property.ShouldSerialize =
-                            instance =>
-                            {
-                                RegistryObject e = (RegistryObject)instance;
-                                return (e.Values.Count > 0);
-                            };
+                        property.ShouldSerialize = _ => { return false; };
                     }
                 }
 
