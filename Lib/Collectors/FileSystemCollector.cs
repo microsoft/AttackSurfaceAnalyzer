@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
+using Mono.Unix;
 using Newtonsoft.Json;
 using Serilog;
 
@@ -111,6 +112,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     Permissions = FileSystemUtils.GetFilePermissions(fileInfo),
                                     IsDirectory = true
                                 };
+                                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                                {
+                                    obj.Owner = new UnixFileInfo(fileInfo.FullName).OwnerUser.UserName;
+                                    obj.Group = new UnixFileInfo(fileInfo.FullName).OwnerGroup.GroupName;
+                                }
                             }
                             else
                             {
@@ -121,6 +127,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     Size = (ulong)(fileInfo as FileInfo).Length,
                                     IsDirectory = false
                                 };
+                                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                                {
+                                    obj.Owner = new UnixFileInfo(fileInfo.FullName).OwnerUser.UserName;
+                                    obj.Group = new UnixFileInfo(fileInfo.FullName).OwnerGroup.GroupName;
+                                }
 
                                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                                 {

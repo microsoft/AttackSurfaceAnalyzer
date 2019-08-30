@@ -34,6 +34,26 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
+        protected internal static string GetFileOwner(FileSystemInfo fileInfo)
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return null;
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                return LinuxFileSystemUtils.GetFilePermissions(fileInfo);
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                return LinuxFileSystemUtils.GetFilePermissions(fileInfo);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         protected internal static string GetFileHash(FileSystemInfo fileInfo)
         {
             Log.Debug("{0} {1}", Strings.Get("FileHash"), fileInfo.FullName);

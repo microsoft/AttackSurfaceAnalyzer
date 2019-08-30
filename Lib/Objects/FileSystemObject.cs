@@ -19,6 +19,9 @@ namespace AttackSurfaceAnalyzer.Objects
         public bool IsExecutable { get; set; }
         public bool IsDirectory { get; set; }
 
+        public string Owner { get; set; }
+        public string Group { get; set; }
+
         public FileSystemObject()
         {
             ResultType = RESULT_TYPE.FILE;
