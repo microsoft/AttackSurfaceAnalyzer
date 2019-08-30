@@ -21,6 +21,8 @@ namespace AttackSurfaceAnalyzer.Objects
 
         public string Owner { get; set; }
         public string Group { get; set; }
+        public bool SetGid { get; set; }
+        public bool SetUid { get; set; }
 
         public FileSystemObject()
         {

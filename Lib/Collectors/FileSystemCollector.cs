@@ -114,8 +114,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 };
                                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                                 {
-                                    obj.Owner = new UnixFileInfo(fileInfo.FullName).OwnerUser.UserName;
-                                    obj.Group = new UnixFileInfo(fileInfo.FullName).OwnerGroup.GroupName;
+                                    var file = new UnixFileInfo(fileInfo.FullName);
+                                    obj.Owner = file.OwnerUser.UserName;
+                                    obj.Group = file.OwnerGroup.GroupName;
+                                    obj.SetGid = file.IsSetGroup;
+                                    obj.SetUid = file.IsSetUser;
                                 }
                             }
                             else
@@ -129,8 +132,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 };
                                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                                 {
-                                    obj.Owner = new UnixFileInfo(fileInfo.FullName).OwnerUser.UserName;
-                                    obj.Group = new UnixFileInfo(fileInfo.FullName).OwnerGroup.GroupName;
+                                    var file = new UnixFileInfo(fileInfo.FullName);
+                                    obj.Owner = file.OwnerUser.UserName;
+                                    obj.Group = file.OwnerGroup.GroupName;
+                                    obj.SetGid = file.IsSetGroup;
+                                    obj.SetUid = file.IsSetUser;
                                 }
 
                                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
