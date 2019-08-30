@@ -20,6 +20,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     public class UserAccountCollector : BaseCollector
     {
         Dictionary<string, UserAccountObject> users = new Dictionary<string, UserAccountObject>();
+        Dictionary<string, GroupAccountObject> groups = new Dictionary<string, GroupAccountObject>();
 
         public UserAccountCollector(string runId)
         {
@@ -122,6 +123,41 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
                     if (line.Contains('*'))
                     {
                         var groupName = line.Substring(1).Trim();
+                        GroupAccountObject group;
+                        //Get the group details
+                        if (!groups.ContainsKey(String.Format("{0}\\{1}", Environment.MachineName, groupName))){
+                            SelectQuery query = new SelectQuery("SELECT * FROM Win32_Group where Name='" + groupName + "'");
+                            ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
+
+                            ManagementObject groupManagementObject = default(ManagementObject);
+
+                            // TODO: Improve this
+                            foreach (ManagementObject gmo in searcher.Get())
+                            {
+                                groupManagementObject = gmo;
+                                break;
+                            }
+
+                            group = new GroupAccountObject()
+                            {
+                                Name = groupName,
+                                Caption = Convert.ToString(groupManagementObject["Caption"]),
+                                Description = Convert.ToString(groupManagementObject["Description"]),
+                                InstallDate = Convert.ToString(groupManagementObject["InstallDate"]),
+                                Status = Convert.ToString(groupManagementObject["Status"]),
+                                LocalAccount = Convert.ToBoolean(groupManagementObject["LocalAccount"]),
+                                SID = Convert.ToString(groupManagementObject["SID"]),
+                                SIDType = Convert.ToInt32(groupManagementObject["SIDType"]),
+                                Domain = Convert.ToString(groupManagementObject["Domain"]),
+                                Users = new List<string>()
+                            };
+                        }
+                        else
+                        {
+                            group = groups[String.Format("{0}\\{1}", Environment.MachineName, groupName)];
+                        }
+
+                        //Get the members of the group
                         var args = string.Format("/Node:\"{0}\" path win32_groupuser where (groupcomponent=\"win32_group.name=\\\"{1}\\\",domain=\\\"{2}\\\"\")",Environment.MachineName,groupName,Environment.MachineName);
                         List<string> lines_int = new List<string>(ExternalCommandRunner.RunExternalCommand("wmic", args).Split('\n'));
                         lines_int.RemoveRange(0, 1);
@@ -146,15 +182,20 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
                                 }
 
                                 Log.Verbose("Found {0}\\{1} as member of {2}", domain, userName, groupName);
+                                if (!group.Users.Contains(String.Format("{0}\\{1}", domain, userName)))
+                                {
+                                    group.Users.Add(String.Format("{0}\\{1}", domain, userName));
+                                }
 
-                                SelectQuery query = new SelectQuery("SELECT * FROM Win32_UserAccount where Domain='"+domain+"' and Name='" + userName + "'");
-                                ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
-
+                                var query = new SelectQuery("SELECT * FROM Win32_UserAccount where Domain='"+domain+"' and Name='" + userName + "'");
+                                var searcher = new ManagementObjectSearcher(query);
                                 foreach (ManagementObject user in searcher.Get())
                                 {
                                     if (users.ContainsKey(userName))
                                     {
-                                        users[userName].Groups.Add(groupName);
+                                        if (!users[userName].Groups.Contains(String.Format("{0}\\{1}", domain, groupName))){
+                                            users[userName].Groups.Add(groupName);
+                                        }
 
                                         if (groupName.Equals("Administrators"))
                                         {
@@ -186,6 +227,7 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
                                     }        
                                 }
                             }
+                            groups[String.Format("{0}\\{1}", Environment.MachineName, groupName)] = group;
                         }
                     }
                 }
@@ -197,6 +239,10 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
             foreach (var user in users)
             {
                 DatabaseManager.Write(user.Value, runId);
+            }
+            foreach (var group in groups)
+            {
+                DatabaseManager.Write(group.Value, runId);
             }
         }
 

@@ -10,37 +10,23 @@ using Serilog;
 
 namespace AttackSurfaceAnalyzer.Objects
 {
-    public class UserGroupObject : CollectObject
+    public class GroupAccountObject : CollectObject
     {
-        public string AccountType;
         public string Caption;
         public string Description;
-        public string Disabled;
-        public string Domain;
-        public string FullName;
         public string InstallDate;
-        public string LocalAccount;
-        public string Lockout;
-        public string Name;
-        public string PasswordChangeable;
-        public string PasswordExpires;
-        public string PasswordRequired;
+        public string Status;
+        public bool LocalAccount;
         public string SID;
-        public string UID;
-        public string GID;
-        public string Inactive;
-        public string HomeDirectory;
-        public string Shell;
-        public string PasswordStorageAlgorithm;
-        public bool Privileged;
+        public int SIDType;
+        public string Domain;
+        public string Name;
 
         public List<string> Users;
 
-        // Is the user Windows Administrator/sudoer
-
         public Dictionary<string, string> Properties;
 
-        public UserGroupObject()
+        public GroupAccountObject()
         {
             ResultType = RESULT_TYPE.GROUP;
         }

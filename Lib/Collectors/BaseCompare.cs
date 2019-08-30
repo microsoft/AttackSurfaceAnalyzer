@@ -37,6 +37,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                     return JsonConvert.DeserializeObject<ServiceObject>(res.Serialized);
                 case RESULT_TYPE.USER:
                     return JsonConvert.DeserializeObject<UserAccountObject>(res.Serialized);
+                case RESULT_TYPE.GROUP:
+                    return JsonConvert.DeserializeObject<GroupAccountObject>(res.Serialized);
                 default:
                     return null;
             }

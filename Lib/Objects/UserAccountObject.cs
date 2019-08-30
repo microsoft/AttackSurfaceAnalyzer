@@ -10,6 +10,7 @@ using Serilog;
 
 namespace AttackSurfaceAnalyzer.Objects
 { 
+
     public class UserAccountObject : CollectObject
     {
         public string AccountType;
@@ -21,7 +22,6 @@ namespace AttackSurfaceAnalyzer.Objects
         public string InstallDate;
         public string LocalAccount;
         public string Lockout;
-        public string Name;
         public string PasswordChangeable;
         public string PasswordExpires;
         public string PasswordRequired;
@@ -33,6 +33,7 @@ namespace AttackSurfaceAnalyzer.Objects
         public string Shell;
         public string PasswordStorageAlgorithm;
         public bool Privileged;
+        public string Name;
 
         public List<string> Groups;
 

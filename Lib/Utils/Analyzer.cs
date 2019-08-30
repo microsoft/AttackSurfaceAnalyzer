@@ -24,7 +24,8 @@ namespace AttackSurfaceAnalyzer.Utils
             {RESULT_TYPE.PORT, new List<FieldInfo>(new OpenPortObject().GetType().GetFields()) },
             {RESULT_TYPE.REGISTRY, new List<FieldInfo>(new RegistryObject().GetType().GetFields()) },
             {RESULT_TYPE.SERVICE, new List<FieldInfo>(new ServiceObject().GetType().GetFields()) },
-            {RESULT_TYPE.USER, new List<FieldInfo>(new UserAccountObject().GetType().GetFields()) }
+            {RESULT_TYPE.USER, new List<FieldInfo>(new UserAccountObject().GetType().GetFields()) },
+            {RESULT_TYPE.GROUP, new List<FieldInfo>(new UserAccountObject().GetType().GetFields()) }
         };
         Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DEFAULT_RESULT_TYPE_MAP = new Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>()
         {
@@ -34,7 +35,8 @@ namespace AttackSurfaceAnalyzer.Utils
             { RESULT_TYPE.REGISTRY, ANALYSIS_RESULT_TYPE.INFORMATION },
             { RESULT_TYPE.SERVICE, ANALYSIS_RESULT_TYPE.INFORMATION },
             { RESULT_TYPE.USER, ANALYSIS_RESULT_TYPE.INFORMATION },
-            { RESULT_TYPE.UNKNOWN, ANALYSIS_RESULT_TYPE.INFORMATION }
+            { RESULT_TYPE.UNKNOWN, ANALYSIS_RESULT_TYPE.INFORMATION },
+            { RESULT_TYPE.GROUP, ANALYSIS_RESULT_TYPE.INFORMATION }
         };
 
         JObject config = null;
@@ -67,7 +69,12 @@ namespace AttackSurfaceAnalyzer.Utils
                     switch (R.Key)
                     {
                         case "defaultLevels":
-                            DEFAULT_RESULT_TYPE_MAP = R.Value.ToObject<Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>>();
+                            var loadedMap = R.Value.ToObject<Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>>();
+                            foreach (var kvpair in loadedMap)
+                            {
+                                //Overwrite the defaults with settings made (if any)
+                                DEFAULT_RESULT_TYPE_MAP[kvpair.Key] = kvpair.Value;
+                            }
                             break;
                     }
                 }
@@ -119,11 +126,40 @@ namespace AttackSurfaceAnalyzer.Utils
 
                     if (compareResult.ChangeType == CHANGE_TYPE.CREATED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
                     {
-                        valsToCheck.Add(GetValueByPropertyName(compareResult.Compare, field.Name).ToString());
+                        try {
+                            valsToCheck.Add(GetValueByFieldName(compareResult.Compare, field.Name).ToString());
+                        }
+                        catch (NullReferenceException)
+                        {
+                            //That field didn't exist, let's check if its a property.
+                        }
+                        try
+                        {
+                            valsToCheck.Add(GetValueByPropertyName(compareResult.Compare, field.Name).ToString());
+                        }
+                        catch (NullReferenceException)
+                        {
+                            // Looks like it wasn't a property either.
+                        }
                     }
                     if (compareResult.ChangeType == CHANGE_TYPE.DELETED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
                     {
-                        valsToCheck.Add(GetValueByPropertyName(compareResult.Base, field.Name).ToString());
+                        try
+                        {
+                            valsToCheck.Add(GetValueByFieldName(compareResult.Base, field.Name).ToString());
+                        }
+                        catch (NullReferenceException)
+                        {
+                            //That field didn't exist, let's check if its a property.
+                        }
+                        try
+                        {
+                            valsToCheck.Add(GetValueByPropertyName(compareResult.Base, field.Name).ToString());
+                        }
+                        catch (NullReferenceException)
+                        {
+                            // Looks like it wasn't a property either.
+                        }
                     }
 
                     switch (clause.op)
@@ -228,7 +264,9 @@ namespace AttackSurfaceAnalyzer.Utils
             return rule.flag;
         }
 
+        private object GetValueByFieldName(object obj, string fieldName) => obj.GetType().GetField(fieldName).GetValue(obj);
         private object GetValueByPropertyName(object obj, string propertyName) => obj.GetType().GetField(propertyName).GetValue(obj);
+
 
         public void DumpFilters()
         {
