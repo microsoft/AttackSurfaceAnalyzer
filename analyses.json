@@ -1,5 +1,5 @@
-{"rules":
-  [
+{
+  "rules": [
     {
       "name": "Privileged ports",
       "desc": "Flag when privileged ports are opened.",
@@ -60,46 +60,92 @@
       ]
     },
     {
-        "name": "Executables",
-        "desc": "Flag when executables are created.",
-        "flag": "INFORMATION",
-        "platforms": [
-            "LINUX",
-            "MACOS",
-            "WINDOWS"
-        ],
-        "resultType": "FILE",
-        "clauses": [
-            {
-                "field": "IsExecutable",
-                "op": "EQ",
-                "data": [
-                    "True"
-                ]
-            }
-        ]
+      "name": "SetUid",
+      "desc": "Flag UID is set on a file.",
+      "flag": "WARNING",
+      "platform": [
+        "LINUX",
+        "MACOS"
+      ],
+      "changeTypes": [
+        "CREATED",
+        "MODIFIED"
+      ],
+      "resultType": "FILE",
+      "clauses": [
+        {
+          "field": "SetUid",
+          "op": "EQ",
+          "data": [
+            "True"
+          ]
+        }
+      ]
     },
     {
-        "name": "Certificates",
-        "desc": "Flag when executables are placed on disk.",
-        "flag": "INFORMATION",
-        "platforms": [
-            "LINUX",
-            "MACOS",
-            "WINDOWS"
-        ],
-        "resultType": "FILE",
-        "clauses": [
-            {
-                "field": "Path",
-                "op": "ENDS_WITH",
-                "data": [
-                    ".cer",
-                    ".der",
-                    ".crt"
-                ]
-            }
-        ]
+      "name": "SetGid",
+      "desc": "Flag GID is set on a file.",
+      "flag": "WARNING",
+      "platform": [
+        "LINUX",
+        "MACOS"
+      ],
+      "changeTypes": [
+        "CREATED",
+        "MODIFIED"
+      ],
+      "resultType": "FILE",
+      "clauses": [
+        {
+          "field": "SetGid",
+          "op": "EQ",
+          "data": [
+            "True"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Executables",
+      "desc": "Flag when executables are created.",
+      "flag": "INFORMATION",
+      "platforms": [
+        "LINUX",
+        "MACOS",
+        "WINDOWS"
+      ],
+      "resultType": "FILE",
+      "clauses": [
+        {
+          "field": "IsExecutable",
+          "op": "EQ",
+          "data": [
+            "True"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Certificates",
+      "desc": "Flag when executables are placed on disk.",
+      "flag": "INFORMATION",
+      "platforms": [
+        "LINUX",
+        "MACOS",
+        "WINDOWS"
+      ],
+      "resultType": "FILE",
+      "clauses": [
+        {
+          "field": "Path",
+          "op": "ENDS_WITH",
+          "data": [
+            ".cer",
+            ".der",
+            ".crt"
+          ]
+        }
+      ]
     }
   ],
  "meta": {
