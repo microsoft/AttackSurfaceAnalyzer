@@ -171,9 +171,12 @@ namespace AttackSurfaceAnalyzer.Collectors
                             else if (Helpers.IsDictionary(firstVal))
                             {
                                 added = ((Dictionary<string, string>)secondVal)
-                                    .Except((Dictionary<string, string>)firstVal);
+                                    .Except((Dictionary<string, string>)firstVal)
+                                    .ToDictionary(x => x.Key, x => x.Value);
+
                                 removed = ((Dictionary<string, string>)firstVal)
-                                    .Except((Dictionary<string, string>)secondVal);
+                                    .Except((Dictionary<string, string>)secondVal)
+                                    .ToDictionary(x => x.Key, x => x.Value);
                                 if (((IEnumerable<KeyValuePair<string,string>>)added).Count() == 0)
                                 {
                                     added = null;
@@ -259,9 +262,12 @@ namespace AttackSurfaceAnalyzer.Collectors
                             else if (Helpers.IsDictionary(firstVal))
                             {
                                 added = ((Dictionary<string, string>)secondVal)
-                                    .Except((Dictionary<string, string>)firstVal);
+                                    .Except((Dictionary<string, string>)firstVal)
+                                    .ToDictionary(x => x.Key, x => x.Value);
+                                       
                                 removed = ((Dictionary<string, string>)firstVal)
-                                    .Except((Dictionary<string, string>)secondVal);
+                                    .Except((Dictionary<string, string>)secondVal)
+                                    .ToDictionary(x => x.Key, x => x.Value);
                                 if (((IEnumerable<KeyValuePair<string, string>>)added).Count() == 0)
                                 {
                                     added = null;
@@ -311,7 +317,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
-        public List<Diff> GetDiffs(FieldInfo field, object added, object removed)
+        public List<Diff>  GetDiffs(FieldInfo field, object added, object removed)
         {
             List<Diff> diffsOut = new List<Diff>();
             if(added != null)
