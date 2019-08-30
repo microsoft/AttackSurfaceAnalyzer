@@ -9,8 +9,8 @@ using Newtonsoft.Json;
 using Serilog;
 
 namespace AttackSurfaceAnalyzer.Objects
-{ 
-    public class UserAccountObject : CollectObject
+{
+    public class UserGroupObject : CollectObject
     {
         public string AccountType;
         public string Caption;
@@ -34,22 +34,22 @@ namespace AttackSurfaceAnalyzer.Objects
         public string PasswordStorageAlgorithm;
         public bool Privileged;
 
-        public List<string> Groups;
+        public List<string> Users;
 
         // Is the user Windows Administrator/sudoer
 
         public Dictionary<string, string> Properties;
 
-        public UserAccountObject()
+        public UserGroupObject()
         {
-            ResultType = RESULT_TYPE.USER;
+            ResultType = RESULT_TYPE.GROUP;
         }
 
         public override string Identity
         {
             get
             {
-                return (Domain == null) ? Name : String.Format(@"{0}\{1}",Domain,Name);
+                return (Domain == null) ? Name : String.Format(@"{0}\{1}", Domain, Name);
             }
         }
     }

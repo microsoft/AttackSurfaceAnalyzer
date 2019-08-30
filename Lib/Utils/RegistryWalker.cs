@@ -50,15 +50,14 @@ namespace AttackSurfaceAnalyzer.Utils
                     // These are expected as we are running as administrator, not System.
                     catch (System.Security.SecurityException e)
                     {
-                        Log.Debug(e.GetType() + " " + e.Message + " " + currentKey.Name);
-
+                        Log.Verbose(e.GetType() + " " + e.Message + " " + currentKey.Name);
                     }
                     // There seem to be some keys which are listed as existing by the APIs but don't actually exist.
                     // Unclear if these are just super transient keys or what the other cause might be.
                     // Since this isn't user actionable, also just supress these to the debug stream.
                     catch (System.IO.IOException e)
                     {
-                        Log.Debug(e.GetType() + " " + e.Message + " " + currentKey.Name);
+                        Log.Verbose(e.GetType() + " " + e.Message + " " + currentKey.Name);
                     }
                     catch (Exception e)
                     {
@@ -73,7 +72,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         Subkeys = new List<string>(currentKey.GetSubKeyNames()),
                         Key = currentKey.Name,
-                        Permissions = "Unknown",
+                        Permissions = currentKey.GetAccessControl().GetSecurityDescriptorSddlForm(System.Security.AccessControl.AccessControlSections.All),
                         Values = new Dictionary<string, string>()
                     };
 
@@ -93,6 +92,10 @@ namespace AttackSurfaceAnalyzer.Utils
                         }
                     }
 
+                }
+                catch (System.ArgumentException e)
+                {
+                    Logger.VerboseException(e);
                 }
                 catch (Exception e)
                 {

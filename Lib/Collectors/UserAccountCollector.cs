@@ -145,7 +145,7 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
                                     continue;
                                 }
 
-                                Log.Debug("Found {0}\\{1} as member of {2}", domain, userName, groupName);
+                                Log.Verbose("Found {0}\\{1} as member of {2}", domain, userName, groupName);
 
                                 SelectQuery query = new SelectQuery("SELECT * FROM Win32_UserAccount where Domain='"+domain+"' and Name='" + userName + "'");
                                 ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);

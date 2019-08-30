@@ -52,7 +52,7 @@ namespace AttackSurfaceAnalyzer.Utils
         private static readonly string SQL_SELECT_LATEST_N_RUNS = "select run_id from runs where type = @type order by timestamp desc limit 0,@limit;";
 
         private static readonly string SQL_GET_SCHEMA_VERSION = "select value from persisted_settings where setting = 'schema_version' limit 0,1";
-        private static readonly string SQL_GET_NUM_RESULTS = "select count(*) as the_count from @table_name where run_id = @run_id";
+        private static readonly string SQL_GET_NUM_RESULTS = "select count(*) as the_count from collect where run_id = @run_id and result_type = @result_type";
         private static readonly string SQL_GET_PLATFORM_FROM_RUNID = "select platform from runs where run_id = @run_id";
 
         private static readonly string SQL_INSERT_COLLECT_RESULT = "insert into collect (run_id, result_type, row_key, identity, serialized) values (@run_id, @result_type, @row_key, @identity, @serialized)";
@@ -230,13 +230,13 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             try
             {
-                using (var cmd = new SqliteCommand(SQL_GET_NUM_RESULTS.Replace("@table_name", Helpers.ResultTypeToTableName(ResultType)), DatabaseManager.Connection, DatabaseManager.Transaction))
+                using (var cmd = new SqliteCommand(SQL_GET_NUM_RESULTS, DatabaseManager.Connection, DatabaseManager.Transaction))
                 {
                     cmd.Parameters.AddWithValue("@run_id", runId);
+                    cmd.Parameters.AddWithValue("@result_type", ResultType);
 
                     using (var reader = cmd.ExecuteReader())
                     {
-
                         while (reader.Read())
                         {
                             return int.Parse(reader["the_count"].ToString());

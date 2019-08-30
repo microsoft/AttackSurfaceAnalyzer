@@ -38,7 +38,8 @@
             "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\ControlSet001\\\\Services\\\\mpssvc\\\\Parameters",
             "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Services\\\\ADOVMPPackage",
             "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Services\\\\BTHPORT\\\\Parameters",
-            "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Services\\\\PolicyAgent\\\\Parameters"
+            "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Services\\\\PolicyAgent\\\\Parameters",
+            "^HKEY_CURRENT_USER\\\\Software\\\\Classes\\\\Local Settings\\\\MuiCache"
           ]
         },
         "Hive": {
@@ -82,7 +83,8 @@
             "^[A-Z]:\\\\WcSandboxState",
             "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows Defender Advanced Threat Protection",
             "^[A-Z]:\\\\Program Files\\\\Windows Defender Advanced Threat Protection\\\\Classification\\\\Configuration",
-            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows\\\\WER\\\\Temp"
+            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows\\\\WER\\\\Temp",
+            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows\\\\WER\\\\ReportArchive"
           ]
         }
       }

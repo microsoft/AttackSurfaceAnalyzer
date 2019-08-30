@@ -56,7 +56,6 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
 
             Start();
-            Log.Debug("Collecting open port information...");
 
             if (!this.CanRunOnPlatform())
             {
@@ -89,7 +88,6 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// </summary>
         public void ExecuteWindows()
         {
-            Log.Debug("Collecting open port information (Windows implementation)");
             var properties = IPGlobalProperties.GetIPGlobalProperties();
 
             foreach (var endpoint in properties.GetActiveTcpListeners())

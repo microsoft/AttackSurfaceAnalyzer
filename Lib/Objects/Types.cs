@@ -4,22 +4,24 @@ namespace AttackSurfaceAnalyzer.Objects
 {
 
     public enum RESULT_TYPE {
+        UNKNOWN,
         FILE,
         PORT,
         REGISTRY,
         CERTIFICATE,
         SERVICE,
         USER,
-        UNKNOWN
+        GROUP
     };
 
     public enum CHANGE_TYPE
     {
+        INVALID,
         CREATED,
         DELETED,
         MODIFIED,
-        RENAMED,
-        INVALID
+        RENAMED
+        
     }
 
     public enum RUN_STATUS

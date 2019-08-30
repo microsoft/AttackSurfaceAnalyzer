@@ -169,7 +169,20 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     .Except((Dictionary<string, string>)firstVal);
                                 removed = ((Dictionary<string, string>)firstVal)
                                     .Except((Dictionary<string, string>)secondVal);
-                             }
+                                if (((IEnumerable<KeyValuePair<string,string>>)added).Count() == 0)
+                                {
+                                    added = null;
+                                }
+                                if (((IEnumerable<KeyValuePair<string, string>>)removed).Count() == 0)
+                                {
+                                    removed = null;
+                                }
+                            }
+                            else if (firstVal is string)
+                            {
+                                added = secondVal;
+                                removed = firstVal;
+                            }
 
                             diffs = GetDiffs(field, added, removed);
                         }
