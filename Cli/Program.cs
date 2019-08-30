@@ -237,8 +237,6 @@ namespace AttackSurfaceAnalyzer
 
         private static readonly string SQL_GET_RUN = "select run_id from runs where run_id=@run_id";
 
-        private static bool _isFirstRun = false;
-
         static void Main(string[] args)
         {
 
@@ -296,7 +294,7 @@ namespace AttackSurfaceAnalyzer
 
                 if (opts.ListRuns)
                 {
-                    if (_isFirstRun)
+                    if (DatabaseManager.FirstRun)
                     {
                         Log.Warning(Strings.Get("FirstRunListRunsError"), opts.DatabaseFilename);
                     }
@@ -626,9 +624,8 @@ namespace AttackSurfaceAnalyzer
 
         private static void CheckFirstRun()
         {
-            if (DatabaseManager.IsFirstRun())
+            if (DatabaseManager.FirstRun)
             {
-                _isFirstRun = true;
                 string exeStr = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "AttackSurfaceAnalyzerCli.exe config --telemetry-opt-out true" : "AttackSurfaceAnalyzerCli config --telemetry-opt-out true";
                 Log.Information(Strings.Get("ApplicationHasTelemetry"));
                 Log.Information(Strings.Get("ApplicationHasTelemetry2"), "https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/PRIVACY.md");

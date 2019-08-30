@@ -70,7 +70,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private static SqliteTransaction _transaction;
 
-        private static bool _firstRun = true;
+        public static bool FirstRun { get; private set; } = true;
 
         public static bool Setup()
         {
@@ -146,18 +146,13 @@ namespace AttackSurfaceAnalyzer.Utils
 
                     cmd.CommandText = SQL_CREATE_DEFAULT_SETTINGS;
                     cmd.Parameters.AddWithValue("@schema_version", SCHEMA_VERSION);
-                    _firstRun &= cmd.ExecuteNonQuery() != 0;
+                    FirstRun &= cmd.ExecuteNonQuery() != 0;
                 }
 
                 Commit();
                 return true;
             }
             return false;
-        }
-
-        public static bool IsFirstRun()
-        {
-            return _firstRun;
         }
 
         public static PLATFORM RunIdToPlatform(string runid)
