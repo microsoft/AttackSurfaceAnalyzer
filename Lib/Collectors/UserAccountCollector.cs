@@ -341,6 +341,8 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
 
         private void ExecuteOsX()
         {
+            Dictionary<string, GroupAccountObject> Groups = new Dictionary<string, GroupAccountObject>();
+
             // Admin user details
             var result = ExternalCommandRunner.RunExternalCommand("dscacheutil", "-q group -a name admin");
 
@@ -406,7 +408,32 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
             }
             foreach (var username in accountDetails.Keys)
             {
+                // Admin user details
+                var groupsRaw = ExternalCommandRunner.RunExternalCommand("groups", "username");
+
+                var groups = result.Split(' ');
+                foreach (var group in groups)
+                {
+                    accountDetails[username].Groups.Add(group);
+                    if (Groups.ContainsKey(group))
+                    {
+                        Groups[group].Users.Add(username);
+                    }
+                    else
+                    {
+                        Groups[group] = new GroupAccountObject()
+                        {
+                            Name = group,
+                            Users = new List<string>() { username }
+                        };
+                    }
+                }
+                accountDetails[username].Groups = new List<string>(groups);
                 DatabaseManager.Write(accountDetails[username], this.runId);
+            }
+            foreach (var group in Groups)
+            {
+                DatabaseManager.Write(group.Value, this.runId);
             }
         }
     }
