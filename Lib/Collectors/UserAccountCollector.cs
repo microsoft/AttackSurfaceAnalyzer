@@ -255,6 +255,8 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
             var etc_passwd_lines = File.ReadAllLines("/etc/passwd");
             var etc_shadow_lines = File.ReadAllLines("/etc/shadow");
 
+            Dictionary<string, GroupAccountObject> Groups = new Dictionary<string, GroupAccountObject>();
+
             var accountDetails = new Dictionary<string, UserAccountObject>();
 
             foreach (var _line in etc_passwd_lines)
@@ -309,7 +311,31 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
 
             foreach (var username in accountDetails.Keys)
             {
+                // Admin user details
+                var groupsRaw = ExternalCommandRunner.RunExternalCommand("groups", "username");
+
+                var groups = result.Split(' ');
+                foreach (var group in groups)
+                {
+                    accountDetails[username].Groups.Add(group);
+                    if (Groups.ContainsKey(group))
+                    {
+                        Groups[group].Users.Add(username);
+                    }
+                    else
+                    {
+                        Groups[group] = new GroupAccountObject()
+                        {
+                            Name = group,
+                            Users = new List<string>() { username }
+                        };
+                    }
+                }
                 DatabaseManager.Write(accountDetails[username], this.runId);
+            }
+            foreach (var group in Groups)
+            {
+                DatabaseManager.Write(group.Value, this.runId);
             }
         }
 
