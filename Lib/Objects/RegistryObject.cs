@@ -25,16 +25,6 @@ namespace AttackSurfaceAnalyzer.Objects
             get { return Subkeys.Count; }
         }
 
-        public bool ShouldSerializeValues()
-        {
-            return false;
-        }
-
-        public bool ShouldSerializeSubkeys()
-        {
-            return false;
-        }
-
         public RegistryObject()
         {
             ResultType = RESULT_TYPE.REGISTRY;

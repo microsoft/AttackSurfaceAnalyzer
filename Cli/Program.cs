@@ -17,6 +17,7 @@ using Newtonsoft.Json;
 using System.Reflection;
 using Serilog;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Serialization;
 
 namespace AttackSurfaceAnalyzer
 {
@@ -489,8 +490,10 @@ namespace AttackSurfaceAnalyzer
             {
                 Formatting = Formatting.Indented,
                 NullValueHandling = NullValueHandling.Ignore,
-                DefaultValueHandling = DefaultValueHandling.Ignore
+                DefaultValueHandling = DefaultValueHandling.Ignore,
+                ContractResolver = new HideBigFieldsContractResolver()
             };
+
             serializer.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
 
             if (opts.ExplodedOutput)
@@ -528,6 +531,40 @@ namespace AttackSurfaceAnalyzer
             }
             return 0;
 
+        }
+
+        public class HideBigFieldsContractResolver : DefaultContractResolver
+        {
+            public new static readonly HideBigFieldsContractResolver Instance = new HideBigFieldsContractResolver();
+
+            protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
+            {
+                JsonProperty property = base.CreateProperty(member, memberSerialization);
+
+                if (property.DeclaringType == typeof(RegistryObject))
+                {
+                    if (property.PropertyName == "Subkeys")
+                    {
+                        property.ShouldSerialize =
+                            instance =>
+                            {
+                                RegistryObject e = (RegistryObject)instance;
+                                return (e.Subkeys.Count > 0);
+                            };
+                    }
+                    else if (property.PropertyName == "Values")
+                    {
+                        property.ShouldSerialize =
+                            instance =>
+                            {
+                                RegistryObject e = (RegistryObject)instance;
+                                return (e.Values.Count > 0);
+                            };
+                    }
+                }
+
+                return property;
+            }
         }
 
         public static void WriteScanJson(int ResultType, string BaseId, string CompareId, bool ExportAll, string OutputPath)

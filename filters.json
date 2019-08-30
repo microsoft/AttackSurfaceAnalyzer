@@ -39,7 +39,8 @@
             "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Services\\\\ADOVMPPackage",
             "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Services\\\\BTHPORT\\\\Parameters",
             "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Services\\\\PolicyAgent\\\\Parameters",
-            "^HKEY_CURRENT_USER\\\\Software\\\\Classes\\\\Local Settings\\\\MuiCache"
+            "^HKEY_CURRENT_USER\\\\Software\\\\Classes\\\\Local Settings\\\\MuiCache",
+            "^HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\Microsoft\\\\Windows\\\\Windows Error Reporting"
           ]
         },
         "Hive": {
@@ -84,7 +85,9 @@
             "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows Defender Advanced Threat Protection",
             "^[A-Z]:\\\\Program Files\\\\Windows Defender Advanced Threat Protection\\\\Classification\\\\Configuration",
             "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows\\\\WER\\\\Temp",
-            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows\\\\WER\\\\ReportArchive"
+            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows\\\\WER\\\\ReportArchive",
+            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows\\\\ClipSVC\\\\tokens.dat",
+            "^[A-Z]:\\\\Windows\\\\ServiceProfiles\\\\NetworkService\\\\AppData\\\\Local\\\\Microsoft\\\\Windows\\\\DeliveryOptimization\\State"
           ]
         }
       }

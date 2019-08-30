@@ -60,6 +60,15 @@ namespace AttackSurfaceAnalyzer.Collectors
             List<RawCollectResult> removeObjects = DatabaseManager.GetMissingFromFirst(secondRunId, firstRunId);
             List<RawModifiedResult> modifyObjects = DatabaseManager.GetModified(firstRunId, secondRunId);
 
+            foreach (RawModifiedResult res in modifyObjects)
+            {
+                if (res.First.Serialized.Equals(res.Second.Serialized))
+                {
+                    // breakpoint here
+                    Log.Debug("Breakpoint");
+                }
+            }
+
             Dictionary<string, List<CompareResult>> results = new Dictionary<string, List<CompareResult>>();
 
             foreach (var added in addRows)
