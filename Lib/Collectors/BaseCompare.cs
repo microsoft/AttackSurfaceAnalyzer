@@ -187,7 +187,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     removed = null;
                                 }
                             }
-                            else if (firstVal is string)
+                            else if (firstVal is string || firstVal is int || firstVal is bool)
                             {
                                 added = secondVal;
                                 removed = firstVal;
@@ -195,12 +195,94 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                             diffs = GetDiffs(field, added, removed);
                         }
-                        if (diffs.Count > 0)
+                        foreach (var diff in diffs)
                         {
-                            obj.Diffs = diffs;
+                            obj.Diffs.Add(diff);
                         }
                     }
                     catch(InvalidCastException e)
+                    {
+                        Log.Debug("Failed to cast something to dictionary or string");
+                        Logger.DebugException(e);
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.DebugException(e);
+                    }
+                }
+
+                var properties = first.GetType().GetProperties();
+
+                foreach (var prop in properties)
+                {
+                    try
+                    {
+                        var propName = prop.Name;
+                        List<Diff> diffs;
+                        object added = new List<string>();
+                        object removed = new List<string>();
+                        object changed = new object();
+                        if (prop.GetValue(first) == null)
+                        {
+                            added = prop.GetValue(second);
+                            diffs = GetDiffs(prop, added, null);
+                        }
+                        else if (prop.GetValue(second) == null)
+                        {
+                            removed = prop.GetValue(first);
+                            diffs = GetDiffs(prop, null, removed);
+                        }
+                        else if (prop.GetValue(first).Equals(prop.GetValue(second)))
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            var firstVal = prop.GetValue(first);
+                            var secondVal = prop.GetValue(second);
+
+                            if (Helpers.IsList(firstVal))
+                            {
+                                added = ((List<string>)prop.GetValue(second)).Except((List<string>)prop.GetValue(first));
+                                removed = ((List<string>)prop.GetValue(first)).Except((List<string>)prop.GetValue(second));
+                                if (((IEnumerable<string>)added).Count() == 0)
+                                {
+                                    added = null;
+                                }
+                                if (((IEnumerable<string>)removed).Count() == 0)
+                                {
+                                    removed = null;
+                                }
+                            }
+                            else if (Helpers.IsDictionary(firstVal))
+                            {
+                                added = ((Dictionary<string, string>)secondVal)
+                                    .Except((Dictionary<string, string>)firstVal);
+                                removed = ((Dictionary<string, string>)firstVal)
+                                    .Except((Dictionary<string, string>)secondVal);
+                                if (((IEnumerable<KeyValuePair<string, string>>)added).Count() == 0)
+                                {
+                                    added = null;
+                                }
+                                if (((IEnumerable<KeyValuePair<string, string>>)removed).Count() == 0)
+                                {
+                                    removed = null;
+                                }
+                            }
+                            else if (firstVal is string || firstVal is int || firstVal is bool)
+                            {
+                                added = secondVal;
+                                removed = firstVal;
+                            }
+
+                            diffs = GetDiffs(prop, added, removed);
+                        }
+                        foreach (var diff in diffs)
+                        {
+                            obj.Diffs.Add(diff);
+                        }
+                    }
+                    catch (InvalidCastException e)
                     {
                         Log.Debug("Failed to cast something to dictionary or string");
                         Logger.DebugException(e);
@@ -247,7 +329,27 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
             return diffsOut;
         }
-
+        public List<Diff> GetDiffs(PropertyInfo prop, object added, object removed)
+        {
+            List<Diff> diffsOut = new List<Diff>();
+            if (added != null)
+            {
+                diffsOut.Add(new AddDiff()
+                {
+                    Field = prop.Name,
+                    Added = added
+                });
+            }
+            if (removed != null)
+            {
+                diffsOut.Add(new RemoveDiff()
+                {
+                    Field = prop.Name,
+                    Removed = removed
+                });
+            }
+            return diffsOut;
+        }
 
         public bool TryCompare(string firstRunId, string secondRunId)
         {
