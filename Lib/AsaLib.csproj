@@ -23,8 +23,8 @@ This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI 
     <Compile Remove="Collectors\OpenPorts\WindowsOpenPortUtils.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.PowerShell.Commands.Diagnostics" Version="6.2.1" />
-    <PackageReference Include="Microsoft.PowerShell.SDK" Version="6.2.1" />
+    <PackageReference Include="Microsoft.PowerShell.Commands.Diagnostics" Version="6.2.2" />
+    <PackageReference Include="Microsoft.PowerShell.SDK" Version="6.2.2" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.6.0-preview.19073.11" />
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="2.1.1" />
     <PackageReference Include="murmurhash" Version="1.0.3" />
@@ -42,7 +42,7 @@ This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI 
     <PackageReference Include="System.Security.AccessControl" Version="4.6.0-preview.19073.11" />
     <PackageReference Include="System.Threading.AccessControl" Version="4.6.0-preview.19073.11" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="2.2.4" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="2.2.6" />
     <PackageReference Include="NuGet.Build.Packaging" Version="0.2.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -51,7 +51,7 @@ This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI 
     <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
     <PackageReference Include="MonoMac.NetStandard" Version="0.0.4" />
     <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="3.0.3" />
-    <PackageReference Include="Nerdbank.GitVersioning" Version="2.3.183">
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.0.25">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

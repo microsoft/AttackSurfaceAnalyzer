@@ -14,7 +14,7 @@
     <RootNamespace>AttackSurfaceAnalyzer</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="ElectronNet.API" Version="5.22.13" />
+    <PackageReference Include="ElectronNet.API" Version="5.22.14" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.7.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
@@ -22,6 +22,7 @@
     <PackageReference Include="BundlerMinifier.Core" Version="2.9.406" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Serilog" Version="2.8.0" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.0.25" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cli\AsaCli.csproj" />
@@ -52,8 +53,5 @@
     <Content Update="electron.manifest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Update="Nerdbank.GitVersioning" Version="2.3.183" />
   </ItemGroup>
 </Project>
