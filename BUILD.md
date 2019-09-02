@@ -21,9 +21,6 @@ If you are using Visual Studio 2019, use the latest release.
 ### GitVersioning
 In the root source directory run ```dotnet tool install -g nbgv```
 
-### ElectronNet.CLI
-In the `Tools` directory run ```dotnet tool install ElectronNET.CLI -g --version 0.0.11-custom --add-source packages```
-
 ## Building
 
 ### CLI/Slim GUI:
