@@ -70,6 +70,8 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private static SqliteTransaction _transaction;
 
+        private static int _numRecordsCollected = 0;
+
         public static bool FirstRun { get; private set; } = true;
 
         public static bool Setup()
@@ -325,14 +327,18 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void Write(CollectObject obj, string runId)
         {
-            var cmd = new SqliteCommand(SQL_INSERT_COLLECT_RESULT, DatabaseManager.Connection, DatabaseManager.Transaction);
+            var cmd = new SqliteCommand(SQL_INSERT_COLLECT_RESULT, Connection, Transaction);
             cmd.Parameters.AddWithValue("@run_id", runId);
             cmd.Parameters.AddWithValue("@row_key", CryptoHelpers.CreateHash(JsonConvert.SerializeObject(obj)));
             cmd.Parameters.AddWithValue("@identity", obj.Identity);
             cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj));
             cmd.Parameters.AddWithValue("@result_type", obj.ResultType.ToString());
-
             cmd.ExecuteNonQuery();
+
+            if (_numRecordsCollected++ % 1000 == 0)
+            {
+                Transaction.Commit();
+            }
         }
 
         public static List<RawCollectResult> GetMissingFromFirst(string firstRunId, string secondRunId)
