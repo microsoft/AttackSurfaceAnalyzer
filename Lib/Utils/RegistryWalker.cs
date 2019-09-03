@@ -50,18 +50,18 @@ namespace AttackSurfaceAnalyzer.Utils
                     // These are expected as we are running as administrator, not System.
                     catch (System.Security.SecurityException e)
                     {
-                        Log.Verbose(e.GetType() + " " + e.Message + " " + currentKey.Name);
+                        Log.Verbose(e, "Permission Denied: {0}", currentKey.Name);
                     }
                     // There seem to be some keys which are listed as existing by the APIs but don't actually exist.
                     // Unclear if these are just super transient keys or what the other cause might be.
                     // Since this isn't user actionable, also just supress these to the debug stream.
                     catch (System.IO.IOException e)
                     {
-                        Log.Verbose(e.GetType() + " " + e.Message + " " + currentKey.Name);
+                        Log.Verbose(e, "Error Reading: {0}", currentKey.Name);
                     }
                     catch (Exception e)
                     {
-                        Log.Information(e.GetType() + " " + e.Message + " " + currentKey.Name);
+                        Log.Information(e, "Unexpected error when parsing {0}:", currentKey.Name);
                         Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                     }
                 }

@@ -24,7 +24,6 @@ namespace AttackSurfaceAnalyzer.Utils
             while (dirs.Count > 0)
             {
                 string currentDir = dirs.Pop();
-                Log.Verbose(currentDir);
                 if (Filter.IsFiltered(Helpers.GetPlatformString(), "Scan", "File", "Path", currentDir))
                 {
                     continue;
@@ -122,7 +121,6 @@ namespace AttackSurfaceAnalyzer.Utils
                         // Future improvement: log it as a symlink in the data
                         if (fileInfo.Attributes.HasFlag(FileAttributes.ReparsePoint))
                         {
-                            Log.Verbose("Skipping symlink {0}", str);
                             continue;
                         }
                     }

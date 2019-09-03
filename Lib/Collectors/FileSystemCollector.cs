@@ -176,9 +176,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                                             obj.IsExecutable = true;
                                         }
                                     }
-                                    catch (System.UnauthorizedAccessException)
+                                    catch (System.UnauthorizedAccessException ex)
                                     {
-                                        Log.Verbose("Couldn't access {0} to check if signature is needed.");
+                                        Log.Verbose(ex, "Couldn't access {0} to check if signature is needed.", fileInfo.FullName);
                                     }
                                 }
                             }
@@ -188,23 +188,23 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 DatabaseManager.Write(obj,runId);
                             }
                         }
-                        catch (System.UnauthorizedAccessException ex)
+                        catch (System.UnauthorizedAccessException e)
                         {
-                            Log.Verbose(ex, "Access Denied {0}", fileInfo?.FullName);
+                            Log.Verbose(e, "Access Denied {0}", fileInfo?.FullName);
                         }
-                        catch (System.IO.IOException ex)
+                        catch (System.IO.IOException e)
                         {
-                            Log.Verbose(ex, "Access Denied {0}", fileInfo?.FullName);
+                            Log.Verbose(e, "Couldn't parse {0}", fileInfo?.FullName);
                         }
-                        catch (Exception ex)
+                        catch (Exception e)
                         {
-                            Log.Debug(ex, "Access Denied {0}", fileInfo?.FullName);
+                            Log.Debug(e, "Exception parsing {0}", fileInfo?.FullName);
                         }
                     }));
                 }
-                catch (Exception ex)
+                catch (Exception e)
                 {
-                    Log.Warning(ex, "Error collecting file system information: {0}", ex.Message);
+                    Log.Warning(e, "Error collecting file system information: {0}", ex.Message);
                 }
             }
 
