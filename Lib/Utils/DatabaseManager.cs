@@ -320,7 +320,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void CloseDatabase()
         {
-            _transaction.Commit();
+            Commit();
             Connection.Close();
             Connection = null;
         }
@@ -334,11 +334,6 @@ namespace AttackSurfaceAnalyzer.Utils
             cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj));
             cmd.Parameters.AddWithValue("@result_type", obj.ResultType.ToString());
             cmd.ExecuteNonQuery();
-
-            if (_numRecordsCollected++ % 1000 == 0)
-            {
-                Transaction.Commit();
-            }
         }
 
         public static List<RawCollectResult> GetMissingFromFirst(string firstRunId, string secondRunId)

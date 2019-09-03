@@ -127,7 +127,7 @@
     },
     {
       "name": "Certificates",
-      "desc": "Flag when executables are placed on disk.",
+      "desc": "Flag when certificates are placed on disk.",
       "flag": "INFORMATION",
       "platforms": [
         "LINUX",

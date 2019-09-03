@@ -101,8 +101,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 {
                                     DatabaseManager.Write(registryObject, this.runId);
                                 }
-                                catch (InvalidOperationException)
+                                catch (InvalidOperationException e)
                                 {
+                                    Logger.DebugException(e);
                                     Log.Debug(JsonConvert.SerializeObject(registryObject)+ " invalid op exept");
                                 }
                             }));

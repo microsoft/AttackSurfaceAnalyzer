@@ -79,7 +79,8 @@ namespace AttackSurfaceAnalyzer.Objects
         GT,
         CONTAINS,
         WAS_MODIFIED,
-        ENDS_WITH
+        ENDS_WITH,
+        STARTS_WITH
     }
 
     public enum PLATFORM

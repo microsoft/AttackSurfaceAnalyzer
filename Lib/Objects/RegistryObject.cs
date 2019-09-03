@@ -35,7 +35,7 @@ namespace AttackSurfaceAnalyzer.Objects
             return new List<string>(key.GetSubKeyNames());
         }
 
-                private static Dictionary<string, string> GetValues(RegistryKey key)
+        private static Dictionary<string, string> GetValues(RegistryKey key)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             // Write values under key and commit
@@ -91,7 +91,7 @@ namespace AttackSurfaceAnalyzer.Objects
             }
             catch(Exception e)
             {
-                Log.Debug(e.GetType() + " failed to get security descriptor for " + Key.Name);
+                Log.Debug(e, "Failed to get security descriptor for " + Key.Name);
             }
         }
 

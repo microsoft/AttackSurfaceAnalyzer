@@ -249,6 +249,21 @@ namespace AttackSurfaceAnalyzer.Utils
                             }
                             if (complete) { break; }
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+                        case OPERATION.STARTS_WITH:
+                            foreach (string datum in clause.data)
+                            {
+                                foreach (var val in valsToCheck)
+                                {
+                                    if (val.StartsWith(datum, StringComparison.CurrentCulture))
+                                    {
+                                        complete = true;
+                                        break;
+                                    }
+                                }
+                                if (complete) { break; }
+                            }
+                            if (complete) { break; }
+                            return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
                         default:
                             Log.Debug("Unimplemented operation {0}", clause.op);
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
