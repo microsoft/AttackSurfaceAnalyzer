@@ -59,7 +59,7 @@ namespace AttackSurfaceAnalyzer.Utils
         private static readonly string SQL_INSERT_FINDINGS_RESULT = "insert into findings (comparison_id, result_type, level, identity, serialized) values (@comparison_id, @result_type, @level, @identity, @serialized)";
 
         private static readonly string SQL_GET_COLLECT_MISSING_IN_B = "select * from collect b where b.run_id = @second_run_id and b.identity not in (select identity from collect a where a.run_id = @first_run_id);";
-        private static readonly string SQL_GET_COLLECT_MODIFIED = "select a.row_key as 'a_row_key', a.serialized as 'a_serialized', a.result_type as 'a_result_type', a.identity as 'a_identity', a.run_id as 'a_run_id', b.row_key as 'b_row_key', b.serialized as 'b_serialized', b.result_type as 'b_result_type', b.identity as 'b_identity', b.run_id as 'b_run_id' from collect a indexed by i_collect_runid_row_type, collect b indexed by i_collect_runid_row_type where a.run_id=@first_run_id and b.run_id=@second_run_id and a.identity = b.identity and a.serialized != b.serialized;";
+        private static readonly string SQL_GET_COLLECT_MODIFIED = "select a.row_key as 'a_row_key', a.serialized as 'a_serialized', a.result_type as 'a_result_type', a.identity as 'a_identity', a.run_id as 'a_run_id', b.row_key as 'b_row_key', b.serialized as 'b_serialized', b.result_type as 'b_result_type', b.identity as 'b_identity', b.run_id as 'b_run_id' from collect a indexed by i_collect_runid_row_type, collect b indexed by i_collect_runid_row_type where a.run_id=@first_run_id and b.run_id=@second_run_id and a.identity = b.identity and a.row_key != b.row_key;";
 
         private static readonly string PRAGMAS = "PRAGMA main.auto_vacuum = 1;";
 
