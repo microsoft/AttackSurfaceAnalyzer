@@ -70,8 +70,6 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private static SqliteTransaction _transaction;
 
-        private static int _numRecordsCollected = 0;
-
         public static bool FirstRun { get; private set; } = true;
 
         public static bool Setup()

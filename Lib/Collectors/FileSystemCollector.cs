@@ -67,8 +67,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
 
             Start();
-            //Ensure the transaction is started to prevent collisions on the multithreaded code ahead
-            _ = DatabaseManager.Transaction;
             
             if (roots == null || !roots.Any())
             {
@@ -95,6 +93,8 @@ namespace AttackSurfaceAnalyzer.Collectors
             foreach (var root in roots)
             {
                 Log.Information("{0} root {1}",Strings.Get("Scanning"),root.ToString());
+                //Ensure the transaction is started to prevent collisions on the multithreaded code ahead
+                _ = DatabaseManager.Transaction;
                 try
                 {
                     var fileInfoEnumerable = DirectoryWalker.WalkDirectory(root);
@@ -206,11 +206,13 @@ namespace AttackSurfaceAnalyzer.Collectors
                 {
                     Log.Warning(e, "Error collecting file system information: {0}", e.Message);
                 }
+
+                DatabaseManager.Commit();
+
             }
 
             Stop();
 
-            DatabaseManager.Commit();
         }
     }
 }
