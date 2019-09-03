@@ -27,6 +27,16 @@ namespace AttackSurfaceAnalyzer.Utils
             {RESULT_TYPE.USER, new List<FieldInfo>(new UserAccountObject().GetType().GetFields()) },
             {RESULT_TYPE.GROUP, new List<FieldInfo>(new UserAccountObject().GetType().GetFields()) }
         };
+        Dictionary<RESULT_TYPE, List<PropertyInfo>> _Properties = new Dictionary<RESULT_TYPE, List<PropertyInfo>>()
+        {
+            {RESULT_TYPE.FILE , new List<PropertyInfo>(new FileSystemObject().GetType().GetProperties() },
+            {RESULT_TYPE.CERTIFICATE, new List<PropertyInfo>(new CertificateObject().GetType().GetProperties()) },
+            {RESULT_TYPE.PORT, new List<PropertyInfo>(new OpenPortObject().GetType().GetProperties()) },
+            {RESULT_TYPE.REGISTRY, new List<PropertyInfo>(new RegistryObject().GetType().GetProperties()) },
+            {RESULT_TYPE.SERVICE, new List<PropertyInfo>(new ServiceObject().GetType().GetProperties()) },
+            {RESULT_TYPE.USER, new List<PropertyInfo>(new UserAccountObject().GetType().GetProperties()) },
+            {RESULT_TYPE.GROUP, new List<PropertyInfo>(new UserAccountObject().GetType().GetProperties()) }
+        }
         Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DEFAULT_RESULT_TYPE_MAP = new Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>()
         {
             { RESULT_TYPE.CERTIFICATE, ANALYSIS_RESULT_TYPE.INFORMATION },
@@ -108,12 +118,13 @@ namespace AttackSurfaceAnalyzer.Utils
         protected ANALYSIS_RESULT_TYPE Apply(Rule rule, CompareResult compareResult)
         {
             var fields = _Fields[compareResult.ResultType];
+            var properties = _Properties[compareResult.ResultType];
 
             foreach (Clause clause in rule.clauses)
             {
                 FieldInfo field = fields.FirstOrDefault(iField => iField.Name.Equals(clause.field));
-
-                if (field == null)
+                PropertyInfo property = properties.FirstOrDefault(iProp => iProp.Name.Equals(clause.field));
+                if (field == null && property == null)
                 {
                     //Custom field logic will go here
                     return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
@@ -140,6 +151,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         catch (NullReferenceException)
                         {
                             // Looks like it wasn't a property either.
+                            Log.Debug("We shouldn't be here.  Found a field or property that is also not a field or property. {0} {1}", compareResult.ResultType, clause.field);
                         }
                     }
                     if (compareResult.ChangeType == CHANGE_TYPE.DELETED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
@@ -159,6 +171,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         catch (NullReferenceException)
                         {
                             // Looks like it wasn't a property either.
+                            Log.Debug("We shouldn't be here.  Found a field or property that is also not a field or property. {0} {1}", compareResult.ResultType, clause.field);
                         }
                     }
 
