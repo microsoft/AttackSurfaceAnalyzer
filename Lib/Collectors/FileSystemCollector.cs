@@ -198,13 +198,13 @@ namespace AttackSurfaceAnalyzer.Collectors
                         }
                         catch (Exception e)
                         {
-                            Log.Debug(e, "Exception parsing {0}", fileInfo?.FullName);
+                            Logger.DebugException(e);
                         }
                     }));
                 }
                 catch (Exception e)
                 {
-                    Log.Warning(e, "Error collecting file system information: {0}", ex.Message);
+                    Log.Warning(e, "Error collecting file system information: {0}", e.Message);
                 }
             }
 
