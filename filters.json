@@ -88,7 +88,8 @@
             "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows\\\\WER\\\\ReportArchive",
             "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows\\\\ClipSVC\\\\tokens.dat",
             "^[A-Z]:\\\\Windows\\\\ServiceProfiles\\\\NetworkService\\\\AppData\\\\Local\\\\Microsoft\\\\Windows\\\\DeliveryOptimization\\State",
-            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Network\\\\Downloader"
+            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Network\\\\Downloader",
+            "^[A-Z]:\\\\Windows\\\\Temp"
           ]
         }
       }
