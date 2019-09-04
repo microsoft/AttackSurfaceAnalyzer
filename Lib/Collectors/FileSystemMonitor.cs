@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using AttackSurfaceAnalyzer.Objects;
+using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
@@ -214,7 +215,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 return;
             }
-            
+
             // Inspect the file
             if (getFileDetails && e.ChangeType != WatcherChangeTypes.Deleted)
             {

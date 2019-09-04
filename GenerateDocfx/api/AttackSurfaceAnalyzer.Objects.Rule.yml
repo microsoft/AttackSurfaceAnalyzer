@@ -1,0 +1,753 @@
+### YamlMime:ManagedReference
+items:
+- uid: AttackSurfaceAnalyzer.Objects.Rule
+  commentId: T:AttackSurfaceAnalyzer.Objects.Rule
+  id: Rule
+  parent: AttackSurfaceAnalyzer.Objects
+  children:
+  - AttackSurfaceAnalyzer.Objects.Rule.changeTypes
+  - AttackSurfaceAnalyzer.Objects.Rule.clauses
+  - AttackSurfaceAnalyzer.Objects.Rule.desc
+  - AttackSurfaceAnalyzer.Objects.Rule.flag
+  - AttackSurfaceAnalyzer.Objects.Rule.name
+  - AttackSurfaceAnalyzer.Objects.Rule.platforms
+  - AttackSurfaceAnalyzer.Objects.Rule.resultType
+  langs:
+  - csharp
+  - vb
+  name: Rule
+  nameWithType: Rule
+  fullName: AttackSurfaceAnalyzer.Objects.Rule
+  type: Class
+  source:
+    remote:
+      path: Lib/Objects/Rule.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Rule
+    path: ../Lib/Objects/Rule.cs
+    startLine: 10
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: public class Rule
+    content.vb: Public Class Rule
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: AttackSurfaceAnalyzer.Objects.Rule.platforms
+  commentId: F:AttackSurfaceAnalyzer.Objects.Rule.platforms
+  id: platforms
+  parent: AttackSurfaceAnalyzer.Objects.Rule
+  langs:
+  - csharp
+  - vb
+  name: platforms
+  nameWithType: Rule.platforms
+  fullName: AttackSurfaceAnalyzer.Objects.Rule.platforms
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Rule.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: platforms
+    path: ../Lib/Objects/Rule.cs
+    startLine: 14
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: >-
+      [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore | DefaultValueHandling.Populate | DefaultValueHandling.IgnoreAndPopulate)]
+
+      public PLATFORM[] platforms
+    return:
+      type: AttackSurfaceAnalyzer.Types.PLATFORM[]
+    content.vb: >-
+      <JsonProperty(DefaultValueHandling:=DefaultValueHandling.Ignore Or DefaultValueHandling.Populate Or DefaultValueHandling.IgnoreAndPopulate)>
+
+      Public platforms As PLATFORM()
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: DefaultValueHandling
+      type: Newtonsoft.Json.DefaultValueHandling
+      value: 3
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.Objects.Rule.changeTypes
+  commentId: F:AttackSurfaceAnalyzer.Objects.Rule.changeTypes
+  id: changeTypes
+  parent: AttackSurfaceAnalyzer.Objects.Rule
+  langs:
+  - csharp
+  - vb
+  name: changeTypes
+  nameWithType: Rule.changeTypes
+  fullName: AttackSurfaceAnalyzer.Objects.Rule.changeTypes
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Rule.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: changeTypes
+    path: ../Lib/Objects/Rule.cs
+    startLine: 18
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: >-
+      [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore | DefaultValueHandling.Populate | DefaultValueHandling.IgnoreAndPopulate)]
+
+      public CHANGE_TYPE[] changeTypes
+    return:
+      type: AttackSurfaceAnalyzer.Types.CHANGE_TYPE[]
+    content.vb: >-
+      <JsonProperty(DefaultValueHandling:=DefaultValueHandling.Ignore Or DefaultValueHandling.Populate Or DefaultValueHandling.IgnoreAndPopulate)>
+
+      Public changeTypes As CHANGE_TYPE()
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: DefaultValueHandling
+      type: Newtonsoft.Json.DefaultValueHandling
+      value: 3
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.Objects.Rule.name
+  commentId: F:AttackSurfaceAnalyzer.Objects.Rule.name
+  id: name
+  parent: AttackSurfaceAnalyzer.Objects.Rule
+  langs:
+  - csharp
+  - vb
+  name: name
+  nameWithType: Rule.name
+  fullName: AttackSurfaceAnalyzer.Objects.Rule.name
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Rule.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: name
+    path: ../Lib/Objects/Rule.cs
+    startLine: 20
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: public string name
+    return:
+      type: System.String
+    content.vb: Public name As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.Objects.Rule.desc
+  commentId: F:AttackSurfaceAnalyzer.Objects.Rule.desc
+  id: desc
+  parent: AttackSurfaceAnalyzer.Objects.Rule
+  langs:
+  - csharp
+  - vb
+  name: desc
+  nameWithType: Rule.desc
+  fullName: AttackSurfaceAnalyzer.Objects.Rule.desc
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Rule.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: desc
+    path: ../Lib/Objects/Rule.cs
+    startLine: 21
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: public string desc
+    return:
+      type: System.String
+    content.vb: Public desc As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.Objects.Rule.flag
+  commentId: F:AttackSurfaceAnalyzer.Objects.Rule.flag
+  id: flag
+  parent: AttackSurfaceAnalyzer.Objects.Rule
+  langs:
+  - csharp
+  - vb
+  name: flag
+  nameWithType: Rule.flag
+  fullName: AttackSurfaceAnalyzer.Objects.Rule.flag
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Rule.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: flag
+    path: ../Lib/Objects/Rule.cs
+    startLine: 22
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: public ANALYSIS_RESULT_TYPE flag
+    return:
+      type: AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE
+    content.vb: Public flag As ANALYSIS_RESULT_TYPE
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.Objects.Rule.resultType
+  commentId: F:AttackSurfaceAnalyzer.Objects.Rule.resultType
+  id: resultType
+  parent: AttackSurfaceAnalyzer.Objects.Rule
+  langs:
+  - csharp
+  - vb
+  name: resultType
+  nameWithType: Rule.resultType
+  fullName: AttackSurfaceAnalyzer.Objects.Rule.resultType
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Rule.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: resultType
+    path: ../Lib/Objects/Rule.cs
+    startLine: 23
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: public RESULT_TYPE resultType
+    return:
+      type: AttackSurfaceAnalyzer.Types.RESULT_TYPE
+    content.vb: Public resultType As RESULT_TYPE
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.Objects.Rule.clauses
+  commentId: F:AttackSurfaceAnalyzer.Objects.Rule.clauses
+  id: clauses
+  parent: AttackSurfaceAnalyzer.Objects.Rule
+  langs:
+  - csharp
+  - vb
+  name: clauses
+  nameWithType: Rule.clauses
+  fullName: AttackSurfaceAnalyzer.Objects.Rule.clauses
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Rule.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: clauses
+    path: ../Lib/Objects/Rule.cs
+    startLine: 24
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: public List<Clause> clauses
+    return:
+      type: System.Collections.Generic.List{AttackSurfaceAnalyzer.Objects.Clause}
+    content.vb: Public clauses As List(Of Clause)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: AttackSurfaceAnalyzer.Objects
+  commentId: N:AttackSurfaceAnalyzer.Objects
+  name: AttackSurfaceAnalyzer.Objects
+  nameWithType: AttackSurfaceAnalyzer.Objects
+  fullName: AttackSurfaceAnalyzer.Objects
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: AttackSurfaceAnalyzer.Types.PLATFORM[]
+  isExternal: true
+  name: PLATFORM[]
+  nameWithType: PLATFORM[]
+  fullName: AttackSurfaceAnalyzer.Types.PLATFORM[]
+  nameWithType.vb: PLATFORM()
+  fullName.vb: AttackSurfaceAnalyzer.Types.PLATFORM()
+  name.vb: PLATFORM()
+  spec.csharp:
+  - uid: AttackSurfaceAnalyzer.Types.PLATFORM
+    name: PLATFORM
+    nameWithType: PLATFORM
+    fullName: AttackSurfaceAnalyzer.Types.PLATFORM
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: AttackSurfaceAnalyzer.Types.PLATFORM
+    name: PLATFORM
+    nameWithType: PLATFORM
+    fullName: AttackSurfaceAnalyzer.Types.PLATFORM
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: AttackSurfaceAnalyzer.Types.CHANGE_TYPE[]
+  isExternal: true
+  name: CHANGE_TYPE[]
+  nameWithType: CHANGE_TYPE[]
+  fullName: AttackSurfaceAnalyzer.Types.CHANGE_TYPE[]
+  nameWithType.vb: CHANGE_TYPE()
+  fullName.vb: AttackSurfaceAnalyzer.Types.CHANGE_TYPE()
+  name.vb: CHANGE_TYPE()
+  spec.csharp:
+  - uid: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
+    name: CHANGE_TYPE
+    nameWithType: CHANGE_TYPE
+    fullName: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
+    name: CHANGE_TYPE
+    nameWithType: CHANGE_TYPE
+    fullName: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE
+  commentId: T:AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE
+  parent: AttackSurfaceAnalyzer.Types
+  name: ANALYSIS_RESULT_TYPE
+  nameWithType: ANALYSIS_RESULT_TYPE
+  fullName: AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE
+- uid: AttackSurfaceAnalyzer.Types
+  commentId: N:AttackSurfaceAnalyzer.Types
+  name: AttackSurfaceAnalyzer.Types
+  nameWithType: AttackSurfaceAnalyzer.Types
+  fullName: AttackSurfaceAnalyzer.Types
+- uid: AttackSurfaceAnalyzer.Types.RESULT_TYPE
+  commentId: T:AttackSurfaceAnalyzer.Types.RESULT_TYPE
+  parent: AttackSurfaceAnalyzer.Types
+  name: RESULT_TYPE
+  nameWithType: RESULT_TYPE
+  fullName: AttackSurfaceAnalyzer.Types.RESULT_TYPE
+- uid: System.Collections.Generic.List{AttackSurfaceAnalyzer.Objects.Clause}
+  commentId: T:System.Collections.Generic.List{AttackSurfaceAnalyzer.Objects.Clause}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<Clause>
+  nameWithType: List<Clause>
+  fullName: System.Collections.Generic.List<AttackSurfaceAnalyzer.Objects.Clause>
+  nameWithType.vb: List(Of Clause)
+  fullName.vb: System.Collections.Generic.List(Of AttackSurfaceAnalyzer.Objects.Clause)
+  name.vb: List(Of Clause)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: AttackSurfaceAnalyzer.Objects.Clause
+    name: Clause
+    nameWithType: Clause
+    fullName: AttackSurfaceAnalyzer.Objects.Clause
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: AttackSurfaceAnalyzer.Objects.Clause
+    name: Clause
+    nameWithType: Clause
+    fullName: AttackSurfaceAnalyzer.Objects.Clause
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic

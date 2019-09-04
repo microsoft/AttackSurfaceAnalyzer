@@ -30,8 +30,8 @@ var RESULT_TYPE = {
     UNKNOWN: 6
 };
 var CHANGE_TYPE = {
-    CREATED : 0,
-    DELETED : 1,
+    CREATED: 0,
+    DELETED: 1,
     MODIFIED: 2,
     RENAMED: 3,
     INVALID: 4

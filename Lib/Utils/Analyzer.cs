@@ -12,6 +12,7 @@ using System.Linq;
 using Newtonsoft.Json.Converters;
 using PeNet.Structures.MetaDataTables;
 using Markdig.Extensions.Tables;
+using AttackSurfaceAnalyzer.Types;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -24,7 +25,18 @@ namespace AttackSurfaceAnalyzer.Utils
             {RESULT_TYPE.PORT, new List<FieldInfo>(new OpenPortObject().GetType().GetFields()) },
             {RESULT_TYPE.REGISTRY, new List<FieldInfo>(new RegistryObject().GetType().GetFields()) },
             {RESULT_TYPE.SERVICE, new List<FieldInfo>(new ServiceObject().GetType().GetFields()) },
-            {RESULT_TYPE.USER, new List<FieldInfo>(new UserAccountObject().GetType().GetFields()) }
+            {RESULT_TYPE.USER, new List<FieldInfo>(new UserAccountObject().GetType().GetFields()) },
+            {RESULT_TYPE.GROUP, new List<FieldInfo>(new UserAccountObject().GetType().GetFields()) }
+        };
+        Dictionary<RESULT_TYPE, List<PropertyInfo>> _Properties = new Dictionary<RESULT_TYPE, List<PropertyInfo>>()
+        {
+            {RESULT_TYPE.FILE , new List<PropertyInfo>(new FileSystemObject().GetType().GetProperties()) },
+            {RESULT_TYPE.CERTIFICATE, new List<PropertyInfo>(new CertificateObject().GetType().GetProperties()) },
+            {RESULT_TYPE.PORT, new List<PropertyInfo>(new OpenPortObject().GetType().GetProperties()) },
+            {RESULT_TYPE.REGISTRY, new List<PropertyInfo>(new RegistryObject().GetType().GetProperties()) },
+            {RESULT_TYPE.SERVICE, new List<PropertyInfo>(new ServiceObject().GetType().GetProperties()) },
+            {RESULT_TYPE.USER, new List<PropertyInfo>(new UserAccountObject().GetType().GetProperties()) },
+            {RESULT_TYPE.GROUP, new List<PropertyInfo>(new UserAccountObject().GetType().GetProperties()) }
         };
         Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DEFAULT_RESULT_TYPE_MAP = new Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>()
         {
@@ -34,14 +46,16 @@ namespace AttackSurfaceAnalyzer.Utils
             { RESULT_TYPE.REGISTRY, ANALYSIS_RESULT_TYPE.INFORMATION },
             { RESULT_TYPE.SERVICE, ANALYSIS_RESULT_TYPE.INFORMATION },
             { RESULT_TYPE.USER, ANALYSIS_RESULT_TYPE.INFORMATION },
-            { RESULT_TYPE.UNKNOWN, ANALYSIS_RESULT_TYPE.INFORMATION }
+            { RESULT_TYPE.UNKNOWN, ANALYSIS_RESULT_TYPE.INFORMATION },
+            { RESULT_TYPE.GROUP, ANALYSIS_RESULT_TYPE.INFORMATION }
         };
 
         JObject config = null;
         List<Rule> _filters = new List<Rule>();
         PLATFORM OsName;
 
-        public Analyzer(PLATFORM platform, string filterLocation = null) {
+        public Analyzer(PLATFORM platform, string filterLocation = null)
+        {
             if (filterLocation == null) { LoadEmbeddedFilters(); }
             else { LoadFilters(filterLocation); }
 
@@ -52,7 +66,7 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             _filters = new List<Rule>();
             DEFAULT_RESULT_TYPE_MAP = new Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>();
-            foreach(RESULT_TYPE r in Enum.GetValues(typeof(RESULT_TYPE)))
+            foreach (RESULT_TYPE r in Enum.GetValues(typeof(RESULT_TYPE)))
             {
                 DEFAULT_RESULT_TYPE_MAP.Add(r, ANALYSIS_RESULT_TYPE.INFORMATION);
             }
@@ -67,12 +81,17 @@ namespace AttackSurfaceAnalyzer.Utils
                     switch (R.Key)
                     {
                         case "defaultLevels":
-                            DEFAULT_RESULT_TYPE_MAP = R.Value.ToObject<Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>>();
+                            var loadedMap = R.Value.ToObject<Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>>();
+                            foreach (var kvpair in loadedMap)
+                            {
+                                //Overwrite the defaults with settings made (if any)
+                                DEFAULT_RESULT_TYPE_MAP[kvpair.Key] = kvpair.Value;
+                            }
                             break;
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Logger.DebugException(e);
             }
@@ -83,7 +102,8 @@ namespace AttackSurfaceAnalyzer.Utils
             if (config == null) { return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType]; }
             var results = new List<ANALYSIS_RESULT_TYPE>();
             var curFilters = _filters.Where((rule) => (rule.changeTypes.Contains(compareResult.ChangeType) || rule.changeTypes == null)
-                                                     && (rule.platforms.Contains(OsName) || rule.platforms == null))
+                                                     && (rule.platforms.Contains(OsName) || rule.platforms == null)
+                                                     && (rule.resultType.Equals(compareResult.ResultType)))
                                 .ToList();
             if (curFilters.Count > 0)
             {
@@ -101,12 +121,13 @@ namespace AttackSurfaceAnalyzer.Utils
         protected ANALYSIS_RESULT_TYPE Apply(Rule rule, CompareResult compareResult)
         {
             var fields = _Fields[compareResult.ResultType];
+            var properties = _Properties[compareResult.ResultType];
 
             foreach (Clause clause in rule.clauses)
             {
                 FieldInfo field = fields.FirstOrDefault(iField => iField.Name.Equals(clause.field));
-
-                if (field == null)
+                PropertyInfo property = properties.FirstOrDefault(iProp => iProp.Name.Equals(clause.field));
+                if (field == null && property == null)
                 {
                     //Custom field logic will go here
                     return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
@@ -119,11 +140,38 @@ namespace AttackSurfaceAnalyzer.Utils
 
                     if (compareResult.ChangeType == CHANGE_TYPE.CREATED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
                     {
-                        valsToCheck.Add(GetValueByPropertyName(compareResult.Compare, field.Name).ToString());
+                        try
+                        {
+                            valsToCheck.Add(GetValueByFieldName(compareResult.Compare, field.Name).ToString());
+                        }
+                        catch (NullReferenceException)
+                        {
+                        }
+                        try
+                        {
+                            valsToCheck.Add(GetValueByPropertyName(compareResult.Compare, property.Name).ToString());
+                        }
+                        catch (NullReferenceException)
+                        {
+                        }
+
                     }
                     if (compareResult.ChangeType == CHANGE_TYPE.DELETED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
                     {
-                        valsToCheck.Add(GetValueByPropertyName(compareResult.Base, field.Name).ToString());
+                        try
+                        {
+                            valsToCheck.Add(GetValueByFieldName(compareResult.Base, field.Name).ToString());
+                        }
+                        catch (NullReferenceException)
+                        {
+                        }
+                        try
+                        {
+                            valsToCheck.Add(GetValueByPropertyName(compareResult.Base, property.Name).ToString());
+                        }
+                        catch (NullReferenceException)
+                        {
+                        }
                     }
 
                     switch (clause.op)
@@ -164,7 +212,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         case OPERATION.GT:
                             foreach (string val in valsToCheck)
                             {
-                                complete|= Int32.Parse(val.ToString()) > Int32.Parse(clause.data[0]);
+                                complete |= Int32.Parse(val.ToString()) > Int32.Parse(clause.data[0]);
                             }
                             if (complete) { break; }
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
@@ -172,7 +220,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         case OPERATION.LT:
                             foreach (string val in valsToCheck)
                             {
-                                complete|= Int32.Parse(val.ToString()) < Int32.Parse(clause.data[0]);
+                                complete |= Int32.Parse(val.ToString()) < Int32.Parse(clause.data[0]);
                             }
                             if (complete) { break; }
 
@@ -213,6 +261,21 @@ namespace AttackSurfaceAnalyzer.Utils
                             }
                             if (complete) { break; }
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+                        case OPERATION.STARTS_WITH:
+                            foreach (string datum in clause.data)
+                            {
+                                foreach (var val in valsToCheck)
+                                {
+                                    if (val.StartsWith(datum, StringComparison.CurrentCulture))
+                                    {
+                                        complete = true;
+                                        break;
+                                    }
+                                }
+                                if (complete) { break; }
+                            }
+                            if (complete) { break; }
+                            return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
                         default:
                             Log.Debug("Unimplemented operation {0}", clause.op);
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
@@ -228,7 +291,9 @@ namespace AttackSurfaceAnalyzer.Utils
             return rule.flag;
         }
 
+        private object GetValueByFieldName(object obj, string fieldName) => obj.GetType().GetField(fieldName).GetValue(obj);
         private object GetValueByPropertyName(object obj, string propertyName) => obj.GetType().GetField(propertyName).GetValue(obj);
+
 
         public void DumpFilters()
         {
@@ -236,7 +301,7 @@ namespace AttackSurfaceAnalyzer.Utils
             Log.Verbose(JsonConvert.SerializeObject(_filters, new StringEnumConverter()));
         }
 
-        public  void LoadEmbeddedFilters()
+        public void LoadEmbeddedFilters()
         {
             try
             {
@@ -322,7 +387,7 @@ namespace AttackSurfaceAnalyzer.Utils
             catch (JsonReaderException)
             {
                 config = null;
-                Log.Warning("Error when parsing '{0}' analyses file. This is likely an issue with your JSON formatting.",filterLoc);
+                Log.Warning("Error when parsing '{0}' analyses file. This is likely an issue with your JSON formatting.", filterLoc);
             }
             catch (Exception e)
             {

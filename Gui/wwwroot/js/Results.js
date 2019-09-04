@@ -36,7 +36,7 @@ ResultTypeGroup.change(function () {
     resultOffset = 0;
     $("#ExportSelection").attr('disabled', false);
     GetResults($('input[name=ResultType]:checked').val(), resultOffset, 100);
-    switch (parseInt(ResultTypeGroup.filter(':checked').val())){
+    switch (parseInt(ResultTypeGroup.filter(':checked').val())) {
         case RESULT_TYPE.PORT:
             $('.ports').show();
             break;
@@ -60,26 +60,23 @@ ResultTypeGroup.change(function () {
 
 
 
-$('#SelectedBaseRunId').change(function () { ResetResults(); } );
-$('#SelectedCompareRunId').change(function () { ResetResults(); } );
+$('#SelectedBaseRunId').change(function () { ResetResults(); });
+$('#SelectedCompareRunId').change(function () { ResetResults(); });
 
 $("#RunAnalysisButton").click(function () {
     ResetResults();
     DisableCollectionFields();
 
-    appendDebugMessage("Button Clicked",false);
-    if($("#SelectedBaseRunId").value == "" || $("#SelectedCompareRunId").val() == "")
-    {
+    appendDebugMessage("Button Clicked", false);
+    if ($("#SelectedBaseRunId").value == "" || $("#SelectedCompareRunId").val() == "") {
         SetStatus("Must select runs.");
         EnableCollectionFields();
     }
-    else if ($("#SelectedBaseRunId").val() == $("#SelectedCompareRunId").val())
-    {
+    else if ($("#SelectedBaseRunId").val() == $("#SelectedCompareRunId").val()) {
         SetStatus("Must select different runs.");
         EnableCollectionFields();
     }
-    else
-    {
+    else {
         var compare = { 'first_id': $('#SelectedBaseRunId').val(), 'second_id': $('#SelectedCompareRunId').val() };
         $.getJSON('RunAnalysis', compare, function (result) {
             SetStatus(result);
@@ -195,20 +192,20 @@ function GetResultTypes() {
 
 function UpdateNumResults(total, offset, requested, actual) {
     $('#CountStatus').empty();
-    if (actual == 0){
+    if (actual == 0) {
         $("#CountStatus").append(l("%Error.NoDifference"));
     }
-    else{
-        $("#CountStatus").append(l("%Showing") + (offset + 1) + " - " + (offset + actual) +l("%Results") + total + l("%TotalRecords"));
+    else {
+        $("#CountStatus").append(l("%Showing") + (offset + 1) + " - " + (offset + actual) + l("%Results") + total + l("%TotalRecords"));
     }
 }
 
 function UpdateMonitorNumResults(total, offset, requested, actual) {
     $('#MonitorCountStatus').empty();
-    if (actual == 0){
+    if (actual == 0) {
         $("#CountStatus").append(l("%Error.NoDifference"));
     }
-    else{
+    else {
         $("#MonitorCountStatus").append(l("%Showing ") + (offset + 1) + " - " + (offset + actual) + l("%Results") + total + l("%TotalRecords"));
     }
 }
@@ -224,8 +221,7 @@ function GetResults(type, offset, number) {
 
         var objs = obj.Results;
         $('tbody').empty();
-        for (var i = 0; i < objs.length; i++)
-        {
+        for (var i = 0; i < objs.length; i++) {
             InsertIntoTable(objs[i]);
         }
         $('.resultTableRow').click(function () {
@@ -241,7 +237,7 @@ function GetResults(type, offset, number) {
             }
         });
         $('.resultTableExpanded').click(function () {
-            $('#'+this.id).slideToggle();
+            $('#' + this.id).slideToggle();
         });
     });
 }
@@ -258,8 +254,7 @@ function GetMonitorResults(type, offset, number) {
 
         var objs = obj.Results;
         $('tbody').empty();
-        for (var i = 0; i < objs.length; i++)
-        {
+        for (var i = 0; i < objs.length; i++) {
             InsertIntoMonitorTable(objs[i]);
         }
     });
@@ -323,7 +318,7 @@ function ExportMonitorResults() {
         'RunId': $('#SelectedMonitorRunId').val(),
         'ResultType': $('input[name=MonitorResultType]:checked').val(),
         'OutputPath': ($('#DirectoryPathMonitor').val() == "") ? $('#DirectoryPathMonitor').attr('placeholder') : $('#DirectoryPathMonitor').val()
- };
+    };
     $.getJSON('WriteMonitorJson', data, function (results) {
         SetMonitorStatus("Results written");
     });
@@ -491,7 +486,7 @@ function InsertIntoServiceTable(result) {
     if (result.ChangeType == CHANGE_TYPE.CREATED) {
         appendObj = result.Compare;
     }
-    else{
+    else {
         appendObj = result.Base;
     }
     var uid = uuidv4();
@@ -509,7 +504,7 @@ function InsertIntoServiceTable(result) {
     });
     caretContainer.append(caret);
     arrowTD.append(caretContainer);
-    tmp.append(arrowTD);  
+    tmp.append(arrowTD);
     tmp.append($('<td/>', {
         scope: "col",
         html: FlagToString(result.Analysis)
@@ -547,10 +542,10 @@ function InsertIntoServiceTable(result) {
 
 function InsertIntoCertificateTable(result) {
     var appendObj;
-    if (result.ChangeType == CHANGE_TYPE.CREATED){
+    if (result.ChangeType == CHANGE_TYPE.CREATED) {
         appendObj = result.Compare;
     }
-    else{
+    else {
         appendObj = result.Base;
     }
     var uid = uuidv4();
@@ -610,8 +605,7 @@ function InsertIntoUserTable(result) {
     if (result.ChangeType == CHANGE_TYPE.CREATED) {
         appendObj = result.Compare;
     }
-    else
-    {
+    else {
         appendObj = result.Base;
     }
 
@@ -652,7 +646,7 @@ function InsertIntoUserTable(result) {
         html: appendObj.Description
     }));
     $('#UserResultsTableBody').append(tmp);
-    
+
     tmp = $('<tr/>');
     var tmp2 = $('<td/>', {
         colspan: 5,
@@ -668,7 +662,7 @@ function InsertIntoFileTable(result) {
     if (result.ChangeType != CHANGE_TYPE.CREATED) {
         appendObj = result.Base;
     }
-    else{
+    else {
         appendObj = result.Compare;
     }
     var uid = uuidv4();
@@ -766,7 +760,7 @@ function InsertIntoPortTable(result) {
         html: appendObj.address
     }));
     $('#PortResultsTableBody').append(tmp);
-    
+
     tmp = $('<tr/>');
     var tmp2 = $('<td/>', {
         colspan: 5,

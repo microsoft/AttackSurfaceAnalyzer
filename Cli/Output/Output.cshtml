@@ -83,7 +83,7 @@
 
                     The following files were changed between runs <strong>@Model["BeforeRunId"]</strong> and <strong>@Model["AfterRunId"]</strong>.
                     @{
-                        /* 
+                        /*
                             <div class="dropdown float-right show">
                             <a class="btn btn-sm btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Filter Results
@@ -170,7 +170,7 @@
                                 </tbody>
                             </table>
                         </div>
-                    
+
                     }
                 </div>
 
@@ -206,7 +206,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @if(Model.ContainsKey("SERVICE_DELETED"))
+                                        @if (Model.ContainsKey("SERVICE_DELETED"))
                                         {
                                             @foreach (CompareResult i in Model["SERVICE_DELETED"])
                                             {
@@ -220,7 +220,8 @@
                                                 </tr>
                                             }
                                         }
-                                        @if(Model.ContainsKey("SERVICE_CREATED")){
+                                        @if (Model.ContainsKey("SERVICE_CREATED"))
+                                        {
                                             @foreach (CompareResult i in Model["SERVICE_CREATED"])
                                             {
                                                 <tr>
@@ -233,7 +234,8 @@
                                                 </tr>
                                             }
                                         }
-                                        @if(Model.ContainsKey("SERVICE_MODIFIED")){
+                                        @if (Model.ContainsKey("SERVICE_MODIFIED"))
+                                        {
                                             @foreach (CompareResult i in Model["SERVICE_MODIFIED"])
                                             {
                                                 <tr>
@@ -294,7 +296,7 @@
                                             }
                                         }
 
-                                        @if(Model.ContainsKey("PORT_CREATED"))
+                                        @if (Model.ContainsKey("PORT_CREATED"))
                                         {
                                             @foreach (CompareResult i in Model["PORT_CREATED"])
                                             {
@@ -320,166 +322,166 @@
 
                     The following user accounts were changed between runs <strong>@Model["BeforeRunId"]</strong> and <strong>@Model["AfterRunId"]</strong>.
                     @{
-                            <div class="dropdown float-right show">
-                                <a class="btn btn-sm btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Filter Results
-                                </a>
+                        <div class="dropdown float-right show">
+                            <a class="btn btn-sm btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Filter Results
+                            </a>
 
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="#">Interesting</a>
-                                    <a class="dropdown-item" href="#">Uninteresting</a>
-                                    <a class="dropdown-item" href="#">Show All</a>
-                                </div>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" href="#">Interesting</a>
+                                <a class="dropdown-item" href="#">Uninteresting</a>
+                                <a class="dropdown-item" href="#">Show All</a>
                             </div>
+                        </div>
 
-                            <div class="table-responsive">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th>Analysis</th>
-                                            <th>AccountType</th>
-                                            <th>Caption</th>
-                                            <th>Description</th>
-                                            <th>Disabled</th>
-                                            <th>Domain</th>
-                                            <th>InstallDate</th>
-                                            <th>LocalAccount</th>
-                                            <th>Lockout</th>
-                                            <th>Name</th>
-                                            <th>FullName</th>
-                                            <th>PasswordChangeable</th>
-                                            <th>PasswordExpires</th>
-                                            <th>PasswordRequired</th>
-                                            <th>SID</th>
-                                            <th>UID</th>
-                                            <th>GID</th>
-                                            <th>Inactive</th>
-                                            <th>HomeDirectory</th>
-                                            <th>Shell</th>
-                                            <th>PasswordStorageAlgorithm</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @if(Model.ContainsKey("USER_DELETED"))
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Analysis</th>
+                                        <th>AccountType</th>
+                                        <th>Caption</th>
+                                        <th>Description</th>
+                                        <th>Disabled</th>
+                                        <th>Domain</th>
+                                        <th>InstallDate</th>
+                                        <th>LocalAccount</th>
+                                        <th>Lockout</th>
+                                        <th>Name</th>
+                                        <th>FullName</th>
+                                        <th>PasswordChangeable</th>
+                                        <th>PasswordExpires</th>
+                                        <th>PasswordRequired</th>
+                                        <th>SID</th>
+                                        <th>UID</th>
+                                        <th>GID</th>
+                                        <th>Inactive</th>
+                                        <th>HomeDirectory</th>
+                                        <th>Shell</th>
+                                        <th>PasswordStorageAlgorithm</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.ContainsKey("USER_DELETED"))
+                                    {
+                                        @foreach (CompareResult i in Model["USER_DELETED"])
                                         {
-                                            @foreach (CompareResult i in Model["USER_DELETED"])
-                                            {
-                                        <tr>
-                                            <td>Deleted</td>
-                                            <td>@i.Analysis</td>
-                                            <td>@(((UserAccountObject)i.Base).AccountType)</td>
-                                            <td>@(((UserAccountObject)i.Base).Caption)</td>
-                                            <td>@(((UserAccountObject)i.Base).Description)</td>
-                                            <td>@(((UserAccountObject)i.Base).Disabled)</td>
-                                            <td>@(((UserAccountObject)i.Base).Domain)</td>
-                                            <td>@(((UserAccountObject)i.Base).InstallDate)</td>
-                                            <td>@(((UserAccountObject)i.Base).LocalAccount)</td>
-                                            <td>@(((UserAccountObject)i.Base).Lockout)</td>
-                                            <td>@(((UserAccountObject)i.Base).Name)</td>
-                                            <td>@(((UserAccountObject)i.Base).FullName)</td>
-                                            <td>@(((UserAccountObject)i.Base).PasswordChangeable)</td>
-                                            <td>@(((UserAccountObject)i.Base).PasswordExpires)</td>
-                                            <td>@(((UserAccountObject)i.Base).PasswordRequired)</td>
-                                            <td>@(((UserAccountObject)i.Base).SID)</td>
-                                            <td>@(((UserAccountObject)i.Base).UID)</td>
-                                            <td>@(((UserAccountObject)i.Base).GID)</td>
-                                            <td>@(((UserAccountObject)i.Base).Inactive)</td>
-                                            <td>@(((UserAccountObject)i.Base).HomeDirectory)</td>
-                                            <td>@(((UserAccountObject)i.Base).Shell)</td>
-                                            <td>@(((UserAccountObject)i.Base).PasswordStorageAlgorithm)</td>
-                                        </tr>
-                                            }
+                                            <tr>
+                                                <td>Deleted</td>
+                                                <td>@i.Analysis</td>
+                                                <td>@(((UserAccountObject)i.Base).AccountType)</td>
+                                                <td>@(((UserAccountObject)i.Base).Caption)</td>
+                                                <td>@(((UserAccountObject)i.Base).Description)</td>
+                                                <td>@(((UserAccountObject)i.Base).Disabled)</td>
+                                                <td>@(((UserAccountObject)i.Base).Domain)</td>
+                                                <td>@(((UserAccountObject)i.Base).InstallDate)</td>
+                                                <td>@(((UserAccountObject)i.Base).LocalAccount)</td>
+                                                <td>@(((UserAccountObject)i.Base).Lockout)</td>
+                                                <td>@(((UserAccountObject)i.Base).Name)</td>
+                                                <td>@(((UserAccountObject)i.Base).FullName)</td>
+                                                <td>@(((UserAccountObject)i.Base).PasswordChangeable)</td>
+                                                <td>@(((UserAccountObject)i.Base).PasswordExpires)</td>
+                                                <td>@(((UserAccountObject)i.Base).PasswordRequired)</td>
+                                                <td>@(((UserAccountObject)i.Base).SID)</td>
+                                                <td>@(((UserAccountObject)i.Base).UID)</td>
+                                                <td>@(((UserAccountObject)i.Base).GID)</td>
+                                                <td>@(((UserAccountObject)i.Base).Inactive)</td>
+                                                <td>@(((UserAccountObject)i.Base).HomeDirectory)</td>
+                                                <td>@(((UserAccountObject)i.Base).Shell)</td>
+                                                <td>@(((UserAccountObject)i.Base).PasswordStorageAlgorithm)</td>
+                                            </tr>
                                         }
+                                    }
 
-                                        @if(Model.ContainsKey("USER_CREATED"))
+                                    @if (Model.ContainsKey("USER_CREATED"))
+                                    {
+                                        @foreach (CompareResult i in Model["USER_CREATED"])
                                         {
-                                            @foreach (CompareResult i in Model["USER_CREATED"])
-                                            {
-                                    <tr>
-                                        <td>New</td>
-                                        <td>@i.Analysis</td>
-                                        <td>@(((UserAccountObject)i.Compare).AccountType)</td>
-                                        <td>@(((UserAccountObject)i.Compare).Caption)</td>
-                                        <td>@(((UserAccountObject)i.Compare).Description)</td>
-                                        <td>@(((UserAccountObject)i.Compare).Disabled)</td>
-                                        <td>@(((UserAccountObject)i.Compare).Domain)</td>
-                                        <td>@(((UserAccountObject)i.Compare).InstallDate)</td>
-                                        <td>@(((UserAccountObject)i.Compare).LocalAccount)</td>
-                                        <td>@(((UserAccountObject)i.Compare).Lockout)</td>
-                                        <td>@(((UserAccountObject)i.Compare).Name)</td>
-                                        <td>@(((UserAccountObject)i.Compare).FullName)</td>
-                                        <td>@(((UserAccountObject)i.Compare).PasswordChangeable)</td>
-                                        <td>@(((UserAccountObject)i.Compare).PasswordExpires)</td>
-                                        <td>@(((UserAccountObject)i.Compare).PasswordRequired)</td>
-                                        <td>@(((UserAccountObject)i.Compare).SID)</td>
-                                        <td>@(((UserAccountObject)i.Compare).UID)</td>
-                                        <td>@(((UserAccountObject)i.Compare).GID)</td>
-                                        <td>@(((UserAccountObject)i.Compare).Inactive)</td>
-                                        <td>@(((UserAccountObject)i.Compare).HomeDirectory)</td>
-                                        <td>@(((UserAccountObject)i.Compare).Shell)</td>
-                                        <td>@(((UserAccountObject)i.Compare).PasswordStorageAlgorithm)</td>
-                                    </tr>
-                                            }
+                                            <tr>
+                                                <td>New</td>
+                                                <td>@i.Analysis</td>
+                                                <td>@(((UserAccountObject)i.Compare).AccountType)</td>
+                                                <td>@(((UserAccountObject)i.Compare).Caption)</td>
+                                                <td>@(((UserAccountObject)i.Compare).Description)</td>
+                                                <td>@(((UserAccountObject)i.Compare).Disabled)</td>
+                                                <td>@(((UserAccountObject)i.Compare).Domain)</td>
+                                                <td>@(((UserAccountObject)i.Compare).InstallDate)</td>
+                                                <td>@(((UserAccountObject)i.Compare).LocalAccount)</td>
+                                                <td>@(((UserAccountObject)i.Compare).Lockout)</td>
+                                                <td>@(((UserAccountObject)i.Compare).Name)</td>
+                                                <td>@(((UserAccountObject)i.Compare).FullName)</td>
+                                                <td>@(((UserAccountObject)i.Compare).PasswordChangeable)</td>
+                                                <td>@(((UserAccountObject)i.Compare).PasswordExpires)</td>
+                                                <td>@(((UserAccountObject)i.Compare).PasswordRequired)</td>
+                                                <td>@(((UserAccountObject)i.Compare).SID)</td>
+                                                <td>@(((UserAccountObject)i.Compare).UID)</td>
+                                                <td>@(((UserAccountObject)i.Compare).GID)</td>
+                                                <td>@(((UserAccountObject)i.Compare).Inactive)</td>
+                                                <td>@(((UserAccountObject)i.Compare).HomeDirectory)</td>
+                                                <td>@(((UserAccountObject)i.Compare).Shell)</td>
+                                                <td>@(((UserAccountObject)i.Compare).PasswordStorageAlgorithm)</td>
+                                            </tr>
                                         }
+                                    }
 
-                                        @if (Model.ContainsKey("USER_MODIFIED"))
+                                    @if (Model.ContainsKey("USER_MODIFIED"))
+                                    {
+                                        @foreach (CompareResult i in Model["USER_MODIFIED"])
                                         {
-                                            @foreach (CompareResult i in Model["USER_MODIFIED"])
-                                            {
-                                    <tr>
-                                        <td>Modified:Before</td>
-                                        <td>@i.Analysis</td>
-                                        <td>@(((UserAccountObject)i.Base).AccountType)</td>
-                                        <td>@(((UserAccountObject)i.Base).Caption)</td>
-                                        <td>@(((UserAccountObject)i.Base).Description)</td>
-                                        <td>@(((UserAccountObject)i.Base).Disabled)</td>
-                                        <td>@(((UserAccountObject)i.Base).Domain)</td>
-                                        <td>@(((UserAccountObject)i.Base).InstallDate)</td>
-                                        <td>@(((UserAccountObject)i.Base).LocalAccount)</td>
-                                        <td>@(((UserAccountObject)i.Base).Lockout)</td>
-                                        <td>@(((UserAccountObject)i.Base).Name)</td>
-                                        <td>@(((UserAccountObject)i.Base).FullName)</td>
-                                        <td>@(((UserAccountObject)i.Base).PasswordChangeable)</td>
-                                        <td>@(((UserAccountObject)i.Base).PasswordExpires)</td>
-                                        <td>@(((UserAccountObject)i.Base).PasswordRequired)</td>
-                                        <td>@(((UserAccountObject)i.Base).SID)</td>
-                                        <td>@(((UserAccountObject)i.Base).UID)</td>
-                                        <td>@(((UserAccountObject)i.Base).GID)</td>
-                                        <td>@(((UserAccountObject)i.Base).Inactive)</td>
-                                        <td>@(((UserAccountObject)i.Base).HomeDirectory)</td>
-                                        <td>@(((UserAccountObject)i.Base).Shell)</td>
-                                        <td>@(((UserAccountObject)i.Base).PasswordStorageAlgorithm)</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Modified:After</td>
-                                        <td>@i.Analysis</td>
-                                        <td>@(((UserAccountObject)i.Compare).AccountType)</td>
-                                        <td>@(((UserAccountObject)i.Compare).Caption)</td>
-                                        <td>@(((UserAccountObject)i.Compare).Description)</td>
-                                        <td>@(((UserAccountObject)i.Compare).Disabled)</td>
-                                        <td>@(((UserAccountObject)i.Compare).Domain)</td>
-                                        <td>@(((UserAccountObject)i.Compare).InstallDate)</td>
-                                        <td>@(((UserAccountObject)i.Compare).LocalAccount)</td>
-                                        <td>@(((UserAccountObject)i.Compare).Lockout)</td>
-                                        <td>@(((UserAccountObject)i.Compare).Name)</td>
-                                        <td>@(((UserAccountObject)i.Compare).FullName)</td>
-                                        <td>@(((UserAccountObject)i.Compare).PasswordChangeable)</td>
-                                        <td>@(((UserAccountObject)i.Compare).PasswordExpires)</td>
-                                        <td>@(((UserAccountObject)i.Compare).PasswordRequired)</td>
-                                        <td>@(((UserAccountObject)i.Compare).SID)</td>
-                                        <td>@(((UserAccountObject)i.Compare).UID)</td>
-                                        <td>@(((UserAccountObject)i.Compare).GID)</td>
-                                        <td>@(((UserAccountObject)i.Compare).Inactive)</td>
-                                        <td>@(((UserAccountObject)i.Compare).HomeDirectory)</td>
-                                        <td>@(((UserAccountObject)i.Compare).Shell)</td>
-                                        <td>@(((UserAccountObject)i.Compare).PasswordStorageAlgorithm)</td>
-                                    </tr>
-                                            }
+                                            <tr>
+                                                <td>Modified:Before</td>
+                                                <td>@i.Analysis</td>
+                                                <td>@(((UserAccountObject)i.Base).AccountType)</td>
+                                                <td>@(((UserAccountObject)i.Base).Caption)</td>
+                                                <td>@(((UserAccountObject)i.Base).Description)</td>
+                                                <td>@(((UserAccountObject)i.Base).Disabled)</td>
+                                                <td>@(((UserAccountObject)i.Base).Domain)</td>
+                                                <td>@(((UserAccountObject)i.Base).InstallDate)</td>
+                                                <td>@(((UserAccountObject)i.Base).LocalAccount)</td>
+                                                <td>@(((UserAccountObject)i.Base).Lockout)</td>
+                                                <td>@(((UserAccountObject)i.Base).Name)</td>
+                                                <td>@(((UserAccountObject)i.Base).FullName)</td>
+                                                <td>@(((UserAccountObject)i.Base).PasswordChangeable)</td>
+                                                <td>@(((UserAccountObject)i.Base).PasswordExpires)</td>
+                                                <td>@(((UserAccountObject)i.Base).PasswordRequired)</td>
+                                                <td>@(((UserAccountObject)i.Base).SID)</td>
+                                                <td>@(((UserAccountObject)i.Base).UID)</td>
+                                                <td>@(((UserAccountObject)i.Base).GID)</td>
+                                                <td>@(((UserAccountObject)i.Base).Inactive)</td>
+                                                <td>@(((UserAccountObject)i.Base).HomeDirectory)</td>
+                                                <td>@(((UserAccountObject)i.Base).Shell)</td>
+                                                <td>@(((UserAccountObject)i.Base).PasswordStorageAlgorithm)</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Modified:After</td>
+                                                <td>@i.Analysis</td>
+                                                <td>@(((UserAccountObject)i.Compare).AccountType)</td>
+                                                <td>@(((UserAccountObject)i.Compare).Caption)</td>
+                                                <td>@(((UserAccountObject)i.Compare).Description)</td>
+                                                <td>@(((UserAccountObject)i.Compare).Disabled)</td>
+                                                <td>@(((UserAccountObject)i.Compare).Domain)</td>
+                                                <td>@(((UserAccountObject)i.Compare).InstallDate)</td>
+                                                <td>@(((UserAccountObject)i.Compare).LocalAccount)</td>
+                                                <td>@(((UserAccountObject)i.Compare).Lockout)</td>
+                                                <td>@(((UserAccountObject)i.Compare).Name)</td>
+                                                <td>@(((UserAccountObject)i.Compare).FullName)</td>
+                                                <td>@(((UserAccountObject)i.Compare).PasswordChangeable)</td>
+                                                <td>@(((UserAccountObject)i.Compare).PasswordExpires)</td>
+                                                <td>@(((UserAccountObject)i.Compare).PasswordRequired)</td>
+                                                <td>@(((UserAccountObject)i.Compare).SID)</td>
+                                                <td>@(((UserAccountObject)i.Compare).UID)</td>
+                                                <td>@(((UserAccountObject)i.Compare).GID)</td>
+                                                <td>@(((UserAccountObject)i.Compare).Inactive)</td>
+                                                <td>@(((UserAccountObject)i.Compare).HomeDirectory)</td>
+                                                <td>@(((UserAccountObject)i.Compare).Shell)</td>
+                                                <td>@(((UserAccountObject)i.Compare).PasswordStorageAlgorithm)</td>
+                                            </tr>
                                         }
-                                    </tbody>
-                                </table>
-                            </div>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                     }
                 </div>
 
@@ -517,13 +519,13 @@
                                         {
                                             @foreach (CompareResult i in Model["REGISTRY_DELETED"])
                                             {
-                                        <tr>
-                                            <td>Deleted</td>
-                                            <td>@i.Analysis</td>
-                                            <td>@(((RegistryObject)i.Base).Key)</td>
-                                            <td>@JsonConvert.SerializeObject(((RegistryObject)i.Base).Subkeys))</td>
-                                            <td>@JsonConvert.SerializeObject(((RegistryObject)i.Base).Values))</td>
-                                        </tr>
+                                                <tr>
+                                                    <td>Deleted</td>
+                                                    <td>@i.Analysis</td>
+                                                    <td>@(((RegistryObject)i.Base).Key)</td>
+                                                    <td>@JsonConvert.SerializeObject(((RegistryObject)i.Base).Subkeys))</td>
+                                                    <td>@JsonConvert.SerializeObject(((RegistryObject)i.Base).Values))</td>
+                                                </tr>
                                             }
                                         }
 
@@ -531,13 +533,13 @@
                                         {
                                             @foreach (CompareResult i in Model["REGISTRY_CREATED"])
                                             {
-                                    <tr>
-                                        <td>New</td>
-                                        <td>@i.Analysis</td>
-                                        <td>@(((RegistryObject)i.Compare).Key)</td>
-                                        <td>@JsonConvert.SerializeObject(((RegistryObject)i.Compare).Subkeys))</td>
-                                        <td>@JsonConvert.SerializeObject(((RegistryObject)i.Compare).Values))</td>
-                                    </tr>
+                                                <tr>
+                                                    <td>New</td>
+                                                    <td>@i.Analysis</td>
+                                                    <td>@(((RegistryObject)i.Compare).Key)</td>
+                                                    <td>@JsonConvert.SerializeObject(((RegistryObject)i.Compare).Subkeys))</td>
+                                                    <td>@JsonConvert.SerializeObject(((RegistryObject)i.Compare).Values))</td>
+                                                </tr>
                                             }
                                         }
 
@@ -545,20 +547,20 @@
                                         {
                                             @foreach (CompareResult i in Model["REGISTRY_MODIFIED"])
                                             {
-                                    <tr>
-                                        <td>Modified:Before</td>
-                                        <td>@i.Analysis</td>
-                                        <td>@(((RegistryObject)i.Base).Key)</td>
-                                        <td>@JsonConvert.SerializeObject(((RegistryObject)i.Base).Subkeys))</td>
-                                        <td>@JsonConvert.SerializeObject(((RegistryObject)i.Base).Values))</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Modified:After</td>
-                                        <td>@i.Analysis</td>
-                                        <td>@(((RegistryObject)i.Compare).Key)</td>
-                                        <td>@JsonConvert.SerializeObject(((RegistryObject)i.Compare).Subkeys))</td>
-                                        <td>@JsonConvert.SerializeObject(((RegistryObject)i.Compare).Values))</td>
-                                    </tr>
+                                                <tr>
+                                                    <td>Modified:Before</td>
+                                                    <td>@i.Analysis</td>
+                                                    <td>@(((RegistryObject)i.Base).Key)</td>
+                                                    <td>@JsonConvert.SerializeObject(((RegistryObject)i.Base).Subkeys))</td>
+                                                    <td>@JsonConvert.SerializeObject(((RegistryObject)i.Base).Values))</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Modified:After</td>
+                                                    <td>@i.Analysis</td>
+                                                    <td>@(((RegistryObject)i.Compare).Key)</td>
+                                                    <td>@JsonConvert.SerializeObject(((RegistryObject)i.Compare).Subkeys))</td>
+                                                    <td>@JsonConvert.SerializeObject(((RegistryObject)i.Compare).Values))</td>
+                                                </tr>
                                             }
                                         }
                                     </tbody>
@@ -603,14 +605,14 @@
                                         {
                                             @foreach (CompareResult i in Model["CERTIFICATE_DELETED"])
                                             {
-                                        <tr>
-                                            <td>Deleted</td>
-                                            <td>@i.Analysis</td>
-                                            <td>@(((CertificateObject)i.Base).StoreLocation)</td>
-                                            <td>@(((CertificateObject)i.Base).StoreName)</td>
-                                            <td>@(((CertificateObject)i.Base).Subject)</td>
-                                            <td>@(((CertificateObject)i.Base).CertificateHashString)</td>
-                                        </tr>
+                                                <tr>
+                                                    <td>Deleted</td>
+                                                    <td>@i.Analysis</td>
+                                                    <td>@(((CertificateObject)i.Base).StoreLocation)</td>
+                                                    <td>@(((CertificateObject)i.Base).StoreName)</td>
+                                                    <td>@(((CertificateObject)i.Base).Subject)</td>
+                                                    <td>@(((CertificateObject)i.Base).CertificateHashString)</td>
+                                                </tr>
                                             }
                                         }
 
@@ -618,14 +620,14 @@
                                         {
                                             @foreach (CompareResult i in Model["CERTIFICATE_CREATED"])
                                             {
-                                    <tr>
-                                        <td>Added</td>
-                                        <td>@i.Analysis</td>
-                                        <td>@(((CertificateObject)i.Compare).StoreLocation)</td>
-                                        <td>@(((CertificateObject)i.Compare).StoreName)</td>
-                                        <td>@(((CertificateObject)i.Compare).Subject)</td>
-                                        <td>@(((CertificateObject)i.Compare).CertificateHashString)</td>
-                                    </tr>
+                                                <tr>
+                                                    <td>Added</td>
+                                                    <td>@i.Analysis</td>
+                                                    <td>@(((CertificateObject)i.Compare).StoreLocation)</td>
+                                                    <td>@(((CertificateObject)i.Compare).StoreName)</td>
+                                                    <td>@(((CertificateObject)i.Compare).Subject)</td>
+                                                    <td>@(((CertificateObject)i.Compare).CertificateHashString)</td>
+                                                </tr>
                                             }
                                         }
                                     </tbody>
@@ -642,7 +644,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
 
-    <script type="text/javascript">$(document).ready(function () {
+    <script type="text/javascript">
+$(document).ready(function () {
             $('a[data-internal-link="replace"]').on('click', function (e) {
                 var href = $(e.target).attr('href');  // show this href
                 var $t = $('div' + href);               // this element

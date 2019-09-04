@@ -2,26 +2,25 @@
 // Licensed under the MIT License.
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using AttackSurfaceAnalyzer.Objects;
+using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
 using Serilog;
+using System.Linq;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
     public class BaseCompare
     {
-        private static readonly string INSERT_RESULT_SQL = "insert into compared (base_run_id, compare_run_id, change_type, base_row_key, compare_row_key, data_type) values (@base_run_id, @compare_run_id, @change_type, @base_row_key, @compare_row_key, @data_type);";
-
         public Dictionary<string, object> Results { get; protected set; }
 
         public BaseCompare()
         {
             Results = new Dictionary<string, object>();
         }
-
-        private int numResults;
 
         public CollectObject Hydrate(RawCollectResult res)
         {
@@ -39,6 +38,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                     return JsonConvert.DeserializeObject<ServiceObject>(res.Serialized);
                 case RESULT_TYPE.USER:
                     return JsonConvert.DeserializeObject<UserAccountObject>(res.Serialized);
+                case RESULT_TYPE.GROUP:
+                    return JsonConvert.DeserializeObject<GroupAccountObject>(res.Serialized);
                 default:
                     return null;
             }
@@ -58,6 +59,15 @@ namespace AttackSurfaceAnalyzer.Collectors
             List<RawCollectResult> removeObjects = DatabaseManager.GetMissingFromFirst(secondRunId, firstRunId);
             List<RawModifiedResult> modifyObjects = DatabaseManager.GetModified(firstRunId, secondRunId);
 
+            foreach (RawModifiedResult res in modifyObjects)
+            {
+                if (res.First.Serialized.Equals(res.Second.Serialized))
+                {
+                    // breakpoint here
+                    Log.Debug("Breakpoint");
+                }
+            }
+
             Dictionary<string, List<CompareResult>> results = new Dictionary<string, List<CompareResult>>();
 
             foreach (var added in addRows)
@@ -73,7 +83,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                     Identity = added.Identity
                 };
 
-                if (results.ContainsKey(String.Format("{0}_{1}", added.ResultType.ToString(), CHANGE_TYPE.CREATED.ToString()))){
+                if (results.ContainsKey(String.Format("{0}_{1}", added.ResultType.ToString(), CHANGE_TYPE.CREATED.ToString())))
+                {
                     results[String.Format("{0}_{1}", added.ResultType.ToString(), CHANGE_TYPE.CREATED.ToString())].Add(obj);
                 }
                 else
@@ -93,7 +104,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                     ResultType = removed.ResultType,
                     Identity = removed.Identity
                 };
-                if (results.ContainsKey(String.Format("{0}_{1}", removed.ResultType.ToString(), CHANGE_TYPE.DELETED.ToString()))){
+                if (results.ContainsKey(String.Format("{0}_{1}", removed.ResultType.ToString(), CHANGE_TYPE.DELETED.ToString())))
+                {
                     results[String.Format("{0}_{1}", removed.ResultType.ToString(), CHANGE_TYPE.DELETED.ToString())].Add(obj);
                 }
                 else
@@ -103,10 +115,12 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
             foreach (var modified in modifyObjects)
             {
+                var first = Hydrate(modified.First);
+                var second = Hydrate(modified.Second);
                 var obj = new CompareResult()
                 {
-                    Base = Hydrate(modified.First),
-                    Compare = Hydrate(modified.Second),
+                    Base = first,
+                    Compare = second,
                     BaseRunId = firstRunId,
                     CompareRunId = secondRunId,
                     BaseRowKey = modified.First.RowKey,
@@ -115,6 +129,184 @@ namespace AttackSurfaceAnalyzer.Collectors
                     ResultType = modified.First.ResultType,
                     Identity = modified.First.Identity
                 };
+
+                var fields = first.GetType().GetFields();
+
+                foreach (var field in fields)
+                {
+                    try
+                    {
+                        var fieldName = field.Name;
+                        List<Diff> diffs;
+                        object added = new List<string>();
+                        object removed = new List<string>();
+                        object changed = new object();
+                        if (field.GetValue(first) == null)
+                        {
+                            added = field.GetValue(second);
+                            diffs = GetDiffs(field, added, null);
+                        }
+                        else if (field.GetValue(second) == null)
+                        {
+                            removed = field.GetValue(first);
+                            diffs = GetDiffs(field, null, removed);
+                        }
+                        else if (field.GetValue(first).Equals(field.GetValue(second)))
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            var firstVal = field.GetValue(first);
+                            var secondVal = field.GetValue(second);
+
+                            if (Helpers.IsList(firstVal))
+                            {
+                                added = ((List<string>)field.GetValue(second)).Except((List<string>)field.GetValue(first));
+                                removed = ((List<string>)field.GetValue(first)).Except((List<string>)field.GetValue(second));
+                                if (((IEnumerable<string>)added).Count() == 0)
+                                {
+                                    added = null;
+                                }
+                                if (((IEnumerable<string>)removed).Count() == 0)
+                                {
+                                    removed = null;
+                                }
+                            }
+                            else if (Helpers.IsDictionary(firstVal))
+                            {
+                                added = ((Dictionary<string, string>)secondVal)
+                                    .Except((Dictionary<string, string>)firstVal)
+                                    .ToDictionary(x => x.Key, x => x.Value);
+
+                                removed = ((Dictionary<string, string>)firstVal)
+                                    .Except((Dictionary<string, string>)secondVal)
+                                    .ToDictionary(x => x.Key, x => x.Value);
+                                if (((IEnumerable<KeyValuePair<string, string>>)added).Count() == 0)
+                                {
+                                    added = null;
+                                }
+                                if (((IEnumerable<KeyValuePair<string, string>>)removed).Count() == 0)
+                                {
+                                    removed = null;
+                                }
+                            }
+                            else if (firstVal is string || firstVal is int || firstVal is bool || firstVal is ulong)
+                            {
+                                added = null;
+                                removed = null;
+                                obj.Diffs.Add(new ModifiedDiff(field.Name, firstVal, secondVal));
+                            }
+                            else
+                            {
+                                added = secondVal;
+                                removed = firstVal;
+                            }
+
+                            diffs = GetDiffs(field, added, removed);
+                        }
+                        foreach (var diff in diffs)
+                        {
+                            obj.Diffs.Add(diff);
+                        }
+                    }
+                    catch (InvalidCastException e)
+                    {
+                        Log.Debug("Failed to cast something to dictionary or string");
+                        Logger.DebugException(e);
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.DebugException(e);
+                    }
+                }
+
+                var properties = first.GetType().GetProperties();
+
+                foreach (var prop in properties)
+                {
+                    try
+                    {
+                        var propName = prop.Name;
+                        List<Diff> diffs;
+                        object added = new List<string>();
+                        object removed = new List<string>();
+                        object changed = new object();
+                        if (prop.GetValue(first) == null)
+                        {
+                            added = prop.GetValue(second);
+                            diffs = GetDiffs(prop, added, null);
+                        }
+                        else if (prop.GetValue(second) == null)
+                        {
+                            removed = prop.GetValue(first);
+                            diffs = GetDiffs(prop, null, removed);
+                        }
+                        else if (prop.GetValue(first).Equals(prop.GetValue(second)))
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            var firstVal = prop.GetValue(first);
+                            var secondVal = prop.GetValue(second);
+
+                            if (Helpers.IsList(firstVal))
+                            {
+                                added = ((List<string>)prop.GetValue(second)).Except((List<string>)prop.GetValue(first));
+                                removed = ((List<string>)prop.GetValue(first)).Except((List<string>)prop.GetValue(second));
+                                if (((IEnumerable<string>)added).Count() == 0)
+                                {
+                                    added = null;
+                                }
+                                if (((IEnumerable<string>)removed).Count() == 0)
+                                {
+                                    removed = null;
+                                }
+                            }
+                            else if (Helpers.IsDictionary(firstVal))
+                            {
+                                added = ((Dictionary<string, string>)secondVal)
+                                    .Except((Dictionary<string, string>)firstVal)
+                                    .ToDictionary(x => x.Key, x => x.Value);
+
+                                removed = ((Dictionary<string, string>)firstVal)
+                                    .Except((Dictionary<string, string>)secondVal)
+                                    .ToDictionary(x => x.Key, x => x.Value);
+                                if (((IEnumerable<KeyValuePair<string, string>>)added).Count() == 0)
+                                {
+                                    added = null;
+                                }
+                                if (((IEnumerable<KeyValuePair<string, string>>)removed).Count() == 0)
+                                {
+                                    removed = null;
+                                }
+                            }
+                            else if (firstVal is string || firstVal is int || firstVal is bool)
+                            {
+                                added = null;
+                                removed = null;
+                                obj.Diffs.Add(new ModifiedDiff(prop.Name, firstVal, secondVal));
+                            }
+
+                            diffs = GetDiffs(prop, added, removed);
+                        }
+                        foreach (var diff in diffs)
+                        {
+                            obj.Diffs.Add(diff);
+                        }
+                    }
+                    catch (InvalidCastException e)
+                    {
+                        Log.Debug("Failed to cast something to dictionary or string");
+                        Logger.DebugException(e);
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.DebugException(e);
+                    }
+                }
+
                 if (results.ContainsKey(String.Format("{0}_{1}", modified.First.ResultType.ToString(), CHANGE_TYPE.MODIFIED.ToString())))
                 {
                     results[String.Format("{0}_{1}", modified.First.ResultType.ToString(), CHANGE_TYPE.MODIFIED.ToString())].Add(obj);
@@ -130,36 +322,65 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
+        public List<Diff> GetDiffs(FieldInfo field, object added, object removed)
+        {
+            List<Diff> diffsOut = new List<Diff>();
+            if (added != null)
+            {
+                diffsOut.Add(new AddDiff()
+                {
+                    Field = field.Name,
+                    Added = added
+                });
+            }
+            if (removed != null)
+            {
+                diffsOut.Add(new RemoveDiff()
+                {
+                    Field = field.Name,
+                    Removed = removed
+                });
+            }
+            return diffsOut;
+        }
+        public List<Diff> GetDiffs(PropertyInfo prop, object added, object removed)
+        {
+            List<Diff> diffsOut = new List<Diff>();
+            if (added != null)
+            {
+                diffsOut.Add(new AddDiff()
+                {
+                    Field = prop.Name,
+                    Added = added
+                });
+            }
+            if (removed != null)
+            {
+                diffsOut.Add(new RemoveDiff()
+                {
+                    Field = prop.Name,
+                    Removed = removed
+                });
+            }
+            return diffsOut;
+        }
 
         public bool TryCompare(string firstRunId, string secondRunId)
         {
             Start();
             try
             {
-                Compare(firstRunId, secondRunId);    
+                Compare(firstRunId, secondRunId);
                 Stop();
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log.Warning(ex, "Exception from Compare(): {0}", ex.StackTrace);
                 Log.Warning(ex.Message);
                 Stop();
                 return false;
             }
-        }
-
-        protected void InsertResult(CompareResult obj)
-        {
-            numResults++;
-            var cmd = new SqliteCommand(INSERT_RESULT_SQL, DatabaseManager.Connection, DatabaseManager.Transaction);
-            cmd.Parameters.AddWithValue("@base_run_id", obj.BaseRunId);
-            cmd.Parameters.AddWithValue("@compare_run_id", obj.CompareRunId);
-            cmd.Parameters.AddWithValue("@change_type", obj.ChangeType);
-            cmd.Parameters.AddWithValue("@base_row_key", obj.BaseRowKey ?? "");
-            cmd.Parameters.AddWithValue("@compare_row_key", obj.CompareRowKey ?? "");
-            cmd.Parameters.AddWithValue("@data_type", obj.ResultType);
-            cmd.ExecuteNonQuery();
         }
 
         private RUN_STATUS _running = RUN_STATUS.NOT_STARTED;
@@ -179,12 +400,8 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public void Stop()
         {
-           _running = (numResults == 0) ? RUN_STATUS.NO_RESULTS : RUN_STATUS.COMPLETED;
+            _running = RUN_STATUS.COMPLETED;
         }
 
-        public int GetNumResults()
-        {
-            return numResults;
-        }
     }
 }

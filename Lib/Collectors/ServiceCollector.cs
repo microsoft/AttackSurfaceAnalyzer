@@ -45,14 +45,15 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// </summary>
         public override void Execute()
         {
-            Start();
-
             if (!this.CanRunOnPlatform())
             {
                 Log.Information(Strings.Get("Err_ServiceCollectorIncompat"));
                 return;
             }
-            
+            Start();
+            _ = DatabaseManager.Transaction;
+
+
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 // This gathers official "services" on Windows, but perhaps neglects other startup items
@@ -105,9 +106,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                             outDict.Add(obj.Identity, obj);
                         }
                     }
-                
+
                     // Then get the system processes
-                
+
                     result = ExternalCommandRunner.RunExternalCommand("sudo", "launchctl list");
 
                     foreach (var _line in result.Split('\n'))
@@ -171,7 +172,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         }
                     }
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     Logger.DebugException(e);
                 }
@@ -204,7 +205,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 {
                     Logger.DebugException(e);
                 }
-                
+
 
                 // CentOS
                 // chkconfig --list
@@ -213,7 +214,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 // service -l
                 // this provides very minor amount of info
             }
-
+            DatabaseManager.Commit();
             Stop();
         }
 

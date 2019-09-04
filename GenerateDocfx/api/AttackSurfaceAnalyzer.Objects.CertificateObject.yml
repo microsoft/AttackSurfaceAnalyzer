@@ -1,0 +1,650 @@
+### YamlMime:ManagedReference
+items:
+- uid: AttackSurfaceAnalyzer.Objects.CertificateObject
+  commentId: T:AttackSurfaceAnalyzer.Objects.CertificateObject
+  id: CertificateObject
+  parent: AttackSurfaceAnalyzer.Objects
+  children:
+  - AttackSurfaceAnalyzer.Objects.CertificateObject.#ctor
+  - AttackSurfaceAnalyzer.Objects.CertificateObject.CertificateHashString
+  - AttackSurfaceAnalyzer.Objects.CertificateObject.Identity
+  - AttackSurfaceAnalyzer.Objects.CertificateObject.Pkcs12
+  - AttackSurfaceAnalyzer.Objects.CertificateObject.Pkcs7
+  - AttackSurfaceAnalyzer.Objects.CertificateObject.StoreLocation
+  - AttackSurfaceAnalyzer.Objects.CertificateObject.StoreName
+  - AttackSurfaceAnalyzer.Objects.CertificateObject.Subject
+  langs:
+  - csharp
+  - vb
+  name: CertificateObject
+  nameWithType: CertificateObject
+  fullName: AttackSurfaceAnalyzer.Objects.CertificateObject
+  type: Class
+  source:
+    remote:
+      path: Lib/Objects/CertificateObject.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: CertificateObject
+    path: ../Lib/Objects/CertificateObject.cs
+    startLine: 6
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: 'public class CertificateObject : CollectObject'
+    content.vb: >-
+      Public Class CertificateObject
+          Inherits CollectObject
+  inheritance:
+  - System.Object
+  - AttackSurfaceAnalyzer.Objects.CollectObject
+  inheritedMembers:
+  - AttackSurfaceAnalyzer.Objects.CollectObject.ResultType
+  - AttackSurfaceAnalyzer.Objects.CollectObject.Message
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: AttackSurfaceAnalyzer.Objects.CertificateObject.StoreLocation
+  commentId: F:AttackSurfaceAnalyzer.Objects.CertificateObject.StoreLocation
+  id: StoreLocation
+  parent: AttackSurfaceAnalyzer.Objects.CertificateObject
+  langs:
+  - csharp
+  - vb
+  name: StoreLocation
+  nameWithType: CertificateObject.StoreLocation
+  fullName: AttackSurfaceAnalyzer.Objects.CertificateObject.StoreLocation
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/CertificateObject.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: StoreLocation
+    path: ../Lib/Objects/CertificateObject.cs
+    startLine: 8
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: public string StoreLocation
+    return:
+      type: System.String
+    content.vb: Public StoreLocation As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.Objects.CertificateObject.StoreName
+  commentId: F:AttackSurfaceAnalyzer.Objects.CertificateObject.StoreName
+  id: StoreName
+  parent: AttackSurfaceAnalyzer.Objects.CertificateObject
+  langs:
+  - csharp
+  - vb
+  name: StoreName
+  nameWithType: CertificateObject.StoreName
+  fullName: AttackSurfaceAnalyzer.Objects.CertificateObject.StoreName
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/CertificateObject.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: StoreName
+    path: ../Lib/Objects/CertificateObject.cs
+    startLine: 9
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: public string StoreName
+    return:
+      type: System.String
+    content.vb: Public StoreName As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.Objects.CertificateObject.CertificateHashString
+  commentId: F:AttackSurfaceAnalyzer.Objects.CertificateObject.CertificateHashString
+  id: CertificateHashString
+  parent: AttackSurfaceAnalyzer.Objects.CertificateObject
+  langs:
+  - csharp
+  - vb
+  name: CertificateHashString
+  nameWithType: CertificateObject.CertificateHashString
+  fullName: AttackSurfaceAnalyzer.Objects.CertificateObject.CertificateHashString
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/CertificateObject.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: CertificateHashString
+    path: ../Lib/Objects/CertificateObject.cs
+    startLine: 10
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: public string CertificateHashString
+    return:
+      type: System.String
+    content.vb: Public CertificateHashString As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.Objects.CertificateObject.Subject
+  commentId: F:AttackSurfaceAnalyzer.Objects.CertificateObject.Subject
+  id: Subject
+  parent: AttackSurfaceAnalyzer.Objects.CertificateObject
+  langs:
+  - csharp
+  - vb
+  name: Subject
+  nameWithType: CertificateObject.Subject
+  fullName: AttackSurfaceAnalyzer.Objects.CertificateObject.Subject
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/CertificateObject.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Subject
+    path: ../Lib/Objects/CertificateObject.cs
+    startLine: 11
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: public string Subject
+    return:
+      type: System.String
+    content.vb: Public Subject As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.Objects.CertificateObject.Pkcs12
+  commentId: F:AttackSurfaceAnalyzer.Objects.CertificateObject.Pkcs12
+  id: Pkcs12
+  parent: AttackSurfaceAnalyzer.Objects.CertificateObject
+  langs:
+  - csharp
+  - vb
+  name: Pkcs12
+  nameWithType: CertificateObject.Pkcs12
+  fullName: AttackSurfaceAnalyzer.Objects.CertificateObject.Pkcs12
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/CertificateObject.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Pkcs12
+    path: ../Lib/Objects/CertificateObject.cs
+    startLine: 12
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: public string Pkcs12
+    return:
+      type: System.String
+    content.vb: Public Pkcs12 As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.Objects.CertificateObject.Pkcs7
+  commentId: F:AttackSurfaceAnalyzer.Objects.CertificateObject.Pkcs7
+  id: Pkcs7
+  parent: AttackSurfaceAnalyzer.Objects.CertificateObject
+  langs:
+  - csharp
+  - vb
+  name: Pkcs7
+  nameWithType: CertificateObject.Pkcs7
+  fullName: AttackSurfaceAnalyzer.Objects.CertificateObject.Pkcs7
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/CertificateObject.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Pkcs7
+    path: ../Lib/Objects/CertificateObject.cs
+    startLine: 13
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: public string Pkcs7
+    return:
+      type: System.String
+    content.vb: Public Pkcs7 As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.Objects.CertificateObject.#ctor
+  commentId: M:AttackSurfaceAnalyzer.Objects.CertificateObject.#ctor
+  id: '#ctor'
+  parent: AttackSurfaceAnalyzer.Objects.CertificateObject
+  langs:
+  - csharp
+  - vb
+  name: CertificateObject()
+  nameWithType: CertificateObject.CertificateObject()
+  fullName: AttackSurfaceAnalyzer.Objects.CertificateObject.CertificateObject()
+  type: Constructor
+  source:
+    remote:
+      path: Lib/Objects/CertificateObject.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: .ctor
+    path: ../Lib/Objects/CertificateObject.cs
+    startLine: 15
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: public CertificateObject()
+    content.vb: Public Sub New
+  overload: AttackSurfaceAnalyzer.Objects.CertificateObject.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.Objects.CertificateObject.Identity
+  commentId: P:AttackSurfaceAnalyzer.Objects.CertificateObject.Identity
+  id: Identity
+  parent: AttackSurfaceAnalyzer.Objects.CertificateObject
+  langs:
+  - csharp
+  - vb
+  name: Identity
+  nameWithType: CertificateObject.Identity
+  fullName: AttackSurfaceAnalyzer.Objects.CertificateObject.Identity
+  type: Property
+  source:
+    remote:
+      path: Lib/Objects/CertificateObject.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Identity
+    path: ../Lib/Objects/CertificateObject.cs
+    startLine: 20
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: public override string Identity { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Overrides ReadOnly Property Identity As String
+  overridden: AttackSurfaceAnalyzer.Objects.CollectObject.Identity
+  overload: AttackSurfaceAnalyzer.Objects.CertificateObject.Identity*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  modifiers.vb:
+  - Public
+  - Overrides
+  - ReadOnly
+references:
+- uid: AttackSurfaceAnalyzer.Objects
+  commentId: N:AttackSurfaceAnalyzer.Objects
+  name: AttackSurfaceAnalyzer.Objects
+  nameWithType: AttackSurfaceAnalyzer.Objects
+  fullName: AttackSurfaceAnalyzer.Objects
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: AttackSurfaceAnalyzer.Objects.CollectObject
+  commentId: T:AttackSurfaceAnalyzer.Objects.CollectObject
+  parent: AttackSurfaceAnalyzer.Objects
+  name: CollectObject
+  nameWithType: CollectObject
+  fullName: AttackSurfaceAnalyzer.Objects.CollectObject
+- uid: AttackSurfaceAnalyzer.Objects.CollectObject.ResultType
+  commentId: F:AttackSurfaceAnalyzer.Objects.CollectObject.ResultType
+  parent: AttackSurfaceAnalyzer.Objects.CollectObject
+  name: ResultType
+  nameWithType: CollectObject.ResultType
+  fullName: AttackSurfaceAnalyzer.Objects.CollectObject.ResultType
+- uid: AttackSurfaceAnalyzer.Objects.CollectObject.Message
+  commentId: P:AttackSurfaceAnalyzer.Objects.CollectObject.Message
+  parent: AttackSurfaceAnalyzer.Objects.CollectObject
+  name: Message
+  nameWithType: CollectObject.Message
+  fullName: AttackSurfaceAnalyzer.Objects.CollectObject.Message
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: AttackSurfaceAnalyzer.Objects.CertificateObject.#ctor*
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.CertificateObject.#ctor
+  name: CertificateObject
+  nameWithType: CertificateObject.CertificateObject
+  fullName: AttackSurfaceAnalyzer.Objects.CertificateObject.CertificateObject
+- uid: AttackSurfaceAnalyzer.Objects.CollectObject.Identity
+  commentId: P:AttackSurfaceAnalyzer.Objects.CollectObject.Identity
+  parent: AttackSurfaceAnalyzer.Objects.CollectObject
+  name: Identity
+  nameWithType: CollectObject.Identity
+  fullName: AttackSurfaceAnalyzer.Objects.CollectObject.Identity
+- uid: AttackSurfaceAnalyzer.Objects.CertificateObject.Identity*
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.CertificateObject.Identity
+  name: Identity
+  nameWithType: CertificateObject.Identity
+  fullName: AttackSurfaceAnalyzer.Objects.CertificateObject.Identity

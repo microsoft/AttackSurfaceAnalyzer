@@ -8,8 +8,8 @@ using Serilog;
 namespace AttackSurfaceAnalyzer.Utils
 {
     public class DirectoryWalker
-    {     
-        public static IEnumerable<FileSystemInfo> WalkDirectory(string root, string filterPlatform)
+    {
+        public static IEnumerable<FileSystemInfo> WalkDirectory(string root)
         {
             // Data structure to hold names of subfolders to be
             // examined for files.
@@ -24,8 +24,7 @@ namespace AttackSurfaceAnalyzer.Utils
             while (dirs.Count > 0)
             {
                 string currentDir = dirs.Pop();
-                Log.Verbose(currentDir);
-                if (Filter.IsFiltered(filterPlatform, "Scan", "File", "Path", currentDir))
+                if (Filter.IsFiltered(Helpers.GetPlatformString(), "Scan", "File", "Path", currentDir))
                 {
                     continue;
                 }
@@ -46,12 +45,12 @@ namespace AttackSurfaceAnalyzer.Utils
                 // about the systems on which this code will run.
                 catch (UnauthorizedAccessException)
                 {
-                    Log.Debug("Unable to access: {0}",currentDir);
+                    Log.Debug("Unable to access: {0}", currentDir);
                     continue;
                 }
                 catch (System.IO.DirectoryNotFoundException)
                 {
-                    Log.Debug("Directory not found: {0}",currentDir);
+                    Log.Debug("Directory not found: {0}", currentDir);
                     continue;
                 }
                 // @TODO: Improve this catch. 
@@ -101,7 +100,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         Log.Debug(e.Message);
                         continue;
                     }
-                    if (Filter.IsFiltered(filterPlatform, "Scan", "File", "Path", file))
+                    if (Filter.IsFiltered(Helpers.GetPlatformString(), "Scan", "File", "Path", file))
                     {
                         continue;
                     }
@@ -122,7 +121,6 @@ namespace AttackSurfaceAnalyzer.Utils
                         // Future improvement: log it as a symlink in the data
                         if (fileInfo.Attributes.HasFlag(FileAttributes.ReparsePoint))
                         {
-                            Log.Verbose("Skipping symlink {0}", str);
                             continue;
                         }
                     }
@@ -137,7 +135,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         Logger.DebugException(e);
 
-                        Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Warning,e);
+                        Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Warning, e);
                         continue;
                     }
                     dirs.Push(str);

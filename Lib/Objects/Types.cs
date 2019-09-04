@@ -1,24 +1,27 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-namespace AttackSurfaceAnalyzer.Objects
+namespace AttackSurfaceAnalyzer.Types
 {
-    public enum RESULT_TYPE {
+    public enum RESULT_TYPE
+    {
+        UNKNOWN,
         FILE,
         PORT,
         REGISTRY,
         CERTIFICATE,
         SERVICE,
         USER,
-        UNKNOWN
+        GROUP
     };
 
     public enum CHANGE_TYPE
     {
+        INVALID,
         CREATED,
         DELETED,
         MODIFIED,
-        RENAMED,
-        INVALID
+        RENAMED
+
     }
 
     public enum RUN_STATUS
@@ -76,11 +79,12 @@ namespace AttackSurfaceAnalyzer.Objects
         GT,
         CONTAINS,
         WAS_MODIFIED,
-        ENDS_WITH
+        ENDS_WITH,
+        STARTS_WITH
     }
 
     public enum PLATFORM
-    { 
+    {
         WINDOWS,
         LINUX,
         MACOS,

@@ -3,20 +3,17 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using AttackSurfaceAnalyzer;
+using System.Threading.Tasks;
 using AttackSurfaceAnalyzer.Collectors;
-using AttackSurfaceAnalyzer.Utils;
 using AttackSurfaceAnalyzer.Models;
 using AttackSurfaceAnalyzer.Objects;
+using AttackSurfaceAnalyzer.Types;
+using AttackSurfaceAnalyzer.Utils;
+using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
-using System.Threading.Tasks;
-using Microsoft.ApplicationInsights.Extensibility;
-using System.Runtime.InteropServices;
-using Microsoft.ApplicationInsights;
 using Serilog;
 
 namespace AttackSurfaceAnalyzer.Gui.Controllers
@@ -121,7 +118,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
             using (var cmd = new SqliteCommand(GET_COMPARISON_RESULTS, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
-                cmd.Parameters.AddWithValue("@comparison_id", Helpers.RunIdsToCompareId(BaseId,CompareId));
+                cmd.Parameters.AddWithValue("@comparison_id", Helpers.RunIdsToCompareId(BaseId, CompareId));
                 cmd.Parameters.AddWithValue("@result_type", ((RESULT_TYPE)ResultType).ToString());
                 cmd.Parameters.AddWithValue("@offset", Offset);
                 cmd.Parameters.AddWithValue("@limit", NumResults);
@@ -140,7 +137,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             var result_count = 0;
             using (var cmd = new SqliteCommand(GET_RESULT_COUNT, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
-                cmd.Parameters.AddWithValue("@comparison_id", Helpers.RunIdsToCompareId(BaseId,CompareId));
+                cmd.Parameters.AddWithValue("@comparison_id", Helpers.RunIdsToCompareId(BaseId, CompareId));
                 cmd.Parameters.AddWithValue("@result_type", ((RESULT_TYPE)ResultType).ToString());
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -162,7 +159,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         public ActionResult GetResultTypes(string BaseId, string CompareId)
         {
-       
+
             var json_out = new Dictionary<string, bool>(){
                 { "File", false },
                 { "Certificate", false },
@@ -227,7 +224,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             }
             return Json(json_out);
         }
-        
+
         public ActionResult GetCollectors()
         {
             Dictionary<string, RUN_STATUS> dict = new Dictionary<string, RUN_STATUS>();
@@ -238,7 +235,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             {
                 var fullString = c.GetType().ToString();
                 var splits = fullString.Split('.');
-                dict.Add(splits[splits.Count()-1], c.IsRunning());
+                dict.Add(splits[splits.Count() - 1], c.IsRunning());
             }
             Dictionary<string, object> output = new Dictionary<string, object>();
             output.Add("RunId", RunId);
@@ -279,7 +276,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             //@TODO: Also return the RunId
             return Json(JsonConvert.SerializeObject(dict));
         }
-        
+
 
         public ActionResult StartCollection(string Id, bool File, bool Port, bool Service, bool User, bool Registry, bool Certificates)
         {
@@ -410,7 +407,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             }
 
             Task.Factory.StartNew<Dictionary<string, object>>(() => AttackSurfaceAnalyzerCLI.CompareRuns(opts));
-           
+
             return Json("Started Analysis");
         }
 
@@ -454,7 +451,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
             List<DataRunModel> runModels = new List<DataRunModel>();
 
-            for (int i = 0 ; i < Runs.Count() ; i++)
+            for (int i = 0; i < Runs.Count(); i++)
             {
                 runModels.Add(new DataRunModel { Key = Runs[i], Text = Runs[i] });
             }
@@ -464,7 +461,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         private IEnumerable<DataRunModel> GetResultModels()
         {
-            List<DataRunModel>  output = new List<DataRunModel>();
+            List<DataRunModel> output = new List<DataRunModel>();
 
             using (var cmd = new SqliteCommand(SQL_QUERY_ANALYZED, DatabaseManager.Connection, DatabaseManager.Transaction))
             {

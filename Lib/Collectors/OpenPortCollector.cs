@@ -45,7 +45,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
             }
             catch (Exception)
-            { 
+            {
                 /* OK to ignore, expecting this on non-Linux platforms. */
             };
 
@@ -54,14 +54,13 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public override void Execute()
         {
-
-            Start();
-            Log.Debug("Collecting open port information...");
-
             if (!this.CanRunOnPlatform())
             {
                 return;
             }
+
+            Start();
+            _ = DatabaseManager.Transaction;
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
@@ -79,6 +78,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 Log.Warning("OpenPortCollector is not available on {0}", RuntimeInformation.OSDescription);
             }
+            DatabaseManager.Commit();
             Stop();
         }
 
@@ -89,7 +89,6 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// </summary>
         public void ExecuteWindows()
         {
-            Log.Debug("Collecting open port information (Windows implementation)");
             var properties = IPGlobalProperties.GetIPGlobalProperties();
 
             foreach (var endpoint in properties.GetActiveTcpListeners())
@@ -170,12 +169,12 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Log.Warning(Strings.Get("Err_Iproute2"));
                 Logger.DebugException(e);
             }
-            
+
         }
 
         /// <summary>
@@ -231,7 +230,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Log.Error(Strings.Get("Err_Lsof"));
                 Logger.DebugException(e);

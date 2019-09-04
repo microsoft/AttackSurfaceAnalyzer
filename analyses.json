@@ -1,5 +1,5 @@
-{"rules":
-  [
+{
+  "rules": [
     {
       "name": "Privileged ports",
       "desc": "Flag when privileged ports are opened.",
@@ -60,56 +60,142 @@
       ]
     },
     {
-        "name": "Executables",
-        "desc": "Flag when executables are created.",
-        "flag": "INFORMATION",
-        "platforms": [
-            "LINUX",
-            "MACOS",
-            "WINDOWS"
-        ],
-        "resultType": "FILE",
-        "clauses": [
-            {
-                "field": "IsExecutable",
-                "op": "EQ",
-                "data": [
-                    "True"
-                ]
-            }
-        ]
+      "name": "SetUid",
+      "desc": "Flag UID is set on a file.",
+      "flag": "WARNING",
+      "platform": [
+        "LINUX",
+        "MACOS"
+      ],
+      "changeTypes": [
+        "CREATED",
+        "MODIFIED"
+      ],
+      "resultType": "FILE",
+      "clauses": [
+        {
+          "field": "SetUid",
+          "op": "EQ",
+          "data": [
+            "True"
+          ]
+        }
+      ]
     },
     {
-        "name": "Certificates",
-        "desc": "Flag when executables are placed on disk.",
-        "flag": "INFORMATION",
-        "platforms": [
-            "LINUX",
-            "MACOS",
-            "WINDOWS"
-        ],
-        "resultType": "FILE",
-        "clauses": [
-            {
-                "field": "Path",
-                "op": "ENDS_WITH",
-                "data": [
-                    ".cer",
-                    ".der",
-                    ".crt"
-                ]
-            }
-        ]
+      "name": "SetGid",
+      "desc": "Flag GID is set on a file.",
+      "flag": "WARNING",
+      "platform": [
+        "LINUX",
+        "MACOS"
+      ],
+      "changeTypes": [
+        "CREATED",
+        "MODIFIED"
+      ],
+      "resultType": "FILE",
+      "clauses": [
+        {
+          "field": "SetGid",
+          "op": "EQ",
+          "data": [
+            "True"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Executables",
+      "desc": "Flag when executables are created.",
+      "flag": "INFORMATION",
+      "platforms": [
+        "LINUX",
+        "MACOS",
+        "WINDOWS"
+      ],
+      "resultType": "FILE",
+      "clauses": [
+        {
+          "field": "IsExecutable",
+          "op": "EQ",
+          "data": [
+            "True"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Certificates",
+      "desc": "Flag when certificates are placed on disk.",
+      "flag": "INFORMATION",
+      "platforms": [
+        "LINUX",
+        "MACOS",
+        "WINDOWS"
+      ],
+      "resultType": "FILE",
+      "clauses": [
+        {
+          "field": "Path",
+          "op": "ENDS_WITH",
+          "data": [
+            ".cer",
+            ".der",
+            ".crt"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "UPNP Ports",
+      "desc": "Universal Plug n' Play. This is probably background noise.",
+      "flag": "INFORMATION",
+      "platforms": [
+        "LINUX",
+        "MACOS",
+        "WINDOWS"
+      ],
+      "resultType": "PORT",
+      "clauses": [
+        {
+          "field": "port",
+          "op": "EQ",
+          "data": [
+            "1900"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Keystore Files",
+      "desc": "Flag when java keystore files are modified.",
+      "flag": "INFORMATION",
+      "platforms": [
+        "LINUX",
+        "MACOS",
+        "WINDOWS"
+      ],
+      "resultType": "FILE",
+      "clauses": [
+        {
+          "field": "Path",
+          "op": "ENDS_WITH",
+          "data": [
+            ".keystore"
+          ]
+        }
+      ]
     }
   ],
- "meta": {
-   "defaultLevels": {
-    "PORT": "INFORMATION",
-    "FILE": "DEBUG",
-    "SERVICE": "INFORMATION",
-    "CERTIFICATE": "INFORMATION",
-    "USER": "INFORMATION",
-    "REGISTRY": "DEBUG"
-   }
+  "meta": {
+    "defaultLevels": {
+      "PORT": "INFORMATION",
+      "FILE": "DEBUG",
+      "SERVICE": "INFORMATION",
+      "CERTIFICATE": "INFORMATION",
+      "USER": "INFORMATION",
+      "REGISTRY": "DEBUG"
+    }
   }
 }

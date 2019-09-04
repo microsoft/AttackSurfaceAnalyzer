@@ -12,16 +12,12 @@ namespace AttackSurfaceAnalyzer.Utils
     public class RegistryWalker
     {
 
-        public static IEnumerable<RegistryObject> WalkHive(RegistryHive Hive)
+        public static IEnumerable<RegistryObject> WalkHive(RegistryHive Hive, string runid = null)
         {
             // Data structure to hold names of subfolders to be
             // examined for files.
             Stack<RegistryKey> keys = new Stack<RegistryKey>();
 
-            //if (!System.IO.Directory.Exists(root))
-            //{
-            //    throw new ArgumentException("Unable to find [" + root + "]");
-            //}
             RegistryKey BaseKey = RegistryKey.OpenBaseKey(Hive, RegistryView.Default);
 
             keys.Push(BaseKey);
@@ -44,35 +40,64 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     try
                     {
-                        var next = currentKey.OpenSubKey(key, false);
+                        var next = currentKey.OpenSubKey(name: key, writable: false);
                         keys.Push(next);
                     }
                     // These are expected as we are running as administrator, not System.
                     catch (System.Security.SecurityException e)
                     {
-                        Log.Debug(e.GetType() + " " + e.Message + " " + currentKey.Name);
-
+                        Log.Verbose(e, "Permission Denied: {0}", currentKey.Name);
                     }
                     // There seem to be some keys which are listed as existing by the APIs but don't actually exist.
                     // Unclear if these are just super transient keys or what the other cause might be.
-                    // Since this isn't use actionable, also just supress these to the debug stream.
+                    // Since this isn't user actionable, also just supress these to the verbose stream.
                     catch (System.IO.IOException e)
                     {
-                        Log.Debug(e.GetType() + " " + e.Message + " " + currentKey.Name);
+                        Log.Verbose(e, "Error Reading: {0}", currentKey.Name);
                     }
                     catch (Exception e)
                     {
-                        Log.Information(e.GetType() + " " + e.Message + " " + currentKey.Name);
+                        Log.Information(e, "Unexpected error when parsing {0}:", currentKey.Name);
                         Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                     }
                 }
                 RegistryObject regObj = null;
                 try
                 {
-                    regObj = new RegistryObject();
+                    regObj = new RegistryObject()
+                    {
+                        Subkeys = new List<string>(currentKey.GetSubKeyNames()),
+                        Key = currentKey.Name,
+                        Permissions = currentKey.GetAccessControl().GetSecurityDescriptorSddlForm(System.Security.AccessControl.AccessControlSections.All),
+                        Values = new Dictionary<string, string>()
+                    };
+
+                    foreach (string valueName in currentKey.GetValueNames())
+                    {
+                        try
+                        {
+                            if (currentKey.GetValue(valueName) == null)
+                            {
+
+                            }
+                            regObj.Values.Add(valueName, (currentKey.GetValue(valueName) == null) ? "" : (currentKey.GetValue(valueName).ToString()));
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.Debug(ex, "Found an exception processing registry values.");
+                        }
+                    }
 
                 }
-                catch (Exception) { Log.Debug("I'm blue"); }
+                catch (System.ArgumentException e)
+                {
+                    Logger.VerboseException(e);
+                }
+                catch (Exception e)
+                {
+                    Log.Debug(e, "Couldn't process reg key {0}", currentKey.Name);
+                }
+
                 if (regObj != null)
                 {
                     yield return regObj;

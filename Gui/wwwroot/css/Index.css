@@ -3,12 +3,12 @@
     width: 100px;
 }
 
-.right-col{
+.right-col {
     color: #444
 }
 
-.bottom-border{
-    border-bottom:solid 1px;
+.bottom-border {
+    border-bottom: solid 1px;
 }
 
 td {
@@ -16,13 +16,12 @@ td {
 }
 
 table {
-    width:600px;
-
+    width: 600px;
 }
 
 #moreInfo {
-    color:#000;
-    opacity:0.6;
+    color: #000;
+    opacity: 0.6;
 }
 
 #indexHeader {

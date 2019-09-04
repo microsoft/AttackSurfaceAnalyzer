@@ -1,5 +1,5 @@
 {
-  "Windows": {
+  "WINDOWS": {
     "Scan": {
       "Registry": {
         "Key": {
@@ -38,7 +38,9 @@
             "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\ControlSet001\\\\Services\\\\mpssvc\\\\Parameters",
             "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Services\\\\ADOVMPPackage",
             "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Services\\\\BTHPORT\\\\Parameters",
-            "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Services\\\\PolicyAgent\\\\Parameters"
+            "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Services\\\\PolicyAgent\\\\Parameters",
+            "^HKEY_CURRENT_USER\\\\Software\\\\Classes\\\\Local Settings\\\\MuiCache",
+            "^HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\Microsoft\\\\Windows\\\\Windows Error Reporting"
           ]
         },
         "Hive": {
@@ -56,10 +58,8 @@
             "^[A-Z]:\\\\Windows\\\\CSC$",
             "^[A-Z]:\\\\Windows\\\\System32\\\\LogFiles\\\\WMI\\\\RtBackup$",
             "^[A-Z]:\\\\Windows\\\\ServiceProfiles\\\\LocalService\\\\AppData\\\\Local\\\\Microsoft\\\\Ngc$",
-            "^[A-Z]:\\\\Users\\\\Gstoc\\\\AppData\\\\Local\\\\Packages\\\\Microsoft.Windows.ContentDeliveryManager.*BackgroundTransferApi",
             "^[A-Z]:\\\\Windows\\\\ServiceProfiles\\\\NetworkService\\\\AppData\\\\Local\\\\Microsoft\\\\Windows\\\\DeliveryOptimization\\\\Logs",
             "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows\\\\AppRepository\\\\Packages\\\\Microsoft.Windows.ContentDeliveryManager",
-            "^[A-Z]:\\\\Users\\\\Gstoc\\\\ntuser.dat",
             "^[A-Z]:\\\\Windows\\\\Prefetch",
             "^[A-Z]:\\\\Windows\\\\ServiceProfiles\\\\NetworkService\\\\AppData\\\\Local\\\\Microsoft\\\\Windows\\\\DeliveryOptimization\\\\Logs",
             "^[A-Z]:\\\\Windows\\\\System32\\\\config\\\\SYSTEM.LOG",
@@ -76,19 +76,26 @@
             "^[A-Z]:\\\\Windows\\\\Logs\\\\WindowsUpdate$",
             "^[A-Z]:\\\\Windows\\\\Temp\\\\MpCmdRun.log$",
             "^[A-Z]:\\\\Windows\\\\Temp\\\\MpSigStub.log$",
+            "^[A-Z]:\\\\Windows\\\\WinSxS",
             "^[A-Z]:\\\\Windows\\\\System32\\\\LogFiles\\\\WMI\\\\LwtNetLog.etl$",
             "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows Defender\\\\Support\\\\MpWppTracing$",
             "^[A-Z]:\\\\Windows\\\\CCM\\\\ScriptStore",
             "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows\\\\Containers\\\\BaseImages\\\\.*?\\\\Files\\\\System Volume Information",
-            "^[A-Z]:\\\\WcSandboxState$",
-            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows Defender Advanced Threat Protection$",
-            "^[A-Z]:\\\\Program Files\\\\Windows Defender Advanced Threat Protection\\\\Classification\\\\Configuration$"
+            "^[A-Z]:\\\\WcSandboxState",
+            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows Defender Advanced Threat Protection",
+            "^[A-Z]:\\\\Program Files\\\\Windows Defender Advanced Threat Protection\\\\Classification\\\\Configuration",
+            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows\\\\WER\\\\Temp",
+            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows\\\\WER\\\\ReportArchive",
+            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows\\\\ClipSVC\\\\tokens.dat",
+            "^[A-Z]:\\\\Windows\\\\ServiceProfiles\\\\NetworkService\\\\AppData\\\\Local\\\\Microsoft\\\\Windows\\\\DeliveryOptimization\\State",
+            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Network\\\\Downloader",
+            "^[A-Z]:\\\\Windows\\\\Temp"
           ]
         }
       }
     }
   },
-  "Macos": {
+  "OSX": {
     "Monitor": {
       "File": {
         "Path": {
@@ -111,20 +118,20 @@
       }
     }
   },
-  "Linux": {
+  "LINUX": {
     "Scan": {
       "File": {
         "Path": {
           "Exclude": [
             "^/proc/",
-            "^/usr/share/", 
-            "^/usr/src/", 
-            "^/snap/", 
-            "^/run/systemd/", 
+            "^/usr/share/",
+            "^/usr/src/",
+            "^/snap/",
+            "^/run/systemd/",
             "^/run/udev/"
           ]
         }
       }
     }
-  },
+  }
 }

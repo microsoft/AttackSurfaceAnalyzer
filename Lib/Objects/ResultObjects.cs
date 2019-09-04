@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using AttackSurfaceAnalyzer.Objects;
 using System.Collections.Generic;
 using System.IO;
+using AttackSurfaceAnalyzer.Types;
 
 namespace AttackSurfaceAnalyzer.Objects
 {
@@ -33,10 +33,13 @@ namespace AttackSurfaceAnalyzer.Objects
 
     public class CompareResult
     {
+        public string Identity;
         public CHANGE_TYPE ChangeType;
         public RESULT_TYPE ResultType;
+        public ANALYSIS_RESULT_TYPE Analysis;
+        public List<Rule> Rules = new List<Rule>();
+        public List<Diff> Diffs = new List<Diff>();
 
-        public string Identity;
         public string BaseRowKey;
         public string CompareRowKey;
         public string BaseRunId;
@@ -44,8 +47,16 @@ namespace AttackSurfaceAnalyzer.Objects
         public object Base;
         public object Compare;
 
-        public ANALYSIS_RESULT_TYPE Analysis;
-        public List<Rule> Rules = new List<Rule>();
+        public bool ShouldSerializeDiffs()
+        {
+            return (Diffs.Count > 0);
+        }
+
+        public bool ShouldSerializeRules()
+        {
+            return (Rules.Count > 0);
+        }
+
     }
 
     public class OutputFileMonitorResult
@@ -79,7 +90,7 @@ namespace AttackSurfaceAnalyzer.Objects
         }
     }
 
-    public class OpenPortResult: CompareResult
+    public class OpenPortResult : CompareResult
     {
         public OpenPortResult()
         {
@@ -87,7 +98,7 @@ namespace AttackSurfaceAnalyzer.Objects
         }
     }
 
-    public class RegistryResult: CompareResult
+    public class RegistryResult : CompareResult
     {
         public RegistryResult()
         {
@@ -111,7 +122,7 @@ namespace AttackSurfaceAnalyzer.Objects
         }
     }
 
-    public class CertificateResult: CompareResult
+    public class CertificateResult : CompareResult
     {
         public CertificateResult()
         {

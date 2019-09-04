@@ -29,8 +29,6 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         private Action<RegistryObject> customCrawlHandler = null;
 
-        private static readonly string SQL_TRUNCATE = "delete from registry where run_id=@run_id";
-
         public RegistryCollector(string RunId) : this(RunId, DefaultHives, null) { }
 
         public RegistryCollector(string RunId, List<RegistryHive> Hives) : this(RunId, Hives, null) { }
@@ -43,12 +41,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             this._keys = new HashSet<RegistryKey>();
             this._values = new HashSet<RegistryObject>();
             this.customCrawlHandler = customHandler;
-        }
-
-        public void Truncate(string runid)
-        {
-            var cmd = new SqliteCommand(SQL_TRUNCATE, DatabaseManager.Connection, DatabaseManager.Transaction);
-            cmd.Parameters.AddWithValue("@run_id", runId);
         }
 
         public void AddRoot(string root)
@@ -68,13 +60,13 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public override void Execute()
         {
-            Start();
 
             if (!this.CanRunOnPlatform())
             {
                 return;
             }
-            Truncate(this.runId);
+            Start();
+            _ = DatabaseManager.Transaction;
 
             Parallel.ForEach(Hives,
                 (hive =>
@@ -85,13 +77,13 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                     else if (Filter.IsFiltered(Helpers.GetPlatformString(), "Scan", "Registry", "Hive", "Exclude", hive.ToString(), out Regex Capturer))
                     {
-                        Log.Information("{0} '{1}' {2} '{3}'.",Strings.Get("ExcludingHive"), hive.ToString(), Strings.Get("DueToFilter"),Capturer.ToString());
+                        Log.Information("{0} '{1}' {2} '{3}'.", Strings.Get("ExcludingHive"), hive.ToString(), Strings.Get("DueToFilter"), Capturer.ToString());
 
                         return;
                     }
 
                     Filter.IsFiltered(Helpers.GetPlatformString(), "Scan", "Registry", "Key", "Exclude", hive.ToString());
-                    var registryInfoEnumerable = RegistryWalker.WalkHive(hive);
+                    var registryInfoEnumerable = RegistryWalker.WalkHive(hive, runId);
                     try
                     {
                         Parallel.ForEach(registryInfoEnumerable,
@@ -99,12 +91,12 @@ namespace AttackSurfaceAnalyzer.Collectors
                             {
                                 try
                                 {
-                                    DatabaseManager.Write(registryObject, this.runId);
+                                    DatabaseManager.Write(registryObject, runId);
                                 }
-                                // Some registry keys don't get along
                                 catch (InvalidOperationException e)
                                 {
-                                    Log.Debug(registryObject.Key + " " + e.GetType());
+                                    Logger.DebugException(e);
+                                    Log.Debug(JsonConvert.SerializeObject(registryObject) + " invalid op exept");
                                 }
                             }));
                     }
@@ -115,7 +107,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
 
                 }));
-            
+
             DatabaseManager.Commit();
             Stop();
         }

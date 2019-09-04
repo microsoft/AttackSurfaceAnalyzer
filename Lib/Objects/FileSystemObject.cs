@@ -1,9 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using System;
 using System.Collections.Generic;
-
-
+using AttackSurfaceAnalyzer.Types;
 
 namespace AttackSurfaceAnalyzer.Objects
 {
@@ -18,6 +16,11 @@ namespace AttackSurfaceAnalyzer.Objects
         public string SignatureStatus { get; set; }
         public bool IsExecutable { get; set; }
         public bool IsDirectory { get; set; }
+
+        public string Owner { get; set; }
+        public string Group { get; set; }
+        public bool SetGid { get; set; }
+        public bool SetUid { get; set; }
 
         public FileSystemObject()
         {

@@ -1,0 +1,1476 @@
+### YamlMime:ManagedReference
+items:
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager
+  commentId: T:AttackSurfaceAnalyzer.Utils.DatabaseManager
+  id: DatabaseManager
+  parent: AttackSurfaceAnalyzer.Utils
+  children:
+  - AttackSurfaceAnalyzer.Utils.DatabaseManager._ReadOnly
+  - AttackSurfaceAnalyzer.Utils.DatabaseManager.CloseDatabase
+  - AttackSurfaceAnalyzer.Utils.DatabaseManager.Commit
+  - AttackSurfaceAnalyzer.Utils.DatabaseManager.Connection
+  - AttackSurfaceAnalyzer.Utils.DatabaseManager.DeleteRun(System.String)
+  - AttackSurfaceAnalyzer.Utils.DatabaseManager.FirstRun
+  - AttackSurfaceAnalyzer.Utils.DatabaseManager.GetLatestRunIds(System.Int32,System.String)
+  - AttackSurfaceAnalyzer.Utils.DatabaseManager.GetMissingFromFirst(System.String,System.String)
+  - AttackSurfaceAnalyzer.Utils.DatabaseManager.GetModified(System.String,System.String)
+  - AttackSurfaceAnalyzer.Utils.DatabaseManager.GetNumResults(AttackSurfaceAnalyzer.Types.RESULT_TYPE,System.String)
+  - AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultTypesAndCounts(System.String)
+  - AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertAnalyzed(AttackSurfaceAnalyzer.Objects.CompareResult)
+  - AttackSurfaceAnalyzer.Utils.DatabaseManager.ReadOnlyConnection
+  - AttackSurfaceAnalyzer.Utils.DatabaseManager.RunIdToPlatform(System.String)
+  - AttackSurfaceAnalyzer.Utils.DatabaseManager.Setup
+  - AttackSurfaceAnalyzer.Utils.DatabaseManager.SqliteFilename
+  - AttackSurfaceAnalyzer.Utils.DatabaseManager.Transaction
+  - AttackSurfaceAnalyzer.Utils.DatabaseManager.VerifySchemaVersion
+  - AttackSurfaceAnalyzer.Utils.DatabaseManager.Write(AttackSurfaceAnalyzer.Objects.CollectObject,System.String)
+  langs:
+  - csharp
+  - vb
+  name: DatabaseManager
+  nameWithType: DatabaseManager
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager
+  type: Class
+  source:
+    remote:
+      path: Lib/Utils/DatabaseManager.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: DatabaseManager
+    path: ../Lib/Utils/DatabaseManager.cs
+    startLine: 16
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static class DatabaseManager
+    content.vb: Public Module DatabaseManager
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - static
+  - class
+  modifiers.vb:
+  - Public
+  - Module
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.Connection
+  commentId: F:AttackSurfaceAnalyzer.Utils.DatabaseManager.Connection
+  id: Connection
+  parent: AttackSurfaceAnalyzer.Utils.DatabaseManager
+  langs:
+  - csharp
+  - vb
+  name: Connection
+  nameWithType: DatabaseManager.Connection
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.Connection
+  type: Field
+  source:
+    remote:
+      path: Lib/Utils/DatabaseManager.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Connection
+    path: ../Lib/Utils/DatabaseManager.cs
+    startLine: 69
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static SqliteConnection Connection
+    return:
+      type: Microsoft.Data.Sqlite.SqliteConnection
+    content.vb: Public Shared Connection As SqliteConnection
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.ReadOnlyConnection
+  commentId: F:AttackSurfaceAnalyzer.Utils.DatabaseManager.ReadOnlyConnection
+  id: ReadOnlyConnection
+  parent: AttackSurfaceAnalyzer.Utils.DatabaseManager
+  langs:
+  - csharp
+  - vb
+  name: ReadOnlyConnection
+  nameWithType: DatabaseManager.ReadOnlyConnection
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.ReadOnlyConnection
+  type: Field
+  source:
+    remote:
+      path: Lib/Utils/DatabaseManager.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ReadOnlyConnection
+    path: ../Lib/Utils/DatabaseManager.cs
+    startLine: 70
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static SqliteConnection ReadOnlyConnection
+    return:
+      type: Microsoft.Data.Sqlite.SqliteConnection
+    content.vb: Public Shared ReadOnlyConnection As SqliteConnection
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.FirstRun
+  commentId: P:AttackSurfaceAnalyzer.Utils.DatabaseManager.FirstRun
+  id: FirstRun
+  parent: AttackSurfaceAnalyzer.Utils.DatabaseManager
+  langs:
+  - csharp
+  - vb
+  name: FirstRun
+  nameWithType: DatabaseManager.FirstRun
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.FirstRun
+  type: Property
+  source:
+    remote:
+      path: Lib/Utils/DatabaseManager.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: FirstRun
+    path: ../Lib/Utils/DatabaseManager.cs
+    startLine: 74
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static bool FirstRun { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Shared ReadOnly Property FirstRun As Boolean
+  overload: AttackSurfaceAnalyzer.Utils.DatabaseManager.FirstRun*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.Setup
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.Setup
+  id: Setup
+  parent: AttackSurfaceAnalyzer.Utils.DatabaseManager
+  langs:
+  - csharp
+  - vb
+  name: Setup()
+  nameWithType: DatabaseManager.Setup()
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.Setup()
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/DatabaseManager.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Setup
+    path: ../Lib/Utils/DatabaseManager.cs
+    startLine: 76
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static bool Setup()
+    return:
+      type: System.Boolean
+    content.vb: Public Shared Function Setup As Boolean
+  overload: AttackSurfaceAnalyzer.Utils.DatabaseManager.Setup*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.RunIdToPlatform(System.String)
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.RunIdToPlatform(System.String)
+  id: RunIdToPlatform(System.String)
+  parent: AttackSurfaceAnalyzer.Utils.DatabaseManager
+  langs:
+  - csharp
+  - vb
+  name: RunIdToPlatform(String)
+  nameWithType: DatabaseManager.RunIdToPlatform(String)
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.RunIdToPlatform(System.String)
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/DatabaseManager.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: RunIdToPlatform
+    path: ../Lib/Utils/DatabaseManager.cs
+    startLine: 159
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static PLATFORM RunIdToPlatform(string runid)
+    parameters:
+    - id: runid
+      type: System.String
+    return:
+      type: AttackSurfaceAnalyzer.Types.PLATFORM
+    content.vb: Public Shared Function RunIdToPlatform(runid As String) As PLATFORM
+  overload: AttackSurfaceAnalyzer.Utils.DatabaseManager.RunIdToPlatform*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertAnalyzed(AttackSurfaceAnalyzer.Objects.CompareResult)
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertAnalyzed(AttackSurfaceAnalyzer.Objects.CompareResult)
+  id: InsertAnalyzed(AttackSurfaceAnalyzer.Objects.CompareResult)
+  parent: AttackSurfaceAnalyzer.Utils.DatabaseManager
+  langs:
+  - csharp
+  - vb
+  name: InsertAnalyzed(CompareResult)
+  nameWithType: DatabaseManager.InsertAnalyzed(CompareResult)
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertAnalyzed(AttackSurfaceAnalyzer.Objects.CompareResult)
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/DatabaseManager.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: InsertAnalyzed
+    path: ../Lib/Utils/DatabaseManager.cs
+    startLine: 172
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static void InsertAnalyzed(CompareResult obj)
+    parameters:
+    - id: obj
+      type: AttackSurfaceAnalyzer.Objects.CompareResult
+    content.vb: Public Shared Sub InsertAnalyzed(obj As CompareResult)
+  overload: AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertAnalyzed*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.VerifySchemaVersion
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.VerifySchemaVersion
+  id: VerifySchemaVersion
+  parent: AttackSurfaceAnalyzer.Utils.DatabaseManager
+  langs:
+  - csharp
+  - vb
+  name: VerifySchemaVersion()
+  nameWithType: DatabaseManager.VerifySchemaVersion()
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.VerifySchemaVersion()
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/DatabaseManager.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: VerifySchemaVersion
+    path: ../Lib/Utils/DatabaseManager.cs
+    startLine: 185
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static void VerifySchemaVersion()
+    content.vb: Public Shared Sub VerifySchemaVersion
+  overload: AttackSurfaceAnalyzer.Utils.DatabaseManager.VerifySchemaVersion*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetLatestRunIds(System.Int32,System.String)
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.GetLatestRunIds(System.Int32,System.String)
+  id: GetLatestRunIds(System.Int32,System.String)
+  parent: AttackSurfaceAnalyzer.Utils.DatabaseManager
+  langs:
+  - csharp
+  - vb
+  name: GetLatestRunIds(Int32, String)
+  nameWithType: DatabaseManager.GetLatestRunIds(Int32, String)
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetLatestRunIds(System.Int32, System.String)
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/DatabaseManager.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: GetLatestRunIds
+    path: ../Lib/Utils/DatabaseManager.cs
+    startLine: 199
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static List<string> GetLatestRunIds(int numberOfIds, string type)
+    parameters:
+    - id: numberOfIds
+      type: System.Int32
+    - id: type
+      type: System.String
+    return:
+      type: System.Collections.Generic.List{System.String}
+    content.vb: Public Shared Function GetLatestRunIds(numberOfIds As Integer, type As String) As List(Of String)
+  overload: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetLatestRunIds*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultTypesAndCounts(System.String)
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultTypesAndCounts(System.String)
+  id: GetResultTypesAndCounts(System.String)
+  parent: AttackSurfaceAnalyzer.Utils.DatabaseManager
+  langs:
+  - csharp
+  - vb
+  name: GetResultTypesAndCounts(String)
+  nameWithType: DatabaseManager.GetResultTypesAndCounts(String)
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultTypesAndCounts(System.String)
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/DatabaseManager.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: GetResultTypesAndCounts
+    path: ../Lib/Utils/DatabaseManager.cs
+    startLine: 225
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static Dictionary<RESULT_TYPE, int> GetResultTypesAndCounts(string runId)
+    parameters:
+    - id: runId
+      type: System.String
+    return:
+      type: System.Collections.Generic.Dictionary{AttackSurfaceAnalyzer.Types.RESULT_TYPE,System.Int32}
+    content.vb: Public Shared Function GetResultTypesAndCounts(runId As String) As Dictionary(Of RESULT_TYPE, Integer)
+  overload: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultTypesAndCounts*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetNumResults(AttackSurfaceAnalyzer.Types.RESULT_TYPE,System.String)
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.GetNumResults(AttackSurfaceAnalyzer.Types.RESULT_TYPE,System.String)
+  id: GetNumResults(AttackSurfaceAnalyzer.Types.RESULT_TYPE,System.String)
+  parent: AttackSurfaceAnalyzer.Utils.DatabaseManager
+  langs:
+  - csharp
+  - vb
+  name: GetNumResults(RESULT_TYPE, String)
+  nameWithType: DatabaseManager.GetNumResults(RESULT_TYPE, String)
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetNumResults(AttackSurfaceAnalyzer.Types.RESULT_TYPE, System.String)
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/DatabaseManager.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: GetNumResults
+    path: ../Lib/Utils/DatabaseManager.cs
+    startLine: 251
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static int GetNumResults(RESULT_TYPE ResultType, string runId)
+    parameters:
+    - id: ResultType
+      type: AttackSurfaceAnalyzer.Types.RESULT_TYPE
+    - id: runId
+      type: System.String
+    return:
+      type: System.Int32
+    content.vb: Public Shared Function GetNumResults(ResultType As RESULT_TYPE, runId As String) As Integer
+  overload: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetNumResults*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.Transaction
+  commentId: P:AttackSurfaceAnalyzer.Utils.DatabaseManager.Transaction
+  id: Transaction
+  parent: AttackSurfaceAnalyzer.Utils.DatabaseManager
+  langs:
+  - csharp
+  - vb
+  name: Transaction
+  nameWithType: DatabaseManager.Transaction
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.Transaction
+  type: Property
+  source:
+    remote:
+      path: Lib/Utils/DatabaseManager.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Transaction
+    path: ../Lib/Utils/DatabaseManager.cs
+    startLine: 277
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static SqliteTransaction Transaction { get; }
+    parameters: []
+    return:
+      type: Microsoft.Data.Sqlite.SqliteTransaction
+    content.vb: Public Shared ReadOnly Property Transaction As SqliteTransaction
+  overload: AttackSurfaceAnalyzer.Utils.DatabaseManager.Transaction*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.Commit
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.Commit
+  id: Commit
+  parent: AttackSurfaceAnalyzer.Utils.DatabaseManager
+  langs:
+  - csharp
+  - vb
+  name: Commit()
+  nameWithType: DatabaseManager.Commit()
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.Commit()
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/DatabaseManager.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Commit
+    path: ../Lib/Utils/DatabaseManager.cs
+    startLine: 289
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static void Commit()
+    content.vb: Public Shared Sub Commit
+  overload: AttackSurfaceAnalyzer.Utils.DatabaseManager.Commit*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager._ReadOnly
+  commentId: F:AttackSurfaceAnalyzer.Utils.DatabaseManager._ReadOnly
+  id: _ReadOnly
+  parent: AttackSurfaceAnalyzer.Utils.DatabaseManager
+  langs:
+  - csharp
+  - vb
+  name: _ReadOnly
+  nameWithType: DatabaseManager._ReadOnly
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager._ReadOnly
+  type: Field
+  source:
+    remote:
+      path: Lib/Utils/DatabaseManager.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: _ReadOnly
+    path: ../Lib/Utils/DatabaseManager.cs
+    startLine: 309
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static bool _ReadOnly
+    return:
+      type: System.Boolean
+    content.vb: Public Shared _ReadOnly As Boolean
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.SqliteFilename
+  commentId: P:AttackSurfaceAnalyzer.Utils.DatabaseManager.SqliteFilename
+  id: SqliteFilename
+  parent: AttackSurfaceAnalyzer.Utils.DatabaseManager
+  langs:
+  - csharp
+  - vb
+  name: SqliteFilename
+  nameWithType: DatabaseManager.SqliteFilename
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.SqliteFilename
+  type: Property
+  source:
+    remote:
+      path: Lib/Utils/DatabaseManager.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: SqliteFilename
+    path: ../Lib/Utils/DatabaseManager.cs
+    startLine: 311
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static string SqliteFilename { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared Property SqliteFilename As String
+  overload: AttackSurfaceAnalyzer.Utils.DatabaseManager.SqliteFilename*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.CloseDatabase
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.CloseDatabase
+  id: CloseDatabase
+  parent: AttackSurfaceAnalyzer.Utils.DatabaseManager
+  langs:
+  - csharp
+  - vb
+  name: CloseDatabase()
+  nameWithType: DatabaseManager.CloseDatabase()
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.CloseDatabase()
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/DatabaseManager.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: CloseDatabase
+    path: ../Lib/Utils/DatabaseManager.cs
+    startLine: 347
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static void CloseDatabase()
+    content.vb: Public Shared Sub CloseDatabase
+  overload: AttackSurfaceAnalyzer.Utils.DatabaseManager.CloseDatabase*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.Write(AttackSurfaceAnalyzer.Objects.CollectObject,System.String)
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.Write(AttackSurfaceAnalyzer.Objects.CollectObject,System.String)
+  id: Write(AttackSurfaceAnalyzer.Objects.CollectObject,System.String)
+  parent: AttackSurfaceAnalyzer.Utils.DatabaseManager
+  langs:
+  - csharp
+  - vb
+  name: Write(CollectObject, String)
+  nameWithType: DatabaseManager.Write(CollectObject, String)
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.Write(AttackSurfaceAnalyzer.Objects.CollectObject, System.String)
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/DatabaseManager.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Write
+    path: ../Lib/Utils/DatabaseManager.cs
+    startLine: 354
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static void Write(CollectObject obj, string runId)
+    parameters:
+    - id: obj
+      type: AttackSurfaceAnalyzer.Objects.CollectObject
+    - id: runId
+      type: System.String
+    content.vb: Public Shared Sub Write(obj As CollectObject, runId As String)
+  overload: AttackSurfaceAnalyzer.Utils.DatabaseManager.Write*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetMissingFromFirst(System.String,System.String)
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.GetMissingFromFirst(System.String,System.String)
+  id: GetMissingFromFirst(System.String,System.String)
+  parent: AttackSurfaceAnalyzer.Utils.DatabaseManager
+  langs:
+  - csharp
+  - vb
+  name: GetMissingFromFirst(String, String)
+  nameWithType: DatabaseManager.GetMissingFromFirst(String, String)
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetMissingFromFirst(System.String, System.String)
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/DatabaseManager.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: GetMissingFromFirst
+    path: ../Lib/Utils/DatabaseManager.cs
+    startLine: 365
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static List<RawCollectResult> GetMissingFromFirst(string firstRunId, string secondRunId)
+    parameters:
+    - id: firstRunId
+      type: System.String
+    - id: secondRunId
+      type: System.String
+    return:
+      type: System.Collections.Generic.List{AttackSurfaceAnalyzer.Objects.RawCollectResult}
+    content.vb: Public Shared Function GetMissingFromFirst(firstRunId As String, secondRunId As String) As List(Of RawCollectResult)
+  overload: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetMissingFromFirst*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetModified(System.String,System.String)
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.GetModified(System.String,System.String)
+  id: GetModified(System.String,System.String)
+  parent: AttackSurfaceAnalyzer.Utils.DatabaseManager
+  langs:
+  - csharp
+  - vb
+  name: GetModified(String, String)
+  nameWithType: DatabaseManager.GetModified(String, String)
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetModified(System.String, System.String)
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/DatabaseManager.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: GetModified
+    path: ../Lib/Utils/DatabaseManager.cs
+    startLine: 390
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static List<RawModifiedResult> GetModified(string firstRunId, string secondRunId)
+    parameters:
+    - id: firstRunId
+      type: System.String
+    - id: secondRunId
+      type: System.String
+    return:
+      type: System.Collections.Generic.List{AttackSurfaceAnalyzer.Objects.RawModifiedResult}
+    content.vb: Public Shared Function GetModified(firstRunId As String, secondRunId As String) As List(Of RawModifiedResult)
+  overload: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetModified*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.DeleteRun(System.String)
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.DeleteRun(System.String)
+  id: DeleteRun(System.String)
+  parent: AttackSurfaceAnalyzer.Utils.DatabaseManager
+  langs:
+  - csharp
+  - vb
+  name: DeleteRun(String)
+  nameWithType: DatabaseManager.DeleteRun(String)
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.DeleteRun(System.String)
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/DatabaseManager.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: DeleteRun
+    path: ../Lib/Utils/DatabaseManager.cs
+    startLine: 427
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static void DeleteRun(string runid)
+    parameters:
+    - id: runid
+      type: System.String
+    content.vb: Public Shared Sub DeleteRun(runid As String)
+  overload: AttackSurfaceAnalyzer.Utils.DatabaseManager.DeleteRun*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+references:
+- uid: AttackSurfaceAnalyzer.Utils
+  commentId: N:AttackSurfaceAnalyzer.Utils
+  name: AttackSurfaceAnalyzer.Utils
+  nameWithType: AttackSurfaceAnalyzer.Utils
+  fullName: AttackSurfaceAnalyzer.Utils
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Microsoft.Data.Sqlite.SqliteConnection
+  commentId: T:Microsoft.Data.Sqlite.SqliteConnection
+  parent: Microsoft.Data.Sqlite
+  isExternal: true
+  name: SqliteConnection
+  nameWithType: SqliteConnection
+  fullName: Microsoft.Data.Sqlite.SqliteConnection
+- uid: Microsoft.Data.Sqlite
+  commentId: N:Microsoft.Data.Sqlite
+  isExternal: true
+  name: Microsoft.Data.Sqlite
+  nameWithType: Microsoft.Data.Sqlite
+  fullName: Microsoft.Data.Sqlite
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.FirstRun*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.FirstRun
+  name: FirstRun
+  nameWithType: DatabaseManager.FirstRun
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.FirstRun
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.Setup*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.Setup
+  name: Setup
+  nameWithType: DatabaseManager.Setup
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.Setup
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.RunIdToPlatform*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.RunIdToPlatform
+  name: RunIdToPlatform
+  nameWithType: DatabaseManager.RunIdToPlatform
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.RunIdToPlatform
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: AttackSurfaceAnalyzer.Types.PLATFORM
+  commentId: T:AttackSurfaceAnalyzer.Types.PLATFORM
+  parent: AttackSurfaceAnalyzer.Types
+  name: PLATFORM
+  nameWithType: PLATFORM
+  fullName: AttackSurfaceAnalyzer.Types.PLATFORM
+- uid: AttackSurfaceAnalyzer.Types
+  commentId: N:AttackSurfaceAnalyzer.Types
+  name: AttackSurfaceAnalyzer.Types
+  nameWithType: AttackSurfaceAnalyzer.Types
+  fullName: AttackSurfaceAnalyzer.Types
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertAnalyzed*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertAnalyzed
+  name: InsertAnalyzed
+  nameWithType: DatabaseManager.InsertAnalyzed
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertAnalyzed
+- uid: AttackSurfaceAnalyzer.Objects.CompareResult
+  commentId: T:AttackSurfaceAnalyzer.Objects.CompareResult
+  parent: AttackSurfaceAnalyzer.Objects
+  name: CompareResult
+  nameWithType: CompareResult
+  fullName: AttackSurfaceAnalyzer.Objects.CompareResult
+- uid: AttackSurfaceAnalyzer.Objects
+  commentId: N:AttackSurfaceAnalyzer.Objects
+  name: AttackSurfaceAnalyzer.Objects
+  nameWithType: AttackSurfaceAnalyzer.Objects
+  fullName: AttackSurfaceAnalyzer.Objects
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.VerifySchemaVersion*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.VerifySchemaVersion
+  name: VerifySchemaVersion
+  nameWithType: DatabaseManager.VerifySchemaVersion
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.VerifySchemaVersion
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetLatestRunIds*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.GetLatestRunIds
+  name: GetLatestRunIds
+  nameWithType: DatabaseManager.GetLatestRunIds
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetLatestRunIds
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: System.Collections.Generic.List{System.String}
+  commentId: T:System.Collections.Generic.List{System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<String>
+  nameWithType: List<String>
+  fullName: System.Collections.Generic.List<System.String>
+  nameWithType.vb: List(Of String)
+  fullName.vb: System.Collections.Generic.List(Of System.String)
+  name.vb: List(Of String)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultTypesAndCounts*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultTypesAndCounts
+  name: GetResultTypesAndCounts
+  nameWithType: DatabaseManager.GetResultTypesAndCounts
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultTypesAndCounts
+- uid: System.Collections.Generic.Dictionary{AttackSurfaceAnalyzer.Types.RESULT_TYPE,System.Int32}
+  commentId: T:System.Collections.Generic.Dictionary{AttackSurfaceAnalyzer.Types.RESULT_TYPE,System.Int32}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  name: Dictionary<RESULT_TYPE, Int32>
+  nameWithType: Dictionary<RESULT_TYPE, Int32>
+  fullName: System.Collections.Generic.Dictionary<AttackSurfaceAnalyzer.Types.RESULT_TYPE, System.Int32>
+  nameWithType.vb: Dictionary(Of RESULT_TYPE, Int32)
+  fullName.vb: System.Collections.Generic.Dictionary(Of AttackSurfaceAnalyzer.Types.RESULT_TYPE, System.Int32)
+  name.vb: Dictionary(Of RESULT_TYPE, Int32)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: AttackSurfaceAnalyzer.Types.RESULT_TYPE
+    name: RESULT_TYPE
+    nameWithType: RESULT_TYPE
+    fullName: AttackSurfaceAnalyzer.Types.RESULT_TYPE
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: AttackSurfaceAnalyzer.Types.RESULT_TYPE
+    name: RESULT_TYPE
+    nameWithType: RESULT_TYPE
+    fullName: AttackSurfaceAnalyzer.Types.RESULT_TYPE
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
+  isExternal: true
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetNumResults*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.GetNumResults
+  name: GetNumResults
+  nameWithType: DatabaseManager.GetNumResults
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetNumResults
+- uid: AttackSurfaceAnalyzer.Types.RESULT_TYPE
+  commentId: T:AttackSurfaceAnalyzer.Types.RESULT_TYPE
+  parent: AttackSurfaceAnalyzer.Types
+  name: RESULT_TYPE
+  nameWithType: RESULT_TYPE
+  fullName: AttackSurfaceAnalyzer.Types.RESULT_TYPE
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.Transaction*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.Transaction
+  name: Transaction
+  nameWithType: DatabaseManager.Transaction
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.Transaction
+- uid: Microsoft.Data.Sqlite.SqliteTransaction
+  commentId: T:Microsoft.Data.Sqlite.SqliteTransaction
+  parent: Microsoft.Data.Sqlite
+  isExternal: true
+  name: SqliteTransaction
+  nameWithType: SqliteTransaction
+  fullName: Microsoft.Data.Sqlite.SqliteTransaction
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.Commit*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.Commit
+  name: Commit
+  nameWithType: DatabaseManager.Commit
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.Commit
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.SqliteFilename*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.SqliteFilename
+  name: SqliteFilename
+  nameWithType: DatabaseManager.SqliteFilename
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.SqliteFilename
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.CloseDatabase*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.CloseDatabase
+  name: CloseDatabase
+  nameWithType: DatabaseManager.CloseDatabase
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.CloseDatabase
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.Write*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.Write
+  name: Write
+  nameWithType: DatabaseManager.Write
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.Write
+- uid: AttackSurfaceAnalyzer.Objects.CollectObject
+  commentId: T:AttackSurfaceAnalyzer.Objects.CollectObject
+  parent: AttackSurfaceAnalyzer.Objects
+  name: CollectObject
+  nameWithType: CollectObject
+  fullName: AttackSurfaceAnalyzer.Objects.CollectObject
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetMissingFromFirst*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.GetMissingFromFirst
+  name: GetMissingFromFirst
+  nameWithType: DatabaseManager.GetMissingFromFirst
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetMissingFromFirst
+- uid: System.Collections.Generic.List{AttackSurfaceAnalyzer.Objects.RawCollectResult}
+  commentId: T:System.Collections.Generic.List{AttackSurfaceAnalyzer.Objects.RawCollectResult}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<RawCollectResult>
+  nameWithType: List<RawCollectResult>
+  fullName: System.Collections.Generic.List<AttackSurfaceAnalyzer.Objects.RawCollectResult>
+  nameWithType.vb: List(Of RawCollectResult)
+  fullName.vb: System.Collections.Generic.List(Of AttackSurfaceAnalyzer.Objects.RawCollectResult)
+  name.vb: List(Of RawCollectResult)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: AttackSurfaceAnalyzer.Objects.RawCollectResult
+    name: RawCollectResult
+    nameWithType: RawCollectResult
+    fullName: AttackSurfaceAnalyzer.Objects.RawCollectResult
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: AttackSurfaceAnalyzer.Objects.RawCollectResult
+    name: RawCollectResult
+    nameWithType: RawCollectResult
+    fullName: AttackSurfaceAnalyzer.Objects.RawCollectResult
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetModified*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.GetModified
+  name: GetModified
+  nameWithType: DatabaseManager.GetModified
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetModified
+- uid: System.Collections.Generic.List{AttackSurfaceAnalyzer.Objects.RawModifiedResult}
+  commentId: T:System.Collections.Generic.List{AttackSurfaceAnalyzer.Objects.RawModifiedResult}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<RawModifiedResult>
+  nameWithType: List<RawModifiedResult>
+  fullName: System.Collections.Generic.List<AttackSurfaceAnalyzer.Objects.RawModifiedResult>
+  nameWithType.vb: List(Of RawModifiedResult)
+  fullName.vb: System.Collections.Generic.List(Of AttackSurfaceAnalyzer.Objects.RawModifiedResult)
+  name.vb: List(Of RawModifiedResult)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: AttackSurfaceAnalyzer.Objects.RawModifiedResult
+    name: RawModifiedResult
+    nameWithType: RawModifiedResult
+    fullName: AttackSurfaceAnalyzer.Objects.RawModifiedResult
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: AttackSurfaceAnalyzer.Objects.RawModifiedResult
+    name: RawModifiedResult
+    nameWithType: RawModifiedResult
+    fullName: AttackSurfaceAnalyzer.Objects.RawModifiedResult
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.DeleteRun*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.DeleteRun
+  name: DeleteRun
+  nameWithType: DatabaseManager.DeleteRun
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.DeleteRun
