@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using AttackSurfaceAnalyzer.Objects;
+using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Serilog;
 
@@ -33,7 +33,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             _running = RUN_STATUS.RUNNING;
             watch = System.Diagnostics.Stopwatch.StartNew();
 
-            Log.Information(Strings.Get("Starting"),this.GetType().Name);
+            Log.Information(Strings.Get("Starting"), this.GetType().Name);
         }
 
         public void Stop()

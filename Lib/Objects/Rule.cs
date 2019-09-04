@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Runtime.InteropServices;
 using AttackSurfaceAnalyzer.Objects;
 using Newtonsoft.Json;
+using AttackSurfaceAnalyzer.Types;
 
 namespace AttackSurfaceAnalyzer.Objects
 {

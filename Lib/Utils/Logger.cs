@@ -48,14 +48,20 @@ namespace AttackSurfaceAnalyzer.Utils
             else
             {
                 Log.Logger = new LoggerConfiguration()
-                        .WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Information)
-                        .CreateLogger();
+                   .MinimumLevel.Information()
+                   .WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Information)
+                   .CreateLogger();
             }
         }
 
         public static void DebugException(Exception e)
         {
             Log.Debug("{0} {1} {2}", e.GetType().ToString(), e.Message, e.StackTrace);
+        }
+
+        public static void VerboseException(Exception e)
+        {
+            Log.Verbose("{0} {1} {2}", e.GetType().ToString(), e.Message, e.StackTrace);
         }
     }
 }

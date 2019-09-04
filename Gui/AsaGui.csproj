@@ -4,6 +4,7 @@
     <Company>Microsoft Corporation</Company>
     <Product>Attack Surface Analyzer</Product>
     <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
+    <ReleaseVersion>2.1-alpha</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -14,14 +15,18 @@
     <RootNamespace>AttackSurfaceAnalyzer</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="ElectronNet.API" Version="5.22.13" />
+    <PackageReference Include="ElectronNet.API" Version="5.22.14" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.7.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
     <PackageReference Include="Diff.Match.Patch" Version="2.1.0" />
     <PackageReference Include="BundlerMinifier.Core" Version="2.9.406" />
-    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.App">
+      <PrivateAssets Condition="'%(PackageReference.Version)' == ''">all</PrivateAssets>
+      <Publish Condition="'%(PackageReference.Version)' == ''">true</Publish>
+    </PackageReference>
     <PackageReference Include="Serilog" Version="2.8.0" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.0.25" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cli\AsaCli.csproj" />
@@ -52,8 +57,5 @@
     <Content Update="electron.manifest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Update="Nerdbank.GitVersioning" Version="2.3.183" />
   </ItemGroup>
 </Project>

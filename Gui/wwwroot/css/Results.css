@@ -59,16 +59,16 @@
     width: 1px;
 }
 
-tr, th,td{
-    padding:5px
+tr, th, td {
+    padding: 5px
 }
 
 table {
-    border-spacing:5px;
+    border-spacing: 5px;
 }
 
-.resultTableExpanded{
-    display:none;
+.resultTableExpanded {
+    display: none;
 }
 
 #choosePath {

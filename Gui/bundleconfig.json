@@ -85,18 +85,17 @@
     "sourceMap": false
   },
   {
-     "outputFileName": "wwwroot/js/libs.min.js",
-     "inputFiles": [
-       "node_modules/jquery/dist/jquery.js",
-       "node_modules/bootstrap/dist/js/bootstrap.js",
-       "node_modules/popper.js/dist/popper.js",
-       "node_modules/popper.js/dist/popper-utils.js"
-     ],
-     "minify": {
-       "enabled": true,
-       "renameLocals": true
-     },
-     "sourceMap": false
-   }
-  ]
-
+    "outputFileName": "wwwroot/js/libs.min.js",
+    "inputFiles": [
+      "node_modules/jquery/dist/jquery.js",
+      "node_modules/bootstrap/dist/js/bootstrap.js",
+      "node_modules/popper.js/dist/popper.js",
+      "node_modules/popper.js/dist/popper-utils.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  }
+]

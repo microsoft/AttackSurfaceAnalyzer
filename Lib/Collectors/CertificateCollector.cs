@@ -39,65 +39,65 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
 
             Start();
+            _ = DatabaseManager.Transaction;
 
-            if (gatherFromFiles)
-            {
-                var roots = new List<string>();
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                {
-                    foreach (var driveInfo in DriveInfo.GetDrives())
-                    {
-                        if (driveInfo.IsReady && driveInfo.DriveType == DriveType.Fixed)
-                        {
-                            roots.Add(driveInfo.Name);
-                        }
-                    }
-                }
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                {
-                    roots.Add("/");   // @TODO Improve this
-                }
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                {
-                    roots.Add("/"); // @TODO Improve this
-                }
-                foreach (var root in roots)
-                {
+            //if (gatherFromFiles)
+            //{
+            //    var roots = new List<string>();
+            //    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            //    {
+            //        foreach (var driveInfo in DriveInfo.GetDrives())
+            //        {
+            //            if (driveInfo.IsReady && driveInfo.DriveType == DriveType.Fixed)
+            //            {
+            //                roots.Add(driveInfo.Name);
+            //            }
+            //        }
+            //    }
+            //    else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            //    {
+            //        roots.Add("/");   // @TODO Improve this
+            //    }
+            //    else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            //    {
+            //        roots.Add("/"); // @TODO Improve this
+            //    }
+            //    foreach (var root in roots)
+            //    {
 
-                    var fileInfoEnumerable = DirectoryWalker.WalkDirectory(root, "Certificate");
-                    Parallel.ForEach(fileInfoEnumerable,
-                                    (fileInfo =>
-                                    {
-                                        try
-                                        {
-                                            if (fileInfo is DirectoryInfo)
-                                            {
-                                                return;
-                                            }
-                                            if (fileInfo.FullName.EndsWith(".cer", StringComparison.CurrentCulture))
-                                            {
-                                                var certificate = X509Certificate.CreateFromCertFile(fileInfo.FullName);
-                                                var obj = new CertificateObject()
-                                                {
-                                                    StoreLocation = fileInfo.FullName,
-                                                    StoreName = "Disk",
-                                                    CertificateHashString = certificate.GetCertHashString(),
-                                                    Subject = certificate.Subject,
-                                                    Pkcs12 = certificate.Export(X509ContentType.Pkcs12).ToString()
-                                                };
-                                                DatabaseManager.Write(obj, this.runId);
-                                            }
-                                        }
-                                        catch (Exception e)
-                                        {
-                                            Log.Debug("Couldn't parse certificate file {0}", fileInfo.FullName);
-                                            Log.Debug("{0} {1}-{2}",e.GetType().ToString(), e.Message, e.StackTrace);
-                                        }
-                                    }));
-
-
-                }
-            }
+            //        var fileInfoEnumerable = DirectoryWalker.WalkDirectory(root);
+            //        Parallel.ForEach(fileInfoEnumerable,
+            //                        (fileInfo =>
+            //                        {
+            //                            try
+            //                            {
+            //                                if (fileInfo is DirectoryInfo)
+            //                                {
+            //                                    return;
+            //                                }
+            //                                // TODO: Broaden this catch
+            //                                if (fileInfo.FullName.EndsWith(".cer", StringComparison.CurrentCulture))
+            //                                {
+            //                                    var certificate = X509Certificate.CreateFromCertFile(fileInfo.FullName);
+            //                                    var obj = new CertificateObject()
+            //                                    {
+            //                                        StoreLocation = fileInfo.FullName,
+            //                                        StoreName = "Disk",
+            //                                        CertificateHashString = certificate.GetCertHashString(),
+            //                                        Subject = certificate.Subject,
+            //                                        Pkcs12 = certificate.HasPrivateKey ? "redacted" : certificate.Export(X509ContentType.Pkcs12).ToString()
+            //                                    };
+            //                                    DatabaseManager.Write(obj, this.runId);
+            //                                }
+            //                            }
+            //                            catch (Exception e)
+            //                            {
+            //                                Log.Debug("Couldn't parse certificate file {0}", fileInfo.FullName);
+            //                                Log.Debug("{0} {1}-{2}",e.GetType().ToString(), e.Message, e.StackTrace);
+            //                            }
+            //                        }));
+            //    }
+            //}
 
             // On Windows we can use the .NET API to iterate through all the stores.
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -171,7 +171,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     Log.Error("Failed to dump certificates from 'ls /etc/ssl/certs -A'.");
                     Logger.DebugException(e);
                 }
-                
+
             }
             // On macos we use the keychain and export the certificates as .pem.
             // However, on macos Certificate2 doesn't support loading from a pem, 
@@ -205,12 +205,12 @@ namespace AttackSurfaceAnalyzer.Collectors
                             StoreName = StoreName.Root.ToString(),
                             CertificateHashString = X509Certificate2Enumerator.Current.GetCertHashString(),
                             Subject = X509Certificate2Enumerator.Current.Subject,
-                            Pkcs12 = X509Certificate2Enumerator.Current.HasPrivateKey ? "redacted" : X509Certificate2Enumerator.Current.Export(X509ContentType.Pkcs12).ToString()
+                            Pkcs12 = X509Certificate2Enumerator.Current.Export(X509ContentType.Pkcs12).ToString()
                         };
                         DatabaseManager.Write(obj, this.runId);
                     }
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     Log.Error("Failed to dump certificates from 'security' or 'openssl'.");
                     Logger.DebugException(e);

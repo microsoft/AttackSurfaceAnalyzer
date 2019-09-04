@@ -1,5 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+using System;
+using AttackSurfaceAnalyzer.Types;
+
 namespace AttackSurfaceAnalyzer.Objects
 {
     public class CertificateObject : CollectObject
@@ -9,6 +12,7 @@ namespace AttackSurfaceAnalyzer.Objects
         public string CertificateHashString;
         public string Subject;
         public string Pkcs12;
+        public string Pkcs7;
 
         public CertificateObject()
         {
@@ -19,7 +23,7 @@ namespace AttackSurfaceAnalyzer.Objects
         {
             get
             {
-                return CertificateHashString;
+                return String.Format("{0}{1}{2}", StoreLocation, StoreName, CertificateHashString);
             }
         }
     }

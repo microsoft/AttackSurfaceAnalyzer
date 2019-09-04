@@ -75,20 +75,20 @@ namespace AttackSurfaceAnalyzer.Utils
                             // We are running in parallel, its possible someone added it in between the original check and now. No problem here.
                             filters = _filters[key];
                         }
-                        Log.Information("{0} {1} {2} {3} {4} {5}", Strings.Get("SuccessParsed"), Platform, ScanType, ItemType, Property, FilterType);
+                        Log.Debug(Strings.Get("SuccessParsed"), Platform, ScanType, ItemType, Property, FilterType);
                     }
                     catch (NullReferenceException)
                     {
                         try
                         {
                             _filters.Add(key, new List<Regex>());
-                            Log.Debug("{0} {1} {2} {3} {4} {5}", Strings.Get("FailedParsed"), Platform, ScanType, ItemType, Property, FilterType);
+                            Log.Debug(Strings.Get("FailedParsed"), Platform, ScanType, ItemType, Property, FilterType);
                         }
                         catch (ArgumentException)
                         {
                             // We are running in parallel, its possible someone added it in between the original check and now. No problem here.
                         }
-                        catch(Exception e)
+                        catch (Exception e)
                         {
                             Logger.DebugException(e);
                             Log.Debug(e.StackTrace);
@@ -102,7 +102,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         try
                         {
                             _filters.Add(key, new List<Regex>());
-                            Log.Information("{0} {1} {2} {3} {4} {5}", Strings.Get("Err_FiltersFile"), Platform, ScanType, ItemType, Property, FilterType);
+                            Log.Information(Strings.Get("Err_FiltersFile"), Platform, ScanType, ItemType, Property, FilterType);
                         }
                         catch (ArgumentException)
                         {
@@ -249,6 +249,6 @@ namespace AttackSurfaceAnalyzer.Utils
             }
 
         }
-        
+
     }
 }

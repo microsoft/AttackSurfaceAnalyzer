@@ -376,10 +376,10 @@
     <value>Could not get file permissions for: {0}</value>
   </data>
   <data name="Err_FiltersFile" xml:space="preserve">
-    <value>Json error parsing your filters.json file.</value>
+    <value>Json error parsing your filters.json file. {0} {1} {2} {3} {4}</value>
   </data>
   <data name="FailedParsed" xml:space="preserve">
-    <value>Could not parse</value>
+    <value>Could not parse {0} {1} {2} {3} {4}.</value>
   </data>
   <data name="LoadedFilters" xml:space="preserve">
     <value>Loaded filters: {0}</value>
@@ -394,7 +394,7 @@
     <value>Starting {0}.</value>
   </data>
   <data name="SuccessParsed" xml:space="preserve">
-    <value>Successfully Parsed</value>
+    <value>Successfully Parsed {0} {1} {2} {3} {4}.</value>
   </data>
   <data name="DueToFilter" xml:space="preserve">
     <value>Due To Filter</value>
@@ -451,7 +451,7 @@
     <value>Attack Surface Analyzer must be run as Administrator.</value>
   </data>
   <data name="Err_RunAsRoot" xml:space="preserve">
-    <value>Attack Surace Analyzer must be run as root.</value>
+    <value>Attack Surface Analyzer must be run as root.</value>
   </data>
   <data name="LoadedAnalyses" xml:space="preserve">
     <value>Loaded Analyses from {0}.</value>

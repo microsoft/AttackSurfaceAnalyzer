@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using AttackSurfaceAnalyzer.Objects;
 using System.Collections.Generic;
 using System.IO;
+using AttackSurfaceAnalyzer.Types;
 
 namespace AttackSurfaceAnalyzer.Objects
 {
@@ -46,6 +46,17 @@ namespace AttackSurfaceAnalyzer.Objects
         public string CompareRunId;
         public object Base;
         public object Compare;
+
+        public bool ShouldSerializeDiffs()
+        {
+            return (Diffs.Count > 0);
+        }
+
+        public bool ShouldSerializeRules()
+        {
+            return (Rules.Count > 0);
+        }
+
     }
 
     public class OutputFileMonitorResult
@@ -79,7 +90,7 @@ namespace AttackSurfaceAnalyzer.Objects
         }
     }
 
-    public class OpenPortResult: CompareResult
+    public class OpenPortResult : CompareResult
     {
         public OpenPortResult()
         {
@@ -87,7 +98,7 @@ namespace AttackSurfaceAnalyzer.Objects
         }
     }
 
-    public class RegistryResult: CompareResult
+    public class RegistryResult : CompareResult
     {
         public RegistryResult()
         {
@@ -111,7 +122,7 @@ namespace AttackSurfaceAnalyzer.Objects
         }
     }
 
-    public class CertificateResult: CompareResult
+    public class CertificateResult : CompareResult
     {
         public CertificateResult()
         {

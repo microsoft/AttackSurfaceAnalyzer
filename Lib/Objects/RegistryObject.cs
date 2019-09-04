@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Security.AccessControl;
-using AttackSurfaceAnalyzer.Utils;
+using AttackSurfaceAnalyzer.Types;
 using Microsoft.Win32;
 using Serilog;
 
@@ -16,6 +16,14 @@ namespace AttackSurfaceAnalyzer.Objects
         public Dictionary<string, string> Values = new Dictionary<string, string>();
         public List<string> Subkeys = new List<string>();
         public string Permissions;
+        public int ValueCount
+        {
+            get { return Values.Count; }
+        }
+        public int SubkeyCount
+        {
+            get { return Subkeys.Count; }
+        }
 
         public RegistryObject()
         {
@@ -27,7 +35,7 @@ namespace AttackSurfaceAnalyzer.Objects
             return new List<string>(key.GetSubKeyNames());
         }
 
-                private static Dictionary<string, string> GetValues(RegistryKey key)
+        private static Dictionary<string, string> GetValues(RegistryKey key)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             // Write values under key and commit
@@ -81,9 +89,9 @@ namespace AttackSurfaceAnalyzer.Objects
             {
                 Permissions = Key.GetAccessControl().GetSecurityDescriptorSddlForm(AccessControlSections.All);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                Log.Debug(e.GetType() + " failed to get security descriptor for " + Key.Name);
+                Log.Debug(e, "Failed to get security descriptor for " + Key.Name);
             }
         }
 

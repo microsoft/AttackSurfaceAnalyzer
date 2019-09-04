@@ -18,7 +18,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         public RegistryMonitor()
         {
         }
-        
+
         public void MyOnEntryWritten(object source, EntryWrittenEventArgs e)
         {
             Log.Information(e.Entry.Source);
@@ -26,7 +26,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public override void Start()
         {
-            
+
 
             // backup the current auditpolicy
             ExternalCommandRunner.RunExternalCommand("auditpol", String.Format("/backup /file:{0}", tmpFileName));
@@ -39,12 +39,12 @@ namespace AttackSurfaceAnalyzer.Collectors
             // GUID for Registry subcategory of audit policy
             // https://msdn.microsoft.com/en-us/library/dd973928.aspx
             ExternalCommandRunner.RunExternalCommand("auditpol", "/set /subcategory:{0CCE921E-69AE-11D9-BED3-505054503030} /success:enable /failure:enable");
-                
+
         }
 
         public override void Stop()
         {
-            
+
 
             // restore the old auditpolicy
             ExternalCommandRunner.RunExternalCommand("auditpol", String.Format("/restore /file:{0}", tmpFileName));

@@ -5,10 +5,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
+using Mono.Unix;
 using Newtonsoft.Json;
 using Serilog;
 
@@ -23,18 +25,20 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         private bool INCLUDE_CONTENT_HASH = false;
 
-        bool downloadCloud;
+        private bool downloadCloud;
+        private bool examineCertificates;
 
-        public FileSystemCollector(string runId, bool enableHashing = false, string directories = "", bool downloadCloud = false)
+        public FileSystemCollector(string runId, bool enableHashing = false, string directories = "", bool downloadCloud = false, bool examineCertificates = false)
         {
             this.runId = runId;
             this.downloadCloud = downloadCloud;
+            this.examineCertificates = examineCertificates;
 
             roots = new HashSet<string>();
             INCLUDE_CONTENT_HASH = enableHashing;
 
-            if (!directories.Equals("")) 
-            { 
+            if (!directories.Equals(""))
+            {
                 foreach (string path in directories.Split(','))
                 {
                     AddRoot(path);
@@ -61,14 +65,12 @@ namespace AttackSurfaceAnalyzer.Collectors
         public override void Execute()
         {
             if (!CanRunOnPlatform())
-            { 
+            {
                 return;
             }
 
             Start();
-            //Ensure the transaction is started to prevent collisions on the multithreaded code ahead
-            _ = DatabaseManager.Transaction;
-            
+
             if (roots == null || !roots.Any())
             {
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -93,10 +95,12 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             foreach (var root in roots)
             {
-                Log.Information("{0} root {1}",Strings.Get("Scanning"),root.ToString());
+                Log.Information("{0} root {1}", Strings.Get("Scanning"), root.ToString());
+                //Ensure the transaction is started to prevent collisions on the multithreaded code ahead
+                _ = DatabaseManager.Transaction;
                 try
                 {
-                    var fileInfoEnumerable = DirectoryWalker.WalkDirectory(root, Helpers.GetPlatformString());
+                    var fileInfoEnumerable = DirectoryWalker.WalkDirectory(root);
                     Parallel.ForEach(fileInfoEnumerable,
                                     (fileInfo =>
                     {
@@ -111,6 +115,14 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     Permissions = FileSystemUtils.GetFilePermissions(fileInfo),
                                     IsDirectory = true
                                 };
+                                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                                {
+                                    var file = new UnixFileInfo(fileInfo.FullName);
+                                    obj.Owner = file.OwnerUser.UserName;
+                                    obj.Group = file.OwnerGroup.GroupName;
+                                    obj.SetGid = file.IsSetGroup;
+                                    obj.SetUid = file.IsSetUser;
+                                }
                             }
                             else
                             {
@@ -121,6 +133,14 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     Size = (ulong)(fileInfo as FileInfo).Length,
                                     IsDirectory = false
                                 };
+                                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                                {
+                                    var file = new UnixFileInfo(fileInfo.FullName);
+                                    obj.Owner = file.OwnerUser.UserName;
+                                    obj.Group = file.OwnerGroup.GroupName;
+                                    obj.SetGid = file.IsSetGroup;
+                                    obj.SetUid = file.IsSetUser;
+                                }
 
                                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                                 {
@@ -154,38 +174,67 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 {
                                     try
                                     {
-                                        if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
+                                        if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
                                         {
-                                            obj.IsExecutable = true;
+                                            if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
+                                            {
+                                                obj.IsExecutable = true;
+                                            }
                                         }
                                     }
-                                    catch (System.UnauthorizedAccessException)
+                                    catch (System.UnauthorizedAccessException ex)
                                     {
-                                        Log.Verbose("Couldn't access {0} to check if signature is needed.");
+                                        Log.Verbose(ex, "Couldn't access {0} to check if signature is needed.", fileInfo.FullName);
                                     }
                                 }
                             }
 
                             if (obj != null)
                             {
-                                DatabaseManager.Write(obj,runId);
+                                DatabaseManager.Write(obj, runId);
+                                if (examineCertificates &&
+                                    fileInfo.FullName.EndsWith(".cer", StringComparison.CurrentCulture) ||
+                                    fileInfo.FullName.EndsWith(".der", StringComparison.CurrentCulture) ||
+                                    fileInfo.FullName.EndsWith(".p7b", StringComparison.CurrentCulture))
+                                {
+                                    var certificate = X509Certificate.CreateFromCertFile(fileInfo.FullName);
+                                    var certObj = new CertificateObject()
+                                    {
+                                        StoreLocation = fileInfo.FullName,
+                                        StoreName = "Disk",
+                                        CertificateHashString = certificate.GetCertHashString(),
+                                        Subject = certificate.Subject,
+                                        Pkcs7 = certificate.Export(X509ContentType.Cert).ToString()
+                                    };
+                                    DatabaseManager.Write(certObj, runId);
+                                }
                             }
                         }
-                        catch (Exception ex)
+                        catch (System.UnauthorizedAccessException e)
                         {
-                            Log.Warning(ex, "Error processing {0}", fileInfo?.FullName);
+                            Log.Verbose(e, "Access Denied {0}", fileInfo?.FullName);
+                        }
+                        catch (System.IO.IOException e)
+                        {
+                            Log.Verbose(e, "Couldn't parse {0}", fileInfo?.FullName);
+                        }
+                        catch (Exception e)
+                        {
+                            Logger.DebugException(e);
                         }
                     }));
                 }
-                catch (Exception ex)
+                catch (Exception e)
                 {
-                    Log.Warning(ex, "Error collecting file system information: {0}", ex.Message);
+                    Log.Warning(e, "Error collecting file system information: {0}", e.Message);
                 }
+
+                DatabaseManager.Commit();
+
             }
 
             Stop();
 
-            DatabaseManager.Commit();
         }
     }
 }

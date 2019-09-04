@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using System.Text;
 using AttackSurfaceAnalyzer.Libs;
-using AttackSurfaceAnalyzer.Objects;
+using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Serilog;
 
@@ -16,7 +16,6 @@ namespace AttackSurfaceAnalyzer.Collectors
     public class WindowsFileSystemUtils
     {
         public static List<string> SIGNED_EXTENSIONS = new List<string> { "dll", "exe", "cab", "ocx" };
-
 
         [StructLayout(LayoutKind.Sequential)]
         public struct WIN32_FILE_ATTRIBUTE_DATA
@@ -83,12 +82,20 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         protected internal static bool IsExecutable(string filePath)
         {
-            var twoBytes = new byte[2];
-            using (var fileStream = File.Open(filePath, FileMode.Open))
+            try
             {
-                fileStream.Read(twoBytes, 0, 2);
+                var twoBytes = new byte[2];
+                using (var fileStream = File.Open(filePath, FileMode.Open))
+                {
+                    fileStream.Read(twoBytes, 0, 2);
+                }
+                return Encoding.UTF8.GetString(twoBytes) == "MZ";
             }
-            return Encoding.UTF8.GetString(twoBytes) == "MZ";
+            catch (Exception e)
+            {
+                Logger.DebugException(e);
+                return false;
+            }
         }
 
         protected internal static bool IsLocal(string path)
@@ -131,7 +138,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     Logger.DebugException(e);
                 }
             }
-            
+
             return new List<DLLCHARACTERISTICS>();
         }
 

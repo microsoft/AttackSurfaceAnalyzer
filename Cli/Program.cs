@@ -17,6 +17,8 @@ using Newtonsoft.Json;
 using System.Reflection;
 using Serilog;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Serialization;
+using AttackSurfaceAnalyzer.Types;
 
 namespace AttackSurfaceAnalyzer
 {
@@ -236,8 +238,6 @@ namespace AttackSurfaceAnalyzer
 
         private static readonly string SQL_GET_RUN = "select run_id from runs where run_id=@run_id";
 
-        private static bool _isFirstRun = false;
-
         static void Main(string[] args)
         {
 
@@ -295,7 +295,7 @@ namespace AttackSurfaceAnalyzer
 
                 if (opts.ListRuns)
                 {
-                    if (_isFirstRun)
+                    if (DatabaseManager.FirstRun)
                     {
                         Log.Warning(Strings.Get("FirstRunListRunsError"), opts.DatabaseFilename);
                     }
@@ -319,36 +319,12 @@ namespace AttackSurfaceAnalyzer
                                                                             reader["timestamp"],
                                                                             reader["version"],
                                                                             reader["run_id"]);
-                                            List<RESULT_TYPE> resultTypes = new List<RESULT_TYPE>();
-                                            if (int.Parse(reader["file_system"].ToString()) != 0)
-                                            {
-                                                resultTypes.Add(RESULT_TYPE.FILE);
-                                            }
-                                            if (int.Parse(reader["ports"].ToString()) != 0)
-                                            {
-                                                resultTypes.Add(RESULT_TYPE.PORT);
-                                            }
-                                            if (int.Parse(reader["users"].ToString()) != 0)
-                                            {
-                                                resultTypes.Add(RESULT_TYPE.USER);
-                                            }
-                                            if (int.Parse(reader["services"].ToString()) != 0)
-                                            {
-                                                resultTypes.Add(RESULT_TYPE.SERVICE);
-                                            }
-                                            if (int.Parse(reader["certificates"].ToString()) != 0)
-                                            {
-                                                resultTypes.Add(RESULT_TYPE.CERTIFICATE);
-                                            }
-                                            if (int.Parse(reader["registry"].ToString()) != 0)
-                                            {
-                                                resultTypes.Add(RESULT_TYPE.REGISTRY);
-                                            }
 
-                                            foreach (RESULT_TYPE type in resultTypes)
+                                            var resultTypesAndCounts = DatabaseManager.GetResultTypesAndCounts(reader["run_id"].ToString());
+
+                                            foreach (var kvPair in resultTypesAndCounts)
                                             {
-                                                int num = DatabaseManager.GetNumResults(type, reader["run_id"].ToString());
-                                                Log.Information("{0} : {1}", type, num);
+                                                Log.Information("{0} : {1}", kvPair.Key, kvPair.Value);
                                             }
                                         }
                                     }
@@ -489,8 +465,10 @@ namespace AttackSurfaceAnalyzer
             {
                 Formatting = Formatting.Indented,
                 NullValueHandling = NullValueHandling.Ignore,
-                DefaultValueHandling = DefaultValueHandling.Ignore
+                DefaultValueHandling = DefaultValueHandling.Ignore,
+                ContractResolver = new HideBigFieldsContractResolver()
             };
+
             serializer.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
 
             if (opts.ExplodedOutput)
@@ -530,6 +508,26 @@ namespace AttackSurfaceAnalyzer
 
         }
 
+        public class HideBigFieldsContractResolver : DefaultContractResolver
+        {
+            public static readonly HideBigFieldsContractResolver Instance = new HideBigFieldsContractResolver();
+
+            protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
+            {
+                JsonProperty property = base.CreateProperty(member, memberSerialization);
+
+                if (property.DeclaringType == typeof(RegistryObject))
+                {
+                    if (property.PropertyName == "Subkeys" || property.PropertyName == "Values")
+                    {
+                        property.ShouldSerialize = _ => { return false; };
+                    }
+                }
+
+                return property;
+            }
+        }
+
         public static void WriteScanJson(int ResultType, string BaseId, string CompareId, bool ExportAll, string OutputPath)
         {
             string GET_COMPARISON_RESULTS = "select * from findings where comparison_id = @comparison_id and result_type=@result_type order by level des;";
@@ -555,7 +553,7 @@ namespace AttackSurfaceAnalyzer
                 List<CompareResult> records = new List<CompareResult>();
                 using (var cmd = new SqliteCommand(GET_COMPARISON_RESULTS, DatabaseManager.Connection, DatabaseManager.Transaction))
                 {
-                    cmd.Parameters.AddWithValue("@comparison_id", Helpers.RunIdsToCompareId(BaseId,CompareId));
+                    cmd.Parameters.AddWithValue("@comparison_id", Helpers.RunIdsToCompareId(BaseId, CompareId));
                     cmd.Parameters.AddWithValue("@result_type", ExportType);
                     using (var reader = cmd.ExecuteReader())
                     {
@@ -603,9 +601,8 @@ namespace AttackSurfaceAnalyzer
 
         private static void CheckFirstRun()
         {
-            if (DatabaseManager.IsFirstRun())
+            if (DatabaseManager.FirstRun)
             {
-                _isFirstRun = true;
                 string exeStr = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "AttackSurfaceAnalyzerCli.exe config --telemetry-opt-out true" : "AttackSurfaceAnalyzerCli config --telemetry-opt-out true";
                 Log.Information(Strings.Get("ApplicationHasTelemetry"));
                 Log.Information(Strings.Get("ApplicationHasTelemetry2"), "https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/PRIVACY.md");
@@ -973,20 +970,19 @@ namespace AttackSurfaceAnalyzer
                 cmd.Parameters.AddWithValue("@status", RUN_STATUS.RUNNING);
                 cmd.ExecuteNonQuery();
             }
-
             var results = new Dictionary<string, object>();
 
-			comparators = new List<BaseCompare>();
+            comparators = new List<BaseCompare>();
 
             Dictionary<string, string> EndEvent = new Dictionary<string, string>();
             BaseCompare c = new BaseCompare();
-            var watch = System.Diagnostics.Stopwatch.StartNew(); 
+            var watch = System.Diagnostics.Stopwatch.StartNew();
             if (!c.TryCompare(opts.FirstRunId, opts.SecondRunId))
             {
                 Log.Warning(Strings.Get("Err_Comparing") + " : {0}", c.GetType().Name);
             }
 
-			c.Results.ToList().ForEach(x => results.Add(x.Key, x.Value));
+            c.Results.ToList().ForEach(x => results.Add(x.Key, x.Value));
 
             watch.Stop();
             TimeSpan t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
@@ -1193,14 +1189,7 @@ namespace AttackSurfaceAnalyzer
 
             if (opts.EnableFileSystemCollector || opts.EnableAllCollectors)
             {
-                if (String.IsNullOrEmpty(opts.SelectedDirectories))
-                {
-                    collectors.Add(new FileSystemCollector(opts.RunId, enableHashing: opts.GatherHashes, downloadCloud: opts.DownloadCloud));
-                }
-                else
-                {
-                    collectors.Add(new FileSystemCollector(opts.RunId, enableHashing: opts.GatherHashes, directories: opts.SelectedDirectories, downloadCloud: opts.DownloadCloud));
-                }
+                collectors.Add(new FileSystemCollector(opts.RunId, enableHashing: opts.GatherHashes, directories: opts.SelectedDirectories, downloadCloud: opts.DownloadCloud, examineCertificates: opts.CertificatesFromFiles));
             }
             if (opts.EnableNetworkPortCollector || opts.EnableAllCollectors)
             {
@@ -1220,7 +1209,7 @@ namespace AttackSurfaceAnalyzer
             }
             if (opts.EnableCertificateCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new CertificateCollector(opts.RunId,opts.CertificatesFromFiles));
+                collectors.Add(new CertificateCollector(opts.RunId, opts.CertificatesFromFiles || opts.EnableAllCollectors));
             }
 
             if (collectors.Count == 0)
@@ -1304,7 +1293,7 @@ namespace AttackSurfaceAnalyzer
                 cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                 cmd.Parameters.AddWithValue("@version", Helpers.GetVersionString());
                 cmd.Parameters.AddWithValue("@platform", Helpers.GetPlatformString());
-                Log.Debug("{0} is the platform string",Helpers.GetPlatformString());
+                Log.Debug("{0} is the platform string", Helpers.GetPlatformString());
 
                 try
                 {
@@ -1326,6 +1315,7 @@ namespace AttackSurfaceAnalyzer
             {
                 try
                 {
+                    // Ensure we have a valid transaction synchronously since collectors may be multi-threaded
                     c.Execute();
                     EndEvent.Add(c.GetType().ToString(), c.NumCollected().ToString());
                 }
@@ -1414,29 +1404,29 @@ namespace AttackSurfaceAnalyzer
             }
 
             var results = CompareRuns(opts);
-			results["BeforeRunId"] = opts.FirstRunId;
-			results["AfterRunId"] = opts.SecondRunId;
+            results["BeforeRunId"] = opts.FirstRunId;
+            results["AfterRunId"] = opts.SecondRunId;
 
-			var watch = System.Diagnostics.Stopwatch.StartNew();
-            
-			var engine = new RazorLightEngineBuilder()
-			  .UseEmbeddedResourcesProject(typeof(AttackSurfaceAnalyzerCLI))
-			  .UseMemoryCachingProvider()
-			  .Build();
+            var watch = System.Diagnostics.Stopwatch.StartNew();
 
-			var assembly = Assembly.GetExecutingAssembly();
+            var engine = new RazorLightEngineBuilder()
+              .UseEmbeddedResourcesProject(typeof(AttackSurfaceAnalyzerCLI))
+              .UseMemoryCachingProvider()
+              .Build();
 
-			var result = engine.CompileRenderAsync("Output.Output.cshtml", results).Result;
-			File.WriteAllText($"{opts.OutputBaseFilename}.html", result);
+            var assembly = Assembly.GetExecutingAssembly();
 
-			watch.Stop();
-			TimeSpan t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
-			string answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
-									t.Hours,
-									t.Minutes,
-									t.Seconds,
-									t.Milliseconds);
-			Log.Information(Strings.Get("Completed"),"HTML Export", answer);
+            var result = engine.CompileRenderAsync("Output.Output.cshtml", results).Result;
+            File.WriteAllText($"{opts.OutputBaseFilename}.html", result);
+
+            watch.Stop();
+            TimeSpan t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
+            string answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+                                    t.Hours,
+                                    t.Minutes,
+                                    t.Seconds,
+                                    t.Milliseconds);
+            Log.Information(Strings.Get("Completed"), "HTML Export", answer);
 
             Log.Information(Strings.Get("OutputWrittenTo"), opts.OutputBaseFilename + ".html");
 

@@ -20,6 +20,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     public class UserAccountCollector : BaseCollector
     {
         Dictionary<string, UserAccountObject> users = new Dictionary<string, UserAccountObject>();
+        Dictionary<string, GroupAccountObject> groups = new Dictionary<string, GroupAccountObject>();
 
         public UserAccountCollector(string runId)
         {
@@ -85,7 +86,7 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
                 Log.Warning("UserAccountCollector is not available on {0}", RuntimeInformation.OSDescription);
                 return;
             }
-            
+
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 ExecuteWindows();
@@ -114,15 +115,51 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
             try
             {
                 List<string> lines = new List<string>(ExternalCommandRunner.RunExternalCommand("net", "localgroup").Split('\n'));
-                
+
                 lines.RemoveRange(0, 4);
 
-                foreach(string line in lines)
+                foreach (string line in lines)
                 {
                     if (line.Contains('*'))
                     {
                         var groupName = line.Substring(1).Trim();
-                        var args = string.Format("/Node:\"{0}\" path win32_groupuser where (groupcomponent=\"win32_group.name=\\\"{1}\\\",domain=\\\"{2}\\\"\")",Environment.MachineName,groupName,Environment.MachineName);
+                        GroupAccountObject group;
+                        //Get the group details
+                        if (!groups.ContainsKey(String.Format("{0}\\{1}", Environment.MachineName, groupName)))
+                        {
+                            SelectQuery query = new SelectQuery("SELECT * FROM Win32_Group where Name='" + groupName + "'");
+                            ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
+
+                            ManagementObject groupManagementObject = default(ManagementObject);
+
+                            // TODO: Improve this
+                            foreach (ManagementObject gmo in searcher.Get())
+                            {
+                                groupManagementObject = gmo;
+                                break;
+                            }
+
+                            group = new GroupAccountObject()
+                            {
+                                Name = groupName,
+                                Caption = Convert.ToString(groupManagementObject["Caption"]),
+                                Description = Convert.ToString(groupManagementObject["Description"]),
+                                InstallDate = Convert.ToString(groupManagementObject["InstallDate"]),
+                                Status = Convert.ToString(groupManagementObject["Status"]),
+                                LocalAccount = Convert.ToBoolean(groupManagementObject["LocalAccount"]),
+                                SID = Convert.ToString(groupManagementObject["SID"]),
+                                SIDType = Convert.ToInt32(groupManagementObject["SIDType"]),
+                                Domain = Convert.ToString(groupManagementObject["Domain"]),
+                                Users = new List<string>()
+                            };
+                        }
+                        else
+                        {
+                            group = groups[String.Format("{0}\\{1}", Environment.MachineName, groupName)];
+                        }
+
+                        //Get the members of the group
+                        var args = string.Format("/Node:\"{0}\" path win32_groupuser where (groupcomponent=\"win32_group.name=\\\"{1}\\\",domain=\\\"{2}\\\"\")", Environment.MachineName, groupName, Environment.MachineName);
                         List<string> lines_int = new List<string>(ExternalCommandRunner.RunExternalCommand("wmic", args).Split('\n'));
                         lines_int.RemoveRange(0, 1);
 
@@ -145,16 +182,22 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
                                     continue;
                                 }
 
-                                Log.Debug("Found {0}\\{1} as member of {2}", domain, userName, groupName);
+                                Log.Verbose("Found {0}\\{1} as member of {2}", domain, userName, groupName);
+                                if (!group.Users.Contains(String.Format("{0}\\{1}", domain, userName)))
+                                {
+                                    group.Users.Add(String.Format("{0}\\{1}", domain, userName));
+                                }
 
-                                SelectQuery query = new SelectQuery("SELECT * FROM Win32_UserAccount where Domain='"+domain+"' and Name='" + userName + "'");
-                                ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
-
+                                var query = new SelectQuery("SELECT * FROM Win32_UserAccount where Domain='" + domain + "' and Name='" + userName + "'");
+                                var searcher = new ManagementObjectSearcher(query);
                                 foreach (ManagementObject user in searcher.Get())
                                 {
                                     if (users.ContainsKey(userName))
                                     {
-                                        users[userName].Groups.Add(groupName);
+                                        if (!users[userName].Groups.Contains(String.Format("{0}\\{1}", domain, groupName)))
+                                        {
+                                            users[userName].Groups.Add(groupName);
+                                        }
 
                                         if (groupName.Equals("Administrators"))
                                         {
@@ -183,20 +226,25 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
                                             Groups = new List<string>() { groupName }
                                         };
                                         users.Add(userName, obj);
-                                    }        
+                                    }
                                 }
                             }
+                            groups[String.Format("{0}\\{1}", Environment.MachineName, groupName)] = group;
                         }
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Logger.DebugException(e);
             }
             foreach (var user in users)
             {
                 DatabaseManager.Write(user.Value, runId);
+            }
+            foreach (var group in groups)
+            {
+                DatabaseManager.Write(group.Value, runId);
             }
         }
 
@@ -205,16 +253,18 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
         /// command and parses the output, sending the output to the database.
         /// </summary>
         private void ExecuteLinux()
-        {            
+        {
             var etc_passwd_lines = File.ReadAllLines("/etc/passwd");
             var etc_shadow_lines = File.ReadAllLines("/etc/shadow");
+
+            Dictionary<string, GroupAccountObject> Groups = new Dictionary<string, GroupAccountObject>();
 
             var accountDetails = new Dictionary<string, UserAccountObject>();
 
             foreach (var _line in etc_passwd_lines)
             {
                 var parts = _line.Split(':');
-                
+
                 if (!accountDetails.ContainsKey(parts[0]))
                 {
                     accountDetails[parts[0]] = new UserAccountObject()
@@ -263,12 +313,38 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
 
             foreach (var username in accountDetails.Keys)
             {
+                // Admin user details
+                var groupsRaw = ExternalCommandRunner.RunExternalCommand("groups", "username");
+
+                var groups = result.Split(' ');
+                foreach (var group in groups)
+                {
+                    accountDetails[username].Groups.Add(group);
+                    if (Groups.ContainsKey(group))
+                    {
+                        Groups[group].Users.Add(username);
+                    }
+                    else
+                    {
+                        Groups[group] = new GroupAccountObject()
+                        {
+                            Name = group,
+                            Users = new List<string>() { username }
+                        };
+                    }
+                }
                 DatabaseManager.Write(accountDetails[username], this.runId);
+            }
+            foreach (var group in Groups)
+            {
+                DatabaseManager.Write(group.Value, this.runId);
             }
         }
 
         private void ExecuteOsX()
         {
+            Dictionary<string, GroupAccountObject> Groups = new Dictionary<string, GroupAccountObject>();
+
             // Admin user details
             var result = ExternalCommandRunner.RunExternalCommand("dscacheutil", "-q group -a name admin");
 
@@ -326,7 +402,7 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
                         newUser.Shell = value;
                         break;
                     case "gecos":
-                        newUser.FullName = value;                           
+                        newUser.FullName = value;
                         break;
                     default:
                         break;
@@ -334,7 +410,32 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
             }
             foreach (var username in accountDetails.Keys)
             {
+                // Admin user details
+                var groupsRaw = ExternalCommandRunner.RunExternalCommand("groups", "username");
+
+                var groups = result.Split(' ');
+                foreach (var group in groups)
+                {
+                    accountDetails[username].Groups.Add(group);
+                    if (Groups.ContainsKey(group))
+                    {
+                        Groups[group].Users.Add(username);
+                    }
+                    else
+                    {
+                        Groups[group] = new GroupAccountObject()
+                        {
+                            Name = group,
+                            Users = new List<string>() { username }
+                        };
+                    }
+                }
+                accountDetails[username].Groups = new List<string>(groups);
                 DatabaseManager.Write(accountDetails[username], this.runId);
+            }
+            foreach (var group in Groups)
+            {
+                DatabaseManager.Write(group.Value, this.runId);
             }
         }
     }

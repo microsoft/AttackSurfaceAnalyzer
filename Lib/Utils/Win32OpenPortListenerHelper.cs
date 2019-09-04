@@ -92,9 +92,9 @@ namespace AttackSurfaceAnalyzer.Utils
                             }
                             string IpAddress = Regex.Replace(Tokens[1], @"\[(.*?)\]", "1.1.1.1");
 
-                            if (Tokens.Length > 4 &&  Tokens[0].Equals("TCP"))
+                            if (Tokens.Length > 4 && Tokens[0].Equals("TCP"))
                             {
-                                if(!Tokens[3].Equals("LISTENING")) { continue; }
+                                if (!Tokens[3].Equals("LISTENING")) { continue; }
                                 ProcessPorts.Add(new ProcessPort(
                                     GetProcessName(Convert.ToInt32(Tokens[4])),
                                     Convert.ToInt32(Tokens[4]),
