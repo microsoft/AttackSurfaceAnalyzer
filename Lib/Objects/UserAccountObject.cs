@@ -2,14 +2,10 @@
 // Licensed under the MIT License.
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AttackSurfaceAnalyzer.Utils;
-using Newtonsoft.Json;
-using Serilog;
+using AttackSurfaceAnalyzer.Types;
 
 namespace AttackSurfaceAnalyzer.Objects
-{ 
+{
 
     public class UserAccountObject : CollectObject
     {

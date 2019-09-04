@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Security.AccessControl;
-using AttackSurfaceAnalyzer.Utils;
+using AttackSurfaceAnalyzer.Types;
 using Microsoft.Win32;
 using Serilog;
 
