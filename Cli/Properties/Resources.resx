@@ -451,7 +451,7 @@
     <value>Attack Surface Analyzer must be run as Administrator.</value>
   </data>
   <data name="Err_RunAsRoot" xml:space="preserve">
-    <value>Attack Surace Analyzer must be run as root.</value>
+    <value>Attack Surface Analyzer must be run as root.</value>
   </data>
   <data name="LoadedAnalyses" xml:space="preserve">
     <value>Loaded Analyses from {0}.</value>

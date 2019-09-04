@@ -18,8 +18,6 @@ namespace AttackSurfaceAnalyzer.Utils
             // examined for files.
             Stack<RegistryKey> keys = new Stack<RegistryKey>();
 
-            string message;
-
             RegistryKey BaseKey = RegistryKey.OpenBaseKey(Hive, RegistryView.Default);
 
             keys.Push(BaseKey);

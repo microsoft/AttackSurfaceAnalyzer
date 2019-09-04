@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
     <PreserveCompilationContext>true</PreserveCompilationContext>
-    <ReleaseVersion>2.0.0.0-pre-alpha</ReleaseVersion>
+    <ReleaseVersion>2.1-alpha</ReleaseVersion>
     <FileUpgradeFlags>40</FileUpgradeFlags>
     <UpgradeBackupLocation>C:\Users\Gstoc\Documents\GitHub\AttackSurfaceAnalyzer\Backup\Cli\</UpgradeBackupLocation>
     <OldToolsVersion>2.0</OldToolsVersion>

@@ -11,6 +11,7 @@ namespace AttackSurfaceAnalyzer.Objects
         public string CertificateHashString;
         public string Subject;
         public string Pkcs12;
+        public string Pkcs7;
 
         public CertificateObject()
         {

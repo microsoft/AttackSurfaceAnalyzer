@@ -1212,14 +1212,7 @@ namespace AttackSurfaceAnalyzer
 
             if (opts.EnableFileSystemCollector || opts.EnableAllCollectors)
             {
-                if (String.IsNullOrEmpty(opts.SelectedDirectories))
-                {
-                    collectors.Add(new FileSystemCollector(opts.RunId, enableHashing: opts.GatherHashes, downloadCloud: opts.DownloadCloud));
-                }
-                else
-                {
-                    collectors.Add(new FileSystemCollector(opts.RunId, enableHashing: opts.GatherHashes, directories: opts.SelectedDirectories, downloadCloud: opts.DownloadCloud));
-                }
+                collectors.Add(new FileSystemCollector(opts.RunId, enableHashing: opts.GatherHashes, directories: opts.SelectedDirectories, downloadCloud: opts.DownloadCloud, examineCertificates: opts.CertificatesFromFiles));
             }
             if (opts.EnableNetworkPortCollector || opts.EnableAllCollectors)
             {

@@ -447,7 +447,7 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 Log.Fatal("Couldn't run 'whoami' to determine root.");
             }
-            return username != null ? username.Equals("root") : false;
+            return username != null ? username.Trim().Equals("root") : false;
         }
         
         public static bool IsAdministrator()

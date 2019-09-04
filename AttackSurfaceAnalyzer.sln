@@ -20,8 +20,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsaLib", "Lib\AsaLib.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsaCli", "Cli\AsaCli.csproj", "{431FFEB4-57C2-4C5B-B329-DDF6ED229C3A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsaDemoGenerator", "AsaDemoGenerator\AsaDemoGenerator.csproj", "{299969FB-DEDB-4993-89DD-0991A0D38E77}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,10 +38,6 @@ Global
 		{431FFEB4-57C2-4C5B-B329-DDF6ED229C3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{431FFEB4-57C2-4C5B-B329-DDF6ED229C3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{431FFEB4-57C2-4C5B-B329-DDF6ED229C3A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{299969FB-DEDB-4993-89DD-0991A0D38E77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{299969FB-DEDB-4993-89DD-0991A0D38E77}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{299969FB-DEDB-4993-89DD-0991A0D38E77}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{299969FB-DEDB-4993-89DD-0991A0D38E77}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,6 +46,6 @@ Global
 		SolutionGuid = {CF34C31E-FA0E-4FB8-B566-6907C5F6339E}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		version = 2.0.0.0-pre-alpha
+		version = 2.1-alpha
 	EndGlobalSection
 EndGlobal

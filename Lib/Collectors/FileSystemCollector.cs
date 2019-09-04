@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
@@ -24,12 +25,14 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         private bool INCLUDE_CONTENT_HASH = false;
 
-        bool downloadCloud;
+        private bool downloadCloud;
+        private bool examineCertificates;
 
-        public FileSystemCollector(string runId, bool enableHashing = false, string directories = "", bool downloadCloud = false)
+        public FileSystemCollector(string runId, bool enableHashing = false, string directories = "", bool downloadCloud = false, bool examineCertificates = false)
         {
             this.runId = runId;
             this.downloadCloud = downloadCloud;
+            this.examineCertificates = examineCertificates;
 
             roots = new HashSet<string>();
             INCLUDE_CONTENT_HASH = enableHashing;
@@ -189,6 +192,22 @@ namespace AttackSurfaceAnalyzer.Collectors
                             if (obj != null)
                             {
                                 DatabaseManager.Write(obj,runId);
+                                if (examineCertificates &&
+                                    fileInfo.FullName.EndsWith(".cer", StringComparison.CurrentCulture) ||
+                                    fileInfo.FullName.EndsWith(".der", StringComparison.CurrentCulture) ||
+                                    fileInfo.FullName.EndsWith(".p7b", StringComparison.CurrentCulture))
+                                {
+                                    var certificate = X509Certificate.CreateFromCertFile(fileInfo.FullName);
+                                    var certObj = new CertificateObject()
+                                    {
+                                        StoreLocation = fileInfo.FullName,
+                                        StoreName = "Disk",
+                                        CertificateHashString = certificate.GetCertHashString(),
+                                        Subject = certificate.Subject,
+                                        Pkcs7 = certificate.Export(X509ContentType.Pkcs7).ToString()
+                                    };
+                                    DatabaseManager.Write(certObj, runId);
+                                }
                             }
                         }
                         catch (System.UnauthorizedAccessException e)

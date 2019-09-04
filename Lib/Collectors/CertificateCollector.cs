@@ -85,7 +85,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             //                                        StoreName = "Disk",
             //                                        CertificateHashString = certificate.GetCertHashString(),
             //                                        Subject = certificate.Subject,
-            //                                        Pkcs12 = certificate.Export(X509ContentType.Pkcs12).ToString()
+            //                                        Pkcs12 = certificate.HasPrivateKey ? "redacted" : certificate.Export(X509ContentType.Pkcs12).ToString()
             //                                    };
             //                                    DatabaseManager.Write(obj, this.runId);
             //                                }
@@ -205,12 +205,12 @@ namespace AttackSurfaceAnalyzer.Collectors
                             StoreName = StoreName.Root.ToString(),
                             CertificateHashString = X509Certificate2Enumerator.Current.GetCertHashString(),
                             Subject = X509Certificate2Enumerator.Current.Subject,
-                            Pkcs12 = X509Certificate2Enumerator.Current.HasPrivateKey ? "redacted" : X509Certificate2Enumerator.Current.Export(X509ContentType.Pkcs12).ToString()
+                            Pkcs12 = X509Certificate2Enumerator.Current.Export(X509ContentType.Pkcs12).ToString()
                         };
                         DatabaseManager.Write(obj, this.runId);
                     }
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     Log.Error("Failed to dump certificates from 'security' or 'openssl'.");
                     Logger.DebugException(e);
