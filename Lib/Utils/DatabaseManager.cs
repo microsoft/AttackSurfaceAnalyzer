@@ -60,6 +60,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private static readonly string SQL_GET_COLLECT_MISSING_IN_B = "select * from collect b where b.run_id = @second_run_id and b.identity not in (select identity from collect a where a.run_id = @first_run_id);";
         private static readonly string SQL_GET_COLLECT_MODIFIED = "select a.row_key as 'a_row_key', a.serialized as 'a_serialized', a.result_type as 'a_result_type', a.identity as 'a_identity', a.run_id as 'a_run_id', b.row_key as 'b_row_key', b.serialized as 'b_serialized', b.result_type as 'b_result_type', b.identity as 'b_identity', b.run_id as 'b_run_id' from collect a indexed by i_collect_runid_row_type, collect b indexed by i_collect_runid_row_type where a.run_id=@first_run_id and b.run_id=@second_run_id and a.identity = b.identity and a.row_key != b.row_key;";
+        private static readonly string SQL_GET_RESULT_TYPES_COUNTS = "select count(*) as count,result_type from collect where run_id = @run_id group by result_type";
 
         private static readonly string PRAGMAS = "PRAGMA main.auto_vacuum = 1;";
 
@@ -221,6 +222,32 @@ namespace AttackSurfaceAnalyzer.Utils
             return output;
         }
 
+        public static Dictionary<RESULT_TYPE,int> GetResultTypesAndCounts(string runId)
+        {
+            var outDict = new Dictionary<RESULT_TYPE, int>() { };
+            try
+            {
+                using (var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES_COUNTS, DatabaseManager.Connection, DatabaseManager.Transaction))
+                {
+                    cmd.Parameters.AddWithValue("@run_id", runId);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Enum.TryParse(reader["result_type"].ToString(), out RESULT_TYPE result_type);
+                            outDict.TryAdd(result_type, int.Parse(reader["count"].ToString()));
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.DebugException(e);
+            }
+            return outDict;
+        }
+
         public static int GetNumResults(RESULT_TYPE ResultType, string runId)
         {
             try
@@ -331,7 +358,7 @@ namespace AttackSurfaceAnalyzer.Utils
             cmd.Parameters.AddWithValue("@row_key", CryptoHelpers.CreateHash(JsonConvert.SerializeObject(obj)));
             cmd.Parameters.AddWithValue("@identity", obj.Identity);
             cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj));
-            cmd.Parameters.AddWithValue("@result_type", obj.ResultType.ToString());
+            cmd.Parameters.AddWithValue("@result_type", obj.ResultType);
             cmd.ExecuteNonQuery();
         }
 

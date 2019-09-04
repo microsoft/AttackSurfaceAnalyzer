@@ -318,36 +318,12 @@ namespace AttackSurfaceAnalyzer
                                                                             reader["timestamp"],
                                                                             reader["version"],
                                                                             reader["run_id"]);
-                                            List<RESULT_TYPE> resultTypes = new List<RESULT_TYPE>();
-                                            if (int.Parse(reader["file_system"].ToString()) != 0)
-                                            {
-                                                resultTypes.Add(RESULT_TYPE.FILE);
-                                            }
-                                            if (int.Parse(reader["ports"].ToString()) != 0)
-                                            {
-                                                resultTypes.Add(RESULT_TYPE.PORT);
-                                            }
-                                            if (int.Parse(reader["users"].ToString()) != 0)
-                                            {
-                                                resultTypes.Add(RESULT_TYPE.USER);
-                                            }
-                                            if (int.Parse(reader["services"].ToString()) != 0)
-                                            {
-                                                resultTypes.Add(RESULT_TYPE.SERVICE);
-                                            }
-                                            if (int.Parse(reader["certificates"].ToString()) != 0)
-                                            {
-                                                resultTypes.Add(RESULT_TYPE.CERTIFICATE);
-                                            }
-                                            if (int.Parse(reader["registry"].ToString()) != 0)
-                                            {
-                                                resultTypes.Add(RESULT_TYPE.REGISTRY);
-                                            }
 
-                                            foreach (RESULT_TYPE type in resultTypes)
+                                            var resultTypesAndCounts = DatabaseManager.GetResultTypesAndCounts(reader["run_id"].ToString());
+
+                                            foreach (var kvPair in resultTypesAndCounts)
                                             {
-                                                int num = DatabaseManager.GetNumResults(type, reader["run_id"].ToString());
-                                                Log.Information("{0} : {1}", type, num);
+                                                Log.Information("{0} : {1}", kvPair.Key, kvPair.Value);
                                             }
                                         }
                                     }
