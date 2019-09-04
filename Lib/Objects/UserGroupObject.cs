@@ -10,14 +10,14 @@ namespace AttackSurfaceAnalyzer.Objects
     {
         public string Caption;
         public string Description;
+        public string Domain;
         public string InstallDate;
-        public string Status;
         public bool LocalAccount;
+        public string Name;
+        public string Status;
         public string SID;
         public int SIDType;
-        public string Domain;
-        public string Name;
-
+        
         public List<string> Users;
 
         public Dictionary<string, string> Properties;
