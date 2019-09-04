@@ -8,7 +8,7 @@ $("#StartCollectionButton").click(StartCollection);
 $("#StopMonitoringButton").click(StopMonitoring);
 $("#StopMonitoringButton").hide();
 
-$("#ClearResults").click(function(){
+$("#ClearResults").click(function () {
     clearRows();
 });
 
@@ -30,35 +30,30 @@ else {
     GetCollectors();
 }
 
-function StopMonitoring()
-{
+function StopMonitoring() {
     $("#StartCollectionButton").show();
     $("#StopMonitoringButton").hide();
     EnableCollectionFields();
     $.getJSON("StopMonitoring");
 }
 
-function StartCollection()
-{
+function StartCollection() {
     DisableCollectionFields();
 
-    if (group.filter(':checked').val() === "Live")
-    {
+    if (group.filter(':checked').val() === "Live") {
         $("#StartCollectionButton").hide();
         $("#StopMonitoringButton").show();
 
-        if ($("#directory").val() == "")
-        {
+        if ($("#directory").val() == "") {
             $('#ScanStatus').empty();
             $('#ScanStatus').append($('<div/>', { html: l("%NoDirSpecified"), class: 'scan' }));
             EnableCollectionFields();
         }
-        else
-        {
-            var monitor = { 
+        else {
+            var monitor = {
                 RunId: ($('#RunId').val() == "") ? $('#RunId').attr('placeholder') : encodeURIComponent($('#RunId').val()),
-                Directory: ($('#DirectoryPath').val() == "") ? $('#DirectoryPath').attr('placeholder'): $('#DirectoryPath').val(),
-                Extension:$('#extension').val()
+                Directory: ($('#DirectoryPath').val() == "") ? $('#DirectoryPath').attr('placeholder') : $('#DirectoryPath').val(),
+                Extension: $('#extension').val()
             }
 
             $.getJSON("StartMonitoring", monitor, function (result) {
@@ -78,32 +73,29 @@ function StartCollection()
             });
         }
     }
-    else if (group.filter(':checked').val() === "Static")
-    {
-        if ($("#enableFileCollector").is(":checked") == false && 
-            $("#enablePortCollector").is(":checked") == false && 
-            $("#enableServiceCollector").is(":checked") == false && 
-            $("#enableUserCollector").is(":checked") == false && 
-            $("#enableRegistryCollector").is(':checked') == false && 
-            $('#enableCertificateCollector').is(":checked") == false)
-        {
+    else if (group.filter(':checked').val() === "Static") {
+        if ($("#enableFileCollector").is(":checked") == false &&
+            $("#enablePortCollector").is(":checked") == false &&
+            $("#enableServiceCollector").is(":checked") == false &&
+            $("#enableUserCollector").is(":checked") == false &&
+            $("#enableRegistryCollector").is(':checked') == false &&
+            $('#enableCertificateCollector').is(":checked") == false) {
             $('#ScanStatus').empty();
             $('#ScanStatus').append($('<div/>', { html: l("%NoCollectSelect"), class: 'scan' }));
             EnableCollectionFields();
         }
-        else
-        {
+        else {
 
-            var collect = { 
+            var collect = {
                 Id: ($('#RunId').val() == "") ? $('#RunId').attr('placeholder') : encodeURIComponent($('#RunId').val()),
-                File:$('#enableFileCollector').is(":checked"),
-                Port:$('#enablePortCollector').is(":checked"),
-                Service:$('#enableServiceCollector').is(":checked"),
-                User:$('#enableUserCollector').is(":checked"),
-                Registry:$('#enableRegistryCollector').is(":checked"),
-                Certificates:$('#enableCertificateCollector').is(":checked"),
+                File: $('#enableFileCollector').is(":checked"),
+                Port: $('#enablePortCollector').is(":checked"),
+                Service: $('#enableServiceCollector').is(":checked"),
+                User: $('#enableUserCollector').is(":checked"),
+                Registry: $('#enableRegistryCollector').is(":checked"),
+                Certificates: $('#enableCertificateCollector').is(":checked"),
             }
-            
+
             $.getJSON("StartCollection", collect, function (result) {
                 $('#ScanStatus').empty();
                 if (result === ERRORS.UNIQUE_ID) {
@@ -111,7 +103,7 @@ function StartCollection()
                     EnableCollectionFields();
                 }
                 else {
-                    $('#ScanStatus').append($('<div/>', { html: '<i class="fas fa-cog fa-spin"></i>  <i>'+l('%CollectionHasStarted')+'</i>' }));
+                    $('#ScanStatus').append($('<div/>', { html: '<i class="fas fa-cog fa-spin"></i>  <i>' + l('%CollectionHasStarted') + '</i>' }));
                     setTimeout(GetCollectors, 1000)
                 }
             });

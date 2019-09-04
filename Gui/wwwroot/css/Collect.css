@@ -1,5 +1,5 @@
-﻿label{
-    font-weight:normal;
+﻿label {
+    font-weight: normal;
 }
 
 #left {
@@ -19,7 +19,7 @@
 }
 
 #collectBody {
-    width:800px;
+    width: 800px;
 }
 
 #collectHeader {
@@ -28,13 +28,13 @@
     font-weight: 600;
 }
 
-#collectExplain{
-    padding-top:20px;
-    font-size:16px;
+#collectExplain {
+    padding-top: 20px;
+    font-size: 16px;
 }
 
 p {
-    padding-bottom:15px;
+    padding-bottom: 15px;
 }
 
 #StartCollectionButton {
@@ -47,6 +47,6 @@ p {
     background-color: rgba(0, 0, 0, 0.2);
 }
 
-#DirectorySelector{
-    display:none;
+#DirectorySelector {
+    display: none;
 }
