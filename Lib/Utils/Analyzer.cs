@@ -100,7 +100,8 @@ namespace AttackSurfaceAnalyzer.Utils
             if (config == null) { return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType]; }
             var results = new List<ANALYSIS_RESULT_TYPE>();
             var curFilters = _filters.Where((rule) => (rule.changeTypes.Contains(compareResult.ChangeType) || rule.changeTypes == null)
-                                                     && (rule.platforms.Contains(OsName) || rule.platforms == null))
+                                                     && (rule.platforms.Contains(OsName) || rule.platforms == null)
+                                                     && (rule.resultType.Equals(compareResult.ResultType)))
                                 .ToList();
             if (curFilters.Count > 0)
             {

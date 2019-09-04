@@ -160,7 +160,7 @@
       "clauses": [
         {
           "field": "port",
-          "op": "EQUALS",
+          "op": "EQ",
           "data": [
             "1900"
           ]

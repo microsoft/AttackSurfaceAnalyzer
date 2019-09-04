@@ -1,0 +1,121 @@
+{
+  "results": {
+    "FILE_DELETED": [
+      {
+        "Identity": "/Users/gabe/PlayPen/GTS CA 1O1.cer",
+        "ChangeType": "DELETED",
+        "ResultType": "FILE",
+        "Analysis": "DEBUG",
+        "BaseRowKey": "ozj2xCKe42blpWdvIm6jRQ==",
+        "BaseRunId": "2019-09-04_05:14:56",
+        "CompareRunId": "2019-09-04_05:15:06",
+        "Base": {
+          "ResultType": "FILE",
+          "Path": "/Users/gabe/PlayPen/GTS CA 1O1.cer",
+          "Permissions": "OtherRead, GroupRead, UserWrite, UserRead",
+          "Size": 1102,
+          "Owner": "gabe",
+          "Group": "staff",
+          "Identity": "/Users/gabe/PlayPen/GTS CA 1O1.cer"
+        }
+      },
+      {
+        "Identity": "/Users/gabe/PlayPen/GlobalSign.cer",
+        "ChangeType": "DELETED",
+        "ResultType": "FILE",
+        "Analysis": "DEBUG",
+        "BaseRowKey": "96F8zTpXGfLI7lw/Z+xNNg==",
+        "BaseRunId": "2019-09-04_05:14:56",
+        "CompareRunId": "2019-09-04_05:15:06",
+        "Base": {
+          "ResultType": "FILE",
+          "Path": "/Users/gabe/PlayPen/GlobalSign.cer",
+          "Permissions": "OtherRead, GroupRead, UserWrite, UserRead",
+          "Size": 958,
+          "Owner": "gabe",
+          "Group": "staff",
+          "Identity": "/Users/gabe/PlayPen/GlobalSign.cer"
+        }
+      },
+      {
+        "Identity": "/Users/gabe/PlayPen/www.google.com.cer",
+        "ChangeType": "DELETED",
+        "ResultType": "FILE",
+        "Analysis": "DEBUG",
+        "BaseRowKey": "pjMjBMsWc8ic1AN+HhzBrA==",
+        "BaseRunId": "2019-09-04_05:14:56",
+        "CompareRunId": "2019-09-04_05:15:06",
+        "Base": {
+          "ResultType": "FILE",
+          "Path": "/Users/gabe/PlayPen/www.google.com.cer",
+          "Permissions": "OtherRead, GroupRead, UserWrite, UserRead",
+          "Size": 1218,
+          "Owner": "gabe",
+          "Group": "staff",
+          "Identity": "/Users/gabe/PlayPen/www.google.com.cer"
+        }
+      }
+    ],
+    "CERTIFICATE_DELETED": [
+      {
+        "Identity": "/Users/gabe/PlayPen/GTS CA 1O1.cerDiskDFE2070C79E7FF36A925FFA327FFE3DEECF8F9C2",
+        "ChangeType": "DELETED",
+        "ResultType": "CERTIFICATE",
+        "Analysis": "INFORMATION",
+        "BaseRowKey": "XQA5xfTWrt4/KIF9fZQ/3A==",
+        "BaseRunId": "2019-09-04_05:14:56",
+        "CompareRunId": "2019-09-04_05:15:06",
+        "Base": {
+          "StoreLocation": "/Users/gabe/PlayPen/GTS CA 1O1.cer",
+          "StoreName": "Disk",
+          "CertificateHashString": "DFE2070C79E7FF36A925FFA327FFE3DEECF8F9C2",
+          "Subject": "CN=GTS CA 1O1, O=Google Trust Services, C=US",
+          "Pkcs7": "System.Byte[]",
+          "ResultType": "CERTIFICATE",
+          "Identity": "/Users/gabe/PlayPen/GTS CA 1O1.cerDiskDFE2070C79E7FF36A925FFA327FFE3DEECF8F9C2"
+        }
+      },
+      {
+        "Identity": "/Users/gabe/PlayPen/GlobalSign.cerDisk75E0ABB6138512271C04F85FDDDE38E4B7242EFE",
+        "ChangeType": "DELETED",
+        "ResultType": "CERTIFICATE",
+        "Analysis": "INFORMATION",
+        "BaseRowKey": "bI/gwTk8bfcOiMoGoNGlTw==",
+        "BaseRunId": "2019-09-04_05:14:56",
+        "CompareRunId": "2019-09-04_05:15:06",
+        "Base": {
+          "StoreLocation": "/Users/gabe/PlayPen/GlobalSign.cer",
+          "StoreName": "Disk",
+          "CertificateHashString": "75E0ABB6138512271C04F85FDDDE38E4B7242EFE",
+          "Subject": "CN=GlobalSign, O=GlobalSign, OU=GlobalSign Root CA - R2",
+          "Pkcs7": "System.Byte[]",
+          "ResultType": "CERTIFICATE",
+          "Identity": "/Users/gabe/PlayPen/GlobalSign.cerDisk75E0ABB6138512271C04F85FDDDE38E4B7242EFE"
+        }
+      },
+      {
+        "Identity": "/Users/gabe/PlayPen/www.google.com.cerDisk1687B6CEE35634A7535041D399F168BD429F4134",
+        "ChangeType": "DELETED",
+        "ResultType": "CERTIFICATE",
+        "Analysis": "INFORMATION",
+        "BaseRowKey": "i7jhk+U/dKmZQ1ozR3Vqhg==",
+        "BaseRunId": "2019-09-04_05:14:56",
+        "CompareRunId": "2019-09-04_05:15:06",
+        "Base": {
+          "StoreLocation": "/Users/gabe/PlayPen/www.google.com.cer",
+          "StoreName": "Disk",
+          "CertificateHashString": "1687B6CEE35634A7535041D399F168BD429F4134",
+          "Subject": "CN=www.google.com, O=Google LLC, L=Mountain View, S=California, C=US",
+          "Pkcs7": "System.Byte[]",
+          "ResultType": "CERTIFICATE",
+          "Identity": "/Users/gabe/PlayPen/www.google.com.cerDisk1687B6CEE35634A7535041D399F168BD429F4134"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "compare-version": "1.0.0",
+    "compare-os": "Darwin\n",
+    "compare-osversion": "18.7.0\n"
+  }
+}

@@ -204,7 +204,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                         StoreName = "Disk",
                                         CertificateHashString = certificate.GetCertHashString(),
                                         Subject = certificate.Subject,
-                                        Pkcs7 = certificate.Export(X509ContentType.Pkcs7).ToString()
+                                        Pkcs7 = certificate.Export(X509ContentType.Cert).ToString()
                                     };
                                     DatabaseManager.Write(certObj, runId);
                                 }
