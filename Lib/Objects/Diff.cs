@@ -9,12 +9,12 @@ namespace AttackSurfaceAnalyzer.Objects
         public string Field { get; set; }
     }
 
-    class AddDiff: Diff
+    class AddDiff : Diff
     {
         public object Added { get; set; }
     }
 
-    class RemoveDiff:Diff
+    class RemoveDiff : Diff
     {
         public object Removed { get; set; }
     }

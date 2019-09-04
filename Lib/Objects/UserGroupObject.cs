@@ -17,7 +17,7 @@ namespace AttackSurfaceAnalyzer.Objects
         public string Status;
         public string SID;
         public int SIDType;
-        
+
         public List<string> Users;
 
         public Dictionary<string, string> Properties;

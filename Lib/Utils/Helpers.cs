@@ -114,7 +114,7 @@ namespace AttackSurfaceAnalyzer.Utils
             return "";
         }
 
-        public static Dictionary<string,string> GenerateMetadata()
+        public static Dictionary<string, string> GenerateMetadata()
         {
             var dict = new Dictionary<string, string>();
 

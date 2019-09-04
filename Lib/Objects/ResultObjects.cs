@@ -90,7 +90,7 @@ namespace AttackSurfaceAnalyzer.Objects
         }
     }
 
-    public class OpenPortResult: CompareResult
+    public class OpenPortResult : CompareResult
     {
         public OpenPortResult()
         {
@@ -98,7 +98,7 @@ namespace AttackSurfaceAnalyzer.Objects
         }
     }
 
-    public class RegistryResult: CompareResult
+    public class RegistryResult : CompareResult
     {
         public RegistryResult()
         {
@@ -122,7 +122,7 @@ namespace AttackSurfaceAnalyzer.Objects
         }
     }
 
-    public class CertificateResult: CompareResult
+    public class CertificateResult : CompareResult
     {
         public CertificateResult()
         {

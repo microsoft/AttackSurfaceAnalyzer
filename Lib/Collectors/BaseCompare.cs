@@ -83,7 +83,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                     Identity = added.Identity
                 };
 
-                if (results.ContainsKey(String.Format("{0}_{1}", added.ResultType.ToString(), CHANGE_TYPE.CREATED.ToString()))){
+                if (results.ContainsKey(String.Format("{0}_{1}", added.ResultType.ToString(), CHANGE_TYPE.CREATED.ToString())))
+                {
                     results[String.Format("{0}_{1}", added.ResultType.ToString(), CHANGE_TYPE.CREATED.ToString())].Add(obj);
                 }
                 else
@@ -103,7 +104,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                     ResultType = removed.ResultType,
                     Identity = removed.Identity
                 };
-                if (results.ContainsKey(String.Format("{0}_{1}", removed.ResultType.ToString(), CHANGE_TYPE.DELETED.ToString()))){
+                if (results.ContainsKey(String.Format("{0}_{1}", removed.ResultType.ToString(), CHANGE_TYPE.DELETED.ToString())))
+                {
                     results[String.Format("{0}_{1}", removed.ResultType.ToString(), CHANGE_TYPE.DELETED.ToString())].Add(obj);
                 }
                 else
@@ -180,7 +182,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 removed = ((Dictionary<string, string>)firstVal)
                                     .Except((Dictionary<string, string>)secondVal)
                                     .ToDictionary(x => x.Key, x => x.Value);
-                                if (((IEnumerable<KeyValuePair<string,string>>)added).Count() == 0)
+                                if (((IEnumerable<KeyValuePair<string, string>>)added).Count() == 0)
                                 {
                                     added = null;
                                 }
@@ -208,7 +210,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             obj.Diffs.Add(diff);
                         }
                     }
-                    catch(InvalidCastException e)
+                    catch (InvalidCastException e)
                     {
                         Log.Debug("Failed to cast something to dictionary or string");
                         Logger.DebugException(e);
@@ -267,7 +269,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 added = ((Dictionary<string, string>)secondVal)
                                     .Except((Dictionary<string, string>)firstVal)
                                     .ToDictionary(x => x.Key, x => x.Value);
-                                       
+
                                 removed = ((Dictionary<string, string>)firstVal)
                                     .Except((Dictionary<string, string>)secondVal)
                                     .ToDictionary(x => x.Key, x => x.Value);
@@ -320,10 +322,10 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
-        public List<Diff>  GetDiffs(FieldInfo field, object added, object removed)
+        public List<Diff> GetDiffs(FieldInfo field, object added, object removed)
         {
             List<Diff> diffsOut = new List<Diff>();
-            if(added != null)
+            if (added != null)
             {
                 diffsOut.Add(new AddDiff()
                 {
@@ -331,7 +333,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     Added = added
                 });
             }
-            if(removed != null)
+            if (removed != null)
             {
                 diffsOut.Add(new RemoveDiff()
                 {
@@ -368,11 +370,11 @@ namespace AttackSurfaceAnalyzer.Collectors
             Start();
             try
             {
-                Compare(firstRunId, secondRunId);    
+                Compare(firstRunId, secondRunId);
                 Stop();
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log.Warning(ex, "Exception from Compare(): {0}", ex.StackTrace);
                 Log.Warning(ex.Message);
@@ -398,7 +400,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public void Stop()
         {
-           _running = RUN_STATUS.COMPLETED;
+            _running = RUN_STATUS.COMPLETED;
         }
 
     }

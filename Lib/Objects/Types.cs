@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 namespace AttackSurfaceAnalyzer.Types
 {
-    public enum RESULT_TYPE {
+    public enum RESULT_TYPE
+    {
         UNKNOWN,
         FILE,
         PORT,
@@ -20,7 +21,7 @@ namespace AttackSurfaceAnalyzer.Types
         DELETED,
         MODIFIED,
         RENAMED
-        
+
     }
 
     public enum RUN_STATUS
@@ -83,7 +84,7 @@ namespace AttackSurfaceAnalyzer.Types
     }
 
     public enum PLATFORM
-    { 
+    {
         WINDOWS,
         LINUX,
         MACOS,

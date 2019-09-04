@@ -37,8 +37,8 @@ namespace AttackSurfaceAnalyzer.Collectors
             roots = new HashSet<string>();
             INCLUDE_CONTENT_HASH = enableHashing;
 
-            if (!directories.Equals("")) 
-            { 
+            if (!directories.Equals(""))
+            {
                 foreach (string path in directories.Split(','))
                 {
                     AddRoot(path);
@@ -65,12 +65,12 @@ namespace AttackSurfaceAnalyzer.Collectors
         public override void Execute()
         {
             if (!CanRunOnPlatform())
-            { 
+            {
                 return;
             }
 
             Start();
-            
+
             if (roots == null || !roots.Any())
             {
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -95,7 +95,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             foreach (var root in roots)
             {
-                Log.Information("{0} root {1}",Strings.Get("Scanning"),root.ToString());
+                Log.Information("{0} root {1}", Strings.Get("Scanning"), root.ToString());
                 //Ensure the transaction is started to prevent collisions on the multithreaded code ahead
                 _ = DatabaseManager.Transaction;
                 try
@@ -191,7 +191,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                             if (obj != null)
                             {
-                                DatabaseManager.Write(obj,runId);
+                                DatabaseManager.Write(obj, runId);
                                 if (examineCertificates &&
                                     fileInfo.FullName.EndsWith(".cer", StringComparison.CurrentCulture) ||
                                     fileInfo.FullName.EndsWith(".der", StringComparison.CurrentCulture) ||

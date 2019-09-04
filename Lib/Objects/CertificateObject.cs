@@ -23,7 +23,7 @@ namespace AttackSurfaceAnalyzer.Objects
         {
             get
             {
-                return String.Format("{0}{1}{2}",StoreLocation,StoreName,CertificateHashString);
+                return String.Format("{0}{1}{2}", StoreLocation, StoreName, CertificateHashString);
             }
         }
     }

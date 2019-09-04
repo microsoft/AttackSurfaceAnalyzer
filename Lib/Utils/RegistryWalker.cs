@@ -80,7 +80,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
 
                             }
-                            regObj.Values.Add(valueName, (currentKey.GetValue(valueName) == null)?"":(currentKey.GetValue(valueName).ToString()));
+                            regObj.Values.Add(valueName, (currentKey.GetValue(valueName) == null) ? "" : (currentKey.GetValue(valueName).ToString()));
                         }
                         catch (Exception ex)
                         {

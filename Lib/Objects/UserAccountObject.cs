@@ -46,7 +46,7 @@ namespace AttackSurfaceAnalyzer.Objects
         {
             get
             {
-                return (Domain == null) ? Name : String.Format(@"{0}\{1}",Domain,Name);
+                return (Domain == null) ? Name : String.Format(@"{0}\{1}", Domain, Name);
             }
         }
     }

@@ -88,7 +88,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         {
                             // We are running in parallel, its possible someone added it in between the original check and now. No problem here.
                         }
-                        catch(Exception e)
+                        catch (Exception e)
                         {
                             Logger.DebugException(e);
                             Log.Debug(e.StackTrace);
@@ -249,6 +249,6 @@ namespace AttackSurfaceAnalyzer.Utils
             }
 
         }
-        
+
     }
 }

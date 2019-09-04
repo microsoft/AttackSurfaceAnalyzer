@@ -77,7 +77,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                     else if (Filter.IsFiltered(Helpers.GetPlatformString(), "Scan", "Registry", "Hive", "Exclude", hive.ToString(), out Regex Capturer))
                     {
-                        Log.Information("{0} '{1}' {2} '{3}'.",Strings.Get("ExcludingHive"), hive.ToString(), Strings.Get("DueToFilter"),Capturer.ToString());
+                        Log.Information("{0} '{1}' {2} '{3}'.", Strings.Get("ExcludingHive"), hive.ToString(), Strings.Get("DueToFilter"), Capturer.ToString());
 
                         return;
                     }
@@ -96,7 +96,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 catch (InvalidOperationException e)
                                 {
                                     Logger.DebugException(e);
-                                    Log.Debug(JsonConvert.SerializeObject(registryObject)+ " invalid op exept");
+                                    Log.Debug(JsonConvert.SerializeObject(registryObject) + " invalid op exept");
                                 }
                             }));
                     }
@@ -107,7 +107,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
 
                 }));
-            
+
             DatabaseManager.Commit();
             Stop();
         }

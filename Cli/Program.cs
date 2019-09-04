@@ -18,6 +18,7 @@ using System.Reflection;
 using Serilog;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Serialization;
+using AttackSurfaceAnalyzer.Types;
 
 namespace AttackSurfaceAnalyzer
 {
@@ -552,7 +553,7 @@ namespace AttackSurfaceAnalyzer
                 List<CompareResult> records = new List<CompareResult>();
                 using (var cmd = new SqliteCommand(GET_COMPARISON_RESULTS, DatabaseManager.Connection, DatabaseManager.Transaction))
                 {
-                    cmd.Parameters.AddWithValue("@comparison_id", Helpers.RunIdsToCompareId(BaseId,CompareId));
+                    cmd.Parameters.AddWithValue("@comparison_id", Helpers.RunIdsToCompareId(BaseId, CompareId));
                     cmd.Parameters.AddWithValue("@result_type", ExportType);
                     using (var reader = cmd.ExecuteReader())
                     {
@@ -971,17 +972,17 @@ namespace AttackSurfaceAnalyzer
             }
             var results = new Dictionary<string, object>();
 
-			comparators = new List<BaseCompare>();
+            comparators = new List<BaseCompare>();
 
             Dictionary<string, string> EndEvent = new Dictionary<string, string>();
             BaseCompare c = new BaseCompare();
-            var watch = System.Diagnostics.Stopwatch.StartNew(); 
+            var watch = System.Diagnostics.Stopwatch.StartNew();
             if (!c.TryCompare(opts.FirstRunId, opts.SecondRunId))
             {
                 Log.Warning(Strings.Get("Err_Comparing") + " : {0}", c.GetType().Name);
             }
 
-			c.Results.ToList().ForEach(x => results.Add(x.Key, x.Value));
+            c.Results.ToList().ForEach(x => results.Add(x.Key, x.Value));
 
             watch.Stop();
             TimeSpan t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
@@ -1208,7 +1209,7 @@ namespace AttackSurfaceAnalyzer
             }
             if (opts.EnableCertificateCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new CertificateCollector(opts.RunId,opts.CertificatesFromFiles || opts.EnableAllCollectors));
+                collectors.Add(new CertificateCollector(opts.RunId, opts.CertificatesFromFiles || opts.EnableAllCollectors));
             }
 
             if (collectors.Count == 0)
@@ -1292,7 +1293,7 @@ namespace AttackSurfaceAnalyzer
                 cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                 cmd.Parameters.AddWithValue("@version", Helpers.GetVersionString());
                 cmd.Parameters.AddWithValue("@platform", Helpers.GetPlatformString());
-                Log.Debug("{0} is the platform string",Helpers.GetPlatformString());
+                Log.Debug("{0} is the platform string", Helpers.GetPlatformString());
 
                 try
                 {
@@ -1403,29 +1404,29 @@ namespace AttackSurfaceAnalyzer
             }
 
             var results = CompareRuns(opts);
-			results["BeforeRunId"] = opts.FirstRunId;
-			results["AfterRunId"] = opts.SecondRunId;
+            results["BeforeRunId"] = opts.FirstRunId;
+            results["AfterRunId"] = opts.SecondRunId;
 
-			var watch = System.Diagnostics.Stopwatch.StartNew();
-            
-			var engine = new RazorLightEngineBuilder()
-			  .UseEmbeddedResourcesProject(typeof(AttackSurfaceAnalyzerCLI))
-			  .UseMemoryCachingProvider()
-			  .Build();
+            var watch = System.Diagnostics.Stopwatch.StartNew();
 
-			var assembly = Assembly.GetExecutingAssembly();
+            var engine = new RazorLightEngineBuilder()
+              .UseEmbeddedResourcesProject(typeof(AttackSurfaceAnalyzerCLI))
+              .UseMemoryCachingProvider()
+              .Build();
 
-			var result = engine.CompileRenderAsync("Output.Output.cshtml", results).Result;
-			File.WriteAllText($"{opts.OutputBaseFilename}.html", result);
+            var assembly = Assembly.GetExecutingAssembly();
 
-			watch.Stop();
-			TimeSpan t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
-			string answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
-									t.Hours,
-									t.Minutes,
-									t.Seconds,
-									t.Milliseconds);
-			Log.Information(Strings.Get("Completed"),"HTML Export", answer);
+            var result = engine.CompileRenderAsync("Output.Output.cshtml", results).Result;
+            File.WriteAllText($"{opts.OutputBaseFilename}.html", result);
+
+            watch.Stop();
+            TimeSpan t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
+            string answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+                                    t.Hours,
+                                    t.Minutes,
+                                    t.Seconds,
+                                    t.Milliseconds);
+            Log.Information(Strings.Get("Completed"), "HTML Export", answer);
 
             Log.Information(Strings.Get("OutputWrittenTo"), opts.OutputBaseFilename + ".html");
 

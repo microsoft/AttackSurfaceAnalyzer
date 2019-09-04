@@ -98,7 +98,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     return new KeyValuePair<bool, X509Certificate2>(false, certificate);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log.Debug(ex, "{0} {1}: {2}", Strings.Get("Err_ExceptionCheckSig"), path, ex.Message);
                 return new KeyValuePair<bool, X509Certificate2>(false, certificate);

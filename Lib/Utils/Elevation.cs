@@ -449,7 +449,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             return username != null ? username.Trim().Equals("root") : false;
         }
-        
+
         public static bool IsAdministrator()
         {
             try
@@ -459,7 +459,8 @@ namespace AttackSurfaceAnalyzer.Utils
                     WindowsPrincipal principal = new WindowsPrincipal(identity);
                     return principal.IsInRole(WindowsBuiltInRole.Administrator);
                 }
-            } catch (PlatformNotSupportedException)
+            }
+            catch (PlatformNotSupportedException)
             {
                 return false;
             }

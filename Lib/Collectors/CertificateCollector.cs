@@ -171,7 +171,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     Log.Error("Failed to dump certificates from 'ls /etc/ssl/certs -A'.");
                     Logger.DebugException(e);
                 }
-                
+
             }
             // On macos we use the keychain and export the certificates as .pem.
             // However, on macos Certificate2 doesn't support loading from a pem, 

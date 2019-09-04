@@ -215,7 +215,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 return;
             }
-            
+
             // Inspect the file
             if (getFileDetails && e.ChangeType != WatcherChangeTypes.Deleted)
             {

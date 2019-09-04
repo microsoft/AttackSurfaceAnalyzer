@@ -45,7 +45,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
             }
             catch (Exception)
-            { 
+            {
                 /* OK to ignore, expecting this on non-Linux platforms. */
             };
 
@@ -169,12 +169,12 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Log.Warning(Strings.Get("Err_Iproute2"));
                 Logger.DebugException(e);
             }
-            
+
         }
 
         /// <summary>
@@ -230,7 +230,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Log.Error(Strings.Get("Err_Lsof"));
                 Logger.DebugException(e);

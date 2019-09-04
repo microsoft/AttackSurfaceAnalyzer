@@ -203,7 +203,7 @@ namespace AttackSurfaceAnalyzer.Libs
                         return result.ToString();
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Log.Debug("{0} error decoding signature on {1}", e.GetType().ToString(), filename);
             }

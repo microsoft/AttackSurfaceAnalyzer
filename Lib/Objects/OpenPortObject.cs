@@ -21,7 +21,7 @@ namespace AttackSurfaceAnalyzer.Objects
         {
             get
             {
-                return family+":"+type+":"+port;
+                return family + ":" + type + ":" + port;
             }
         }
     }

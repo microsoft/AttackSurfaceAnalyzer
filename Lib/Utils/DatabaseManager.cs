@@ -33,7 +33,7 @@ namespace AttackSurfaceAnalyzer.Utils
         private static readonly string SQL_CREATE_RESULTS = "create table if not exists results (base_run_id text, compare_run_id text, status text);";
 
         private static readonly string SQL_CREATE_FINDINGS_RESULTS = "create table if not exists findings (comparison_id text, level text, result_type text, identity text, serialized text)";
-        
+
         private static readonly string SQL_CREATE_FINDINGS_LEVEL_INDEX = "create index if not exists i_findings_level on findings(level)";
         private static readonly string SQL_CREATE_FINDINGS_RESULT_TYPE_INDEX = "create index if not exists i_findings_result_type on findings(result_type)";
         private static readonly string SQL_CREATE_FINDINGS_IDENTITY_INDEX = "create index if not exists i_findings_identity on findings(identity)";
@@ -186,15 +186,15 @@ namespace AttackSurfaceAnalyzer.Utils
         public static void VerifySchemaVersion()
         {
             using (var cmd = new SqliteCommand(SQL_GET_SCHEMA_VERSION, DatabaseManager.Connection, DatabaseManager.Transaction))
-                using (var reader = cmd.ExecuteReader())
+            using (var reader = cmd.ExecuteReader())
+            {
+                reader.Read();
+                if (!reader["value"].ToString().Equals(SCHEMA_VERSION))
                 {
-                    reader.Read();
-                    if (!reader["value"].ToString().Equals(SCHEMA_VERSION))
-                    {
-                        Log.Fatal("Schema version of database is {0} but {1} is required. Use config --reset-database to delete the incompatible database.", reader["value"].ToString(), SCHEMA_VERSION);
-                        Environment.Exit(-1);
-                    }
+                    Log.Fatal("Schema version of database is {0} but {1} is required. Use config --reset-database to delete the incompatible database.", reader["value"].ToString(), SCHEMA_VERSION);
+                    Environment.Exit(-1);
                 }
+            }
         }
 
         public static List<string> GetLatestRunIds(int numberOfIds, string type)
@@ -217,13 +217,13 @@ namespace AttackSurfaceAnalyzer.Utils
                 catch (Exception e)
                 {
                     Logger.DebugException(e);
-                    Log.Debug("Couldn't determine latest {0} run ids.",numberOfIds);
+                    Log.Debug("Couldn't determine latest {0} run ids.", numberOfIds);
                 }
             }
             return output;
         }
 
-        public static Dictionary<RESULT_TYPE,int> GetResultTypesAndCounts(string runId)
+        public static Dictionary<RESULT_TYPE, int> GetResultTypesAndCounts(string runId)
         {
             var outDict = new Dictionary<RESULT_TYPE, int>() { };
             try
@@ -267,7 +267,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Logger.DebugException(e);
             }

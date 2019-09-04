@@ -56,7 +56,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        public static void TrackEvent(string name, Dictionary<string,string> evt)
+        public static void TrackEvent(string name, Dictionary<string, string> evt)
         {
             evt.Add("Version", Helpers.GetVersionString());
             evt.Add("OS", Helpers.GetOsName());

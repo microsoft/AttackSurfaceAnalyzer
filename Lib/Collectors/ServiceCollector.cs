@@ -106,9 +106,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                             outDict.Add(obj.Identity, obj);
                         }
                     }
-                
+
                     // Then get the system processes
-                
+
                     result = ExternalCommandRunner.RunExternalCommand("sudo", "launchctl list");
 
                     foreach (var _line in result.Split('\n'))
@@ -172,7 +172,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         }
                     }
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     Logger.DebugException(e);
                 }
@@ -205,7 +205,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 {
                     Logger.DebugException(e);
                 }
-                
+
 
                 // CentOS
                 // chkconfig --list

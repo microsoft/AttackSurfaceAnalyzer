@@ -86,7 +86,7 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
                 Log.Warning("UserAccountCollector is not available on {0}", RuntimeInformation.OSDescription);
                 return;
             }
-            
+
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 ExecuteWindows();
@@ -115,17 +115,18 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
             try
             {
                 List<string> lines = new List<string>(ExternalCommandRunner.RunExternalCommand("net", "localgroup").Split('\n'));
-                
+
                 lines.RemoveRange(0, 4);
 
-                foreach(string line in lines)
+                foreach (string line in lines)
                 {
                     if (line.Contains('*'))
                     {
                         var groupName = line.Substring(1).Trim();
                         GroupAccountObject group;
                         //Get the group details
-                        if (!groups.ContainsKey(String.Format("{0}\\{1}", Environment.MachineName, groupName))){
+                        if (!groups.ContainsKey(String.Format("{0}\\{1}", Environment.MachineName, groupName)))
+                        {
                             SelectQuery query = new SelectQuery("SELECT * FROM Win32_Group where Name='" + groupName + "'");
                             ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
 
@@ -158,7 +159,7 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
                         }
 
                         //Get the members of the group
-                        var args = string.Format("/Node:\"{0}\" path win32_groupuser where (groupcomponent=\"win32_group.name=\\\"{1}\\\",domain=\\\"{2}\\\"\")",Environment.MachineName,groupName,Environment.MachineName);
+                        var args = string.Format("/Node:\"{0}\" path win32_groupuser where (groupcomponent=\"win32_group.name=\\\"{1}\\\",domain=\\\"{2}\\\"\")", Environment.MachineName, groupName, Environment.MachineName);
                         List<string> lines_int = new List<string>(ExternalCommandRunner.RunExternalCommand("wmic", args).Split('\n'));
                         lines_int.RemoveRange(0, 1);
 
@@ -187,13 +188,14 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
                                     group.Users.Add(String.Format("{0}\\{1}", domain, userName));
                                 }
 
-                                var query = new SelectQuery("SELECT * FROM Win32_UserAccount where Domain='"+domain+"' and Name='" + userName + "'");
+                                var query = new SelectQuery("SELECT * FROM Win32_UserAccount where Domain='" + domain + "' and Name='" + userName + "'");
                                 var searcher = new ManagementObjectSearcher(query);
                                 foreach (ManagementObject user in searcher.Get())
                                 {
                                     if (users.ContainsKey(userName))
                                     {
-                                        if (!users[userName].Groups.Contains(String.Format("{0}\\{1}", domain, groupName))){
+                                        if (!users[userName].Groups.Contains(String.Format("{0}\\{1}", domain, groupName)))
+                                        {
                                             users[userName].Groups.Add(groupName);
                                         }
 
@@ -224,7 +226,7 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
                                             Groups = new List<string>() { groupName }
                                         };
                                         users.Add(userName, obj);
-                                    }        
+                                    }
                                 }
                             }
                             groups[String.Format("{0}\\{1}", Environment.MachineName, groupName)] = group;
@@ -232,7 +234,7 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Logger.DebugException(e);
             }
@@ -251,7 +253,7 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
         /// command and parses the output, sending the output to the database.
         /// </summary>
         private void ExecuteLinux()
-        {            
+        {
             var etc_passwd_lines = File.ReadAllLines("/etc/passwd");
             var etc_shadow_lines = File.ReadAllLines("/etc/shadow");
 
@@ -262,7 +264,7 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
             foreach (var _line in etc_passwd_lines)
             {
                 var parts = _line.Split(':');
-                
+
                 if (!accountDetails.ContainsKey(parts[0]))
                 {
                     accountDetails[parts[0]] = new UserAccountObject()
@@ -400,7 +402,7 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
                         newUser.Shell = value;
                         break;
                     case "gecos":
-                        newUser.FullName = value;                           
+                        newUser.FullName = value;
                         break;
                     default:
                         break;

@@ -89,7 +89,7 @@ namespace AttackSurfaceAnalyzer.Objects
             {
                 Permissions = Key.GetAccessControl().GetSecurityDescriptorSddlForm(AccessControlSections.All);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Log.Debug(e, "Failed to get security descriptor for " + Key.Name);
             }

@@ -8,7 +8,7 @@ using Serilog;
 namespace AttackSurfaceAnalyzer.Utils
 {
     public class DirectoryWalker
-    { 
+    {
         public static IEnumerable<FileSystemInfo> WalkDirectory(string root)
         {
             // Data structure to hold names of subfolders to be
@@ -45,12 +45,12 @@ namespace AttackSurfaceAnalyzer.Utils
                 // about the systems on which this code will run.
                 catch (UnauthorizedAccessException)
                 {
-                    Log.Debug("Unable to access: {0}",currentDir);
+                    Log.Debug("Unable to access: {0}", currentDir);
                     continue;
                 }
                 catch (System.IO.DirectoryNotFoundException)
                 {
-                    Log.Debug("Directory not found: {0}",currentDir);
+                    Log.Debug("Directory not found: {0}", currentDir);
                     continue;
                 }
                 // @TODO: Improve this catch. 
@@ -135,7 +135,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         Logger.DebugException(e);
 
-                        Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Warning,e);
+                        Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Warning, e);
                         continue;
                     }
                     dirs.Push(str);

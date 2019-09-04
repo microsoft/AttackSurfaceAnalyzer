@@ -54,7 +54,8 @@ namespace AttackSurfaceAnalyzer.Utils
         List<Rule> _filters = new List<Rule>();
         PLATFORM OsName;
 
-        public Analyzer(PLATFORM platform, string filterLocation = null) {
+        public Analyzer(PLATFORM platform, string filterLocation = null)
+        {
             if (filterLocation == null) { LoadEmbeddedFilters(); }
             else { LoadFilters(filterLocation); }
 
@@ -65,7 +66,7 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             _filters = new List<Rule>();
             DEFAULT_RESULT_TYPE_MAP = new Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>();
-            foreach(RESULT_TYPE r in Enum.GetValues(typeof(RESULT_TYPE)))
+            foreach (RESULT_TYPE r in Enum.GetValues(typeof(RESULT_TYPE)))
             {
                 DEFAULT_RESULT_TYPE_MAP.Add(r, ANALYSIS_RESULT_TYPE.INFORMATION);
             }
@@ -90,7 +91,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Logger.DebugException(e);
             }
@@ -139,7 +140,8 @@ namespace AttackSurfaceAnalyzer.Utils
 
                     if (compareResult.ChangeType == CHANGE_TYPE.CREATED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
                     {
-                        try {
+                        try
+                        {
                             valsToCheck.Add(GetValueByFieldName(compareResult.Compare, field.Name).ToString());
                         }
                         catch (NullReferenceException)
@@ -210,7 +212,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         case OPERATION.GT:
                             foreach (string val in valsToCheck)
                             {
-                                complete|= Int32.Parse(val.ToString()) > Int32.Parse(clause.data[0]);
+                                complete |= Int32.Parse(val.ToString()) > Int32.Parse(clause.data[0]);
                             }
                             if (complete) { break; }
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
@@ -218,7 +220,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         case OPERATION.LT:
                             foreach (string val in valsToCheck)
                             {
-                                complete|= Int32.Parse(val.ToString()) < Int32.Parse(clause.data[0]);
+                                complete |= Int32.Parse(val.ToString()) < Int32.Parse(clause.data[0]);
                             }
                             if (complete) { break; }
 
@@ -299,7 +301,7 @@ namespace AttackSurfaceAnalyzer.Utils
             Log.Verbose(JsonConvert.SerializeObject(_filters, new StringEnumConverter()));
         }
 
-        public  void LoadEmbeddedFilters()
+        public void LoadEmbeddedFilters()
         {
             try
             {
@@ -385,7 +387,7 @@ namespace AttackSurfaceAnalyzer.Utils
             catch (JsonReaderException)
             {
                 config = null;
-                Log.Warning("Error when parsing '{0}' analyses file. This is likely an issue with your JSON formatting.",filterLoc);
+                Log.Warning("Error when parsing '{0}' analyses file. This is likely an issue with your JSON formatting.", filterLoc);
             }
             catch (Exception e)
             {

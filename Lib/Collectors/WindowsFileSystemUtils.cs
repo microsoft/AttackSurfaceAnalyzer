@@ -84,14 +84,14 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             try
             {
-                var twoBytes = new byte[2]; 
+                var twoBytes = new byte[2];
                 using (var fileStream = File.Open(filePath, FileMode.Open))
                 {
                     fileStream.Read(twoBytes, 0, 2);
                 }
                 return Encoding.UTF8.GetString(twoBytes) == "MZ";
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Logger.DebugException(e);
                 return false;
@@ -138,7 +138,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     Logger.DebugException(e);
                 }
             }
-            
+
             return new List<DLLCHARACTERISTICS>();
         }
 

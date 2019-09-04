@@ -15,7 +15,8 @@ namespace AttackSurfaceAnalyzer.Utils
             Setup(false, false);
         }
 
-        public static void Setup(bool debug, bool verbose) {
+        public static void Setup(bool debug, bool verbose)
+        {
             Setup(debug, verbose, false);
         }
 
