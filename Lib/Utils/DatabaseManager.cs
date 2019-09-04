@@ -10,6 +10,7 @@ using Mono.Unix;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.AccessControl;
+using AttackSurfaceAnalyzer.Types;
 
 namespace AttackSurfaceAnalyzer.Utils
 {

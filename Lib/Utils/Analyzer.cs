@@ -12,6 +12,7 @@ using System.Linq;
 using Newtonsoft.Json.Converters;
 using PeNet.Structures.MetaDataTables;
 using Markdig.Extensions.Tables;
+using AttackSurfaceAnalyzer.Types;
 
 namespace AttackSurfaceAnalyzer.Utils
 {

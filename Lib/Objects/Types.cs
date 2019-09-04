@@ -1,8 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-namespace AttackSurfaceAnalyzer.Objects
+namespace AttackSurfaceAnalyzer.Types
 {
-
     public enum RESULT_TYPE {
         UNKNOWN,
         FILE,

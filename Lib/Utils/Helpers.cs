@@ -7,6 +7,7 @@ using AttackSurfaceAnalyzer.Objects;
 using System.Collections.Generic;
 using Serilog;
 using System.Collections;
+using AttackSurfaceAnalyzer.Types;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
