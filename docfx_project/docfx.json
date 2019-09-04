@@ -3,9 +3,9 @@
     {
       "src": [
         {
-          "cwd": "../../",
+          "cwd": "../",
           "files": [
-            "Lib/**.csproj"
+            "Lib/AsaLib.csproj"
           ]
         }
       ],
@@ -49,7 +49,7 @@
         ]
       }
     ],
-    "dest": "..",
+    "dest": "../docs",
     "globalMetadataFiles": [],
     "fileMetadataFiles": [],
     "template": [
