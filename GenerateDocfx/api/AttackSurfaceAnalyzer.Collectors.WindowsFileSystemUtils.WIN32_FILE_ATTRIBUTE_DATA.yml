@@ -25,7 +25,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: WIN32_FILE_ATTRIBUTE_DATA
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
-    startLine: 20
+    startLine: 19
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -63,7 +63,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: dwFileAttributes
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
-    startLine: 23
+    startLine: 22
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -94,7 +94,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ftCreationTime
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
-    startLine: 24
+    startLine: 23
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -125,7 +125,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ftLastAccessTime
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
-    startLine: 25
+    startLine: 24
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -156,7 +156,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ftLastWriteTime
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
-    startLine: 26
+    startLine: 25
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -187,7 +187,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: nFileSizeHigh
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
-    startLine: 27
+    startLine: 26
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -218,7 +218,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: nFileSizeLow
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
-    startLine: 28
+    startLine: 27
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors

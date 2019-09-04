@@ -100,7 +100,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetSignatureStatus
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
-    startLine: 48
+    startLine: 47
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -137,7 +137,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: NeedsSignature
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
-    startLine: 59
+    startLine: 58
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -174,7 +174,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsExecutable
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
-    startLine: 83
+    startLine: 82
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -211,7 +211,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsLocal
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
-    startLine: 101
+    startLine: 100
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -248,7 +248,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetDllCharacteristics
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
-    startLine: 113
+    startLine: 112
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -285,7 +285,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetFilePermissions
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
-    startLine: 145
+    startLine: 144
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors

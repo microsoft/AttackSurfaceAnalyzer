@@ -21,7 +21,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FILETIME
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
-    startLine: 37
+    startLine: 36
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -62,7 +62,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: dwLowDateTime
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
-    startLine: 40
+    startLine: 39
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -93,7 +93,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: dwHighDateTime
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
-    startLine: 41
+    startLine: 40
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors

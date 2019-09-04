@@ -17,7 +17,6 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         public static List<string> SIGNED_EXTENSIONS = new List<string> { "dll", "exe", "cab", "ocx" };
 
-
         [StructLayout(LayoutKind.Sequential)]
         public struct WIN32_FILE_ATTRIBUTE_DATA
         {
