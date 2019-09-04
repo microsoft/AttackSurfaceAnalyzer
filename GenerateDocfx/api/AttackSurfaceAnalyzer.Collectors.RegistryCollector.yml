@@ -34,9 +34,7 @@ items:
     content: 'public class RegistryCollector : BaseCollector, PlatformRunnable'
     content.vb: >-
       Public Class RegistryCollector
-
           Inherits BaseCollector
-
           Implements PlatformRunnable
   inheritance:
   - System.Object

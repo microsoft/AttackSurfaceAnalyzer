@@ -28,7 +28,6 @@ items:
     content: 'public class RegistryResult : CompareResult'
     content.vb: >-
       Public Class RegistryResult
-
           Inherits CompareResult
   inheritance:
   - System.Object

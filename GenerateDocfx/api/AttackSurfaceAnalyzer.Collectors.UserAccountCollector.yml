@@ -31,9 +31,7 @@ items:
     content: 'public class UserAccountCollector : BaseCollector, PlatformRunnable'
     content.vb: >-
       Public Class UserAccountCollector
-
           Inherits BaseCollector
-
           Implements PlatformRunnable
   inheritance:
   - System.Object

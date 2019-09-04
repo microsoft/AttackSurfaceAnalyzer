@@ -72,7 +72,7 @@ items:
   syntax:
     content: public RESULT_TYPE ResultType
     return:
-      type: AttackSurfaceAnalyzer.Objects.RESULT_TYPE
+      type: AttackSurfaceAnalyzer.Types.RESULT_TYPE
     content.vb: Public ResultType As RESULT_TYPE
   modifiers.csharp:
   - public
@@ -500,12 +500,17 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: AttackSurfaceAnalyzer.Objects.RESULT_TYPE
-  commentId: T:AttackSurfaceAnalyzer.Objects.RESULT_TYPE
-  parent: AttackSurfaceAnalyzer.Objects
+- uid: AttackSurfaceAnalyzer.Types.RESULT_TYPE
+  commentId: T:AttackSurfaceAnalyzer.Types.RESULT_TYPE
+  parent: AttackSurfaceAnalyzer.Types
   name: RESULT_TYPE
   nameWithType: RESULT_TYPE
-  fullName: AttackSurfaceAnalyzer.Objects.RESULT_TYPE
+  fullName: AttackSurfaceAnalyzer.Types.RESULT_TYPE
+- uid: AttackSurfaceAnalyzer.Types
+  commentId: N:AttackSurfaceAnalyzer.Types
+  name: AttackSurfaceAnalyzer.Types
+  nameWithType: AttackSurfaceAnalyzer.Types
+  fullName: AttackSurfaceAnalyzer.Types
 - uid: System.String
   commentId: T:System.String
   parent: System

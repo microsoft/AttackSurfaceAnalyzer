@@ -33,7 +33,6 @@ items:
     content: 'public class ServiceObject : CollectObject'
     content.vb: >-
       Public Class ServiceObject
-
           Inherits CollectObject
   inheritance:
   - System.Object

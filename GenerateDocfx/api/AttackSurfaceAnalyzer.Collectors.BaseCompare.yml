@@ -30,7 +30,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: BaseCompare
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 14
+    startLine: 15
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -71,7 +71,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Results
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 16
+    startLine: 17
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -108,7 +108,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 18
+    startLine: 19
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -138,7 +138,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Hydrate
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 23
+    startLine: 24
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -173,7 +173,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Compare
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 46
+    startLine: 47
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -208,7 +208,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetDiffs
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 321
+    startLine: 322
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -247,7 +247,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetDiffs
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 342
+    startLine: 343
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -286,7 +286,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: TryCompare
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 364
+    startLine: 365
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -323,14 +323,14 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: _type
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 384
+    startLine: 385
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
   syntax:
     content: protected RESULT_TYPE _type
     return:
-      type: AttackSurfaceAnalyzer.Objects.RESULT_TYPE
+      type: AttackSurfaceAnalyzer.Types.RESULT_TYPE
     content.vb: Protected _type As RESULT_TYPE
   modifiers.csharp:
   - protected
@@ -354,14 +354,14 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsRunning
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 386
+    startLine: 387
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
   syntax:
     content: public RUN_STATUS IsRunning()
     return:
-      type: AttackSurfaceAnalyzer.Objects.RUN_STATUS
+      type: AttackSurfaceAnalyzer.Types.RUN_STATUS
     content.vb: Public Function IsRunning As RUN_STATUS
   overload: AttackSurfaceAnalyzer.Collectors.BaseCompare.IsRunning*
   modifiers.csharp:
@@ -386,7 +386,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Start
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 391
+    startLine: 392
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -416,7 +416,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Stop
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 397
+    startLine: 398
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -1005,23 +1005,28 @@ references:
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
-- uid: AttackSurfaceAnalyzer.Objects.RESULT_TYPE
-  commentId: T:AttackSurfaceAnalyzer.Objects.RESULT_TYPE
-  parent: AttackSurfaceAnalyzer.Objects
+- uid: AttackSurfaceAnalyzer.Types.RESULT_TYPE
+  commentId: T:AttackSurfaceAnalyzer.Types.RESULT_TYPE
+  parent: AttackSurfaceAnalyzer.Types
   name: RESULT_TYPE
   nameWithType: RESULT_TYPE
-  fullName: AttackSurfaceAnalyzer.Objects.RESULT_TYPE
+  fullName: AttackSurfaceAnalyzer.Types.RESULT_TYPE
+- uid: AttackSurfaceAnalyzer.Types
+  commentId: N:AttackSurfaceAnalyzer.Types
+  name: AttackSurfaceAnalyzer.Types
+  nameWithType: AttackSurfaceAnalyzer.Types
+  fullName: AttackSurfaceAnalyzer.Types
 - uid: AttackSurfaceAnalyzer.Collectors.BaseCompare.IsRunning*
   commentId: Overload:AttackSurfaceAnalyzer.Collectors.BaseCompare.IsRunning
   name: IsRunning
   nameWithType: BaseCompare.IsRunning
   fullName: AttackSurfaceAnalyzer.Collectors.BaseCompare.IsRunning
-- uid: AttackSurfaceAnalyzer.Objects.RUN_STATUS
-  commentId: T:AttackSurfaceAnalyzer.Objects.RUN_STATUS
-  parent: AttackSurfaceAnalyzer.Objects
+- uid: AttackSurfaceAnalyzer.Types.RUN_STATUS
+  commentId: T:AttackSurfaceAnalyzer.Types.RUN_STATUS
+  parent: AttackSurfaceAnalyzer.Types
   name: RUN_STATUS
   nameWithType: RUN_STATUS
-  fullName: AttackSurfaceAnalyzer.Objects.RUN_STATUS
+  fullName: AttackSurfaceAnalyzer.Types.RUN_STATUS
 - uid: AttackSurfaceAnalyzer.Collectors.BaseCompare.Start*
   commentId: Overload:AttackSurfaceAnalyzer.Collectors.BaseCompare.Start
   name: Start

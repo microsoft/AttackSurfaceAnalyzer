@@ -35,7 +35,6 @@ items:
     content: 'public abstract class BaseCollector : PlatformRunnable'
     content.vb: >-
       Public MustInherit Class BaseCollector
-
           Implements PlatformRunnable
   inheritance:
   - System.Object
@@ -215,7 +214,7 @@ items:
   syntax:
     content: public RUN_STATUS IsRunning()
     return:
-      type: AttackSurfaceAnalyzer.Objects.RUN_STATUS
+      type: AttackSurfaceAnalyzer.Types.RUN_STATUS
     content.vb: Public Function IsRunning As RUN_STATUS
   overload: AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning*
   modifiers.csharp:
@@ -648,17 +647,17 @@ references:
   name: IsRunning
   nameWithType: BaseCollector.IsRunning
   fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning
-- uid: AttackSurfaceAnalyzer.Objects.RUN_STATUS
-  commentId: T:AttackSurfaceAnalyzer.Objects.RUN_STATUS
-  parent: AttackSurfaceAnalyzer.Objects
+- uid: AttackSurfaceAnalyzer.Types.RUN_STATUS
+  commentId: T:AttackSurfaceAnalyzer.Types.RUN_STATUS
+  parent: AttackSurfaceAnalyzer.Types
   name: RUN_STATUS
   nameWithType: RUN_STATUS
-  fullName: AttackSurfaceAnalyzer.Objects.RUN_STATUS
-- uid: AttackSurfaceAnalyzer.Objects
-  commentId: N:AttackSurfaceAnalyzer.Objects
-  name: AttackSurfaceAnalyzer.Objects
-  nameWithType: AttackSurfaceAnalyzer.Objects
-  fullName: AttackSurfaceAnalyzer.Objects
+  fullName: AttackSurfaceAnalyzer.Types.RUN_STATUS
+- uid: AttackSurfaceAnalyzer.Types
+  commentId: N:AttackSurfaceAnalyzer.Types
+  name: AttackSurfaceAnalyzer.Types
+  nameWithType: AttackSurfaceAnalyzer.Types
+  fullName: AttackSurfaceAnalyzer.Types
 - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.Start*
   commentId: Overload:AttackSurfaceAnalyzer.Collectors.BaseCollector.Start
   name: Start

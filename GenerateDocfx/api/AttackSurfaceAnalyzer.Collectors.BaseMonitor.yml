@@ -34,7 +34,6 @@ items:
     content: 'public abstract class BaseMonitor : PlatformRunnable'
     content.vb: >-
       Public MustInherit Class BaseMonitor
-
           Implements PlatformRunnable
   inheritance:
   - System.Object
@@ -113,7 +112,7 @@ items:
   syntax:
     content: protected RUN_STATUS _running
     return:
-      type: AttackSurfaceAnalyzer.Objects.RUN_STATUS
+      type: AttackSurfaceAnalyzer.Types.RUN_STATUS
     content.vb: Protected _running As RUN_STATUS
   modifiers.csharp:
   - protected
@@ -242,7 +241,7 @@ items:
   syntax:
     content: public RUN_STATUS RunStatus()
     return:
-      type: AttackSurfaceAnalyzer.Objects.RUN_STATUS
+      type: AttackSurfaceAnalyzer.Types.RUN_STATUS
     content.vb: Public Function RunStatus As RUN_STATUS
   overload: AttackSurfaceAnalyzer.Collectors.BaseMonitor.RunStatus*
   modifiers.csharp:
@@ -584,17 +583,17 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
-- uid: AttackSurfaceAnalyzer.Objects.RUN_STATUS
-  commentId: T:AttackSurfaceAnalyzer.Objects.RUN_STATUS
-  parent: AttackSurfaceAnalyzer.Objects
+- uid: AttackSurfaceAnalyzer.Types.RUN_STATUS
+  commentId: T:AttackSurfaceAnalyzer.Types.RUN_STATUS
+  parent: AttackSurfaceAnalyzer.Types
   name: RUN_STATUS
   nameWithType: RUN_STATUS
-  fullName: AttackSurfaceAnalyzer.Objects.RUN_STATUS
-- uid: AttackSurfaceAnalyzer.Objects
-  commentId: N:AttackSurfaceAnalyzer.Objects
-  name: AttackSurfaceAnalyzer.Objects
-  nameWithType: AttackSurfaceAnalyzer.Objects
-  fullName: AttackSurfaceAnalyzer.Objects
+  fullName: AttackSurfaceAnalyzer.Types.RUN_STATUS
+- uid: AttackSurfaceAnalyzer.Types
+  commentId: N:AttackSurfaceAnalyzer.Types
+  name: AttackSurfaceAnalyzer.Types
+  nameWithType: AttackSurfaceAnalyzer.Types
+  fullName: AttackSurfaceAnalyzer.Types
 - uid: AttackSurfaceAnalyzer.Collectors.BaseMonitor.Start*
   commentId: Overload:AttackSurfaceAnalyzer.Collectors.BaseMonitor.Start
   name: Start

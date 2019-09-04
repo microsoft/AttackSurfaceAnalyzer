@@ -32,9 +32,7 @@ items:
     content: 'public class RegistryMonitor : BaseMonitor, PlatformRunnable'
     content.vb: >-
       Public Class RegistryMonitor
-
           Inherits BaseMonitor
-
           Implements PlatformRunnable
   inheritance:
   - System.Object

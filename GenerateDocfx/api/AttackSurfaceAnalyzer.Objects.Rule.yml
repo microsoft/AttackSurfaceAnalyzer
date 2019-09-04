@@ -26,7 +26,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Rule
     path: ../Lib/Objects/Rule.cs
-    startLine: 9
+    startLine: 10
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -67,7 +67,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: platforms
     path: ../Lib/Objects/Rule.cs
-    startLine: 13
+    startLine: 14
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -77,7 +77,7 @@ items:
 
       public PLATFORM[] platforms
     return:
-      type: AttackSurfaceAnalyzer.Objects.PLATFORM[]
+      type: AttackSurfaceAnalyzer.Types.PLATFORM[]
     content.vb: >-
       <JsonProperty(DefaultValueHandling:=DefaultValueHandling.Ignore Or DefaultValueHandling.Populate Or DefaultValueHandling.IgnoreAndPopulate)>
 
@@ -112,7 +112,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: changeTypes
     path: ../Lib/Objects/Rule.cs
-    startLine: 17
+    startLine: 18
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -122,7 +122,7 @@ items:
 
       public CHANGE_TYPE[] changeTypes
     return:
-      type: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE[]
+      type: AttackSurfaceAnalyzer.Types.CHANGE_TYPE[]
     content.vb: >-
       <JsonProperty(DefaultValueHandling:=DefaultValueHandling.Ignore Or DefaultValueHandling.Populate Or DefaultValueHandling.IgnoreAndPopulate)>
 
@@ -157,7 +157,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: name
     path: ../Lib/Objects/Rule.cs
-    startLine: 19
+    startLine: 20
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -188,7 +188,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: desc
     path: ../Lib/Objects/Rule.cs
-    startLine: 20
+    startLine: 21
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -219,14 +219,14 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: flag
     path: ../Lib/Objects/Rule.cs
-    startLine: 21
+    startLine: 22
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
   syntax:
     content: public ANALYSIS_RESULT_TYPE flag
     return:
-      type: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
+      type: AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE
     content.vb: Public flag As ANALYSIS_RESULT_TYPE
   modifiers.csharp:
   - public
@@ -250,14 +250,14 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: resultType
     path: ../Lib/Objects/Rule.cs
-    startLine: 22
+    startLine: 23
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
   syntax:
     content: public RESULT_TYPE resultType
     return:
-      type: AttackSurfaceAnalyzer.Objects.RESULT_TYPE
+      type: AttackSurfaceAnalyzer.Types.RESULT_TYPE
     content.vb: Public resultType As RESULT_TYPE
   modifiers.csharp:
   - public
@@ -281,7 +281,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: clauses
     path: ../Lib/Objects/Rule.cs
-    startLine: 23
+    startLine: 24
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -592,51 +592,51 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: AttackSurfaceAnalyzer.Objects.PLATFORM[]
+- uid: AttackSurfaceAnalyzer.Types.PLATFORM[]
   isExternal: true
   name: PLATFORM[]
   nameWithType: PLATFORM[]
-  fullName: AttackSurfaceAnalyzer.Objects.PLATFORM[]
+  fullName: AttackSurfaceAnalyzer.Types.PLATFORM[]
   nameWithType.vb: PLATFORM()
-  fullName.vb: AttackSurfaceAnalyzer.Objects.PLATFORM()
+  fullName.vb: AttackSurfaceAnalyzer.Types.PLATFORM()
   name.vb: PLATFORM()
   spec.csharp:
-  - uid: AttackSurfaceAnalyzer.Objects.PLATFORM
+  - uid: AttackSurfaceAnalyzer.Types.PLATFORM
     name: PLATFORM
     nameWithType: PLATFORM
-    fullName: AttackSurfaceAnalyzer.Objects.PLATFORM
+    fullName: AttackSurfaceAnalyzer.Types.PLATFORM
   - name: '[]'
     nameWithType: '[]'
     fullName: '[]'
   spec.vb:
-  - uid: AttackSurfaceAnalyzer.Objects.PLATFORM
+  - uid: AttackSurfaceAnalyzer.Types.PLATFORM
     name: PLATFORM
     nameWithType: PLATFORM
-    fullName: AttackSurfaceAnalyzer.Objects.PLATFORM
+    fullName: AttackSurfaceAnalyzer.Types.PLATFORM
   - name: ()
     nameWithType: ()
     fullName: ()
-- uid: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE[]
+- uid: AttackSurfaceAnalyzer.Types.CHANGE_TYPE[]
   isExternal: true
   name: CHANGE_TYPE[]
   nameWithType: CHANGE_TYPE[]
-  fullName: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE[]
+  fullName: AttackSurfaceAnalyzer.Types.CHANGE_TYPE[]
   nameWithType.vb: CHANGE_TYPE()
-  fullName.vb: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE()
+  fullName.vb: AttackSurfaceAnalyzer.Types.CHANGE_TYPE()
   name.vb: CHANGE_TYPE()
   spec.csharp:
-  - uid: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
+  - uid: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
     name: CHANGE_TYPE
     nameWithType: CHANGE_TYPE
-    fullName: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
+    fullName: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
   - name: '[]'
     nameWithType: '[]'
     fullName: '[]'
   spec.vb:
-  - uid: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
+  - uid: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
     name: CHANGE_TYPE
     nameWithType: CHANGE_TYPE
-    fullName: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
+    fullName: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
   - name: ()
     nameWithType: ()
     fullName: ()
@@ -647,18 +647,23 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
-- uid: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
-  commentId: T:AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
-  parent: AttackSurfaceAnalyzer.Objects
+- uid: AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE
+  commentId: T:AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE
+  parent: AttackSurfaceAnalyzer.Types
   name: ANALYSIS_RESULT_TYPE
   nameWithType: ANALYSIS_RESULT_TYPE
-  fullName: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
-- uid: AttackSurfaceAnalyzer.Objects.RESULT_TYPE
-  commentId: T:AttackSurfaceAnalyzer.Objects.RESULT_TYPE
-  parent: AttackSurfaceAnalyzer.Objects
+  fullName: AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE
+- uid: AttackSurfaceAnalyzer.Types
+  commentId: N:AttackSurfaceAnalyzer.Types
+  name: AttackSurfaceAnalyzer.Types
+  nameWithType: AttackSurfaceAnalyzer.Types
+  fullName: AttackSurfaceAnalyzer.Types
+- uid: AttackSurfaceAnalyzer.Types.RESULT_TYPE
+  commentId: T:AttackSurfaceAnalyzer.Types.RESULT_TYPE
+  parent: AttackSurfaceAnalyzer.Types
   name: RESULT_TYPE
   nameWithType: RESULT_TYPE
-  fullName: AttackSurfaceAnalyzer.Objects.RESULT_TYPE
+  fullName: AttackSurfaceAnalyzer.Types.RESULT_TYPE
 - uid: System.Collections.Generic.List{AttackSurfaceAnalyzer.Objects.Clause}
   commentId: T:System.Collections.Generic.List{AttackSurfaceAnalyzer.Objects.Clause}
   parent: System.Collections.Generic

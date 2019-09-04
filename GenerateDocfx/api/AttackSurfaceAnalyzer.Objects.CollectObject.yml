@@ -22,7 +22,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CollectObject
     path: ../Lib/Objects/CollectObject.cs
-    startLine: 8
+    startLine: 6
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -73,14 +73,14 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ResultType
     path: ../Lib/Objects/CollectObject.cs
-    startLine: 10
+    startLine: 8
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
   syntax:
     content: public RESULT_TYPE ResultType
     return:
-      type: AttackSurfaceAnalyzer.Objects.RESULT_TYPE
+      type: AttackSurfaceAnalyzer.Types.RESULT_TYPE
     content.vb: Public ResultType As RESULT_TYPE
   modifiers.csharp:
   - public
@@ -104,7 +104,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Identity
     path: ../Lib/Objects/CollectObject.cs
-    startLine: 11
+    startLine: 9
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -141,7 +141,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Message
     path: ../Lib/Objects/CollectObject.cs
-    startLine: 12
+    startLine: 10
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -456,12 +456,17 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: AttackSurfaceAnalyzer.Objects.RESULT_TYPE
-  commentId: T:AttackSurfaceAnalyzer.Objects.RESULT_TYPE
-  parent: AttackSurfaceAnalyzer.Objects
+- uid: AttackSurfaceAnalyzer.Types.RESULT_TYPE
+  commentId: T:AttackSurfaceAnalyzer.Types.RESULT_TYPE
+  parent: AttackSurfaceAnalyzer.Types
   name: RESULT_TYPE
   nameWithType: RESULT_TYPE
-  fullName: AttackSurfaceAnalyzer.Objects.RESULT_TYPE
+  fullName: AttackSurfaceAnalyzer.Types.RESULT_TYPE
+- uid: AttackSurfaceAnalyzer.Types
+  commentId: N:AttackSurfaceAnalyzer.Types
+  name: AttackSurfaceAnalyzer.Types
+  nameWithType: AttackSurfaceAnalyzer.Types
+  fullName: AttackSurfaceAnalyzer.Types
 - uid: AttackSurfaceAnalyzer.Objects.CollectObject.Identity*
   commentId: Overload:AttackSurfaceAnalyzer.Objects.CollectObject.Identity
   name: Identity

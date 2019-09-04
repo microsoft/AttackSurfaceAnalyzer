@@ -260,7 +260,7 @@ items:
   syntax:
     content: public CHANGE_TYPE ChangeType
     return:
-      type: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
+      type: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
     content.vb: Public ChangeType As CHANGE_TYPE
   modifiers.csharp:
   - public
@@ -571,9 +571,14 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
-- uid: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
-  commentId: T:AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
-  parent: AttackSurfaceAnalyzer.Objects
+- uid: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
+  commentId: T:AttackSurfaceAnalyzer.Types.CHANGE_TYPE
+  parent: AttackSurfaceAnalyzer.Types
   name: CHANGE_TYPE
   nameWithType: CHANGE_TYPE
-  fullName: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
+  fullName: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
+- uid: AttackSurfaceAnalyzer.Types
+  commentId: N:AttackSurfaceAnalyzer.Types
+  name: AttackSurfaceAnalyzer.Types
+  nameWithType: AttackSurfaceAnalyzer.Types
+  fullName: AttackSurfaceAnalyzer.Types

@@ -33,7 +33,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FileSystemMonitor
     path: ../Lib/Collectors/FileSystemMonitor.cs
-    startLine: 12
+    startLine: 13
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -41,9 +41,7 @@ items:
     content: 'public class FileSystemMonitor : BaseMonitor, PlatformRunnable'
     content.vb: >-
       Public Class FileSystemMonitor
-
           Inherits BaseMonitor
-
           Implements PlatformRunnable
   inheritance:
   - System.Object
@@ -83,7 +81,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: defaultFilters
     path: ../Lib/Collectors/FileSystemMonitor.cs
-    startLine: 19
+    startLine: 20
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -118,7 +116,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: defaultFiltersWithAccessTime
     path: ../Lib/Collectors/FileSystemMonitor.cs
-    startLine: 27
+    startLine: 28
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -153,7 +151,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Start
     path: ../Lib/Collectors/FileSystemMonitor.cs
-    startLine: 33
+    startLine: 34
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -186,7 +184,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Stop
     path: ../Lib/Collectors/FileSystemMonitor.cs
-    startLine: 39
+    startLine: 40
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -219,7 +217,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CanRunOnPlatform
     path: ../Lib/Collectors/FileSystemMonitor.cs
-    startLine: 45
+    startLine: 46
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -254,7 +252,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Truncate
     path: ../Lib/Collectors/FileSystemMonitor.cs
-    startLine: 50
+    startLine: 51
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -287,7 +285,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/FileSystemMonitor.cs
-    startLine: 57
+    startLine: 58
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -324,7 +322,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/FileSystemMonitor.cs
-    startLine: 62
+    startLine: 63
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -363,7 +361,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsRunning
     path: ../Lib/Collectors/FileSystemMonitor.cs
-    startLine: 85
+    startLine: 86
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -395,7 +393,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: WriteChange
     path: ../Lib/Collectors/FileSystemMonitor.cs
-    startLine: 90
+    startLine: 91
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -428,7 +426,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ChangeTypeToChangeType
     path: ../Lib/Collectors/FileSystemMonitor.cs
-    startLine: 136
+    startLine: 137
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -438,7 +436,7 @@ items:
     - id: changeType
       type: System.IO.WatcherChangeTypes
     return:
-      type: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
+      type: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
     content.vb: Public Function ChangeTypeToChangeType(changeType As WatcherChangeTypes) As CHANGE_TYPE
   overload: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType*
   modifiers.csharp:
@@ -463,7 +461,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: WriteChange
     path: ../Lib/Collectors/FileSystemMonitor.cs
-    startLine: 153
+    startLine: 154
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -498,7 +496,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: WriteRename
     path: ../Lib/Collectors/FileSystemMonitor.cs
-    startLine: 179
+    startLine: 180
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -531,7 +529,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SetCustomChangeHandler
     path: ../Lib/Collectors/FileSystemMonitor.cs
-    startLine: 248
+    startLine: 249
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -1058,17 +1056,17 @@ references:
   name: WatcherChangeTypes
   nameWithType: WatcherChangeTypes
   fullName: System.IO.WatcherChangeTypes
-- uid: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
-  commentId: T:AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
-  parent: AttackSurfaceAnalyzer.Objects
+- uid: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
+  commentId: T:AttackSurfaceAnalyzer.Types.CHANGE_TYPE
+  parent: AttackSurfaceAnalyzer.Types
   name: CHANGE_TYPE
   nameWithType: CHANGE_TYPE
-  fullName: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
-- uid: AttackSurfaceAnalyzer.Objects
-  commentId: N:AttackSurfaceAnalyzer.Objects
-  name: AttackSurfaceAnalyzer.Objects
-  nameWithType: AttackSurfaceAnalyzer.Objects
-  fullName: AttackSurfaceAnalyzer.Objects
+  fullName: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
+- uid: AttackSurfaceAnalyzer.Types
+  commentId: N:AttackSurfaceAnalyzer.Types
+  name: AttackSurfaceAnalyzer.Types
+  nameWithType: AttackSurfaceAnalyzer.Types
+  fullName: AttackSurfaceAnalyzer.Types
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename*
   commentId: Overload:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename
   name: WriteRename

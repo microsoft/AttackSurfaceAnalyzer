@@ -22,7 +22,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Clause
     path: ../Lib/Objects/Rule.cs
-    startLine: 26
+    startLine: 27
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -63,7 +63,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: field
     path: ../Lib/Objects/Rule.cs
-    startLine: 28
+    startLine: 29
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -94,14 +94,14 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: op
     path: ../Lib/Objects/Rule.cs
-    startLine: 29
+    startLine: 30
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
   syntax:
     content: public OPERATION op
     return:
-      type: AttackSurfaceAnalyzer.Objects.OPERATION
+      type: AttackSurfaceAnalyzer.Types.OPERATION
     content.vb: Public op As OPERATION
   modifiers.csharp:
   - public
@@ -125,7 +125,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: data
     path: ../Lib/Objects/Rule.cs
-    startLine: 30
+    startLine: 31
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -443,12 +443,17 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
-- uid: AttackSurfaceAnalyzer.Objects.OPERATION
-  commentId: T:AttackSurfaceAnalyzer.Objects.OPERATION
-  parent: AttackSurfaceAnalyzer.Objects
+- uid: AttackSurfaceAnalyzer.Types.OPERATION
+  commentId: T:AttackSurfaceAnalyzer.Types.OPERATION
+  parent: AttackSurfaceAnalyzer.Types
   name: OPERATION
   nameWithType: OPERATION
-  fullName: AttackSurfaceAnalyzer.Objects.OPERATION
+  fullName: AttackSurfaceAnalyzer.Types.OPERATION
+- uid: AttackSurfaceAnalyzer.Types
+  commentId: N:AttackSurfaceAnalyzer.Types
+  name: AttackSurfaceAnalyzer.Types
+  nameWithType: AttackSurfaceAnalyzer.Types
+  fullName: AttackSurfaceAnalyzer.Types
 - uid: System.Collections.Generic.List{System.String}
   commentId: T:System.Collections.Generic.List{System.String}
   parent: System.Collections.Generic

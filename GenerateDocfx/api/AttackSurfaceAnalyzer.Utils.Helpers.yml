@@ -15,7 +15,7 @@ items:
   - AttackSurfaceAnalyzer.Utils.Helpers.IsList(System.Object)
   - AttackSurfaceAnalyzer.Utils.Helpers.MakeValidFileName(System.String)
   - AttackSurfaceAnalyzer.Utils.Helpers.OpenBrowser(System.String)
-  - AttackSurfaceAnalyzer.Utils.Helpers.ResultTypeToTableName(AttackSurfaceAnalyzer.Objects.RESULT_TYPE)
+  - AttackSurfaceAnalyzer.Utils.Helpers.ResultTypeToTableName(AttackSurfaceAnalyzer.Types.RESULT_TYPE)
   - AttackSurfaceAnalyzer.Utils.Helpers.RunIdsToCompareId(System.String,System.String)
   langs:
   - csharp
@@ -31,7 +31,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Helpers
     path: ../Lib/Utils/Helpers.cs
-    startLine: 12
+    startLine: 13
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -72,7 +72,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: OpenBrowser
     path: ../Lib/Utils/Helpers.cs
-    startLine: 14
+    startLine: 15
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -107,7 +107,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsAdmin
     path: ../Lib/Utils/Helpers.cs
-    startLine: 30
+    startLine: 31
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -141,7 +141,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: MakeValidFileName
     path: ../Lib/Utils/Helpers.cs
-    startLine: 35
+    startLine: 36
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -178,7 +178,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetVersionString
     path: ../Lib/Utils/Helpers.cs
-    startLine: 43
+    startLine: 44
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -212,7 +212,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetPlatformString
     path: ../Lib/Utils/Helpers.cs
-    startLine: 51
+    startLine: 52
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -228,16 +228,16 @@ items:
   modifiers.vb:
   - Public
   - Shared
-- uid: AttackSurfaceAnalyzer.Utils.Helpers.ResultTypeToTableName(AttackSurfaceAnalyzer.Objects.RESULT_TYPE)
-  commentId: M:AttackSurfaceAnalyzer.Utils.Helpers.ResultTypeToTableName(AttackSurfaceAnalyzer.Objects.RESULT_TYPE)
-  id: ResultTypeToTableName(AttackSurfaceAnalyzer.Objects.RESULT_TYPE)
+- uid: AttackSurfaceAnalyzer.Utils.Helpers.ResultTypeToTableName(AttackSurfaceAnalyzer.Types.RESULT_TYPE)
+  commentId: M:AttackSurfaceAnalyzer.Utils.Helpers.ResultTypeToTableName(AttackSurfaceAnalyzer.Types.RESULT_TYPE)
+  id: ResultTypeToTableName(AttackSurfaceAnalyzer.Types.RESULT_TYPE)
   parent: AttackSurfaceAnalyzer.Utils.Helpers
   langs:
   - csharp
   - vb
   name: ResultTypeToTableName(RESULT_TYPE)
   nameWithType: Helpers.ResultTypeToTableName(RESULT_TYPE)
-  fullName: AttackSurfaceAnalyzer.Utils.Helpers.ResultTypeToTableName(AttackSurfaceAnalyzer.Objects.RESULT_TYPE)
+  fullName: AttackSurfaceAnalyzer.Utils.Helpers.ResultTypeToTableName(AttackSurfaceAnalyzer.Types.RESULT_TYPE)
   type: Method
   source:
     remote:
@@ -246,7 +246,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ResultTypeToTableName
     path: ../Lib/Utils/Helpers.cs
-    startLine: 68
+    startLine: 69
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -254,7 +254,7 @@ items:
     content: public static string ResultTypeToTableName(RESULT_TYPE result_type)
     parameters:
     - id: result_type
-      type: AttackSurfaceAnalyzer.Objects.RESULT_TYPE
+      type: AttackSurfaceAnalyzer.Types.RESULT_TYPE
     return:
       type: System.String
     content.vb: Public Shared Function ResultTypeToTableName(result_type As RESULT_TYPE) As String
@@ -283,7 +283,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetOsVersion
     path: ../Lib/Utils/Helpers.cs
-    startLine: 89
+    startLine: 90
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -317,7 +317,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetOsName
     path: ../Lib/Utils/Helpers.cs
-    startLine: 102
+    startLine: 103
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -351,7 +351,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GenerateMetadata
     path: ../Lib/Utils/Helpers.cs
-    startLine: 115
+    startLine: 116
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -385,7 +385,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RunIdsToCompareId
     path: ../Lib/Utils/Helpers.cs
-    startLine: 126
+    startLine: 127
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -424,7 +424,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsList
     path: ../Lib/Utils/Helpers.cs
-    startLine: 131
+    startLine: 132
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -461,7 +461,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsDictionary
     path: ../Lib/Utils/Helpers.cs
-    startLine: 139
+    startLine: 140
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -822,17 +822,17 @@ references:
   name: ResultTypeToTableName
   nameWithType: Helpers.ResultTypeToTableName
   fullName: AttackSurfaceAnalyzer.Utils.Helpers.ResultTypeToTableName
-- uid: AttackSurfaceAnalyzer.Objects.RESULT_TYPE
-  commentId: T:AttackSurfaceAnalyzer.Objects.RESULT_TYPE
-  parent: AttackSurfaceAnalyzer.Objects
+- uid: AttackSurfaceAnalyzer.Types.RESULT_TYPE
+  commentId: T:AttackSurfaceAnalyzer.Types.RESULT_TYPE
+  parent: AttackSurfaceAnalyzer.Types
   name: RESULT_TYPE
   nameWithType: RESULT_TYPE
-  fullName: AttackSurfaceAnalyzer.Objects.RESULT_TYPE
-- uid: AttackSurfaceAnalyzer.Objects
-  commentId: N:AttackSurfaceAnalyzer.Objects
-  name: AttackSurfaceAnalyzer.Objects
-  nameWithType: AttackSurfaceAnalyzer.Objects
-  fullName: AttackSurfaceAnalyzer.Objects
+  fullName: AttackSurfaceAnalyzer.Types.RESULT_TYPE
+- uid: AttackSurfaceAnalyzer.Types
+  commentId: N:AttackSurfaceAnalyzer.Types
+  name: AttackSurfaceAnalyzer.Types
+  nameWithType: AttackSurfaceAnalyzer.Types
+  fullName: AttackSurfaceAnalyzer.Types
 - uid: AttackSurfaceAnalyzer.Utils.Helpers.GetOsVersion*
   commentId: Overload:AttackSurfaceAnalyzer.Utils.Helpers.GetOsVersion
   name: GetOsVersion

@@ -39,14 +39,10 @@
 - uid: AttackSurfaceAnalyzer.Objects
   name: AttackSurfaceAnalyzer.Objects
   items:
-  - uid: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
-    name: ANALYSIS_RESULT_TYPE
   - uid: AttackSurfaceAnalyzer.Objects.CertificateObject
     name: CertificateObject
   - uid: AttackSurfaceAnalyzer.Objects.CertificateResult
     name: CertificateResult
-  - uid: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
-    name: CHANGE_TYPE
   - uid: AttackSurfaceAnalyzer.Objects.Clause
     name: Clause
   - uid: AttackSurfaceAnalyzer.Objects.CollectObject
@@ -55,10 +51,6 @@
     name: CompareResult
   - uid: AttackSurfaceAnalyzer.Objects.Diff
     name: Diff
-  - uid: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
-    name: DLLCHARACTERISTICS
-  - uid: AttackSurfaceAnalyzer.Objects.ERRORS
-    name: ERRORS
   - uid: AttackSurfaceAnalyzer.Objects.FileMonitorEvent
     name: FileMonitorEvent
   - uid: AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult
@@ -73,14 +65,10 @@
     name: OpenPortObject
   - uid: AttackSurfaceAnalyzer.Objects.OpenPortResult
     name: OpenPortResult
-  - uid: AttackSurfaceAnalyzer.Objects.OPERATION
-    name: OPERATION
   - uid: AttackSurfaceAnalyzer.Objects.OutputCompareResult
     name: OutputCompareResult
   - uid: AttackSurfaceAnalyzer.Objects.OutputFileMonitorResult
     name: OutputFileMonitorResult
-  - uid: AttackSurfaceAnalyzer.Objects.PLATFORM
-    name: PLATFORM
   - uid: AttackSurfaceAnalyzer.Objects.RawCollectResult
     name: RawCollectResult
   - uid: AttackSurfaceAnalyzer.Objects.RawModifiedResult
@@ -89,12 +77,8 @@
     name: RegistryObject
   - uid: AttackSurfaceAnalyzer.Objects.RegistryResult
     name: RegistryResult
-  - uid: AttackSurfaceAnalyzer.Objects.RESULT_TYPE
-    name: RESULT_TYPE
   - uid: AttackSurfaceAnalyzer.Objects.Rule
     name: Rule
-  - uid: AttackSurfaceAnalyzer.Objects.RUN_STATUS
-    name: RUN_STATUS
   - uid: AttackSurfaceAnalyzer.Objects.ServiceObject
     name: ServiceObject
   - uid: AttackSurfaceAnalyzer.Objects.ServiceResult
@@ -103,6 +87,25 @@
     name: UserAccountObject
   - uid: AttackSurfaceAnalyzer.Objects.UserAccountResult
     name: UserAccountResult
+- uid: AttackSurfaceAnalyzer.Types
+  name: AttackSurfaceAnalyzer.Types
+  items:
+  - uid: AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE
+    name: ANALYSIS_RESULT_TYPE
+  - uid: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
+    name: CHANGE_TYPE
+  - uid: AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS
+    name: DLLCHARACTERISTICS
+  - uid: AttackSurfaceAnalyzer.Types.ERRORS
+    name: ERRORS
+  - uid: AttackSurfaceAnalyzer.Types.OPERATION
+    name: OPERATION
+  - uid: AttackSurfaceAnalyzer.Types.PLATFORM
+    name: PLATFORM
+  - uid: AttackSurfaceAnalyzer.Types.RESULT_TYPE
+    name: RESULT_TYPE
+  - uid: AttackSurfaceAnalyzer.Types.RUN_STATUS
+    name: RUN_STATUS
 - uid: AttackSurfaceAnalyzer.Utils
   name: AttackSurfaceAnalyzer.Utils
   items:

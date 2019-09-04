@@ -31,9 +31,7 @@ items:
     content: 'public class OpenPortCollector : BaseCollector, PlatformRunnable'
     content.vb: >-
       Public Class OpenPortCollector
-
           Inherits BaseCollector
-
           Implements PlatformRunnable
   inheritance:
   - System.Object

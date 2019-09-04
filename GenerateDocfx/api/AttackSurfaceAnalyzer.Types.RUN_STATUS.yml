@@ -1,21 +1,21 @@
 ### YamlMime:ManagedReference
 items:
-- uid: AttackSurfaceAnalyzer.Objects.RUN_STATUS
-  commentId: T:AttackSurfaceAnalyzer.Objects.RUN_STATUS
+- uid: AttackSurfaceAnalyzer.Types.RUN_STATUS
+  commentId: T:AttackSurfaceAnalyzer.Types.RUN_STATUS
   id: RUN_STATUS
-  parent: AttackSurfaceAnalyzer.Objects
+  parent: AttackSurfaceAnalyzer.Types
   children:
-  - AttackSurfaceAnalyzer.Objects.RUN_STATUS.COMPLETED
-  - AttackSurfaceAnalyzer.Objects.RUN_STATUS.FAILED
-  - AttackSurfaceAnalyzer.Objects.RUN_STATUS.NO_RESULTS
-  - AttackSurfaceAnalyzer.Objects.RUN_STATUS.NOT_STARTED
-  - AttackSurfaceAnalyzer.Objects.RUN_STATUS.RUNNING
+  - AttackSurfaceAnalyzer.Types.RUN_STATUS.COMPLETED
+  - AttackSurfaceAnalyzer.Types.RUN_STATUS.FAILED
+  - AttackSurfaceAnalyzer.Types.RUN_STATUS.NO_RESULTS
+  - AttackSurfaceAnalyzer.Types.RUN_STATUS.NOT_STARTED
+  - AttackSurfaceAnalyzer.Types.RUN_STATUS.RUNNING
   langs:
   - csharp
   - vb
   name: RUN_STATUS
   nameWithType: RUN_STATUS
-  fullName: AttackSurfaceAnalyzer.Objects.RUN_STATUS
+  fullName: AttackSurfaceAnalyzer.Types.RUN_STATUS
   type: Enum
   source:
     remote:
@@ -24,10 +24,10 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RUN_STATUS
     path: ../Lib/Objects/Types.cs
-    startLine: 26
+    startLine: 25
   assemblies:
   - AsaLib
-  namespace: AttackSurfaceAnalyzer.Objects
+  namespace: AttackSurfaceAnalyzer.Types
   syntax:
     content: public enum RUN_STATUS
     content.vb: Public Enum RUN_STATUS
@@ -37,16 +37,16 @@ items:
   modifiers.vb:
   - Public
   - Enum
-- uid: AttackSurfaceAnalyzer.Objects.RUN_STATUS.NOT_STARTED
-  commentId: F:AttackSurfaceAnalyzer.Objects.RUN_STATUS.NOT_STARTED
+- uid: AttackSurfaceAnalyzer.Types.RUN_STATUS.NOT_STARTED
+  commentId: F:AttackSurfaceAnalyzer.Types.RUN_STATUS.NOT_STARTED
   id: NOT_STARTED
-  parent: AttackSurfaceAnalyzer.Objects.RUN_STATUS
+  parent: AttackSurfaceAnalyzer.Types.RUN_STATUS
   langs:
   - csharp
   - vb
   name: NOT_STARTED
   nameWithType: RUN_STATUS.NOT_STARTED
-  fullName: AttackSurfaceAnalyzer.Objects.RUN_STATUS.NOT_STARTED
+  fullName: AttackSurfaceAnalyzer.Types.RUN_STATUS.NOT_STARTED
   type: Field
   source:
     remote:
@@ -55,30 +55,30 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: NOT_STARTED
     path: ../Lib/Objects/Types.cs
-    startLine: 28
+    startLine: 27
   assemblies:
   - AsaLib
-  namespace: AttackSurfaceAnalyzer.Objects
+  namespace: AttackSurfaceAnalyzer.Types
   syntax:
     content: NOT_STARTED = 0
     return:
-      type: AttackSurfaceAnalyzer.Objects.RUN_STATUS
+      type: AttackSurfaceAnalyzer.Types.RUN_STATUS
   modifiers.csharp:
   - public
   - const
   modifiers.vb:
   - Public
   - Const
-- uid: AttackSurfaceAnalyzer.Objects.RUN_STATUS.RUNNING
-  commentId: F:AttackSurfaceAnalyzer.Objects.RUN_STATUS.RUNNING
+- uid: AttackSurfaceAnalyzer.Types.RUN_STATUS.RUNNING
+  commentId: F:AttackSurfaceAnalyzer.Types.RUN_STATUS.RUNNING
   id: RUNNING
-  parent: AttackSurfaceAnalyzer.Objects.RUN_STATUS
+  parent: AttackSurfaceAnalyzer.Types.RUN_STATUS
   langs:
   - csharp
   - vb
   name: RUNNING
   nameWithType: RUN_STATUS.RUNNING
-  fullName: AttackSurfaceAnalyzer.Objects.RUN_STATUS.RUNNING
+  fullName: AttackSurfaceAnalyzer.Types.RUN_STATUS.RUNNING
   type: Field
   source:
     remote:
@@ -87,30 +87,30 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RUNNING
     path: ../Lib/Objects/Types.cs
-    startLine: 29
+    startLine: 28
   assemblies:
   - AsaLib
-  namespace: AttackSurfaceAnalyzer.Objects
+  namespace: AttackSurfaceAnalyzer.Types
   syntax:
     content: RUNNING = 1
     return:
-      type: AttackSurfaceAnalyzer.Objects.RUN_STATUS
+      type: AttackSurfaceAnalyzer.Types.RUN_STATUS
   modifiers.csharp:
   - public
   - const
   modifiers.vb:
   - Public
   - Const
-- uid: AttackSurfaceAnalyzer.Objects.RUN_STATUS.FAILED
-  commentId: F:AttackSurfaceAnalyzer.Objects.RUN_STATUS.FAILED
+- uid: AttackSurfaceAnalyzer.Types.RUN_STATUS.FAILED
+  commentId: F:AttackSurfaceAnalyzer.Types.RUN_STATUS.FAILED
   id: FAILED
-  parent: AttackSurfaceAnalyzer.Objects.RUN_STATUS
+  parent: AttackSurfaceAnalyzer.Types.RUN_STATUS
   langs:
   - csharp
   - vb
   name: FAILED
   nameWithType: RUN_STATUS.FAILED
-  fullName: AttackSurfaceAnalyzer.Objects.RUN_STATUS.FAILED
+  fullName: AttackSurfaceAnalyzer.Types.RUN_STATUS.FAILED
   type: Field
   source:
     remote:
@@ -119,30 +119,30 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FAILED
     path: ../Lib/Objects/Types.cs
-    startLine: 30
+    startLine: 29
   assemblies:
   - AsaLib
-  namespace: AttackSurfaceAnalyzer.Objects
+  namespace: AttackSurfaceAnalyzer.Types
   syntax:
     content: FAILED = 2
     return:
-      type: AttackSurfaceAnalyzer.Objects.RUN_STATUS
+      type: AttackSurfaceAnalyzer.Types.RUN_STATUS
   modifiers.csharp:
   - public
   - const
   modifiers.vb:
   - Public
   - Const
-- uid: AttackSurfaceAnalyzer.Objects.RUN_STATUS.COMPLETED
-  commentId: F:AttackSurfaceAnalyzer.Objects.RUN_STATUS.COMPLETED
+- uid: AttackSurfaceAnalyzer.Types.RUN_STATUS.COMPLETED
+  commentId: F:AttackSurfaceAnalyzer.Types.RUN_STATUS.COMPLETED
   id: COMPLETED
-  parent: AttackSurfaceAnalyzer.Objects.RUN_STATUS
+  parent: AttackSurfaceAnalyzer.Types.RUN_STATUS
   langs:
   - csharp
   - vb
   name: COMPLETED
   nameWithType: RUN_STATUS.COMPLETED
-  fullName: AttackSurfaceAnalyzer.Objects.RUN_STATUS.COMPLETED
+  fullName: AttackSurfaceAnalyzer.Types.RUN_STATUS.COMPLETED
   type: Field
   source:
     remote:
@@ -151,30 +151,30 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: COMPLETED
     path: ../Lib/Objects/Types.cs
-    startLine: 31
+    startLine: 30
   assemblies:
   - AsaLib
-  namespace: AttackSurfaceAnalyzer.Objects
+  namespace: AttackSurfaceAnalyzer.Types
   syntax:
     content: COMPLETED = 3
     return:
-      type: AttackSurfaceAnalyzer.Objects.RUN_STATUS
+      type: AttackSurfaceAnalyzer.Types.RUN_STATUS
   modifiers.csharp:
   - public
   - const
   modifiers.vb:
   - Public
   - Const
-- uid: AttackSurfaceAnalyzer.Objects.RUN_STATUS.NO_RESULTS
-  commentId: F:AttackSurfaceAnalyzer.Objects.RUN_STATUS.NO_RESULTS
+- uid: AttackSurfaceAnalyzer.Types.RUN_STATUS.NO_RESULTS
+  commentId: F:AttackSurfaceAnalyzer.Types.RUN_STATUS.NO_RESULTS
   id: NO_RESULTS
-  parent: AttackSurfaceAnalyzer.Objects.RUN_STATUS
+  parent: AttackSurfaceAnalyzer.Types.RUN_STATUS
   langs:
   - csharp
   - vb
   name: NO_RESULTS
   nameWithType: RUN_STATUS.NO_RESULTS
-  fullName: AttackSurfaceAnalyzer.Objects.RUN_STATUS.NO_RESULTS
+  fullName: AttackSurfaceAnalyzer.Types.RUN_STATUS.NO_RESULTS
   type: Field
   source:
     remote:
@@ -183,14 +183,14 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: NO_RESULTS
     path: ../Lib/Objects/Types.cs
-    startLine: 32
+    startLine: 31
   assemblies:
   - AsaLib
-  namespace: AttackSurfaceAnalyzer.Objects
+  namespace: AttackSurfaceAnalyzer.Types
   syntax:
     content: NO_RESULTS = 4
     return:
-      type: AttackSurfaceAnalyzer.Objects.RUN_STATUS
+      type: AttackSurfaceAnalyzer.Types.RUN_STATUS
   modifiers.csharp:
   - public
   - const
@@ -198,14 +198,14 @@ items:
   - Public
   - Const
 references:
-- uid: AttackSurfaceAnalyzer.Objects
-  commentId: N:AttackSurfaceAnalyzer.Objects
-  name: AttackSurfaceAnalyzer.Objects
-  nameWithType: AttackSurfaceAnalyzer.Objects
-  fullName: AttackSurfaceAnalyzer.Objects
-- uid: AttackSurfaceAnalyzer.Objects.RUN_STATUS
-  commentId: T:AttackSurfaceAnalyzer.Objects.RUN_STATUS
-  parent: AttackSurfaceAnalyzer.Objects
+- uid: AttackSurfaceAnalyzer.Types
+  commentId: N:AttackSurfaceAnalyzer.Types
+  name: AttackSurfaceAnalyzer.Types
+  nameWithType: AttackSurfaceAnalyzer.Types
+  fullName: AttackSurfaceAnalyzer.Types
+- uid: AttackSurfaceAnalyzer.Types.RUN_STATUS
+  commentId: T:AttackSurfaceAnalyzer.Types.RUN_STATUS
+  parent: AttackSurfaceAnalyzer.Types
   name: RUN_STATUS
   nameWithType: RUN_STATUS
-  fullName: AttackSurfaceAnalyzer.Objects.RUN_STATUS
+  fullName: AttackSurfaceAnalyzer.Types.RUN_STATUS

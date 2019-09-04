@@ -35,7 +35,6 @@ items:
     content: 'public class CertificateObject : CollectObject'
     content.vb: >-
       Public Class CertificateObject
-
           Inherits CollectObject
   inheritance:
   - System.Object

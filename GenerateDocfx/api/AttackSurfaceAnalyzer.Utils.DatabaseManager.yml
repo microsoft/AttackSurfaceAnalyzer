@@ -14,7 +14,7 @@ items:
   - AttackSurfaceAnalyzer.Utils.DatabaseManager.GetLatestRunIds(System.Int32,System.String)
   - AttackSurfaceAnalyzer.Utils.DatabaseManager.GetMissingFromFirst(System.String,System.String)
   - AttackSurfaceAnalyzer.Utils.DatabaseManager.GetModified(System.String,System.String)
-  - AttackSurfaceAnalyzer.Utils.DatabaseManager.GetNumResults(AttackSurfaceAnalyzer.Objects.RESULT_TYPE,System.String)
+  - AttackSurfaceAnalyzer.Utils.DatabaseManager.GetNumResults(AttackSurfaceAnalyzer.Types.RESULT_TYPE,System.String)
   - AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultTypesAndCounts(System.String)
   - AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertAnalyzed(AttackSurfaceAnalyzer.Objects.CompareResult)
   - AttackSurfaceAnalyzer.Utils.DatabaseManager.ReadOnlyConnection
@@ -38,7 +38,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DatabaseManager
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 15
+    startLine: 16
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -80,7 +80,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Connection
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 68
+    startLine: 69
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -113,7 +113,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ReadOnlyConnection
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 69
+    startLine: 70
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -146,7 +146,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FirstRun
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 73
+    startLine: 74
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -183,7 +183,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Setup
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 75
+    startLine: 76
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -217,7 +217,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RunIdToPlatform
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 158
+    startLine: 159
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -227,7 +227,7 @@ items:
     - id: runid
       type: System.String
     return:
-      type: AttackSurfaceAnalyzer.Objects.PLATFORM
+      type: AttackSurfaceAnalyzer.Types.PLATFORM
     content.vb: Public Shared Function RunIdToPlatform(runid As String) As PLATFORM
   overload: AttackSurfaceAnalyzer.Utils.DatabaseManager.RunIdToPlatform*
   modifiers.csharp:
@@ -254,7 +254,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: InsertAnalyzed
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 171
+    startLine: 172
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -289,7 +289,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: VerifySchemaVersion
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 184
+    startLine: 185
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -321,7 +321,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetLatestRunIds
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 198
+    startLine: 199
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -360,7 +360,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetResultTypesAndCounts
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 224
+    startLine: 225
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -370,7 +370,7 @@ items:
     - id: runId
       type: System.String
     return:
-      type: System.Collections.Generic.Dictionary{AttackSurfaceAnalyzer.Objects.RESULT_TYPE,System.Int32}
+      type: System.Collections.Generic.Dictionary{AttackSurfaceAnalyzer.Types.RESULT_TYPE,System.Int32}
     content.vb: Public Shared Function GetResultTypesAndCounts(runId As String) As Dictionary(Of RESULT_TYPE, Integer)
   overload: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultTypesAndCounts*
   modifiers.csharp:
@@ -379,16 +379,16 @@ items:
   modifiers.vb:
   - Public
   - Shared
-- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetNumResults(AttackSurfaceAnalyzer.Objects.RESULT_TYPE,System.String)
-  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.GetNumResults(AttackSurfaceAnalyzer.Objects.RESULT_TYPE,System.String)
-  id: GetNumResults(AttackSurfaceAnalyzer.Objects.RESULT_TYPE,System.String)
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetNumResults(AttackSurfaceAnalyzer.Types.RESULT_TYPE,System.String)
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.GetNumResults(AttackSurfaceAnalyzer.Types.RESULT_TYPE,System.String)
+  id: GetNumResults(AttackSurfaceAnalyzer.Types.RESULT_TYPE,System.String)
   parent: AttackSurfaceAnalyzer.Utils.DatabaseManager
   langs:
   - csharp
   - vb
   name: GetNumResults(RESULT_TYPE, String)
   nameWithType: DatabaseManager.GetNumResults(RESULT_TYPE, String)
-  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetNumResults(AttackSurfaceAnalyzer.Objects.RESULT_TYPE, System.String)
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetNumResults(AttackSurfaceAnalyzer.Types.RESULT_TYPE, System.String)
   type: Method
   source:
     remote:
@@ -397,7 +397,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetNumResults
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 250
+    startLine: 251
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -405,7 +405,7 @@ items:
     content: public static int GetNumResults(RESULT_TYPE ResultType, string runId)
     parameters:
     - id: ResultType
-      type: AttackSurfaceAnalyzer.Objects.RESULT_TYPE
+      type: AttackSurfaceAnalyzer.Types.RESULT_TYPE
     - id: runId
       type: System.String
     return:
@@ -436,7 +436,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Transaction
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 276
+    startLine: 277
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -473,7 +473,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Commit
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 288
+    startLine: 289
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -505,7 +505,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: _ReadOnly
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 308
+    startLine: 309
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -538,7 +538,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SqliteFilename
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 310
+    startLine: 311
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -575,7 +575,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CloseDatabase
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 346
+    startLine: 347
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -607,7 +607,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Write
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 353
+    startLine: 354
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -644,7 +644,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetMissingFromFirst
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 364
+    startLine: 365
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -683,7 +683,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetModified
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 389
+    startLine: 390
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -722,7 +722,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DeleteRun
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 426
+    startLine: 427
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -1079,17 +1079,17 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
-- uid: AttackSurfaceAnalyzer.Objects.PLATFORM
-  commentId: T:AttackSurfaceAnalyzer.Objects.PLATFORM
-  parent: AttackSurfaceAnalyzer.Objects
+- uid: AttackSurfaceAnalyzer.Types.PLATFORM
+  commentId: T:AttackSurfaceAnalyzer.Types.PLATFORM
+  parent: AttackSurfaceAnalyzer.Types
   name: PLATFORM
   nameWithType: PLATFORM
-  fullName: AttackSurfaceAnalyzer.Objects.PLATFORM
-- uid: AttackSurfaceAnalyzer.Objects
-  commentId: N:AttackSurfaceAnalyzer.Objects
-  name: AttackSurfaceAnalyzer.Objects
-  nameWithType: AttackSurfaceAnalyzer.Objects
-  fullName: AttackSurfaceAnalyzer.Objects
+  fullName: AttackSurfaceAnalyzer.Types.PLATFORM
+- uid: AttackSurfaceAnalyzer.Types
+  commentId: N:AttackSurfaceAnalyzer.Types
+  name: AttackSurfaceAnalyzer.Types
+  nameWithType: AttackSurfaceAnalyzer.Types
+  fullName: AttackSurfaceAnalyzer.Types
 - uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertAnalyzed*
   commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertAnalyzed
   name: InsertAnalyzed
@@ -1101,6 +1101,11 @@ references:
   name: CompareResult
   nameWithType: CompareResult
   fullName: AttackSurfaceAnalyzer.Objects.CompareResult
+- uid: AttackSurfaceAnalyzer.Objects
+  commentId: N:AttackSurfaceAnalyzer.Objects
+  name: AttackSurfaceAnalyzer.Objects
+  nameWithType: AttackSurfaceAnalyzer.Objects
+  fullName: AttackSurfaceAnalyzer.Objects
 - uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.VerifySchemaVersion*
   commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.VerifySchemaVersion
   name: VerifySchemaVersion
@@ -1212,15 +1217,15 @@ references:
   name: GetResultTypesAndCounts
   nameWithType: DatabaseManager.GetResultTypesAndCounts
   fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultTypesAndCounts
-- uid: System.Collections.Generic.Dictionary{AttackSurfaceAnalyzer.Objects.RESULT_TYPE,System.Int32}
-  commentId: T:System.Collections.Generic.Dictionary{AttackSurfaceAnalyzer.Objects.RESULT_TYPE,System.Int32}
+- uid: System.Collections.Generic.Dictionary{AttackSurfaceAnalyzer.Types.RESULT_TYPE,System.Int32}
+  commentId: T:System.Collections.Generic.Dictionary{AttackSurfaceAnalyzer.Types.RESULT_TYPE,System.Int32}
   parent: System.Collections.Generic
   definition: System.Collections.Generic.Dictionary`2
   name: Dictionary<RESULT_TYPE, Int32>
   nameWithType: Dictionary<RESULT_TYPE, Int32>
-  fullName: System.Collections.Generic.Dictionary<AttackSurfaceAnalyzer.Objects.RESULT_TYPE, System.Int32>
+  fullName: System.Collections.Generic.Dictionary<AttackSurfaceAnalyzer.Types.RESULT_TYPE, System.Int32>
   nameWithType.vb: Dictionary(Of RESULT_TYPE, Int32)
-  fullName.vb: System.Collections.Generic.Dictionary(Of AttackSurfaceAnalyzer.Objects.RESULT_TYPE, System.Int32)
+  fullName.vb: System.Collections.Generic.Dictionary(Of AttackSurfaceAnalyzer.Types.RESULT_TYPE, System.Int32)
   name.vb: Dictionary(Of RESULT_TYPE, Int32)
   spec.csharp:
   - uid: System.Collections.Generic.Dictionary`2
@@ -1231,10 +1236,10 @@ references:
   - name: <
     nameWithType: <
     fullName: <
-  - uid: AttackSurfaceAnalyzer.Objects.RESULT_TYPE
+  - uid: AttackSurfaceAnalyzer.Types.RESULT_TYPE
     name: RESULT_TYPE
     nameWithType: RESULT_TYPE
-    fullName: AttackSurfaceAnalyzer.Objects.RESULT_TYPE
+    fullName: AttackSurfaceAnalyzer.Types.RESULT_TYPE
   - name: ', '
     nameWithType: ', '
     fullName: ', '
@@ -1255,10 +1260,10 @@ references:
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - uid: AttackSurfaceAnalyzer.Objects.RESULT_TYPE
+  - uid: AttackSurfaceAnalyzer.Types.RESULT_TYPE
     name: RESULT_TYPE
     nameWithType: RESULT_TYPE
-    fullName: AttackSurfaceAnalyzer.Objects.RESULT_TYPE
+    fullName: AttackSurfaceAnalyzer.Types.RESULT_TYPE
   - name: ', '
     nameWithType: ', '
     fullName: ', '
@@ -1326,12 +1331,12 @@ references:
   name: GetNumResults
   nameWithType: DatabaseManager.GetNumResults
   fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetNumResults
-- uid: AttackSurfaceAnalyzer.Objects.RESULT_TYPE
-  commentId: T:AttackSurfaceAnalyzer.Objects.RESULT_TYPE
-  parent: AttackSurfaceAnalyzer.Objects
+- uid: AttackSurfaceAnalyzer.Types.RESULT_TYPE
+  commentId: T:AttackSurfaceAnalyzer.Types.RESULT_TYPE
+  parent: AttackSurfaceAnalyzer.Types
   name: RESULT_TYPE
   nameWithType: RESULT_TYPE
-  fullName: AttackSurfaceAnalyzer.Objects.RESULT_TYPE
+  fullName: AttackSurfaceAnalyzer.Types.RESULT_TYPE
 - uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.Transaction*
   commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.Transaction
   name: Transaction

@@ -33,7 +33,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FileSystemObject
     path: ../Lib/Objects/FileSystemObject.cs
-    startLine: 9
+    startLine: 7
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -41,7 +41,6 @@ items:
     content: 'public class FileSystemObject : CollectObject'
     content.vb: >-
       Public Class FileSystemObject
-
           Inherits CollectObject
   inheritance:
   - System.Object
@@ -80,7 +79,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Path
     path: ../Lib/Objects/FileSystemObject.cs
-    startLine: 12
+    startLine: 10
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -115,7 +114,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Permissions
     path: ../Lib/Objects/FileSystemObject.cs
-    startLine: 13
+    startLine: 11
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -150,7 +149,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Size
     path: ../Lib/Objects/FileSystemObject.cs
-    startLine: 14
+    startLine: 12
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -185,7 +184,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ContentHash
     path: ../Lib/Objects/FileSystemObject.cs
-    startLine: 15
+    startLine: 13
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -220,14 +219,14 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Characteristics
     path: ../Lib/Objects/FileSystemObject.cs
-    startLine: 16
+    startLine: 14
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
   syntax:
     content: public List<DLLCHARACTERISTICS> Characteristics
     return:
-      type: System.Collections.Generic.List{AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS}
+      type: System.Collections.Generic.List{AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS}
     content.vb: Public Characteristics As List(Of DLLCHARACTERISTICS)
   modifiers.csharp:
   - public
@@ -251,7 +250,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SignatureStatus
     path: ../Lib/Objects/FileSystemObject.cs
-    startLine: 17
+    startLine: 15
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -286,7 +285,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsExecutable
     path: ../Lib/Objects/FileSystemObject.cs
-    startLine: 18
+    startLine: 16
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -321,7 +320,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsDirectory
     path: ../Lib/Objects/FileSystemObject.cs
-    startLine: 19
+    startLine: 17
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -356,7 +355,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Owner
     path: ../Lib/Objects/FileSystemObject.cs
-    startLine: 21
+    startLine: 19
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -391,7 +390,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Group
     path: ../Lib/Objects/FileSystemObject.cs
-    startLine: 22
+    startLine: 20
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -426,7 +425,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SetGid
     path: ../Lib/Objects/FileSystemObject.cs
-    startLine: 23
+    startLine: 21
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -461,7 +460,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SetUid
     path: ../Lib/Objects/FileSystemObject.cs
-    startLine: 24
+    startLine: 22
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -496,7 +495,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Objects/FileSystemObject.cs
-    startLine: 26
+    startLine: 24
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -526,7 +525,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Identity
     path: ../Lib/Objects/FileSystemObject.cs
-    startLine: 31
+    startLine: 29
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -896,15 +895,15 @@ references:
   name: ContentHash
   nameWithType: FileSystemObject.ContentHash
   fullName: AttackSurfaceAnalyzer.Objects.FileSystemObject.ContentHash
-- uid: System.Collections.Generic.List{AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS}
-  commentId: T:System.Collections.Generic.List{AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS}
+- uid: System.Collections.Generic.List{AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS}
+  commentId: T:System.Collections.Generic.List{AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS}
   parent: System.Collections.Generic
   definition: System.Collections.Generic.List`1
   name: List<DLLCHARACTERISTICS>
   nameWithType: List<DLLCHARACTERISTICS>
-  fullName: System.Collections.Generic.List<AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS>
+  fullName: System.Collections.Generic.List<AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS>
   nameWithType.vb: List(Of DLLCHARACTERISTICS)
-  fullName.vb: System.Collections.Generic.List(Of AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS)
+  fullName.vb: System.Collections.Generic.List(Of AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS)
   name.vb: List(Of DLLCHARACTERISTICS)
   spec.csharp:
   - uid: System.Collections.Generic.List`1
@@ -915,10 +914,10 @@ references:
   - name: <
     nameWithType: <
     fullName: <
-  - uid: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+  - uid: AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS
     name: DLLCHARACTERISTICS
     nameWithType: DLLCHARACTERISTICS
-    fullName: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+    fullName: AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS
   - name: '>'
     nameWithType: '>'
     fullName: '>'
@@ -931,10 +930,10 @@ references:
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - uid: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+  - uid: AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS
     name: DLLCHARACTERISTICS
     nameWithType: DLLCHARACTERISTICS
-    fullName: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+    fullName: AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS
   - name: )
     nameWithType: )
     fullName: )

@@ -4,16 +4,12 @@ items:
   commentId: N:AttackSurfaceAnalyzer.Objects
   id: AttackSurfaceAnalyzer.Objects
   children:
-  - AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
   - AttackSurfaceAnalyzer.Objects.CertificateObject
   - AttackSurfaceAnalyzer.Objects.CertificateResult
-  - AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
   - AttackSurfaceAnalyzer.Objects.Clause
   - AttackSurfaceAnalyzer.Objects.CollectObject
   - AttackSurfaceAnalyzer.Objects.CompareResult
   - AttackSurfaceAnalyzer.Objects.Diff
-  - AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
-  - AttackSurfaceAnalyzer.Objects.ERRORS
   - AttackSurfaceAnalyzer.Objects.FileMonitorEvent
   - AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult
   - AttackSurfaceAnalyzer.Objects.FileSystemObject
@@ -21,17 +17,13 @@ items:
   - AttackSurfaceAnalyzer.Objects.GroupAccountObject
   - AttackSurfaceAnalyzer.Objects.OpenPortObject
   - AttackSurfaceAnalyzer.Objects.OpenPortResult
-  - AttackSurfaceAnalyzer.Objects.OPERATION
   - AttackSurfaceAnalyzer.Objects.OutputCompareResult
   - AttackSurfaceAnalyzer.Objects.OutputFileMonitorResult
-  - AttackSurfaceAnalyzer.Objects.PLATFORM
   - AttackSurfaceAnalyzer.Objects.RawCollectResult
   - AttackSurfaceAnalyzer.Objects.RawModifiedResult
   - AttackSurfaceAnalyzer.Objects.RegistryObject
   - AttackSurfaceAnalyzer.Objects.RegistryResult
-  - AttackSurfaceAnalyzer.Objects.RESULT_TYPE
   - AttackSurfaceAnalyzer.Objects.Rule
-  - AttackSurfaceAnalyzer.Objects.RUN_STATUS
   - AttackSurfaceAnalyzer.Objects.ServiceObject
   - AttackSurfaceAnalyzer.Objects.ServiceResult
   - AttackSurfaceAnalyzer.Objects.UserAccountObject
@@ -160,54 +152,6 @@ references:
   name: ServiceObject
   nameWithType: ServiceObject
   fullName: AttackSurfaceAnalyzer.Objects.ServiceObject
-- uid: AttackSurfaceAnalyzer.Objects.RESULT_TYPE
-  commentId: T:AttackSurfaceAnalyzer.Objects.RESULT_TYPE
-  parent: AttackSurfaceAnalyzer.Objects
-  name: RESULT_TYPE
-  nameWithType: RESULT_TYPE
-  fullName: AttackSurfaceAnalyzer.Objects.RESULT_TYPE
-- uid: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
-  commentId: T:AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
-  parent: AttackSurfaceAnalyzer.Objects
-  name: CHANGE_TYPE
-  nameWithType: CHANGE_TYPE
-  fullName: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
-- uid: AttackSurfaceAnalyzer.Objects.RUN_STATUS
-  commentId: T:AttackSurfaceAnalyzer.Objects.RUN_STATUS
-  parent: AttackSurfaceAnalyzer.Objects
-  name: RUN_STATUS
-  nameWithType: RUN_STATUS
-  fullName: AttackSurfaceAnalyzer.Objects.RUN_STATUS
-- uid: AttackSurfaceAnalyzer.Objects.ERRORS
-  commentId: T:AttackSurfaceAnalyzer.Objects.ERRORS
-  parent: AttackSurfaceAnalyzer.Objects
-  name: ERRORS
-  nameWithType: ERRORS
-  fullName: AttackSurfaceAnalyzer.Objects.ERRORS
-- uid: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
-  commentId: T:AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
-  parent: AttackSurfaceAnalyzer.Objects
-  name: DLLCHARACTERISTICS
-  nameWithType: DLLCHARACTERISTICS
-  fullName: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
-- uid: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
-  commentId: T:AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
-  parent: AttackSurfaceAnalyzer.Objects
-  name: ANALYSIS_RESULT_TYPE
-  nameWithType: ANALYSIS_RESULT_TYPE
-  fullName: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
-- uid: AttackSurfaceAnalyzer.Objects.OPERATION
-  commentId: T:AttackSurfaceAnalyzer.Objects.OPERATION
-  parent: AttackSurfaceAnalyzer.Objects
-  name: OPERATION
-  nameWithType: OPERATION
-  fullName: AttackSurfaceAnalyzer.Objects.OPERATION
-- uid: AttackSurfaceAnalyzer.Objects.PLATFORM
-  commentId: T:AttackSurfaceAnalyzer.Objects.PLATFORM
-  parent: AttackSurfaceAnalyzer.Objects
-  name: PLATFORM
-  nameWithType: PLATFORM
-  fullName: AttackSurfaceAnalyzer.Objects.PLATFORM
 - uid: AttackSurfaceAnalyzer.Objects.UserAccountObject
   commentId: T:AttackSurfaceAnalyzer.Objects.UserAccountObject
   name: UserAccountObject

@@ -28,7 +28,6 @@ items:
     content: 'public class CertificateResult : CompareResult'
     content.vb: >-
       Public Class CertificateResult
-
           Inherits CompareResult
   inheritance:
   - System.Object

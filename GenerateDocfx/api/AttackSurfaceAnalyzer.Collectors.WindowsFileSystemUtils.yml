@@ -258,7 +258,7 @@ items:
     - id: Path
       type: System.String
     return:
-      type: System.Collections.Generic.List{AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS}
+      type: System.Collections.Generic.List{AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS}
     content.vb: Protected Shared Function GetDllCharacteristics(Path As String) As List(Of DLLCHARACTERISTICS)
   overload: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetDllCharacteristics*
   modifiers.csharp:
@@ -730,15 +730,15 @@ references:
   name: GetDllCharacteristics
   nameWithType: WindowsFileSystemUtils.GetDllCharacteristics
   fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetDllCharacteristics
-- uid: System.Collections.Generic.List{AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS}
-  commentId: T:System.Collections.Generic.List{AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS}
+- uid: System.Collections.Generic.List{AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS}
+  commentId: T:System.Collections.Generic.List{AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS}
   parent: System.Collections.Generic
   definition: System.Collections.Generic.List`1
   name: List<DLLCHARACTERISTICS>
   nameWithType: List<DLLCHARACTERISTICS>
-  fullName: System.Collections.Generic.List<AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS>
+  fullName: System.Collections.Generic.List<AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS>
   nameWithType.vb: List(Of DLLCHARACTERISTICS)
-  fullName.vb: System.Collections.Generic.List(Of AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS)
+  fullName.vb: System.Collections.Generic.List(Of AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS)
   name.vb: List(Of DLLCHARACTERISTICS)
   spec.csharp:
   - uid: System.Collections.Generic.List`1
@@ -749,10 +749,10 @@ references:
   - name: <
     nameWithType: <
     fullName: <
-  - uid: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+  - uid: AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS
     name: DLLCHARACTERISTICS
     nameWithType: DLLCHARACTERISTICS
-    fullName: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+    fullName: AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS
   - name: '>'
     nameWithType: '>'
     fullName: '>'
@@ -765,10 +765,10 @@ references:
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - uid: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+  - uid: AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS
     name: DLLCHARACTERISTICS
     nameWithType: DLLCHARACTERISTICS
-    fullName: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+    fullName: AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS
   - name: )
     nameWithType: )
     fullName: )

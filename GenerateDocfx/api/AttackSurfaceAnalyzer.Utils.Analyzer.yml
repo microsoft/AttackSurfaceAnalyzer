@@ -5,7 +5,7 @@ items:
   id: Analyzer
   parent: AttackSurfaceAnalyzer.Utils
   children:
-  - AttackSurfaceAnalyzer.Utils.Analyzer.#ctor(AttackSurfaceAnalyzer.Objects.PLATFORM,System.String)
+  - AttackSurfaceAnalyzer.Utils.Analyzer.#ctor(AttackSurfaceAnalyzer.Types.PLATFORM,System.String)
   - AttackSurfaceAnalyzer.Utils.Analyzer.Analyze(AttackSurfaceAnalyzer.Objects.CompareResult)
   - AttackSurfaceAnalyzer.Utils.Analyzer.Apply(AttackSurfaceAnalyzer.Objects.Rule,AttackSurfaceAnalyzer.Objects.CompareResult)
   - AttackSurfaceAnalyzer.Utils.Analyzer.DumpFilters
@@ -26,7 +26,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Analyzer
     path: ../Lib/Utils/Analyzer.cs
-    startLine: 17
+    startLine: 18
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -49,16 +49,16 @@ items:
   modifiers.vb:
   - Public
   - Class
-- uid: AttackSurfaceAnalyzer.Utils.Analyzer.#ctor(AttackSurfaceAnalyzer.Objects.PLATFORM,System.String)
-  commentId: M:AttackSurfaceAnalyzer.Utils.Analyzer.#ctor(AttackSurfaceAnalyzer.Objects.PLATFORM,System.String)
-  id: '#ctor(AttackSurfaceAnalyzer.Objects.PLATFORM,System.String)'
+- uid: AttackSurfaceAnalyzer.Utils.Analyzer.#ctor(AttackSurfaceAnalyzer.Types.PLATFORM,System.String)
+  commentId: M:AttackSurfaceAnalyzer.Utils.Analyzer.#ctor(AttackSurfaceAnalyzer.Types.PLATFORM,System.String)
+  id: '#ctor(AttackSurfaceAnalyzer.Types.PLATFORM,System.String)'
   parent: AttackSurfaceAnalyzer.Utils.Analyzer
   langs:
   - csharp
   - vb
   name: Analyzer(PLATFORM, String)
   nameWithType: Analyzer.Analyzer(PLATFORM, String)
-  fullName: AttackSurfaceAnalyzer.Utils.Analyzer.Analyzer(AttackSurfaceAnalyzer.Objects.PLATFORM, System.String)
+  fullName: AttackSurfaceAnalyzer.Utils.Analyzer.Analyzer(AttackSurfaceAnalyzer.Types.PLATFORM, System.String)
   type: Constructor
   source:
     remote:
@@ -67,7 +67,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Utils/Analyzer.cs
-    startLine: 55
+    startLine: 56
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -75,7 +75,7 @@ items:
     content: public Analyzer(PLATFORM platform, string filterLocation = null)
     parameters:
     - id: platform
-      type: AttackSurfaceAnalyzer.Objects.PLATFORM
+      type: AttackSurfaceAnalyzer.Types.PLATFORM
     - id: filterLocation
       type: System.String
     content.vb: Public Sub New(platform As PLATFORM, filterLocation As String = Nothing)
@@ -102,7 +102,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ParseFilters
     path: ../Lib/Utils/Analyzer.cs
-    startLine: 62
+    startLine: 63
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -132,7 +132,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Analyze
     path: ../Lib/Utils/Analyzer.cs
-    startLine: 97
+    startLine: 98
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -142,7 +142,7 @@ items:
     - id: compareResult
       type: AttackSurfaceAnalyzer.Objects.CompareResult
     return:
-      type: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
+      type: AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE
     content.vb: Public Function Analyze(compareResult As CompareResult) As ANALYSIS_RESULT_TYPE
   overload: AttackSurfaceAnalyzer.Utils.Analyzer.Analyze*
   modifiers.csharp:
@@ -167,7 +167,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Apply
     path: ../Lib/Utils/Analyzer.cs
-    startLine: 118
+    startLine: 119
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -179,7 +179,7 @@ items:
     - id: compareResult
       type: AttackSurfaceAnalyzer.Objects.CompareResult
     return:
-      type: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
+      type: AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE
     content.vb: Protected Function Apply(rule As Rule, compareResult As CompareResult) As ANALYSIS_RESULT_TYPE
   overload: AttackSurfaceAnalyzer.Utils.Analyzer.Apply*
   modifiers.csharp:
@@ -204,7 +204,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DumpFilters
     path: ../Lib/Utils/Analyzer.cs
-    startLine: 294
+    startLine: 295
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -234,7 +234,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LoadEmbeddedFilters
     path: ../Lib/Utils/Analyzer.cs
-    startLine: 300
+    startLine: 301
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -264,7 +264,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LoadFilters
     path: ../Lib/Utils/Analyzer.cs
-    startLine: 350
+    startLine: 351
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -582,12 +582,12 @@ references:
   name: Analyzer
   nameWithType: Analyzer.Analyzer
   fullName: AttackSurfaceAnalyzer.Utils.Analyzer.Analyzer
-- uid: AttackSurfaceAnalyzer.Objects.PLATFORM
-  commentId: T:AttackSurfaceAnalyzer.Objects.PLATFORM
-  parent: AttackSurfaceAnalyzer.Objects
+- uid: AttackSurfaceAnalyzer.Types.PLATFORM
+  commentId: T:AttackSurfaceAnalyzer.Types.PLATFORM
+  parent: AttackSurfaceAnalyzer.Types
   name: PLATFORM
   nameWithType: PLATFORM
-  fullName: AttackSurfaceAnalyzer.Objects.PLATFORM
+  fullName: AttackSurfaceAnalyzer.Types.PLATFORM
 - uid: System.String
   commentId: T:System.String
   parent: System
@@ -595,11 +595,11 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
-- uid: AttackSurfaceAnalyzer.Objects
-  commentId: N:AttackSurfaceAnalyzer.Objects
-  name: AttackSurfaceAnalyzer.Objects
-  nameWithType: AttackSurfaceAnalyzer.Objects
-  fullName: AttackSurfaceAnalyzer.Objects
+- uid: AttackSurfaceAnalyzer.Types
+  commentId: N:AttackSurfaceAnalyzer.Types
+  name: AttackSurfaceAnalyzer.Types
+  nameWithType: AttackSurfaceAnalyzer.Types
+  fullName: AttackSurfaceAnalyzer.Types
 - uid: AttackSurfaceAnalyzer.Utils.Analyzer.ParseFilters*
   commentId: Overload:AttackSurfaceAnalyzer.Utils.Analyzer.ParseFilters
   name: ParseFilters
@@ -616,12 +616,17 @@ references:
   name: CompareResult
   nameWithType: CompareResult
   fullName: AttackSurfaceAnalyzer.Objects.CompareResult
-- uid: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
-  commentId: T:AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
-  parent: AttackSurfaceAnalyzer.Objects
+- uid: AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE
+  commentId: T:AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE
+  parent: AttackSurfaceAnalyzer.Types
   name: ANALYSIS_RESULT_TYPE
   nameWithType: ANALYSIS_RESULT_TYPE
-  fullName: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
+  fullName: AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE
+- uid: AttackSurfaceAnalyzer.Objects
+  commentId: N:AttackSurfaceAnalyzer.Objects
+  name: AttackSurfaceAnalyzer.Objects
+  nameWithType: AttackSurfaceAnalyzer.Objects
+  fullName: AttackSurfaceAnalyzer.Objects
 - uid: AttackSurfaceAnalyzer.Utils.Analyzer.Apply*
   commentId: Overload:AttackSurfaceAnalyzer.Utils.Analyzer.Apply
   name: Apply

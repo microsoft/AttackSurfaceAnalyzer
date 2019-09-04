@@ -1,21 +1,21 @@
 ### YamlMime:ManagedReference
 items:
-- uid: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
-  commentId: T:AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
+- uid: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
+  commentId: T:AttackSurfaceAnalyzer.Types.CHANGE_TYPE
   id: CHANGE_TYPE
-  parent: AttackSurfaceAnalyzer.Objects
+  parent: AttackSurfaceAnalyzer.Types
   children:
-  - AttackSurfaceAnalyzer.Objects.CHANGE_TYPE.CREATED
-  - AttackSurfaceAnalyzer.Objects.CHANGE_TYPE.DELETED
-  - AttackSurfaceAnalyzer.Objects.CHANGE_TYPE.INVALID
-  - AttackSurfaceAnalyzer.Objects.CHANGE_TYPE.MODIFIED
-  - AttackSurfaceAnalyzer.Objects.CHANGE_TYPE.RENAMED
+  - AttackSurfaceAnalyzer.Types.CHANGE_TYPE.CREATED
+  - AttackSurfaceAnalyzer.Types.CHANGE_TYPE.DELETED
+  - AttackSurfaceAnalyzer.Types.CHANGE_TYPE.INVALID
+  - AttackSurfaceAnalyzer.Types.CHANGE_TYPE.MODIFIED
+  - AttackSurfaceAnalyzer.Types.CHANGE_TYPE.RENAMED
   langs:
   - csharp
   - vb
   name: CHANGE_TYPE
   nameWithType: CHANGE_TYPE
-  fullName: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
+  fullName: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
   type: Enum
   source:
     remote:
@@ -24,10 +24,10 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CHANGE_TYPE
     path: ../Lib/Objects/Types.cs
-    startLine: 16
+    startLine: 15
   assemblies:
   - AsaLib
-  namespace: AttackSurfaceAnalyzer.Objects
+  namespace: AttackSurfaceAnalyzer.Types
   syntax:
     content: public enum CHANGE_TYPE
     content.vb: Public Enum CHANGE_TYPE
@@ -37,16 +37,16 @@ items:
   modifiers.vb:
   - Public
   - Enum
-- uid: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE.INVALID
-  commentId: F:AttackSurfaceAnalyzer.Objects.CHANGE_TYPE.INVALID
+- uid: AttackSurfaceAnalyzer.Types.CHANGE_TYPE.INVALID
+  commentId: F:AttackSurfaceAnalyzer.Types.CHANGE_TYPE.INVALID
   id: INVALID
-  parent: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
+  parent: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
   langs:
   - csharp
   - vb
   name: INVALID
   nameWithType: CHANGE_TYPE.INVALID
-  fullName: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE.INVALID
+  fullName: AttackSurfaceAnalyzer.Types.CHANGE_TYPE.INVALID
   type: Field
   source:
     remote:
@@ -55,30 +55,30 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: INVALID
     path: ../Lib/Objects/Types.cs
-    startLine: 18
+    startLine: 17
   assemblies:
   - AsaLib
-  namespace: AttackSurfaceAnalyzer.Objects
+  namespace: AttackSurfaceAnalyzer.Types
   syntax:
     content: INVALID = 0
     return:
-      type: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
+      type: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
   modifiers.csharp:
   - public
   - const
   modifiers.vb:
   - Public
   - Const
-- uid: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE.CREATED
-  commentId: F:AttackSurfaceAnalyzer.Objects.CHANGE_TYPE.CREATED
+- uid: AttackSurfaceAnalyzer.Types.CHANGE_TYPE.CREATED
+  commentId: F:AttackSurfaceAnalyzer.Types.CHANGE_TYPE.CREATED
   id: CREATED
-  parent: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
+  parent: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
   langs:
   - csharp
   - vb
   name: CREATED
   nameWithType: CHANGE_TYPE.CREATED
-  fullName: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE.CREATED
+  fullName: AttackSurfaceAnalyzer.Types.CHANGE_TYPE.CREATED
   type: Field
   source:
     remote:
@@ -87,30 +87,30 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CREATED
     path: ../Lib/Objects/Types.cs
-    startLine: 19
+    startLine: 18
   assemblies:
   - AsaLib
-  namespace: AttackSurfaceAnalyzer.Objects
+  namespace: AttackSurfaceAnalyzer.Types
   syntax:
     content: CREATED = 1
     return:
-      type: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
+      type: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
   modifiers.csharp:
   - public
   - const
   modifiers.vb:
   - Public
   - Const
-- uid: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE.DELETED
-  commentId: F:AttackSurfaceAnalyzer.Objects.CHANGE_TYPE.DELETED
+- uid: AttackSurfaceAnalyzer.Types.CHANGE_TYPE.DELETED
+  commentId: F:AttackSurfaceAnalyzer.Types.CHANGE_TYPE.DELETED
   id: DELETED
-  parent: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
+  parent: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
   langs:
   - csharp
   - vb
   name: DELETED
   nameWithType: CHANGE_TYPE.DELETED
-  fullName: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE.DELETED
+  fullName: AttackSurfaceAnalyzer.Types.CHANGE_TYPE.DELETED
   type: Field
   source:
     remote:
@@ -119,30 +119,30 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DELETED
     path: ../Lib/Objects/Types.cs
-    startLine: 20
+    startLine: 19
   assemblies:
   - AsaLib
-  namespace: AttackSurfaceAnalyzer.Objects
+  namespace: AttackSurfaceAnalyzer.Types
   syntax:
     content: DELETED = 2
     return:
-      type: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
+      type: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
   modifiers.csharp:
   - public
   - const
   modifiers.vb:
   - Public
   - Const
-- uid: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE.MODIFIED
-  commentId: F:AttackSurfaceAnalyzer.Objects.CHANGE_TYPE.MODIFIED
+- uid: AttackSurfaceAnalyzer.Types.CHANGE_TYPE.MODIFIED
+  commentId: F:AttackSurfaceAnalyzer.Types.CHANGE_TYPE.MODIFIED
   id: MODIFIED
-  parent: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
+  parent: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
   langs:
   - csharp
   - vb
   name: MODIFIED
   nameWithType: CHANGE_TYPE.MODIFIED
-  fullName: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE.MODIFIED
+  fullName: AttackSurfaceAnalyzer.Types.CHANGE_TYPE.MODIFIED
   type: Field
   source:
     remote:
@@ -151,30 +151,30 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: MODIFIED
     path: ../Lib/Objects/Types.cs
-    startLine: 21
+    startLine: 20
   assemblies:
   - AsaLib
-  namespace: AttackSurfaceAnalyzer.Objects
+  namespace: AttackSurfaceAnalyzer.Types
   syntax:
     content: MODIFIED = 3
     return:
-      type: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
+      type: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
   modifiers.csharp:
   - public
   - const
   modifiers.vb:
   - Public
   - Const
-- uid: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE.RENAMED
-  commentId: F:AttackSurfaceAnalyzer.Objects.CHANGE_TYPE.RENAMED
+- uid: AttackSurfaceAnalyzer.Types.CHANGE_TYPE.RENAMED
+  commentId: F:AttackSurfaceAnalyzer.Types.CHANGE_TYPE.RENAMED
   id: RENAMED
-  parent: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
+  parent: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
   langs:
   - csharp
   - vb
   name: RENAMED
   nameWithType: CHANGE_TYPE.RENAMED
-  fullName: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE.RENAMED
+  fullName: AttackSurfaceAnalyzer.Types.CHANGE_TYPE.RENAMED
   type: Field
   source:
     remote:
@@ -183,14 +183,14 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RENAMED
     path: ../Lib/Objects/Types.cs
-    startLine: 22
+    startLine: 21
   assemblies:
   - AsaLib
-  namespace: AttackSurfaceAnalyzer.Objects
+  namespace: AttackSurfaceAnalyzer.Types
   syntax:
     content: RENAMED = 4
     return:
-      type: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
+      type: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
   modifiers.csharp:
   - public
   - const
@@ -198,14 +198,14 @@ items:
   - Public
   - Const
 references:
-- uid: AttackSurfaceAnalyzer.Objects
-  commentId: N:AttackSurfaceAnalyzer.Objects
-  name: AttackSurfaceAnalyzer.Objects
-  nameWithType: AttackSurfaceAnalyzer.Objects
-  fullName: AttackSurfaceAnalyzer.Objects
-- uid: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
-  commentId: T:AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
-  parent: AttackSurfaceAnalyzer.Objects
+- uid: AttackSurfaceAnalyzer.Types
+  commentId: N:AttackSurfaceAnalyzer.Types
+  name: AttackSurfaceAnalyzer.Types
+  nameWithType: AttackSurfaceAnalyzer.Types
+  fullName: AttackSurfaceAnalyzer.Types
+- uid: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
+  commentId: T:AttackSurfaceAnalyzer.Types.CHANGE_TYPE
+  parent: AttackSurfaceAnalyzer.Types
   name: CHANGE_TYPE
   nameWithType: CHANGE_TYPE
-  fullName: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
+  fullName: AttackSurfaceAnalyzer.Types.CHANGE_TYPE

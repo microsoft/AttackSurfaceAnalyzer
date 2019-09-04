@@ -34,7 +34,6 @@ items:
     content: 'public class OpenPortObject : CollectObject'
     content.vb: >-
       Public Class OpenPortObject
-
           Inherits CollectObject
   inheritance:
   - System.Object

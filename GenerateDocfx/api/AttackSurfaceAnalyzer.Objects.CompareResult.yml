@@ -120,7 +120,7 @@ items:
   syntax:
     content: public CHANGE_TYPE ChangeType
     return:
-      type: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
+      type: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
     content.vb: Public ChangeType As CHANGE_TYPE
   modifiers.csharp:
   - public
@@ -151,7 +151,7 @@ items:
   syntax:
     content: public RESULT_TYPE ResultType
     return:
-      type: AttackSurfaceAnalyzer.Objects.RESULT_TYPE
+      type: AttackSurfaceAnalyzer.Types.RESULT_TYPE
     content.vb: Public ResultType As RESULT_TYPE
   modifiers.csharp:
   - public
@@ -182,7 +182,7 @@ items:
   syntax:
     content: public ANALYSIS_RESULT_TYPE Analysis
     return:
-      type: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
+      type: AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE
     content.vb: Public Analysis As ANALYSIS_RESULT_TYPE
   modifiers.csharp:
   - public
@@ -805,24 +805,29 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
-- uid: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
-  commentId: T:AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
-  parent: AttackSurfaceAnalyzer.Objects
+- uid: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
+  commentId: T:AttackSurfaceAnalyzer.Types.CHANGE_TYPE
+  parent: AttackSurfaceAnalyzer.Types
   name: CHANGE_TYPE
   nameWithType: CHANGE_TYPE
-  fullName: AttackSurfaceAnalyzer.Objects.CHANGE_TYPE
-- uid: AttackSurfaceAnalyzer.Objects.RESULT_TYPE
-  commentId: T:AttackSurfaceAnalyzer.Objects.RESULT_TYPE
-  parent: AttackSurfaceAnalyzer.Objects
+  fullName: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
+- uid: AttackSurfaceAnalyzer.Types
+  commentId: N:AttackSurfaceAnalyzer.Types
+  name: AttackSurfaceAnalyzer.Types
+  nameWithType: AttackSurfaceAnalyzer.Types
+  fullName: AttackSurfaceAnalyzer.Types
+- uid: AttackSurfaceAnalyzer.Types.RESULT_TYPE
+  commentId: T:AttackSurfaceAnalyzer.Types.RESULT_TYPE
+  parent: AttackSurfaceAnalyzer.Types
   name: RESULT_TYPE
   nameWithType: RESULT_TYPE
-  fullName: AttackSurfaceAnalyzer.Objects.RESULT_TYPE
-- uid: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
-  commentId: T:AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
-  parent: AttackSurfaceAnalyzer.Objects
+  fullName: AttackSurfaceAnalyzer.Types.RESULT_TYPE
+- uid: AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE
+  commentId: T:AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE
+  parent: AttackSurfaceAnalyzer.Types
   name: ANALYSIS_RESULT_TYPE
   nameWithType: ANALYSIS_RESULT_TYPE
-  fullName: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
+  fullName: AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE
 - uid: System.Collections.Generic.List{AttackSurfaceAnalyzer.Objects.Rule}
   commentId: T:System.Collections.Generic.List{AttackSurfaceAnalyzer.Objects.Rule}
   parent: System.Collections.Generic

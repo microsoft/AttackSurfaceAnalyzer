@@ -29,7 +29,6 @@ items:
     content: 'public class OutputCompareResult : CompareResult'
     content.vb: >-
       Public Class OutputCompareResult
-
           Inherits CompareResult
   inheritance:
   - System.Object

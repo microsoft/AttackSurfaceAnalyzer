@@ -40,7 +40,6 @@ items:
     content: 'public class GroupAccountObject : CollectObject'
     content.vb: >-
       Public Class GroupAccountObject
-
           Inherits CollectObject
   inheritance:
   - System.Object

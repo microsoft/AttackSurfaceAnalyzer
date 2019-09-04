@@ -1,20 +1,20 @@
 ### YamlMime:ManagedReference
 items:
-- uid: AttackSurfaceAnalyzer.Objects.PLATFORM
-  commentId: T:AttackSurfaceAnalyzer.Objects.PLATFORM
+- uid: AttackSurfaceAnalyzer.Types.PLATFORM
+  commentId: T:AttackSurfaceAnalyzer.Types.PLATFORM
   id: PLATFORM
-  parent: AttackSurfaceAnalyzer.Objects
+  parent: AttackSurfaceAnalyzer.Types
   children:
-  - AttackSurfaceAnalyzer.Objects.PLATFORM.LINUX
-  - AttackSurfaceAnalyzer.Objects.PLATFORM.MACOS
-  - AttackSurfaceAnalyzer.Objects.PLATFORM.UNKNOWN
-  - AttackSurfaceAnalyzer.Objects.PLATFORM.WINDOWS
+  - AttackSurfaceAnalyzer.Types.PLATFORM.LINUX
+  - AttackSurfaceAnalyzer.Types.PLATFORM.MACOS
+  - AttackSurfaceAnalyzer.Types.PLATFORM.UNKNOWN
+  - AttackSurfaceAnalyzer.Types.PLATFORM.WINDOWS
   langs:
   - csharp
   - vb
   name: PLATFORM
   nameWithType: PLATFORM
-  fullName: AttackSurfaceAnalyzer.Objects.PLATFORM
+  fullName: AttackSurfaceAnalyzer.Types.PLATFORM
   type: Enum
   source:
     remote:
@@ -23,10 +23,10 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: PLATFORM
     path: ../Lib/Objects/Types.cs
-    startLine: 85
+    startLine: 84
   assemblies:
   - AsaLib
-  namespace: AttackSurfaceAnalyzer.Objects
+  namespace: AttackSurfaceAnalyzer.Types
   syntax:
     content: public enum PLATFORM
     content.vb: Public Enum PLATFORM
@@ -36,16 +36,16 @@ items:
   modifiers.vb:
   - Public
   - Enum
-- uid: AttackSurfaceAnalyzer.Objects.PLATFORM.WINDOWS
-  commentId: F:AttackSurfaceAnalyzer.Objects.PLATFORM.WINDOWS
+- uid: AttackSurfaceAnalyzer.Types.PLATFORM.WINDOWS
+  commentId: F:AttackSurfaceAnalyzer.Types.PLATFORM.WINDOWS
   id: WINDOWS
-  parent: AttackSurfaceAnalyzer.Objects.PLATFORM
+  parent: AttackSurfaceAnalyzer.Types.PLATFORM
   langs:
   - csharp
   - vb
   name: WINDOWS
   nameWithType: PLATFORM.WINDOWS
-  fullName: AttackSurfaceAnalyzer.Objects.PLATFORM.WINDOWS
+  fullName: AttackSurfaceAnalyzer.Types.PLATFORM.WINDOWS
   type: Field
   source:
     remote:
@@ -54,30 +54,30 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: WINDOWS
     path: ../Lib/Objects/Types.cs
-    startLine: 87
+    startLine: 86
   assemblies:
   - AsaLib
-  namespace: AttackSurfaceAnalyzer.Objects
+  namespace: AttackSurfaceAnalyzer.Types
   syntax:
     content: WINDOWS = 0
     return:
-      type: AttackSurfaceAnalyzer.Objects.PLATFORM
+      type: AttackSurfaceAnalyzer.Types.PLATFORM
   modifiers.csharp:
   - public
   - const
   modifiers.vb:
   - Public
   - Const
-- uid: AttackSurfaceAnalyzer.Objects.PLATFORM.LINUX
-  commentId: F:AttackSurfaceAnalyzer.Objects.PLATFORM.LINUX
+- uid: AttackSurfaceAnalyzer.Types.PLATFORM.LINUX
+  commentId: F:AttackSurfaceAnalyzer.Types.PLATFORM.LINUX
   id: LINUX
-  parent: AttackSurfaceAnalyzer.Objects.PLATFORM
+  parent: AttackSurfaceAnalyzer.Types.PLATFORM
   langs:
   - csharp
   - vb
   name: LINUX
   nameWithType: PLATFORM.LINUX
-  fullName: AttackSurfaceAnalyzer.Objects.PLATFORM.LINUX
+  fullName: AttackSurfaceAnalyzer.Types.PLATFORM.LINUX
   type: Field
   source:
     remote:
@@ -86,30 +86,30 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LINUX
     path: ../Lib/Objects/Types.cs
-    startLine: 88
+    startLine: 87
   assemblies:
   - AsaLib
-  namespace: AttackSurfaceAnalyzer.Objects
+  namespace: AttackSurfaceAnalyzer.Types
   syntax:
     content: LINUX = 1
     return:
-      type: AttackSurfaceAnalyzer.Objects.PLATFORM
+      type: AttackSurfaceAnalyzer.Types.PLATFORM
   modifiers.csharp:
   - public
   - const
   modifiers.vb:
   - Public
   - Const
-- uid: AttackSurfaceAnalyzer.Objects.PLATFORM.MACOS
-  commentId: F:AttackSurfaceAnalyzer.Objects.PLATFORM.MACOS
+- uid: AttackSurfaceAnalyzer.Types.PLATFORM.MACOS
+  commentId: F:AttackSurfaceAnalyzer.Types.PLATFORM.MACOS
   id: MACOS
-  parent: AttackSurfaceAnalyzer.Objects.PLATFORM
+  parent: AttackSurfaceAnalyzer.Types.PLATFORM
   langs:
   - csharp
   - vb
   name: MACOS
   nameWithType: PLATFORM.MACOS
-  fullName: AttackSurfaceAnalyzer.Objects.PLATFORM.MACOS
+  fullName: AttackSurfaceAnalyzer.Types.PLATFORM.MACOS
   type: Field
   source:
     remote:
@@ -118,30 +118,30 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: MACOS
     path: ../Lib/Objects/Types.cs
-    startLine: 89
+    startLine: 88
   assemblies:
   - AsaLib
-  namespace: AttackSurfaceAnalyzer.Objects
+  namespace: AttackSurfaceAnalyzer.Types
   syntax:
     content: MACOS = 2
     return:
-      type: AttackSurfaceAnalyzer.Objects.PLATFORM
+      type: AttackSurfaceAnalyzer.Types.PLATFORM
   modifiers.csharp:
   - public
   - const
   modifiers.vb:
   - Public
   - Const
-- uid: AttackSurfaceAnalyzer.Objects.PLATFORM.UNKNOWN
-  commentId: F:AttackSurfaceAnalyzer.Objects.PLATFORM.UNKNOWN
+- uid: AttackSurfaceAnalyzer.Types.PLATFORM.UNKNOWN
+  commentId: F:AttackSurfaceAnalyzer.Types.PLATFORM.UNKNOWN
   id: UNKNOWN
-  parent: AttackSurfaceAnalyzer.Objects.PLATFORM
+  parent: AttackSurfaceAnalyzer.Types.PLATFORM
   langs:
   - csharp
   - vb
   name: UNKNOWN
   nameWithType: PLATFORM.UNKNOWN
-  fullName: AttackSurfaceAnalyzer.Objects.PLATFORM.UNKNOWN
+  fullName: AttackSurfaceAnalyzer.Types.PLATFORM.UNKNOWN
   type: Field
   source:
     remote:
@@ -150,14 +150,14 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: UNKNOWN
     path: ../Lib/Objects/Types.cs
-    startLine: 90
+    startLine: 89
   assemblies:
   - AsaLib
-  namespace: AttackSurfaceAnalyzer.Objects
+  namespace: AttackSurfaceAnalyzer.Types
   syntax:
     content: UNKNOWN = 3
     return:
-      type: AttackSurfaceAnalyzer.Objects.PLATFORM
+      type: AttackSurfaceAnalyzer.Types.PLATFORM
   modifiers.csharp:
   - public
   - const
@@ -165,14 +165,14 @@ items:
   - Public
   - Const
 references:
-- uid: AttackSurfaceAnalyzer.Objects
-  commentId: N:AttackSurfaceAnalyzer.Objects
-  name: AttackSurfaceAnalyzer.Objects
-  nameWithType: AttackSurfaceAnalyzer.Objects
-  fullName: AttackSurfaceAnalyzer.Objects
-- uid: AttackSurfaceAnalyzer.Objects.PLATFORM
-  commentId: T:AttackSurfaceAnalyzer.Objects.PLATFORM
-  parent: AttackSurfaceAnalyzer.Objects
+- uid: AttackSurfaceAnalyzer.Types
+  commentId: N:AttackSurfaceAnalyzer.Types
+  name: AttackSurfaceAnalyzer.Types
+  nameWithType: AttackSurfaceAnalyzer.Types
+  fullName: AttackSurfaceAnalyzer.Types
+- uid: AttackSurfaceAnalyzer.Types.PLATFORM
+  commentId: T:AttackSurfaceAnalyzer.Types.PLATFORM
+  parent: AttackSurfaceAnalyzer.Types
   name: PLATFORM
   nameWithType: PLATFORM
-  fullName: AttackSurfaceAnalyzer.Objects.PLATFORM
+  fullName: AttackSurfaceAnalyzer.Types.PLATFORM
