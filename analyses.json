@@ -146,6 +146,46 @@
           ]
         }
       ]
+    },
+    {
+      "name": "UPNP Ports",
+      "desc": "Universal Plug n' Play. This is probably background noise.",
+      "flag": "INFORMATION",
+      "platforms": [
+        "LINUX",
+        "MACOS",
+        "WINDOWS"
+      ],
+      "resultType": "PORT",
+      "clauses": [
+        {
+          "field": "port",
+          "op": "EQUALS",
+          "data": [
+            "1900"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Keystore Files",
+      "desc": "Flag when java keystore files are modified.",
+      "flag": "INFORMATION",
+      "platforms": [
+        "LINUX",
+        "MACOS",
+        "WINDOWS"
+      ],
+      "resultType": "FILE",
+      "clauses": [
+        {
+          "field": "Path",
+          "op": "ENDS_WITH",
+          "data": [
+            ".keystore"
+          ]
+        }
+      ]
     }
   ],
  "meta": {
