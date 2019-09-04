@@ -1,0 +1,211 @@
+### YamlMime:ManagedReference
+items:
+- uid: AttackSurfaceAnalyzer.Objects.ERRORS
+  commentId: T:AttackSurfaceAnalyzer.Objects.ERRORS
+  id: ERRORS
+  parent: AttackSurfaceAnalyzer.Objects
+  children:
+  - AttackSurfaceAnalyzer.Objects.ERRORS.ALREADY_RUNNING
+  - AttackSurfaceAnalyzer.Objects.ERRORS.INVALID_PATH
+  - AttackSurfaceAnalyzer.Objects.ERRORS.NO_COLLECTORS
+  - AttackSurfaceAnalyzer.Objects.ERRORS.NONE
+  - AttackSurfaceAnalyzer.Objects.ERRORS.UNIQUE_ID
+  langs:
+  - csharp
+  - vb
+  name: ERRORS
+  nameWithType: ERRORS
+  fullName: AttackSurfaceAnalyzer.Objects.ERRORS
+  type: Enum
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ERRORS
+    path: ../Lib/Objects/Types.cs
+    startLine: 35
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: public enum ERRORS
+    content.vb: Public Enum ERRORS
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: AttackSurfaceAnalyzer.Objects.ERRORS.NONE
+  commentId: F:AttackSurfaceAnalyzer.Objects.ERRORS.NONE
+  id: NONE
+  parent: AttackSurfaceAnalyzer.Objects.ERRORS
+  langs:
+  - csharp
+  - vb
+  name: NONE
+  nameWithType: ERRORS.NONE
+  fullName: AttackSurfaceAnalyzer.Objects.ERRORS.NONE
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: NONE
+    path: ../Lib/Objects/Types.cs
+    startLine: 37
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: NONE = 0
+    return:
+      type: AttackSurfaceAnalyzer.Objects.ERRORS
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.ERRORS.UNIQUE_ID
+  commentId: F:AttackSurfaceAnalyzer.Objects.ERRORS.UNIQUE_ID
+  id: UNIQUE_ID
+  parent: AttackSurfaceAnalyzer.Objects.ERRORS
+  langs:
+  - csharp
+  - vb
+  name: UNIQUE_ID
+  nameWithType: ERRORS.UNIQUE_ID
+  fullName: AttackSurfaceAnalyzer.Objects.ERRORS.UNIQUE_ID
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: UNIQUE_ID
+    path: ../Lib/Objects/Types.cs
+    startLine: 38
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: UNIQUE_ID = 1
+    return:
+      type: AttackSurfaceAnalyzer.Objects.ERRORS
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.ERRORS.INVALID_PATH
+  commentId: F:AttackSurfaceAnalyzer.Objects.ERRORS.INVALID_PATH
+  id: INVALID_PATH
+  parent: AttackSurfaceAnalyzer.Objects.ERRORS
+  langs:
+  - csharp
+  - vb
+  name: INVALID_PATH
+  nameWithType: ERRORS.INVALID_PATH
+  fullName: AttackSurfaceAnalyzer.Objects.ERRORS.INVALID_PATH
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: INVALID_PATH
+    path: ../Lib/Objects/Types.cs
+    startLine: 39
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: INVALID_PATH = 2
+    return:
+      type: AttackSurfaceAnalyzer.Objects.ERRORS
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.ERRORS.ALREADY_RUNNING
+  commentId: F:AttackSurfaceAnalyzer.Objects.ERRORS.ALREADY_RUNNING
+  id: ALREADY_RUNNING
+  parent: AttackSurfaceAnalyzer.Objects.ERRORS
+  langs:
+  - csharp
+  - vb
+  name: ALREADY_RUNNING
+  nameWithType: ERRORS.ALREADY_RUNNING
+  fullName: AttackSurfaceAnalyzer.Objects.ERRORS.ALREADY_RUNNING
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ALREADY_RUNNING
+    path: ../Lib/Objects/Types.cs
+    startLine: 40
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: ALREADY_RUNNING = 3
+    return:
+      type: AttackSurfaceAnalyzer.Objects.ERRORS
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.ERRORS.NO_COLLECTORS
+  commentId: F:AttackSurfaceAnalyzer.Objects.ERRORS.NO_COLLECTORS
+  id: NO_COLLECTORS
+  parent: AttackSurfaceAnalyzer.Objects.ERRORS
+  langs:
+  - csharp
+  - vb
+  name: NO_COLLECTORS
+  nameWithType: ERRORS.NO_COLLECTORS
+  fullName: AttackSurfaceAnalyzer.Objects.ERRORS.NO_COLLECTORS
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: NO_COLLECTORS
+    path: ../Lib/Objects/Types.cs
+    startLine: 41
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: NO_COLLECTORS = 4
+    return:
+      type: AttackSurfaceAnalyzer.Objects.ERRORS
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: AttackSurfaceAnalyzer.Objects
+  commentId: N:AttackSurfaceAnalyzer.Objects
+  name: AttackSurfaceAnalyzer.Objects
+  nameWithType: AttackSurfaceAnalyzer.Objects
+  fullName: AttackSurfaceAnalyzer.Objects
+- uid: AttackSurfaceAnalyzer.Objects.ERRORS
+  commentId: T:AttackSurfaceAnalyzer.Objects.ERRORS
+  parent: AttackSurfaceAnalyzer.Objects
+  name: ERRORS
+  nameWithType: ERRORS
+  fullName: AttackSurfaceAnalyzer.Objects.ERRORS

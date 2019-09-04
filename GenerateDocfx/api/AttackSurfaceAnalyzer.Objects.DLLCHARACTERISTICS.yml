@@ -1,0 +1,409 @@
+### YamlMime:ManagedReference
+items:
+- uid: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+  commentId: T:AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+  id: DLLCHARACTERISTICS
+  parent: AttackSurfaceAnalyzer.Objects
+  children:
+  - AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_APPCONTAINER
+  - AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE
+  - AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_FORCE_INTEGRITY
+  - AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_GUARD_CF
+  - AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA
+  - AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_NO_BIND
+  - AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_NO_ISOLATION
+  - AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_NO_SEH
+  - AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_NX_COMPAT
+  - AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_TERMINAL_SERVER_AWARE
+  - AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_WDM_DRIVER
+  langs:
+  - csharp
+  - vb
+  name: DLLCHARACTERISTICS
+  nameWithType: DLLCHARACTERISTICS
+  fullName: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+  type: Enum
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: DLLCHARACTERISTICS
+    path: ../Lib/Objects/Types.cs
+    startLine: 44
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: public enum DLLCHARACTERISTICS
+    content.vb: Public Enum DLLCHARACTERISTICS
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA
+  commentId: F:AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA
+  id: IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA
+  parent: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+  langs:
+  - csharp
+  - vb
+  name: IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA
+  nameWithType: DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA
+  fullName: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA
+    path: ../Lib/Objects/Types.cs
+    startLine: 46
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA = 32
+    return:
+      type: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE
+  commentId: F:AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE
+  id: IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE
+  parent: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+  langs:
+  - csharp
+  - vb
+  name: IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE
+  nameWithType: DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE
+  fullName: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE
+    path: ../Lib/Objects/Types.cs
+    startLine: 47
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE = 64
+    return:
+      type: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_FORCE_INTEGRITY
+  commentId: F:AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_FORCE_INTEGRITY
+  id: IMAGE_DLLCHARACTERISTICS_FORCE_INTEGRITY
+  parent: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+  langs:
+  - csharp
+  - vb
+  name: IMAGE_DLLCHARACTERISTICS_FORCE_INTEGRITY
+  nameWithType: DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_FORCE_INTEGRITY
+  fullName: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_FORCE_INTEGRITY
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: IMAGE_DLLCHARACTERISTICS_FORCE_INTEGRITY
+    path: ../Lib/Objects/Types.cs
+    startLine: 48
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: IMAGE_DLLCHARACTERISTICS_FORCE_INTEGRITY = 128
+    return:
+      type: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_NX_COMPAT
+  commentId: F:AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_NX_COMPAT
+  id: IMAGE_DLLCHARACTERISTICS_NX_COMPAT
+  parent: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+  langs:
+  - csharp
+  - vb
+  name: IMAGE_DLLCHARACTERISTICS_NX_COMPAT
+  nameWithType: DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_NX_COMPAT
+  fullName: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_NX_COMPAT
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: IMAGE_DLLCHARACTERISTICS_NX_COMPAT
+    path: ../Lib/Objects/Types.cs
+    startLine: 49
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: IMAGE_DLLCHARACTERISTICS_NX_COMPAT = 256
+    return:
+      type: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_NO_ISOLATION
+  commentId: F:AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_NO_ISOLATION
+  id: IMAGE_DLLCHARACTERISTICS_NO_ISOLATION
+  parent: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+  langs:
+  - csharp
+  - vb
+  name: IMAGE_DLLCHARACTERISTICS_NO_ISOLATION
+  nameWithType: DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_NO_ISOLATION
+  fullName: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_NO_ISOLATION
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: IMAGE_DLLCHARACTERISTICS_NO_ISOLATION
+    path: ../Lib/Objects/Types.cs
+    startLine: 50
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: IMAGE_DLLCHARACTERISTICS_NO_ISOLATION = 512
+    return:
+      type: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_NO_SEH
+  commentId: F:AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_NO_SEH
+  id: IMAGE_DLLCHARACTERISTICS_NO_SEH
+  parent: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+  langs:
+  - csharp
+  - vb
+  name: IMAGE_DLLCHARACTERISTICS_NO_SEH
+  nameWithType: DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_NO_SEH
+  fullName: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_NO_SEH
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: IMAGE_DLLCHARACTERISTICS_NO_SEH
+    path: ../Lib/Objects/Types.cs
+    startLine: 51
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: IMAGE_DLLCHARACTERISTICS_NO_SEH = 1024
+    return:
+      type: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_NO_BIND
+  commentId: F:AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_NO_BIND
+  id: IMAGE_DLLCHARACTERISTICS_NO_BIND
+  parent: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+  langs:
+  - csharp
+  - vb
+  name: IMAGE_DLLCHARACTERISTICS_NO_BIND
+  nameWithType: DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_NO_BIND
+  fullName: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_NO_BIND
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: IMAGE_DLLCHARACTERISTICS_NO_BIND
+    path: ../Lib/Objects/Types.cs
+    startLine: 52
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: IMAGE_DLLCHARACTERISTICS_NO_BIND = 2048
+    return:
+      type: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_APPCONTAINER
+  commentId: F:AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_APPCONTAINER
+  id: IMAGE_DLLCHARACTERISTICS_APPCONTAINER
+  parent: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+  langs:
+  - csharp
+  - vb
+  name: IMAGE_DLLCHARACTERISTICS_APPCONTAINER
+  nameWithType: DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_APPCONTAINER
+  fullName: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_APPCONTAINER
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: IMAGE_DLLCHARACTERISTICS_APPCONTAINER
+    path: ../Lib/Objects/Types.cs
+    startLine: 53
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: IMAGE_DLLCHARACTERISTICS_APPCONTAINER = 4096
+    return:
+      type: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_WDM_DRIVER
+  commentId: F:AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_WDM_DRIVER
+  id: IMAGE_DLLCHARACTERISTICS_WDM_DRIVER
+  parent: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+  langs:
+  - csharp
+  - vb
+  name: IMAGE_DLLCHARACTERISTICS_WDM_DRIVER
+  nameWithType: DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_WDM_DRIVER
+  fullName: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_WDM_DRIVER
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: IMAGE_DLLCHARACTERISTICS_WDM_DRIVER
+    path: ../Lib/Objects/Types.cs
+    startLine: 54
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: IMAGE_DLLCHARACTERISTICS_WDM_DRIVER = 8192
+    return:
+      type: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_GUARD_CF
+  commentId: F:AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_GUARD_CF
+  id: IMAGE_DLLCHARACTERISTICS_GUARD_CF
+  parent: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+  langs:
+  - csharp
+  - vb
+  name: IMAGE_DLLCHARACTERISTICS_GUARD_CF
+  nameWithType: DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_GUARD_CF
+  fullName: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_GUARD_CF
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: IMAGE_DLLCHARACTERISTICS_GUARD_CF
+    path: ../Lib/Objects/Types.cs
+    startLine: 55
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: IMAGE_DLLCHARACTERISTICS_GUARD_CF = 16384
+    return:
+      type: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_TERMINAL_SERVER_AWARE
+  commentId: F:AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_TERMINAL_SERVER_AWARE
+  id: IMAGE_DLLCHARACTERISTICS_TERMINAL_SERVER_AWARE
+  parent: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+  langs:
+  - csharp
+  - vb
+  name: IMAGE_DLLCHARACTERISTICS_TERMINAL_SERVER_AWARE
+  nameWithType: DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_TERMINAL_SERVER_AWARE
+  fullName: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_TERMINAL_SERVER_AWARE
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: IMAGE_DLLCHARACTERISTICS_TERMINAL_SERVER_AWARE
+    path: ../Lib/Objects/Types.cs
+    startLine: 56
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: IMAGE_DLLCHARACTERISTICS_TERMINAL_SERVER_AWARE = 32768
+    return:
+      type: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: AttackSurfaceAnalyzer.Objects
+  commentId: N:AttackSurfaceAnalyzer.Objects
+  name: AttackSurfaceAnalyzer.Objects
+  nameWithType: AttackSurfaceAnalyzer.Objects
+  fullName: AttackSurfaceAnalyzer.Objects
+- uid: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+  commentId: T:AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS
+  parent: AttackSurfaceAnalyzer.Objects
+  name: DLLCHARACTERISTICS
+  nameWithType: DLLCHARACTERISTICS
+  fullName: AttackSurfaceAnalyzer.Objects.DLLCHARACTERISTICS

@@ -1,0 +1,112 @@
+### YamlMime:ManagedReference
+items:
+- uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GET_FILEEX_INFO_LEVELS
+  commentId: T:AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GET_FILEEX_INFO_LEVELS
+  id: WindowsFileSystemUtils.GET_FILEEX_INFO_LEVELS
+  parent: AttackSurfaceAnalyzer.Collectors
+  children:
+  - AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard
+  - AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GET_FILEEX_INFO_LEVELS.GetFileExMaxInfoLevel
+  langs:
+  - csharp
+  - vb
+  name: WindowsFileSystemUtils.GET_FILEEX_INFO_LEVELS
+  nameWithType: WindowsFileSystemUtils.GET_FILEEX_INFO_LEVELS
+  fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GET_FILEEX_INFO_LEVELS
+  type: Enum
+  source:
+    remote:
+      path: Lib/Collectors/WindowsFileSystemUtils.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: GET_FILEEX_INFO_LEVELS
+    path: ../Lib/Collectors/WindowsFileSystemUtils.cs
+    startLine: 31
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Collectors
+  syntax:
+    content: public enum GET_FILEEX_INFO_LEVELS
+    content.vb: Public Enum GET_FILEEX_INFO_LEVELS
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard
+  commentId: F:AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard
+  id: GetFileExInfoStandard
+  parent: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GET_FILEEX_INFO_LEVELS
+  langs:
+  - csharp
+  - vb
+  name: GetFileExInfoStandard
+  nameWithType: WindowsFileSystemUtils.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard
+  fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard
+  type: Field
+  source:
+    remote:
+      path: Lib/Collectors/WindowsFileSystemUtils.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: GetFileExInfoStandard
+    path: ../Lib/Collectors/WindowsFileSystemUtils.cs
+    startLine: 33
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Collectors
+  syntax:
+    content: GetFileExInfoStandard = 0
+    return:
+      type: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GET_FILEEX_INFO_LEVELS
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GET_FILEEX_INFO_LEVELS.GetFileExMaxInfoLevel
+  commentId: F:AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GET_FILEEX_INFO_LEVELS.GetFileExMaxInfoLevel
+  id: GetFileExMaxInfoLevel
+  parent: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GET_FILEEX_INFO_LEVELS
+  langs:
+  - csharp
+  - vb
+  name: GetFileExMaxInfoLevel
+  nameWithType: WindowsFileSystemUtils.GET_FILEEX_INFO_LEVELS.GetFileExMaxInfoLevel
+  fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GET_FILEEX_INFO_LEVELS.GetFileExMaxInfoLevel
+  type: Field
+  source:
+    remote:
+      path: Lib/Collectors/WindowsFileSystemUtils.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: GetFileExMaxInfoLevel
+    path: ../Lib/Collectors/WindowsFileSystemUtils.cs
+    startLine: 34
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Collectors
+  syntax:
+    content: GetFileExMaxInfoLevel = 1
+    return:
+      type: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GET_FILEEX_INFO_LEVELS
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: AttackSurfaceAnalyzer.Collectors
+  commentId: N:AttackSurfaceAnalyzer.Collectors
+  name: AttackSurfaceAnalyzer.Collectors
+  nameWithType: AttackSurfaceAnalyzer.Collectors
+  fullName: AttackSurfaceAnalyzer.Collectors
+- uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GET_FILEEX_INFO_LEVELS
+  commentId: T:AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GET_FILEEX_INFO_LEVELS
+  parent: AttackSurfaceAnalyzer.Collectors
+  name: WindowsFileSystemUtils.GET_FILEEX_INFO_LEVELS
+  nameWithType: WindowsFileSystemUtils.GET_FILEEX_INFO_LEVELS
+  fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GET_FILEEX_INFO_LEVELS

@@ -1,0 +1,178 @@
+### YamlMime:ManagedReference
+items:
+- uid: AttackSurfaceAnalyzer.Objects.PLATFORM
+  commentId: T:AttackSurfaceAnalyzer.Objects.PLATFORM
+  id: PLATFORM
+  parent: AttackSurfaceAnalyzer.Objects
+  children:
+  - AttackSurfaceAnalyzer.Objects.PLATFORM.LINUX
+  - AttackSurfaceAnalyzer.Objects.PLATFORM.MACOS
+  - AttackSurfaceAnalyzer.Objects.PLATFORM.UNKNOWN
+  - AttackSurfaceAnalyzer.Objects.PLATFORM.WINDOWS
+  langs:
+  - csharp
+  - vb
+  name: PLATFORM
+  nameWithType: PLATFORM
+  fullName: AttackSurfaceAnalyzer.Objects.PLATFORM
+  type: Enum
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: PLATFORM
+    path: ../Lib/Objects/Types.cs
+    startLine: 85
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: public enum PLATFORM
+    content.vb: Public Enum PLATFORM
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: AttackSurfaceAnalyzer.Objects.PLATFORM.WINDOWS
+  commentId: F:AttackSurfaceAnalyzer.Objects.PLATFORM.WINDOWS
+  id: WINDOWS
+  parent: AttackSurfaceAnalyzer.Objects.PLATFORM
+  langs:
+  - csharp
+  - vb
+  name: WINDOWS
+  nameWithType: PLATFORM.WINDOWS
+  fullName: AttackSurfaceAnalyzer.Objects.PLATFORM.WINDOWS
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: WINDOWS
+    path: ../Lib/Objects/Types.cs
+    startLine: 87
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: WINDOWS = 0
+    return:
+      type: AttackSurfaceAnalyzer.Objects.PLATFORM
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.PLATFORM.LINUX
+  commentId: F:AttackSurfaceAnalyzer.Objects.PLATFORM.LINUX
+  id: LINUX
+  parent: AttackSurfaceAnalyzer.Objects.PLATFORM
+  langs:
+  - csharp
+  - vb
+  name: LINUX
+  nameWithType: PLATFORM.LINUX
+  fullName: AttackSurfaceAnalyzer.Objects.PLATFORM.LINUX
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: LINUX
+    path: ../Lib/Objects/Types.cs
+    startLine: 88
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: LINUX = 1
+    return:
+      type: AttackSurfaceAnalyzer.Objects.PLATFORM
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.PLATFORM.MACOS
+  commentId: F:AttackSurfaceAnalyzer.Objects.PLATFORM.MACOS
+  id: MACOS
+  parent: AttackSurfaceAnalyzer.Objects.PLATFORM
+  langs:
+  - csharp
+  - vb
+  name: MACOS
+  nameWithType: PLATFORM.MACOS
+  fullName: AttackSurfaceAnalyzer.Objects.PLATFORM.MACOS
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: MACOS
+    path: ../Lib/Objects/Types.cs
+    startLine: 89
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: MACOS = 2
+    return:
+      type: AttackSurfaceAnalyzer.Objects.PLATFORM
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.PLATFORM.UNKNOWN
+  commentId: F:AttackSurfaceAnalyzer.Objects.PLATFORM.UNKNOWN
+  id: UNKNOWN
+  parent: AttackSurfaceAnalyzer.Objects.PLATFORM
+  langs:
+  - csharp
+  - vb
+  name: UNKNOWN
+  nameWithType: PLATFORM.UNKNOWN
+  fullName: AttackSurfaceAnalyzer.Objects.PLATFORM.UNKNOWN
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: UNKNOWN
+    path: ../Lib/Objects/Types.cs
+    startLine: 90
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: UNKNOWN = 3
+    return:
+      type: AttackSurfaceAnalyzer.Objects.PLATFORM
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: AttackSurfaceAnalyzer.Objects
+  commentId: N:AttackSurfaceAnalyzer.Objects
+  name: AttackSurfaceAnalyzer.Objects
+  nameWithType: AttackSurfaceAnalyzer.Objects
+  fullName: AttackSurfaceAnalyzer.Objects
+- uid: AttackSurfaceAnalyzer.Objects.PLATFORM
+  commentId: T:AttackSurfaceAnalyzer.Objects.PLATFORM
+  parent: AttackSurfaceAnalyzer.Objects
+  name: PLATFORM
+  nameWithType: PLATFORM
+  fullName: AttackSurfaceAnalyzer.Objects.PLATFORM

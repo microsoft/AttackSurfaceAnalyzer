@@ -1,0 +1,343 @@
+### YamlMime:ManagedReference
+items:
+- uid: AttackSurfaceAnalyzer.Objects.OPERATION
+  commentId: T:AttackSurfaceAnalyzer.Objects.OPERATION
+  id: OPERATION
+  parent: AttackSurfaceAnalyzer.Objects
+  children:
+  - AttackSurfaceAnalyzer.Objects.OPERATION.CONTAINS
+  - AttackSurfaceAnalyzer.Objects.OPERATION.ENDS_WITH
+  - AttackSurfaceAnalyzer.Objects.OPERATION.EQ
+  - AttackSurfaceAnalyzer.Objects.OPERATION.GT
+  - AttackSurfaceAnalyzer.Objects.OPERATION.LT
+  - AttackSurfaceAnalyzer.Objects.OPERATION.NEQ
+  - AttackSurfaceAnalyzer.Objects.OPERATION.REGEX
+  - AttackSurfaceAnalyzer.Objects.OPERATION.STARTS_WITH
+  - AttackSurfaceAnalyzer.Objects.OPERATION.WAS_MODIFIED
+  langs:
+  - csharp
+  - vb
+  name: OPERATION
+  nameWithType: OPERATION
+  fullName: AttackSurfaceAnalyzer.Objects.OPERATION
+  type: Enum
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: OPERATION
+    path: ../Lib/Objects/Types.cs
+    startLine: 72
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: public enum OPERATION
+    content.vb: Public Enum OPERATION
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: AttackSurfaceAnalyzer.Objects.OPERATION.REGEX
+  commentId: F:AttackSurfaceAnalyzer.Objects.OPERATION.REGEX
+  id: REGEX
+  parent: AttackSurfaceAnalyzer.Objects.OPERATION
+  langs:
+  - csharp
+  - vb
+  name: REGEX
+  nameWithType: OPERATION.REGEX
+  fullName: AttackSurfaceAnalyzer.Objects.OPERATION.REGEX
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: REGEX
+    path: ../Lib/Objects/Types.cs
+    startLine: 74
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: REGEX = 0
+    return:
+      type: AttackSurfaceAnalyzer.Objects.OPERATION
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.OPERATION.EQ
+  commentId: F:AttackSurfaceAnalyzer.Objects.OPERATION.EQ
+  id: EQ
+  parent: AttackSurfaceAnalyzer.Objects.OPERATION
+  langs:
+  - csharp
+  - vb
+  name: EQ
+  nameWithType: OPERATION.EQ
+  fullName: AttackSurfaceAnalyzer.Objects.OPERATION.EQ
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: EQ
+    path: ../Lib/Objects/Types.cs
+    startLine: 75
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: EQ = 1
+    return:
+      type: AttackSurfaceAnalyzer.Objects.OPERATION
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.OPERATION.NEQ
+  commentId: F:AttackSurfaceAnalyzer.Objects.OPERATION.NEQ
+  id: NEQ
+  parent: AttackSurfaceAnalyzer.Objects.OPERATION
+  langs:
+  - csharp
+  - vb
+  name: NEQ
+  nameWithType: OPERATION.NEQ
+  fullName: AttackSurfaceAnalyzer.Objects.OPERATION.NEQ
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: NEQ
+    path: ../Lib/Objects/Types.cs
+    startLine: 76
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: NEQ = 2
+    return:
+      type: AttackSurfaceAnalyzer.Objects.OPERATION
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.OPERATION.LT
+  commentId: F:AttackSurfaceAnalyzer.Objects.OPERATION.LT
+  id: LT
+  parent: AttackSurfaceAnalyzer.Objects.OPERATION
+  langs:
+  - csharp
+  - vb
+  name: LT
+  nameWithType: OPERATION.LT
+  fullName: AttackSurfaceAnalyzer.Objects.OPERATION.LT
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: LT
+    path: ../Lib/Objects/Types.cs
+    startLine: 77
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: LT = 3
+    return:
+      type: AttackSurfaceAnalyzer.Objects.OPERATION
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.OPERATION.GT
+  commentId: F:AttackSurfaceAnalyzer.Objects.OPERATION.GT
+  id: GT
+  parent: AttackSurfaceAnalyzer.Objects.OPERATION
+  langs:
+  - csharp
+  - vb
+  name: GT
+  nameWithType: OPERATION.GT
+  fullName: AttackSurfaceAnalyzer.Objects.OPERATION.GT
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: GT
+    path: ../Lib/Objects/Types.cs
+    startLine: 78
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: GT = 4
+    return:
+      type: AttackSurfaceAnalyzer.Objects.OPERATION
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.OPERATION.CONTAINS
+  commentId: F:AttackSurfaceAnalyzer.Objects.OPERATION.CONTAINS
+  id: CONTAINS
+  parent: AttackSurfaceAnalyzer.Objects.OPERATION
+  langs:
+  - csharp
+  - vb
+  name: CONTAINS
+  nameWithType: OPERATION.CONTAINS
+  fullName: AttackSurfaceAnalyzer.Objects.OPERATION.CONTAINS
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: CONTAINS
+    path: ../Lib/Objects/Types.cs
+    startLine: 79
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: CONTAINS = 5
+    return:
+      type: AttackSurfaceAnalyzer.Objects.OPERATION
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.OPERATION.WAS_MODIFIED
+  commentId: F:AttackSurfaceAnalyzer.Objects.OPERATION.WAS_MODIFIED
+  id: WAS_MODIFIED
+  parent: AttackSurfaceAnalyzer.Objects.OPERATION
+  langs:
+  - csharp
+  - vb
+  name: WAS_MODIFIED
+  nameWithType: OPERATION.WAS_MODIFIED
+  fullName: AttackSurfaceAnalyzer.Objects.OPERATION.WAS_MODIFIED
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: WAS_MODIFIED
+    path: ../Lib/Objects/Types.cs
+    startLine: 80
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: WAS_MODIFIED = 6
+    return:
+      type: AttackSurfaceAnalyzer.Objects.OPERATION
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.OPERATION.ENDS_WITH
+  commentId: F:AttackSurfaceAnalyzer.Objects.OPERATION.ENDS_WITH
+  id: ENDS_WITH
+  parent: AttackSurfaceAnalyzer.Objects.OPERATION
+  langs:
+  - csharp
+  - vb
+  name: ENDS_WITH
+  nameWithType: OPERATION.ENDS_WITH
+  fullName: AttackSurfaceAnalyzer.Objects.OPERATION.ENDS_WITH
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ENDS_WITH
+    path: ../Lib/Objects/Types.cs
+    startLine: 81
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: ENDS_WITH = 7
+    return:
+      type: AttackSurfaceAnalyzer.Objects.OPERATION
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.OPERATION.STARTS_WITH
+  commentId: F:AttackSurfaceAnalyzer.Objects.OPERATION.STARTS_WITH
+  id: STARTS_WITH
+  parent: AttackSurfaceAnalyzer.Objects.OPERATION
+  langs:
+  - csharp
+  - vb
+  name: STARTS_WITH
+  nameWithType: OPERATION.STARTS_WITH
+  fullName: AttackSurfaceAnalyzer.Objects.OPERATION.STARTS_WITH
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: STARTS_WITH
+    path: ../Lib/Objects/Types.cs
+    startLine: 82
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: STARTS_WITH = 8
+    return:
+      type: AttackSurfaceAnalyzer.Objects.OPERATION
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: AttackSurfaceAnalyzer.Objects
+  commentId: N:AttackSurfaceAnalyzer.Objects
+  name: AttackSurfaceAnalyzer.Objects
+  nameWithType: AttackSurfaceAnalyzer.Objects
+  fullName: AttackSurfaceAnalyzer.Objects
+- uid: AttackSurfaceAnalyzer.Objects.OPERATION
+  commentId: T:AttackSurfaceAnalyzer.Objects.OPERATION
+  parent: AttackSurfaceAnalyzer.Objects
+  name: OPERATION
+  nameWithType: OPERATION
+  fullName: AttackSurfaceAnalyzer.Objects.OPERATION

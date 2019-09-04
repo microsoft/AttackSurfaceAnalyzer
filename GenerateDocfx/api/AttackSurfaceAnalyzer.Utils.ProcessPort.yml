@@ -1,0 +1,563 @@
+### YamlMime:ManagedReference
+items:
+- uid: AttackSurfaceAnalyzer.Utils.ProcessPort
+  commentId: T:AttackSurfaceAnalyzer.Utils.ProcessPort
+  id: ProcessPort
+  parent: AttackSurfaceAnalyzer.Utils
+  children:
+  - AttackSurfaceAnalyzer.Utils.ProcessPort.PortNumber
+  - AttackSurfaceAnalyzer.Utils.ProcessPort.ProcessId
+  - AttackSurfaceAnalyzer.Utils.ProcessPort.ProcessName
+  - AttackSurfaceAnalyzer.Utils.ProcessPort.ProcessPortDescription
+  - AttackSurfaceAnalyzer.Utils.ProcessPort.Protocol
+  langs:
+  - csharp
+  - vb
+  name: ProcessPort
+  nameWithType: ProcessPort
+  fullName: AttackSurfaceAnalyzer.Utils.ProcessPort
+  type: Class
+  source:
+    remote:
+      path: Lib/Utils/Win32OpenPortListenerHelper.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ProcessPort
+    path: ../Lib/Utils/Win32OpenPortListenerHelper.cs
+    startLine: 159
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  summary: "\nA mapping for processes to ports and ports to processes that are being used in the system.\n"
+  example: []
+  syntax:
+    content: public class ProcessPort
+    content.vb: Public Class ProcessPort
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: AttackSurfaceAnalyzer.Utils.ProcessPort.ProcessPortDescription
+  commentId: P:AttackSurfaceAnalyzer.Utils.ProcessPort.ProcessPortDescription
+  id: ProcessPortDescription
+  parent: AttackSurfaceAnalyzer.Utils.ProcessPort
+  langs:
+  - csharp
+  - vb
+  name: ProcessPortDescription
+  nameWithType: ProcessPort.ProcessPortDescription
+  fullName: AttackSurfaceAnalyzer.Utils.ProcessPort.ProcessPortDescription
+  type: Property
+  source:
+    remote:
+      path: Lib/Utils/Win32OpenPortListenerHelper.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ProcessPortDescription
+    path: ../Lib/Utils/Win32OpenPortListenerHelper.cs
+    startLine: 181
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public string ProcessPortDescription { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property ProcessPortDescription As String
+  overload: AttackSurfaceAnalyzer.Utils.ProcessPort.ProcessPortDescription*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Utils.ProcessPort.ProcessName
+  commentId: P:AttackSurfaceAnalyzer.Utils.ProcessPort.ProcessName
+  id: ProcessName
+  parent: AttackSurfaceAnalyzer.Utils.ProcessPort
+  langs:
+  - csharp
+  - vb
+  name: ProcessName
+  nameWithType: ProcessPort.ProcessName
+  fullName: AttackSurfaceAnalyzer.Utils.ProcessPort.ProcessName
+  type: Property
+  source:
+    remote:
+      path: Lib/Utils/Win32OpenPortListenerHelper.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ProcessName
+    path: ../Lib/Utils/Win32OpenPortListenerHelper.cs
+    startLine: 188
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public string ProcessName { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property ProcessName As String
+  overload: AttackSurfaceAnalyzer.Utils.ProcessPort.ProcessName*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Utils.ProcessPort.ProcessId
+  commentId: P:AttackSurfaceAnalyzer.Utils.ProcessPort.ProcessId
+  id: ProcessId
+  parent: AttackSurfaceAnalyzer.Utils.ProcessPort
+  langs:
+  - csharp
+  - vb
+  name: ProcessId
+  nameWithType: ProcessPort.ProcessId
+  fullName: AttackSurfaceAnalyzer.Utils.ProcessPort.ProcessId
+  type: Property
+  source:
+    remote:
+      path: Lib/Utils/Win32OpenPortListenerHelper.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ProcessId
+    path: ../Lib/Utils/Win32OpenPortListenerHelper.cs
+    startLine: 192
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public int ProcessId { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property ProcessId As Integer
+  overload: AttackSurfaceAnalyzer.Utils.ProcessPort.ProcessId*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Utils.ProcessPort.Protocol
+  commentId: P:AttackSurfaceAnalyzer.Utils.ProcessPort.Protocol
+  id: Protocol
+  parent: AttackSurfaceAnalyzer.Utils.ProcessPort
+  langs:
+  - csharp
+  - vb
+  name: Protocol
+  nameWithType: ProcessPort.Protocol
+  fullName: AttackSurfaceAnalyzer.Utils.ProcessPort.Protocol
+  type: Property
+  source:
+    remote:
+      path: Lib/Utils/Win32OpenPortListenerHelper.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Protocol
+    path: ../Lib/Utils/Win32OpenPortListenerHelper.cs
+    startLine: 196
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public string Protocol { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property Protocol As String
+  overload: AttackSurfaceAnalyzer.Utils.ProcessPort.Protocol*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Utils.ProcessPort.PortNumber
+  commentId: P:AttackSurfaceAnalyzer.Utils.ProcessPort.PortNumber
+  id: PortNumber
+  parent: AttackSurfaceAnalyzer.Utils.ProcessPort
+  langs:
+  - csharp
+  - vb
+  name: PortNumber
+  nameWithType: ProcessPort.PortNumber
+  fullName: AttackSurfaceAnalyzer.Utils.ProcessPort.PortNumber
+  type: Property
+  source:
+    remote:
+      path: Lib/Utils/Win32OpenPortListenerHelper.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: PortNumber
+    path: ../Lib/Utils/Win32OpenPortListenerHelper.cs
+    startLine: 200
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public int PortNumber { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property PortNumber As Integer
+  overload: AttackSurfaceAnalyzer.Utils.ProcessPort.PortNumber*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: AttackSurfaceAnalyzer.Utils
+  commentId: N:AttackSurfaceAnalyzer.Utils
+  name: AttackSurfaceAnalyzer.Utils
+  nameWithType: AttackSurfaceAnalyzer.Utils
+  fullName: AttackSurfaceAnalyzer.Utils
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: AttackSurfaceAnalyzer.Utils.ProcessPort.ProcessPortDescription*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.ProcessPort.ProcessPortDescription
+  name: ProcessPortDescription
+  nameWithType: ProcessPort.ProcessPortDescription
+  fullName: AttackSurfaceAnalyzer.Utils.ProcessPort.ProcessPortDescription
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: AttackSurfaceAnalyzer.Utils.ProcessPort.ProcessName*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.ProcessPort.ProcessName
+  name: ProcessName
+  nameWithType: ProcessPort.ProcessName
+  fullName: AttackSurfaceAnalyzer.Utils.ProcessPort.ProcessName
+- uid: AttackSurfaceAnalyzer.Utils.ProcessPort.ProcessId*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.ProcessPort.ProcessId
+  name: ProcessId
+  nameWithType: ProcessPort.ProcessId
+  fullName: AttackSurfaceAnalyzer.Utils.ProcessPort.ProcessId
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: AttackSurfaceAnalyzer.Utils.ProcessPort.Protocol*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.ProcessPort.Protocol
+  name: Protocol
+  nameWithType: ProcessPort.Protocol
+  fullName: AttackSurfaceAnalyzer.Utils.ProcessPort.Protocol
+- uid: AttackSurfaceAnalyzer.Utils.ProcessPort.PortNumber*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.ProcessPort.PortNumber
+  name: PortNumber
+  nameWithType: ProcessPort.PortNumber
+  fullName: AttackSurfaceAnalyzer.Utils.ProcessPort.PortNumber

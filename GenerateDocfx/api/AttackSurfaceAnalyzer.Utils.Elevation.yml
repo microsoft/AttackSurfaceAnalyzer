@@ -1,0 +1,599 @@
+### YamlMime:ManagedReference
+items:
+- uid: AttackSurfaceAnalyzer.Utils.Elevation
+  commentId: T:AttackSurfaceAnalyzer.Utils.Elevation
+  id: Elevation
+  parent: AttackSurfaceAnalyzer.Utils
+  children:
+  - AttackSurfaceAnalyzer.Utils.Elevation.CheckElevation
+  - AttackSurfaceAnalyzer.Utils.Elevation.GetProcessIntegrityLevel
+  - AttackSurfaceAnalyzer.Utils.Elevation.IsAdministrator
+  - AttackSurfaceAnalyzer.Utils.Elevation.IsRunAsAdmin
+  - AttackSurfaceAnalyzer.Utils.Elevation.IsRunningAsRoot
+  - AttackSurfaceAnalyzer.Utils.Elevation.QueryElevation
+  langs:
+  - csharp
+  - vb
+  name: Elevation
+  nameWithType: Elevation
+  fullName: AttackSurfaceAnalyzer.Utils.Elevation
+  type: Class
+  source:
+    remote:
+      path: Lib/Utils/Elevation.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Elevation
+    path: ../Lib/Utils/Elevation.cs
+    startLine: 31
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public class Elevation
+    content.vb: Public Class Elevation
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: AttackSurfaceAnalyzer.Utils.Elevation.IsRunAsAdmin
+  commentId: M:AttackSurfaceAnalyzer.Utils.Elevation.IsRunAsAdmin
+  id: IsRunAsAdmin
+  parent: AttackSurfaceAnalyzer.Utils.Elevation
+  langs:
+  - csharp
+  - vb
+  name: IsRunAsAdmin()
+  nameWithType: Elevation.IsRunAsAdmin()
+  fullName: AttackSurfaceAnalyzer.Utils.Elevation.IsRunAsAdmin()
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/Elevation.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: IsRunAsAdmin
+    path: ../Lib/Utils/Elevation.cs
+    startLine: 179
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  summary: "\nThe function checks whether the current process is run as administrator.\nIn other words, it dictates whether the primary access token of the \nprocess belongs to user account that is a member of the local \nAdministrators group and it is elevated.\n"
+  example: []
+  syntax:
+    content: public bool IsRunAsAdmin()
+    return:
+      type: System.Boolean
+      description: "\nReturns true if the primary access token of the process belongs to user \naccount that is a member of the local Administrators group and it is \nelevated. Returns false if the token does not.\n"
+    content.vb: Public Function IsRunAsAdmin As Boolean
+  overload: AttackSurfaceAnalyzer.Utils.Elevation.IsRunAsAdmin*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.Utils.Elevation.GetProcessIntegrityLevel
+  commentId: M:AttackSurfaceAnalyzer.Utils.Elevation.GetProcessIntegrityLevel
+  id: GetProcessIntegrityLevel
+  parent: AttackSurfaceAnalyzer.Utils.Elevation
+  langs:
+  - csharp
+  - vb
+  name: GetProcessIntegrityLevel()
+  nameWithType: Elevation.GetProcessIntegrityLevel()
+  fullName: AttackSurfaceAnalyzer.Utils.Elevation.GetProcessIntegrityLevel()
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/Elevation.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: GetProcessIntegrityLevel
+    path: ../Lib/Utils/Elevation.cs
+    startLine: 311
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  summary: "\nThe function gets the integrity level of the current process. Integrity \nlevel is only available on Windows Vista and newer operating systems, thus \nGetProcessIntegrityLevel throws a C++ exception if it is called on systems \nprior to Windows Vista.\n"
+  example: []
+  syntax:
+    content: public int GetProcessIntegrityLevel()
+    return:
+      type: System.Int32
+      description: "\nReturns the integrity level of the current process. It is usually one of \nthese values:\n\nSECURITY_MANDATORY_UNTRUSTED_RID - means untrusted level. It is used \nby processes started by the Anonymous group. Blocks most write access.\n(SID: S-1-16-0x0)\n\nSECURITY_MANDATORY_LOW_RID - means low integrity level. It is used by\nProtected Mode Internet Explorer. Blocks write acess to most objects \n(such as files and registry keys) on the system. (SID: S-1-16-0x1000)\n\nSECURITY_MANDATORY_MEDIUM_RID - means medium integrity level. It is \nused by normal applications being launched while UAC is enabled. \n(SID: S-1-16-0x2000)\n\nSECURITY_MANDATORY_HIGH_RID - means high integrity level. It is used \nby administrative applications launched through elevation when UAC is \nenabled, or normal applications if UAC is disabled and the user is an \nadministrator. (SID: S-1-16-0x3000)\n\nSECURITY_MANDATORY_SYSTEM_RID - means system integrity level. It is \nused by services and other system-level applications (such as Wininit, \nWinlogon, Smss, etc.)  (SID: S-1-16-0x4000)\n\n"
+    content.vb: Public Function GetProcessIntegrityLevel As Integer
+  overload: AttackSurfaceAnalyzer.Utils.Elevation.GetProcessIntegrityLevel*
+  exceptions:
+  - type: System.ComponentModel.Win32Exception
+    commentId: T:System.ComponentModel.Win32Exception
+    description: "\nWhen any native Windows API call fails, the function throws a Win32Exception \nwith the last error code.\n"
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.Utils.Elevation.CheckElevation
+  commentId: M:AttackSurfaceAnalyzer.Utils.Elevation.CheckElevation
+  id: CheckElevation
+  parent: AttackSurfaceAnalyzer.Utils.Elevation
+  langs:
+  - csharp
+  - vb
+  name: CheckElevation()
+  nameWithType: Elevation.CheckElevation()
+  fullName: AttackSurfaceAnalyzer.Utils.Elevation.CheckElevation()
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/Elevation.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: CheckElevation
+    path: ../Lib/Utils/Elevation.cs
+    startLine: 396
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public void CheckElevation()
+    content.vb: Public Sub CheckElevation
+  overload: AttackSurfaceAnalyzer.Utils.Elevation.CheckElevation*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.Utils.Elevation.QueryElevation
+  commentId: M:AttackSurfaceAnalyzer.Utils.Elevation.QueryElevation
+  id: QueryElevation
+  parent: AttackSurfaceAnalyzer.Utils.Elevation
+  langs:
+  - csharp
+  - vb
+  name: QueryElevation()
+  nameWithType: Elevation.QueryElevation()
+  fullName: AttackSurfaceAnalyzer.Utils.Elevation.QueryElevation()
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/Elevation.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: QueryElevation
+    path: ../Lib/Utils/Elevation.cs
+    startLine: 430
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public bool QueryElevation()
+    return:
+      type: System.Boolean
+    content.vb: Public Function QueryElevation As Boolean
+  overload: AttackSurfaceAnalyzer.Utils.Elevation.QueryElevation*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.Utils.Elevation.IsRunningAsRoot
+  commentId: M:AttackSurfaceAnalyzer.Utils.Elevation.IsRunningAsRoot
+  id: IsRunningAsRoot
+  parent: AttackSurfaceAnalyzer.Utils.Elevation
+  langs:
+  - csharp
+  - vb
+  name: IsRunningAsRoot()
+  nameWithType: Elevation.IsRunningAsRoot()
+  fullName: AttackSurfaceAnalyzer.Utils.Elevation.IsRunningAsRoot()
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/Elevation.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: IsRunningAsRoot
+    path: ../Lib/Utils/Elevation.cs
+    startLine: 438
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static bool IsRunningAsRoot()
+    return:
+      type: System.Boolean
+    content.vb: Public Shared Function IsRunningAsRoot As Boolean
+  overload: AttackSurfaceAnalyzer.Utils.Elevation.IsRunningAsRoot*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: AttackSurfaceAnalyzer.Utils.Elevation.IsAdministrator
+  commentId: M:AttackSurfaceAnalyzer.Utils.Elevation.IsAdministrator
+  id: IsAdministrator
+  parent: AttackSurfaceAnalyzer.Utils.Elevation
+  langs:
+  - csharp
+  - vb
+  name: IsAdministrator()
+  nameWithType: Elevation.IsAdministrator()
+  fullName: AttackSurfaceAnalyzer.Utils.Elevation.IsAdministrator()
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/Elevation.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: IsAdministrator
+    path: ../Lib/Utils/Elevation.cs
+    startLine: 452
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static bool IsAdministrator()
+    return:
+      type: System.Boolean
+    content.vb: Public Shared Function IsAdministrator As Boolean
+  overload: AttackSurfaceAnalyzer.Utils.Elevation.IsAdministrator*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+references:
+- uid: AttackSurfaceAnalyzer.Utils
+  commentId: N:AttackSurfaceAnalyzer.Utils
+  name: AttackSurfaceAnalyzer.Utils
+  nameWithType: AttackSurfaceAnalyzer.Utils
+  fullName: AttackSurfaceAnalyzer.Utils
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: AttackSurfaceAnalyzer.Utils.Elevation.IsRunAsAdmin*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.Elevation.IsRunAsAdmin
+  name: IsRunAsAdmin
+  nameWithType: Elevation.IsRunAsAdmin
+  fullName: AttackSurfaceAnalyzer.Utils.Elevation.IsRunAsAdmin
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: System.ComponentModel.Win32Exception
+  commentId: T:System.ComponentModel.Win32Exception
+  isExternal: true
+- uid: AttackSurfaceAnalyzer.Utils.Elevation.GetProcessIntegrityLevel*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.Elevation.GetProcessIntegrityLevel
+  name: GetProcessIntegrityLevel
+  nameWithType: Elevation.GetProcessIntegrityLevel
+  fullName: AttackSurfaceAnalyzer.Utils.Elevation.GetProcessIntegrityLevel
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: AttackSurfaceAnalyzer.Utils.Elevation.CheckElevation*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.Elevation.CheckElevation
+  name: CheckElevation
+  nameWithType: Elevation.CheckElevation
+  fullName: AttackSurfaceAnalyzer.Utils.Elevation.CheckElevation
+- uid: AttackSurfaceAnalyzer.Utils.Elevation.QueryElevation*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.Elevation.QueryElevation
+  name: QueryElevation
+  nameWithType: Elevation.QueryElevation
+  fullName: AttackSurfaceAnalyzer.Utils.Elevation.QueryElevation
+- uid: AttackSurfaceAnalyzer.Utils.Elevation.IsRunningAsRoot*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.Elevation.IsRunningAsRoot
+  name: IsRunningAsRoot
+  nameWithType: Elevation.IsRunningAsRoot
+  fullName: AttackSurfaceAnalyzer.Utils.Elevation.IsRunningAsRoot
+- uid: AttackSurfaceAnalyzer.Utils.Elevation.IsAdministrator*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.Elevation.IsAdministrator
+  name: IsAdministrator
+  nameWithType: Elevation.IsAdministrator
+  fullName: AttackSurfaceAnalyzer.Utils.Elevation.IsAdministrator

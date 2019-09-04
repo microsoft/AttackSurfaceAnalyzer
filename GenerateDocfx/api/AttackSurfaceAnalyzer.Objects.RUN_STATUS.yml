@@ -1,0 +1,211 @@
+### YamlMime:ManagedReference
+items:
+- uid: AttackSurfaceAnalyzer.Objects.RUN_STATUS
+  commentId: T:AttackSurfaceAnalyzer.Objects.RUN_STATUS
+  id: RUN_STATUS
+  parent: AttackSurfaceAnalyzer.Objects
+  children:
+  - AttackSurfaceAnalyzer.Objects.RUN_STATUS.COMPLETED
+  - AttackSurfaceAnalyzer.Objects.RUN_STATUS.FAILED
+  - AttackSurfaceAnalyzer.Objects.RUN_STATUS.NO_RESULTS
+  - AttackSurfaceAnalyzer.Objects.RUN_STATUS.NOT_STARTED
+  - AttackSurfaceAnalyzer.Objects.RUN_STATUS.RUNNING
+  langs:
+  - csharp
+  - vb
+  name: RUN_STATUS
+  nameWithType: RUN_STATUS
+  fullName: AttackSurfaceAnalyzer.Objects.RUN_STATUS
+  type: Enum
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: RUN_STATUS
+    path: ../Lib/Objects/Types.cs
+    startLine: 26
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: public enum RUN_STATUS
+    content.vb: Public Enum RUN_STATUS
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: AttackSurfaceAnalyzer.Objects.RUN_STATUS.NOT_STARTED
+  commentId: F:AttackSurfaceAnalyzer.Objects.RUN_STATUS.NOT_STARTED
+  id: NOT_STARTED
+  parent: AttackSurfaceAnalyzer.Objects.RUN_STATUS
+  langs:
+  - csharp
+  - vb
+  name: NOT_STARTED
+  nameWithType: RUN_STATUS.NOT_STARTED
+  fullName: AttackSurfaceAnalyzer.Objects.RUN_STATUS.NOT_STARTED
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: NOT_STARTED
+    path: ../Lib/Objects/Types.cs
+    startLine: 28
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: NOT_STARTED = 0
+    return:
+      type: AttackSurfaceAnalyzer.Objects.RUN_STATUS
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.RUN_STATUS.RUNNING
+  commentId: F:AttackSurfaceAnalyzer.Objects.RUN_STATUS.RUNNING
+  id: RUNNING
+  parent: AttackSurfaceAnalyzer.Objects.RUN_STATUS
+  langs:
+  - csharp
+  - vb
+  name: RUNNING
+  nameWithType: RUN_STATUS.RUNNING
+  fullName: AttackSurfaceAnalyzer.Objects.RUN_STATUS.RUNNING
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: RUNNING
+    path: ../Lib/Objects/Types.cs
+    startLine: 29
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: RUNNING = 1
+    return:
+      type: AttackSurfaceAnalyzer.Objects.RUN_STATUS
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.RUN_STATUS.FAILED
+  commentId: F:AttackSurfaceAnalyzer.Objects.RUN_STATUS.FAILED
+  id: FAILED
+  parent: AttackSurfaceAnalyzer.Objects.RUN_STATUS
+  langs:
+  - csharp
+  - vb
+  name: FAILED
+  nameWithType: RUN_STATUS.FAILED
+  fullName: AttackSurfaceAnalyzer.Objects.RUN_STATUS.FAILED
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: FAILED
+    path: ../Lib/Objects/Types.cs
+    startLine: 30
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: FAILED = 2
+    return:
+      type: AttackSurfaceAnalyzer.Objects.RUN_STATUS
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.RUN_STATUS.COMPLETED
+  commentId: F:AttackSurfaceAnalyzer.Objects.RUN_STATUS.COMPLETED
+  id: COMPLETED
+  parent: AttackSurfaceAnalyzer.Objects.RUN_STATUS
+  langs:
+  - csharp
+  - vb
+  name: COMPLETED
+  nameWithType: RUN_STATUS.COMPLETED
+  fullName: AttackSurfaceAnalyzer.Objects.RUN_STATUS.COMPLETED
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: COMPLETED
+    path: ../Lib/Objects/Types.cs
+    startLine: 31
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: COMPLETED = 3
+    return:
+      type: AttackSurfaceAnalyzer.Objects.RUN_STATUS
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.RUN_STATUS.NO_RESULTS
+  commentId: F:AttackSurfaceAnalyzer.Objects.RUN_STATUS.NO_RESULTS
+  id: NO_RESULTS
+  parent: AttackSurfaceAnalyzer.Objects.RUN_STATUS
+  langs:
+  - csharp
+  - vb
+  name: NO_RESULTS
+  nameWithType: RUN_STATUS.NO_RESULTS
+  fullName: AttackSurfaceAnalyzer.Objects.RUN_STATUS.NO_RESULTS
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: NO_RESULTS
+    path: ../Lib/Objects/Types.cs
+    startLine: 32
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: NO_RESULTS = 4
+    return:
+      type: AttackSurfaceAnalyzer.Objects.RUN_STATUS
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: AttackSurfaceAnalyzer.Objects
+  commentId: N:AttackSurfaceAnalyzer.Objects
+  name: AttackSurfaceAnalyzer.Objects
+  nameWithType: AttackSurfaceAnalyzer.Objects
+  fullName: AttackSurfaceAnalyzer.Objects
+- uid: AttackSurfaceAnalyzer.Objects.RUN_STATUS
+  commentId: T:AttackSurfaceAnalyzer.Objects.RUN_STATUS
+  parent: AttackSurfaceAnalyzer.Objects
+  name: RUN_STATUS
+  nameWithType: RUN_STATUS
+  fullName: AttackSurfaceAnalyzer.Objects.RUN_STATUS

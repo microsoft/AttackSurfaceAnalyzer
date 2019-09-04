@@ -1,0 +1,758 @@
+### YamlMime:ManagedReference
+items:
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector
+  commentId: T:AttackSurfaceAnalyzer.Collectors.FileSystemCollector
+  id: FileSystemCollector
+  parent: AttackSurfaceAnalyzer.Collectors
+  children:
+  - AttackSurfaceAnalyzer.Collectors.FileSystemCollector.#ctor(System.String,System.Boolean,System.String,System.Boolean,System.Boolean)
+  - AttackSurfaceAnalyzer.Collectors.FileSystemCollector.AddRoot(System.String)
+  - AttackSurfaceAnalyzer.Collectors.FileSystemCollector.CanRunOnPlatform
+  - AttackSurfaceAnalyzer.Collectors.FileSystemCollector.ClearRoots
+  - AttackSurfaceAnalyzer.Collectors.FileSystemCollector.Execute
+  langs:
+  - csharp
+  - vb
+  name: FileSystemCollector
+  nameWithType: FileSystemCollector
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector
+  type: Class
+  source:
+    remote:
+      path: Lib/Collectors/FileSystemCollector.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: FileSystemCollector
+    path: ../Lib/Collectors/FileSystemCollector.cs
+    startLine: 21
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Collectors
+  summary: "\nCollects Filesystem Data from the local file system.\n"
+  example: []
+  syntax:
+    content: 'public class FileSystemCollector : BaseCollector, PlatformRunnable'
+    content.vb: >-
+      Public Class FileSystemCollector
+
+          Inherits BaseCollector
+
+          Implements PlatformRunnable
+  inheritance:
+  - System.Object
+  - AttackSurfaceAnalyzer.Collectors.BaseCollector
+  inheritedMembers:
+  - AttackSurfaceAnalyzer.Collectors.BaseCollector.runId
+  - AttackSurfaceAnalyzer.Collectors.BaseCollector._numCollected
+  - AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning
+  - AttackSurfaceAnalyzer.Collectors.BaseCollector.Start
+  - AttackSurfaceAnalyzer.Collectors.BaseCollector.Stop
+  - AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.#ctor(System.String,System.Boolean,System.String,System.Boolean,System.Boolean)
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemCollector.#ctor(System.String,System.Boolean,System.String,System.Boolean,System.Boolean)
+  id: '#ctor(System.String,System.Boolean,System.String,System.Boolean,System.Boolean)'
+  parent: AttackSurfaceAnalyzer.Collectors.FileSystemCollector
+  langs:
+  - csharp
+  - vb
+  name: FileSystemCollector(String, Boolean, String, Boolean, Boolean)
+  nameWithType: FileSystemCollector.FileSystemCollector(String, Boolean, String, Boolean, Boolean)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FileSystemCollector(System.String, System.Boolean, System.String, System.Boolean, System.Boolean)
+  type: Constructor
+  source:
+    remote:
+      path: Lib/Collectors/FileSystemCollector.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: .ctor
+    path: ../Lib/Collectors/FileSystemCollector.cs
+    startLine: 30
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Collectors
+  syntax:
+    content: public FileSystemCollector(string runId, bool enableHashing = false, string directories = "", bool downloadCloud = false, bool examineCertificates = false)
+    parameters:
+    - id: runId
+      type: System.String
+    - id: enableHashing
+      type: System.Boolean
+    - id: directories
+      type: System.String
+    - id: downloadCloud
+      type: System.Boolean
+    - id: examineCertificates
+      type: System.Boolean
+    content.vb: Public Sub New(runId As String, enableHashing As Boolean = False, directories As String = "", downloadCloud As Boolean = False, examineCertificates As Boolean = False)
+  overload: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.AddRoot(System.String)
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemCollector.AddRoot(System.String)
+  id: AddRoot(System.String)
+  parent: AttackSurfaceAnalyzer.Collectors.FileSystemCollector
+  langs:
+  - csharp
+  - vb
+  name: AddRoot(String)
+  nameWithType: FileSystemCollector.AddRoot(String)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.AddRoot(System.String)
+  type: Method
+  source:
+    remote:
+      path: Lib/Collectors/FileSystemCollector.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: AddRoot
+    path: ../Lib/Collectors/FileSystemCollector.cs
+    startLine: 49
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Collectors
+  syntax:
+    content: public void AddRoot(string root)
+    parameters:
+    - id: root
+      type: System.String
+    content.vb: Public Sub AddRoot(root As String)
+  overload: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.AddRoot*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.ClearRoots
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemCollector.ClearRoots
+  id: ClearRoots
+  parent: AttackSurfaceAnalyzer.Collectors.FileSystemCollector
+  langs:
+  - csharp
+  - vb
+  name: ClearRoots()
+  nameWithType: FileSystemCollector.ClearRoots()
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.ClearRoots()
+  type: Method
+  source:
+    remote:
+      path: Lib/Collectors/FileSystemCollector.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ClearRoots
+    path: ../Lib/Collectors/FileSystemCollector.cs
+    startLine: 54
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Collectors
+  syntax:
+    content: public void ClearRoots()
+    content.vb: Public Sub ClearRoots
+  overload: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.ClearRoots*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.CanRunOnPlatform
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemCollector.CanRunOnPlatform
+  id: CanRunOnPlatform
+  parent: AttackSurfaceAnalyzer.Collectors.FileSystemCollector
+  langs:
+  - csharp
+  - vb
+  name: CanRunOnPlatform()
+  nameWithType: FileSystemCollector.CanRunOnPlatform()
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.CanRunOnPlatform()
+  type: Method
+  source:
+    remote:
+      path: Lib/Collectors/FileSystemCollector.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: CanRunOnPlatform
+    path: ../Lib/Collectors/FileSystemCollector.cs
+    startLine: 59
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Collectors
+  syntax:
+    content: public override bool CanRunOnPlatform()
+    return:
+      type: System.Boolean
+    content.vb: Public Overrides Function CanRunOnPlatform As Boolean
+  overridden: AttackSurfaceAnalyzer.Collectors.BaseCollector.CanRunOnPlatform
+  overload: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.CanRunOnPlatform*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.Execute
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemCollector.Execute
+  id: Execute
+  parent: AttackSurfaceAnalyzer.Collectors.FileSystemCollector
+  langs:
+  - csharp
+  - vb
+  name: Execute()
+  nameWithType: FileSystemCollector.Execute()
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.Execute()
+  type: Method
+  source:
+    remote:
+      path: Lib/Collectors/FileSystemCollector.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Execute
+    path: ../Lib/Collectors/FileSystemCollector.cs
+    startLine: 64
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Collectors
+  syntax:
+    content: public override void Execute()
+    content.vb: Public Overrides Sub Execute
+  overridden: AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute
+  overload: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.Execute*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+references:
+- uid: AttackSurfaceAnalyzer.Collectors
+  commentId: N:AttackSurfaceAnalyzer.Collectors
+  name: AttackSurfaceAnalyzer.Collectors
+  nameWithType: AttackSurfaceAnalyzer.Collectors
+  fullName: AttackSurfaceAnalyzer.Collectors
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector
+  commentId: T:AttackSurfaceAnalyzer.Collectors.BaseCollector
+  parent: AttackSurfaceAnalyzer.Collectors
+  name: BaseCollector
+  nameWithType: BaseCollector
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.runId
+  commentId: F:AttackSurfaceAnalyzer.Collectors.BaseCollector.runId
+  parent: AttackSurfaceAnalyzer.Collectors.BaseCollector
+  name: runId
+  nameWithType: BaseCollector.runId
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.runId
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector._numCollected
+  commentId: F:AttackSurfaceAnalyzer.Collectors.BaseCollector._numCollected
+  parent: AttackSurfaceAnalyzer.Collectors.BaseCollector
+  name: _numCollected
+  nameWithType: BaseCollector._numCollected
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector._numCollected
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning
+  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning
+  parent: AttackSurfaceAnalyzer.Collectors.BaseCollector
+  name: IsRunning()
+  nameWithType: BaseCollector.IsRunning()
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning()
+  spec.csharp:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning
+    name: IsRunning
+    nameWithType: BaseCollector.IsRunning
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning
+    name: IsRunning
+    nameWithType: BaseCollector.IsRunning
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.Start
+  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCollector.Start
+  parent: AttackSurfaceAnalyzer.Collectors.BaseCollector
+  name: Start()
+  nameWithType: BaseCollector.Start()
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.Start()
+  spec.csharp:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.Start
+    name: Start
+    nameWithType: BaseCollector.Start
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.Start
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.Start
+    name: Start
+    nameWithType: BaseCollector.Start
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.Start
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.Stop
+  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCollector.Stop
+  parent: AttackSurfaceAnalyzer.Collectors.BaseCollector
+  name: Stop()
+  nameWithType: BaseCollector.Stop()
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.Stop()
+  spec.csharp:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.Stop
+    name: Stop
+    nameWithType: BaseCollector.Stop
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.Stop
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.Stop
+    name: Stop
+    nameWithType: BaseCollector.Stop
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.Stop
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected
+  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected
+  parent: AttackSurfaceAnalyzer.Collectors.BaseCollector
+  name: NumCollected()
+  nameWithType: BaseCollector.NumCollected()
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected()
+  spec.csharp:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected
+    name: NumCollected
+    nameWithType: BaseCollector.NumCollected
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected
+    name: NumCollected
+    nameWithType: BaseCollector.NumCollected
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.#ctor*
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.FileSystemCollector.#ctor
+  name: FileSystemCollector
+  nameWithType: FileSystemCollector.FileSystemCollector
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FileSystemCollector
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.AddRoot*
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.FileSystemCollector.AddRoot
+  name: AddRoot
+  nameWithType: FileSystemCollector.AddRoot
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.AddRoot
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.ClearRoots*
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.FileSystemCollector.ClearRoots
+  name: ClearRoots
+  nameWithType: FileSystemCollector.ClearRoots
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.ClearRoots
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.CanRunOnPlatform
+  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCollector.CanRunOnPlatform
+  parent: AttackSurfaceAnalyzer.Collectors.BaseCollector
+  name: CanRunOnPlatform()
+  nameWithType: BaseCollector.CanRunOnPlatform()
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.CanRunOnPlatform()
+  spec.csharp:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.CanRunOnPlatform
+    name: CanRunOnPlatform
+    nameWithType: BaseCollector.CanRunOnPlatform
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.CanRunOnPlatform
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.CanRunOnPlatform
+    name: CanRunOnPlatform
+    nameWithType: BaseCollector.CanRunOnPlatform
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.CanRunOnPlatform
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.CanRunOnPlatform*
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.FileSystemCollector.CanRunOnPlatform
+  name: CanRunOnPlatform
+  nameWithType: FileSystemCollector.CanRunOnPlatform
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.CanRunOnPlatform
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute
+  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute
+  parent: AttackSurfaceAnalyzer.Collectors.BaseCollector
+  name: Execute()
+  nameWithType: BaseCollector.Execute()
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute()
+  spec.csharp:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute
+    name: Execute
+    nameWithType: BaseCollector.Execute
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute
+    name: Execute
+    nameWithType: BaseCollector.Execute
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.Execute*
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.FileSystemCollector.Execute
+  name: Execute
+  nameWithType: FileSystemCollector.Execute
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.Execute

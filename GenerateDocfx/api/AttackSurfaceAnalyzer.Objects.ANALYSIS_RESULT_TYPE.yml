@@ -1,0 +1,277 @@
+### YamlMime:ManagedReference
+items:
+- uid: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
+  commentId: T:AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
+  id: ANALYSIS_RESULT_TYPE
+  parent: AttackSurfaceAnalyzer.Objects
+  children:
+  - AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE.DEBUG
+  - AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE.ERROR
+  - AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE.FATAL
+  - AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE.INFORMATION
+  - AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE.NONE
+  - AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE.VERBOSE
+  - AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE.WARNING
+  langs:
+  - csharp
+  - vb
+  name: ANALYSIS_RESULT_TYPE
+  nameWithType: ANALYSIS_RESULT_TYPE
+  fullName: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
+  type: Enum
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ANALYSIS_RESULT_TYPE
+    path: ../Lib/Objects/Types.cs
+    startLine: 61
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: public enum ANALYSIS_RESULT_TYPE
+    content.vb: Public Enum ANALYSIS_RESULT_TYPE
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE.NONE
+  commentId: F:AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE.NONE
+  id: NONE
+  parent: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
+  langs:
+  - csharp
+  - vb
+  name: NONE
+  nameWithType: ANALYSIS_RESULT_TYPE.NONE
+  fullName: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE.NONE
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: NONE
+    path: ../Lib/Objects/Types.cs
+    startLine: 63
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: NONE = 0
+    return:
+      type: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE.VERBOSE
+  commentId: F:AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE.VERBOSE
+  id: VERBOSE
+  parent: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
+  langs:
+  - csharp
+  - vb
+  name: VERBOSE
+  nameWithType: ANALYSIS_RESULT_TYPE.VERBOSE
+  fullName: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE.VERBOSE
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: VERBOSE
+    path: ../Lib/Objects/Types.cs
+    startLine: 64
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: VERBOSE = 1
+    return:
+      type: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE.DEBUG
+  commentId: F:AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE.DEBUG
+  id: DEBUG
+  parent: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
+  langs:
+  - csharp
+  - vb
+  name: DEBUG
+  nameWithType: ANALYSIS_RESULT_TYPE.DEBUG
+  fullName: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE.DEBUG
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: DEBUG
+    path: ../Lib/Objects/Types.cs
+    startLine: 65
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: DEBUG = 2
+    return:
+      type: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE.INFORMATION
+  commentId: F:AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE.INFORMATION
+  id: INFORMATION
+  parent: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
+  langs:
+  - csharp
+  - vb
+  name: INFORMATION
+  nameWithType: ANALYSIS_RESULT_TYPE.INFORMATION
+  fullName: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE.INFORMATION
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: INFORMATION
+    path: ../Lib/Objects/Types.cs
+    startLine: 66
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: INFORMATION = 3
+    return:
+      type: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE.WARNING
+  commentId: F:AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE.WARNING
+  id: WARNING
+  parent: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
+  langs:
+  - csharp
+  - vb
+  name: WARNING
+  nameWithType: ANALYSIS_RESULT_TYPE.WARNING
+  fullName: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE.WARNING
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: WARNING
+    path: ../Lib/Objects/Types.cs
+    startLine: 67
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: WARNING = 4
+    return:
+      type: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE.ERROR
+  commentId: F:AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE.ERROR
+  id: ERROR
+  parent: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
+  langs:
+  - csharp
+  - vb
+  name: ERROR
+  nameWithType: ANALYSIS_RESULT_TYPE.ERROR
+  fullName: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE.ERROR
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ERROR
+    path: ../Lib/Objects/Types.cs
+    startLine: 68
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: ERROR = 5
+    return:
+      type: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE.FATAL
+  commentId: F:AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE.FATAL
+  id: FATAL
+  parent: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
+  langs:
+  - csharp
+  - vb
+  name: FATAL
+  nameWithType: ANALYSIS_RESULT_TYPE.FATAL
+  fullName: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE.FATAL
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/ImproveLogging
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: FATAL
+    path: ../Lib/Objects/Types.cs
+    startLine: 69
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: FATAL = 6
+    return:
+      type: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: AttackSurfaceAnalyzer.Objects
+  commentId: N:AttackSurfaceAnalyzer.Objects
+  name: AttackSurfaceAnalyzer.Objects
+  nameWithType: AttackSurfaceAnalyzer.Objects
+  fullName: AttackSurfaceAnalyzer.Objects
+- uid: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
+  commentId: T:AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
+  parent: AttackSurfaceAnalyzer.Objects
+  name: ANALYSIS_RESULT_TYPE
+  nameWithType: ANALYSIS_RESULT_TYPE
+  fullName: AttackSurfaceAnalyzer.Objects.ANALYSIS_RESULT_TYPE
