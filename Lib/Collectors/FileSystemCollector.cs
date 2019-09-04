@@ -171,9 +171,12 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 {
                                     try
                                     {
-                                        if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
+                                        if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
                                         {
-                                            obj.IsExecutable = true;
+                                            if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
+                                            {
+                                                obj.IsExecutable = true;
+                                            }
                                         }
                                     }
                                     catch (System.UnauthorizedAccessException ex)

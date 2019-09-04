@@ -266,6 +266,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 if (_transaction != null)
                 {
                     _transaction.Commit();
+                    _transaction = null;
                 }
             }
             catch (Exception)

@@ -83,12 +83,19 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         protected internal static bool IsExecutable(string filePath)
         {
-            var twoBytes = new byte[2];
-            using (var fileStream = File.Open(filePath, FileMode.Open))
+            try
             {
-                fileStream.Read(twoBytes, 0, 2);
+                var twoBytes = new byte[2]; 
+                using (var fileStream = File.Open(filePath, FileMode.Open))
+                {
+                    fileStream.Read(twoBytes, 0, 2);
+                }
+                return Encoding.UTF8.GetString(twoBytes) == "MZ";
             }
-            return Encoding.UTF8.GetString(twoBytes) == "MZ";
+            catch(Exception e)
+            {
+                //
+            }
         }
 
         protected internal static bool IsLocal(string path)

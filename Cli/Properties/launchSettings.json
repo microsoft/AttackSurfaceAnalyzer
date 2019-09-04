@@ -2,7 +2,7 @@
   "profiles": {
     "AttackSurfaceAnalyzerCli": {
       "commandName": "Project",
-      "commandLineArgs": "collect -r"
+      "commandLineArgs": "collect -a --verbose"
     }
   }
 }
