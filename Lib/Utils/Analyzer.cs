@@ -143,17 +143,15 @@ namespace AttackSurfaceAnalyzer.Utils
                         }
                         catch (NullReferenceException)
                         {
-                            //That field didn't exist, let's check if its a property.
                         }
                         try
                         {
-                            valsToCheck.Add(GetValueByPropertyName(compareResult.Compare, field.Name).ToString());
+                            valsToCheck.Add(GetValueByPropertyName(compareResult.Compare, property.Name).ToString());
                         }
                         catch (NullReferenceException)
                         {
-                            // Looks like it wasn't a property either.
-                            Log.Debug("We shouldn't be here.  Found a field or property that is also not a field or property. {0} {1}", compareResult.ResultType, clause.field);
                         }
+
                     }
                     if (compareResult.ChangeType == CHANGE_TYPE.DELETED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
                     {
@@ -163,16 +161,13 @@ namespace AttackSurfaceAnalyzer.Utils
                         }
                         catch (NullReferenceException)
                         {
-                            //That field didn't exist, let's check if its a property.
                         }
                         try
                         {
-                            valsToCheck.Add(GetValueByPropertyName(compareResult.Base, field.Name).ToString());
+                            valsToCheck.Add(GetValueByPropertyName(compareResult.Base, property.Name).ToString());
                         }
                         catch (NullReferenceException)
                         {
-                            // Looks like it wasn't a property either.
-                            Log.Debug("We shouldn't be here.  Found a field or property that is also not a field or property. {0} {1}", compareResult.ResultType, clause.field);
                         }
                     }
 
