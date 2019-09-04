@@ -54,13 +54,13 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public override void Execute()
         {
-
-            Start();
-
             if (!this.CanRunOnPlatform())
             {
                 return;
             }
+
+            Start();
+            _ = DatabaseManager.Transaction;
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
@@ -78,6 +78,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 Log.Warning("OpenPortCollector is not available on {0}", RuntimeInformation.OSDescription);
             }
+            DatabaseManager.Commit();
             Stop();
         }
 

@@ -45,14 +45,15 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// </summary>
         public override void Execute()
         {
-            Start();
-
             if (!this.CanRunOnPlatform())
             {
                 Log.Information(Strings.Get("Err_ServiceCollectorIncompat"));
                 return;
             }
-            
+            Start();
+            _ = DatabaseManager.Transaction;
+
+
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 // This gathers official "services" on Windows, but perhaps neglects other startup items
@@ -213,7 +214,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 // service -l
                 // this provides very minor amount of info
             }
-
+            DatabaseManager.Commit();
             Stop();
         }
 

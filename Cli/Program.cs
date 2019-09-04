@@ -1346,10 +1346,8 @@ namespace AttackSurfaceAnalyzer
                 try
                 {
                     // Ensure we have a valid transaction synchronously since collectors may be multi-threaded
-                    _ = DatabaseManager.Transaction;
                     c.Execute();
                     EndEvent.Add(c.GetType().ToString(), c.NumCollected().ToString());
-                    DatabaseManager.Commit();
                 }
                 catch (Exception ex)
                 {

@@ -94,7 +94,8 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
             catch(Exception e)
             {
-                //
+                Logger.DebugException(e);
+                return false;
             }
         }
 

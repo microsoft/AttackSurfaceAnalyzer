@@ -9,7 +9,7 @@ namespace AttackSurfaceAnalyzer.Objects
     public abstract class CollectObject
     {
         public RESULT_TYPE ResultType;
-
         public abstract string Identity { get; }
+        public string Message { get; set; }
     }
 }

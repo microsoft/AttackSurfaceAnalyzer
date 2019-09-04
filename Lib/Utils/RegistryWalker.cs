@@ -12,16 +12,14 @@ namespace AttackSurfaceAnalyzer.Utils
     public class RegistryWalker
     {
 
-        public static IEnumerable<RegistryObject> WalkHive(RegistryHive Hive)
+        public static IEnumerable<RegistryObject> WalkHive(RegistryHive Hive, string runid = null)
         {
             // Data structure to hold names of subfolders to be
             // examined for files.
             Stack<RegistryKey> keys = new Stack<RegistryKey>();
 
-            //if (!System.IO.Directory.Exists(root))
-            //{
-            //    throw new ArgumentException("Unable to find [" + root + "]");
-            //}
+            string message;
+
             RegistryKey BaseKey = RegistryKey.OpenBaseKey(Hive, RegistryView.Default);
 
             keys.Push(BaseKey);
@@ -44,7 +42,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     try
                     {
-                        var next = currentKey.OpenSubKey(key, false);
+                        var next = currentKey.OpenSubKey(name: key, writable: false);
                         keys.Push(next);
                     }
                     // These are expected as we are running as administrator, not System.
@@ -54,7 +52,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     }
                     // There seem to be some keys which are listed as existing by the APIs but don't actually exist.
                     // Unclear if these are just super transient keys or what the other cause might be.
-                    // Since this isn't user actionable, also just supress these to the debug stream.
+                    // Since this isn't user actionable, also just supress these to the verbose stream.
                     catch (System.IO.IOException e)
                     {
                         Log.Verbose(e, "Error Reading: {0}", currentKey.Name);
