@@ -40,6 +40,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                     return JsonConvert.DeserializeObject<UserAccountObject>(res.Serialized);
                 case RESULT_TYPE.GROUP:
                     return JsonConvert.DeserializeObject<GroupAccountObject>(res.Serialized);
+                case RESULT_TYPE.FIREWALL:
+                    return JsonConvert.DeserializeObject<FirewallObject>(res.Serialized);
                 default:
                     return null;
             }
@@ -138,15 +140,19 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         var fieldName = field.Name;
                         List<Diff> diffs;
-                        object added = new List<string>();
-                        object removed = new List<string>();
+                        object added = null;
+                        object removed = null;
                         object changed = new object();
-                        if (field.GetValue(first) == null)
+                        if (field.GetValue(first) == null && field.GetValue(second) == null)
+                        {
+                            continue;
+                        }
+                        else if (field.GetValue(first) == null && field.GetValue(second) != null)
                         {
                             added = field.GetValue(second);
                             diffs = GetDiffs(field, added, null);
                         }
-                        else if (field.GetValue(second) == null)
+                        else if (field.GetValue(second) == null && field.GetValue(first) != null)
                         {
                             removed = field.GetValue(first);
                             diffs = GetDiffs(field, null, removed);
@@ -199,8 +205,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             }
                             else
                             {
-                                added = secondVal;
-                                removed = firstVal;
+                                obj.Diffs.Add(new ModifiedDiff(field.Name, firstVal, secondVal));
                             }
 
                             diffs = GetDiffs(field, added, removed);
@@ -229,20 +234,27 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         var propName = prop.Name;
                         List<Diff> diffs;
-                        object added = new List<string>();
-                        object removed = new List<string>();
+                        object added = null;
+                        object removed = null;
                         object changed = new object();
-                        if (prop.GetValue(first) == null)
+
+                        object firstProp = prop.GetValue(first);
+                        object secondProp = prop.GetValue(second);
+                        if (firstProp == null && secondProp == null)
+                        {
+                            continue;
+                        }
+                        else if (firstProp == null && secondProp != null)
                         {
                             added = prop.GetValue(second);
                             diffs = GetDiffs(prop, added, null);
                         }
-                        else if (prop.GetValue(second) == null)
+                        else if (secondProp == null && firstProp != null)
                         {
                             removed = prop.GetValue(first);
                             diffs = GetDiffs(prop, null, removed);
                         }
-                        else if (prop.GetValue(first).Equals(prop.GetValue(second)))
+                        else if (firstProp != null && secondProp != null && firstProp.Equals(secondProp))
                         {
                             continue;
                         }
@@ -284,8 +296,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                             }
                             else if (firstVal is string || firstVal is int || firstVal is bool)
                             {
-                                added = null;
-                                removed = null;
+                                obj.Diffs.Add(new ModifiedDiff(prop.Name, firstVal, secondVal));
+                            }
+                            else
+                            {
                                 obj.Diffs.Add(new ModifiedDiff(prop.Name, firstVal, secondVal));
                             }
 

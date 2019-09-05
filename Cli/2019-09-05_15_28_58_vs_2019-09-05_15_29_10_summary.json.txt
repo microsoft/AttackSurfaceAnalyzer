@@ -1,0 +1,297 @@
+{
+  "results": {
+    "FIREWALL_CREATED": [
+      {
+        "Identity": "Bastion - Inbound - 17 - C:\\Program Files (x86)\\Steam\\steamapps\\common\\Bastion\\Bastion.exe - Domain",
+        "ChangeType": "CREATED",
+        "ResultType": "FIREWALL",
+        "Analysis": "INFORMATION",
+        "CompareRowKey": "Jam+L40sXMR3UY/nWe7PBg==",
+        "BaseRunId": "2019-09-05_15:28:58",
+        "CompareRunId": "2019-09-05_15:29:10",
+        "Compare": {
+          "ResultType": "FIREWALL",
+          "Action": "Allow",
+          "ApplicationName": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Bastion\\Bastion.exe",
+          "Direction": "Inbound",
+          "FriendlyName": "Bastion",
+          "IsEnable": true,
+          "LocalAddresses": [
+            "*"
+          ],
+          "LocalPorts": [],
+          "Name": "Bastion",
+          "Profiles": "Domain",
+          "Protocol": 17,
+          "RemoteAddresses": [
+            "*"
+          ],
+          "RemotePorts": [],
+          "Identity": "Bastion - Inbound - 17 - C:\\Program Files (x86)\\Steam\\steamapps\\common\\Bastion\\Bastion.exe - Domain"
+        }
+      },
+      {
+        "Identity": "Bastion - Inbound - 17 - C:\\Program Files (x86)\\Steam\\steamapps\\common\\Bastion\\Bastion.exe - Private, Public",
+        "ChangeType": "CREATED",
+        "ResultType": "FIREWALL",
+        "Analysis": "INFORMATION",
+        "CompareRowKey": "f87Ka9ia4ck/4zzNheuqfQ==",
+        "BaseRunId": "2019-09-05_15:28:58",
+        "CompareRunId": "2019-09-05_15:29:10",
+        "Compare": {
+          "ResultType": "FIREWALL",
+          "Action": "Allow",
+          "ApplicationName": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Bastion\\Bastion.exe",
+          "Direction": "Inbound",
+          "FriendlyName": "Bastion",
+          "LocalAddresses": [
+            "*"
+          ],
+          "LocalPorts": [],
+          "Name": "Bastion",
+          "Profiles": "Private, Public",
+          "Protocol": 17,
+          "RemoteAddresses": [
+            "*"
+          ],
+          "RemotePorts": [],
+          "Identity": "Bastion - Inbound - 17 - C:\\Program Files (x86)\\Steam\\steamapps\\common\\Bastion\\Bastion.exe - Private, Public"
+        }
+      },
+      {
+        "Identity": "Bastion - Inbound - 6 - C:\\Program Files (x86)\\Steam\\steamapps\\common\\Bastion\\Bastion.exe - Domain",
+        "ChangeType": "CREATED",
+        "ResultType": "FIREWALL",
+        "Analysis": "INFORMATION",
+        "CompareRowKey": "lh6NyDsT4Y9CY1ofIfOtgg==",
+        "BaseRunId": "2019-09-05_15:28:58",
+        "CompareRunId": "2019-09-05_15:29:10",
+        "Compare": {
+          "ResultType": "FIREWALL",
+          "Action": "Allow",
+          "ApplicationName": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Bastion\\Bastion.exe",
+          "Direction": "Inbound",
+          "FriendlyName": "Bastion",
+          "IsEnable": true,
+          "LocalAddresses": [
+            "*"
+          ],
+          "LocalPorts": [],
+          "Name": "Bastion",
+          "Profiles": "Domain",
+          "Protocol": 6,
+          "RemoteAddresses": [
+            "*"
+          ],
+          "RemotePorts": [],
+          "Identity": "Bastion - Inbound - 6 - C:\\Program Files (x86)\\Steam\\steamapps\\common\\Bastion\\Bastion.exe - Domain"
+        }
+      },
+      {
+        "Identity": "Bastion - Inbound - 6 - C:\\Program Files (x86)\\Steam\\steamapps\\common\\Bastion\\Bastion.exe - Private, Public",
+        "ChangeType": "CREATED",
+        "ResultType": "FIREWALL",
+        "Analysis": "INFORMATION",
+        "CompareRowKey": "Z0JbcOcPmhqpk+bo+GktOg==",
+        "BaseRunId": "2019-09-05_15:28:58",
+        "CompareRunId": "2019-09-05_15:29:10",
+        "Compare": {
+          "ResultType": "FIREWALL",
+          "Action": "Allow",
+          "ApplicationName": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Bastion\\Bastion.exe",
+          "Direction": "Inbound",
+          "FriendlyName": "Bastion",
+          "LocalAddresses": [
+            "*"
+          ],
+          "LocalPorts": [],
+          "Name": "Bastion",
+          "Profiles": "Private, Public",
+          "Protocol": 6,
+          "RemoteAddresses": [
+            "*"
+          ],
+          "RemotePorts": [],
+          "Identity": "Bastion - Inbound - 6 - C:\\Program Files (x86)\\Steam\\steamapps\\common\\Bastion\\Bastion.exe - Private, Public"
+        }
+      }
+    ],
+    "FIREWALL_DELETED": [
+      {
+        "Identity": "Bastion - Inbound - 17 - C:\\Program Files (x86)\\Steam\\steamapps\\common\\Bastion\\Bastion.exe - Domain, Private, Public",
+        "ChangeType": "DELETED",
+        "ResultType": "FIREWALL",
+        "Analysis": "INFORMATION",
+        "BaseRowKey": "C9GgDgS9Q8EvI6U+g1r2pg==",
+        "BaseRunId": "2019-09-05_15:28:58",
+        "CompareRunId": "2019-09-05_15:29:10",
+        "Base": {
+          "ResultType": "FIREWALL",
+          "Action": "Allow",
+          "ApplicationName": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Bastion\\Bastion.exe",
+          "Direction": "Inbound",
+          "FriendlyName": "Bastion",
+          "IsEnable": true,
+          "LocalAddresses": [
+            "*"
+          ],
+          "LocalPorts": [],
+          "Name": "Bastion",
+          "Profiles": "Domain, Private, Public",
+          "Protocol": 17,
+          "RemoteAddresses": [
+            "*"
+          ],
+          "RemotePorts": [],
+          "Identity": "Bastion - Inbound - 17 - C:\\Program Files (x86)\\Steam\\steamapps\\common\\Bastion\\Bastion.exe - Domain, Private, Public"
+        }
+      },
+      {
+        "Identity": "Bastion - Inbound - 6 - C:\\Program Files (x86)\\Steam\\steamapps\\common\\Bastion\\Bastion.exe - Domain, Private, Public",
+        "ChangeType": "DELETED",
+        "ResultType": "FIREWALL",
+        "Analysis": "INFORMATION",
+        "BaseRowKey": "YowyQVIqJXU0Y6RH1Pn6zA==",
+        "BaseRunId": "2019-09-05_15:28:58",
+        "CompareRunId": "2019-09-05_15:29:10",
+        "Base": {
+          "ResultType": "FIREWALL",
+          "Action": "Allow",
+          "ApplicationName": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Bastion\\Bastion.exe",
+          "Direction": "Inbound",
+          "FriendlyName": "Bastion",
+          "IsEnable": true,
+          "LocalAddresses": [
+            "*"
+          ],
+          "LocalPorts": [],
+          "Name": "Bastion",
+          "Profiles": "Domain, Private, Public",
+          "Protocol": 6,
+          "RemoteAddresses": [
+            "*"
+          ],
+          "RemotePorts": [],
+          "Identity": "Bastion - Inbound - 6 - C:\\Program Files (x86)\\Steam\\steamapps\\common\\Bastion\\Bastion.exe - Domain, Private, Public"
+        }
+      }
+    ],
+    "FIREWALL_MODIFIED": [
+      {
+        "Identity": "Windows Shell Experience - Outbound - 256 -  - Domain, Private, Public",
+        "ChangeType": "MODIFIED",
+        "ResultType": "FIREWALL",
+        "Analysis": "INFORMATION",
+        "Diffs": [
+          {
+            "Before": "@{Microsoft.Windows.ShellExperienceHost_10.0.18362.267_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}",
+            "After": "@{Microsoft.Windows.PeopleExperienceHost_10.0.18362.267_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.PeopleExperienceHost/resources/PkgDisplayName}",
+            "Field": "Name"
+          }
+        ],
+        "BaseRowKey": "NS9FH6Vjn/vMxLdHC//LuA==",
+        "CompareRowKey": "V67eSZCAo9nYy/F3smkuOw==",
+        "BaseRunId": "2019-09-05_15:28:58",
+        "CompareRunId": "2019-09-05_15:29:10",
+        "Base": {
+          "ResultType": "FIREWALL",
+          "Action": "Allow",
+          "Direction": "Outbound",
+          "FriendlyName": "Windows Shell Experience",
+          "IsEnable": true,
+          "LocalAddresses": [
+            "*"
+          ],
+          "LocalPorts": [],
+          "Name": "@{Microsoft.Windows.ShellExperienceHost_10.0.18362.267_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}",
+          "Profiles": "Domain, Private, Public",
+          "Protocol": 256,
+          "RemoteAddresses": [
+            "*"
+          ],
+          "RemotePorts": [],
+          "Identity": "Windows Shell Experience - Outbound - 256 -  - Domain, Private, Public"
+        },
+        "Compare": {
+          "ResultType": "FIREWALL",
+          "Action": "Allow",
+          "Direction": "Outbound",
+          "FriendlyName": "Windows Shell Experience",
+          "IsEnable": true,
+          "LocalAddresses": [
+            "*"
+          ],
+          "LocalPorts": [],
+          "Name": "@{Microsoft.Windows.PeopleExperienceHost_10.0.18362.267_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.PeopleExperienceHost/resources/PkgDisplayName}",
+          "Profiles": "Domain, Private, Public",
+          "Protocol": 256,
+          "RemoteAddresses": [
+            "*"
+          ],
+          "RemotePorts": [],
+          "Identity": "Windows Shell Experience - Outbound - 256 -  - Domain, Private, Public"
+        }
+      },
+      {
+        "Identity": "Windows Shell Experience - Outbound - 256 -  - Domain, Private, Public",
+        "ChangeType": "MODIFIED",
+        "ResultType": "FIREWALL",
+        "Analysis": "INFORMATION",
+        "Diffs": [
+          {
+            "Before": "@{Microsoft.Windows.PeopleExperienceHost_10.0.18362.267_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.PeopleExperienceHost/resources/PkgDisplayName}",
+            "After": "@{Microsoft.Windows.ShellExperienceHost_10.0.18362.267_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}",
+            "Field": "Name"
+          }
+        ],
+        "BaseRowKey": "V67eSZCAo9nYy/F3smkuOw==",
+        "CompareRowKey": "NS9FH6Vjn/vMxLdHC//LuA==",
+        "BaseRunId": "2019-09-05_15:28:58",
+        "CompareRunId": "2019-09-05_15:29:10",
+        "Base": {
+          "ResultType": "FIREWALL",
+          "Action": "Allow",
+          "Direction": "Outbound",
+          "FriendlyName": "Windows Shell Experience",
+          "IsEnable": true,
+          "LocalAddresses": [
+            "*"
+          ],
+          "LocalPorts": [],
+          "Name": "@{Microsoft.Windows.PeopleExperienceHost_10.0.18362.267_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.PeopleExperienceHost/resources/PkgDisplayName}",
+          "Profiles": "Domain, Private, Public",
+          "Protocol": 256,
+          "RemoteAddresses": [
+            "*"
+          ],
+          "RemotePorts": [],
+          "Identity": "Windows Shell Experience - Outbound - 256 -  - Domain, Private, Public"
+        },
+        "Compare": {
+          "ResultType": "FIREWALL",
+          "Action": "Allow",
+          "Direction": "Outbound",
+          "FriendlyName": "Windows Shell Experience",
+          "IsEnable": true,
+          "LocalAddresses": [
+            "*"
+          ],
+          "LocalPorts": [],
+          "Name": "@{Microsoft.Windows.ShellExperienceHost_10.0.18362.267_neutral_neutral_cw5n1h2txyewy?ms-resource://Microsoft.Windows.ShellExperienceHost/resources/PkgDisplayName}",
+          "Profiles": "Domain, Private, Public",
+          "Protocol": 256,
+          "RemoteAddresses": [
+            "*"
+          ],
+          "RemotePorts": [],
+          "Identity": "Windows Shell Experience - Outbound - 256 -  - Domain, Private, Public"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "compare-version": "2.1.53-alpha+ccf5ff3112",
+    "compare-os": "WINDOWS",
+    "compare-osversion": "Microsoft Windows NT 10.0.18362.0"
+  }
+}
