@@ -26,7 +26,8 @@ namespace AttackSurfaceAnalyzer.Utils
             {RESULT_TYPE.REGISTRY, new List<FieldInfo>(new RegistryObject().GetType().GetFields()) },
             {RESULT_TYPE.SERVICE, new List<FieldInfo>(new ServiceObject().GetType().GetFields()) },
             {RESULT_TYPE.USER, new List<FieldInfo>(new UserAccountObject().GetType().GetFields()) },
-            {RESULT_TYPE.GROUP, new List<FieldInfo>(new UserAccountObject().GetType().GetFields()) }
+            {RESULT_TYPE.GROUP, new List<FieldInfo>(new UserAccountObject().GetType().GetFields()) },
+            {RESULT_TYPE.FIREWALL, new List<FieldInfo>(new FirewallObject().GetType().GetFields()) },
         };
         Dictionary<RESULT_TYPE, List<PropertyInfo>> _Properties = new Dictionary<RESULT_TYPE, List<PropertyInfo>>()
         {
@@ -36,7 +37,9 @@ namespace AttackSurfaceAnalyzer.Utils
             {RESULT_TYPE.REGISTRY, new List<PropertyInfo>(new RegistryObject().GetType().GetProperties()) },
             {RESULT_TYPE.SERVICE, new List<PropertyInfo>(new ServiceObject().GetType().GetProperties()) },
             {RESULT_TYPE.USER, new List<PropertyInfo>(new UserAccountObject().GetType().GetProperties()) },
-            {RESULT_TYPE.GROUP, new List<PropertyInfo>(new UserAccountObject().GetType().GetProperties()) }
+            {RESULT_TYPE.GROUP, new List<PropertyInfo>(new UserAccountObject().GetType().GetProperties()) },
+            {RESULT_TYPE.FIREWALL, new List<PropertyInfo>(new FirewallObject().GetType().GetProperties()) }
+
         };
         Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DEFAULT_RESULT_TYPE_MAP = new Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>()
         {

@@ -11,4 +11,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Update="Nerdbank.GitVersioning" Version="3.0.25" />
+  </ItemGroup>
+
 </Project>

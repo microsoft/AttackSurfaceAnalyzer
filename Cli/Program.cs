@@ -128,8 +128,11 @@ namespace AttackSurfaceAnalyzer
         [Option('s', "service", Required = false, HelpText = "Enable the service collector")]
         public bool EnableServiceCollector { get; set; }
 
-        [Option('u', "user", Required = false, HelpText = "Enable the user account collector")]
+        [Option('u', "user", Required = false, HelpText = "Enable the user and group account collector")]
         public bool EnableUserCollector { get; set; }
+
+        [Option('F', "firewall", Required = false, HelpText = "Enable the firewall collector")]
+        public bool EnableFirewallCollector { get; set; }
 
         [Option('a', "all", Required = false, HelpText = "Enable all collectors")]
         public bool EnableAllCollectors { get; set; }
@@ -920,47 +923,6 @@ namespace AttackSurfaceAnalyzer
             return comparators;
         }
 
-        public static string ResultTypeToColumnName(RESULT_TYPE result_type)
-        {
-            switch (result_type)
-            {
-                case RESULT_TYPE.FILE:
-                    return "file_system";
-                case RESULT_TYPE.PORT:
-                    return "ports";
-                case RESULT_TYPE.REGISTRY:
-                    return "registry";
-                case RESULT_TYPE.CERTIFICATE:
-                    return "certificates";
-                case RESULT_TYPE.SERVICE:
-                    return "services";
-                case RESULT_TYPE.USER:
-                    return "users";
-                default:
-                    return "null";
-            }
-        }
-
-        private static bool HasResults(string BaseRunId, string CompareRunId, RESULT_TYPE type)
-        {
-            string GET_SERIALIZED_RESULTS = "select * from runs where run_id = @run_id or run_id=@run_id_2";
-            int count = 0;
-            var cmd = new SqliteCommand(GET_SERIALIZED_RESULTS, DatabaseManager.Connection, DatabaseManager.Transaction);
-            cmd.Parameters.AddWithValue("@run_id", BaseRunId);
-            cmd.Parameters.AddWithValue("@run_id", CompareRunId);
-            using (var reader = cmd.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    if (int.Parse(reader[ResultTypeToColumnName(type)].ToString()) == 1)
-                    {
-                        count++;
-                    }
-                }
-            }
-            return (count == 2) ? true : false;
-        }
-
         public static Dictionary<string, object> CompareRuns(CompareCommandOptions opts)
         {
             using (var cmd = new SqliteCommand(INSERT_RUN_INTO_RESULT_TABLE_SQL, DatabaseManager.Connection, DatabaseManager.Transaction))
@@ -1169,6 +1131,7 @@ namespace AttackSurfaceAnalyzer
             StartEvent.Add("Certificates", opts.EnableAllCollectors ? "True" : opts.EnableCertificateCollector.ToString());
             StartEvent.Add("Registry", opts.EnableAllCollectors ? "True" : opts.EnableRegistryCollector.ToString());
             StartEvent.Add("Service", opts.EnableAllCollectors ? "True" : opts.EnableServiceCollector.ToString());
+            StartEvent.Add("Firewall", opts.EnableAllCollectors ? "True" : opts.EnableFirewallCollector.ToString());
             StartEvent.Add("Admin", Helpers.IsAdmin().ToString());
             Telemetry.TrackEvent("Run Command", StartEvent);
 
@@ -1209,7 +1172,11 @@ namespace AttackSurfaceAnalyzer
             }
             if (opts.EnableCertificateCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new CertificateCollector(opts.RunId, opts.CertificatesFromFiles || opts.EnableAllCollectors));
+                collectors.Add(new CertificateCollector(opts.RunId));
+            }
+            if (opts.EnableFirewallCollector || opts.EnableAllCollectors)
+            {
+                collectors.Add(new FirewallCollector(opts.RunId));
             }
 
             if (collectors.Count == 0)
