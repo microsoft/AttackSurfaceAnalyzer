@@ -26,7 +26,10 @@
       <Publish Condition="'%(PackageReference.Version)' == ''">true</Publish>
     </PackageReference>
     <PackageReference Include="Serilog" Version="2.8.0" />
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.0.25" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.0.25">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cli\AsaCli.csproj" />

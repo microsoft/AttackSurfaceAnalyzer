@@ -195,7 +195,8 @@
       "SERVICE": "INFORMATION",
       "CERTIFICATE": "INFORMATION",
       "USER": "INFORMATION",
-      "REGISTRY": "DEBUG"
+      "REGISTRY": "DEBUG",
+      "FIREWALL": "INFORMATION"
     }
   }
 }
