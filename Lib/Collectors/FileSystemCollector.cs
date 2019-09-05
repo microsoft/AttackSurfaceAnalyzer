@@ -37,7 +37,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             roots = new HashSet<string>();
             INCLUDE_CONTENT_HASH = enableHashing;
 
-            if (!directories.Equals(""))
+            if (directories != null && !directories.Equals(""))
             {
                 foreach (string path in directories.Split(','))
                 {
