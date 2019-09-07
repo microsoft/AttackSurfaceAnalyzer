@@ -73,8 +73,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                     IsEnable = enabled,
                     FriendlyName = "Firewall Enabled",
                     Name = "Firewall Enabled",
-                    RemoteAddresses = new List<string>() { "*" },
-                    RemotePorts = new List<string>() { "*" },
                     Scope = FirewallScope.All
                 };
                 DatabaseManager.Write(obj, runId);
@@ -88,8 +86,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                     IsEnable = result.Contains("enabled"),
                     FriendlyName = "Stealth Mode",
                     Name = "Stealth Mode",
-                    RemoteAddresses = new List<string>() { "*" },
-                    RemotePorts = new List<string>() { "*" },
                     Scope = FirewallScope.All
                 };
                 DatabaseManager.Write(obj, runId);
@@ -100,26 +96,22 @@ namespace AttackSurfaceAnalyzer.Collectors
                 result = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--getallowsigned");
                 obj = new FirewallObject()
                 {
-                    Action = FirewallAction.Block,
+                    Action = FirewallAction.Allow,
                     Direction = FirewallDirection.Inbound,
                     IsEnable = result.Split('\n')[0].Contains("ENABLED"),
                     FriendlyName = "Allow signed built-in software",
                     Name = "Allow signed built-in software",
-                    RemoteAddresses = new List<string>() { "*" },
-                    RemotePorts = new List<string>() { "*" },
                     Scope = FirewallScope.All
                 };
                 DatabaseManager.Write(obj, runId);
 
                 obj = new FirewallObject()
                 {
-                    Action = FirewallAction.Block,
+                    Action = FirewallAction.Allow,
                     Direction = FirewallDirection.Inbound,
                     IsEnable = result.Split('\n')[1].Contains("ENABLED"),
                     FriendlyName = "Allow downloaded signed software",
                     Name = "Allow downloaded signed software",
-                    RemoteAddresses = new List<string>() { "*" },
-                    RemotePorts = new List<string>() { "*" },
                     Scope = FirewallScope.All
                 };
                 DatabaseManager.Write(obj, runId);
@@ -127,10 +119,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                 /* Example Output:
 ALF: total number of apps = 2 
 
-1 :  /Applications/1Password 7.app 
+1 :  /Applications/AppName.app 
  	 ( Allow incoming connections ) 
 
-2 :  /Applications/BetterSnapTool.app 
+2 :  /Applications/AppName2.app 
  	 ( Block incoming connections ) */
                 result = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--listapps");
                 string appName = "";
@@ -153,8 +145,6 @@ ALF: total number of apps = 2
                                 Direction = FirewallDirection.Inbound,
                                 FriendlyName = appName,
                                 Name = appName,
-                                RemoteAddresses = new List<string>() { "*" },
-                                RemotePorts = new List<string>() { "*" },
                                 Scope = FirewallScope.All
                             };
                             DatabaseManager.Write(obj, runId);
