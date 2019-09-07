@@ -26,17 +26,17 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DLLCHARACTERISTICS
     path: ../Lib/Objects/Types.cs
-    startLine: 43
+    startLine: 45
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
   syntax:
-    content: public enum DLLCHARACTERISTICS
-    content.vb: Public Enum DLLCHARACTERISTICS
+    content: 'public enum DLLCHARACTERISTICS : int'
+    content.vb: Public Enum DLLCHARACTERISTICS As Integer
   modifiers.csharp:
   - public
   - enum
@@ -57,18 +57,19 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA
     path: ../Lib/Objects/Types.cs
-    startLine: 45
+    startLine: 47
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
   syntax:
-    content: IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA = 32
+    content: IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA = null
     return:
       type: AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS
+    content.vb: IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA = Nothing
   modifiers.csharp:
   - public
   - const
@@ -89,18 +90,19 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE
     path: ../Lib/Objects/Types.cs
-    startLine: 46
+    startLine: 48
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
   syntax:
-    content: IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE = 64
+    content: IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE = null
     return:
       type: AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS
+    content.vb: IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE = Nothing
   modifiers.csharp:
   - public
   - const
@@ -121,18 +123,19 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IMAGE_DLLCHARACTERISTICS_FORCE_INTEGRITY
     path: ../Lib/Objects/Types.cs
-    startLine: 47
+    startLine: 49
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
   syntax:
-    content: IMAGE_DLLCHARACTERISTICS_FORCE_INTEGRITY = 128
+    content: IMAGE_DLLCHARACTERISTICS_FORCE_INTEGRITY = null
     return:
       type: AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS
+    content.vb: IMAGE_DLLCHARACTERISTICS_FORCE_INTEGRITY = Nothing
   modifiers.csharp:
   - public
   - const
@@ -153,18 +156,19 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IMAGE_DLLCHARACTERISTICS_NX_COMPAT
     path: ../Lib/Objects/Types.cs
-    startLine: 48
+    startLine: 50
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
   syntax:
-    content: IMAGE_DLLCHARACTERISTICS_NX_COMPAT = 256
+    content: IMAGE_DLLCHARACTERISTICS_NX_COMPAT = null
     return:
       type: AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS
+    content.vb: IMAGE_DLLCHARACTERISTICS_NX_COMPAT = Nothing
   modifiers.csharp:
   - public
   - const
@@ -185,18 +189,19 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IMAGE_DLLCHARACTERISTICS_NO_ISOLATION
     path: ../Lib/Objects/Types.cs
-    startLine: 49
+    startLine: 51
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
   syntax:
-    content: IMAGE_DLLCHARACTERISTICS_NO_ISOLATION = 512
+    content: IMAGE_DLLCHARACTERISTICS_NO_ISOLATION = null
     return:
       type: AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS
+    content.vb: IMAGE_DLLCHARACTERISTICS_NO_ISOLATION = Nothing
   modifiers.csharp:
   - public
   - const
@@ -217,18 +222,19 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IMAGE_DLLCHARACTERISTICS_NO_SEH
     path: ../Lib/Objects/Types.cs
-    startLine: 50
+    startLine: 52
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
   syntax:
-    content: IMAGE_DLLCHARACTERISTICS_NO_SEH = 1024
+    content: IMAGE_DLLCHARACTERISTICS_NO_SEH = null
     return:
       type: AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS
+    content.vb: IMAGE_DLLCHARACTERISTICS_NO_SEH = Nothing
   modifiers.csharp:
   - public
   - const
@@ -249,18 +255,19 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IMAGE_DLLCHARACTERISTICS_NO_BIND
     path: ../Lib/Objects/Types.cs
-    startLine: 51
+    startLine: 53
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
   syntax:
-    content: IMAGE_DLLCHARACTERISTICS_NO_BIND = 2048
+    content: IMAGE_DLLCHARACTERISTICS_NO_BIND = null
     return:
       type: AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS
+    content.vb: IMAGE_DLLCHARACTERISTICS_NO_BIND = Nothing
   modifiers.csharp:
   - public
   - const
@@ -281,18 +288,19 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IMAGE_DLLCHARACTERISTICS_APPCONTAINER
     path: ../Lib/Objects/Types.cs
-    startLine: 52
+    startLine: 54
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
   syntax:
-    content: IMAGE_DLLCHARACTERISTICS_APPCONTAINER = 4096
+    content: IMAGE_DLLCHARACTERISTICS_APPCONTAINER = null
     return:
       type: AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS
+    content.vb: IMAGE_DLLCHARACTERISTICS_APPCONTAINER = Nothing
   modifiers.csharp:
   - public
   - const
@@ -313,18 +321,19 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IMAGE_DLLCHARACTERISTICS_WDM_DRIVER
     path: ../Lib/Objects/Types.cs
-    startLine: 53
+    startLine: 55
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
   syntax:
-    content: IMAGE_DLLCHARACTERISTICS_WDM_DRIVER = 8192
+    content: IMAGE_DLLCHARACTERISTICS_WDM_DRIVER = null
     return:
       type: AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS
+    content.vb: IMAGE_DLLCHARACTERISTICS_WDM_DRIVER = Nothing
   modifiers.csharp:
   - public
   - const
@@ -345,18 +354,19 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IMAGE_DLLCHARACTERISTICS_GUARD_CF
     path: ../Lib/Objects/Types.cs
-    startLine: 54
+    startLine: 56
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
   syntax:
-    content: IMAGE_DLLCHARACTERISTICS_GUARD_CF = 16384
+    content: IMAGE_DLLCHARACTERISTICS_GUARD_CF = null
     return:
       type: AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS
+    content.vb: IMAGE_DLLCHARACTERISTICS_GUARD_CF = Nothing
   modifiers.csharp:
   - public
   - const
@@ -377,18 +387,19 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IMAGE_DLLCHARACTERISTICS_TERMINAL_SERVER_AWARE
     path: ../Lib/Objects/Types.cs
-    startLine: 55
+    startLine: 57
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
   syntax:
-    content: IMAGE_DLLCHARACTERISTICS_TERMINAL_SERVER_AWARE = 32768
+    content: IMAGE_DLLCHARACTERISTICS_TERMINAL_SERVER_AWARE = null
     return:
       type: AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS
+    content.vb: IMAGE_DLLCHARACTERISTICS_TERMINAL_SERVER_AWARE = Nothing
   modifiers.csharp:
   - public
   - const

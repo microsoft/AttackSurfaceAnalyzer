@@ -15,6 +15,9 @@
     <RootNamespace>AttackSurfaceAnalyzer</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\Lib\Properties\Resources.designer.cs" Link="Properties\Resources.designer.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="ElectronNet.API" Version="5.22.14" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.7.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.2.0" />
@@ -55,6 +58,9 @@
       <Link>README.md</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Lib\Properties\Resources.resx" Link="Properties\Resources.resx" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="electron.manifest.json">

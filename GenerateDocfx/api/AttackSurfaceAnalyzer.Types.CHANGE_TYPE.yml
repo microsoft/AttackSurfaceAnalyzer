@@ -20,17 +20,17 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CHANGE_TYPE
     path: ../Lib/Objects/Types.cs
-    startLine: 15
+    startLine: 17
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
   syntax:
-    content: public enum CHANGE_TYPE
-    content.vb: Public Enum CHANGE_TYPE
+    content: 'public enum CHANGE_TYPE : int'
+    content.vb: Public Enum CHANGE_TYPE As Integer
   modifiers.csharp:
   - public
   - enum
@@ -51,11 +51,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: INVALID
     path: ../Lib/Objects/Types.cs
-    startLine: 17
+    startLine: 19
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -83,11 +83,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CREATED
     path: ../Lib/Objects/Types.cs
-    startLine: 18
+    startLine: 20
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -115,11 +115,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DELETED
     path: ../Lib/Objects/Types.cs
-    startLine: 19
+    startLine: 21
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -147,11 +147,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: MODIFIED
     path: ../Lib/Objects/Types.cs
-    startLine: 20
+    startLine: 22
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -179,11 +179,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RENAMED
     path: ../Lib/Objects/Types.cs
-    startLine: 21
+    startLine: 23
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types

@@ -8,7 +8,7 @@ items:
   - AttackSurfaceAnalyzer.Utils.Filter.DumpFilters
   - AttackSurfaceAnalyzer.Utils.Filter.IsFiltered(System.String,System.String,System.String,System.String,System.String)
   - AttackSurfaceAnalyzer.Utils.Filter.IsFiltered(System.String,System.String,System.String,System.String,System.String,System.String)
-  - AttackSurfaceAnalyzer.Utils.Filter.IsFiltered(System.String,System.String,System.String,System.String,System.String,System.String,System.Text.RegularExpressions.Regex@)
+  - AttackSurfaceAnalyzer.Utils.Filter.IsFiltered(System.String,System.String,System.String,System.String,System.String,System.String,Regex@)
   - AttackSurfaceAnalyzer.Utils.Filter.LoadEmbeddedFilters
   - AttackSurfaceAnalyzer.Utils.Filter.LoadFilters(System.String)
   langs:
@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Filter.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Filter
     path: ../Lib/Utils/Filter.cs
@@ -30,18 +30,12 @@ items:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
   syntax:
-    content: public static class Filter
-    content.vb: Public Module Filter
+    content: 'public static class Filter : object'
+    content.vb: >-
+      Public Module Filter
+          Inherits Object
   inheritance:
   - System.Object
-  inheritedMembers:
-  - System.Object.Equals(System.Object)
-  - System.Object.Equals(System.Object,System.Object)
-  - System.Object.GetHashCode
-  - System.Object.GetType
-  - System.Object.MemberwiseClone
-  - System.Object.ReferenceEquals(System.Object,System.Object)
-  - System.Object.ToString
   modifiers.csharp:
   - public
   - static
@@ -63,7 +57,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Filter.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsFiltered
     path: ../Lib/Utils/Filter.cs
@@ -108,7 +102,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Filter.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsFiltered
     path: ../Lib/Utils/Filter.cs
@@ -141,21 +135,21 @@ items:
   modifiers.vb:
   - Public
   - Shared
-- uid: AttackSurfaceAnalyzer.Utils.Filter.IsFiltered(System.String,System.String,System.String,System.String,System.String,System.String,System.Text.RegularExpressions.Regex@)
-  commentId: M:AttackSurfaceAnalyzer.Utils.Filter.IsFiltered(System.String,System.String,System.String,System.String,System.String,System.String,System.Text.RegularExpressions.Regex@)
-  id: IsFiltered(System.String,System.String,System.String,System.String,System.String,System.String,System.Text.RegularExpressions.Regex@)
+- uid: AttackSurfaceAnalyzer.Utils.Filter.IsFiltered(System.String,System.String,System.String,System.String,System.String,System.String,Regex@)
+  commentId: M:AttackSurfaceAnalyzer.Utils.Filter.IsFiltered(System.String,System.String,System.String,System.String,System.String,System.String,Regex@)
+  id: IsFiltered(System.String,System.String,System.String,System.String,System.String,System.String,Regex@)
   parent: AttackSurfaceAnalyzer.Utils.Filter
   langs:
   - csharp
   - vb
   name: IsFiltered(String, String, String, String, String, String, out Regex)
   nameWithType: Filter.IsFiltered(String, String, String, String, String, String, out Regex)
-  fullName: AttackSurfaceAnalyzer.Utils.Filter.IsFiltered(System.String, System.String, System.String, System.String, System.String, System.String, out System.Text.RegularExpressions.Regex)
+  fullName: AttackSurfaceAnalyzer.Utils.Filter.IsFiltered(System.String, System.String, System.String, System.String, System.String, System.String, out Regex)
   type: Method
   source:
     remote:
       path: Lib/Utils/Filter.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsFiltered
     path: ../Lib/Utils/Filter.cs
@@ -179,7 +173,7 @@ items:
     - id: Target
       type: System.String
     - id: regex
-      type: System.Text.RegularExpressions.Regex
+      type: Regex
     return:
       type: System.Boolean
     content.vb: Public Shared Function IsFiltered(Platform As String, ScanType As String, ItemType As String, Property As String, FilterType As String, Target As String, ByRef regex As Regex) As Boolean
@@ -191,7 +185,7 @@ items:
   modifiers.vb:
   - Public
   - Shared
-  fullName.vb: AttackSurfaceAnalyzer.Utils.Filter.IsFiltered(System.String, System.String, System.String, System.String, System.String, System.String, ByRef System.Text.RegularExpressions.Regex)
+  fullName.vb: AttackSurfaceAnalyzer.Utils.Filter.IsFiltered(System.String, System.String, System.String, System.String, System.String, System.String, ByRef Regex)
   name.vb: IsFiltered(String, String, String, String, String, String, ByRef Regex)
 - uid: AttackSurfaceAnalyzer.Utils.Filter.DumpFilters
   commentId: M:AttackSurfaceAnalyzer.Utils.Filter.DumpFilters
@@ -207,7 +201,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Filter.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DumpFilters
     path: ../Lib/Utils/Filter.cs
@@ -239,7 +233,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Filter.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LoadEmbeddedFilters
     path: ../Lib/Utils/Filter.cs
@@ -271,7 +265,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Filter.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LoadFilters
     path: ../Lib/Utils/Filter.cs
@@ -299,329 +293,31 @@ references:
   nameWithType: AttackSurfaceAnalyzer.Utils
   fullName: AttackSurfaceAnalyzer.Utils
 - uid: System.Object
-  commentId: T:System.Object
-  parent: System
   isExternal: true
   name: Object
   nameWithType: Object
   fullName: System.Object
-- uid: System.Object.Equals(System.Object)
-  commentId: M:System.Object.Equals(System.Object)
-  parent: System.Object
-  isExternal: true
-  name: Equals(Object)
-  nameWithType: Object.Equals(Object)
-  fullName: System.Object.Equals(System.Object)
-  spec.csharp:
-  - uid: System.Object.Equals(System.Object)
-    name: Equals
-    nameWithType: Object.Equals
-    fullName: System.Object.Equals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.Equals(System.Object)
-    name: Equals
-    nameWithType: Object.Equals
-    fullName: System.Object.Equals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.Equals(System.Object,System.Object)
-  commentId: M:System.Object.Equals(System.Object,System.Object)
-  parent: System.Object
-  isExternal: true
-  name: Equals(Object, Object)
-  nameWithType: Object.Equals(Object, Object)
-  fullName: System.Object.Equals(System.Object, System.Object)
-  spec.csharp:
-  - uid: System.Object.Equals(System.Object,System.Object)
-    name: Equals
-    nameWithType: Object.Equals
-    fullName: System.Object.Equals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.Equals(System.Object,System.Object)
-    name: Equals
-    nameWithType: Object.Equals
-    fullName: System.Object.Equals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.GetHashCode
-  commentId: M:System.Object.GetHashCode
-  parent: System.Object
-  isExternal: true
-  name: GetHashCode()
-  nameWithType: Object.GetHashCode()
-  fullName: System.Object.GetHashCode()
-  spec.csharp:
-  - uid: System.Object.GetHashCode
-    name: GetHashCode
-    nameWithType: Object.GetHashCode
-    fullName: System.Object.GetHashCode
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.GetHashCode
-    name: GetHashCode
-    nameWithType: Object.GetHashCode
-    fullName: System.Object.GetHashCode
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.GetType
-  commentId: M:System.Object.GetType
-  parent: System.Object
-  isExternal: true
-  name: GetType()
-  nameWithType: Object.GetType()
-  fullName: System.Object.GetType()
-  spec.csharp:
-  - uid: System.Object.GetType
-    name: GetType
-    nameWithType: Object.GetType
-    fullName: System.Object.GetType
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.GetType
-    name: GetType
-    nameWithType: Object.GetType
-    fullName: System.Object.GetType
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.MemberwiseClone
-  commentId: M:System.Object.MemberwiseClone
-  parent: System.Object
-  isExternal: true
-  name: MemberwiseClone()
-  nameWithType: Object.MemberwiseClone()
-  fullName: System.Object.MemberwiseClone()
-  spec.csharp:
-  - uid: System.Object.MemberwiseClone
-    name: MemberwiseClone
-    nameWithType: Object.MemberwiseClone
-    fullName: System.Object.MemberwiseClone
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.MemberwiseClone
-    name: MemberwiseClone
-    nameWithType: Object.MemberwiseClone
-    fullName: System.Object.MemberwiseClone
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.ReferenceEquals(System.Object,System.Object)
-  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
-  parent: System.Object
-  isExternal: true
-  name: ReferenceEquals(Object, Object)
-  nameWithType: Object.ReferenceEquals(Object, Object)
-  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
-  spec.csharp:
-  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
-    name: ReferenceEquals
-    nameWithType: Object.ReferenceEquals
-    fullName: System.Object.ReferenceEquals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
-    name: ReferenceEquals
-    nameWithType: Object.ReferenceEquals
-    fullName: System.Object.ReferenceEquals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.ToString
-  commentId: M:System.Object.ToString
-  parent: System.Object
-  isExternal: true
-  name: ToString()
-  nameWithType: Object.ToString()
-  fullName: System.Object.ToString()
-  spec.csharp:
-  - uid: System.Object.ToString
-    name: ToString
-    nameWithType: Object.ToString
-    fullName: System.Object.ToString
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.ToString
-    name: ToString
-    nameWithType: Object.ToString
-    fullName: System.Object.ToString
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System
-  commentId: N:System
-  isExternal: true
-  name: System
-  nameWithType: System
-  fullName: System
 - uid: AttackSurfaceAnalyzer.Utils.Filter.IsFiltered*
   commentId: Overload:AttackSurfaceAnalyzer.Utils.Filter.IsFiltered
   name: IsFiltered
   nameWithType: Filter.IsFiltered
   fullName: AttackSurfaceAnalyzer.Utils.Filter.IsFiltered
 - uid: System.String
-  commentId: T:System.String
-  parent: System
   isExternal: true
   name: String
   nameWithType: String
   fullName: System.String
 - uid: System.Boolean
-  commentId: T:System.Boolean
-  parent: System
   isExternal: true
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
-- uid: System.Text.RegularExpressions.Regex
-  commentId: T:System.Text.RegularExpressions.Regex
-  parent: System.Text.RegularExpressions
+- uid: Regex
+  commentId: '!:Regex'
   isExternal: true
   name: Regex
   nameWithType: Regex
-  fullName: System.Text.RegularExpressions.Regex
-- uid: System.Text.RegularExpressions
-  commentId: N:System.Text.RegularExpressions
-  isExternal: true
-  name: System.Text.RegularExpressions
-  nameWithType: System.Text.RegularExpressions
-  fullName: System.Text.RegularExpressions
+  fullName: Regex
 - uid: AttackSurfaceAnalyzer.Utils.Filter.DumpFilters*
   commentId: Overload:AttackSurfaceAnalyzer.Utils.Filter.DumpFilters
   name: DumpFilters

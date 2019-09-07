@@ -20,17 +20,17 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ERRORS
     path: ../Lib/Objects/Types.cs
-    startLine: 34
+    startLine: 36
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
   syntax:
-    content: public enum ERRORS
-    content.vb: Public Enum ERRORS
+    content: 'public enum ERRORS : int'
+    content.vb: Public Enum ERRORS As Integer
   modifiers.csharp:
   - public
   - enum
@@ -51,11 +51,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: NONE
     path: ../Lib/Objects/Types.cs
-    startLine: 36
+    startLine: 38
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -83,11 +83,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: UNIQUE_ID
     path: ../Lib/Objects/Types.cs
-    startLine: 37
+    startLine: 39
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -115,11 +115,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: INVALID_PATH
     path: ../Lib/Objects/Types.cs
-    startLine: 38
+    startLine: 40
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -147,11 +147,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ALREADY_RUNNING
     path: ../Lib/Objects/Types.cs
-    startLine: 39
+    startLine: 41
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -179,11 +179,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: NO_COLLECTORS
     path: ../Lib/Objects/Types.cs
-    startLine: 40
+    startLine: 42
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types

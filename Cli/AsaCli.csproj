@@ -28,6 +28,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="..\Lib\Properties\Resources.resx" Link="Properties\Resources.resx" />
     <EmbeddedResource Include="Output\Output.cshtml">
     </EmbeddedResource>
     <EmbeddedResource Include="..\analyses.json" Link="analyses.json" />
@@ -45,19 +46,6 @@
     </Content>
     <EmbeddedResource Include="..\filters.json">
       <Link>filters.json</Link>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

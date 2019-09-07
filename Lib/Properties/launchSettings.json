@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AttackSurfaceAnalyzerCli": {
+      "commandName": "Project",
+      "commandLineArgs": "export-collect --databasefilename C:\\Users\\Gstoc\\Documents\\GitHub\\AttackSurfaceAnalyzer\\Cli\\asa.sqlite"
+    }
+  }
+}

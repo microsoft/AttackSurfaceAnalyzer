@@ -34,7 +34,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DatabaseManager
     path: ../Lib/Utils/DatabaseManager.cs
@@ -43,18 +43,12 @@ items:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
   syntax:
-    content: public static class DatabaseManager
-    content.vb: Public Module DatabaseManager
+    content: 'public static class DatabaseManager : object'
+    content.vb: >-
+      Public Module DatabaseManager
+          Inherits Object
   inheritance:
   - System.Object
-  inheritedMembers:
-  - System.Object.Equals(System.Object)
-  - System.Object.Equals(System.Object,System.Object)
-  - System.Object.GetHashCode
-  - System.Object.GetType
-  - System.Object.MemberwiseClone
-  - System.Object.ReferenceEquals(System.Object,System.Object)
-  - System.Object.ToString
   modifiers.csharp:
   - public
   - static
@@ -76,7 +70,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Connection
     path: ../Lib/Utils/DatabaseManager.cs
@@ -87,7 +81,7 @@ items:
   syntax:
     content: public static SqliteConnection Connection
     return:
-      type: Microsoft.Data.Sqlite.SqliteConnection
+      type: SqliteConnection
     content.vb: Public Shared Connection As SqliteConnection
   modifiers.csharp:
   - public
@@ -109,7 +103,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ReadOnlyConnection
     path: ../Lib/Utils/DatabaseManager.cs
@@ -120,7 +114,7 @@ items:
   syntax:
     content: public static SqliteConnection ReadOnlyConnection
     return:
-      type: Microsoft.Data.Sqlite.SqliteConnection
+      type: SqliteConnection
     content.vb: Public Shared ReadOnlyConnection As SqliteConnection
   modifiers.csharp:
   - public
@@ -142,7 +136,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FirstRun
     path: ../Lib/Utils/DatabaseManager.cs
@@ -179,7 +173,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Setup
     path: ../Lib/Utils/DatabaseManager.cs
@@ -213,7 +207,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RunIdToPlatform
     path: ../Lib/Utils/DatabaseManager.cs
@@ -250,7 +244,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: InsertAnalyzed
     path: ../Lib/Utils/DatabaseManager.cs
@@ -285,7 +279,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: VerifySchemaVersion
     path: ../Lib/Utils/DatabaseManager.cs
@@ -317,7 +311,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetLatestRunIds
     path: ../Lib/Utils/DatabaseManager.cs
@@ -333,7 +327,7 @@ items:
     - id: type
       type: System.String
     return:
-      type: System.Collections.Generic.List{System.String}
+      type: List{System.String}
     content.vb: Public Shared Function GetLatestRunIds(numberOfIds As Integer, type As String) As List(Of String)
   overload: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetLatestRunIds*
   modifiers.csharp:
@@ -356,7 +350,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetResultTypesAndCounts
     path: ../Lib/Utils/DatabaseManager.cs
@@ -370,7 +364,7 @@ items:
     - id: runId
       type: System.String
     return:
-      type: System.Collections.Generic.Dictionary{AttackSurfaceAnalyzer.Types.RESULT_TYPE,System.Int32}
+      type: Dictionary{AttackSurfaceAnalyzer.Types.RESULT_TYPE,System.Int32}
     content.vb: Public Shared Function GetResultTypesAndCounts(runId As String) As Dictionary(Of RESULT_TYPE, Integer)
   overload: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultTypesAndCounts*
   modifiers.csharp:
@@ -393,7 +387,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetNumResults
     path: ../Lib/Utils/DatabaseManager.cs
@@ -432,7 +426,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Transaction
     path: ../Lib/Utils/DatabaseManager.cs
@@ -444,7 +438,7 @@ items:
     content: public static SqliteTransaction Transaction { get; }
     parameters: []
     return:
-      type: Microsoft.Data.Sqlite.SqliteTransaction
+      type: SqliteTransaction
     content.vb: Public Shared ReadOnly Property Transaction As SqliteTransaction
   overload: AttackSurfaceAnalyzer.Utils.DatabaseManager.Transaction*
   modifiers.csharp:
@@ -469,7 +463,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Commit
     path: ../Lib/Utils/DatabaseManager.cs
@@ -501,7 +495,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: _ReadOnly
     path: ../Lib/Utils/DatabaseManager.cs
@@ -534,7 +528,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SqliteFilename
     path: ../Lib/Utils/DatabaseManager.cs
@@ -571,7 +565,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CloseDatabase
     path: ../Lib/Utils/DatabaseManager.cs
@@ -603,7 +597,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Write
     path: ../Lib/Utils/DatabaseManager.cs
@@ -640,7 +634,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetMissingFromFirst
     path: ../Lib/Utils/DatabaseManager.cs
@@ -656,7 +650,7 @@ items:
     - id: secondRunId
       type: System.String
     return:
-      type: System.Collections.Generic.List{AttackSurfaceAnalyzer.Objects.RawCollectResult}
+      type: List{AttackSurfaceAnalyzer.Objects.RawCollectResult}
     content.vb: Public Shared Function GetMissingFromFirst(firstRunId As String, secondRunId As String) As List(Of RawCollectResult)
   overload: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetMissingFromFirst*
   modifiers.csharp:
@@ -679,7 +673,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetModified
     path: ../Lib/Utils/DatabaseManager.cs
@@ -695,7 +689,7 @@ items:
     - id: secondRunId
       type: System.String
     return:
-      type: System.Collections.Generic.List{AttackSurfaceAnalyzer.Objects.RawModifiedResult}
+      type: List{AttackSurfaceAnalyzer.Objects.RawModifiedResult}
     content.vb: Public Shared Function GetModified(firstRunId As String, secondRunId As String) As List(Of RawModifiedResult)
   overload: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetModified*
   modifiers.csharp:
@@ -718,7 +712,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DeleteRun
     path: ../Lib/Utils/DatabaseManager.cs
@@ -746,318 +740,21 @@ references:
   nameWithType: AttackSurfaceAnalyzer.Utils
   fullName: AttackSurfaceAnalyzer.Utils
 - uid: System.Object
-  commentId: T:System.Object
-  parent: System
   isExternal: true
   name: Object
   nameWithType: Object
   fullName: System.Object
-- uid: System.Object.Equals(System.Object)
-  commentId: M:System.Object.Equals(System.Object)
-  parent: System.Object
-  isExternal: true
-  name: Equals(Object)
-  nameWithType: Object.Equals(Object)
-  fullName: System.Object.Equals(System.Object)
-  spec.csharp:
-  - uid: System.Object.Equals(System.Object)
-    name: Equals
-    nameWithType: Object.Equals
-    fullName: System.Object.Equals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.Equals(System.Object)
-    name: Equals
-    nameWithType: Object.Equals
-    fullName: System.Object.Equals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.Equals(System.Object,System.Object)
-  commentId: M:System.Object.Equals(System.Object,System.Object)
-  parent: System.Object
-  isExternal: true
-  name: Equals(Object, Object)
-  nameWithType: Object.Equals(Object, Object)
-  fullName: System.Object.Equals(System.Object, System.Object)
-  spec.csharp:
-  - uid: System.Object.Equals(System.Object,System.Object)
-    name: Equals
-    nameWithType: Object.Equals
-    fullName: System.Object.Equals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.Equals(System.Object,System.Object)
-    name: Equals
-    nameWithType: Object.Equals
-    fullName: System.Object.Equals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.GetHashCode
-  commentId: M:System.Object.GetHashCode
-  parent: System.Object
-  isExternal: true
-  name: GetHashCode()
-  nameWithType: Object.GetHashCode()
-  fullName: System.Object.GetHashCode()
-  spec.csharp:
-  - uid: System.Object.GetHashCode
-    name: GetHashCode
-    nameWithType: Object.GetHashCode
-    fullName: System.Object.GetHashCode
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.GetHashCode
-    name: GetHashCode
-    nameWithType: Object.GetHashCode
-    fullName: System.Object.GetHashCode
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.GetType
-  commentId: M:System.Object.GetType
-  parent: System.Object
-  isExternal: true
-  name: GetType()
-  nameWithType: Object.GetType()
-  fullName: System.Object.GetType()
-  spec.csharp:
-  - uid: System.Object.GetType
-    name: GetType
-    nameWithType: Object.GetType
-    fullName: System.Object.GetType
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.GetType
-    name: GetType
-    nameWithType: Object.GetType
-    fullName: System.Object.GetType
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.MemberwiseClone
-  commentId: M:System.Object.MemberwiseClone
-  parent: System.Object
-  isExternal: true
-  name: MemberwiseClone()
-  nameWithType: Object.MemberwiseClone()
-  fullName: System.Object.MemberwiseClone()
-  spec.csharp:
-  - uid: System.Object.MemberwiseClone
-    name: MemberwiseClone
-    nameWithType: Object.MemberwiseClone
-    fullName: System.Object.MemberwiseClone
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.MemberwiseClone
-    name: MemberwiseClone
-    nameWithType: Object.MemberwiseClone
-    fullName: System.Object.MemberwiseClone
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.ReferenceEquals(System.Object,System.Object)
-  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
-  parent: System.Object
-  isExternal: true
-  name: ReferenceEquals(Object, Object)
-  nameWithType: Object.ReferenceEquals(Object, Object)
-  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
-  spec.csharp:
-  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
-    name: ReferenceEquals
-    nameWithType: Object.ReferenceEquals
-    fullName: System.Object.ReferenceEquals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
-    name: ReferenceEquals
-    nameWithType: Object.ReferenceEquals
-    fullName: System.Object.ReferenceEquals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.ToString
-  commentId: M:System.Object.ToString
-  parent: System.Object
-  isExternal: true
-  name: ToString()
-  nameWithType: Object.ToString()
-  fullName: System.Object.ToString()
-  spec.csharp:
-  - uid: System.Object.ToString
-    name: ToString
-    nameWithType: Object.ToString
-    fullName: System.Object.ToString
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.ToString
-    name: ToString
-    nameWithType: Object.ToString
-    fullName: System.Object.ToString
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System
-  commentId: N:System
-  isExternal: true
-  name: System
-  nameWithType: System
-  fullName: System
-- uid: Microsoft.Data.Sqlite.SqliteConnection
-  commentId: T:Microsoft.Data.Sqlite.SqliteConnection
-  parent: Microsoft.Data.Sqlite
+- uid: SqliteConnection
   isExternal: true
   name: SqliteConnection
   nameWithType: SqliteConnection
-  fullName: Microsoft.Data.Sqlite.SqliteConnection
-- uid: Microsoft.Data.Sqlite
-  commentId: N:Microsoft.Data.Sqlite
-  isExternal: true
-  name: Microsoft.Data.Sqlite
-  nameWithType: Microsoft.Data.Sqlite
-  fullName: Microsoft.Data.Sqlite
+  fullName: SqliteConnection
 - uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.FirstRun*
   commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.FirstRun
   name: FirstRun
   nameWithType: DatabaseManager.FirstRun
   fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.FirstRun
 - uid: System.Boolean
-  commentId: T:System.Boolean
-  parent: System
   isExternal: true
   name: Boolean
   nameWithType: Boolean
@@ -1073,8 +770,6 @@ references:
   nameWithType: DatabaseManager.RunIdToPlatform
   fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.RunIdToPlatform
 - uid: System.String
-  commentId: T:System.String
-  parent: System
   isExternal: true
   name: String
   nameWithType: String
@@ -1117,27 +812,24 @@ references:
   nameWithType: DatabaseManager.GetLatestRunIds
   fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetLatestRunIds
 - uid: System.Int32
-  commentId: T:System.Int32
-  parent: System
   isExternal: true
   name: Int32
   nameWithType: Int32
   fullName: System.Int32
-- uid: System.Collections.Generic.List{System.String}
-  commentId: T:System.Collections.Generic.List{System.String}
-  parent: System.Collections.Generic
-  definition: System.Collections.Generic.List`1
+- uid: List{System.String}
+  commentId: '!:List{System.String}'
+  definition: List`1
   name: List<String>
   nameWithType: List<String>
-  fullName: System.Collections.Generic.List<System.String>
+  fullName: List<System.String>
   nameWithType.vb: List(Of String)
-  fullName.vb: System.Collections.Generic.List(Of System.String)
+  fullName.vb: List(Of System.String)
   name.vb: List(Of String)
   spec.csharp:
-  - uid: System.Collections.Generic.List`1
+  - uid: List`1
     name: List
     nameWithType: List
-    fullName: System.Collections.Generic.List
+    fullName: List
     isExternal: true
   - name: <
     nameWithType: <
@@ -1151,10 +843,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: System.Collections.Generic.List`1
+  - uid: List`1
     name: List
     nameWithType: List
-    fullName: System.Collections.Generic.List
+    fullName: List
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -1167,71 +859,63 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: System.Collections.Generic.List`1
-  commentId: T:System.Collections.Generic.List`1
+- uid: List`1
   isExternal: true
-  name: List<T>
-  nameWithType: List<T>
-  fullName: System.Collections.Generic.List<T>
-  nameWithType.vb: List(Of T)
-  fullName.vb: System.Collections.Generic.List(Of T)
-  name.vb: List(Of T)
+  name: List<>
+  nameWithType: List<>
+  fullName: List<>
+  nameWithType.vb: List(Of )
+  fullName.vb: List(Of )
+  name.vb: List(Of )
   spec.csharp:
-  - uid: System.Collections.Generic.List`1
+  - uid: List`1
     name: List
     nameWithType: List
-    fullName: System.Collections.Generic.List
+    fullName: List
     isExternal: true
   - name: <
     nameWithType: <
     fullName: <
-  - name: T
-    nameWithType: T
-    fullName: T
+  - name: ''
+    nameWithType: ''
+    fullName: ''
   - name: '>'
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: System.Collections.Generic.List`1
+  - uid: List`1
     name: List
     nameWithType: List
-    fullName: System.Collections.Generic.List
+    fullName: List
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - name: T
-    nameWithType: T
-    fullName: T
+  - name: ''
+    nameWithType: ''
+    fullName: ''
   - name: )
     nameWithType: )
     fullName: )
-- uid: System.Collections.Generic
-  commentId: N:System.Collections.Generic
-  isExternal: true
-  name: System.Collections.Generic
-  nameWithType: System.Collections.Generic
-  fullName: System.Collections.Generic
 - uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultTypesAndCounts*
   commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultTypesAndCounts
   name: GetResultTypesAndCounts
   nameWithType: DatabaseManager.GetResultTypesAndCounts
   fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultTypesAndCounts
-- uid: System.Collections.Generic.Dictionary{AttackSurfaceAnalyzer.Types.RESULT_TYPE,System.Int32}
-  commentId: T:System.Collections.Generic.Dictionary{AttackSurfaceAnalyzer.Types.RESULT_TYPE,System.Int32}
-  parent: System.Collections.Generic
-  definition: System.Collections.Generic.Dictionary`2
+- uid: Dictionary{AttackSurfaceAnalyzer.Types.RESULT_TYPE,System.Int32}
+  commentId: '!:Dictionary{AttackSurfaceAnalyzer.Types.RESULT_TYPE,System.Int32}'
+  definition: Dictionary`2
   name: Dictionary<RESULT_TYPE, Int32>
   nameWithType: Dictionary<RESULT_TYPE, Int32>
-  fullName: System.Collections.Generic.Dictionary<AttackSurfaceAnalyzer.Types.RESULT_TYPE, System.Int32>
+  fullName: Dictionary<AttackSurfaceAnalyzer.Types.RESULT_TYPE, System.Int32>
   nameWithType.vb: Dictionary(Of RESULT_TYPE, Int32)
-  fullName.vb: System.Collections.Generic.Dictionary(Of AttackSurfaceAnalyzer.Types.RESULT_TYPE, System.Int32)
+  fullName.vb: Dictionary(Of AttackSurfaceAnalyzer.Types.RESULT_TYPE, System.Int32)
   name.vb: Dictionary(Of RESULT_TYPE, Int32)
   spec.csharp:
-  - uid: System.Collections.Generic.Dictionary`2
+  - uid: Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: System.Collections.Generic.Dictionary
+    fullName: Dictionary
     isExternal: true
   - name: <
     nameWithType: <
@@ -1252,10 +936,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: System.Collections.Generic.Dictionary`2
+  - uid: Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: System.Collections.Generic.Dictionary
+    fullName: Dictionary
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -1275,54 +959,53 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: System.Collections.Generic.Dictionary`2
-  commentId: T:System.Collections.Generic.Dictionary`2
+- uid: Dictionary`2
   isExternal: true
-  name: Dictionary<TKey, TValue>
-  nameWithType: Dictionary<TKey, TValue>
-  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
-  nameWithType.vb: Dictionary(Of TKey, TValue)
-  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
-  name.vb: Dictionary(Of TKey, TValue)
+  name: Dictionary<, >
+  nameWithType: Dictionary<, >
+  fullName: Dictionary<, >
+  nameWithType.vb: Dictionary(Of , )
+  fullName.vb: Dictionary(Of , )
+  name.vb: Dictionary(Of , )
   spec.csharp:
-  - uid: System.Collections.Generic.Dictionary`2
+  - uid: Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: System.Collections.Generic.Dictionary
+    fullName: Dictionary
     isExternal: true
   - name: <
     nameWithType: <
     fullName: <
-  - name: TKey
-    nameWithType: TKey
-    fullName: TKey
+  - name: ''
+    nameWithType: ''
+    fullName: ''
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - name: TValue
-    nameWithType: TValue
-    fullName: TValue
+  - name: ''
+    nameWithType: ''
+    fullName: ''
   - name: '>'
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: System.Collections.Generic.Dictionary`2
+  - uid: Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: System.Collections.Generic.Dictionary
+    fullName: Dictionary
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - name: TKey
-    nameWithType: TKey
-    fullName: TKey
+  - name: ''
+    nameWithType: ''
+    fullName: ''
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - name: TValue
-    nameWithType: TValue
-    fullName: TValue
+  - name: ''
+    nameWithType: ''
+    fullName: ''
   - name: )
     nameWithType: )
     fullName: )
@@ -1342,13 +1025,12 @@ references:
   name: Transaction
   nameWithType: DatabaseManager.Transaction
   fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.Transaction
-- uid: Microsoft.Data.Sqlite.SqliteTransaction
-  commentId: T:Microsoft.Data.Sqlite.SqliteTransaction
-  parent: Microsoft.Data.Sqlite
+- uid: SqliteTransaction
+  commentId: '!:SqliteTransaction'
   isExternal: true
   name: SqliteTransaction
   nameWithType: SqliteTransaction
-  fullName: Microsoft.Data.Sqlite.SqliteTransaction
+  fullName: SqliteTransaction
 - uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.Commit*
   commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.Commit
   name: Commit
@@ -1380,21 +1062,20 @@ references:
   name: GetMissingFromFirst
   nameWithType: DatabaseManager.GetMissingFromFirst
   fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetMissingFromFirst
-- uid: System.Collections.Generic.List{AttackSurfaceAnalyzer.Objects.RawCollectResult}
-  commentId: T:System.Collections.Generic.List{AttackSurfaceAnalyzer.Objects.RawCollectResult}
-  parent: System.Collections.Generic
-  definition: System.Collections.Generic.List`1
+- uid: List{AttackSurfaceAnalyzer.Objects.RawCollectResult}
+  commentId: '!:List{AttackSurfaceAnalyzer.Objects.RawCollectResult}'
+  definition: List`1
   name: List<RawCollectResult>
   nameWithType: List<RawCollectResult>
-  fullName: System.Collections.Generic.List<AttackSurfaceAnalyzer.Objects.RawCollectResult>
+  fullName: List<AttackSurfaceAnalyzer.Objects.RawCollectResult>
   nameWithType.vb: List(Of RawCollectResult)
-  fullName.vb: System.Collections.Generic.List(Of AttackSurfaceAnalyzer.Objects.RawCollectResult)
+  fullName.vb: List(Of AttackSurfaceAnalyzer.Objects.RawCollectResult)
   name.vb: List(Of RawCollectResult)
   spec.csharp:
-  - uid: System.Collections.Generic.List`1
+  - uid: List`1
     name: List
     nameWithType: List
-    fullName: System.Collections.Generic.List
+    fullName: List
     isExternal: true
   - name: <
     nameWithType: <
@@ -1407,10 +1088,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: System.Collections.Generic.List`1
+  - uid: List`1
     name: List
     nameWithType: List
-    fullName: System.Collections.Generic.List
+    fullName: List
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -1427,21 +1108,20 @@ references:
   name: GetModified
   nameWithType: DatabaseManager.GetModified
   fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetModified
-- uid: System.Collections.Generic.List{AttackSurfaceAnalyzer.Objects.RawModifiedResult}
-  commentId: T:System.Collections.Generic.List{AttackSurfaceAnalyzer.Objects.RawModifiedResult}
-  parent: System.Collections.Generic
-  definition: System.Collections.Generic.List`1
+- uid: List{AttackSurfaceAnalyzer.Objects.RawModifiedResult}
+  commentId: '!:List{AttackSurfaceAnalyzer.Objects.RawModifiedResult}'
+  definition: List`1
   name: List<RawModifiedResult>
   nameWithType: List<RawModifiedResult>
-  fullName: System.Collections.Generic.List<AttackSurfaceAnalyzer.Objects.RawModifiedResult>
+  fullName: List<AttackSurfaceAnalyzer.Objects.RawModifiedResult>
   nameWithType.vb: List(Of RawModifiedResult)
-  fullName.vb: System.Collections.Generic.List(Of AttackSurfaceAnalyzer.Objects.RawModifiedResult)
+  fullName.vb: List(Of AttackSurfaceAnalyzer.Objects.RawModifiedResult)
   name.vb: List(Of RawModifiedResult)
   spec.csharp:
-  - uid: System.Collections.Generic.List`1
+  - uid: List`1
     name: List
     nameWithType: List
-    fullName: System.Collections.Generic.List
+    fullName: List
     isExternal: true
   - name: <
     nameWithType: <
@@ -1454,10 +1134,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: System.Collections.Generic.List`1
+  - uid: List`1
     name: List
     nameWithType: List
-    fullName: System.Collections.Generic.List
+    fullName: List
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
