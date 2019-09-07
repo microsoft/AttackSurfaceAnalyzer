@@ -2,9 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using AttackSurfaceAnalyzer.Collectors;
 using AttackSurfaceAnalyzer.Objects;
+using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Win32;
@@ -17,6 +20,7 @@ namespace AsaTests
     {
         public void Setup()
         {
+            Logger.Setup();
             Strings.Setup();
             Telemetry.TestMode();
             DatabaseManager.SqliteFilename = Path.GetTempFileName();
@@ -42,6 +46,7 @@ namespace AsaTests
 
             var FirstRunId = "TestFileCollector-1";
             var SecondRunId = "TestFileCollector-2";
+
             var fsc = new FileSystemCollector(FirstRunId, enableHashing: true, directories: Path.GetTempPath(), downloadCloud: false, examineCertificates: true);
             fsc.Execute();
 
@@ -58,11 +63,88 @@ namespace AsaTests
             }
 
             Dictionary<string, List<CompareResult>> results = bc.Results;
+
+            Assert.IsTrue(results.ContainsKey("FILE_CREATED"));
             Assert.IsTrue(results["FILE_CREATED"].Where(x => x.Identity.Contains(testFile)).Count() > 0);
 
             TearDown();
         }
 
+        /// <summary>
+        /// Does not require admin.
+        /// </summary>
+        [TestMethod]
+        public void TestCertificateCollectorWindows()
+        {
+            Setup();
+
+            var FirstRunId = "TestCertificateCollector-1";
+
+            var fsc = new CertificateCollector(FirstRunId);
+            fsc.Execute();
+
+            var results = DatabaseManager.GetResultsByRunid(FirstRunId);
+
+            Assert.IsTrue(results.Where(x => x.ResultType == RESULT_TYPE.CERTIFICATE).Count() > 0);
+
+            TearDown();
+        }
+
+        /// <summary>
+        /// Does not require Admin.
+        /// </summary>
+        [TestMethod]
+        public void TestPortCollectorWindows()
+        {
+            Setup();
+
+            var FirstRunId = "TestPortCollector-1";
+            var SecondRunId = "TestPortCollector-2";
+
+            var fsc = new OpenPortCollector(FirstRunId);
+            fsc.Execute();
+
+            TcpListener server = null;
+            try
+            {
+                // Set the TcpListener on port 13000.
+                Int32 port = 13000;
+                IPAddress localAddr = IPAddress.Parse("127.0.0.1");
+
+                // TcpListener server = new TcpListener(port);
+                server = new TcpListener(localAddr, port);
+
+                // Start listening for client requests.
+                server.Start();
+            }
+            catch(Exception)
+            {
+                Console.WriteLine("Failed to open port.");
+            }
+
+            fsc = new OpenPortCollector(SecondRunId);
+            fsc.Execute();
+
+            server.Stop();
+
+            BaseCompare bc = new BaseCompare();
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+            if (!bc.TryCompare(FirstRunId, SecondRunId))
+            {
+                Assert.Fail();
+            }
+
+            Dictionary<string, List<CompareResult>> results = bc.Results;
+
+            Assert.IsTrue(results.ContainsKey("PORT_CREATED"));
+            Assert.IsTrue(results["PORT_CREATED"].Where(x => x.Identity.Contains("13000")).Count() > 0);
+
+            TearDown();
+        }
+
+        /// <summary>
+        /// Requires root.
+        /// </summary>
         [TestMethod]
         public void TestFirewallCollectorOSX()
         {
@@ -71,6 +153,7 @@ namespace AsaTests
                 Setup();
                 var FirstRunId = "TestFirewallCollector-1";
                 var SecondRunId = "TestFirewallCollector-2";
+
                 var fwc = new FirewallCollector(FirstRunId);
                 fwc.Execute();
 
@@ -89,6 +172,8 @@ namespace AsaTests
                 }
 
                 Dictionary<string, List<CompareResult>> results = bc.Results;
+
+                Assert.IsTrue(results.ContainsKey("FIREWALL_CREATED"));
                 Assert.IsTrue(results["FIREWALL_CREATED"].Where(x => x.Identity.Contains("/bin/bash")).Count() > 0);
 
                 TearDown();
@@ -104,6 +189,7 @@ namespace AsaTests
 
                 var FirstRunId = "TestRegistryCollector-1";
                 var SecondRunId = "TestRegistryCollector-2";
+
                 var rc = new RegistryCollector(FirstRunId, new List<RegistryHive>() { RegistryHive.CurrentUser });
                 rc.Execute();
                 var name = System.Guid.NewGuid().ToString().Substring(0, 10);
@@ -130,12 +216,17 @@ namespace AsaTests
                 }
 
                 Dictionary<string, List<CompareResult>> results = bc.Results;
+
+                Assert.IsTrue(results.ContainsKey("REGISTRY_CREATED"));
                 Assert.IsTrue(results["REGISTRY_CREATED"].Where(x => x.Identity.Contains(name)).Count() > 0);
 
                 TearDown();
             }
         }
 
+        /// <summary>
+        /// Requires Administrator Priviledges.
+        /// </summary>
         [TestMethod]
         public void TestServiceCollectorWindows()
         {
@@ -145,10 +236,11 @@ namespace AsaTests
 
                 var FirstRunId = "TestServiceCollector-1";
                 var SecondRunId = "TestServiceCollector-2";
+
                 var fwc = new ServiceCollector(FirstRunId);
                 fwc.Execute();
 
-                // Create a service
+                // Create a service - This won't throw an exception, but it won't work if you are not an Admin.
                 var serviceName = "AsaDemoService";
                 var exeName = "AsaDemoService.exe";
                 var cmd = string.Format("create {0} binPath=\"{1}\"", serviceName, exeName);
@@ -169,6 +261,8 @@ namespace AsaTests
                 }
 
                 Dictionary<string, List<CompareResult>> results = bc.Results;
+
+                Assert.IsTrue(results.ContainsKey("SERVICE_CREATED"));
                 Assert.IsTrue(results["SERVICE_CREATED"].Where(x => x.Identity.Contains("AsaDemoService")).Count() > 0);
 
                 TearDown();
@@ -184,6 +278,7 @@ namespace AsaTests
 
                 var FirstRunId = "TestUserCollector-1";
                 var SecondRunId = "TestUserCollector-2";
+
                 var fwc = new UserAccountCollector(FirstRunId);
                 fwc.Execute();
 
@@ -208,6 +303,7 @@ namespace AsaTests
                 }
 
                 Dictionary<string, List<CompareResult>> results = bc.Results;
+                Assert.IsTrue(results.ContainsKey("USER_CREATED"));
                 Assert.IsTrue(results["USER_CREATED"].Where(x => x.Identity.Contains(user)).Count() > 0);
 
                 TearDown();
@@ -222,6 +318,7 @@ namespace AsaTests
                 Setup();
                 var FirstRunId = "TestFirewallCollector-1";
                 var SecondRunId = "TestFirewallCollector-2";
+
                 var fwc = new FirewallCollector(FirstRunId);
                 fwc.Execute();
 
@@ -264,6 +361,8 @@ namespace AsaTests
                 }
 
                 Dictionary<string, List<CompareResult>> results = bc.Results;
+
+                Assert.IsTrue(results.ContainsKey("FIREWALL_CREATED"));
                 Assert.IsTrue(results["FIREWALL_CREATED"].Where(x => ((FirewallObject)x.Compare).LocalPorts.Contains("9999")).Count() > 0);
                 Assert.IsTrue(results["FIREWALL_CREATED"].Where(x => x.Identity.Contains("MyApp.exe")).Count() > 0);
 
