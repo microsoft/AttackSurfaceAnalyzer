@@ -7,6 +7,7 @@ using AttackSurfaceAnalyzer.Collectors;
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.Win32;
 using WindowsFirewallHelper;
 
 namespace AsaTests
@@ -94,6 +95,46 @@ namespace AsaTests
             }
         }
 
+        [TestMethod]
+        public void TestRegistryCollectorWindows()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                Setup();
+
+                var FirstRunId = "TestRegistryCollector-1";
+                var SecondRunId = "TestRegistryCollector-2";
+                var rc = new RegistryCollector(FirstRunId,new List<RegistryHive>() { RegistryHive.CurrentUser });
+                rc.Execute();
+                var name = System.Guid.NewGuid().ToString().Substring(0, 10);
+                var value = System.Guid.NewGuid().ToString().Substring(0, 10);
+                var value2 = System.Guid.NewGuid().ToString().Substring(0, 10);
+
+                // Create a registry key
+                RegistryKey key;
+                key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(name);
+                key.SetValue(value, value2);
+                key.Close();
+
+                rc = new RegistryCollector(SecondRunId, new List<RegistryHive>() { RegistryHive.CurrentUser });
+                rc.Execute();
+
+                // Clean up
+                Microsoft.Win32.Registry.CurrentUser.DeleteSubKey(name);
+
+                BaseCompare bc = new BaseCompare();
+                var watch = System.Diagnostics.Stopwatch.StartNew();
+                if (!bc.TryCompare(FirstRunId, SecondRunId))
+                {
+                    Assert.Fail();
+                }
+
+                Dictionary<string, List<CompareResult>> results = bc.Results;
+                Assert.IsTrue(results["REGISTRY_CREATED"].Where(x => x.Identity.Contains(name)).Count() > 0);
+
+                TearDown();
+            }
+        }
 
         [TestMethod]
         public void TestServiceCollectorWindows()
