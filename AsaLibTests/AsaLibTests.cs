@@ -1,24 +1,44 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using AttackSurfaceAnalyzer.Collectors;
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+using WindowsFirewallHelper;
 
 namespace AsaTests
 {
     [TestClass]
     public class AsaLibTests
     {
+        public void Setup()
+        {
+            Strings.Setup();
+            Telemetry.TestMode();
+            DatabaseManager.SqliteFilename = Path.GetTempFileName();
+            DatabaseManager.Setup();
+        }
+
+        public void TearDown()
+        {
+            DatabaseManager.CloseDatabase();
+            try
+            {
+                File.Delete(DatabaseManager.SqliteFilename);
+            }
+            catch (Exception)
+            {
+            }        
+        }
+
         [TestMethod]
         public void TestFileCollector()
         {
-            Strings.Setup();
+            Setup();
 
-            DatabaseManager.SqliteFilename = Path.GetTempFileName();
-            DatabaseManager.Setup();
             var FirstRunId = "TestFileCollector-1";
             var SecondRunId = "TestFileCollector-2";
             var fsc = new FileSystemCollector(FirstRunId, enableHashing: true, directories: Path.GetTempPath(), downloadCloud: false, examineCertificates: true);
@@ -37,29 +57,28 @@ namespace AsaTests
             }
 
             Dictionary<string, List<CompareResult>> results = bc.Results;
-            Assert.IsTrue(results["FILES_CREATED"].Where(x => x.Identity.Contains(testFile)).Count() > 0);
+            Assert.IsTrue(results["FILE_CREATED"].Where(x => x.Identity.Contains(testFile)).Count() > 0);
+
+            TearDown();
         }
 
         [TestMethod]
         public void TestFirewallCollectorOSX()
         {
-            if (RuntimeInformation.IsOsPlatform(OSPlatform.OSX))
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                Strings.Setup();
-
-                DatabaseManager.SqliteFilename = Path.GetTempFileName();
-                DatabaseManager.Setup();
+                Setup();
                 var FirstRunId = "TestFirewallCollector-1";
                 var SecondRunId = "TestFirewallCollector-2";
                 var fwc = new FirewallCollector(FirstRunId);
                 fwc.Execute();
 
-                var result = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--add", "/bin/bash);
+                var result = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--add", "/bin/bash");
 
                 fwc = new FirewallCollector(SecondRunId);
                 fwc.Execute();
 
-                result = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--remove", "/bin/bash);
+                result = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--remove", "/bin/bash");
 
                 BaseCompare bc = new BaseCompare();
                 var watch = System.Diagnostics.Stopwatch.StartNew();
@@ -70,18 +89,17 @@ namespace AsaTests
 
                 Dictionary<string, List<CompareResult>> results = bc.Results;
                 Assert.IsTrue(results["FIREWALL_CREATED"].Where(x => x.Identity.Contains("/bin/bash")).Count() > 0);
+
+                TearDown();
             }
         }
 
         [TestMethod]
         public void TestFirewallCollectorWindows()
         {
-            if (RuntimeInformation.IsOsPlatform(OSPlatform.Windows))
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                Strings.Setup();
-
-                DatabaseManager.SqliteFilename = Path.GetTempFileName();
-                DatabaseManager.Setup();
+                Setup();
                 var FirstRunId = "TestFirewallCollector-1";
                 var SecondRunId = "TestFirewallCollector-2";
                 var fwc = new FirewallCollector(FirstRunId);
@@ -126,8 +144,10 @@ namespace AsaTests
                 }
 
                 Dictionary<string, List<CompareResult>> results = bc.Results;
-                Assert.IsTrue(results["FIREWALL_CREATED"].Where(x => x.Identity.Contains("80")).Count() > 0);
+                Assert.IsTrue(results["FIREWALL_CREATED"].Where(x => ((FirewallObject)x.Compare).LocalPorts.Contains("9999")).Count() > 0);
                 Assert.IsTrue(results["FIREWALL_CREATED"].Where(x => x.Identity.Contains("MyApp.exe")).Count() > 0);
+
+                TearDown();
             }
         }
     }

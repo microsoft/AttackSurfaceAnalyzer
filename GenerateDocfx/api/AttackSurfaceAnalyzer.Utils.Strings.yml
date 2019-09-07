@@ -6,7 +6,7 @@ items:
   parent: AttackSurfaceAnalyzer.Utils
   children:
   - AttackSurfaceAnalyzer.Utils.Strings.Get(System.String)
-  - AttackSurfaceAnalyzer.Utils.Strings.Setup
+  - AttackSurfaceAnalyzer.Utils.Strings.Setup(System.String)
   langs:
   - csharp
   - vb
@@ -21,7 +21,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Strings
     path: ../Lib/Utils/Strings.cs
-    startLine: 8
+    startLine: 13
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -57,7 +57,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Get
     path: ../Lib/Utils/Strings.cs
-    startLine: 10
+    startLine: 21
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -76,16 +76,16 @@ items:
   modifiers.vb:
   - Public
   - Shared
-- uid: AttackSurfaceAnalyzer.Utils.Strings.Setup
-  commentId: M:AttackSurfaceAnalyzer.Utils.Strings.Setup
-  id: Setup
+- uid: AttackSurfaceAnalyzer.Utils.Strings.Setup(System.String)
+  commentId: M:AttackSurfaceAnalyzer.Utils.Strings.Setup(System.String)
+  id: Setup(System.String)
   parent: AttackSurfaceAnalyzer.Utils.Strings
   langs:
   - csharp
   - vb
-  name: Setup()
-  nameWithType: Strings.Setup()
-  fullName: AttackSurfaceAnalyzer.Utils.Strings.Setup()
+  name: Setup(String)
+  nameWithType: Strings.Setup(String)
+  fullName: AttackSurfaceAnalyzer.Utils.Strings.Setup(System.String)
   type: Method
   source:
     remote:
@@ -94,13 +94,16 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Setup
     path: ../Lib/Utils/Strings.cs
-    startLine: 15
+    startLine: 30
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
   syntax:
-    content: public static void Setup()
-    content.vb: Public Shared Sub Setup
+    content: public static void Setup(string locale = null)
+    parameters:
+    - id: locale
+      type: System.String
+    content.vb: Public Shared Sub Setup(locale As String = Nothing)
   overload: AttackSurfaceAnalyzer.Utils.Strings.Setup*
   modifiers.csharp:
   - public

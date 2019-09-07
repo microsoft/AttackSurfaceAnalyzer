@@ -267,3 +267,4 @@ asa.sqlite
 Cli/asa.log.txt
 *.sqlite
 Cli/asa copy.sqlite
+GenerateDocfx/log.txt

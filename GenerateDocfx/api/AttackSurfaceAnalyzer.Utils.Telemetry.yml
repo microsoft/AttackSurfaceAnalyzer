@@ -9,6 +9,7 @@ items:
   - AttackSurfaceAnalyzer.Utils.Telemetry.Flush
   - AttackSurfaceAnalyzer.Utils.Telemetry.SetOptOut(System.Boolean)
   - AttackSurfaceAnalyzer.Utils.Telemetry.Setup(System.Boolean)
+  - AttackSurfaceAnalyzer.Utils.Telemetry.TestMode
   - AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent(System.String,Dictionary{System.String,System.String})
   - AttackSurfaceAnalyzer.Utils.Telemetry.TrackTrace(SeverityLevel,Exception)
   langs:
@@ -75,6 +76,38 @@ items:
   modifiers.vb:
   - Public
   - Shared
+- uid: AttackSurfaceAnalyzer.Utils.Telemetry.TestMode
+  commentId: M:AttackSurfaceAnalyzer.Utils.Telemetry.TestMode
+  id: TestMode
+  parent: AttackSurfaceAnalyzer.Utils.Telemetry
+  langs:
+  - csharp
+  - vb
+  name: TestMode()
+  nameWithType: Telemetry.TestMode()
+  fullName: AttackSurfaceAnalyzer.Utils.Telemetry.TestMode()
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/Telemetry.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: TestMode
+    path: ../Lib/Utils/Telemetry.cs
+    startLine: 18
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static void TestMode()
+    content.vb: Public Shared Sub TestMode
+  overload: AttackSurfaceAnalyzer.Utils.Telemetry.TestMode*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
 - uid: AttackSurfaceAnalyzer.Utils.Telemetry.Setup(System.Boolean)
   commentId: M:AttackSurfaceAnalyzer.Utils.Telemetry.Setup(System.Boolean)
   id: Setup(System.Boolean)
@@ -93,7 +126,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Setup
     path: ../Lib/Utils/Telemetry.cs
-    startLine: 18
+    startLine: 24
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -128,7 +161,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Flush
     path: ../Lib/Utils/Telemetry.cs
-    startLine: 42
+    startLine: 48
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -160,7 +193,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SetOptOut
     path: ../Lib/Utils/Telemetry.cs
-    startLine: 47
+    startLine: 53
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -195,7 +228,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: TrackEvent
     path: ../Lib/Utils/Telemetry.cs
-    startLine: 58
+    startLine: 64
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -235,7 +268,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: TrackTrace
     path: ../Lib/Utils/Telemetry.cs
-    startLine: 67
+    startLine: 73
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -271,6 +304,11 @@ references:
   name: TelemetryClient
   nameWithType: TelemetryClient
   fullName: TelemetryClient
+- uid: AttackSurfaceAnalyzer.Utils.Telemetry.TestMode*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.Telemetry.TestMode
+  name: TestMode
+  nameWithType: Telemetry.TestMode
+  fullName: AttackSurfaceAnalyzer.Utils.Telemetry.TestMode
 - uid: AttackSurfaceAnalyzer.Utils.Telemetry.Setup*
   commentId: Overload:AttackSurfaceAnalyzer.Utils.Telemetry.Setup
   name: Setup

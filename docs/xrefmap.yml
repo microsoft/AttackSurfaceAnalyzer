@@ -5638,12 +5638,12 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.Strings.Get
   nameWithType: Strings.Get
-- uid: AttackSurfaceAnalyzer.Utils.Strings.Setup
-  name: Setup()
-  href: api/AttackSurfaceAnalyzer.Utils.Strings.html#AttackSurfaceAnalyzer_Utils_Strings_Setup
-  commentId: M:AttackSurfaceAnalyzer.Utils.Strings.Setup
-  fullName: AttackSurfaceAnalyzer.Utils.Strings.Setup()
-  nameWithType: Strings.Setup()
+- uid: AttackSurfaceAnalyzer.Utils.Strings.Setup(System.String)
+  name: Setup(String)
+  href: api/AttackSurfaceAnalyzer.Utils.Strings.html#AttackSurfaceAnalyzer_Utils_Strings_Setup_System_String_
+  commentId: M:AttackSurfaceAnalyzer.Utils.Strings.Setup(System.String)
+  fullName: AttackSurfaceAnalyzer.Utils.Strings.Setup(System.String)
+  nameWithType: Strings.Setup(String)
 - uid: AttackSurfaceAnalyzer.Utils.Strings.Setup*
   name: Setup
   href: api/AttackSurfaceAnalyzer.Utils.Strings.html#AttackSurfaceAnalyzer_Utils_Strings_Setup_
@@ -5702,6 +5702,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.Telemetry.Setup
   nameWithType: Telemetry.Setup
+- uid: AttackSurfaceAnalyzer.Utils.Telemetry.TestMode
+  name: TestMode()
+  href: api/AttackSurfaceAnalyzer.Utils.Telemetry.html#AttackSurfaceAnalyzer_Utils_Telemetry_TestMode
+  commentId: M:AttackSurfaceAnalyzer.Utils.Telemetry.TestMode
+  fullName: AttackSurfaceAnalyzer.Utils.Telemetry.TestMode()
+  nameWithType: Telemetry.TestMode()
+- uid: AttackSurfaceAnalyzer.Utils.Telemetry.TestMode*
+  name: TestMode
+  href: api/AttackSurfaceAnalyzer.Utils.Telemetry.html#AttackSurfaceAnalyzer_Utils_Telemetry_TestMode_
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.Telemetry.TestMode
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Utils.Telemetry.TestMode
+  nameWithType: Telemetry.TestMode
 - uid: AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent(System.String,Dictionary{System.String,System.String})
   name: TrackEvent(String, Dictionary<String, String>)
   href: api/AttackSurfaceAnalyzer.Utils.Telemetry.html#AttackSurfaceAnalyzer_Utils_Telemetry_TrackEvent_System_String_Dictionary_System_String_System_String__
