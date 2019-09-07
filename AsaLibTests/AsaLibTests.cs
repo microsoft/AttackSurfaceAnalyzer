@@ -94,6 +94,85 @@ namespace AsaTests
             }
         }
 
+
+        [TestMethod]
+        public void TestServiceCollectorWindows()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                Setup();
+
+                var FirstRunId = "TestServiceCollector-1";
+                var SecondRunId = "TestServiceCollector-2";
+                var fwc = new ServiceCollector(FirstRunId);
+                fwc.Execute();
+
+                // Create a service
+                var serviceName = "AsaDemoService";
+                var exeName = "AsaDemoService.exe";
+                var cmd = string.Format("create {0} binPath=\"{1}\"", serviceName, exeName);
+                ExternalCommandRunner.RunExternalCommand("sc.exe", cmd);
+
+                fwc = new ServiceCollector(SecondRunId);
+                fwc.Execute();
+
+                // Clean up
+                cmd = string.Format("delete {0}", serviceName);
+                ExternalCommandRunner.RunExternalCommand("sc.exe", cmd);
+
+                BaseCompare bc = new BaseCompare();
+                var watch = System.Diagnostics.Stopwatch.StartNew();
+                if (!bc.TryCompare(FirstRunId, SecondRunId))
+                {
+                    Assert.Fail();
+                }
+
+                Dictionary<string, List<CompareResult>> results = bc.Results;
+                Assert.IsTrue(results["SERVICE_CREATED"].Where(x => x.Identity.Contains("AsaDemoService")).Count() > 0);
+
+                TearDown();
+            }
+        }
+
+        [TestMethod]
+        public void UserCollectorWindows()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                Setup();
+
+                var FirstRunId = "TestUserCollector-1";
+                var SecondRunId = "TestUserCollector-2";
+                var fwc = new UserAccountCollector(FirstRunId);
+                fwc.Execute();
+
+                var user = System.Guid.NewGuid().ToString().Substring(0, 10);
+                var password = System.Guid.NewGuid().ToString().Substring(0, 10);
+                var cmd = string.Format("user /add {0} {1}", user, password);
+                ExternalCommandRunner.RunExternalCommand("net", cmd);
+
+                var serviceName = System.Guid.NewGuid();
+
+                fwc = new UserAccountCollector(SecondRunId);
+                fwc.Execute();
+
+                cmd = string.Format("user /delete {0}", user);
+                ExternalCommandRunner.RunExternalCommand("net", cmd);
+
+                BaseCompare bc = new BaseCompare();
+                var watch = System.Diagnostics.Stopwatch.StartNew();
+                if (!bc.TryCompare(FirstRunId, SecondRunId))
+                {
+                    Assert.Fail();
+                }
+
+                Dictionary<string, List<CompareResult>> results = bc.Results;
+                Assert.IsTrue(results["USER_CREATED"].Where(x => x.Identity.Contains(user)).Count() > 0);
+
+                TearDown();
+            }
+        }
+
         [TestMethod]
         public void TestFirewallCollectorWindows()
         {
