@@ -32,7 +32,7 @@ namespace AsaTests
             }
             catch (Exception)
             {
-            }        
+            }
         }
 
         [TestMethod]
@@ -104,7 +104,7 @@ namespace AsaTests
 
                 var FirstRunId = "TestRegistryCollector-1";
                 var SecondRunId = "TestRegistryCollector-2";
-                var rc = new RegistryCollector(FirstRunId,new List<RegistryHive>() { RegistryHive.CurrentUser });
+                var rc = new RegistryCollector(FirstRunId, new List<RegistryHive>() { RegistryHive.CurrentUser });
                 rc.Execute();
                 var name = System.Guid.NewGuid().ToString().Substring(0, 10);
                 var value = System.Guid.NewGuid().ToString().Substring(0, 10);
@@ -176,7 +176,7 @@ namespace AsaTests
         }
 
         [TestMethod]
-        public void UserCollectorWindows()
+        public void TestUserCollectorWindows()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {

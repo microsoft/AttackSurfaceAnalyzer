@@ -17,7 +17,7 @@ namespace AttackSurfaceAnalyzer.Utils
         /// <summary>
         /// Internal member structure holding string resources
         /// </summary>
-        private static Dictionary<string,string> stringList;
+        private static Dictionary<string, string> stringList;
 
         public static string Get(string key)
         {
