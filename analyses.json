@@ -186,6 +186,24 @@
           ]
         }
       ]
+    },
+    {
+        "name": "Firewall Settings Modified",
+        "desc": "Flag when OS X firewall settings are modified.",
+        "flag": "WARNING",
+        "platforms": [
+            "MACOS"
+        ],
+        "resultType": "FILE",
+        "clauses": [
+            {
+                "field": "Path",
+                "op": "EQUALS",
+                "data": [
+                    "/Library/Preferences/com.apple.alf.plist"
+                ]
+            }
+        ]
     }
   ],
   "meta": {
