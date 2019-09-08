@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
     <ReleaseVersion>2.1-alpha</ReleaseVersion>
   </PropertyGroup>
 
