@@ -198,7 +198,7 @@
         "clauses": [
             {
                 "field": "Path",
-                "op": "EQUALS",
+                "op": "EQ",
                 "data": [
                     "/Library/Preferences/com.apple.alf.plist"
                 ]

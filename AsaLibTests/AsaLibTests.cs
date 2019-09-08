@@ -180,6 +180,44 @@ namespace AsaTests
             }
         }
 
+        /// <summary>
+        /// Requires root.
+        /// </summary>
+        [TestMethod]
+        public void TestFirewallCollectorLinux()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                Setup();
+                var FirstRunId = "TestFirewallCollector-1";
+                var SecondRunId = "TestFirewallCollector-2";
+
+                var fwc = new FirewallCollector(FirstRunId);
+                fwc.Execute();
+
+                var result = ExternalCommandRunner.RunExternalCommand("iptables", "-A INPUT -p tcp --dport 19999 -j DROP");
+
+                fwc = new FirewallCollector(SecondRunId);
+                fwc.Execute();
+
+                result = ExternalCommandRunner.RunExternalCommand("iptables", "-D INPUT -p tcp --dport 19999 -j DROP");
+
+                BaseCompare bc = new BaseCompare();
+                var watch = System.Diagnostics.Stopwatch.StartNew();
+                if (!bc.TryCompare(FirstRunId, SecondRunId))
+                {
+                    Assert.Fail();
+                }
+
+                Dictionary<string, List<CompareResult>> results = bc.Results;
+
+                Assert.IsTrue(results.ContainsKey("FIREWALL_CREATED"));
+                Assert.IsTrue(results["FIREWALL_CREATED"].Where(x => x.Identity.Contains("9999")).Count() > 0);
+
+                TearDown();
+            }
+        }
+
         [TestMethod]
         public void TestRegistryCollectorWindows()
         {

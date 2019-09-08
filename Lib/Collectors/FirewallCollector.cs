@@ -7,6 +7,7 @@ using AttackSurfaceAnalyzer.Objects;
 using WindowsFirewallHelper;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -22,7 +23,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public override bool CanRunOnPlatform()
         {
-            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         }
 
         public override void Execute()
@@ -52,7 +53,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         LocalPortType = rule.LocalPortType,
                         Name = rule.Name,
                         Profiles = rule.Profiles,
-                        Protocol = int.Parse(rule.Protocol.ProtocolNumber.ToString()),
+                        Protocol = rule.Protocol.ProtocolNumber.ToString(),
                         RemoteAddresses = rule.RemoteAddresses.ToList().ConvertAll(address => address.ToString()),
                         RemotePorts = rule.RemotePorts.ToList().ConvertAll(port => port.ToString()),
                         Scope = rule.Scope,
@@ -151,7 +152,78 @@ ALF: total number of apps = 2
                         }
                     }
                 }
-                
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                var  result = ExternalCommandRunner.RunExternalCommand("iptables", "-S");
+
+                var lines = new List<string>(result.Split('\n'));
+
+                Dictionary<string,FirewallAction> defaultPolicies = new Dictionary<string, FirewallAction>();
+
+                foreach (var line in lines)
+                {
+                    if (line.StartsWith("-P"))
+                    {
+                        var chainName = line.Split(' ')[1];
+                        defaultPolicies.Add(chainName, line.Contains("ACCEPT") ? FirewallAction.Allow : FirewallAction.Block);
+                        var obj = new FirewallObject()
+                        {
+                            Action = defaultPolicies[chainName],
+                            FriendlyName = string.Format("Default {0} policy",chainName),
+                            Name = string.Format("Default {0} policy", chainName),
+                            Scope = FirewallScope.All
+                        };
+                        if (!chainName.Equals("FORWARD"))
+                        {
+                            obj.Direction = chainName.Equals("INPUT") ? FirewallDirection.Inbound : FirewallDirection.Outbound;
+                        }
+
+                        DatabaseManager.Write(obj, runId);
+                    }
+                    else if (line.StartsWith("-A"))
+                    {
+                        var splits = line.Split(' ');
+                        var chainName = splits[1];
+                        
+
+                        var obj = new FirewallObject()
+                        {
+                            Action = (splits[Array.IndexOf(splits, "-j") + 1] == "ACCEPT") ? FirewallAction.Allow : FirewallAction.Block,
+                            FriendlyName = line,
+                            Name = line,
+                            Scope = FirewallScope.All,
+                            Protocol = splits[Array.IndexOf(splits, "-p") + 1]
+                        };
+
+                        if (Array.IndexOf(splits,"--dport") > 0)
+                        {
+                            obj.RemotePorts = new List<string>(){ splits[Array.IndexOf(splits, "--dport") + 1] };
+                        }
+
+                        if (Array.IndexOf(splits, "-d") > 0)
+                        {
+                            obj.RemoteAddresses = new List<string>() { splits[Array.IndexOf(splits, "-d") + 1] };
+                        }
+
+                        if (Array.IndexOf(splits, "-s") > 0)
+                        {
+                            obj.LocalAddresses = new List<string>() { splits[Array.IndexOf(splits, "-s") + 1] };
+                        }
+
+                        if (Array.IndexOf(splits, "--sport") > 0)
+                        {
+                            obj.LocalPorts = new List<string>() { splits[Array.IndexOf(splits, "--sport") + 1] };
+                        }
+
+                        if (!chainName.Equals("FORWARD"))
+                        {
+                            obj.Direction = chainName.Equals("INPUT") ? FirewallDirection.Inbound : FirewallDirection.Outbound;
+                        }
+
+                        DatabaseManager.Write(obj, runId);
+                    }
+                }
             }
 
             DatabaseManager.Commit();
