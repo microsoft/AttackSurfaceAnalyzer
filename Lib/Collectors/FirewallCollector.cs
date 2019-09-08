@@ -22,7 +22,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public override bool CanRunOnPlatform()
         {
-            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         }
 
         public override void Execute()
@@ -151,7 +151,63 @@ ALF: total number of apps = 2
                         }
                     }
                 }
-                
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                var  result = ExternalCommandRunner.RunExternalCommand("iptables", "-L");
+
+                var lines = new List<string>(result.Split('\n'));
+
+                string chainName = string.Empty;
+                FirewallAction defaultPolicy;
+
+                foreach (var line in lines)
+                {
+                    if (line.StartsWith("Chain"))
+                    {
+                        chainName = line.Split(" ")[1];
+                        defaultPolicy = (line.Split(" ")[3].Split(")")[0] == "ACCEPT") ? FirewallAction.Allow : FirewallAction.Block;
+                        var obj = new FirewallObject()
+                        {
+                            Action = defaultPolicy,
+                            FriendlyName = string.Format("Default {0} policy",chainName),
+                            Name = string.Format("Default {0} policy", chainName),
+                            Scope = FirewallScope.All
+                        };
+                        if (!chainName.Equals("FORWARD"))
+                        {
+                            obj.Direction = chainName.Equals("INPUT") ? FirewallDirection.Inbound : FirewallDirection.Outbound,
+                        }
+
+                        DatabaseManager.Write(obj, runId);
+                    }
+                    else if (line.StartsWith("target"))
+                    {
+                        continue;
+                    }
+                    else if (line.Trim().Length == 0)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        var splits = line.Split(new char[] { '\t', ' ' });
+                        var obj = new FirewallObject()
+                        {
+                            Action = (splits[0] == "ACCEPT") ? FirewallAction.Allow : FirewallAction.Block,
+                            FriendlyName = line,
+                            Name = line,
+                            Scope = FirewallScope.All,
+                            LocalAddresses = new List<string>() { splits[3] },
+                            RemoteAddresses = new List<string>() { splits[4] }
+                        };
+                        if (!chainName.Equals("FORWARD"))
+                        {
+                            obj.Direction = chainName.Equals("INPUT") ? FirewallDirection.Inbound : FirewallDirection.Outbound,
+                        }
+                        DatabaseManager.Write(obj, runId);
+                    }
+                }
             }
 
             DatabaseManager.Commit();
