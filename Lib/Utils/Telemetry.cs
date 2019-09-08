@@ -16,6 +16,12 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static TelemetryClient Client;
 
+        public static void TestMode()
+        {
+            Client = new TelemetryClient();
+            TelemetryConfiguration.Active.DisableTelemetry = true;
+        }
+
         public static void Setup(bool Gui)
         {
             if (Client == null)

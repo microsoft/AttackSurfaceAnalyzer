@@ -15,11 +15,11 @@ namespace AttackSurfaceAnalyzer.Collectors
 {
     public class BaseCompare
     {
-        public Dictionary<string, object> Results { get; protected set; }
+        public Dictionary<string, List<CompareResult>> Results { get; protected set; }
 
         public BaseCompare()
         {
-            Results = new Dictionary<string, object>();
+            Results = new Dictionary<string, List<CompareResult>>();
         }
 
         public CollectObject Hydrate(RawCollectResult res)

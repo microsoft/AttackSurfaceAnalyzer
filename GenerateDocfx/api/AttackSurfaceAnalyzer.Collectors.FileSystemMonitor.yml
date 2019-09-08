@@ -6,19 +6,19 @@ items:
   parent: AttackSurfaceAnalyzer.Collectors
   children:
   - AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor(System.String,System.String,System.Boolean)
-  - AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor(System.String,System.String,System.Boolean,System.IO.NotifyFilters)
+  - AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor(System.String,System.String,System.Boolean,NotifyFilters)
   - AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.CanRunOnPlatform
-  - AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(System.IO.WatcherChangeTypes)
+  - AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(WatcherChangeTypes)
   - AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.defaultFilters
   - AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.defaultFiltersWithAccessTime
   - AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.IsRunning
-  - AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler(System.Action{System.EventArgs})
+  - AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler(Action{EventArgs})
   - AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.Start
   - AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.Stop
   - AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.Truncate(System.String)
-  - AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(System.IO.FileSystemEventArgs)
-  - AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(System.IO.FileSystemEventArgs,System.String)
-  - AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(System.IO.RenamedEventArgs)
+  - AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(FileSystemEventArgs)
+  - AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(FileSystemEventArgs,System.String)
+  - AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(RenamedEventArgs)
   langs:
   - csharp
   - vb
@@ -29,7 +29,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemMonitor.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FileSystemMonitor
     path: ../Lib/Collectors/FileSystemMonitor.cs
@@ -50,13 +50,6 @@ items:
   - AttackSurfaceAnalyzer.Collectors.BaseMonitor.runId
   - AttackSurfaceAnalyzer.Collectors.BaseMonitor._running
   - AttackSurfaceAnalyzer.Collectors.BaseMonitor.RunStatus
-  - System.Object.Equals(System.Object)
-  - System.Object.Equals(System.Object,System.Object)
-  - System.Object.GetHashCode
-  - System.Object.GetType
-  - System.Object.MemberwiseClone
-  - System.Object.ReferenceEquals(System.Object,System.Object)
-  - System.Object.ToString
   modifiers.csharp:
   - public
   - class
@@ -77,7 +70,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemMonitor.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: defaultFilters
     path: ../Lib/Collectors/FileSystemMonitor.cs
@@ -88,7 +81,7 @@ items:
   syntax:
     content: public static readonly NotifyFilters defaultFilters
     return:
-      type: System.IO.NotifyFilters
+      type: NotifyFilters
     content.vb: Public Shared ReadOnly defaultFilters As NotifyFilters
   modifiers.csharp:
   - public
@@ -112,7 +105,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemMonitor.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: defaultFiltersWithAccessTime
     path: ../Lib/Collectors/FileSystemMonitor.cs
@@ -123,7 +116,7 @@ items:
   syntax:
     content: public static readonly NotifyFilters defaultFiltersWithAccessTime
     return:
-      type: System.IO.NotifyFilters
+      type: NotifyFilters
     content.vb: Public Shared ReadOnly defaultFiltersWithAccessTime As NotifyFilters
   modifiers.csharp:
   - public
@@ -147,7 +140,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemMonitor.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Start
     path: ../Lib/Collectors/FileSystemMonitor.cs
@@ -180,7 +173,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemMonitor.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Stop
     path: ../Lib/Collectors/FileSystemMonitor.cs
@@ -213,7 +206,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemMonitor.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CanRunOnPlatform
     path: ../Lib/Collectors/FileSystemMonitor.cs
@@ -248,7 +241,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemMonitor.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Truncate
     path: ../Lib/Collectors/FileSystemMonitor.cs
@@ -281,7 +274,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemMonitor.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/FileSystemMonitor.cs
@@ -304,21 +297,21 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor(System.String,System.String,System.Boolean,System.IO.NotifyFilters)
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor(System.String,System.String,System.Boolean,System.IO.NotifyFilters)
-  id: '#ctor(System.String,System.String,System.Boolean,System.IO.NotifyFilters)'
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor(System.String,System.String,System.Boolean,NotifyFilters)
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor(System.String,System.String,System.Boolean,NotifyFilters)
+  id: '#ctor(System.String,System.String,System.Boolean,NotifyFilters)'
   parent: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor
   langs:
   - csharp
   - vb
   name: FileSystemMonitor(String, String, Boolean, NotifyFilters)
   nameWithType: FileSystemMonitor.FileSystemMonitor(String, String, Boolean, NotifyFilters)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.FileSystemMonitor(System.String, System.String, System.Boolean, System.IO.NotifyFilters)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.FileSystemMonitor(System.String, System.String, System.Boolean, NotifyFilters)
   type: Constructor
   source:
     remote:
       path: Lib/Collectors/FileSystemMonitor.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/FileSystemMonitor.cs
@@ -336,7 +329,7 @@ items:
     - id: interrogateChanges
       type: System.Boolean
     - id: filters
-      type: System.IO.NotifyFilters
+      type: NotifyFilters
     content.vb: Public Sub New(runId As String, dir As String, interrogateChanges As Boolean, filters As NotifyFilters)
   overload: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor*
   modifiers.csharp:
@@ -357,7 +350,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemMonitor.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsRunning
     path: ../Lib/Collectors/FileSystemMonitor.cs
@@ -375,21 +368,21 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(System.IO.FileSystemEventArgs)
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(System.IO.FileSystemEventArgs)
-  id: WriteChange(System.IO.FileSystemEventArgs)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(FileSystemEventArgs)
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(FileSystemEventArgs)
+  id: WriteChange(FileSystemEventArgs)
   parent: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor
   langs:
   - csharp
   - vb
   name: WriteChange(FileSystemEventArgs)
   nameWithType: FileSystemMonitor.WriteChange(FileSystemEventArgs)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(System.IO.FileSystemEventArgs)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(FileSystemEventArgs)
   type: Method
   source:
     remote:
       path: Lib/Collectors/FileSystemMonitor.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: WriteChange
     path: ../Lib/Collectors/FileSystemMonitor.cs
@@ -401,28 +394,28 @@ items:
     content: public void WriteChange(FileSystemEventArgs obj)
     parameters:
     - id: obj
-      type: System.IO.FileSystemEventArgs
+      type: FileSystemEventArgs
     content.vb: Public Sub WriteChange(obj As FileSystemEventArgs)
   overload: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange*
   modifiers.csharp:
   - public
   modifiers.vb:
   - Public
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(System.IO.WatcherChangeTypes)
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(System.IO.WatcherChangeTypes)
-  id: ChangeTypeToChangeType(System.IO.WatcherChangeTypes)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(WatcherChangeTypes)
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(WatcherChangeTypes)
+  id: ChangeTypeToChangeType(WatcherChangeTypes)
   parent: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor
   langs:
   - csharp
   - vb
   name: ChangeTypeToChangeType(WatcherChangeTypes)
   nameWithType: FileSystemMonitor.ChangeTypeToChangeType(WatcherChangeTypes)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(System.IO.WatcherChangeTypes)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(WatcherChangeTypes)
   type: Method
   source:
     remote:
       path: Lib/Collectors/FileSystemMonitor.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ChangeTypeToChangeType
     path: ../Lib/Collectors/FileSystemMonitor.cs
@@ -434,7 +427,7 @@ items:
     content: public CHANGE_TYPE ChangeTypeToChangeType(WatcherChangeTypes changeType)
     parameters:
     - id: changeType
-      type: System.IO.WatcherChangeTypes
+      type: WatcherChangeTypes
     return:
       type: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
     content.vb: Public Function ChangeTypeToChangeType(changeType As WatcherChangeTypes) As CHANGE_TYPE
@@ -443,21 +436,21 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(System.IO.FileSystemEventArgs,System.String)
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(System.IO.FileSystemEventArgs,System.String)
-  id: WriteChange(System.IO.FileSystemEventArgs,System.String)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(FileSystemEventArgs,System.String)
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(FileSystemEventArgs,System.String)
+  id: WriteChange(FileSystemEventArgs,System.String)
   parent: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor
   langs:
   - csharp
   - vb
   name: WriteChange(FileSystemEventArgs, String)
   nameWithType: FileSystemMonitor.WriteChange(FileSystemEventArgs, String)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(System.IO.FileSystemEventArgs, System.String)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(FileSystemEventArgs, System.String)
   type: Method
   source:
     remote:
       path: Lib/Collectors/FileSystemMonitor.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: WriteChange
     path: ../Lib/Collectors/FileSystemMonitor.cs
@@ -469,7 +462,7 @@ items:
     content: public void WriteChange(FileSystemEventArgs obj, string details)
     parameters:
     - id: obj
-      type: System.IO.FileSystemEventArgs
+      type: FileSystemEventArgs
     - id: details
       type: System.String
     content.vb: Public Sub WriteChange(obj As FileSystemEventArgs, details As String)
@@ -478,21 +471,21 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(System.IO.RenamedEventArgs)
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(System.IO.RenamedEventArgs)
-  id: WriteRename(System.IO.RenamedEventArgs)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(RenamedEventArgs)
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(RenamedEventArgs)
+  id: WriteRename(RenamedEventArgs)
   parent: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor
   langs:
   - csharp
   - vb
   name: WriteRename(RenamedEventArgs)
   nameWithType: FileSystemMonitor.WriteRename(RenamedEventArgs)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(System.IO.RenamedEventArgs)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(RenamedEventArgs)
   type: Method
   source:
     remote:
       path: Lib/Collectors/FileSystemMonitor.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: WriteRename
     path: ../Lib/Collectors/FileSystemMonitor.cs
@@ -504,28 +497,28 @@ items:
     content: public void WriteRename(RenamedEventArgs obj)
     parameters:
     - id: obj
-      type: System.IO.RenamedEventArgs
+      type: RenamedEventArgs
     content.vb: Public Sub WriteRename(obj As RenamedEventArgs)
   overload: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename*
   modifiers.csharp:
   - public
   modifiers.vb:
   - Public
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler(System.Action{System.EventArgs})
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler(System.Action{System.EventArgs})
-  id: SetCustomChangeHandler(System.Action{System.EventArgs})
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler(Action{EventArgs})
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler(Action{EventArgs})
+  id: SetCustomChangeHandler(Action{EventArgs})
   parent: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor
   langs:
   - csharp
   - vb
   name: SetCustomChangeHandler(Action<EventArgs>)
   nameWithType: FileSystemMonitor.SetCustomChangeHandler(Action<EventArgs>)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler(System.Action<System.EventArgs>)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler(Action<EventArgs>)
   type: Method
   source:
     remote:
       path: Lib/Collectors/FileSystemMonitor.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SetCustomChangeHandler
     path: ../Lib/Collectors/FileSystemMonitor.cs
@@ -537,7 +530,7 @@ items:
     content: public void SetCustomChangeHandler(Action<EventArgs> handler)
     parameters:
     - id: handler
-      type: System.Action{System.EventArgs}
+      type: Action{EventArgs}
     content.vb: Public Sub SetCustomChangeHandler(handler As Action(Of EventArgs))
   overload: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler*
   nameWithType.vb: FileSystemMonitor.SetCustomChangeHandler(Action(Of EventArgs))
@@ -545,7 +538,7 @@ items:
   - public
   modifiers.vb:
   - Public
-  fullName.vb: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler(System.Action(Of System.EventArgs))
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler(Action(Of EventArgs))
   name.vb: SetCustomChangeHandler(Action(Of EventArgs))
 references:
 - uid: AttackSurfaceAnalyzer.Collectors
@@ -554,8 +547,6 @@ references:
   nameWithType: AttackSurfaceAnalyzer.Collectors
   fullName: AttackSurfaceAnalyzer.Collectors
 - uid: System.Object
-  commentId: T:System.Object
-  parent: System
   isExternal: true
   name: Object
   nameWithType: Object
@@ -606,304 +597,11 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: System.Object.Equals(System.Object)
-  commentId: M:System.Object.Equals(System.Object)
-  parent: System.Object
-  isExternal: true
-  name: Equals(Object)
-  nameWithType: Object.Equals(Object)
-  fullName: System.Object.Equals(System.Object)
-  spec.csharp:
-  - uid: System.Object.Equals(System.Object)
-    name: Equals
-    nameWithType: Object.Equals
-    fullName: System.Object.Equals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.Equals(System.Object)
-    name: Equals
-    nameWithType: Object.Equals
-    fullName: System.Object.Equals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.Equals(System.Object,System.Object)
-  commentId: M:System.Object.Equals(System.Object,System.Object)
-  parent: System.Object
-  isExternal: true
-  name: Equals(Object, Object)
-  nameWithType: Object.Equals(Object, Object)
-  fullName: System.Object.Equals(System.Object, System.Object)
-  spec.csharp:
-  - uid: System.Object.Equals(System.Object,System.Object)
-    name: Equals
-    nameWithType: Object.Equals
-    fullName: System.Object.Equals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.Equals(System.Object,System.Object)
-    name: Equals
-    nameWithType: Object.Equals
-    fullName: System.Object.Equals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.GetHashCode
-  commentId: M:System.Object.GetHashCode
-  parent: System.Object
-  isExternal: true
-  name: GetHashCode()
-  nameWithType: Object.GetHashCode()
-  fullName: System.Object.GetHashCode()
-  spec.csharp:
-  - uid: System.Object.GetHashCode
-    name: GetHashCode
-    nameWithType: Object.GetHashCode
-    fullName: System.Object.GetHashCode
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.GetHashCode
-    name: GetHashCode
-    nameWithType: Object.GetHashCode
-    fullName: System.Object.GetHashCode
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.GetType
-  commentId: M:System.Object.GetType
-  parent: System.Object
-  isExternal: true
-  name: GetType()
-  nameWithType: Object.GetType()
-  fullName: System.Object.GetType()
-  spec.csharp:
-  - uid: System.Object.GetType
-    name: GetType
-    nameWithType: Object.GetType
-    fullName: System.Object.GetType
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.GetType
-    name: GetType
-    nameWithType: Object.GetType
-    fullName: System.Object.GetType
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.MemberwiseClone
-  commentId: M:System.Object.MemberwiseClone
-  parent: System.Object
-  isExternal: true
-  name: MemberwiseClone()
-  nameWithType: Object.MemberwiseClone()
-  fullName: System.Object.MemberwiseClone()
-  spec.csharp:
-  - uid: System.Object.MemberwiseClone
-    name: MemberwiseClone
-    nameWithType: Object.MemberwiseClone
-    fullName: System.Object.MemberwiseClone
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.MemberwiseClone
-    name: MemberwiseClone
-    nameWithType: Object.MemberwiseClone
-    fullName: System.Object.MemberwiseClone
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.ReferenceEquals(System.Object,System.Object)
-  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
-  parent: System.Object
-  isExternal: true
-  name: ReferenceEquals(Object, Object)
-  nameWithType: Object.ReferenceEquals(Object, Object)
-  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
-  spec.csharp:
-  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
-    name: ReferenceEquals
-    nameWithType: Object.ReferenceEquals
-    fullName: System.Object.ReferenceEquals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
-    name: ReferenceEquals
-    nameWithType: Object.ReferenceEquals
-    fullName: System.Object.ReferenceEquals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.ToString
-  commentId: M:System.Object.ToString
-  parent: System.Object
-  isExternal: true
-  name: ToString()
-  nameWithType: Object.ToString()
-  fullName: System.Object.ToString()
-  spec.csharp:
-  - uid: System.Object.ToString
-    name: ToString
-    nameWithType: Object.ToString
-    fullName: System.Object.ToString
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.ToString
-    name: ToString
-    nameWithType: Object.ToString
-    fullName: System.Object.ToString
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System
-  commentId: N:System
-  isExternal: true
-  name: System
-  nameWithType: System
-  fullName: System
-- uid: System.IO.NotifyFilters
-  commentId: T:System.IO.NotifyFilters
-  parent: System.IO
+- uid: NotifyFilters
   isExternal: true
   name: NotifyFilters
   nameWithType: NotifyFilters
-  fullName: System.IO.NotifyFilters
-- uid: System.IO
-  commentId: N:System.IO
-  isExternal: true
-  name: System.IO
-  nameWithType: System.IO
-  fullName: System.IO
+  fullName: NotifyFilters
 - uid: AttackSurfaceAnalyzer.Collectors.BaseMonitor.Start
   commentId: M:AttackSurfaceAnalyzer.Collectors.BaseMonitor.Start
   parent: AttackSurfaceAnalyzer.Collectors.BaseMonitor
@@ -1004,8 +702,6 @@ references:
   nameWithType: FileSystemMonitor.CanRunOnPlatform
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.CanRunOnPlatform
 - uid: System.Boolean
-  commentId: T:System.Boolean
-  parent: System
   isExternal: true
   name: Boolean
   nameWithType: Boolean
@@ -1016,8 +712,6 @@ references:
   nameWithType: FileSystemMonitor.Truncate
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.Truncate
 - uid: System.String
-  commentId: T:System.String
-  parent: System
   isExternal: true
   name: String
   nameWithType: String
@@ -1037,25 +731,22 @@ references:
   name: WriteChange
   nameWithType: FileSystemMonitor.WriteChange
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange
-- uid: System.IO.FileSystemEventArgs
-  commentId: T:System.IO.FileSystemEventArgs
-  parent: System.IO
+- uid: FileSystemEventArgs
   isExternal: true
   name: FileSystemEventArgs
   nameWithType: FileSystemEventArgs
-  fullName: System.IO.FileSystemEventArgs
+  fullName: FileSystemEventArgs
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType*
   commentId: Overload:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType
   name: ChangeTypeToChangeType
   nameWithType: FileSystemMonitor.ChangeTypeToChangeType
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType
-- uid: System.IO.WatcherChangeTypes
-  commentId: T:System.IO.WatcherChangeTypes
-  parent: System.IO
+- uid: WatcherChangeTypes
+  commentId: '!:WatcherChangeTypes'
   isExternal: true
   name: WatcherChangeTypes
   nameWithType: WatcherChangeTypes
-  fullName: System.IO.WatcherChangeTypes
+  fullName: WatcherChangeTypes
 - uid: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
   commentId: T:AttackSurfaceAnalyzer.Types.CHANGE_TYPE
   parent: AttackSurfaceAnalyzer.Types
@@ -1072,98 +763,95 @@ references:
   name: WriteRename
   nameWithType: FileSystemMonitor.WriteRename
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename
-- uid: System.IO.RenamedEventArgs
-  commentId: T:System.IO.RenamedEventArgs
-  parent: System.IO
+- uid: RenamedEventArgs
+  commentId: '!:RenamedEventArgs'
   isExternal: true
   name: RenamedEventArgs
   nameWithType: RenamedEventArgs
-  fullName: System.IO.RenamedEventArgs
+  fullName: RenamedEventArgs
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler*
   commentId: Overload:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler
   name: SetCustomChangeHandler
   nameWithType: FileSystemMonitor.SetCustomChangeHandler
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler
-- uid: System.Action{System.EventArgs}
-  commentId: T:System.Action{System.EventArgs}
-  parent: System
-  definition: System.Action`1
+- uid: Action{EventArgs}
+  commentId: '!:Action{EventArgs}'
+  definition: Action`1
   name: Action<EventArgs>
   nameWithType: Action<EventArgs>
-  fullName: System.Action<System.EventArgs>
+  fullName: Action<EventArgs>
   nameWithType.vb: Action(Of EventArgs)
-  fullName.vb: System.Action(Of System.EventArgs)
+  fullName.vb: Action(Of EventArgs)
   name.vb: Action(Of EventArgs)
   spec.csharp:
-  - uid: System.Action`1
+  - uid: Action`1
     name: Action
     nameWithType: Action
-    fullName: System.Action
+    fullName: Action
     isExternal: true
   - name: <
     nameWithType: <
     fullName: <
-  - uid: System.EventArgs
+  - uid: EventArgs
     name: EventArgs
     nameWithType: EventArgs
-    fullName: System.EventArgs
+    fullName: EventArgs
     isExternal: true
   - name: '>'
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: System.Action`1
+  - uid: Action`1
     name: Action
     nameWithType: Action
-    fullName: System.Action
+    fullName: Action
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - uid: System.EventArgs
+  - uid: EventArgs
     name: EventArgs
     nameWithType: EventArgs
-    fullName: System.EventArgs
+    fullName: EventArgs
     isExternal: true
   - name: )
     nameWithType: )
     fullName: )
-- uid: System.Action`1
-  commentId: T:System.Action`1
+- uid: Action`1
   isExternal: true
-  name: Action<T>
-  nameWithType: Action<T>
-  fullName: System.Action<T>
-  nameWithType.vb: Action(Of T)
-  fullName.vb: System.Action(Of T)
-  name.vb: Action(Of T)
+  name: Action<>
+  nameWithType: Action<>
+  fullName: Action<>
+  nameWithType.vb: Action(Of )
+  fullName.vb: Action(Of )
+  name.vb: Action(Of )
   spec.csharp:
-  - uid: System.Action`1
+  - uid: Action`1
     name: Action
     nameWithType: Action
-    fullName: System.Action
+    fullName: Action
     isExternal: true
   - name: <
     nameWithType: <
     fullName: <
-  - name: T
-    nameWithType: T
-    fullName: T
+  - name: ''
+    nameWithType: ''
+    fullName: ''
   - name: '>'
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: System.Action`1
+  - uid: Action`1
     name: Action
     nameWithType: Action
-    fullName: System.Action
+    fullName: Action
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - name: T
-    nameWithType: T
-    fullName: T
+  - name: ''
+    nameWithType: ''
+    fullName: ''
   - name: )
     nameWithType: )
     fullName: )

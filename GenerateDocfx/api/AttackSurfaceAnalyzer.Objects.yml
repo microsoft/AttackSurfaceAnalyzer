@@ -14,6 +14,7 @@ items:
   - AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult
   - AttackSurfaceAnalyzer.Objects.FileSystemObject
   - AttackSurfaceAnalyzer.Objects.FileSystemResult
+  - AttackSurfaceAnalyzer.Objects.FirewallObject
   - AttackSurfaceAnalyzer.Objects.GroupAccountObject
   - AttackSurfaceAnalyzer.Objects.OpenPortObject
   - AttackSurfaceAnalyzer.Objects.OpenPortResult
@@ -59,6 +60,11 @@ references:
   name: FileSystemObject
   nameWithType: FileSystemObject
   fullName: AttackSurfaceAnalyzer.Objects.FileSystemObject
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject
+  commentId: T:AttackSurfaceAnalyzer.Objects.FirewallObject
+  name: FirewallObject
+  nameWithType: FirewallObject
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject
 - uid: AttackSurfaceAnalyzer.Objects.OpenPortObject
   commentId: T:AttackSurfaceAnalyzer.Objects.OpenPortObject
   name: OpenPortObject

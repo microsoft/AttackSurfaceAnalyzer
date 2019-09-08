@@ -1,0 +1,5011 @@
+### YamlMime:ManagedReference
+items:
+- uid: AttackSurfaceAnalyzer.Properties.Resources
+  commentId: T:AttackSurfaceAnalyzer.Properties.Resources
+  id: Resources
+  parent: AttackSurfaceAnalyzer.Properties
+  children:
+  - AttackSurfaceAnalyzer.Properties.Resources.AccountType
+  - AttackSurfaceAnalyzer.Properties.Resources.Address
+  - AttackSurfaceAnalyzer.Properties.Resources.AdminWarning
+  - AttackSurfaceAnalyzer.Properties.Resources.AnalyzeResults
+  - AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry
+  - AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry2
+  - AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry3
+  - AttackSurfaceAnalyzer.Properties.Resources.BaseRunId
+  - AttackSurfaceAnalyzer.Properties.Resources.BaseStatus
+  - AttackSurfaceAnalyzer.Properties.Resources.Begin
+  - AttackSurfaceAnalyzer.Properties.Resources.Certificates
+  - AttackSurfaceAnalyzer.Properties.Resources.ChangeType
+  - AttackSurfaceAnalyzer.Properties.Resources.ChooseCollectors
+  - AttackSurfaceAnalyzer.Properties.Resources.ChooseMonitor
+  - AttackSurfaceAnalyzer.Properties.Resources.Collectors
+  - AttackSurfaceAnalyzer.Properties.Resources.CollectSnapshotDesc
+  - AttackSurfaceAnalyzer.Properties.Resources.CompareDesc
+  - AttackSurfaceAnalyzer.Properties.Resources.CompareRunId
+  - AttackSurfaceAnalyzer.Properties.Resources.Comparing
+  - AttackSurfaceAnalyzer.Properties.Resources.Completed
+  - AttackSurfaceAnalyzer.Properties.Resources.Contents
+  - AttackSurfaceAnalyzer.Properties.Resources.Created
+  - AttackSurfaceAnalyzer.Properties.Resources.Culture
+  - AttackSurfaceAnalyzer.Properties.Resources.CurrentState
+  - AttackSurfaceAnalyzer.Properties.Resources.Deleted
+  - AttackSurfaceAnalyzer.Properties.Resources.DeletedDatabase
+  - AttackSurfaceAnalyzer.Properties.Resources.DeletedDatabaseAt
+  - AttackSurfaceAnalyzer.Properties.Resources.Description
+  - AttackSurfaceAnalyzer.Properties.Resources.DisplayName
+  - AttackSurfaceAnalyzer.Properties.Resources.DoneWriting
+  - AttackSurfaceAnalyzer.Properties.Resources.DueToFilter
+  - AttackSurfaceAnalyzer.Properties.Resources.DumpingDataFromDatabase
+  - AttackSurfaceAnalyzer.Properties.Resources.End
+  - AttackSurfaceAnalyzer.Properties.Resources.EnumeratingCollectRunIds
+  - AttackSurfaceAnalyzer.Properties.Resources.EnumeratingMonitorRunIds
+  - AttackSurfaceAnalyzer.Properties.Resources.Err_AccessControl
+  - AttackSurfaceAnalyzer.Properties.Resources.Err_CollectingFrom
+  - AttackSurfaceAnalyzer.Properties.Resources.Err_CouldntDetermineOneRun
+  - AttackSurfaceAnalyzer.Properties.Resources.Err_CouldntDetermineTwoRun
+  - AttackSurfaceAnalyzer.Properties.Resources.Err_FiltersFile
+  - AttackSurfaceAnalyzer.Properties.Resources.Err_Iproute2
+  - AttackSurfaceAnalyzer.Properties.Resources.Err_Lsof
+  - AttackSurfaceAnalyzer.Properties.Resources.Err_NeedResults
+  - AttackSurfaceAnalyzer.Properties.Resources.Err_NoCollectors
+  - AttackSurfaceAnalyzer.Properties.Resources.Err_NoMonitors
+  - AttackSurfaceAnalyzer.Properties.Resources.Err_OutputPathNotExist
+  - AttackSurfaceAnalyzer.Properties.Resources.Err_RunAsAdmin
+  - AttackSurfaceAnalyzer.Properties.Resources.Err_RunAsRoot
+  - AttackSurfaceAnalyzer.Properties.Resources.Err_RunIdAlreadyUsed
+  - AttackSurfaceAnalyzer.Properties.Resources.ExcludingHive
+  - AttackSurfaceAnalyzer.Properties.Resources.ExportAll
+  - AttackSurfaceAnalyzer.Properties.Resources.ExportDirectory
+  - AttackSurfaceAnalyzer.Properties.Resources.Exporting
+  - AttackSurfaceAnalyzer.Properties.Resources.ExportOnly
+  - AttackSurfaceAnalyzer.Properties.Resources.ExportOptions
+  - AttackSurfaceAnalyzer.Properties.Resources.FailedParsed
+  - AttackSurfaceAnalyzer.Properties.Resources.FailedToDeleteDatabase
+  - AttackSurfaceAnalyzer.Properties.Resources.Files
+  - AttackSurfaceAnalyzer.Properties.Resources.FirstRunListRunsError
+  - AttackSurfaceAnalyzer.Properties.Resources.FirstScanDesc
+  - AttackSurfaceAnalyzer.Properties.Resources.Found
+  - AttackSurfaceAnalyzer.Properties.Resources.FoundCreated
+  - AttackSurfaceAnalyzer.Properties.Resources.FoundDeleted
+  - AttackSurfaceAnalyzer.Properties.Resources.FoundModified
+  - AttackSurfaceAnalyzer.Properties.Resources.Hash
+  - AttackSurfaceAnalyzer.Properties.Resources.InvalidPath
+  - AttackSurfaceAnalyzer.Properties.Resources.LiveMonitoring
+  - AttackSurfaceAnalyzer.Properties.Resources.LiveMonitoringDesc
+  - AttackSurfaceAnalyzer.Properties.Resources.LoadedAnalyses
+  - AttackSurfaceAnalyzer.Properties.Resources.LoadedFilters
+  - AttackSurfaceAnalyzer.Properties.Resources.Modified
+  - AttackSurfaceAnalyzer.Properties.Resources.MonitoringPressC
+  - AttackSurfaceAnalyzer.Properties.Resources.MonitorStartedFor
+  - AttackSurfaceAnalyzer.Properties.Resources.MoreInfo1
+  - AttackSurfaceAnalyzer.Properties.Resources.MoreInfo2
+  - AttackSurfaceAnalyzer.Properties.Resources.Name
+  - AttackSurfaceAnalyzer.Properties.Resources.NoCollectRuns
+  - AttackSurfaceAnalyzer.Properties.Resources.NoMonitorRuns
+  - AttackSurfaceAnalyzer.Properties.Resources.OldName
+  - AttackSurfaceAnalyzer.Properties.Resources.OldPath
+  - AttackSurfaceAnalyzer.Properties.Resources.OutputDirectory
+  - AttackSurfaceAnalyzer.Properties.Resources.OutputWrittenTo
+  - AttackSurfaceAnalyzer.Properties.Resources.Path
+  - AttackSurfaceAnalyzer.Properties.Resources.Permissions
+  - AttackSurfaceAnalyzer.Properties.Resources.Ports
+  - AttackSurfaceAnalyzer.Properties.Resources.ReadyToScan
+  - AttackSurfaceAnalyzer.Properties.Resources.Registry
+  - AttackSurfaceAnalyzer.Properties.Resources.ResourceManager
+  - AttackSurfaceAnalyzer.Properties.Resources.ResultsDesc
+  - AttackSurfaceAnalyzer.Properties.Resources.RunStarted
+  - AttackSurfaceAnalyzer.Properties.Resources.RunStatus
+  - AttackSurfaceAnalyzer.Properties.Resources.ScanId
+  - AttackSurfaceAnalyzer.Properties.Resources.Scanning
+  - AttackSurfaceAnalyzer.Properties.Resources.ScanType
+  - AttackSurfaceAnalyzer.Properties.Resources.SecondScanDesc
+  - AttackSurfaceAnalyzer.Properties.Resources.SelectResultType
+  - AttackSurfaceAnalyzer.Properties.Resources.ServiceName
+  - AttackSurfaceAnalyzer.Properties.Resources.Services
+  - AttackSurfaceAnalyzer.Properties.Resources.Size
+  - AttackSurfaceAnalyzer.Properties.Resources.Starting
+  - AttackSurfaceAnalyzer.Properties.Resources.StartingN
+  - AttackSurfaceAnalyzer.Properties.Resources.StartType
+  - AttackSurfaceAnalyzer.Properties.Resources.StaticScan
+  - AttackSurfaceAnalyzer.Properties.Resources.StaticScanDesc
+  - AttackSurfaceAnalyzer.Properties.Resources.StoreLocation
+  - AttackSurfaceAnalyzer.Properties.Resources.StoreName
+  - AttackSurfaceAnalyzer.Properties.Resources.Subject
+  - AttackSurfaceAnalyzer.Properties.Resources.SuccessParsed
+  - AttackSurfaceAnalyzer.Properties.Resources.TelemetryOptOut
+  - AttackSurfaceAnalyzer.Properties.Resources.Type
+  - AttackSurfaceAnalyzer.Properties.Resources.UsageData
+  - AttackSurfaceAnalyzer.Properties.Resources.Users
+  - AttackSurfaceAnalyzer.Properties.Resources.Value
+  - AttackSurfaceAnalyzer.Properties.Resources.WelcomeBody
+  - AttackSurfaceAnalyzer.Properties.Resources.WelcomeHeader
+  langs:
+  - csharp
+  - vb
+  name: Resources
+  nameWithType: Resources
+  fullName: AttackSurfaceAnalyzer.Properties.Resources
+  type: Class
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Resources
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 16
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: 'public class Resources : object'
+    content.vb: >-
+      Public Class Resources
+          Inherits Object
+  inheritance:
+  - System.Object
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ResourceManager
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ResourceManager
+  id: ResourceManager
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: ResourceManager
+  nameWithType: Resources.ResourceManager
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ResourceManager
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ResourceManager
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 31
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static System.Resources.ResourceManager ResourceManager { get; }
+    parameters: []
+    return:
+      type: System.Resources.ResourceManager
+    content.vb: Public Shared ReadOnly Property ResourceManager As System.Resources.ResourceManager
+  overload: AttackSurfaceAnalyzer.Properties.Resources.ResourceManager*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Culture
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Culture
+  id: Culture
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Culture
+  nameWithType: Resources.Culture
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Culture
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Culture
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 45
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static System.Globalization.CultureInfo Culture { get; set; }
+    parameters: []
+    return:
+      type: System.Globalization.CultureInfo
+    content.vb: Public Shared Property Culture As System.Globalization.CultureInfo
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Culture*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: AttackSurfaceAnalyzer.Properties.Resources.AdminWarning
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.AdminWarning
+  id: AdminWarning
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: AdminWarning
+  nameWithType: Resources.AdminWarning
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.AdminWarning
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: AdminWarning
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 58
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string AdminWarning { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property AdminWarning As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.AdminWarning*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Begin
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Begin
+  id: Begin
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Begin
+  nameWithType: Resources.Begin
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Begin
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Begin
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 66
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Begin { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Begin As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Begin*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Comparing
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Comparing
+  id: Comparing
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Comparing
+  nameWithType: Resources.Comparing
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Comparing
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Comparing
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 74
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Comparing { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Comparing As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Comparing*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.DeletedDatabase
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.DeletedDatabase
+  id: DeletedDatabase
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: DeletedDatabase
+  nameWithType: Resources.DeletedDatabase
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.DeletedDatabase
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: DeletedDatabase
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 82
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string DeletedDatabase { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property DeletedDatabase As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.DeletedDatabase*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.DoneWriting
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.DoneWriting
+  id: DoneWriting
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: DoneWriting
+  nameWithType: Resources.DoneWriting
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.DoneWriting
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: DoneWriting
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 90
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string DoneWriting { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property DoneWriting As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.DoneWriting*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.End
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.End
+  id: End
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: End
+  nameWithType: Resources.End
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.End
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: End
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 98
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string End { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property End As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.End*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.EnumeratingCollectRunIds
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.EnumeratingCollectRunIds
+  id: EnumeratingCollectRunIds
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: EnumeratingCollectRunIds
+  nameWithType: Resources.EnumeratingCollectRunIds
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.EnumeratingCollectRunIds
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: EnumeratingCollectRunIds
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 106
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string EnumeratingCollectRunIds { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property EnumeratingCollectRunIds As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.EnumeratingCollectRunIds*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.EnumeratingMonitorRunIds
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.EnumeratingMonitorRunIds
+  id: EnumeratingMonitorRunIds
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: EnumeratingMonitorRunIds
+  nameWithType: Resources.EnumeratingMonitorRunIds
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.EnumeratingMonitorRunIds
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: EnumeratingMonitorRunIds
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 114
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string EnumeratingMonitorRunIds { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property EnumeratingMonitorRunIds As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.EnumeratingMonitorRunIds*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_CollectingFrom
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Err_CollectingFrom
+  id: Err_CollectingFrom
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Err_CollectingFrom
+  nameWithType: Resources.Err_CollectingFrom
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_CollectingFrom
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Err_CollectingFrom
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 122
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Err_CollectingFrom { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Err_CollectingFrom As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Err_CollectingFrom*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_CouldntDetermineOneRun
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Err_CouldntDetermineOneRun
+  id: Err_CouldntDetermineOneRun
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Err_CouldntDetermineOneRun
+  nameWithType: Resources.Err_CouldntDetermineOneRun
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_CouldntDetermineOneRun
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Err_CouldntDetermineOneRun
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 130
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Err_CouldntDetermineOneRun { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Err_CouldntDetermineOneRun As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Err_CouldntDetermineOneRun*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_CouldntDetermineTwoRun
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Err_CouldntDetermineTwoRun
+  id: Err_CouldntDetermineTwoRun
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Err_CouldntDetermineTwoRun
+  nameWithType: Resources.Err_CouldntDetermineTwoRun
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_CouldntDetermineTwoRun
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Err_CouldntDetermineTwoRun
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 138
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Err_CouldntDetermineTwoRun { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Err_CouldntDetermineTwoRun As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Err_CouldntDetermineTwoRun*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_NoMonitors
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Err_NoMonitors
+  id: Err_NoMonitors
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Err_NoMonitors
+  nameWithType: Resources.Err_NoMonitors
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_NoMonitors
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Err_NoMonitors
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 146
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Err_NoMonitors { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Err_NoMonitors As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Err_NoMonitors*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_RunIdAlreadyUsed
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Err_RunIdAlreadyUsed
+  id: Err_RunIdAlreadyUsed
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Err_RunIdAlreadyUsed
+  nameWithType: Resources.Err_RunIdAlreadyUsed
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_RunIdAlreadyUsed
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Err_RunIdAlreadyUsed
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 154
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Err_RunIdAlreadyUsed { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Err_RunIdAlreadyUsed As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Err_RunIdAlreadyUsed*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_Iproute2
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Err_Iproute2
+  id: Err_Iproute2
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Err_Iproute2
+  nameWithType: Resources.Err_Iproute2
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_Iproute2
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Err_Iproute2
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 162
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Err_Iproute2 { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Err_Iproute2 As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Err_Iproute2*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_Lsof
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Err_Lsof
+  id: Err_Lsof
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Err_Lsof
+  nameWithType: Resources.Err_Lsof
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_Lsof
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Err_Lsof
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 170
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Err_Lsof { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Err_Lsof As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Err_Lsof*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Exporting
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Exporting
+  id: Exporting
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Exporting
+  nameWithType: Resources.Exporting
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Exporting
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Exporting
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 178
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Exporting { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Exporting As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Exporting*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.InvalidPath
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.InvalidPath
+  id: InvalidPath
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: InvalidPath
+  nameWithType: Resources.InvalidPath
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.InvalidPath
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: InvalidPath
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 186
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string InvalidPath { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property InvalidPath As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.InvalidPath*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.MonitoringPressC
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.MonitoringPressC
+  id: MonitoringPressC
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: MonitoringPressC
+  nameWithType: Resources.MonitoringPressC
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.MonitoringPressC
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: MonitoringPressC
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 194
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string MonitoringPressC { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property MonitoringPressC As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.MonitoringPressC*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.MonitorStartedFor
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.MonitorStartedFor
+  id: MonitorStartedFor
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: MonitorStartedFor
+  nameWithType: Resources.MonitorStartedFor
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.MonitorStartedFor
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: MonitorStartedFor
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 202
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string MonitorStartedFor { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property MonitorStartedFor As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.MonitorStartedFor*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.TelemetryOptOut
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.TelemetryOptOut
+  id: TelemetryOptOut
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: TelemetryOptOut
+  nameWithType: Resources.TelemetryOptOut
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.TelemetryOptOut
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: TelemetryOptOut
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 210
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string TelemetryOptOut { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property TelemetryOptOut As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.TelemetryOptOut*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.WelcomeHeader
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.WelcomeHeader
+  id: WelcomeHeader
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: WelcomeHeader
+  nameWithType: Resources.WelcomeHeader
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.WelcomeHeader
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: WelcomeHeader
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 218
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string WelcomeHeader { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property WelcomeHeader As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.WelcomeHeader*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.AccountType
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.AccountType
+  id: AccountType
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: AccountType
+  nameWithType: Resources.AccountType
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.AccountType
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: AccountType
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 226
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string AccountType { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property AccountType As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.AccountType*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Address
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Address
+  id: Address
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Address
+  nameWithType: Resources.Address
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Address
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Address
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 234
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Address { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Address As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Address*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.AnalyzeResults
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.AnalyzeResults
+  id: AnalyzeResults
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: AnalyzeResults
+  nameWithType: Resources.AnalyzeResults
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.AnalyzeResults
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: AnalyzeResults
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 242
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string AnalyzeResults { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property AnalyzeResults As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.AnalyzeResults*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.BaseRunId
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.BaseRunId
+  id: BaseRunId
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: BaseRunId
+  nameWithType: Resources.BaseRunId
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.BaseRunId
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: BaseRunId
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 250
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string BaseRunId { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property BaseRunId As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.BaseRunId*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.BaseStatus
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.BaseStatus
+  id: BaseStatus
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: BaseStatus
+  nameWithType: Resources.BaseStatus
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.BaseStatus
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: BaseStatus
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 258
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string BaseStatus { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property BaseStatus As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.BaseStatus*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Certificates
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Certificates
+  id: Certificates
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Certificates
+  nameWithType: Resources.Certificates
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Certificates
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Certificates
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 266
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Certificates { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Certificates As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Certificates*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ChangeType
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ChangeType
+  id: ChangeType
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: ChangeType
+  nameWithType: Resources.ChangeType
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ChangeType
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ChangeType
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 274
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string ChangeType { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property ChangeType As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.ChangeType*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ChooseCollectors
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ChooseCollectors
+  id: ChooseCollectors
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: ChooseCollectors
+  nameWithType: Resources.ChooseCollectors
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ChooseCollectors
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ChooseCollectors
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 282
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string ChooseCollectors { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property ChooseCollectors As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.ChooseCollectors*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ChooseMonitor
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ChooseMonitor
+  id: ChooseMonitor
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: ChooseMonitor
+  nameWithType: Resources.ChooseMonitor
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ChooseMonitor
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ChooseMonitor
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 290
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string ChooseMonitor { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property ChooseMonitor As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.ChooseMonitor*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.CollectSnapshotDesc
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.CollectSnapshotDesc
+  id: CollectSnapshotDesc
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: CollectSnapshotDesc
+  nameWithType: Resources.CollectSnapshotDesc
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.CollectSnapshotDesc
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: CollectSnapshotDesc
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 298
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string CollectSnapshotDesc { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property CollectSnapshotDesc As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.CollectSnapshotDesc*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.CompareDesc
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.CompareDesc
+  id: CompareDesc
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: CompareDesc
+  nameWithType: Resources.CompareDesc
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.CompareDesc
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: CompareDesc
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 306
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string CompareDesc { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property CompareDesc As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.CompareDesc*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.CompareRunId
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.CompareRunId
+  id: CompareRunId
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: CompareRunId
+  nameWithType: Resources.CompareRunId
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.CompareRunId
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: CompareRunId
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 314
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string CompareRunId { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property CompareRunId As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.CompareRunId*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Contents
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Contents
+  id: Contents
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Contents
+  nameWithType: Resources.Contents
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Contents
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Contents
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 322
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Contents { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Contents As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Contents*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.CurrentState
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.CurrentState
+  id: CurrentState
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: CurrentState
+  nameWithType: Resources.CurrentState
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.CurrentState
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: CurrentState
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 330
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string CurrentState { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property CurrentState As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.CurrentState*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Description
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Description
+  id: Description
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Description
+  nameWithType: Resources.Description
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Description
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Description
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 338
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Description { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Description As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Description*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.DisplayName
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.DisplayName
+  id: DisplayName
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: DisplayName
+  nameWithType: Resources.DisplayName
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.DisplayName
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: DisplayName
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 346
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string DisplayName { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property DisplayName As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.DisplayName*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_NeedResults
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Err_NeedResults
+  id: Err_NeedResults
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Err_NeedResults
+  nameWithType: Resources.Err_NeedResults
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_NeedResults
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Err_NeedResults
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 354
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Err_NeedResults { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Err_NeedResults As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Err_NeedResults*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_OutputPathNotExist
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Err_OutputPathNotExist
+  id: Err_OutputPathNotExist
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Err_OutputPathNotExist
+  nameWithType: Resources.Err_OutputPathNotExist
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_OutputPathNotExist
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Err_OutputPathNotExist
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 362
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Err_OutputPathNotExist { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Err_OutputPathNotExist As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Err_OutputPathNotExist*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ExportAll
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ExportAll
+  id: ExportAll
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: ExportAll
+  nameWithType: Resources.ExportAll
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ExportAll
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ExportAll
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 370
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string ExportAll { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property ExportAll As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.ExportAll*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ExportDirectory
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ExportDirectory
+  id: ExportDirectory
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: ExportDirectory
+  nameWithType: Resources.ExportDirectory
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ExportDirectory
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ExportDirectory
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 378
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string ExportDirectory { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property ExportDirectory As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.ExportDirectory*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ExportOnly
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ExportOnly
+  id: ExportOnly
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: ExportOnly
+  nameWithType: Resources.ExportOnly
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ExportOnly
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ExportOnly
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 386
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string ExportOnly { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property ExportOnly As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.ExportOnly*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ExportOptions
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ExportOptions
+  id: ExportOptions
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: ExportOptions
+  nameWithType: Resources.ExportOptions
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ExportOptions
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ExportOptions
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 394
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string ExportOptions { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property ExportOptions As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.ExportOptions*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Files
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Files
+  id: Files
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Files
+  nameWithType: Resources.Files
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Files
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Files
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 402
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Files { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Files As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Files*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.FirstScanDesc
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.FirstScanDesc
+  id: FirstScanDesc
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: FirstScanDesc
+  nameWithType: Resources.FirstScanDesc
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.FirstScanDesc
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: FirstScanDesc
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 410
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string FirstScanDesc { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property FirstScanDesc As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.FirstScanDesc*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Hash
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Hash
+  id: Hash
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Hash
+  nameWithType: Resources.Hash
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Hash
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Hash
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 418
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Hash { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Hash As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Hash*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.LiveMonitoring
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.LiveMonitoring
+  id: LiveMonitoring
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: LiveMonitoring
+  nameWithType: Resources.LiveMonitoring
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.LiveMonitoring
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: LiveMonitoring
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 426
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string LiveMonitoring { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property LiveMonitoring As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.LiveMonitoring*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.LiveMonitoringDesc
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.LiveMonitoringDesc
+  id: LiveMonitoringDesc
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: LiveMonitoringDesc
+  nameWithType: Resources.LiveMonitoringDesc
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.LiveMonitoringDesc
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: LiveMonitoringDesc
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 434
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string LiveMonitoringDesc { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property LiveMonitoringDesc As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.LiveMonitoringDesc*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.MoreInfo1
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.MoreInfo1
+  id: MoreInfo1
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: MoreInfo1
+  nameWithType: Resources.MoreInfo1
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.MoreInfo1
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: MoreInfo1
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 442
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string MoreInfo1 { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property MoreInfo1 As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.MoreInfo1*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.MoreInfo2
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.MoreInfo2
+  id: MoreInfo2
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: MoreInfo2
+  nameWithType: Resources.MoreInfo2
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.MoreInfo2
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: MoreInfo2
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 450
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string MoreInfo2 { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property MoreInfo2 As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.MoreInfo2*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Name
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Name
+  id: Name
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: Resources.Name
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Name
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Name
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 458
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Name { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Name As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Name*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.OldName
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.OldName
+  id: OldName
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: OldName
+  nameWithType: Resources.OldName
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.OldName
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: OldName
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 466
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string OldName { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property OldName As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.OldName*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.OldPath
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.OldPath
+  id: OldPath
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: OldPath
+  nameWithType: Resources.OldPath
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.OldPath
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: OldPath
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 474
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string OldPath { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property OldPath As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.OldPath*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Path
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Path
+  id: Path
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Path
+  nameWithType: Resources.Path
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Path
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Path
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 482
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Path { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Path As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Path*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Permissions
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Permissions
+  id: Permissions
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Permissions
+  nameWithType: Resources.Permissions
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Permissions
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Permissions
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 490
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Permissions { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Permissions As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Permissions*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Ports
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Ports
+  id: Ports
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Ports
+  nameWithType: Resources.Ports
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Ports
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Ports
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 498
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Ports { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Ports As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Ports*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ReadyToScan
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ReadyToScan
+  id: ReadyToScan
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: ReadyToScan
+  nameWithType: Resources.ReadyToScan
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ReadyToScan
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ReadyToScan
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 506
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string ReadyToScan { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property ReadyToScan As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.ReadyToScan*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Registry
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Registry
+  id: Registry
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Registry
+  nameWithType: Resources.Registry
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Registry
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Registry
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 514
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Registry { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Registry As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Registry*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ResultsDesc
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ResultsDesc
+  id: ResultsDesc
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: ResultsDesc
+  nameWithType: Resources.ResultsDesc
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ResultsDesc
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ResultsDesc
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 522
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string ResultsDesc { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property ResultsDesc As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.ResultsDesc*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.RunStatus
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.RunStatus
+  id: RunStatus
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: RunStatus
+  nameWithType: Resources.RunStatus
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.RunStatus
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: RunStatus
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 530
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string RunStatus { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property RunStatus As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.RunStatus*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ScanId
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ScanId
+  id: ScanId
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: ScanId
+  nameWithType: Resources.ScanId
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ScanId
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ScanId
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 538
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string ScanId { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property ScanId As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.ScanId*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ScanType
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ScanType
+  id: ScanType
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: ScanType
+  nameWithType: Resources.ScanType
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ScanType
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ScanType
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 546
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string ScanType { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property ScanType As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.ScanType*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.SecondScanDesc
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.SecondScanDesc
+  id: SecondScanDesc
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: SecondScanDesc
+  nameWithType: Resources.SecondScanDesc
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.SecondScanDesc
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: SecondScanDesc
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 554
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string SecondScanDesc { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property SecondScanDesc As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.SecondScanDesc*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.SelectResultType
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.SelectResultType
+  id: SelectResultType
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: SelectResultType
+  nameWithType: Resources.SelectResultType
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.SelectResultType
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: SelectResultType
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 562
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string SelectResultType { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property SelectResultType As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.SelectResultType*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ServiceName
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ServiceName
+  id: ServiceName
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: ServiceName
+  nameWithType: Resources.ServiceName
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ServiceName
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ServiceName
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 570
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string ServiceName { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property ServiceName As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.ServiceName*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Services
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Services
+  id: Services
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Services
+  nameWithType: Resources.Services
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Services
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Services
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 578
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Services { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Services As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Services*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Size
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Size
+  id: Size
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Size
+  nameWithType: Resources.Size
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Size
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Size
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 586
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Size { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Size As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Size*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.StartType
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.StartType
+  id: StartType
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: StartType
+  nameWithType: Resources.StartType
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.StartType
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: StartType
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 594
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string StartType { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property StartType As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.StartType*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.StaticScan
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.StaticScan
+  id: StaticScan
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: StaticScan
+  nameWithType: Resources.StaticScan
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.StaticScan
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: StaticScan
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 602
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string StaticScan { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property StaticScan As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.StaticScan*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.StaticScanDesc
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.StaticScanDesc
+  id: StaticScanDesc
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: StaticScanDesc
+  nameWithType: Resources.StaticScanDesc
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.StaticScanDesc
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: StaticScanDesc
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 610
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string StaticScanDesc { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property StaticScanDesc As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.StaticScanDesc*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.StoreLocation
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.StoreLocation
+  id: StoreLocation
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: StoreLocation
+  nameWithType: Resources.StoreLocation
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.StoreLocation
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: StoreLocation
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 618
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string StoreLocation { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property StoreLocation As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.StoreLocation*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.StoreName
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.StoreName
+  id: StoreName
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: StoreName
+  nameWithType: Resources.StoreName
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.StoreName
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: StoreName
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 626
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string StoreName { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property StoreName As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.StoreName*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.OutputDirectory
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.OutputDirectory
+  id: OutputDirectory
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: OutputDirectory
+  nameWithType: Resources.OutputDirectory
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.OutputDirectory
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: OutputDirectory
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 634
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string OutputDirectory { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property OutputDirectory As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.OutputDirectory*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Subject
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Subject
+  id: Subject
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Subject
+  nameWithType: Resources.Subject
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Subject
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Subject
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 642
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Subject { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Subject As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Subject*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Type
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Type
+  id: Type
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Type
+  nameWithType: Resources.Type
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Type
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Type
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 650
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Type { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Type As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Type*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.UsageData
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.UsageData
+  id: UsageData
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: UsageData
+  nameWithType: Resources.UsageData
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.UsageData
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: UsageData
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 658
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string UsageData { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property UsageData As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.UsageData*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Users
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Users
+  id: Users
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Users
+  nameWithType: Resources.Users
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Users
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Users
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 666
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Users { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Users As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Users*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Value
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Value
+  id: Value
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Value
+  nameWithType: Resources.Value
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Value
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Value
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 674
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Value { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Value As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Value*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.WelcomeBody
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.WelcomeBody
+  id: WelcomeBody
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: WelcomeBody
+  nameWithType: Resources.WelcomeBody
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.WelcomeBody
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: WelcomeBody
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 682
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string WelcomeBody { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property WelcomeBody As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.WelcomeBody*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.RunStarted
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.RunStarted
+  id: RunStarted
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: RunStarted
+  nameWithType: Resources.RunStarted
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.RunStarted
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: RunStarted
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 690
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string RunStarted { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property RunStarted As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.RunStarted*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Created
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Created
+  id: Created
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Created
+  nameWithType: Resources.Created
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Created
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Created
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 698
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Created { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Created As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Created*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Deleted
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Deleted
+  id: Deleted
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Deleted
+  nameWithType: Resources.Deleted
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Deleted
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Deleted
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 706
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Deleted { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Deleted As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Deleted*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_NoCollectors
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Err_NoCollectors
+  id: Err_NoCollectors
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Err_NoCollectors
+  nameWithType: Resources.Err_NoCollectors
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_NoCollectors
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Err_NoCollectors
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 714
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Err_NoCollectors { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Err_NoCollectors As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Err_NoCollectors*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Found
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Found
+  id: Found
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Found
+  nameWithType: Resources.Found
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Found
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Found
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 722
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Found { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Found As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Found*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Collectors
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Collectors
+  id: Collectors
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Collectors
+  nameWithType: Resources.Collectors
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Collectors
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Collectors
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 730
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Collectors { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Collectors As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Collectors*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_AccessControl
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Err_AccessControl
+  id: Err_AccessControl
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Err_AccessControl
+  nameWithType: Resources.Err_AccessControl
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_AccessControl
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Err_AccessControl
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 738
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Err_AccessControl { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Err_AccessControl As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Err_AccessControl*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_FiltersFile
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Err_FiltersFile
+  id: Err_FiltersFile
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Err_FiltersFile
+  nameWithType: Resources.Err_FiltersFile
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_FiltersFile
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Err_FiltersFile
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 746
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Err_FiltersFile { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Err_FiltersFile As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Err_FiltersFile*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.FailedParsed
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.FailedParsed
+  id: FailedParsed
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: FailedParsed
+  nameWithType: Resources.FailedParsed
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.FailedParsed
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: FailedParsed
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 754
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string FailedParsed { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property FailedParsed As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.FailedParsed*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.LoadedFilters
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.LoadedFilters
+  id: LoadedFilters
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: LoadedFilters
+  nameWithType: Resources.LoadedFilters
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.LoadedFilters
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: LoadedFilters
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 762
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string LoadedFilters { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property LoadedFilters As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.LoadedFilters*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Modified
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Modified
+  id: Modified
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Modified
+  nameWithType: Resources.Modified
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Modified
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Modified
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 770
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Modified { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Modified As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Modified*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Scanning
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Scanning
+  id: Scanning
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Scanning
+  nameWithType: Resources.Scanning
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Scanning
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Scanning
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 778
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Scanning { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Scanning As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Scanning*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Starting
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Starting
+  id: Starting
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Starting
+  nameWithType: Resources.Starting
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Starting
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Starting
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 786
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Starting { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Starting As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Starting*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.SuccessParsed
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.SuccessParsed
+  id: SuccessParsed
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: SuccessParsed
+  nameWithType: Resources.SuccessParsed
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.SuccessParsed
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: SuccessParsed
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 794
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string SuccessParsed { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property SuccessParsed As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.SuccessParsed*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.DueToFilter
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.DueToFilter
+  id: DueToFilter
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: DueToFilter
+  nameWithType: Resources.DueToFilter
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.DueToFilter
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: DueToFilter
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 802
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string DueToFilter { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property DueToFilter As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.DueToFilter*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ExcludingHive
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ExcludingHive
+  id: ExcludingHive
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: ExcludingHive
+  nameWithType: Resources.ExcludingHive
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ExcludingHive
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ExcludingHive
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 810
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string ExcludingHive { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property ExcludingHive As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.ExcludingHive*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.OutputWrittenTo
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.OutputWrittenTo
+  id: OutputWrittenTo
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: OutputWrittenTo
+  nameWithType: Resources.OutputWrittenTo
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.OutputWrittenTo
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: OutputWrittenTo
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 818
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string OutputWrittenTo { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property OutputWrittenTo As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.OutputWrittenTo*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry
+  id: ApplicationHasTelemetry
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: ApplicationHasTelemetry
+  nameWithType: Resources.ApplicationHasTelemetry
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ApplicationHasTelemetry
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 826
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string ApplicationHasTelemetry { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property ApplicationHasTelemetry As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry2
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry2
+  id: ApplicationHasTelemetry2
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: ApplicationHasTelemetry2
+  nameWithType: Resources.ApplicationHasTelemetry2
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry2
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ApplicationHasTelemetry2
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 834
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string ApplicationHasTelemetry2 { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property ApplicationHasTelemetry2 As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry2*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry3
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry3
+  id: ApplicationHasTelemetry3
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: ApplicationHasTelemetry3
+  nameWithType: Resources.ApplicationHasTelemetry3
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry3
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ApplicationHasTelemetry3
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 842
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string ApplicationHasTelemetry3 { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property ApplicationHasTelemetry3 As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry3*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.DumpingDataFromDatabase
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.DumpingDataFromDatabase
+  id: DumpingDataFromDatabase
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: DumpingDataFromDatabase
+  nameWithType: Resources.DumpingDataFromDatabase
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.DumpingDataFromDatabase
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: DumpingDataFromDatabase
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 850
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string DumpingDataFromDatabase { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property DumpingDataFromDatabase As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.DumpingDataFromDatabase*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.NoCollectRuns
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.NoCollectRuns
+  id: NoCollectRuns
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: NoCollectRuns
+  nameWithType: Resources.NoCollectRuns
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.NoCollectRuns
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: NoCollectRuns
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 858
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string NoCollectRuns { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property NoCollectRuns As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.NoCollectRuns*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.NoMonitorRuns
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.NoMonitorRuns
+  id: NoMonitorRuns
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: NoMonitorRuns
+  nameWithType: Resources.NoMonitorRuns
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.NoMonitorRuns
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: NoMonitorRuns
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 866
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string NoMonitorRuns { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property NoMonitorRuns As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.NoMonitorRuns*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.FirstRunListRunsError
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.FirstRunListRunsError
+  id: FirstRunListRunsError
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: FirstRunListRunsError
+  nameWithType: Resources.FirstRunListRunsError
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.FirstRunListRunsError
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: FirstRunListRunsError
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 874
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string FirstRunListRunsError { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property FirstRunListRunsError As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.FirstRunListRunsError*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.FailedToDeleteDatabase
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.FailedToDeleteDatabase
+  id: FailedToDeleteDatabase
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: FailedToDeleteDatabase
+  nameWithType: Resources.FailedToDeleteDatabase
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.FailedToDeleteDatabase
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: FailedToDeleteDatabase
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 882
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string FailedToDeleteDatabase { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property FailedToDeleteDatabase As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.FailedToDeleteDatabase*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.DeletedDatabaseAt
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.DeletedDatabaseAt
+  id: DeletedDatabaseAt
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: DeletedDatabaseAt
+  nameWithType: Resources.DeletedDatabaseAt
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.DeletedDatabaseAt
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: DeletedDatabaseAt
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 890
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string DeletedDatabaseAt { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property DeletedDatabaseAt As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.DeletedDatabaseAt*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Completed
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Completed
+  id: Completed
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Completed
+  nameWithType: Resources.Completed
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Completed
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Completed
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 898
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Completed { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Completed As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Completed*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.FoundCreated
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.FoundCreated
+  id: FoundCreated
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: FoundCreated
+  nameWithType: Resources.FoundCreated
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.FoundCreated
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: FoundCreated
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 906
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string FoundCreated { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property FoundCreated As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.FoundCreated*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.FoundDeleted
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.FoundDeleted
+  id: FoundDeleted
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: FoundDeleted
+  nameWithType: Resources.FoundDeleted
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.FoundDeleted
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: FoundDeleted
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 914
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string FoundDeleted { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property FoundDeleted As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.FoundDeleted*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.FoundModified
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.FoundModified
+  id: FoundModified
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: FoundModified
+  nameWithType: Resources.FoundModified
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.FoundModified
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: FoundModified
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 922
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string FoundModified { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property FoundModified As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.FoundModified*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.StartingN
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.StartingN
+  id: StartingN
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: StartingN
+  nameWithType: Resources.StartingN
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.StartingN
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: StartingN
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 930
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string StartingN { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property StartingN As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.StartingN*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_RunAsAdmin
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Err_RunAsAdmin
+  id: Err_RunAsAdmin
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Err_RunAsAdmin
+  nameWithType: Resources.Err_RunAsAdmin
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_RunAsAdmin
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Err_RunAsAdmin
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 938
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Err_RunAsAdmin { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Err_RunAsAdmin As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Err_RunAsAdmin*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_RunAsRoot
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Err_RunAsRoot
+  id: Err_RunAsRoot
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: Err_RunAsRoot
+  nameWithType: Resources.Err_RunAsRoot
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_RunAsRoot
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Err_RunAsRoot
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 946
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string Err_RunAsRoot { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property Err_RunAsRoot As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.Err_RunAsRoot*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.LoadedAnalyses
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.LoadedAnalyses
+  id: LoadedAnalyses
+  parent: AttackSurfaceAnalyzer.Properties.Resources
+  langs:
+  - csharp
+  - vb
+  name: LoadedAnalyses
+  nameWithType: Resources.LoadedAnalyses
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.LoadedAnalyses
+  type: Property
+  source:
+    remote:
+      path: Lib/Properties/Resources.Designer.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: LoadedAnalyses
+    path: ../Lib/Properties/Resources.Designer.cs
+    startLine: 954
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Properties
+  syntax:
+    content: public static string LoadedAnalyses { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared ReadOnly Property LoadedAnalyses As String
+  overload: AttackSurfaceAnalyzer.Properties.Resources.LoadedAnalyses*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+references:
+- uid: AttackSurfaceAnalyzer.Properties
+  commentId: N:AttackSurfaceAnalyzer.Properties
+  name: AttackSurfaceAnalyzer.Properties
+  nameWithType: AttackSurfaceAnalyzer.Properties
+  fullName: AttackSurfaceAnalyzer.Properties
+- uid: System.Object
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ResourceManager*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ResourceManager
+  name: ResourceManager
+  nameWithType: Resources.ResourceManager
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ResourceManager
+- uid: System.Resources.ResourceManager
+  commentId: '!:System.Resources.ResourceManager'
+  isExternal: true
+  name: System.Resources.ResourceManager
+  nameWithType: System.Resources.ResourceManager
+  fullName: System.Resources.ResourceManager
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Culture*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Culture
+  name: Culture
+  nameWithType: Resources.Culture
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Culture
+- uid: System.Globalization.CultureInfo
+  commentId: '!:System.Globalization.CultureInfo'
+  isExternal: true
+  name: System.Globalization.CultureInfo
+  nameWithType: System.Globalization.CultureInfo
+  fullName: System.Globalization.CultureInfo
+- uid: AttackSurfaceAnalyzer.Properties.Resources.AdminWarning*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.AdminWarning
+  name: AdminWarning
+  nameWithType: Resources.AdminWarning
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.AdminWarning
+- uid: System.String
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Begin*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Begin
+  name: Begin
+  nameWithType: Resources.Begin
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Begin
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Comparing*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Comparing
+  name: Comparing
+  nameWithType: Resources.Comparing
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Comparing
+- uid: AttackSurfaceAnalyzer.Properties.Resources.DeletedDatabase*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.DeletedDatabase
+  name: DeletedDatabase
+  nameWithType: Resources.DeletedDatabase
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.DeletedDatabase
+- uid: AttackSurfaceAnalyzer.Properties.Resources.DoneWriting*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.DoneWriting
+  name: DoneWriting
+  nameWithType: Resources.DoneWriting
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.DoneWriting
+- uid: AttackSurfaceAnalyzer.Properties.Resources.End*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.End
+  name: End
+  nameWithType: Resources.End
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.End
+- uid: AttackSurfaceAnalyzer.Properties.Resources.EnumeratingCollectRunIds*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.EnumeratingCollectRunIds
+  name: EnumeratingCollectRunIds
+  nameWithType: Resources.EnumeratingCollectRunIds
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.EnumeratingCollectRunIds
+- uid: AttackSurfaceAnalyzer.Properties.Resources.EnumeratingMonitorRunIds*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.EnumeratingMonitorRunIds
+  name: EnumeratingMonitorRunIds
+  nameWithType: Resources.EnumeratingMonitorRunIds
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.EnumeratingMonitorRunIds
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_CollectingFrom*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Err_CollectingFrom
+  name: Err_CollectingFrom
+  nameWithType: Resources.Err_CollectingFrom
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_CollectingFrom
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_CouldntDetermineOneRun*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Err_CouldntDetermineOneRun
+  name: Err_CouldntDetermineOneRun
+  nameWithType: Resources.Err_CouldntDetermineOneRun
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_CouldntDetermineOneRun
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_CouldntDetermineTwoRun*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Err_CouldntDetermineTwoRun
+  name: Err_CouldntDetermineTwoRun
+  nameWithType: Resources.Err_CouldntDetermineTwoRun
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_CouldntDetermineTwoRun
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_NoMonitors*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Err_NoMonitors
+  name: Err_NoMonitors
+  nameWithType: Resources.Err_NoMonitors
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_NoMonitors
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_RunIdAlreadyUsed*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Err_RunIdAlreadyUsed
+  name: Err_RunIdAlreadyUsed
+  nameWithType: Resources.Err_RunIdAlreadyUsed
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_RunIdAlreadyUsed
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_Iproute2*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Err_Iproute2
+  name: Err_Iproute2
+  nameWithType: Resources.Err_Iproute2
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_Iproute2
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_Lsof*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Err_Lsof
+  name: Err_Lsof
+  nameWithType: Resources.Err_Lsof
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_Lsof
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Exporting*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Exporting
+  name: Exporting
+  nameWithType: Resources.Exporting
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Exporting
+- uid: AttackSurfaceAnalyzer.Properties.Resources.InvalidPath*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.InvalidPath
+  name: InvalidPath
+  nameWithType: Resources.InvalidPath
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.InvalidPath
+- uid: AttackSurfaceAnalyzer.Properties.Resources.MonitoringPressC*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.MonitoringPressC
+  name: MonitoringPressC
+  nameWithType: Resources.MonitoringPressC
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.MonitoringPressC
+- uid: AttackSurfaceAnalyzer.Properties.Resources.MonitorStartedFor*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.MonitorStartedFor
+  name: MonitorStartedFor
+  nameWithType: Resources.MonitorStartedFor
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.MonitorStartedFor
+- uid: AttackSurfaceAnalyzer.Properties.Resources.TelemetryOptOut*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.TelemetryOptOut
+  name: TelemetryOptOut
+  nameWithType: Resources.TelemetryOptOut
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.TelemetryOptOut
+- uid: AttackSurfaceAnalyzer.Properties.Resources.WelcomeHeader*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.WelcomeHeader
+  name: WelcomeHeader
+  nameWithType: Resources.WelcomeHeader
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.WelcomeHeader
+- uid: AttackSurfaceAnalyzer.Properties.Resources.AccountType*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.AccountType
+  name: AccountType
+  nameWithType: Resources.AccountType
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.AccountType
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Address*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Address
+  name: Address
+  nameWithType: Resources.Address
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Address
+- uid: AttackSurfaceAnalyzer.Properties.Resources.AnalyzeResults*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.AnalyzeResults
+  name: AnalyzeResults
+  nameWithType: Resources.AnalyzeResults
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.AnalyzeResults
+- uid: AttackSurfaceAnalyzer.Properties.Resources.BaseRunId*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.BaseRunId
+  name: BaseRunId
+  nameWithType: Resources.BaseRunId
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.BaseRunId
+- uid: AttackSurfaceAnalyzer.Properties.Resources.BaseStatus*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.BaseStatus
+  name: BaseStatus
+  nameWithType: Resources.BaseStatus
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.BaseStatus
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Certificates*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Certificates
+  name: Certificates
+  nameWithType: Resources.Certificates
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Certificates
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ChangeType*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ChangeType
+  name: ChangeType
+  nameWithType: Resources.ChangeType
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ChangeType
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ChooseCollectors*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ChooseCollectors
+  name: ChooseCollectors
+  nameWithType: Resources.ChooseCollectors
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ChooseCollectors
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ChooseMonitor*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ChooseMonitor
+  name: ChooseMonitor
+  nameWithType: Resources.ChooseMonitor
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ChooseMonitor
+- uid: AttackSurfaceAnalyzer.Properties.Resources.CollectSnapshotDesc*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.CollectSnapshotDesc
+  name: CollectSnapshotDesc
+  nameWithType: Resources.CollectSnapshotDesc
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.CollectSnapshotDesc
+- uid: AttackSurfaceAnalyzer.Properties.Resources.CompareDesc*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.CompareDesc
+  name: CompareDesc
+  nameWithType: Resources.CompareDesc
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.CompareDesc
+- uid: AttackSurfaceAnalyzer.Properties.Resources.CompareRunId*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.CompareRunId
+  name: CompareRunId
+  nameWithType: Resources.CompareRunId
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.CompareRunId
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Contents*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Contents
+  name: Contents
+  nameWithType: Resources.Contents
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Contents
+- uid: AttackSurfaceAnalyzer.Properties.Resources.CurrentState*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.CurrentState
+  name: CurrentState
+  nameWithType: Resources.CurrentState
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.CurrentState
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Description*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Description
+  name: Description
+  nameWithType: Resources.Description
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Description
+- uid: AttackSurfaceAnalyzer.Properties.Resources.DisplayName*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.DisplayName
+  name: DisplayName
+  nameWithType: Resources.DisplayName
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.DisplayName
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_NeedResults*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Err_NeedResults
+  name: Err_NeedResults
+  nameWithType: Resources.Err_NeedResults
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_NeedResults
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_OutputPathNotExist*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Err_OutputPathNotExist
+  name: Err_OutputPathNotExist
+  nameWithType: Resources.Err_OutputPathNotExist
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_OutputPathNotExist
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ExportAll*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ExportAll
+  name: ExportAll
+  nameWithType: Resources.ExportAll
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ExportAll
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ExportDirectory*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ExportDirectory
+  name: ExportDirectory
+  nameWithType: Resources.ExportDirectory
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ExportDirectory
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ExportOnly*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ExportOnly
+  name: ExportOnly
+  nameWithType: Resources.ExportOnly
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ExportOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ExportOptions*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ExportOptions
+  name: ExportOptions
+  nameWithType: Resources.ExportOptions
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ExportOptions
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Files*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Files
+  name: Files
+  nameWithType: Resources.Files
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Files
+- uid: AttackSurfaceAnalyzer.Properties.Resources.FirstScanDesc*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.FirstScanDesc
+  name: FirstScanDesc
+  nameWithType: Resources.FirstScanDesc
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.FirstScanDesc
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Hash*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Hash
+  name: Hash
+  nameWithType: Resources.Hash
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Hash
+- uid: AttackSurfaceAnalyzer.Properties.Resources.LiveMonitoring*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.LiveMonitoring
+  name: LiveMonitoring
+  nameWithType: Resources.LiveMonitoring
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.LiveMonitoring
+- uid: AttackSurfaceAnalyzer.Properties.Resources.LiveMonitoringDesc*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.LiveMonitoringDesc
+  name: LiveMonitoringDesc
+  nameWithType: Resources.LiveMonitoringDesc
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.LiveMonitoringDesc
+- uid: AttackSurfaceAnalyzer.Properties.Resources.MoreInfo1*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.MoreInfo1
+  name: MoreInfo1
+  nameWithType: Resources.MoreInfo1
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.MoreInfo1
+- uid: AttackSurfaceAnalyzer.Properties.Resources.MoreInfo2*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.MoreInfo2
+  name: MoreInfo2
+  nameWithType: Resources.MoreInfo2
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.MoreInfo2
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Name*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Name
+  name: Name
+  nameWithType: Resources.Name
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Name
+- uid: AttackSurfaceAnalyzer.Properties.Resources.OldName*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.OldName
+  name: OldName
+  nameWithType: Resources.OldName
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.OldName
+- uid: AttackSurfaceAnalyzer.Properties.Resources.OldPath*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.OldPath
+  name: OldPath
+  nameWithType: Resources.OldPath
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.OldPath
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Path*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Path
+  name: Path
+  nameWithType: Resources.Path
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Path
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Permissions*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Permissions
+  name: Permissions
+  nameWithType: Resources.Permissions
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Permissions
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Ports*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Ports
+  name: Ports
+  nameWithType: Resources.Ports
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Ports
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ReadyToScan*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ReadyToScan
+  name: ReadyToScan
+  nameWithType: Resources.ReadyToScan
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ReadyToScan
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Registry*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Registry
+  name: Registry
+  nameWithType: Resources.Registry
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Registry
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ResultsDesc*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ResultsDesc
+  name: ResultsDesc
+  nameWithType: Resources.ResultsDesc
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ResultsDesc
+- uid: AttackSurfaceAnalyzer.Properties.Resources.RunStatus*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.RunStatus
+  name: RunStatus
+  nameWithType: Resources.RunStatus
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.RunStatus
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ScanId*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ScanId
+  name: ScanId
+  nameWithType: Resources.ScanId
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ScanId
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ScanType*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ScanType
+  name: ScanType
+  nameWithType: Resources.ScanType
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ScanType
+- uid: AttackSurfaceAnalyzer.Properties.Resources.SecondScanDesc*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.SecondScanDesc
+  name: SecondScanDesc
+  nameWithType: Resources.SecondScanDesc
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.SecondScanDesc
+- uid: AttackSurfaceAnalyzer.Properties.Resources.SelectResultType*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.SelectResultType
+  name: SelectResultType
+  nameWithType: Resources.SelectResultType
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.SelectResultType
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ServiceName*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ServiceName
+  name: ServiceName
+  nameWithType: Resources.ServiceName
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ServiceName
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Services*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Services
+  name: Services
+  nameWithType: Resources.Services
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Services
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Size*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Size
+  name: Size
+  nameWithType: Resources.Size
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Size
+- uid: AttackSurfaceAnalyzer.Properties.Resources.StartType*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.StartType
+  name: StartType
+  nameWithType: Resources.StartType
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.StartType
+- uid: AttackSurfaceAnalyzer.Properties.Resources.StaticScan*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.StaticScan
+  name: StaticScan
+  nameWithType: Resources.StaticScan
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.StaticScan
+- uid: AttackSurfaceAnalyzer.Properties.Resources.StaticScanDesc*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.StaticScanDesc
+  name: StaticScanDesc
+  nameWithType: Resources.StaticScanDesc
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.StaticScanDesc
+- uid: AttackSurfaceAnalyzer.Properties.Resources.StoreLocation*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.StoreLocation
+  name: StoreLocation
+  nameWithType: Resources.StoreLocation
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.StoreLocation
+- uid: AttackSurfaceAnalyzer.Properties.Resources.StoreName*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.StoreName
+  name: StoreName
+  nameWithType: Resources.StoreName
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.StoreName
+- uid: AttackSurfaceAnalyzer.Properties.Resources.OutputDirectory*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.OutputDirectory
+  name: OutputDirectory
+  nameWithType: Resources.OutputDirectory
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.OutputDirectory
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Subject*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Subject
+  name: Subject
+  nameWithType: Resources.Subject
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Subject
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Type*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Type
+  name: Type
+  nameWithType: Resources.Type
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Type
+- uid: AttackSurfaceAnalyzer.Properties.Resources.UsageData*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.UsageData
+  name: UsageData
+  nameWithType: Resources.UsageData
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.UsageData
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Users*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Users
+  name: Users
+  nameWithType: Resources.Users
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Users
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Value*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Value
+  name: Value
+  nameWithType: Resources.Value
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Value
+- uid: AttackSurfaceAnalyzer.Properties.Resources.WelcomeBody*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.WelcomeBody
+  name: WelcomeBody
+  nameWithType: Resources.WelcomeBody
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.WelcomeBody
+- uid: AttackSurfaceAnalyzer.Properties.Resources.RunStarted*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.RunStarted
+  name: RunStarted
+  nameWithType: Resources.RunStarted
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.RunStarted
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Created*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Created
+  name: Created
+  nameWithType: Resources.Created
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Created
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Deleted*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Deleted
+  name: Deleted
+  nameWithType: Resources.Deleted
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Deleted
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_NoCollectors*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Err_NoCollectors
+  name: Err_NoCollectors
+  nameWithType: Resources.Err_NoCollectors
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_NoCollectors
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Found*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Found
+  name: Found
+  nameWithType: Resources.Found
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Found
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Collectors*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Collectors
+  name: Collectors
+  nameWithType: Resources.Collectors
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Collectors
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_AccessControl*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Err_AccessControl
+  name: Err_AccessControl
+  nameWithType: Resources.Err_AccessControl
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_AccessControl
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_FiltersFile*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Err_FiltersFile
+  name: Err_FiltersFile
+  nameWithType: Resources.Err_FiltersFile
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_FiltersFile
+- uid: AttackSurfaceAnalyzer.Properties.Resources.FailedParsed*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.FailedParsed
+  name: FailedParsed
+  nameWithType: Resources.FailedParsed
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.FailedParsed
+- uid: AttackSurfaceAnalyzer.Properties.Resources.LoadedFilters*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.LoadedFilters
+  name: LoadedFilters
+  nameWithType: Resources.LoadedFilters
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.LoadedFilters
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Modified*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Modified
+  name: Modified
+  nameWithType: Resources.Modified
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Modified
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Scanning*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Scanning
+  name: Scanning
+  nameWithType: Resources.Scanning
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Scanning
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Starting*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Starting
+  name: Starting
+  nameWithType: Resources.Starting
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Starting
+- uid: AttackSurfaceAnalyzer.Properties.Resources.SuccessParsed*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.SuccessParsed
+  name: SuccessParsed
+  nameWithType: Resources.SuccessParsed
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.SuccessParsed
+- uid: AttackSurfaceAnalyzer.Properties.Resources.DueToFilter*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.DueToFilter
+  name: DueToFilter
+  nameWithType: Resources.DueToFilter
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.DueToFilter
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ExcludingHive*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ExcludingHive
+  name: ExcludingHive
+  nameWithType: Resources.ExcludingHive
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ExcludingHive
+- uid: AttackSurfaceAnalyzer.Properties.Resources.OutputWrittenTo*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.OutputWrittenTo
+  name: OutputWrittenTo
+  nameWithType: Resources.OutputWrittenTo
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.OutputWrittenTo
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry
+  name: ApplicationHasTelemetry
+  nameWithType: Resources.ApplicationHasTelemetry
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry2*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry2
+  name: ApplicationHasTelemetry2
+  nameWithType: Resources.ApplicationHasTelemetry2
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry2
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry3*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry3
+  name: ApplicationHasTelemetry3
+  nameWithType: Resources.ApplicationHasTelemetry3
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry3
+- uid: AttackSurfaceAnalyzer.Properties.Resources.DumpingDataFromDatabase*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.DumpingDataFromDatabase
+  name: DumpingDataFromDatabase
+  nameWithType: Resources.DumpingDataFromDatabase
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.DumpingDataFromDatabase
+- uid: AttackSurfaceAnalyzer.Properties.Resources.NoCollectRuns*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.NoCollectRuns
+  name: NoCollectRuns
+  nameWithType: Resources.NoCollectRuns
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.NoCollectRuns
+- uid: AttackSurfaceAnalyzer.Properties.Resources.NoMonitorRuns*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.NoMonitorRuns
+  name: NoMonitorRuns
+  nameWithType: Resources.NoMonitorRuns
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.NoMonitorRuns
+- uid: AttackSurfaceAnalyzer.Properties.Resources.FirstRunListRunsError*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.FirstRunListRunsError
+  name: FirstRunListRunsError
+  nameWithType: Resources.FirstRunListRunsError
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.FirstRunListRunsError
+- uid: AttackSurfaceAnalyzer.Properties.Resources.FailedToDeleteDatabase*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.FailedToDeleteDatabase
+  name: FailedToDeleteDatabase
+  nameWithType: Resources.FailedToDeleteDatabase
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.FailedToDeleteDatabase
+- uid: AttackSurfaceAnalyzer.Properties.Resources.DeletedDatabaseAt*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.DeletedDatabaseAt
+  name: DeletedDatabaseAt
+  nameWithType: Resources.DeletedDatabaseAt
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.DeletedDatabaseAt
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Completed*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Completed
+  name: Completed
+  nameWithType: Resources.Completed
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Completed
+- uid: AttackSurfaceAnalyzer.Properties.Resources.FoundCreated*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.FoundCreated
+  name: FoundCreated
+  nameWithType: Resources.FoundCreated
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.FoundCreated
+- uid: AttackSurfaceAnalyzer.Properties.Resources.FoundDeleted*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.FoundDeleted
+  name: FoundDeleted
+  nameWithType: Resources.FoundDeleted
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.FoundDeleted
+- uid: AttackSurfaceAnalyzer.Properties.Resources.FoundModified*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.FoundModified
+  name: FoundModified
+  nameWithType: Resources.FoundModified
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.FoundModified
+- uid: AttackSurfaceAnalyzer.Properties.Resources.StartingN*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.StartingN
+  name: StartingN
+  nameWithType: Resources.StartingN
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.StartingN
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_RunAsAdmin*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Err_RunAsAdmin
+  name: Err_RunAsAdmin
+  nameWithType: Resources.Err_RunAsAdmin
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_RunAsAdmin
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_RunAsRoot*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Err_RunAsRoot
+  name: Err_RunAsRoot
+  nameWithType: Resources.Err_RunAsRoot
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_RunAsRoot
+- uid: AttackSurfaceAnalyzer.Properties.Resources.LoadedAnalyses*
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.LoadedAnalyses
+  name: LoadedAnalyses
+  nameWithType: Resources.LoadedAnalyses
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.LoadedAnalyses
