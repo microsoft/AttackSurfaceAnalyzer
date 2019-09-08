@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GET_FILEEX_INFO_LEVELS
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
@@ -26,8 +26,8 @@ items:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
   syntax:
-    content: public enum GET_FILEEX_INFO_LEVELS
-    content.vb: Public Enum GET_FILEEX_INFO_LEVELS
+    content: 'public enum GET_FILEEX_INFO_LEVELS : int'
+    content.vb: Public Enum GET_FILEEX_INFO_LEVELS As Integer
   modifiers.csharp:
   - public
   - enum
@@ -48,7 +48,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetFileExInfoStandard
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
@@ -80,7 +80,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetFileExMaxInfoLevel
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs

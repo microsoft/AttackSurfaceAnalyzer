@@ -308,7 +308,7 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             try
             {
-                var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+                var assembly = typeof(FileSystemObject).Assembly;
                 var resourceName = "AttackSurfaceAnalyzer.analyses.json";
 
                 using (Stream stream = assembly.GetManifestResourceStream(resourceName))

@@ -7,6 +7,7 @@ items:
   children:
   - AttackSurfaceAnalyzer.Types.RESULT_TYPE.CERTIFICATE
   - AttackSurfaceAnalyzer.Types.RESULT_TYPE.FILE
+  - AttackSurfaceAnalyzer.Types.RESULT_TYPE.FIREWALL
   - AttackSurfaceAnalyzer.Types.RESULT_TYPE.GROUP
   - AttackSurfaceAnalyzer.Types.RESULT_TYPE.PORT
   - AttackSurfaceAnalyzer.Types.RESULT_TYPE.REGISTRY
@@ -23,7 +24,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RESULT_TYPE
     path: ../Lib/Objects/Types.cs
@@ -32,8 +33,8 @@ items:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
   syntax:
-    content: public enum RESULT_TYPE
-    content.vb: Public Enum RESULT_TYPE
+    content: 'public enum RESULT_TYPE : int'
+    content.vb: Public Enum RESULT_TYPE As Integer
   modifiers.csharp:
   - public
   - enum
@@ -54,11 +55,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: UNKNOWN
     path: ../Lib/Objects/Types.cs
-    startLine: 5
+    startLine: 6
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -86,11 +87,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FILE
     path: ../Lib/Objects/Types.cs
-    startLine: 6
+    startLine: 7
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -118,11 +119,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: PORT
     path: ../Lib/Objects/Types.cs
-    startLine: 7
+    startLine: 8
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -150,11 +151,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: REGISTRY
     path: ../Lib/Objects/Types.cs
-    startLine: 8
+    startLine: 9
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -182,11 +183,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CERTIFICATE
     path: ../Lib/Objects/Types.cs
-    startLine: 9
+    startLine: 10
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -214,11 +215,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SERVICE
     path: ../Lib/Objects/Types.cs
-    startLine: 10
+    startLine: 11
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -246,11 +247,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: USER
     path: ../Lib/Objects/Types.cs
-    startLine: 11
+    startLine: 12
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -278,16 +279,48 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GROUP
     path: ../Lib/Objects/Types.cs
-    startLine: 12
+    startLine: 13
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
   syntax:
     content: GROUP = 7
+    return:
+      type: AttackSurfaceAnalyzer.Types.RESULT_TYPE
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Types.RESULT_TYPE.FIREWALL
+  commentId: F:AttackSurfaceAnalyzer.Types.RESULT_TYPE.FIREWALL
+  id: FIREWALL
+  parent: AttackSurfaceAnalyzer.Types.RESULT_TYPE
+  langs:
+  - csharp
+  - vb
+  name: FIREWALL
+  nameWithType: RESULT_TYPE.FIREWALL
+  fullName: AttackSurfaceAnalyzer.Types.RESULT_TYPE.FIREWALL
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: FIREWALL
+    path: ../Lib/Objects/Types.cs
+    startLine: 14
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Types
+  syntax:
+    content: FIREWALL = 8
     return:
       type: AttackSurfaceAnalyzer.Types.RESULT_TYPE
   modifiers.csharp:

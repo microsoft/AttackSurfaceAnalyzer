@@ -455,12 +455,15 @@ namespace AttackSurfaceAnalyzer
 
             Telemetry.TrackEvent("{0} Export Compare", StartEvent);
 
-            CompareCommandOptions options = new CompareCommandOptions();
-            options.DatabaseFilename = opts.DatabaseFilename;
-            options.FirstRunId = opts.FirstRunId;
-            options.SecondRunId = opts.SecondRunId;
-            options.AnalysesFile = opts.AnalysesFile;
-            options.Analyze = opts.Analyze;
+            CompareCommandOptions options = new CompareCommandOptions()
+            {
+                DatabaseFilename = opts.DatabaseFilename,
+                FirstRunId = opts.FirstRunId,
+                SecondRunId = opts.SecondRunId,
+                AnalysesFile = opts.AnalysesFile,
+                Analyze = opts.Analyze
+            };
+
 
             Dictionary<string, object> results = CompareRuns(options);
 
@@ -572,8 +575,6 @@ namespace AttackSurfaceAnalyzer
 
                 if (records.Count > 0)
                 {
-                    //telemetry.GetMetric("ResultsExported").TrackValue(records.Count);
-
                     serializer.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
                     var o = new Dictionary<string, Object>();
                     o["results"] = records;
@@ -1265,7 +1266,6 @@ namespace AttackSurfaceAnalyzer
                 try
                 {
                     cmd.ExecuteNonQuery();
-                    DatabaseManager.Commit();
                 }
                 catch (Exception e)
                 {

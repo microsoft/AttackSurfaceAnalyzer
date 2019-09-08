@@ -21,11 +21,11 @@ items:
   source:
     remote:
       path: Lib/Objects/ServiceObject.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ServiceObject
     path: ../Lib/Objects/ServiceObject.cs
-    startLine: 9
+    startLine: 6
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -40,13 +40,6 @@ items:
   inheritedMembers:
   - AttackSurfaceAnalyzer.Objects.CollectObject.ResultType
   - AttackSurfaceAnalyzer.Objects.CollectObject.Message
-  - System.Object.Equals(System.Object)
-  - System.Object.Equals(System.Object,System.Object)
-  - System.Object.GetHashCode
-  - System.Object.GetType
-  - System.Object.MemberwiseClone
-  - System.Object.ReferenceEquals(System.Object,System.Object)
-  - System.Object.ToString
   modifiers.csharp:
   - public
   - class
@@ -67,11 +60,11 @@ items:
   source:
     remote:
       path: Lib/Objects/ServiceObject.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ServiceName
     path: ../Lib/Objects/ServiceObject.cs
-    startLine: 11
+    startLine: 8
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -102,11 +95,11 @@ items:
   source:
     remote:
       path: Lib/Objects/ServiceObject.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: StartType
     path: ../Lib/Objects/ServiceObject.cs
-    startLine: 12
+    startLine: 9
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -137,11 +130,11 @@ items:
   source:
     remote:
       path: Lib/Objects/ServiceObject.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DisplayName
     path: ../Lib/Objects/ServiceObject.cs
-    startLine: 13
+    startLine: 10
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -172,11 +165,11 @@ items:
   source:
     remote:
       path: Lib/Objects/ServiceObject.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CurrentState
     path: ../Lib/Objects/ServiceObject.cs
-    startLine: 14
+    startLine: 11
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -207,11 +200,11 @@ items:
   source:
     remote:
       path: Lib/Objects/ServiceObject.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Objects/ServiceObject.cs
-    startLine: 16
+    startLine: 13
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -237,11 +230,11 @@ items:
   source:
     remote:
       path: Lib/Objects/ServiceObject.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Identity
     path: ../Lib/Objects/ServiceObject.cs
-    startLine: 21
+    startLine: 18
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -268,8 +261,6 @@ references:
   nameWithType: AttackSurfaceAnalyzer.Objects
   fullName: AttackSurfaceAnalyzer.Objects
 - uid: System.Object
-  commentId: T:System.Object
-  parent: System
   isExternal: true
   name: Object
   nameWithType: Object
@@ -292,299 +283,12 @@ references:
   name: Message
   nameWithType: CollectObject.Message
   fullName: AttackSurfaceAnalyzer.Objects.CollectObject.Message
-- uid: System.Object.Equals(System.Object)
-  commentId: M:System.Object.Equals(System.Object)
-  parent: System.Object
-  isExternal: true
-  name: Equals(Object)
-  nameWithType: Object.Equals(Object)
-  fullName: System.Object.Equals(System.Object)
-  spec.csharp:
-  - uid: System.Object.Equals(System.Object)
-    name: Equals
-    nameWithType: Object.Equals
-    fullName: System.Object.Equals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.Equals(System.Object)
-    name: Equals
-    nameWithType: Object.Equals
-    fullName: System.Object.Equals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.Equals(System.Object,System.Object)
-  commentId: M:System.Object.Equals(System.Object,System.Object)
-  parent: System.Object
-  isExternal: true
-  name: Equals(Object, Object)
-  nameWithType: Object.Equals(Object, Object)
-  fullName: System.Object.Equals(System.Object, System.Object)
-  spec.csharp:
-  - uid: System.Object.Equals(System.Object,System.Object)
-    name: Equals
-    nameWithType: Object.Equals
-    fullName: System.Object.Equals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.Equals(System.Object,System.Object)
-    name: Equals
-    nameWithType: Object.Equals
-    fullName: System.Object.Equals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.GetHashCode
-  commentId: M:System.Object.GetHashCode
-  parent: System.Object
-  isExternal: true
-  name: GetHashCode()
-  nameWithType: Object.GetHashCode()
-  fullName: System.Object.GetHashCode()
-  spec.csharp:
-  - uid: System.Object.GetHashCode
-    name: GetHashCode
-    nameWithType: Object.GetHashCode
-    fullName: System.Object.GetHashCode
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.GetHashCode
-    name: GetHashCode
-    nameWithType: Object.GetHashCode
-    fullName: System.Object.GetHashCode
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.GetType
-  commentId: M:System.Object.GetType
-  parent: System.Object
-  isExternal: true
-  name: GetType()
-  nameWithType: Object.GetType()
-  fullName: System.Object.GetType()
-  spec.csharp:
-  - uid: System.Object.GetType
-    name: GetType
-    nameWithType: Object.GetType
-    fullName: System.Object.GetType
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.GetType
-    name: GetType
-    nameWithType: Object.GetType
-    fullName: System.Object.GetType
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.MemberwiseClone
-  commentId: M:System.Object.MemberwiseClone
-  parent: System.Object
-  isExternal: true
-  name: MemberwiseClone()
-  nameWithType: Object.MemberwiseClone()
-  fullName: System.Object.MemberwiseClone()
-  spec.csharp:
-  - uid: System.Object.MemberwiseClone
-    name: MemberwiseClone
-    nameWithType: Object.MemberwiseClone
-    fullName: System.Object.MemberwiseClone
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.MemberwiseClone
-    name: MemberwiseClone
-    nameWithType: Object.MemberwiseClone
-    fullName: System.Object.MemberwiseClone
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.ReferenceEquals(System.Object,System.Object)
-  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
-  parent: System.Object
-  isExternal: true
-  name: ReferenceEquals(Object, Object)
-  nameWithType: Object.ReferenceEquals(Object, Object)
-  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
-  spec.csharp:
-  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
-    name: ReferenceEquals
-    nameWithType: Object.ReferenceEquals
-    fullName: System.Object.ReferenceEquals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
-    name: ReferenceEquals
-    nameWithType: Object.ReferenceEquals
-    fullName: System.Object.ReferenceEquals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.ToString
-  commentId: M:System.Object.ToString
-  parent: System.Object
-  isExternal: true
-  name: ToString()
-  nameWithType: Object.ToString()
-  fullName: System.Object.ToString()
-  spec.csharp:
-  - uid: System.Object.ToString
-    name: ToString
-    nameWithType: Object.ToString
-    fullName: System.Object.ToString
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.ToString
-    name: ToString
-    nameWithType: Object.ToString
-    fullName: System.Object.ToString
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System
-  commentId: N:System
-  isExternal: true
-  name: System
-  nameWithType: System
-  fullName: System
 - uid: AttackSurfaceAnalyzer.Objects.ServiceObject.ServiceName*
   commentId: Overload:AttackSurfaceAnalyzer.Objects.ServiceObject.ServiceName
   name: ServiceName
   nameWithType: ServiceObject.ServiceName
   fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.ServiceName
 - uid: System.String
-  commentId: T:System.String
-  parent: System
   isExternal: true
   name: String
   nameWithType: String

@@ -6,7 +6,7 @@ items:
   parent: AttackSurfaceAnalyzer.Objects
   children:
   - AttackSurfaceAnalyzer.Objects.RegistryObject.#ctor
-  - AttackSurfaceAnalyzer.Objects.RegistryObject.#ctor(Microsoft.Win32.RegistryKey)
+  - AttackSurfaceAnalyzer.Objects.RegistryObject.#ctor(RegistryKey)
   - AttackSurfaceAnalyzer.Objects.RegistryObject.Identity
   - AttackSurfaceAnalyzer.Objects.RegistryObject.Key
   - AttackSurfaceAnalyzer.Objects.RegistryObject.Permissions
@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: Lib/Objects/RegistryObject.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RegistryObject
     path: ../Lib/Objects/RegistryObject.cs
@@ -43,13 +43,6 @@ items:
   inheritedMembers:
   - AttackSurfaceAnalyzer.Objects.CollectObject.ResultType
   - AttackSurfaceAnalyzer.Objects.CollectObject.Message
-  - System.Object.Equals(System.Object)
-  - System.Object.Equals(System.Object,System.Object)
-  - System.Object.GetHashCode
-  - System.Object.GetType
-  - System.Object.MemberwiseClone
-  - System.Object.ReferenceEquals(System.Object,System.Object)
-  - System.Object.ToString
   modifiers.csharp:
   - public
   - class
@@ -70,7 +63,7 @@ items:
   source:
     remote:
       path: Lib/Objects/RegistryObject.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Key
     path: ../Lib/Objects/RegistryObject.cs
@@ -101,7 +94,7 @@ items:
   source:
     remote:
       path: Lib/Objects/RegistryObject.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Values
     path: ../Lib/Objects/RegistryObject.cs
@@ -112,7 +105,7 @@ items:
   syntax:
     content: public Dictionary<string, string> Values
     return:
-      type: System.Collections.Generic.Dictionary{System.String,System.String}
+      type: Dictionary{System.String,System.String}
     content.vb: Public Values As Dictionary(Of String, String)
   modifiers.csharp:
   - public
@@ -132,7 +125,7 @@ items:
   source:
     remote:
       path: Lib/Objects/RegistryObject.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Subkeys
     path: ../Lib/Objects/RegistryObject.cs
@@ -143,7 +136,7 @@ items:
   syntax:
     content: public List<string> Subkeys
     return:
-      type: System.Collections.Generic.List{System.String}
+      type: List{System.String}
     content.vb: Public Subkeys As List(Of String)
   modifiers.csharp:
   - public
@@ -163,7 +156,7 @@ items:
   source:
     remote:
       path: Lib/Objects/RegistryObject.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Permissions
     path: ../Lib/Objects/RegistryObject.cs
@@ -194,7 +187,7 @@ items:
   source:
     remote:
       path: Lib/Objects/RegistryObject.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ValueCount
     path: ../Lib/Objects/RegistryObject.cs
@@ -229,7 +222,7 @@ items:
   source:
     remote:
       path: Lib/Objects/RegistryObject.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SubkeyCount
     path: ../Lib/Objects/RegistryObject.cs
@@ -264,7 +257,7 @@ items:
   source:
     remote:
       path: Lib/Objects/RegistryObject.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Objects/RegistryObject.cs
@@ -280,21 +273,21 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: AttackSurfaceAnalyzer.Objects.RegistryObject.#ctor(Microsoft.Win32.RegistryKey)
-  commentId: M:AttackSurfaceAnalyzer.Objects.RegistryObject.#ctor(Microsoft.Win32.RegistryKey)
-  id: '#ctor(Microsoft.Win32.RegistryKey)'
+- uid: AttackSurfaceAnalyzer.Objects.RegistryObject.#ctor(RegistryKey)
+  commentId: M:AttackSurfaceAnalyzer.Objects.RegistryObject.#ctor(RegistryKey)
+  id: '#ctor(RegistryKey)'
   parent: AttackSurfaceAnalyzer.Objects.RegistryObject
   langs:
   - csharp
   - vb
   name: RegistryObject(RegistryKey)
   nameWithType: RegistryObject.RegistryObject(RegistryKey)
-  fullName: AttackSurfaceAnalyzer.Objects.RegistryObject.RegistryObject(Microsoft.Win32.RegistryKey)
+  fullName: AttackSurfaceAnalyzer.Objects.RegistryObject.RegistryObject(RegistryKey)
   type: Constructor
   source:
     remote:
       path: Lib/Objects/RegistryObject.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Objects/RegistryObject.cs
@@ -306,7 +299,7 @@ items:
     content: public RegistryObject(RegistryKey Key)
     parameters:
     - id: Key
-      type: Microsoft.Win32.RegistryKey
+      type: RegistryKey
     content.vb: Public Sub New(Key As RegistryKey)
   overload: AttackSurfaceAnalyzer.Objects.RegistryObject.#ctor*
   modifiers.csharp:
@@ -327,7 +320,7 @@ items:
   source:
     remote:
       path: Lib/Objects/RegistryObject.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Identity
     path: ../Lib/Objects/RegistryObject.cs
@@ -358,8 +351,6 @@ references:
   nameWithType: AttackSurfaceAnalyzer.Objects
   fullName: AttackSurfaceAnalyzer.Objects
 - uid: System.Object
-  commentId: T:System.Object
-  parent: System
   isExternal: true
   name: Object
   nameWithType: Object
@@ -382,313 +373,25 @@ references:
   name: Message
   nameWithType: CollectObject.Message
   fullName: AttackSurfaceAnalyzer.Objects.CollectObject.Message
-- uid: System.Object.Equals(System.Object)
-  commentId: M:System.Object.Equals(System.Object)
-  parent: System.Object
-  isExternal: true
-  name: Equals(Object)
-  nameWithType: Object.Equals(Object)
-  fullName: System.Object.Equals(System.Object)
-  spec.csharp:
-  - uid: System.Object.Equals(System.Object)
-    name: Equals
-    nameWithType: Object.Equals
-    fullName: System.Object.Equals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.Equals(System.Object)
-    name: Equals
-    nameWithType: Object.Equals
-    fullName: System.Object.Equals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.Equals(System.Object,System.Object)
-  commentId: M:System.Object.Equals(System.Object,System.Object)
-  parent: System.Object
-  isExternal: true
-  name: Equals(Object, Object)
-  nameWithType: Object.Equals(Object, Object)
-  fullName: System.Object.Equals(System.Object, System.Object)
-  spec.csharp:
-  - uid: System.Object.Equals(System.Object,System.Object)
-    name: Equals
-    nameWithType: Object.Equals
-    fullName: System.Object.Equals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.Equals(System.Object,System.Object)
-    name: Equals
-    nameWithType: Object.Equals
-    fullName: System.Object.Equals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.GetHashCode
-  commentId: M:System.Object.GetHashCode
-  parent: System.Object
-  isExternal: true
-  name: GetHashCode()
-  nameWithType: Object.GetHashCode()
-  fullName: System.Object.GetHashCode()
-  spec.csharp:
-  - uid: System.Object.GetHashCode
-    name: GetHashCode
-    nameWithType: Object.GetHashCode
-    fullName: System.Object.GetHashCode
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.GetHashCode
-    name: GetHashCode
-    nameWithType: Object.GetHashCode
-    fullName: System.Object.GetHashCode
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.GetType
-  commentId: M:System.Object.GetType
-  parent: System.Object
-  isExternal: true
-  name: GetType()
-  nameWithType: Object.GetType()
-  fullName: System.Object.GetType()
-  spec.csharp:
-  - uid: System.Object.GetType
-    name: GetType
-    nameWithType: Object.GetType
-    fullName: System.Object.GetType
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.GetType
-    name: GetType
-    nameWithType: Object.GetType
-    fullName: System.Object.GetType
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.MemberwiseClone
-  commentId: M:System.Object.MemberwiseClone
-  parent: System.Object
-  isExternal: true
-  name: MemberwiseClone()
-  nameWithType: Object.MemberwiseClone()
-  fullName: System.Object.MemberwiseClone()
-  spec.csharp:
-  - uid: System.Object.MemberwiseClone
-    name: MemberwiseClone
-    nameWithType: Object.MemberwiseClone
-    fullName: System.Object.MemberwiseClone
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.MemberwiseClone
-    name: MemberwiseClone
-    nameWithType: Object.MemberwiseClone
-    fullName: System.Object.MemberwiseClone
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.ReferenceEquals(System.Object,System.Object)
-  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
-  parent: System.Object
-  isExternal: true
-  name: ReferenceEquals(Object, Object)
-  nameWithType: Object.ReferenceEquals(Object, Object)
-  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
-  spec.csharp:
-  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
-    name: ReferenceEquals
-    nameWithType: Object.ReferenceEquals
-    fullName: System.Object.ReferenceEquals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
-    name: ReferenceEquals
-    nameWithType: Object.ReferenceEquals
-    fullName: System.Object.ReferenceEquals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.ToString
-  commentId: M:System.Object.ToString
-  parent: System.Object
-  isExternal: true
-  name: ToString()
-  nameWithType: Object.ToString()
-  fullName: System.Object.ToString()
-  spec.csharp:
-  - uid: System.Object.ToString
-    name: ToString
-    nameWithType: Object.ToString
-    fullName: System.Object.ToString
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.ToString
-    name: ToString
-    nameWithType: Object.ToString
-    fullName: System.Object.ToString
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System
-  commentId: N:System
-  isExternal: true
-  name: System
-  nameWithType: System
-  fullName: System
 - uid: System.String
-  commentId: T:System.String
-  parent: System
   isExternal: true
   name: String
   nameWithType: String
   fullName: System.String
-- uid: System.Collections.Generic.Dictionary{System.String,System.String}
-  commentId: T:System.Collections.Generic.Dictionary{System.String,System.String}
-  parent: System.Collections.Generic
-  definition: System.Collections.Generic.Dictionary`2
+- uid: Dictionary{System.String,System.String}
+  commentId: '!:Dictionary{System.String,System.String}'
+  definition: Dictionary`2
   name: Dictionary<String, String>
   nameWithType: Dictionary<String, String>
-  fullName: System.Collections.Generic.Dictionary<System.String, System.String>
+  fullName: Dictionary<System.String, System.String>
   nameWithType.vb: Dictionary(Of String, String)
-  fullName.vb: System.Collections.Generic.Dictionary(Of System.String, System.String)
+  fullName.vb: Dictionary(Of System.String, System.String)
   name.vb: Dictionary(Of String, String)
   spec.csharp:
-  - uid: System.Collections.Generic.Dictionary`2
+  - uid: Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: System.Collections.Generic.Dictionary
+    fullName: Dictionary
     isExternal: true
   - name: <
     nameWithType: <
@@ -710,10 +413,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: System.Collections.Generic.Dictionary`2
+  - uid: Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: System.Collections.Generic.Dictionary
+    fullName: Dictionary
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -734,78 +437,70 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: System.Collections.Generic.Dictionary`2
-  commentId: T:System.Collections.Generic.Dictionary`2
+- uid: Dictionary`2
   isExternal: true
-  name: Dictionary<TKey, TValue>
-  nameWithType: Dictionary<TKey, TValue>
-  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
-  nameWithType.vb: Dictionary(Of TKey, TValue)
-  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
-  name.vb: Dictionary(Of TKey, TValue)
+  name: Dictionary<, >
+  nameWithType: Dictionary<, >
+  fullName: Dictionary<, >
+  nameWithType.vb: Dictionary(Of , )
+  fullName.vb: Dictionary(Of , )
+  name.vb: Dictionary(Of , )
   spec.csharp:
-  - uid: System.Collections.Generic.Dictionary`2
+  - uid: Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: System.Collections.Generic.Dictionary
+    fullName: Dictionary
     isExternal: true
   - name: <
     nameWithType: <
     fullName: <
-  - name: TKey
-    nameWithType: TKey
-    fullName: TKey
+  - name: ''
+    nameWithType: ''
+    fullName: ''
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - name: TValue
-    nameWithType: TValue
-    fullName: TValue
+  - name: ''
+    nameWithType: ''
+    fullName: ''
   - name: '>'
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: System.Collections.Generic.Dictionary`2
+  - uid: Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: System.Collections.Generic.Dictionary
+    fullName: Dictionary
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - name: TKey
-    nameWithType: TKey
-    fullName: TKey
+  - name: ''
+    nameWithType: ''
+    fullName: ''
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - name: TValue
-    nameWithType: TValue
-    fullName: TValue
+  - name: ''
+    nameWithType: ''
+    fullName: ''
   - name: )
     nameWithType: )
     fullName: )
-- uid: System.Collections.Generic
-  commentId: N:System.Collections.Generic
-  isExternal: true
-  name: System.Collections.Generic
-  nameWithType: System.Collections.Generic
-  fullName: System.Collections.Generic
-- uid: System.Collections.Generic.List{System.String}
-  commentId: T:System.Collections.Generic.List{System.String}
-  parent: System.Collections.Generic
-  definition: System.Collections.Generic.List`1
+- uid: List{System.String}
+  commentId: '!:List{System.String}'
+  definition: List`1
   name: List<String>
   nameWithType: List<String>
-  fullName: System.Collections.Generic.List<System.String>
+  fullName: List<System.String>
   nameWithType.vb: List(Of String)
-  fullName.vb: System.Collections.Generic.List(Of System.String)
+  fullName.vb: List(Of System.String)
   name.vb: List(Of String)
   spec.csharp:
-  - uid: System.Collections.Generic.List`1
+  - uid: List`1
     name: List
     nameWithType: List
-    fullName: System.Collections.Generic.List
+    fullName: List
     isExternal: true
   - name: <
     nameWithType: <
@@ -819,10 +514,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: System.Collections.Generic.List`1
+  - uid: List`1
     name: List
     nameWithType: List
-    fullName: System.Collections.Generic.List
+    fullName: List
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -835,42 +530,41 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: System.Collections.Generic.List`1
-  commentId: T:System.Collections.Generic.List`1
+- uid: List`1
   isExternal: true
-  name: List<T>
-  nameWithType: List<T>
-  fullName: System.Collections.Generic.List<T>
-  nameWithType.vb: List(Of T)
-  fullName.vb: System.Collections.Generic.List(Of T)
-  name.vb: List(Of T)
+  name: List<>
+  nameWithType: List<>
+  fullName: List<>
+  nameWithType.vb: List(Of )
+  fullName.vb: List(Of )
+  name.vb: List(Of )
   spec.csharp:
-  - uid: System.Collections.Generic.List`1
+  - uid: List`1
     name: List
     nameWithType: List
-    fullName: System.Collections.Generic.List
+    fullName: List
     isExternal: true
   - name: <
     nameWithType: <
     fullName: <
-  - name: T
-    nameWithType: T
-    fullName: T
+  - name: ''
+    nameWithType: ''
+    fullName: ''
   - name: '>'
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: System.Collections.Generic.List`1
+  - uid: List`1
     name: List
     nameWithType: List
-    fullName: System.Collections.Generic.List
+    fullName: List
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - name: T
-    nameWithType: T
-    fullName: T
+  - name: ''
+    nameWithType: ''
+    fullName: ''
   - name: )
     nameWithType: )
     fullName: )
@@ -880,8 +574,6 @@ references:
   nameWithType: RegistryObject.ValueCount
   fullName: AttackSurfaceAnalyzer.Objects.RegistryObject.ValueCount
 - uid: System.Int32
-  commentId: T:System.Int32
-  parent: System
   isExternal: true
   name: Int32
   nameWithType: Int32
@@ -896,19 +588,12 @@ references:
   name: RegistryObject
   nameWithType: RegistryObject.RegistryObject
   fullName: AttackSurfaceAnalyzer.Objects.RegistryObject.RegistryObject
-- uid: Microsoft.Win32.RegistryKey
-  commentId: T:Microsoft.Win32.RegistryKey
-  parent: Microsoft.Win32
+- uid: RegistryKey
+  commentId: '!:RegistryKey'
   isExternal: true
   name: RegistryKey
   nameWithType: RegistryKey
-  fullName: Microsoft.Win32.RegistryKey
-- uid: Microsoft.Win32
-  commentId: N:Microsoft.Win32
-  isExternal: true
-  name: Microsoft.Win32
-  nameWithType: Microsoft.Win32
-  fullName: Microsoft.Win32
+  fullName: RegistryKey
 - uid: AttackSurfaceAnalyzer.Objects.CollectObject.Identity
   commentId: P:AttackSurfaceAnalyzer.Objects.CollectObject.Identity
   parent: AttackSurfaceAnalyzer.Objects.CollectObject

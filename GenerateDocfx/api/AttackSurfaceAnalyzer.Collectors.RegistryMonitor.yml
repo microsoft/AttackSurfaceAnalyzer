@@ -7,7 +7,7 @@ items:
   children:
   - AttackSurfaceAnalyzer.Collectors.RegistryMonitor.#ctor
   - AttackSurfaceAnalyzer.Collectors.RegistryMonitor.CanRunOnPlatform
-  - AttackSurfaceAnalyzer.Collectors.RegistryMonitor.MyOnEntryWritten(System.Object,System.Diagnostics.EntryWrittenEventArgs)
+  - AttackSurfaceAnalyzer.Collectors.RegistryMonitor.MyOnEntryWritten(System.Object,EntryWrittenEventArgs)
   - AttackSurfaceAnalyzer.Collectors.RegistryMonitor.Start
   - AttackSurfaceAnalyzer.Collectors.RegistryMonitor.Stop
   langs:
@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryMonitor.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RegistryMonitor
     path: ../Lib/Collectors/RegistryMonitor.cs
@@ -41,13 +41,6 @@ items:
   - AttackSurfaceAnalyzer.Collectors.BaseMonitor.runId
   - AttackSurfaceAnalyzer.Collectors.BaseMonitor._running
   - AttackSurfaceAnalyzer.Collectors.BaseMonitor.RunStatus
-  - System.Object.Equals(System.Object)
-  - System.Object.Equals(System.Object,System.Object)
-  - System.Object.GetHashCode
-  - System.Object.GetType
-  - System.Object.MemberwiseClone
-  - System.Object.ReferenceEquals(System.Object,System.Object)
-  - System.Object.ToString
   modifiers.csharp:
   - public
   - class
@@ -68,7 +61,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryMonitor.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/RegistryMonitor.cs
@@ -84,21 +77,21 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: AttackSurfaceAnalyzer.Collectors.RegistryMonitor.MyOnEntryWritten(System.Object,System.Diagnostics.EntryWrittenEventArgs)
-  commentId: M:AttackSurfaceAnalyzer.Collectors.RegistryMonitor.MyOnEntryWritten(System.Object,System.Diagnostics.EntryWrittenEventArgs)
-  id: MyOnEntryWritten(System.Object,System.Diagnostics.EntryWrittenEventArgs)
+- uid: AttackSurfaceAnalyzer.Collectors.RegistryMonitor.MyOnEntryWritten(System.Object,EntryWrittenEventArgs)
+  commentId: M:AttackSurfaceAnalyzer.Collectors.RegistryMonitor.MyOnEntryWritten(System.Object,EntryWrittenEventArgs)
+  id: MyOnEntryWritten(System.Object,EntryWrittenEventArgs)
   parent: AttackSurfaceAnalyzer.Collectors.RegistryMonitor
   langs:
   - csharp
   - vb
   name: MyOnEntryWritten(Object, EntryWrittenEventArgs)
   nameWithType: RegistryMonitor.MyOnEntryWritten(Object, EntryWrittenEventArgs)
-  fullName: AttackSurfaceAnalyzer.Collectors.RegistryMonitor.MyOnEntryWritten(System.Object, System.Diagnostics.EntryWrittenEventArgs)
+  fullName: AttackSurfaceAnalyzer.Collectors.RegistryMonitor.MyOnEntryWritten(System.Object, EntryWrittenEventArgs)
   type: Method
   source:
     remote:
       path: Lib/Collectors/RegistryMonitor.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: MyOnEntryWritten
     path: ../Lib/Collectors/RegistryMonitor.cs
@@ -112,7 +105,7 @@ items:
     - id: source
       type: System.Object
     - id: e
-      type: System.Diagnostics.EntryWrittenEventArgs
+      type: EntryWrittenEventArgs
     content.vb: Public Sub MyOnEntryWritten(source As Object, e As EntryWrittenEventArgs)
   overload: AttackSurfaceAnalyzer.Collectors.RegistryMonitor.MyOnEntryWritten*
   modifiers.csharp:
@@ -133,7 +126,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryMonitor.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Start
     path: ../Lib/Collectors/RegistryMonitor.cs
@@ -166,7 +159,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryMonitor.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Stop
     path: ../Lib/Collectors/RegistryMonitor.cs
@@ -199,7 +192,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryMonitor.cs
-      branch: gfs/ImproveLogging
+      branch: gfs/FunctionalTests
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CanRunOnPlatform
     path: ../Lib/Collectors/RegistryMonitor.cs
@@ -227,8 +220,6 @@ references:
   nameWithType: AttackSurfaceAnalyzer.Collectors
   fullName: AttackSurfaceAnalyzer.Collectors
 - uid: System.Object
-  commentId: T:System.Object
-  parent: System
   isExternal: true
   name: Object
   nameWithType: Object
@@ -279,291 +270,6 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: System.Object.Equals(System.Object)
-  commentId: M:System.Object.Equals(System.Object)
-  parent: System.Object
-  isExternal: true
-  name: Equals(Object)
-  nameWithType: Object.Equals(Object)
-  fullName: System.Object.Equals(System.Object)
-  spec.csharp:
-  - uid: System.Object.Equals(System.Object)
-    name: Equals
-    nameWithType: Object.Equals
-    fullName: System.Object.Equals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.Equals(System.Object)
-    name: Equals
-    nameWithType: Object.Equals
-    fullName: System.Object.Equals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.Equals(System.Object,System.Object)
-  commentId: M:System.Object.Equals(System.Object,System.Object)
-  parent: System.Object
-  isExternal: true
-  name: Equals(Object, Object)
-  nameWithType: Object.Equals(Object, Object)
-  fullName: System.Object.Equals(System.Object, System.Object)
-  spec.csharp:
-  - uid: System.Object.Equals(System.Object,System.Object)
-    name: Equals
-    nameWithType: Object.Equals
-    fullName: System.Object.Equals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.Equals(System.Object,System.Object)
-    name: Equals
-    nameWithType: Object.Equals
-    fullName: System.Object.Equals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.GetHashCode
-  commentId: M:System.Object.GetHashCode
-  parent: System.Object
-  isExternal: true
-  name: GetHashCode()
-  nameWithType: Object.GetHashCode()
-  fullName: System.Object.GetHashCode()
-  spec.csharp:
-  - uid: System.Object.GetHashCode
-    name: GetHashCode
-    nameWithType: Object.GetHashCode
-    fullName: System.Object.GetHashCode
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.GetHashCode
-    name: GetHashCode
-    nameWithType: Object.GetHashCode
-    fullName: System.Object.GetHashCode
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.GetType
-  commentId: M:System.Object.GetType
-  parent: System.Object
-  isExternal: true
-  name: GetType()
-  nameWithType: Object.GetType()
-  fullName: System.Object.GetType()
-  spec.csharp:
-  - uid: System.Object.GetType
-    name: GetType
-    nameWithType: Object.GetType
-    fullName: System.Object.GetType
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.GetType
-    name: GetType
-    nameWithType: Object.GetType
-    fullName: System.Object.GetType
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.MemberwiseClone
-  commentId: M:System.Object.MemberwiseClone
-  parent: System.Object
-  isExternal: true
-  name: MemberwiseClone()
-  nameWithType: Object.MemberwiseClone()
-  fullName: System.Object.MemberwiseClone()
-  spec.csharp:
-  - uid: System.Object.MemberwiseClone
-    name: MemberwiseClone
-    nameWithType: Object.MemberwiseClone
-    fullName: System.Object.MemberwiseClone
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.MemberwiseClone
-    name: MemberwiseClone
-    nameWithType: Object.MemberwiseClone
-    fullName: System.Object.MemberwiseClone
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.ReferenceEquals(System.Object,System.Object)
-  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
-  parent: System.Object
-  isExternal: true
-  name: ReferenceEquals(Object, Object)
-  nameWithType: Object.ReferenceEquals(Object, Object)
-  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
-  spec.csharp:
-  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
-    name: ReferenceEquals
-    nameWithType: Object.ReferenceEquals
-    fullName: System.Object.ReferenceEquals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
-    name: ReferenceEquals
-    nameWithType: Object.ReferenceEquals
-    fullName: System.Object.ReferenceEquals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.ToString
-  commentId: M:System.Object.ToString
-  parent: System.Object
-  isExternal: true
-  name: ToString()
-  nameWithType: Object.ToString()
-  fullName: System.Object.ToString()
-  spec.csharp:
-  - uid: System.Object.ToString
-    name: ToString
-    nameWithType: Object.ToString
-    fullName: System.Object.ToString
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.ToString
-    name: ToString
-    nameWithType: Object.ToString
-    fullName: System.Object.ToString
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System
-  commentId: N:System
-  isExternal: true
-  name: System
-  nameWithType: System
-  fullName: System
 - uid: AttackSurfaceAnalyzer.Collectors.RegistryMonitor.#ctor*
   commentId: Overload:AttackSurfaceAnalyzer.Collectors.RegistryMonitor.#ctor
   name: RegistryMonitor
@@ -574,19 +280,12 @@ references:
   name: MyOnEntryWritten
   nameWithType: RegistryMonitor.MyOnEntryWritten
   fullName: AttackSurfaceAnalyzer.Collectors.RegistryMonitor.MyOnEntryWritten
-- uid: System.Diagnostics.EntryWrittenEventArgs
-  commentId: T:System.Diagnostics.EntryWrittenEventArgs
-  parent: System.Diagnostics
+- uid: EntryWrittenEventArgs
+  commentId: '!:EntryWrittenEventArgs'
   isExternal: true
   name: EntryWrittenEventArgs
   nameWithType: EntryWrittenEventArgs
-  fullName: System.Diagnostics.EntryWrittenEventArgs
-- uid: System.Diagnostics
-  commentId: N:System.Diagnostics
-  isExternal: true
-  name: System.Diagnostics
-  nameWithType: System.Diagnostics
-  fullName: System.Diagnostics
+  fullName: EntryWrittenEventArgs
 - uid: AttackSurfaceAnalyzer.Collectors.BaseMonitor.Start
   commentId: M:AttackSurfaceAnalyzer.Collectors.BaseMonitor.Start
   parent: AttackSurfaceAnalyzer.Collectors.BaseMonitor
@@ -687,8 +386,6 @@ references:
   nameWithType: RegistryMonitor.CanRunOnPlatform
   fullName: AttackSurfaceAnalyzer.Collectors.RegistryMonitor.CanRunOnPlatform
 - uid: System.Boolean
-  commentId: T:System.Boolean
-  parent: System
   isExternal: true
   name: Boolean
   nameWithType: Boolean

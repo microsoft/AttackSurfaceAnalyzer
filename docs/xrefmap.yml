@@ -141,17 +141,17 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare
   nameWithType: BaseCompare.Compare
-- uid: AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(System.Reflection.FieldInfo,System.Object,System.Object)
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(FieldInfo,System.Object,System.Object)
   name: GetDiffs(FieldInfo, Object, Object)
-  href: api/AttackSurfaceAnalyzer.Collectors.BaseCompare.html#AttackSurfaceAnalyzer_Collectors_BaseCompare_GetDiffs_System_Reflection_FieldInfo_System_Object_System_Object_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(System.Reflection.FieldInfo,System.Object,System.Object)
-  fullName: AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(System.Reflection.FieldInfo, System.Object, System.Object)
+  href: api/AttackSurfaceAnalyzer.Collectors.BaseCompare.html#AttackSurfaceAnalyzer_Collectors_BaseCompare_GetDiffs_FieldInfo_System_Object_System_Object_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(FieldInfo,System.Object,System.Object)
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(FieldInfo, System.Object, System.Object)
   nameWithType: BaseCompare.GetDiffs(FieldInfo, Object, Object)
-- uid: AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(System.Reflection.PropertyInfo,System.Object,System.Object)
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(PropertyInfo,System.Object,System.Object)
   name: GetDiffs(PropertyInfo, Object, Object)
-  href: api/AttackSurfaceAnalyzer.Collectors.BaseCompare.html#AttackSurfaceAnalyzer_Collectors_BaseCompare_GetDiffs_System_Reflection_PropertyInfo_System_Object_System_Object_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(System.Reflection.PropertyInfo,System.Object,System.Object)
-  fullName: AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(System.Reflection.PropertyInfo, System.Object, System.Object)
+  href: api/AttackSurfaceAnalyzer.Collectors.BaseCompare.html#AttackSurfaceAnalyzer_Collectors_BaseCompare_GetDiffs_PropertyInfo_System_Object_System_Object_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(PropertyInfo,System.Object,System.Object)
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(PropertyInfo, System.Object, System.Object)
   nameWithType: BaseCompare.GetDiffs(PropertyInfo, Object, Object)
 - uid: AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs*
   name: GetDiffs
@@ -327,12 +327,12 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Collectors.CertificateCollector
   fullName: AttackSurfaceAnalyzer.Collectors.CertificateCollector
   nameWithType: CertificateCollector
-- uid: AttackSurfaceAnalyzer.Collectors.CertificateCollector.#ctor(System.String,System.Boolean)
-  name: CertificateCollector(String, Boolean)
-  href: api/AttackSurfaceAnalyzer.Collectors.CertificateCollector.html#AttackSurfaceAnalyzer_Collectors_CertificateCollector__ctor_System_String_System_Boolean_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.CertificateCollector.#ctor(System.String,System.Boolean)
-  fullName: AttackSurfaceAnalyzer.Collectors.CertificateCollector.CertificateCollector(System.String, System.Boolean)
-  nameWithType: CertificateCollector.CertificateCollector(String, Boolean)
+- uid: AttackSurfaceAnalyzer.Collectors.CertificateCollector.#ctor(System.String)
+  name: CertificateCollector(String)
+  href: api/AttackSurfaceAnalyzer.Collectors.CertificateCollector.html#AttackSurfaceAnalyzer_Collectors_CertificateCollector__ctor_System_String_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.CertificateCollector.#ctor(System.String)
+  fullName: AttackSurfaceAnalyzer.Collectors.CertificateCollector.CertificateCollector(System.String)
+  nameWithType: CertificateCollector.CertificateCollector(String)
 - uid: AttackSurfaceAnalyzer.Collectors.CertificateCollector.#ctor*
   name: CertificateCollector
   href: api/AttackSurfaceAnalyzer.Collectors.CertificateCollector.html#AttackSurfaceAnalyzer_Collectors_CertificateCollector__ctor_
@@ -449,11 +449,11 @@ references:
   commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor(System.String,System.String,System.Boolean)
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.FileSystemMonitor(System.String, System.String, System.Boolean)
   nameWithType: FileSystemMonitor.FileSystemMonitor(String, String, Boolean)
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor(System.String,System.String,System.Boolean,System.IO.NotifyFilters)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor(System.String,System.String,System.Boolean,NotifyFilters)
   name: FileSystemMonitor(String, String, Boolean, NotifyFilters)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor__ctor_System_String_System_String_System_Boolean_System_IO_NotifyFilters_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor(System.String,System.String,System.Boolean,System.IO.NotifyFilters)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.FileSystemMonitor(System.String, System.String, System.Boolean, System.IO.NotifyFilters)
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor__ctor_System_String_System_String_System_Boolean_NotifyFilters_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor(System.String,System.String,System.Boolean,NotifyFilters)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.FileSystemMonitor(System.String, System.String, System.Boolean, NotifyFilters)
   nameWithType: FileSystemMonitor.FileSystemMonitor(String, String, Boolean, NotifyFilters)
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor*
   name: FileSystemMonitor
@@ -475,11 +475,11 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.CanRunOnPlatform
   nameWithType: FileSystemMonitor.CanRunOnPlatform
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(System.IO.WatcherChangeTypes)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(WatcherChangeTypes)
   name: ChangeTypeToChangeType(WatcherChangeTypes)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_ChangeTypeToChangeType_System_IO_WatcherChangeTypes_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(System.IO.WatcherChangeTypes)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(System.IO.WatcherChangeTypes)
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_ChangeTypeToChangeType_WatcherChangeTypes_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(WatcherChangeTypes)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(WatcherChangeTypes)
   nameWithType: FileSystemMonitor.ChangeTypeToChangeType(WatcherChangeTypes)
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType*
   name: ChangeTypeToChangeType
@@ -513,13 +513,13 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.IsRunning
   nameWithType: FileSystemMonitor.IsRunning
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler(System.Action{System.EventArgs})
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler(Action{EventArgs})
   name: SetCustomChangeHandler(Action<EventArgs>)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_SetCustomChangeHandler_System_Action_System_EventArgs__
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler(System.Action{System.EventArgs})
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_SetCustomChangeHandler_Action_EventArgs__
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler(Action{EventArgs})
   name.vb: SetCustomChangeHandler(Action(Of EventArgs))
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler(System.Action<System.EventArgs>)
-  fullName.vb: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler(System.Action(Of System.EventArgs))
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler(Action<EventArgs>)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler(Action(Of EventArgs))
   nameWithType: FileSystemMonitor.SetCustomChangeHandler(Action<EventArgs>)
   nameWithType.vb: FileSystemMonitor.SetCustomChangeHandler(Action(Of EventArgs))
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler*
@@ -568,17 +568,17 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.Truncate
   nameWithType: FileSystemMonitor.Truncate
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(System.IO.FileSystemEventArgs)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(FileSystemEventArgs)
   name: WriteChange(FileSystemEventArgs)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_WriteChange_System_IO_FileSystemEventArgs_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(System.IO.FileSystemEventArgs)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(System.IO.FileSystemEventArgs)
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_WriteChange_FileSystemEventArgs_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(FileSystemEventArgs)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(FileSystemEventArgs)
   nameWithType: FileSystemMonitor.WriteChange(FileSystemEventArgs)
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(System.IO.FileSystemEventArgs,System.String)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(FileSystemEventArgs,System.String)
   name: WriteChange(FileSystemEventArgs, String)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_WriteChange_System_IO_FileSystemEventArgs_System_String_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(System.IO.FileSystemEventArgs,System.String)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(System.IO.FileSystemEventArgs, System.String)
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_WriteChange_FileSystemEventArgs_System_String_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(FileSystemEventArgs,System.String)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(FileSystemEventArgs, System.String)
   nameWithType: FileSystemMonitor.WriteChange(FileSystemEventArgs, String)
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange*
   name: WriteChange
@@ -587,11 +587,11 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange
   nameWithType: FileSystemMonitor.WriteChange
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(System.IO.RenamedEventArgs)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(RenamedEventArgs)
   name: WriteRename(RenamedEventArgs)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_WriteRename_System_IO_RenamedEventArgs_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(System.IO.RenamedEventArgs)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(System.IO.RenamedEventArgs)
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_WriteRename_RenamedEventArgs_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(RenamedEventArgs)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(RenamedEventArgs)
   nameWithType: FileSystemMonitor.WriteRename(RenamedEventArgs)
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename*
   name: WriteRename
@@ -606,11 +606,11 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Collectors.FileSystemUtils
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils
   nameWithType: FileSystemUtils
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash(System.IO.FileSystemInfo)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash(FileSystemInfo)
   name: GetFileHash(FileSystemInfo)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetFileHash_System_IO_FileSystemInfo_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash(System.IO.FileSystemInfo)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash(System.IO.FileSystemInfo)
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetFileHash_FileSystemInfo_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash(FileSystemInfo)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash(FileSystemInfo)
   nameWithType: FileSystemUtils.GetFileHash(FileSystemInfo)
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash*
   name: GetFileHash
@@ -619,11 +619,11 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash
   nameWithType: FileSystemUtils.GetFileHash
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileOwner(System.IO.FileSystemInfo)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileOwner(FileSystemInfo)
   name: GetFileOwner(FileSystemInfo)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetFileOwner_System_IO_FileSystemInfo_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileOwner(System.IO.FileSystemInfo)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileOwner(System.IO.FileSystemInfo)
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetFileOwner_FileSystemInfo_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileOwner(FileSystemInfo)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileOwner(FileSystemInfo)
   nameWithType: FileSystemUtils.GetFileOwner(FileSystemInfo)
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileOwner*
   name: GetFileOwner
@@ -632,11 +632,11 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileOwner
   nameWithType: FileSystemUtils.GetFileOwner
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFilePermissions(FileSystemInfo)
   name: GetFilePermissions(FileSystemInfo)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetFilePermissions_System_IO_FileSystemInfo_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetFilePermissions_FileSystemInfo_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFilePermissions(FileSystemInfo)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFilePermissions(FileSystemInfo)
   nameWithType: FileSystemUtils.GetFilePermissions(FileSystemInfo)
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFilePermissions*
   name: GetFilePermissions
@@ -658,17 +658,62 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetSignatureDetails
   nameWithType: FileSystemUtils.GetSignatureDetails
+- uid: AttackSurfaceAnalyzer.Collectors.FirewallCollector
+  name: FirewallCollector
+  href: api/AttackSurfaceAnalyzer.Collectors.FirewallCollector.html
+  commentId: T:AttackSurfaceAnalyzer.Collectors.FirewallCollector
+  fullName: AttackSurfaceAnalyzer.Collectors.FirewallCollector
+  nameWithType: FirewallCollector
+- uid: AttackSurfaceAnalyzer.Collectors.FirewallCollector.#ctor(System.String)
+  name: FirewallCollector(String)
+  href: api/AttackSurfaceAnalyzer.Collectors.FirewallCollector.html#AttackSurfaceAnalyzer_Collectors_FirewallCollector__ctor_System_String_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FirewallCollector.#ctor(System.String)
+  fullName: AttackSurfaceAnalyzer.Collectors.FirewallCollector.FirewallCollector(System.String)
+  nameWithType: FirewallCollector.FirewallCollector(String)
+- uid: AttackSurfaceAnalyzer.Collectors.FirewallCollector.#ctor*
+  name: FirewallCollector
+  href: api/AttackSurfaceAnalyzer.Collectors.FirewallCollector.html#AttackSurfaceAnalyzer_Collectors_FirewallCollector__ctor_
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.FirewallCollector.#ctor
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Collectors.FirewallCollector.FirewallCollector
+  nameWithType: FirewallCollector.FirewallCollector
+- uid: AttackSurfaceAnalyzer.Collectors.FirewallCollector.CanRunOnPlatform
+  name: CanRunOnPlatform()
+  href: api/AttackSurfaceAnalyzer.Collectors.FirewallCollector.html#AttackSurfaceAnalyzer_Collectors_FirewallCollector_CanRunOnPlatform
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FirewallCollector.CanRunOnPlatform
+  fullName: AttackSurfaceAnalyzer.Collectors.FirewallCollector.CanRunOnPlatform()
+  nameWithType: FirewallCollector.CanRunOnPlatform()
+- uid: AttackSurfaceAnalyzer.Collectors.FirewallCollector.CanRunOnPlatform*
+  name: CanRunOnPlatform
+  href: api/AttackSurfaceAnalyzer.Collectors.FirewallCollector.html#AttackSurfaceAnalyzer_Collectors_FirewallCollector_CanRunOnPlatform_
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.FirewallCollector.CanRunOnPlatform
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Collectors.FirewallCollector.CanRunOnPlatform
+  nameWithType: FirewallCollector.CanRunOnPlatform
+- uid: AttackSurfaceAnalyzer.Collectors.FirewallCollector.Execute
+  name: Execute()
+  href: api/AttackSurfaceAnalyzer.Collectors.FirewallCollector.html#AttackSurfaceAnalyzer_Collectors_FirewallCollector_Execute
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FirewallCollector.Execute
+  fullName: AttackSurfaceAnalyzer.Collectors.FirewallCollector.Execute()
+  nameWithType: FirewallCollector.Execute()
+- uid: AttackSurfaceAnalyzer.Collectors.FirewallCollector.Execute*
+  name: Execute
+  href: api/AttackSurfaceAnalyzer.Collectors.FirewallCollector.html#AttackSurfaceAnalyzer_Collectors_FirewallCollector_Execute_
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.FirewallCollector.Execute
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Collectors.FirewallCollector.Execute
+  nameWithType: FirewallCollector.Execute
 - uid: AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils
   name: LinuxFileSystemUtils
   href: api/AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils.html
   commentId: T:AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils
   fullName: AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils
   nameWithType: LinuxFileSystemUtils
-- uid: AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
+- uid: AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils.GetFilePermissions(FileSystemInfo)
   name: GetFilePermissions(FileSystemInfo)
-  href: api/AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_LinuxFileSystemUtils_GetFilePermissions_System_IO_FileSystemInfo_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
-  fullName: AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
+  href: api/AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_LinuxFileSystemUtils_GetFilePermissions_FileSystemInfo_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils.GetFilePermissions(FileSystemInfo)
+  fullName: AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils.GetFilePermissions(FileSystemInfo)
   nameWithType: LinuxFileSystemUtils.GetFilePermissions(FileSystemInfo)
 - uid: AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils.GetFilePermissions*
   name: GetFilePermissions
@@ -747,22 +792,22 @@ references:
   commentId: M:AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String)
   fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(System.String)
   nameWithType: RegistryCollector.RegistryCollector(String)
-- uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,System.Collections.Generic.List{Microsoft.Win32.RegistryHive})
+- uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,List{RegistryHive})
   name: RegistryCollector(String, List<RegistryHive>)
-  href: api/AttackSurfaceAnalyzer.Collectors.RegistryCollector.html#AttackSurfaceAnalyzer_Collectors_RegistryCollector__ctor_System_String_System_Collections_Generic_List_Microsoft_Win32_RegistryHive__
-  commentId: M:AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,System.Collections.Generic.List{Microsoft.Win32.RegistryHive})
+  href: api/AttackSurfaceAnalyzer.Collectors.RegistryCollector.html#AttackSurfaceAnalyzer_Collectors_RegistryCollector__ctor_System_String_List_RegistryHive__
+  commentId: M:AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,List{RegistryHive})
   name.vb: RegistryCollector(String, List(Of RegistryHive))
-  fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(System.String, System.Collections.Generic.List<Microsoft.Win32.RegistryHive>)
-  fullName.vb: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(System.String, System.Collections.Generic.List(Of Microsoft.Win32.RegistryHive))
+  fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(System.String, List<RegistryHive>)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(System.String, List(Of RegistryHive))
   nameWithType: RegistryCollector.RegistryCollector(String, List<RegistryHive>)
   nameWithType.vb: RegistryCollector.RegistryCollector(String, List(Of RegistryHive))
-- uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,System.Collections.Generic.List{Microsoft.Win32.RegistryHive},System.Action{AttackSurfaceAnalyzer.Objects.RegistryObject})
+- uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,List{RegistryHive},Action{AttackSurfaceAnalyzer.Objects.RegistryObject})
   name: RegistryCollector(String, List<RegistryHive>, Action<RegistryObject>)
-  href: api/AttackSurfaceAnalyzer.Collectors.RegistryCollector.html#AttackSurfaceAnalyzer_Collectors_RegistryCollector__ctor_System_String_System_Collections_Generic_List_Microsoft_Win32_RegistryHive__System_Action_AttackSurfaceAnalyzer_Objects_RegistryObject__
-  commentId: M:AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,System.Collections.Generic.List{Microsoft.Win32.RegistryHive},System.Action{AttackSurfaceAnalyzer.Objects.RegistryObject})
+  href: api/AttackSurfaceAnalyzer.Collectors.RegistryCollector.html#AttackSurfaceAnalyzer_Collectors_RegistryCollector__ctor_System_String_List_RegistryHive__Action_AttackSurfaceAnalyzer_Objects_RegistryObject__
+  commentId: M:AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,List{RegistryHive},Action{AttackSurfaceAnalyzer.Objects.RegistryObject})
   name.vb: RegistryCollector(String, List(Of RegistryHive), Action(Of RegistryObject))
-  fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(System.String, System.Collections.Generic.List<Microsoft.Win32.RegistryHive>, System.Action<AttackSurfaceAnalyzer.Objects.RegistryObject>)
-  fullName.vb: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(System.String, System.Collections.Generic.List(Of Microsoft.Win32.RegistryHive), System.Action(Of AttackSurfaceAnalyzer.Objects.RegistryObject))
+  fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(System.String, List<RegistryHive>, Action<AttackSurfaceAnalyzer.Objects.RegistryObject>)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(System.String, List(Of RegistryHive), Action(Of AttackSurfaceAnalyzer.Objects.RegistryObject))
   nameWithType: RegistryCollector.RegistryCollector(String, List<RegistryHive>, Action<RegistryObject>)
   nameWithType.vb: RegistryCollector.RegistryCollector(String, List(Of RegistryHive), Action(Of RegistryObject))
 - uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor*
@@ -856,11 +901,11 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.RegistryMonitor.CanRunOnPlatform
   nameWithType: RegistryMonitor.CanRunOnPlatform
-- uid: AttackSurfaceAnalyzer.Collectors.RegistryMonitor.MyOnEntryWritten(System.Object,System.Diagnostics.EntryWrittenEventArgs)
+- uid: AttackSurfaceAnalyzer.Collectors.RegistryMonitor.MyOnEntryWritten(System.Object,EntryWrittenEventArgs)
   name: MyOnEntryWritten(Object, EntryWrittenEventArgs)
-  href: api/AttackSurfaceAnalyzer.Collectors.RegistryMonitor.html#AttackSurfaceAnalyzer_Collectors_RegistryMonitor_MyOnEntryWritten_System_Object_System_Diagnostics_EntryWrittenEventArgs_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.RegistryMonitor.MyOnEntryWritten(System.Object,System.Diagnostics.EntryWrittenEventArgs)
-  fullName: AttackSurfaceAnalyzer.Collectors.RegistryMonitor.MyOnEntryWritten(System.Object, System.Diagnostics.EntryWrittenEventArgs)
+  href: api/AttackSurfaceAnalyzer.Collectors.RegistryMonitor.html#AttackSurfaceAnalyzer_Collectors_RegistryMonitor_MyOnEntryWritten_System_Object_EntryWrittenEventArgs_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.RegistryMonitor.MyOnEntryWritten(System.Object,EntryWrittenEventArgs)
+  fullName: AttackSurfaceAnalyzer.Collectors.RegistryMonitor.MyOnEntryWritten(System.Object, EntryWrittenEventArgs)
   nameWithType: RegistryMonitor.MyOnEntryWritten(Object, EntryWrittenEventArgs)
 - uid: AttackSurfaceAnalyzer.Collectors.RegistryMonitor.MyOnEntryWritten*
   name: MyOnEntryWritten
@@ -1053,11 +1098,11 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetDllCharacteristics
   nameWithType: WindowsFileSystemUtils.GetDllCharacteristics
-- uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
+- uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetFilePermissions(FileSystemInfo)
   name: GetFilePermissions(FileSystemInfo)
-  href: api/AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_WindowsFileSystemUtils_GetFilePermissions_System_IO_FileSystemInfo_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
-  fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
+  href: api/AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_WindowsFileSystemUtils_GetFilePermissions_FileSystemInfo_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetFilePermissions(FileSystemInfo)
+  fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetFilePermissions(FileSystemInfo)
   nameWithType: WindowsFileSystemUtils.GetFilePermissions(FileSystemInfo)
 - uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetFilePermissions*
   name: GetFilePermissions
@@ -1698,6 +1743,233 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Objects.FileSystemResult.FileSystemResult
   nameWithType: FileSystemResult.FileSystemResult
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject
+  name: FirewallObject
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html
+  commentId: T:AttackSurfaceAnalyzer.Objects.FirewallObject
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject
+  nameWithType: FirewallObject
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.#ctor
+  name: FirewallObject()
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject__ctor
+  commentId: M:AttackSurfaceAnalyzer.Objects.FirewallObject.#ctor
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.FirewallObject()
+  nameWithType: FirewallObject.FirewallObject()
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.#ctor*
+  name: FirewallObject
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject__ctor_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.FirewallObject.#ctor
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.FirewallObject
+  nameWithType: FirewallObject.FirewallObject
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.Action
+  name: Action
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject_Action
+  commentId: P:AttackSurfaceAnalyzer.Objects.FirewallObject.Action
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.Action
+  nameWithType: FirewallObject.Action
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.Action*
+  name: Action
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject_Action_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.FirewallObject.Action
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.Action
+  nameWithType: FirewallObject.Action
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.ApplicationName
+  name: ApplicationName
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject_ApplicationName
+  commentId: P:AttackSurfaceAnalyzer.Objects.FirewallObject.ApplicationName
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.ApplicationName
+  nameWithType: FirewallObject.ApplicationName
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.ApplicationName*
+  name: ApplicationName
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject_ApplicationName_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.FirewallObject.ApplicationName
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.ApplicationName
+  nameWithType: FirewallObject.ApplicationName
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.Direction
+  name: Direction
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject_Direction
+  commentId: P:AttackSurfaceAnalyzer.Objects.FirewallObject.Direction
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.Direction
+  nameWithType: FirewallObject.Direction
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.Direction*
+  name: Direction
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject_Direction_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.FirewallObject.Direction
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.Direction
+  nameWithType: FirewallObject.Direction
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.FriendlyName
+  name: FriendlyName
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject_FriendlyName
+  commentId: P:AttackSurfaceAnalyzer.Objects.FirewallObject.FriendlyName
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.FriendlyName
+  nameWithType: FirewallObject.FriendlyName
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.FriendlyName*
+  name: FriendlyName
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject_FriendlyName_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.FirewallObject.FriendlyName
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.FriendlyName
+  nameWithType: FirewallObject.FriendlyName
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.Identity
+  name: Identity
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject_Identity
+  commentId: P:AttackSurfaceAnalyzer.Objects.FirewallObject.Identity
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.Identity
+  nameWithType: FirewallObject.Identity
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.Identity*
+  name: Identity
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject_Identity_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.FirewallObject.Identity
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.Identity
+  nameWithType: FirewallObject.Identity
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.IsEnable
+  name: IsEnable
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject_IsEnable
+  commentId: P:AttackSurfaceAnalyzer.Objects.FirewallObject.IsEnable
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.IsEnable
+  nameWithType: FirewallObject.IsEnable
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.IsEnable*
+  name: IsEnable
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject_IsEnable_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.FirewallObject.IsEnable
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.IsEnable
+  nameWithType: FirewallObject.IsEnable
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.LocalAddresses
+  name: LocalAddresses
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject_LocalAddresses
+  commentId: P:AttackSurfaceAnalyzer.Objects.FirewallObject.LocalAddresses
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.LocalAddresses
+  nameWithType: FirewallObject.LocalAddresses
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.LocalAddresses*
+  name: LocalAddresses
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject_LocalAddresses_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.FirewallObject.LocalAddresses
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.LocalAddresses
+  nameWithType: FirewallObject.LocalAddresses
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.LocalPorts
+  name: LocalPorts
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject_LocalPorts
+  commentId: P:AttackSurfaceAnalyzer.Objects.FirewallObject.LocalPorts
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.LocalPorts
+  nameWithType: FirewallObject.LocalPorts
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.LocalPorts*
+  name: LocalPorts
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject_LocalPorts_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.FirewallObject.LocalPorts
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.LocalPorts
+  nameWithType: FirewallObject.LocalPorts
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.LocalPortType
+  name: LocalPortType
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject_LocalPortType
+  commentId: P:AttackSurfaceAnalyzer.Objects.FirewallObject.LocalPortType
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.LocalPortType
+  nameWithType: FirewallObject.LocalPortType
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.LocalPortType*
+  name: LocalPortType
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject_LocalPortType_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.FirewallObject.LocalPortType
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.LocalPortType
+  nameWithType: FirewallObject.LocalPortType
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.Name
+  name: Name
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject_Name
+  commentId: P:AttackSurfaceAnalyzer.Objects.FirewallObject.Name
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.Name
+  nameWithType: FirewallObject.Name
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.Name*
+  name: Name
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject_Name_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.FirewallObject.Name
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.Name
+  nameWithType: FirewallObject.Name
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.Profiles
+  name: Profiles
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject_Profiles
+  commentId: P:AttackSurfaceAnalyzer.Objects.FirewallObject.Profiles
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.Profiles
+  nameWithType: FirewallObject.Profiles
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.Profiles*
+  name: Profiles
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject_Profiles_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.FirewallObject.Profiles
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.Profiles
+  nameWithType: FirewallObject.Profiles
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.Protocol
+  name: Protocol
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject_Protocol
+  commentId: P:AttackSurfaceAnalyzer.Objects.FirewallObject.Protocol
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.Protocol
+  nameWithType: FirewallObject.Protocol
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.Protocol*
+  name: Protocol
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject_Protocol_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.FirewallObject.Protocol
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.Protocol
+  nameWithType: FirewallObject.Protocol
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.RemoteAddresses
+  name: RemoteAddresses
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject_RemoteAddresses
+  commentId: P:AttackSurfaceAnalyzer.Objects.FirewallObject.RemoteAddresses
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.RemoteAddresses
+  nameWithType: FirewallObject.RemoteAddresses
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.RemoteAddresses*
+  name: RemoteAddresses
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject_RemoteAddresses_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.FirewallObject.RemoteAddresses
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.RemoteAddresses
+  nameWithType: FirewallObject.RemoteAddresses
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.RemotePorts
+  name: RemotePorts
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject_RemotePorts
+  commentId: P:AttackSurfaceAnalyzer.Objects.FirewallObject.RemotePorts
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.RemotePorts
+  nameWithType: FirewallObject.RemotePorts
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.RemotePorts*
+  name: RemotePorts
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject_RemotePorts_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.FirewallObject.RemotePorts
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.RemotePorts
+  nameWithType: FirewallObject.RemotePorts
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.Scope
+  name: Scope
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject_Scope
+  commentId: P:AttackSurfaceAnalyzer.Objects.FirewallObject.Scope
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.Scope
+  nameWithType: FirewallObject.Scope
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.Scope*
+  name: Scope
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject_Scope_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.FirewallObject.Scope
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.Scope
+  nameWithType: FirewallObject.Scope
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.ServiceName
+  name: ServiceName
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject_ServiceName
+  commentId: P:AttackSurfaceAnalyzer.Objects.FirewallObject.ServiceName
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.ServiceName
+  nameWithType: FirewallObject.ServiceName
+- uid: AttackSurfaceAnalyzer.Objects.FirewallObject.ServiceName*
+  name: ServiceName
+  href: api/AttackSurfaceAnalyzer.Objects.FirewallObject.html#AttackSurfaceAnalyzer_Objects_FirewallObject_ServiceName_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.FirewallObject.ServiceName
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.FirewallObject.ServiceName
+  nameWithType: FirewallObject.ServiceName
 - uid: AttackSurfaceAnalyzer.Objects.GroupAccountObject
   name: GroupAccountObject
   href: api/AttackSurfaceAnalyzer.Objects.GroupAccountObject.html
@@ -2009,11 +2281,11 @@ references:
   commentId: M:AttackSurfaceAnalyzer.Objects.RegistryObject.#ctor
   fullName: AttackSurfaceAnalyzer.Objects.RegistryObject.RegistryObject()
   nameWithType: RegistryObject.RegistryObject()
-- uid: AttackSurfaceAnalyzer.Objects.RegistryObject.#ctor(Microsoft.Win32.RegistryKey)
+- uid: AttackSurfaceAnalyzer.Objects.RegistryObject.#ctor(RegistryKey)
   name: RegistryObject(RegistryKey)
-  href: api/AttackSurfaceAnalyzer.Objects.RegistryObject.html#AttackSurfaceAnalyzer_Objects_RegistryObject__ctor_Microsoft_Win32_RegistryKey_
-  commentId: M:AttackSurfaceAnalyzer.Objects.RegistryObject.#ctor(Microsoft.Win32.RegistryKey)
-  fullName: AttackSurfaceAnalyzer.Objects.RegistryObject.RegistryObject(Microsoft.Win32.RegistryKey)
+  href: api/AttackSurfaceAnalyzer.Objects.RegistryObject.html#AttackSurfaceAnalyzer_Objects_RegistryObject__ctor_RegistryKey_
+  commentId: M:AttackSurfaceAnalyzer.Objects.RegistryObject.#ctor(RegistryKey)
+  fullName: AttackSurfaceAnalyzer.Objects.RegistryObject.RegistryObject(RegistryKey)
   nameWithType: RegistryObject.RegistryObject(RegistryKey)
 - uid: AttackSurfaceAnalyzer.Objects.RegistryObject.#ctor*
   name: RegistryObject
@@ -2444,6 +2716,1513 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Objects.UserAccountResult.UserAccountResult
   nameWithType: UserAccountResult.UserAccountResult
+- uid: AttackSurfaceAnalyzer.Properties
+  name: AttackSurfaceAnalyzer.Properties
+  href: api/AttackSurfaceAnalyzer.Properties.html
+  commentId: N:AttackSurfaceAnalyzer.Properties
+  fullName: AttackSurfaceAnalyzer.Properties
+  nameWithType: AttackSurfaceAnalyzer.Properties
+- uid: AttackSurfaceAnalyzer.Properties.Resources
+  name: Resources
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html
+  commentId: T:AttackSurfaceAnalyzer.Properties.Resources
+  fullName: AttackSurfaceAnalyzer.Properties.Resources
+  nameWithType: Resources
+- uid: AttackSurfaceAnalyzer.Properties.Resources.AccountType
+  name: AccountType
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_AccountType
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.AccountType
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.AccountType
+  nameWithType: Resources.AccountType
+- uid: AttackSurfaceAnalyzer.Properties.Resources.AccountType*
+  name: AccountType
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_AccountType_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.AccountType
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.AccountType
+  nameWithType: Resources.AccountType
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Address
+  name: Address
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Address
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Address
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Address
+  nameWithType: Resources.Address
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Address*
+  name: Address
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Address_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Address
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Address
+  nameWithType: Resources.Address
+- uid: AttackSurfaceAnalyzer.Properties.Resources.AdminWarning
+  name: AdminWarning
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_AdminWarning
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.AdminWarning
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.AdminWarning
+  nameWithType: Resources.AdminWarning
+- uid: AttackSurfaceAnalyzer.Properties.Resources.AdminWarning*
+  name: AdminWarning
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_AdminWarning_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.AdminWarning
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.AdminWarning
+  nameWithType: Resources.AdminWarning
+- uid: AttackSurfaceAnalyzer.Properties.Resources.AnalyzeResults
+  name: AnalyzeResults
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_AnalyzeResults
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.AnalyzeResults
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.AnalyzeResults
+  nameWithType: Resources.AnalyzeResults
+- uid: AttackSurfaceAnalyzer.Properties.Resources.AnalyzeResults*
+  name: AnalyzeResults
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_AnalyzeResults_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.AnalyzeResults
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.AnalyzeResults
+  nameWithType: Resources.AnalyzeResults
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry
+  name: ApplicationHasTelemetry
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ApplicationHasTelemetry
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry
+  nameWithType: Resources.ApplicationHasTelemetry
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry*
+  name: ApplicationHasTelemetry
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ApplicationHasTelemetry_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry
+  nameWithType: Resources.ApplicationHasTelemetry
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry2
+  name: ApplicationHasTelemetry2
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ApplicationHasTelemetry2
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry2
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry2
+  nameWithType: Resources.ApplicationHasTelemetry2
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry2*
+  name: ApplicationHasTelemetry2
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ApplicationHasTelemetry2_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry2
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry2
+  nameWithType: Resources.ApplicationHasTelemetry2
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry3
+  name: ApplicationHasTelemetry3
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ApplicationHasTelemetry3
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry3
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry3
+  nameWithType: Resources.ApplicationHasTelemetry3
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry3*
+  name: ApplicationHasTelemetry3
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ApplicationHasTelemetry3_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry3
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ApplicationHasTelemetry3
+  nameWithType: Resources.ApplicationHasTelemetry3
+- uid: AttackSurfaceAnalyzer.Properties.Resources.BaseRunId
+  name: BaseRunId
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_BaseRunId
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.BaseRunId
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.BaseRunId
+  nameWithType: Resources.BaseRunId
+- uid: AttackSurfaceAnalyzer.Properties.Resources.BaseRunId*
+  name: BaseRunId
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_BaseRunId_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.BaseRunId
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.BaseRunId
+  nameWithType: Resources.BaseRunId
+- uid: AttackSurfaceAnalyzer.Properties.Resources.BaseStatus
+  name: BaseStatus
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_BaseStatus
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.BaseStatus
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.BaseStatus
+  nameWithType: Resources.BaseStatus
+- uid: AttackSurfaceAnalyzer.Properties.Resources.BaseStatus*
+  name: BaseStatus
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_BaseStatus_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.BaseStatus
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.BaseStatus
+  nameWithType: Resources.BaseStatus
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Begin
+  name: Begin
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Begin
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Begin
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Begin
+  nameWithType: Resources.Begin
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Begin*
+  name: Begin
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Begin_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Begin
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Begin
+  nameWithType: Resources.Begin
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Certificates
+  name: Certificates
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Certificates
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Certificates
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Certificates
+  nameWithType: Resources.Certificates
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Certificates*
+  name: Certificates
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Certificates_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Certificates
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Certificates
+  nameWithType: Resources.Certificates
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ChangeType
+  name: ChangeType
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ChangeType
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ChangeType
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ChangeType
+  nameWithType: Resources.ChangeType
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ChangeType*
+  name: ChangeType
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ChangeType_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ChangeType
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ChangeType
+  nameWithType: Resources.ChangeType
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ChooseCollectors
+  name: ChooseCollectors
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ChooseCollectors
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ChooseCollectors
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ChooseCollectors
+  nameWithType: Resources.ChooseCollectors
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ChooseCollectors*
+  name: ChooseCollectors
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ChooseCollectors_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ChooseCollectors
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ChooseCollectors
+  nameWithType: Resources.ChooseCollectors
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ChooseMonitor
+  name: ChooseMonitor
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ChooseMonitor
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ChooseMonitor
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ChooseMonitor
+  nameWithType: Resources.ChooseMonitor
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ChooseMonitor*
+  name: ChooseMonitor
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ChooseMonitor_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ChooseMonitor
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ChooseMonitor
+  nameWithType: Resources.ChooseMonitor
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Collectors
+  name: Collectors
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Collectors
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Collectors
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Collectors
+  nameWithType: Resources.Collectors
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Collectors*
+  name: Collectors
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Collectors_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Collectors
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Collectors
+  nameWithType: Resources.Collectors
+- uid: AttackSurfaceAnalyzer.Properties.Resources.CollectSnapshotDesc
+  name: CollectSnapshotDesc
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_CollectSnapshotDesc
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.CollectSnapshotDesc
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.CollectSnapshotDesc
+  nameWithType: Resources.CollectSnapshotDesc
+- uid: AttackSurfaceAnalyzer.Properties.Resources.CollectSnapshotDesc*
+  name: CollectSnapshotDesc
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_CollectSnapshotDesc_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.CollectSnapshotDesc
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.CollectSnapshotDesc
+  nameWithType: Resources.CollectSnapshotDesc
+- uid: AttackSurfaceAnalyzer.Properties.Resources.CompareDesc
+  name: CompareDesc
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_CompareDesc
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.CompareDesc
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.CompareDesc
+  nameWithType: Resources.CompareDesc
+- uid: AttackSurfaceAnalyzer.Properties.Resources.CompareDesc*
+  name: CompareDesc
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_CompareDesc_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.CompareDesc
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.CompareDesc
+  nameWithType: Resources.CompareDesc
+- uid: AttackSurfaceAnalyzer.Properties.Resources.CompareRunId
+  name: CompareRunId
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_CompareRunId
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.CompareRunId
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.CompareRunId
+  nameWithType: Resources.CompareRunId
+- uid: AttackSurfaceAnalyzer.Properties.Resources.CompareRunId*
+  name: CompareRunId
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_CompareRunId_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.CompareRunId
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.CompareRunId
+  nameWithType: Resources.CompareRunId
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Comparing
+  name: Comparing
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Comparing
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Comparing
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Comparing
+  nameWithType: Resources.Comparing
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Comparing*
+  name: Comparing
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Comparing_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Comparing
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Comparing
+  nameWithType: Resources.Comparing
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Completed
+  name: Completed
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Completed
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Completed
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Completed
+  nameWithType: Resources.Completed
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Completed*
+  name: Completed
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Completed_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Completed
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Completed
+  nameWithType: Resources.Completed
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Contents
+  name: Contents
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Contents
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Contents
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Contents
+  nameWithType: Resources.Contents
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Contents*
+  name: Contents
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Contents_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Contents
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Contents
+  nameWithType: Resources.Contents
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Created
+  name: Created
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Created
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Created
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Created
+  nameWithType: Resources.Created
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Created*
+  name: Created
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Created_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Created
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Created
+  nameWithType: Resources.Created
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Culture
+  name: Culture
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Culture
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Culture
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Culture
+  nameWithType: Resources.Culture
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Culture*
+  name: Culture
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Culture_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Culture
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Culture
+  nameWithType: Resources.Culture
+- uid: AttackSurfaceAnalyzer.Properties.Resources.CurrentState
+  name: CurrentState
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_CurrentState
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.CurrentState
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.CurrentState
+  nameWithType: Resources.CurrentState
+- uid: AttackSurfaceAnalyzer.Properties.Resources.CurrentState*
+  name: CurrentState
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_CurrentState_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.CurrentState
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.CurrentState
+  nameWithType: Resources.CurrentState
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Deleted
+  name: Deleted
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Deleted
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Deleted
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Deleted
+  nameWithType: Resources.Deleted
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Deleted*
+  name: Deleted
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Deleted_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Deleted
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Deleted
+  nameWithType: Resources.Deleted
+- uid: AttackSurfaceAnalyzer.Properties.Resources.DeletedDatabase
+  name: DeletedDatabase
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_DeletedDatabase
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.DeletedDatabase
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.DeletedDatabase
+  nameWithType: Resources.DeletedDatabase
+- uid: AttackSurfaceAnalyzer.Properties.Resources.DeletedDatabase*
+  name: DeletedDatabase
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_DeletedDatabase_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.DeletedDatabase
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.DeletedDatabase
+  nameWithType: Resources.DeletedDatabase
+- uid: AttackSurfaceAnalyzer.Properties.Resources.DeletedDatabaseAt
+  name: DeletedDatabaseAt
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_DeletedDatabaseAt
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.DeletedDatabaseAt
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.DeletedDatabaseAt
+  nameWithType: Resources.DeletedDatabaseAt
+- uid: AttackSurfaceAnalyzer.Properties.Resources.DeletedDatabaseAt*
+  name: DeletedDatabaseAt
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_DeletedDatabaseAt_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.DeletedDatabaseAt
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.DeletedDatabaseAt
+  nameWithType: Resources.DeletedDatabaseAt
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Description
+  name: Description
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Description
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Description
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Description
+  nameWithType: Resources.Description
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Description*
+  name: Description
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Description_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Description
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Description
+  nameWithType: Resources.Description
+- uid: AttackSurfaceAnalyzer.Properties.Resources.DisplayName
+  name: DisplayName
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_DisplayName
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.DisplayName
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.DisplayName
+  nameWithType: Resources.DisplayName
+- uid: AttackSurfaceAnalyzer.Properties.Resources.DisplayName*
+  name: DisplayName
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_DisplayName_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.DisplayName
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.DisplayName
+  nameWithType: Resources.DisplayName
+- uid: AttackSurfaceAnalyzer.Properties.Resources.DoneWriting
+  name: DoneWriting
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_DoneWriting
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.DoneWriting
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.DoneWriting
+  nameWithType: Resources.DoneWriting
+- uid: AttackSurfaceAnalyzer.Properties.Resources.DoneWriting*
+  name: DoneWriting
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_DoneWriting_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.DoneWriting
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.DoneWriting
+  nameWithType: Resources.DoneWriting
+- uid: AttackSurfaceAnalyzer.Properties.Resources.DueToFilter
+  name: DueToFilter
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_DueToFilter
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.DueToFilter
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.DueToFilter
+  nameWithType: Resources.DueToFilter
+- uid: AttackSurfaceAnalyzer.Properties.Resources.DueToFilter*
+  name: DueToFilter
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_DueToFilter_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.DueToFilter
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.DueToFilter
+  nameWithType: Resources.DueToFilter
+- uid: AttackSurfaceAnalyzer.Properties.Resources.DumpingDataFromDatabase
+  name: DumpingDataFromDatabase
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_DumpingDataFromDatabase
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.DumpingDataFromDatabase
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.DumpingDataFromDatabase
+  nameWithType: Resources.DumpingDataFromDatabase
+- uid: AttackSurfaceAnalyzer.Properties.Resources.DumpingDataFromDatabase*
+  name: DumpingDataFromDatabase
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_DumpingDataFromDatabase_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.DumpingDataFromDatabase
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.DumpingDataFromDatabase
+  nameWithType: Resources.DumpingDataFromDatabase
+- uid: AttackSurfaceAnalyzer.Properties.Resources.End
+  name: End
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_End
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.End
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.End
+  nameWithType: Resources.End
+- uid: AttackSurfaceAnalyzer.Properties.Resources.End*
+  name: End
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_End_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.End
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.End
+  nameWithType: Resources.End
+- uid: AttackSurfaceAnalyzer.Properties.Resources.EnumeratingCollectRunIds
+  name: EnumeratingCollectRunIds
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_EnumeratingCollectRunIds
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.EnumeratingCollectRunIds
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.EnumeratingCollectRunIds
+  nameWithType: Resources.EnumeratingCollectRunIds
+- uid: AttackSurfaceAnalyzer.Properties.Resources.EnumeratingCollectRunIds*
+  name: EnumeratingCollectRunIds
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_EnumeratingCollectRunIds_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.EnumeratingCollectRunIds
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.EnumeratingCollectRunIds
+  nameWithType: Resources.EnumeratingCollectRunIds
+- uid: AttackSurfaceAnalyzer.Properties.Resources.EnumeratingMonitorRunIds
+  name: EnumeratingMonitorRunIds
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_EnumeratingMonitorRunIds
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.EnumeratingMonitorRunIds
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.EnumeratingMonitorRunIds
+  nameWithType: Resources.EnumeratingMonitorRunIds
+- uid: AttackSurfaceAnalyzer.Properties.Resources.EnumeratingMonitorRunIds*
+  name: EnumeratingMonitorRunIds
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_EnumeratingMonitorRunIds_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.EnumeratingMonitorRunIds
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.EnumeratingMonitorRunIds
+  nameWithType: Resources.EnumeratingMonitorRunIds
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_AccessControl
+  name: Err_AccessControl
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Err_AccessControl
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Err_AccessControl
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_AccessControl
+  nameWithType: Resources.Err_AccessControl
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_AccessControl*
+  name: Err_AccessControl
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Err_AccessControl_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Err_AccessControl
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_AccessControl
+  nameWithType: Resources.Err_AccessControl
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_CollectingFrom
+  name: Err_CollectingFrom
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Err_CollectingFrom
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Err_CollectingFrom
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_CollectingFrom
+  nameWithType: Resources.Err_CollectingFrom
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_CollectingFrom*
+  name: Err_CollectingFrom
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Err_CollectingFrom_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Err_CollectingFrom
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_CollectingFrom
+  nameWithType: Resources.Err_CollectingFrom
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_CouldntDetermineOneRun
+  name: Err_CouldntDetermineOneRun
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Err_CouldntDetermineOneRun
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Err_CouldntDetermineOneRun
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_CouldntDetermineOneRun
+  nameWithType: Resources.Err_CouldntDetermineOneRun
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_CouldntDetermineOneRun*
+  name: Err_CouldntDetermineOneRun
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Err_CouldntDetermineOneRun_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Err_CouldntDetermineOneRun
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_CouldntDetermineOneRun
+  nameWithType: Resources.Err_CouldntDetermineOneRun
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_CouldntDetermineTwoRun
+  name: Err_CouldntDetermineTwoRun
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Err_CouldntDetermineTwoRun
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Err_CouldntDetermineTwoRun
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_CouldntDetermineTwoRun
+  nameWithType: Resources.Err_CouldntDetermineTwoRun
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_CouldntDetermineTwoRun*
+  name: Err_CouldntDetermineTwoRun
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Err_CouldntDetermineTwoRun_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Err_CouldntDetermineTwoRun
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_CouldntDetermineTwoRun
+  nameWithType: Resources.Err_CouldntDetermineTwoRun
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_FiltersFile
+  name: Err_FiltersFile
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Err_FiltersFile
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Err_FiltersFile
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_FiltersFile
+  nameWithType: Resources.Err_FiltersFile
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_FiltersFile*
+  name: Err_FiltersFile
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Err_FiltersFile_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Err_FiltersFile
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_FiltersFile
+  nameWithType: Resources.Err_FiltersFile
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_Iproute2
+  name: Err_Iproute2
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Err_Iproute2
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Err_Iproute2
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_Iproute2
+  nameWithType: Resources.Err_Iproute2
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_Iproute2*
+  name: Err_Iproute2
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Err_Iproute2_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Err_Iproute2
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_Iproute2
+  nameWithType: Resources.Err_Iproute2
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_Lsof
+  name: Err_Lsof
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Err_Lsof
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Err_Lsof
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_Lsof
+  nameWithType: Resources.Err_Lsof
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_Lsof*
+  name: Err_Lsof
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Err_Lsof_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Err_Lsof
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_Lsof
+  nameWithType: Resources.Err_Lsof
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_NeedResults
+  name: Err_NeedResults
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Err_NeedResults
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Err_NeedResults
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_NeedResults
+  nameWithType: Resources.Err_NeedResults
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_NeedResults*
+  name: Err_NeedResults
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Err_NeedResults_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Err_NeedResults
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_NeedResults
+  nameWithType: Resources.Err_NeedResults
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_NoCollectors
+  name: Err_NoCollectors
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Err_NoCollectors
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Err_NoCollectors
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_NoCollectors
+  nameWithType: Resources.Err_NoCollectors
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_NoCollectors*
+  name: Err_NoCollectors
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Err_NoCollectors_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Err_NoCollectors
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_NoCollectors
+  nameWithType: Resources.Err_NoCollectors
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_NoMonitors
+  name: Err_NoMonitors
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Err_NoMonitors
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Err_NoMonitors
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_NoMonitors
+  nameWithType: Resources.Err_NoMonitors
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_NoMonitors*
+  name: Err_NoMonitors
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Err_NoMonitors_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Err_NoMonitors
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_NoMonitors
+  nameWithType: Resources.Err_NoMonitors
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_OutputPathNotExist
+  name: Err_OutputPathNotExist
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Err_OutputPathNotExist
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Err_OutputPathNotExist
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_OutputPathNotExist
+  nameWithType: Resources.Err_OutputPathNotExist
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_OutputPathNotExist*
+  name: Err_OutputPathNotExist
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Err_OutputPathNotExist_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Err_OutputPathNotExist
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_OutputPathNotExist
+  nameWithType: Resources.Err_OutputPathNotExist
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_RunAsAdmin
+  name: Err_RunAsAdmin
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Err_RunAsAdmin
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Err_RunAsAdmin
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_RunAsAdmin
+  nameWithType: Resources.Err_RunAsAdmin
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_RunAsAdmin*
+  name: Err_RunAsAdmin
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Err_RunAsAdmin_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Err_RunAsAdmin
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_RunAsAdmin
+  nameWithType: Resources.Err_RunAsAdmin
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_RunAsRoot
+  name: Err_RunAsRoot
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Err_RunAsRoot
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Err_RunAsRoot
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_RunAsRoot
+  nameWithType: Resources.Err_RunAsRoot
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_RunAsRoot*
+  name: Err_RunAsRoot
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Err_RunAsRoot_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Err_RunAsRoot
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_RunAsRoot
+  nameWithType: Resources.Err_RunAsRoot
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_RunIdAlreadyUsed
+  name: Err_RunIdAlreadyUsed
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Err_RunIdAlreadyUsed
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Err_RunIdAlreadyUsed
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_RunIdAlreadyUsed
+  nameWithType: Resources.Err_RunIdAlreadyUsed
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Err_RunIdAlreadyUsed*
+  name: Err_RunIdAlreadyUsed
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Err_RunIdAlreadyUsed_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Err_RunIdAlreadyUsed
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Err_RunIdAlreadyUsed
+  nameWithType: Resources.Err_RunIdAlreadyUsed
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ExcludingHive
+  name: ExcludingHive
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ExcludingHive
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ExcludingHive
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ExcludingHive
+  nameWithType: Resources.ExcludingHive
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ExcludingHive*
+  name: ExcludingHive
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ExcludingHive_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ExcludingHive
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ExcludingHive
+  nameWithType: Resources.ExcludingHive
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ExportAll
+  name: ExportAll
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ExportAll
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ExportAll
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ExportAll
+  nameWithType: Resources.ExportAll
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ExportAll*
+  name: ExportAll
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ExportAll_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ExportAll
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ExportAll
+  nameWithType: Resources.ExportAll
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ExportDirectory
+  name: ExportDirectory
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ExportDirectory
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ExportDirectory
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ExportDirectory
+  nameWithType: Resources.ExportDirectory
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ExportDirectory*
+  name: ExportDirectory
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ExportDirectory_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ExportDirectory
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ExportDirectory
+  nameWithType: Resources.ExportDirectory
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Exporting
+  name: Exporting
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Exporting
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Exporting
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Exporting
+  nameWithType: Resources.Exporting
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Exporting*
+  name: Exporting
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Exporting_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Exporting
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Exporting
+  nameWithType: Resources.Exporting
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ExportOnly
+  name: ExportOnly
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ExportOnly
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ExportOnly
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ExportOnly
+  nameWithType: Resources.ExportOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ExportOnly*
+  name: ExportOnly
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ExportOnly_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ExportOnly
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ExportOnly
+  nameWithType: Resources.ExportOnly
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ExportOptions
+  name: ExportOptions
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ExportOptions
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ExportOptions
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ExportOptions
+  nameWithType: Resources.ExportOptions
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ExportOptions*
+  name: ExportOptions
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ExportOptions_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ExportOptions
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ExportOptions
+  nameWithType: Resources.ExportOptions
+- uid: AttackSurfaceAnalyzer.Properties.Resources.FailedParsed
+  name: FailedParsed
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_FailedParsed
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.FailedParsed
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.FailedParsed
+  nameWithType: Resources.FailedParsed
+- uid: AttackSurfaceAnalyzer.Properties.Resources.FailedParsed*
+  name: FailedParsed
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_FailedParsed_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.FailedParsed
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.FailedParsed
+  nameWithType: Resources.FailedParsed
+- uid: AttackSurfaceAnalyzer.Properties.Resources.FailedToDeleteDatabase
+  name: FailedToDeleteDatabase
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_FailedToDeleteDatabase
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.FailedToDeleteDatabase
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.FailedToDeleteDatabase
+  nameWithType: Resources.FailedToDeleteDatabase
+- uid: AttackSurfaceAnalyzer.Properties.Resources.FailedToDeleteDatabase*
+  name: FailedToDeleteDatabase
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_FailedToDeleteDatabase_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.FailedToDeleteDatabase
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.FailedToDeleteDatabase
+  nameWithType: Resources.FailedToDeleteDatabase
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Files
+  name: Files
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Files
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Files
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Files
+  nameWithType: Resources.Files
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Files*
+  name: Files
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Files_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Files
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Files
+  nameWithType: Resources.Files
+- uid: AttackSurfaceAnalyzer.Properties.Resources.FirstRunListRunsError
+  name: FirstRunListRunsError
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_FirstRunListRunsError
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.FirstRunListRunsError
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.FirstRunListRunsError
+  nameWithType: Resources.FirstRunListRunsError
+- uid: AttackSurfaceAnalyzer.Properties.Resources.FirstRunListRunsError*
+  name: FirstRunListRunsError
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_FirstRunListRunsError_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.FirstRunListRunsError
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.FirstRunListRunsError
+  nameWithType: Resources.FirstRunListRunsError
+- uid: AttackSurfaceAnalyzer.Properties.Resources.FirstScanDesc
+  name: FirstScanDesc
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_FirstScanDesc
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.FirstScanDesc
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.FirstScanDesc
+  nameWithType: Resources.FirstScanDesc
+- uid: AttackSurfaceAnalyzer.Properties.Resources.FirstScanDesc*
+  name: FirstScanDesc
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_FirstScanDesc_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.FirstScanDesc
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.FirstScanDesc
+  nameWithType: Resources.FirstScanDesc
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Found
+  name: Found
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Found
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Found
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Found
+  nameWithType: Resources.Found
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Found*
+  name: Found
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Found_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Found
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Found
+  nameWithType: Resources.Found
+- uid: AttackSurfaceAnalyzer.Properties.Resources.FoundCreated
+  name: FoundCreated
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_FoundCreated
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.FoundCreated
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.FoundCreated
+  nameWithType: Resources.FoundCreated
+- uid: AttackSurfaceAnalyzer.Properties.Resources.FoundCreated*
+  name: FoundCreated
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_FoundCreated_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.FoundCreated
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.FoundCreated
+  nameWithType: Resources.FoundCreated
+- uid: AttackSurfaceAnalyzer.Properties.Resources.FoundDeleted
+  name: FoundDeleted
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_FoundDeleted
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.FoundDeleted
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.FoundDeleted
+  nameWithType: Resources.FoundDeleted
+- uid: AttackSurfaceAnalyzer.Properties.Resources.FoundDeleted*
+  name: FoundDeleted
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_FoundDeleted_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.FoundDeleted
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.FoundDeleted
+  nameWithType: Resources.FoundDeleted
+- uid: AttackSurfaceAnalyzer.Properties.Resources.FoundModified
+  name: FoundModified
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_FoundModified
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.FoundModified
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.FoundModified
+  nameWithType: Resources.FoundModified
+- uid: AttackSurfaceAnalyzer.Properties.Resources.FoundModified*
+  name: FoundModified
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_FoundModified_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.FoundModified
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.FoundModified
+  nameWithType: Resources.FoundModified
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Hash
+  name: Hash
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Hash
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Hash
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Hash
+  nameWithType: Resources.Hash
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Hash*
+  name: Hash
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Hash_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Hash
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Hash
+  nameWithType: Resources.Hash
+- uid: AttackSurfaceAnalyzer.Properties.Resources.InvalidPath
+  name: InvalidPath
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_InvalidPath
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.InvalidPath
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.InvalidPath
+  nameWithType: Resources.InvalidPath
+- uid: AttackSurfaceAnalyzer.Properties.Resources.InvalidPath*
+  name: InvalidPath
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_InvalidPath_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.InvalidPath
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.InvalidPath
+  nameWithType: Resources.InvalidPath
+- uid: AttackSurfaceAnalyzer.Properties.Resources.LiveMonitoring
+  name: LiveMonitoring
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_LiveMonitoring
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.LiveMonitoring
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.LiveMonitoring
+  nameWithType: Resources.LiveMonitoring
+- uid: AttackSurfaceAnalyzer.Properties.Resources.LiveMonitoring*
+  name: LiveMonitoring
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_LiveMonitoring_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.LiveMonitoring
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.LiveMonitoring
+  nameWithType: Resources.LiveMonitoring
+- uid: AttackSurfaceAnalyzer.Properties.Resources.LiveMonitoringDesc
+  name: LiveMonitoringDesc
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_LiveMonitoringDesc
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.LiveMonitoringDesc
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.LiveMonitoringDesc
+  nameWithType: Resources.LiveMonitoringDesc
+- uid: AttackSurfaceAnalyzer.Properties.Resources.LiveMonitoringDesc*
+  name: LiveMonitoringDesc
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_LiveMonitoringDesc_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.LiveMonitoringDesc
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.LiveMonitoringDesc
+  nameWithType: Resources.LiveMonitoringDesc
+- uid: AttackSurfaceAnalyzer.Properties.Resources.LoadedAnalyses
+  name: LoadedAnalyses
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_LoadedAnalyses
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.LoadedAnalyses
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.LoadedAnalyses
+  nameWithType: Resources.LoadedAnalyses
+- uid: AttackSurfaceAnalyzer.Properties.Resources.LoadedAnalyses*
+  name: LoadedAnalyses
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_LoadedAnalyses_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.LoadedAnalyses
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.LoadedAnalyses
+  nameWithType: Resources.LoadedAnalyses
+- uid: AttackSurfaceAnalyzer.Properties.Resources.LoadedFilters
+  name: LoadedFilters
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_LoadedFilters
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.LoadedFilters
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.LoadedFilters
+  nameWithType: Resources.LoadedFilters
+- uid: AttackSurfaceAnalyzer.Properties.Resources.LoadedFilters*
+  name: LoadedFilters
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_LoadedFilters_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.LoadedFilters
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.LoadedFilters
+  nameWithType: Resources.LoadedFilters
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Modified
+  name: Modified
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Modified
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Modified
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Modified
+  nameWithType: Resources.Modified
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Modified*
+  name: Modified
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Modified_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Modified
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Modified
+  nameWithType: Resources.Modified
+- uid: AttackSurfaceAnalyzer.Properties.Resources.MonitoringPressC
+  name: MonitoringPressC
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_MonitoringPressC
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.MonitoringPressC
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.MonitoringPressC
+  nameWithType: Resources.MonitoringPressC
+- uid: AttackSurfaceAnalyzer.Properties.Resources.MonitoringPressC*
+  name: MonitoringPressC
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_MonitoringPressC_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.MonitoringPressC
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.MonitoringPressC
+  nameWithType: Resources.MonitoringPressC
+- uid: AttackSurfaceAnalyzer.Properties.Resources.MonitorStartedFor
+  name: MonitorStartedFor
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_MonitorStartedFor
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.MonitorStartedFor
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.MonitorStartedFor
+  nameWithType: Resources.MonitorStartedFor
+- uid: AttackSurfaceAnalyzer.Properties.Resources.MonitorStartedFor*
+  name: MonitorStartedFor
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_MonitorStartedFor_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.MonitorStartedFor
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.MonitorStartedFor
+  nameWithType: Resources.MonitorStartedFor
+- uid: AttackSurfaceAnalyzer.Properties.Resources.MoreInfo1
+  name: MoreInfo1
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_MoreInfo1
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.MoreInfo1
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.MoreInfo1
+  nameWithType: Resources.MoreInfo1
+- uid: AttackSurfaceAnalyzer.Properties.Resources.MoreInfo1*
+  name: MoreInfo1
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_MoreInfo1_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.MoreInfo1
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.MoreInfo1
+  nameWithType: Resources.MoreInfo1
+- uid: AttackSurfaceAnalyzer.Properties.Resources.MoreInfo2
+  name: MoreInfo2
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_MoreInfo2
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.MoreInfo2
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.MoreInfo2
+  nameWithType: Resources.MoreInfo2
+- uid: AttackSurfaceAnalyzer.Properties.Resources.MoreInfo2*
+  name: MoreInfo2
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_MoreInfo2_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.MoreInfo2
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.MoreInfo2
+  nameWithType: Resources.MoreInfo2
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Name
+  name: Name
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Name
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Name
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Name
+  nameWithType: Resources.Name
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Name*
+  name: Name
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Name_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Name
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Name
+  nameWithType: Resources.Name
+- uid: AttackSurfaceAnalyzer.Properties.Resources.NoCollectRuns
+  name: NoCollectRuns
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_NoCollectRuns
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.NoCollectRuns
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.NoCollectRuns
+  nameWithType: Resources.NoCollectRuns
+- uid: AttackSurfaceAnalyzer.Properties.Resources.NoCollectRuns*
+  name: NoCollectRuns
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_NoCollectRuns_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.NoCollectRuns
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.NoCollectRuns
+  nameWithType: Resources.NoCollectRuns
+- uid: AttackSurfaceAnalyzer.Properties.Resources.NoMonitorRuns
+  name: NoMonitorRuns
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_NoMonitorRuns
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.NoMonitorRuns
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.NoMonitorRuns
+  nameWithType: Resources.NoMonitorRuns
+- uid: AttackSurfaceAnalyzer.Properties.Resources.NoMonitorRuns*
+  name: NoMonitorRuns
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_NoMonitorRuns_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.NoMonitorRuns
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.NoMonitorRuns
+  nameWithType: Resources.NoMonitorRuns
+- uid: AttackSurfaceAnalyzer.Properties.Resources.OldName
+  name: OldName
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_OldName
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.OldName
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.OldName
+  nameWithType: Resources.OldName
+- uid: AttackSurfaceAnalyzer.Properties.Resources.OldName*
+  name: OldName
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_OldName_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.OldName
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.OldName
+  nameWithType: Resources.OldName
+- uid: AttackSurfaceAnalyzer.Properties.Resources.OldPath
+  name: OldPath
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_OldPath
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.OldPath
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.OldPath
+  nameWithType: Resources.OldPath
+- uid: AttackSurfaceAnalyzer.Properties.Resources.OldPath*
+  name: OldPath
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_OldPath_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.OldPath
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.OldPath
+  nameWithType: Resources.OldPath
+- uid: AttackSurfaceAnalyzer.Properties.Resources.OutputDirectory
+  name: OutputDirectory
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_OutputDirectory
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.OutputDirectory
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.OutputDirectory
+  nameWithType: Resources.OutputDirectory
+- uid: AttackSurfaceAnalyzer.Properties.Resources.OutputDirectory*
+  name: OutputDirectory
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_OutputDirectory_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.OutputDirectory
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.OutputDirectory
+  nameWithType: Resources.OutputDirectory
+- uid: AttackSurfaceAnalyzer.Properties.Resources.OutputWrittenTo
+  name: OutputWrittenTo
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_OutputWrittenTo
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.OutputWrittenTo
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.OutputWrittenTo
+  nameWithType: Resources.OutputWrittenTo
+- uid: AttackSurfaceAnalyzer.Properties.Resources.OutputWrittenTo*
+  name: OutputWrittenTo
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_OutputWrittenTo_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.OutputWrittenTo
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.OutputWrittenTo
+  nameWithType: Resources.OutputWrittenTo
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Path
+  name: Path
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Path
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Path
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Path
+  nameWithType: Resources.Path
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Path*
+  name: Path
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Path_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Path
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Path
+  nameWithType: Resources.Path
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Permissions
+  name: Permissions
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Permissions
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Permissions
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Permissions
+  nameWithType: Resources.Permissions
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Permissions*
+  name: Permissions
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Permissions_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Permissions
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Permissions
+  nameWithType: Resources.Permissions
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Ports
+  name: Ports
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Ports
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Ports
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Ports
+  nameWithType: Resources.Ports
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Ports*
+  name: Ports
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Ports_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Ports
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Ports
+  nameWithType: Resources.Ports
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ReadyToScan
+  name: ReadyToScan
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ReadyToScan
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ReadyToScan
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ReadyToScan
+  nameWithType: Resources.ReadyToScan
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ReadyToScan*
+  name: ReadyToScan
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ReadyToScan_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ReadyToScan
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ReadyToScan
+  nameWithType: Resources.ReadyToScan
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Registry
+  name: Registry
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Registry
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Registry
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Registry
+  nameWithType: Resources.Registry
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Registry*
+  name: Registry
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Registry_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Registry
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Registry
+  nameWithType: Resources.Registry
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ResourceManager
+  name: ResourceManager
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ResourceManager
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ResourceManager
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ResourceManager
+  nameWithType: Resources.ResourceManager
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ResourceManager*
+  name: ResourceManager
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ResourceManager_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ResourceManager
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ResourceManager
+  nameWithType: Resources.ResourceManager
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ResultsDesc
+  name: ResultsDesc
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ResultsDesc
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ResultsDesc
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ResultsDesc
+  nameWithType: Resources.ResultsDesc
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ResultsDesc*
+  name: ResultsDesc
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ResultsDesc_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ResultsDesc
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ResultsDesc
+  nameWithType: Resources.ResultsDesc
+- uid: AttackSurfaceAnalyzer.Properties.Resources.RunStarted
+  name: RunStarted
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_RunStarted
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.RunStarted
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.RunStarted
+  nameWithType: Resources.RunStarted
+- uid: AttackSurfaceAnalyzer.Properties.Resources.RunStarted*
+  name: RunStarted
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_RunStarted_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.RunStarted
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.RunStarted
+  nameWithType: Resources.RunStarted
+- uid: AttackSurfaceAnalyzer.Properties.Resources.RunStatus
+  name: RunStatus
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_RunStatus
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.RunStatus
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.RunStatus
+  nameWithType: Resources.RunStatus
+- uid: AttackSurfaceAnalyzer.Properties.Resources.RunStatus*
+  name: RunStatus
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_RunStatus_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.RunStatus
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.RunStatus
+  nameWithType: Resources.RunStatus
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ScanId
+  name: ScanId
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ScanId
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ScanId
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ScanId
+  nameWithType: Resources.ScanId
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ScanId*
+  name: ScanId
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ScanId_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ScanId
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ScanId
+  nameWithType: Resources.ScanId
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Scanning
+  name: Scanning
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Scanning
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Scanning
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Scanning
+  nameWithType: Resources.Scanning
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Scanning*
+  name: Scanning
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Scanning_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Scanning
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Scanning
+  nameWithType: Resources.Scanning
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ScanType
+  name: ScanType
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ScanType
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ScanType
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ScanType
+  nameWithType: Resources.ScanType
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ScanType*
+  name: ScanType
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ScanType_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ScanType
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ScanType
+  nameWithType: Resources.ScanType
+- uid: AttackSurfaceAnalyzer.Properties.Resources.SecondScanDesc
+  name: SecondScanDesc
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_SecondScanDesc
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.SecondScanDesc
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.SecondScanDesc
+  nameWithType: Resources.SecondScanDesc
+- uid: AttackSurfaceAnalyzer.Properties.Resources.SecondScanDesc*
+  name: SecondScanDesc
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_SecondScanDesc_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.SecondScanDesc
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.SecondScanDesc
+  nameWithType: Resources.SecondScanDesc
+- uid: AttackSurfaceAnalyzer.Properties.Resources.SelectResultType
+  name: SelectResultType
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_SelectResultType
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.SelectResultType
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.SelectResultType
+  nameWithType: Resources.SelectResultType
+- uid: AttackSurfaceAnalyzer.Properties.Resources.SelectResultType*
+  name: SelectResultType
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_SelectResultType_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.SelectResultType
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.SelectResultType
+  nameWithType: Resources.SelectResultType
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ServiceName
+  name: ServiceName
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ServiceName
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.ServiceName
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ServiceName
+  nameWithType: Resources.ServiceName
+- uid: AttackSurfaceAnalyzer.Properties.Resources.ServiceName*
+  name: ServiceName
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_ServiceName_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.ServiceName
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.ServiceName
+  nameWithType: Resources.ServiceName
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Services
+  name: Services
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Services
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Services
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Services
+  nameWithType: Resources.Services
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Services*
+  name: Services
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Services_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Services
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Services
+  nameWithType: Resources.Services
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Size
+  name: Size
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Size
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Size
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Size
+  nameWithType: Resources.Size
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Size*
+  name: Size
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Size_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Size
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Size
+  nameWithType: Resources.Size
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Starting
+  name: Starting
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Starting
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Starting
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Starting
+  nameWithType: Resources.Starting
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Starting*
+  name: Starting
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Starting_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Starting
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Starting
+  nameWithType: Resources.Starting
+- uid: AttackSurfaceAnalyzer.Properties.Resources.StartingN
+  name: StartingN
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_StartingN
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.StartingN
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.StartingN
+  nameWithType: Resources.StartingN
+- uid: AttackSurfaceAnalyzer.Properties.Resources.StartingN*
+  name: StartingN
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_StartingN_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.StartingN
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.StartingN
+  nameWithType: Resources.StartingN
+- uid: AttackSurfaceAnalyzer.Properties.Resources.StartType
+  name: StartType
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_StartType
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.StartType
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.StartType
+  nameWithType: Resources.StartType
+- uid: AttackSurfaceAnalyzer.Properties.Resources.StartType*
+  name: StartType
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_StartType_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.StartType
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.StartType
+  nameWithType: Resources.StartType
+- uid: AttackSurfaceAnalyzer.Properties.Resources.StaticScan
+  name: StaticScan
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_StaticScan
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.StaticScan
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.StaticScan
+  nameWithType: Resources.StaticScan
+- uid: AttackSurfaceAnalyzer.Properties.Resources.StaticScan*
+  name: StaticScan
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_StaticScan_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.StaticScan
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.StaticScan
+  nameWithType: Resources.StaticScan
+- uid: AttackSurfaceAnalyzer.Properties.Resources.StaticScanDesc
+  name: StaticScanDesc
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_StaticScanDesc
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.StaticScanDesc
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.StaticScanDesc
+  nameWithType: Resources.StaticScanDesc
+- uid: AttackSurfaceAnalyzer.Properties.Resources.StaticScanDesc*
+  name: StaticScanDesc
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_StaticScanDesc_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.StaticScanDesc
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.StaticScanDesc
+  nameWithType: Resources.StaticScanDesc
+- uid: AttackSurfaceAnalyzer.Properties.Resources.StoreLocation
+  name: StoreLocation
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_StoreLocation
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.StoreLocation
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.StoreLocation
+  nameWithType: Resources.StoreLocation
+- uid: AttackSurfaceAnalyzer.Properties.Resources.StoreLocation*
+  name: StoreLocation
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_StoreLocation_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.StoreLocation
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.StoreLocation
+  nameWithType: Resources.StoreLocation
+- uid: AttackSurfaceAnalyzer.Properties.Resources.StoreName
+  name: StoreName
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_StoreName
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.StoreName
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.StoreName
+  nameWithType: Resources.StoreName
+- uid: AttackSurfaceAnalyzer.Properties.Resources.StoreName*
+  name: StoreName
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_StoreName_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.StoreName
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.StoreName
+  nameWithType: Resources.StoreName
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Subject
+  name: Subject
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Subject
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Subject
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Subject
+  nameWithType: Resources.Subject
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Subject*
+  name: Subject
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Subject_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Subject
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Subject
+  nameWithType: Resources.Subject
+- uid: AttackSurfaceAnalyzer.Properties.Resources.SuccessParsed
+  name: SuccessParsed
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_SuccessParsed
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.SuccessParsed
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.SuccessParsed
+  nameWithType: Resources.SuccessParsed
+- uid: AttackSurfaceAnalyzer.Properties.Resources.SuccessParsed*
+  name: SuccessParsed
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_SuccessParsed_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.SuccessParsed
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.SuccessParsed
+  nameWithType: Resources.SuccessParsed
+- uid: AttackSurfaceAnalyzer.Properties.Resources.TelemetryOptOut
+  name: TelemetryOptOut
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_TelemetryOptOut
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.TelemetryOptOut
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.TelemetryOptOut
+  nameWithType: Resources.TelemetryOptOut
+- uid: AttackSurfaceAnalyzer.Properties.Resources.TelemetryOptOut*
+  name: TelemetryOptOut
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_TelemetryOptOut_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.TelemetryOptOut
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.TelemetryOptOut
+  nameWithType: Resources.TelemetryOptOut
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Type
+  name: Type
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Type
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Type
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Type
+  nameWithType: Resources.Type
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Type*
+  name: Type
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Type_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Type
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Type
+  nameWithType: Resources.Type
+- uid: AttackSurfaceAnalyzer.Properties.Resources.UsageData
+  name: UsageData
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_UsageData
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.UsageData
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.UsageData
+  nameWithType: Resources.UsageData
+- uid: AttackSurfaceAnalyzer.Properties.Resources.UsageData*
+  name: UsageData
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_UsageData_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.UsageData
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.UsageData
+  nameWithType: Resources.UsageData
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Users
+  name: Users
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Users
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Users
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Users
+  nameWithType: Resources.Users
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Users*
+  name: Users
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Users_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Users
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Users
+  nameWithType: Resources.Users
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Value
+  name: Value
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Value
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.Value
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Value
+  nameWithType: Resources.Value
+- uid: AttackSurfaceAnalyzer.Properties.Resources.Value*
+  name: Value
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_Value_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.Value
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.Value
+  nameWithType: Resources.Value
+- uid: AttackSurfaceAnalyzer.Properties.Resources.WelcomeBody
+  name: WelcomeBody
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_WelcomeBody
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.WelcomeBody
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.WelcomeBody
+  nameWithType: Resources.WelcomeBody
+- uid: AttackSurfaceAnalyzer.Properties.Resources.WelcomeBody*
+  name: WelcomeBody
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_WelcomeBody_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.WelcomeBody
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.WelcomeBody
+  nameWithType: Resources.WelcomeBody
+- uid: AttackSurfaceAnalyzer.Properties.Resources.WelcomeHeader
+  name: WelcomeHeader
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_WelcomeHeader
+  commentId: P:AttackSurfaceAnalyzer.Properties.Resources.WelcomeHeader
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.WelcomeHeader
+  nameWithType: Resources.WelcomeHeader
+- uid: AttackSurfaceAnalyzer.Properties.Resources.WelcomeHeader*
+  name: WelcomeHeader
+  href: api/AttackSurfaceAnalyzer.Properties.Resources.html#AttackSurfaceAnalyzer_Properties_Resources_WelcomeHeader_
+  commentId: Overload:AttackSurfaceAnalyzer.Properties.Resources.WelcomeHeader
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Properties.Resources.WelcomeHeader
+  nameWithType: Resources.WelcomeHeader
 - uid: AttackSurfaceAnalyzer.Types
   name: AttackSurfaceAnalyzer.Types
   href: api/AttackSurfaceAnalyzer.Types.html
@@ -2750,6 +4529,12 @@ references:
   commentId: F:AttackSurfaceAnalyzer.Types.RESULT_TYPE.FILE
   fullName: AttackSurfaceAnalyzer.Types.RESULT_TYPE.FILE
   nameWithType: RESULT_TYPE.FILE
+- uid: AttackSurfaceAnalyzer.Types.RESULT_TYPE.FIREWALL
+  name: FIREWALL
+  href: api/AttackSurfaceAnalyzer.Types.RESULT_TYPE.html#AttackSurfaceAnalyzer_Types_RESULT_TYPE_FIREWALL
+  commentId: F:AttackSurfaceAnalyzer.Types.RESULT_TYPE.FIREWALL
+  fullName: AttackSurfaceAnalyzer.Types.RESULT_TYPE.FIREWALL
+  nameWithType: RESULT_TYPE.FIREWALL
 - uid: AttackSurfaceAnalyzer.Types.RESULT_TYPE.GROUP
   name: GROUP
   href: api/AttackSurfaceAnalyzer.Types.RESULT_TYPE.html#AttackSurfaceAnalyzer_Types_RESULT_TYPE_GROUP
@@ -2950,11 +4735,11 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Utils.CryptoHelpers
   fullName: AttackSurfaceAnalyzer.Utils.CryptoHelpers
   nameWithType: CryptoHelpers
-- uid: AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(System.IO.FileStream)
+- uid: AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(FileStream)
   name: CreateHash(FileStream)
-  href: api/AttackSurfaceAnalyzer.Utils.CryptoHelpers.html#AttackSurfaceAnalyzer_Utils_CryptoHelpers_CreateHash_System_IO_FileStream_
-  commentId: M:AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(System.IO.FileStream)
-  fullName: AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(System.IO.FileStream)
+  href: api/AttackSurfaceAnalyzer.Utils.CryptoHelpers.html#AttackSurfaceAnalyzer_Utils_CryptoHelpers_CreateHash_FileStream_
+  commentId: M:AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(FileStream)
+  fullName: AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(FileStream)
   nameWithType: CryptoHelpers.CreateHash(FileStream)
 - uid: AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(System.String)
   name: CreateHash(String)
@@ -3338,28 +5123,28 @@ references:
   commentId: M:AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor
   fullName: AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher()
   nameWithType: FileWatcher.FileWatcher()
-- uid: AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(System.String)
+- uid: AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(String)
   name: FileWatcher(String)
-  href: api/AttackSurfaceAnalyzer.Utils.FileWatcher.html#AttackSurfaceAnalyzer_Utils_FileWatcher__ctor_System_String_
-  commentId: M:AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(System.String)
-  fullName: AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(System.String)
+  href: api/AttackSurfaceAnalyzer.Utils.FileWatcher.html#AttackSurfaceAnalyzer_Utils_FileWatcher__ctor_String_
+  commentId: M:AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(String)
+  fullName: AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(String)
   nameWithType: FileWatcher.FileWatcher(String)
-- uid: AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(System.String,System.Action{System.EventArgs},System.Action{System.EventArgs},System.Action{System.EventArgs},System.Action{System.EventArgs})
+- uid: AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(String,Action{EventArgs},Action{EventArgs},Action{EventArgs},Action{EventArgs})
   name: FileWatcher(String, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>)
-  href: api/AttackSurfaceAnalyzer.Utils.FileWatcher.html#AttackSurfaceAnalyzer_Utils_FileWatcher__ctor_System_String_System_Action_System_EventArgs__System_Action_System_EventArgs__System_Action_System_EventArgs__System_Action_System_EventArgs__
-  commentId: M:AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(System.String,System.Action{System.EventArgs},System.Action{System.EventArgs},System.Action{System.EventArgs},System.Action{System.EventArgs})
+  href: api/AttackSurfaceAnalyzer.Utils.FileWatcher.html#AttackSurfaceAnalyzer_Utils_FileWatcher__ctor_String_Action_EventArgs__Action_EventArgs__Action_EventArgs__Action_EventArgs__
+  commentId: M:AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(String,Action{EventArgs},Action{EventArgs},Action{EventArgs},Action{EventArgs})
   name.vb: FileWatcher(String, Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs))
-  fullName: AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(System.String, System.Action<System.EventArgs>, System.Action<System.EventArgs>, System.Action<System.EventArgs>, System.Action<System.EventArgs>)
-  fullName.vb: AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(System.String, System.Action(Of System.EventArgs), System.Action(Of System.EventArgs), System.Action(Of System.EventArgs), System.Action(Of System.EventArgs))
+  fullName: AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(String, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>)
+  fullName.vb: AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(String, Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs))
   nameWithType: FileWatcher.FileWatcher(String, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>)
   nameWithType.vb: FileWatcher.FileWatcher(String, Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs))
-- uid: AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(System.String,System.Action{System.EventArgs},System.Action{System.EventArgs},System.Action{System.EventArgs},System.Action{System.EventArgs},System.IO.NotifyFilters,System.Boolean)
+- uid: AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(String,Action{EventArgs},Action{EventArgs},Action{EventArgs},Action{EventArgs},NotifyFilters,System.Boolean)
   name: FileWatcher(String, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, NotifyFilters, Boolean)
-  href: api/AttackSurfaceAnalyzer.Utils.FileWatcher.html#AttackSurfaceAnalyzer_Utils_FileWatcher__ctor_System_String_System_Action_System_EventArgs__System_Action_System_EventArgs__System_Action_System_EventArgs__System_Action_System_EventArgs__System_IO_NotifyFilters_System_Boolean_
-  commentId: M:AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(System.String,System.Action{System.EventArgs},System.Action{System.EventArgs},System.Action{System.EventArgs},System.Action{System.EventArgs},System.IO.NotifyFilters,System.Boolean)
+  href: api/AttackSurfaceAnalyzer.Utils.FileWatcher.html#AttackSurfaceAnalyzer_Utils_FileWatcher__ctor_String_Action_EventArgs__Action_EventArgs__Action_EventArgs__Action_EventArgs__NotifyFilters_System_Boolean_
+  commentId: M:AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(String,Action{EventArgs},Action{EventArgs},Action{EventArgs},Action{EventArgs},NotifyFilters,System.Boolean)
   name.vb: FileWatcher(String, Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), NotifyFilters, Boolean)
-  fullName: AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(System.String, System.Action<System.EventArgs>, System.Action<System.EventArgs>, System.Action<System.EventArgs>, System.Action<System.EventArgs>, System.IO.NotifyFilters, System.Boolean)
-  fullName.vb: AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(System.String, System.Action(Of System.EventArgs), System.Action(Of System.EventArgs), System.Action(Of System.EventArgs), System.Action(Of System.EventArgs), System.IO.NotifyFilters, System.Boolean)
+  fullName: AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(String, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, NotifyFilters, System.Boolean)
+  fullName.vb: AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(String, Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), NotifyFilters, System.Boolean)
   nameWithType: FileWatcher.FileWatcher(String, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, NotifyFilters, Boolean)
   nameWithType.vb: FileWatcher.FileWatcher(String, Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), NotifyFilters, Boolean)
 - uid: AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor*
@@ -3445,13 +5230,13 @@ references:
   commentId: M:AttackSurfaceAnalyzer.Utils.Filter.IsFiltered(System.String,System.String,System.String,System.String,System.String,System.String)
   fullName: AttackSurfaceAnalyzer.Utils.Filter.IsFiltered(System.String, System.String, System.String, System.String, System.String, System.String)
   nameWithType: Filter.IsFiltered(String, String, String, String, String, String)
-- uid: AttackSurfaceAnalyzer.Utils.Filter.IsFiltered(System.String,System.String,System.String,System.String,System.String,System.String,System.Text.RegularExpressions.Regex@)
+- uid: AttackSurfaceAnalyzer.Utils.Filter.IsFiltered(System.String,System.String,System.String,System.String,System.String,System.String,Regex@)
   name: IsFiltered(String, String, String, String, String, String, out Regex)
-  href: api/AttackSurfaceAnalyzer.Utils.Filter.html#AttackSurfaceAnalyzer_Utils_Filter_IsFiltered_System_String_System_String_System_String_System_String_System_String_System_String_System_Text_RegularExpressions_Regex__
-  commentId: M:AttackSurfaceAnalyzer.Utils.Filter.IsFiltered(System.String,System.String,System.String,System.String,System.String,System.String,System.Text.RegularExpressions.Regex@)
+  href: api/AttackSurfaceAnalyzer.Utils.Filter.html#AttackSurfaceAnalyzer_Utils_Filter_IsFiltered_System_String_System_String_System_String_System_String_System_String_System_String_Regex__
+  commentId: M:AttackSurfaceAnalyzer.Utils.Filter.IsFiltered(System.String,System.String,System.String,System.String,System.String,System.String,Regex@)
   name.vb: IsFiltered(String, String, String, String, String, String, ByRef Regex)
-  fullName: AttackSurfaceAnalyzer.Utils.Filter.IsFiltered(System.String, System.String, System.String, System.String, System.String, System.String, out System.Text.RegularExpressions.Regex)
-  fullName.vb: AttackSurfaceAnalyzer.Utils.Filter.IsFiltered(System.String, System.String, System.String, System.String, System.String, System.String, ByRef System.Text.RegularExpressions.Regex)
+  fullName: AttackSurfaceAnalyzer.Utils.Filter.IsFiltered(System.String, System.String, System.String, System.String, System.String, System.String, out Regex)
+  fullName.vb: AttackSurfaceAnalyzer.Utils.Filter.IsFiltered(System.String, System.String, System.String, System.String, System.String, System.String, ByRef Regex)
   nameWithType: Filter.IsFiltered(String, String, String, String, String, String, out Regex)
   nameWithType.vb: Filter.IsFiltered(String, String, String, String, String, String, ByRef Regex)
 - uid: AttackSurfaceAnalyzer.Utils.Filter.IsFiltered*
@@ -3655,11 +5440,11 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Utils.Logger
   fullName: AttackSurfaceAnalyzer.Utils.Logger
   nameWithType: Logger
-- uid: AttackSurfaceAnalyzer.Utils.Logger.DebugException(System.Exception)
+- uid: AttackSurfaceAnalyzer.Utils.Logger.DebugException(Exception)
   name: DebugException(Exception)
-  href: api/AttackSurfaceAnalyzer.Utils.Logger.html#AttackSurfaceAnalyzer_Utils_Logger_DebugException_System_Exception_
-  commentId: M:AttackSurfaceAnalyzer.Utils.Logger.DebugException(System.Exception)
-  fullName: AttackSurfaceAnalyzer.Utils.Logger.DebugException(System.Exception)
+  href: api/AttackSurfaceAnalyzer.Utils.Logger.html#AttackSurfaceAnalyzer_Utils_Logger_DebugException_Exception_
+  commentId: M:AttackSurfaceAnalyzer.Utils.Logger.DebugException(Exception)
+  fullName: AttackSurfaceAnalyzer.Utils.Logger.DebugException(Exception)
   nameWithType: Logger.DebugException(Exception)
 - uid: AttackSurfaceAnalyzer.Utils.Logger.DebugException*
   name: DebugException
@@ -3693,11 +5478,11 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.Logger.Setup
   nameWithType: Logger.Setup
-- uid: AttackSurfaceAnalyzer.Utils.Logger.VerboseException(System.Exception)
+- uid: AttackSurfaceAnalyzer.Utils.Logger.VerboseException(Exception)
   name: VerboseException(Exception)
-  href: api/AttackSurfaceAnalyzer.Utils.Logger.html#AttackSurfaceAnalyzer_Utils_Logger_VerboseException_System_Exception_
-  commentId: M:AttackSurfaceAnalyzer.Utils.Logger.VerboseException(System.Exception)
-  fullName: AttackSurfaceAnalyzer.Utils.Logger.VerboseException(System.Exception)
+  href: api/AttackSurfaceAnalyzer.Utils.Logger.html#AttackSurfaceAnalyzer_Utils_Logger_VerboseException_Exception_
+  commentId: M:AttackSurfaceAnalyzer.Utils.Logger.VerboseException(Exception)
+  fullName: AttackSurfaceAnalyzer.Utils.Logger.VerboseException(Exception)
   nameWithType: Logger.VerboseException(Exception)
 - uid: AttackSurfaceAnalyzer.Utils.Logger.VerboseException*
   name: VerboseException
@@ -3783,11 +5568,11 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Utils.RegistryWalker
   fullName: AttackSurfaceAnalyzer.Utils.RegistryWalker
   nameWithType: RegistryWalker
-- uid: AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive(Microsoft.Win32.RegistryHive,System.String)
+- uid: AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive(RegistryHive,System.String)
   name: WalkHive(RegistryHive, String)
-  href: api/AttackSurfaceAnalyzer.Utils.RegistryWalker.html#AttackSurfaceAnalyzer_Utils_RegistryWalker_WalkHive_Microsoft_Win32_RegistryHive_System_String_
-  commentId: M:AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive(Microsoft.Win32.RegistryHive,System.String)
-  fullName: AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive(Microsoft.Win32.RegistryHive, System.String)
+  href: api/AttackSurfaceAnalyzer.Utils.RegistryWalker.html#AttackSurfaceAnalyzer_Utils_RegistryWalker_WalkHive_RegistryHive_System_String_
+  commentId: M:AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive(RegistryHive,System.String)
+  fullName: AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive(RegistryHive, System.String)
   nameWithType: RegistryWalker.WalkHive(RegistryHive, String)
 - uid: AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive*
   name: WalkHive
@@ -3853,12 +5638,12 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.Strings.Get
   nameWithType: Strings.Get
-- uid: AttackSurfaceAnalyzer.Utils.Strings.Setup
-  name: Setup()
-  href: api/AttackSurfaceAnalyzer.Utils.Strings.html#AttackSurfaceAnalyzer_Utils_Strings_Setup
-  commentId: M:AttackSurfaceAnalyzer.Utils.Strings.Setup
-  fullName: AttackSurfaceAnalyzer.Utils.Strings.Setup()
-  nameWithType: Strings.Setup()
+- uid: AttackSurfaceAnalyzer.Utils.Strings.Setup(System.String)
+  name: Setup(String)
+  href: api/AttackSurfaceAnalyzer.Utils.Strings.html#AttackSurfaceAnalyzer_Utils_Strings_Setup_System_String_
+  commentId: M:AttackSurfaceAnalyzer.Utils.Strings.Setup(System.String)
+  fullName: AttackSurfaceAnalyzer.Utils.Strings.Setup(System.String)
+  nameWithType: Strings.Setup(String)
 - uid: AttackSurfaceAnalyzer.Utils.Strings.Setup*
   name: Setup
   href: api/AttackSurfaceAnalyzer.Utils.Strings.html#AttackSurfaceAnalyzer_Utils_Strings_Setup_
@@ -3917,13 +5702,26 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.Telemetry.Setup
   nameWithType: Telemetry.Setup
-- uid: AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent(System.String,System.Collections.Generic.Dictionary{System.String,System.String})
+- uid: AttackSurfaceAnalyzer.Utils.Telemetry.TestMode
+  name: TestMode()
+  href: api/AttackSurfaceAnalyzer.Utils.Telemetry.html#AttackSurfaceAnalyzer_Utils_Telemetry_TestMode
+  commentId: M:AttackSurfaceAnalyzer.Utils.Telemetry.TestMode
+  fullName: AttackSurfaceAnalyzer.Utils.Telemetry.TestMode()
+  nameWithType: Telemetry.TestMode()
+- uid: AttackSurfaceAnalyzer.Utils.Telemetry.TestMode*
+  name: TestMode
+  href: api/AttackSurfaceAnalyzer.Utils.Telemetry.html#AttackSurfaceAnalyzer_Utils_Telemetry_TestMode_
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.Telemetry.TestMode
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Utils.Telemetry.TestMode
+  nameWithType: Telemetry.TestMode
+- uid: AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent(System.String,Dictionary{System.String,System.String})
   name: TrackEvent(String, Dictionary<String, String>)
-  href: api/AttackSurfaceAnalyzer.Utils.Telemetry.html#AttackSurfaceAnalyzer_Utils_Telemetry_TrackEvent_System_String_System_Collections_Generic_Dictionary_System_String_System_String__
-  commentId: M:AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent(System.String,System.Collections.Generic.Dictionary{System.String,System.String})
+  href: api/AttackSurfaceAnalyzer.Utils.Telemetry.html#AttackSurfaceAnalyzer_Utils_Telemetry_TrackEvent_System_String_Dictionary_System_String_System_String__
+  commentId: M:AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent(System.String,Dictionary{System.String,System.String})
   name.vb: TrackEvent(String, Dictionary(Of String, String))
-  fullName: AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent(System.String, System.Collections.Generic.Dictionary<System.String, System.String>)
-  fullName.vb: AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent(System.String, System.Collections.Generic.Dictionary(Of System.String, System.String))
+  fullName: AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent(System.String, Dictionary<System.String, System.String>)
+  fullName.vb: AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent(System.String, Dictionary(Of System.String, System.String))
   nameWithType: Telemetry.TrackEvent(String, Dictionary<String, String>)
   nameWithType.vb: Telemetry.TrackEvent(String, Dictionary(Of String, String))
 - uid: AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent*
@@ -3933,11 +5731,11 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent
   nameWithType: Telemetry.TrackEvent
-- uid: AttackSurfaceAnalyzer.Utils.Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel,System.Exception)
+- uid: AttackSurfaceAnalyzer.Utils.Telemetry.TrackTrace(SeverityLevel,Exception)
   name: TrackTrace(SeverityLevel, Exception)
-  href: api/AttackSurfaceAnalyzer.Utils.Telemetry.html#AttackSurfaceAnalyzer_Utils_Telemetry_TrackTrace_Microsoft_ApplicationInsights_DataContracts_SeverityLevel_System_Exception_
-  commentId: M:AttackSurfaceAnalyzer.Utils.Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel,System.Exception)
-  fullName: AttackSurfaceAnalyzer.Utils.Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel, System.Exception)
+  href: api/AttackSurfaceAnalyzer.Utils.Telemetry.html#AttackSurfaceAnalyzer_Utils_Telemetry_TrackTrace_SeverityLevel_Exception_
+  commentId: M:AttackSurfaceAnalyzer.Utils.Telemetry.TrackTrace(SeverityLevel,Exception)
+  fullName: AttackSurfaceAnalyzer.Utils.Telemetry.TrackTrace(SeverityLevel, Exception)
   nameWithType: Telemetry.TrackTrace(SeverityLevel, Exception)
 - uid: AttackSurfaceAnalyzer.Utils.Telemetry.TrackTrace*
   name: TrackTrace

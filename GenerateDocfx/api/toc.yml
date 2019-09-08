@@ -16,6 +16,8 @@
     name: FileSystemMonitor
   - uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils
     name: FileSystemUtils
+  - uid: AttackSurfaceAnalyzer.Collectors.FirewallCollector
+    name: FirewallCollector
   - uid: AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils
     name: LinuxFileSystemUtils
   - uid: AttackSurfaceAnalyzer.Collectors.OpenPortCollector
@@ -59,6 +61,8 @@
     name: FileSystemObject
   - uid: AttackSurfaceAnalyzer.Objects.FileSystemResult
     name: FileSystemResult
+  - uid: AttackSurfaceAnalyzer.Objects.FirewallObject
+    name: FirewallObject
   - uid: AttackSurfaceAnalyzer.Objects.GroupAccountObject
     name: GroupAccountObject
   - uid: AttackSurfaceAnalyzer.Objects.OpenPortObject
@@ -87,6 +91,11 @@
     name: UserAccountObject
   - uid: AttackSurfaceAnalyzer.Objects.UserAccountResult
     name: UserAccountResult
+- uid: AttackSurfaceAnalyzer.Properties
+  name: AttackSurfaceAnalyzer.Properties
+  items:
+  - uid: AttackSurfaceAnalyzer.Properties.Resources
+    name: Resources
 - uid: AttackSurfaceAnalyzer.Types
   name: AttackSurfaceAnalyzer.Types
   items:

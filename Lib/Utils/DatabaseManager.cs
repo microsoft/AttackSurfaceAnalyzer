@@ -63,6 +63,8 @@ namespace AttackSurfaceAnalyzer.Utils
         private static readonly string SQL_GET_COLLECT_MODIFIED = "select a.row_key as 'a_row_key', a.serialized as 'a_serialized', a.result_type as 'a_result_type', a.identity as 'a_identity', a.run_id as 'a_run_id', b.row_key as 'b_row_key', b.serialized as 'b_serialized', b.result_type as 'b_result_type', b.identity as 'b_identity', b.run_id as 'b_run_id' from collect a indexed by i_collect_runid_row_type, collect b indexed by i_collect_runid_row_type where a.run_id=@first_run_id and b.run_id=@second_run_id and a.identity = b.identity and a.row_key != b.row_key;";
         private static readonly string SQL_GET_RESULT_TYPES_COUNTS = "select count(*) as count,result_type from collect where run_id = @run_id group by result_type";
 
+        private static readonly string SQL_GET_RESULTS_BY_RUN_ID = "select * from collect where run_id = @run_id";
+
         private static readonly string PRAGMAS = "PRAGMA main.auto_vacuum = 1;";
 
         private static readonly string SCHEMA_VERSION = "2";
@@ -168,6 +170,30 @@ namespace AttackSurfaceAnalyzer.Utils
                     return (PLATFORM)Enum.Parse(typeof(PLATFORM), reader["platform"].ToString());
                 }
             }
+        }
+
+        public static List<RawCollectResult> GetResultsByRunid(string runid)
+        {
+            var output = new List<RawCollectResult>();
+
+            var cmd = new SqliteCommand(SQL_GET_RESULTS_BY_RUN_ID, DatabaseManager.Connection, DatabaseManager.Transaction);
+            cmd.Parameters.AddWithValue("@run_id", runid);
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    output.Add(new RawCollectResult()
+                    {
+                        Identity = reader["identity"].ToString(),
+                        RunId = reader["run_id"].ToString(),
+                        ResultType = (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["result_type"].ToString()),
+                        RowKey = reader["row_key"].ToString(),
+                        Serialized = reader["serialized"].ToString()
+                    });
+                }
+            }
+
+            return output;
         }
 
         public static void InsertAnalyzed(CompareResult obj)

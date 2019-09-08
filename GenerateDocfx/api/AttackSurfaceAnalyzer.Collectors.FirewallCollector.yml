@@ -1,0 +1,375 @@
+### YamlMime:ManagedReference
+items:
+- uid: AttackSurfaceAnalyzer.Collectors.FirewallCollector
+  commentId: T:AttackSurfaceAnalyzer.Collectors.FirewallCollector
+  id: FirewallCollector
+  parent: AttackSurfaceAnalyzer.Collectors
+  children:
+  - AttackSurfaceAnalyzer.Collectors.FirewallCollector.#ctor(System.String)
+  - AttackSurfaceAnalyzer.Collectors.FirewallCollector.CanRunOnPlatform
+  - AttackSurfaceAnalyzer.Collectors.FirewallCollector.Execute
+  langs:
+  - csharp
+  - vb
+  name: FirewallCollector
+  nameWithType: FirewallCollector
+  fullName: AttackSurfaceAnalyzer.Collectors.FirewallCollector
+  type: Class
+  source:
+    remote:
+      path: Lib/Collectors/FirewallCollector.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: FirewallCollector
+    path: ../Lib/Collectors/FirewallCollector.cs
+    startLine: 13
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Collectors
+  summary: "\nCollects metadata from the local firewall.\n"
+  example: []
+  syntax:
+    content: 'public class FirewallCollector : BaseCollector, PlatformRunnable'
+    content.vb: >-
+      Public Class FirewallCollector
+          Inherits BaseCollector
+          Implements PlatformRunnable
+  inheritance:
+  - System.Object
+  - AttackSurfaceAnalyzer.Collectors.BaseCollector
+  inheritedMembers:
+  - AttackSurfaceAnalyzer.Collectors.BaseCollector.runId
+  - AttackSurfaceAnalyzer.Collectors.BaseCollector._numCollected
+  - AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning
+  - AttackSurfaceAnalyzer.Collectors.BaseCollector.Start
+  - AttackSurfaceAnalyzer.Collectors.BaseCollector.Stop
+  - AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: AttackSurfaceAnalyzer.Collectors.FirewallCollector.#ctor(System.String)
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FirewallCollector.#ctor(System.String)
+  id: '#ctor(System.String)'
+  parent: AttackSurfaceAnalyzer.Collectors.FirewallCollector
+  langs:
+  - csharp
+  - vb
+  name: FirewallCollector(String)
+  nameWithType: FirewallCollector.FirewallCollector(String)
+  fullName: AttackSurfaceAnalyzer.Collectors.FirewallCollector.FirewallCollector(System.String)
+  type: Constructor
+  source:
+    remote:
+      path: Lib/Collectors/FirewallCollector.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: .ctor
+    path: ../Lib/Collectors/FirewallCollector.cs
+    startLine: 15
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Collectors
+  syntax:
+    content: public FirewallCollector(string runId)
+    parameters:
+    - id: runId
+      type: System.String
+    content.vb: Public Sub New(runId As String)
+  overload: AttackSurfaceAnalyzer.Collectors.FirewallCollector.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.Collectors.FirewallCollector.CanRunOnPlatform
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FirewallCollector.CanRunOnPlatform
+  id: CanRunOnPlatform
+  parent: AttackSurfaceAnalyzer.Collectors.FirewallCollector
+  langs:
+  - csharp
+  - vb
+  name: CanRunOnPlatform()
+  nameWithType: FirewallCollector.CanRunOnPlatform()
+  fullName: AttackSurfaceAnalyzer.Collectors.FirewallCollector.CanRunOnPlatform()
+  type: Method
+  source:
+    remote:
+      path: Lib/Collectors/FirewallCollector.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: CanRunOnPlatform
+    path: ../Lib/Collectors/FirewallCollector.cs
+    startLine: 20
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Collectors
+  syntax:
+    content: public override bool CanRunOnPlatform()
+    return:
+      type: System.Boolean
+    content.vb: Public Overrides Function CanRunOnPlatform As Boolean
+  overridden: AttackSurfaceAnalyzer.Collectors.BaseCollector.CanRunOnPlatform
+  overload: AttackSurfaceAnalyzer.Collectors.FirewallCollector.CanRunOnPlatform*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: AttackSurfaceAnalyzer.Collectors.FirewallCollector.Execute
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FirewallCollector.Execute
+  id: Execute
+  parent: AttackSurfaceAnalyzer.Collectors.FirewallCollector
+  langs:
+  - csharp
+  - vb
+  name: Execute()
+  nameWithType: FirewallCollector.Execute()
+  fullName: AttackSurfaceAnalyzer.Collectors.FirewallCollector.Execute()
+  type: Method
+  source:
+    remote:
+      path: Lib/Collectors/FirewallCollector.cs
+      branch: gfs/FunctionalTests
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Execute
+    path: ../Lib/Collectors/FirewallCollector.cs
+    startLine: 25
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Collectors
+  syntax:
+    content: public override void Execute()
+    content.vb: Public Overrides Sub Execute
+  overridden: AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute
+  overload: AttackSurfaceAnalyzer.Collectors.FirewallCollector.Execute*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+references:
+- uid: AttackSurfaceAnalyzer.Collectors
+  commentId: N:AttackSurfaceAnalyzer.Collectors
+  name: AttackSurfaceAnalyzer.Collectors
+  nameWithType: AttackSurfaceAnalyzer.Collectors
+  fullName: AttackSurfaceAnalyzer.Collectors
+- uid: System.Object
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector
+  commentId: T:AttackSurfaceAnalyzer.Collectors.BaseCollector
+  parent: AttackSurfaceAnalyzer.Collectors
+  name: BaseCollector
+  nameWithType: BaseCollector
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.runId
+  commentId: F:AttackSurfaceAnalyzer.Collectors.BaseCollector.runId
+  parent: AttackSurfaceAnalyzer.Collectors.BaseCollector
+  name: runId
+  nameWithType: BaseCollector.runId
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.runId
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector._numCollected
+  commentId: F:AttackSurfaceAnalyzer.Collectors.BaseCollector._numCollected
+  parent: AttackSurfaceAnalyzer.Collectors.BaseCollector
+  name: _numCollected
+  nameWithType: BaseCollector._numCollected
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector._numCollected
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning
+  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning
+  parent: AttackSurfaceAnalyzer.Collectors.BaseCollector
+  name: IsRunning()
+  nameWithType: BaseCollector.IsRunning()
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning()
+  spec.csharp:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning
+    name: IsRunning
+    nameWithType: BaseCollector.IsRunning
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning
+    name: IsRunning
+    nameWithType: BaseCollector.IsRunning
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.Start
+  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCollector.Start
+  parent: AttackSurfaceAnalyzer.Collectors.BaseCollector
+  name: Start()
+  nameWithType: BaseCollector.Start()
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.Start()
+  spec.csharp:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.Start
+    name: Start
+    nameWithType: BaseCollector.Start
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.Start
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.Start
+    name: Start
+    nameWithType: BaseCollector.Start
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.Start
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.Stop
+  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCollector.Stop
+  parent: AttackSurfaceAnalyzer.Collectors.BaseCollector
+  name: Stop()
+  nameWithType: BaseCollector.Stop()
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.Stop()
+  spec.csharp:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.Stop
+    name: Stop
+    nameWithType: BaseCollector.Stop
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.Stop
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.Stop
+    name: Stop
+    nameWithType: BaseCollector.Stop
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.Stop
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected
+  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected
+  parent: AttackSurfaceAnalyzer.Collectors.BaseCollector
+  name: NumCollected()
+  nameWithType: BaseCollector.NumCollected()
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected()
+  spec.csharp:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected
+    name: NumCollected
+    nameWithType: BaseCollector.NumCollected
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected
+    name: NumCollected
+    nameWithType: BaseCollector.NumCollected
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: AttackSurfaceAnalyzer.Collectors.FirewallCollector.#ctor*
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.FirewallCollector.#ctor
+  name: FirewallCollector
+  nameWithType: FirewallCollector.FirewallCollector
+  fullName: AttackSurfaceAnalyzer.Collectors.FirewallCollector.FirewallCollector
+- uid: System.String
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.CanRunOnPlatform
+  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCollector.CanRunOnPlatform
+  parent: AttackSurfaceAnalyzer.Collectors.BaseCollector
+  name: CanRunOnPlatform()
+  nameWithType: BaseCollector.CanRunOnPlatform()
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.CanRunOnPlatform()
+  spec.csharp:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.CanRunOnPlatform
+    name: CanRunOnPlatform
+    nameWithType: BaseCollector.CanRunOnPlatform
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.CanRunOnPlatform
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.CanRunOnPlatform
+    name: CanRunOnPlatform
+    nameWithType: BaseCollector.CanRunOnPlatform
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.CanRunOnPlatform
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: AttackSurfaceAnalyzer.Collectors.FirewallCollector.CanRunOnPlatform*
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.FirewallCollector.CanRunOnPlatform
+  name: CanRunOnPlatform
+  nameWithType: FirewallCollector.CanRunOnPlatform
+  fullName: AttackSurfaceAnalyzer.Collectors.FirewallCollector.CanRunOnPlatform
+- uid: System.Boolean
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute
+  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute
+  parent: AttackSurfaceAnalyzer.Collectors.BaseCollector
+  name: Execute()
+  nameWithType: BaseCollector.Execute()
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute()
+  spec.csharp:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute
+    name: Execute
+    nameWithType: BaseCollector.Execute
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute
+    name: Execute
+    nameWithType: BaseCollector.Execute
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: AttackSurfaceAnalyzer.Collectors.FirewallCollector.Execute*
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.FirewallCollector.Execute
+  name: Execute
+  nameWithType: FirewallCollector.Execute
+  fullName: AttackSurfaceAnalyzer.Collectors.FirewallCollector.Execute

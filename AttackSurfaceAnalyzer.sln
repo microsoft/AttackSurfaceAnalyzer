@@ -20,7 +20,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsaLib", "Lib\AsaLib.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsaCli", "Cli\AsaCli.csproj", "{431FFEB4-57C2-4C5B-B329-DDF6ED229C3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenerateDocfx", "GenerateDocfx\GenerateDocfx.csproj", "{99B076F7-8861-40DC-8523-5A67EA58295D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenerateDocfx", "GenerateDocfx\GenerateDocfx.csproj", "{99B076F7-8861-40DC-8523-5A67EA58295D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsaTests", "AsaLibTests\AsaTests.csproj", "{339CF92F-AAE8-405B-A797-41CA8F165127}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +46,10 @@ Global
 		{99B076F7-8861-40DC-8523-5A67EA58295D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99B076F7-8861-40DC-8523-5A67EA58295D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99B076F7-8861-40DC-8523-5A67EA58295D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{339CF92F-AAE8-405B-A797-41CA8F165127}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{339CF92F-AAE8-405B-A797-41CA8F165127}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{339CF92F-AAE8-405B-A797-41CA8F165127}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{339CF92F-AAE8-405B-A797-41CA8F165127}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

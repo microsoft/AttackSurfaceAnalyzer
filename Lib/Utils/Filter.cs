@@ -6,6 +6,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using Serilog;
 using System.Reflection;
+using AttackSurfaceAnalyzer.Objects;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -166,7 +167,7 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             try
             {
-                var assembly = Assembly.GetExecutingAssembly();
+                var assembly = typeof(FileSystemObject).Assembly;
                 var resourceName = "AttackSurfaceAnalyzer.filters.json";
 
                 using (Stream stream = assembly.GetManifestResourceStream(resourceName))
