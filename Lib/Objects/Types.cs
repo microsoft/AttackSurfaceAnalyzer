@@ -12,7 +12,8 @@ namespace AttackSurfaceAnalyzer.Types
         SERVICE,
         USER,
         GROUP,
-        FIREWALL
+        FIREWALL,
+        COM
     };
 
     public enum CHANGE_TYPE

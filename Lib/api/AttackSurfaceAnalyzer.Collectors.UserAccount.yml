@@ -1,0 +1,28 @@
+### YamlMime:ManagedReference
+items:
+- uid: AttackSurfaceAnalyzer.Collectors.UserAccount
+  commentId: N:AttackSurfaceAnalyzer.Collectors.UserAccount
+  id: AttackSurfaceAnalyzer.Collectors.UserAccount
+  children:
+  - AttackSurfaceAnalyzer.Collectors.UserAccount.UserAccountCollector
+  - AttackSurfaceAnalyzer.Collectors.UserAccount.UserAccountCompare
+  langs:
+  - csharp
+  - vb
+  name: AttackSurfaceAnalyzer.Collectors.UserAccount
+  nameWithType: AttackSurfaceAnalyzer.Collectors.UserAccount
+  fullName: AttackSurfaceAnalyzer.Collectors.UserAccount
+  type: Namespace
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+references:
+- uid: AttackSurfaceAnalyzer.Collectors.UserAccount.UserAccountCollector
+  commentId: T:AttackSurfaceAnalyzer.Collectors.UserAccount.UserAccountCollector
+  name: UserAccountCollector
+  nameWithType: UserAccountCollector
+  fullName: AttackSurfaceAnalyzer.Collectors.UserAccount.UserAccountCollector
+- uid: AttackSurfaceAnalyzer.Collectors.UserAccount.UserAccountCompare
+  commentId: T:AttackSurfaceAnalyzer.Collectors.UserAccount.UserAccountCompare
+  name: UserAccountCompare
+  nameWithType: UserAccountCompare
+  fullName: AttackSurfaceAnalyzer.Collectors.UserAccount.UserAccountCompare

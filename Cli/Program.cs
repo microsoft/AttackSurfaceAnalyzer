@@ -134,6 +134,9 @@ namespace AttackSurfaceAnalyzer
         [Option('F', "firewall", Required = false, HelpText = "Enable the firewall collector")]
         public bool EnableFirewallCollector { get; set; }
 
+        [Option('C', "com", Required = false, HelpText = "Enable the COM object collector")]
+        public bool EnableComObjectCollector { get; set; }
+
         [Option('a', "all", Required = false, HelpText = "Enable all collectors")]
         public bool EnableAllCollectors { get; set; }
 
@@ -1127,12 +1130,13 @@ namespace AttackSurfaceAnalyzer
 
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("Files", opts.EnableAllCollectors ? "True" : opts.EnableFileSystemCollector.ToString());
-            StartEvent.Add("Ports", opts.EnableAllCollectors ? "True" : opts.EnableNetworkPortCollector.ToString());
-            StartEvent.Add("Users", opts.EnableAllCollectors ? "True" : opts.EnableUserCollector.ToString());
-            StartEvent.Add("Certificates", opts.EnableAllCollectors ? "True" : opts.EnableCertificateCollector.ToString());
-            StartEvent.Add("Registry", opts.EnableAllCollectors ? "True" : opts.EnableRegistryCollector.ToString());
-            StartEvent.Add("Service", opts.EnableAllCollectors ? "True" : opts.EnableServiceCollector.ToString());
-            StartEvent.Add("Firewall", opts.EnableAllCollectors ? "True" : opts.EnableFirewallCollector.ToString());
+            StartEvent.Add("Ports", opts.EnableNetworkPortCollector.ToString());
+            StartEvent.Add("Users", opts.EnableUserCollector.ToString());
+            StartEvent.Add("Certificates", opts.EnableCertificateCollector.ToString());
+            StartEvent.Add("Registry", opts.EnableRegistryCollector.ToString());
+            StartEvent.Add("Service", opts.EnableServiceCollector.ToString());
+            StartEvent.Add("Firewall", opts.EnableFirewallCollector.ToString());
+            StartEvent.Add("ComObject", opts.EnableComObjectCollector.ToString());
             StartEvent.Add("Admin", Helpers.IsAdmin().ToString());
             Telemetry.TrackEvent("Run Command", StartEvent);
 
@@ -1178,6 +1182,10 @@ namespace AttackSurfaceAnalyzer
             if (opts.EnableFirewallCollector || opts.EnableAllCollectors)
             {
                 collectors.Add(new FirewallCollector(opts.RunId));
+            }
+            if (opts.EnableComObjectCollector || opts.EnableAllCollectors)
+            {
+                collectors.Add(new ComObjectCollector(opts.RunId));
             }
 
             if (collectors.Count == 0)

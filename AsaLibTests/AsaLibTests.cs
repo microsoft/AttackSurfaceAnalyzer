@@ -308,6 +308,33 @@ namespace AsaTests
         }
 
         [TestMethod]
+        public void TestComObjectCollector()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                Setup();
+
+                var FirstRunId = "TestComObjectCollector-1";
+
+                var coc = new ComObjectCollector(FirstRunId);
+                coc.Execute();
+
+                List<RawCollectResult> collectResults = DatabaseManager.GetResultsByRunid(FirstRunId);
+
+                List<ComObject> comObjects = new List<ComObject>();
+
+                foreach (var collectResult in collectResults)
+                {
+                    comObjects.Add((ComObject)BaseCompare.Hydrate(collectResult));
+                }
+
+                Assert.IsTrue(comObjects.Where(x => x.x86_Binary != null).Count() > 0);
+
+                TearDown();
+            }
+        }
+
+        [TestMethod]
         public void TestUserCollectorWindows()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))

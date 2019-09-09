@@ -1,0 +1,28 @@
+### YamlMime:ManagedReference
+items:
+- uid: AttackSurfaceAnalyzer.Collectors.Certificates
+  commentId: N:AttackSurfaceAnalyzer.Collectors.Certificates
+  id: AttackSurfaceAnalyzer.Collectors.Certificates
+  children:
+  - AttackSurfaceAnalyzer.Collectors.Certificates.CertificateCollector
+  - AttackSurfaceAnalyzer.Collectors.Certificates.CertificateCompare
+  langs:
+  - csharp
+  - vb
+  name: AttackSurfaceAnalyzer.Collectors.Certificates
+  nameWithType: AttackSurfaceAnalyzer.Collectors.Certificates
+  fullName: AttackSurfaceAnalyzer.Collectors.Certificates
+  type: Namespace
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+references:
+- uid: AttackSurfaceAnalyzer.Collectors.Certificates.CertificateCollector
+  commentId: T:AttackSurfaceAnalyzer.Collectors.Certificates.CertificateCollector
+  name: CertificateCollector
+  nameWithType: CertificateCollector
+  fullName: AttackSurfaceAnalyzer.Collectors.Certificates.CertificateCollector
+- uid: AttackSurfaceAnalyzer.Collectors.Certificates.CertificateCompare
+  commentId: T:AttackSurfaceAnalyzer.Collectors.Certificates.CertificateCompare
+  name: CertificateCompare
+  nameWithType: CertificateCompare
+  fullName: AttackSurfaceAnalyzer.Collectors.Certificates.CertificateCompare

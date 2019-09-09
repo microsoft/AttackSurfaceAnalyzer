@@ -141,17 +141,17 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare
   nameWithType: BaseCompare.Compare
-- uid: AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(FieldInfo,System.Object,System.Object)
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(System.Reflection.FieldInfo,System.Object,System.Object)
   name: GetDiffs(FieldInfo, Object, Object)
-  href: api/AttackSurfaceAnalyzer.Collectors.BaseCompare.html#AttackSurfaceAnalyzer_Collectors_BaseCompare_GetDiffs_FieldInfo_System_Object_System_Object_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(FieldInfo,System.Object,System.Object)
-  fullName: AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(FieldInfo, System.Object, System.Object)
+  href: api/AttackSurfaceAnalyzer.Collectors.BaseCompare.html#AttackSurfaceAnalyzer_Collectors_BaseCompare_GetDiffs_System_Reflection_FieldInfo_System_Object_System_Object_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(System.Reflection.FieldInfo,System.Object,System.Object)
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(System.Reflection.FieldInfo, System.Object, System.Object)
   nameWithType: BaseCompare.GetDiffs(FieldInfo, Object, Object)
-- uid: AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(PropertyInfo,System.Object,System.Object)
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(System.Reflection.PropertyInfo,System.Object,System.Object)
   name: GetDiffs(PropertyInfo, Object, Object)
-  href: api/AttackSurfaceAnalyzer.Collectors.BaseCompare.html#AttackSurfaceAnalyzer_Collectors_BaseCompare_GetDiffs_PropertyInfo_System_Object_System_Object_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(PropertyInfo,System.Object,System.Object)
-  fullName: AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(PropertyInfo, System.Object, System.Object)
+  href: api/AttackSurfaceAnalyzer.Collectors.BaseCompare.html#AttackSurfaceAnalyzer_Collectors_BaseCompare_GetDiffs_System_Reflection_PropertyInfo_System_Object_System_Object_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(System.Reflection.PropertyInfo,System.Object,System.Object)
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(System.Reflection.PropertyInfo, System.Object, System.Object)
   nameWithType: BaseCompare.GetDiffs(PropertyInfo, Object, Object)
 - uid: AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs*
   name: GetDiffs
@@ -366,6 +366,51 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.CertificateCollector.Execute
   nameWithType: CertificateCollector.Execute
+- uid: AttackSurfaceAnalyzer.Collectors.ComObjectCollector
+  name: ComObjectCollector
+  href: api/AttackSurfaceAnalyzer.Collectors.ComObjectCollector.html
+  commentId: T:AttackSurfaceAnalyzer.Collectors.ComObjectCollector
+  fullName: AttackSurfaceAnalyzer.Collectors.ComObjectCollector
+  nameWithType: ComObjectCollector
+- uid: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.#ctor(System.String)
+  name: ComObjectCollector(String)
+  href: api/AttackSurfaceAnalyzer.Collectors.ComObjectCollector.html#AttackSurfaceAnalyzer_Collectors_ComObjectCollector__ctor_System_String_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.ComObjectCollector.#ctor(System.String)
+  fullName: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ComObjectCollector(System.String)
+  nameWithType: ComObjectCollector.ComObjectCollector(String)
+- uid: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.#ctor*
+  name: ComObjectCollector
+  href: api/AttackSurfaceAnalyzer.Collectors.ComObjectCollector.html#AttackSurfaceAnalyzer_Collectors_ComObjectCollector__ctor_
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.ComObjectCollector.#ctor
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ComObjectCollector
+  nameWithType: ComObjectCollector.ComObjectCollector
+- uid: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.CanRunOnPlatform
+  name: CanRunOnPlatform()
+  href: api/AttackSurfaceAnalyzer.Collectors.ComObjectCollector.html#AttackSurfaceAnalyzer_Collectors_ComObjectCollector_CanRunOnPlatform
+  commentId: M:AttackSurfaceAnalyzer.Collectors.ComObjectCollector.CanRunOnPlatform
+  fullName: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.CanRunOnPlatform()
+  nameWithType: ComObjectCollector.CanRunOnPlatform()
+- uid: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.CanRunOnPlatform*
+  name: CanRunOnPlatform
+  href: api/AttackSurfaceAnalyzer.Collectors.ComObjectCollector.html#AttackSurfaceAnalyzer_Collectors_ComObjectCollector_CanRunOnPlatform_
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.ComObjectCollector.CanRunOnPlatform
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.CanRunOnPlatform
+  nameWithType: ComObjectCollector.CanRunOnPlatform
+- uid: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.Execute
+  name: Execute()
+  href: api/AttackSurfaceAnalyzer.Collectors.ComObjectCollector.html#AttackSurfaceAnalyzer_Collectors_ComObjectCollector_Execute
+  commentId: M:AttackSurfaceAnalyzer.Collectors.ComObjectCollector.Execute
+  fullName: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.Execute()
+  nameWithType: ComObjectCollector.Execute()
+- uid: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.Execute*
+  name: Execute
+  href: api/AttackSurfaceAnalyzer.Collectors.ComObjectCollector.html#AttackSurfaceAnalyzer_Collectors_ComObjectCollector_Execute_
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.ComObjectCollector.Execute
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.Execute
+  nameWithType: ComObjectCollector.Execute
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector
   name: FileSystemCollector
   href: api/AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html
@@ -437,6 +482,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.Execute
   nameWithType: FileSystemCollector.Execute
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FileSystemInfoToFileSystemObject(System.IO.FileSystemInfo,System.Boolean,System.Boolean)
+  name: FileSystemInfoToFileSystemObject(FileSystemInfo, Boolean, Boolean)
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html#AttackSurfaceAnalyzer_Collectors_FileSystemCollector_FileSystemInfoToFileSystemObject_System_IO_FileSystemInfo_System_Boolean_System_Boolean_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FileSystemInfoToFileSystemObject(System.IO.FileSystemInfo,System.Boolean,System.Boolean)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FileSystemInfoToFileSystemObject(System.IO.FileSystemInfo, System.Boolean, System.Boolean)
+  nameWithType: FileSystemCollector.FileSystemInfoToFileSystemObject(FileSystemInfo, Boolean, Boolean)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FileSystemInfoToFileSystemObject*
+  name: FileSystemInfoToFileSystemObject
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html#AttackSurfaceAnalyzer_Collectors_FileSystemCollector_FileSystemInfoToFileSystemObject_
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FileSystemInfoToFileSystemObject
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FileSystemInfoToFileSystemObject
+  nameWithType: FileSystemCollector.FileSystemInfoToFileSystemObject
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor
   name: FileSystemMonitor
   href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html
@@ -449,11 +507,11 @@ references:
   commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor(System.String,System.String,System.Boolean)
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.FileSystemMonitor(System.String, System.String, System.Boolean)
   nameWithType: FileSystemMonitor.FileSystemMonitor(String, String, Boolean)
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor(System.String,System.String,System.Boolean,NotifyFilters)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor(System.String,System.String,System.Boolean,System.IO.NotifyFilters)
   name: FileSystemMonitor(String, String, Boolean, NotifyFilters)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor__ctor_System_String_System_String_System_Boolean_NotifyFilters_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor(System.String,System.String,System.Boolean,NotifyFilters)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.FileSystemMonitor(System.String, System.String, System.Boolean, NotifyFilters)
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor__ctor_System_String_System_String_System_Boolean_System_IO_NotifyFilters_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor(System.String,System.String,System.Boolean,System.IO.NotifyFilters)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.FileSystemMonitor(System.String, System.String, System.Boolean, System.IO.NotifyFilters)
   nameWithType: FileSystemMonitor.FileSystemMonitor(String, String, Boolean, NotifyFilters)
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor*
   name: FileSystemMonitor
@@ -475,11 +533,11 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.CanRunOnPlatform
   nameWithType: FileSystemMonitor.CanRunOnPlatform
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(WatcherChangeTypes)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(System.IO.WatcherChangeTypes)
   name: ChangeTypeToChangeType(WatcherChangeTypes)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_ChangeTypeToChangeType_WatcherChangeTypes_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(WatcherChangeTypes)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(WatcherChangeTypes)
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_ChangeTypeToChangeType_System_IO_WatcherChangeTypes_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(System.IO.WatcherChangeTypes)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(System.IO.WatcherChangeTypes)
   nameWithType: FileSystemMonitor.ChangeTypeToChangeType(WatcherChangeTypes)
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType*
   name: ChangeTypeToChangeType
@@ -513,13 +571,13 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.IsRunning
   nameWithType: FileSystemMonitor.IsRunning
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler(Action{EventArgs})
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler(System.Action{System.EventArgs})
   name: SetCustomChangeHandler(Action<EventArgs>)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_SetCustomChangeHandler_Action_EventArgs__
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler(Action{EventArgs})
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_SetCustomChangeHandler_System_Action_System_EventArgs__
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler(System.Action{System.EventArgs})
   name.vb: SetCustomChangeHandler(Action(Of EventArgs))
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler(Action<EventArgs>)
-  fullName.vb: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler(Action(Of EventArgs))
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler(System.Action<System.EventArgs>)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler(System.Action(Of System.EventArgs))
   nameWithType: FileSystemMonitor.SetCustomChangeHandler(Action<EventArgs>)
   nameWithType.vb: FileSystemMonitor.SetCustomChangeHandler(Action(Of EventArgs))
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler*
@@ -568,17 +626,17 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.Truncate
   nameWithType: FileSystemMonitor.Truncate
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(FileSystemEventArgs)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(System.IO.FileSystemEventArgs)
   name: WriteChange(FileSystemEventArgs)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_WriteChange_FileSystemEventArgs_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(FileSystemEventArgs)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(FileSystemEventArgs)
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_WriteChange_System_IO_FileSystemEventArgs_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(System.IO.FileSystemEventArgs)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(System.IO.FileSystemEventArgs)
   nameWithType: FileSystemMonitor.WriteChange(FileSystemEventArgs)
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(FileSystemEventArgs,System.String)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(System.IO.FileSystemEventArgs,System.String)
   name: WriteChange(FileSystemEventArgs, String)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_WriteChange_FileSystemEventArgs_System_String_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(FileSystemEventArgs,System.String)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(FileSystemEventArgs, System.String)
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_WriteChange_System_IO_FileSystemEventArgs_System_String_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(System.IO.FileSystemEventArgs,System.String)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(System.IO.FileSystemEventArgs, System.String)
   nameWithType: FileSystemMonitor.WriteChange(FileSystemEventArgs, String)
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange*
   name: WriteChange
@@ -587,11 +645,11 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange
   nameWithType: FileSystemMonitor.WriteChange
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(RenamedEventArgs)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(System.IO.RenamedEventArgs)
   name: WriteRename(RenamedEventArgs)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_WriteRename_RenamedEventArgs_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(RenamedEventArgs)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(RenamedEventArgs)
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_WriteRename_System_IO_RenamedEventArgs_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(System.IO.RenamedEventArgs)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(System.IO.RenamedEventArgs)
   nameWithType: FileSystemMonitor.WriteRename(RenamedEventArgs)
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename*
   name: WriteRename
@@ -606,11 +664,11 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Collectors.FileSystemUtils
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils
   nameWithType: FileSystemUtils
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash(FileSystemInfo)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash(System.IO.FileSystemInfo)
   name: GetFileHash(FileSystemInfo)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetFileHash_FileSystemInfo_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash(FileSystemInfo)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash(FileSystemInfo)
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetFileHash_System_IO_FileSystemInfo_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash(System.IO.FileSystemInfo)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash(System.IO.FileSystemInfo)
   nameWithType: FileSystemUtils.GetFileHash(FileSystemInfo)
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash*
   name: GetFileHash
@@ -619,11 +677,11 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash
   nameWithType: FileSystemUtils.GetFileHash
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileOwner(FileSystemInfo)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileOwner(System.IO.FileSystemInfo)
   name: GetFileOwner(FileSystemInfo)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetFileOwner_FileSystemInfo_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileOwner(FileSystemInfo)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileOwner(FileSystemInfo)
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetFileOwner_System_IO_FileSystemInfo_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileOwner(System.IO.FileSystemInfo)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileOwner(System.IO.FileSystemInfo)
   nameWithType: FileSystemUtils.GetFileOwner(FileSystemInfo)
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileOwner*
   name: GetFileOwner
@@ -632,11 +690,11 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileOwner
   nameWithType: FileSystemUtils.GetFileOwner
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFilePermissions(FileSystemInfo)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
   name: GetFilePermissions(FileSystemInfo)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetFilePermissions_FileSystemInfo_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFilePermissions(FileSystemInfo)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFilePermissions(FileSystemInfo)
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetFilePermissions_System_IO_FileSystemInfo_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
   nameWithType: FileSystemUtils.GetFilePermissions(FileSystemInfo)
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFilePermissions*
   name: GetFilePermissions
@@ -709,11 +767,11 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils
   fullName: AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils
   nameWithType: LinuxFileSystemUtils
-- uid: AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils.GetFilePermissions(FileSystemInfo)
+- uid: AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
   name: GetFilePermissions(FileSystemInfo)
-  href: api/AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_LinuxFileSystemUtils_GetFilePermissions_FileSystemInfo_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils.GetFilePermissions(FileSystemInfo)
-  fullName: AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils.GetFilePermissions(FileSystemInfo)
+  href: api/AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_LinuxFileSystemUtils_GetFilePermissions_System_IO_FileSystemInfo_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
+  fullName: AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
   nameWithType: LinuxFileSystemUtils.GetFilePermissions(FileSystemInfo)
 - uid: AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils.GetFilePermissions*
   name: GetFilePermissions
@@ -792,22 +850,22 @@ references:
   commentId: M:AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String)
   fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(System.String)
   nameWithType: RegistryCollector.RegistryCollector(String)
-- uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,List{RegistryHive})
+- uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,System.Collections.Generic.List{Microsoft.Win32.RegistryHive})
   name: RegistryCollector(String, List<RegistryHive>)
-  href: api/AttackSurfaceAnalyzer.Collectors.RegistryCollector.html#AttackSurfaceAnalyzer_Collectors_RegistryCollector__ctor_System_String_List_RegistryHive__
-  commentId: M:AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,List{RegistryHive})
+  href: api/AttackSurfaceAnalyzer.Collectors.RegistryCollector.html#AttackSurfaceAnalyzer_Collectors_RegistryCollector__ctor_System_String_System_Collections_Generic_List_Microsoft_Win32_RegistryHive__
+  commentId: M:AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,System.Collections.Generic.List{Microsoft.Win32.RegistryHive})
   name.vb: RegistryCollector(String, List(Of RegistryHive))
-  fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(System.String, List<RegistryHive>)
-  fullName.vb: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(System.String, List(Of RegistryHive))
+  fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(System.String, System.Collections.Generic.List<Microsoft.Win32.RegistryHive>)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(System.String, System.Collections.Generic.List(Of Microsoft.Win32.RegistryHive))
   nameWithType: RegistryCollector.RegistryCollector(String, List<RegistryHive>)
   nameWithType.vb: RegistryCollector.RegistryCollector(String, List(Of RegistryHive))
-- uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,List{RegistryHive},Action{AttackSurfaceAnalyzer.Objects.RegistryObject})
+- uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,System.Collections.Generic.List{Microsoft.Win32.RegistryHive},System.Action{AttackSurfaceAnalyzer.Objects.RegistryObject})
   name: RegistryCollector(String, List<RegistryHive>, Action<RegistryObject>)
-  href: api/AttackSurfaceAnalyzer.Collectors.RegistryCollector.html#AttackSurfaceAnalyzer_Collectors_RegistryCollector__ctor_System_String_List_RegistryHive__Action_AttackSurfaceAnalyzer_Objects_RegistryObject__
-  commentId: M:AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,List{RegistryHive},Action{AttackSurfaceAnalyzer.Objects.RegistryObject})
+  href: api/AttackSurfaceAnalyzer.Collectors.RegistryCollector.html#AttackSurfaceAnalyzer_Collectors_RegistryCollector__ctor_System_String_System_Collections_Generic_List_Microsoft_Win32_RegistryHive__System_Action_AttackSurfaceAnalyzer_Objects_RegistryObject__
+  commentId: M:AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,System.Collections.Generic.List{Microsoft.Win32.RegistryHive},System.Action{AttackSurfaceAnalyzer.Objects.RegistryObject})
   name.vb: RegistryCollector(String, List(Of RegistryHive), Action(Of RegistryObject))
-  fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(System.String, List<RegistryHive>, Action<AttackSurfaceAnalyzer.Objects.RegistryObject>)
-  fullName.vb: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(System.String, List(Of RegistryHive), Action(Of AttackSurfaceAnalyzer.Objects.RegistryObject))
+  fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(System.String, System.Collections.Generic.List<Microsoft.Win32.RegistryHive>, System.Action<AttackSurfaceAnalyzer.Objects.RegistryObject>)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(System.String, System.Collections.Generic.List(Of Microsoft.Win32.RegistryHive), System.Action(Of AttackSurfaceAnalyzer.Objects.RegistryObject))
   nameWithType: RegistryCollector.RegistryCollector(String, List<RegistryHive>, Action<RegistryObject>)
   nameWithType.vb: RegistryCollector.RegistryCollector(String, List(Of RegistryHive), Action(Of RegistryObject))
 - uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor*
@@ -901,11 +959,11 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.RegistryMonitor.CanRunOnPlatform
   nameWithType: RegistryMonitor.CanRunOnPlatform
-- uid: AttackSurfaceAnalyzer.Collectors.RegistryMonitor.MyOnEntryWritten(System.Object,EntryWrittenEventArgs)
+- uid: AttackSurfaceAnalyzer.Collectors.RegistryMonitor.MyOnEntryWritten(System.Object,System.Diagnostics.EntryWrittenEventArgs)
   name: MyOnEntryWritten(Object, EntryWrittenEventArgs)
-  href: api/AttackSurfaceAnalyzer.Collectors.RegistryMonitor.html#AttackSurfaceAnalyzer_Collectors_RegistryMonitor_MyOnEntryWritten_System_Object_EntryWrittenEventArgs_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.RegistryMonitor.MyOnEntryWritten(System.Object,EntryWrittenEventArgs)
-  fullName: AttackSurfaceAnalyzer.Collectors.RegistryMonitor.MyOnEntryWritten(System.Object, EntryWrittenEventArgs)
+  href: api/AttackSurfaceAnalyzer.Collectors.RegistryMonitor.html#AttackSurfaceAnalyzer_Collectors_RegistryMonitor_MyOnEntryWritten_System_Object_System_Diagnostics_EntryWrittenEventArgs_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.RegistryMonitor.MyOnEntryWritten(System.Object,System.Diagnostics.EntryWrittenEventArgs)
+  fullName: AttackSurfaceAnalyzer.Collectors.RegistryMonitor.MyOnEntryWritten(System.Object, System.Diagnostics.EntryWrittenEventArgs)
   nameWithType: RegistryMonitor.MyOnEntryWritten(Object, EntryWrittenEventArgs)
 - uid: AttackSurfaceAnalyzer.Collectors.RegistryMonitor.MyOnEntryWritten*
   name: MyOnEntryWritten
@@ -1098,11 +1156,11 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetDllCharacteristics
   nameWithType: WindowsFileSystemUtils.GetDllCharacteristics
-- uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetFilePermissions(FileSystemInfo)
+- uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
   name: GetFilePermissions(FileSystemInfo)
-  href: api/AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_WindowsFileSystemUtils_GetFilePermissions_FileSystemInfo_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetFilePermissions(FileSystemInfo)
-  fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetFilePermissions(FileSystemInfo)
+  href: api/AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_WindowsFileSystemUtils_GetFilePermissions_System_IO_FileSystemInfo_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
+  fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
   nameWithType: WindowsFileSystemUtils.GetFilePermissions(FileSystemInfo)
 - uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetFilePermissions*
   name: GetFilePermissions
@@ -1366,6 +1424,116 @@ references:
   commentId: F:AttackSurfaceAnalyzer.Objects.CollectObject.ResultType
   fullName: AttackSurfaceAnalyzer.Objects.CollectObject.ResultType
   nameWithType: CollectObject.ResultType
+- uid: AttackSurfaceAnalyzer.Objects.ComObject
+  name: ComObject
+  href: api/AttackSurfaceAnalyzer.Objects.ComObject.html
+  commentId: T:AttackSurfaceAnalyzer.Objects.ComObject
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject
+  nameWithType: ComObject
+- uid: AttackSurfaceAnalyzer.Objects.ComObject.#ctor
+  name: ComObject()
+  href: api/AttackSurfaceAnalyzer.Objects.ComObject.html#AttackSurfaceAnalyzer_Objects_ComObject__ctor
+  commentId: M:AttackSurfaceAnalyzer.Objects.ComObject.#ctor
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject.ComObject()
+  nameWithType: ComObject.ComObject()
+- uid: AttackSurfaceAnalyzer.Objects.ComObject.#ctor*
+  name: ComObject
+  href: api/AttackSurfaceAnalyzer.Objects.ComObject.html#AttackSurfaceAnalyzer_Objects_ComObject__ctor_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ComObject.#ctor
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject.ComObject
+  nameWithType: ComObject.ComObject
+- uid: AttackSurfaceAnalyzer.Objects.ComObject.Identity
+  name: Identity
+  href: api/AttackSurfaceAnalyzer.Objects.ComObject.html#AttackSurfaceAnalyzer_Objects_ComObject_Identity
+  commentId: P:AttackSurfaceAnalyzer.Objects.ComObject.Identity
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject.Identity
+  nameWithType: ComObject.Identity
+- uid: AttackSurfaceAnalyzer.Objects.ComObject.Identity*
+  name: Identity
+  href: api/AttackSurfaceAnalyzer.Objects.ComObject.html#AttackSurfaceAnalyzer_Objects_ComObject_Identity_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ComObject.Identity
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject.Identity
+  nameWithType: ComObject.Identity
+- uid: AttackSurfaceAnalyzer.Objects.ComObject.Key
+  name: Key
+  href: api/AttackSurfaceAnalyzer.Objects.ComObject.html#AttackSurfaceAnalyzer_Objects_ComObject_Key
+  commentId: P:AttackSurfaceAnalyzer.Objects.ComObject.Key
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject.Key
+  nameWithType: ComObject.Key
+- uid: AttackSurfaceAnalyzer.Objects.ComObject.Key*
+  name: Key
+  href: api/AttackSurfaceAnalyzer.Objects.ComObject.html#AttackSurfaceAnalyzer_Objects_ComObject_Key_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ComObject.Key
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject.Key
+  nameWithType: ComObject.Key
+- uid: AttackSurfaceAnalyzer.Objects.ComObject.Subkeys
+  name: Subkeys
+  href: api/AttackSurfaceAnalyzer.Objects.ComObject.html#AttackSurfaceAnalyzer_Objects_ComObject_Subkeys
+  commentId: P:AttackSurfaceAnalyzer.Objects.ComObject.Subkeys
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject.Subkeys
+  nameWithType: ComObject.Subkeys
+- uid: AttackSurfaceAnalyzer.Objects.ComObject.Subkeys*
+  name: Subkeys
+  href: api/AttackSurfaceAnalyzer.Objects.ComObject.html#AttackSurfaceAnalyzer_Objects_ComObject_Subkeys_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ComObject.Subkeys
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject.Subkeys
+  nameWithType: ComObject.Subkeys
+- uid: AttackSurfaceAnalyzer.Objects.ComObject.x64_Binary
+  name: x64_Binary
+  href: api/AttackSurfaceAnalyzer.Objects.ComObject.html#AttackSurfaceAnalyzer_Objects_ComObject_x64_Binary
+  commentId: P:AttackSurfaceAnalyzer.Objects.ComObject.x64_Binary
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject.x64_Binary
+  nameWithType: ComObject.x64_Binary
+- uid: AttackSurfaceAnalyzer.Objects.ComObject.x64_Binary*
+  name: x64_Binary
+  href: api/AttackSurfaceAnalyzer.Objects.ComObject.html#AttackSurfaceAnalyzer_Objects_ComObject_x64_Binary_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ComObject.x64_Binary
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject.x64_Binary
+  nameWithType: ComObject.x64_Binary
+- uid: AttackSurfaceAnalyzer.Objects.ComObject.x64_BinaryName
+  name: x64_BinaryName
+  href: api/AttackSurfaceAnalyzer.Objects.ComObject.html#AttackSurfaceAnalyzer_Objects_ComObject_x64_BinaryName
+  commentId: P:AttackSurfaceAnalyzer.Objects.ComObject.x64_BinaryName
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject.x64_BinaryName
+  nameWithType: ComObject.x64_BinaryName
+- uid: AttackSurfaceAnalyzer.Objects.ComObject.x64_BinaryName*
+  name: x64_BinaryName
+  href: api/AttackSurfaceAnalyzer.Objects.ComObject.html#AttackSurfaceAnalyzer_Objects_ComObject_x64_BinaryName_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ComObject.x64_BinaryName
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject.x64_BinaryName
+  nameWithType: ComObject.x64_BinaryName
+- uid: AttackSurfaceAnalyzer.Objects.ComObject.x86_Binary
+  name: x86_Binary
+  href: api/AttackSurfaceAnalyzer.Objects.ComObject.html#AttackSurfaceAnalyzer_Objects_ComObject_x86_Binary
+  commentId: P:AttackSurfaceAnalyzer.Objects.ComObject.x86_Binary
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject.x86_Binary
+  nameWithType: ComObject.x86_Binary
+- uid: AttackSurfaceAnalyzer.Objects.ComObject.x86_Binary*
+  name: x86_Binary
+  href: api/AttackSurfaceAnalyzer.Objects.ComObject.html#AttackSurfaceAnalyzer_Objects_ComObject_x86_Binary_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ComObject.x86_Binary
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject.x86_Binary
+  nameWithType: ComObject.x86_Binary
+- uid: AttackSurfaceAnalyzer.Objects.ComObject.x86_BinaryName
+  name: x86_BinaryName
+  href: api/AttackSurfaceAnalyzer.Objects.ComObject.html#AttackSurfaceAnalyzer_Objects_ComObject_x86_BinaryName
+  commentId: P:AttackSurfaceAnalyzer.Objects.ComObject.x86_BinaryName
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject.x86_BinaryName
+  nameWithType: ComObject.x86_BinaryName
+- uid: AttackSurfaceAnalyzer.Objects.ComObject.x86_BinaryName*
+  name: x86_BinaryName
+  href: api/AttackSurfaceAnalyzer.Objects.ComObject.html#AttackSurfaceAnalyzer_Objects_ComObject_x86_BinaryName_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ComObject.x86_BinaryName
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject.x86_BinaryName
+  nameWithType: ComObject.x86_BinaryName
 - uid: AttackSurfaceAnalyzer.Objects.CompareResult
   name: CompareResult
   href: api/AttackSurfaceAnalyzer.Objects.CompareResult.html
@@ -2281,11 +2449,11 @@ references:
   commentId: M:AttackSurfaceAnalyzer.Objects.RegistryObject.#ctor
   fullName: AttackSurfaceAnalyzer.Objects.RegistryObject.RegistryObject()
   nameWithType: RegistryObject.RegistryObject()
-- uid: AttackSurfaceAnalyzer.Objects.RegistryObject.#ctor(RegistryKey)
+- uid: AttackSurfaceAnalyzer.Objects.RegistryObject.#ctor(Microsoft.Win32.RegistryKey)
   name: RegistryObject(RegistryKey)
-  href: api/AttackSurfaceAnalyzer.Objects.RegistryObject.html#AttackSurfaceAnalyzer_Objects_RegistryObject__ctor_RegistryKey_
-  commentId: M:AttackSurfaceAnalyzer.Objects.RegistryObject.#ctor(RegistryKey)
-  fullName: AttackSurfaceAnalyzer.Objects.RegistryObject.RegistryObject(RegistryKey)
+  href: api/AttackSurfaceAnalyzer.Objects.RegistryObject.html#AttackSurfaceAnalyzer_Objects_RegistryObject__ctor_Microsoft_Win32_RegistryKey_
+  commentId: M:AttackSurfaceAnalyzer.Objects.RegistryObject.#ctor(Microsoft.Win32.RegistryKey)
+  fullName: AttackSurfaceAnalyzer.Objects.RegistryObject.RegistryObject(Microsoft.Win32.RegistryKey)
   nameWithType: RegistryObject.RegistryObject(RegistryKey)
 - uid: AttackSurfaceAnalyzer.Objects.RegistryObject.#ctor*
   name: RegistryObject
@@ -4523,6 +4691,12 @@ references:
   commentId: F:AttackSurfaceAnalyzer.Types.RESULT_TYPE.CERTIFICATE
   fullName: AttackSurfaceAnalyzer.Types.RESULT_TYPE.CERTIFICATE
   nameWithType: RESULT_TYPE.CERTIFICATE
+- uid: AttackSurfaceAnalyzer.Types.RESULT_TYPE.COM
+  name: COM
+  href: api/AttackSurfaceAnalyzer.Types.RESULT_TYPE.html#AttackSurfaceAnalyzer_Types_RESULT_TYPE_COM
+  commentId: F:AttackSurfaceAnalyzer.Types.RESULT_TYPE.COM
+  fullName: AttackSurfaceAnalyzer.Types.RESULT_TYPE.COM
+  nameWithType: RESULT_TYPE.COM
 - uid: AttackSurfaceAnalyzer.Types.RESULT_TYPE.FILE
   name: FILE
   href: api/AttackSurfaceAnalyzer.Types.RESULT_TYPE.html#AttackSurfaceAnalyzer_Types_RESULT_TYPE_FILE
@@ -4735,11 +4909,11 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Utils.CryptoHelpers
   fullName: AttackSurfaceAnalyzer.Utils.CryptoHelpers
   nameWithType: CryptoHelpers
-- uid: AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(FileStream)
+- uid: AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(System.IO.FileStream)
   name: CreateHash(FileStream)
-  href: api/AttackSurfaceAnalyzer.Utils.CryptoHelpers.html#AttackSurfaceAnalyzer_Utils_CryptoHelpers_CreateHash_FileStream_
-  commentId: M:AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(FileStream)
-  fullName: AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(FileStream)
+  href: api/AttackSurfaceAnalyzer.Utils.CryptoHelpers.html#AttackSurfaceAnalyzer_Utils_CryptoHelpers_CreateHash_System_IO_FileStream_
+  commentId: M:AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(System.IO.FileStream)
+  fullName: AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(System.IO.FileStream)
   nameWithType: CryptoHelpers.CreateHash(FileStream)
 - uid: AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(System.String)
   name: CreateHash(String)
@@ -4876,6 +5050,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetNumResults
   nameWithType: DatabaseManager.GetNumResults
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultsByRunid(System.String)
+  name: GetResultsByRunid(String)
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_GetResultsByRunid_System_String_
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultsByRunid(System.String)
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultsByRunid(System.String)
+  nameWithType: DatabaseManager.GetResultsByRunid(String)
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultsByRunid*
+  name: GetResultsByRunid
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_GetResultsByRunid_
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultsByRunid
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultsByRunid
+  nameWithType: DatabaseManager.GetResultsByRunid
 - uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultTypesAndCounts(System.String)
   name: GetResultTypesAndCounts(String)
   href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_GetResultTypesAndCounts_System_String_
@@ -5123,28 +5310,28 @@ references:
   commentId: M:AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor
   fullName: AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher()
   nameWithType: FileWatcher.FileWatcher()
-- uid: AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(String)
+- uid: AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(System.String)
   name: FileWatcher(String)
-  href: api/AttackSurfaceAnalyzer.Utils.FileWatcher.html#AttackSurfaceAnalyzer_Utils_FileWatcher__ctor_String_
-  commentId: M:AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(String)
-  fullName: AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(String)
+  href: api/AttackSurfaceAnalyzer.Utils.FileWatcher.html#AttackSurfaceAnalyzer_Utils_FileWatcher__ctor_System_String_
+  commentId: M:AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(System.String)
+  fullName: AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(System.String)
   nameWithType: FileWatcher.FileWatcher(String)
-- uid: AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(String,Action{EventArgs},Action{EventArgs},Action{EventArgs},Action{EventArgs})
+- uid: AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(System.String,System.Action{System.EventArgs},System.Action{System.EventArgs},System.Action{System.EventArgs},System.Action{System.EventArgs})
   name: FileWatcher(String, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>)
-  href: api/AttackSurfaceAnalyzer.Utils.FileWatcher.html#AttackSurfaceAnalyzer_Utils_FileWatcher__ctor_String_Action_EventArgs__Action_EventArgs__Action_EventArgs__Action_EventArgs__
-  commentId: M:AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(String,Action{EventArgs},Action{EventArgs},Action{EventArgs},Action{EventArgs})
+  href: api/AttackSurfaceAnalyzer.Utils.FileWatcher.html#AttackSurfaceAnalyzer_Utils_FileWatcher__ctor_System_String_System_Action_System_EventArgs__System_Action_System_EventArgs__System_Action_System_EventArgs__System_Action_System_EventArgs__
+  commentId: M:AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(System.String,System.Action{System.EventArgs},System.Action{System.EventArgs},System.Action{System.EventArgs},System.Action{System.EventArgs})
   name.vb: FileWatcher(String, Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs))
-  fullName: AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(String, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>)
-  fullName.vb: AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(String, Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs))
+  fullName: AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(System.String, System.Action<System.EventArgs>, System.Action<System.EventArgs>, System.Action<System.EventArgs>, System.Action<System.EventArgs>)
+  fullName.vb: AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(System.String, System.Action(Of System.EventArgs), System.Action(Of System.EventArgs), System.Action(Of System.EventArgs), System.Action(Of System.EventArgs))
   nameWithType: FileWatcher.FileWatcher(String, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>)
   nameWithType.vb: FileWatcher.FileWatcher(String, Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs))
-- uid: AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(String,Action{EventArgs},Action{EventArgs},Action{EventArgs},Action{EventArgs},NotifyFilters,System.Boolean)
+- uid: AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(System.String,System.Action{System.EventArgs},System.Action{System.EventArgs},System.Action{System.EventArgs},System.Action{System.EventArgs},System.IO.NotifyFilters,System.Boolean)
   name: FileWatcher(String, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, NotifyFilters, Boolean)
-  href: api/AttackSurfaceAnalyzer.Utils.FileWatcher.html#AttackSurfaceAnalyzer_Utils_FileWatcher__ctor_String_Action_EventArgs__Action_EventArgs__Action_EventArgs__Action_EventArgs__NotifyFilters_System_Boolean_
-  commentId: M:AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(String,Action{EventArgs},Action{EventArgs},Action{EventArgs},Action{EventArgs},NotifyFilters,System.Boolean)
+  href: api/AttackSurfaceAnalyzer.Utils.FileWatcher.html#AttackSurfaceAnalyzer_Utils_FileWatcher__ctor_System_String_System_Action_System_EventArgs__System_Action_System_EventArgs__System_Action_System_EventArgs__System_Action_System_EventArgs__System_IO_NotifyFilters_System_Boolean_
+  commentId: M:AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(System.String,System.Action{System.EventArgs},System.Action{System.EventArgs},System.Action{System.EventArgs},System.Action{System.EventArgs},System.IO.NotifyFilters,System.Boolean)
   name.vb: FileWatcher(String, Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), NotifyFilters, Boolean)
-  fullName: AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(String, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, NotifyFilters, System.Boolean)
-  fullName.vb: AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(String, Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), NotifyFilters, System.Boolean)
+  fullName: AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(System.String, System.Action<System.EventArgs>, System.Action<System.EventArgs>, System.Action<System.EventArgs>, System.Action<System.EventArgs>, System.IO.NotifyFilters, System.Boolean)
+  fullName.vb: AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(System.String, System.Action(Of System.EventArgs), System.Action(Of System.EventArgs), System.Action(Of System.EventArgs), System.Action(Of System.EventArgs), System.IO.NotifyFilters, System.Boolean)
   nameWithType: FileWatcher.FileWatcher(String, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, NotifyFilters, Boolean)
   nameWithType.vb: FileWatcher.FileWatcher(String, Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), NotifyFilters, Boolean)
 - uid: AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor*
@@ -5230,13 +5417,13 @@ references:
   commentId: M:AttackSurfaceAnalyzer.Utils.Filter.IsFiltered(System.String,System.String,System.String,System.String,System.String,System.String)
   fullName: AttackSurfaceAnalyzer.Utils.Filter.IsFiltered(System.String, System.String, System.String, System.String, System.String, System.String)
   nameWithType: Filter.IsFiltered(String, String, String, String, String, String)
-- uid: AttackSurfaceAnalyzer.Utils.Filter.IsFiltered(System.String,System.String,System.String,System.String,System.String,System.String,Regex@)
+- uid: AttackSurfaceAnalyzer.Utils.Filter.IsFiltered(System.String,System.String,System.String,System.String,System.String,System.String,System.Text.RegularExpressions.Regex@)
   name: IsFiltered(String, String, String, String, String, String, out Regex)
-  href: api/AttackSurfaceAnalyzer.Utils.Filter.html#AttackSurfaceAnalyzer_Utils_Filter_IsFiltered_System_String_System_String_System_String_System_String_System_String_System_String_Regex__
-  commentId: M:AttackSurfaceAnalyzer.Utils.Filter.IsFiltered(System.String,System.String,System.String,System.String,System.String,System.String,Regex@)
+  href: api/AttackSurfaceAnalyzer.Utils.Filter.html#AttackSurfaceAnalyzer_Utils_Filter_IsFiltered_System_String_System_String_System_String_System_String_System_String_System_String_System_Text_RegularExpressions_Regex__
+  commentId: M:AttackSurfaceAnalyzer.Utils.Filter.IsFiltered(System.String,System.String,System.String,System.String,System.String,System.String,System.Text.RegularExpressions.Regex@)
   name.vb: IsFiltered(String, String, String, String, String, String, ByRef Regex)
-  fullName: AttackSurfaceAnalyzer.Utils.Filter.IsFiltered(System.String, System.String, System.String, System.String, System.String, System.String, out Regex)
-  fullName.vb: AttackSurfaceAnalyzer.Utils.Filter.IsFiltered(System.String, System.String, System.String, System.String, System.String, System.String, ByRef Regex)
+  fullName: AttackSurfaceAnalyzer.Utils.Filter.IsFiltered(System.String, System.String, System.String, System.String, System.String, System.String, out System.Text.RegularExpressions.Regex)
+  fullName.vb: AttackSurfaceAnalyzer.Utils.Filter.IsFiltered(System.String, System.String, System.String, System.String, System.String, System.String, ByRef System.Text.RegularExpressions.Regex)
   nameWithType: Filter.IsFiltered(String, String, String, String, String, String, out Regex)
   nameWithType.vb: Filter.IsFiltered(String, String, String, String, String, String, ByRef Regex)
 - uid: AttackSurfaceAnalyzer.Utils.Filter.IsFiltered*
@@ -5440,11 +5627,11 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Utils.Logger
   fullName: AttackSurfaceAnalyzer.Utils.Logger
   nameWithType: Logger
-- uid: AttackSurfaceAnalyzer.Utils.Logger.DebugException(Exception)
+- uid: AttackSurfaceAnalyzer.Utils.Logger.DebugException(System.Exception)
   name: DebugException(Exception)
-  href: api/AttackSurfaceAnalyzer.Utils.Logger.html#AttackSurfaceAnalyzer_Utils_Logger_DebugException_Exception_
-  commentId: M:AttackSurfaceAnalyzer.Utils.Logger.DebugException(Exception)
-  fullName: AttackSurfaceAnalyzer.Utils.Logger.DebugException(Exception)
+  href: api/AttackSurfaceAnalyzer.Utils.Logger.html#AttackSurfaceAnalyzer_Utils_Logger_DebugException_System_Exception_
+  commentId: M:AttackSurfaceAnalyzer.Utils.Logger.DebugException(System.Exception)
+  fullName: AttackSurfaceAnalyzer.Utils.Logger.DebugException(System.Exception)
   nameWithType: Logger.DebugException(Exception)
 - uid: AttackSurfaceAnalyzer.Utils.Logger.DebugException*
   name: DebugException
@@ -5478,11 +5665,11 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.Logger.Setup
   nameWithType: Logger.Setup
-- uid: AttackSurfaceAnalyzer.Utils.Logger.VerboseException(Exception)
+- uid: AttackSurfaceAnalyzer.Utils.Logger.VerboseException(System.Exception)
   name: VerboseException(Exception)
-  href: api/AttackSurfaceAnalyzer.Utils.Logger.html#AttackSurfaceAnalyzer_Utils_Logger_VerboseException_Exception_
-  commentId: M:AttackSurfaceAnalyzer.Utils.Logger.VerboseException(Exception)
-  fullName: AttackSurfaceAnalyzer.Utils.Logger.VerboseException(Exception)
+  href: api/AttackSurfaceAnalyzer.Utils.Logger.html#AttackSurfaceAnalyzer_Utils_Logger_VerboseException_System_Exception_
+  commentId: M:AttackSurfaceAnalyzer.Utils.Logger.VerboseException(System.Exception)
+  fullName: AttackSurfaceAnalyzer.Utils.Logger.VerboseException(System.Exception)
   nameWithType: Logger.VerboseException(Exception)
 - uid: AttackSurfaceAnalyzer.Utils.Logger.VerboseException*
   name: VerboseException
@@ -5568,11 +5755,24 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Utils.RegistryWalker
   fullName: AttackSurfaceAnalyzer.Utils.RegistryWalker
   nameWithType: RegistryWalker
-- uid: AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive(RegistryHive,System.String)
+- uid: AttackSurfaceAnalyzer.Utils.RegistryWalker.RegistryKeyToRegistryObject(Microsoft.Win32.RegistryKey)
+  name: RegistryKeyToRegistryObject(RegistryKey)
+  href: api/AttackSurfaceAnalyzer.Utils.RegistryWalker.html#AttackSurfaceAnalyzer_Utils_RegistryWalker_RegistryKeyToRegistryObject_Microsoft_Win32_RegistryKey_
+  commentId: M:AttackSurfaceAnalyzer.Utils.RegistryWalker.RegistryKeyToRegistryObject(Microsoft.Win32.RegistryKey)
+  fullName: AttackSurfaceAnalyzer.Utils.RegistryWalker.RegistryKeyToRegistryObject(Microsoft.Win32.RegistryKey)
+  nameWithType: RegistryWalker.RegistryKeyToRegistryObject(RegistryKey)
+- uid: AttackSurfaceAnalyzer.Utils.RegistryWalker.RegistryKeyToRegistryObject*
+  name: RegistryKeyToRegistryObject
+  href: api/AttackSurfaceAnalyzer.Utils.RegistryWalker.html#AttackSurfaceAnalyzer_Utils_RegistryWalker_RegistryKeyToRegistryObject_
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.RegistryWalker.RegistryKeyToRegistryObject
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Utils.RegistryWalker.RegistryKeyToRegistryObject
+  nameWithType: RegistryWalker.RegistryKeyToRegistryObject
+- uid: AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive(Microsoft.Win32.RegistryHive,System.String)
   name: WalkHive(RegistryHive, String)
-  href: api/AttackSurfaceAnalyzer.Utils.RegistryWalker.html#AttackSurfaceAnalyzer_Utils_RegistryWalker_WalkHive_RegistryHive_System_String_
-  commentId: M:AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive(RegistryHive,System.String)
-  fullName: AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive(RegistryHive, System.String)
+  href: api/AttackSurfaceAnalyzer.Utils.RegistryWalker.html#AttackSurfaceAnalyzer_Utils_RegistryWalker_WalkHive_Microsoft_Win32_RegistryHive_System_String_
+  commentId: M:AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive(Microsoft.Win32.RegistryHive,System.String)
+  fullName: AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive(Microsoft.Win32.RegistryHive, System.String)
   nameWithType: RegistryWalker.WalkHive(RegistryHive, String)
 - uid: AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive*
   name: WalkHive
@@ -5715,13 +5915,13 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.Telemetry.TestMode
   nameWithType: Telemetry.TestMode
-- uid: AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent(System.String,Dictionary{System.String,System.String})
+- uid: AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent(System.String,System.Collections.Generic.Dictionary{System.String,System.String})
   name: TrackEvent(String, Dictionary<String, String>)
-  href: api/AttackSurfaceAnalyzer.Utils.Telemetry.html#AttackSurfaceAnalyzer_Utils_Telemetry_TrackEvent_System_String_Dictionary_System_String_System_String__
-  commentId: M:AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent(System.String,Dictionary{System.String,System.String})
+  href: api/AttackSurfaceAnalyzer.Utils.Telemetry.html#AttackSurfaceAnalyzer_Utils_Telemetry_TrackEvent_System_String_System_Collections_Generic_Dictionary_System_String_System_String__
+  commentId: M:AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent(System.String,System.Collections.Generic.Dictionary{System.String,System.String})
   name.vb: TrackEvent(String, Dictionary(Of String, String))
-  fullName: AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent(System.String, Dictionary<System.String, System.String>)
-  fullName.vb: AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent(System.String, Dictionary(Of System.String, System.String))
+  fullName: AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent(System.String, System.Collections.Generic.Dictionary<System.String, System.String>)
+  fullName.vb: AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent(System.String, System.Collections.Generic.Dictionary(Of System.String, System.String))
   nameWithType: Telemetry.TrackEvent(String, Dictionary<String, String>)
   nameWithType.vb: Telemetry.TrackEvent(String, Dictionary(Of String, String))
 - uid: AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent*
@@ -5731,11 +5931,11 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent
   nameWithType: Telemetry.TrackEvent
-- uid: AttackSurfaceAnalyzer.Utils.Telemetry.TrackTrace(SeverityLevel,Exception)
+- uid: AttackSurfaceAnalyzer.Utils.Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel,System.Exception)
   name: TrackTrace(SeverityLevel, Exception)
-  href: api/AttackSurfaceAnalyzer.Utils.Telemetry.html#AttackSurfaceAnalyzer_Utils_Telemetry_TrackTrace_SeverityLevel_Exception_
-  commentId: M:AttackSurfaceAnalyzer.Utils.Telemetry.TrackTrace(SeverityLevel,Exception)
-  fullName: AttackSurfaceAnalyzer.Utils.Telemetry.TrackTrace(SeverityLevel, Exception)
+  href: api/AttackSurfaceAnalyzer.Utils.Telemetry.html#AttackSurfaceAnalyzer_Utils_Telemetry_TrackTrace_Microsoft_ApplicationInsights_DataContracts_SeverityLevel_System_Exception_
+  commentId: M:AttackSurfaceAnalyzer.Utils.Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel,System.Exception)
+  fullName: AttackSurfaceAnalyzer.Utils.Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel, System.Exception)
   nameWithType: Telemetry.TrackTrace(SeverityLevel, Exception)
 - uid: AttackSurfaceAnalyzer.Utils.Telemetry.TrackTrace*
   name: TrackTrace

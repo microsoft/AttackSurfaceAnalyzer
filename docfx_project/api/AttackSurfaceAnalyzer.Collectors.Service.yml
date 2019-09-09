@@ -1,0 +1,28 @@
+### YamlMime:ManagedReference
+items:
+- uid: AttackSurfaceAnalyzer.Collectors.Service
+  commentId: N:AttackSurfaceAnalyzer.Collectors.Service
+  id: AttackSurfaceAnalyzer.Collectors.Service
+  children:
+  - AttackSurfaceAnalyzer.Collectors.Service.ServiceCollector
+  - AttackSurfaceAnalyzer.Collectors.Service.ServiceCompare
+  langs:
+  - csharp
+  - vb
+  name: AttackSurfaceAnalyzer.Collectors.Service
+  nameWithType: AttackSurfaceAnalyzer.Collectors.Service
+  fullName: AttackSurfaceAnalyzer.Collectors.Service
+  type: Namespace
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+references:
+- uid: AttackSurfaceAnalyzer.Collectors.Service.ServiceCollector
+  commentId: T:AttackSurfaceAnalyzer.Collectors.Service.ServiceCollector
+  name: ServiceCollector
+  nameWithType: ServiceCollector
+  fullName: AttackSurfaceAnalyzer.Collectors.Service.ServiceCollector
+- uid: AttackSurfaceAnalyzer.Collectors.Service.ServiceCompare
+  commentId: T:AttackSurfaceAnalyzer.Collectors.Service.ServiceCompare
+  name: ServiceCompare
+  nameWithType: ServiceCompare
+  fullName: AttackSurfaceAnalyzer.Collectors.Service.ServiceCompare

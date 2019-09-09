@@ -232,7 +232,8 @@
       "CERTIFICATE": "INFORMATION",
       "USER": "INFORMATION",
       "REGISTRY": "DEBUG",
-      "FIREWALL": "INFORMATION"
+      "FIREWALL": "INFORMATION",
+      "COM" :  "INFORMATION"
     }
   }
 }

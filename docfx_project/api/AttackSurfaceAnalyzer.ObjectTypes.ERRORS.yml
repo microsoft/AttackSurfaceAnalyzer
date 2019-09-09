@@ -1,0 +1,112 @@
+### YamlMime:ManagedReference
+items:
+- uid: AttackSurfaceAnalyzer.ObjectTypes.ERRORS
+  commentId: T:AttackSurfaceAnalyzer.ObjectTypes.ERRORS
+  id: ERRORS
+  parent: AttackSurfaceAnalyzer.ObjectTypes
+  children:
+  - AttackSurfaceAnalyzer.ObjectTypes.ERRORS.NONE
+  - AttackSurfaceAnalyzer.ObjectTypes.ERRORS.UNIQUE_ID
+  langs:
+  - csharp
+  - vb
+  name: ERRORS
+  nameWithType: ERRORS
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.ERRORS
+  type: Enum
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ERRORS
+    path: ../Lib/Objects/Types.cs
+    startLine: 32
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public enum ERRORS
+    content.vb: Public Enum ERRORS
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: AttackSurfaceAnalyzer.ObjectTypes.ERRORS.NONE
+  commentId: F:AttackSurfaceAnalyzer.ObjectTypes.ERRORS.NONE
+  id: NONE
+  parent: AttackSurfaceAnalyzer.ObjectTypes.ERRORS
+  langs:
+  - csharp
+  - vb
+  name: NONE
+  nameWithType: ERRORS.NONE
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.ERRORS.NONE
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: NONE
+    path: ../Lib/Objects/Types.cs
+    startLine: 34
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: NONE = 0
+    return:
+      type: AttackSurfaceAnalyzer.ObjectTypes.ERRORS
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.ObjectTypes.ERRORS.UNIQUE_ID
+  commentId: F:AttackSurfaceAnalyzer.ObjectTypes.ERRORS.UNIQUE_ID
+  id: UNIQUE_ID
+  parent: AttackSurfaceAnalyzer.ObjectTypes.ERRORS
+  langs:
+  - csharp
+  - vb
+  name: UNIQUE_ID
+  nameWithType: ERRORS.UNIQUE_ID
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.ERRORS.UNIQUE_ID
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: UNIQUE_ID
+    path: ../Lib/Objects/Types.cs
+    startLine: 35
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: UNIQUE_ID = 1
+    return:
+      type: AttackSurfaceAnalyzer.ObjectTypes.ERRORS
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: AttackSurfaceAnalyzer.ObjectTypes
+  commentId: N:AttackSurfaceAnalyzer.ObjectTypes
+  name: AttackSurfaceAnalyzer.ObjectTypes
+  nameWithType: AttackSurfaceAnalyzer.ObjectTypes
+  fullName: AttackSurfaceAnalyzer.ObjectTypes
+- uid: AttackSurfaceAnalyzer.ObjectTypes.ERRORS
+  commentId: T:AttackSurfaceAnalyzer.ObjectTypes.ERRORS
+  parent: AttackSurfaceAnalyzer.ObjectTypes
+  name: ERRORS
+  nameWithType: ERRORS
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.ERRORS

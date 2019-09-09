@@ -1,0 +1,1295 @@
+### YamlMime:ManagedReference
+items:
+- uid: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject
+  commentId: T:AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject
+  id: UserAccountObject
+  parent: AttackSurfaceAnalyzer.ObjectTypes
+  children:
+  - AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.AccountType
+  - AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Caption
+  - AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Description
+  - AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Disabled
+  - AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Domain
+  - AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.FullName
+  - AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.GID
+  - AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.HomeDirectory
+  - AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Inactive
+  - AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.InstallDate
+  - AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.LocalAccount
+  - AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Lockout
+  - AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Name
+  - AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.PasswordChangeable
+  - AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.PasswordExpires
+  - AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.PasswordRequired
+  - AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.PasswordStorageAlgorithm
+  - AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Properties
+  - AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.PropertiesString
+  - AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.RowKey
+  - AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Shell
+  - AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.SID
+  - AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.ToJson
+  - AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.ToString
+  - AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.UID
+  langs:
+  - csharp
+  - vb
+  name: UserAccountObject
+  nameWithType: UserAccountObject
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject
+  type: Class
+  source:
+    remote:
+      path: Lib/Objects/UserAccountObject.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: UserAccountObject
+    path: ../Lib/Objects/UserAccountObject.cs
+    startLine: 10
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public class UserAccountObject
+    content.vb: Public Class UserAccountObject
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.AccountType
+  commentId: F:AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.AccountType
+  id: AccountType
+  parent: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject
+  langs:
+  - csharp
+  - vb
+  name: AccountType
+  nameWithType: UserAccountObject.AccountType
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.AccountType
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/UserAccountObject.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: AccountType
+    path: ../Lib/Objects/UserAccountObject.cs
+    startLine: 12
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public string AccountType
+    return:
+      type: System.String
+    content.vb: Public AccountType As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Caption
+  commentId: F:AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Caption
+  id: Caption
+  parent: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject
+  langs:
+  - csharp
+  - vb
+  name: Caption
+  nameWithType: UserAccountObject.Caption
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Caption
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/UserAccountObject.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Caption
+    path: ../Lib/Objects/UserAccountObject.cs
+    startLine: 13
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public string Caption
+    return:
+      type: System.String
+    content.vb: Public Caption As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Description
+  commentId: F:AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Description
+  id: Description
+  parent: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject
+  langs:
+  - csharp
+  - vb
+  name: Description
+  nameWithType: UserAccountObject.Description
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Description
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/UserAccountObject.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Description
+    path: ../Lib/Objects/UserAccountObject.cs
+    startLine: 14
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public string Description
+    return:
+      type: System.String
+    content.vb: Public Description As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Disabled
+  commentId: F:AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Disabled
+  id: Disabled
+  parent: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject
+  langs:
+  - csharp
+  - vb
+  name: Disabled
+  nameWithType: UserAccountObject.Disabled
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Disabled
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/UserAccountObject.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Disabled
+    path: ../Lib/Objects/UserAccountObject.cs
+    startLine: 15
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public string Disabled
+    return:
+      type: System.String
+    content.vb: Public Disabled As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Domain
+  commentId: F:AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Domain
+  id: Domain
+  parent: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject
+  langs:
+  - csharp
+  - vb
+  name: Domain
+  nameWithType: UserAccountObject.Domain
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Domain
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/UserAccountObject.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Domain
+    path: ../Lib/Objects/UserAccountObject.cs
+    startLine: 16
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public string Domain
+    return:
+      type: System.String
+    content.vb: Public Domain As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.FullName
+  commentId: F:AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.FullName
+  id: FullName
+  parent: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject
+  langs:
+  - csharp
+  - vb
+  name: FullName
+  nameWithType: UserAccountObject.FullName
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.FullName
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/UserAccountObject.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: FullName
+    path: ../Lib/Objects/UserAccountObject.cs
+    startLine: 17
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public string FullName
+    return:
+      type: System.String
+    content.vb: Public FullName As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.InstallDate
+  commentId: F:AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.InstallDate
+  id: InstallDate
+  parent: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject
+  langs:
+  - csharp
+  - vb
+  name: InstallDate
+  nameWithType: UserAccountObject.InstallDate
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.InstallDate
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/UserAccountObject.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: InstallDate
+    path: ../Lib/Objects/UserAccountObject.cs
+    startLine: 18
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public string InstallDate
+    return:
+      type: System.String
+    content.vb: Public InstallDate As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.LocalAccount
+  commentId: F:AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.LocalAccount
+  id: LocalAccount
+  parent: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject
+  langs:
+  - csharp
+  - vb
+  name: LocalAccount
+  nameWithType: UserAccountObject.LocalAccount
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.LocalAccount
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/UserAccountObject.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: LocalAccount
+    path: ../Lib/Objects/UserAccountObject.cs
+    startLine: 19
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public string LocalAccount
+    return:
+      type: System.String
+    content.vb: Public LocalAccount As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Lockout
+  commentId: F:AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Lockout
+  id: Lockout
+  parent: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject
+  langs:
+  - csharp
+  - vb
+  name: Lockout
+  nameWithType: UserAccountObject.Lockout
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Lockout
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/UserAccountObject.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Lockout
+    path: ../Lib/Objects/UserAccountObject.cs
+    startLine: 20
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public string Lockout
+    return:
+      type: System.String
+    content.vb: Public Lockout As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Name
+  commentId: F:AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Name
+  id: Name
+  parent: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: UserAccountObject.Name
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Name
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/UserAccountObject.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Name
+    path: ../Lib/Objects/UserAccountObject.cs
+    startLine: 21
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public string Name
+    return:
+      type: System.String
+    content.vb: Public Name As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.PasswordChangeable
+  commentId: F:AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.PasswordChangeable
+  id: PasswordChangeable
+  parent: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject
+  langs:
+  - csharp
+  - vb
+  name: PasswordChangeable
+  nameWithType: UserAccountObject.PasswordChangeable
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.PasswordChangeable
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/UserAccountObject.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: PasswordChangeable
+    path: ../Lib/Objects/UserAccountObject.cs
+    startLine: 22
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public string PasswordChangeable
+    return:
+      type: System.String
+    content.vb: Public PasswordChangeable As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.PasswordExpires
+  commentId: F:AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.PasswordExpires
+  id: PasswordExpires
+  parent: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject
+  langs:
+  - csharp
+  - vb
+  name: PasswordExpires
+  nameWithType: UserAccountObject.PasswordExpires
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.PasswordExpires
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/UserAccountObject.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: PasswordExpires
+    path: ../Lib/Objects/UserAccountObject.cs
+    startLine: 23
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public string PasswordExpires
+    return:
+      type: System.String
+    content.vb: Public PasswordExpires As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.PasswordRequired
+  commentId: F:AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.PasswordRequired
+  id: PasswordRequired
+  parent: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject
+  langs:
+  - csharp
+  - vb
+  name: PasswordRequired
+  nameWithType: UserAccountObject.PasswordRequired
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.PasswordRequired
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/UserAccountObject.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: PasswordRequired
+    path: ../Lib/Objects/UserAccountObject.cs
+    startLine: 24
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public string PasswordRequired
+    return:
+      type: System.String
+    content.vb: Public PasswordRequired As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.SID
+  commentId: F:AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.SID
+  id: SID
+  parent: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject
+  langs:
+  - csharp
+  - vb
+  name: SID
+  nameWithType: UserAccountObject.SID
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.SID
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/UserAccountObject.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: SID
+    path: ../Lib/Objects/UserAccountObject.cs
+    startLine: 25
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public string SID
+    return:
+      type: System.String
+    content.vb: Public SID As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.UID
+  commentId: F:AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.UID
+  id: UID
+  parent: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject
+  langs:
+  - csharp
+  - vb
+  name: UID
+  nameWithType: UserAccountObject.UID
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.UID
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/UserAccountObject.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: UID
+    path: ../Lib/Objects/UserAccountObject.cs
+    startLine: 26
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public string UID
+    return:
+      type: System.String
+    content.vb: Public UID As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.GID
+  commentId: F:AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.GID
+  id: GID
+  parent: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject
+  langs:
+  - csharp
+  - vb
+  name: GID
+  nameWithType: UserAccountObject.GID
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.GID
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/UserAccountObject.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: GID
+    path: ../Lib/Objects/UserAccountObject.cs
+    startLine: 27
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public string GID
+    return:
+      type: System.String
+    content.vb: Public GID As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Inactive
+  commentId: F:AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Inactive
+  id: Inactive
+  parent: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject
+  langs:
+  - csharp
+  - vb
+  name: Inactive
+  nameWithType: UserAccountObject.Inactive
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Inactive
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/UserAccountObject.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Inactive
+    path: ../Lib/Objects/UserAccountObject.cs
+    startLine: 28
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public string Inactive
+    return:
+      type: System.String
+    content.vb: Public Inactive As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.HomeDirectory
+  commentId: F:AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.HomeDirectory
+  id: HomeDirectory
+  parent: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject
+  langs:
+  - csharp
+  - vb
+  name: HomeDirectory
+  nameWithType: UserAccountObject.HomeDirectory
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.HomeDirectory
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/UserAccountObject.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: HomeDirectory
+    path: ../Lib/Objects/UserAccountObject.cs
+    startLine: 29
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public string HomeDirectory
+    return:
+      type: System.String
+    content.vb: Public HomeDirectory As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Shell
+  commentId: F:AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Shell
+  id: Shell
+  parent: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject
+  langs:
+  - csharp
+  - vb
+  name: Shell
+  nameWithType: UserAccountObject.Shell
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Shell
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/UserAccountObject.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Shell
+    path: ../Lib/Objects/UserAccountObject.cs
+    startLine: 30
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public string Shell
+    return:
+      type: System.String
+    content.vb: Public Shell As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.PasswordStorageAlgorithm
+  commentId: F:AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.PasswordStorageAlgorithm
+  id: PasswordStorageAlgorithm
+  parent: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject
+  langs:
+  - csharp
+  - vb
+  name: PasswordStorageAlgorithm
+  nameWithType: UserAccountObject.PasswordStorageAlgorithm
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.PasswordStorageAlgorithm
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/UserAccountObject.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: PasswordStorageAlgorithm
+    path: ../Lib/Objects/UserAccountObject.cs
+    startLine: 31
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public string PasswordStorageAlgorithm
+    return:
+      type: System.String
+    content.vb: Public PasswordStorageAlgorithm As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Properties
+  commentId: F:AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Properties
+  id: Properties
+  parent: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject
+  langs:
+  - csharp
+  - vb
+  name: Properties
+  nameWithType: UserAccountObject.Properties
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.Properties
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/UserAccountObject.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Properties
+    path: ../Lib/Objects/UserAccountObject.cs
+    startLine: 33
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public Dictionary<string, string> Properties
+    return:
+      type: System.Collections.Generic.Dictionary{System.String,System.String}
+    content.vb: Public Properties As Dictionary(Of String, String)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.RowKey
+  commentId: P:AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.RowKey
+  id: RowKey
+  parent: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject
+  langs:
+  - csharp
+  - vb
+  name: RowKey
+  nameWithType: UserAccountObject.RowKey
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.RowKey
+  type: Property
+  source:
+    remote:
+      path: Lib/Objects/UserAccountObject.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: RowKey
+    path: ../Lib/Objects/UserAccountObject.cs
+    startLine: 35
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public string RowKey { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property RowKey As String
+  overload: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.RowKey*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.PropertiesString
+  commentId: M:AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.PropertiesString
+  id: PropertiesString
+  parent: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject
+  langs:
+  - csharp
+  - vb
+  name: PropertiesString()
+  nameWithType: UserAccountObject.PropertiesString()
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.PropertiesString()
+  type: Method
+  source:
+    remote:
+      path: Lib/Objects/UserAccountObject.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: PropertiesString
+    path: ../Lib/Objects/UserAccountObject.cs
+    startLine: 43
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public string PropertiesString()
+    return:
+      type: System.String
+    content.vb: Public Function PropertiesString As String
+  overload: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.PropertiesString*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.ToString
+  commentId: M:AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.ToString
+  id: ToString
+  parent: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject
+  langs:
+  - csharp
+  - vb
+  name: ToString()
+  nameWithType: UserAccountObject.ToString()
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.ToString()
+  type: Method
+  source:
+    remote:
+      path: Lib/Objects/UserAccountObject.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ToString
+    path: ../Lib/Objects/UserAccountObject.cs
+    startLine: 58
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public override string ToString()
+    return:
+      type: System.String
+    content.vb: Public Overrides Function ToString As String
+  overridden: System.Object.ToString
+  overload: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.ToString*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.ToJson
+  commentId: M:AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.ToJson
+  id: ToJson
+  parent: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject
+  langs:
+  - csharp
+  - vb
+  name: ToJson()
+  nameWithType: UserAccountObject.ToJson()
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.ToJson()
+  type: Method
+  source:
+    remote:
+      path: Lib/Objects/UserAccountObject.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ToJson
+    path: ../Lib/Objects/UserAccountObject.cs
+    startLine: 76
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public string ToJson()
+    return:
+      type: System.String
+    content.vb: Public Function ToJson As String
+  overload: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.ToJson*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: AttackSurfaceAnalyzer.ObjectTypes
+  commentId: N:AttackSurfaceAnalyzer.ObjectTypes
+  name: AttackSurfaceAnalyzer.ObjectTypes
+  nameWithType: AttackSurfaceAnalyzer.ObjectTypes
+  fullName: AttackSurfaceAnalyzer.ObjectTypes
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System.Collections.Generic.Dictionary{System.String,System.String}
+  commentId: T:System.Collections.Generic.Dictionary{System.String,System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  name: Dictionary<String, String>
+  nameWithType: Dictionary<String, String>
+  fullName: System.Collections.Generic.Dictionary<System.String, System.String>
+  nameWithType.vb: Dictionary(Of String, String)
+  fullName.vb: System.Collections.Generic.Dictionary(Of System.String, System.String)
+  name.vb: Dictionary(Of String, String)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
+  isExternal: true
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.RowKey*
+  commentId: Overload:AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.RowKey
+  name: RowKey
+  nameWithType: UserAccountObject.RowKey
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.RowKey
+- uid: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.PropertiesString*
+  commentId: Overload:AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.PropertiesString
+  name: PropertiesString
+  nameWithType: UserAccountObject.PropertiesString
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.PropertiesString
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.ToString*
+  commentId: Overload:AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.ToString
+  name: ToString
+  nameWithType: UserAccountObject.ToString
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.ToString
+- uid: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.ToJson*
+  commentId: Overload:AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.ToJson
+  name: ToJson
+  nameWithType: UserAccountObject.ToJson
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject.ToJson

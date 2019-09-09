@@ -91,6 +91,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
                 return Encoding.UTF8.GetString(twoBytes) == "MZ";
             }
+            catch (UnauthorizedAccessException)
+            {
+                return false;
+            }
             catch (Exception e)
             {
                 Logger.DebugException(e);
@@ -164,6 +168,14 @@ namespace AttackSurfaceAnalyzer.Collectors
                 catch (InvalidOperationException)
                 {
                     Log.Verbose("Invalid operation exception {0}.", fileInfo.FullName);
+                }
+                catch (FileNotFoundException)
+                {
+                    Log.Verbose("File not found to get permissions {0}.", fileInfo.FullName);
+                }
+                catch (ArgumentException)
+                {
+                    Log.Debug("Filename not valid for getting permissions {0}", fileInfo.FullName);
                 }
                 catch (Exception e)
                 {

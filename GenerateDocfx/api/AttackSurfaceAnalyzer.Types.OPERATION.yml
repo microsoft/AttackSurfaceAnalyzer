@@ -24,17 +24,17 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: OPERATION
     path: ../Lib/Objects/Types.cs
-    startLine: 73
+    startLine: 74
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
   syntax:
-    content: 'public enum OPERATION : int'
-    content.vb: Public Enum OPERATION As Integer
+    content: public enum OPERATION
+    content.vb: Public Enum OPERATION
   modifiers.csharp:
   - public
   - enum
@@ -55,11 +55,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: REGEX
     path: ../Lib/Objects/Types.cs
-    startLine: 75
+    startLine: 76
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -87,11 +87,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: EQ
     path: ../Lib/Objects/Types.cs
-    startLine: 76
+    startLine: 77
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -119,11 +119,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: NEQ
     path: ../Lib/Objects/Types.cs
-    startLine: 77
+    startLine: 78
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -151,11 +151,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LT
     path: ../Lib/Objects/Types.cs
-    startLine: 78
+    startLine: 79
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -183,11 +183,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GT
     path: ../Lib/Objects/Types.cs
-    startLine: 79
+    startLine: 80
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -215,11 +215,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CONTAINS
     path: ../Lib/Objects/Types.cs
-    startLine: 80
+    startLine: 81
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -247,11 +247,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: WAS_MODIFIED
     path: ../Lib/Objects/Types.cs
-    startLine: 81
+    startLine: 82
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -279,11 +279,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ENDS_WITH
     path: ../Lib/Objects/Types.cs
-    startLine: 82
+    startLine: 83
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -311,11 +311,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: STARTS_WITH
     path: ../Lib/Objects/Types.cs
-    startLine: 83
+    startLine: 84
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types

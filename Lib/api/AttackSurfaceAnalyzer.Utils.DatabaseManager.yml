@@ -1,0 +1,566 @@
+### YamlMime:ManagedReference
+items:
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager
+  commentId: T:AttackSurfaceAnalyzer.Utils.DatabaseManager
+  id: DatabaseManager
+  parent: AttackSurfaceAnalyzer.Utils
+  children:
+  - AttackSurfaceAnalyzer.Utils.DatabaseManager.Commit
+  - AttackSurfaceAnalyzer.Utils.DatabaseManager.Connection
+  - AttackSurfaceAnalyzer.Utils.DatabaseManager.Setup
+  - AttackSurfaceAnalyzer.Utils.DatabaseManager.SqliteFilename
+  - AttackSurfaceAnalyzer.Utils.DatabaseManager.Transaction
+  langs:
+  - csharp
+  - vb
+  name: DatabaseManager
+  nameWithType: DatabaseManager
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager
+  type: Class
+  source:
+    remote:
+      path: Lib/Utils/DatabaseManager.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: DatabaseManager
+    path: Utils/DatabaseManager.cs
+    startLine: 7
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static class DatabaseManager
+    content.vb: Public Module DatabaseManager
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - static
+  - class
+  modifiers.vb:
+  - Public
+  - Module
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.Connection
+  commentId: F:AttackSurfaceAnalyzer.Utils.DatabaseManager.Connection
+  id: Connection
+  parent: AttackSurfaceAnalyzer.Utils.DatabaseManager
+  langs:
+  - csharp
+  - vb
+  name: Connection
+  nameWithType: DatabaseManager.Connection
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.Connection
+  type: Field
+  source:
+    remote:
+      path: Lib/Utils/DatabaseManager.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Connection
+    path: Utils/DatabaseManager.cs
+    startLine: 36
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static SqliteConnection Connection
+    return:
+      type: Microsoft.Data.Sqlite.SqliteConnection
+    content.vb: Public Shared Connection As SqliteConnection
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.Setup
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.Setup
+  id: Setup
+  parent: AttackSurfaceAnalyzer.Utils.DatabaseManager
+  langs:
+  - csharp
+  - vb
+  name: Setup()
+  nameWithType: DatabaseManager.Setup()
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.Setup()
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/DatabaseManager.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Setup
+    path: Utils/DatabaseManager.cs
+    startLine: 40
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static void Setup()
+    content.vb: Public Shared Sub Setup
+  overload: AttackSurfaceAnalyzer.Utils.DatabaseManager.Setup*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.Transaction
+  commentId: P:AttackSurfaceAnalyzer.Utils.DatabaseManager.Transaction
+  id: Transaction
+  parent: AttackSurfaceAnalyzer.Utils.DatabaseManager
+  langs:
+  - csharp
+  - vb
+  name: Transaction
+  nameWithType: DatabaseManager.Transaction
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.Transaction
+  type: Property
+  source:
+    remote:
+      path: Lib/Utils/DatabaseManager.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Transaction
+    path: Utils/DatabaseManager.cs
+    startLine: 102
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static SqliteTransaction Transaction { get; }
+    parameters: []
+    return:
+      type: Microsoft.Data.Sqlite.SqliteTransaction
+    content.vb: Public Shared ReadOnly Property Transaction As SqliteTransaction
+  overload: AttackSurfaceAnalyzer.Utils.DatabaseManager.Transaction*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.Commit
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.Commit
+  id: Commit
+  parent: AttackSurfaceAnalyzer.Utils.DatabaseManager
+  langs:
+  - csharp
+  - vb
+  name: Commit()
+  nameWithType: DatabaseManager.Commit()
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.Commit()
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/DatabaseManager.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Commit
+    path: Utils/DatabaseManager.cs
+    startLine: 126
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static void Commit()
+    content.vb: Public Shared Sub Commit
+  overload: AttackSurfaceAnalyzer.Utils.DatabaseManager.Commit*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.SqliteFilename
+  commentId: P:AttackSurfaceAnalyzer.Utils.DatabaseManager.SqliteFilename
+  id: SqliteFilename
+  parent: AttackSurfaceAnalyzer.Utils.DatabaseManager
+  langs:
+  - csharp
+  - vb
+  name: SqliteFilename
+  nameWithType: DatabaseManager.SqliteFilename
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.SqliteFilename
+  type: Property
+  source:
+    remote:
+      path: Lib/Utils/DatabaseManager.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: SqliteFilename
+    path: Utils/DatabaseManager.cs
+    startLine: 137
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static string SqliteFilename { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Shared Property SqliteFilename As String
+  overload: AttackSurfaceAnalyzer.Utils.DatabaseManager.SqliteFilename*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  - Shared
+references:
+- uid: AttackSurfaceAnalyzer.Utils
+  commentId: N:AttackSurfaceAnalyzer.Utils
+  name: AttackSurfaceAnalyzer.Utils
+  nameWithType: AttackSurfaceAnalyzer.Utils
+  fullName: AttackSurfaceAnalyzer.Utils
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Microsoft.Data.Sqlite.SqliteConnection
+  commentId: T:Microsoft.Data.Sqlite.SqliteConnection
+  parent: Microsoft.Data.Sqlite
+  isExternal: true
+  name: SqliteConnection
+  nameWithType: SqliteConnection
+  fullName: Microsoft.Data.Sqlite.SqliteConnection
+- uid: Microsoft.Data.Sqlite
+  commentId: N:Microsoft.Data.Sqlite
+  isExternal: true
+  name: Microsoft.Data.Sqlite
+  nameWithType: Microsoft.Data.Sqlite
+  fullName: Microsoft.Data.Sqlite
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.Setup*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.Setup
+  name: Setup
+  nameWithType: DatabaseManager.Setup
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.Setup
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.Transaction*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.Transaction
+  name: Transaction
+  nameWithType: DatabaseManager.Transaction
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.Transaction
+- uid: Microsoft.Data.Sqlite.SqliteTransaction
+  commentId: T:Microsoft.Data.Sqlite.SqliteTransaction
+  parent: Microsoft.Data.Sqlite
+  isExternal: true
+  name: SqliteTransaction
+  nameWithType: SqliteTransaction
+  fullName: Microsoft.Data.Sqlite.SqliteTransaction
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.Commit*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.Commit
+  name: Commit
+  nameWithType: DatabaseManager.Commit
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.Commit
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.SqliteFilename*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.SqliteFilename
+  name: SqliteFilename
+  nameWithType: DatabaseManager.SqliteFilename
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.SqliteFilename
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String

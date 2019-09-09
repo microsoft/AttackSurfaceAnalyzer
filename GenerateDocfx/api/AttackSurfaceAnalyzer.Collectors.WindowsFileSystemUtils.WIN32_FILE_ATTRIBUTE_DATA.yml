@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: WIN32_FILE_ATTRIBUTE_DATA
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
@@ -32,6 +32,13 @@ items:
   syntax:
     content: public struct WIN32_FILE_ATTRIBUTE_DATA
     content.vb: Public Structure WIN32_FILE_ATTRIBUTE_DATA
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
   modifiers.csharp:
   - public
   - struct
@@ -52,7 +59,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: dwFileAttributes
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
@@ -83,7 +90,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ftCreationTime
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
@@ -92,10 +99,10 @@ items:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
   syntax:
-    content: public System.Runtime.InteropServices.ComTypes.FILETIME ftCreationTime
+    content: public FILETIME ftCreationTime
     return:
       type: System.Runtime.InteropServices.ComTypes.FILETIME
-    content.vb: Public ftCreationTime As System.Runtime.InteropServices.ComTypes.FILETIME
+    content.vb: Public ftCreationTime As FILETIME
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -114,7 +121,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ftLastAccessTime
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
@@ -123,10 +130,10 @@ items:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
   syntax:
-    content: public System.Runtime.InteropServices.ComTypes.FILETIME ftLastAccessTime
+    content: public FILETIME ftLastAccessTime
     return:
       type: System.Runtime.InteropServices.ComTypes.FILETIME
-    content.vb: Public ftLastAccessTime As System.Runtime.InteropServices.ComTypes.FILETIME
+    content.vb: Public ftLastAccessTime As FILETIME
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -145,7 +152,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ftLastWriteTime
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
@@ -154,10 +161,10 @@ items:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
   syntax:
-    content: public System.Runtime.InteropServices.ComTypes.FILETIME ftLastWriteTime
+    content: public FILETIME ftLastWriteTime
     return:
       type: System.Runtime.InteropServices.ComTypes.FILETIME
-    content.vb: Public ftLastWriteTime As System.Runtime.InteropServices.ComTypes.FILETIME
+    content.vb: Public ftLastWriteTime As FILETIME
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -176,7 +183,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: nFileSizeHigh
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
@@ -207,7 +214,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: nFileSizeLow
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
@@ -230,13 +237,291 @@ references:
   name: AttackSurfaceAnalyzer.Collectors
   nameWithType: AttackSurfaceAnalyzer.Collectors
   fullName: AttackSurfaceAnalyzer.Collectors
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: ValueType.Equals(Object)
+  fullName: System.ValueType.Equals(System.Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    nameWithType: ValueType.Equals
+    fullName: System.ValueType.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    nameWithType: ValueType.Equals
+    fullName: System.ValueType.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    nameWithType: ValueType.GetHashCode
+    fullName: System.ValueType.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    nameWithType: ValueType.GetHashCode
+    fullName: System.ValueType.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    nameWithType: ValueType.ToString
+    fullName: System.ValueType.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    nameWithType: ValueType.ToString
+    fullName: System.ValueType.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
 - uid: System.UInt32
+  commentId: T:System.UInt32
+  parent: System
   isExternal: true
   name: UInt32
   nameWithType: UInt32
   fullName: System.UInt32
 - uid: System.Runtime.InteropServices.ComTypes.FILETIME
+  commentId: T:System.Runtime.InteropServices.ComTypes.FILETIME
+  parent: System.Runtime.InteropServices.ComTypes
   isExternal: true
-  name: System.Runtime.InteropServices.ComTypes.FILETIME
-  nameWithType: System.Runtime.InteropServices.ComTypes.FILETIME
+  name: FILETIME
+  nameWithType: FILETIME
   fullName: System.Runtime.InteropServices.ComTypes.FILETIME
+- uid: System.Runtime.InteropServices.ComTypes
+  commentId: N:System.Runtime.InteropServices.ComTypes
+  isExternal: true
+  name: System.Runtime.InteropServices.ComTypes
+  nameWithType: System.Runtime.InteropServices.ComTypes
+  fullName: System.Runtime.InteropServices.ComTypes

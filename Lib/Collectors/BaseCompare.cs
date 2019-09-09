@@ -22,7 +22,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             Results = new Dictionary<string, List<CompareResult>>();
         }
 
-        public CollectObject Hydrate(RawCollectResult res)
+        public static CollectObject Hydrate(RawCollectResult res)
         {
             switch (res.ResultType)
             {
@@ -42,6 +42,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                     return JsonConvert.DeserializeObject<GroupAccountObject>(res.Serialized);
                 case RESULT_TYPE.FIREWALL:
                     return JsonConvert.DeserializeObject<FirewallObject>(res.Serialized);
+                case RESULT_TYPE.COM:
+                    return JsonConvert.DeserializeObject<ComObject>(res.Serialized);
                 default:
                     return null;
             }

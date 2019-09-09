@@ -5,7 +5,8 @@ items:
   id: RegistryWalker
   parent: AttackSurfaceAnalyzer.Utils
   children:
-  - AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive(RegistryHive,System.String)
+  - AttackSurfaceAnalyzer.Utils.RegistryWalker.RegistryKeyToRegistryObject(Microsoft.Win32.RegistryKey)
+  - AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive(Microsoft.Win32.RegistryHive,System.String)
   langs:
   - csharp
   - vb
@@ -16,7 +17,7 @@ items:
   source:
     remote:
       path: Lib/Utils/RegistryWalker.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RegistryWalker
     path: ../Lib/Utils/RegistryWalker.cs
@@ -25,33 +26,39 @@ items:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
   syntax:
-    content: 'public class RegistryWalker : object'
-    content.vb: >-
-      Public Class RegistryWalker
-          Inherits Object
+    content: public class RegistryWalker
+    content.vb: Public Class RegistryWalker
   inheritance:
   - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
   modifiers.csharp:
   - public
   - class
   modifiers.vb:
   - Public
   - Class
-- uid: AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive(RegistryHive,System.String)
-  commentId: M:AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive(RegistryHive,System.String)
-  id: WalkHive(RegistryHive,System.String)
+- uid: AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive(Microsoft.Win32.RegistryHive,System.String)
+  commentId: M:AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive(Microsoft.Win32.RegistryHive,System.String)
+  id: WalkHive(Microsoft.Win32.RegistryHive,System.String)
   parent: AttackSurfaceAnalyzer.Utils.RegistryWalker
   langs:
   - csharp
   - vb
   name: WalkHive(RegistryHive, String)
   nameWithType: RegistryWalker.WalkHive(RegistryHive, String)
-  fullName: AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive(RegistryHive, System.String)
+  fullName: AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive(Microsoft.Win32.RegistryHive, System.String)
   type: Method
   source:
     remote:
       path: Lib/Utils/RegistryWalker.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: WalkHive
     path: ../Lib/Utils/RegistryWalker.cs
@@ -60,16 +67,53 @@ items:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
   syntax:
-    content: public static IEnumerable<RegistryObject> WalkHive(RegistryHive Hive, string runid = null)
+    content: public static IEnumerable<RegistryObject> WalkHive(RegistryHive Hive, string startingKey = null)
     parameters:
     - id: Hive
-      type: RegistryHive
-    - id: runid
+      type: Microsoft.Win32.RegistryHive
+    - id: startingKey
       type: System.String
     return:
-      type: IEnumerable{AttackSurfaceAnalyzer.Objects.RegistryObject}
-    content.vb: Public Shared Function WalkHive(Hive As RegistryHive, runid As String = Nothing) As IEnumerable(Of RegistryObject)
+      type: System.Collections.Generic.IEnumerable{AttackSurfaceAnalyzer.Objects.RegistryObject}
+    content.vb: Public Shared Function WalkHive(Hive As RegistryHive, startingKey As String = Nothing) As IEnumerable(Of RegistryObject)
   overload: AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: AttackSurfaceAnalyzer.Utils.RegistryWalker.RegistryKeyToRegistryObject(Microsoft.Win32.RegistryKey)
+  commentId: M:AttackSurfaceAnalyzer.Utils.RegistryWalker.RegistryKeyToRegistryObject(Microsoft.Win32.RegistryKey)
+  id: RegistryKeyToRegistryObject(Microsoft.Win32.RegistryKey)
+  parent: AttackSurfaceAnalyzer.Utils.RegistryWalker
+  langs:
+  - csharp
+  - vb
+  name: RegistryKeyToRegistryObject(RegistryKey)
+  nameWithType: RegistryWalker.RegistryKeyToRegistryObject(RegistryKey)
+  fullName: AttackSurfaceAnalyzer.Utils.RegistryWalker.RegistryKeyToRegistryObject(Microsoft.Win32.RegistryKey)
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/RegistryWalker.cs
+      branch: gfs/COM-Objects
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: RegistryKeyToRegistryObject
+    path: ../Lib/Utils/RegistryWalker.cs
+    startLine: 77
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static RegistryObject RegistryKeyToRegistryObject(RegistryKey registryKey)
+    parameters:
+    - id: registryKey
+      type: Microsoft.Win32.RegistryKey
+    return:
+      type: AttackSurfaceAnalyzer.Objects.RegistryObject
+    content.vb: Public Shared Function RegistryKeyToRegistryObject(registryKey As RegistryKey) As RegistryObject
+  overload: AttackSurfaceAnalyzer.Utils.RegistryWalker.RegistryKeyToRegistryObject*
   modifiers.csharp:
   - public
   - static
@@ -83,40 +127,331 @@ references:
   nameWithType: AttackSurfaceAnalyzer.Utils
   fullName: AttackSurfaceAnalyzer.Utils
 - uid: System.Object
+  commentId: T:System.Object
+  parent: System
   isExternal: true
   name: Object
   nameWithType: Object
   fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
 - uid: AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive*
   commentId: Overload:AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive
   name: WalkHive
   nameWithType: RegistryWalker.WalkHive
   fullName: AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive
-- uid: RegistryHive
-  commentId: '!:RegistryHive'
+- uid: Microsoft.Win32.RegistryHive
+  commentId: T:Microsoft.Win32.RegistryHive
+  parent: Microsoft.Win32
   isExternal: true
   name: RegistryHive
   nameWithType: RegistryHive
-  fullName: RegistryHive
+  fullName: Microsoft.Win32.RegistryHive
 - uid: System.String
+  commentId: T:System.String
+  parent: System
   isExternal: true
   name: String
   nameWithType: String
   fullName: System.String
-- uid: IEnumerable{AttackSurfaceAnalyzer.Objects.RegistryObject}
-  commentId: '!:IEnumerable{AttackSurfaceAnalyzer.Objects.RegistryObject}'
-  definition: IEnumerable`1
+- uid: System.Collections.Generic.IEnumerable{AttackSurfaceAnalyzer.Objects.RegistryObject}
+  commentId: T:System.Collections.Generic.IEnumerable{AttackSurfaceAnalyzer.Objects.RegistryObject}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
   name: IEnumerable<RegistryObject>
   nameWithType: IEnumerable<RegistryObject>
-  fullName: IEnumerable<AttackSurfaceAnalyzer.Objects.RegistryObject>
+  fullName: System.Collections.Generic.IEnumerable<AttackSurfaceAnalyzer.Objects.RegistryObject>
   nameWithType.vb: IEnumerable(Of RegistryObject)
-  fullName.vb: IEnumerable(Of AttackSurfaceAnalyzer.Objects.RegistryObject)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of AttackSurfaceAnalyzer.Objects.RegistryObject)
   name.vb: IEnumerable(Of RegistryObject)
   spec.csharp:
-  - uid: IEnumerable`1
+  - uid: System.Collections.Generic.IEnumerable`1
     name: IEnumerable
     nameWithType: IEnumerable
-    fullName: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
     isExternal: true
   - name: <
     nameWithType: <
@@ -129,10 +464,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: IEnumerable`1
+  - uid: System.Collections.Generic.IEnumerable`1
     name: IEnumerable
     nameWithType: IEnumerable
-    fullName: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -144,41 +479,77 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: IEnumerable`1
+- uid: Microsoft.Win32
+  commentId: N:Microsoft.Win32
   isExternal: true
-  name: IEnumerable<>
-  nameWithType: IEnumerable<>
-  fullName: IEnumerable<>
-  nameWithType.vb: IEnumerable(Of )
-  fullName.vb: IEnumerable(Of )
-  name.vb: IEnumerable(Of )
+  name: Microsoft.Win32
+  nameWithType: Microsoft.Win32
+  fullName: Microsoft.Win32
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
   spec.csharp:
-  - uid: IEnumerable`1
+  - uid: System.Collections.Generic.IEnumerable`1
     name: IEnumerable
     nameWithType: IEnumerable
-    fullName: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
     isExternal: true
   - name: <
     nameWithType: <
     fullName: <
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: '>'
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: IEnumerable`1
+  - uid: System.Collections.Generic.IEnumerable`1
     name: IEnumerable
     nameWithType: IEnumerable
-    fullName: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: )
     nameWithType: )
     fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: AttackSurfaceAnalyzer.Utils.RegistryWalker.RegistryKeyToRegistryObject*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.RegistryWalker.RegistryKeyToRegistryObject
+  name: RegistryKeyToRegistryObject
+  nameWithType: RegistryWalker.RegistryKeyToRegistryObject
+  fullName: AttackSurfaceAnalyzer.Utils.RegistryWalker.RegistryKeyToRegistryObject
+- uid: Microsoft.Win32.RegistryKey
+  commentId: T:Microsoft.Win32.RegistryKey
+  parent: Microsoft.Win32
+  isExternal: true
+  name: RegistryKey
+  nameWithType: RegistryKey
+  fullName: Microsoft.Win32.RegistryKey
+- uid: AttackSurfaceAnalyzer.Objects.RegistryObject
+  commentId: T:AttackSurfaceAnalyzer.Objects.RegistryObject
+  parent: AttackSurfaceAnalyzer.Objects
+  name: RegistryObject
+  nameWithType: RegistryObject
+  fullName: AttackSurfaceAnalyzer.Objects.RegistryObject
+- uid: AttackSurfaceAnalyzer.Objects
+  commentId: N:AttackSurfaceAnalyzer.Objects
+  name: AttackSurfaceAnalyzer.Objects
+  nameWithType: AttackSurfaceAnalyzer.Objects
+  fullName: AttackSurfaceAnalyzer.Objects

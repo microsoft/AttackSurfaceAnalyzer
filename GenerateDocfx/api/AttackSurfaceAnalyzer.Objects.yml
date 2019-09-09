@@ -8,6 +8,7 @@ items:
   - AttackSurfaceAnalyzer.Objects.CertificateResult
   - AttackSurfaceAnalyzer.Objects.Clause
   - AttackSurfaceAnalyzer.Objects.CollectObject
+  - AttackSurfaceAnalyzer.Objects.ComObject
   - AttackSurfaceAnalyzer.Objects.CompareResult
   - AttackSurfaceAnalyzer.Objects.Diff
   - AttackSurfaceAnalyzer.Objects.FileMonitorEvent
@@ -50,6 +51,11 @@ references:
   name: CollectObject
   nameWithType: CollectObject
   fullName: AttackSurfaceAnalyzer.Objects.CollectObject
+- uid: AttackSurfaceAnalyzer.Objects.ComObject
+  commentId: T:AttackSurfaceAnalyzer.Objects.ComObject
+  name: ComObject
+  nameWithType: ComObject
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject
 - uid: AttackSurfaceAnalyzer.Objects.Diff
   commentId: T:AttackSurfaceAnalyzer.Objects.Diff
   name: Diff
@@ -57,6 +63,7 @@ references:
   fullName: AttackSurfaceAnalyzer.Objects.Diff
 - uid: AttackSurfaceAnalyzer.Objects.FileSystemObject
   commentId: T:AttackSurfaceAnalyzer.Objects.FileSystemObject
+  parent: AttackSurfaceAnalyzer.Objects
   name: FileSystemObject
   nameWithType: FileSystemObject
   fullName: AttackSurfaceAnalyzer.Objects.FileSystemObject
@@ -72,6 +79,7 @@ references:
   fullName: AttackSurfaceAnalyzer.Objects.OpenPortObject
 - uid: AttackSurfaceAnalyzer.Objects.RegistryObject
   commentId: T:AttackSurfaceAnalyzer.Objects.RegistryObject
+  parent: AttackSurfaceAnalyzer.Objects
   name: RegistryObject
   nameWithType: RegistryObject
   fullName: AttackSurfaceAnalyzer.Objects.RegistryObject

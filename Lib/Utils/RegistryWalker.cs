@@ -12,15 +12,19 @@ namespace AttackSurfaceAnalyzer.Utils
     public class RegistryWalker
     {
 
-        public static IEnumerable<RegistryObject> WalkHive(RegistryHive Hive, string runid = null)
+        public static IEnumerable<RegistryObject> WalkHive(RegistryHive Hive, string startingKey = null)
         {
             // Data structure to hold names of subfolders to be
             // examined for files.
             Stack<RegistryKey> keys = new Stack<RegistryKey>();
 
-            RegistryKey BaseKey = RegistryKey.OpenBaseKey(Hive, RegistryView.Default);
+            RegistryKey SearchKey = RegistryKey.OpenBaseKey(Hive, RegistryView.Default);
+            if (startingKey != null)
+            {
+                SearchKey = SearchKey.OpenSubKey(startingKey);
+            }
 
-            keys.Push(BaseKey);
+            keys.Push(SearchKey);
 
             while (keys.Count > 0)
             {
@@ -61,49 +65,55 @@ namespace AttackSurfaceAnalyzer.Utils
                         Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                     }
                 }
-                RegistryObject regObj = null;
-                try
-                {
-                    regObj = new RegistryObject()
-                    {
-                        Subkeys = new List<string>(currentKey.GetSubKeyNames()),
-                        Key = currentKey.Name,
-                        Permissions = currentKey.GetAccessControl().GetSecurityDescriptorSddlForm(System.Security.AccessControl.AccessControlSections.All),
-                        Values = new Dictionary<string, string>()
-                    };
 
-                    foreach (string valueName in currentKey.GetValueNames())
-                    {
-                        try
-                        {
-                            if (currentKey.GetValue(valueName) == null)
-                            {
-
-                            }
-                            regObj.Values.Add(valueName, (currentKey.GetValue(valueName) == null) ? "" : (currentKey.GetValue(valueName).ToString()));
-                        }
-                        catch (Exception ex)
-                        {
-                            Log.Debug(ex, "Found an exception processing registry values.");
-                        }
-                    }
-
-                }
-                catch (System.ArgumentException e)
-                {
-                    Logger.VerboseException(e);
-                }
-                catch (Exception e)
-                {
-                    Log.Debug(e, "Couldn't process reg key {0}", currentKey.Name);
-                }
+                var regObj = RegistryKeyToRegistryObject(currentKey);
 
                 if (regObj != null)
                 {
                     yield return regObj;
                 }
-
             }
+        }
+
+        public static RegistryObject RegistryKeyToRegistryObject(RegistryKey registryKey)
+        {
+            RegistryObject regObj = null;
+            try
+            {
+                regObj = new RegistryObject()
+                {
+                    Subkeys = new List<string>(registryKey.GetSubKeyNames()),
+                    Key = registryKey.Name,
+                    Permissions = registryKey.GetAccessControl().GetSecurityDescriptorSddlForm(System.Security.AccessControl.AccessControlSections.All),
+                    Values = new Dictionary<string, string>()
+                };
+
+                foreach (string valueName in registryKey.GetValueNames())
+                {
+                    try
+                    {
+                        if (registryKey.GetValue(valueName) == null)
+                        {
+
+                        }
+                        regObj.Values.Add(valueName, (registryKey.GetValue(valueName) == null) ? "" : (registryKey.GetValue(valueName).ToString()));
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Debug(ex, "Found an exception processing registry values.");
+                    }
+                }
+            }
+            catch (System.ArgumentException e)
+            {
+                Logger.VerboseException(e);
+            }
+            catch (Exception e)
+            {
+                Log.Debug(e, "Couldn't process reg key {0}", registryKey.Name);
+            }
+
+            return regObj;
         }
     }
 }

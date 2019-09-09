@@ -6,7 +6,7 @@ items:
   parent: AttackSurfaceAnalyzer.Collectors
   children:
   - AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetDllCharacteristics(System.String)
-  - AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetFilePermissions(FileSystemInfo)
+  - AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
   - AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetSignatureStatus(System.String)
   - AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.IsExecutable(System.String)
   - AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.IsLocal(System.String)
@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: WindowsFileSystemUtils
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
@@ -31,12 +31,18 @@ items:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
   syntax:
-    content: 'public class WindowsFileSystemUtils : object'
-    content.vb: >-
-      Public Class WindowsFileSystemUtils
-          Inherits Object
+    content: public class WindowsFileSystemUtils
+    content.vb: Public Class WindowsFileSystemUtils
   inheritance:
   - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
   modifiers.csharp:
   - public
   - class
@@ -57,7 +63,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SIGNED_EXTENSIONS
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
@@ -68,7 +74,7 @@ items:
   syntax:
     content: public static List<string> SIGNED_EXTENSIONS
     return:
-      type: List{System.String}
+      type: System.Collections.Generic.List{System.String}
     content.vb: Public Shared SIGNED_EXTENSIONS As List(Of String)
   modifiers.csharp:
   - public
@@ -90,7 +96,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetSignatureStatus
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
@@ -127,7 +133,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: NeedsSignature
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
@@ -164,7 +170,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsExecutable
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
@@ -201,11 +207,11 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsLocal
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
-    startLine: 100
+    startLine: 104
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -238,11 +244,11 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetDllCharacteristics
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
-    startLine: 112
+    startLine: 116
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -252,7 +258,7 @@ items:
     - id: Path
       type: System.String
     return:
-      type: List{AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS}
+      type: System.Collections.Generic.List{AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS}
     content.vb: Protected Shared Function GetDllCharacteristics(Path As String) As List(Of DLLCHARACTERISTICS)
   overload: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetDllCharacteristics*
   modifiers.csharp:
@@ -261,25 +267,25 @@ items:
   modifiers.vb:
   - Protected
   - Shared
-- uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetFilePermissions(FileSystemInfo)
-  commentId: M:AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetFilePermissions(FileSystemInfo)
-  id: GetFilePermissions(FileSystemInfo)
+- uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
+  commentId: M:AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
+  id: GetFilePermissions(System.IO.FileSystemInfo)
   parent: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils
   langs:
   - csharp
   - vb
   name: GetFilePermissions(FileSystemInfo)
   nameWithType: WindowsFileSystemUtils.GetFilePermissions(FileSystemInfo)
-  fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetFilePermissions(FileSystemInfo)
+  fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
   type: Method
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetFilePermissions
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
-    startLine: 144
+    startLine: 148
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -287,7 +293,7 @@ items:
     content: protected static string GetFilePermissions(FileSystemInfo fileInfo)
     parameters:
     - id: fileInfo
-      type: FileSystemInfo
+      type: System.IO.FileSystemInfo
     return:
       type: System.String
     content.vb: Protected Shared Function GetFilePermissions(fileInfo As FileSystemInfo) As String
@@ -305,24 +311,312 @@ references:
   nameWithType: AttackSurfaceAnalyzer.Collectors
   fullName: AttackSurfaceAnalyzer.Collectors
 - uid: System.Object
+  commentId: T:System.Object
+  parent: System
   isExternal: true
   name: Object
   nameWithType: Object
   fullName: System.Object
-- uid: List{System.String}
-  commentId: '!:List{System.String}'
-  definition: List`1
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.List{System.String}
+  commentId: T:System.Collections.Generic.List{System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
   name: List<String>
   nameWithType: List<String>
-  fullName: List<System.String>
+  fullName: System.Collections.Generic.List<System.String>
   nameWithType.vb: List(Of String)
-  fullName.vb: List(Of System.String)
+  fullName.vb: System.Collections.Generic.List(Of System.String)
   name.vb: List(Of String)
   spec.csharp:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: <
     nameWithType: <
@@ -336,10 +630,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -352,50 +646,59 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: List`1
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
   isExternal: true
-  name: List<>
-  nameWithType: List<>
-  fullName: List<>
-  nameWithType.vb: List(Of )
-  fullName.vb: List(Of )
-  name.vb: List(Of )
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
   spec.csharp:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: <
     nameWithType: <
     fullName: <
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: '>'
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: )
     nameWithType: )
     fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
 - uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetSignatureStatus*
   commentId: Overload:AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetSignatureStatus
   name: GetSignatureStatus
   nameWithType: WindowsFileSystemUtils.GetSignatureStatus
   fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetSignatureStatus
 - uid: System.String
+  commentId: T:System.String
+  parent: System
   isExternal: true
   name: String
   nameWithType: String
@@ -406,6 +709,8 @@ references:
   nameWithType: WindowsFileSystemUtils.NeedsSignature
   fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.NeedsSignature
 - uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
   isExternal: true
   name: Boolean
   nameWithType: Boolean
@@ -425,20 +730,21 @@ references:
   name: GetDllCharacteristics
   nameWithType: WindowsFileSystemUtils.GetDllCharacteristics
   fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetDllCharacteristics
-- uid: List{AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS}
-  commentId: '!:List{AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS}'
-  definition: List`1
+- uid: System.Collections.Generic.List{AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS}
+  commentId: T:System.Collections.Generic.List{AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
   name: List<DLLCHARACTERISTICS>
   nameWithType: List<DLLCHARACTERISTICS>
-  fullName: List<AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS>
+  fullName: System.Collections.Generic.List<AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS>
   nameWithType.vb: List(Of DLLCHARACTERISTICS)
-  fullName.vb: List(Of AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS)
+  fullName.vb: System.Collections.Generic.List(Of AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS)
   name.vb: List(Of DLLCHARACTERISTICS)
   spec.csharp:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: <
     nameWithType: <
@@ -451,10 +757,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -471,8 +777,16 @@ references:
   name: GetFilePermissions
   nameWithType: WindowsFileSystemUtils.GetFilePermissions
   fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetFilePermissions
-- uid: FileSystemInfo
+- uid: System.IO.FileSystemInfo
+  commentId: T:System.IO.FileSystemInfo
+  parent: System.IO
   isExternal: true
   name: FileSystemInfo
   nameWithType: FileSystemInfo
-  fullName: FileSystemInfo
+  fullName: System.IO.FileSystemInfo
+- uid: System.IO
+  commentId: N:System.IO
+  isExternal: true
+  name: System.IO
+  nameWithType: System.IO
+  fullName: System.IO

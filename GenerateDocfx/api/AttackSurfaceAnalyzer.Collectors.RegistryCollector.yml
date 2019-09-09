@@ -6,8 +6,8 @@ items:
   parent: AttackSurfaceAnalyzer.Collectors
   children:
   - AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String)
-  - AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,List{RegistryHive})
-  - AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,List{RegistryHive},Action{AttackSurfaceAnalyzer.Objects.RegistryObject})
+  - AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,System.Collections.Generic.List{Microsoft.Win32.RegistryHive})
+  - AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,System.Collections.Generic.List{Microsoft.Win32.RegistryHive},System.Action{AttackSurfaceAnalyzer.Objects.RegistryObject})
   - AttackSurfaceAnalyzer.Collectors.RegistryCollector.AddRoot(System.String)
   - AttackSurfaceAnalyzer.Collectors.RegistryCollector.CanRunOnPlatform
   - AttackSurfaceAnalyzer.Collectors.RegistryCollector.ClearRoots
@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryCollector.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RegistryCollector
     path: ../Lib/Collectors/RegistryCollector.cs
@@ -46,6 +46,13 @@ items:
   - AttackSurfaceAnalyzer.Collectors.BaseCollector.Start
   - AttackSurfaceAnalyzer.Collectors.BaseCollector.Stop
   - AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
   modifiers.csharp:
   - public
   - class
@@ -66,7 +73,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryCollector.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/RegistryCollector.cs
@@ -85,21 +92,21 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,List{RegistryHive})
-  commentId: M:AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,List{RegistryHive})
-  id: '#ctor(System.String,List{RegistryHive})'
+- uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,System.Collections.Generic.List{Microsoft.Win32.RegistryHive})
+  commentId: M:AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,System.Collections.Generic.List{Microsoft.Win32.RegistryHive})
+  id: '#ctor(System.String,System.Collections.Generic.List{Microsoft.Win32.RegistryHive})'
   parent: AttackSurfaceAnalyzer.Collectors.RegistryCollector
   langs:
   - csharp
   - vb
   name: RegistryCollector(String, List<RegistryHive>)
   nameWithType: RegistryCollector.RegistryCollector(String, List<RegistryHive>)
-  fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(System.String, List<RegistryHive>)
+  fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(System.String, System.Collections.Generic.List<Microsoft.Win32.RegistryHive>)
   type: Constructor
   source:
     remote:
       path: Lib/Collectors/RegistryCollector.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/RegistryCollector.cs
@@ -113,7 +120,7 @@ items:
     - id: RunId
       type: System.String
     - id: Hives
-      type: List{RegistryHive}
+      type: System.Collections.Generic.List{Microsoft.Win32.RegistryHive}
     content.vb: Public Sub New(RunId As String, Hives As List(Of RegistryHive))
   overload: AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor*
   nameWithType.vb: RegistryCollector.RegistryCollector(String, List(Of RegistryHive))
@@ -121,23 +128,23 @@ items:
   - public
   modifiers.vb:
   - Public
-  fullName.vb: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(System.String, List(Of RegistryHive))
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(System.String, System.Collections.Generic.List(Of Microsoft.Win32.RegistryHive))
   name.vb: RegistryCollector(String, List(Of RegistryHive))
-- uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,List{RegistryHive},Action{AttackSurfaceAnalyzer.Objects.RegistryObject})
-  commentId: M:AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,List{RegistryHive},Action{AttackSurfaceAnalyzer.Objects.RegistryObject})
-  id: '#ctor(System.String,List{RegistryHive},Action{AttackSurfaceAnalyzer.Objects.RegistryObject})'
+- uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,System.Collections.Generic.List{Microsoft.Win32.RegistryHive},System.Action{AttackSurfaceAnalyzer.Objects.RegistryObject})
+  commentId: M:AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,System.Collections.Generic.List{Microsoft.Win32.RegistryHive},System.Action{AttackSurfaceAnalyzer.Objects.RegistryObject})
+  id: '#ctor(System.String,System.Collections.Generic.List{Microsoft.Win32.RegistryHive},System.Action{AttackSurfaceAnalyzer.Objects.RegistryObject})'
   parent: AttackSurfaceAnalyzer.Collectors.RegistryCollector
   langs:
   - csharp
   - vb
   name: RegistryCollector(String, List<RegistryHive>, Action<RegistryObject>)
   nameWithType: RegistryCollector.RegistryCollector(String, List<RegistryHive>, Action<RegistryObject>)
-  fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(System.String, List<RegistryHive>, Action<AttackSurfaceAnalyzer.Objects.RegistryObject>)
+  fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(System.String, System.Collections.Generic.List<Microsoft.Win32.RegistryHive>, System.Action<AttackSurfaceAnalyzer.Objects.RegistryObject>)
   type: Constructor
   source:
     remote:
       path: Lib/Collectors/RegistryCollector.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/RegistryCollector.cs
@@ -151,9 +158,9 @@ items:
     - id: RunId
       type: System.String
     - id: Hives
-      type: List{RegistryHive}
+      type: System.Collections.Generic.List{Microsoft.Win32.RegistryHive}
     - id: customHandler
-      type: Action{AttackSurfaceAnalyzer.Objects.RegistryObject}
+      type: System.Action{AttackSurfaceAnalyzer.Objects.RegistryObject}
     content.vb: Public Sub New(RunId As String, Hives As List(Of RegistryHive), customHandler As Action(Of RegistryObject))
   overload: AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor*
   nameWithType.vb: RegistryCollector.RegistryCollector(String, List(Of RegistryHive), Action(Of RegistryObject))
@@ -161,7 +168,7 @@ items:
   - public
   modifiers.vb:
   - Public
-  fullName.vb: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(System.String, List(Of RegistryHive), Action(Of AttackSurfaceAnalyzer.Objects.RegistryObject))
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(System.String, System.Collections.Generic.List(Of Microsoft.Win32.RegistryHive), System.Action(Of AttackSurfaceAnalyzer.Objects.RegistryObject))
   name.vb: RegistryCollector(String, List(Of RegistryHive), Action(Of RegistryObject))
 - uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector.AddRoot(System.String)
   commentId: M:AttackSurfaceAnalyzer.Collectors.RegistryCollector.AddRoot(System.String)
@@ -177,7 +184,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryCollector.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: AddRoot
     path: ../Lib/Collectors/RegistryCollector.cs
@@ -210,7 +217,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryCollector.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ClearRoots
     path: ../Lib/Collectors/RegistryCollector.cs
@@ -240,7 +247,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryCollector.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CanRunOnPlatform
     path: ../Lib/Collectors/RegistryCollector.cs
@@ -275,7 +282,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryCollector.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Execute
     path: ../Lib/Collectors/RegistryCollector.cs
@@ -301,6 +308,8 @@ references:
   nameWithType: AttackSurfaceAnalyzer.Collectors
   fullName: AttackSurfaceAnalyzer.Collectors
 - uid: System.Object
+  commentId: T:System.Object
+  parent: System
   isExternal: true
   name: Object
   nameWithType: Object
@@ -435,111 +444,407 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
 - uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor*
   commentId: Overload:AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor
   name: RegistryCollector
   nameWithType: RegistryCollector.RegistryCollector
   fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector
 - uid: System.String
+  commentId: T:System.String
+  parent: System
   isExternal: true
   name: String
   nameWithType: String
   fullName: System.String
-- uid: List{RegistryHive}
-  commentId: '!:List{RegistryHive}'
-  definition: List`1
+- uid: System.Collections.Generic.List{Microsoft.Win32.RegistryHive}
+  commentId: T:System.Collections.Generic.List{Microsoft.Win32.RegistryHive}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
   name: List<RegistryHive>
   nameWithType: List<RegistryHive>
-  fullName: List<RegistryHive>
+  fullName: System.Collections.Generic.List<Microsoft.Win32.RegistryHive>
   nameWithType.vb: List(Of RegistryHive)
-  fullName.vb: List(Of RegistryHive)
+  fullName.vb: System.Collections.Generic.List(Of Microsoft.Win32.RegistryHive)
   name.vb: List(Of RegistryHive)
   spec.csharp:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: <
     nameWithType: <
     fullName: <
-  - uid: RegistryHive
+  - uid: Microsoft.Win32.RegistryHive
     name: RegistryHive
     nameWithType: RegistryHive
-    fullName: RegistryHive
+    fullName: Microsoft.Win32.RegistryHive
     isExternal: true
   - name: '>'
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - uid: RegistryHive
+  - uid: Microsoft.Win32.RegistryHive
     name: RegistryHive
     nameWithType: RegistryHive
-    fullName: RegistryHive
+    fullName: Microsoft.Win32.RegistryHive
     isExternal: true
   - name: )
     nameWithType: )
     fullName: )
-- uid: List`1
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
   isExternal: true
-  name: List<>
-  nameWithType: List<>
-  fullName: List<>
-  nameWithType.vb: List(Of )
-  fullName.vb: List(Of )
-  name.vb: List(Of )
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
   spec.csharp:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: <
     nameWithType: <
     fullName: <
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: '>'
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: )
     nameWithType: )
     fullName: )
-- uid: Action{AttackSurfaceAnalyzer.Objects.RegistryObject}
-  commentId: '!:Action{AttackSurfaceAnalyzer.Objects.RegistryObject}'
-  definition: Action`1
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Action{AttackSurfaceAnalyzer.Objects.RegistryObject}
+  commentId: T:System.Action{AttackSurfaceAnalyzer.Objects.RegistryObject}
+  parent: System
+  definition: System.Action`1
   name: Action<RegistryObject>
   nameWithType: Action<RegistryObject>
-  fullName: Action<AttackSurfaceAnalyzer.Objects.RegistryObject>
+  fullName: System.Action<AttackSurfaceAnalyzer.Objects.RegistryObject>
   nameWithType.vb: Action(Of RegistryObject)
-  fullName.vb: Action(Of AttackSurfaceAnalyzer.Objects.RegistryObject)
+  fullName.vb: System.Action(Of AttackSurfaceAnalyzer.Objects.RegistryObject)
   name.vb: Action(Of RegistryObject)
   spec.csharp:
-  - uid: Action`1
+  - uid: System.Action`1
     name: Action
     nameWithType: Action
-    fullName: Action
+    fullName: System.Action
     isExternal: true
   - name: <
     nameWithType: <
@@ -552,10 +857,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: Action`1
+  - uid: System.Action`1
     name: Action
     nameWithType: Action
-    fullName: Action
+    fullName: System.Action
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -567,41 +872,42 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: Action`1
+- uid: System.Action`1
+  commentId: T:System.Action`1
   isExternal: true
-  name: Action<>
-  nameWithType: Action<>
-  fullName: Action<>
-  nameWithType.vb: Action(Of )
-  fullName.vb: Action(Of )
-  name.vb: Action(Of )
+  name: Action<T>
+  nameWithType: Action<T>
+  fullName: System.Action<T>
+  nameWithType.vb: Action(Of T)
+  fullName.vb: System.Action(Of T)
+  name.vb: Action(Of T)
   spec.csharp:
-  - uid: Action`1
+  - uid: System.Action`1
     name: Action
     nameWithType: Action
-    fullName: Action
+    fullName: System.Action
     isExternal: true
   - name: <
     nameWithType: <
     fullName: <
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: '>'
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: Action`1
+  - uid: System.Action`1
     name: Action
     nameWithType: Action
-    fullName: Action
+    fullName: System.Action
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: )
     nameWithType: )
     fullName: )
@@ -649,6 +955,8 @@ references:
   nameWithType: RegistryCollector.CanRunOnPlatform
   fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector.CanRunOnPlatform
 - uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
   isExternal: true
   name: Boolean
   nameWithType: Boolean

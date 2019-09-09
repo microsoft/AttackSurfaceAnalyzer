@@ -106,88 +106,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         try
                         {
-                            FileSystemObject obj = null;
-                            if (fileInfo is DirectoryInfo)
-                            {
-                                obj = new FileSystemObject()
-                                {
-                                    Path = fileInfo.FullName,
-                                    Permissions = FileSystemUtils.GetFilePermissions(fileInfo),
-                                    IsDirectory = true
-                                };
-                                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                                {
-                                    var file = new UnixFileInfo(fileInfo.FullName);
-                                    obj.Owner = file.OwnerUser.UserName;
-                                    obj.Group = file.OwnerGroup.GroupName;
-                                    obj.SetGid = file.IsSetGroup;
-                                    obj.SetUid = file.IsSetUser;
-                                }
-                            }
-                            else
-                            {
-                                obj = new FileSystemObject()
-                                {
-                                    Path = fileInfo.FullName,
-                                    Permissions = FileSystemUtils.GetFilePermissions(fileInfo),
-                                    Size = (ulong)(fileInfo as FileInfo).Length,
-                                    IsDirectory = false
-                                };
-                                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                                {
-                                    var file = new UnixFileInfo(fileInfo.FullName);
-                                    obj.Owner = file.OwnerUser.UserName;
-                                    obj.Group = file.OwnerGroup.GroupName;
-                                    obj.SetGid = file.IsSetGroup;
-                                    obj.SetUid = file.IsSetUser;
-                                }
-
-                                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                                {
-                                    if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
-                                    {
-                                        if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
-                                        {
-                                            obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(fileInfo.FullName);
-                                            obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(fileInfo.FullName);
-                                        }
-                                        else
-                                        {
-                                            obj.SignatureStatus = "Cloud";
-                                        }
-                                    }
-                                }
-
-                                if (INCLUDE_CONTENT_HASH)
-                                {
-                                    obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
-                                }
-
-                                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                                {
-                                    if (obj.Permissions.Contains("Execute"))
-                                    {
-                                        obj.IsExecutable = true;
-                                    }
-                                }
-                                else
-                                {
-                                    try
-                                    {
-                                        if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
-                                        {
-                                            if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
-                                            {
-                                                obj.IsExecutable = true;
-                                            }
-                                        }
-                                    }
-                                    catch (System.UnauthorizedAccessException ex)
-                                    {
-                                        Log.Verbose(ex, "Couldn't access {0} to check if signature is needed.", fileInfo.FullName);
-                                    }
-                                }
-                            }
+                            FileSystemObject obj = FileSystemInfoToFileSystemObject(fileInfo, downloadCloud, INCLUDE_CONTENT_HASH);
 
                             if (obj != null)
                             {
@@ -210,14 +129,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 }
                             }
                         }
-                        catch (System.UnauthorizedAccessException e)
-                        {
-                            Log.Verbose(e, "Access Denied {0}", fileInfo?.FullName);
-                        }
-                        catch (System.IO.IOException e)
-                        {
-                            Log.Verbose(e, "Couldn't parse {0}", fileInfo?.FullName);
-                        }
                         catch (Exception e)
                         {
                             Logger.DebugException(e);
@@ -236,5 +147,110 @@ namespace AttackSurfaceAnalyzer.Collectors
             Stop();
 
         }
+
+        public static FileSystemObject FileSystemInfoToFileSystemObject(FileSystemInfo fileInfo, bool downloadCloud = false, bool INCLUDE_CONTENT_HASH = false)
+        {
+            FileSystemObject obj = null;
+
+            try
+            {
+                if (fileInfo is DirectoryInfo)
+                {
+                    obj = new FileSystemObject()
+                    {
+                        Path = fileInfo.FullName,
+                        Permissions = FileSystemUtils.GetFilePermissions(fileInfo),
+                        IsDirectory = true
+                    };
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                    {
+                        var file = new UnixFileInfo(fileInfo.FullName);
+                        obj.Owner = file.OwnerUser.UserName;
+                        obj.Group = file.OwnerGroup.GroupName;
+                        obj.SetGid = file.IsSetGroup;
+                        obj.SetUid = file.IsSetUser;
+                    }
+                }
+                else
+                {
+                    obj = new FileSystemObject()
+                    {
+                        Path = fileInfo.FullName,
+                        Permissions = FileSystemUtils.GetFilePermissions(fileInfo),
+                        Size = (ulong)(fileInfo as FileInfo).Length,
+                        IsDirectory = false
+                    };
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                    {
+                        var file = new UnixFileInfo(fileInfo.FullName);
+                        obj.Owner = file.OwnerUser.UserName;
+                        obj.Group = file.OwnerGroup.GroupName;
+                        obj.SetGid = file.IsSetGroup;
+                        obj.SetUid = file.IsSetUser;
+                    }
+
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                    {
+                        if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
+                        {
+                            if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
+                            {
+                                obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(fileInfo.FullName);
+                                obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(fileInfo.FullName);
+                            }
+                            else
+                            {
+                                obj.SignatureStatus = "Cloud";
+                            }
+                        }
+                    }
+
+                    if (INCLUDE_CONTENT_HASH)
+                    {
+                        obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
+                    }
+
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                    {
+                        if (obj.Permissions.Contains("Execute"))
+                        {
+                            obj.IsExecutable = true;
+                        }
+                    }
+                    else
+                    {
+                        try
+                        {
+                            if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
+                            {
+                                if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
+                                {
+                                    obj.IsExecutable = true;
+                                }
+                            }
+                        }
+                        catch (System.UnauthorizedAccessException ex)
+                        {
+                            Log.Verbose(ex, "Couldn't access {0} to check if signature is needed.", fileInfo.FullName);
+                        }
+                    }
+                }
+            }
+            catch (System.UnauthorizedAccessException e)
+            {
+                Log.Verbose(e, "Access Denied {0}", fileInfo?.FullName);
+            }
+            catch (System.IO.IOException e)
+            {
+                Log.Verbose(e, "Couldn't parse {0}", fileInfo?.FullName);
+            }
+            catch (Exception e)
+            {
+                Log.Warning(e, "Error collecting file system information: {0}", e.Message);
+            }
+
+            return obj;
+        }
+            
     }
 }
