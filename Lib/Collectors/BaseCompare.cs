@@ -22,7 +22,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             Results = new Dictionary<string, List<CompareResult>>();
         }
 
-        public CollectObject Hydrate(RawCollectResult res)
+        public static CollectObject Hydrate(RawCollectResult res)
         {
             switch (res.ResultType)
             {
