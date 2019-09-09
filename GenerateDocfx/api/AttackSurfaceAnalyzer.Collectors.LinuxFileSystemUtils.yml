@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/LinuxFileSystemUtils.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LinuxFileSystemUtils
     path: ../Lib/Collectors/LinuxFileSystemUtils.cs
@@ -57,7 +57,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/LinuxFileSystemUtils.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetFilePermissions
     path: ../Lib/Collectors/LinuxFileSystemUtils.cs

@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Rule.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Clause
     path: ../Lib/Objects/Rule.cs
@@ -59,7 +59,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Rule.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: field
     path: ../Lib/Objects/Rule.cs
@@ -90,7 +90,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Rule.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: op
     path: ../Lib/Objects/Rule.cs
@@ -121,7 +121,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Rule.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: data
     path: ../Lib/Objects/Rule.cs

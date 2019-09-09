@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: Lib/Objects/OpenPortObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: OpenPortObject
     path: ../Lib/Objects/OpenPortObject.cs
@@ -68,7 +68,7 @@ items:
   source:
     remote:
       path: Lib/Objects/OpenPortObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: address
     path: ../Lib/Objects/OpenPortObject.cs
@@ -99,7 +99,7 @@ items:
   source:
     remote:
       path: Lib/Objects/OpenPortObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: family
     path: ../Lib/Objects/OpenPortObject.cs
@@ -130,7 +130,7 @@ items:
   source:
     remote:
       path: Lib/Objects/OpenPortObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: type
     path: ../Lib/Objects/OpenPortObject.cs
@@ -161,7 +161,7 @@ items:
   source:
     remote:
       path: Lib/Objects/OpenPortObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: port
     path: ../Lib/Objects/OpenPortObject.cs
@@ -192,7 +192,7 @@ items:
   source:
     remote:
       path: Lib/Objects/OpenPortObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: processName
     path: ../Lib/Objects/OpenPortObject.cs
@@ -223,7 +223,7 @@ items:
   source:
     remote:
       path: Lib/Objects/OpenPortObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Objects/OpenPortObject.cs
@@ -253,7 +253,7 @@ items:
   source:
     remote:
       path: Lib/Objects/OpenPortObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Identity
     path: ../Lib/Objects/OpenPortObject.cs

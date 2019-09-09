@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: OPERATION
     path: ../Lib/Objects/Types.cs
@@ -55,7 +55,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: REGEX
     path: ../Lib/Objects/Types.cs
@@ -87,7 +87,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: EQ
     path: ../Lib/Objects/Types.cs
@@ -119,7 +119,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: NEQ
     path: ../Lib/Objects/Types.cs
@@ -151,7 +151,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LT
     path: ../Lib/Objects/Types.cs
@@ -183,7 +183,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GT
     path: ../Lib/Objects/Types.cs
@@ -215,7 +215,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CONTAINS
     path: ../Lib/Objects/Types.cs
@@ -247,7 +247,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: WAS_MODIFIED
     path: ../Lib/Objects/Types.cs
@@ -279,7 +279,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ENDS_WITH
     path: ../Lib/Objects/Types.cs
@@ -311,7 +311,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: STARTS_WITH
     path: ../Lib/Objects/Types.cs

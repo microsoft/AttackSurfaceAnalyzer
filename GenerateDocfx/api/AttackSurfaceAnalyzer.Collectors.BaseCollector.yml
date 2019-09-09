@@ -23,7 +23,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/BaseCollector.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: BaseCollector
     path: ../Lib/Collectors/BaseCollector.cs
@@ -77,7 +77,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/BaseCollector.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: runId
     path: ../Lib/Collectors/BaseCollector.cs
@@ -108,7 +108,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/BaseCollector.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: _numCollected
     path: ../Lib/Collectors/BaseCollector.cs
@@ -139,7 +139,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/BaseCollector.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Execute
     path: ../Lib/Collectors/BaseCollector.cs
@@ -171,7 +171,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/BaseCollector.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CanRunOnPlatform
     path: ../Lib/Collectors/BaseCollector.cs
@@ -205,7 +205,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/BaseCollector.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsRunning
     path: ../Lib/Collectors/BaseCollector.cs
@@ -237,7 +237,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/BaseCollector.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Start
     path: ../Lib/Collectors/BaseCollector.cs
@@ -267,7 +267,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/BaseCollector.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Stop
     path: ../Lib/Collectors/BaseCollector.cs
@@ -297,7 +297,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/BaseCollector.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: NumCollected
     path: ../Lib/Collectors/BaseCollector.cs

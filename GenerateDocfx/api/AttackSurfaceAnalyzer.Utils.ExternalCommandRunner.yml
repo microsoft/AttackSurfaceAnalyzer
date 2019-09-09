@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: Lib/Utils/ExternalCommandRunner.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ExternalCommandRunner
     path: ../Lib/Utils/ExternalCommandRunner.cs
@@ -58,7 +58,7 @@ items:
   source:
     remote:
       path: Lib/Utils/ExternalCommandRunner.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RunExternalCommand
     path: ../Lib/Utils/ExternalCommandRunner.cs

@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryMonitor.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RegistryMonitor
     path: ../Lib/Collectors/RegistryMonitor.cs
@@ -68,7 +68,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryMonitor.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/RegistryMonitor.cs
@@ -98,7 +98,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryMonitor.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: MyOnEntryWritten
     path: ../Lib/Collectors/RegistryMonitor.cs
@@ -133,7 +133,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryMonitor.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Start
     path: ../Lib/Collectors/RegistryMonitor.cs
@@ -166,7 +166,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryMonitor.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Stop
     path: ../Lib/Collectors/RegistryMonitor.cs
@@ -199,7 +199,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryMonitor.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CanRunOnPlatform
     path: ../Lib/Collectors/RegistryMonitor.cs

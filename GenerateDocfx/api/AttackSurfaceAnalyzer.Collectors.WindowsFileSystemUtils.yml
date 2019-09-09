@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: WindowsFileSystemUtils
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
@@ -63,7 +63,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SIGNED_EXTENSIONS
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
@@ -96,7 +96,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetSignatureStatus
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
@@ -133,7 +133,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: NeedsSignature
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
@@ -170,7 +170,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsExecutable
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
@@ -207,7 +207,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsLocal
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
@@ -244,7 +244,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetDllCharacteristics
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
@@ -281,7 +281,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetFilePermissions
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs

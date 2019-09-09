@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/OpenPortCollector.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: OpenPortCollector
     path: ../Lib/Collectors/OpenPortCollector.cs
@@ -70,7 +70,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/OpenPortCollector.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/OpenPortCollector.cs
@@ -103,7 +103,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/OpenPortCollector.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CanRunOnPlatform
     path: ../Lib/Collectors/OpenPortCollector.cs
@@ -139,7 +139,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/OpenPortCollector.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Execute
     path: ../Lib/Collectors/OpenPortCollector.cs
@@ -172,7 +172,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/OpenPortCollector.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ExecuteWindows
     path: ../Lib/Collectors/OpenPortCollector.cs

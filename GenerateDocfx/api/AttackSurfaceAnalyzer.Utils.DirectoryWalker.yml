@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DirectoryWalker.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DirectoryWalker
     path: ../Lib/Utils/DirectoryWalker.cs
@@ -57,7 +57,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DirectoryWalker.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: WalkDirectory
     path: ../Lib/Utils/DirectoryWalker.cs

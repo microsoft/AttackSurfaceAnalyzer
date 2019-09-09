@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemCollector.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FileSystemCollector
     path: ../Lib/Collectors/FileSystemCollector.cs
@@ -74,7 +74,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemCollector.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/FileSystemCollector.cs
@@ -115,7 +115,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemCollector.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: AddRoot
     path: ../Lib/Collectors/FileSystemCollector.cs
@@ -148,7 +148,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemCollector.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ClearRoots
     path: ../Lib/Collectors/FileSystemCollector.cs
@@ -178,7 +178,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemCollector.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CanRunOnPlatform
     path: ../Lib/Collectors/FileSystemCollector.cs
@@ -213,7 +213,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemCollector.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Execute
     path: ../Lib/Collectors/FileSystemCollector.cs
@@ -246,7 +246,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemCollector.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FileSystemInfoToFileSystemObject
     path: ../Lib/Collectors/FileSystemCollector.cs

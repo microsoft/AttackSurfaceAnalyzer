@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Filter.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Filter
     path: ../Lib/Utils/Filter.cs
@@ -63,7 +63,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Filter.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsFiltered
     path: ../Lib/Utils/Filter.cs
@@ -108,7 +108,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Filter.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsFiltered
     path: ../Lib/Utils/Filter.cs
@@ -155,7 +155,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Filter.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsFiltered
     path: ../Lib/Utils/Filter.cs
@@ -207,7 +207,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Filter.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DumpFilters
     path: ../Lib/Utils/Filter.cs
@@ -239,7 +239,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Filter.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LoadEmbeddedFilters
     path: ../Lib/Utils/Filter.cs
@@ -271,7 +271,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Filter.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LoadFilters
     path: ../Lib/Utils/Filter.cs

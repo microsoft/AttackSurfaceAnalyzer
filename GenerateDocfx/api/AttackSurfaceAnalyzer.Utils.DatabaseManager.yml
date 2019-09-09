@@ -35,7 +35,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DatabaseManager
     path: ../Lib/Utils/DatabaseManager.cs
@@ -77,7 +77,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Connection
     path: ../Lib/Utils/DatabaseManager.cs
@@ -110,7 +110,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ReadOnlyConnection
     path: ../Lib/Utils/DatabaseManager.cs
@@ -143,7 +143,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FirstRun
     path: ../Lib/Utils/DatabaseManager.cs
@@ -180,7 +180,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Setup
     path: ../Lib/Utils/DatabaseManager.cs
@@ -214,7 +214,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RunIdToPlatform
     path: ../Lib/Utils/DatabaseManager.cs
@@ -251,7 +251,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetResultsByRunid
     path: ../Lib/Utils/DatabaseManager.cs
@@ -288,7 +288,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: InsertAnalyzed
     path: ../Lib/Utils/DatabaseManager.cs
@@ -323,7 +323,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: VerifySchemaVersion
     path: ../Lib/Utils/DatabaseManager.cs
@@ -355,7 +355,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetLatestRunIds
     path: ../Lib/Utils/DatabaseManager.cs
@@ -394,7 +394,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetResultTypesAndCounts
     path: ../Lib/Utils/DatabaseManager.cs
@@ -431,7 +431,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetNumResults
     path: ../Lib/Utils/DatabaseManager.cs
@@ -470,7 +470,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Transaction
     path: ../Lib/Utils/DatabaseManager.cs
@@ -507,7 +507,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Commit
     path: ../Lib/Utils/DatabaseManager.cs
@@ -539,7 +539,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: _ReadOnly
     path: ../Lib/Utils/DatabaseManager.cs
@@ -572,7 +572,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SqliteFilename
     path: ../Lib/Utils/DatabaseManager.cs
@@ -609,7 +609,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CloseDatabase
     path: ../Lib/Utils/DatabaseManager.cs
@@ -641,7 +641,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Write
     path: ../Lib/Utils/DatabaseManager.cs
@@ -678,7 +678,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetMissingFromFirst
     path: ../Lib/Utils/DatabaseManager.cs
@@ -717,7 +717,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetModified
     path: ../Lib/Utils/DatabaseManager.cs
@@ -756,7 +756,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DatabaseManager.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DeleteRun
     path: ../Lib/Utils/DatabaseManager.cs

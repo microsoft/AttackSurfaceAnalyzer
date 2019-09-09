@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: Lib/Objects/RegistryObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RegistryObject
     path: ../Lib/Objects/RegistryObject.cs
@@ -70,7 +70,7 @@ items:
   source:
     remote:
       path: Lib/Objects/RegistryObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Key
     path: ../Lib/Objects/RegistryObject.cs
@@ -101,7 +101,7 @@ items:
   source:
     remote:
       path: Lib/Objects/RegistryObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Values
     path: ../Lib/Objects/RegistryObject.cs
@@ -132,7 +132,7 @@ items:
   source:
     remote:
       path: Lib/Objects/RegistryObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Subkeys
     path: ../Lib/Objects/RegistryObject.cs
@@ -163,7 +163,7 @@ items:
   source:
     remote:
       path: Lib/Objects/RegistryObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Permissions
     path: ../Lib/Objects/RegistryObject.cs
@@ -194,7 +194,7 @@ items:
   source:
     remote:
       path: Lib/Objects/RegistryObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ValueCount
     path: ../Lib/Objects/RegistryObject.cs
@@ -229,7 +229,7 @@ items:
   source:
     remote:
       path: Lib/Objects/RegistryObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SubkeyCount
     path: ../Lib/Objects/RegistryObject.cs
@@ -264,7 +264,7 @@ items:
   source:
     remote:
       path: Lib/Objects/RegistryObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Objects/RegistryObject.cs
@@ -294,7 +294,7 @@ items:
   source:
     remote:
       path: Lib/Objects/RegistryObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Objects/RegistryObject.cs
@@ -327,7 +327,7 @@ items:
   source:
     remote:
       path: Lib/Objects/RegistryObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Identity
     path: ../Lib/Objects/RegistryObject.cs

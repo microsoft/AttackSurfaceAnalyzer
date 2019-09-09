@@ -23,7 +23,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ComObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ComObject
     path: ../Lib/Objects/ComObject.cs
@@ -69,7 +69,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ComObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Key
     path: ../Lib/Objects/ComObject.cs
@@ -104,7 +104,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ComObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Subkeys
     path: ../Lib/Objects/ComObject.cs
@@ -139,7 +139,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ComObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: x86_Binary
     path: ../Lib/Objects/ComObject.cs
@@ -174,7 +174,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ComObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: x64_Binary
     path: ../Lib/Objects/ComObject.cs
@@ -209,7 +209,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ComObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: x86_BinaryName
     path: ../Lib/Objects/ComObject.cs
@@ -244,7 +244,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ComObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: x64_BinaryName
     path: ../Lib/Objects/ComObject.cs
@@ -279,7 +279,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ComObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Objects/ComObject.cs
@@ -309,7 +309,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ComObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Identity
     path: ../Lib/Objects/ComObject.cs

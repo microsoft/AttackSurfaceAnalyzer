@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ANALYSIS_RESULT_TYPE
     path: ../Lib/Objects/Types.cs
@@ -53,7 +53,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: NONE
     path: ../Lib/Objects/Types.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: VERBOSE
     path: ../Lib/Objects/Types.cs
@@ -117,7 +117,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DEBUG
     path: ../Lib/Objects/Types.cs
@@ -149,7 +149,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: INFORMATION
     path: ../Lib/Objects/Types.cs
@@ -181,7 +181,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: WARNING
     path: ../Lib/Objects/Types.cs
@@ -213,7 +213,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ERROR
     path: ../Lib/Objects/Types.cs
@@ -245,7 +245,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FATAL
     path: ../Lib/Objects/Types.cs

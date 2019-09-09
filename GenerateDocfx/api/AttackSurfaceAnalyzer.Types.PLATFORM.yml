@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: PLATFORM
     path: ../Lib/Objects/Types.cs
@@ -50,7 +50,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: WINDOWS
     path: ../Lib/Objects/Types.cs
@@ -82,7 +82,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LINUX
     path: ../Lib/Objects/Types.cs
@@ -114,7 +114,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: MACOS
     path: ../Lib/Objects/Types.cs
@@ -146,7 +146,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: UNKNOWN
     path: ../Lib/Objects/Types.cs
