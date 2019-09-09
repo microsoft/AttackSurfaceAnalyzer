@@ -4,7 +4,6 @@
       "Registry": {
         "Key": {
           "Exclude": [
-            "^HKEY_CLASSES_ROOT\\\\WOW6432Node\\\\Interface$",
             "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Control$",
             "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\DriverDatabase\\\\DriverPackages$",
             "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Enum$",
@@ -15,10 +14,7 @@
             "^HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\Microsoft\\\\WwanSvc$",
             "^HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\WOW6432Node\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\AppModel$",
             "^HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\WOW6432Node\\\\Microsoft\\\\Windows NT\\\\CurrentVersion\\\\Perflib\\\\CurrentLanguage$",
-            "^HKEY_USERS\\\\S-[0-9]*-[0-9]*-[0-9]*\\\\Software\\\\Microsoft\\\\SystemCertificates\\\\Root$",
-            "^HKEY_USERS\\\\S-[0-9]*-[0-9]*-[0-9]*\\\\Software\\\\Microsoft\\\\SystemCertificates\\\\ROOT$",
             "^HKEY_USERS\\\\S-[0-9]*-[0-9]*-[0-9]*\\\\Software\\\\Microsoft\\\\Cryptography$",
-            "^HKEY_USERS\\\\.DEFAULT\\\\Software\\\\Microsoft\\\\SystemCertificates\\\\Root$",
             "^HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\Microsoft\\\\Windows NT\\\\CurrentVersion\\\\Perflib",
             "^HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\Microsoft\\\\Windows NT\\\\CurrentVersion\\\\AppCompatFlags\\\\CIT$",
             "^HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\Microsoft\\\\Windows\\\\CurrentVersion",

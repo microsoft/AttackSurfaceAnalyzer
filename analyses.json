@@ -188,22 +188,40 @@
       ]
     },
     {
-        "name": "Firewall Settings Modified",
-        "desc": "Flag when OS X firewall settings are modified.",
-        "flag": "WARNING",
-        "platforms": [
-            "MACOS"
-        ],
-        "resultType": "FILE",
-        "clauses": [
-            {
-                "field": "Path",
-                "op": "EQUALS",
-                "data": [
-                    "/Library/Preferences/com.apple.alf.plist"
-                ]
-            }
-        ]
+      "name": "Firewall Settings Modified",
+      "desc": "Flag when OS X firewall settings are modified.",
+      "flag": "WARNING",
+      "platforms": [
+        "MACOS"
+      ],
+      "resultType": "FILE",
+      "clauses": [
+        {
+          "field": "Path",
+          "op": "EQ",
+          "data": [
+            "/Library/Preferences/com.apple.alf.plist"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "COM Objects Modified",
+      "desc": "Flags when the COM Object registry has been changed.",
+      "flag": "INFORMATION",
+      "platforms": [
+        "WINDOWS"
+      ],
+      "resultType": "REGISTRY",
+      "clauses": [
+        {
+          "field": "KEY",
+          "op": "CONTAINS",
+          "data": [
+            "HKEY_LOCAL_MACHINE\\SOFTWARE\\Classes\\CLSID"
+          ]
+        }
+      ]
     }
   ],
   "meta": {
