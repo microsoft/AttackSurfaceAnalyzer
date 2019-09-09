@@ -1,0 +1,73 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
+for details on configuring this project to bundle and minify static web assets. */
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.top-margin {
+    margin-top: 20px;
+}
+
+.spacer {
+    border-top: 1px solid rgba(0,0,0,0.4);
+    margin: 20px 0 30px 0;
+}
+
+.thinspacer {
+    border-top: 1px solid rgba(0,0,0,0.4);
+    margin: 5px 0 5px 0;
+}
+
+.vertSpacer {
+    border-left: 1px solid rgba(0,0,0,0.4);
+    margin: 0 10px 0 10px;
+    height: 100%;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.explain {
+    padding-top: 15px;
+    font-size: 16px;
+}
+
+.btn.btn-square {
+    border-radius: 0;
+    background-color: #006bff !important;
+}
+
+.active {
+    border-bottom: 3px solid #0078D7;
+    bottom: -10px;
+}
+
+.nav-link {
+    color: #000000 !important;
+}
+
+.warning {
+    text-align: center;
+    font-style: italic;
+    background-color: coral;
+}
+
+.bordered {
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+}
+
+#IeWarning {
+    display: none;
+}

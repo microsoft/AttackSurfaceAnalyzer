@@ -1,0 +1,45 @@
+﻿.left-col {
+    font-weight: bold;
+    width: 100px;
+}
+
+.right-col {
+    color: #444
+}
+
+.bottom-border {
+    border-bottom: solid 1px;
+}
+
+td {
+    padding: 10px;
+}
+
+table {
+    width: 600px;
+}
+
+#moreInfo {
+    color: #000;
+    opacity: 0.6;
+}
+
+#indexHeader {
+    padding-top: 45px;
+    font-size: 36px;
+    font-weight: 600;
+}
+
+#indexExplain {
+    padding-top: 20px;
+    font-size: 16px;
+}
+
+p {
+    padding-bottom: 15px;
+}
+
+#indexGetStartedButton {
+    color: white;
+    background-color: #0078D7;
+}

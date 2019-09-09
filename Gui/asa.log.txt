@@ -1,0 +1,14 @@
+2019-09-09 14:53:40.728 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.61-alpha+c06dd8a5e6
+2019-09-09 14:53:47.874 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.61-alpha+c06dd8a5e6
+2019-09-09 14:53:55.837 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.61-alpha+c06dd8a5e6
+2019-09-09 14:54:48.861 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.61-alpha+c06dd8a5e6
+2019-09-09 14:54:58.409 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.61-alpha+c06dd8a5e6
+2019-09-09 14:55:25.005 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.61-alpha+c06dd8a5e6
+2019-09-09 14:55:32.532 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.61-alpha+c06dd8a5e6
+2019-09-09 14:56:39.240 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.61-alpha+c06dd8a5e6
+2019-09-09 14:56:42.670 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.61-alpha+c06dd8a5e6
+2019-09-09 14:57:54.059 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.61-alpha+c06dd8a5e6
+2019-09-09 14:58:51.840 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.61-alpha+c06dd8a5e6
+2019-09-09 15:11:06.082 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.61-alpha+c06dd8a5e6
+2019-09-09 15:15:45.123 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.61-alpha+c06dd8a5e6
+2019-09-09 15:15:54.646 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.61-alpha+c06dd8a5e6

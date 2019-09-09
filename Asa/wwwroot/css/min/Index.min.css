@@ -1,0 +1,32 @@
+.left-col {
+    font-weight: bold;
+    width: 100px
+}
+
+.right-col {
+    color: #444
+}
+
+.bottom-border {
+    border-bottom: solid 1px
+}
+
+td {
+    padding: 10px
+}
+
+table {
+    width: 600px
+}
+
+#moreInfo {
+    color: #000;
+    opacity: .6
+}
+
+.line {
+    height: 1px;
+    width: auto;
+    border-top: solid 2px #ccc;
+    padding-bottom: 10px
+}

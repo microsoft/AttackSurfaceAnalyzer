@@ -1,0 +1,189 @@
+﻿@using System.Runtime.InteropServices;
+@using AttackSurfaceAnalyzer.Utils;
+
+@{
+    ViewData["Title"] = "Collect";
+}
+@section Scripts{
+    <script type="text/javascript" src="~/js/Collect.js" asp-append-version="true"></script>
+}
+<link rel="stylesheet" href="~/css/Collect.css" asp-append-version="true" />
+<br />
+<h1>Configure Scan</h1>
+<div class="explain">
+    <div class="card card-body">
+        <h6>@Strings.Get("StaticScan")</h6>
+        @Strings.Get("StaticScanDesc")
+        <ul>
+            <li>@Strings.Get("FirstScanDesc")</li>
+            <li>@Strings.Get("SecondScanDesc")</li>
+        </ul>
+        <h6>@Strings.Get("LiveMonitoring")</h6>
+        @Strings.Get("LiveMonitoringDesc")
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+        <div class="row top-margin">
+            <div class="col-4 font-weight-bold">Scan Type</div>
+            <div class="col-4">
+                <label class="radio-container" for="staticRadio">
+                    <input type="radio" name="ScanType" value="Static" id="staticRadio" checked="checked">
+                    @Strings.Get("StaticScan")
+                </label>
+            </div>
+            <div class="col-4">
+                <label class="radio-container" for="liveRadio">
+                    <input type="radio" name="ScanType" value="Live" id="liveRadio">
+                    @Strings.Get("LiveMonitoring")
+                </label>
+            </div>
+        </div>
+
+        <div class="spacer"></div>
+
+        <div class="form-group row">
+            <label for="RunId" class="font-weight-bold col-sm-2 col-form-label">@Strings.Get("ScanId")</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="RunId" placeholder="@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")">
+            </div>
+        </div>
+
+
+        @*
+                    @TODO: Support static collection of specific directory.
+                <div id="scanDetails">
+                <b>Scan specific file directories (optional)</b>
+                <div id="path">
+                    No path chosen
+                </div>
+                <button id="choosePath">
+                    Choose Path
+                </button>
+                <div class="line" />
+            </div>*@
+        <div class="spacer"></div>
+
+        @* Begin Scan Section *@
+
+        <div class="scan">
+            <div class="row font-weight-bold">
+                <div class="col">
+                    @Strings.Get("ChooseCollectors")
+                </div>
+            </div>
+            <div class="thinspacer"></div>
+            <div class="row">
+                <div class="col">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="enableFileCollector" class="ScanType" checked>
+                        @Strings.Get("Files")
+                    </label>
+                </div>
+                <div class="col">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="enableCertificateCollector" class="ScanType" checked>
+                        @Strings.Get("Certificates")
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="enablePortCollector" class="ScanType" checked>
+                        @Strings.Get("Ports")
+                    </label>
+                </div>
+                <div class="col">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="enableServiceCollector" class="ScanType" checked>
+                        @Strings.Get("Services")
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="enableUserCollector" class="ScanType" checked>
+                        Users
+                    </label>
+                </div>
+                @{
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                    {
+                        <div class="col">
+
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="enableRegistryCollector" class="ScanType" checked>
+                                @Strings.Get("Registry")
+                            </label>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+        @* End Scan Section *@
+
+
+
+        @* Begin Monitor Section *@
+
+        <div class="form-group row monitor">
+            <label for="DirectoryPath" class="font-weight-bold col-sm-2 col-form-label">Directory</label>
+            <div class="col-8">
+                @{
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                    {
+
+                        <input type="text" class="form-control" id="DirectoryPath" placeholder="C:\">
+                    }
+                }
+                @{
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                    {
+                        <input type="text" class="form-control" id="DirectoryPath" placeholder="/">
+                    }
+                }
+            </div>
+            <div class="col-2">
+                <label for="DirectorySelector">
+                    <input type="file" id="DirectorySelector" class="btn btn-primary" webkitdirectory />
+                    <i class="far fa-folder" style="font-size:3em"></i>
+                </label>
+            </div>
+        </div>
+
+        @* End Monitor Section *@
+
+        <div class="d-flex flex-row-reverse">
+            <div class="p-2">
+                <button class="btn btn-primary btn-square" id="StartCollectionButton">Collect Data</button>
+            </div>
+            <div class="p-2">
+                <button class="btn btn-primary btn-square" id="StopMonitoringButton">Stop Monitoring</button>
+            </div>
+        </div>
+    </div>
+
+    @* Status section *@
+
+
+    <div class="col-6" id="RunStatus">
+        <div class="row font-weight-bold top-margin">
+            <div class="col">
+                @Strings.Get("RunStatus")
+            </div>
+        </div>
+        <div class="container d-flex h-100">
+            <div class="row">
+                <div class="col" id="ScanLiner"></div>
+            </div>
+            <div class="row justify-content-center align-self-center">
+                <div class="col justify-content-center" id="ScanStatus">
+                    @Strings.Get("ReadyToScan")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
