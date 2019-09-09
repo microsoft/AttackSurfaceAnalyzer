@@ -4,16 +4,10 @@
     "anonymousAuthentication": true,
     "iisExpress": {
       "applicationUrl": "http://localhost:35950",
-      "sslPort": 44321
+      "sslPort": 0
     }
   },
   "profiles": {
-    "Electron.NET App": {
-      "commandName": "Executable",
-      "executablePath": "C:\\Users\\Gstoc\\.dotnet\\tools\\electronize.exe",
-      "commandLineArgs": "start",
-      "workingDirectory": "C:\\Users\\Gstoc\\Documents\\GitHub\\AttackSurfaceAnalyzer\\Gui"
-    },
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
