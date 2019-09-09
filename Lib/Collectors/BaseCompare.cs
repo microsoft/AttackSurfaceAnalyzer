@@ -42,6 +42,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                     return JsonConvert.DeserializeObject<GroupAccountObject>(res.Serialized);
                 case RESULT_TYPE.FIREWALL:
                     return JsonConvert.DeserializeObject<FirewallObject>(res.Serialized);
+                case RESULT_TYPE.COM:
+                    return JsonConvert.DeserializeObject<ComObject>(res.Serialized);
                 default:
                     return null;
             }

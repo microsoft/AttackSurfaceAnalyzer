@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using System.Text.RegularExpressions;
@@ -15,20 +17,12 @@ using Serilog;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
-    public class ComObjectcollector : BaseCollector
+    public class ComObjectCollector : BaseCollector
     {
-        private List<RegistryHive> Hives;
-        private HashSet<string> roots;
-        private HashSet<RegistryKey> _keys;
-        private HashSet<RegistryObject> _values;
 
-        
-
-        public ComObjectcollector(string RunId)
+        public ComObjectCollector(string RunId)
         {
             this.runId = RunId;
-            this._keys = new HashSet<RegistryKey>();
-            this._values = new HashSet<RegistryObject>();
         }
 
         public override bool CanRunOnPlatform()
@@ -46,30 +40,51 @@ namespace AttackSurfaceAnalyzer.Collectors
             Start();
             _ = DatabaseManager.Transaction;
 
-
-            RegistryKey SearchKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Default).OpenSubKey("HKEY_LOCAL_MACHINE\\SOFTWARE\\Classes\\CLSID");
+            RegistryKey SearchKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Default).OpenSubKey("SOFTWARE\\Classes\\CLSID");
             
             foreach(string SubKeyName in SearchKey.GetSubKeyNames())
             {
-                RegistryKey CurrentKey = SearchKey.OpenSubKey(SubKeyName);
-
-                var RegObj = RegistryWalker.RegistryKeyToRegistryObject(CurrentKey);
-
-                ComObject comObject = new ComObject()
+                try
                 {
-                    Key = RegObj.Key,
-                    CLSID = RegObj.Values[""],
-                    Permissions = RegObj.Permissions,
-                    Subkeys = new List<RegistryObject>()
-                };
+                    RegistryKey CurrentKey = SearchKey.OpenSubKey(SubKeyName);
 
-                foreach (string ComDetails in CurrentKey.GetSubKeyNames())
-                {
-                    var ComKey = CurrentKey.OpenSubKey(ComDetails);
-                    comObject.Subkeys.Add(RegistryWalker.RegistryKeyToRegistryObject(ComKey));
+                    var RegObj = RegistryWalker.RegistryKeyToRegistryObject(CurrentKey);
+
+                    ComObject comObject = new ComObject()
+                    {
+                        Key = RegObj,
+                        Subkeys = new List<RegistryObject>()
+                    };
+
+                    foreach (string ComDetails in CurrentKey.GetSubKeyNames())
+                    {
+                        var ComKey = CurrentKey.OpenSubKey(ComDetails);
+                        comObject.Subkeys.Add(RegistryWalker.RegistryKeyToRegistryObject(ComKey));
+                    }
+
+                    //Get the information from the InProcServer32 Subkey (for 32 bit)
+                    if (comObject.Subkeys.Where(x => x.Key.Contains("InprocServer32")).Count() > 0 && comObject.Subkeys.Where(x => x.Key.Contains("InprocServer32")).First().Values.ContainsKey(""))
+                    {
+                        comObject.Subkeys.Where(x => x.Key.Contains("InprocServer32")).First().Values.TryGetValue("", out string BinaryPath32);
+                        comObject.x86_Binary = FileSystemCollector.FileSystemInfoToFileSystemObject(new FileInfo(BinaryPath32), true);
+                        comObject.x86_BinaryName = BinaryPath32;
+
+                    }
+                    // And the InProcServer64 for 64 bit
+                    if (comObject.Subkeys.Where(x => x.Key.Contains("InprocServer64")).Count() > 0 && comObject.Subkeys.Where(x => x.Key.Contains("InprocServer64")).First().Values.ContainsKey(""))
+                    {
+                        comObject.Subkeys.Where(x => x.Key.Contains("InprocServer64")).First().Values.TryGetValue("", out string BinaryPath64);
+                        comObject.x64_Binary = FileSystemCollector.FileSystemInfoToFileSystemObject(new FileInfo(BinaryPath64), true);
+                        comObject.x64_BinaryName = BinaryPath64;
+                    }
+
+                    DatabaseManager.Write(comObject, runId);
                 }
-
-                //Get the information from the InProcServer32 Subkey (for 32 bit)
+                catch(Exception e)
+                {
+                    Log.Debug(e, "Couldn't parse {0}", SubKeyName);
+                }
+                
             }
 
             DatabaseManager.Commit();

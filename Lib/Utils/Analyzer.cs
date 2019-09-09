@@ -28,6 +28,8 @@ namespace AttackSurfaceAnalyzer.Utils
             {RESULT_TYPE.USER, new List<FieldInfo>(new UserAccountObject().GetType().GetFields()) },
             {RESULT_TYPE.GROUP, new List<FieldInfo>(new UserAccountObject().GetType().GetFields()) },
             {RESULT_TYPE.FIREWALL, new List<FieldInfo>(new FirewallObject().GetType().GetFields()) },
+            {RESULT_TYPE.COM, new List<FieldInfo>(new FirewallObject().GetType().GetFields()) }
+
         };
         Dictionary<RESULT_TYPE, List<PropertyInfo>> _Properties = new Dictionary<RESULT_TYPE, List<PropertyInfo>>()
         {
@@ -38,7 +40,8 @@ namespace AttackSurfaceAnalyzer.Utils
             {RESULT_TYPE.SERVICE, new List<PropertyInfo>(new ServiceObject().GetType().GetProperties()) },
             {RESULT_TYPE.USER, new List<PropertyInfo>(new UserAccountObject().GetType().GetProperties()) },
             {RESULT_TYPE.GROUP, new List<PropertyInfo>(new UserAccountObject().GetType().GetProperties()) },
-            {RESULT_TYPE.FIREWALL, new List<PropertyInfo>(new FirewallObject().GetType().GetProperties()) }
+            {RESULT_TYPE.FIREWALL, new List<PropertyInfo>(new FirewallObject().GetType().GetProperties()) },
+            {RESULT_TYPE.COM, new List<PropertyInfo>(new FirewallObject().GetType().GetProperties()) }
 
         };
         Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DEFAULT_RESULT_TYPE_MAP = new Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>()
@@ -50,7 +53,8 @@ namespace AttackSurfaceAnalyzer.Utils
             { RESULT_TYPE.SERVICE, ANALYSIS_RESULT_TYPE.INFORMATION },
             { RESULT_TYPE.USER, ANALYSIS_RESULT_TYPE.INFORMATION },
             { RESULT_TYPE.UNKNOWN, ANALYSIS_RESULT_TYPE.INFORMATION },
-            { RESULT_TYPE.GROUP, ANALYSIS_RESULT_TYPE.INFORMATION }
+            { RESULT_TYPE.GROUP, ANALYSIS_RESULT_TYPE.INFORMATION },
+            { RESULT_TYPE.COM, ANALYSIS_RESULT_TYPE.INFORMATION }
         };
 
         JObject config = null;
