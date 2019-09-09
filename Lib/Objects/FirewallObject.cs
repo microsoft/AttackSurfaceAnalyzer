@@ -52,7 +52,7 @@ namespace AttackSurfaceAnalyzer.Objects
         //
         // Summary:
         //     Gets or sets the protocol that the rule applies to
-        public int Protocol { get; set; }
+        public string Protocol { get; set; }
         //
         // Summary:
         //     Gets or sets the remote addresses that the rule applies to
