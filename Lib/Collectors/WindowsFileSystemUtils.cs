@@ -91,6 +91,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
                 return Encoding.UTF8.GetString(twoBytes) == "MZ";
             }
+            catch (UnauthorizedAccessException)
+            {
+                return false;
+            }
             catch (Exception e)
             {
                 Logger.DebugException(e);

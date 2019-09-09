@@ -66,6 +66,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                     if (comObject.Subkeys.Where(x => x.Key.Contains("InprocServer32")).Count() > 0 && comObject.Subkeys.Where(x => x.Key.Contains("InprocServer32")).First().Values.ContainsKey(""))
                     {
                         comObject.Subkeys.Where(x => x.Key.Contains("InprocServer32")).First().Values.TryGetValue("", out string BinaryPath32);
+                        // Unqualified binary name probably comes from Windows\System32
+                        if (!BinaryPath32.Contains("\\") && !BinaryPath32.Contains("%"))
+                        {
+                            BinaryPath32 = Path.Combine("C:\\Windows\\System32", BinaryPath32);
+                        }
                         comObject.x86_Binary = FileSystemCollector.FileSystemInfoToFileSystemObject(new FileInfo(BinaryPath32), true);
                         comObject.x86_BinaryName = BinaryPath32;
 
@@ -74,6 +79,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                     if (comObject.Subkeys.Where(x => x.Key.Contains("InprocServer64")).Count() > 0 && comObject.Subkeys.Where(x => x.Key.Contains("InprocServer64")).First().Values.ContainsKey(""))
                     {
                         comObject.Subkeys.Where(x => x.Key.Contains("InprocServer64")).First().Values.TryGetValue("", out string BinaryPath64);
+                        // Unqualified binary name probably comes from Windows\System32
+                        if (!BinaryPath64.Contains("\\") && !BinaryPath64.Contains("%"))
+                        {
+                            BinaryPath64 = Path.Combine("C:\\Windows\\System32", BinaryPath64);
+                        }
                         comObject.x64_Binary = FileSystemCollector.FileSystemInfoToFileSystemObject(new FileInfo(BinaryPath64), true);
                         comObject.x64_BinaryName = BinaryPath64;
                     }
