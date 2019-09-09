@@ -67,7 +67,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Utils/Analyzer.cs
-    startLine: 59
+    startLine: 63
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -102,7 +102,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ParseFilters
     path: ../Lib/Utils/Analyzer.cs
-    startLine: 67
+    startLine: 71
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -132,7 +132,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Analyze
     path: ../Lib/Utils/Analyzer.cs
-    startLine: 102
+    startLine: 106
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -167,7 +167,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Apply
     path: ../Lib/Utils/Analyzer.cs
-    startLine: 123
+    startLine: 127
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -204,7 +204,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DumpFilters
     path: ../Lib/Utils/Analyzer.cs
-    startLine: 300
+    startLine: 304
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -234,7 +234,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LoadEmbeddedFilters
     path: ../Lib/Utils/Analyzer.cs
-    startLine: 306
+    startLine: 310
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -264,7 +264,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LoadFilters
     path: ../Lib/Utils/Analyzer.cs
-    startLine: 356
+    startLine: 360
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils

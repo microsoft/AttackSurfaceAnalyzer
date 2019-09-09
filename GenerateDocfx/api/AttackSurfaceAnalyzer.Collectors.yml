@@ -8,7 +8,7 @@ items:
   - AttackSurfaceAnalyzer.Collectors.BaseCompare
   - AttackSurfaceAnalyzer.Collectors.BaseMonitor
   - AttackSurfaceAnalyzer.Collectors.CertificateCollector
-  - AttackSurfaceAnalyzer.Collectors.ComObjectcollector
+  - AttackSurfaceAnalyzer.Collectors.ComObjectCollector
   - AttackSurfaceAnalyzer.Collectors.FileSystemCollector
   - AttackSurfaceAnalyzer.Collectors.FileSystemMonitor
   - AttackSurfaceAnalyzer.Collectors.FileSystemUtils
@@ -55,11 +55,11 @@ references:
   name: CertificateCollector
   nameWithType: CertificateCollector
   fullName: AttackSurfaceAnalyzer.Collectors.CertificateCollector
-- uid: AttackSurfaceAnalyzer.Collectors.ComObjectcollector
-  commentId: T:AttackSurfaceAnalyzer.Collectors.ComObjectcollector
-  name: ComObjectcollector
-  nameWithType: ComObjectcollector
-  fullName: AttackSurfaceAnalyzer.Collectors.ComObjectcollector
+- uid: AttackSurfaceAnalyzer.Collectors.ComObjectCollector
+  commentId: T:AttackSurfaceAnalyzer.Collectors.ComObjectCollector
+  name: ComObjectCollector
+  nameWithType: ComObjectCollector
+  fullName: AttackSurfaceAnalyzer.Collectors.ComObjectCollector
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector
   commentId: T:AttackSurfaceAnalyzer.Collectors.FileSystemCollector
   name: FileSystemCollector

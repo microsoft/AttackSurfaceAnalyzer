@@ -40,7 +40,7 @@ items:
   - System.Object
   derivedClasses:
   - AttackSurfaceAnalyzer.Collectors.CertificateCollector
-  - AttackSurfaceAnalyzer.Collectors.ComObjectcollector
+  - AttackSurfaceAnalyzer.Collectors.ComObjectCollector
   - AttackSurfaceAnalyzer.Collectors.FileSystemCollector
   - AttackSurfaceAnalyzer.Collectors.FirewallCollector
   - AttackSurfaceAnalyzer.Collectors.OpenPortCollector

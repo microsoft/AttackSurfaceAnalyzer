@@ -211,7 +211,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsLocal
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
-    startLine: 100
+    startLine: 104
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -248,7 +248,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetDllCharacteristics
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
-    startLine: 112
+    startLine: 116
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -285,7 +285,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetFilePermissions
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
-    startLine: 144
+    startLine: 148
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors

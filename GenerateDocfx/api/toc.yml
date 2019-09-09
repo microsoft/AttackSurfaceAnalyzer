@@ -10,8 +10,8 @@
     name: BaseMonitor
   - uid: AttackSurfaceAnalyzer.Collectors.CertificateCollector
     name: CertificateCollector
-  - uid: AttackSurfaceAnalyzer.Collectors.ComObjectcollector
-    name: ComObjectcollector
+  - uid: AttackSurfaceAnalyzer.Collectors.ComObjectCollector
+    name: ComObjectCollector
   - uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector
     name: FileSystemCollector
   - uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor

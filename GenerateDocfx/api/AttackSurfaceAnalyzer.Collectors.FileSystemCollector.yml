@@ -10,6 +10,7 @@ items:
   - AttackSurfaceAnalyzer.Collectors.FileSystemCollector.CanRunOnPlatform
   - AttackSurfaceAnalyzer.Collectors.FileSystemCollector.ClearRoots
   - AttackSurfaceAnalyzer.Collectors.FileSystemCollector.Execute
+  - AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FileSystemInfoToFileSystemObject(System.IO.FileSystemInfo,System.Boolean,System.Boolean)
   langs:
   - csharp
   - vb
@@ -231,6 +232,47 @@ items:
   modifiers.vb:
   - Public
   - Overrides
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FileSystemInfoToFileSystemObject(System.IO.FileSystemInfo,System.Boolean,System.Boolean)
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FileSystemInfoToFileSystemObject(System.IO.FileSystemInfo,System.Boolean,System.Boolean)
+  id: FileSystemInfoToFileSystemObject(System.IO.FileSystemInfo,System.Boolean,System.Boolean)
+  parent: AttackSurfaceAnalyzer.Collectors.FileSystemCollector
+  langs:
+  - csharp
+  - vb
+  name: FileSystemInfoToFileSystemObject(FileSystemInfo, Boolean, Boolean)
+  nameWithType: FileSystemCollector.FileSystemInfoToFileSystemObject(FileSystemInfo, Boolean, Boolean)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FileSystemInfoToFileSystemObject(System.IO.FileSystemInfo, System.Boolean, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: Lib/Collectors/FileSystemCollector.cs
+      branch: gfs/COM-Objects
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: FileSystemInfoToFileSystemObject
+    path: ../Lib/Collectors/FileSystemCollector.cs
+    startLine: 150
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Collectors
+  syntax:
+    content: public static FileSystemObject FileSystemInfoToFileSystemObject(FileSystemInfo fileInfo, bool downloadCloud = false, bool INCLUDE_CONTENT_HASH = false)
+    parameters:
+    - id: fileInfo
+      type: System.IO.FileSystemInfo
+    - id: downloadCloud
+      type: System.Boolean
+    - id: INCLUDE_CONTENT_HASH
+      type: System.Boolean
+    return:
+      type: AttackSurfaceAnalyzer.Objects.FileSystemObject
+    content.vb: Public Shared Function FileSystemInfoToFileSystemObject(fileInfo As FileSystemInfo, downloadCloud As Boolean = False, INCLUDE_CONTENT_HASH As Boolean = False) As FileSystemObject
+  overload: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FileSystemInfoToFileSystemObject*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
 references:
 - uid: AttackSurfaceAnalyzer.Collectors
   commentId: N:AttackSurfaceAnalyzer.Collectors
@@ -754,3 +796,32 @@ references:
   name: Execute
   nameWithType: FileSystemCollector.Execute
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.Execute
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FileSystemInfoToFileSystemObject*
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FileSystemInfoToFileSystemObject
+  name: FileSystemInfoToFileSystemObject
+  nameWithType: FileSystemCollector.FileSystemInfoToFileSystemObject
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FileSystemInfoToFileSystemObject
+- uid: System.IO.FileSystemInfo
+  commentId: T:System.IO.FileSystemInfo
+  parent: System.IO
+  isExternal: true
+  name: FileSystemInfo
+  nameWithType: FileSystemInfo
+  fullName: System.IO.FileSystemInfo
+- uid: AttackSurfaceAnalyzer.Objects.FileSystemObject
+  commentId: T:AttackSurfaceAnalyzer.Objects.FileSystemObject
+  parent: AttackSurfaceAnalyzer.Objects
+  name: FileSystemObject
+  nameWithType: FileSystemObject
+  fullName: AttackSurfaceAnalyzer.Objects.FileSystemObject
+- uid: System.IO
+  commentId: N:System.IO
+  isExternal: true
+  name: System.IO
+  nameWithType: System.IO
+  fullName: System.IO
+- uid: AttackSurfaceAnalyzer.Objects
+  commentId: N:AttackSurfaceAnalyzer.Objects
+  name: AttackSurfaceAnalyzer.Objects
+  nameWithType: AttackSurfaceAnalyzer.Objects
+  fullName: AttackSurfaceAnalyzer.Objects
