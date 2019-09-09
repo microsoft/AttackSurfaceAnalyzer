@@ -10,8 +10,8 @@ items:
   - AttackSurfaceAnalyzer.Utils.Telemetry.SetOptOut(System.Boolean)
   - AttackSurfaceAnalyzer.Utils.Telemetry.Setup(System.Boolean)
   - AttackSurfaceAnalyzer.Utils.Telemetry.TestMode
-  - AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent(System.String,Dictionary{System.String,System.String})
-  - AttackSurfaceAnalyzer.Utils.Telemetry.TrackTrace(SeverityLevel,Exception)
+  - AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent(System.String,System.Collections.Generic.Dictionary{System.String,System.String})
+  - AttackSurfaceAnalyzer.Utils.Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel,System.Exception)
   langs:
   - csharp
   - vb
@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Telemetry.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Telemetry
     path: ../Lib/Utils/Telemetry.cs
@@ -31,12 +31,18 @@ items:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
   syntax:
-    content: 'public class Telemetry : object'
-    content.vb: >-
-      Public Class Telemetry
-          Inherits Object
+    content: public class Telemetry
+    content.vb: Public Class Telemetry
   inheritance:
   - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
   modifiers.csharp:
   - public
   - class
@@ -57,7 +63,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Telemetry.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Client
     path: ../Lib/Utils/Telemetry.cs
@@ -68,7 +74,7 @@ items:
   syntax:
     content: public static TelemetryClient Client
     return:
-      type: TelemetryClient
+      type: Microsoft.ApplicationInsights.TelemetryClient
     content.vb: Public Shared Client As TelemetryClient
   modifiers.csharp:
   - public
@@ -90,7 +96,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Telemetry.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: TestMode
     path: ../Lib/Utils/Telemetry.cs
@@ -122,7 +128,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Telemetry.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Setup
     path: ../Lib/Utils/Telemetry.cs
@@ -157,7 +163,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Telemetry.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Flush
     path: ../Lib/Utils/Telemetry.cs
@@ -189,7 +195,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Telemetry.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SetOptOut
     path: ../Lib/Utils/Telemetry.cs
@@ -210,21 +216,21 @@ items:
   modifiers.vb:
   - Public
   - Shared
-- uid: AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent(System.String,Dictionary{System.String,System.String})
-  commentId: M:AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent(System.String,Dictionary{System.String,System.String})
-  id: TrackEvent(System.String,Dictionary{System.String,System.String})
+- uid: AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent(System.String,System.Collections.Generic.Dictionary{System.String,System.String})
+  commentId: M:AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent(System.String,System.Collections.Generic.Dictionary{System.String,System.String})
+  id: TrackEvent(System.String,System.Collections.Generic.Dictionary{System.String,System.String})
   parent: AttackSurfaceAnalyzer.Utils.Telemetry
   langs:
   - csharp
   - vb
   name: TrackEvent(String, Dictionary<String, String>)
   nameWithType: Telemetry.TrackEvent(String, Dictionary<String, String>)
-  fullName: AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent(System.String, Dictionary<System.String, System.String>)
+  fullName: AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent(System.String, System.Collections.Generic.Dictionary<System.String, System.String>)
   type: Method
   source:
     remote:
       path: Lib/Utils/Telemetry.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: TrackEvent
     path: ../Lib/Utils/Telemetry.cs
@@ -238,7 +244,7 @@ items:
     - id: name
       type: System.String
     - id: evt
-      type: Dictionary{System.String,System.String}
+      type: System.Collections.Generic.Dictionary{System.String,System.String}
     content.vb: Public Shared Sub TrackEvent(name As String, evt As Dictionary(Of String, String))
   overload: AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent*
   nameWithType.vb: Telemetry.TrackEvent(String, Dictionary(Of String, String))
@@ -248,23 +254,23 @@ items:
   modifiers.vb:
   - Public
   - Shared
-  fullName.vb: AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent(System.String, Dictionary(Of System.String, System.String))
+  fullName.vb: AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent(System.String, System.Collections.Generic.Dictionary(Of System.String, System.String))
   name.vb: TrackEvent(String, Dictionary(Of String, String))
-- uid: AttackSurfaceAnalyzer.Utils.Telemetry.TrackTrace(SeverityLevel,Exception)
-  commentId: M:AttackSurfaceAnalyzer.Utils.Telemetry.TrackTrace(SeverityLevel,Exception)
-  id: TrackTrace(SeverityLevel,Exception)
+- uid: AttackSurfaceAnalyzer.Utils.Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel,System.Exception)
+  commentId: M:AttackSurfaceAnalyzer.Utils.Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel,System.Exception)
+  id: TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel,System.Exception)
   parent: AttackSurfaceAnalyzer.Utils.Telemetry
   langs:
   - csharp
   - vb
   name: TrackTrace(SeverityLevel, Exception)
   nameWithType: Telemetry.TrackTrace(SeverityLevel, Exception)
-  fullName: AttackSurfaceAnalyzer.Utils.Telemetry.TrackTrace(SeverityLevel, Exception)
+  fullName: AttackSurfaceAnalyzer.Utils.Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel, System.Exception)
   type: Method
   source:
     remote:
       path: Lib/Utils/Telemetry.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: TrackTrace
     path: ../Lib/Utils/Telemetry.cs
@@ -276,9 +282,9 @@ items:
     content: public static void TrackTrace(SeverityLevel severityLevel, Exception e)
     parameters:
     - id: severityLevel
-      type: SeverityLevel
+      type: Microsoft.ApplicationInsights.DataContracts.SeverityLevel
     - id: e
-      type: Exception
+      type: System.Exception
     content.vb: Public Shared Sub TrackTrace(severityLevel As SeverityLevel, e As Exception)
   overload: AttackSurfaceAnalyzer.Utils.Telemetry.TrackTrace*
   modifiers.csharp:
@@ -294,16 +300,310 @@ references:
   nameWithType: AttackSurfaceAnalyzer.Utils
   fullName: AttackSurfaceAnalyzer.Utils
 - uid: System.Object
+  commentId: T:System.Object
+  parent: System
   isExternal: true
   name: Object
   nameWithType: Object
   fullName: System.Object
-- uid: TelemetryClient
-  commentId: '!:TelemetryClient'
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Microsoft.ApplicationInsights.TelemetryClient
+  commentId: T:Microsoft.ApplicationInsights.TelemetryClient
+  parent: Microsoft.ApplicationInsights
   isExternal: true
   name: TelemetryClient
   nameWithType: TelemetryClient
-  fullName: TelemetryClient
+  fullName: Microsoft.ApplicationInsights.TelemetryClient
+- uid: Microsoft.ApplicationInsights
+  commentId: N:Microsoft.ApplicationInsights
+  isExternal: true
+  name: Microsoft.ApplicationInsights
+  nameWithType: Microsoft.ApplicationInsights
+  fullName: Microsoft.ApplicationInsights
 - uid: AttackSurfaceAnalyzer.Utils.Telemetry.TestMode*
   commentId: Overload:AttackSurfaceAnalyzer.Utils.Telemetry.TestMode
   name: TestMode
@@ -315,6 +615,8 @@ references:
   nameWithType: Telemetry.Setup
   fullName: AttackSurfaceAnalyzer.Utils.Telemetry.Setup
 - uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
   isExternal: true
   name: Boolean
   nameWithType: Boolean
@@ -335,24 +637,27 @@ references:
   nameWithType: Telemetry.TrackEvent
   fullName: AttackSurfaceAnalyzer.Utils.Telemetry.TrackEvent
 - uid: System.String
+  commentId: T:System.String
+  parent: System
   isExternal: true
   name: String
   nameWithType: String
   fullName: System.String
-- uid: Dictionary{System.String,System.String}
-  commentId: '!:Dictionary{System.String,System.String}'
-  definition: Dictionary`2
+- uid: System.Collections.Generic.Dictionary{System.String,System.String}
+  commentId: T:System.Collections.Generic.Dictionary{System.String,System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
   name: Dictionary<String, String>
   nameWithType: Dictionary<String, String>
-  fullName: Dictionary<System.String, System.String>
+  fullName: System.Collections.Generic.Dictionary<System.String, System.String>
   nameWithType.vb: Dictionary(Of String, String)
-  fullName.vb: Dictionary(Of System.String, System.String)
+  fullName.vb: System.Collections.Generic.Dictionary(Of System.String, System.String)
   name.vb: Dictionary(Of String, String)
   spec.csharp:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: <
     nameWithType: <
@@ -374,10 +679,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -398,69 +703,85 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: Dictionary`2
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
   isExternal: true
-  name: Dictionary<, >
-  nameWithType: Dictionary<, >
-  fullName: Dictionary<, >
-  nameWithType.vb: Dictionary(Of , )
-  fullName.vb: Dictionary(Of , )
-  name.vb: Dictionary(Of , )
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
   spec.csharp:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: <
     nameWithType: <
     fullName: <
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
   - name: '>'
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
   - name: )
     nameWithType: )
     fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
 - uid: AttackSurfaceAnalyzer.Utils.Telemetry.TrackTrace*
   commentId: Overload:AttackSurfaceAnalyzer.Utils.Telemetry.TrackTrace
   name: TrackTrace
   nameWithType: Telemetry.TrackTrace
   fullName: AttackSurfaceAnalyzer.Utils.Telemetry.TrackTrace
-- uid: SeverityLevel
-  commentId: '!:SeverityLevel'
+- uid: Microsoft.ApplicationInsights.DataContracts.SeverityLevel
+  commentId: T:Microsoft.ApplicationInsights.DataContracts.SeverityLevel
+  parent: Microsoft.ApplicationInsights.DataContracts
   isExternal: true
   name: SeverityLevel
   nameWithType: SeverityLevel
-  fullName: SeverityLevel
-- uid: Exception
+  fullName: Microsoft.ApplicationInsights.DataContracts.SeverityLevel
+- uid: System.Exception
+  commentId: T:System.Exception
+  parent: System
   isExternal: true
   name: Exception
   nameWithType: Exception
-  fullName: Exception
+  fullName: System.Exception
+- uid: Microsoft.ApplicationInsights.DataContracts
+  commentId: N:Microsoft.ApplicationInsights.DataContracts
+  isExternal: true
+  name: Microsoft.ApplicationInsights.DataContracts
+  nameWithType: Microsoft.ApplicationInsights.DataContracts
+  fullName: Microsoft.ApplicationInsights.DataContracts

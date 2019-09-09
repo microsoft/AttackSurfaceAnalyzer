@@ -6,6 +6,7 @@ items:
   parent: AttackSurfaceAnalyzer.Types
   children:
   - AttackSurfaceAnalyzer.Types.RESULT_TYPE.CERTIFICATE
+  - AttackSurfaceAnalyzer.Types.RESULT_TYPE.COM
   - AttackSurfaceAnalyzer.Types.RESULT_TYPE.FILE
   - AttackSurfaceAnalyzer.Types.RESULT_TYPE.FIREWALL
   - AttackSurfaceAnalyzer.Types.RESULT_TYPE.GROUP
@@ -24,7 +25,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RESULT_TYPE
     path: ../Lib/Objects/Types.cs
@@ -33,8 +34,8 @@ items:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
   syntax:
-    content: 'public enum RESULT_TYPE : int'
-    content.vb: Public Enum RESULT_TYPE As Integer
+    content: public enum RESULT_TYPE
+    content.vb: Public Enum RESULT_TYPE
   modifiers.csharp:
   - public
   - enum
@@ -55,7 +56,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: UNKNOWN
     path: ../Lib/Objects/Types.cs
@@ -87,7 +88,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FILE
     path: ../Lib/Objects/Types.cs
@@ -119,7 +120,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: PORT
     path: ../Lib/Objects/Types.cs
@@ -151,7 +152,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: REGISTRY
     path: ../Lib/Objects/Types.cs
@@ -183,7 +184,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CERTIFICATE
     path: ../Lib/Objects/Types.cs
@@ -215,7 +216,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SERVICE
     path: ../Lib/Objects/Types.cs
@@ -247,7 +248,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: USER
     path: ../Lib/Objects/Types.cs
@@ -279,7 +280,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GROUP
     path: ../Lib/Objects/Types.cs
@@ -311,7 +312,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FIREWALL
     path: ../Lib/Objects/Types.cs
@@ -321,6 +322,38 @@ items:
   namespace: AttackSurfaceAnalyzer.Types
   syntax:
     content: FIREWALL = 8
+    return:
+      type: AttackSurfaceAnalyzer.Types.RESULT_TYPE
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Types.RESULT_TYPE.COM
+  commentId: F:AttackSurfaceAnalyzer.Types.RESULT_TYPE.COM
+  id: COM
+  parent: AttackSurfaceAnalyzer.Types.RESULT_TYPE
+  langs:
+  - csharp
+  - vb
+  name: COM
+  nameWithType: RESULT_TYPE.COM
+  fullName: AttackSurfaceAnalyzer.Types.RESULT_TYPE.COM
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/COM-Objects
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: COM
+    path: ../Lib/Objects/Types.cs
+    startLine: 15
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Types
+  syntax:
+    content: COM = 9
     return:
       type: AttackSurfaceAnalyzer.Types.RESULT_TYPE
   modifiers.csharp:

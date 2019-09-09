@@ -1,0 +1,28 @@
+### YamlMime:ManagedReference
+items:
+- uid: AttackSurfaceAnalyzer.Collectors.OpenPort
+  commentId: N:AttackSurfaceAnalyzer.Collectors.OpenPort
+  id: AttackSurfaceAnalyzer.Collectors.OpenPort
+  children:
+  - AttackSurfaceAnalyzer.Collectors.OpenPort.LinuxOpenPortUtils
+  - AttackSurfaceAnalyzer.Collectors.OpenPort.WindowsOpenPortUtils
+  langs:
+  - csharp
+  - vb
+  name: AttackSurfaceAnalyzer.Collectors.OpenPort
+  nameWithType: AttackSurfaceAnalyzer.Collectors.OpenPort
+  fullName: AttackSurfaceAnalyzer.Collectors.OpenPort
+  type: Namespace
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+references:
+- uid: AttackSurfaceAnalyzer.Collectors.OpenPort.LinuxOpenPortUtils
+  commentId: T:AttackSurfaceAnalyzer.Collectors.OpenPort.LinuxOpenPortUtils
+  name: LinuxOpenPortUtils
+  nameWithType: LinuxOpenPortUtils
+  fullName: AttackSurfaceAnalyzer.Collectors.OpenPort.LinuxOpenPortUtils
+- uid: AttackSurfaceAnalyzer.Collectors.OpenPort.WindowsOpenPortUtils
+  commentId: T:AttackSurfaceAnalyzer.Collectors.OpenPort.WindowsOpenPortUtils
+  name: WindowsOpenPortUtils
+  nameWithType: WindowsOpenPortUtils
+  fullName: AttackSurfaceAnalyzer.Collectors.OpenPort.WindowsOpenPortUtils

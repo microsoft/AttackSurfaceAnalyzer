@@ -1,0 +1,561 @@
+### YamlMime:ManagedReference
+items:
+- uid: AttackSurfaceAnalyzer.ObjectTypes.CompareResult
+  commentId: T:AttackSurfaceAnalyzer.ObjectTypes.CompareResult
+  id: CompareResult
+  parent: AttackSurfaceAnalyzer.ObjectTypes
+  children:
+  - AttackSurfaceAnalyzer.ObjectTypes.CompareResult.BaseRowKey
+  - AttackSurfaceAnalyzer.ObjectTypes.CompareResult.BaseRunId
+  - AttackSurfaceAnalyzer.ObjectTypes.CompareResult.ChangeType
+  - AttackSurfaceAnalyzer.ObjectTypes.CompareResult.CompareRowKey
+  - AttackSurfaceAnalyzer.ObjectTypes.CompareResult.CompareRunId
+  - AttackSurfaceAnalyzer.ObjectTypes.CompareResult.ResultType
+  langs:
+  - csharp
+  - vb
+  name: CompareResult
+  nameWithType: CompareResult
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.CompareResult
+  type: Class
+  source:
+    remote:
+      path: Lib/Objects/ResultObjects.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: CompareResult
+    path: ../Lib/Objects/ResultObjects.cs
+    startLine: 17
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public class CompareResult
+    content.vb: Public Class CompareResult
+  inheritance:
+  - System.Object
+  derivedClasses:
+  - AttackSurfaceAnalyzer.ObjectTypes.CertificateResult
+  - AttackSurfaceAnalyzer.ObjectTypes.FileSystemResult
+  - AttackSurfaceAnalyzer.ObjectTypes.OpenPortResult
+  - AttackSurfaceAnalyzer.ObjectTypes.OutputCompareResult
+  - AttackSurfaceAnalyzer.ObjectTypes.RegistryResult
+  - AttackSurfaceAnalyzer.ObjectTypes.ServiceResult
+  - AttackSurfaceAnalyzer.ObjectTypes.UserAccountResult
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: AttackSurfaceAnalyzer.ObjectTypes.CompareResult.BaseRowKey
+  commentId: F:AttackSurfaceAnalyzer.ObjectTypes.CompareResult.BaseRowKey
+  id: BaseRowKey
+  parent: AttackSurfaceAnalyzer.ObjectTypes.CompareResult
+  langs:
+  - csharp
+  - vb
+  name: BaseRowKey
+  nameWithType: CompareResult.BaseRowKey
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.CompareResult.BaseRowKey
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/ResultObjects.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: BaseRowKey
+    path: ../Lib/Objects/ResultObjects.cs
+    startLine: 19
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public string BaseRowKey
+    return:
+      type: System.String
+    content.vb: Public BaseRowKey As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.ObjectTypes.CompareResult.CompareRowKey
+  commentId: F:AttackSurfaceAnalyzer.ObjectTypes.CompareResult.CompareRowKey
+  id: CompareRowKey
+  parent: AttackSurfaceAnalyzer.ObjectTypes.CompareResult
+  langs:
+  - csharp
+  - vb
+  name: CompareRowKey
+  nameWithType: CompareResult.CompareRowKey
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.CompareResult.CompareRowKey
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/ResultObjects.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: CompareRowKey
+    path: ../Lib/Objects/ResultObjects.cs
+    startLine: 20
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public string CompareRowKey
+    return:
+      type: System.String
+    content.vb: Public CompareRowKey As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.ObjectTypes.CompareResult.BaseRunId
+  commentId: F:AttackSurfaceAnalyzer.ObjectTypes.CompareResult.BaseRunId
+  id: BaseRunId
+  parent: AttackSurfaceAnalyzer.ObjectTypes.CompareResult
+  langs:
+  - csharp
+  - vb
+  name: BaseRunId
+  nameWithType: CompareResult.BaseRunId
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.CompareResult.BaseRunId
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/ResultObjects.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: BaseRunId
+    path: ../Lib/Objects/ResultObjects.cs
+    startLine: 21
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public string BaseRunId
+    return:
+      type: System.String
+    content.vb: Public BaseRunId As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.ObjectTypes.CompareResult.CompareRunId
+  commentId: F:AttackSurfaceAnalyzer.ObjectTypes.CompareResult.CompareRunId
+  id: CompareRunId
+  parent: AttackSurfaceAnalyzer.ObjectTypes.CompareResult
+  langs:
+  - csharp
+  - vb
+  name: CompareRunId
+  nameWithType: CompareResult.CompareRunId
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.CompareResult.CompareRunId
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/ResultObjects.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: CompareRunId
+    path: ../Lib/Objects/ResultObjects.cs
+    startLine: 22
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public string CompareRunId
+    return:
+      type: System.String
+    content.vb: Public CompareRunId As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.ObjectTypes.CompareResult.ChangeType
+  commentId: F:AttackSurfaceAnalyzer.ObjectTypes.CompareResult.ChangeType
+  id: ChangeType
+  parent: AttackSurfaceAnalyzer.ObjectTypes.CompareResult
+  langs:
+  - csharp
+  - vb
+  name: ChangeType
+  nameWithType: CompareResult.ChangeType
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.CompareResult.ChangeType
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/ResultObjects.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ChangeType
+    path: ../Lib/Objects/ResultObjects.cs
+    startLine: 23
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public CHANGE_TYPE ChangeType
+    return:
+      type: AttackSurfaceAnalyzer.ObjectTypes.CHANGE_TYPE
+    content.vb: Public ChangeType As CHANGE_TYPE
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.ObjectTypes.CompareResult.ResultType
+  commentId: F:AttackSurfaceAnalyzer.ObjectTypes.CompareResult.ResultType
+  id: ResultType
+  parent: AttackSurfaceAnalyzer.ObjectTypes.CompareResult
+  langs:
+  - csharp
+  - vb
+  name: ResultType
+  nameWithType: CompareResult.ResultType
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.CompareResult.ResultType
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/ResultObjects.cs
+      branch: master
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ResultType
+    path: ../Lib/Objects/ResultObjects.cs
+    startLine: 24
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+  namespace: AttackSurfaceAnalyzer.ObjectTypes
+  syntax:
+    content: public RESULT_TYPE ResultType
+    return:
+      type: AttackSurfaceAnalyzer.ObjectTypes.RESULT_TYPE
+    content.vb: Public ResultType As RESULT_TYPE
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: AttackSurfaceAnalyzer.ObjectTypes
+  commentId: N:AttackSurfaceAnalyzer.ObjectTypes
+  name: AttackSurfaceAnalyzer.ObjectTypes
+  nameWithType: AttackSurfaceAnalyzer.ObjectTypes
+  fullName: AttackSurfaceAnalyzer.ObjectTypes
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: AttackSurfaceAnalyzer.ObjectTypes.CHANGE_TYPE
+  commentId: T:AttackSurfaceAnalyzer.ObjectTypes.CHANGE_TYPE
+  parent: AttackSurfaceAnalyzer.ObjectTypes
+  name: CHANGE_TYPE
+  nameWithType: CHANGE_TYPE
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.CHANGE_TYPE
+- uid: AttackSurfaceAnalyzer.ObjectTypes.RESULT_TYPE
+  commentId: T:AttackSurfaceAnalyzer.ObjectTypes.RESULT_TYPE
+  parent: AttackSurfaceAnalyzer.ObjectTypes
+  name: RESULT_TYPE
+  nameWithType: RESULT_TYPE
+  fullName: AttackSurfaceAnalyzer.ObjectTypes.RESULT_TYPE

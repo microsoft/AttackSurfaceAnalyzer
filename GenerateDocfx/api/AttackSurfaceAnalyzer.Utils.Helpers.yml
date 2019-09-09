@@ -27,7 +27,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Helpers.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Helpers
     path: ../Lib/Utils/Helpers.cs
@@ -36,12 +36,18 @@ items:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
   syntax:
-    content: 'public class Helpers : object'
-    content.vb: >-
-      Public Class Helpers
-          Inherits Object
+    content: public class Helpers
+    content.vb: Public Class Helpers
   inheritance:
   - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
   modifiers.csharp:
   - public
   - class
@@ -62,7 +68,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Helpers.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: OpenBrowser
     path: ../Lib/Utils/Helpers.cs
@@ -97,7 +103,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Helpers.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsAdmin
     path: ../Lib/Utils/Helpers.cs
@@ -131,7 +137,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Helpers.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: MakeValidFileName
     path: ../Lib/Utils/Helpers.cs
@@ -168,7 +174,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Helpers.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetVersionString
     path: ../Lib/Utils/Helpers.cs
@@ -202,7 +208,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Helpers.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetPlatformString
     path: ../Lib/Utils/Helpers.cs
@@ -236,7 +242,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Helpers.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ResultTypeToTableName
     path: ../Lib/Utils/Helpers.cs
@@ -273,7 +279,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Helpers.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetOsVersion
     path: ../Lib/Utils/Helpers.cs
@@ -307,7 +313,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Helpers.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetOsName
     path: ../Lib/Utils/Helpers.cs
@@ -341,7 +347,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Helpers.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GenerateMetadata
     path: ../Lib/Utils/Helpers.cs
@@ -352,7 +358,7 @@ items:
   syntax:
     content: public static Dictionary<string, string> GenerateMetadata()
     return:
-      type: Dictionary{System.String,System.String}
+      type: System.Collections.Generic.Dictionary{System.String,System.String}
     content.vb: Public Shared Function GenerateMetadata As Dictionary(Of String, String)
   overload: AttackSurfaceAnalyzer.Utils.Helpers.GenerateMetadata*
   modifiers.csharp:
@@ -375,7 +381,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Helpers.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RunIdsToCompareId
     path: ../Lib/Utils/Helpers.cs
@@ -414,7 +420,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Helpers.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsList
     path: ../Lib/Utils/Helpers.cs
@@ -451,7 +457,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Helpers.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsDictionary
     path: ../Lib/Utils/Helpers.cs
@@ -481,16 +487,305 @@ references:
   nameWithType: AttackSurfaceAnalyzer.Utils
   fullName: AttackSurfaceAnalyzer.Utils
 - uid: System.Object
+  commentId: T:System.Object
+  parent: System
   isExternal: true
   name: Object
   nameWithType: Object
   fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
 - uid: AttackSurfaceAnalyzer.Utils.Helpers.OpenBrowser*
   commentId: Overload:AttackSurfaceAnalyzer.Utils.Helpers.OpenBrowser
   name: OpenBrowser
   nameWithType: Helpers.OpenBrowser
   fullName: AttackSurfaceAnalyzer.Utils.Helpers.OpenBrowser
 - uid: System.String
+  commentId: T:System.String
+  parent: System
   isExternal: true
   name: String
   nameWithType: String
@@ -501,6 +796,8 @@ references:
   nameWithType: Helpers.IsAdmin
   fullName: AttackSurfaceAnalyzer.Utils.Helpers.IsAdmin
 - uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
   isExternal: true
   name: Boolean
   nameWithType: Boolean
@@ -551,20 +848,21 @@ references:
   name: GenerateMetadata
   nameWithType: Helpers.GenerateMetadata
   fullName: AttackSurfaceAnalyzer.Utils.Helpers.GenerateMetadata
-- uid: Dictionary{System.String,System.String}
-  commentId: '!:Dictionary{System.String,System.String}'
-  definition: Dictionary`2
+- uid: System.Collections.Generic.Dictionary{System.String,System.String}
+  commentId: T:System.Collections.Generic.Dictionary{System.String,System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
   name: Dictionary<String, String>
   nameWithType: Dictionary<String, String>
-  fullName: Dictionary<System.String, System.String>
+  fullName: System.Collections.Generic.Dictionary<System.String, System.String>
   nameWithType.vb: Dictionary(Of String, String)
-  fullName.vb: Dictionary(Of System.String, System.String)
+  fullName.vb: System.Collections.Generic.Dictionary(Of System.String, System.String)
   name.vb: Dictionary(Of String, String)
   spec.csharp:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: <
     nameWithType: <
@@ -586,10 +884,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -610,56 +908,63 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: Dictionary`2
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
   isExternal: true
-  name: Dictionary<, >
-  nameWithType: Dictionary<, >
-  fullName: Dictionary<, >
-  nameWithType.vb: Dictionary(Of , )
-  fullName.vb: Dictionary(Of , )
-  name.vb: Dictionary(Of , )
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
   spec.csharp:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: <
     nameWithType: <
     fullName: <
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
   - name: '>'
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
   - name: )
     nameWithType: )
     fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
 - uid: AttackSurfaceAnalyzer.Utils.Helpers.RunIdsToCompareId*
   commentId: Overload:AttackSurfaceAnalyzer.Utils.Helpers.RunIdsToCompareId
   name: RunIdsToCompareId

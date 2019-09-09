@@ -1,0 +1,139 @@
+### YamlMime:TableOfContent
+- uid: AttackSurfaceAnalyzer.Collectors
+  name: AttackSurfaceAnalyzer.Collectors
+  items:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector
+    name: BaseCollector
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCompare
+    name: BaseCompare
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseMonitor
+    name: BaseMonitor
+- uid: AttackSurfaceAnalyzer.Collectors.Certificates
+  name: AttackSurfaceAnalyzer.Collectors.Certificates
+  items:
+  - uid: AttackSurfaceAnalyzer.Collectors.Certificates.CertificateCollector
+    name: CertificateCollector
+  - uid: AttackSurfaceAnalyzer.Collectors.Certificates.CertificateCompare
+    name: CertificateCompare
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystem
+  name: AttackSurfaceAnalyzer.Collectors.FileSystem
+  items:
+  - uid: AttackSurfaceAnalyzer.Collectors.FileSystem.FileSystemCollector
+    name: FileSystemCollector
+  - uid: AttackSurfaceAnalyzer.Collectors.FileSystem.FileSystemCompare
+    name: FileSystemCompare
+  - uid: AttackSurfaceAnalyzer.Collectors.FileSystem.FileSystemMonitor
+    name: FileSystemMonitor
+  - uid: AttackSurfaceAnalyzer.Collectors.FileSystem.FileSystemUtils
+    name: FileSystemUtils
+  - uid: AttackSurfaceAnalyzer.Collectors.FileSystem.LinuxFileSystemUtils
+    name: LinuxFileSystemUtils
+  - uid: AttackSurfaceAnalyzer.Collectors.FileSystem.WindowsFileSystemUtils
+    name: WindowsFileSystemUtils
+- uid: AttackSurfaceAnalyzer.Collectors.OpenPort
+  name: AttackSurfaceAnalyzer.Collectors.OpenPort
+  items:
+  - uid: AttackSurfaceAnalyzer.Collectors.OpenPort.LinuxOpenPortUtils
+    name: LinuxOpenPortUtils
+  - uid: AttackSurfaceAnalyzer.Collectors.OpenPort.WindowsOpenPortUtils
+    name: WindowsOpenPortUtils
+- uid: AttackSurfaceAnalyzer.Collectors.OpenPorts
+  name: AttackSurfaceAnalyzer.Collectors.OpenPorts
+  items:
+  - uid: AttackSurfaceAnalyzer.Collectors.OpenPorts.OpenPortCollector
+    name: OpenPortCollector
+  - uid: AttackSurfaceAnalyzer.Collectors.OpenPorts.OpenPortCompare
+    name: OpenPortCompare
+- uid: AttackSurfaceAnalyzer.Collectors.Registry
+  name: AttackSurfaceAnalyzer.Collectors.Registry
+  items:
+  - uid: AttackSurfaceAnalyzer.Collectors.Registry.RegistryCollector
+    name: RegistryCollector
+  - uid: AttackSurfaceAnalyzer.Collectors.Registry.RegistryCompare
+    name: RegistryCompare
+  - uid: AttackSurfaceAnalyzer.Collectors.Registry.RegistryMonitor
+    name: RegistryMonitor
+- uid: AttackSurfaceAnalyzer.Collectors.Service
+  name: AttackSurfaceAnalyzer.Collectors.Service
+  items:
+  - uid: AttackSurfaceAnalyzer.Collectors.Service.ServiceCollector
+    name: ServiceCollector
+  - uid: AttackSurfaceAnalyzer.Collectors.Service.ServiceCompare
+    name: ServiceCompare
+- uid: AttackSurfaceAnalyzer.Collectors.UserAccount
+  name: AttackSurfaceAnalyzer.Collectors.UserAccount
+  items:
+  - uid: AttackSurfaceAnalyzer.Collectors.UserAccount.UserAccountCollector
+    name: UserAccountCollector
+  - uid: AttackSurfaceAnalyzer.Collectors.UserAccount.UserAccountCompare
+    name: UserAccountCompare
+- uid: AttackSurfaceAnalyzer.ObjectTypes
+  name: AttackSurfaceAnalyzer.ObjectTypes
+  items:
+  - uid: AttackSurfaceAnalyzer.ObjectTypes.CertificateObject
+    name: CertificateObject
+  - uid: AttackSurfaceAnalyzer.ObjectTypes.CertificateResult
+    name: CertificateResult
+  - uid: AttackSurfaceAnalyzer.ObjectTypes.CHANGE_TYPE
+    name: CHANGE_TYPE
+  - uid: AttackSurfaceAnalyzer.ObjectTypes.CompareResult
+    name: CompareResult
+  - uid: AttackSurfaceAnalyzer.ObjectTypes.ERRORS
+    name: ERRORS
+  - uid: AttackSurfaceAnalyzer.ObjectTypes.FileMonitorEvent
+    name: FileMonitorEvent
+  - uid: AttackSurfaceAnalyzer.ObjectTypes.FileSystemObject
+    name: FileSystemObject
+  - uid: AttackSurfaceAnalyzer.ObjectTypes.FileSystemResult
+    name: FileSystemResult
+  - uid: AttackSurfaceAnalyzer.ObjectTypes.OpenPortObject
+    name: OpenPortObject
+  - uid: AttackSurfaceAnalyzer.ObjectTypes.OpenPortResult
+    name: OpenPortResult
+  - uid: AttackSurfaceAnalyzer.ObjectTypes.OutputCompareResult
+    name: OutputCompareResult
+  - uid: AttackSurfaceAnalyzer.ObjectTypes.OutputFileMonitorResult
+    name: OutputFileMonitorResult
+  - uid: AttackSurfaceAnalyzer.ObjectTypes.RegistryObject
+    name: RegistryObject
+  - uid: AttackSurfaceAnalyzer.ObjectTypes.RegistryResult
+    name: RegistryResult
+  - uid: AttackSurfaceAnalyzer.ObjectTypes.RESULT_TYPE
+    name: RESULT_TYPE
+  - uid: AttackSurfaceAnalyzer.ObjectTypes.RUN_STATUS
+    name: RUN_STATUS
+  - uid: AttackSurfaceAnalyzer.ObjectTypes.ServiceObject
+    name: ServiceObject
+  - uid: AttackSurfaceAnalyzer.ObjectTypes.ServiceResult
+    name: ServiceResult
+  - uid: AttackSurfaceAnalyzer.ObjectTypes.UserAccountObject
+    name: UserAccountObject
+  - uid: AttackSurfaceAnalyzer.ObjectTypes.UserAccountResult
+    name: UserAccountResult
+- uid: AttackSurfaceAnalyzer.Utils
+  name: AttackSurfaceAnalyzer.Utils
+  items:
+  - uid: AttackSurfaceAnalyzer.Utils.ConfigurationReader
+    name: ConfigurationReader
+  - uid: AttackSurfaceAnalyzer.Utils.CryptoHelpers
+    name: CryptoHelpers
+  - uid: AttackSurfaceAnalyzer.Utils.DatabaseManager
+    name: DatabaseManager
+  - uid: AttackSurfaceAnalyzer.Utils.DirectoryWalker
+    name: DirectoryWalker
+  - uid: AttackSurfaceAnalyzer.Utils.Elevation
+    name: Elevation
+  - uid: AttackSurfaceAnalyzer.Utils.FileWatcher
+    name: FileWatcher
+  - uid: AttackSurfaceAnalyzer.Utils.Helpers
+    name: Helpers
+  - uid: AttackSurfaceAnalyzer.Utils.Logger
+    name: Logger
+  - uid: AttackSurfaceAnalyzer.Utils.ProcessPort
+    name: ProcessPort
+  - uid: AttackSurfaceAnalyzer.Utils.RunManager
+    name: RunManager
+  - uid: AttackSurfaceAnalyzer.Utils.SqliteHelper
+    name: SqliteHelper
+  - uid: AttackSurfaceAnalyzer.Utils.Win32ProcessPorts
+    name: Win32ProcessPorts

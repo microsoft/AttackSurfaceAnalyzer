@@ -19,17 +19,17 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: PLATFORM
     path: ../Lib/Objects/Types.cs
-    startLine: 86
+    startLine: 87
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
   syntax:
-    content: 'public enum PLATFORM : int'
-    content.vb: Public Enum PLATFORM As Integer
+    content: public enum PLATFORM
+    content.vb: Public Enum PLATFORM
   modifiers.csharp:
   - public
   - enum
@@ -50,11 +50,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: WINDOWS
     path: ../Lib/Objects/Types.cs
-    startLine: 88
+    startLine: 89
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -82,11 +82,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LINUX
     path: ../Lib/Objects/Types.cs
-    startLine: 89
+    startLine: 90
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -114,11 +114,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: MACOS
     path: ../Lib/Objects/Types.cs
-    startLine: 90
+    startLine: 91
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -146,11 +146,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/FunctionalTests
+      branch: gfs/COM-Objects
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: UNKNOWN
     path: ../Lib/Objects/Types.cs
-    startLine: 91
+    startLine: 92
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types

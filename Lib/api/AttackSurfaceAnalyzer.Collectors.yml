@@ -1,0 +1,42 @@
+### YamlMime:ManagedReference
+items:
+- uid: AttackSurfaceAnalyzer.Collectors
+  commentId: N:AttackSurfaceAnalyzer.Collectors
+  id: AttackSurfaceAnalyzer.Collectors
+  children:
+  - AttackSurfaceAnalyzer.Collectors.BaseCollector
+  - AttackSurfaceAnalyzer.Collectors.BaseCompare
+  - AttackSurfaceAnalyzer.Collectors.BaseMonitor
+  langs:
+  - csharp
+  - vb
+  name: AttackSurfaceAnalyzer.Collectors
+  nameWithType: AttackSurfaceAnalyzer.Collectors
+  fullName: AttackSurfaceAnalyzer.Collectors
+  type: Namespace
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+references:
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector
+  commentId: T:AttackSurfaceAnalyzer.Collectors.BaseCollector
+  parent: AttackSurfaceAnalyzer.Collectors
+  name: BaseCollector
+  nameWithType: BaseCollector
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCompare
+  commentId: T:AttackSurfaceAnalyzer.Collectors.BaseCompare
+  parent: AttackSurfaceAnalyzer.Collectors
+  name: BaseCompare
+  nameWithType: BaseCompare
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCompare
+- uid: AttackSurfaceAnalyzer.Collectors.BaseMonitor
+  commentId: T:AttackSurfaceAnalyzer.Collectors.BaseMonitor
+  parent: AttackSurfaceAnalyzer.Collectors
+  name: BaseMonitor
+  nameWithType: BaseMonitor
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseMonitor
+- uid: AttackSurfaceAnalyzer.Collectors
+  commentId: N:AttackSurfaceAnalyzer.Collectors
+  name: AttackSurfaceAnalyzer.Collectors
+  nameWithType: AttackSurfaceAnalyzer.Collectors
+  fullName: AttackSurfaceAnalyzer.Collectors

@@ -1,0 +1,52 @@
+### YamlMime:ManagedReference
+items:
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystem
+  commentId: N:AttackSurfaceAnalyzer.Collectors.FileSystem
+  id: AttackSurfaceAnalyzer.Collectors.FileSystem
+  children:
+  - AttackSurfaceAnalyzer.Collectors.FileSystem.FileSystemCollector
+  - AttackSurfaceAnalyzer.Collectors.FileSystem.FileSystemCompare
+  - AttackSurfaceAnalyzer.Collectors.FileSystem.FileSystemMonitor
+  - AttackSurfaceAnalyzer.Collectors.FileSystem.FileSystemUtils
+  - AttackSurfaceAnalyzer.Collectors.FileSystem.LinuxFileSystemUtils
+  - AttackSurfaceAnalyzer.Collectors.FileSystem.WindowsFileSystemUtils
+  langs:
+  - csharp
+  - vb
+  name: AttackSurfaceAnalyzer.Collectors.FileSystem
+  nameWithType: AttackSurfaceAnalyzer.Collectors.FileSystem
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystem
+  type: Namespace
+  assemblies:
+  - AttackSurfaceAnalyzerLib
+references:
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystem.FileSystemCollector
+  commentId: T:AttackSurfaceAnalyzer.Collectors.FileSystem.FileSystemCollector
+  name: FileSystemCollector
+  nameWithType: FileSystemCollector
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystem.FileSystemCollector
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystem.FileSystemCompare
+  commentId: T:AttackSurfaceAnalyzer.Collectors.FileSystem.FileSystemCompare
+  name: FileSystemCompare
+  nameWithType: FileSystemCompare
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystem.FileSystemCompare
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystem.FileSystemMonitor
+  commentId: T:AttackSurfaceAnalyzer.Collectors.FileSystem.FileSystemMonitor
+  name: FileSystemMonitor
+  nameWithType: FileSystemMonitor
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystem.FileSystemMonitor
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystem.FileSystemUtils
+  commentId: T:AttackSurfaceAnalyzer.Collectors.FileSystem.FileSystemUtils
+  name: FileSystemUtils
+  nameWithType: FileSystemUtils
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystem.FileSystemUtils
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystem.LinuxFileSystemUtils
+  commentId: T:AttackSurfaceAnalyzer.Collectors.FileSystem.LinuxFileSystemUtils
+  name: LinuxFileSystemUtils
+  nameWithType: LinuxFileSystemUtils
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystem.LinuxFileSystemUtils
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystem.WindowsFileSystemUtils
+  commentId: T:AttackSurfaceAnalyzer.Collectors.FileSystem.WindowsFileSystemUtils
+  name: WindowsFileSystemUtils
+  nameWithType: WindowsFileSystemUtils
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystem.WindowsFileSystemUtils

@@ -10,6 +10,8 @@
     name: BaseMonitor
   - uid: AttackSurfaceAnalyzer.Collectors.CertificateCollector
     name: CertificateCollector
+  - uid: AttackSurfaceAnalyzer.Collectors.ComObjectcollector
+    name: ComObjectcollector
   - uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector
     name: FileSystemCollector
   - uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor
@@ -49,6 +51,8 @@
     name: Clause
   - uid: AttackSurfaceAnalyzer.Objects.CollectObject
     name: CollectObject
+  - uid: AttackSurfaceAnalyzer.Objects.ComObject
+    name: ComObject
   - uid: AttackSurfaceAnalyzer.Objects.CompareResult
     name: CompareResult
   - uid: AttackSurfaceAnalyzer.Objects.Diff
