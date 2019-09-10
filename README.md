@@ -43,17 +43,26 @@ All data collected is stored in a local SQLite database called `asa.sqlite`.
 
 ## How to Use Attack Surface Analyzer
 
-Information on how to use Attack Surface Analyzer can be found on our
+Run the following commands in an Administrator Shell (or as root)
+
+### CLI Mode
+To start a default all collectors run: ```asa.exe collect```
+
+To compare the last two collection runs: ```asa.exe export-collect```
+
+For other commands run: ```asa.exe --help```
+
+### GUI Mode
+For the GUI interface run: ```asa.exe gui``` and a browser window should open directed at ```http://localhost:5000``` with the web based interface.
+
+Detailed information on how to use Attack Surface Analyzer can be found on our
 [wiki](https://github.com/Microsoft/AttackSurfaceAnalyzer/wiki).
 
 ## Future Plans (tentative)
 
 We plan on adding additional features to Attack Surface Analyzer, including those from the list below: 
 
-- Code signing info
-- Drivers (partially covered presently via file system monitoring)
-- Firewall settings
-- Redistributable installations
+- Extended Driver details
 - Network traffic (live monitoring)
 - Registry (live monitoring)
 - Requested features which existed in the original Attack Surface Analyzer.
@@ -63,7 +72,7 @@ If you have feedback on these or other features, please
 
 ## Installation
 
-Attack Surface Analyzer runs on Windows, Linux, and MacOS, and is built using [.NET Core](https://dotnet.microsoft.com/). It has both a command-line interface and [ElectronNET](https://github.com/ElectronNET/Electron.NET) GUI option available. Neither version currently has an installer.
+Attack Surface Analyzer runs on Windows, Linux, and MacOS, and is built using [.NET Core](https://dotnet.microsoft.com/).
 
 Packages are available on our [releases](https://github.com/Microsoft/AttackSurfaceAnalyzer/releases) page as compressed archives.
 
