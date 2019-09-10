@@ -3,8 +3,6 @@
 
 using System.Threading.Tasks;
 using AttackSurfaceAnalyzer.Utils;
-using ElectronNET.API;
-using ElectronNET.API.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -39,11 +37,6 @@ namespace AttackSurfaceAnalyzer.Gui
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            DatabaseManager.SqliteFilename = "asa.sqlite";
-            DatabaseManager.Setup();
-            Logger.Setup();
-            Telemetry.Setup(Gui: true);
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -54,7 +47,6 @@ namespace AttackSurfaceAnalyzer.Gui
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
@@ -63,30 +55,6 @@ namespace AttackSurfaceAnalyzer.Gui
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-            });
-
-            WebPreferences wp = new WebPreferences();
-            wp.NodeIntegration = false;
-            wp.ContextIsolation = true;
-
-            BrowserWindowOptions browserWindowOptions = new BrowserWindowOptions
-            {
-#if DEBUG
-                AutoHideMenuBar = false,
-#else
-                AutoHideMenuBar = true,
-#endif
-                Width = 1200,
-                Height = 1000,
-                Resizable = true,
-                Center = true,
-                Title = string.Format("Attack Surface Analyzer {0}", Helpers.GetVersionString()),
-                WebPreferences = wp
-            };
-
-            Task.Run(async () =>
-            {
-                await Electron.WindowManager.CreateWindowAsync(browserWindowOptions);
             });
         }
     }

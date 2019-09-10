@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: Lib/Objects/CollectObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CollectObject
     path: ../Lib/Objects/CollectObject.cs
@@ -71,7 +71,7 @@ items:
   source:
     remote:
       path: Lib/Objects/CollectObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ResultType
     path: ../Lib/Objects/CollectObject.cs
@@ -102,7 +102,7 @@ items:
   source:
     remote:
       path: Lib/Objects/CollectObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Identity
     path: ../Lib/Objects/CollectObject.cs
@@ -139,7 +139,7 @@ items:
   source:
     remote:
       path: Lib/Objects/CollectObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Message
     path: ../Lib/Objects/CollectObject.cs

@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: Lib/Utils/SqliteHelper.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SqliteHelper
     path: ../Lib/Utils/SqliteHelper.cs
@@ -57,7 +57,7 @@ items:
   source:
     remote:
       path: Lib/Utils/SqliteHelper.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Escape
     path: ../Lib/Utils/SqliteHelper.cs

@@ -130,7 +130,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Resources
     path: ../Lib/Properties/Resources.Designer.cs
@@ -173,7 +173,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ResourceManager
     path: ../Lib/Properties/Resources.Designer.cs
@@ -212,7 +212,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Culture
     path: ../Lib/Properties/Resources.Designer.cs
@@ -251,7 +251,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: AccountType
     path: ../Lib/Properties/Resources.Designer.cs
@@ -290,7 +290,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Address
     path: ../Lib/Properties/Resources.Designer.cs
@@ -329,7 +329,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: AdminWarning
     path: ../Lib/Properties/Resources.Designer.cs
@@ -368,7 +368,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: AnalyzeResults
     path: ../Lib/Properties/Resources.Designer.cs
@@ -407,7 +407,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ApplicationHasTelemetry
     path: ../Lib/Properties/Resources.Designer.cs
@@ -446,7 +446,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ApplicationHasTelemetry2
     path: ../Lib/Properties/Resources.Designer.cs
@@ -485,7 +485,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ApplicationHasTelemetry3
     path: ../Lib/Properties/Resources.Designer.cs
@@ -524,7 +524,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: BaseRunId
     path: ../Lib/Properties/Resources.Designer.cs
@@ -563,7 +563,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: BaseStatus
     path: ../Lib/Properties/Resources.Designer.cs
@@ -602,7 +602,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Begin
     path: ../Lib/Properties/Resources.Designer.cs
@@ -641,7 +641,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Certificates
     path: ../Lib/Properties/Resources.Designer.cs
@@ -680,7 +680,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ChangeType
     path: ../Lib/Properties/Resources.Designer.cs
@@ -719,7 +719,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ChooseCollectors
     path: ../Lib/Properties/Resources.Designer.cs
@@ -758,7 +758,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ChooseMonitor
     path: ../Lib/Properties/Resources.Designer.cs
@@ -797,7 +797,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Collectors
     path: ../Lib/Properties/Resources.Designer.cs
@@ -836,7 +836,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CollectSnapshotDesc
     path: ../Lib/Properties/Resources.Designer.cs
@@ -875,7 +875,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CompareDesc
     path: ../Lib/Properties/Resources.Designer.cs
@@ -914,7 +914,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CompareRunId
     path: ../Lib/Properties/Resources.Designer.cs
@@ -953,7 +953,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Comparing
     path: ../Lib/Properties/Resources.Designer.cs
@@ -992,7 +992,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Completed
     path: ../Lib/Properties/Resources.Designer.cs
@@ -1031,7 +1031,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Contents
     path: ../Lib/Properties/Resources.Designer.cs
@@ -1070,7 +1070,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Created
     path: ../Lib/Properties/Resources.Designer.cs
@@ -1109,7 +1109,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CurrentState
     path: ../Lib/Properties/Resources.Designer.cs
@@ -1148,7 +1148,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Deleted
     path: ../Lib/Properties/Resources.Designer.cs
@@ -1187,7 +1187,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DeletedDatabase
     path: ../Lib/Properties/Resources.Designer.cs
@@ -1226,7 +1226,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DeletedDatabaseAt
     path: ../Lib/Properties/Resources.Designer.cs
@@ -1265,7 +1265,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Description
     path: ../Lib/Properties/Resources.Designer.cs
@@ -1304,7 +1304,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DisplayName
     path: ../Lib/Properties/Resources.Designer.cs
@@ -1343,7 +1343,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DoneWriting
     path: ../Lib/Properties/Resources.Designer.cs
@@ -1382,7 +1382,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DueToFilter
     path: ../Lib/Properties/Resources.Designer.cs
@@ -1421,7 +1421,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DumpingDataFromDatabase
     path: ../Lib/Properties/Resources.Designer.cs
@@ -1460,7 +1460,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: End
     path: ../Lib/Properties/Resources.Designer.cs
@@ -1499,7 +1499,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: EnumeratingCollectRunIds
     path: ../Lib/Properties/Resources.Designer.cs
@@ -1538,7 +1538,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: EnumeratingMonitorRunIds
     path: ../Lib/Properties/Resources.Designer.cs
@@ -1577,7 +1577,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Err_AccessControl
     path: ../Lib/Properties/Resources.Designer.cs
@@ -1616,7 +1616,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Err_CollectingFrom
     path: ../Lib/Properties/Resources.Designer.cs
@@ -1655,7 +1655,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Err_CouldntDetermineOneRun
     path: ../Lib/Properties/Resources.Designer.cs
@@ -1694,7 +1694,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Err_CouldntDetermineTwoRun
     path: ../Lib/Properties/Resources.Designer.cs
@@ -1733,7 +1733,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Err_FiltersFile
     path: ../Lib/Properties/Resources.Designer.cs
@@ -1772,7 +1772,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Err_Iproute2
     path: ../Lib/Properties/Resources.Designer.cs
@@ -1811,7 +1811,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Err_Lsof
     path: ../Lib/Properties/Resources.Designer.cs
@@ -1850,7 +1850,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Err_NeedResults
     path: ../Lib/Properties/Resources.Designer.cs
@@ -1889,7 +1889,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Err_NoCollectors
     path: ../Lib/Properties/Resources.Designer.cs
@@ -1928,7 +1928,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Err_NoMonitors
     path: ../Lib/Properties/Resources.Designer.cs
@@ -1967,7 +1967,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Err_OutputPathNotExist
     path: ../Lib/Properties/Resources.Designer.cs
@@ -2006,7 +2006,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Err_RunAsAdmin
     path: ../Lib/Properties/Resources.Designer.cs
@@ -2045,7 +2045,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Err_RunAsRoot
     path: ../Lib/Properties/Resources.Designer.cs
@@ -2084,7 +2084,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Err_RunIdAlreadyUsed
     path: ../Lib/Properties/Resources.Designer.cs
@@ -2123,7 +2123,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ExcludingHive
     path: ../Lib/Properties/Resources.Designer.cs
@@ -2162,7 +2162,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ExportAll
     path: ../Lib/Properties/Resources.Designer.cs
@@ -2201,7 +2201,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ExportDirectory
     path: ../Lib/Properties/Resources.Designer.cs
@@ -2240,7 +2240,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Exporting
     path: ../Lib/Properties/Resources.Designer.cs
@@ -2279,7 +2279,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ExportOnly
     path: ../Lib/Properties/Resources.Designer.cs
@@ -2318,7 +2318,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ExportOptions
     path: ../Lib/Properties/Resources.Designer.cs
@@ -2357,7 +2357,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FailedParsed
     path: ../Lib/Properties/Resources.Designer.cs
@@ -2396,7 +2396,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FailedToDeleteDatabase
     path: ../Lib/Properties/Resources.Designer.cs
@@ -2435,7 +2435,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Files
     path: ../Lib/Properties/Resources.Designer.cs
@@ -2474,7 +2474,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FirstRunListRunsError
     path: ../Lib/Properties/Resources.Designer.cs
@@ -2513,7 +2513,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FirstScanDesc
     path: ../Lib/Properties/Resources.Designer.cs
@@ -2552,7 +2552,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Found
     path: ../Lib/Properties/Resources.Designer.cs
@@ -2591,7 +2591,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FoundCreated
     path: ../Lib/Properties/Resources.Designer.cs
@@ -2630,7 +2630,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FoundDeleted
     path: ../Lib/Properties/Resources.Designer.cs
@@ -2669,7 +2669,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FoundModified
     path: ../Lib/Properties/Resources.Designer.cs
@@ -2708,7 +2708,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Hash
     path: ../Lib/Properties/Resources.Designer.cs
@@ -2747,7 +2747,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: InvalidPath
     path: ../Lib/Properties/Resources.Designer.cs
@@ -2786,7 +2786,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LiveMonitoring
     path: ../Lib/Properties/Resources.Designer.cs
@@ -2825,7 +2825,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LiveMonitoringDesc
     path: ../Lib/Properties/Resources.Designer.cs
@@ -2864,7 +2864,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LoadedAnalyses
     path: ../Lib/Properties/Resources.Designer.cs
@@ -2903,7 +2903,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LoadedFilters
     path: ../Lib/Properties/Resources.Designer.cs
@@ -2942,7 +2942,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Modified
     path: ../Lib/Properties/Resources.Designer.cs
@@ -2981,7 +2981,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: MonitoringPressC
     path: ../Lib/Properties/Resources.Designer.cs
@@ -3020,7 +3020,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: MonitorStartedFor
     path: ../Lib/Properties/Resources.Designer.cs
@@ -3059,7 +3059,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: MoreInfo1
     path: ../Lib/Properties/Resources.Designer.cs
@@ -3098,7 +3098,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: MoreInfo2
     path: ../Lib/Properties/Resources.Designer.cs
@@ -3137,7 +3137,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Name
     path: ../Lib/Properties/Resources.Designer.cs
@@ -3176,7 +3176,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: NoCollectRuns
     path: ../Lib/Properties/Resources.Designer.cs
@@ -3215,7 +3215,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: NoMonitorRuns
     path: ../Lib/Properties/Resources.Designer.cs
@@ -3254,7 +3254,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: OldName
     path: ../Lib/Properties/Resources.Designer.cs
@@ -3293,7 +3293,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: OldPath
     path: ../Lib/Properties/Resources.Designer.cs
@@ -3332,7 +3332,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: OutputDirectory
     path: ../Lib/Properties/Resources.Designer.cs
@@ -3371,7 +3371,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: OutputWrittenTo
     path: ../Lib/Properties/Resources.Designer.cs
@@ -3410,7 +3410,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Path
     path: ../Lib/Properties/Resources.Designer.cs
@@ -3449,7 +3449,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Permissions
     path: ../Lib/Properties/Resources.Designer.cs
@@ -3488,7 +3488,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Ports
     path: ../Lib/Properties/Resources.Designer.cs
@@ -3527,7 +3527,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ReadyToScan
     path: ../Lib/Properties/Resources.Designer.cs
@@ -3566,7 +3566,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Registry
     path: ../Lib/Properties/Resources.Designer.cs
@@ -3605,7 +3605,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ResultsDesc
     path: ../Lib/Properties/Resources.Designer.cs
@@ -3644,7 +3644,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RunStarted
     path: ../Lib/Properties/Resources.Designer.cs
@@ -3683,7 +3683,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RunStatus
     path: ../Lib/Properties/Resources.Designer.cs
@@ -3722,7 +3722,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ScanId
     path: ../Lib/Properties/Resources.Designer.cs
@@ -3761,7 +3761,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Scanning
     path: ../Lib/Properties/Resources.Designer.cs
@@ -3800,7 +3800,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ScanType
     path: ../Lib/Properties/Resources.Designer.cs
@@ -3839,7 +3839,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SecondScanDesc
     path: ../Lib/Properties/Resources.Designer.cs
@@ -3878,7 +3878,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SelectResultType
     path: ../Lib/Properties/Resources.Designer.cs
@@ -3917,7 +3917,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ServiceName
     path: ../Lib/Properties/Resources.Designer.cs
@@ -3956,7 +3956,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Services
     path: ../Lib/Properties/Resources.Designer.cs
@@ -3995,7 +3995,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Size
     path: ../Lib/Properties/Resources.Designer.cs
@@ -4034,7 +4034,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Starting
     path: ../Lib/Properties/Resources.Designer.cs
@@ -4073,7 +4073,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: StartingN
     path: ../Lib/Properties/Resources.Designer.cs
@@ -4112,7 +4112,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: StartType
     path: ../Lib/Properties/Resources.Designer.cs
@@ -4151,7 +4151,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: StaticScan
     path: ../Lib/Properties/Resources.Designer.cs
@@ -4190,7 +4190,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: StaticScanDesc
     path: ../Lib/Properties/Resources.Designer.cs
@@ -4229,7 +4229,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: StoreLocation
     path: ../Lib/Properties/Resources.Designer.cs
@@ -4268,7 +4268,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: StoreName
     path: ../Lib/Properties/Resources.Designer.cs
@@ -4307,7 +4307,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Subject
     path: ../Lib/Properties/Resources.Designer.cs
@@ -4346,7 +4346,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SuccessParsed
     path: ../Lib/Properties/Resources.Designer.cs
@@ -4385,7 +4385,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: TelemetryOptOut
     path: ../Lib/Properties/Resources.Designer.cs
@@ -4424,7 +4424,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Type
     path: ../Lib/Properties/Resources.Designer.cs
@@ -4463,7 +4463,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: UsageData
     path: ../Lib/Properties/Resources.Designer.cs
@@ -4502,7 +4502,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Users
     path: ../Lib/Properties/Resources.Designer.cs
@@ -4541,7 +4541,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Value
     path: ../Lib/Properties/Resources.Designer.cs
@@ -4580,7 +4580,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: WelcomeBody
     path: ../Lib/Properties/Resources.Designer.cs
@@ -4619,7 +4619,7 @@ items:
   source:
     remote:
       path: Lib/Properties/Resources.Designer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: WelcomeHeader
     path: ../Lib/Properties/Resources.Designer.cs

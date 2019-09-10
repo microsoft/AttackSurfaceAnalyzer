@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: WIN32_FILE_ATTRIBUTE_DATA
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
@@ -59,7 +59,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: dwFileAttributes
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
@@ -90,7 +90,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ftCreationTime
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
@@ -121,7 +121,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ftLastAccessTime
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
@@ -152,7 +152,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ftLastWriteTime
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
@@ -183,7 +183,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: nFileSizeHigh
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
@@ -214,7 +214,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: nFileSizeLow
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs

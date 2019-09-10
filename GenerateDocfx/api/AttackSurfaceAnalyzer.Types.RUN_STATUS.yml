@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RUN_STATUS
     path: ../Lib/Objects/Types.cs
@@ -51,7 +51,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: NOT_STARTED
     path: ../Lib/Objects/Types.cs
@@ -83,7 +83,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RUNNING
     path: ../Lib/Objects/Types.cs
@@ -115,7 +115,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FAILED
     path: ../Lib/Objects/Types.cs
@@ -147,7 +147,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: COMPLETED
     path: ../Lib/Objects/Types.cs
@@ -179,7 +179,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: NO_RESULTS
     path: ../Lib/Objects/Types.cs

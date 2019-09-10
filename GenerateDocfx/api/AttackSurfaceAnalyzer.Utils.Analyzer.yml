@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Analyzer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Analyzer
     path: ../Lib/Utils/Analyzer.cs
@@ -63,7 +63,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Analyzer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Utils/Analyzer.cs
@@ -98,7 +98,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Analyzer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ParseFilters
     path: ../Lib/Utils/Analyzer.cs
@@ -128,7 +128,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Analyzer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Analyze
     path: ../Lib/Utils/Analyzer.cs
@@ -163,7 +163,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Analyzer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Apply
     path: ../Lib/Utils/Analyzer.cs
@@ -200,7 +200,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Analyzer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DumpFilters
     path: ../Lib/Utils/Analyzer.cs
@@ -230,7 +230,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Analyzer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LoadEmbeddedFilters
     path: ../Lib/Utils/Analyzer.cs
@@ -260,7 +260,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Analyzer.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LoadFilters
     path: ../Lib/Utils/Analyzer.cs

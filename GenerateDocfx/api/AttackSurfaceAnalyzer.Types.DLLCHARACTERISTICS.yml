@@ -26,7 +26,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DLLCHARACTERISTICS
     path: ../Lib/Objects/Types.cs
@@ -57,7 +57,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA
     path: ../Lib/Objects/Types.cs
@@ -89,7 +89,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE
     path: ../Lib/Objects/Types.cs
@@ -121,7 +121,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IMAGE_DLLCHARACTERISTICS_FORCE_INTEGRITY
     path: ../Lib/Objects/Types.cs
@@ -153,7 +153,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IMAGE_DLLCHARACTERISTICS_NX_COMPAT
     path: ../Lib/Objects/Types.cs
@@ -185,7 +185,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IMAGE_DLLCHARACTERISTICS_NO_ISOLATION
     path: ../Lib/Objects/Types.cs
@@ -217,7 +217,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IMAGE_DLLCHARACTERISTICS_NO_SEH
     path: ../Lib/Objects/Types.cs
@@ -249,7 +249,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IMAGE_DLLCHARACTERISTICS_NO_BIND
     path: ../Lib/Objects/Types.cs
@@ -281,7 +281,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IMAGE_DLLCHARACTERISTICS_APPCONTAINER
     path: ../Lib/Objects/Types.cs
@@ -313,7 +313,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IMAGE_DLLCHARACTERISTICS_WDM_DRIVER
     path: ../Lib/Objects/Types.cs
@@ -345,7 +345,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IMAGE_DLLCHARACTERISTICS_GUARD_CF
     path: ../Lib/Objects/Types.cs
@@ -377,7 +377,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IMAGE_DLLCHARACTERISTICS_TERMINAL_SERVER_AWARE
     path: ../Lib/Objects/Types.cs

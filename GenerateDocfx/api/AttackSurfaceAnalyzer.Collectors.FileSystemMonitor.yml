@@ -29,7 +29,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemMonitor.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FileSystemMonitor
     path: ../Lib/Collectors/FileSystemMonitor.cs
@@ -77,7 +77,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemMonitor.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: defaultFilters
     path: ../Lib/Collectors/FileSystemMonitor.cs
@@ -112,7 +112,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemMonitor.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: defaultFiltersWithAccessTime
     path: ../Lib/Collectors/FileSystemMonitor.cs
@@ -147,7 +147,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemMonitor.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Start
     path: ../Lib/Collectors/FileSystemMonitor.cs
@@ -180,7 +180,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemMonitor.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Stop
     path: ../Lib/Collectors/FileSystemMonitor.cs
@@ -213,7 +213,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemMonitor.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CanRunOnPlatform
     path: ../Lib/Collectors/FileSystemMonitor.cs
@@ -248,7 +248,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemMonitor.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Truncate
     path: ../Lib/Collectors/FileSystemMonitor.cs
@@ -281,7 +281,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemMonitor.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/FileSystemMonitor.cs
@@ -318,7 +318,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemMonitor.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/FileSystemMonitor.cs
@@ -357,7 +357,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemMonitor.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsRunning
     path: ../Lib/Collectors/FileSystemMonitor.cs
@@ -389,7 +389,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemMonitor.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: WriteChange
     path: ../Lib/Collectors/FileSystemMonitor.cs
@@ -422,7 +422,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemMonitor.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ChangeTypeToChangeType
     path: ../Lib/Collectors/FileSystemMonitor.cs
@@ -457,7 +457,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemMonitor.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: WriteChange
     path: ../Lib/Collectors/FileSystemMonitor.cs
@@ -492,7 +492,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemMonitor.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: WriteRename
     path: ../Lib/Collectors/FileSystemMonitor.cs
@@ -525,7 +525,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemMonitor.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SetCustomChangeHandler
     path: ../Lib/Collectors/FileSystemMonitor.cs

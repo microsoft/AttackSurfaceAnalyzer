@@ -29,7 +29,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ResultObjects.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CompareResult
     path: ../Lib/Objects/ResultObjects.cs
@@ -78,7 +78,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ResultObjects.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Identity
     path: ../Lib/Objects/ResultObjects.cs
@@ -109,7 +109,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ResultObjects.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ChangeType
     path: ../Lib/Objects/ResultObjects.cs
@@ -140,7 +140,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ResultObjects.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ResultType
     path: ../Lib/Objects/ResultObjects.cs
@@ -171,7 +171,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ResultObjects.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Analysis
     path: ../Lib/Objects/ResultObjects.cs
@@ -202,7 +202,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ResultObjects.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Rules
     path: ../Lib/Objects/ResultObjects.cs
@@ -233,7 +233,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ResultObjects.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Diffs
     path: ../Lib/Objects/ResultObjects.cs
@@ -264,7 +264,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ResultObjects.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: BaseRowKey
     path: ../Lib/Objects/ResultObjects.cs
@@ -295,7 +295,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ResultObjects.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CompareRowKey
     path: ../Lib/Objects/ResultObjects.cs
@@ -326,7 +326,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ResultObjects.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: BaseRunId
     path: ../Lib/Objects/ResultObjects.cs
@@ -357,7 +357,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ResultObjects.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CompareRunId
     path: ../Lib/Objects/ResultObjects.cs
@@ -388,7 +388,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ResultObjects.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Base
     path: ../Lib/Objects/ResultObjects.cs
@@ -419,7 +419,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ResultObjects.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Compare
     path: ../Lib/Objects/ResultObjects.cs
@@ -450,7 +450,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ResultObjects.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ShouldSerializeDiffs
     path: ../Lib/Objects/ResultObjects.cs
@@ -482,7 +482,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ResultObjects.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ShouldSerializeRules
     path: ../Lib/Objects/ResultObjects.cs

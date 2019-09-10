@@ -26,7 +26,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/BaseCompare.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: BaseCompare
     path: ../Lib/Collectors/BaseCompare.cs
@@ -67,7 +67,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/BaseCompare.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Results
     path: ../Lib/Collectors/BaseCompare.cs
@@ -104,7 +104,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/BaseCompare.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/BaseCompare.cs
@@ -134,7 +134,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/BaseCompare.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Hydrate
     path: ../Lib/Collectors/BaseCompare.cs
@@ -171,7 +171,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/BaseCompare.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Compare
     path: ../Lib/Collectors/BaseCompare.cs
@@ -206,7 +206,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/BaseCompare.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetDiffs
     path: ../Lib/Collectors/BaseCompare.cs
@@ -245,7 +245,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/BaseCompare.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetDiffs
     path: ../Lib/Collectors/BaseCompare.cs
@@ -284,7 +284,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/BaseCompare.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: TryCompare
     path: ../Lib/Collectors/BaseCompare.cs
@@ -321,7 +321,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/BaseCompare.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: _type
     path: ../Lib/Collectors/BaseCompare.cs
@@ -352,7 +352,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/BaseCompare.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsRunning
     path: ../Lib/Collectors/BaseCompare.cs
@@ -384,7 +384,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/BaseCompare.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Start
     path: ../Lib/Collectors/BaseCompare.cs
@@ -414,7 +414,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/BaseCompare.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Stop
     path: ../Lib/Collectors/BaseCompare.cs

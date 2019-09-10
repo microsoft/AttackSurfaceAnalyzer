@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "AttackSurfaceAnalyzerCli": {
-      "commandName": "Project",
-      "commandLineArgs": "collect -C --databasefilename E:\\asa.sqlite"
-    }
-  }
-}

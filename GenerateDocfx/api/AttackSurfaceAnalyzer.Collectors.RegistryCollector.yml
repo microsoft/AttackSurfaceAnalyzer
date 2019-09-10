@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryCollector.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RegistryCollector
     path: ../Lib/Collectors/RegistryCollector.cs
@@ -73,7 +73,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryCollector.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/RegistryCollector.cs
@@ -106,7 +106,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryCollector.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/RegistryCollector.cs
@@ -144,7 +144,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryCollector.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/RegistryCollector.cs
@@ -184,7 +184,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryCollector.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: AddRoot
     path: ../Lib/Collectors/RegistryCollector.cs
@@ -217,7 +217,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryCollector.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ClearRoots
     path: ../Lib/Collectors/RegistryCollector.cs
@@ -247,7 +247,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryCollector.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CanRunOnPlatform
     path: ../Lib/Collectors/RegistryCollector.cs
@@ -282,7 +282,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryCollector.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Execute
     path: ../Lib/Collectors/RegistryCollector.cs

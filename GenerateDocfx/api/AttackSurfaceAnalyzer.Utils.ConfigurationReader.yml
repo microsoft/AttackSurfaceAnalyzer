@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: Lib/Utils/ConfigurationReader.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ConfigurationReader
     path: ../Lib/Utils/ConfigurationReader.cs
@@ -57,7 +57,7 @@ items:
   source:
     remote:
       path: Lib/Utils/ConfigurationReader.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LoadConfigurationFromFile
     path: ../Lib/Utils/ConfigurationReader.cs

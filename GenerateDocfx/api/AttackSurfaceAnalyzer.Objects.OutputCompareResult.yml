@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ResultObjects.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: OutputCompareResult
     path: ../Lib/Objects/ResultObjects.cs
@@ -75,7 +75,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ResultObjects.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SerializedBase
     path: ../Lib/Objects/ResultObjects.cs
@@ -106,7 +106,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ResultObjects.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SerializedCompare
     path: ../Lib/Objects/ResultObjects.cs

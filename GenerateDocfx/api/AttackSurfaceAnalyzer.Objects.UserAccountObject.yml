@@ -40,7 +40,7 @@ items:
   source:
     remote:
       path: Lib/Objects/UserAccountObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: UserAccountObject
     path: ../Lib/Objects/UserAccountObject.cs
@@ -86,7 +86,7 @@ items:
   source:
     remote:
       path: Lib/Objects/UserAccountObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: AccountType
     path: ../Lib/Objects/UserAccountObject.cs
@@ -117,7 +117,7 @@ items:
   source:
     remote:
       path: Lib/Objects/UserAccountObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Caption
     path: ../Lib/Objects/UserAccountObject.cs
@@ -148,7 +148,7 @@ items:
   source:
     remote:
       path: Lib/Objects/UserAccountObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Description
     path: ../Lib/Objects/UserAccountObject.cs
@@ -179,7 +179,7 @@ items:
   source:
     remote:
       path: Lib/Objects/UserAccountObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Disabled
     path: ../Lib/Objects/UserAccountObject.cs
@@ -210,7 +210,7 @@ items:
   source:
     remote:
       path: Lib/Objects/UserAccountObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Domain
     path: ../Lib/Objects/UserAccountObject.cs
@@ -241,7 +241,7 @@ items:
   source:
     remote:
       path: Lib/Objects/UserAccountObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FullName
     path: ../Lib/Objects/UserAccountObject.cs
@@ -272,7 +272,7 @@ items:
   source:
     remote:
       path: Lib/Objects/UserAccountObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: InstallDate
     path: ../Lib/Objects/UserAccountObject.cs
@@ -303,7 +303,7 @@ items:
   source:
     remote:
       path: Lib/Objects/UserAccountObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LocalAccount
     path: ../Lib/Objects/UserAccountObject.cs
@@ -334,7 +334,7 @@ items:
   source:
     remote:
       path: Lib/Objects/UserAccountObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Lockout
     path: ../Lib/Objects/UserAccountObject.cs
@@ -365,7 +365,7 @@ items:
   source:
     remote:
       path: Lib/Objects/UserAccountObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: PasswordChangeable
     path: ../Lib/Objects/UserAccountObject.cs
@@ -396,7 +396,7 @@ items:
   source:
     remote:
       path: Lib/Objects/UserAccountObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: PasswordExpires
     path: ../Lib/Objects/UserAccountObject.cs
@@ -427,7 +427,7 @@ items:
   source:
     remote:
       path: Lib/Objects/UserAccountObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: PasswordRequired
     path: ../Lib/Objects/UserAccountObject.cs
@@ -458,7 +458,7 @@ items:
   source:
     remote:
       path: Lib/Objects/UserAccountObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SID
     path: ../Lib/Objects/UserAccountObject.cs
@@ -489,7 +489,7 @@ items:
   source:
     remote:
       path: Lib/Objects/UserAccountObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: UID
     path: ../Lib/Objects/UserAccountObject.cs
@@ -520,7 +520,7 @@ items:
   source:
     remote:
       path: Lib/Objects/UserAccountObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GID
     path: ../Lib/Objects/UserAccountObject.cs
@@ -551,7 +551,7 @@ items:
   source:
     remote:
       path: Lib/Objects/UserAccountObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Inactive
     path: ../Lib/Objects/UserAccountObject.cs
@@ -582,7 +582,7 @@ items:
   source:
     remote:
       path: Lib/Objects/UserAccountObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: HomeDirectory
     path: ../Lib/Objects/UserAccountObject.cs
@@ -613,7 +613,7 @@ items:
   source:
     remote:
       path: Lib/Objects/UserAccountObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Shell
     path: ../Lib/Objects/UserAccountObject.cs
@@ -644,7 +644,7 @@ items:
   source:
     remote:
       path: Lib/Objects/UserAccountObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: PasswordStorageAlgorithm
     path: ../Lib/Objects/UserAccountObject.cs
@@ -675,7 +675,7 @@ items:
   source:
     remote:
       path: Lib/Objects/UserAccountObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Privileged
     path: ../Lib/Objects/UserAccountObject.cs
@@ -706,7 +706,7 @@ items:
   source:
     remote:
       path: Lib/Objects/UserAccountObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Name
     path: ../Lib/Objects/UserAccountObject.cs
@@ -737,7 +737,7 @@ items:
   source:
     remote:
       path: Lib/Objects/UserAccountObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Groups
     path: ../Lib/Objects/UserAccountObject.cs
@@ -768,7 +768,7 @@ items:
   source:
     remote:
       path: Lib/Objects/UserAccountObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Properties
     path: ../Lib/Objects/UserAccountObject.cs
@@ -799,7 +799,7 @@ items:
   source:
     remote:
       path: Lib/Objects/UserAccountObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Objects/UserAccountObject.cs
@@ -829,7 +829,7 @@ items:
   source:
     remote:
       path: Lib/Objects/UserAccountObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Identity
     path: ../Lib/Objects/UserAccountObject.cs

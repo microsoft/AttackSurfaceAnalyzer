@@ -32,7 +32,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FirewallObject
     path: ../Lib/Objects/FirewallObject.cs
@@ -78,7 +78,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Action
     path: ../Lib/Objects/FirewallObject.cs
@@ -113,7 +113,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ApplicationName
     path: ../Lib/Objects/FirewallObject.cs
@@ -148,7 +148,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Direction
     path: ../Lib/Objects/FirewallObject.cs
@@ -183,7 +183,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FriendlyName
     path: ../Lib/Objects/FirewallObject.cs
@@ -218,7 +218,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsEnable
     path: ../Lib/Objects/FirewallObject.cs
@@ -253,7 +253,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LocalAddresses
     path: ../Lib/Objects/FirewallObject.cs
@@ -288,7 +288,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LocalPorts
     path: ../Lib/Objects/FirewallObject.cs
@@ -323,7 +323,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LocalPortType
     path: ../Lib/Objects/FirewallObject.cs
@@ -358,7 +358,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Name
     path: ../Lib/Objects/FirewallObject.cs
@@ -393,7 +393,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Profiles
     path: ../Lib/Objects/FirewallObject.cs
@@ -428,7 +428,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Protocol
     path: ../Lib/Objects/FirewallObject.cs
@@ -463,7 +463,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RemoteAddresses
     path: ../Lib/Objects/FirewallObject.cs
@@ -498,7 +498,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RemotePorts
     path: ../Lib/Objects/FirewallObject.cs
@@ -533,7 +533,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Scope
     path: ../Lib/Objects/FirewallObject.cs
@@ -568,7 +568,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ServiceName
     path: ../Lib/Objects/FirewallObject.cs
@@ -603,7 +603,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Objects/FirewallObject.cs
@@ -633,7 +633,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Identity
     path: ../Lib/Objects/FirewallObject.cs

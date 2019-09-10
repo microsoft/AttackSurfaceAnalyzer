@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Diff.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Diff
     path: ../Lib/Objects/Diff.cs
@@ -57,7 +57,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Diff.cs
-      branch: gfs/COM-Objects
+      branch: gfs/MergeCliGui
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Field
     path: ../Lib/Objects/Diff.cs
