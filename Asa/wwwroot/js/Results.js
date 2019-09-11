@@ -994,7 +994,7 @@ function GenerateExpandedResultsCard(result) {
             card.append(row);
         }
     }
-
+      
     if (result.ChangeType == CHANGE_TYPE.CREATED) {
         var protoObj = result.Compare;
     }
