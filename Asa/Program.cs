@@ -801,7 +801,7 @@ namespace AttackSurfaceAnalyzer
 
             }
 
-            string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, type, timestamp, version, platform) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @type, @timestamp, @version, @platform)";
+            string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, firewall, comobjects, type, timestamp, version, platform) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @firewall, @comobjects, @type, @timestamp, @version, @platform)";
 
             var cmd = new SqliteCommand(INSERT_RUN, DatabaseManager.Connection, DatabaseManager.Transaction);
             cmd.Parameters.AddWithValue("@run_id", opts.RunId);
@@ -811,6 +811,8 @@ namespace AttackSurfaceAnalyzer
             cmd.Parameters.AddWithValue("@services", false);
             cmd.Parameters.AddWithValue("@registry", false);
             cmd.Parameters.AddWithValue("@certificates", false);
+            cmd.Parameters.AddWithValue("@firewall", false);
+            cmd.Parameters.AddWithValue("@comobjects", false);
             cmd.Parameters.AddWithValue("@type", "monitor");
             cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
             cmd.Parameters.AddWithValue("@version", Helpers.GetVersionString());
@@ -1270,7 +1272,7 @@ namespace AttackSurfaceAnalyzer
             }
             Log.Information(Strings.Get("Begin"), opts.RunId);
 
-            string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, type, timestamp, version, platform) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @type, @timestamp, @version, @platform)";
+            string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, firewall, comobjects, type, timestamp, version, platform) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @firewall, @comobjects, @type, @timestamp, @version, @platform)";
 
             using (var cmd = new SqliteCommand(INSERT_RUN, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
@@ -1289,6 +1291,8 @@ namespace AttackSurfaceAnalyzer
                                 opts.EnableServiceCollector = (int.Parse(reader["services"].ToString()) != 0);
                                 opts.EnableRegistryCollector = (int.Parse(reader["registry"].ToString()) != 0);
                                 opts.EnableCertificateCollector = (int.Parse(reader["certificates"].ToString()) != 0);
+                                opts.EnableFirewallCollector = (int.Parse(reader["firewall"].ToString()) != 0);
+                                opts.EnableComObjectCollector = (int.Parse(reader["comobjects"].ToString()) != 0);
                             }
                         }
                     }
@@ -1301,6 +1305,8 @@ namespace AttackSurfaceAnalyzer
                     opts.EnableServiceCollector = true;
                     opts.EnableRegistryCollector = true;
                     opts.EnableCertificateCollector = true;
+                    opts.EnableFirewallCollector = true;
+                    opts.EnableComObjectCollector = true;
                 }
 
                 cmd.Parameters.AddWithValue("@file_system", opts.EnableFileSystemCollector);
@@ -1309,6 +1315,8 @@ namespace AttackSurfaceAnalyzer
                 cmd.Parameters.AddWithValue("@services", opts.EnableServiceCollector);
                 cmd.Parameters.AddWithValue("@registry", opts.EnableRegistryCollector);
                 cmd.Parameters.AddWithValue("@certificates", opts.EnableCertificateCollector);
+                cmd.Parameters.AddWithValue("@firewall", opts.EnableFirewallCollector);
+                cmd.Parameters.AddWithValue("@comobjects", opts.EnableComObjectCollector);
                 cmd.Parameters.AddWithValue("@run_id", opts.RunId);
                 cmd.Parameters.AddWithValue("@type", "collect");
                 cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));

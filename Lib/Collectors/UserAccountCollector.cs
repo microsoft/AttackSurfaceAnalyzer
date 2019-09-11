@@ -127,7 +127,7 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
                         //Get the group details
                         if (!groups.ContainsKey(String.Format("{0}\\{1}", Environment.MachineName, groupName)))
                         {
-                            SelectQuery query = new SelectQuery("SELECT * FROM Win32_Group where Name='" + groupName + "'");
+                            SelectQuery query = new SelectQuery("SELECT * FROM Win32_Group where Name='" + groupName + "' AND Domain='" + Environment.MachineName + "'");
                             ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
 
                             ManagementObject groupManagementObject = default(ManagementObject);

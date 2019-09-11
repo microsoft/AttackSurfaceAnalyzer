@@ -119,7 +119,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             using (var cmd = new SqliteCommand(GET_COMPARISON_RESULTS, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
                 cmd.Parameters.AddWithValue("@comparison_id", Helpers.RunIdsToCompareId(BaseId, CompareId));
-                cmd.Parameters.AddWithValue("@result_type", ((RESULT_TYPE)ResultType).ToString());
+                cmd.Parameters.AddWithValue("@result_type", ResultType);
                 cmd.Parameters.AddWithValue("@offset", Offset);
                 cmd.Parameters.AddWithValue("@limit", NumResults);
                 using (var reader = cmd.ExecuteReader())
@@ -138,7 +138,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             using (var cmd = new SqliteCommand(GET_RESULT_COUNT, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
                 cmd.Parameters.AddWithValue("@comparison_id", Helpers.RunIdsToCompareId(BaseId, CompareId));
-                cmd.Parameters.AddWithValue("@result_type", ((RESULT_TYPE)ResultType).ToString());
+                cmd.Parameters.AddWithValue("@result_type", ResultType);
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
@@ -166,7 +166,9 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 { "Registry", false },
                 { "Port", false },
                 { "Service", false },
-                { "User", false }
+                { "User", false },
+                { "Firewall", false },
+                { "Com", false }
             };
 
             var count = new Dictionary<string, int>()
@@ -176,7 +178,9 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 { "Registry", 0 },
                 { "Port", 0 },
                 { "Service", 0 },
-                { "User", 0 }
+                { "User", 0 },
+                { "Firewall", 0 },
+                { "Com", 0 }
             };
             using (var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
@@ -209,6 +213,14 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                         if (int.Parse(reader["certificates"].ToString()) != 0)
                         {
                             count["Certificate"]++;
+                        }
+                        if (int.Parse(reader["firewall"].ToString()) != 0)
+                        {
+                            count["Firewall"]++;
+                        }
+                        if (int.Parse(reader["comobjects"].ToString()) != 0)
+                        {
+                            count["ComObject"]++;
                         }
                     }
                 }
@@ -278,7 +290,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
         }
 
 
-        public ActionResult StartCollection(string Id, bool File, bool Port, bool Service, bool User, bool Registry, bool Certificates)
+        public ActionResult StartCollection(string Id, bool File, bool Port, bool Service, bool User, bool Registry, bool Certificates, bool ComObjects, bool Firewall)
         {
             CollectCommandOptions opts = new CollectCommandOptions();
             opts.RunId = Id.Trim();
@@ -288,7 +300,9 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             opts.EnableRegistryCollector = Registry;
             opts.EnableUserCollector = User;
             opts.EnableCertificateCollector = Certificates;
-            opts.DatabaseFilename = "asa.sqlite";
+            opts.EnableComObjectCollector = ComObjects;
+            opts.EnableFirewallCollector = Firewall;
+            opts.DatabaseFilename = DatabaseManager.SqliteFilename;
             opts.FilterLocation = "Use embedded filters.";
 
             foreach (BaseCollector c in AttackSurfaceAnalyzerCLI.GetCollectors())
@@ -343,6 +357,8 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 cmd.Parameters.AddWithValue("@services", false);
                 cmd.Parameters.AddWithValue("@registry", false);
                 cmd.Parameters.AddWithValue("@certificates", false);
+                cmd.Parameters.AddWithValue("@firewall", false);
+                cmd.Parameters.AddWithValue("@comobjects", false);
                 cmd.Parameters.AddWithValue("@type", "monitor");
                 cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                 cmd.Parameters.AddWithValue("@version", Helpers.GetVersionString());

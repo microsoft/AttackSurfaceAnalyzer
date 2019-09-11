@@ -37,14 +37,14 @@ ResultTypeGroup.change(function () {
     $("#ExportSelection").attr('disabled', false);
     GetResults($('input[name=ResultType]:checked').val(), resultOffset, 100);
     switch (parseInt(ResultTypeGroup.filter(':checked').val())) {
+        case RESULT_TYPE.FILE:
+            $('.files').show();
+            break;
         case RESULT_TYPE.PORT:
             $('.ports').show();
             break;
-        case RESULT_TYPE.USER:
-            $('.users').show();
-            break;
-        case RESULT_TYPE.FILE:
-            $('.files').show();
+        case RESULT_TYPE.REGISTRY:
+            $('.registry').show();
             break;
         case RESULT_TYPE.CERTIFICATE:
             $('.certificates').show();
@@ -52,13 +52,20 @@ ResultTypeGroup.change(function () {
         case RESULT_TYPE.SERVICE:
             $('.services').show();
             break;
-        case RESULT_TYPE.REGISTRY:
-            $('.registry').show();
+        case RESULT_TYPE.USER:
+            $('.users').show();
+            break;
+        case RESULT_TYPE.GROUP:
+            $('.groups').show();
+            break;
+        case RESULT_TYPE.FIREWALL:
+            $('.firewall').show();
+            break;
+        case RESULT_TYPE.COM:
+            $('.com').show();
             break;
     }
 });
-
-
 
 $('#SelectedBaseRunId').change(function () { ResetResults(); });
 $('#SelectedCompareRunId').change(function () { ResetResults(); });
@@ -187,6 +194,8 @@ function GetResultTypes() {
         $('#ServiceRadio').attr('disabled', (result.Service) ? false : true);
         $('#RegistryRadio').attr('disabled', (result.Registry) ? false : true);
         $('#UserRadio').attr('disabled', (result.User) ? false : true);
+        $('#FirewallRadio').attr('disabled', (result.Firewall) ? false : true);
+        $('#ComRadio').attr('disabled', (result.ComObject) ? false : true);
     });
 }
 
@@ -326,11 +335,14 @@ function ExportMonitorResults() {
 
 function InsertIntoTable(result) {
     switch (parseInt(result.ResultType)) {
+        case RESULT_TYPE.FILE:
+            InsertIntoFileTable(result);
+            break;
         case RESULT_TYPE.PORT:
             InsertIntoPortTable(result);
             break;
-        case RESULT_TYPE.FILE:
-            InsertIntoFileTable(result);
+        case RESULT_TYPE.REGISTRY:
+            InsertIntoRegistryTable(result);
             break;
         case RESULT_TYPE.CERTIFICATE:
             InsertIntoCertificateTable(result);
@@ -341,9 +353,14 @@ function InsertIntoTable(result) {
         case RESULT_TYPE.USER:
             InsertIntoUserTable(result);
             break;
-        case RESULT_TYPE.REGISTRY:
-            InsertIntoRegistryTable(result);
+        case RESULT_TYPE.GROUP:
+            InsertIntoGroupTable(result);
             break;
+        case RESULT_TYPE.FIREWALL:
+            InsertIntoFirewallTable(result);
+            break;
+        case RESULT_TYPE.COM:
+            InsertIntoComTable(result);
     }
 }
 
@@ -378,55 +395,6 @@ function FlagToString(flag) {
             return "Fatal";
 
     }
-}
-
-function InsertIntoRegistryTable(result) {
-    var appendObj;
-    if (result.ChangeType == CHANGE_TYPE.CREATED) {
-        appendObj = result.Compare;
-    }
-    else {
-        appendObj = result.Base;
-    }
-    var uid = uuidv4();
-    var tmp = $('<tr/>', {
-        id: uid,
-        class: 'resultTableRow Info ' + FlagToStyle(result.Analysis),
-    });
-    var arrowTD = $('<td/>', {
-        scope: 'col',
-    });
-    var caretContainer = ($('<div/>'));
-    var caret = $('<i/>', {
-        class: "fas fa-caret-right",
-        id: uid + '_expansion_arrow'
-    });
-    caretContainer.append(caret);
-    arrowTD.append(caretContainer);
-    tmp.append(arrowTD);
-    tmp.append($('<td/>', {
-        scope: "col",
-        html: FlagToString(result.Analysis)
-    }));
-    tmp.append($('<td/>', {
-        scope: "col",
-        html: ChangeTypeToString(result.ChangeType)
-    }));
-    tmp.append($('<td/>', {
-        scope: "col",
-        html: appendObj.Key
-    }));
-    $('#RegistryResultsTableBody').append(tmp);
-    tmp = $('<tr/>');
-
-    var tmp2 = $('<td/>', {
-        colspan: 5,
-        class: 'resultTableExpanded',
-        id: uid + '_expanded'
-    }).append(GenerateExpandedResultsCard(result));
-
-    tmp.append(tmp2);
-    $('#RegistryResultsTableBody').append(tmp);
 }
 
 function GenerateExpandedResultsCard(result) {
@@ -479,182 +447,6 @@ function GenerateExpandedResultsCard(result) {
         }
     }
     return card;
-}
-
-function InsertIntoServiceTable(result) {
-    var appendObj;
-    if (result.ChangeType == CHANGE_TYPE.CREATED) {
-        appendObj = result.Compare;
-    }
-    else {
-        appendObj = result.Base;
-    }
-    var uid = uuidv4();
-    var tmp = $('<tr/>', {
-        id: uid,
-        class: 'resultTableRow Info ' + FlagToStyle(result.Analysis),
-    });
-    var arrowTD = $('<td/>', {
-        scope: 'col',
-    });
-    var caretContainer = ($('<div/>'));
-    var caret = $('<i/>', {
-        class: "fas fa-caret-right",
-        id: uid + '_expansion_arrow'
-    });
-    caretContainer.append(caret);
-    arrowTD.append(caretContainer);
-    tmp.append(arrowTD);
-    tmp.append($('<td/>', {
-        scope: "col",
-        html: FlagToString(result.Analysis)
-    }));
-    tmp.append($('<td/>', {
-        scope: "col",
-        html: ChangeTypeToString(result.ChangeType)
-    }));
-    tmp.append($('<td/>', {
-        scope: "col",
-        html: appendObj.ServiceName
-    }));
-    tmp.append($('<td/>', {
-        scope: "col",
-        html: appendObj.StartType
-    }));
-    tmp.append($('<td/>', {
-        scope: "col",
-        html: appendObj.DisplayName
-    }));
-    tmp.append($('<td/>', {
-        scope: "col",
-        html: appendObj.CurrentState
-    }));
-    $('#ServiceResultsTableBody').append(tmp);
-    tmp = $('<tr/>');
-    var tmp2 = $('<td/>', {
-        colspan: 5,
-        class: 'resultTableExpanded',
-        id: uid + '_expanded'
-    }).append(GenerateExpandedResultsCard(result));
-    tmp.append(tmp2);
-    $('#ServiceResultsTableBody').append(tmp);
-}
-
-function InsertIntoCertificateTable(result) {
-    var appendObj;
-    if (result.ChangeType == CHANGE_TYPE.CREATED) {
-        appendObj = result.Compare;
-    }
-    else {
-        appendObj = result.Base;
-    }
-    var uid = uuidv4();
-    var tmp = $('<tr/>', {
-        id: uid,
-        class: 'resultTableRow Info ' + FlagToStyle(result.Analysis),
-    });
-    var arrowTD = $('<td/>', {
-        scope: 'col',
-    });
-    var caretContainer = ($('<div/>'));
-    var caret = $('<i/>', {
-        class: "fas fa-caret-right",
-        id: uid + '_expansion_arrow'
-    });
-    caretContainer.append(caret);
-    arrowTD.append(caretContainer);
-    tmp.append(arrowTD);
-    tmp.append($('<td/>', {
-        scope: "col",
-        html: FlagToString(result.Analysis)
-    }));
-    tmp.append($('<td/>', {
-        scope: "col",
-        html: ChangeTypeToString(result.ChangeType)
-    }));
-    tmp.append($('<td/>', {
-        scope: "col",
-        html: appendObj.StoreLocation
-    }));
-    tmp.append($('<td/>', {
-        scope: "col",
-        html: appendObj.StoreName
-    }));
-    tmp.append($('<td/>', {
-        scope: "col",
-        html: appendObj.Subject
-    }));
-    tmp.append($('<td/>', {
-        scope: "col",
-        html: appendObj.CertificateHashString
-    }));
-    $('#CertificateResultsTableBody').append(tmp);
-
-    tmp = $('<tr/>');
-    var tmp2 = $('<td/>', {
-        colspan: 5,
-        class: 'resultTableExpanded',
-        id: uid + '_expanded'
-    }).append(GenerateExpandedResultsCard(result));
-    tmp.append(tmp2);
-    $('#CertificateResultsTableBody').append(tmp);
-}
-
-function InsertIntoUserTable(result) {
-    var appendObj;
-    if (result.ChangeType == CHANGE_TYPE.CREATED) {
-        appendObj = result.Compare;
-    }
-    else {
-        appendObj = result.Base;
-    }
-
-    var uid = uuidv4();
-    var tmp = $('<tr/>', {
-        id: uid,
-        class: 'resultTableRow Info ' + FlagToStyle(result.Analysis),
-    });
-    var arrowTD = $('<td/>', {
-        scope: 'col',
-    });
-    var caretContainer = ($('<div/>'));
-    var caret = $('<i/>', {
-        class: "fas fa-caret-right",
-        id: uid + '_expansion_arrow'
-    });
-    caretContainer.append(caret);
-    arrowTD.append(caretContainer);
-    tmp.append(arrowTD);
-    tmp.append($('<td/>', {
-        scope: "col",
-        html: FlagToString(result.Analysis)
-    }));
-    tmp.append($('<td/>', {
-        scope: "col",
-        html: ChangeTypeToString(result.ChangeType)
-    }));
-    tmp.append($('<td/>', {
-        scope: "col",
-        html: appendObj.AccountType
-    }));
-    tmp.append($('<td/>', {
-        scope: "col",
-        html: appendObj.Name
-    }));
-    tmp.append($('<td/>', {
-        scope: "col",
-        html: appendObj.Description
-    }));
-    $('#UserResultsTableBody').append(tmp);
-
-    tmp = $('<tr/>');
-    var tmp2 = $('<td/>', {
-        colspan: 5,
-        class: 'resultTableExpanded',
-        id: uid + '_expanded'
-    }).append(GenerateExpandedResultsCard(result));
-    tmp.append(tmp2);
-    $('#UserResultsTableBody').append(tmp);
 }
 
 function InsertIntoFileTable(result) {
@@ -771,6 +563,406 @@ function InsertIntoPortTable(result) {
     $('#PortResultsTableBody').append(tmp);
 
 }
+
+function InsertIntoRegistryTable(result) {
+    var appendObj;
+    if (result.ChangeType == CHANGE_TYPE.CREATED) {
+        appendObj = result.Compare;
+    }
+    else {
+        appendObj = result.Base;
+    }
+    var uid = uuidv4();
+    var tmp = $('<tr/>', {
+        id: uid,
+        class: 'resultTableRow Info ' + FlagToStyle(result.Analysis),
+    });
+    var arrowTD = $('<td/>', {
+        scope: 'col',
+    });
+    var caretContainer = ($('<div/>'));
+    var caret = $('<i/>', {
+        class: "fas fa-caret-right",
+        id: uid + '_expansion_arrow'
+    });
+    caretContainer.append(caret);
+    arrowTD.append(caretContainer);
+    tmp.append(arrowTD);
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: FlagToString(result.Analysis)
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: ChangeTypeToString(result.ChangeType)
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.Key
+    }));
+    $('#RegistryResultsTableBody').append(tmp);
+    tmp = $('<tr/>');
+
+    var tmp2 = $('<td/>', {
+        colspan: 5,
+        class: 'resultTableExpanded',
+        id: uid + '_expanded'
+    }).append(GenerateExpandedResultsCard(result));
+
+    tmp.append(tmp2);
+    $('#RegistryResultsTableBody').append(tmp);
+}
+
+function InsertIntoCertificateTable(result) {
+    var appendObj;
+    if (result.ChangeType == CHANGE_TYPE.CREATED) {
+        appendObj = result.Compare;
+    }
+    else {
+        appendObj = result.Base;
+    }
+    var uid = uuidv4();
+    var tmp = $('<tr/>', {
+        id: uid,
+        class: 'resultTableRow Info ' + FlagToStyle(result.Analysis),
+    });
+    var arrowTD = $('<td/>', {
+        scope: 'col',
+    });
+    var caretContainer = ($('<div/>'));
+    var caret = $('<i/>', {
+        class: "fas fa-caret-right",
+        id: uid + '_expansion_arrow'
+    });
+    caretContainer.append(caret);
+    arrowTD.append(caretContainer);
+    tmp.append(arrowTD);
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: FlagToString(result.Analysis)
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: ChangeTypeToString(result.ChangeType)
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.StoreLocation
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.StoreName
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.Subject
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.CertificateHashString
+    }));
+    $('#CertificateResultsTableBody').append(tmp);
+
+    tmp = $('<tr/>');
+    var tmp2 = $('<td/>', {
+        colspan: 5,
+        class: 'resultTableExpanded',
+        id: uid + '_expanded'
+    }).append(GenerateExpandedResultsCard(result));
+    tmp.append(tmp2);
+    $('#CertificateResultsTableBody').append(tmp);
+}
+
+
+function InsertIntoServiceTable(result) {
+    var appendObj;
+    if (result.ChangeType == CHANGE_TYPE.CREATED) {
+        appendObj = result.Compare;
+    }
+    else {
+        appendObj = result.Base;
+    }
+    var uid = uuidv4();
+    var tmp = $('<tr/>', {
+        id: uid,
+        class: 'resultTableRow Info ' + FlagToStyle(result.Analysis),
+    });
+    var arrowTD = $('<td/>', {
+        scope: 'col',
+    });
+    var caretContainer = ($('<div/>'));
+    var caret = $('<i/>', {
+        class: "fas fa-caret-right",
+        id: uid + '_expansion_arrow'
+    });
+    caretContainer.append(caret);
+    arrowTD.append(caretContainer);
+    tmp.append(arrowTD);
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: FlagToString(result.Analysis)
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: ChangeTypeToString(result.ChangeType)
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.ServiceName
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.StartType
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.DisplayName
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.CurrentState
+    }));
+    $('#ServiceResultsTableBody').append(tmp);
+    tmp = $('<tr/>');
+    var tmp2 = $('<td/>', {
+        colspan: 5,
+        class: 'resultTableExpanded',
+        id: uid + '_expanded'
+    }).append(GenerateExpandedResultsCard(result));
+    tmp.append(tmp2);
+    $('#ServiceResultsTableBody').append(tmp);
+}
+
+function InsertIntoUserTable(result) {
+    var appendObj;
+    if (result.ChangeType == CHANGE_TYPE.CREATED) {
+        appendObj = result.Compare;
+    }
+    else {
+        appendObj = result.Base;
+    }
+
+    var uid = uuidv4();
+    var tmp = $('<tr/>', {
+        id: uid,
+        class: 'resultTableRow Info ' + FlagToStyle(result.Analysis),
+    });
+    var arrowTD = $('<td/>', {
+        scope: 'col',
+    });
+    var caretContainer = ($('<div/>'));
+    var caret = $('<i/>', {
+        class: "fas fa-caret-right",
+        id: uid + '_expansion_arrow'
+    });
+    caretContainer.append(caret);
+    arrowTD.append(caretContainer);
+    tmp.append(arrowTD);
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: FlagToString(result.Analysis)
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: ChangeTypeToString(result.ChangeType)
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.AccountType
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.Name
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.Description
+    }));
+    $('#UserResultsTableBody').append(tmp);
+
+    tmp = $('<tr/>');
+    var tmp2 = $('<td/>', {
+        colspan: 5,
+        class: 'resultTableExpanded',
+        id: uid + '_expanded'
+    }).append(GenerateExpandedResultsCard(result));
+    tmp.append(tmp2);
+    $('#UserResultsTableBody').append(tmp);
+}
+
+function InsertIntoGroupTable(result) {
+    var appendObj;
+    if (result.ChangeType == CHANGE_TYPE.CREATED) {
+        appendObj = result.Compare;
+    }
+    else {
+        appendObj = result.Base;
+    }
+
+    var uid = uuidv4();
+    var tmp = $('<tr/>', {
+        id: uid,
+        class: 'resultTableRow Info ' + FlagToStyle(result.Analysis),
+    });
+    var arrowTD = $('<td/>', {
+        scope: 'col',
+    });
+    var caretContainer = ($('<div/>'));
+    var caret = $('<i/>', {
+        class: "fas fa-caret-right",
+        id: uid + '_expansion_arrow'
+    });
+    caretContainer.append(caret);
+    arrowTD.append(caretContainer);
+    tmp.append(arrowTD);
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: FlagToString(result.Analysis)
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: ChangeTypeToString(result.ChangeType)
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.Domain
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.Name
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.Description
+    }));
+    $('#UserResultsTableBody').append(tmp);
+
+    tmp = $('<tr/>');
+    var tmp2 = $('<td/>', {
+        colspan: 5,
+        class: 'resultTableExpanded',
+        id: uid + '_expanded'
+    }).append(GenerateExpandedResultsCard(result));
+    tmp.append(tmp2);
+    $('#GroupResultsTableBody').append(tmp);
+}
+
+function InsertIntoFirewallTable(result) {
+    var appendObj;
+    if (result.ChangeType == CHANGE_TYPE.CREATED) {
+        appendObj = result.Compare;
+    }
+    else {
+        appendObj = result.Base;
+    }
+
+    var uid = uuidv4();
+    var tmp = $('<tr/>', {
+        id: uid,
+        class: 'resultTableRow Info ' + FlagToStyle(result.Analysis),
+    });
+    var arrowTD = $('<td/>', {
+        scope: 'col',
+    });
+    var caretContainer = ($('<div/>'));
+    var caret = $('<i/>', {
+        class: "fas fa-caret-right",
+        id: uid + '_expansion_arrow'
+    });
+    caretContainer.append(caret);
+    arrowTD.append(caretContainer);
+    tmp.append(arrowTD);
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: FlagToString(result.Analysis)
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: ChangeTypeToString(result.ChangeType)
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.FriendlyName
+    }));
+    $('#FirewallResultsTableBody').append(tmp);
+
+    tmp = $('<tr/>');
+    var tmp2 = $('<td/>', {
+        colspan: 5,
+        class: 'resultTableExpanded',
+        id: uid + '_expanded'
+    }).append(GenerateExpandedResultsCard(result));
+    tmp.append(tmp2);
+    $('#FirewallResultsTableBody').append(tmp);
+}
+
+function InsertIntoComTable(result) {
+    var appendObj;
+    if (result.ChangeType == CHANGE_TYPE.CREATED) {
+        appendObj = result.Compare;
+    }
+    else {
+        appendObj = result.Base;
+    }
+
+    var uid = uuidv4();
+    var tmp = $('<tr/>', {
+        id: uid,
+        class: 'resultTableRow Info ' + FlagToStyle(result.Analysis),
+    });
+    var arrowTD = $('<td/>', {
+        scope: 'col',
+    });
+    var caretContainer = ($('<div/>'));
+    var caret = $('<i/>', {
+        class: "fas fa-caret-right",
+        id: uid + '_expansion_arrow'
+    });
+    caretContainer.append(caret);
+    arrowTD.append(caretContainer);
+    tmp.append(arrowTD);
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: FlagToString(result.Analysis)
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: ChangeTypeToString(result.ChangeType)
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.Key.Key
+    }));
+    if (appendObj.hasOwnProperty("x86_BinaryName")) {
+        tmp.append($('<td/>', {
+            scope: "col",
+            html: appendObj.x86_BinaryName
+        }));
+    }
+    else if (appendObj.hasOwnProperty("x64_BinaryName")) {
+        tmp.append($('<td/>', {
+            scope: "col",
+            html: appendObj.x64_BinaryName
+        }));
+    }
+    else {
+        tmp.append($('<td/>', {
+            scope: "col",
+            html: "Check details"
+        }));
+    }
+    $('#ComResultsTableBody').append(tmp);
+
+    tmp = $('<tr/>');
+    var tmp2 = $('<td/>', {
+        colspan: 5,
+        class: 'resultTableExpanded',
+        id: uid + '_expanded'
+    }).append(GenerateExpandedResultsCard(result));
+    tmp.append(tmp2);
+    $('#ComResultsTableBody').append(tmp);
+}
+
 
 function GenerateExpandedResultsCard(result) {
     var card = $('<div/>', {
