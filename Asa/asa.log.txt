@@ -65,3 +65,4 @@
 2019-09-11 13:26:13.880 -07:00 [INF] End FirewallCollector.
 2019-09-11 13:26:21.219 -07:00 [INF] Completed Comparing in 00h:00m:00s:051ms.
 2019-09-11 13:29:07.076 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.62-alpha+94b1f84582
+2019-09-11 13:30:53.709 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.63-alpha+d057af3207

@@ -979,6 +979,22 @@ function GenerateExpandedResultsCard(result) {
     }))
     card.append(header);
 
+    if (result.ChangeType == CHANGE_TYPE.MODIFIED) {
+        for (var diff in result.Diffs) {
+            var row = $('<div/>', {
+                class: 'row bordered'
+            });
+            var field = $('<div/>', { class: 'col-2', html: diff.Field });
+            var before = $('<div/>', { class: 'col-2', html: diff.Before });
+            var after = $('<div/>', { class: 'col-2', html: diff.After });
+            row.append(field);
+            row.append(before);
+            row.append(after);
+
+            card.append(row);
+        }
+    }
+
     if (result.ChangeType == CHANGE_TYPE.CREATED) {
         var protoObj = result.Compare;
     }
