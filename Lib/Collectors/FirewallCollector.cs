@@ -1,13 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+using AttackSurfaceAnalyzer.Objects;
+using AttackSurfaceAnalyzer.Utils;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using AttackSurfaceAnalyzer.Utils;
-using AttackSurfaceAnalyzer.Objects;
-using WindowsFirewallHelper;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System;
+using WindowsFirewallHelper;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -142,7 +142,7 @@ ALF: total number of apps = 2
                         {
                             obj = new FirewallObject()
                             {
-                                Action = (line.Contains("Allow"))?FirewallAction.Allow:FirewallAction.Block,
+                                Action = (line.Contains("Allow")) ? FirewallAction.Allow : FirewallAction.Block,
                                 Direction = FirewallDirection.Inbound,
                                 FriendlyName = appName,
                                 Name = appName,
@@ -155,11 +155,11 @@ ALF: total number of apps = 2
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                var  result = ExternalCommandRunner.RunExternalCommand("iptables", "-S");
+                var result = ExternalCommandRunner.RunExternalCommand("iptables", "-S");
 
                 var lines = new List<string>(result.Split('\n'));
 
-                Dictionary<string,FirewallAction> defaultPolicies = new Dictionary<string, FirewallAction>();
+                Dictionary<string, FirewallAction> defaultPolicies = new Dictionary<string, FirewallAction>();
 
                 foreach (var line in lines)
                 {
@@ -170,7 +170,7 @@ ALF: total number of apps = 2
                         var obj = new FirewallObject()
                         {
                             Action = defaultPolicies[chainName],
-                            FriendlyName = string.Format("Default {0} policy",chainName),
+                            FriendlyName = string.Format("Default {0} policy", chainName),
                             Name = string.Format("Default {0} policy", chainName),
                             Scope = FirewallScope.All
                         };
@@ -185,7 +185,7 @@ ALF: total number of apps = 2
                     {
                         var splits = line.Split(' ');
                         var chainName = splits[1];
-                        
+
 
                         var obj = new FirewallObject()
                         {
@@ -196,9 +196,9 @@ ALF: total number of apps = 2
                             Protocol = splits[Array.IndexOf(splits, "-p") + 1]
                         };
 
-                        if (Array.IndexOf(splits,"--dport") > 0)
+                        if (Array.IndexOf(splits, "--dport") > 0)
                         {
-                            obj.RemotePorts = new List<string>(){ splits[Array.IndexOf(splits, "--dport") + 1] };
+                            obj.RemotePorts = new List<string>() { splits[Array.IndexOf(splits, "--dport") + 1] };
                         }
 
                         if (Array.IndexOf(splits, "-d") > 0)
@@ -231,5 +231,4 @@ ALF: total number of apps = 2
         }
     }
 }
- 
- 
+

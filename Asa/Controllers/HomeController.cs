@@ -1,10 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using AttackSurfaceAnalyzer.Collectors;
 using AttackSurfaceAnalyzer.Models;
 using AttackSurfaceAnalyzer.Objects;
@@ -15,6 +10,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
 using Serilog;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer.Gui.Controllers
 {

@@ -1,15 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-using AttackSurfaceAnalyzer.Utils;
-using System.Security.Cryptography.X509Certificates;
-using Serilog;
 using AttackSurfaceAnalyzer.Objects;
+using AttackSurfaceAnalyzer.Utils;
+using Serilog;
+using System;
+using System.IO;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -144,7 +141,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             StoreName = StoreName.Root.ToString(),
                             CertificateHashString = X509Certificate2Enumerator.Current.GetCertHashString(),
                             Subject = X509Certificate2Enumerator.Current.Subject,
-                            Pkcs12 = X509Certificate2Enumerator.Current.HasPrivateKey? "redacted":X509Certificate2Enumerator.Current.Export(X509ContentType.Pkcs12).ToString()
+                            Pkcs12 = X509Certificate2Enumerator.Current.HasPrivateKey ? "redacted" : X509Certificate2Enumerator.Current.Export(X509ContentType.Pkcs12).ToString()
                         };
                         DatabaseManager.Write(obj, this.runId);
                     }

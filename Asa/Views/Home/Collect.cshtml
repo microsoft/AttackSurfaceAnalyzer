@@ -66,116 +66,116 @@
 
         @* Begin Scan Section *@
 
-    <div class="scan">
-        <div class="row font-weight-bold">
-            <div class="col">
-                @Strings.Get("ChooseCollectors")
-            </div>
-        </div>
-        <div class="thinspacer"></div>
-        <div class="row">
-            <div class="col">
-                <label class="checkbox-container">
-                    <input type="checkbox" id="enableFileCollector" class="ScanType" checked>
-                    @Strings.Get("Files")
-                </label>
-            </div>
-            <div class="col">
-                <label class="checkbox-container">
-                    <input type="checkbox" id="enableCertificateCollector" class="ScanType" checked>
-                    @Strings.Get("Certificates")
-                </label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <label class="checkbox-container">
-                    <input type="checkbox" id="enablePortCollector" class="ScanType" checked>
-                    @Strings.Get("Ports")
-                </label>
-            </div>
-            <div class="col">
-                <label class="checkbox-container">
-                    <input type="checkbox" id="enableServiceCollector" class="ScanType" checked>
-                    @Strings.Get("Services")
-                </label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <label class="checkbox-container">
-                    <input type="checkbox" id="enableUserCollector" class="ScanType" checked>
-                    @Strings.Get("Users")
-                </label>
-            </div>
-            <div class="col">
-                <label class="checkbox-container">
-                    <input type="checkbox" id="enableFirewallCollector" class="ScanType" checked>
-                    @Strings.Get("Firewall")
-                </label>
-            </div>
-        </div>
-        @{
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                <div class="row">
-
-                    <div class="col">
-                        <label class="checkbox-container">
-                            <input type="checkbox" id="enableRegistryCollector" class="ScanType" checked>
-                            @Strings.Get("Registry")
-                        </label>
-                    </div>
-                    <div class="col">
-                        <label class="checkbox-container">
-                            <input type="checkbox" id="enableComObjectCollector" class="ScanType" checked>
-                            @Strings.Get("Com")
-                        </label>
-                    </div>
+        <div class="scan">
+            <div class="row font-weight-bold">
+                <div class="col">
+                    @Strings.Get("ChooseCollectors")
                 </div>
-            } 
-        }
-        </div>
-            @* End Scan Section *@
-
-            @* Begin Monitor Section *@
-
-            <div class="form-group row monitor">
-                <label for="DirectoryPath" class="font-weight-bold col-sm-2 col-form-label">Directory</label>
-                <div class="col-8">
-                    @{
-                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                        {
-
-                            <input type="text" class="form-control" id="DirectoryPath" placeholder="C:\">
-                        }
-                    }
-                    @{
-                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                        {
-                            <input type="text" class="form-control" id="DirectoryPath" placeholder="/">
-                        }
-                    }
+            </div>
+            <div class="thinspacer"></div>
+            <div class="row">
+                <div class="col">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="enableFileCollector" class="ScanType" checked>
+                        @Strings.Get("Files")
+                    </label>
                 </div>
-                <div class="col-2">
-                    <label for="DirectorySelector">
-                        <input type="file" id="DirectorySelector" class="btn btn-primary" webkitdirectory />
-                        <i class="far fa-folder" style="font-size:3em"></i>
+                <div class="col">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="enableCertificateCollector" class="ScanType" checked>
+                        @Strings.Get("Certificates")
                     </label>
                 </div>
             </div>
-
-            @* End Monitor Section *@
-
-            <div class="d-flex flex-row-reverse">
-                <div class="p-2">
-                    <button class="btn btn-primary btn-square" id="StartCollectionButton">Collect Data</button>
+            <div class="row">
+                <div class="col">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="enablePortCollector" class="ScanType" checked>
+                        @Strings.Get("Ports")
+                    </label>
                 </div>
-                <div class="p-2">
-                    <button class="btn btn-primary btn-square" id="StopMonitoringButton">Stop Monitoring</button>
+                <div class="col">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="enableServiceCollector" class="ScanType" checked>
+                        @Strings.Get("Services")
+                    </label>
                 </div>
             </div>
+            <div class="row">
+                <div class="col">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="enableUserCollector" class="ScanType" checked>
+                        @Strings.Get("Users")
+                    </label>
+                </div>
+                <div class="col">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="enableFirewallCollector" class="ScanType" checked>
+                        @Strings.Get("Firewall")
+                    </label>
+                </div>
+            </div>
+            @{
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    <div class="row">
+
+                        <div class="col">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="enableRegistryCollector" class="ScanType" checked>
+                                @Strings.Get("Registry")
+                            </label>
+                        </div>
+                        <div class="col">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="enableComObjectCollector" class="ScanType" checked>
+                                @Strings.Get("Com")
+                            </label>
+                        </div>
+                    </div>
+                }
+            }
         </div>
+        @* End Scan Section *@
+
+        @* Begin Monitor Section *@
+
+        <div class="form-group row monitor">
+            <label for="DirectoryPath" class="font-weight-bold col-sm-2 col-form-label">Directory</label>
+            <div class="col-8">
+                @{
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                    {
+
+                        <input type="text" class="form-control" id="DirectoryPath" placeholder="C:\">
+                    }
+                }
+                @{
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                    {
+                        <input type="text" class="form-control" id="DirectoryPath" placeholder="/">
+                    }
+                }
+            </div>
+            <div class="col-2">
+                <label for="DirectorySelector">
+                    <input type="file" id="DirectorySelector" class="btn btn-primary" webkitdirectory />
+                    <i class="far fa-folder" style="font-size:3em"></i>
+                </label>
+            </div>
+        </div>
+
+        @* End Monitor Section *@
+
+        <div class="d-flex flex-row-reverse">
+            <div class="p-2">
+                <button class="btn btn-primary btn-square" id="StartCollectionButton">Collect Data</button>
+            </div>
+            <div class="p-2">
+                <button class="btn btn-primary btn-square" id="StopMonitoringButton">Stop Monitoring</button>
+            </div>
+        </div>
+    </div>
 
     @* Status section *@
 

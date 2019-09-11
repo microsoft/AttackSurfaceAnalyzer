@@ -1,5 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+using AttackSurfaceAnalyzer.Objects;
+using AttackSurfaceAnalyzer.Utils;
+using Mono.Unix;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,12 +11,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
-using AttackSurfaceAnalyzer.Objects;
-using AttackSurfaceAnalyzer.Utils;
-using Microsoft.Data.Sqlite;
-using Mono.Unix;
-using Newtonsoft.Json;
-using Serilog;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -251,6 +249,6 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             return obj;
         }
-            
+
     }
 }

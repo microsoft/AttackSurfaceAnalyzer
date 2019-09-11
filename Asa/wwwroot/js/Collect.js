@@ -82,8 +82,7 @@ function StartCollection() {
             $('#enableCertificateCollector').is(":checked") == false &&
             $('#enableComObjectCollect').is(":checked") == false &&
             $('#enableFirewallCollector').is(":checked") == false &&
-            $('#enableGroupCollector').is(":checked") == false)
-        {
+            $('#enableGroupCollector').is(":checked") == false) {
             $('#ScanStatus').empty();
             $('#ScanStatus').append($('<div/>', { html: l("%NoCollectSelect"), class: 'scan' }));
             EnableCollectionFields();

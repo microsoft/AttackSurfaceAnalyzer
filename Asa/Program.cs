@@ -1,25 +1,24 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+using AttackSurfaceAnalyzer.Collectors;
+using AttackSurfaceAnalyzer.Objects;
+using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
+using CommandLine;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-
+using Microsoft.Data.Sqlite;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
-using AttackSurfaceAnalyzer.Collectors;
-using CommandLine;
-using Microsoft.Data.Sqlite;
-using AttackSurfaceAnalyzer.Objects;
-using Newtonsoft.Json;
-using System.Reflection;
-using Serilog;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Serialization;
-using AttackSurfaceAnalyzer.Types;
 
 namespace AttackSurfaceAnalyzer
 {
@@ -1398,68 +1397,68 @@ namespace AttackSurfaceAnalyzer
             collectors = new List<BaseCollector>();
         }
 
-//        private static int RunCompareCommand(CompareCommandOptions opts)
-//        {
-//#if DEBUG
-//            Logger.Setup(true, opts.Verbose);
-//#else
-//            Logger.Setup(opts.Debug, opts.Verbose);
-//#endif
-//            DatabaseManager.SqliteFilename = opts.DatabaseFilename;
-//            DatabaseManager.Setup();
-//            CheckFirstRun();
-//            Telemetry.Setup(Gui: false);
-//            DatabaseManager.VerifySchemaVersion();
+        //        private static int RunCompareCommand(CompareCommandOptions opts)
+        //        {
+        //#if DEBUG
+        //            Logger.Setup(true, opts.Verbose);
+        //#else
+        //            Logger.Setup(opts.Debug, opts.Verbose);
+        //#endif
+        //            DatabaseManager.SqliteFilename = opts.DatabaseFilename;
+        //            DatabaseManager.Setup();
+        //            CheckFirstRun();
+        //            Telemetry.Setup(Gui: false);
+        //            DatabaseManager.VerifySchemaVersion();
 
-//            Dictionary<string, string> StartEvent = new Dictionary<string, string>();
+        //            Dictionary<string, string> StartEvent = new Dictionary<string, string>();
 
-//            Telemetry.TrackEvent("Begin Compare Command", StartEvent);
+        //            Telemetry.TrackEvent("Begin Compare Command", StartEvent);
 
-//            if (opts.FirstRunId == "Timestamps" || opts.SecondRunId == "Timestamps")
-//            {
-//                List<string> runIds = DatabaseManager.GetLatestRunIds(2, "collect");
+        //            if (opts.FirstRunId == "Timestamps" || opts.SecondRunId == "Timestamps")
+        //            {
+        //                List<string> runIds = DatabaseManager.GetLatestRunIds(2, "collect");
 
-//                if (runIds.Count < 2)
-//                {
-//                    Log.Fatal(Strings.Get("Err_CouldntDetermineTwoRun"));
-//                    System.Environment.Exit(-1);
-//                }
-//                else
-//                {
-//                    opts.SecondRunId = runIds.First();
-//                    opts.FirstRunId = runIds.ElementAt(1);
-//                }
-//            }
+        //                if (runIds.Count < 2)
+        //                {
+        //                    Log.Fatal(Strings.Get("Err_CouldntDetermineTwoRun"));
+        //                    System.Environment.Exit(-1);
+        //                }
+        //                else
+        //                {
+        //                    opts.SecondRunId = runIds.First();
+        //                    opts.FirstRunId = runIds.ElementAt(1);
+        //                }
+        //            }
 
-//            var results = CompareRuns(opts);
-//            results["BeforeRunId"] = opts.FirstRunId;
-//            results["AfterRunId"] = opts.SecondRunId;
+        //            var results = CompareRuns(opts);
+        //            results["BeforeRunId"] = opts.FirstRunId;
+        //            results["AfterRunId"] = opts.SecondRunId;
 
-//            var watch = System.Diagnostics.Stopwatch.StartNew();
+        //            var watch = System.Diagnostics.Stopwatch.StartNew();
 
-//            var engine = new RazorLightEngineBuilder()
-//              .UseEmbeddedResourcesProject(typeof(AttackSurfaceAnalyzerCLI))
-//              .UseMemoryCachingProvider()
-//              .Build();
+        //            var engine = new RazorLightEngineBuilder()
+        //              .UseEmbeddedResourcesProject(typeof(AttackSurfaceAnalyzerCLI))
+        //              .UseMemoryCachingProvider()
+        //              .Build();
 
-//            var assembly = Assembly.GetExecutingAssembly();
+        //            var assembly = Assembly.GetExecutingAssembly();
 
-//            var result = engine.CompileRenderAsync("Output.Output.cshtml", results).Result;
-//            File.WriteAllText($"{opts.OutputBaseFilename}.html", result);
+        //            var result = engine.CompileRenderAsync("Output.Output.cshtml", results).Result;
+        //            File.WriteAllText($"{opts.OutputBaseFilename}.html", result);
 
-//            watch.Stop();
-//            TimeSpan t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
-//            string answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
-//                                    t.Hours,
-//                                    t.Minutes,
-//                                    t.Seconds,
-//                                    t.Milliseconds);
-//            Log.Information(Strings.Get("Completed"), "HTML Export", answer);
+        //            watch.Stop();
+        //            TimeSpan t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
+        //            string answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+        //                                    t.Hours,
+        //                                    t.Minutes,
+        //                                    t.Seconds,
+        //                                    t.Milliseconds);
+        //            Log.Information(Strings.Get("Completed"), "HTML Export", answer);
 
-//            Log.Information(Strings.Get("OutputWrittenTo"), opts.OutputBaseFilename + ".html");
+        //            Log.Information(Strings.Get("OutputWrittenTo"), opts.OutputBaseFilename + ".html");
 
-//            return 0;
-//        }
+        //            return 0;
+        //        }
 
         // Used for monitors. This writes a little spinner animation to indicate that monitoring is underway
         static void WriteSpinner(ManualResetEvent untilDone)

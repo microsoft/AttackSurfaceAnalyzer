@@ -1,16 +1,14 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using System;
-using System.Collections.Generic;
 using AttackSurfaceAnalyzer.Objects;
+using AttackSurfaceAnalyzer.Types;
 using Microsoft.Data.Sqlite;
+using Mono.Unix;
 using Newtonsoft.Json;
 using Serilog;
-using Mono.Unix;
-using System.IO;
+using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Security.AccessControl;
-using AttackSurfaceAnalyzer.Types;
 
 namespace AttackSurfaceAnalyzer.Utils
 {

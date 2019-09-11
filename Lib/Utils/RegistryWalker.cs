@@ -1,11 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using System;
-using System.Collections.Generic;
-using System.IO;
 using AttackSurfaceAnalyzer.Objects;
 using Microsoft.Win32;
 using Serilog;
+using System;
+using System.Collections.Generic;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
