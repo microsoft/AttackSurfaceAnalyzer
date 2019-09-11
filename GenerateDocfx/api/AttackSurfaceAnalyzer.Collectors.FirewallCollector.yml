@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FirewallCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FirewallCollector
     path: ../Lib/Collectors/FirewallCollector.cs
@@ -32,7 +32,9 @@ items:
     content: 'public class FirewallCollector : BaseCollector, PlatformRunnable'
     content.vb: >-
       Public Class FirewallCollector
+
           Inherits BaseCollector
+
           Implements PlatformRunnable
   inheritance:
   - System.Object
@@ -71,7 +73,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FirewallCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/FirewallCollector.cs
@@ -104,7 +106,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FirewallCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CanRunOnPlatform
     path: ../Lib/Collectors/FirewallCollector.cs
@@ -139,7 +141,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FirewallCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Execute
     path: ../Lib/Collectors/FirewallCollector.cs

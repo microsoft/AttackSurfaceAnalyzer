@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryMonitor.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RegistryMonitor
     path: ../Lib/Collectors/RegistryMonitor.cs
@@ -32,7 +32,9 @@ items:
     content: 'public class RegistryMonitor : BaseMonitor, PlatformRunnable'
     content.vb: >-
       Public Class RegistryMonitor
+
           Inherits BaseMonitor
+
           Implements PlatformRunnable
   inheritance:
   - System.Object
@@ -68,7 +70,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryMonitor.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/RegistryMonitor.cs
@@ -98,7 +100,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryMonitor.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: MyOnEntryWritten
     path: ../Lib/Collectors/RegistryMonitor.cs
@@ -133,7 +135,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryMonitor.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Start
     path: ../Lib/Collectors/RegistryMonitor.cs
@@ -166,7 +168,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryMonitor.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Stop
     path: ../Lib/Collectors/RegistryMonitor.cs
@@ -199,7 +201,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryMonitor.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CanRunOnPlatform
     path: ../Lib/Collectors/RegistryMonitor.cs

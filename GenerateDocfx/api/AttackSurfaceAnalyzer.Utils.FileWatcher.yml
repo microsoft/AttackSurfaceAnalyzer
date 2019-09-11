@@ -23,7 +23,7 @@ items:
   source:
     remote:
       path: Lib/Utils/FileWatcher.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FileWatcher
     path: ../Lib/Utils/FileWatcher.cs
@@ -64,7 +64,7 @@ items:
   source:
     remote:
       path: Lib/Utils/FileWatcher.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: EventList
     path: ../Lib/Utils/FileWatcher.cs
@@ -97,7 +97,7 @@ items:
   source:
     remote:
       path: Lib/Utils/FileWatcher.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Utils/FileWatcher.cs
@@ -127,7 +127,7 @@ items:
   source:
     remote:
       path: Lib/Utils/FileWatcher.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Utils/FileWatcher.cs
@@ -160,7 +160,7 @@ items:
   source:
     remote:
       path: Lib/Utils/FileWatcher.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Utils/FileWatcher.cs
@@ -204,7 +204,7 @@ items:
   source:
     remote:
       path: Lib/Utils/FileWatcher.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Utils/FileWatcher.cs
@@ -252,7 +252,7 @@ items:
   source:
     remote:
       path: Lib/Utils/FileWatcher.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsRunning
     path: ../Lib/Utils/FileWatcher.cs
@@ -284,7 +284,7 @@ items:
   source:
     remote:
       path: Lib/Utils/FileWatcher.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Start
     path: ../Lib/Utils/FileWatcher.cs
@@ -314,7 +314,7 @@ items:
   source:
     remote:
       path: Lib/Utils/FileWatcher.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Stop
     path: ../Lib/Utils/FileWatcher.cs

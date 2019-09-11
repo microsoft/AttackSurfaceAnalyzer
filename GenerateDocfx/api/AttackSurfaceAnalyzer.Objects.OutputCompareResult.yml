@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ResultObjects.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: OutputCompareResult
     path: ../Lib/Objects/ResultObjects.cs
@@ -29,6 +29,7 @@ items:
     content: 'public class OutputCompareResult : CompareResult'
     content.vb: >-
       Public Class OutputCompareResult
+
           Inherits CompareResult
   inheritance:
   - System.Object
@@ -75,7 +76,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ResultObjects.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SerializedBase
     path: ../Lib/Objects/ResultObjects.cs
@@ -106,7 +107,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ResultObjects.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SerializedCompare
     path: ../Lib/Objects/ResultObjects.cs

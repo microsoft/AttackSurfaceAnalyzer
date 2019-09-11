@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: Lib/Utils/RegistryWalker.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RegistryWalker
     path: ../Lib/Utils/RegistryWalker.cs
@@ -58,7 +58,7 @@ items:
   source:
     remote:
       path: Lib/Utils/RegistryWalker.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: WalkHive
     path: ../Lib/Utils/RegistryWalker.cs
@@ -97,7 +97,7 @@ items:
   source:
     remote:
       path: Lib/Utils/RegistryWalker.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RegistryKeyToRegistryObject
     path: ../Lib/Utils/RegistryWalker.cs

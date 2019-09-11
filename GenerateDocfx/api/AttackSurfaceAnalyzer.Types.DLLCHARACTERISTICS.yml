@@ -26,11 +26,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DLLCHARACTERISTICS
     path: ../Lib/Objects/Types.cs
-    startLine: 46
+    startLine: 45
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -57,11 +57,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA
     path: ../Lib/Objects/Types.cs
-    startLine: 48
+    startLine: 47
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -89,11 +89,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE
     path: ../Lib/Objects/Types.cs
-    startLine: 49
+    startLine: 48
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -121,11 +121,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IMAGE_DLLCHARACTERISTICS_FORCE_INTEGRITY
     path: ../Lib/Objects/Types.cs
-    startLine: 50
+    startLine: 49
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -153,11 +153,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IMAGE_DLLCHARACTERISTICS_NX_COMPAT
     path: ../Lib/Objects/Types.cs
-    startLine: 51
+    startLine: 50
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -185,11 +185,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IMAGE_DLLCHARACTERISTICS_NO_ISOLATION
     path: ../Lib/Objects/Types.cs
-    startLine: 52
+    startLine: 51
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -217,11 +217,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IMAGE_DLLCHARACTERISTICS_NO_SEH
     path: ../Lib/Objects/Types.cs
-    startLine: 53
+    startLine: 52
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -249,11 +249,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IMAGE_DLLCHARACTERISTICS_NO_BIND
     path: ../Lib/Objects/Types.cs
-    startLine: 54
+    startLine: 53
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -281,11 +281,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IMAGE_DLLCHARACTERISTICS_APPCONTAINER
     path: ../Lib/Objects/Types.cs
-    startLine: 55
+    startLine: 54
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -313,11 +313,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IMAGE_DLLCHARACTERISTICS_WDM_DRIVER
     path: ../Lib/Objects/Types.cs
-    startLine: 56
+    startLine: 55
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -345,11 +345,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IMAGE_DLLCHARACTERISTICS_GUARD_CF
     path: ../Lib/Objects/Types.cs
-    startLine: 57
+    startLine: 56
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -377,11 +377,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IMAGE_DLLCHARACTERISTICS_TERMINAL_SERVER_AWARE
     path: ../Lib/Objects/Types.cs
-    startLine: 58
+    startLine: 57
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types

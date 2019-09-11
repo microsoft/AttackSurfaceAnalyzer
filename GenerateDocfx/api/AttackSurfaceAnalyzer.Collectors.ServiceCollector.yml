@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/ServiceCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ServiceCollector
     path: ../Lib/Collectors/ServiceCollector.cs
@@ -32,7 +32,9 @@ items:
     content: 'public class ServiceCollector : BaseCollector, PlatformRunnable'
     content.vb: >-
       Public Class ServiceCollector
+
           Inherits BaseCollector
+
           Implements PlatformRunnable
   inheritance:
   - System.Object
@@ -71,7 +73,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/ServiceCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/ServiceCollector.cs
@@ -106,7 +108,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/ServiceCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CanRunOnPlatform
     path: ../Lib/Collectors/ServiceCollector.cs
@@ -144,7 +146,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/ServiceCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Execute
     path: ../Lib/Collectors/ServiceCollector.cs

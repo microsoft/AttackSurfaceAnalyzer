@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FileSystemCollector
     path: ../Lib/Collectors/FileSystemCollector.cs
@@ -35,7 +35,9 @@ items:
     content: 'public class FileSystemCollector : BaseCollector, PlatformRunnable'
     content.vb: >-
       Public Class FileSystemCollector
+
           Inherits BaseCollector
+
           Implements PlatformRunnable
   inheritance:
   - System.Object
@@ -74,7 +76,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/FileSystemCollector.cs
@@ -115,7 +117,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: AddRoot
     path: ../Lib/Collectors/FileSystemCollector.cs
@@ -148,7 +150,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ClearRoots
     path: ../Lib/Collectors/FileSystemCollector.cs
@@ -178,7 +180,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CanRunOnPlatform
     path: ../Lib/Collectors/FileSystemCollector.cs
@@ -213,7 +215,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Execute
     path: ../Lib/Collectors/FileSystemCollector.cs
@@ -246,7 +248,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FileSystemInfoToFileSystemObject
     path: ../Lib/Collectors/FileSystemCollector.cs

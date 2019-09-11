@@ -29,7 +29,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FileSystemObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FileSystemObject
     path: ../Lib/Objects/FileSystemObject.cs
@@ -41,6 +41,7 @@ items:
     content: 'public class FileSystemObject : CollectObject'
     content.vb: >-
       Public Class FileSystemObject
+
           Inherits CollectObject
   inheritance:
   - System.Object
@@ -75,7 +76,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FileSystemObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Path
     path: ../Lib/Objects/FileSystemObject.cs
@@ -110,7 +111,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FileSystemObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Permissions
     path: ../Lib/Objects/FileSystemObject.cs
@@ -145,7 +146,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FileSystemObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Size
     path: ../Lib/Objects/FileSystemObject.cs
@@ -180,7 +181,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FileSystemObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ContentHash
     path: ../Lib/Objects/FileSystemObject.cs
@@ -215,7 +216,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FileSystemObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Characteristics
     path: ../Lib/Objects/FileSystemObject.cs
@@ -246,7 +247,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FileSystemObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SignatureStatus
     path: ../Lib/Objects/FileSystemObject.cs
@@ -281,7 +282,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FileSystemObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsExecutable
     path: ../Lib/Objects/FileSystemObject.cs
@@ -316,7 +317,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FileSystemObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsDirectory
     path: ../Lib/Objects/FileSystemObject.cs
@@ -351,7 +352,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FileSystemObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Owner
     path: ../Lib/Objects/FileSystemObject.cs
@@ -386,7 +387,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FileSystemObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Group
     path: ../Lib/Objects/FileSystemObject.cs
@@ -421,7 +422,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FileSystemObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SetGid
     path: ../Lib/Objects/FileSystemObject.cs
@@ -456,7 +457,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FileSystemObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SetUid
     path: ../Lib/Objects/FileSystemObject.cs
@@ -491,7 +492,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FileSystemObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Objects/FileSystemObject.cs
@@ -521,7 +522,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FileSystemObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Identity
     path: ../Lib/Objects/FileSystemObject.cs

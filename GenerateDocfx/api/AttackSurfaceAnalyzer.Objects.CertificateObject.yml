@@ -23,7 +23,7 @@ items:
   source:
     remote:
       path: Lib/Objects/CertificateObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CertificateObject
     path: ../Lib/Objects/CertificateObject.cs
@@ -35,6 +35,7 @@ items:
     content: 'public class CertificateObject : CollectObject'
     content.vb: >-
       Public Class CertificateObject
+
           Inherits CollectObject
   inheritance:
   - System.Object
@@ -69,7 +70,7 @@ items:
   source:
     remote:
       path: Lib/Objects/CertificateObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: StoreLocation
     path: ../Lib/Objects/CertificateObject.cs
@@ -100,7 +101,7 @@ items:
   source:
     remote:
       path: Lib/Objects/CertificateObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: StoreName
     path: ../Lib/Objects/CertificateObject.cs
@@ -131,7 +132,7 @@ items:
   source:
     remote:
       path: Lib/Objects/CertificateObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CertificateHashString
     path: ../Lib/Objects/CertificateObject.cs
@@ -162,7 +163,7 @@ items:
   source:
     remote:
       path: Lib/Objects/CertificateObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Subject
     path: ../Lib/Objects/CertificateObject.cs
@@ -193,7 +194,7 @@ items:
   source:
     remote:
       path: Lib/Objects/CertificateObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Pkcs12
     path: ../Lib/Objects/CertificateObject.cs
@@ -224,7 +225,7 @@ items:
   source:
     remote:
       path: Lib/Objects/CertificateObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Pkcs7
     path: ../Lib/Objects/CertificateObject.cs
@@ -255,7 +256,7 @@ items:
   source:
     remote:
       path: Lib/Objects/CertificateObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Objects/CertificateObject.cs
@@ -285,7 +286,7 @@ items:
   source:
     remote:
       path: Lib/Objects/CertificateObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Identity
     path: ../Lib/Objects/CertificateObject.cs

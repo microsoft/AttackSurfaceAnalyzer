@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ResultObjects.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RawCollectResult
     path: ../Lib/Objects/ResultObjects.cs
@@ -61,7 +61,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ResultObjects.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ResultType
     path: ../Lib/Objects/ResultObjects.cs
@@ -92,7 +92,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ResultObjects.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RowKey
     path: ../Lib/Objects/ResultObjects.cs
@@ -123,7 +123,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ResultObjects.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RunId
     path: ../Lib/Objects/ResultObjects.cs
@@ -154,7 +154,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ResultObjects.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Identity
     path: ../Lib/Objects/ResultObjects.cs
@@ -185,7 +185,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ResultObjects.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Serialized
     path: ../Lib/Objects/ResultObjects.cs

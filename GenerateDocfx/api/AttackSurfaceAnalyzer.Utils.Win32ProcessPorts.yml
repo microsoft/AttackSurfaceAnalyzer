@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Win32OpenPortListenerHelper.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Win32ProcessPorts
     path: ../Lib/Utils/Win32OpenPortListenerHelper.cs
@@ -60,7 +60,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Win32OpenPortListenerHelper.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ProcessPortMap
     path: ../Lib/Utils/Win32OpenPortListenerHelper.cs

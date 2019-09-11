@@ -32,7 +32,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FirewallObject
     path: ../Lib/Objects/FirewallObject.cs
@@ -44,6 +44,7 @@ items:
     content: 'public class FirewallObject : CollectObject'
     content.vb: >-
       Public Class FirewallObject
+
           Inherits CollectObject
   inheritance:
   - System.Object
@@ -78,7 +79,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Action
     path: ../Lib/Objects/FirewallObject.cs
@@ -86,6 +87,8 @@ items:
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
+  summary: "\nGets or sets the action that the rules defines\n"
+  example: []
   syntax:
     content: public FirewallAction Action { get; set; }
     parameters: []
@@ -113,7 +116,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ApplicationName
     path: ../Lib/Objects/FirewallObject.cs
@@ -121,6 +124,8 @@ items:
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
+  summary: "\nGets or sets the name of the application that this rule is about\n"
+  example: []
   syntax:
     content: public string ApplicationName { get; set; }
     parameters: []
@@ -148,7 +153,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Direction
     path: ../Lib/Objects/FirewallObject.cs
@@ -156,6 +161,8 @@ items:
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
+  summary: "\nGets or sets the data direction that the rule applies to\n"
+  example: []
   syntax:
     content: public FirewallDirection Direction { get; set; }
     parameters: []
@@ -183,7 +190,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FriendlyName
     path: ../Lib/Objects/FirewallObject.cs
@@ -191,6 +198,8 @@ items:
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
+  summary: "\nGets or sets the resolved name of the rule\n"
+  example: []
   syntax:
     content: public string FriendlyName { get; set; }
     parameters: []
@@ -218,7 +227,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsEnable
     path: ../Lib/Objects/FirewallObject.cs
@@ -226,6 +235,8 @@ items:
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
+  summary: "\nGets or sets a Boolean value indicating if this rule is active \n"
+  example: []
   syntax:
     content: public bool IsEnable { get; set; }
     parameters: []
@@ -253,7 +264,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LocalAddresses
     path: ../Lib/Objects/FirewallObject.cs
@@ -261,6 +272,8 @@ items:
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
+  summary: "\nGets or sets the local addresses that the rule applies to\n"
+  example: []
   syntax:
     content: public List<string> LocalAddresses { get; set; }
     parameters: []
@@ -288,7 +301,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LocalPorts
     path: ../Lib/Objects/FirewallObject.cs
@@ -296,6 +309,8 @@ items:
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
+  summary: "\nGets or sets the local ports that the rule applies to \n"
+  example: []
   syntax:
     content: public List<string> LocalPorts { get; set; }
     parameters: []
@@ -323,7 +338,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LocalPortType
     path: ../Lib/Objects/FirewallObject.cs
@@ -331,6 +346,8 @@ items:
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
+  summary: "\nGets or sets the type of local ports that the rules applies to\n"
+  example: []
   syntax:
     content: public FirewallPortType LocalPortType { get; set; }
     parameters: []
@@ -358,7 +375,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Name
     path: ../Lib/Objects/FirewallObject.cs
@@ -366,6 +383,8 @@ items:
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
+  summary: "\nGets or sets the name of the rule in native format w/o auto string resolving\n"
+  example: []
   syntax:
     content: public string Name { get; set; }
     parameters: []
@@ -393,7 +412,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Profiles
     path: ../Lib/Objects/FirewallObject.cs
@@ -401,6 +420,8 @@ items:
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
+  summary: "\nGets the profiles that this rule belongs to \n"
+  example: []
   syntax:
     content: public FirewallProfiles Profiles { get; set; }
     parameters: []
@@ -428,7 +449,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Protocol
     path: ../Lib/Objects/FirewallObject.cs
@@ -436,6 +457,8 @@ items:
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
+  summary: "\nGets or sets the protocol that the rule applies to\n"
+  example: []
   syntax:
     content: public string Protocol { get; set; }
     parameters: []
@@ -463,7 +486,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RemoteAddresses
     path: ../Lib/Objects/FirewallObject.cs
@@ -471,6 +494,8 @@ items:
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
+  summary: "\nGets or sets the remote addresses that the rule applies to \n"
+  example: []
   syntax:
     content: public List<string> RemoteAddresses { get; set; }
     parameters: []
@@ -498,7 +523,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RemotePorts
     path: ../Lib/Objects/FirewallObject.cs
@@ -506,6 +531,8 @@ items:
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
+  summary: "\nGets or sets the remote ports that the rule applies to\n"
+  example: []
   syntax:
     content: public List<string> RemotePorts { get; set; }
     parameters: []
@@ -533,7 +560,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Scope
     path: ../Lib/Objects/FirewallObject.cs
@@ -541,6 +568,8 @@ items:
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
+  summary: "\nGets or sets the scope that the rule applies to\n"
+  example: []
   syntax:
     content: public FirewallScope Scope { get; set; }
     parameters: []
@@ -568,7 +597,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ServiceName
     path: ../Lib/Objects/FirewallObject.cs
@@ -576,6 +605,8 @@ items:
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
+  summary: "\nGets or sets the name of the service that this rule is about\n"
+  example: []
   syntax:
     content: public string ServiceName { get; set; }
     parameters: []
@@ -603,7 +634,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Objects/FirewallObject.cs
@@ -633,7 +664,7 @@ items:
   source:
     remote:
       path: Lib/Objects/FirewallObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Identity
     path: ../Lib/Objects/FirewallObject.cs

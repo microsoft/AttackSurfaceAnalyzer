@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Telemetry.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Telemetry
     path: ../Lib/Utils/Telemetry.cs
@@ -63,7 +63,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Telemetry.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Client
     path: ../Lib/Utils/Telemetry.cs
@@ -96,7 +96,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Telemetry.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: TestMode
     path: ../Lib/Utils/Telemetry.cs
@@ -128,7 +128,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Telemetry.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Setup
     path: ../Lib/Utils/Telemetry.cs
@@ -163,7 +163,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Telemetry.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Flush
     path: ../Lib/Utils/Telemetry.cs
@@ -195,7 +195,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Telemetry.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SetOptOut
     path: ../Lib/Utils/Telemetry.cs
@@ -230,7 +230,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Telemetry.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: TrackEvent
     path: ../Lib/Utils/Telemetry.cs
@@ -270,7 +270,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Telemetry.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: TrackTrace
     path: ../Lib/Utils/Telemetry.cs

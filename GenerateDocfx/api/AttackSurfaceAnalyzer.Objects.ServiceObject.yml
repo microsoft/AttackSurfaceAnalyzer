@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ServiceObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ServiceObject
     path: ../Lib/Objects/ServiceObject.cs
@@ -33,6 +33,7 @@ items:
     content: 'public class ServiceObject : CollectObject'
     content.vb: >-
       Public Class ServiceObject
+
           Inherits CollectObject
   inheritance:
   - System.Object
@@ -67,7 +68,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ServiceObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ServiceName
     path: ../Lib/Objects/ServiceObject.cs
@@ -102,7 +103,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ServiceObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: StartType
     path: ../Lib/Objects/ServiceObject.cs
@@ -137,7 +138,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ServiceObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DisplayName
     path: ../Lib/Objects/ServiceObject.cs
@@ -172,7 +173,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ServiceObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CurrentState
     path: ../Lib/Objects/ServiceObject.cs
@@ -207,7 +208,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ServiceObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Objects/ServiceObject.cs
@@ -237,7 +238,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ServiceObject.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Identity
     path: ../Lib/Objects/ServiceObject.cs

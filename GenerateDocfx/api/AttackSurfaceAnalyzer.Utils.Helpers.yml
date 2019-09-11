@@ -27,7 +27,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Helpers.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Helpers
     path: ../Lib/Utils/Helpers.cs
@@ -68,7 +68,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Helpers.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: OpenBrowser
     path: ../Lib/Utils/Helpers.cs
@@ -103,7 +103,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Helpers.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsAdmin
     path: ../Lib/Utils/Helpers.cs
@@ -137,7 +137,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Helpers.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: MakeValidFileName
     path: ../Lib/Utils/Helpers.cs
@@ -174,7 +174,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Helpers.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetVersionString
     path: ../Lib/Utils/Helpers.cs
@@ -208,7 +208,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Helpers.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetPlatformString
     path: ../Lib/Utils/Helpers.cs
@@ -242,7 +242,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Helpers.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ResultTypeToTableName
     path: ../Lib/Utils/Helpers.cs
@@ -279,7 +279,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Helpers.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetOsVersion
     path: ../Lib/Utils/Helpers.cs
@@ -313,7 +313,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Helpers.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetOsName
     path: ../Lib/Utils/Helpers.cs
@@ -347,7 +347,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Helpers.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GenerateMetadata
     path: ../Lib/Utils/Helpers.cs
@@ -381,7 +381,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Helpers.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RunIdsToCompareId
     path: ../Lib/Utils/Helpers.cs
@@ -420,7 +420,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Helpers.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsList
     path: ../Lib/Utils/Helpers.cs
@@ -457,7 +457,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Helpers.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsDictionary
     path: ../Lib/Utils/Helpers.cs

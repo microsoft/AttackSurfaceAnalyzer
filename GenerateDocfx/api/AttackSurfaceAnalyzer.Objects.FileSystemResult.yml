@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ResultObjects.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FileSystemResult
     path: ../Lib/Objects/ResultObjects.cs
@@ -28,6 +28,7 @@ items:
     content: 'public class FileSystemResult : CompareResult'
     content.vb: >-
       Public Class FileSystemResult
+
           Inherits CompareResult
   inheritance:
   - System.Object
@@ -74,7 +75,7 @@ items:
   source:
     remote:
       path: Lib/Objects/ResultObjects.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Objects/ResultObjects.cs

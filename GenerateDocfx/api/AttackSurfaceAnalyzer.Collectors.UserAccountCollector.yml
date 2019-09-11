@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/UserAccountCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: UserAccountCollector
     path: ../Lib/Collectors/UserAccountCollector.cs
@@ -31,7 +31,9 @@ items:
     content: 'public class UserAccountCollector : BaseCollector, PlatformRunnable'
     content.vb: >-
       Public Class UserAccountCollector
+
           Inherits BaseCollector
+
           Implements PlatformRunnable
   inheritance:
   - System.Object
@@ -70,7 +72,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/UserAccountCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/UserAccountCollector.cs
@@ -103,7 +105,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/UserAccountCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CanRunOnPlatform
     path: ../Lib/Collectors/UserAccountCollector.cs
@@ -138,7 +140,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/UserAccountCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Execute
     path: ../Lib/Collectors/UserAccountCollector.cs
@@ -171,7 +173,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/UserAccountCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ExecuteWindows
     path: ../Lib/Collectors/UserAccountCollector.cs
