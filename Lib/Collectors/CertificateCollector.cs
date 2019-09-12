@@ -141,7 +141,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             StoreName = StoreName.Root.ToString(),
                             CertificateHashString = X509Certificate2Enumerator.Current.GetCertHashString(),
                             Subject = X509Certificate2Enumerator.Current.Subject,
-                            Pkcs12 = X509Certificate2Enumerator.Current.HasPrivateKey ? "redacted" : X509Certificate2Enumerator.Current.Export(X509ContentType.Pkcs12).ToString()
+                            Pkcs12 = X509Certificate2Enumerator.Current.GetRawCertDataString()
                         };
                         DatabaseManager.Write(obj, this.runId);
                     }
