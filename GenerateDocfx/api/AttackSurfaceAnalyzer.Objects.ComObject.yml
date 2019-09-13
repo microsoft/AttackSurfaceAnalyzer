@@ -1,0 +1,804 @@
+### YamlMime:ManagedReference
+items:
+- uid: AttackSurfaceAnalyzer.Objects.ComObject
+  commentId: T:AttackSurfaceAnalyzer.Objects.ComObject
+  id: ComObject
+  parent: AttackSurfaceAnalyzer.Objects
+  children:
+  - AttackSurfaceAnalyzer.Objects.ComObject.#ctor
+  - AttackSurfaceAnalyzer.Objects.ComObject.Identity
+  - AttackSurfaceAnalyzer.Objects.ComObject.Key
+  - AttackSurfaceAnalyzer.Objects.ComObject.Subkeys
+  - AttackSurfaceAnalyzer.Objects.ComObject.x64_Binary
+  - AttackSurfaceAnalyzer.Objects.ComObject.x64_BinaryName
+  - AttackSurfaceAnalyzer.Objects.ComObject.x86_Binary
+  - AttackSurfaceAnalyzer.Objects.ComObject.x86_BinaryName
+  langs:
+  - csharp
+  - vb
+  name: ComObject
+  nameWithType: ComObject
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject
+  type: Class
+  source:
+    remote:
+      path: Lib/Objects/ComObject.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ComObject
+    path: ../Lib/Objects/ComObject.cs
+    startLine: 8
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: 'public class ComObject : CollectObject'
+    content.vb: >-
+      Public Class ComObject
+
+          Inherits CollectObject
+  inheritance:
+  - System.Object
+  - AttackSurfaceAnalyzer.Objects.CollectObject
+  inheritedMembers:
+  - AttackSurfaceAnalyzer.Objects.CollectObject.ResultType
+  - AttackSurfaceAnalyzer.Objects.CollectObject.Message
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: AttackSurfaceAnalyzer.Objects.ComObject.Key
+  commentId: P:AttackSurfaceAnalyzer.Objects.ComObject.Key
+  id: Key
+  parent: AttackSurfaceAnalyzer.Objects.ComObject
+  langs:
+  - csharp
+  - vb
+  name: Key
+  nameWithType: ComObject.Key
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject.Key
+  type: Property
+  source:
+    remote:
+      path: Lib/Objects/ComObject.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Key
+    path: ../Lib/Objects/ComObject.cs
+    startLine: 11
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: public RegistryObject Key { get; set; }
+    parameters: []
+    return:
+      type: AttackSurfaceAnalyzer.Objects.RegistryObject
+    content.vb: Public Property Key As RegistryObject
+  overload: AttackSurfaceAnalyzer.Objects.ComObject.Key*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.Objects.ComObject.Subkeys
+  commentId: P:AttackSurfaceAnalyzer.Objects.ComObject.Subkeys
+  id: Subkeys
+  parent: AttackSurfaceAnalyzer.Objects.ComObject
+  langs:
+  - csharp
+  - vb
+  name: Subkeys
+  nameWithType: ComObject.Subkeys
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject.Subkeys
+  type: Property
+  source:
+    remote:
+      path: Lib/Objects/ComObject.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Subkeys
+    path: ../Lib/Objects/ComObject.cs
+    startLine: 12
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: public List<RegistryObject> Subkeys { get; set; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.List{AttackSurfaceAnalyzer.Objects.RegistryObject}
+    content.vb: Public Property Subkeys As List(Of RegistryObject)
+  overload: AttackSurfaceAnalyzer.Objects.ComObject.Subkeys*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.Objects.ComObject.x86_Binary
+  commentId: P:AttackSurfaceAnalyzer.Objects.ComObject.x86_Binary
+  id: x86_Binary
+  parent: AttackSurfaceAnalyzer.Objects.ComObject
+  langs:
+  - csharp
+  - vb
+  name: x86_Binary
+  nameWithType: ComObject.x86_Binary
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject.x86_Binary
+  type: Property
+  source:
+    remote:
+      path: Lib/Objects/ComObject.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: x86_Binary
+    path: ../Lib/Objects/ComObject.cs
+    startLine: 14
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: public FileSystemObject x86_Binary { get; set; }
+    parameters: []
+    return:
+      type: AttackSurfaceAnalyzer.Objects.FileSystemObject
+    content.vb: Public Property x86_Binary As FileSystemObject
+  overload: AttackSurfaceAnalyzer.Objects.ComObject.x86_Binary*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.Objects.ComObject.x64_Binary
+  commentId: P:AttackSurfaceAnalyzer.Objects.ComObject.x64_Binary
+  id: x64_Binary
+  parent: AttackSurfaceAnalyzer.Objects.ComObject
+  langs:
+  - csharp
+  - vb
+  name: x64_Binary
+  nameWithType: ComObject.x64_Binary
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject.x64_Binary
+  type: Property
+  source:
+    remote:
+      path: Lib/Objects/ComObject.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: x64_Binary
+    path: ../Lib/Objects/ComObject.cs
+    startLine: 15
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: public FileSystemObject x64_Binary { get; set; }
+    parameters: []
+    return:
+      type: AttackSurfaceAnalyzer.Objects.FileSystemObject
+    content.vb: Public Property x64_Binary As FileSystemObject
+  overload: AttackSurfaceAnalyzer.Objects.ComObject.x64_Binary*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.Objects.ComObject.x86_BinaryName
+  commentId: P:AttackSurfaceAnalyzer.Objects.ComObject.x86_BinaryName
+  id: x86_BinaryName
+  parent: AttackSurfaceAnalyzer.Objects.ComObject
+  langs:
+  - csharp
+  - vb
+  name: x86_BinaryName
+  nameWithType: ComObject.x86_BinaryName
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject.x86_BinaryName
+  type: Property
+  source:
+    remote:
+      path: Lib/Objects/ComObject.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: x86_BinaryName
+    path: ../Lib/Objects/ComObject.cs
+    startLine: 16
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: public string x86_BinaryName { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property x86_BinaryName As String
+  overload: AttackSurfaceAnalyzer.Objects.ComObject.x86_BinaryName*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.Objects.ComObject.x64_BinaryName
+  commentId: P:AttackSurfaceAnalyzer.Objects.ComObject.x64_BinaryName
+  id: x64_BinaryName
+  parent: AttackSurfaceAnalyzer.Objects.ComObject
+  langs:
+  - csharp
+  - vb
+  name: x64_BinaryName
+  nameWithType: ComObject.x64_BinaryName
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject.x64_BinaryName
+  type: Property
+  source:
+    remote:
+      path: Lib/Objects/ComObject.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: x64_BinaryName
+    path: ../Lib/Objects/ComObject.cs
+    startLine: 17
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: public string x64_BinaryName { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property x64_BinaryName As String
+  overload: AttackSurfaceAnalyzer.Objects.ComObject.x64_BinaryName*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.Objects.ComObject.#ctor
+  commentId: M:AttackSurfaceAnalyzer.Objects.ComObject.#ctor
+  id: '#ctor'
+  parent: AttackSurfaceAnalyzer.Objects.ComObject
+  langs:
+  - csharp
+  - vb
+  name: ComObject()
+  nameWithType: ComObject.ComObject()
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject.ComObject()
+  type: Constructor
+  source:
+    remote:
+      path: Lib/Objects/ComObject.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: .ctor
+    path: ../Lib/Objects/ComObject.cs
+    startLine: 19
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: public ComObject()
+    content.vb: Public Sub New
+  overload: AttackSurfaceAnalyzer.Objects.ComObject.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.Objects.ComObject.Identity
+  commentId: P:AttackSurfaceAnalyzer.Objects.ComObject.Identity
+  id: Identity
+  parent: AttackSurfaceAnalyzer.Objects.ComObject
+  langs:
+  - csharp
+  - vb
+  name: Identity
+  nameWithType: ComObject.Identity
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject.Identity
+  type: Property
+  source:
+    remote:
+      path: Lib/Objects/ComObject.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Identity
+    path: ../Lib/Objects/ComObject.cs
+    startLine: 24
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Objects
+  syntax:
+    content: public override string Identity { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Overrides ReadOnly Property Identity As String
+  overridden: AttackSurfaceAnalyzer.Objects.CollectObject.Identity
+  overload: AttackSurfaceAnalyzer.Objects.ComObject.Identity*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  modifiers.vb:
+  - Public
+  - Overrides
+  - ReadOnly
+references:
+- uid: AttackSurfaceAnalyzer.Objects
+  commentId: N:AttackSurfaceAnalyzer.Objects
+  name: AttackSurfaceAnalyzer.Objects
+  nameWithType: AttackSurfaceAnalyzer.Objects
+  fullName: AttackSurfaceAnalyzer.Objects
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: AttackSurfaceAnalyzer.Objects.CollectObject
+  commentId: T:AttackSurfaceAnalyzer.Objects.CollectObject
+  parent: AttackSurfaceAnalyzer.Objects
+  name: CollectObject
+  nameWithType: CollectObject
+  fullName: AttackSurfaceAnalyzer.Objects.CollectObject
+- uid: AttackSurfaceAnalyzer.Objects.CollectObject.ResultType
+  commentId: F:AttackSurfaceAnalyzer.Objects.CollectObject.ResultType
+  parent: AttackSurfaceAnalyzer.Objects.CollectObject
+  name: ResultType
+  nameWithType: CollectObject.ResultType
+  fullName: AttackSurfaceAnalyzer.Objects.CollectObject.ResultType
+- uid: AttackSurfaceAnalyzer.Objects.CollectObject.Message
+  commentId: P:AttackSurfaceAnalyzer.Objects.CollectObject.Message
+  parent: AttackSurfaceAnalyzer.Objects.CollectObject
+  name: Message
+  nameWithType: CollectObject.Message
+  fullName: AttackSurfaceAnalyzer.Objects.CollectObject.Message
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: AttackSurfaceAnalyzer.Objects.ComObject.Key*
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ComObject.Key
+  name: Key
+  nameWithType: ComObject.Key
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject.Key
+- uid: AttackSurfaceAnalyzer.Objects.RegistryObject
+  commentId: T:AttackSurfaceAnalyzer.Objects.RegistryObject
+  parent: AttackSurfaceAnalyzer.Objects
+  name: RegistryObject
+  nameWithType: RegistryObject
+  fullName: AttackSurfaceAnalyzer.Objects.RegistryObject
+- uid: AttackSurfaceAnalyzer.Objects.ComObject.Subkeys*
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ComObject.Subkeys
+  name: Subkeys
+  nameWithType: ComObject.Subkeys
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject.Subkeys
+- uid: System.Collections.Generic.List{AttackSurfaceAnalyzer.Objects.RegistryObject}
+  commentId: T:System.Collections.Generic.List{AttackSurfaceAnalyzer.Objects.RegistryObject}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<RegistryObject>
+  nameWithType: List<RegistryObject>
+  fullName: System.Collections.Generic.List<AttackSurfaceAnalyzer.Objects.RegistryObject>
+  nameWithType.vb: List(Of RegistryObject)
+  fullName.vb: System.Collections.Generic.List(Of AttackSurfaceAnalyzer.Objects.RegistryObject)
+  name.vb: List(Of RegistryObject)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: AttackSurfaceAnalyzer.Objects.RegistryObject
+    name: RegistryObject
+    nameWithType: RegistryObject
+    fullName: AttackSurfaceAnalyzer.Objects.RegistryObject
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: AttackSurfaceAnalyzer.Objects.RegistryObject
+    name: RegistryObject
+    nameWithType: RegistryObject
+    fullName: AttackSurfaceAnalyzer.Objects.RegistryObject
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: AttackSurfaceAnalyzer.Objects.ComObject.x86_Binary*
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ComObject.x86_Binary
+  name: x86_Binary
+  nameWithType: ComObject.x86_Binary
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject.x86_Binary
+- uid: AttackSurfaceAnalyzer.Objects.FileSystemObject
+  commentId: T:AttackSurfaceAnalyzer.Objects.FileSystemObject
+  parent: AttackSurfaceAnalyzer.Objects
+  name: FileSystemObject
+  nameWithType: FileSystemObject
+  fullName: AttackSurfaceAnalyzer.Objects.FileSystemObject
+- uid: AttackSurfaceAnalyzer.Objects.ComObject.x64_Binary*
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ComObject.x64_Binary
+  name: x64_Binary
+  nameWithType: ComObject.x64_Binary
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject.x64_Binary
+- uid: AttackSurfaceAnalyzer.Objects.ComObject.x86_BinaryName*
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ComObject.x86_BinaryName
+  name: x86_BinaryName
+  nameWithType: ComObject.x86_BinaryName
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject.x86_BinaryName
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: AttackSurfaceAnalyzer.Objects.ComObject.x64_BinaryName*
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ComObject.x64_BinaryName
+  name: x64_BinaryName
+  nameWithType: ComObject.x64_BinaryName
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject.x64_BinaryName
+- uid: AttackSurfaceAnalyzer.Objects.ComObject.#ctor*
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ComObject.#ctor
+  name: ComObject
+  nameWithType: ComObject.ComObject
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject.ComObject
+- uid: AttackSurfaceAnalyzer.Objects.CollectObject.Identity
+  commentId: P:AttackSurfaceAnalyzer.Objects.CollectObject.Identity
+  parent: AttackSurfaceAnalyzer.Objects.CollectObject
+  name: Identity
+  nameWithType: CollectObject.Identity
+  fullName: AttackSurfaceAnalyzer.Objects.CollectObject.Identity
+- uid: AttackSurfaceAnalyzer.Objects.ComObject.Identity*
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ComObject.Identity
+  name: Identity
+  nameWithType: ComObject.Identity
+  fullName: AttackSurfaceAnalyzer.Objects.ComObject.Identity

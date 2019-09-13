@@ -266,6 +266,3 @@ Tools/
 asa.sqlite
 *asa.log.txt
 *.sqlite
-
-GenerateDocfx/api
-GenerateDocfx/log.txt

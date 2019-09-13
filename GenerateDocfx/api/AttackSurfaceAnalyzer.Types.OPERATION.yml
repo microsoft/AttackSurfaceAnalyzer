@@ -1,0 +1,343 @@
+### YamlMime:ManagedReference
+items:
+- uid: AttackSurfaceAnalyzer.Types.OPERATION
+  commentId: T:AttackSurfaceAnalyzer.Types.OPERATION
+  id: OPERATION
+  parent: AttackSurfaceAnalyzer.Types
+  children:
+  - AttackSurfaceAnalyzer.Types.OPERATION.CONTAINS
+  - AttackSurfaceAnalyzer.Types.OPERATION.ENDS_WITH
+  - AttackSurfaceAnalyzer.Types.OPERATION.EQ
+  - AttackSurfaceAnalyzer.Types.OPERATION.GT
+  - AttackSurfaceAnalyzer.Types.OPERATION.LT
+  - AttackSurfaceAnalyzer.Types.OPERATION.NEQ
+  - AttackSurfaceAnalyzer.Types.OPERATION.REGEX
+  - AttackSurfaceAnalyzer.Types.OPERATION.STARTS_WITH
+  - AttackSurfaceAnalyzer.Types.OPERATION.WAS_MODIFIED
+  langs:
+  - csharp
+  - vb
+  name: OPERATION
+  nameWithType: OPERATION
+  fullName: AttackSurfaceAnalyzer.Types.OPERATION
+  type: Enum
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: OPERATION
+    path: ../Lib/Objects/Types.cs
+    startLine: 73
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Types
+  syntax:
+    content: public enum OPERATION
+    content.vb: Public Enum OPERATION
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: AttackSurfaceAnalyzer.Types.OPERATION.REGEX
+  commentId: F:AttackSurfaceAnalyzer.Types.OPERATION.REGEX
+  id: REGEX
+  parent: AttackSurfaceAnalyzer.Types.OPERATION
+  langs:
+  - csharp
+  - vb
+  name: REGEX
+  nameWithType: OPERATION.REGEX
+  fullName: AttackSurfaceAnalyzer.Types.OPERATION.REGEX
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: REGEX
+    path: ../Lib/Objects/Types.cs
+    startLine: 75
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Types
+  syntax:
+    content: REGEX = 0
+    return:
+      type: AttackSurfaceAnalyzer.Types.OPERATION
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Types.OPERATION.EQ
+  commentId: F:AttackSurfaceAnalyzer.Types.OPERATION.EQ
+  id: EQ
+  parent: AttackSurfaceAnalyzer.Types.OPERATION
+  langs:
+  - csharp
+  - vb
+  name: EQ
+  nameWithType: OPERATION.EQ
+  fullName: AttackSurfaceAnalyzer.Types.OPERATION.EQ
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: EQ
+    path: ../Lib/Objects/Types.cs
+    startLine: 76
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Types
+  syntax:
+    content: EQ = 1
+    return:
+      type: AttackSurfaceAnalyzer.Types.OPERATION
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Types.OPERATION.NEQ
+  commentId: F:AttackSurfaceAnalyzer.Types.OPERATION.NEQ
+  id: NEQ
+  parent: AttackSurfaceAnalyzer.Types.OPERATION
+  langs:
+  - csharp
+  - vb
+  name: NEQ
+  nameWithType: OPERATION.NEQ
+  fullName: AttackSurfaceAnalyzer.Types.OPERATION.NEQ
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: NEQ
+    path: ../Lib/Objects/Types.cs
+    startLine: 77
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Types
+  syntax:
+    content: NEQ = 2
+    return:
+      type: AttackSurfaceAnalyzer.Types.OPERATION
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Types.OPERATION.LT
+  commentId: F:AttackSurfaceAnalyzer.Types.OPERATION.LT
+  id: LT
+  parent: AttackSurfaceAnalyzer.Types.OPERATION
+  langs:
+  - csharp
+  - vb
+  name: LT
+  nameWithType: OPERATION.LT
+  fullName: AttackSurfaceAnalyzer.Types.OPERATION.LT
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: LT
+    path: ../Lib/Objects/Types.cs
+    startLine: 78
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Types
+  syntax:
+    content: LT = 3
+    return:
+      type: AttackSurfaceAnalyzer.Types.OPERATION
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Types.OPERATION.GT
+  commentId: F:AttackSurfaceAnalyzer.Types.OPERATION.GT
+  id: GT
+  parent: AttackSurfaceAnalyzer.Types.OPERATION
+  langs:
+  - csharp
+  - vb
+  name: GT
+  nameWithType: OPERATION.GT
+  fullName: AttackSurfaceAnalyzer.Types.OPERATION.GT
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: GT
+    path: ../Lib/Objects/Types.cs
+    startLine: 79
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Types
+  syntax:
+    content: GT = 4
+    return:
+      type: AttackSurfaceAnalyzer.Types.OPERATION
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Types.OPERATION.CONTAINS
+  commentId: F:AttackSurfaceAnalyzer.Types.OPERATION.CONTAINS
+  id: CONTAINS
+  parent: AttackSurfaceAnalyzer.Types.OPERATION
+  langs:
+  - csharp
+  - vb
+  name: CONTAINS
+  nameWithType: OPERATION.CONTAINS
+  fullName: AttackSurfaceAnalyzer.Types.OPERATION.CONTAINS
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: CONTAINS
+    path: ../Lib/Objects/Types.cs
+    startLine: 80
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Types
+  syntax:
+    content: CONTAINS = 5
+    return:
+      type: AttackSurfaceAnalyzer.Types.OPERATION
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Types.OPERATION.WAS_MODIFIED
+  commentId: F:AttackSurfaceAnalyzer.Types.OPERATION.WAS_MODIFIED
+  id: WAS_MODIFIED
+  parent: AttackSurfaceAnalyzer.Types.OPERATION
+  langs:
+  - csharp
+  - vb
+  name: WAS_MODIFIED
+  nameWithType: OPERATION.WAS_MODIFIED
+  fullName: AttackSurfaceAnalyzer.Types.OPERATION.WAS_MODIFIED
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: WAS_MODIFIED
+    path: ../Lib/Objects/Types.cs
+    startLine: 81
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Types
+  syntax:
+    content: WAS_MODIFIED = 6
+    return:
+      type: AttackSurfaceAnalyzer.Types.OPERATION
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Types.OPERATION.ENDS_WITH
+  commentId: F:AttackSurfaceAnalyzer.Types.OPERATION.ENDS_WITH
+  id: ENDS_WITH
+  parent: AttackSurfaceAnalyzer.Types.OPERATION
+  langs:
+  - csharp
+  - vb
+  name: ENDS_WITH
+  nameWithType: OPERATION.ENDS_WITH
+  fullName: AttackSurfaceAnalyzer.Types.OPERATION.ENDS_WITH
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ENDS_WITH
+    path: ../Lib/Objects/Types.cs
+    startLine: 82
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Types
+  syntax:
+    content: ENDS_WITH = 7
+    return:
+      type: AttackSurfaceAnalyzer.Types.OPERATION
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: AttackSurfaceAnalyzer.Types.OPERATION.STARTS_WITH
+  commentId: F:AttackSurfaceAnalyzer.Types.OPERATION.STARTS_WITH
+  id: STARTS_WITH
+  parent: AttackSurfaceAnalyzer.Types.OPERATION
+  langs:
+  - csharp
+  - vb
+  name: STARTS_WITH
+  nameWithType: OPERATION.STARTS_WITH
+  fullName: AttackSurfaceAnalyzer.Types.OPERATION.STARTS_WITH
+  type: Field
+  source:
+    remote:
+      path: Lib/Objects/Types.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: STARTS_WITH
+    path: ../Lib/Objects/Types.cs
+    startLine: 83
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Types
+  syntax:
+    content: STARTS_WITH = 8
+    return:
+      type: AttackSurfaceAnalyzer.Types.OPERATION
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: AttackSurfaceAnalyzer.Types
+  commentId: N:AttackSurfaceAnalyzer.Types
+  name: AttackSurfaceAnalyzer.Types
+  nameWithType: AttackSurfaceAnalyzer.Types
+  fullName: AttackSurfaceAnalyzer.Types
+- uid: AttackSurfaceAnalyzer.Types.OPERATION
+  commentId: T:AttackSurfaceAnalyzer.Types.OPERATION
+  parent: AttackSurfaceAnalyzer.Types
+  name: OPERATION
+  nameWithType: OPERATION
+  fullName: AttackSurfaceAnalyzer.Types.OPERATION

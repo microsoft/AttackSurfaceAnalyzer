@@ -1,0 +1,554 @@
+### YamlMime:ManagedReference
+items:
+- uid: AttackSurfaceAnalyzer.Utils.Logger
+  commentId: T:AttackSurfaceAnalyzer.Utils.Logger
+  id: Logger
+  parent: AttackSurfaceAnalyzer.Utils
+  children:
+  - AttackSurfaceAnalyzer.Utils.Logger.DebugException(System.Exception)
+  - AttackSurfaceAnalyzer.Utils.Logger.Setup
+  - AttackSurfaceAnalyzer.Utils.Logger.Setup(System.Boolean,System.Boolean)
+  - AttackSurfaceAnalyzer.Utils.Logger.Setup(System.Boolean,System.Boolean,System.Boolean)
+  - AttackSurfaceAnalyzer.Utils.Logger.VerboseException(System.Exception)
+  langs:
+  - csharp
+  - vb
+  name: Logger
+  nameWithType: Logger
+  fullName: AttackSurfaceAnalyzer.Utils.Logger
+  type: Class
+  source:
+    remote:
+      path: Lib/Utils/Logger.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Logger
+    path: ../Lib/Utils/Logger.cs
+    startLine: 9
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public class Logger
+    content.vb: Public Class Logger
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: AttackSurfaceAnalyzer.Utils.Logger.Setup
+  commentId: M:AttackSurfaceAnalyzer.Utils.Logger.Setup
+  id: Setup
+  parent: AttackSurfaceAnalyzer.Utils.Logger
+  langs:
+  - csharp
+  - vb
+  name: Setup()
+  nameWithType: Logger.Setup()
+  fullName: AttackSurfaceAnalyzer.Utils.Logger.Setup()
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/Logger.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Setup
+    path: ../Lib/Utils/Logger.cs
+    startLine: 12
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static void Setup()
+    content.vb: Public Shared Sub Setup
+  overload: AttackSurfaceAnalyzer.Utils.Logger.Setup*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: AttackSurfaceAnalyzer.Utils.Logger.Setup(System.Boolean,System.Boolean)
+  commentId: M:AttackSurfaceAnalyzer.Utils.Logger.Setup(System.Boolean,System.Boolean)
+  id: Setup(System.Boolean,System.Boolean)
+  parent: AttackSurfaceAnalyzer.Utils.Logger
+  langs:
+  - csharp
+  - vb
+  name: Setup(Boolean, Boolean)
+  nameWithType: Logger.Setup(Boolean, Boolean)
+  fullName: AttackSurfaceAnalyzer.Utils.Logger.Setup(System.Boolean, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/Logger.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Setup
+    path: ../Lib/Utils/Logger.cs
+    startLine: 17
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static void Setup(bool debug, bool verbose)
+    parameters:
+    - id: debug
+      type: System.Boolean
+    - id: verbose
+      type: System.Boolean
+    content.vb: Public Shared Sub Setup(debug As Boolean, verbose As Boolean)
+  overload: AttackSurfaceAnalyzer.Utils.Logger.Setup*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: AttackSurfaceAnalyzer.Utils.Logger.Setup(System.Boolean,System.Boolean,System.Boolean)
+  commentId: M:AttackSurfaceAnalyzer.Utils.Logger.Setup(System.Boolean,System.Boolean,System.Boolean)
+  id: Setup(System.Boolean,System.Boolean,System.Boolean)
+  parent: AttackSurfaceAnalyzer.Utils.Logger
+  langs:
+  - csharp
+  - vb
+  name: Setup(Boolean, Boolean, Boolean)
+  nameWithType: Logger.Setup(Boolean, Boolean, Boolean)
+  fullName: AttackSurfaceAnalyzer.Utils.Logger.Setup(System.Boolean, System.Boolean, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/Logger.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Setup
+    path: ../Lib/Utils/Logger.cs
+    startLine: 22
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static void Setup(bool debug, bool verbose, bool quiet)
+    parameters:
+    - id: debug
+      type: System.Boolean
+    - id: verbose
+      type: System.Boolean
+    - id: quiet
+      type: System.Boolean
+    content.vb: Public Shared Sub Setup(debug As Boolean, verbose As Boolean, quiet As Boolean)
+  overload: AttackSurfaceAnalyzer.Utils.Logger.Setup*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: AttackSurfaceAnalyzer.Utils.Logger.DebugException(System.Exception)
+  commentId: M:AttackSurfaceAnalyzer.Utils.Logger.DebugException(System.Exception)
+  id: DebugException(System.Exception)
+  parent: AttackSurfaceAnalyzer.Utils.Logger
+  langs:
+  - csharp
+  - vb
+  name: DebugException(Exception)
+  nameWithType: Logger.DebugException(Exception)
+  fullName: AttackSurfaceAnalyzer.Utils.Logger.DebugException(System.Exception)
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/Logger.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: DebugException
+    path: ../Lib/Utils/Logger.cs
+    startLine: 56
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static void DebugException(Exception e)
+    parameters:
+    - id: e
+      type: System.Exception
+    content.vb: Public Shared Sub DebugException(e As Exception)
+  overload: AttackSurfaceAnalyzer.Utils.Logger.DebugException*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: AttackSurfaceAnalyzer.Utils.Logger.VerboseException(System.Exception)
+  commentId: M:AttackSurfaceAnalyzer.Utils.Logger.VerboseException(System.Exception)
+  id: VerboseException(System.Exception)
+  parent: AttackSurfaceAnalyzer.Utils.Logger
+  langs:
+  - csharp
+  - vb
+  name: VerboseException(Exception)
+  nameWithType: Logger.VerboseException(Exception)
+  fullName: AttackSurfaceAnalyzer.Utils.Logger.VerboseException(System.Exception)
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/Logger.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: VerboseException
+    path: ../Lib/Utils/Logger.cs
+    startLine: 61
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public static void VerboseException(Exception e)
+    parameters:
+    - id: e
+      type: System.Exception
+    content.vb: Public Shared Sub VerboseException(e As Exception)
+  overload: AttackSurfaceAnalyzer.Utils.Logger.VerboseException*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+references:
+- uid: AttackSurfaceAnalyzer.Utils
+  commentId: N:AttackSurfaceAnalyzer.Utils
+  name: AttackSurfaceAnalyzer.Utils
+  nameWithType: AttackSurfaceAnalyzer.Utils
+  fullName: AttackSurfaceAnalyzer.Utils
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: AttackSurfaceAnalyzer.Utils.Logger.Setup*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.Logger.Setup
+  name: Setup
+  nameWithType: Logger.Setup
+  fullName: AttackSurfaceAnalyzer.Utils.Logger.Setup
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: AttackSurfaceAnalyzer.Utils.Logger.DebugException*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.Logger.DebugException
+  name: DebugException
+  nameWithType: Logger.DebugException
+  fullName: AttackSurfaceAnalyzer.Utils.Logger.DebugException
+- uid: System.Exception
+  commentId: T:System.Exception
+  parent: System
+  isExternal: true
+  name: Exception
+  nameWithType: Exception
+  fullName: System.Exception
+- uid: AttackSurfaceAnalyzer.Utils.Logger.VerboseException*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.Logger.VerboseException
+  name: VerboseException
+  nameWithType: Logger.VerboseException
+  fullName: AttackSurfaceAnalyzer.Utils.Logger.VerboseException

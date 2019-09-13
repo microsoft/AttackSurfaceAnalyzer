@@ -1,0 +1,77 @@
+### YamlMime:ManagedReference
+items:
+- uid: AttackSurfaceAnalyzer.Types
+  commentId: N:AttackSurfaceAnalyzer.Types
+  id: AttackSurfaceAnalyzer.Types
+  children:
+  - AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE
+  - AttackSurfaceAnalyzer.Types.CHANGE_TYPE
+  - AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS
+  - AttackSurfaceAnalyzer.Types.ERRORS
+  - AttackSurfaceAnalyzer.Types.OPERATION
+  - AttackSurfaceAnalyzer.Types.PLATFORM
+  - AttackSurfaceAnalyzer.Types.RESULT_TYPE
+  - AttackSurfaceAnalyzer.Types.RUN_STATUS
+  langs:
+  - csharp
+  - vb
+  name: AttackSurfaceAnalyzer.Types
+  nameWithType: AttackSurfaceAnalyzer.Types
+  fullName: AttackSurfaceAnalyzer.Types
+  type: Namespace
+  assemblies:
+  - AsaLib
+references:
+- uid: AttackSurfaceAnalyzer.Types.RESULT_TYPE
+  commentId: T:AttackSurfaceAnalyzer.Types.RESULT_TYPE
+  parent: AttackSurfaceAnalyzer.Types
+  name: RESULT_TYPE
+  nameWithType: RESULT_TYPE
+  fullName: AttackSurfaceAnalyzer.Types.RESULT_TYPE
+- uid: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
+  commentId: T:AttackSurfaceAnalyzer.Types.CHANGE_TYPE
+  parent: AttackSurfaceAnalyzer.Types
+  name: CHANGE_TYPE
+  nameWithType: CHANGE_TYPE
+  fullName: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
+- uid: AttackSurfaceAnalyzer.Types.RUN_STATUS
+  commentId: T:AttackSurfaceAnalyzer.Types.RUN_STATUS
+  parent: AttackSurfaceAnalyzer.Types
+  name: RUN_STATUS
+  nameWithType: RUN_STATUS
+  fullName: AttackSurfaceAnalyzer.Types.RUN_STATUS
+- uid: AttackSurfaceAnalyzer.Types.ERRORS
+  commentId: T:AttackSurfaceAnalyzer.Types.ERRORS
+  parent: AttackSurfaceAnalyzer.Types
+  name: ERRORS
+  nameWithType: ERRORS
+  fullName: AttackSurfaceAnalyzer.Types.ERRORS
+- uid: AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS
+  commentId: T:AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS
+  parent: AttackSurfaceAnalyzer.Types
+  name: DLLCHARACTERISTICS
+  nameWithType: DLLCHARACTERISTICS
+  fullName: AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS
+- uid: AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE
+  commentId: T:AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE
+  parent: AttackSurfaceAnalyzer.Types
+  name: ANALYSIS_RESULT_TYPE
+  nameWithType: ANALYSIS_RESULT_TYPE
+  fullName: AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE
+- uid: AttackSurfaceAnalyzer.Types.OPERATION
+  commentId: T:AttackSurfaceAnalyzer.Types.OPERATION
+  parent: AttackSurfaceAnalyzer.Types
+  name: OPERATION
+  nameWithType: OPERATION
+  fullName: AttackSurfaceAnalyzer.Types.OPERATION
+- uid: AttackSurfaceAnalyzer.Types.PLATFORM
+  commentId: T:AttackSurfaceAnalyzer.Types.PLATFORM
+  parent: AttackSurfaceAnalyzer.Types
+  name: PLATFORM
+  nameWithType: PLATFORM
+  fullName: AttackSurfaceAnalyzer.Types.PLATFORM
+- uid: AttackSurfaceAnalyzer.Types
+  commentId: N:AttackSurfaceAnalyzer.Types
+  name: AttackSurfaceAnalyzer.Types
+  nameWithType: AttackSurfaceAnalyzer.Types
+  fullName: AttackSurfaceAnalyzer.Types

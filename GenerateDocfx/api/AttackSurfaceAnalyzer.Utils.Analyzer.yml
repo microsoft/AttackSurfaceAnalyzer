@@ -1,0 +1,655 @@
+### YamlMime:ManagedReference
+items:
+- uid: AttackSurfaceAnalyzer.Utils.Analyzer
+  commentId: T:AttackSurfaceAnalyzer.Utils.Analyzer
+  id: Analyzer
+  parent: AttackSurfaceAnalyzer.Utils
+  children:
+  - AttackSurfaceAnalyzer.Utils.Analyzer.#ctor(AttackSurfaceAnalyzer.Types.PLATFORM,System.String)
+  - AttackSurfaceAnalyzer.Utils.Analyzer.Analyze(AttackSurfaceAnalyzer.Objects.CompareResult)
+  - AttackSurfaceAnalyzer.Utils.Analyzer.Apply(AttackSurfaceAnalyzer.Objects.Rule,AttackSurfaceAnalyzer.Objects.CompareResult)
+  - AttackSurfaceAnalyzer.Utils.Analyzer.DumpFilters
+  - AttackSurfaceAnalyzer.Utils.Analyzer.LoadEmbeddedFilters
+  - AttackSurfaceAnalyzer.Utils.Analyzer.LoadFilters(System.String)
+  - AttackSurfaceAnalyzer.Utils.Analyzer.ParseFilters
+  langs:
+  - csharp
+  - vb
+  name: Analyzer
+  nameWithType: Analyzer
+  fullName: AttackSurfaceAnalyzer.Utils.Analyzer
+  type: Class
+  source:
+    remote:
+      path: Lib/Utils/Analyzer.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Analyzer
+    path: ../Lib/Utils/Analyzer.cs
+    startLine: 15
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public class Analyzer
+    content.vb: Public Class Analyzer
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: AttackSurfaceAnalyzer.Utils.Analyzer.#ctor(AttackSurfaceAnalyzer.Types.PLATFORM,System.String)
+  commentId: M:AttackSurfaceAnalyzer.Utils.Analyzer.#ctor(AttackSurfaceAnalyzer.Types.PLATFORM,System.String)
+  id: '#ctor(AttackSurfaceAnalyzer.Types.PLATFORM,System.String)'
+  parent: AttackSurfaceAnalyzer.Utils.Analyzer
+  langs:
+  - csharp
+  - vb
+  name: Analyzer(PLATFORM, String)
+  nameWithType: Analyzer.Analyzer(PLATFORM, String)
+  fullName: AttackSurfaceAnalyzer.Utils.Analyzer.Analyzer(AttackSurfaceAnalyzer.Types.PLATFORM, System.String)
+  type: Constructor
+  source:
+    remote:
+      path: Lib/Utils/Analyzer.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: .ctor
+    path: ../Lib/Utils/Analyzer.cs
+    startLine: 60
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public Analyzer(PLATFORM platform, string filterLocation = null)
+    parameters:
+    - id: platform
+      type: AttackSurfaceAnalyzer.Types.PLATFORM
+    - id: filterLocation
+      type: System.String
+    content.vb: Public Sub New(platform As PLATFORM, filterLocation As String = Nothing)
+  overload: AttackSurfaceAnalyzer.Utils.Analyzer.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.Utils.Analyzer.ParseFilters
+  commentId: M:AttackSurfaceAnalyzer.Utils.Analyzer.ParseFilters
+  id: ParseFilters
+  parent: AttackSurfaceAnalyzer.Utils.Analyzer
+  langs:
+  - csharp
+  - vb
+  name: ParseFilters()
+  nameWithType: Analyzer.ParseFilters()
+  fullName: AttackSurfaceAnalyzer.Utils.Analyzer.ParseFilters()
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/Analyzer.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ParseFilters
+    path: ../Lib/Utils/Analyzer.cs
+    startLine: 68
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: protected void ParseFilters()
+    content.vb: Protected Sub ParseFilters
+  overload: AttackSurfaceAnalyzer.Utils.Analyzer.ParseFilters*
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+- uid: AttackSurfaceAnalyzer.Utils.Analyzer.Analyze(AttackSurfaceAnalyzer.Objects.CompareResult)
+  commentId: M:AttackSurfaceAnalyzer.Utils.Analyzer.Analyze(AttackSurfaceAnalyzer.Objects.CompareResult)
+  id: Analyze(AttackSurfaceAnalyzer.Objects.CompareResult)
+  parent: AttackSurfaceAnalyzer.Utils.Analyzer
+  langs:
+  - csharp
+  - vb
+  name: Analyze(CompareResult)
+  nameWithType: Analyzer.Analyze(CompareResult)
+  fullName: AttackSurfaceAnalyzer.Utils.Analyzer.Analyze(AttackSurfaceAnalyzer.Objects.CompareResult)
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/Analyzer.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Analyze
+    path: ../Lib/Utils/Analyzer.cs
+    startLine: 103
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public ANALYSIS_RESULT_TYPE Analyze(CompareResult compareResult)
+    parameters:
+    - id: compareResult
+      type: AttackSurfaceAnalyzer.Objects.CompareResult
+    return:
+      type: AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE
+    content.vb: Public Function Analyze(compareResult As CompareResult) As ANALYSIS_RESULT_TYPE
+  overload: AttackSurfaceAnalyzer.Utils.Analyzer.Analyze*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.Utils.Analyzer.Apply(AttackSurfaceAnalyzer.Objects.Rule,AttackSurfaceAnalyzer.Objects.CompareResult)
+  commentId: M:AttackSurfaceAnalyzer.Utils.Analyzer.Apply(AttackSurfaceAnalyzer.Objects.Rule,AttackSurfaceAnalyzer.Objects.CompareResult)
+  id: Apply(AttackSurfaceAnalyzer.Objects.Rule,AttackSurfaceAnalyzer.Objects.CompareResult)
+  parent: AttackSurfaceAnalyzer.Utils.Analyzer
+  langs:
+  - csharp
+  - vb
+  name: Apply(Rule, CompareResult)
+  nameWithType: Analyzer.Apply(Rule, CompareResult)
+  fullName: AttackSurfaceAnalyzer.Utils.Analyzer.Apply(AttackSurfaceAnalyzer.Objects.Rule, AttackSurfaceAnalyzer.Objects.CompareResult)
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/Analyzer.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Apply
+    path: ../Lib/Utils/Analyzer.cs
+    startLine: 124
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: protected ANALYSIS_RESULT_TYPE Apply(Rule rule, CompareResult compareResult)
+    parameters:
+    - id: rule
+      type: AttackSurfaceAnalyzer.Objects.Rule
+    - id: compareResult
+      type: AttackSurfaceAnalyzer.Objects.CompareResult
+    return:
+      type: AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE
+    content.vb: Protected Function Apply(rule As Rule, compareResult As CompareResult) As ANALYSIS_RESULT_TYPE
+  overload: AttackSurfaceAnalyzer.Utils.Analyzer.Apply*
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+- uid: AttackSurfaceAnalyzer.Utils.Analyzer.DumpFilters
+  commentId: M:AttackSurfaceAnalyzer.Utils.Analyzer.DumpFilters
+  id: DumpFilters
+  parent: AttackSurfaceAnalyzer.Utils.Analyzer
+  langs:
+  - csharp
+  - vb
+  name: DumpFilters()
+  nameWithType: Analyzer.DumpFilters()
+  fullName: AttackSurfaceAnalyzer.Utils.Analyzer.DumpFilters()
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/Analyzer.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: DumpFilters
+    path: ../Lib/Utils/Analyzer.cs
+    startLine: 301
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public void DumpFilters()
+    content.vb: Public Sub DumpFilters
+  overload: AttackSurfaceAnalyzer.Utils.Analyzer.DumpFilters*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.Utils.Analyzer.LoadEmbeddedFilters
+  commentId: M:AttackSurfaceAnalyzer.Utils.Analyzer.LoadEmbeddedFilters
+  id: LoadEmbeddedFilters
+  parent: AttackSurfaceAnalyzer.Utils.Analyzer
+  langs:
+  - csharp
+  - vb
+  name: LoadEmbeddedFilters()
+  nameWithType: Analyzer.LoadEmbeddedFilters()
+  fullName: AttackSurfaceAnalyzer.Utils.Analyzer.LoadEmbeddedFilters()
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/Analyzer.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: LoadEmbeddedFilters
+    path: ../Lib/Utils/Analyzer.cs
+    startLine: 307
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public void LoadEmbeddedFilters()
+    content.vb: Public Sub LoadEmbeddedFilters
+  overload: AttackSurfaceAnalyzer.Utils.Analyzer.LoadEmbeddedFilters*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.Utils.Analyzer.LoadFilters(System.String)
+  commentId: M:AttackSurfaceAnalyzer.Utils.Analyzer.LoadFilters(System.String)
+  id: LoadFilters(System.String)
+  parent: AttackSurfaceAnalyzer.Utils.Analyzer
+  langs:
+  - csharp
+  - vb
+  name: LoadFilters(String)
+  nameWithType: Analyzer.LoadFilters(String)
+  fullName: AttackSurfaceAnalyzer.Utils.Analyzer.LoadFilters(System.String)
+  type: Method
+  source:
+    remote:
+      path: Lib/Utils/Analyzer.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: LoadFilters
+    path: ../Lib/Utils/Analyzer.cs
+    startLine: 357
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Utils
+  syntax:
+    content: public void LoadFilters(string filterLoc = "analyses.json")
+    parameters:
+    - id: filterLoc
+      type: System.String
+    content.vb: Public Sub LoadFilters(filterLoc As String = "analyses.json")
+  overload: AttackSurfaceAnalyzer.Utils.Analyzer.LoadFilters*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: AttackSurfaceAnalyzer.Utils
+  commentId: N:AttackSurfaceAnalyzer.Utils
+  name: AttackSurfaceAnalyzer.Utils
+  nameWithType: AttackSurfaceAnalyzer.Utils
+  fullName: AttackSurfaceAnalyzer.Utils
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: AttackSurfaceAnalyzer.Utils.Analyzer.#ctor*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.Analyzer.#ctor
+  name: Analyzer
+  nameWithType: Analyzer.Analyzer
+  fullName: AttackSurfaceAnalyzer.Utils.Analyzer.Analyzer
+- uid: AttackSurfaceAnalyzer.Types.PLATFORM
+  commentId: T:AttackSurfaceAnalyzer.Types.PLATFORM
+  parent: AttackSurfaceAnalyzer.Types
+  name: PLATFORM
+  nameWithType: PLATFORM
+  fullName: AttackSurfaceAnalyzer.Types.PLATFORM
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: AttackSurfaceAnalyzer.Types
+  commentId: N:AttackSurfaceAnalyzer.Types
+  name: AttackSurfaceAnalyzer.Types
+  nameWithType: AttackSurfaceAnalyzer.Types
+  fullName: AttackSurfaceAnalyzer.Types
+- uid: AttackSurfaceAnalyzer.Utils.Analyzer.ParseFilters*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.Analyzer.ParseFilters
+  name: ParseFilters
+  nameWithType: Analyzer.ParseFilters
+  fullName: AttackSurfaceAnalyzer.Utils.Analyzer.ParseFilters
+- uid: AttackSurfaceAnalyzer.Utils.Analyzer.Analyze*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.Analyzer.Analyze
+  name: Analyze
+  nameWithType: Analyzer.Analyze
+  fullName: AttackSurfaceAnalyzer.Utils.Analyzer.Analyze
+- uid: AttackSurfaceAnalyzer.Objects.CompareResult
+  commentId: T:AttackSurfaceAnalyzer.Objects.CompareResult
+  parent: AttackSurfaceAnalyzer.Objects
+  name: CompareResult
+  nameWithType: CompareResult
+  fullName: AttackSurfaceAnalyzer.Objects.CompareResult
+- uid: AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE
+  commentId: T:AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE
+  parent: AttackSurfaceAnalyzer.Types
+  name: ANALYSIS_RESULT_TYPE
+  nameWithType: ANALYSIS_RESULT_TYPE
+  fullName: AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE
+- uid: AttackSurfaceAnalyzer.Objects
+  commentId: N:AttackSurfaceAnalyzer.Objects
+  name: AttackSurfaceAnalyzer.Objects
+  nameWithType: AttackSurfaceAnalyzer.Objects
+  fullName: AttackSurfaceAnalyzer.Objects
+- uid: AttackSurfaceAnalyzer.Utils.Analyzer.Apply*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.Analyzer.Apply
+  name: Apply
+  nameWithType: Analyzer.Apply
+  fullName: AttackSurfaceAnalyzer.Utils.Analyzer.Apply
+- uid: AttackSurfaceAnalyzer.Objects.Rule
+  commentId: T:AttackSurfaceAnalyzer.Objects.Rule
+  parent: AttackSurfaceAnalyzer.Objects
+  name: Rule
+  nameWithType: Rule
+  fullName: AttackSurfaceAnalyzer.Objects.Rule
+- uid: AttackSurfaceAnalyzer.Utils.Analyzer.DumpFilters*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.Analyzer.DumpFilters
+  name: DumpFilters
+  nameWithType: Analyzer.DumpFilters
+  fullName: AttackSurfaceAnalyzer.Utils.Analyzer.DumpFilters
+- uid: AttackSurfaceAnalyzer.Utils.Analyzer.LoadEmbeddedFilters*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.Analyzer.LoadEmbeddedFilters
+  name: LoadEmbeddedFilters
+  nameWithType: Analyzer.LoadEmbeddedFilters
+  fullName: AttackSurfaceAnalyzer.Utils.Analyzer.LoadEmbeddedFilters
+- uid: AttackSurfaceAnalyzer.Utils.Analyzer.LoadFilters*
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.Analyzer.LoadFilters
+  name: LoadFilters
+  nameWithType: Analyzer.LoadFilters
+  fullName: AttackSurfaceAnalyzer.Utils.Analyzer.LoadFilters
