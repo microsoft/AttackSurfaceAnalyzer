@@ -1,18 +1,20 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using System;
-using System.Collections.Generic;
-using System.Reflection;
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
-using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
 using Serilog;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
+    /// <summary>
+    /// The Generic Compare class.
+    /// </summary>
     public class BaseCompare
     {
         public Dictionary<string, List<CompareResult>> Results { get; protected set; }
@@ -22,6 +24,11 @@ namespace AttackSurfaceAnalyzer.Collectors
             Results = new Dictionary<string, List<CompareResult>>();
         }
 
+        /// <summary>
+        /// Deserialize a Collect object from a RawCollectResult
+        /// </summary>
+        /// <param name="res">The RawCollectResult containing the JsonSerialized object to hydrate.</param>
+        /// <returns>An appropriately typed collect object based on the collect result passed in, or null if the RESULT_TYPE is unknown.</returns>
         public static CollectObject Hydrate(RawCollectResult res)
         {
             switch (res.ResultType)
@@ -49,6 +56,11 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
+        /// <summary>
+        /// Compares all the common collectors between two runs.
+        /// </summary>
+        /// <param name="firstRunId">The Base run id.</param>
+        /// <param name="secondRunId">The Compare run id.</param>
         public void Compare(string firstRunId, string secondRunId)
         {
             if (firstRunId == null)
@@ -62,15 +74,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             List<RawCollectResult> addRows = DatabaseManager.GetMissingFromFirst(firstRunId, secondRunId);
             List<RawCollectResult> removeObjects = DatabaseManager.GetMissingFromFirst(secondRunId, firstRunId);
             List<RawModifiedResult> modifyObjects = DatabaseManager.GetModified(firstRunId, secondRunId);
-
-            foreach (RawModifiedResult res in modifyObjects)
-            {
-                if (res.First.Serialized.Equals(res.Second.Serialized))
-                {
-                    // breakpoint here
-                    Log.Debug("Breakpoint");
-                }
-            }
 
             Dictionary<string, List<CompareResult>> results = new Dictionary<string, List<CompareResult>>();
 
@@ -338,6 +341,13 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
+        /// <summary>
+        /// Creates a list of Diff objects based on an object field and findings.
+        /// </summary>
+        /// <param name="field">The field of the referenced object.</param>
+        /// <param name="added">The added findings.</param>
+        /// <param name="removed">The removed findings.</param>
+        /// <returns></returns>
         public List<Diff> GetDiffs(FieldInfo field, object added, object removed)
         {
             List<Diff> diffsOut = new List<Diff>();
@@ -359,6 +369,14 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
             return diffsOut;
         }
+
+        /// <summary>
+        /// Creates a list of Diff objects based on an object property and findings.
+        /// </summary>
+        /// <param name="prop">The property of the referenced object.</param>
+        /// <param name="added">The added findings.</param>
+        /// <param name="removed">The removed findings.</param>
+        /// <returns></returns>
         public List<Diff> GetDiffs(PropertyInfo prop, object added, object removed)
         {
             List<Diff> diffsOut = new List<Diff>();
@@ -381,6 +399,12 @@ namespace AttackSurfaceAnalyzer.Collectors
             return diffsOut;
         }
 
+        /// <summary>
+        /// Compare but with a Try/Catch block for exceptions.
+        /// </summary>
+        /// <param name="firstRunId">The Base run id.</param>
+        /// <param name="secondRunId">The Compare run id.</param>
+        /// <returns></returns>
         public bool TryCompare(string firstRunId, string secondRunId)
         {
             Start();
@@ -403,17 +427,27 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         protected RESULT_TYPE _type = RESULT_TYPE.UNKNOWN;
 
+        /// <summary>
+        /// Returns if the comparators are still running.
+        /// </summary>
+        /// <returns>RUN_STATUS indicating run status.</returns>
         public RUN_STATUS IsRunning()
         {
             return _running;
         }
 
+        /// <summary>
+        /// Set status to running.
+        /// </summary>
         public void Start()
         {
             _running = RUN_STATUS.RUNNING;
 
         }
 
+        /// <summary>
+        /// Sets status to completed.
+        /// </summary>
         public void Stop()
         {
             _running = RUN_STATUS.COMPLETED;

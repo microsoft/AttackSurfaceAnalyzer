@@ -1,13 +1,8 @@
-﻿using System;
+﻿using AttackSurfaceAnalyzer.Objects;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using System.Resources;
-using System.Text;
-using AttackSurfaceAnalyzer.Objects;
-using AttackSurfaceAnalyzer.Properties;
-using Serilog;
 
 namespace AttackSurfaceAnalyzer.Utils
 {

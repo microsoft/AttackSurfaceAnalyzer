@@ -18,15 +18,15 @@ items:
   source:
     remote:
       path: Lib/Collectors/ServiceCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ServiceCollector
     path: ../Lib/Collectors/ServiceCollector.cs
-    startLine: 20
+    startLine: 17
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
-  summary: "\nCollects metadata from the local file system.\n"
+  summary: "\nCollects metadata about services registered on the system.\n"
   example: []
   syntax:
     content: 'public class ServiceCollector : BaseCollector, PlatformRunnable'
@@ -71,16 +71,14 @@ items:
   source:
     remote:
       path: Lib/Collectors/ServiceCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/ServiceCollector.cs
-    startLine: 28
+    startLine: 19
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
-  summary: "\nA filter supplied to this function. All files must pass this filter in order to be included.\n"
-  example: []
   syntax:
     content: public ServiceCollector(string runId)
     parameters:
@@ -106,11 +104,11 @@ items:
   source:
     remote:
       path: Lib/Collectors/ServiceCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CanRunOnPlatform
     path: ../Lib/Collectors/ServiceCollector.cs
-    startLine: 37
+    startLine: 28
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -144,11 +142,11 @@ items:
   source:
     remote:
       path: Lib/Collectors/ServiceCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Execute
     path: ../Lib/Collectors/ServiceCollector.cs
-    startLine: 45
+    startLine: 36
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors

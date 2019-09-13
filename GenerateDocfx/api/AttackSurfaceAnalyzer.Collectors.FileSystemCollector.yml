@@ -21,11 +21,11 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FileSystemCollector
     path: ../Lib/Collectors/FileSystemCollector.cs
-    startLine: 21
+    startLine: 19
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -74,11 +74,11 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/FileSystemCollector.cs
-    startLine: 30
+    startLine: 28
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -115,11 +115,11 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: AddRoot
     path: ../Lib/Collectors/FileSystemCollector.cs
-    startLine: 49
+    startLine: 47
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -148,11 +148,11 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ClearRoots
     path: ../Lib/Collectors/FileSystemCollector.cs
-    startLine: 54
+    startLine: 52
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -178,11 +178,11 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CanRunOnPlatform
     path: ../Lib/Collectors/FileSystemCollector.cs
-    startLine: 59
+    startLine: 57
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -213,11 +213,11 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Execute
     path: ../Lib/Collectors/FileSystemCollector.cs
-    startLine: 64
+    startLine: 62
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -246,11 +246,11 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FileSystemInfoToFileSystemObject
     path: ../Lib/Collectors/FileSystemCollector.cs
-    startLine: 150
+    startLine: 148
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors

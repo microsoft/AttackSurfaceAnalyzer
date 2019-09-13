@@ -22,14 +22,16 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RegistryCollector
     path: ../Lib/Collectors/RegistryCollector.cs
-    startLine: 17
+    startLine: 18
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
+  summary: "\nCollects data from the local registry on Windows systems.\n"
+  example: []
   syntax:
     content: 'public class RegistryCollector : BaseCollector, PlatformRunnable'
     content.vb: >-
@@ -73,11 +75,11 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/RegistryCollector.cs
-    startLine: 31
+    startLine: 32
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -106,11 +108,11 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/RegistryCollector.cs
-    startLine: 33
+    startLine: 34
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -144,11 +146,11 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/RegistryCollector.cs
-    startLine: 35
+    startLine: 36
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -184,11 +186,11 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: AddRoot
     path: ../Lib/Collectors/RegistryCollector.cs
-    startLine: 45
+    startLine: 46
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -217,11 +219,11 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ClearRoots
     path: ../Lib/Collectors/RegistryCollector.cs
-    startLine: 50
+    startLine: 51
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -247,11 +249,11 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CanRunOnPlatform
     path: ../Lib/Collectors/RegistryCollector.cs
-    startLine: 55
+    startLine: 56
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -282,11 +284,11 @@ items:
   source:
     remote:
       path: Lib/Collectors/RegistryCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Execute
     path: ../Lib/Collectors/RegistryCollector.cs
-    startLine: 60
+    startLine: 61
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors

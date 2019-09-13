@@ -21,11 +21,11 @@ items:
   source:
     remote:
       path: Lib/Utils/Filter.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Filter
     path: ../Lib/Utils/Filter.cs
-    startLine: 12
+    startLine: 11
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -63,11 +63,11 @@ items:
   source:
     remote:
       path: Lib/Utils/Filter.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsFiltered
     path: ../Lib/Utils/Filter.cs
-    startLine: 20
+    startLine: 19
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -108,11 +108,11 @@ items:
   source:
     remote:
       path: Lib/Utils/Filter.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsFiltered
     path: ../Lib/Utils/Filter.cs
-    startLine: 33
+    startLine: 32
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -155,11 +155,11 @@ items:
   source:
     remote:
       path: Lib/Utils/Filter.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsFiltered
     path: ../Lib/Utils/Filter.cs
-    startLine: 35
+    startLine: 34
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -207,11 +207,11 @@ items:
   source:
     remote:
       path: Lib/Utils/Filter.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DumpFilters
     path: ../Lib/Utils/Filter.cs
-    startLine: 156
+    startLine: 155
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -239,11 +239,11 @@ items:
   source:
     remote:
       path: Lib/Utils/Filter.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LoadEmbeddedFilters
     path: ../Lib/Utils/Filter.cs
-    startLine: 165
+    startLine: 164
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -271,11 +271,11 @@ items:
   source:
     remote:
       path: Lib/Utils/Filter.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LoadFilters
     path: ../Lib/Utils/Filter.cs
-    startLine: 213
+    startLine: 212
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils

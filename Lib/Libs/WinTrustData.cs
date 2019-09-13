@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Runtime.InteropServices;
-using System;
 using Serilog;
+using System;
+using System.Runtime.InteropServices;
 // Adapted from
 // https://www.pinvoke.net/default.aspx/wintrust.winverifytrust
 

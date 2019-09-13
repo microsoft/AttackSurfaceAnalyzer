@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: Lib/Utils/CryptoHelpers.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CryptoHelpers
     path: ../Lib/Utils/CryptoHelpers.cs
@@ -58,7 +58,7 @@ items:
   source:
     remote:
       path: Lib/Utils/CryptoHelpers.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CreateHash
     path: ../Lib/Utils/CryptoHelpers.cs
@@ -95,7 +95,7 @@ items:
   source:
     remote:
       path: Lib/Utils/CryptoHelpers.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CreateHash
     path: ../Lib/Utils/CryptoHelpers.cs

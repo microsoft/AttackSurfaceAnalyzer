@@ -1,25 +1,25 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+using AttackSurfaceAnalyzer.Collectors;
+using AttackSurfaceAnalyzer.Objects;
+using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
+using CommandLine;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-
+using Microsoft.Data.Sqlite;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
-using AttackSurfaceAnalyzer.Collectors;
-using CommandLine;
-using Microsoft.Data.Sqlite;
-using AttackSurfaceAnalyzer.Objects;
-using Newtonsoft.Json;
-using System.Reflection;
-using Serilog;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Serialization;
-using AttackSurfaceAnalyzer.Types;
 
 namespace AttackSurfaceAnalyzer
 {
@@ -515,15 +515,14 @@ namespace AttackSurfaceAnalyzer
 
             Dictionary<string, object> results = CompareRuns(options);
 
-            JsonSerializer serializer = new JsonSerializer
+            JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings()
             {
                 Formatting = Formatting.Indented,
                 NullValueHandling = NullValueHandling.Ignore,
                 DefaultValueHandling = DefaultValueHandling.Ignore,
+                Converters = new List<JsonConverter>() { new StringEnumConverter() },
                 ContractResolver = new HideBigFieldsContractResolver()
-            };
-
-            serializer.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+            });
 
             if (opts.ExplodedOutput)
             {
@@ -590,11 +589,13 @@ namespace AttackSurfaceAnalyzer
 
             List<RESULT_TYPE> ToExport = new List<RESULT_TYPE> { (RESULT_TYPE)ResultType };
             Dictionary<RESULT_TYPE, int> actualExported = new Dictionary<RESULT_TYPE, int>();
-            JsonSerializer serializer = new JsonSerializer
+            JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings()
             {
                 Formatting = Formatting.Indented,
-                NullValueHandling = NullValueHandling.Ignore
-            };
+                NullValueHandling = NullValueHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Ignore,
+                Converters = new List<JsonConverter>() { new StringEnumConverter() }
+            });
             if (ExportAll)
             {
                 ToExport = new List<RESULT_TYPE> { RESULT_TYPE.FILE, RESULT_TYPE.CERTIFICATE, RESULT_TYPE.PORT, RESULT_TYPE.REGISTRY, RESULT_TYPE.SERVICE, RESULT_TYPE.USER };
@@ -731,12 +732,13 @@ namespace AttackSurfaceAnalyzer
                 }
             }
 
-            JsonSerializerSettings settings = new JsonSerializerSettings();
-            settings.Formatting = Formatting.Indented;
-            settings.NullValueHandling = NullValueHandling.Ignore;
-            settings.DefaultValueHandling = DefaultValueHandling.Ignore;
-            JsonSerializer serializer = JsonSerializer.Create(settings);
-            serializer.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+            JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings()
+            {
+                Formatting = Formatting.Indented,
+                NullValueHandling = NullValueHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Ignore,
+                Converters = new List<JsonConverter>() { new StringEnumConverter() }
+            });
             var output = new Dictionary<string, Object>();
             output["results"] = records;
             output["metadata"] = Helpers.GenerateMetadata();
@@ -801,7 +803,7 @@ namespace AttackSurfaceAnalyzer
 
             }
 
-            string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, type, timestamp, version, platform) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @type, @timestamp, @version, @platform)";
+            string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, firewall, comobjects, type, timestamp, version, platform) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @firewall, @comobjects, @type, @timestamp, @version, @platform)";
 
             var cmd = new SqliteCommand(INSERT_RUN, DatabaseManager.Connection, DatabaseManager.Transaction);
             cmd.Parameters.AddWithValue("@run_id", opts.RunId);
@@ -811,6 +813,8 @@ namespace AttackSurfaceAnalyzer
             cmd.Parameters.AddWithValue("@services", false);
             cmd.Parameters.AddWithValue("@registry", false);
             cmd.Parameters.AddWithValue("@certificates", false);
+            cmd.Parameters.AddWithValue("@firewall", false);
+            cmd.Parameters.AddWithValue("@comobjects", false);
             cmd.Parameters.AddWithValue("@type", "monitor");
             cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
             cmd.Parameters.AddWithValue("@version", Helpers.GetVersionString());
@@ -1270,7 +1274,7 @@ namespace AttackSurfaceAnalyzer
             }
             Log.Information(Strings.Get("Begin"), opts.RunId);
 
-            string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, type, timestamp, version, platform) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @type, @timestamp, @version, @platform)";
+            string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, firewall, comobjects, type, timestamp, version, platform) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @firewall, @comobjects, @type, @timestamp, @version, @platform)";
 
             using (var cmd = new SqliteCommand(INSERT_RUN, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
@@ -1289,6 +1293,8 @@ namespace AttackSurfaceAnalyzer
                                 opts.EnableServiceCollector = (int.Parse(reader["services"].ToString()) != 0);
                                 opts.EnableRegistryCollector = (int.Parse(reader["registry"].ToString()) != 0);
                                 opts.EnableCertificateCollector = (int.Parse(reader["certificates"].ToString()) != 0);
+                                opts.EnableFirewallCollector = (int.Parse(reader["firewall"].ToString()) != 0);
+                                opts.EnableComObjectCollector = (int.Parse(reader["comobjects"].ToString()) != 0);
                             }
                         }
                     }
@@ -1301,6 +1307,8 @@ namespace AttackSurfaceAnalyzer
                     opts.EnableServiceCollector = true;
                     opts.EnableRegistryCollector = true;
                     opts.EnableCertificateCollector = true;
+                    opts.EnableFirewallCollector = true;
+                    opts.EnableComObjectCollector = true;
                 }
 
                 cmd.Parameters.AddWithValue("@file_system", opts.EnableFileSystemCollector);
@@ -1309,6 +1317,8 @@ namespace AttackSurfaceAnalyzer
                 cmd.Parameters.AddWithValue("@services", opts.EnableServiceCollector);
                 cmd.Parameters.AddWithValue("@registry", opts.EnableRegistryCollector);
                 cmd.Parameters.AddWithValue("@certificates", opts.EnableCertificateCollector);
+                cmd.Parameters.AddWithValue("@firewall", opts.EnableFirewallCollector);
+                cmd.Parameters.AddWithValue("@comobjects", opts.EnableComObjectCollector);
                 cmd.Parameters.AddWithValue("@run_id", opts.RunId);
                 cmd.Parameters.AddWithValue("@type", "collect");
                 cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
@@ -1389,69 +1399,6 @@ namespace AttackSurfaceAnalyzer
         {
             collectors = new List<BaseCollector>();
         }
-
-//        private static int RunCompareCommand(CompareCommandOptions opts)
-//        {
-//#if DEBUG
-//            Logger.Setup(true, opts.Verbose);
-//#else
-//            Logger.Setup(opts.Debug, opts.Verbose);
-//#endif
-//            DatabaseManager.SqliteFilename = opts.DatabaseFilename;
-//            DatabaseManager.Setup();
-//            CheckFirstRun();
-//            Telemetry.Setup(Gui: false);
-//            DatabaseManager.VerifySchemaVersion();
-
-//            Dictionary<string, string> StartEvent = new Dictionary<string, string>();
-
-//            Telemetry.TrackEvent("Begin Compare Command", StartEvent);
-
-//            if (opts.FirstRunId == "Timestamps" || opts.SecondRunId == "Timestamps")
-//            {
-//                List<string> runIds = DatabaseManager.GetLatestRunIds(2, "collect");
-
-//                if (runIds.Count < 2)
-//                {
-//                    Log.Fatal(Strings.Get("Err_CouldntDetermineTwoRun"));
-//                    System.Environment.Exit(-1);
-//                }
-//                else
-//                {
-//                    opts.SecondRunId = runIds.First();
-//                    opts.FirstRunId = runIds.ElementAt(1);
-//                }
-//            }
-
-//            var results = CompareRuns(opts);
-//            results["BeforeRunId"] = opts.FirstRunId;
-//            results["AfterRunId"] = opts.SecondRunId;
-
-//            var watch = System.Diagnostics.Stopwatch.StartNew();
-
-//            var engine = new RazorLightEngineBuilder()
-//              .UseEmbeddedResourcesProject(typeof(AttackSurfaceAnalyzerCLI))
-//              .UseMemoryCachingProvider()
-//              .Build();
-
-//            var assembly = Assembly.GetExecutingAssembly();
-
-//            var result = engine.CompileRenderAsync("Output.Output.cshtml", results).Result;
-//            File.WriteAllText($"{opts.OutputBaseFilename}.html", result);
-
-//            watch.Stop();
-//            TimeSpan t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
-//            string answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
-//                                    t.Hours,
-//                                    t.Minutes,
-//                                    t.Seconds,
-//                                    t.Milliseconds);
-//            Log.Information(Strings.Get("Completed"), "HTML Export", answer);
-
-//            Log.Information(Strings.Get("OutputWrittenTo"), opts.OutputBaseFilename + ".html");
-
-//            return 0;
-//        }
 
         // Used for monitors. This writes a little spinner animation to indicate that monitoring is underway
         static void WriteSpinner(ManualResetEvent untilDone)

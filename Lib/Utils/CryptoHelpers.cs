@@ -1,10 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+using Murmur;
 using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using Murmur;
 
 namespace AttackSurfaceAnalyzer.Utils
 {

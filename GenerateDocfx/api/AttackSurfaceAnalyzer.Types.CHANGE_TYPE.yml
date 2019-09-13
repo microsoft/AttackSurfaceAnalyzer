@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CHANGE_TYPE
     path: ../Lib/Objects/Types.cs
@@ -51,7 +51,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: INVALID
     path: ../Lib/Objects/Types.cs
@@ -83,7 +83,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CREATED
     path: ../Lib/Objects/Types.cs
@@ -115,7 +115,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DELETED
     path: ../Lib/Objects/Types.cs
@@ -147,7 +147,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: MODIFIED
     path: ../Lib/Objects/Types.cs
@@ -179,7 +179,7 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RENAMED
     path: ../Lib/Objects/Types.cs

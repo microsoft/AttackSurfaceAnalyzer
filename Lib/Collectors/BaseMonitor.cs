@@ -21,10 +21,5 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             return _running;
         }
-
-        public BaseMonitor()
-        {
-
-        }
     }
 }

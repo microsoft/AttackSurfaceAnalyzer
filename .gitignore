@@ -264,7 +264,5 @@ Application Insights/
 *.sqlite-journal
 Tools/
 asa.sqlite
-Cli/asa.log.txt
+*asa.log.txt
 *.sqlite
-Cli/asa copy.sqlite
-GenerateDocfx/log.txt

@@ -79,7 +79,10 @@ function StartCollection() {
             $("#enableServiceCollector").is(":checked") == false &&
             $("#enableUserCollector").is(":checked") == false &&
             $("#enableRegistryCollector").is(':checked') == false &&
-            $('#enableCertificateCollector').is(":checked") == false) {
+            $('#enableCertificateCollector').is(":checked") == false &&
+            $('#enableComObjectCollect').is(":checked") == false &&
+            $('#enableFirewallCollector').is(":checked") == false &&
+            $('#enableGroupCollector').is(":checked") == false) {
             $('#ScanStatus').empty();
             $('#ScanStatus').append($('<div/>', { html: l("%NoCollectSelect"), class: 'scan' }));
             EnableCollectionFields();
@@ -94,6 +97,8 @@ function StartCollection() {
                 User: $('#enableUserCollector').is(":checked"),
                 Registry: $('#enableRegistryCollector').is(":checked"),
                 Certificates: $('#enableCertificateCollector').is(":checked"),
+                ComObjects: $('#enableComObjectCollector').is(":checked"),
+                Firewall: $('#enableFirewallCollector').is(":checked"),
             }
 
             $.getJSON("StartCollection", collect, function (result) {
