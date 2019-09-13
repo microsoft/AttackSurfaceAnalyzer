@@ -1,20 +1,21 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Security.AccessControl;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
-using Microsoft.Data.Sqlite;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Serilog;
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
+    /// <summary>
+    /// Collects data from the local registry on Windows systems.
+    /// </summary>
     public class RegistryCollector : BaseCollector
     {
         private List<RegistryHive> Hives;
@@ -72,18 +73,14 @@ namespace AttackSurfaceAnalyzer.Collectors
                 (hive =>
                 {
                     Log.Debug("Starting " + hive.ToString());
-                    if (Filter.IsFiltered(Helpers.GetPlatformString(), "Scan", "Registry", "Hive", "Include", hive.ToString()))
+                    if (!Filter.IsFiltered(Helpers.GetPlatformString(), "Scan", "Registry", "Hive", "Include", hive.ToString()) && Filter.IsFiltered(Helpers.GetPlatformString(), "Scan", "Registry", "Hive", "Exclude", hive.ToString(), out Regex Capturer))
                     {
-                    }
-                    else if (Filter.IsFiltered(Helpers.GetPlatformString(), "Scan", "Registry", "Hive", "Exclude", hive.ToString(), out Regex Capturer))
-                    {
-                        Log.Information("{0} '{1}' {2} '{3}'.", Strings.Get("ExcludingHive"), hive.ToString(), Strings.Get("DueToFilter"), Capturer.ToString());
-
+                        Log.Debug("{0} '{1}' {2} '{3}'.", Strings.Get("ExcludingHive"), hive.ToString(), Strings.Get("DueToFilter"), Capturer.ToString());
                         return;
                     }
 
                     Filter.IsFiltered(Helpers.GetPlatformString(), "Scan", "Registry", "Key", "Exclude", hive.ToString());
-                    var registryInfoEnumerable = RegistryWalker.WalkHive(hive, runId);
+                    var registryInfoEnumerable = RegistryWalker.WalkHive(hive);
                     try
                     {
                         Parallel.ForEach(registryInfoEnumerable,

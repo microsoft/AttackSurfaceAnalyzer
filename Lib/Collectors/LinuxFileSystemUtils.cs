@@ -1,10 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using System;
-using System.IO;
-using AttackSurfaceAnalyzer.Utils;
 using Mono.Unix;
 using Serilog;
+using System;
+using System.IO;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {

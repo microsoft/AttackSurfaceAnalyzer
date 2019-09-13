@@ -105,27 +105,38 @@
                 <div class="col">
                     <label class="checkbox-container">
                         <input type="checkbox" id="enableUserCollector" class="ScanType" checked>
-                        Users
+                        @Strings.Get("Users")
                     </label>
                 </div>
-                @{
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                    {
-                        <div class="col">
+                <div class="col">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="enableFirewallCollector" class="ScanType" checked>
+                        @Strings.Get("Firewall")
+                    </label>
+                </div>
+            </div>
+            @{
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    <div class="row">
 
+                        <div class="col">
                             <label class="checkbox-container">
                                 <input type="checkbox" id="enableRegistryCollector" class="ScanType" checked>
                                 @Strings.Get("Registry")
                             </label>
                         </div>
-                    }
+                        <div class="col">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="enableComObjectCollector" class="ScanType" checked>
+                                @Strings.Get("Com")
+                            </label>
+                        </div>
+                    </div>
                 }
-            </div>
+            }
         </div>
-
         @* End Scan Section *@
-
-
 
         @* Begin Monitor Section *@
 

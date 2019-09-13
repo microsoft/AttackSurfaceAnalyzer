@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using System;
 using AttackSurfaceAnalyzer.Types;
+using System;
 
 namespace AttackSurfaceAnalyzer.Objects
 {

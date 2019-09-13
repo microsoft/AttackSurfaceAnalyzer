@@ -1,12 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using AttackSurfaceAnalyzer.Objects;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
-using Serilog;
-using System.Reflection;
-using AttackSurfaceAnalyzer.Objects;
 
 namespace AttackSurfaceAnalyzer.Utils
 {

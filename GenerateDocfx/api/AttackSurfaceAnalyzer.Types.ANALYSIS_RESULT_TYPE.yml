@@ -22,11 +22,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ANALYSIS_RESULT_TYPE
     path: ../Lib/Objects/Types.cs
-    startLine: 63
+    startLine: 62
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -53,11 +53,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: NONE
     path: ../Lib/Objects/Types.cs
-    startLine: 65
+    startLine: 64
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -85,11 +85,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: VERBOSE
     path: ../Lib/Objects/Types.cs
-    startLine: 66
+    startLine: 65
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -117,11 +117,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DEBUG
     path: ../Lib/Objects/Types.cs
-    startLine: 67
+    startLine: 66
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -149,11 +149,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: INFORMATION
     path: ../Lib/Objects/Types.cs
-    startLine: 68
+    startLine: 67
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -181,11 +181,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: WARNING
     path: ../Lib/Objects/Types.cs
-    startLine: 69
+    startLine: 68
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -213,11 +213,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ERROR
     path: ../Lib/Objects/Types.cs
-    startLine: 70
+    startLine: 69
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types
@@ -245,11 +245,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Types.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FATAL
     path: ../Lib/Objects/Types.cs
-    startLine: 71
+    startLine: 70
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Types

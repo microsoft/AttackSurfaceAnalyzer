@@ -1,7 +1,9 @@
 ﻿@using System.IO
 @using AttackSurfaceAnalyzer.Objects
 @using AttackSurfaceAnalyzer.Utils
+@using AttackSurfaceAnalyzer.Types
 @model AttackSurfaceAnalyzer.Models.DataRunListModel
+
 
 @{
     var runList = new SelectList(Model.Runs, "Key", "Text");
@@ -78,39 +80,51 @@
                 <div class="col">
                     <i>@Strings.Get("SelectResultType")</i>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="ResultType" id="FileRadio" value="0" disabled>
+                        <input class="form-check-input" type="radio" name="ResultType" id="FileRadio" value="@string.Format("{0}",(int)RESULT_TYPE.FILE)" disabled>
                         <label class="form-check-label" for="FileRadio">
                             @Strings.Get("Files")
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="ResultType" id="PortRadio" value="1" disabled>
+                        <input class="form-check-input" type="radio" name="ResultType" id="PortRadio" value="@string.Format("{0}",(int)RESULT_TYPE.PORT)" disabled>
                         <label class="form-check-label" for="PortRadio">
                             @Strings.Get("Ports")
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="ResultType" id="ServiceRadio" value="4" disabled>
-                        <label class="form-check-label" for="ServiceRadio">
-                            @Strings.Get("Services")
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="ResultType" id="CertificateRadio" value="3" disabled>
-                        <label class="form-check-label" for="CertificateRadio">
-                            @Strings.Get("Certificates")
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="ResultType" id="RegistryRadio" value="2" disabled>
+                        <input class="form-check-input" type="radio" name="ResultType" id="RegistryRadio" value="@string.Format("{0}",(int)RESULT_TYPE.REGISTRY)" disabled>
                         <label class="form-check-label" for="RegistryRadio">
                             @Strings.Get("Registry")
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="ResultType" id="UserRadio" value="5" disabled>
+                        <input class="form-check-input" type="radio" name="ResultType" id="CertificateRadio" value="@string.Format("{0}",(int)RESULT_TYPE.CERTIFICATE)" disabled>
+                        <label class="form-check-label" for="CertificateRadio">
+                            @Strings.Get("Certificates")
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="ResultType" id="ServiceRadio" value="@string.Format("{0}",(int)RESULT_TYPE.SERVICE)" disabled>
+                        <label class="form-check-label" for="ServiceRadio">
+                            @Strings.Get("Services")
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="ResultType" id="UserRadio" value="@string.Format("{0}",(int)RESULT_TYPE.USER)" disabled>
                         <label class="form-check-label" for="UserRadio">
                             @Strings.Get("Users")
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="ResultType" id="FirewallRadio" value="@string.Format("{0}",(int)RESULT_TYPE.FIREWALL)" disabled>
+                        <label class="form-check-label" for="FirewallRadio">
+                            @Strings.Get("Firewall")
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="ResultType" id="ComRadio" value="@string.Format("{0}",(int)RESULT_TYPE.COM)" disabled>
+                        <label class="form-check-label" for="ComRadio">
+                            @Strings.Get("Com")
                         </label>
                     </div>
                 </div>
@@ -195,18 +209,16 @@
                 </thead>
                 <tbody id="PortResultsTableBody"></tbody>
             </table>
-            <table class="table table-hover table-sm users results" id="UserResultsTable">
+            <table class="table table-striped table-sm registry results" id="RegistryResultsTable">
                 <thead>
                     <tr>
                         <th scope="col"></th>
                         <th scope="col">@Strings.Get("Analysis")</th>
                         <th scope="col">@Strings.Get("ChangeType")</th>
-                        <th scope="col">@Strings.Get("Account Type")</th>
-                        <th scope="col">@Strings.Get("Name")</th>
-                        <th scope="col">@Strings.Get("Description")</th>
+                        <th scope="col">@Strings.Get("Path")</th>
                     </tr>
                 </thead>
-                <tbody id="UserResultsTableBody"></tbody>
+                <tbody id="RegistryResultsTableBody"></tbody>
             </table>
             <table class="table table-striped table-sm certificates results" id="CertificateResultsTable">
                 <thead>
@@ -236,16 +248,55 @@
                 </thead>
                 <tbody id="ServiceResultsTableBody"></tbody>
             </table>
-            <table class="table table-striped table-sm registry results" id="RegistryResultsTable">
+            <table class="table table-hover table-sm users results" id="UserResultsTable">
                 <thead>
                     <tr>
                         <th scope="col"></th>
                         <th scope="col">@Strings.Get("Analysis")</th>
                         <th scope="col">@Strings.Get("ChangeType")</th>
-                        <th scope="col">@Strings.Get("Path")</th>
+                        <th scope="col">@Strings.Get("Account Type")</th>
+                        <th scope="col">@Strings.Get("Name")</th>
+                        <th scope="col">@Strings.Get("Description")</th>
                     </tr>
                 </thead>
-                <tbody id="RegistryResultsTableBody"></tbody>
+                <tbody id="UserResultsTableBody"></tbody>
+            </table>
+            <table class="table table-hover table-sm groups results" id="GroupResultsTable">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">@Strings.Get("Analysis")</th>
+                        <th scope="col">@Strings.Get("ChangeType")</th>
+                        <th scope="col">@Strings.Get("Domain")</th>
+                        <th scope="col">@Strings.Get("Name")</th>
+                        <th scope="col">@Strings.Get("Description")</th>
+                    </tr>
+                </thead>
+                <tbody id="GroupResultsTableBody"></tbody>
+            </table>
+            <table class="table table-hover table-sm firewall results" id="FirewallResultsTable">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">@Strings.Get("Analysis")</th>
+                        <th scope="col">@Strings.Get("ChangeType")</th>
+                        <th scope="col">@Strings.Get("Name")</th>
+                    </tr>
+                </thead>
+                <tbody id="FirewallResultsTableBody"></tbody>
+            </table>
+            <table class="table table-hover table-sm com results" id="ComResultsTable">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">@Strings.Get("Analysis")</th>
+                        <th scope="col">@Strings.Get("ChangeType")</th>
+                        <th scope="col">@Strings.Get("RegistryPath")</th>
+                        <th scope="col">@Strings.Get("BinaryName")</th>
+                        <th scope="col">@Strings.Get("Description")</th>
+                    </tr>
+                </thead>
+                <tbody id="ComResultsTableBody"></tbody>
             </table>
         </div>
     </div>

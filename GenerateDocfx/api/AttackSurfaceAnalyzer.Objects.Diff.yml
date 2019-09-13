@@ -16,11 +16,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Diff.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Diff
     path: ../Lib/Objects/Diff.cs
-    startLine: 6
+    startLine: 2
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -57,11 +57,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Diff.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Field
     path: ../Lib/Objects/Diff.cs
-    startLine: 8
+    startLine: 4
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects

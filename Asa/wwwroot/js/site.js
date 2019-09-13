@@ -21,20 +21,23 @@ function uuidv4() {
 }
 
 var RESULT_TYPE = {
-    FILE: 0,
-    PORT: 1,
-    REGISTRY: 2,
-    CERTIFICATE: 3,
-    SERVICES: 4,
-    USER: 5,
-    UNKNOWN: 6
+    UNKNOWN: 0,
+    FILE: 1,
+    PORT: 2,
+    REGISTRY: 3,
+    CERTIFICATE: 4,
+    SERVICES: 5,
+    USER: 6,
+    GROUP: 7,
+    FIREWALL: 8,
+    COM: 9
 };
 var CHANGE_TYPE = {
-    CREATED: 0,
-    DELETED: 1,
-    MODIFIED: 2,
-    RENAMED: 3,
-    INVALID: 4
+    INVALID: 0,
+    CREATED: 1,
+    DELETED: 2,
+    MODIFIED: 3,
+    RENAMED: 4,
 }
 var RUN_STATUS = {
     NOT_STARTED: 0,

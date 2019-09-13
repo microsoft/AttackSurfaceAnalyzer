@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/BaseMonitor.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: BaseMonitor
     path: ../Lib/Collectors/BaseMonitor.cs
@@ -70,7 +70,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/BaseMonitor.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: runId
     path: ../Lib/Collectors/BaseMonitor.cs
@@ -101,7 +101,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/BaseMonitor.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: _running
     path: ../Lib/Collectors/BaseMonitor.cs
@@ -132,7 +132,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/BaseMonitor.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Start
     path: ../Lib/Collectors/BaseMonitor.cs
@@ -164,7 +164,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/BaseMonitor.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Stop
     path: ../Lib/Collectors/BaseMonitor.cs
@@ -196,7 +196,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/BaseMonitor.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CanRunOnPlatform
     path: ../Lib/Collectors/BaseMonitor.cs
@@ -230,7 +230,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/BaseMonitor.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RunStatus
     path: ../Lib/Collectors/BaseMonitor.cs
@@ -262,7 +262,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/BaseMonitor.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/BaseMonitor.cs

@@ -1,18 +1,15 @@
-﻿using System;
+﻿using AttackSurfaceAnalyzer.Objects;
+using AttackSurfaceAnalyzer.Types;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
+using Serilog;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text.RegularExpressions;
-using Serilog;
-using System.Reflection;
-using AttackSurfaceAnalyzer.Objects;
-using System.Runtime.InteropServices;
 using System.Linq;
-using Newtonsoft.Json.Converters;
-using PeNet.Structures.MetaDataTables;
-using Markdig.Extensions.Tables;
-using AttackSurfaceAnalyzer.Types;
+using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace AttackSurfaceAnalyzer.Utils
 {

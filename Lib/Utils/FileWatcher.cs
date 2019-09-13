@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Serilog;
 
 
 namespace AttackSurfaceAnalyzer.Utils

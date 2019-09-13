@@ -22,11 +22,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Rule.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Rule
     path: ../Lib/Objects/Rule.cs
-    startLine: 10
+    startLine: 8
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -63,11 +63,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Rule.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: platforms
     path: ../Lib/Objects/Rule.cs
-    startLine: 14
+    startLine: 12
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -108,11 +108,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Rule.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: changeTypes
     path: ../Lib/Objects/Rule.cs
-    startLine: 18
+    startLine: 16
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -153,11 +153,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Rule.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: name
     path: ../Lib/Objects/Rule.cs
-    startLine: 20
+    startLine: 18
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -184,11 +184,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Rule.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: desc
     path: ../Lib/Objects/Rule.cs
-    startLine: 21
+    startLine: 19
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -215,11 +215,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Rule.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: flag
     path: ../Lib/Objects/Rule.cs
-    startLine: 22
+    startLine: 20
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -246,11 +246,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Rule.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: resultType
     path: ../Lib/Objects/Rule.cs
-    startLine: 23
+    startLine: 21
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -277,11 +277,11 @@ items:
   source:
     remote:
       path: Lib/Objects/Rule.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: clauses
     path: ../Lib/Objects/Rule.cs
-    startLine: 24
+    startLine: 22
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects

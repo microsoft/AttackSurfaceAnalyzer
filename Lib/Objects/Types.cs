@@ -23,7 +23,6 @@ namespace AttackSurfaceAnalyzer.Types
         DELETED,
         MODIFIED,
         RENAMED
-
     }
 
     public enum RUN_STATUS

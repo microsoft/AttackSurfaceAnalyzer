@@ -1,16 +1,19 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using System;
-using System.IO;
-using System.Runtime.InteropServices;
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
+using System;
+using System.IO;
+using System.Runtime.InteropServices;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
+    /// <summary>
+    /// Actively monitors the filesystem for changes.
+    /// </summary>
     public class FileSystemMonitor : BaseMonitor
     {
         private static readonly string SQL_TRUNCATE = "delete from file_system_monitored where run_id=@run_id";
@@ -55,7 +58,9 @@ namespace AttackSurfaceAnalyzer.Collectors
             cmd.Parameters.AddWithValue("@run_id", runId);
         }
 
-        // If we are not interrogating changes we can include access time, if we are, we cannot because the interrogate follow-up will trigger another event, and infinite loop
+        /// <summary>
+        /// This initializer ensures that the access time filter isn't used with InterrogateChanges, which causes a loop.
+        /// </summary>
         public FileSystemMonitor(string runId, string dir, bool interrogateChanges) : this(runId, dir, interrogateChanges, interrogateChanges ? defaultFilters : defaultFiltersWithAccessTime) { }
 
         // @TODO: Add ability to filter file name/type

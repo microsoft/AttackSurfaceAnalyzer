@@ -1,19 +1,20 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+using AttackSurfaceAnalyzer.Objects;
+using AttackSurfaceAnalyzer.Utils;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-using AttackSurfaceAnalyzer.Utils;
-using Microsoft.Data.Sqlite;
-using AttackSurfaceAnalyzer.Objects;
-using Newtonsoft.Json;
-using Serilog;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
+    /// <summary>
+    /// Collects data about the local ports open.
+    /// </summary>
     public class OpenPortCollector : BaseCollector
     {
 
@@ -29,9 +30,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             this.processedObjects = new HashSet<string>();
         }
 
-        /**
-         * Can this check run on the current platform?
-         */
         public override bool CanRunOnPlatform()
         {
             try

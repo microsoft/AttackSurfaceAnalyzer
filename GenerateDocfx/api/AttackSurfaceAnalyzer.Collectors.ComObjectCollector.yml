@@ -1,0 +1,673 @@
+### YamlMime:ManagedReference
+items:
+- uid: AttackSurfaceAnalyzer.Collectors.ComObjectCollector
+  commentId: T:AttackSurfaceAnalyzer.Collectors.ComObjectCollector
+  id: ComObjectCollector
+  parent: AttackSurfaceAnalyzer.Collectors
+  children:
+  - AttackSurfaceAnalyzer.Collectors.ComObjectCollector.#ctor(System.String)
+  - AttackSurfaceAnalyzer.Collectors.ComObjectCollector.CanRunOnPlatform
+  - AttackSurfaceAnalyzer.Collectors.ComObjectCollector.Execute
+  langs:
+  - csharp
+  - vb
+  name: ComObjectCollector
+  nameWithType: ComObjectCollector
+  fullName: AttackSurfaceAnalyzer.Collectors.ComObjectCollector
+  type: Class
+  source:
+    remote:
+      path: Lib/Collectors/ComObjectCollector.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: ComObjectCollector
+    path: ../Lib/Collectors/ComObjectCollector.cs
+    startLine: 17
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Collectors
+  summary: "\nCollects Com Objects referenced by the registry\n"
+  example: []
+  syntax:
+    content: 'public class ComObjectCollector : BaseCollector, PlatformRunnable'
+    content.vb: >-
+      Public Class ComObjectCollector
+          Inherits BaseCollector
+          Implements PlatformRunnable
+  inheritance:
+  - System.Object
+  - AttackSurfaceAnalyzer.Collectors.BaseCollector
+  inheritedMembers:
+  - AttackSurfaceAnalyzer.Collectors.BaseCollector.runId
+  - AttackSurfaceAnalyzer.Collectors.BaseCollector._numCollected
+  - AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning
+  - AttackSurfaceAnalyzer.Collectors.BaseCollector.Start
+  - AttackSurfaceAnalyzer.Collectors.BaseCollector.Stop
+  - AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.#ctor(System.String)
+  commentId: M:AttackSurfaceAnalyzer.Collectors.ComObjectCollector.#ctor(System.String)
+  id: '#ctor(System.String)'
+  parent: AttackSurfaceAnalyzer.Collectors.ComObjectCollector
+  langs:
+  - csharp
+  - vb
+  name: ComObjectCollector(String)
+  nameWithType: ComObjectCollector.ComObjectCollector(String)
+  fullName: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ComObjectCollector(System.String)
+  type: Constructor
+  source:
+    remote:
+      path: Lib/Collectors/ComObjectCollector.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: .ctor
+    path: ../Lib/Collectors/ComObjectCollector.cs
+    startLine: 20
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Collectors
+  syntax:
+    content: public ComObjectCollector(string RunId)
+    parameters:
+    - id: RunId
+      type: System.String
+    content.vb: Public Sub New(RunId As String)
+  overload: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.CanRunOnPlatform
+  commentId: M:AttackSurfaceAnalyzer.Collectors.ComObjectCollector.CanRunOnPlatform
+  id: CanRunOnPlatform
+  parent: AttackSurfaceAnalyzer.Collectors.ComObjectCollector
+  langs:
+  - csharp
+  - vb
+  name: CanRunOnPlatform()
+  nameWithType: ComObjectCollector.CanRunOnPlatform()
+  fullName: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.CanRunOnPlatform()
+  type: Method
+  source:
+    remote:
+      path: Lib/Collectors/ComObjectCollector.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: CanRunOnPlatform
+    path: ../Lib/Collectors/ComObjectCollector.cs
+    startLine: 25
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Collectors
+  syntax:
+    content: public override bool CanRunOnPlatform()
+    return:
+      type: System.Boolean
+    content.vb: Public Overrides Function CanRunOnPlatform As Boolean
+  overridden: AttackSurfaceAnalyzer.Collectors.BaseCollector.CanRunOnPlatform
+  overload: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.CanRunOnPlatform*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.Execute
+  commentId: M:AttackSurfaceAnalyzer.Collectors.ComObjectCollector.Execute
+  id: Execute
+  parent: AttackSurfaceAnalyzer.Collectors.ComObjectCollector
+  langs:
+  - csharp
+  - vb
+  name: Execute()
+  nameWithType: ComObjectCollector.Execute()
+  fullName: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.Execute()
+  type: Method
+  source:
+    remote:
+      path: Lib/Collectors/ComObjectCollector.cs
+      branch: gfs/UpdateGuiNewCollectors
+      repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
+    id: Execute
+    path: ../Lib/Collectors/ComObjectCollector.cs
+    startLine: 30
+  assemblies:
+  - AsaLib
+  namespace: AttackSurfaceAnalyzer.Collectors
+  syntax:
+    content: public override void Execute()
+    content.vb: Public Overrides Sub Execute
+  overridden: AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute
+  overload: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.Execute*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+references:
+- uid: AttackSurfaceAnalyzer.Collectors
+  commentId: N:AttackSurfaceAnalyzer.Collectors
+  name: AttackSurfaceAnalyzer.Collectors
+  nameWithType: AttackSurfaceAnalyzer.Collectors
+  fullName: AttackSurfaceAnalyzer.Collectors
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector
+  commentId: T:AttackSurfaceAnalyzer.Collectors.BaseCollector
+  parent: AttackSurfaceAnalyzer.Collectors
+  name: BaseCollector
+  nameWithType: BaseCollector
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.runId
+  commentId: F:AttackSurfaceAnalyzer.Collectors.BaseCollector.runId
+  parent: AttackSurfaceAnalyzer.Collectors.BaseCollector
+  name: runId
+  nameWithType: BaseCollector.runId
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.runId
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector._numCollected
+  commentId: F:AttackSurfaceAnalyzer.Collectors.BaseCollector._numCollected
+  parent: AttackSurfaceAnalyzer.Collectors.BaseCollector
+  name: _numCollected
+  nameWithType: BaseCollector._numCollected
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector._numCollected
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning
+  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning
+  parent: AttackSurfaceAnalyzer.Collectors.BaseCollector
+  name: IsRunning()
+  nameWithType: BaseCollector.IsRunning()
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning()
+  spec.csharp:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning
+    name: IsRunning
+    nameWithType: BaseCollector.IsRunning
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning
+    name: IsRunning
+    nameWithType: BaseCollector.IsRunning
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.Start
+  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCollector.Start
+  parent: AttackSurfaceAnalyzer.Collectors.BaseCollector
+  name: Start()
+  nameWithType: BaseCollector.Start()
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.Start()
+  spec.csharp:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.Start
+    name: Start
+    nameWithType: BaseCollector.Start
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.Start
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.Start
+    name: Start
+    nameWithType: BaseCollector.Start
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.Start
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.Stop
+  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCollector.Stop
+  parent: AttackSurfaceAnalyzer.Collectors.BaseCollector
+  name: Stop()
+  nameWithType: BaseCollector.Stop()
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.Stop()
+  spec.csharp:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.Stop
+    name: Stop
+    nameWithType: BaseCollector.Stop
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.Stop
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.Stop
+    name: Stop
+    nameWithType: BaseCollector.Stop
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.Stop
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected
+  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected
+  parent: AttackSurfaceAnalyzer.Collectors.BaseCollector
+  name: NumCollected()
+  nameWithType: BaseCollector.NumCollected()
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected()
+  spec.csharp:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected
+    name: NumCollected
+    nameWithType: BaseCollector.NumCollected
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected
+    name: NumCollected
+    nameWithType: BaseCollector.NumCollected
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.#ctor*
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.ComObjectCollector.#ctor
+  name: ComObjectCollector
+  nameWithType: ComObjectCollector.ComObjectCollector
+  fullName: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ComObjectCollector
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.CanRunOnPlatform
+  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCollector.CanRunOnPlatform
+  parent: AttackSurfaceAnalyzer.Collectors.BaseCollector
+  name: CanRunOnPlatform()
+  nameWithType: BaseCollector.CanRunOnPlatform()
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.CanRunOnPlatform()
+  spec.csharp:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.CanRunOnPlatform
+    name: CanRunOnPlatform
+    nameWithType: BaseCollector.CanRunOnPlatform
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.CanRunOnPlatform
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.CanRunOnPlatform
+    name: CanRunOnPlatform
+    nameWithType: BaseCollector.CanRunOnPlatform
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.CanRunOnPlatform
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.CanRunOnPlatform*
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.ComObjectCollector.CanRunOnPlatform
+  name: CanRunOnPlatform
+  nameWithType: ComObjectCollector.CanRunOnPlatform
+  fullName: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.CanRunOnPlatform
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute
+  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute
+  parent: AttackSurfaceAnalyzer.Collectors.BaseCollector
+  name: Execute()
+  nameWithType: BaseCollector.Execute()
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute()
+  spec.csharp:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute
+    name: Execute
+    nameWithType: BaseCollector.Execute
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute
+    name: Execute
+    nameWithType: BaseCollector.Execute
+    fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.Execute*
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.ComObjectCollector.Execute
+  name: Execute
+  nameWithType: ComObjectCollector.Execute
+  fullName: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.Execute

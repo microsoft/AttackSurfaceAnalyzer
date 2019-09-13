@@ -1,2 +1,68 @@
 2019-09-09 15:29:14.379 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.62-alpha+8303f291f2
 2019-09-09 15:33:36.311 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.62-alpha+8303f291f2
+2019-09-11 11:13:36.260 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.62-alpha+94b1f84582
+2019-09-11 11:14:51.182 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.62-alpha+94b1f84582
+2019-09-11 11:15:45.560 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.62-alpha+94b1f84582
+2019-09-11 11:15:58.267 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.62-alpha+94b1f84582
+2019-09-11 11:17:11.470 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.62-alpha+94b1f84582
+2019-09-11 11:20:30.180 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.62-alpha+94b1f84582
+2019-09-11 11:20:44.162 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.62-alpha+94b1f84582
+2019-09-11 11:21:16.826 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.62-alpha+94b1f84582
+2019-09-11 11:24:50.565 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.62-alpha+94b1f84582
+2019-09-11 11:25:14.341 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.62-alpha+94b1f84582
+2019-09-11 11:28:45.749 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.62-alpha+94b1f84582
+2019-09-11 11:32:14.095 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.62-alpha+94b1f84582
+2019-09-11 11:33:22.539 -07:00 [INF] Loaded filters: Embedded
+2019-09-11 11:33:22.545 -07:00 [INF] Begin 09/11/19, 11:32:25 AM.
+2019-09-11 11:33:22.547 -07:00 [DBG] WINDOWS is the platform string
+2019-09-11 11:33:22.561 -07:00 [INF] Starting 3 Collectors.
+2019-09-11 11:33:22.563 -07:00 [INF] Starting UserAccountCollector.
+2019-09-11 11:33:27.411 -07:00 [INF] Completed UserAccountCollector in 00h:00m:04s:848ms.
+2019-09-11 11:33:27.413 -07:00 [INF] End UserAccountCollector.
+2019-09-11 11:33:27.418 -07:00 [INF] Starting FirewallCollector.
+2019-09-11 11:33:27.728 -07:00 [INF] Completed FirewallCollector in 00h:00m:00s:309ms.
+2019-09-11 11:33:27.730 -07:00 [INF] End FirewallCollector.
+2019-09-11 11:33:27.733 -07:00 [INF] Starting ComObjectCollector.
+2019-09-11 11:33:53.692 -07:00 [INF] Completed ComObjectCollector in 00h:00m:25s:958ms.
+2019-09-11 11:33:53.694 -07:00 [INF] End ComObjectCollector.
+2019-09-11 11:34:09.198 -07:00 [INF] Completed Comparing in 00h:00m:00s:083ms.
+2019-09-11 11:38:24.312 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.62-alpha+94b1f84582
+2019-09-11 11:39:53.408 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.62-alpha+94b1f84582
+2019-09-11 11:40:18.772 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.62-alpha+94b1f84582
+2019-09-11 11:42:06.613 -07:00 [INF] Loaded filters: Embedded
+2019-09-11 11:42:06.627 -07:00 [INF] Begin 09/11/19, 11:40:54 AM.
+2019-09-11 11:42:06.630 -07:00 [DBG] WINDOWS is the platform string
+2019-09-11 11:42:06.638 -07:00 [INF] Starting 2 Collectors.
+2019-09-11 11:42:06.640 -07:00 [INF] Starting UserAccountCollector.
+2019-09-11 11:42:11.328 -07:00 [INF] Completed UserAccountCollector in 00h:00m:04s:687ms.
+2019-09-11 11:42:11.335 -07:00 [INF] End UserAccountCollector.
+2019-09-11 11:42:11.347 -07:00 [INF] Starting FirewallCollector.
+2019-09-11 11:42:11.549 -07:00 [INF] Completed FirewallCollector in 00h:00m:00s:201ms.
+2019-09-11 11:42:11.553 -07:00 [INF] End FirewallCollector.
+2019-09-11 11:42:20.308 -07:00 [INF] Completed Comparing in 00h:00m:00s:047ms.
+2019-09-11 11:44:32.489 -07:00 [INF] Completed Comparing in 00h:00m:00s:000ms.
+2019-09-11 11:48:03.503 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.62-alpha+94b1f84582
+2019-09-11 11:56:56.133 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.62-alpha+94b1f84582
+2019-09-11 12:00:56.279 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.62-alpha+94b1f84582
+2019-09-11 12:43:59.971 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.62-alpha+94b1f84582
+2019-09-11 12:52:58.272 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.62-alpha+94b1f84582
+2019-09-11 12:57:22.798 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.62-alpha+94b1f84582
+2019-09-11 12:58:09.587 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.62-alpha+94b1f84582
+2019-09-11 13:00:43.152 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.62-alpha+94b1f84582
+2019-09-11 13:23:54.074 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.62-alpha+94b1f84582
+2019-09-11 13:26:08.929 -07:00 [INF] This application collects usage data to help us improve Attack Surface Analyzer.
+2019-09-11 13:26:08.930 -07:00 [INF] For our privacy policy visit: https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/PRIVACY.md.
+2019-09-11 13:26:08.933 -07:00 [INF] To disable telemetry run 'AttackSurfaceAnalyzerCli.exe config --telemetry-opt-out true'.
+2019-09-11 13:26:08.942 -07:00 [INF] Loaded filters: Embedded
+2019-09-11 13:26:08.943 -07:00 [INF] Begin 09/11/19, 1:24:14 PM.
+2019-09-11 13:26:08.944 -07:00 [DBG] WINDOWS is the platform string
+2019-09-11 13:26:08.953 -07:00 [INF] Starting 2 Collectors.
+2019-09-11 13:26:08.954 -07:00 [INF] Starting UserAccountCollector.
+2019-09-11 13:26:13.673 -07:00 [INF] Completed UserAccountCollector in 00h:00m:04s:718ms.
+2019-09-11 13:26:13.677 -07:00 [INF] End UserAccountCollector.
+2019-09-11 13:26:13.688 -07:00 [INF] Starting FirewallCollector.
+2019-09-11 13:26:13.876 -07:00 [INF] Completed FirewallCollector in 00h:00m:00s:187ms.
+2019-09-11 13:26:13.880 -07:00 [INF] End FirewallCollector.
+2019-09-11 13:26:21.219 -07:00 [INF] Completed Comparing in 00h:00m:00s:051ms.
+2019-09-11 13:29:07.076 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.62-alpha+94b1f84582
+2019-09-11 13:30:53.709 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.63-alpha+d057af3207

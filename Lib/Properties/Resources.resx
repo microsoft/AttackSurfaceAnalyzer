@@ -456,4 +456,16 @@
   <data name="LoadedAnalyses" xml:space="preserve">
     <value>Loaded Analyses from {0}.</value>
   </data>
+  <data name="BinaryName" xml:space="preserve">
+    <value>Binary Name</value>
+  </data>
+  <data name="Com" xml:space="preserve">
+    <value>Com</value>
+  </data>
+  <data name="Firewall" xml:space="preserve">
+    <value>Firewall</value>
+  </data>
+  <data name="RegistryPath" xml:space="preserve">
+    <value>Registry Path</value>
+  </data>
 </root>
