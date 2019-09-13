@@ -20,6 +20,7 @@ using Serilog;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Serialization;
 using AttackSurfaceAnalyzer.Types;
+using Newtonsoft.Json.Converters;
 
 namespace AttackSurfaceAnalyzer
 {
@@ -515,15 +516,14 @@ namespace AttackSurfaceAnalyzer
 
             Dictionary<string, object> results = CompareRuns(options);
 
-            JsonSerializer serializer = new JsonSerializer
+            JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings()
             {
                 Formatting = Formatting.Indented,
                 NullValueHandling = NullValueHandling.Ignore,
                 DefaultValueHandling = DefaultValueHandling.Ignore,
+                Converters = new List<JsonConverter>() { new StringEnumConverter() },
                 ContractResolver = new HideBigFieldsContractResolver()
-            };
-
-            serializer.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+            });
 
             if (opts.ExplodedOutput)
             {
@@ -590,11 +590,13 @@ namespace AttackSurfaceAnalyzer
 
             List<RESULT_TYPE> ToExport = new List<RESULT_TYPE> { (RESULT_TYPE)ResultType };
             Dictionary<RESULT_TYPE, int> actualExported = new Dictionary<RESULT_TYPE, int>();
-            JsonSerializer serializer = new JsonSerializer
+            JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings()
             {
                 Formatting = Formatting.Indented,
-                NullValueHandling = NullValueHandling.Ignore
-            };
+                NullValueHandling = NullValueHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Ignore,
+                Converters = new List<JsonConverter>() { new StringEnumConverter() }
+            });
             if (ExportAll)
             {
                 ToExport = new List<RESULT_TYPE> { RESULT_TYPE.FILE, RESULT_TYPE.CERTIFICATE, RESULT_TYPE.PORT, RESULT_TYPE.REGISTRY, RESULT_TYPE.SERVICE, RESULT_TYPE.USER };
@@ -731,12 +733,13 @@ namespace AttackSurfaceAnalyzer
                 }
             }
 
-            JsonSerializerSettings settings = new JsonSerializerSettings();
-            settings.Formatting = Formatting.Indented;
-            settings.NullValueHandling = NullValueHandling.Ignore;
-            settings.DefaultValueHandling = DefaultValueHandling.Ignore;
-            JsonSerializer serializer = JsonSerializer.Create(settings);
-            serializer.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+            JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings()
+            {
+                Formatting = Formatting.Indented,
+                NullValueHandling = NullValueHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Ignore,
+                Converters = new List<JsonConverter>() { new StringEnumConverter() }
+            });
             var output = new Dictionary<string, Object>();
             output["results"] = records;
             output["metadata"] = Helpers.GenerateMetadata();
