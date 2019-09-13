@@ -23,10 +23,12 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: OpenPortCollector
     path: ../Lib/Collectors/OpenPortCollector.cs
-    startLine: 14
+    startLine: 17
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
+  summary: "\nCollects data about the local ports open.\n"
+  example: []
   syntax:
     content: 'public class OpenPortCollector : BaseCollector, PlatformRunnable'
     content.vb: >-
@@ -74,7 +76,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/OpenPortCollector.cs
-    startLine: 19
+    startLine: 22
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -107,7 +109,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CanRunOnPlatform
     path: ../Lib/Collectors/OpenPortCollector.cs
-    startLine: 32
+    startLine: 35
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -143,7 +145,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Execute
     path: ../Lib/Collectors/OpenPortCollector.cs
-    startLine: 52
+    startLine: 55
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -176,7 +178,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ExecuteWindows
     path: ../Lib/Collectors/OpenPortCollector.cs
-    startLine: 87
+    startLine: 90
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors

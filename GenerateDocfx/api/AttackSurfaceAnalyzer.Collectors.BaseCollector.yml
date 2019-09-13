@@ -27,10 +27,12 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: BaseCollector
     path: ../Lib/Collectors/BaseCollector.cs
-    startLine: 11
+    startLine: 14
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
+  summary: "\nBase class for all collectors.\n"
+  example: []
   syntax:
     content: 'public abstract class BaseCollector : PlatformRunnable'
     content.vb: >-
@@ -81,7 +83,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: runId
     path: ../Lib/Collectors/BaseCollector.cs
-    startLine: 13
+    startLine: 16
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -112,7 +114,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: _numCollected
     path: ../Lib/Collectors/BaseCollector.cs
-    startLine: 17
+    startLine: 20
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -143,7 +145,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Execute
     path: ../Lib/Collectors/BaseCollector.cs
-    startLine: 19
+    startLine: 22
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -175,7 +177,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CanRunOnPlatform
     path: ../Lib/Collectors/BaseCollector.cs
-    startLine: 21
+    startLine: 24
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -209,7 +211,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsRunning
     path: ../Lib/Collectors/BaseCollector.cs
-    startLine: 25
+    startLine: 28
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -241,7 +243,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Start
     path: ../Lib/Collectors/BaseCollector.cs
-    startLine: 30
+    startLine: 33
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -271,7 +273,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Stop
     path: ../Lib/Collectors/BaseCollector.cs
-    startLine: 38
+    startLine: 41
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -301,7 +303,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: NumCollected
     path: ../Lib/Collectors/BaseCollector.cs
-    startLine: 56
+    startLine: 59
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors

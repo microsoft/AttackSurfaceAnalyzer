@@ -30,10 +30,12 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: BaseCompare
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 14
+    startLine: 17
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
+  summary: "\nThe Generic Compare class.\n"
+  example: []
   syntax:
     content: public class BaseCompare
     content.vb: Public Class BaseCompare
@@ -71,7 +73,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Results
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 16
+    startLine: 19
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -108,7 +110,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 18
+    startLine: 21
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -138,17 +140,21 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Hydrate
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 23
+    startLine: 31
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
+  summary: "\nDeserialize a Collect object from a RawCollectResult\n"
+  example: []
   syntax:
     content: public static CollectObject Hydrate(RawCollectResult res)
     parameters:
     - id: res
       type: AttackSurfaceAnalyzer.Objects.RawCollectResult
+      description: The RawCollectResult containing the JsonSerialized object to hydrate.
     return:
       type: AttackSurfaceAnalyzer.Objects.CollectObject
+      description: An appropriately typed collect object based on the collect result passed in, or null if the RESULT_TYPE is unknown.
     content.vb: Public Shared Function Hydrate(res As RawCollectResult) As CollectObject
   overload: AttackSurfaceAnalyzer.Collectors.BaseCompare.Hydrate*
   modifiers.csharp:
@@ -175,17 +181,21 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Compare
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 50
+    startLine: 63
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
+  summary: "\nCompares all the common collectors between two runs.\n"
+  example: []
   syntax:
     content: public void Compare(string firstRunId, string secondRunId)
     parameters:
     - id: firstRunId
       type: System.String
+      description: The Base run id.
     - id: secondRunId
       type: System.String
+      description: The Compare run id.
     content.vb: Public Sub Compare(firstRunId As String, secondRunId As String)
   overload: AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare*
   modifiers.csharp:
@@ -210,21 +220,27 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetDiffs
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 339
+    startLine: 350
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
+  summary: "\nCreates a list of Diff objects based on an object field and findings.\n"
+  example: []
   syntax:
     content: public List<Diff> GetDiffs(FieldInfo field, object added, object removed)
     parameters:
     - id: field
       type: System.Reflection.FieldInfo
+      description: The field of the referenced object.
     - id: added
       type: System.Object
+      description: The added findings.
     - id: removed
       type: System.Object
+      description: The removed findings.
     return:
       type: System.Collections.Generic.List{AttackSurfaceAnalyzer.Objects.Diff}
+      description: ''
     content.vb: Public Function GetDiffs(field As FieldInfo, added As Object, removed As Object) As List(Of Diff)
   overload: AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs*
   modifiers.csharp:
@@ -249,21 +265,27 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetDiffs
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 360
+    startLine: 379
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
+  summary: "\nCreates a list of Diff objects based on an object property and findings.\n"
+  example: []
   syntax:
     content: public List<Diff> GetDiffs(PropertyInfo prop, object added, object removed)
     parameters:
     - id: prop
       type: System.Reflection.PropertyInfo
+      description: The property of the referenced object.
     - id: added
       type: System.Object
+      description: The added findings.
     - id: removed
       type: System.Object
+      description: The removed findings.
     return:
       type: System.Collections.Generic.List{AttackSurfaceAnalyzer.Objects.Diff}
+      description: ''
     content.vb: Public Function GetDiffs(prop As PropertyInfo, added As Object, removed As Object) As List(Of Diff)
   overload: AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs*
   modifiers.csharp:
@@ -288,19 +310,24 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: TryCompare
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 382
+    startLine: 407
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
+  summary: "\nCompare but with a Try/Catch block for exceptions.\n"
+  example: []
   syntax:
     content: public bool TryCompare(string firstRunId, string secondRunId)
     parameters:
     - id: firstRunId
       type: System.String
+      description: The Base run id.
     - id: secondRunId
       type: System.String
+      description: The Compare run id.
     return:
       type: System.Boolean
+      description: ''
     content.vb: Public Function TryCompare(firstRunId As String, secondRunId As String) As Boolean
   overload: AttackSurfaceAnalyzer.Collectors.BaseCompare.TryCompare*
   modifiers.csharp:
@@ -325,7 +352,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: _type
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 402
+    startLine: 427
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -356,14 +383,17 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsRunning
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 404
+    startLine: 433
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
+  summary: "\nReturns if the comparators are still running.\n"
+  example: []
   syntax:
     content: public RUN_STATUS IsRunning()
     return:
       type: AttackSurfaceAnalyzer.Types.RUN_STATUS
+      description: RUN_STATUS indicating run status.
     content.vb: Public Function IsRunning As RUN_STATUS
   overload: AttackSurfaceAnalyzer.Collectors.BaseCompare.IsRunning*
   modifiers.csharp:
@@ -388,10 +418,12 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Start
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 409
+    startLine: 441
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
+  summary: "\nSet status to running.\n"
+  example: []
   syntax:
     content: public void Start()
     content.vb: Public Sub Start
@@ -418,10 +450,12 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Stop
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 415
+    startLine: 450
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
+  summary: "\nSets status to completed.\n"
+  example: []
   syntax:
     content: public void Stop()
     content.vb: Public Sub Stop

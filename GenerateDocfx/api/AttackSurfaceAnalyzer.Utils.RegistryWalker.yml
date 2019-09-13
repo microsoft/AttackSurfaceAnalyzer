@@ -101,7 +101,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RegistryKeyToRegistryObject
     path: ../Lib/Utils/RegistryWalker.cs
-    startLine: 76
+    startLine: 74
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils

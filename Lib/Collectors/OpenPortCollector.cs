@@ -12,6 +12,9 @@ using System.Text.RegularExpressions;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
+    /// <summary>
+    /// Collects data about the local ports open.
+    /// </summary>
     public class OpenPortCollector : BaseCollector
     {
 
@@ -27,9 +30,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             this.processedObjects = new HashSet<string>();
         }
 
-        /**
-         * Can this check run on the current platform?
-         */
         public override bool CanRunOnPlatform()
         {
             try

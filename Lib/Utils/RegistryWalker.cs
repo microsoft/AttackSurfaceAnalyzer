@@ -13,8 +13,6 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static IEnumerable<RegistryObject> WalkHive(RegistryHive Hive, string startingKey = null)
         {
-            // Data structure to hold names of subfolders to be
-            // examined for files.
             Stack<RegistryKey> keys = new Stack<RegistryKey>();
 
             RegistryKey SearchKey = RegistryKey.OpenBaseKey(Hive, RegistryView.Default);

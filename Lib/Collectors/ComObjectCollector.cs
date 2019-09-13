@@ -12,6 +12,9 @@ using System.Runtime.InteropServices;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
+    /// <summary>
+    /// Collects Com Objects referenced by the registry
+    /// </summary>
     public class ComObjectCollector : BaseCollector
     {
 
@@ -20,11 +23,19 @@ namespace AttackSurfaceAnalyzer.Collectors
             this.runId = RunId;
         }
 
+        /// <summary>
+        /// Com Objects only exist on Windows.
+        /// </summary>
+        /// <returns></returns>
         public override bool CanRunOnPlatform()
         {
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
         }
 
+        /// <summary>
+        /// Execute the Com Collector.  We collect the list of Com Objects registered in the registry
+        /// and then examine each binary on the disk they point to.
+        /// </summary>
         public override void Execute()
         {
 

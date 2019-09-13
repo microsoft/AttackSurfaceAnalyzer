@@ -23,10 +23,12 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: UserAccountCollector
     path: ../Lib/Collectors/UserAccountCollector.cs
-    startLine: 16
+    startLine: 19
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
+  summary: "\nCollects data about the local user and group accounts.\n"
+  example: []
   syntax:
     content: 'public class UserAccountCollector : BaseCollector, PlatformRunnable'
     content.vb: >-
@@ -74,7 +76,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/UserAccountCollector.cs
-    startLine: 21
+    startLine: 24
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -107,7 +109,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CanRunOnPlatform
     path: ../Lib/Collectors/UserAccountCollector.cs
-    startLine: 26
+    startLine: 29
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -142,7 +144,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Execute
     path: ../Lib/Collectors/UserAccountCollector.cs
-    startLine: 76
+    startLine: 34
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -175,7 +177,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ExecuteWindows
     path: ../Lib/Collectors/UserAccountCollector.cs
-    startLine: 109
+    startLine: 67
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
