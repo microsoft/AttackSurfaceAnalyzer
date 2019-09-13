@@ -21,7 +21,7 @@ steps:
 - task: DotNetCoreCLI@2
   displayName: 'Publish Tests'
   inputs:
-    projects: 'AsaLibTests/AsaTests.csproj'
+    projects: 'AsaTests\AsaTests.csproj'
     arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)\Tests'
 - task: VSTest@2
   displayName: 'VsTest - testAssemblies'
