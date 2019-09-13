@@ -20,7 +20,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LinuxFileSystemUtils
     path: ../Lib/Collectors/LinuxFileSystemUtils.cs
-    startLine: 10
+    startLine: 9
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -61,7 +61,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetFilePermissions
     path: ../Lib/Collectors/LinuxFileSystemUtils.cs
-    startLine: 13
+    startLine: 12
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors

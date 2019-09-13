@@ -30,7 +30,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: BaseCompare
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 15
+    startLine: 14
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -71,7 +71,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Results
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 17
+    startLine: 16
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -108,7 +108,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 19
+    startLine: 18
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -138,7 +138,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Hydrate
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 24
+    startLine: 23
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -175,7 +175,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Compare
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 51
+    startLine: 50
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -210,7 +210,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetDiffs
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 340
+    startLine: 339
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -249,7 +249,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetDiffs
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 361
+    startLine: 360
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -288,7 +288,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: TryCompare
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 383
+    startLine: 382
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -325,7 +325,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: _type
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 403
+    startLine: 402
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -356,7 +356,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsRunning
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 405
+    startLine: 404
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -388,7 +388,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Start
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 410
+    startLine: 409
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -418,7 +418,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Stop
     path: ../Lib/Collectors/BaseCompare.cs
-    startLine: 416
+    startLine: 415
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors

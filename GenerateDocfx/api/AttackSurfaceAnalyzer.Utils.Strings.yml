@@ -21,7 +21,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Strings
     path: ../Lib/Utils/Strings.cs
-    startLine: 13
+    startLine: 8
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -63,7 +63,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Get
     path: ../Lib/Utils/Strings.cs
-    startLine: 21
+    startLine: 16
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -100,7 +100,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Setup
     path: ../Lib/Utils/Strings.cs
-    startLine: 30
+    startLine: 25
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils

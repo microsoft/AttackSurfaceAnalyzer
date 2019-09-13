@@ -31,7 +31,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Helpers
     path: ../Lib/Utils/Helpers.cs
-    startLine: 13
+    startLine: 11
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -72,7 +72,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: OpenBrowser
     path: ../Lib/Utils/Helpers.cs
-    startLine: 15
+    startLine: 13
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -107,7 +107,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsAdmin
     path: ../Lib/Utils/Helpers.cs
-    startLine: 31
+    startLine: 29
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -141,7 +141,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: MakeValidFileName
     path: ../Lib/Utils/Helpers.cs
-    startLine: 36
+    startLine: 34
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -178,7 +178,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetVersionString
     path: ../Lib/Utils/Helpers.cs
-    startLine: 44
+    startLine: 42
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -212,7 +212,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetPlatformString
     path: ../Lib/Utils/Helpers.cs
-    startLine: 52
+    startLine: 50
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -246,7 +246,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ResultTypeToTableName
     path: ../Lib/Utils/Helpers.cs
-    startLine: 69
+    startLine: 67
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -283,7 +283,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetOsVersion
     path: ../Lib/Utils/Helpers.cs
-    startLine: 90
+    startLine: 88
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -317,7 +317,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetOsName
     path: ../Lib/Utils/Helpers.cs
-    startLine: 103
+    startLine: 101
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -351,7 +351,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GenerateMetadata
     path: ../Lib/Utils/Helpers.cs
-    startLine: 116
+    startLine: 114
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -385,7 +385,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RunIdsToCompareId
     path: ../Lib/Utils/Helpers.cs
-    startLine: 127
+    startLine: 125
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -424,7 +424,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsList
     path: ../Lib/Utils/Helpers.cs
-    startLine: 132
+    startLine: 130
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -461,7 +461,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsDictionary
     path: ../Lib/Utils/Helpers.cs
-    startLine: 140
+    startLine: 138
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils

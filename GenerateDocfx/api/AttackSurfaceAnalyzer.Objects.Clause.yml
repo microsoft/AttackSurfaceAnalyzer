@@ -22,7 +22,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Clause
     path: ../Lib/Objects/Rule.cs
-    startLine: 27
+    startLine: 25
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -63,7 +63,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: field
     path: ../Lib/Objects/Rule.cs
-    startLine: 29
+    startLine: 27
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -94,7 +94,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: op
     path: ../Lib/Objects/Rule.cs
-    startLine: 30
+    startLine: 28
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects
@@ -125,7 +125,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: data
     path: ../Lib/Objects/Rule.cs
-    startLine: 31
+    startLine: 29
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Objects

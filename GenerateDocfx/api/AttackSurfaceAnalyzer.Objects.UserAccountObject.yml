@@ -52,7 +52,6 @@ items:
     content: 'public class UserAccountObject : CollectObject'
     content.vb: >-
       Public Class UserAccountObject
-
           Inherits CollectObject
   inheritance:
   - System.Object

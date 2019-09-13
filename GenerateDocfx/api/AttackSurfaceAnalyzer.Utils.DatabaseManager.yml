@@ -39,7 +39,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DatabaseManager
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 16
+    startLine: 14
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -81,7 +81,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Connection
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 71
+    startLine: 69
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -114,7 +114,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ReadOnlyConnection
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 72
+    startLine: 70
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -147,7 +147,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FirstRun
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 76
+    startLine: 74
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -184,7 +184,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Setup
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 78
+    startLine: 76
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -218,7 +218,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RunIdToPlatform
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 161
+    startLine: 159
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -255,7 +255,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetResultsByRunid
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 174
+    startLine: 172
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -292,7 +292,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: InsertAnalyzed
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 198
+    startLine: 196
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -327,7 +327,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: VerifySchemaVersion
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 211
+    startLine: 209
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -359,7 +359,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetLatestRunIds
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 225
+    startLine: 223
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -398,7 +398,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetResultTypesAndCounts
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 251
+    startLine: 249
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -435,7 +435,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetNumResults
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 277
+    startLine: 275
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -474,7 +474,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Transaction
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 303
+    startLine: 301
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -511,7 +511,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Commit
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 315
+    startLine: 313
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -543,7 +543,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: _ReadOnly
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 335
+    startLine: 333
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -576,7 +576,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SqliteFilename
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 337
+    startLine: 335
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -613,7 +613,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CloseDatabase
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 373
+    startLine: 371
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -645,7 +645,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Write
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 380
+    startLine: 378
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -682,7 +682,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetMissingFromFirst
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 391
+    startLine: 389
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -721,7 +721,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetModified
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 416
+    startLine: 414
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -760,7 +760,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DeleteRun
     path: ../Lib/Utils/DatabaseManager.cs
-    startLine: 453
+    startLine: 451
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils

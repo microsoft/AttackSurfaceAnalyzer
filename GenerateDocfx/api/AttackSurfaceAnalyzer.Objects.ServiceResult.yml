@@ -28,7 +28,6 @@ items:
     content: 'public class ServiceResult : CompareResult'
     content.vb: >-
       Public Class ServiceResult
-
           Inherits CompareResult
   inheritance:
   - System.Object

@@ -20,7 +20,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Win32ProcessPorts
     path: ../Lib/Utils/Win32OpenPortListenerHelper.cs
-    startLine: 15
+    startLine: 14
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -64,7 +64,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ProcessPortMap
     path: ../Lib/Utils/Win32OpenPortListenerHelper.cs
-    startLine: 22
+    startLine: 21
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils

@@ -22,7 +22,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ServiceCollector
     path: ../Lib/Collectors/ServiceCollector.cs
-    startLine: 20
+    startLine: 17
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -32,9 +32,7 @@ items:
     content: 'public class ServiceCollector : BaseCollector, PlatformRunnable'
     content.vb: >-
       Public Class ServiceCollector
-
           Inherits BaseCollector
-
           Implements PlatformRunnable
   inheritance:
   - System.Object
@@ -77,7 +75,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/ServiceCollector.cs
-    startLine: 28
+    startLine: 25
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -112,7 +110,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CanRunOnPlatform
     path: ../Lib/Collectors/ServiceCollector.cs
-    startLine: 37
+    startLine: 34
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -150,7 +148,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Execute
     path: ../Lib/Collectors/ServiceCollector.cs
-    startLine: 45
+    startLine: 42
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors

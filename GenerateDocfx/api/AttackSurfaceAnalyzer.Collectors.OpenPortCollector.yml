@@ -23,7 +23,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: OpenPortCollector
     path: ../Lib/Collectors/OpenPortCollector.cs
-    startLine: 16
+    startLine: 14
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -31,9 +31,7 @@ items:
     content: 'public class OpenPortCollector : BaseCollector, PlatformRunnable'
     content.vb: >-
       Public Class OpenPortCollector
-
           Inherits BaseCollector
-
           Implements PlatformRunnable
   inheritance:
   - System.Object
@@ -76,7 +74,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/OpenPortCollector.cs
-    startLine: 21
+    startLine: 19
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -109,7 +107,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CanRunOnPlatform
     path: ../Lib/Collectors/OpenPortCollector.cs
-    startLine: 34
+    startLine: 32
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -145,7 +143,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Execute
     path: ../Lib/Collectors/OpenPortCollector.cs
-    startLine: 54
+    startLine: 52
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -178,7 +176,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ExecuteWindows
     path: ../Lib/Collectors/OpenPortCollector.cs
-    startLine: 89
+    startLine: 87
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors

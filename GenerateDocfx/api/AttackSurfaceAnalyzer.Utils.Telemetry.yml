@@ -26,7 +26,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Telemetry
     path: ../Lib/Utils/Telemetry.cs
-    startLine: 10
+    startLine: 9
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -67,7 +67,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Client
     path: ../Lib/Utils/Telemetry.cs
-    startLine: 16
+    startLine: 15
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -100,7 +100,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: TestMode
     path: ../Lib/Utils/Telemetry.cs
-    startLine: 18
+    startLine: 17
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -132,7 +132,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Setup
     path: ../Lib/Utils/Telemetry.cs
-    startLine: 24
+    startLine: 23
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -167,7 +167,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Flush
     path: ../Lib/Utils/Telemetry.cs
-    startLine: 48
+    startLine: 47
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -199,7 +199,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SetOptOut
     path: ../Lib/Utils/Telemetry.cs
-    startLine: 53
+    startLine: 52
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -234,7 +234,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: TrackEvent
     path: ../Lib/Utils/Telemetry.cs
-    startLine: 64
+    startLine: 63
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -274,7 +274,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: TrackTrace
     path: ../Lib/Utils/Telemetry.cs
-    startLine: 73
+    startLine: 72
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils

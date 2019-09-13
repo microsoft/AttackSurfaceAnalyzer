@@ -41,9 +41,7 @@ items:
     content: 'public class FileSystemMonitor : BaseMonitor, PlatformRunnable'
     content.vb: >-
       Public Class FileSystemMonitor
-
           Inherits BaseMonitor
-
           Implements PlatformRunnable
   inheritance:
   - System.Object

@@ -34,7 +34,6 @@ items:
     content: 'public abstract class BaseMonitor : PlatformRunnable'
     content.vb: >-
       Public MustInherit Class BaseMonitor
-
           Implements PlatformRunnable
   inheritance:
   - System.Object

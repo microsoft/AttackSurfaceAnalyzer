@@ -22,7 +22,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ComObjectCollector
     path: ../Lib/Collectors/ComObjectCollector.cs
-    startLine: 19
+    startLine: 14
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -30,9 +30,7 @@ items:
     content: 'public class ComObjectCollector : BaseCollector, PlatformRunnable'
     content.vb: >-
       Public Class ComObjectCollector
-
           Inherits BaseCollector
-
           Implements PlatformRunnable
   inheritance:
   - System.Object
@@ -75,7 +73,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/ComObjectCollector.cs
-    startLine: 22
+    startLine: 17
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -108,7 +106,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CanRunOnPlatform
     path: ../Lib/Collectors/ComObjectCollector.cs
-    startLine: 27
+    startLine: 22
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -143,7 +141,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Execute
     path: ../Lib/Collectors/ComObjectCollector.cs
-    startLine: 32
+    startLine: 27
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors

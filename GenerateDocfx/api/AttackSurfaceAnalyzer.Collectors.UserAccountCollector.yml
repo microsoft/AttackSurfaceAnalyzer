@@ -23,7 +23,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: UserAccountCollector
     path: ../Lib/Collectors/UserAccountCollector.cs
-    startLine: 19
+    startLine: 16
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -31,9 +31,7 @@ items:
     content: 'public class UserAccountCollector : BaseCollector, PlatformRunnable'
     content.vb: >-
       Public Class UserAccountCollector
-
           Inherits BaseCollector
-
           Implements PlatformRunnable
   inheritance:
   - System.Object
@@ -76,7 +74,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/UserAccountCollector.cs
-    startLine: 24
+    startLine: 21
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -109,7 +107,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CanRunOnPlatform
     path: ../Lib/Collectors/UserAccountCollector.cs
-    startLine: 29
+    startLine: 26
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -144,7 +142,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Execute
     path: ../Lib/Collectors/UserAccountCollector.cs
-    startLine: 79
+    startLine: 76
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -177,7 +175,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ExecuteWindows
     path: ../Lib/Collectors/UserAccountCollector.cs
-    startLine: 112
+    startLine: 109
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors

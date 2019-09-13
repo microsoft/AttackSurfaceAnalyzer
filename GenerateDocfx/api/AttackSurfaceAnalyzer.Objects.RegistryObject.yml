@@ -36,7 +36,6 @@ items:
     content: 'public class RegistryObject : CollectObject'
     content.vb: >-
       Public Class RegistryObject
-
           Inherits CollectObject
   inheritance:
   - System.Object

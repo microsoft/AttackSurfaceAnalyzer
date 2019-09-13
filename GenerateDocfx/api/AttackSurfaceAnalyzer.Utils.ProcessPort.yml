@@ -24,7 +24,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ProcessPort
     path: ../Lib/Utils/Win32OpenPortListenerHelper.cs
-    startLine: 159
+    startLine: 158
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -67,7 +67,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ProcessPortDescription
     path: ../Lib/Utils/Win32OpenPortListenerHelper.cs
-    startLine: 181
+    startLine: 180
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -102,7 +102,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ProcessName
     path: ../Lib/Utils/Win32OpenPortListenerHelper.cs
-    startLine: 188
+    startLine: 187
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -137,7 +137,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ProcessId
     path: ../Lib/Utils/Win32OpenPortListenerHelper.cs
-    startLine: 192
+    startLine: 191
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -172,7 +172,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Protocol
     path: ../Lib/Utils/Win32OpenPortListenerHelper.cs
-    startLine: 196
+    startLine: 195
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils
@@ -207,7 +207,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: PortNumber
     path: ../Lib/Utils/Win32OpenPortListenerHelper.cs
-    startLine: 200
+    startLine: 199
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Utils

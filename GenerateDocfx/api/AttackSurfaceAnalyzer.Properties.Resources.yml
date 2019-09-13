@@ -134,7 +134,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Resources
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 21
+    startLine: 19
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -216,7 +216,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Culture
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 52
+    startLine: 55
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -255,7 +255,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: AccountType
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 65
+    startLine: 71
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -294,7 +294,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Address
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 74
+    startLine: 82
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -333,7 +333,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: AdminWarning
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 83
+    startLine: 93
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -372,7 +372,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: AnalyzeResults
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 92
+    startLine: 104
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -411,7 +411,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ApplicationHasTelemetry
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 101
+    startLine: 115
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -450,7 +450,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ApplicationHasTelemetry2
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 110
+    startLine: 126
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -489,7 +489,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ApplicationHasTelemetry3
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 119
+    startLine: 137
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -528,7 +528,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: BaseRunId
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 128
+    startLine: 148
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -567,7 +567,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: BaseStatus
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 137
+    startLine: 159
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -606,7 +606,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Begin
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 146
+    startLine: 170
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -645,7 +645,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Certificates
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 155
+    startLine: 181
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -684,7 +684,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ChangeType
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 164
+    startLine: 192
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -723,7 +723,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ChooseCollectors
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 173
+    startLine: 203
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -762,7 +762,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ChooseMonitor
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 182
+    startLine: 214
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -801,7 +801,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Collectors
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 191
+    startLine: 225
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -840,7 +840,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CollectSnapshotDesc
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 200
+    startLine: 236
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -879,7 +879,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CompareDesc
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 209
+    startLine: 247
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -918,7 +918,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CompareRunId
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 218
+    startLine: 258
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -957,7 +957,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Comparing
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 227
+    startLine: 269
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -996,7 +996,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Completed
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 236
+    startLine: 280
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -1035,7 +1035,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Contents
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 245
+    startLine: 291
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -1074,7 +1074,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Created
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 254
+    startLine: 302
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -1113,7 +1113,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CurrentState
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 263
+    startLine: 313
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -1152,7 +1152,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Deleted
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 272
+    startLine: 324
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -1191,7 +1191,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DeletedDatabase
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 281
+    startLine: 335
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -1230,7 +1230,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DeletedDatabaseAt
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 290
+    startLine: 346
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -1269,7 +1269,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Description
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 299
+    startLine: 357
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -1308,7 +1308,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DisplayName
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 308
+    startLine: 368
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -1347,7 +1347,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DoneWriting
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 317
+    startLine: 379
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -1386,7 +1386,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DueToFilter
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 326
+    startLine: 390
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -1425,7 +1425,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DumpingDataFromDatabase
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 335
+    startLine: 401
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -1464,7 +1464,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: End
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 344
+    startLine: 412
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -1503,7 +1503,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: EnumeratingCollectRunIds
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 353
+    startLine: 423
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -1542,7 +1542,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: EnumeratingMonitorRunIds
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 362
+    startLine: 434
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -1581,7 +1581,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Err_AccessControl
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 371
+    startLine: 445
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -1620,7 +1620,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Err_CollectingFrom
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 380
+    startLine: 456
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -1659,7 +1659,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Err_CouldntDetermineOneRun
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 389
+    startLine: 467
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -1698,7 +1698,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Err_CouldntDetermineTwoRun
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 398
+    startLine: 478
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -1737,7 +1737,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Err_FiltersFile
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 407
+    startLine: 489
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -1776,7 +1776,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Err_Iproute2
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 416
+    startLine: 500
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -1815,7 +1815,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Err_Lsof
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 425
+    startLine: 511
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -1854,7 +1854,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Err_NeedResults
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 434
+    startLine: 522
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -1893,7 +1893,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Err_NoCollectors
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 443
+    startLine: 533
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -1932,7 +1932,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Err_NoMonitors
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 452
+    startLine: 544
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -1971,7 +1971,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Err_OutputPathNotExist
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 461
+    startLine: 555
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -2010,7 +2010,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Err_RunAsAdmin
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 470
+    startLine: 566
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -2049,7 +2049,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Err_RunAsRoot
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 479
+    startLine: 577
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -2088,7 +2088,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Err_RunIdAlreadyUsed
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 488
+    startLine: 588
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -2127,7 +2127,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ExcludingHive
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 497
+    startLine: 599
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -2166,7 +2166,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ExportAll
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 506
+    startLine: 610
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -2205,7 +2205,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ExportDirectory
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 515
+    startLine: 621
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -2244,7 +2244,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Exporting
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 524
+    startLine: 632
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -2283,7 +2283,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ExportOnly
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 533
+    startLine: 643
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -2322,7 +2322,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ExportOptions
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 542
+    startLine: 654
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -2361,7 +2361,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FailedParsed
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 551
+    startLine: 665
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -2400,7 +2400,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FailedToDeleteDatabase
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 560
+    startLine: 676
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -2439,7 +2439,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Files
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 569
+    startLine: 687
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -2478,7 +2478,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FirstRunListRunsError
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 578
+    startLine: 698
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -2517,7 +2517,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FirstScanDesc
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 587
+    startLine: 709
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -2556,7 +2556,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Found
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 596
+    startLine: 720
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -2595,7 +2595,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FoundCreated
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 605
+    startLine: 731
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -2634,7 +2634,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FoundDeleted
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 614
+    startLine: 742
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -2673,7 +2673,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FoundModified
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 623
+    startLine: 753
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -2712,7 +2712,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Hash
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 632
+    startLine: 764
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -2751,7 +2751,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: InvalidPath
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 641
+    startLine: 775
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -2790,7 +2790,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LiveMonitoring
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 650
+    startLine: 786
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -2829,7 +2829,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LiveMonitoringDesc
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 659
+    startLine: 797
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -2868,7 +2868,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LoadedAnalyses
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 668
+    startLine: 808
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -2907,7 +2907,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LoadedFilters
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 677
+    startLine: 819
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -2946,7 +2946,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Modified
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 686
+    startLine: 830
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -2985,7 +2985,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: MonitoringPressC
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 695
+    startLine: 841
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -3024,7 +3024,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: MonitorStartedFor
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 704
+    startLine: 852
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -3063,7 +3063,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: MoreInfo1
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 713
+    startLine: 863
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -3102,7 +3102,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: MoreInfo2
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 722
+    startLine: 874
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -3141,7 +3141,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Name
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 731
+    startLine: 885
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -3180,7 +3180,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: NoCollectRuns
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 740
+    startLine: 896
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -3219,7 +3219,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: NoMonitorRuns
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 749
+    startLine: 907
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -3258,7 +3258,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: OldName
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 758
+    startLine: 918
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -3297,7 +3297,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: OldPath
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 767
+    startLine: 929
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -3336,7 +3336,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: OutputDirectory
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 776
+    startLine: 940
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -3375,7 +3375,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: OutputWrittenTo
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 785
+    startLine: 951
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -3414,7 +3414,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Path
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 794
+    startLine: 962
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -3453,7 +3453,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Permissions
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 803
+    startLine: 973
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -3492,7 +3492,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Ports
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 812
+    startLine: 984
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -3531,7 +3531,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ReadyToScan
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 821
+    startLine: 995
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -3570,7 +3570,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Registry
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 830
+    startLine: 1006
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -3609,7 +3609,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ResultsDesc
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 839
+    startLine: 1017
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -3648,7 +3648,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RunStarted
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 848
+    startLine: 1028
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -3687,7 +3687,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RunStatus
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 857
+    startLine: 1039
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -3726,7 +3726,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ScanId
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 866
+    startLine: 1050
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -3765,7 +3765,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Scanning
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 875
+    startLine: 1061
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -3804,7 +3804,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ScanType
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 884
+    startLine: 1072
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -3843,7 +3843,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SecondScanDesc
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 893
+    startLine: 1083
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -3882,7 +3882,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SelectResultType
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 902
+    startLine: 1094
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -3921,7 +3921,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ServiceName
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 911
+    startLine: 1105
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -3960,7 +3960,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Services
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 920
+    startLine: 1116
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -3999,7 +3999,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Size
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 929
+    startLine: 1127
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -4038,7 +4038,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Starting
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 938
+    startLine: 1138
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -4077,7 +4077,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: StartingN
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 947
+    startLine: 1149
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -4116,7 +4116,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: StartType
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 956
+    startLine: 1160
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -4155,7 +4155,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: StaticScan
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 965
+    startLine: 1171
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -4194,7 +4194,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: StaticScanDesc
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 974
+    startLine: 1182
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -4233,7 +4233,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: StoreLocation
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 983
+    startLine: 1193
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -4272,7 +4272,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: StoreName
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 992
+    startLine: 1204
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -4311,7 +4311,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Subject
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 1001
+    startLine: 1215
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -4350,7 +4350,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SuccessParsed
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 1010
+    startLine: 1226
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -4389,7 +4389,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: TelemetryOptOut
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 1019
+    startLine: 1237
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -4428,7 +4428,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Type
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 1028
+    startLine: 1248
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -4467,7 +4467,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: UsageData
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 1037
+    startLine: 1259
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -4506,7 +4506,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Users
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 1046
+    startLine: 1270
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -4545,7 +4545,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Value
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 1055
+    startLine: 1281
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -4584,7 +4584,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: WelcomeBody
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 1064
+    startLine: 1292
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties
@@ -4623,7 +4623,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: WelcomeHeader
     path: ../Lib/Properties/Resources.Designer.cs
-    startLine: 1073
+    startLine: 1303
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Properties

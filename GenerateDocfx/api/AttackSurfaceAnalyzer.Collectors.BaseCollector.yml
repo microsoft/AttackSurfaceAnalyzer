@@ -35,7 +35,6 @@ items:
     content: 'public abstract class BaseCollector : PlatformRunnable'
     content.vb: >-
       Public MustInherit Class BaseCollector
-
           Implements PlatformRunnable
   inheritance:
   - System.Object
