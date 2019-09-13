@@ -44,7 +44,6 @@ items:
     content: 'public class FirewallObject : CollectObject'
     content.vb: >-
       Public Class FirewallObject
-
           Inherits CollectObject
   inheritance:
   - System.Object

@@ -45,14 +45,13 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         }
 
+        /// <summary>
+        /// Add a root to be collected
+        /// </summary>
+        /// <param name="root">The path to scan</param>
         public void AddRoot(string root)
         {
             roots.Add(root);
-        }
-
-        public void ClearRoots()
-        {
-            roots.Clear();
         }
 
         public override bool CanRunOnPlatform()
@@ -146,6 +145,13 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         }
 
+        /// <summary>
+        /// Converts a FileSystemInfo into a FileSystemObject by reading in data about the file
+        /// </summary>
+        /// <param name="fileInfo">A reference to a file on disk</param>
+        /// <param name="downloadCloud">If the file is hosted in the cloud, the user has the option to include cloud files or not.</param>
+        /// <param name="INCLUDE_CONTENT_HASH">If we should generate a hash of the file.</param>
+        /// <returns></returns>
         public static FileSystemObject FileSystemInfoToFileSystemObject(FileSystemInfo fileInfo, bool downloadCloud = false, bool INCLUDE_CONTENT_HASH = false)
         {
             FileSystemObject obj = null;

@@ -35,9 +35,7 @@ items:
     content: 'public class FileSystemCollector : BaseCollector, PlatformRunnable'
     content.vb: >-
       Public Class FileSystemCollector
-
           Inherits BaseCollector
-
           Implements PlatformRunnable
   inheritance:
   - System.Object

@@ -26,17 +26,17 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RegistryCollector
     path: ../Lib/Collectors/RegistryCollector.cs
-    startLine: 15
+    startLine: 18
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
+  summary: "\nCollects data from the local registry on Windows systems.\n"
+  example: []
   syntax:
     content: 'public class RegistryCollector : BaseCollector, PlatformRunnable'
     content.vb: >-
       Public Class RegistryCollector
-
           Inherits BaseCollector
-
           Implements PlatformRunnable
   inheritance:
   - System.Object
@@ -79,7 +79,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/RegistryCollector.cs
-    startLine: 29
+    startLine: 32
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -112,7 +112,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/RegistryCollector.cs
-    startLine: 31
+    startLine: 34
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -150,7 +150,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/RegistryCollector.cs
-    startLine: 33
+    startLine: 36
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -190,7 +190,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: AddRoot
     path: ../Lib/Collectors/RegistryCollector.cs
-    startLine: 43
+    startLine: 46
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -223,7 +223,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ClearRoots
     path: ../Lib/Collectors/RegistryCollector.cs
-    startLine: 48
+    startLine: 51
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -253,7 +253,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CanRunOnPlatform
     path: ../Lib/Collectors/RegistryCollector.cs
-    startLine: 53
+    startLine: 56
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -288,7 +288,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Execute
     path: ../Lib/Collectors/RegistryCollector.cs
-    startLine: 58
+    startLine: 61
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors

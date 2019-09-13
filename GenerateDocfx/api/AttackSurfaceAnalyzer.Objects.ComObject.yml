@@ -35,7 +35,6 @@ items:
     content: 'public class ComObject : CollectObject'
     content.vb: >-
       Public Class ComObject
-
           Inherits CollectObject
   inheritance:
   - System.Object

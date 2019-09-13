@@ -28,7 +28,6 @@ items:
     content: 'public class FileSystemResult : CompareResult'
     content.vb: >-
       Public Class FileSystemResult
-
           Inherits CompareResult
   inheritance:
   - System.Object

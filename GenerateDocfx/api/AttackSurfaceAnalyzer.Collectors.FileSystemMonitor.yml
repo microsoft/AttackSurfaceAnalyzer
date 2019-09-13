@@ -33,17 +33,17 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FileSystemMonitor
     path: ../Lib/Collectors/FileSystemMonitor.cs
-    startLine: 13
+    startLine: 16
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
+  summary: "\nActively monitors the filesystem for changes.\n"
+  example: []
   syntax:
     content: 'public class FileSystemMonitor : BaseMonitor, PlatformRunnable'
     content.vb: >-
       Public Class FileSystemMonitor
-
           Inherits BaseMonitor
-
           Implements PlatformRunnable
   inheritance:
   - System.Object
@@ -83,7 +83,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: defaultFilters
     path: ../Lib/Collectors/FileSystemMonitor.cs
-    startLine: 20
+    startLine: 23
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -118,7 +118,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: defaultFiltersWithAccessTime
     path: ../Lib/Collectors/FileSystemMonitor.cs
-    startLine: 28
+    startLine: 31
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -153,7 +153,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Start
     path: ../Lib/Collectors/FileSystemMonitor.cs
-    startLine: 34
+    startLine: 37
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -186,7 +186,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Stop
     path: ../Lib/Collectors/FileSystemMonitor.cs
-    startLine: 40
+    startLine: 43
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -219,7 +219,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CanRunOnPlatform
     path: ../Lib/Collectors/FileSystemMonitor.cs
-    startLine: 46
+    startLine: 49
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -254,7 +254,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Truncate
     path: ../Lib/Collectors/FileSystemMonitor.cs
-    startLine: 51
+    startLine: 54
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -287,7 +287,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/FileSystemMonitor.cs
-    startLine: 58
+    startLine: 61
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -324,7 +324,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/FileSystemMonitor.cs
-    startLine: 63
+    startLine: 66
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -363,7 +363,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: IsRunning
     path: ../Lib/Collectors/FileSystemMonitor.cs
-    startLine: 86
+    startLine: 89
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -395,7 +395,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: WriteChange
     path: ../Lib/Collectors/FileSystemMonitor.cs
-    startLine: 91
+    startLine: 94
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -428,7 +428,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: ChangeTypeToChangeType
     path: ../Lib/Collectors/FileSystemMonitor.cs
-    startLine: 137
+    startLine: 140
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -463,7 +463,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: WriteChange
     path: ../Lib/Collectors/FileSystemMonitor.cs
-    startLine: 154
+    startLine: 157
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -498,7 +498,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: WriteRename
     path: ../Lib/Collectors/FileSystemMonitor.cs
-    startLine: 180
+    startLine: 183
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -531,7 +531,7 @@ items:
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: SetCustomChangeHandler
     path: ../Lib/Collectors/FileSystemMonitor.cs
-    startLine: 249
+    startLine: 252
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors

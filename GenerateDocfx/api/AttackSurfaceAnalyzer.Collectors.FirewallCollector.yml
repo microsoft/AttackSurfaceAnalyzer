@@ -32,9 +32,7 @@ items:
     content: 'public class FirewallCollector : BaseCollector, PlatformRunnable'
     content.vb: >-
       Public Class FirewallCollector
-
           Inherits BaseCollector
-
           Implements PlatformRunnable
   inheritance:
   - System.Object

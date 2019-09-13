@@ -13,6 +13,9 @@ using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
+    /// <summary>
+    /// Collects data from the local registry on Windows systems.
+    /// </summary>
     public class RegistryCollector : BaseCollector
     {
         private List<RegistryHive> Hives;

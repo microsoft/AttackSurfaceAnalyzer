@@ -9,6 +9,9 @@ using System.Diagnostics;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
+    /// <summary>
+    /// Base class for all collectors.
+    /// </summary>
     public abstract class BaseCollector : PlatformRunnable
     {
         public string runId = null;

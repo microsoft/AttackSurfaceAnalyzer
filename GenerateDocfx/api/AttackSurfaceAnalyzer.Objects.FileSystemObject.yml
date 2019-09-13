@@ -41,7 +41,6 @@ items:
     content: 'public class FileSystemObject : CollectObject'
     content.vb: >-
       Public Class FileSystemObject
-
           Inherits CollectObject
   inheritance:
   - System.Object
