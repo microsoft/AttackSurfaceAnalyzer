@@ -21,33 +21,33 @@ steps:
 - task: DotNetCoreCLI@2
   displayName: 'Publish Tests'
   inputs:
-    projects: 'Asa/Asa.csproj'
-    arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)/Tests'
+    projects: 'AsaTests/AsaAsaTests.csproj'
+    arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)\Tests'
 - task: VSTest@2
   displayName: 'VsTest - testAssemblies'
   inputs:
     testAssemblyVer2: AsaTest.dll
-    searchFolder: '$(build.binariesdirectory)/Tests'
+    searchFolder: '$(build.binariesdirectory)\Tests'
 - task: DotNetCoreCLI@2
   displayName: 'Publish CLI Windows x86 to build staging'
   inputs:
     command: publish
     projects: 'Asa/Asa.csproj'
-    arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)/windows -r win-x86'
+    arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)\windows -r win-x86'
     zipAfterPublish: true
 - task: DotNetCoreCLI@2
   displayName: 'Publish CLI Linux x64 to build staging'
   inputs:
     command: publish
     projects: 'Asa/Asa.csproj'
-    arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)/linux -r linux-x64'
+    arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)\linux -r linux-x64'
     zipAfterPublish: true
 - task: DotNetCoreCLI@2
   displayName: 'Publish CLI MacOs x64 to build staging'
   inputs:
     command: publish
     projects: 'Asa/Asa.csproj'
-    arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)/macos -r osx-x64'
+    arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)\macos -r osx-x64'
     zipAfterPublish: true
 - task: securedevelopmentteam.vss-secure-development-tools.build-task-antimalware.AntiMalware@3
   displayName: 'AV Scan Artifacts'
