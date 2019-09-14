@@ -12,24 +12,21 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-      cd $(build.sourcesdirectory)
-      dir
-      cd AsaTests
-      dir
+- script: 'dotnet tool install -g nbgv'
+  displayName: 'Install GitVersioning'
+
 - task: DotNetCoreCLI@2
   displayName: 'Build Tests'
   inputs:
     projects: 'AsaTests/AsaTests.csproj'
     arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)/Tests'
+
 - task: VSTest@2
   displayName: 'VsTest - testAssemblies'
   inputs:
     testAssemblyVer2: AsaTest.dll
     searchFolder: '$(build.binariesdirectory)/Tests'
+
 - task: DotNetCoreCLI@2
   displayName: 'Publish ASA Windows x86 to build staging'
   inputs:
