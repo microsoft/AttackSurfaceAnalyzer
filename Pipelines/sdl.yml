@@ -1,8 +1,5 @@
 name: ASA SDL
 
-trigger:
-- master
-
 pool:
   vmImage: 'windows-latest'
 
