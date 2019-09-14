@@ -61,16 +61,12 @@ This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI 
     <EmbeddedResource Include="..\filters.json" Link="filters.json" />
     <Content Include="..\LICENSE.txt" Link="LICENSE.txt" />
     <Content Include="..\NOTICE.txt" Link="NOTICE.txt" />
-    <Content Include="..\PRIVACY.md">
-      <Link>PRIVACY.md</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\README.md">
-      <Link>README.md</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <EmbeddedResource Include="..\analyses.json">
       <Link>analyses.json</Link>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\PRIVACY.md" Link="PRIVACY.md" />
+    <None Include="..\README.md" Link="README.md" />
   </ItemGroup>
 </Project>
