@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <None Remove="asa.log.txt" />
+    <None Remove="asa.sqlite" />
   </ItemGroup>
 
   <ItemGroup>
@@ -14,14 +15,12 @@
     <Content Include="..\NOTICE.txt" Link="NOTICE.txt" />
   </ItemGroup>
 
-
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.6.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.7.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
   </ItemGroup>
-
 
   <ItemGroup>
     <ProjectReference Include="..\Lib\AsaLib.csproj" />
