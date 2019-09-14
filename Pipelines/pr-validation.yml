@@ -37,15 +37,15 @@ stages:
         vmImage: 'windows-latest'
     steps:
     - task: DotNetCoreCLI@2
-      displayName: 'Publish ASA Windows x86 to build staging'
+      displayName: 'Publish ASA Windows'
       inputs:
         command: publish
         projects: 'Asa/Asa.csproj'
-        arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)\windows -r win-x86'
+        arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)/windows -r win-x86'
         zipAfterPublish: true
 
     - task: DotNetCoreCLI@2
-      displayName: 'Publish ASA Linux x64 to build staging'
+      displayName: 'Publish ASA Linux'
       inputs:
           command: publish
           projects: 'Asa/Asa.csproj'
@@ -53,7 +53,7 @@ stages:
           zipAfterPublish: true
 
     - task: DotNetCoreCLI@2
-      displayName: 'Publish ASA Linux x64 to build staging'
+      displayName: 'Publish ASA macOS'
       inputs:
           command: publish
           projects: 'Asa/Asa.csproj'
