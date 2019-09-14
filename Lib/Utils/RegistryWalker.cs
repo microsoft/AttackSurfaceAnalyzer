@@ -15,13 +15,21 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             Stack<RegistryKey> keys = new Stack<RegistryKey>();
 
-            RegistryKey SearchKey = RegistryKey.OpenBaseKey(Hive, RegistryView.Default);
-            if (startingKey != null)
+            RegistryKey x86_View = RegistryKey.OpenBaseKey(Hive, RegistryView.Registry32);
+            if (x86_View != null)
             {
-                SearchKey = SearchKey.OpenSubKey(startingKey);
+                x86_View = x86_View.OpenSubKey(startingKey);
             }
 
-            keys.Push(SearchKey);
+            keys.Push(x86_View);
+
+            RegistryKey x64_View = RegistryKey.OpenBaseKey(Hive, RegistryView.Registry64);
+            if (x64_View != null)
+            {
+                x64_View = x64_View.OpenSubKey(startingKey);
+            }
+
+            keys.Push(x64_View);
 
             while (keys.Count > 0)
             {
