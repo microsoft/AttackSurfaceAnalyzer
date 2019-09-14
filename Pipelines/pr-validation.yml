@@ -12,16 +12,17 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+
 - task: DotNetCoreCLI@2
   displayName: 'Build Tests'
   inputs:
-    projects: 'AsaTests\AsaTests.csproj'
-    arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)\\Tests'
+    projects: 'AsaTests/AsaTests.csproj'
+    arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)/Tests'
 - task: VSTest@2
   displayName: 'VsTest - testAssemblies'
   inputs:
     testAssemblyVer2: AsaTest.dll
-    searchFolder: '$(build.binariesdirectory)\Tests'
+    searchFolder: '$(build.binariesdirectory)/Tests'
 - task: DotNetCoreCLI@2
   displayName: 'Publish ASA Windows x86 to build staging'
   inputs:
