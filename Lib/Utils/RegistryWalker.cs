@@ -16,7 +16,7 @@ namespace AttackSurfaceAnalyzer.Utils
             Stack<RegistryKey> keys = new Stack<RegistryKey>();
 
             RegistryKey x86_View = RegistryKey.OpenBaseKey(Hive, RegistryView.Registry32);
-            if (x86_View != null)
+            if (startingKey != null)
             {
                 x86_View = x86_View.OpenSubKey(startingKey);
             }
@@ -24,7 +24,7 @@ namespace AttackSurfaceAnalyzer.Utils
             keys.Push(x86_View);
 
             RegistryKey x64_View = RegistryKey.OpenBaseKey(Hive, RegistryView.Registry64);
-            if (x64_View != null)
+            if (startingKey != null)
             {
                 x64_View = x64_View.OpenSubKey(startingKey);
             }
