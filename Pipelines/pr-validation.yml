@@ -24,7 +24,7 @@ steps:
 - task: VSTest@2
   displayName: 'VsTest - testAssemblies'
   inputs:
-    testAssemblyVer2: AsaTest.dll
+    testAssemblyVer2: AsaTests.dll
     searchFolder: '$(build.binariesdirectory)/Tests'
 
 - task: DotNetCoreCLI@2
