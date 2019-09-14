@@ -1,0 +1,45 @@
+name: ASA SDL
+
+trigger:
+- master
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+- task: securedevelopmentteam.vss-secure-development-tools.build-task-credscan.CredScan@2
+  displayName: 'Run CredScan'
+  inputs:
+    scanFolder: Asa/wwwroot/js
+    debugMode: false
+
+- task: securedevelopmentteam.vss-secure-development-tools.build-task-semmle.Semmle@0
+  displayName: 'Run Semmle Asa'
+  inputs:
+    sourceCodeDirectory: Asa
+    cleanupBuildCommands: 'dotnet clean'
+    buildCommands: 'dotnet build'
+
+- task: securedevelopmentteam.vss-secure-development-tools.build-task-semmle.Semmle@0
+  displayName: 'Run Semmle (javascript)'
+  inputs:
+    sourceCodeDirectory: Asa/wwwroot
+    language: javascript
+
+- task: securedevelopmentteam.vss-secure-development-tools.build-task-report.SdtReport@1
+  displayName: 'Create Security Analysis Report'
+  inputs:
+    CredScan: true
+    Semmle: true
+    SemmleBreakOn: WarningAbove
+
+- task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
+  displayName: 'Component Detection'
+
+- task: msospo.ospo-extension.8d7f9abb-6896-461d-9e25-4f74ed65ddb2.notice@0
+  displayName: 'NOTICE File Generator'
