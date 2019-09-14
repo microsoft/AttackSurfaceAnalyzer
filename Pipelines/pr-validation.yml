@@ -11,7 +11,7 @@ variables:
 stages:
 - stage: Test
   jobs:
-  - job: Test Windows
+  - job: Test_Windows
     pool:
       vmImage: 'windows-latest'
     steps:
@@ -22,7 +22,7 @@ stages:
       displayName: 'Build Tests'
       inputs:
         projects: 'AsaTests/AsaTests.csproj'
-        arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/Tests'
+        arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)/Tests'
 
     - task: VSTest@2
       displayName: 'VsTest - testAssemblies'
@@ -32,42 +32,42 @@ stages:
 
 - stage: Build
   jobs:
-  - job: Build All Platforms
+  - job: Build_All_Platforms
     pool:
         vmImage: 'windows-latest'
-      steps:
-      - task: DotNetCoreCLI@2
-        displayName: 'Publish ASA Windows x86 to build staging'
-        inputs:
+    steps:
+    - task: DotNetCoreCLI@2
+      displayName: 'Publish ASA Windows'
+      inputs:
+        command: publish
+        projects: 'Asa/Asa.csproj'
+        arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)/windows -r win-x86'
+        zipAfterPublish: true
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Publish ASA Linux'
+      inputs:
           command: publish
           projects: 'Asa/Asa.csproj'
-          arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)\windows -r win-x86'
+          arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/linux -r linux-x64'
           zipAfterPublish: true
 
-      - task: DotNetCoreCLI@2
-        displayName: 'Publish ASA Linux x64 to build staging'
-        inputs:
-            command: publish
-            projects: 'Asa/Asa.csproj'
-            arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/linux -r linux-x64'
-            zipAfterPublish: true
+    - task: DotNetCoreCLI@2
+      displayName: 'Publish ASA macOS'
+      inputs:
+          command: publish
+          projects: 'Asa/Asa.csproj'
+          arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/macos -r osx-x64'
+          zipAfterPublish: true
 
-      - task: DotNetCoreCLI@2
-        displayName: 'Publish ASA Linux x64 to build staging'
-        inputs:
-            command: publish
-            projects: 'Asa/Asa.csproj'
-            arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/macos -r osx-x64'
-            zipAfterPublish: true
+    - task: securedevelopmentteam.vss-secure-development-tools.build-task-antimalware.AntiMalware@3
+      displayName: 'AV Scan Artifacts'
+      inputs:
+        FileDirPath: '$(build.artifactstagingdirectory)'
+        EnableServices: true
+        TreatSignatureUpdateFailureAs: Standard
 
-      - task: securedevelopmentteam.vss-secure-development-tools.build-task-antimalware.AntiMalware@3
-        displayName: 'AV Scan Artifacts'
-        inputs:
-          FileDirPath: '$(build.artifactstagingdirectory)'
-          EnableServices: true
-          TreatSignatureUpdateFailureAs: Standard
-
-      - task: PublishBuildArtifacts@1
-        displayName: 'Publish Artifact'
-        inputs:
-          PathtoPublish: '$(build.artifactstagingdirectory)'
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact'
+      inputs:
+        PathtoPublish: '$(build.artifactstagingdirectory)'
