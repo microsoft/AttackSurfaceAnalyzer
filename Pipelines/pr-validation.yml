@@ -33,38 +33,41 @@ stages:
 - stage: Build
   jobs:
   - job: Build All Platforms
-    - task: DotNetCoreCLI@2
-      displayName: 'Publish ASA Windows x86 to build staging'
-      inputs:
-        command: publish
-        projects: 'Asa/Asa.csproj'
-        arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)\windows -r win-x86'
-        zipAfterPublish: true
-
-    - task: DotNetCoreCLI@2
-      displayName: 'Publish ASA Linux x64 to build staging'
-      inputs:
+    pool:
+        vmImage: 'windows-latest'
+      steps:
+      - task: DotNetCoreCLI@2
+        displayName: 'Publish ASA Windows x86 to build staging'
+        inputs:
           command: publish
           projects: 'Asa/Asa.csproj'
-          arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/linux -r linux-x64'
+          arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)\windows -r win-x86'
           zipAfterPublish: true
 
-    - task: DotNetCoreCLI@2
-      displayName: 'Publish ASA Linux x64 to build staging'
-      inputs:
-          command: publish
-          projects: 'Asa/Asa.csproj'
-          arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/macos -r osx-x64'
-          zipAfterPublish: true
+      - task: DotNetCoreCLI@2
+        displayName: 'Publish ASA Linux x64 to build staging'
+        inputs:
+            command: publish
+            projects: 'Asa/Asa.csproj'
+            arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/linux -r linux-x64'
+            zipAfterPublish: true
 
-    - task: securedevelopmentteam.vss-secure-development-tools.build-task-antimalware.AntiMalware@3
-      displayName: 'AV Scan Artifacts'
-      inputs:
-        FileDirPath: '$(build.artifactstagingdirectory)'
-        EnableServices: true
-        TreatSignatureUpdateFailureAs: Standard
+      - task: DotNetCoreCLI@2
+        displayName: 'Publish ASA Linux x64 to build staging'
+        inputs:
+            command: publish
+            projects: 'Asa/Asa.csproj'
+            arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/macos -r osx-x64'
+            zipAfterPublish: true
 
-    - task: PublishBuildArtifacts@1
-      displayName: 'Publish Artifact'
-      inputs:
-        PathtoPublish: '$(build.artifactstagingdirectory)'
+      - task: securedevelopmentteam.vss-secure-development-tools.build-task-antimalware.AntiMalware@3
+        displayName: 'AV Scan Artifacts'
+        inputs:
+          FileDirPath: '$(build.artifactstagingdirectory)'
+          EnableServices: true
+          TreatSignatureUpdateFailureAs: Standard
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact'
+        inputs:
+          PathtoPublish: '$(build.artifactstagingdirectory)'
