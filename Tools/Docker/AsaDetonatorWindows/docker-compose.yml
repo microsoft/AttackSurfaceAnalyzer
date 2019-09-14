@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   chocotester:
-    container_name: chocotester
+    container_name: AsaDetonator
     build:
       context: .
       dockerfile: Dockerfile
