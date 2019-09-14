@@ -116,7 +116,7 @@ namespace AsaTests
                 // Start listening for client requests.
                 server.Start();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 Console.WriteLine("Failed to open port.");
             }
