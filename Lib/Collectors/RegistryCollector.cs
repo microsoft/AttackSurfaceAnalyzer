@@ -83,7 +83,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
 
                     Filter.IsFiltered(Helpers.GetPlatformString(), "Scan", "Registry", "Key", "Exclude", hive.ToString());
-                    var registryInfoEnumerable = RegistryWalker.WalkHive(hive, runId);
+                    var registryInfoEnumerable = RegistryWalker.WalkHive(hive);
                     try
                     {
                         Parallel.ForEach(registryInfoEnumerable,
