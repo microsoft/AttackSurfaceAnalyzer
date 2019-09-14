@@ -62,7 +62,7 @@ jobs:
         command: publish
         projects: 'Asa/Asa.csproj'
         arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/linux -r linux-x64'
-      zipAfterPublish: false
+        zipAfterPublish: true
 
   - task: DotNetCoreCLI@2
     displayName: 'Build Tests'
