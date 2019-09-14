@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FILETIME
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
@@ -58,7 +58,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: dwLowDateTime
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs
@@ -89,7 +89,7 @@ items:
   source:
     remote:
       path: Lib/Collectors/WindowsFileSystemUtils.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: dwHighDateTime
     path: ../Lib/Collectors/WindowsFileSystemUtils.cs

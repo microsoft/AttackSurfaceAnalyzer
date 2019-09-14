@@ -1,22 +1,20 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+using AttackSurfaceAnalyzer.Objects;
+using AttackSurfaceAnalyzer.Utils;
+using Microsoft.Win32;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Security.AccessControl;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using AttackSurfaceAnalyzer.Objects;
-using AttackSurfaceAnalyzer.Utils;
-using Microsoft.Data.Sqlite;
-using Microsoft.Win32;
-using Newtonsoft.Json;
-using Serilog;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
+    /// <summary>
+    /// Collects Com Objects referenced by the registry
+    /// </summary>
     public class ComObjectCollector : BaseCollector
     {
 
@@ -25,11 +23,19 @@ namespace AttackSurfaceAnalyzer.Collectors
             this.runId = RunId;
         }
 
+        /// <summary>
+        /// Com Objects only exist on Windows.
+        /// </summary>
+        /// <returns></returns>
         public override bool CanRunOnPlatform()
         {
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
         }
 
+        /// <summary>
+        /// Execute the Com Collector.  We collect the list of Com Objects registered in the registry
+        /// and then examine each binary on the disk they point to.
+        /// </summary>
         public override void Execute()
         {
 
@@ -41,8 +47,8 @@ namespace AttackSurfaceAnalyzer.Collectors
             _ = DatabaseManager.Transaction;
 
             RegistryKey SearchKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Default).OpenSubKey("SOFTWARE\\Classes\\CLSID");
-            
-            foreach(string SubKeyName in SearchKey.GetSubKeyNames())
+
+            foreach (string SubKeyName in SearchKey.GetSubKeyNames())
             {
                 try
                 {
@@ -108,11 +114,11 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                     DatabaseManager.Write(comObject, runId);
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     Log.Debug(e, "Couldn't parse {0}", SubKeyName);
                 }
-                
+
             }
 
             DatabaseManager.Commit();

@@ -1,22 +1,22 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+using AttackSurfaceAnalyzer.Objects;
+using AttackSurfaceAnalyzer.Utils;
+using Serilog;
 using System;
 using System.Collections.Generic;
-using System.DirectoryServices.AccountManagement;
 using System.IO;
 using System.Linq;
 using System.Management;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-using AttackSurfaceAnalyzer.Objects;
-using AttackSurfaceAnalyzer.Utils;
-using Microsoft.Data.Sqlite;
-using Newtonsoft.Json;
-using Serilog;
 
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
+    /// <summary>
+    /// Collects data about the local user and group accounts.
+    /// </summary>
     public class UserAccountCollector : BaseCollector
     {
         Dictionary<string, UserAccountObject> users = new Dictionary<string, UserAccountObject>();
@@ -32,51 +32,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
         }
 
-
-        /*
-         * Get Groups
-         * ObjectQuery query = new ObjectQuery("SELECT * FROM Win32_Group");
-
-ManagementObjectSearcher search = new ManagementObjectSearcher(query);
-
-using (ManagementObjectCollection results = search.Get())
-
-{
-
-   foreach (ManagementObject result in results)
-
-   {
-
-      Log.Information(result["Name"]);
-
-   };
-
-};
-
- 
-
-Once you have the groups you can enumerate the members this way:
-
- 
-
-
-Code Block
-using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUser"))
-
-{
-
-   foreach (ManagementObject user in users)
-
-   {
-
-      ManagementObject account = new ManagementObject(user["PartComponent"].ToString());
-
-      Log.Information(" " + account["Name"]);
-
-   };
-
-};
-*/
         public override void Execute()
         {
             Start();
@@ -127,7 +82,7 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
                         //Get the group details
                         if (!groups.ContainsKey(String.Format("{0}\\{1}", Environment.MachineName, groupName)))
                         {
-                            SelectQuery query = new SelectQuery("SELECT * FROM Win32_Group where Name='" + groupName + "'");
+                            SelectQuery query = new SelectQuery("SELECT * FROM Win32_Group where Name='" + groupName + "' AND Domain='" + Environment.MachineName + "'");
                             ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
 
                             ManagementObject groupManagementObject = default(ManagementObject);
@@ -249,8 +204,7 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
         }
 
         /// <summary>
-        /// Executes the OpenPortCollector on Linux. Calls out to the `ss`
-        /// command and parses the output, sending the output to the database.
+        /// Executes the User account collector on Linux. Reads /etc/passwd and /etc/shadow.
         /// </summary>
         private void ExecuteLinux()
         {
@@ -341,6 +295,9 @@ using (ManagementObjectCollection users = result.GetRelationships("Win32_GroupUs
             }
         }
 
+        /// <summary>
+        /// Gathers user account details on OS X. Uses dscacheutil.
+        /// </summary>
         private void ExecuteOsX()
         {
             Dictionary<string, GroupAccountObject> Groups = new Dictionary<string, GroupAccountObject>();

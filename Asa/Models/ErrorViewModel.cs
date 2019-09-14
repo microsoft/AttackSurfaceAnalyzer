@@ -1,5 +1,3 @@
-using System;
-
 namespace AttackSurfaceAnalyzer.Models
 {
     public class ErrorViewModel

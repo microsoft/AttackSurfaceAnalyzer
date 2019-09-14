@@ -1,13 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Reflection;
-using AttackSurfaceAnalyzer.Objects;
-using System.Collections.Generic;
-using Serilog;
-using System.Collections;
 using AttackSurfaceAnalyzer.Types;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace AttackSurfaceAnalyzer.Utils
 {

@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: Lib/Utils/RunManager.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: RunManager
     path: ../Lib/Utils/RunManager.cs
@@ -57,7 +57,7 @@ items:
   source:
     remote:
       path: Lib/Utils/RunManager.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Utils/RunManager.cs

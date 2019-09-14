@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Logger.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Logger
     path: ../Lib/Utils/Logger.cs
@@ -61,7 +61,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Logger.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Setup
     path: ../Lib/Utils/Logger.cs
@@ -93,7 +93,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Logger.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Setup
     path: ../Lib/Utils/Logger.cs
@@ -130,7 +130,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Logger.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Setup
     path: ../Lib/Utils/Logger.cs
@@ -169,7 +169,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Logger.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DebugException
     path: ../Lib/Utils/Logger.cs
@@ -204,7 +204,7 @@ items:
   source:
     remote:
       path: Lib/Utils/Logger.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: VerboseException
     path: ../Lib/Utils/Logger.cs

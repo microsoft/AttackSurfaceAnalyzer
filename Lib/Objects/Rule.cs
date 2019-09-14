@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.InteropServices;
-using AttackSurfaceAnalyzer.Objects;
+﻿using AttackSurfaceAnalyzer.Types;
 using Newtonsoft.Json;
-using AttackSurfaceAnalyzer.Types;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace AttackSurfaceAnalyzer.Objects
 {

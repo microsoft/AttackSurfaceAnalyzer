@@ -1,10 +1,20 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
     <ReleaseVersion>2.1-alpha</ReleaseVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="api\**" />
+    <EmbeddedResource Remove="api\**" />
+    <None Remove="api\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="log.txt" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="docfx.console" Version="2.45.0">

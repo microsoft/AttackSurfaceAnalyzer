@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DirectoryWalker.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: DirectoryWalker
     path: ../Lib/Utils/DirectoryWalker.cs
@@ -57,7 +57,7 @@ items:
   source:
     remote:
       path: Lib/Utils/DirectoryWalker.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: WalkDirectory
     path: ../Lib/Utils/DirectoryWalker.cs

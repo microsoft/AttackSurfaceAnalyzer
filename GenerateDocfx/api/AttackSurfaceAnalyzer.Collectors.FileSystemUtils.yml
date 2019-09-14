@@ -19,11 +19,11 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemUtils.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: FileSystemUtils
     path: ../Lib/Collectors/FileSystemUtils.cs
-    startLine: 14
+    startLine: 12
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -60,11 +60,11 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemUtils.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetFilePermissions
     path: ../Lib/Collectors/FileSystemUtils.cs
-    startLine: 16
+    startLine: 14
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -97,11 +97,11 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemUtils.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetFileOwner
     path: ../Lib/Collectors/FileSystemUtils.cs
-    startLine: 36
+    startLine: 34
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -134,11 +134,11 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemUtils.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetFileHash
     path: ../Lib/Collectors/FileSystemUtils.cs
-    startLine: 56
+    startLine: 54
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -171,11 +171,11 @@ items:
   source:
     remote:
       path: Lib/Collectors/FileSystemUtils.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetSignatureDetails
     path: ../Lib/Collectors/FileSystemUtils.cs
-    startLine: 75
+    startLine: 73
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors

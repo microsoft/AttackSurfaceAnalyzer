@@ -1,22 +1,20 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using System;
-using System.Collections.Generic;
 using AttackSurfaceAnalyzer.Objects;
+using AttackSurfaceAnalyzer.Types;
 using Microsoft.Data.Sqlite;
+using Mono.Unix;
 using Newtonsoft.Json;
 using Serilog;
-using Mono.Unix;
-using System.IO;
+using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Security.AccessControl;
-using AttackSurfaceAnalyzer.Types;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
     public static class DatabaseManager
     {
-        private static readonly string SQL_CREATE_RUNS = "create table if not exists runs (run_id text, file_system int, ports int, users int, services int, registry int, certificates int, type text, timestamp text, version text, platform text, unique(run_id))";
+        private static readonly string SQL_CREATE_RUNS = "create table if not exists runs (run_id text, file_system int, ports int, users int, services int, registry int, certificates int, firewall int, comobjects int, type text, timestamp text, version text, platform text, unique(run_id))";
         private static readonly string SQL_CREATE_FILE_MONITORED = "create table if not exists file_system_monitored (run_id text, row_key text, timestamp text, change_type int, path text, old_path text, name text, old_name text, extended_results text, notify_filters text, serialized text)";
 
         private static readonly string SQL_CREATE_COLLECT_RESULTS = "create table if not exists collect (run_id text, result_type text, row_key text, identity text, serialized text)";
@@ -32,7 +30,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private static readonly string SQL_CREATE_RESULTS = "create table if not exists results (base_run_id text, compare_run_id text, status text);";
 
-        private static readonly string SQL_CREATE_FINDINGS_RESULTS = "create table if not exists findings (comparison_id text, level text, result_type text, identity text, serialized text)";
+        private static readonly string SQL_CREATE_FINDINGS_RESULTS = "create table if not exists findings (comparison_id text, level int, result_type int, identity text, serialized text)";
 
         private static readonly string SQL_CREATE_FINDINGS_LEVEL_INDEX = "create index if not exists i_findings_level on findings(level)";
         private static readonly string SQL_CREATE_FINDINGS_RESULT_TYPE_INDEX = "create index if not exists i_findings_result_type on findings(result_type)";
@@ -67,7 +65,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private static readonly string PRAGMAS = "PRAGMA main.auto_vacuum = 1;";
 
-        private static readonly string SCHEMA_VERSION = "2";
+        private static readonly string SCHEMA_VERSION = "3";
 
         public static SqliteConnection Connection;
         public static SqliteConnection ReadOnlyConnection;
@@ -201,8 +199,8 @@ namespace AttackSurfaceAnalyzer.Utils
             using (var cmd = new SqliteCommand(SQL_INSERT_FINDINGS_RESULT, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
                 cmd.Parameters.AddWithValue("@comparison_id", Helpers.RunIdsToCompareId(obj.BaseRunId, obj.CompareRunId));
-                cmd.Parameters.AddWithValue("@result_type", obj.ResultType.ToString());
-                cmd.Parameters.AddWithValue("@level", obj.Analysis.ToString());
+                cmd.Parameters.AddWithValue("@result_type", obj.ResultType);
+                cmd.Parameters.AddWithValue("@level", obj.Analysis);
                 cmd.Parameters.AddWithValue("@identity", obj.Identity);
                 cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj));
                 cmd.ExecuteNonQuery();

@@ -18,11 +18,11 @@ items:
   source:
     remote:
       path: Lib/Collectors/CertificateCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CertificateCollector
     path: ../Lib/Collectors/CertificateCollector.cs
-    startLine: 18
+    startLine: 15
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -71,11 +71,11 @@ items:
   source:
     remote:
       path: Lib/Collectors/CertificateCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: .ctor
     path: ../Lib/Collectors/CertificateCollector.cs
-    startLine: 20
+    startLine: 17
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -104,11 +104,11 @@ items:
   source:
     remote:
       path: Lib/Collectors/CertificateCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: CanRunOnPlatform
     path: ../Lib/Collectors/CertificateCollector.cs
-    startLine: 25
+    startLine: 22
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -139,11 +139,11 @@ items:
   source:
     remote:
       path: Lib/Collectors/CertificateCollector.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: Execute
     path: ../Lib/Collectors/CertificateCollector.cs
-    startLine: 30
+    startLine: 27
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors

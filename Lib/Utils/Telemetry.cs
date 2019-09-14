@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.ApplicationInsights;
+﻿using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Data.Sqlite;
-using Microsoft.ApplicationInsights.DataContracts;
-using Serilog;
+using System;
+using System.Collections.Generic;
 
 namespace AttackSurfaceAnalyzer.Utils
 {

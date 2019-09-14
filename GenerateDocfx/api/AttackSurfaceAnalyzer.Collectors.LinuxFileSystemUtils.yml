@@ -16,11 +16,11 @@ items:
   source:
     remote:
       path: Lib/Collectors/LinuxFileSystemUtils.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: LinuxFileSystemUtils
     path: ../Lib/Collectors/LinuxFileSystemUtils.cs
-    startLine: 10
+    startLine: 9
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
@@ -57,11 +57,11 @@ items:
   source:
     remote:
       path: Lib/Collectors/LinuxFileSystemUtils.cs
-      branch: gfs/MergeCliGui
+      branch: gfs/UpdateGuiNewCollectors
       repo: https://github.com/Microsoft/AttackSurfaceAnalyzer.git
     id: GetFilePermissions
     path: ../Lib/Collectors/LinuxFileSystemUtils.cs
-    startLine: 13
+    startLine: 12
   assemblies:
   - AsaLib
   namespace: AttackSurfaceAnalyzer.Collectors
