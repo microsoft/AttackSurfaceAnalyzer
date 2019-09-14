@@ -1,3 +1,5 @@
+name: ASA SDL
+
 trigger:
 - master
 
