@@ -10,86 +10,86 @@ variables:
 
 jobs:
 - job: Windows
-    pool:
-      vmImage: 'windows-latest'
-    steps:
-    - script: 'dotnet tool install -g nbgv'
+  pool:
+    vmImage: 'windows-latest'
+  steps:
+  - script: 'dotnet tool install -g nbgv'
     displayName: 'Install GitVersioning'
-    
-    - task: DotNetCoreCLI@2
+  
+  - task: DotNetCoreCLI@2
     displayName: 'Publish ASA Windows x86 to build staging'
     inputs:
-        command: publish
-        projects: 'Asa/Asa.csproj'
-        arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)\windows -r win-x86'
-        zipAfterPublish: true
+      command: publish
+      projects: 'Asa/Asa.csproj'
+      arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)\windows -r win-x86'
+      zipAfterPublish: true
 
-    - task: DotNetCoreCLI@2
+  - task: DotNetCoreCLI@2
     displayName: 'Build Tests'
     inputs:
-        projects: 'AsaTests/AsaTests.csproj'
-        arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/Tests'
+      projects: 'AsaTests/AsaTests.csproj'
+      arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/Tests'
 
-    - task: VSTest@2
+  - task: VSTest@2
     displayName: 'VsTest - testAssemblies'
     inputs:
-        testAssemblyVer2: AsaTests.dll
-        searchFolder: '$(build.binariesdirectory)/Tests'
-        
-    - task: securedevelopmentteam.vss-secure-development-tools.build-task-antimalware.AntiMalware@3
+      testAssemblyVer2: AsaTests.dll
+      searchFolder: '$(build.binariesdirectory)/Tests'
+      
+  - task: securedevelopmentteam.vss-secure-development-tools.build-task-antimalware.AntiMalware@3
     displayName: 'AV Scan Artifacts'
     inputs:
-        FileDirPath: '$(build.artifactstagingdirectory)'
-        EnableServices: true
-        TreatSignatureUpdateFailureAs: Standard
+      FileDirPath: '$(build.artifactstagingdirectory)'
+      EnableServices: true
+      TreatSignatureUpdateFailureAs: Standard
 
-    - task: PublishBuildArtifacts@1
-    displayName: 'Publish Artifact'
-    inputs:
-        PathtoPublish: '$(build.artifactstagingdirectory)'
+  - task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact'
+  inputs:
+      PathtoPublish: '$(build.artifactstagingdirectory)'
 
 
 - job: Linux
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - script: 'dotnet tool install -g nbgv'
+  pool:
+    vmImage: 'ubuntu-latest'
+  steps:
+  - script: 'dotnet tool install -g nbgv'
     displayName: 'Install GitVersioning'
 
-    - task: DotNetCoreCLI@2
+  - task: DotNetCoreCLI@2
     displayName: 'Publish ASA Linux x64 to build staging'
     inputs:
         command: publish
         projects: 'Asa/Asa.csproj'
         arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/linux -r linux-x64'
-        zipAfterPublish: false
+      zipAfterPublish: false
 
-    - task: DotNetCoreCLI@2
+  - task: DotNetCoreCLI@2
     displayName: 'Build Tests'
     inputs:
         projects: 'AsaTests/AsaTests.csproj'
         arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)/Tests'
 
-    - task: VSTest@2
+  - task: VSTest@2
     displayName: 'VsTest - testAssemblies'
     inputs:
         testAssemblyVer2: AsaTests.dll
         searchFolder: '$(build.binariesdirectory)/Tests'
 
-    - task: PublishBuildArtifacts@1
+  - task: PublishBuildArtifacts@1
     displayName: 'Publish Artifact'
     inputs:
         PathtoPublish: '$(build.artifactstagingdirectory)'
 
 
 - job: MacOS
-    pool:
-      vmImage: 'macOS-latest'
-    steps:
-    - script: 'dotnet tool install -g nbgv'
+  pool:
+    vmImage: 'macOS-latest'
+  steps:
+  - script: 'dotnet tool install -g nbgv'
     displayName: 'Install GitVersioning'
 
-    - task: DotNetCoreCLI@2
+  - task: DotNetCoreCLI@2
     displayName: 'Publish ASA Linux x64 to build staging'
     inputs:
         command: publish
@@ -97,19 +97,19 @@ jobs:
         arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/macos -r osx-x64'
         zipAfterPublish: true
 
-    - task: DotNetCoreCLI@2
+  - task: DotNetCoreCLI@2
     displayName: 'Build Tests'
     inputs:
         projects: 'AsaTests/AsaTests.csproj'
         arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)/Tests'
 
-    - task: VSTest@2
+  - task: VSTest@2
     displayName: 'VsTest - testAssemblies'
     inputs:
         testAssemblyVer2: AsaTests.dll
         searchFolder: '$(build.binariesdirectory)/Tests'
 
-    - task: PublishBuildArtifacts@1
+  - task: PublishBuildArtifacts@1
     displayName: 'Publish Artifact'
     inputs:
         PathtoPublish: '$(build.artifactstagingdirectory)'
