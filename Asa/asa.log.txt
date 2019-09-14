@@ -1,2 +1,0 @@
-2019-09-09 15:29:14.379 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.62-alpha+8303f291f2
-2019-09-09 15:33:36.311 -07:00 [INF] AttackSurfaceAnalyzerCli v.2.1.62-alpha+8303f291f2
