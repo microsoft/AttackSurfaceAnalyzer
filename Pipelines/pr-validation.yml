@@ -25,7 +25,7 @@ stages:
         arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)/Tests'
 
     - task: VSTest@2
-      displayName: 'VsTest - testAssemblies'
+      displayName: 'Run Tests'
       inputs:
         testAssemblyVer2: AsaTests.dll
         searchFolder: '$(build.binariesdirectory)/Tests'
