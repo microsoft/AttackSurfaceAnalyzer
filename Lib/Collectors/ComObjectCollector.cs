@@ -46,8 +46,26 @@ namespace AttackSurfaceAnalyzer.Collectors
             Start();
             _ = DatabaseManager.Transaction;
 
+            // Parse system Com Objects
             RegistryKey SearchKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Default).OpenSubKey("SOFTWARE\\Classes\\CLSID");
+            ParseComObjects(SearchKey);
 
+            // Parse user Com Objects
+            SearchKey = RegistryKey.OpenBaseKey(RegistryHive.Users, RegistryView.Default);
+            foreach (string subkeyName in SearchKey.GetSubKeyNames())
+            {
+                if (subkeyName.EndsWith("Classes"))
+                {
+                    SearchKey = SearchKey.OpenSubKey(subkeyName).OpenSubKey("CLSID");
+                    ParseComObjects(SearchKey);
+                }
+            }
+
+            DatabaseManager.Commit();
+            Stop();
+        }
+
+        public void ParseComObjects(RegistryKey SearchKey) { 
             foreach (string SubKeyName in SearchKey.GetSubKeyNames())
             {
                 try
@@ -120,9 +138,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
 
             }
-
-            DatabaseManager.Commit();
-            Stop();
         }
     }
 }
