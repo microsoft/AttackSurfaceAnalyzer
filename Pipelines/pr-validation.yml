@@ -11,7 +11,7 @@ variables:
 stages:
 - stage: Test
   jobs:
-  - job: Test Windows
+  - job: Test_Windows
     pool:
       vmImage: 'windows-latest'
     steps:
@@ -32,7 +32,7 @@ stages:
 
 - stage: Build
   jobs:
-  - job: Build All Platforms
+  - job: Build_All_Platforms
     pool:
         vmImage: 'windows-latest'
     steps:
