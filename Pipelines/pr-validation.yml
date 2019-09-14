@@ -22,7 +22,7 @@ stages:
       displayName: 'Build Tests'
       inputs:
         projects: 'AsaTests/AsaTests.csproj'
-        arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/Tests'
+        arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)/Tests'
 
     - task: VSTest@2
       displayName: 'VsTest - testAssemblies'
