@@ -66,6 +66,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         public void ParseComObjects(RegistryKey SearchKey) { 
+            if (SearchKey == null) { return; }
             foreach (string SubKeyName in SearchKey.GetSubKeyNames())
             {
                 try
