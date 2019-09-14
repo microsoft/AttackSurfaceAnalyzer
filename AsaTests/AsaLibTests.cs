@@ -56,7 +56,6 @@ namespace AsaTests
             fsc.Execute();
 
             BaseCompare bc = new BaseCompare();
-            var watch = System.Diagnostics.Stopwatch.StartNew();
             if (!bc.TryCompare(FirstRunId, SecondRunId))
             {
                 Assert.Fail();
@@ -117,7 +116,7 @@ namespace AsaTests
                 // Start listening for client requests.
                 server.Start();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 Console.WriteLine("Failed to open port.");
             }
@@ -128,7 +127,6 @@ namespace AsaTests
             server.Stop();
 
             BaseCompare bc = new BaseCompare();
-            var watch = System.Diagnostics.Stopwatch.StartNew();
             if (!bc.TryCompare(FirstRunId, SecondRunId))
             {
                 Assert.Fail();
@@ -165,7 +163,6 @@ namespace AsaTests
                 result = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--remove", "/bin/bash");
 
                 BaseCompare bc = new BaseCompare();
-                var watch = System.Diagnostics.Stopwatch.StartNew();
                 if (!bc.TryCompare(FirstRunId, SecondRunId))
                 {
                     Assert.Fail();
@@ -203,7 +200,6 @@ namespace AsaTests
                 result = ExternalCommandRunner.RunExternalCommand("iptables", "-D INPUT -p tcp --dport 19999 -j DROP");
 
                 BaseCompare bc = new BaseCompare();
-                var watch = System.Diagnostics.Stopwatch.StartNew();
                 if (!bc.TryCompare(FirstRunId, SecondRunId))
                 {
                     Assert.Fail();
@@ -218,6 +214,9 @@ namespace AsaTests
             }
         }
 
+        /// <summary>
+        /// Does not require administrator.
+        /// </summary>
         [TestMethod]
         public void TestRegistryCollectorWindows()
         {
@@ -230,11 +229,12 @@ namespace AsaTests
 
                 var rc = new RegistryCollector(FirstRunId, new List<RegistryHive>() { RegistryHive.CurrentUser });
                 rc.Execute();
+
+                // Create a registry key
                 var name = System.Guid.NewGuid().ToString().Substring(0, 10);
                 var value = System.Guid.NewGuid().ToString().Substring(0, 10);
                 var value2 = System.Guid.NewGuid().ToString().Substring(0, 10);
 
-                // Create a registry key
                 RegistryKey key;
                 key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(name);
                 key.SetValue(value, value2);
@@ -247,7 +247,6 @@ namespace AsaTests
                 Microsoft.Win32.Registry.CurrentUser.DeleteSubKey(name);
 
                 BaseCompare bc = new BaseCompare();
-                var watch = System.Diagnostics.Stopwatch.StartNew();
                 if (!bc.TryCompare(FirstRunId, SecondRunId))
                 {
                     Assert.Fail();
@@ -292,7 +291,6 @@ namespace AsaTests
                 ExternalCommandRunner.RunExternalCommand("sc.exe", cmd);
 
                 BaseCompare bc = new BaseCompare();
-                var watch = System.Diagnostics.Stopwatch.StartNew();
                 if (!bc.TryCompare(FirstRunId, SecondRunId))
                 {
                     Assert.Fail();
@@ -307,6 +305,9 @@ namespace AsaTests
             }
         }
 
+        /// <summary>
+        /// Requires admin.
+        /// </summary>
         [TestMethod]
         public void TestComObjectCollector()
         {
@@ -334,11 +335,15 @@ namespace AsaTests
             }
         }
 
+        /// <summary>
+        /// Requires Administrator Priviledges.
+        /// </summary>
         [TestMethod]
         public void TestUserCollectorWindows()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
+                Assert.IsTrue(Helpers.IsAdmin());
                 Setup();
 
                 var FirstRunId = "TestUserCollector-1";
@@ -361,7 +366,6 @@ namespace AsaTests
                 ExternalCommandRunner.RunExternalCommand("net", cmd);
 
                 BaseCompare bc = new BaseCompare();
-                var watch = System.Diagnostics.Stopwatch.StartNew();
                 if (!bc.TryCompare(FirstRunId, SecondRunId))
                 {
                     Assert.Fail();
@@ -380,6 +384,7 @@ namespace AsaTests
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
+                Assert.IsTrue(Helpers.IsAdmin());
                 Setup();
                 var FirstRunId = "TestFirewallCollector-1";
                 var SecondRunId = "TestFirewallCollector-2";
@@ -419,7 +424,6 @@ namespace AsaTests
                 }
 
                 BaseCompare bc = new BaseCompare();
-                var watch = System.Diagnostics.Stopwatch.StartNew();
                 if (!bc.TryCompare(FirstRunId, SecondRunId))
                 {
                     Assert.Fail();

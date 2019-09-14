@@ -36,14 +36,10 @@
             "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Services\\\\BTHPORT\\\\Parameters",
             "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Services\\\\PolicyAgent\\\\Parameters",
             "^HKEY_CURRENT_USER\\\\Software\\\\Classes\\\\Local Settings\\\\MuiCache",
-            "^HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\Microsoft\\\\Windows\\\\Windows Error Reporting"
+            "^HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\Microsoft\\\\Windows\\\\Windows Error Reporting",
+            "^HKEY_CLASSES_ROOT\\\\VirtualStore\\\\MACHINE\\\\SOFTWARE\\\\WOW6432Node\\\\Microsoft\\\\IdentityCRL"
           ]
         },
-        "Hive": {
-          "Exclude": [
-            "ClassesRoot"
-          ]
-        }
       },
       "File": {
         "Path": {
