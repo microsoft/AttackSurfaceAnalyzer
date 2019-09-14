@@ -3,18 +3,6 @@ name: ASA PR Validation
 trigger:
 - master
 
-pool:
-  name: 'windows'
-  
-
-pool:
-  name: 'linux'
-  vmImage: 'ubuntu-latest'
-
-pool:
-  name: 'macos'
-  vmImage: 'macOS-latest'
-
 variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
