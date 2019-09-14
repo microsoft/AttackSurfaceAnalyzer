@@ -44,8 +44,8 @@ jobs:
       TreatSignatureUpdateFailureAs: Standard
 
   - task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact'
-  inputs:
+    displayName: 'Publish Artifact'
+    inputs:
       PathtoPublish: '$(build.artifactstagingdirectory)'
 
 
