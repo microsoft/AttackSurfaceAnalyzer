@@ -244,19 +244,6 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Collectors.BaseMonitor
   fullName: AttackSurfaceAnalyzer.Collectors.BaseMonitor
   nameWithType: BaseMonitor
-- uid: AttackSurfaceAnalyzer.Collectors.BaseMonitor.#ctor
-  name: BaseMonitor()
-  href: api/AttackSurfaceAnalyzer.Collectors.BaseMonitor.html#AttackSurfaceAnalyzer_Collectors_BaseMonitor__ctor
-  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseMonitor.#ctor
-  fullName: AttackSurfaceAnalyzer.Collectors.BaseMonitor.BaseMonitor()
-  nameWithType: BaseMonitor.BaseMonitor()
-- uid: AttackSurfaceAnalyzer.Collectors.BaseMonitor.#ctor*
-  name: BaseMonitor
-  href: api/AttackSurfaceAnalyzer.Collectors.BaseMonitor.html#AttackSurfaceAnalyzer_Collectors_BaseMonitor__ctor_
-  commentId: Overload:AttackSurfaceAnalyzer.Collectors.BaseMonitor.#ctor
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Collectors.BaseMonitor.BaseMonitor
-  nameWithType: BaseMonitor.BaseMonitor
 - uid: AttackSurfaceAnalyzer.Collectors.BaseMonitor._running
   name: _running
   href: api/AttackSurfaceAnalyzer.Collectors.BaseMonitor.html#AttackSurfaceAnalyzer_Collectors_BaseMonitor__running
@@ -366,6 +353,45 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.CertificateCollector.Execute
   nameWithType: CertificateCollector.Execute
+- uid: AttackSurfaceAnalyzer.Collectors.CertificateCollector.ExecuteLinux
+  name: ExecuteLinux()
+  href: api/AttackSurfaceAnalyzer.Collectors.CertificateCollector.html#AttackSurfaceAnalyzer_Collectors_CertificateCollector_ExecuteLinux
+  commentId: M:AttackSurfaceAnalyzer.Collectors.CertificateCollector.ExecuteLinux
+  fullName: AttackSurfaceAnalyzer.Collectors.CertificateCollector.ExecuteLinux()
+  nameWithType: CertificateCollector.ExecuteLinux()
+- uid: AttackSurfaceAnalyzer.Collectors.CertificateCollector.ExecuteLinux*
+  name: ExecuteLinux
+  href: api/AttackSurfaceAnalyzer.Collectors.CertificateCollector.html#AttackSurfaceAnalyzer_Collectors_CertificateCollector_ExecuteLinux_
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.CertificateCollector.ExecuteLinux
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Collectors.CertificateCollector.ExecuteLinux
+  nameWithType: CertificateCollector.ExecuteLinux
+- uid: AttackSurfaceAnalyzer.Collectors.CertificateCollector.ExecuteMacOs
+  name: ExecuteMacOs()
+  href: api/AttackSurfaceAnalyzer.Collectors.CertificateCollector.html#AttackSurfaceAnalyzer_Collectors_CertificateCollector_ExecuteMacOs
+  commentId: M:AttackSurfaceAnalyzer.Collectors.CertificateCollector.ExecuteMacOs
+  fullName: AttackSurfaceAnalyzer.Collectors.CertificateCollector.ExecuteMacOs()
+  nameWithType: CertificateCollector.ExecuteMacOs()
+- uid: AttackSurfaceAnalyzer.Collectors.CertificateCollector.ExecuteMacOs*
+  name: ExecuteMacOs
+  href: api/AttackSurfaceAnalyzer.Collectors.CertificateCollector.html#AttackSurfaceAnalyzer_Collectors_CertificateCollector_ExecuteMacOs_
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.CertificateCollector.ExecuteMacOs
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Collectors.CertificateCollector.ExecuteMacOs
+  nameWithType: CertificateCollector.ExecuteMacOs
+- uid: AttackSurfaceAnalyzer.Collectors.CertificateCollector.ExecuteWindows
+  name: ExecuteWindows()
+  href: api/AttackSurfaceAnalyzer.Collectors.CertificateCollector.html#AttackSurfaceAnalyzer_Collectors_CertificateCollector_ExecuteWindows
+  commentId: M:AttackSurfaceAnalyzer.Collectors.CertificateCollector.ExecuteWindows
+  fullName: AttackSurfaceAnalyzer.Collectors.CertificateCollector.ExecuteWindows()
+  nameWithType: CertificateCollector.ExecuteWindows()
+- uid: AttackSurfaceAnalyzer.Collectors.CertificateCollector.ExecuteWindows*
+  name: ExecuteWindows
+  href: api/AttackSurfaceAnalyzer.Collectors.CertificateCollector.html#AttackSurfaceAnalyzer_Collectors_CertificateCollector_ExecuteWindows_
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.CertificateCollector.ExecuteWindows
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Collectors.CertificateCollector.ExecuteWindows
+  nameWithType: CertificateCollector.ExecuteWindows
 - uid: AttackSurfaceAnalyzer.Collectors.ComObjectCollector
   name: ComObjectCollector
   href: api/AttackSurfaceAnalyzer.Collectors.ComObjectCollector.html
@@ -456,19 +482,6 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.CanRunOnPlatform
   nameWithType: FileSystemCollector.CanRunOnPlatform
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.ClearRoots
-  name: ClearRoots()
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html#AttackSurfaceAnalyzer_Collectors_FileSystemCollector_ClearRoots
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemCollector.ClearRoots
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.ClearRoots()
-  nameWithType: FileSystemCollector.ClearRoots()
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.ClearRoots*
-  name: ClearRoots
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html#AttackSurfaceAnalyzer_Collectors_FileSystemCollector_ClearRoots_
-  commentId: Overload:AttackSurfaceAnalyzer.Collectors.FileSystemCollector.ClearRoots
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.ClearRoots
-  nameWithType: FileSystemCollector.ClearRoots
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.Execute
   name: Execute()
   href: api/AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html#AttackSurfaceAnalyzer_Collectors_FileSystemCollector_Execute
@@ -761,6 +774,45 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.FirewallCollector.Execute
   nameWithType: FirewallCollector.Execute
+- uid: AttackSurfaceAnalyzer.Collectors.FirewallCollector.ExecuteLinux
+  name: ExecuteLinux()
+  href: api/AttackSurfaceAnalyzer.Collectors.FirewallCollector.html#AttackSurfaceAnalyzer_Collectors_FirewallCollector_ExecuteLinux
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FirewallCollector.ExecuteLinux
+  fullName: AttackSurfaceAnalyzer.Collectors.FirewallCollector.ExecuteLinux()
+  nameWithType: FirewallCollector.ExecuteLinux()
+- uid: AttackSurfaceAnalyzer.Collectors.FirewallCollector.ExecuteLinux*
+  name: ExecuteLinux
+  href: api/AttackSurfaceAnalyzer.Collectors.FirewallCollector.html#AttackSurfaceAnalyzer_Collectors_FirewallCollector_ExecuteLinux_
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.FirewallCollector.ExecuteLinux
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Collectors.FirewallCollector.ExecuteLinux
+  nameWithType: FirewallCollector.ExecuteLinux
+- uid: AttackSurfaceAnalyzer.Collectors.FirewallCollector.ExecuteMacOs
+  name: ExecuteMacOs()
+  href: api/AttackSurfaceAnalyzer.Collectors.FirewallCollector.html#AttackSurfaceAnalyzer_Collectors_FirewallCollector_ExecuteMacOs
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FirewallCollector.ExecuteMacOs
+  fullName: AttackSurfaceAnalyzer.Collectors.FirewallCollector.ExecuteMacOs()
+  nameWithType: FirewallCollector.ExecuteMacOs()
+- uid: AttackSurfaceAnalyzer.Collectors.FirewallCollector.ExecuteMacOs*
+  name: ExecuteMacOs
+  href: api/AttackSurfaceAnalyzer.Collectors.FirewallCollector.html#AttackSurfaceAnalyzer_Collectors_FirewallCollector_ExecuteMacOs_
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.FirewallCollector.ExecuteMacOs
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Collectors.FirewallCollector.ExecuteMacOs
+  nameWithType: FirewallCollector.ExecuteMacOs
+- uid: AttackSurfaceAnalyzer.Collectors.FirewallCollector.ExecuteWindows
+  name: ExecuteWindows()
+  href: api/AttackSurfaceAnalyzer.Collectors.FirewallCollector.html#AttackSurfaceAnalyzer_Collectors_FirewallCollector_ExecuteWindows
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FirewallCollector.ExecuteWindows
+  fullName: AttackSurfaceAnalyzer.Collectors.FirewallCollector.ExecuteWindows()
+  nameWithType: FirewallCollector.ExecuteWindows()
+- uid: AttackSurfaceAnalyzer.Collectors.FirewallCollector.ExecuteWindows*
+  name: ExecuteWindows
+  href: api/AttackSurfaceAnalyzer.Collectors.FirewallCollector.html#AttackSurfaceAnalyzer_Collectors_FirewallCollector_ExecuteWindows_
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.FirewallCollector.ExecuteWindows
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Collectors.FirewallCollector.ExecuteWindows
+  nameWithType: FirewallCollector.ExecuteWindows
 - uid: AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils
   name: LinuxFileSystemUtils
   href: api/AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils.html
@@ -1043,6 +1095,45 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.ServiceCollector.Execute
   nameWithType: ServiceCollector.Execute
+- uid: AttackSurfaceAnalyzer.Collectors.ServiceCollector.ExecuteLinux
+  name: ExecuteLinux()
+  href: api/AttackSurfaceAnalyzer.Collectors.ServiceCollector.html#AttackSurfaceAnalyzer_Collectors_ServiceCollector_ExecuteLinux
+  commentId: M:AttackSurfaceAnalyzer.Collectors.ServiceCollector.ExecuteLinux
+  fullName: AttackSurfaceAnalyzer.Collectors.ServiceCollector.ExecuteLinux()
+  nameWithType: ServiceCollector.ExecuteLinux()
+- uid: AttackSurfaceAnalyzer.Collectors.ServiceCollector.ExecuteLinux*
+  name: ExecuteLinux
+  href: api/AttackSurfaceAnalyzer.Collectors.ServiceCollector.html#AttackSurfaceAnalyzer_Collectors_ServiceCollector_ExecuteLinux_
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.ServiceCollector.ExecuteLinux
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Collectors.ServiceCollector.ExecuteLinux
+  nameWithType: ServiceCollector.ExecuteLinux
+- uid: AttackSurfaceAnalyzer.Collectors.ServiceCollector.ExecuteMacOs
+  name: ExecuteMacOs()
+  href: api/AttackSurfaceAnalyzer.Collectors.ServiceCollector.html#AttackSurfaceAnalyzer_Collectors_ServiceCollector_ExecuteMacOs
+  commentId: M:AttackSurfaceAnalyzer.Collectors.ServiceCollector.ExecuteMacOs
+  fullName: AttackSurfaceAnalyzer.Collectors.ServiceCollector.ExecuteMacOs()
+  nameWithType: ServiceCollector.ExecuteMacOs()
+- uid: AttackSurfaceAnalyzer.Collectors.ServiceCollector.ExecuteMacOs*
+  name: ExecuteMacOs
+  href: api/AttackSurfaceAnalyzer.Collectors.ServiceCollector.html#AttackSurfaceAnalyzer_Collectors_ServiceCollector_ExecuteMacOs_
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.ServiceCollector.ExecuteMacOs
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Collectors.ServiceCollector.ExecuteMacOs
+  nameWithType: ServiceCollector.ExecuteMacOs
+- uid: AttackSurfaceAnalyzer.Collectors.ServiceCollector.ExecuteWindows
+  name: ExecuteWindows()
+  href: api/AttackSurfaceAnalyzer.Collectors.ServiceCollector.html#AttackSurfaceAnalyzer_Collectors_ServiceCollector_ExecuteWindows
+  commentId: M:AttackSurfaceAnalyzer.Collectors.ServiceCollector.ExecuteWindows
+  fullName: AttackSurfaceAnalyzer.Collectors.ServiceCollector.ExecuteWindows()
+  nameWithType: ServiceCollector.ExecuteWindows()
+- uid: AttackSurfaceAnalyzer.Collectors.ServiceCollector.ExecuteWindows*
+  name: ExecuteWindows
+  href: api/AttackSurfaceAnalyzer.Collectors.ServiceCollector.html#AttackSurfaceAnalyzer_Collectors_ServiceCollector_ExecuteWindows_
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.ServiceCollector.ExecuteWindows
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Collectors.ServiceCollector.ExecuteWindows
+  nameWithType: ServiceCollector.ExecuteWindows
 - uid: AttackSurfaceAnalyzer.Collectors.UserAccountCollector
   name: UserAccountCollector
   href: api/AttackSurfaceAnalyzer.Collectors.UserAccountCollector.html
