@@ -41,8 +41,8 @@ stages:
       inputs:
         command: publish
         projects: 'Asa/Asa.csproj'
-        arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)/windows -r win-x86'
-        zipAfterPublish: true
+        arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/windows -r win-x86'
+        zipAfterPublish: false
 
     - task: DotNetCoreCLI@2
       displayName: 'Publish ASA Linux'
@@ -50,7 +50,7 @@ stages:
           command: publish
           projects: 'Asa/Asa.csproj'
           arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/linux -r linux-x64'
-          zipAfterPublish: true
+          zipAfterPublish: false
 
     - task: DotNetCoreCLI@2
       displayName: 'Publish ASA macOS'
@@ -58,7 +58,7 @@ stages:
           command: publish
           projects: 'Asa/Asa.csproj'
           arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/macos -r osx-x64'
-          zipAfterPublish: true
+          zipAfterPublish: false
 
     - task: securedevelopmentteam.vss-secure-development-tools.build-task-antimalware.AntiMalware@3
       displayName: 'AV Scan Artifacts'
