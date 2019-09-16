@@ -25,7 +25,12 @@ Start-Sleep -Seconds 1
 # Sleep until finished or timeout
 while ($job.State -eq "Running" -and $jobTimer.Elapsed.TotalSeconds -le $Timeout) {
     Start-Sleep -Seconds 1
+    $logEntry = Receive-Job $job
+    if ($logEntry.length -gt 0){
+        foreach($line in $logEntry){
+            Write-Host $line
+        }
+        $logEntry | Out-File C:\output\$RunName.log -Append
+    }
 }
 
-$receipt = Receive-Job -Job $job
-$receipt | Out-File C:\output\$RunName.log -Append

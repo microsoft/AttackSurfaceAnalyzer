@@ -4,6 +4,7 @@ foreach($line in Get-Content C:\Users\Gstoc\Documents\GitHub\AttackSurfaceAnalyz
     Add-Content D:\input\Install.ps1 "choco install $($line) -fy"
     Clear-Content D:\input\Uninstall.ps1
     Add-Content D:\input\Uninstall.ps1 "choco uninstall $($line) -fy"
+    Clear-Content D:\input\RunName
     Add-Content D:\input\RunName "$($line)"
     docker container rm AsaDetonator
     docker-compose up --build
