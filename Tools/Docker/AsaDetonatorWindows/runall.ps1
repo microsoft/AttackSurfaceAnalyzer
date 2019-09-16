@@ -1,4 +1,4 @@
-foreach($line in Get-Content C:\Users\Gstoc\Documents\GitHub\AttackSurfaceAnalyzer\Tools\Docker\chocolist.txt) {
+foreach($line in Get-Content C:\Users\Gstoc\Documents\GitHub\AttackSurfaceAnalyzer\Tools\Docker\AsaDetonatorWindows\chocolist.txt) {
     Write-Host "$line"
     Clear-Content D:\input\Install.ps1
     Add-Content D:\input\Install.ps1 "choco install $($line) -fy"

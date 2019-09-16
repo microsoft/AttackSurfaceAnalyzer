@@ -4,17 +4,18 @@ $Timeout = 1800
 $RunName = Get-Content C:\input\RunName
 
 $ScriptBlock = {
-    param($line) 
+    param($RunName) 
     C:\Asa\Asa.exe collect -a --runid "$($RunName):BeforeInstall" --databasefilename "$($RunName).sqlite"
     C:\input\Install.ps1
     C:\Asa\Asa.exe collect -a --runid "$($RunName):AfterInstall" --databasefilename "$($RunName).sqlite"
     C:\input\Uninstall.ps1
     C:\Asa\Asa.exe collect -a --runid "$($RunName):AfterUninstall" --databasefilename "$($RunName).sqlite"
-    C:\Asa\Asa.exe export-collect --firstrunid "$($RunName):BeforeInstall" --secondrunid "$($RunName):AfterInstall" --databasefilename "$($line).sqlite" --outputpath C:\output
-    C:\Asa\Asa.exe export-collect --firstrunid "$($RunName):BeforeInstall" --secondrunid "$($RunName):AfterUninstall" --databasefilename "$($line).sqlite" --outputpath C:\output
-    C:\Asa\Asa.exe export-collect --firstrunid "$($RunName):AfterInstall" --secondrunid "$($RunName):AfterUninstall" --databasefilename "$($line).sqlite" --outputpath C:\output
+    C:\Asa\Asa.exe export-collect --firstrunid "$($RunName):BeforeInstall" --secondrunid "$($RunName):AfterInstall" --databasefilename "$($RunName).sqlite" --outputpath C:\output
+    C:\Asa\Asa.exe export-collect --firstrunid "$($RunName):BeforeInstall" --secondrunid "$($RunName):AfterUninstall" --databasefilename "$($RunName).sqlite" --outputpath C:\output
+    C:\Asa\Asa.exe export-collect --firstrunid "$($RunName):AfterInstall" --secondrunid "$($RunName):AfterUninstall" --databasefilename "$($RunName).sqlite" --outputpath C:\output
 }
 
+Write-Host "Starting $RunName"
 $job = Start-Job -ScriptBlock $ScriptBlock -ArgumentList $RunName
 $jobTimer = [Diagnostics.Stopwatch]::StartNew()
 
@@ -27,4 +28,4 @@ while ($job.State -eq "Running" -and $jobTimer.Elapsed.TotalSeconds -le $Timeout
 }
 
 $receipt = Receive-Job -Job $job
-$receipt | Out-File C:\output\$line.log -Append
+$receipt | Out-File C:\output\$RunName.log -Append
