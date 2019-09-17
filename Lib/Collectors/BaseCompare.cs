@@ -173,31 +173,31 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                             if (Helpers.IsList(firstVal))
                             {
-                                added = ((List<string>)field.GetValue(second)).Except((List<string>)field.GetValue(first));
-                                removed = ((List<string>)field.GetValue(first)).Except((List<string>)field.GetValue(second));
-                                if (((IEnumerable<string>)added).Count() == 0)
+                                added = ((List<object>)field.GetValue(second)).Except((List<object>)field.GetValue(first));
+                                removed = ((List<object>)field.GetValue(first)).Except((List<object>)field.GetValue(second));
+                                if (((IEnumerable<object>)added).Count() == 0)
                                 {
                                     added = null;
                                 }
-                                if (((IEnumerable<string>)removed).Count() == 0)
+                                if (((IEnumerable<object>)removed).Count() == 0)
                                 {
                                     removed = null;
                                 }
                             }
                             else if (Helpers.IsDictionary(firstVal))
                             {
-                                added = ((Dictionary<string, string>)secondVal)
-                                    .Except((Dictionary<string, string>)firstVal)
+                                added = ((Dictionary<object, object>)secondVal)
+                                    .Except((Dictionary<object, object>)firstVal)
                                     .ToDictionary(x => x.Key, x => x.Value);
 
-                                removed = ((Dictionary<string, string>)firstVal)
-                                    .Except((Dictionary<string, string>)secondVal)
+                                removed = ((Dictionary<object, object>)firstVal)
+                                    .Except((Dictionary<object, object>)secondVal)
                                     .ToDictionary(x => x.Key, x => x.Value);
-                                if (((IEnumerable<KeyValuePair<string, string>>)added).Count() == 0)
+                                if (((IEnumerable<KeyValuePair<object, object>>)added).Count() == 0)
                                 {
                                     added = null;
                                 }
-                                if (((IEnumerable<KeyValuePair<string, string>>)removed).Count() == 0)
+                                if (((IEnumerable<KeyValuePair<object, object>>)removed).Count() == 0)
                                 {
                                     removed = null;
                                 }
