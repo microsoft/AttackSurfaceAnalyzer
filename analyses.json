@@ -149,7 +149,7 @@
     },
     {
       "name": "UPNP Ports",
-      "desc": "Universal Plug n' Play. This is probably background noise.",
+      "desc": "Universal Plug n' Play.",
       "flag": "INFORMATION",
       "platforms": [
         "LINUX",
