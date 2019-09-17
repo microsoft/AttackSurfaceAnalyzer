@@ -57,11 +57,10 @@ namespace AttackSurfaceAnalyzer.Utils
                 // This catches a case where we sometimes try to walk a file
                 // even though its not a directory on Mac OS.
                 // System.IO.Directory.GetDirectories is how we get the 
-                // directories.
-                catch (Exception ex)
+                // directories which sometimes gives you things that aren't directories.
+                catch (Exception e)
                 {
-                    Log.Debug(ex.StackTrace);
-                    Log.Debug(ex.GetType().ToString());
+                    Logger.DebugException(e);
                     continue;
                 }
 
