@@ -95,6 +95,10 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 return false;
             }
+            catch (IOException)
+            {
+                return false;
+            }
             catch (Exception e)
             {
                 Logger.DebugException(e);
