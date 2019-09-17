@@ -169,7 +169,7 @@
     },
     {
       "name": "Keystore Files",
-      "desc": "Flag when java keystore files are modified.",
+      "desc": "Java keystore files contain encryption keys and certificates.",
       "flag": "INFORMATION",
       "platforms": [
         "LINUX",
