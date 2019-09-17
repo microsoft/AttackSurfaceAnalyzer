@@ -521,7 +521,7 @@ namespace AttackSurfaceAnalyzer
                 NullValueHandling = NullValueHandling.Ignore,
                 DefaultValueHandling = DefaultValueHandling.Ignore,
                 Converters = new List<JsonConverter>() { new StringEnumConverter() },
-                ContractResolver = new HideBigFieldsContractResolver()
+                ContractResolver = new AsaExportContractResolver()
             });
 
             if (opts.ExplodedOutput)
@@ -561,9 +561,9 @@ namespace AttackSurfaceAnalyzer
 
         }
 
-        public class HideBigFieldsContractResolver : DefaultContractResolver
+        public class AsaExportContractResolver : DefaultContractResolver
         {
-            public static readonly HideBigFieldsContractResolver Instance = new HideBigFieldsContractResolver();
+            public static readonly AsaExportContractResolver Instance = new AsaExportContractResolver();
 
             protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
             {
@@ -572,6 +572,14 @@ namespace AttackSurfaceAnalyzer
                 if (property.DeclaringType == typeof(RegistryObject))
                 {
                     if (property.PropertyName == "Subkeys" || property.PropertyName == "Values")
+                    {
+                        property.ShouldSerialize = _ => { return false; };
+                    }
+                }
+
+                if (property.DeclaringType == typeof(Rule))
+                {
+                    if(property.PropertyName != "name" && property.PropertyName != "desc")
                     {
                         property.ShouldSerialize = _ => { return false; };
                     }
