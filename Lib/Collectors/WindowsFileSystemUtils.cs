@@ -107,11 +107,12 @@ namespace AttackSurfaceAnalyzer.Collectors
             WIN32_FILE_ATTRIBUTE_DATA fileData;
             GetFileAttributesEx(path, GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out fileData);
 
-            if ((fileData.dwFileAttributes & (0x00100000 + 0x00040000 + 0x00400000)) == 0)
+            if ((fileData.dwFileAttributes & (0x00040000 + 0x00400000)) == 0)
             {
-                return false;
+                return true;
             }
-            return true;
+
+            return false;
         }
 
         protected internal static List<DLLCHARACTERISTICS> GetDllCharacteristics(string Path)
