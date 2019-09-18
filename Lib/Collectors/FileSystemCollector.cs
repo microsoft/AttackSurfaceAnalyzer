@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
+using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Mono.Unix;
 using Serilog;
@@ -191,7 +192,33 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                     catch (IdentityNotMappedException)
                     {
+                        // This is fine. Some SIDs don't map to NT Accounts.
                         Log.Verbose("Couldn't find the Group from SID {0} for file {1}", gid.ToString(), fileInfo.FullName);
+                    }
+
+                    obj.WindowsPermissions = new List<WindowsPermissions>();
+
+                    var rules = fileSecurity.GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier));
+                    foreach (FileSystemAccessRule rule in rules)
+                    {
+                        WindowsPermissions newPermission = new WindowsPermissions()
+                        {
+                            SID = rule.IdentityReference.Value,
+                            IsInherited = rule.IsInherited,
+                            AccessControlType = rule.AccessControlType.ToString(),
+                            Permissions = rule.FileSystemRights.ToString()
+                        };
+                        
+                        try
+                        {
+                            newPermission.Name = rule.IdentityReference.Translate(typeof(NTAccount)).Value;
+                        }
+                        catch (IdentityNotMappedException)
+                        {
+                            // This is fine. Some SIDs don't map to NT Accounts.
+                        }
+
+                        obj.WindowsPermissions.Add(newPermission);
                     }
 
                 }

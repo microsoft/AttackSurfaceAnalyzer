@@ -1,5 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+using System.Collections.Generic;
+
 namespace AttackSurfaceAnalyzer.Types
 {
     public enum RESULT_TYPE
@@ -105,5 +107,14 @@ namespace AttackSurfaceAnalyzer.Types
         LINUX,
         MACOS,
         UNKNOWN
+    }
+
+    public class WindowsPermissions
+    {
+        public string SID { get; set; }
+        public string Name { get; set; }
+        public string Permissions { get; set; }
+        public bool IsInherited { get; set; }
+        public string AccessControlType { get; set; }
     }
 }
