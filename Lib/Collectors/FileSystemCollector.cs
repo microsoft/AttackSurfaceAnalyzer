@@ -9,7 +9,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.AccessControl;
 using System.Security.Cryptography.X509Certificates;
+using System.Security.Principal;
 using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer.Collectors
@@ -173,6 +175,17 @@ namespace AttackSurfaceAnalyzer.Collectors
                         obj.Group = file.OwnerGroup.GroupName;
                         obj.SetGid = file.IsSetGroup;
                         obj.SetUid = file.IsSetUser;
+                    }
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                    {
+                        var fileSecurity = new FileSecurity();
+                        fileSecurity.SetSecurityDescriptorSddlForm(obj.Permissions);
+                        IdentityReference sid = fileSecurity.GetOwner(typeof(SecurityIdentifier));
+                        NTAccount ntAccount = sid.Translate(typeof(NTAccount)) as NTAccount;
+                        obj.Owner = ntAccount.Value;
+                        sid = fileSecurity.GetGroup(typeof(SecurityIdentifier));
+                        ntAccount = sid.Translate(typeof(NTAccount)) as NTAccount;
+                        obj.Group = ntAccount.Value;
                     }
                 }
                 else
