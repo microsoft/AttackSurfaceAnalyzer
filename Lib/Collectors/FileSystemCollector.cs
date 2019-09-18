@@ -219,22 +219,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                     obj.SetGid = file.IsSetGroup;
                     obj.SetUid = file.IsSetUser;
 
-                    obj.Permissions = new List<Permission>();
-
-                    Permission ownerPermission = new Permission()
-                    {
-                        Name = file.OwnerUser.UserName,
-                        Permissions = file.FileAccessPermissions.ToString()
-                    };
-                    Permission groupPermission = new Permission()
-                    {
-                        Name = file.OwnerUser.UserName,
-                        Permissions = file.FileAccessPermissions.ToString()
-                    };
-
-                    obj.Permissions.Add(ownerPermission);
-                    obj.Permissions.Add(groupPermission);
-
+                    obj.Permissions = new Dictionary<string, string>();
+                    obj.Permissions.Add(file.OwnerUser.UserName, file.FileAccessPermissions.ToString());
+                    obj.Permissions.Add(file.OwnerGroup.GroupName, file.FileAccessPermissions.ToString());
                 }
 
                 if (fileInfo is DirectoryInfo)
