@@ -219,22 +219,16 @@ namespace AttackSurfaceAnalyzer.Collectors
                     obj.SetGid = file.IsSetGroup;
                     obj.SetUid = file.IsSetUser;
 
-                    obj.Permissions = new Dictionary<string, string>();
-                    obj.Permissions.Add(file.OwnerUser.UserName, file.FileAccessPermissions.ToString());
-                    obj.Permissions.Add(file.OwnerGroup.GroupName, file.FileAccessPermissions.ToString());
+                    obj.Permissions = new Dictionary<string, string>()
+                    {
+                        { file.OwnerUser.UserName, file.FileAccessPermissions.ToString() },
+                        { file.OwnerGroup.GroupName, file.FileAccessPermissions.ToString() }
+                    };
                 }
 
                 if (fileInfo is DirectoryInfo)
                 {
                     obj.IsDirectory = true;
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                    {
-                        var file = new UnixFileInfo(fileInfo.FullName);
-                        obj.Owner = file.OwnerUser.UserName;
-                        obj.Group = file.OwnerGroup.GroupName;
-                        obj.SetGid = file.IsSetGroup;
-                        obj.SetUid = file.IsSetUser;
-                    }
                 }
                 else if (fileInfo is FileInfo)
                 {
