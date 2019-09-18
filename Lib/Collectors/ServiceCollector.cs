@@ -201,14 +201,13 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <summary>
         /// Executes the ServiceCollector.
         /// </summary>
-        public override void Execute()
+        public override void ExecuteInternal()
         {
             if (!this.CanRunOnPlatform())
             {
                 Log.Information(Strings.Get("Err_ServiceCollectorIncompat"));
                 return;
             }
-            Start();
             _ = DatabaseManager.Transaction;
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -225,7 +224,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
 
             DatabaseManager.Commit();
-            Stop();
         }
     }
 }

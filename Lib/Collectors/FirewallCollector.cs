@@ -235,14 +235,13 @@ ALF: total number of apps = 2
             }
         }
 
-        public override void Execute()
+        public override void ExecuteInternal()
         {
             if (!CanRunOnPlatform())
             {
                 return;
             }
 
-            Start();
             _ = DatabaseManager.Transaction;
 
 
@@ -260,7 +259,6 @@ ALF: total number of apps = 2
             }
 
             DatabaseManager.Commit();
-            Stop();
         }
     }
 }

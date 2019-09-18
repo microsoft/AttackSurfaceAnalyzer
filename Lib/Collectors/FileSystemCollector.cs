@@ -62,14 +62,12 @@ namespace AttackSurfaceAnalyzer.Collectors
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
         }
 
-        public override void Execute()
+        public override void ExecuteInternal()
         {
             if (!CanRunOnPlatform())
             {
                 return;
             }
-
-            Start();
 
             if (roots == null || !roots.Any())
             {
@@ -143,9 +141,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                 DatabaseManager.Commit();
 
             }
-
-            Stop();
-
         }
 
         /// <summary>

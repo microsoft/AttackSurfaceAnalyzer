@@ -36,14 +36,13 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// Execute the Com Collector.  We collect the list of Com Objects registered in the registry
         /// and then examine each binary on the disk they point to.
         /// </summary>
-        public override void Execute()
+        public override void ExecuteInternal()
         {
 
             if (!this.CanRunOnPlatform())
             {
                 return;
             }
-            Start();
             _ = DatabaseManager.Transaction;
 
             // Parse system Com Objects
@@ -62,7 +61,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
 
             DatabaseManager.Commit();
-            Stop();
         }
 
         public void ParseComObjects(RegistryKey SearchKey) { 

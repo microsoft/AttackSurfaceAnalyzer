@@ -20,7 +20,14 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         protected int _numCollected = 0;
 
-        public abstract void Execute();
+        public void Execute()
+        {
+            Start();
+            ExecuteInternal();
+            Stop();
+        }
+
+        public abstract void ExecuteInternal();
 
         public abstract bool CanRunOnPlatform();
 
