@@ -285,7 +285,7 @@
     {
       "name": "Firewall Settings Modified",
       "desc": "Flag when OS X firewall settings are modified.",
-      "flag": "WARNING",
+      "flag": "INFORMATION",
       "platforms": [
         "MACOS"
       ],
