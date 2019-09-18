@@ -92,29 +92,24 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     Subkeys = new List<string>(registryKey.GetSubKeyNames()),
                     Key = registryKey.Name,
-                    Values = new Dictionary<string, string>()
+                    Values = new Dictionary<string, string>(),
+                    Permissions = new Dictionary<string, string>()
                 };
 
                 foreach (RegistryAccessRule rule in registryKey.GetAccessControl().GetAccessRules(true,true,typeof(System.Security.Principal.SecurityIdentifier)))
                 {
-                    Permission newPermission = new Permission()
-                    {
-                        SID = rule.IdentityReference.Value,
-                        IsInherited = rule.IsInherited,
-                        AccessControlType = rule.AccessControlType.ToString(),
-                        Permissions = rule.RegistryRights.ToString()
-                    };
+                    string name = rule.IdentityReference.Value;
 
                     try
                     {
-                        newPermission.Name = rule.IdentityReference.Translate(typeof(NTAccount)).Value;
+                        name = rule.IdentityReference.Translate(typeof(NTAccount)).Value;
                     }
                     catch (IdentityNotMappedException)
                     {
                         // This is fine. Some SIDs don't map to NT Accounts.
                     }
 
-                    regObj.Permissions.Add(newPermission);
+                    regObj.Permissions.Add(name,rule.RegistryRights.ToString());
                 }
 
                 foreach (string valueName in registryKey.GetValueNames())

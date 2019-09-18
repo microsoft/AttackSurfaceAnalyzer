@@ -108,13 +108,4 @@ namespace AttackSurfaceAnalyzer.Types
         MACOS,
         UNKNOWN
     }
-
-    public class Permission
-    {
-        public string SID { get; set; }
-        public string Name { get; set; }
-        public string Permissions { get; set; }
-        public bool IsInherited { get; set; }
-        public string AccessControlType { get; set; }
-    }
 }

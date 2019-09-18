@@ -16,7 +16,7 @@ namespace AttackSurfaceAnalyzer.Objects
         public Dictionary<string, string> Values = new Dictionary<string, string>();
         public List<string> Subkeys = new List<string>();
         public string PermissionsString;
-        public List<Permission> Permissions { get; set; }
+        public Dictionary<string, string> Permissions { get; set; }
 
         public int ValueCount
         {

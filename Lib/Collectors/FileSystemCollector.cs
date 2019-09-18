@@ -191,29 +191,23 @@ namespace AttackSurfaceAnalyzer.Collectors
                         Log.Verbose("Couldn't find the Group from SID {0} for file {1}", gid.ToString(), fileInfo.FullName);
                     }
 
-                    obj.Permissions = new List<Permission>();
+                    obj.Permissions = new Dictionary<string, string>();
 
                     var rules = fileSecurity.GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier));
                     foreach (FileSystemAccessRule rule in rules)
                     {
-                        Permission newPermission = new Permission()
-                        {
-                            SID = rule.IdentityReference.Value,
-                            IsInherited = rule.IsInherited,
-                            AccessControlType = rule.AccessControlType.ToString(),
-                            Permissions = rule.FileSystemRights.ToString()
-                        };
-                        
+                        string name = rule.IdentityReference.Value;
+
                         try
                         {
-                            newPermission.Name = rule.IdentityReference.Translate(typeof(NTAccount)).Value;
+                            name = rule.IdentityReference.Translate(typeof(NTAccount)).Value;
                         }
                         catch (IdentityNotMappedException)
                         {
                             // This is fine. Some SIDs don't map to NT Accounts.
                         }
 
-                        obj.Permissions.Add(newPermission);
+                        obj.Permissions.Add(name,rule.FileSystemRights.ToString());
                     }
 
                 }

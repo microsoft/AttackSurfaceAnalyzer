@@ -140,6 +140,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 try
                 {
                     var valsToCheck = new List<string>();
+                    Dictionary<string,string> dictToCheck = new Dictionary<string,string>();
 
                     if (field != null)
                     {
@@ -153,6 +154,10 @@ namespace AttackSurfaceAnalyzer.Utils
                                     {
                                         valsToCheck.Add(value);
                                     }
+                                }
+                                else if (GetValueByFieldName(compareResult.Compare, field.Name) is Dictionary<string,string>)
+                                {
+                                    dictToCheck = (Dictionary<string, string>)GetValueByFieldName(compareResult.Compare, field.Name);
                                 }
                                 else
                                 {
@@ -174,6 +179,10 @@ namespace AttackSurfaceAnalyzer.Utils
                                     {
                                         valsToCheck.Add(value);
                                     }
+                                }
+                                else if (GetValueByFieldName(compareResult.Compare, field.Name) is Dictionary<string, string>)
+                                {
+                                    dictToCheck = (Dictionary<string, string>)GetValueByFieldName(compareResult.Compare, field.Name);
                                 }
                                 else
                                 {
@@ -232,7 +241,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         }
                     }
 
-                    var count = 0;
+                    int count = 0, dictCount = 0;
 
                     switch (clause.op)
                     {
@@ -262,23 +271,55 @@ namespace AttackSurfaceAnalyzer.Utils
                             break;
 
                         case OPERATION.CONTAINS:
-                            foreach (string datum in clause.data)
+                            if (dictToCheck.Count > 0)
                             {
-                                foreach (string val in valsToCheck)
+                                foreach (KeyValuePair<string, string> value in clause.dictData)
                                 {
-                                    count += (!val.Contains(datum)) ? 1 : 0;
+                                    if (dictToCheck.ContainsKey(value.Key) && dictToCheck[value.Key].Contains(value.Value))
+                                    {
+                                        dictCount++;
+                                    }
+                                }
+                                if (dictCount == clause.dictData.Count)
+                                {
                                     break;
                                 }
                             }
-                            if (count == clause.data.Count) { break; }
+                            else if(valsToCheck.Count > 0)
+                            {
+                                foreach (string datum in clause.data)
+                                {
+                                    foreach (string val in valsToCheck)
+                                    {
+                                        count += (!val.Contains(datum)) ? 1 : 0;
+                                        break;
+                                    }
+                                }
+                                if (count == clause.data.Count) {
+                                    break;
+                                }
+                            }
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
 
                         case OPERATION.DOES_NOT_CONTAIN:
-                            foreach (string datum in clause.data)
+                            if (dictToCheck.Count > 0)
                             {
-                                if (valsToCheck.Contains(datum))
+                                foreach (KeyValuePair<string, string> value in clause.dictData)
                                 {
-                                    return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+                                    if (dictToCheck.ContainsKey(value.Key) && dictToCheck[value.Key].Contains(value.Value))
+                                    {
+                                        return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+                                    }
+                                }
+                            }
+                            else if (valsToCheck.Count > 0)
+                            {
+                                foreach (string datum in clause.data)
+                                {
+                                    if (valsToCheck.Contains(datum))
+                                    {
+                                        return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+                                    }
                                 }
                             }
                             break;
