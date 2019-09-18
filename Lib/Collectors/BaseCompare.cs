@@ -275,7 +275,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             var firstVal = prop.GetValue(first);
                             var secondVal = prop.GetValue(second);
 
-                            if (Helpers.IsList(firstVal))
+                            if (firstVal is List<string>)
                             {
                                 added = ((List<string>)prop.GetValue(second)).Except((List<string>)prop.GetValue(first));
                                 removed = ((List<string>)prop.GetValue(first)).Except((List<string>)prop.GetValue(second));
@@ -288,7 +288,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     removed = null;
                                 }
                             }
-                            else if (Helpers.IsDictionary(firstVal))
+                            else if (firstVal is Dictionary<string,string>)
                             {
                                 added = ((Dictionary<string, string>)secondVal)
                                     .Except((Dictionary<string, string>)firstVal)
