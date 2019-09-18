@@ -95,7 +95,8 @@ namespace AttackSurfaceAnalyzer.Types
         CONTAINS,
         WAS_MODIFIED,
         ENDS_WITH,
-        STARTS_WITH
+        STARTS_WITH,
+        DOES_NOT_CONTAIN
     }
 
     public enum PLATFORM

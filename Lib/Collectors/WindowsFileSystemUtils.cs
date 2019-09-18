@@ -137,7 +137,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                             output.Add(characteristic.ToString());
                         }
                     }
-                    return output;
                 }
                 catch (IndexOutOfRangeException)
                 {

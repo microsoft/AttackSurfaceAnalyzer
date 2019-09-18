@@ -213,6 +213,16 @@ namespace AttackSurfaceAnalyzer.Utils
                             if (complete) { break; }
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
 
+                        case OPERATION.DOES_NOT_CONTAIN:
+                            foreach (string datum in clause.data)
+                            {
+                                if (valsToCheck.Contains(datum))
+                                {
+                                    return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+                                }
+                            }
+                            break;
+
                         case OPERATION.GT:
                             foreach (string val in valsToCheck)
                             {

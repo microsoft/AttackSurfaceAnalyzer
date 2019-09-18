@@ -126,6 +126,101 @@
       ]
     },
     {
+      "name": "Missing ASLR",
+      "desc": "Flag when executables are created without ASLR.",
+      "flag": "WARNING",
+      "platforms": [
+        "WINDOWS"
+      ],
+      "changeTypes": [
+        "CREATED",
+        "MODIFIED"
+      ],
+      "resultType": "FILE",
+      "clauses": [
+        {
+          "field": "IsExecutable",
+          "op": "EQ",
+          "data": [
+            "True"
+          ]
+        },
+        {
+          "field": "Characteristics",
+          "op": "DOES_NOT_CONTAIN",
+          "data": [
+            "IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE",
+            "IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Missing DEP",
+      "desc": "Flag when executables are created without DEP.",
+      "flag": "WARNING",
+      "platforms": [
+        "WINDOWS"
+      ],
+      "changeTypes": [
+        "CREATED",
+        "MODIFIED"
+      ],
+      "resultType": "FILE",
+      "clauses": [
+        {
+          "field": "IsExecutable",
+          "op": "EQ",
+          "data": [
+            "True"
+          ]
+        },
+        {
+          "field": "Characteristics",
+          "op": "DOES_NOT_CONTAIN",
+          "data": [
+            "IMAGE_DLLCHARACTERISTICS_NX_COMPAT"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Missing Signed Enforcement",
+      "desc": "Flag when executables are signed binaries are created without Force Integrity flag.",
+      "flag": "WARNING",
+      "platforms": [
+        "WINDOWS"
+      ],
+      "changeTypes": [
+        "CREATED",
+        "MODIFIED"
+      ],
+      "resultType": "FILE",
+      "clauses": [
+        {
+          "field": "IsExecutable",
+          "op": "EQ",
+          "data": [
+            "True"
+          ]
+        },
+        {
+          "field": "SignatureStatus",
+          "op": "EQ",
+          "data": [
+            "Valid"
+          ]
+        },
+        {
+          "field": "Characteristics",
+          "op": "DOES_NOT_CONTAIN",
+          "data": [
+            "IMAGE_DLLCHARACTERISTICS_FORCE_INTEGRITY"
+          ]
+        }
+      ]
+    },
+    {
       "name": "Certificates",
       "desc": "Flag when certificates are placed on disk.",
       "flag": "INFORMATION",
