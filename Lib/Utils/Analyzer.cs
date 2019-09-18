@@ -139,7 +139,6 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 try
                 {
-                    var complete = false;
                     var valsToCheck = new List<string>();
 
                     if (field != null)
@@ -233,6 +232,8 @@ namespace AttackSurfaceAnalyzer.Utils
                         }
                     }
 
+                    var count = 0;
+
                     switch (clause.op)
                     {
                         case OPERATION.EQ:
@@ -240,10 +241,11 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
                                 foreach (string val in valsToCheck)
                                 {
-                                    complete |= datum.Equals(val);
+                                    count += (datum.Equals(val))? 1:0;
+                                    break;
                                 }
                             }
-                            if (complete) { break; }
+                            if (count == clause.data.Count) { break; }
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
 
                         case OPERATION.NEQ:
@@ -251,21 +253,24 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
                                 foreach (string val in valsToCheck)
                                 {
-                                    complete |= !datum.Equals(val);
+                                    if (datum.Equals(val))
+                                    {
+                                        return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+                                    }
                                 }
                             }
-                            if (complete) { break; }
-                            return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+                            break;
 
                         case OPERATION.CONTAINS:
                             foreach (string datum in clause.data)
                             {
                                 foreach (string val in valsToCheck)
                                 {
-                                    complete |= val.Contains(datum);
+                                    count += (!val.Contains(datum)) ? 1 : 0;
+                                    break;
                                 }
                             }
-                            if (complete) { break; }
+                            if (count == clause.data.Count) { break; }
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
 
                         case OPERATION.DOES_NOT_CONTAIN:
@@ -281,18 +286,17 @@ namespace AttackSurfaceAnalyzer.Utils
                         case OPERATION.GT:
                             foreach (string val in valsToCheck)
                             {
-                                complete |= Int32.Parse(val.ToString()) > Int32.Parse(clause.data[0]);
+                                count += (Int32.Parse(val.ToString()) > Int32.Parse(clause.data[0])) ? 1 : 0;
                             }
-                            if (complete) { break; }
+                            if (count == valsToCheck.Count) { break; }
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
 
                         case OPERATION.LT:
                             foreach (string val in valsToCheck)
                             {
-                                complete |= Int32.Parse(val.ToString()) < Int32.Parse(clause.data[0]);
+                                count += (Int32.Parse(val.ToString()) < Int32.Parse(clause.data[0])) ? 1 : 0;
                             }
-                            if (complete) { break; }
-
+                            if (count == valsToCheck.Count) { break; }
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
 
                         case OPERATION.REGEX:
@@ -303,18 +307,20 @@ namespace AttackSurfaceAnalyzer.Utils
                                     var r = new Regex(datum);
                                     if (r.IsMatch(val))
                                     {
-                                        complete = true;
+                                        count++;
                                     }
                                 }
                             }
-                            if (complete) { break; }
+                            if (count == valsToCheck.Count) { break; }
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+
                         case OPERATION.WAS_MODIFIED:
                             if ((valsToCheck.Count == 2) && (valsToCheck[0] == valsToCheck[1]))
                             {
                                 break;
                             }
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+
                         case OPERATION.ENDS_WITH:
                             foreach (string datum in clause.data)
                             {
@@ -322,14 +328,14 @@ namespace AttackSurfaceAnalyzer.Utils
                                 {
                                     if (val.EndsWith(datum, StringComparison.CurrentCulture))
                                     {
-                                        complete = true;
+                                        count++;
                                         break;
                                     }
                                 }
-                                if (complete) { break; }
                             }
-                            if (complete) { break; }
+                            if (count == clause.data.Count) { break; }
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+
                         case OPERATION.STARTS_WITH:
                             foreach (string datum in clause.data)
                             {
@@ -337,14 +343,14 @@ namespace AttackSurfaceAnalyzer.Utils
                                 {
                                     if (val.StartsWith(datum, StringComparison.CurrentCulture))
                                     {
-                                        complete = true;
+                                        count++;
                                         break;
                                     }
                                 }
-                                if (complete) { break; }
                             }
-                            if (complete) { break; }
+                            if (count == clause.data.Count) { break; }
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+
                         default:
                             Log.Debug("Unimplemented operation {0}", clause.op);
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
