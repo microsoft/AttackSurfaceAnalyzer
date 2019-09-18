@@ -191,7 +191,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         Log.Verbose("Couldn't find the Group from SID {0} for file {1}", gid.ToString(), fileInfo.FullName);
                     }
 
-                    obj.Permissions = new Dictionary<string, string>();
+                    obj.Permissions = new List<KeyValuePair<string, string>>();
 
                     var rules = fileSecurity.GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier));
                     foreach (FileSystemAccessRule rule in rules)
@@ -207,9 +207,12 @@ namespace AttackSurfaceAnalyzer.Collectors
                             // This is fine. Some SIDs don't map to NT Accounts.
                         }
 
-                        obj.Permissions.Add(name,rule.FileSystemRights.ToString());
-                    }
+                        foreach(var permission in rule.FileSystemRights.ToString().Split(','))
+                        {
+                            obj.Permissions.Add(new KeyValuePair<string, string>(name, permission));
+                        }
 
+                    }
                 }
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 {
@@ -219,11 +222,19 @@ namespace AttackSurfaceAnalyzer.Collectors
                     obj.SetGid = file.IsSetGroup;
                     obj.SetUid = file.IsSetUser;
 
-                    obj.Permissions = new Dictionary<string, string>()
+                    obj.Permissions = new List<KeyValuePair<string, string>>();
+                    foreach(var permission in file.FileAccessPermissions.ToString().Split(',').Where((x) => x.StartsWith("Owner")))
                     {
-                        { file.OwnerUser.UserName, file.FileAccessPermissions.ToString() },
-                        { file.OwnerGroup.GroupName, file.FileAccessPermissions.ToString() }
-                    };
+                        obj.Permissions.Add(new KeyValuePair<string, string>("Owner", permission.Substring(5)));
+                    }
+                    foreach (var permission in file.FileAccessPermissions.ToString().Split(',').Where((x) => x.StartsWith("Group")))
+                    {
+                        obj.Permissions.Add(new KeyValuePair<string, string>("Group", permission.Substring(5)));
+                    }
+                    foreach (var permission in file.FileAccessPermissions.ToString().Split(',').Where((x) => x.StartsWith("Other")))
+                    {
+                        obj.Permissions.Add(new KeyValuePair<string, string>("Other", permission.Substring(5)));
+                    }
                 }
 
                 if (fileInfo is DirectoryInfo)

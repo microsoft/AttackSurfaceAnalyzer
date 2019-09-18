@@ -140,7 +140,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 try
                 {
                     var valsToCheck = new List<string>();
-                    Dictionary<string,string> dictToCheck = new Dictionary<string,string>();
+                    List<KeyValuePair<string,string>> dictToCheck = new List<KeyValuePair<string, string>>();
 
                     if (field != null)
                     {
@@ -157,7 +157,11 @@ namespace AttackSurfaceAnalyzer.Utils
                                 }
                                 else if (GetValueByFieldName(compareResult.Compare, field.Name) is Dictionary<string,string>)
                                 {
-                                    dictToCheck = (Dictionary<string, string>)GetValueByFieldName(compareResult.Compare, field.Name);
+                                    dictToCheck = ((Dictionary<string, string>)GetValueByFieldName(compareResult.Compare, field.Name)).ToList();
+                                }
+                                else if (GetValueByFieldName(compareResult.Compare, field.Name) is List<KeyValuePair<string, string>>)
+                                {
+                                    dictToCheck = (List<KeyValuePair<string, string>>)GetValueByFieldName(compareResult.Compare, field.Name);
                                 }
                                 else
                                 {
@@ -180,9 +184,13 @@ namespace AttackSurfaceAnalyzer.Utils
                                         valsToCheck.Add(value);
                                     }
                                 }
-                                else if (GetValueByFieldName(compareResult.Compare, field.Name) is Dictionary<string, string>)
+                                else if (GetValueByFieldName(compareResult.Base, field.Name) is Dictionary<string, string>)
                                 {
-                                    dictToCheck = (Dictionary<string, string>)GetValueByFieldName(compareResult.Compare, field.Name);
+                                    dictToCheck = ((Dictionary<string, string>)GetValueByFieldName(compareResult.Base, field.Name)).ToList();
+                                }
+                                else if (GetValueByFieldName(compareResult.Base, field.Name) is List<KeyValuePair<string, string>>)
+                                {
+                                    dictToCheck = (List<KeyValuePair<string, string>>)GetValueByFieldName(compareResult.Base, field.Name);
                                 }
                                 else
                                 {
@@ -208,6 +216,14 @@ namespace AttackSurfaceAnalyzer.Utils
                                         valsToCheck.Add(value);
                                     }
                                 }
+                                else if (GetValueByPropertyName(compareResult.Compare, field.Name) is Dictionary<string, string>)
+                                {
+                                    dictToCheck = ((Dictionary<string, string>)GetValueByPropertyName(compareResult.Compare, field.Name)).ToList();
+                                }
+                                else if (GetValueByPropertyName(compareResult.Compare, field.Name) is List<KeyValuePair<string, string>>)
+                                {
+                                    dictToCheck = (List<KeyValuePair<string, string>>)GetValueByPropertyName(compareResult.Compare, field.Name);
+                                }
                                 else
                                 {
                                     valsToCheck.Add(GetValueByPropertyName(compareResult.Compare, property.Name).ToString());
@@ -228,6 +244,14 @@ namespace AttackSurfaceAnalyzer.Utils
                                     {
                                         valsToCheck.Add(value);
                                     }
+                                }
+                                else if (GetValueByPropertyName(compareResult.Base, field.Name) is Dictionary<string, string>)
+                                {
+                                    dictToCheck = ((Dictionary<string, string>)GetValueByPropertyName(compareResult.Base, field.Name)).ToList();
+                                }
+                                else if (GetValueByPropertyName(compareResult.Base, field.Name) is List<KeyValuePair<string, string>>)
+                                {
+                                    dictToCheck = (List<KeyValuePair<string, string>>)GetValueByPropertyName(compareResult.Base, field.Name);
                                 }
                                 else
                                 {
@@ -275,7 +299,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
                                 foreach (KeyValuePair<string, string> value in clause.dictData)
                                 {
-                                    if (dictToCheck.ContainsKey(value.Key) && dictToCheck[value.Key].Contains(value.Value))
+                                    if (dictToCheck.Where((x) => x.Key == value.Key && x.Value == value.Value).Count() > 0)
                                     {
                                         dictCount++;
                                     }
@@ -306,7 +330,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
                                 foreach (KeyValuePair<string, string> value in clause.dictData)
                                 {
-                                    if (dictToCheck.ContainsKey(value.Key) && dictToCheck[value.Key].Contains(value.Value))
+                                    if (dictToCheck.Where((x) => x.Key == value.Key && x.Value == value.Value).Count() > 0)
                                     {
                                         return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
                                     }

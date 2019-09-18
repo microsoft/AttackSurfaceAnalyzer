@@ -9,7 +9,7 @@ namespace AttackSurfaceAnalyzer.Objects
     {
         public string Path { get; set; }
         public string PermissionsString { get; set; }
-        public Dictionary<string,string> Permissions { get; set; }
+        public List<KeyValuePair<string,string>> Permissions { get; set; }
         public ulong Size { get; set; }
         public string ContentHash { get; set; }
         public List<string> Characteristics { get; set; }

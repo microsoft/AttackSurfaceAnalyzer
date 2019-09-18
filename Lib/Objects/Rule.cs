@@ -28,6 +28,6 @@ namespace AttackSurfaceAnalyzer.Objects
         public string field;
         public OPERATION op;
         public List<string> data;
-        public Dictionary<string, string> dictData;
+        public List<KeyValuePair<string, string>> dictData;
     }
 }

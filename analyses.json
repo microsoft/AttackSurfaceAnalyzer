@@ -165,7 +165,7 @@
       "changeTypes": [
         "CREATED",
         "MODIFIED"
-      ],f
+      ],
       "resultType": "FILE",
       "clauses": [
         {
@@ -314,6 +314,70 @@
           "op": "CONTAINS",
           "data": [
             "HKEY_LOCAL_MACHINE\\SOFTWARE\\Classes\\CLSID"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Weak Permissions on UID Binaries",
+      "desc": "Flags if a binary is Executable by everyone but has SETUID.",
+      "flag": "WARNING",
+      "platforms": [
+        "LINUX",
+        "MACOS"
+      ],
+      "resultType": "FILE",
+      "clauses": [
+        {
+          "field": "IsExecutable",
+          "op": "EQ",
+          "data": [ "True" ]
+        },
+        {
+          "field": "SetUid",
+          "op": "EQ",
+          "data": [ "True" ]
+        },
+        {
+          "field": "Permissions",
+          "op": "CONTAINS",
+          "dictData": [
+            {
+              "Key": "Other",
+              "Value": "Execute"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Weak Permissions on GID Binaries",
+      "desc": "Flags if a binary is Executable by everyone but has SETGID.",
+      "flag": "WARNING",
+      "platforms": [
+        "LINUX",
+        "MACOS"
+      ],
+      "resultType": "FILE",
+      "clauses": [
+        {
+          "field": "IsExecutable",
+          "op": "EQ",
+          "data": [ "True" ]
+        },
+        {
+          "field": "SetGid",
+          "op": "EQ",
+          "data": [ "True" ]
+        },
+        {
+          "field": "Permissions",
+          "op": "CONTAINS",
+          "dictData": [
+            {
+              "Key": "Other",
+              "Value": "Execute"
+            }
           ]
         }
       ]
