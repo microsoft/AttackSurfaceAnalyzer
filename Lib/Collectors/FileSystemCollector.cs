@@ -4,6 +4,7 @@ using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Mono.Unix;
+using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -207,7 +208,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             // This is fine. Some SIDs don't map to NT Accounts.
                         }
 
-                        foreach(var permission in rule.FileSystemRights.ToString().Split(','))
+                        foreach (var permission in rule.FileSystemRights.ToString().Split(','))
                         {
                             obj.Permissions.Add(new KeyValuePair<string, string>(name, permission));
                         }
@@ -223,17 +224,59 @@ namespace AttackSurfaceAnalyzer.Collectors
                     obj.SetUid = file.IsSetUser;
 
                     obj.Permissions = new List<KeyValuePair<string, string>>();
-                    foreach(var permission in file.FileAccessPermissions.ToString().Split(',').Where((x) => x.StartsWith("Owner")))
+                    if (file.FileAccessPermissions.ToString().Equals("AllPermissions"))
                     {
-                        obj.Permissions.Add(new KeyValuePair<string, string>("Owner", permission.Substring(5)));
+                        obj.Permissions.Add(new KeyValuePair<string, string>("User", "Read"));
+                        obj.Permissions.Add(new KeyValuePair<string, string>("User", "Write"));
+                        obj.Permissions.Add(new KeyValuePair<string, string>("User", "Execute"));
+                        obj.Permissions.Add(new KeyValuePair<string, string>("Group", "Read"));
+                        obj.Permissions.Add(new KeyValuePair<string, string>("Group", "Write"));
+                        obj.Permissions.Add(new KeyValuePair<string, string>("Group", "Execute"));
+                        obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Read"));
+                        obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Write"));
+                        obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Execute"));
                     }
-                    foreach (var permission in file.FileAccessPermissions.ToString().Split(',').Where((x) => x.StartsWith("Group")))
+                    else
                     {
-                        obj.Permissions.Add(new KeyValuePair<string, string>("Group", permission.Substring(5)));
-                    }
-                    foreach (var permission in file.FileAccessPermissions.ToString().Split(',').Where((x) => x.StartsWith("Other")))
-                    {
-                        obj.Permissions.Add(new KeyValuePair<string, string>("Other", permission.Substring(5)));
+                        foreach (var permission in file.FileAccessPermissions.ToString().Split(',').Where((x) => x.Trim().StartsWith("User")))
+                        {
+                            if (permission.Contains("ReadWriteExecute"))
+                            {
+                                obj.Permissions.Add(new KeyValuePair<string, string>("User", "Read"));
+                                obj.Permissions.Add(new KeyValuePair<string, string>("User", "Write"));
+                                obj.Permissions.Add(new KeyValuePair<string, string>("User", "Execute"));
+                            }
+                            else
+                            {
+                                obj.Permissions.Add(new KeyValuePair<string, string>("User", permission.Trim().Substring(4)));
+                            }
+                        }
+                        foreach (var permission in file.FileAccessPermissions.ToString().Split(',').Where((x) => x.Trim().StartsWith("Group")))
+                        {
+                            if (permission.Contains("ReadWriteExecute"))
+                            {
+                                obj.Permissions.Add(new KeyValuePair<string, string>("Group", "Read"));
+                                obj.Permissions.Add(new KeyValuePair<string, string>("Group", "Write"));
+                                obj.Permissions.Add(new KeyValuePair<string, string>("Group", "Execute"));
+                            }
+                            else
+                            {
+                                obj.Permissions.Add(new KeyValuePair<string, string>("Group", permission.Trim().Substring(5)));
+                            }
+                        }
+                        foreach (var permission in file.FileAccessPermissions.ToString().Split(',').Where((x) => x.Trim().StartsWith("Other")))
+                        {
+                            if (permission.Contains("ReadWriteExecute"))
+                            {
+                                obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Read"));
+                                obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Write"));
+                                obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Execute"));
+                            }
+                            else
+                            {
+                                obj.Permissions.Add(new KeyValuePair<string, string>("Other", permission.Trim().Substring(5)));
+                            }
+                        }
                     }
                 }
 

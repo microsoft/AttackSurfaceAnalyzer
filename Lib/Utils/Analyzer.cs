@@ -170,7 +170,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             }
                             catch (Exception e)
                             {
-                                Logger.DebugException(e);
+                                Log.Debug(e, "Error fetching Property {0} of Type {1}", field.Name, compareResult.ResultType);
                             }
                         }
                         if (compareResult.ChangeType == CHANGE_TYPE.DELETED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
@@ -199,7 +199,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             }
                             catch (Exception e)
                             {
-                                Logger.DebugException(e);
+                                Log.Debug(e, "Error fetching Property {0} of Type {1}", field.Name, compareResult.ResultType);
                             }
                         }
                     }
@@ -216,13 +216,13 @@ namespace AttackSurfaceAnalyzer.Utils
                                         valsToCheck.Add(value);
                                     }
                                 }
-                                else if (GetValueByPropertyName(compareResult.Compare, field.Name) is Dictionary<string, string>)
+                                else if (GetValueByPropertyName(compareResult.Compare, property.Name) is Dictionary<string, string>)
                                 {
-                                    dictToCheck = ((Dictionary<string, string>)GetValueByPropertyName(compareResult.Compare, field.Name)).ToList();
+                                    dictToCheck = ((Dictionary<string, string>)GetValueByPropertyName(compareResult.Compare, property.Name)).ToList();
                                 }
-                                else if (GetValueByPropertyName(compareResult.Compare, field.Name) is List<KeyValuePair<string, string>>)
+                                else if (GetValueByPropertyName(compareResult.Compare, property.Name) is List<KeyValuePair<string, string>>)
                                 {
-                                    dictToCheck = (List<KeyValuePair<string, string>>)GetValueByPropertyName(compareResult.Compare, field.Name);
+                                    dictToCheck = (List<KeyValuePair<string, string>>)GetValueByPropertyName(compareResult.Compare, property.Name);
                                 }
                                 else
                                 {
@@ -231,7 +231,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             }
                             catch (Exception e)
                             {
-                                Logger.DebugException(e);
+                                Log.Debug(e, "Error fetching Property {0} of Type {1}", property.Name, compareResult.ResultType);
                             }
                         }
                         if (compareResult.ChangeType == CHANGE_TYPE.DELETED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
@@ -245,13 +245,13 @@ namespace AttackSurfaceAnalyzer.Utils
                                         valsToCheck.Add(value);
                                     }
                                 }
-                                else if (GetValueByPropertyName(compareResult.Base, field.Name) is Dictionary<string, string>)
+                                else if (GetValueByPropertyName(compareResult.Base, property.Name) is Dictionary<string, string>)
                                 {
-                                    dictToCheck = ((Dictionary<string, string>)GetValueByPropertyName(compareResult.Base, field.Name)).ToList();
+                                    dictToCheck = ((Dictionary<string, string>)GetValueByPropertyName(compareResult.Base, property.Name)).ToList();
                                 }
-                                else if (GetValueByPropertyName(compareResult.Base, field.Name) is List<KeyValuePair<string, string>>)
+                                else if (GetValueByPropertyName(compareResult.Base, property.Name) is List<KeyValuePair<string, string>>)
                                 {
-                                    dictToCheck = (List<KeyValuePair<string, string>>)GetValueByPropertyName(compareResult.Base, field.Name);
+                                    dictToCheck = (List<KeyValuePair<string, string>>)GetValueByPropertyName(compareResult.Base, property.Name);
                                 }
                                 else
                                 {
@@ -260,7 +260,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             }
                             catch (Exception e)
                             {
-                                Logger.DebugException(e);
+                                Log.Debug(e,"Error fetching Property {0} of Type {1}",property.Name,compareResult.ResultType);
                             }
                         }
                     }

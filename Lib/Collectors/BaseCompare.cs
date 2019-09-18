@@ -191,6 +191,19 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     Log.Debug(e, "Error comparing two List<object>s");
                                 }
                             }
+                            else if (firstVal is List<KeyValuePair<string, string>>)
+                            {
+                                added = ((List<KeyValuePair<string, string>>)field.GetValue(second)).Except((List<KeyValuePair<string, string>>)field.GetValue(first));
+                                removed = ((List<KeyValuePair<string, string>>)field.GetValue(first)).Except((List<KeyValuePair<string, string>>)field.GetValue(second));
+                                if (((IEnumerable<KeyValuePair<string, string>>)added).Count() == 0)
+                                {
+                                    added = null;
+                                }
+                                if (((IEnumerable<KeyValuePair<string, string>>)removed).Count() == 0)
+                                {
+                                    removed = null;
+                                }
+                            }
                             else if (Helpers.IsDictionary(firstVal))
                             {
                                 added = ((Dictionary<object, object>)secondVal)
@@ -284,6 +297,19 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     added = null;
                                 }
                                 if (((IEnumerable<string>)removed).Count() == 0)
+                                {
+                                    removed = null;
+                                }
+                            }
+                            else if (firstVal is List<KeyValuePair<string,string>>)
+                            {
+                                added = ((List<KeyValuePair<string, string>>)prop.GetValue(second)).Except((List<KeyValuePair<string, string>>)prop.GetValue(first));
+                                removed = ((List<KeyValuePair<string, string>>)prop.GetValue(first)).Except((List<KeyValuePair<string, string>>)prop.GetValue(second));
+                                if (((IEnumerable<KeyValuePair<string, string>>)added).Count() == 0)
+                                {
+                                    added = null;
+                                }
+                                if (((IEnumerable<KeyValuePair<string, string>>)removed).Count() == 0)
                                 {
                                     removed = null;
                                 }
