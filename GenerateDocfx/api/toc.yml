@@ -119,8 +119,6 @@
     name: RESULT_TYPE
   - uid: AttackSurfaceAnalyzer.Types.RUN_STATUS
     name: RUN_STATUS
-  - uid: AttackSurfaceAnalyzer.Types.WindowsPermissions
-    name: WindowsPermissions
 - uid: AttackSurfaceAnalyzer.Utils
   name: AttackSurfaceAnalyzer.Utils
   items:

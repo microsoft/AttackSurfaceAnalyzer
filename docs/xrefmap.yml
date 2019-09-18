@@ -1491,6 +1491,12 @@ references:
   commentId: F:AttackSurfaceAnalyzer.Objects.Clause.data
   fullName: AttackSurfaceAnalyzer.Objects.Clause.data
   nameWithType: Clause.data
+- uid: AttackSurfaceAnalyzer.Objects.Clause.dictData
+  name: dictData
+  href: api/AttackSurfaceAnalyzer.Objects.Clause.html#AttackSurfaceAnalyzer_Objects_Clause_dictData
+  commentId: F:AttackSurfaceAnalyzer.Objects.Clause.dictData
+  fullName: AttackSurfaceAnalyzer.Objects.Clause.dictData
+  nameWithType: Clause.dictData
 - uid: AttackSurfaceAnalyzer.Objects.Clause.field
   name: field
   href: api/AttackSurfaceAnalyzer.Objects.Clause.html#AttackSurfaceAnalyzer_Objects_Clause_field
@@ -1964,6 +1970,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Objects.FileSystemObject.Permissions
   nameWithType: FileSystemObject.Permissions
+- uid: AttackSurfaceAnalyzer.Objects.FileSystemObject.PermissionsString
+  name: PermissionsString
+  href: api/AttackSurfaceAnalyzer.Objects.FileSystemObject.html#AttackSurfaceAnalyzer_Objects_FileSystemObject_PermissionsString
+  commentId: P:AttackSurfaceAnalyzer.Objects.FileSystemObject.PermissionsString
+  fullName: AttackSurfaceAnalyzer.Objects.FileSystemObject.PermissionsString
+  nameWithType: FileSystemObject.PermissionsString
+- uid: AttackSurfaceAnalyzer.Objects.FileSystemObject.PermissionsString*
+  name: PermissionsString
+  href: api/AttackSurfaceAnalyzer.Objects.FileSystemObject.html#AttackSurfaceAnalyzer_Objects_FileSystemObject_PermissionsString_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.FileSystemObject.PermissionsString
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.FileSystemObject.PermissionsString
+  nameWithType: FileSystemObject.PermissionsString
 - uid: AttackSurfaceAnalyzer.Objects.FileSystemObject.SetGid
   name: SetGid
   href: api/AttackSurfaceAnalyzer.Objects.FileSystemObject.html#AttackSurfaceAnalyzer_Objects_FileSystemObject_SetGid
@@ -2016,19 +2035,6 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Objects.FileSystemObject.Size
   nameWithType: FileSystemObject.Size
-- uid: AttackSurfaceAnalyzer.Objects.FileSystemObject.WindowsPermissions
-  name: WindowsPermissions
-  href: api/AttackSurfaceAnalyzer.Objects.FileSystemObject.html#AttackSurfaceAnalyzer_Objects_FileSystemObject_WindowsPermissions
-  commentId: P:AttackSurfaceAnalyzer.Objects.FileSystemObject.WindowsPermissions
-  fullName: AttackSurfaceAnalyzer.Objects.FileSystemObject.WindowsPermissions
-  nameWithType: FileSystemObject.WindowsPermissions
-- uid: AttackSurfaceAnalyzer.Objects.FileSystemObject.WindowsPermissions*
-  name: WindowsPermissions
-  href: api/AttackSurfaceAnalyzer.Objects.FileSystemObject.html#AttackSurfaceAnalyzer_Objects_FileSystemObject_WindowsPermissions_
-  commentId: Overload:AttackSurfaceAnalyzer.Objects.FileSystemObject.WindowsPermissions
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Objects.FileSystemObject.WindowsPermissions
-  nameWithType: FileSystemObject.WindowsPermissions
 - uid: AttackSurfaceAnalyzer.Objects.FileSystemResult
   name: FileSystemResult
   href: api/AttackSurfaceAnalyzer.Objects.FileSystemResult.html
@@ -2621,9 +2627,22 @@ references:
 - uid: AttackSurfaceAnalyzer.Objects.RegistryObject.Permissions
   name: Permissions
   href: api/AttackSurfaceAnalyzer.Objects.RegistryObject.html#AttackSurfaceAnalyzer_Objects_RegistryObject_Permissions
-  commentId: F:AttackSurfaceAnalyzer.Objects.RegistryObject.Permissions
+  commentId: P:AttackSurfaceAnalyzer.Objects.RegistryObject.Permissions
   fullName: AttackSurfaceAnalyzer.Objects.RegistryObject.Permissions
   nameWithType: RegistryObject.Permissions
+- uid: AttackSurfaceAnalyzer.Objects.RegistryObject.Permissions*
+  name: Permissions
+  href: api/AttackSurfaceAnalyzer.Objects.RegistryObject.html#AttackSurfaceAnalyzer_Objects_RegistryObject_Permissions_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.RegistryObject.Permissions
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.RegistryObject.Permissions
+  nameWithType: RegistryObject.Permissions
+- uid: AttackSurfaceAnalyzer.Objects.RegistryObject.PermissionsString
+  name: PermissionsString
+  href: api/AttackSurfaceAnalyzer.Objects.RegistryObject.html#AttackSurfaceAnalyzer_Objects_RegistryObject_PermissionsString
+  commentId: F:AttackSurfaceAnalyzer.Objects.RegistryObject.PermissionsString
+  fullName: AttackSurfaceAnalyzer.Objects.RegistryObject.PermissionsString
+  nameWithType: RegistryObject.PermissionsString
 - uid: AttackSurfaceAnalyzer.Objects.RegistryObject.SubkeyCount
   name: SubkeyCount
   href: api/AttackSurfaceAnalyzer.Objects.RegistryObject.html#AttackSurfaceAnalyzer_Objects_RegistryObject_SubkeyCount
@@ -4924,77 +4943,6 @@ references:
   commentId: F:AttackSurfaceAnalyzer.Types.RUN_STATUS.RUNNING
   fullName: AttackSurfaceAnalyzer.Types.RUN_STATUS.RUNNING
   nameWithType: RUN_STATUS.RUNNING
-- uid: AttackSurfaceAnalyzer.Types.WindowsPermissions
-  name: WindowsPermissions
-  href: api/AttackSurfaceAnalyzer.Types.WindowsPermissions.html
-  commentId: T:AttackSurfaceAnalyzer.Types.WindowsPermissions
-  fullName: AttackSurfaceAnalyzer.Types.WindowsPermissions
-  nameWithType: WindowsPermissions
-- uid: AttackSurfaceAnalyzer.Types.WindowsPermissions.AccessControlType
-  name: AccessControlType
-  href: api/AttackSurfaceAnalyzer.Types.WindowsPermissions.html#AttackSurfaceAnalyzer_Types_WindowsPermissions_AccessControlType
-  commentId: P:AttackSurfaceAnalyzer.Types.WindowsPermissions.AccessControlType
-  fullName: AttackSurfaceAnalyzer.Types.WindowsPermissions.AccessControlType
-  nameWithType: WindowsPermissions.AccessControlType
-- uid: AttackSurfaceAnalyzer.Types.WindowsPermissions.AccessControlType*
-  name: AccessControlType
-  href: api/AttackSurfaceAnalyzer.Types.WindowsPermissions.html#AttackSurfaceAnalyzer_Types_WindowsPermissions_AccessControlType_
-  commentId: Overload:AttackSurfaceAnalyzer.Types.WindowsPermissions.AccessControlType
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Types.WindowsPermissions.AccessControlType
-  nameWithType: WindowsPermissions.AccessControlType
-- uid: AttackSurfaceAnalyzer.Types.WindowsPermissions.IsInherited
-  name: IsInherited
-  href: api/AttackSurfaceAnalyzer.Types.WindowsPermissions.html#AttackSurfaceAnalyzer_Types_WindowsPermissions_IsInherited
-  commentId: P:AttackSurfaceAnalyzer.Types.WindowsPermissions.IsInherited
-  fullName: AttackSurfaceAnalyzer.Types.WindowsPermissions.IsInherited
-  nameWithType: WindowsPermissions.IsInherited
-- uid: AttackSurfaceAnalyzer.Types.WindowsPermissions.IsInherited*
-  name: IsInherited
-  href: api/AttackSurfaceAnalyzer.Types.WindowsPermissions.html#AttackSurfaceAnalyzer_Types_WindowsPermissions_IsInherited_
-  commentId: Overload:AttackSurfaceAnalyzer.Types.WindowsPermissions.IsInherited
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Types.WindowsPermissions.IsInherited
-  nameWithType: WindowsPermissions.IsInherited
-- uid: AttackSurfaceAnalyzer.Types.WindowsPermissions.Name
-  name: Name
-  href: api/AttackSurfaceAnalyzer.Types.WindowsPermissions.html#AttackSurfaceAnalyzer_Types_WindowsPermissions_Name
-  commentId: P:AttackSurfaceAnalyzer.Types.WindowsPermissions.Name
-  fullName: AttackSurfaceAnalyzer.Types.WindowsPermissions.Name
-  nameWithType: WindowsPermissions.Name
-- uid: AttackSurfaceAnalyzer.Types.WindowsPermissions.Name*
-  name: Name
-  href: api/AttackSurfaceAnalyzer.Types.WindowsPermissions.html#AttackSurfaceAnalyzer_Types_WindowsPermissions_Name_
-  commentId: Overload:AttackSurfaceAnalyzer.Types.WindowsPermissions.Name
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Types.WindowsPermissions.Name
-  nameWithType: WindowsPermissions.Name
-- uid: AttackSurfaceAnalyzer.Types.WindowsPermissions.Permissions
-  name: Permissions
-  href: api/AttackSurfaceAnalyzer.Types.WindowsPermissions.html#AttackSurfaceAnalyzer_Types_WindowsPermissions_Permissions
-  commentId: P:AttackSurfaceAnalyzer.Types.WindowsPermissions.Permissions
-  fullName: AttackSurfaceAnalyzer.Types.WindowsPermissions.Permissions
-  nameWithType: WindowsPermissions.Permissions
-- uid: AttackSurfaceAnalyzer.Types.WindowsPermissions.Permissions*
-  name: Permissions
-  href: api/AttackSurfaceAnalyzer.Types.WindowsPermissions.html#AttackSurfaceAnalyzer_Types_WindowsPermissions_Permissions_
-  commentId: Overload:AttackSurfaceAnalyzer.Types.WindowsPermissions.Permissions
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Types.WindowsPermissions.Permissions
-  nameWithType: WindowsPermissions.Permissions
-- uid: AttackSurfaceAnalyzer.Types.WindowsPermissions.SID
-  name: SID
-  href: api/AttackSurfaceAnalyzer.Types.WindowsPermissions.html#AttackSurfaceAnalyzer_Types_WindowsPermissions_SID
-  commentId: P:AttackSurfaceAnalyzer.Types.WindowsPermissions.SID
-  fullName: AttackSurfaceAnalyzer.Types.WindowsPermissions.SID
-  nameWithType: WindowsPermissions.SID
-- uid: AttackSurfaceAnalyzer.Types.WindowsPermissions.SID*
-  name: SID
-  href: api/AttackSurfaceAnalyzer.Types.WindowsPermissions.html#AttackSurfaceAnalyzer_Types_WindowsPermissions_SID_
-  commentId: Overload:AttackSurfaceAnalyzer.Types.WindowsPermissions.SID
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Types.WindowsPermissions.SID
-  nameWithType: WindowsPermissions.SID
 - uid: AttackSurfaceAnalyzer.Utils
   name: AttackSurfaceAnalyzer.Utils
   href: api/AttackSurfaceAnalyzer.Utils.html
