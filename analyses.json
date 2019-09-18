@@ -51,7 +51,7 @@
           ]
         },
         {
-          "field": "SigningStatus",
+          "field": "SignatureStatus",
           "op": "NEQ",
           "data": [
             "Valid"
@@ -165,7 +165,7 @@
       "changeTypes": [
         "CREATED",
         "MODIFIED"
-      ],
+      ],f
       "resultType": "FILE",
       "clauses": [
         {
