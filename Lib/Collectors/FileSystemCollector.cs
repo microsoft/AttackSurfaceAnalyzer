@@ -150,83 +150,83 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <summary>
         /// Converts a FileSystemInfo into a FileSystemObject by reading in data about the file
         /// </summary>
-        /// <param name="fileInfo">A reference to a file on disk</param>
+        /// <param name="fileInfo">A reference to a file on disk.</param>
         /// <param name="downloadCloud">If the file is hosted in the cloud, the user has the option to include cloud files or not.</param>
         /// <param name="INCLUDE_CONTENT_HASH">If we should generate a hash of the file.</param>
         /// <returns></returns>
         public static FileSystemObject FileSystemInfoToFileSystemObject(FileSystemInfo fileInfo, bool downloadCloud = false, bool INCLUDE_CONTENT_HASH = false)
         {
-            FileSystemObject obj = null;
+            FileSystemObject obj = new FileSystemObject()
+            {
+                Path = fileInfo.FullName,
+                Permissions = FileSystemUtils.GetFilePermissions(fileInfo),
+            };
 
             try
             {
-                if (fileInfo is DirectoryInfo)
+                // Get Owner/Group
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
-                    obj = new FileSystemObject()
+                    var fileSecurity = new FileSecurity(fileInfo.FullName, AccessControlSections.All);
+                    IdentityReference oid = fileSecurity.GetOwner(typeof(SecurityIdentifier));
+                    IdentityReference gid = fileSecurity.GetGroup(typeof(SecurityIdentifier));
+
+                    // Set the Owner and Group to the SID, in case we can't properly translate
+                    obj.Owner = oid.ToString();
+                    obj.Group = gid.ToString();
+
+                    try
                     {
-                        Path = fileInfo.FullName,
-                        Permissions = FileSystemUtils.GetFilePermissions(fileInfo),
-                        IsDirectory = true
-                    };
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                    {
-                        var file = new UnixFileInfo(fileInfo.FullName);
-                        obj.Owner = file.OwnerUser.UserName;
-                        obj.Group = file.OwnerGroup.GroupName;
-                        obj.SetGid = file.IsSetGroup;
-                        obj.SetUid = file.IsSetUser;
+                        // Translate owner into the string representation.
+                        obj.Owner = (oid.Translate(typeof(NTAccount)) as NTAccount).Value;
                     }
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                    catch (IdentityNotMappedException)
                     {
-                        var fileSecurity = new FileSecurity();
-                        fileSecurity.SetSecurityDescriptorSddlForm(obj.Permissions);
-                        IdentityReference sid = fileSecurity.GetOwner(typeof(SecurityIdentifier));
-                        NTAccount ntAccount = sid.Translate(typeof(NTAccount)) as NTAccount;
-                        obj.Owner = ntAccount.Value;
-                        sid = fileSecurity.GetGroup(typeof(SecurityIdentifier));
-                        ntAccount = sid.Translate(typeof(NTAccount)) as NTAccount;
-                        obj.Group = ntAccount.Value;
+                        Log.Verbose("Couldn't find the Owner from SID {0} for file {1}", oid.ToString(), fileInfo.FullName);
                     }
-                }
-                else
-                {
-                    obj = new FileSystemObject()
+                    try
                     {
-                        Path = fileInfo.FullName,
-                        Permissions = FileSystemUtils.GetFilePermissions(fileInfo),
-                        Size = (ulong)(fileInfo as FileInfo).Length,
-                        IsDirectory = false
-                    };
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                        // Translate group into the string representation.
+                        obj.Group = (gid.Translate(typeof(NTAccount)) as NTAccount).Value;
+                    }
+                    catch (IdentityNotMappedException)
                     {
-                        var file = new UnixFileInfo(fileInfo.FullName);
-                        obj.Owner = file.OwnerUser.UserName;
-                        obj.Group = file.OwnerGroup.GroupName;
-                        obj.SetGid = file.IsSetGroup;
-                        obj.SetUid = file.IsSetUser;
+                        Log.Verbose("Couldn't find the Group from SID {0} for file {1}", gid.ToString(), fileInfo.FullName);
                     }
 
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                {
+                    var file = new UnixFileInfo(fileInfo.FullName);
+                    obj.Owner = file.OwnerUser.UserName;
+                    obj.Group = file.OwnerGroup.GroupName;
+                    obj.SetGid = file.IsSetGroup;
+                    obj.SetUid = file.IsSetUser;
+                }
+
+                if (fileInfo is DirectoryInfo)
+                {
+                    obj.IsDirectory = true;
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                     {
-                        if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
-                        {
-                            if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
-                            {
-                                obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(fileInfo.FullName);
-                                obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(fileInfo.FullName);
-                            }
-                            else
-                            {
-                                obj.SignatureStatus = "Cloud";
-                            }
-                        }
+                        var file = new UnixFileInfo(fileInfo.FullName);
+                        obj.Owner = file.OwnerUser.UserName;
+                        obj.Group = file.OwnerGroup.GroupName;
+                        obj.SetGid = file.IsSetGroup;
+                        obj.SetUid = file.IsSetUser;
                     }
+                }
+                else if (fileInfo is FileInfo)
+                {
+                    obj.Size = (ulong)(fileInfo as FileInfo).Length;
+                    obj.IsDirectory = false;
 
                     if (INCLUDE_CONTENT_HASH)
                     {
                         obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
                     }
 
+                    // Set IsExecutable and Signature Status
                     if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                     {
                         if (obj.Permissions.Contains("Execute"))
@@ -238,11 +238,16 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         try
                         {
-                            if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
+                            if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
                             {
-                                if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
+                                if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
                                 {
-                                    obj.IsExecutable = true;
+                                    obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(fileInfo.FullName);
+                                    obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(fileInfo.FullName);
+                                }
+                                else
+                                {
+                                    obj.SignatureStatus = "Cloud";
                                 }
                             }
                         }
