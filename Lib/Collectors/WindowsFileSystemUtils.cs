@@ -119,20 +119,20 @@ namespace AttackSurfaceAnalyzer.Collectors
             return false;
         }
 
-        protected internal static List<DLLCHARACTERISTICS> GetDllCharacteristics(string Path)
+        protected internal static List<string> GetDllCharacteristics(string Path)
         {
             if (NeedsSignature(Path))
             {
                 try
                 {
-                    List<DLLCHARACTERISTICS> l = new List<DLLCHARACTERISTICS>();
+                    List<string> l = new List<string>();
                     var peHeader1 = new PeNet.PeFile(Path);
                     ushort characteristics = peHeader1.ImageNtHeaders.OptionalHeader.DllCharacteristics;
                     foreach (DLLCHARACTERISTICS characteristic in Enum.GetValues(typeof(DLLCHARACTERISTICS)))
                     {
                         if (((ushort)characteristic & characteristics) == (ushort)characteristic)
                         {
-                            l.Add(characteristic);
+                            l.Add(characteristic.ToString());
                         }
                     }
                     return l;
@@ -148,7 +148,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
             }
 
-            return new List<DLLCHARACTERISTICS>();
+            return new List<string>();
         }
 
         protected internal static string GetFilePermissions(FileSystemInfo fileInfo)

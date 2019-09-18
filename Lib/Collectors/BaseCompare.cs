@@ -173,15 +173,22 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                             if (Helpers.IsList(firstVal))
                             {
-                                added = ((List<object>)field.GetValue(second)).Except((List<object>)field.GetValue(first));
-                                removed = ((List<object>)field.GetValue(first)).Except((List<object>)field.GetValue(second));
-                                if (((IEnumerable<object>)added).Count() == 0)
+                                try
                                 {
-                                    added = null;
+                                    added = ((List<object>)field.GetValue(second)).Except((List<object>)field.GetValue(first));
+                                    removed = ((List<object>)field.GetValue(first)).Except((List<object>)field.GetValue(second));
+                                    if (((IEnumerable<object>)added).Count() == 0)
+                                    {
+                                        added = null;
+                                    }
+                                    if (((IEnumerable<object>)removed).Count() == 0)
+                                    {
+                                        removed = null;
+                                    }
                                 }
-                                if (((IEnumerable<object>)removed).Count() == 0)
+                                catch(Exception e)
                                 {
-                                    removed = null;
+                                    Log.Debug(e, "Error comparing two List<object>s");
                                 }
                             }
                             else if (Helpers.IsDictionary(firstVal))

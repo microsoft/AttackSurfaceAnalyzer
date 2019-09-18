@@ -7,12 +7,11 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class FileSystemObject : CollectObject
     {
-
         public string Path { get; set; }
         public string Permissions { get; set; }
         public ulong Size { get; set; }
         public string ContentHash { get; set; }
-        public List<DLLCHARACTERISTICS> Characteristics;
+        public List<string> Characteristics { get; set; }
         public string SignatureStatus { get; set; }
         public bool IsExecutable { get; set; }
         public bool IsDirectory { get; set; }
