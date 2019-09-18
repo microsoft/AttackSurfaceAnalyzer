@@ -121,34 +121,39 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         protected internal static List<string> GetDllCharacteristics(string Path)
         {
+            List<string> output = new List<string>();
+
             if (NeedsSignature(Path))
             {
                 try
                 {
-                    List<string> l = new List<string>();
+                    // This line throws the exceptions below.
                     var peHeader1 = new PeNet.PeFile(Path);
                     ushort characteristics = peHeader1.ImageNtHeaders.OptionalHeader.DllCharacteristics;
                     foreach (DLLCHARACTERISTICS characteristic in Enum.GetValues(typeof(DLLCHARACTERISTICS)))
                     {
                         if (((ushort)characteristic & characteristics) == (ushort)characteristic)
                         {
-                            l.Add(characteristic.ToString());
+                            output.Add(characteristic.ToString());
                         }
                     }
-                    return l;
+                    return output;
                 }
-                // Catches a case where the line establising the PeFile fails with Index outside bounds of the array.
                 catch (IndexOutOfRangeException)
                 {
-                    Log.Verbose("Failed to get PE headers for {0}", Path);
+                    Log.Verbose("Failed to get PE Headers for {0} (IndexOutOfRangeException)", Path);
+                }
+                catch (ArgumentNullException)
+                {
+                    Log.Verbose("Failed to get PE Headers for {0} (ArgumentNullException)", Path);
                 }
                 catch (Exception e)
                 {
-                    Logger.DebugException(e);
+                    Log.Debug(e,"Failed to get DLL Characteristics for path: {0}",Path);
                 }
             }
 
-            return new List<string>();
+            return output;
         }
 
         protected internal static string GetFilePermissions(FileSystemInfo fileInfo)
