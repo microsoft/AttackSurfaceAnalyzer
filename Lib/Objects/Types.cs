@@ -109,7 +109,7 @@ namespace AttackSurfaceAnalyzer.Types
         UNKNOWN
     }
 
-    public class WindowsPermissions
+    public class Permission
     {
         public string SID { get; set; }
         public string Name { get; set; }

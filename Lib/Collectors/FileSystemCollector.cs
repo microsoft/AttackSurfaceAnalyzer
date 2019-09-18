@@ -155,7 +155,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             FileSystemObject obj = new FileSystemObject()
             {
                 Path = fileInfo.FullName,
-                Permissions = FileSystemUtils.GetFilePermissions(fileInfo),
+                PermissionsString = FileSystemUtils.GetFilePermissions(fileInfo),
             };
 
             try
@@ -191,12 +191,12 @@ namespace AttackSurfaceAnalyzer.Collectors
                         Log.Verbose("Couldn't find the Group from SID {0} for file {1}", gid.ToString(), fileInfo.FullName);
                     }
 
-                    obj.WindowsPermissions = new List<WindowsPermissions>();
+                    obj.Permissions = new List<Permission>();
 
                     var rules = fileSecurity.GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier));
                     foreach (FileSystemAccessRule rule in rules)
                     {
-                        WindowsPermissions newPermission = new WindowsPermissions()
+                        Permission newPermission = new Permission()
                         {
                             SID = rule.IdentityReference.Value,
                             IsInherited = rule.IsInherited,
@@ -213,7 +213,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             // This is fine. Some SIDs don't map to NT Accounts.
                         }
 
-                        obj.WindowsPermissions.Add(newPermission);
+                        obj.Permissions.Add(newPermission);
                     }
 
                 }
@@ -224,6 +224,23 @@ namespace AttackSurfaceAnalyzer.Collectors
                     obj.Group = file.OwnerGroup.GroupName;
                     obj.SetGid = file.IsSetGroup;
                     obj.SetUid = file.IsSetUser;
+
+                    obj.Permissions = new List<Permission>();
+
+                    Permission ownerPermission = new Permission()
+                    {
+                        Name = file.OwnerUser.UserName,
+                        Permissions = file.FileAccessPermissions.ToString()
+                    };
+                    Permission groupPermission = new Permission()
+                    {
+                        Name = file.OwnerUser.UserName,
+                        Permissions = file.FileAccessPermissions.ToString()
+                    };
+
+                    obj.Permissions.Add(ownerPermission);
+                    obj.Permissions.Add(groupPermission);
+
                 }
 
                 if (fileInfo is DirectoryInfo)
@@ -251,7 +268,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     // Set IsExecutable and Signature Status
                     if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                     {
-                        if (obj.Permissions.Contains("Execute"))
+                        if (obj.PermissionsString.Contains("Execute"))
                         {
                             obj.IsExecutable = true;
                         }
