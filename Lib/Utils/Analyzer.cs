@@ -142,39 +142,94 @@ namespace AttackSurfaceAnalyzer.Utils
                     var complete = false;
                     var valsToCheck = new List<string>();
 
-                    if (compareResult.ChangeType == CHANGE_TYPE.CREATED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
+                    if (field != null)
                     {
-                        try
+                        if (compareResult.ChangeType == CHANGE_TYPE.CREATED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
                         {
-                            valsToCheck.Add(GetValueByFieldName(compareResult.Compare, field.Name).ToString());
+                            try
+                            {
+                                if (GetValueByFieldName(compareResult.Compare, field.Name) is List<string>)
+                                {
+                                    foreach (var value in (List<string>)GetValueByFieldName(compareResult.Compare, field.Name))
+                                    {
+                                        valsToCheck.Add(value);
+                                    }
+                                }
+                                else
+                                {
+                                    valsToCheck.Add(GetValueByFieldName(compareResult.Compare, field.Name).ToString());
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                Logger.DebugException(e);
+                            }
                         }
-                        catch (NullReferenceException)
+                        if (compareResult.ChangeType == CHANGE_TYPE.DELETED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
                         {
+                            try
+                            {
+                                if (GetValueByFieldName(compareResult.Base, field.Name) is List<string>)
+                                {
+                                    foreach (var value in (List<string>)GetValueByFieldName(compareResult.Base, field.Name))
+                                    {
+                                        valsToCheck.Add(value);
+                                    }
+                                }
+                                else
+                                {
+                                    valsToCheck.Add(GetValueByFieldName(compareResult.Base, field.Name).ToString());
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                Logger.DebugException(e);
+                            }
                         }
-                        try
-                        {
-                            valsToCheck.Add(GetValueByPropertyName(compareResult.Compare, property.Name).ToString());
-                        }
-                        catch (NullReferenceException)
-                        {
-                        }
-
                     }
-                    if (compareResult.ChangeType == CHANGE_TYPE.DELETED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
+                    if (property != null)
                     {
-                        try
+                        if (compareResult.ChangeType == CHANGE_TYPE.CREATED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
                         {
-                            valsToCheck.Add(GetValueByFieldName(compareResult.Base, field.Name).ToString());
+                            try
+                            {
+                                if (GetValueByPropertyName(compareResult.Compare, property.Name) is List<string>)
+                                {
+                                    foreach (var value in (List<string>)GetValueByPropertyName(compareResult.Compare, property.Name))
+                                    {
+                                        valsToCheck.Add(value);
+                                    }
+                                }
+                                else
+                                {
+                                    valsToCheck.Add(GetValueByPropertyName(compareResult.Compare, property.Name).ToString());
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                Logger.DebugException(e);
+                            }
                         }
-                        catch (NullReferenceException)
+                        if (compareResult.ChangeType == CHANGE_TYPE.DELETED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
                         {
-                        }
-                        try
-                        {
-                            valsToCheck.Add(GetValueByPropertyName(compareResult.Base, property.Name).ToString());
-                        }
-                        catch (NullReferenceException)
-                        {
+                            try
+                            {
+                                if (GetValueByPropertyName(compareResult.Base, property.Name) is List<string>)
+                                {
+                                    foreach (var value in (List<string>)GetValueByPropertyName(compareResult.Base, property.Name))
+                                    {
+                                        valsToCheck.Add(value);
+                                    }
+                                }
+                                else
+                                {
+                                    valsToCheck.Add(GetValueByPropertyName(compareResult.Base, property.Name).ToString());
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                Logger.DebugException(e);
+                            }
                         }
                     }
 
