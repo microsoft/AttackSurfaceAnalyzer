@@ -195,9 +195,9 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                     if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                     {
-                        if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
+                        if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
                         {
-                            if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
+                            if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
                             {
                                 obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(fileInfo.FullName);
                                 obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(fileInfo.FullName);

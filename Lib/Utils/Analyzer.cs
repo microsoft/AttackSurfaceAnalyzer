@@ -306,7 +306,7 @@ namespace AttackSurfaceAnalyzer.Utils
         }
 
         private object GetValueByFieldName(object obj, string fieldName) => obj.GetType().GetField(fieldName).GetValue(obj);
-        private object GetValueByPropertyName(object obj, string propertyName) => obj.GetType().GetField(propertyName).GetValue(obj);
+        private object GetValueByPropertyName(object obj, string propertyName) => obj.GetType().GetProperty(propertyName).GetValue(obj);
 
 
         public void DumpFilters()
