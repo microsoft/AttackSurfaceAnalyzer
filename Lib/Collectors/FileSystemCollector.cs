@@ -319,6 +319,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 {
                                     obj.SignatureStatus = "Cloud";
                                 }
+                                obj.IsExecutable = true;
                             }
                         }
                         catch (System.UnauthorizedAccessException ex)
