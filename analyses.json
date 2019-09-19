@@ -34,7 +34,7 @@
       "name": "Unsigned binaries",
       "desc": "Flag when unsigned/incorrectly signed binaries are added.",
       "flag": "WARNING",
-      "platform": [
+     "platforms": [
         "WINDOWS"
       ],
       "changeTypes": [
@@ -63,7 +63,7 @@
       "name": "SetUid",
       "desc": "Flag UID is set on a file.",
       "flag": "WARNING",
-      "platform": [
+     "platforms": [
         "LINUX",
         "MACOS"
       ],
@@ -86,7 +86,7 @@
       "name": "SetGid",
       "desc": "Flag GID is set on a file.",
       "flag": "WARNING",
-      "platform": [
+     "platforms": [
         "LINUX",
         "MACOS"
       ],
