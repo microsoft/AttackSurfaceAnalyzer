@@ -2,14 +2,11 @@
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Libs;
 using AttackSurfaceAnalyzer.Types;
-using AttackSurfaceAnalyzer.Utils;
 using Serilog;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Runtime.InteropServices;
-using System.Security.AccessControl;
-using System.Text;
+
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -45,9 +42,9 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         protected internal static string GetSignatureStatus(string Path)
         {
-            if (!WindowsFileSystemUtils.NeedsSignature(Path))
+            if (!NeedsSignature(Path))
             {
-                return "";
+                return string.Empty;
             }
             string sigStatus = WinTrust.VerifyEmbeddedSignature(Path);
 
@@ -58,35 +55,9 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                return IsExecutable(Path);
+                return FileSystemUtils.IsExecutable(Path);
             }
             return false;
-        }
-
-        protected internal static bool IsExecutable(string filePath)
-        {
-            try
-            {
-                var twoBytes = new byte[2];
-                using (var fileStream = File.Open(filePath, FileMode.Open))
-                {
-                    fileStream.Read(twoBytes, 0, 2);
-                }
-                return Encoding.UTF8.GetString(twoBytes) == "MZ";
-            }
-            catch (UnauthorizedAccessException)
-            {
-                return false;
-            }
-            catch (IOException)
-            {
-                return false;
-            }
-            catch (Exception e)
-            {
-                Logger.DebugException(e);
-                return false;
-            }
         }
 
         protected internal static bool IsLocal(string path)
@@ -131,76 +102,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
                 catch (Exception e)
                 {
-                    Log.Debug(e,"Failed to get DLL Characteristics for path: {0}",Path);
+                    Log.Debug(e, "Failed to get DLL Characteristics for path: {0}", Path);
                 }
             }
 
             return output;
-        }
-
-        protected internal static string GetFilePermissions(FileSystemInfo fileInfo)
-        {
-            FileSystemSecurity fileSecurity = null;
-            var filename = fileInfo.FullName;
-            if (filename.Length >= 260 && !filename.StartsWith(@"\\?\"))
-            {
-                filename = string.Format(@"\\?\{0}", filename);
-            }
-
-            if (fileInfo is FileInfo)
-            {
-                try
-                {
-                    fileSecurity = new FileSecurity(filename, AccessControlSections.All);
-                }
-                catch (UnauthorizedAccessException)
-                {
-                    Log.Verbose(Strings.Get("Err_AccessControl"), fileInfo.FullName);
-                }
-                catch (InvalidOperationException)
-                {
-                    Log.Verbose("Invalid operation exception {0}.", fileInfo.FullName);
-                }
-                catch (FileNotFoundException)
-                {
-                    Log.Verbose("File not found to get permissions {0}.", fileInfo.FullName);
-                }
-                catch (ArgumentException)
-                {
-                    Log.Debug("Filename not valid for getting permissions {0}", fileInfo.FullName);
-                }
-                catch (Exception e)
-                {
-                    Logger.DebugException(e);
-                }
-            }
-            else if (fileInfo is DirectoryInfo)
-            {
-                try
-                {
-                    fileSecurity = new DirectorySecurity(filename, AccessControlSections.All);
-                }
-                catch (UnauthorizedAccessException)
-                {
-                    Log.Verbose(Strings.Get("Err_AccessControl"), fileInfo.FullName);
-                }
-                catch (InvalidOperationException)
-                {
-                    Log.Verbose("Invalid operation exception {0}.", fileInfo.FullName);
-                }
-                catch (Exception e)
-                {
-                    Logger.DebugException(e);
-                }
-            }
-            else
-            {
-                return null;
-            }
-            if (fileSecurity != null)
-                return fileSecurity.GetSecurityDescriptorSddlForm(AccessControlSections.All);
-            else
-                return "";
         }
     }
 }

@@ -96,7 +96,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     Permissions = new Dictionary<string, string>()
                 };
 
-                foreach (RegistryAccessRule rule in registryKey.GetAccessControl().GetAccessRules(true,true,typeof(System.Security.Principal.SecurityIdentifier)))
+                foreach (RegistryAccessRule rule in registryKey.GetAccessControl().GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier)))
                 {
                     string name = rule.IdentityReference.Value;
 
@@ -109,7 +109,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         // This is fine. Some SIDs don't map to NT Accounts.
                     }
 
-                    regObj.Permissions.Add(name,rule.RegistryRights.ToString());
+                    regObj.Permissions.Add(name, rule.RegistryRights.ToString());
                 }
 
                 foreach (string valueName in registryKey.GetValueNames())

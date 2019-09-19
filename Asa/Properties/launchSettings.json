@@ -17,7 +17,7 @@
     },
     "Asa": {
       "commandName": "Project",
-      "commandLineArgs": "export-collect",
+      "commandLineArgs": "collect -s --databasefilename C:\\asa.dbg.sqlite",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

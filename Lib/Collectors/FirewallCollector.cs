@@ -56,7 +56,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     };
                     DatabaseManager.Write(obj, runId);
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     Logger.DebugException(e);
                     Log.Debug(rule.FriendlyName);

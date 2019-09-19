@@ -63,7 +63,8 @@ namespace AttackSurfaceAnalyzer.Collectors
             DatabaseManager.Commit();
         }
 
-        public void ParseComObjects(RegistryKey SearchKey) { 
+        public void ParseComObjects(RegistryKey SearchKey)
+        {
             if (SearchKey == null) { return; }
             foreach (string SubKeyName in SearchKey.GetSubKeyNames())
             {

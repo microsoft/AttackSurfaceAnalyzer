@@ -186,7 +186,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                         removed = null;
                                     }
                                 }
-                                catch(Exception e)
+                                catch (Exception e)
                                 {
                                     Log.Debug(e, "Error comparing two List<object>s");
                                 }
@@ -301,7 +301,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     removed = null;
                                 }
                             }
-                            else if (firstVal is List<KeyValuePair<string,string>>)
+                            else if (firstVal is List<KeyValuePair<string, string>>)
                             {
                                 added = ((List<KeyValuePair<string, string>>)prop.GetValue(second)).Except((List<KeyValuePair<string, string>>)prop.GetValue(first));
                                 removed = ((List<KeyValuePair<string, string>>)prop.GetValue(first)).Except((List<KeyValuePair<string, string>>)prop.GetValue(second));
@@ -314,7 +314,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     removed = null;
                                 }
                             }
-                            else if (firstVal is Dictionary<string,string>)
+                            else if (firstVal is Dictionary<string, string>)
                             {
                                 added = ((Dictionary<string, string>)secondVal)
                                     .Except((Dictionary<string, string>)firstVal)

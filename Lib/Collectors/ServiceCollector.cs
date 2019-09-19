@@ -257,7 +257,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                ExecuteWindows(); 
+                ExecuteWindows();
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {

@@ -297,7 +297,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     // Set IsExecutable and Signature Status
                     if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                     {
-                        obj.IsExecutable = Helpers.IsExecutable(obj.Path);
+                        obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path);
 
                         try
                         {
@@ -321,7 +321,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                     else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                     {
-                        obj.IsExecutable = Helpers.IsExecutable(obj.Path);
+                        obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path);
                     }
                 }
             }

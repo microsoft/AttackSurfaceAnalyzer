@@ -140,7 +140,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 try
                 {
                     var valsToCheck = new List<string>();
-                    List<KeyValuePair<string,string>> dictToCheck = new List<KeyValuePair<string, string>>();
+                    List<KeyValuePair<string, string>> dictToCheck = new List<KeyValuePair<string, string>>();
 
                     if (field != null)
                     {
@@ -155,7 +155,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                         valsToCheck.Add(value);
                                     }
                                 }
-                                else if (GetValueByFieldName(compareResult.Compare, field.Name) is Dictionary<string,string>)
+                                else if (GetValueByFieldName(compareResult.Compare, field.Name) is Dictionary<string, string>)
                                 {
                                     dictToCheck = ((Dictionary<string, string>)GetValueByFieldName(compareResult.Compare, field.Name)).ToList();
                                 }
@@ -260,7 +260,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             }
                             catch (Exception e)
                             {
-                                Log.Debug(e,"Error fetching Property {0} of Type {1}",property.Name,compareResult.ResultType);
+                                Log.Debug(e, "Error fetching Property {0} of Type {1}", property.Name, compareResult.ResultType);
                             }
                         }
                     }
@@ -274,7 +274,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
                                 foreach (string val in valsToCheck)
                                 {
-                                    count += (datum.Equals(val))? 1:0;
+                                    count += (datum.Equals(val)) ? 1 : 0;
                                     break;
                                 }
                             }
@@ -309,7 +309,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                     break;
                                 }
                             }
-                            else if(valsToCheck.Count > 0)
+                            else if (valsToCheck.Count > 0)
                             {
                                 foreach (string datum in clause.data)
                                 {
@@ -319,7 +319,8 @@ namespace AttackSurfaceAnalyzer.Utils
                                         break;
                                     }
                                 }
-                                if (count == clause.data.Count) {
+                                if (count == clause.data.Count)
+                                {
                                     break;
                                 }
                             }
