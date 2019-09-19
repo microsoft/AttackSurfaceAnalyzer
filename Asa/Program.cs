@@ -1332,7 +1332,6 @@ namespace AttackSurfaceAnalyzer
                 cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                 cmd.Parameters.AddWithValue("@version", Helpers.GetVersionString());
                 cmd.Parameters.AddWithValue("@platform", Helpers.GetPlatformString());
-                Log.Debug("{0} is the platform string", Helpers.GetPlatformString());
 
                 try
                 {

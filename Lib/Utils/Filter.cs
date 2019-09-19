@@ -82,7 +82,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         try
                         {
                             _filters.Add(key, new List<Regex>());
-                            Log.Debug(Strings.Get("FailedParsed"), Platform, ScanType, ItemType, Property, FilterType);
+                            Log.Debug(Strings.Get("EmptyEntry"), Platform, ScanType, ItemType, Property, FilterType);
                         }
                         catch (ArgumentException)
                         {
