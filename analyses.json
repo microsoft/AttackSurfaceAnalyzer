@@ -106,26 +106,6 @@
       ]
     },
     {
-      "name": "Executables",
-      "desc": "Flag when executables are created.",
-      "flag": "INFORMATION",
-      "platforms": [
-        "LINUX",
-        "MACOS",
-        "WINDOWS"
-      ],
-      "resultType": "FILE",
-      "clauses": [
-        {
-          "field": "IsExecutable",
-          "op": "EQ",
-          "data": [
-            "True"
-          ]
-        }
-      ]
-    },
-    {
       "name": "Missing ASLR",
       "desc": "Flag when executables are created without ASLR.",
       "flag": "WARNING",
@@ -187,7 +167,7 @@
     {
       "name": "Missing Signed Enforcement",
       "desc": "Flag when executables are signed binaries are created without Force Integrity flag.",
-      "flag": "WARNING",
+      "flag": "DEBUG",
       "platforms": [
         "WINDOWS"
       ],
