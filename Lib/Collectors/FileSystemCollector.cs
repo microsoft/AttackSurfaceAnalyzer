@@ -235,6 +235,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Read"));
                         obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Write"));
                         obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Execute"));
+                        obj.IsExecutable = true;
                     }
                     else
                     {
@@ -277,6 +278,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 obj.Permissions.Add(new KeyValuePair<string, string>("Other", permission.Trim().Substring(5)));
                             }
                         }
+
+                        obj.IsExecutable = (obj.Permissions.Where((x) => x.Value.Equals("Execute")).Count() > 0);
                     }
                 }
 
@@ -295,14 +298,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
 
                     // Set IsExecutable and Signature Status
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                    {
-                        if (obj.PermissionsString.Contains("Execute"))
-                        {
-                            obj.IsExecutable = true;
-                        }
-                    }
-                    else
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                     {
                         try
                         {
