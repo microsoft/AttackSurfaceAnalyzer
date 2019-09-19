@@ -381,7 +381,7 @@
   <data name="FailedParsed" xml:space="preserve">
     <value>Could not parse {0} {1} {2} {3} {4}.</value>
   </data>
-  <data name="Empty Entry" xml:space="preserve">
+  <data name="EmptyEntry" xml:space="preserve">
     <value>Empty filter entry {0} {1} {2} {3} {4}.</value>
   </data>
   <data name="LoadedFilters" xml:space="preserve">
