@@ -4,6 +4,7 @@ using AttackSurfaceAnalyzer.Utils;
 using Mono.Unix;
 using Serilog;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -12,6 +13,15 @@ namespace AttackSurfaceAnalyzer.Collectors
 {
     public class LinuxFileSystemUtils
     {
+        private static readonly List<string> MachMagicNumbers = new List<string>()
+        {
+            Helpers.HexStringToAscii("FEEDFACE"),
+            Helpers.HexStringToAscii("FEEDFACF"),
+            Helpers.HexStringToAscii("CEFAEDFE"),
+            Helpers.HexStringToAscii("CFFAEDFE"),
+            Helpers.HexStringToAscii("CAFEBEBE")
+        };
+
         public static bool IsExecutable(string Path)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
@@ -50,7 +60,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         fileStream.Read(fourBytes, 0, 4);
                     }
                     // Mach-o format magic numbers
-                    return (Encoding.ASCII.GetString(fourBytes) == Helpers.HexStringToAscii("FEEDFACE")) || (Encoding.ASCII.GetString(fourBytes) == Helpers.HexStringToAscii("FEEDFACF"));
+                    return MachMagicNumbers.Contains(Encoding.ASCII.GetString(fourBytes));
                 }
                 catch (UnauthorizedAccessException)
                 {
