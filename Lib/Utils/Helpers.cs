@@ -6,13 +6,117 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
     public class Helpers
     {
+        private static readonly List<string> MacMagicNumbers = new List<string>()
+        {
+            // 32 Bit Binary
+            Helpers.HexStringToAscii("FEEDFACE"),
+            // 64 Bit Binary
+            Helpers.HexStringToAscii("FEEDFACF"),
+            // 32 Bit Binary (reverse byte ordering)
+            Helpers.HexStringToAscii("CEFAEDFE"),
+            // 64 Bit Binary (reverse byte ordering)
+            Helpers.HexStringToAscii("CFFAEDFE"),
+            // "Fat Binary"
+            Helpers.HexStringToAscii("CAFEBEBE")
+        };
+
+        // ELF Format
+        private static readonly string ElfMagicNumber = Helpers.HexStringToAscii("7F454C46");
+
+        // MZ
+        private static readonly string WindowsMagicNumber = Helpers.HexStringToAscii("4D5A");
+
+        private static readonly string JavaMagicNumber = Helpers.HexStringToAscii("CAFEBEBE");
+
+        public static bool IsExecutable(string Path)
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                try
+                {
+                    var fourBytes = new byte[4];
+                    using (var fileStream = File.Open(Path, FileMode.Open))
+                    {
+                        fileStream.Read(fourBytes, 0, 4);
+                    }
+                    return (Encoding.ASCII.GetString(fourBytes) == ElfMagicNumber);
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    return false;
+                }
+                catch (IOException)
+                {
+                    return false;
+                }
+                catch (Exception e)
+                {
+                    Logger.DebugException(e);
+                    return false;
+                }
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                try
+                {
+                    var fourBytes = new byte[4];
+                    using (var fileStream = File.Open(Path, FileMode.Open))
+                    {
+                        fileStream.Read(fourBytes, 0, 4);
+                    }
+                    // Mach-o format magic numbers
+                    return MacMagicNumbers.Contains(Encoding.ASCII.GetString(fourBytes));
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    return false;
+                }
+                catch (IOException)
+                {
+                    return false;
+                }
+                catch (Exception e)
+                {
+                    Logger.DebugException(e);
+                    return false;
+                }
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                try
+                {
+                    var twoBytes = new byte[2];
+                    using (var fileStream = File.Open(Path, FileMode.Open))
+                    {
+                        fileStream.Read(twoBytes, 0, 2);
+                    }
+                    return (Encoding.ASCII.GetString(twoBytes) == WindowsMagicNumber);
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    return false;
+                }
+                catch (IOException)
+                {
+                    return false;
+                }
+                catch (Exception e)
+                {
+                    Logger.DebugException(e);
+                    return false;
+                }
+            }
+            return false;
+        }
         public static string HexStringToAscii(string hex)
         {
             try

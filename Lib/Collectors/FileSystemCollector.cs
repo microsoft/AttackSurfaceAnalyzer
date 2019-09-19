@@ -235,10 +235,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                         obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Read"));
                         obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Write"));
                         obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Execute"));
-                        if (fileInfo is FileInfo)
-                        {
-                            obj.IsExecutable = true;
-                        }
                     }
                     else
                     {
@@ -301,6 +297,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                     // Set IsExecutable and Signature Status
                     if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                     {
+                        obj.IsExecutable = Helpers.IsExecutable(obj.Path);
+
                         try
                         {
                             if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
@@ -314,7 +312,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 {
                                     obj.SignatureStatus = "Cloud";
                                 }
-                                obj.IsExecutable = true;
                             }
                         }
                         catch (System.UnauthorizedAccessException ex)
@@ -324,7 +321,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                     else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                     {
-                        obj.IsExecutable = LinuxFileSystemUtils.IsExecutable(obj.Path);
+                        obj.IsExecutable = Helpers.IsExecutable(obj.Path);
                     }
                 }
             }
