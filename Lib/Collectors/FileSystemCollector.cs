@@ -281,11 +281,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 obj.Permissions.Add(new KeyValuePair<string, string>("Other", permission.Trim().Substring(5)));
                             }
                         }
-
-                        if ((fileInfo is FileInfo) && obj.Permissions.Where((x)=>x.Value.Equals("Execute")).Count() > 0)
-                        {
-                            obj.IsExecutable = true;
-                        }
                     }
                 }
 
@@ -326,6 +321,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                         {
                             Log.Verbose(ex, "Couldn't access {0} to check if signature is needed.", fileInfo.FullName);
                         }
+                    }
+                    else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                    {
+                        obj.IsExecutable = LinuxFileSystemUtils.IsExecutable(obj.Path);
                     }
                 }
             }
