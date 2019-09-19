@@ -282,7 +282,7 @@
     },
     {
       "name": "COM Objects Modified",
-      "desc": "Flags when the COM Object registry has been changed.",
+      "desc": "Flags when a COM Object has been Added, Removed or Modified.",
       "flag": "INFORMATION",
       "platforms": [
         "WINDOWS"
