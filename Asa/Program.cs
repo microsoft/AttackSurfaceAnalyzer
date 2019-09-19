@@ -1362,7 +1362,6 @@ namespace AttackSurfaceAnalyzer
                     Log.Error(ex, Strings.Get("Err_CollectingFrom"), c.GetType().Name, ex.Message, ex.StackTrace);
                     returnValue = 1;
                 }
-                Log.Information(Strings.Get("End"), c.GetType().Name);
             }
             Telemetry.TrackEvent("End Command", EndEvent);
 
