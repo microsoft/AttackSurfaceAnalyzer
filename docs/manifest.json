@@ -21,7 +21,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Collectors.BaseCompare.html",
-          "hash": "/1PjmxlJfGeBasy/I6OP0A=="
+          "hash": "NVnczp+hQgYdzzuwm+TaQA=="
         }
       },
       "is_incremental": false,
@@ -69,7 +69,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html",
-          "hash": "tjwhrdRE1wKceMvIX0bEcg=="
+          "hash": "KV0P0gc0d4z5oY0fUDJR7w=="
         }
       },
       "is_incremental": false,
@@ -273,7 +273,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Objects.Clause.html",
-          "hash": "ApRbw0EJj2QDI9F6nuoOjw=="
+          "hash": "hk8BWx7ws4TgY3q12wgeNg=="
         }
       },
       "is_incremental": false,
@@ -357,7 +357,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Objects.FileSystemObject.html",
-          "hash": "jL7A5MyJAJ43RMg9NFQDQw=="
+          "hash": "uw3gaubLORf/bCq9n2kowg=="
         }
       },
       "is_incremental": false,
@@ -597,7 +597,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE.html",
-          "hash": "2CM6GSD+6wM4rmN1UyAZfA=="
+          "hash": "fE2Y5GLVz0QkLSHi8pD2Iw=="
         }
       },
       "is_incremental": false,
@@ -609,7 +609,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Types.CHANGE_TYPE.html",
-          "hash": "bOadF5AwXg5PfWVuymBPgw=="
+          "hash": "Hz04twGNvIpIozTTnuvnzg=="
         }
       },
       "is_incremental": false,
@@ -621,7 +621,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS.html",
-          "hash": "c7atoQJycu462q8Jq2kF3w=="
+          "hash": "koZIhJmY/MfElcnjPEXOuQ=="
         }
       },
       "is_incremental": false,
@@ -633,7 +633,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Types.ERRORS.html",
-          "hash": "0XaH1Y2GGNKo/2JLGF/uIQ=="
+          "hash": "VFKi+6InfoD+mO5m4LRBZQ=="
         }
       },
       "is_incremental": false,
@@ -645,7 +645,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Types.OPERATION.html",
-          "hash": "Pak1PStC8BTbSQRSOTIGgg=="
+          "hash": "kQFTtXbynVmXXTUBCJHqvQ=="
         }
       },
       "is_incremental": false,
@@ -657,7 +657,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Types.PLATFORM.html",
-          "hash": "aTYeTa/FiI9qI59twxeTag=="
+          "hash": "zub3Yb3Xx5dU7lQTbnnjYQ=="
         }
       },
       "is_incremental": false,
@@ -669,7 +669,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Types.RESULT_TYPE.html",
-          "hash": "M7pk67X9N8+1/SybMtZXPA=="
+          "hash": "HzCh/rb2Y9PoKniJCu/AhA=="
         }
       },
       "is_incremental": false,
@@ -681,7 +681,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Types.RUN_STATUS.html",
-          "hash": "wr8t1s+16q1cZFowtQ38BA=="
+          "hash": "QyhAH8Yj/6WpjxQ08FquXA=="
         }
       },
       "is_incremental": false,
@@ -693,7 +693,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Types.html",
-          "hash": "UCIstifF3wOmp1Yfphy+1w=="
+          "hash": "o9ryMYnlfD0CYTDeEOv+aA=="
         }
       },
       "is_incremental": false,
@@ -705,7 +705,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Utils.Analyzer.html",
-          "hash": "XaQDAi8buYURyI6TH7qyvQ=="
+          "hash": "C9a0QZU7E8SfC63rw+Yfig=="
         }
       },
       "is_incremental": false,
@@ -933,7 +933,7 @@
       "output": {
         ".html": {
           "relative_path": "api/index.html",
-          "hash": "Jx46kH0TE1Bd5gc6prqRuw=="
+          "hash": "nIKkFWpEFHuCz/oZEuxoEA=="
         }
       },
       "is_incremental": false,
@@ -957,10 +957,10 @@
       "output": {
         ".html": {
           "relative_path": "articles/intro.html",
-          "hash": "RsrCokvUTNQHRUjcBrY9uA=="
+          "hash": "9UtHwr0WbWGlizR/NZt9pQ=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -981,10 +981,10 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "yABAdCiUttaePPgl7wIOWQ=="
+          "hash": "qN9AMN2CSzv0xuDdmAormQ=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -1003,37 +1003,39 @@
   "incremental_info": [
     {
       "status": {
-        "can_incremental": true,
+        "can_incremental": false,
+        "details": "Disable incremental build by force rebuild option.",
         "incrementalPhase": "build",
         "total_file_count": 0,
-        "skipped_file_count": 0
+        "skipped_file_count": 0,
+        "full_build_reason_code": "ForceRebuild"
       },
       "processors": {
+        "ConceptualDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 3,
+          "skipped_file_count": 0
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 77,
+          "skipped_file_count": 0
+        },
         "TocDocumentProcessor": {
           "can_incremental": false,
           "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build",
           "total_file_count": 0,
           "skipped_file_count": 0
-        },
-        "ConceptualDocumentProcessor": {
-          "can_incremental": true,
-          "incrementalPhase": "build",
-          "total_file_count": 3,
-          "skipped_file_count": 3
-        },
-        "ManagedReferenceDocumentProcessor": {
-          "can_incremental": true,
-          "incrementalPhase": "build",
-          "total_file_count": 77,
-          "skipped_file_count": 71
         }
       }
     },
     {
       "status": {
-        "can_incremental": true,
-        "details": "Can support incremental post processing.",
+        "can_incremental": false,
+        "details": "Cannot support incremental post processing, the reason is: it's disabled.",
         "incrementalPhase": "postProcessing",
         "total_file_count": 0,
         "skipped_file_count": 0

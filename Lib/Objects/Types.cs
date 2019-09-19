@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace AttackSurfaceAnalyzer.Types
 {
+    /// <summary>
+    /// The data type of a Collect object.
+    /// </summary>
     public enum RESULT_TYPE
     {
         UNKNOWN,
@@ -18,6 +21,9 @@ namespace AttackSurfaceAnalyzer.Types
         COM
     };
 
+    /// <summary>
+    /// The change type of a CompareResult object.
+    /// </summary>
     public enum CHANGE_TYPE
     {
         INVALID,
@@ -27,6 +33,9 @@ namespace AttackSurfaceAnalyzer.Types
         RENAMED
     }
 
+    /// <summary>
+    /// The running status of a Comparator or Collector
+    /// </summary>
     public enum RUN_STATUS
     {
         NOT_STARTED,
@@ -36,6 +45,9 @@ namespace AttackSurfaceAnalyzer.Types
         NO_RESULTS
     }
 
+    /// <summary>
+    /// Errors used to communicate with the GUI.
+    /// </summary>
     public enum ERRORS
     {
         NONE,
@@ -46,6 +58,7 @@ namespace AttackSurfaceAnalyzer.Types
     }
 
     /// <summary>
+    /// These are the characteristics defined in the PE Header for Windows executables.
     /// See https://docs.microsoft.com/en-us/windows/win32/debug/pe-format for the oracle definitions of these values
     /// </summary>
     public enum DLLCHARACTERISTICS
@@ -74,8 +87,9 @@ namespace AttackSurfaceAnalyzer.Types
         IMAGE_DLLCHARACTERISTICS_TERMINAL_SERVER_AWARE = 0x8000
     }
 
-    // These need better names. But the heirarchy of these makes sense to me as a model.
-    // These are flags that can be defined in an analyze.json to arrange output by importance.
+    /// <summary>
+    /// Flags available for analysis rules.
+    /// </summary>
     public enum ANALYSIS_RESULT_TYPE
     {
         NONE,
@@ -87,6 +101,9 @@ namespace AttackSurfaceAnalyzer.Types
         FATAL
     }
 
+    /// <summary>
+    /// Operations available for Analysis rules.
+    /// </summary>
     public enum OPERATION
     {
         REGEX,
@@ -101,6 +118,9 @@ namespace AttackSurfaceAnalyzer.Types
         STARTS_WITH
     }
 
+    /// <summary>
+    /// Platform definitions for Analysis rules.
+    /// </summary>
     public enum PLATFORM
     {
         WINDOWS,
