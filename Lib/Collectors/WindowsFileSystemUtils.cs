@@ -15,8 +15,6 @@ namespace AttackSurfaceAnalyzer.Collectors
 {
     public class WindowsFileSystemUtils
     {
-        public static List<string> SIGNED_EXTENSIONS = new List<string> { "dll", "exe", "cab", "ocx" };
-
         [StructLayout(LayoutKind.Sequential)]
         public struct WIN32_FILE_ATTRIBUTE_DATA
         {
@@ -60,24 +58,9 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                var _p = Path.ToLower().Trim();
-                foreach (var ext in SIGNED_EXTENSIONS)
-                {
-                    if (_p.EndsWith("." + ext))
-                    {
-                        return true;
-                    }
-                }
-                if (IsExecutable(Path))
-                {
-                    return true;
-                }
-                return false;
+                return IsExecutable(Path);
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
         protected internal static bool IsExecutable(string filePath)
