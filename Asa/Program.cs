@@ -540,7 +540,7 @@ namespace AttackSurfaceAnalyzer
                         }
                     }
                 }
-                Log.Information(Strings.Get("OutputWrittenTo"), path);
+                Log.Information(Strings.Get("OutputWrittenTo"), (new DirectoryInfo(path)).FullName);
             }
             else
             {
@@ -555,7 +555,7 @@ namespace AttackSurfaceAnalyzer
                         serializer.Serialize(writer, output);
                     }
                 }
-                Log.Information(Strings.Get("OutputWrittenTo"), path);
+                Log.Information(Strings.Get("OutputWrittenTo"), (new FileInfo(path)).FullName);
             }
             return 0;
 
@@ -758,7 +758,7 @@ namespace AttackSurfaceAnalyzer
                 serializer.Serialize(writer, output);
             }
 
-            Log.Information(Strings.Get("OutputWrittenTo"), path);
+            Log.Information(Strings.Get("OutputWrittenTo"), (new FileInfo(path)).FullName);
 
         }
 
