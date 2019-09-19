@@ -95,10 +95,10 @@ namespace AttackSurfaceAnalyzer.Types
         LT,
         GT,
         CONTAINS,
+        DOES_NOT_CONTAIN,
         WAS_MODIFIED,
         ENDS_WITH,
-        STARTS_WITH,
-        DOES_NOT_CONTAIN
+        STARTS_WITH
     }
 
     public enum PLATFORM
