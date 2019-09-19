@@ -235,7 +235,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                         obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Read"));
                         obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Write"));
                         obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Execute"));
-                        obj.IsExecutable = true;
+                        if (fileInfo is FileInfo)
+                        {
+                            obj.IsExecutable = true;
+                        }
                     }
                     else
                     {
@@ -279,7 +282,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                             }
                         }
 
-                        obj.IsExecutable = (obj.Permissions.Where((x) => x.Value.Equals("Execute")).Count() > 0);
+                        if ((fileInfo is FileInfo) && obj.Permissions.Where((x)=>x.Value.Equals("Execute")).Count() > 0)
+                        {
+                            obj.IsExecutable = true;
+                        }
                     }
                 }
 
