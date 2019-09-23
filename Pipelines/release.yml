@@ -1,4 +1,4 @@
-name: ASA Release
+name: ASA 2.1 Release
 
 trigger:
 - master
