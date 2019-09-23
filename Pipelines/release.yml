@@ -56,45 +56,46 @@ stages:
         EnableServices: true
         TreatSignatureUpdateFailureAs: Standard
 
-    - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@1
-      displayName: 'ESRP CodeSigning CLI'
+    - task: EsrpCodeSigning@1
       inputs:
-        ConnectedServiceName: CodeSignforATSAN
+        ConnectedServiceName: 'CodeSignforATSAN'
         FolderPath: '$(build.binariesdirectory)/windows'
         Pattern: 'Asa.exe, Asa.dll, AsaLib.dll'
-        signConfigType: inlineSignParams
+        signConfigType: 'inlineSignParams'
         inlineOperation: |
-        [
-          {
-            "keyCode": "CP-230012",
-            "operationSetCode": "SigntoolSign",
-            "parameters": [
+          [
               {
-                "parameterName": "OpusName",
-                "parameterValue": "Microsoft"
-              },
-              {
-                "parameterName": "OpusInfo",
-                "parameterValue": "http://www.microsoft.com"
-              },
-              {
-                "parameterName": "PageHash",
-                "parameterValue": "/NPH"
-              },
-              {
-                "parameterName": "FileDigest",
-                "parameterValue": "/fd sha256"
-              },
-              {
-                "parameterName": "TimeStamp",
-                "parameterValue": "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
+              "keyCode": "CP-230012",
+              "operationSetCode": "SigntoolSign",
+              "parameters": [
+                  {
+                  "parameterName": "OpusName",
+                  "parameterValue": "Microsoft"
+                  },
+                  {
+                  "parameterName": "OpusInfo",
+                  "parameterValue": "http://www.microsoft.com"
+                  },
+                  {
+                  "parameterName": "PageHash",
+                  "parameterValue": "/NPH"
+                  },
+                  {
+                  "parameterName": "FileDigest",
+                  "parameterValue": "/fd sha256"
+                  },
+                  {
+                  "parameterName": "TimeStamp",
+                  "parameterValue": "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
+                  }
+              ],
+              "toolName": "signtool.exe",
+              "toolVersion": "6.2.9304.0"
               }
-            ],
-            "toolName": "signtool.exe",
-            "toolVersion": "6.2.9304.0"
-          }
-        ]
-      timeoutInMinutes: 90
+          ]
+        SessionTimeout: '60'
+        MaxConcurrency: '50'
+        MaxRetryAttempts: '5'
 
     - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@
       displayName: 'ESRP CodeSigning Lib NuPkg'
