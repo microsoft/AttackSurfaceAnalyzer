@@ -236,7 +236,7 @@ stages:
 
 - stage: Hashes
   jobs:
-  - job: GenerateHashes
+  - job: Sign
     steps:
 
     - task: DownloadBuildArtifacts@0
