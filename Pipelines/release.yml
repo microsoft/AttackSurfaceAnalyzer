@@ -1,0 +1,303 @@
+name: ASA Release
+
+trigger:
+- master
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+stages:
+- stage: Test
+  jobs:
+  - job: Test_Windows
+    pool:
+      vmImage: 'windows-latest'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Build Tests'
+      inputs:
+        projects: 'AsaTests/AsaTests.csproj'
+        arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)/Tests'
+
+    - task: VSTest@2
+      displayName: 'Run Tests'
+      inputs:
+        testAssemblyVer2: AsaTests.dll
+        searchFolder: '$(build.binariesdirectory)/Tests'
+
+- stage: Build
+  jobs:
+  - job: Windows
+    pool:
+        vmImage: 'windows-latest'
+
+    steps:
+    - task: DotNetCoreCLI@2
+      displayName: 'Publish ASA Windows'
+      inputs:
+        command: publish
+        projects: 'Asa/Asa.csproj'
+        arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)\windows\ -r win-x86'
+        zipAfterPublish: false
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Build LIB NuPkg'
+      inputs:
+        projects: 'Lib\AsaLib.csproj'
+        arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)\lib\'
+
+    - task: securedevelopmentteam.vss-secure-development-tools.build-task-antimalware.AntiMalware@3
+      displayName: 'AV Scan Artifacts'
+      inputs:
+        FileDirPath: '$(build.binariesdirectory)'
+        EnableServices: true
+        TreatSignatureUpdateFailureAs: Standard
+
+    - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@1
+      displayName: 'ESRP CodeSigning CLI'
+      inputs:
+        ConnectedServiceName: CodeSignforATSAN
+        FolderPath: '$(build.binariesdirectory)\windows'
+        Pattern: 'Asa.exe, Asa.dll, AsaLib.dll'
+        signConfigType: inlineSignParams
+        inlineOperation: |
+        [
+          {
+            "keyCode": "CP-230012",
+            "operationSetCode": "SigntoolSign",
+            "parameters": [
+              {
+                "parameterName": "OpusName",
+                "parameterValue": "Microsoft"
+              },
+              {
+                "parameterName": "OpusInfo",
+                "parameterValue": "http://www.microsoft.com"
+              },
+              {
+                "parameterName": "PageHash",
+                "parameterValue": "/NPH"
+              },
+              {
+                "parameterName": "FileDigest",
+                "parameterValue": "/fd sha256"
+              },
+              {
+                "parameterName": "TimeStamp",
+                "parameterValue": "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
+              }
+            ],
+            "toolName": "signtool.exe",
+            "toolVersion": "6.2.9304.0"
+          }
+        ]
+      timeoutInMinutes: 90
+
+    - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@
+      displayName: 'ESRP CodeSigning Lib NuPkg'
+      inputs:
+        ConnectedServiceName: CodeSignforATSAN
+        FolderPath: '$(build.binariesdirectory)\Lib'
+        Pattern: '*.nupkg'
+        signConfigType: inlineSignParams
+        inlineOperation: |
+        [ 
+            {
+                "keyCode": "CP-401405",
+                "operationSetCode": "NuGetSign",
+                "parameters": [ ],
+                "toolName": "sign",
+                "toolVersion": "1.0"
+            },
+            {
+                "keyCode": "CP-401405",
+                "operationSetCode": "NuGetVerify",
+                "parameters": [ ],
+                "toolName": "sign",
+                "toolVersion": "1.0"
+            }
+        ]
+      timeoutInMinutes: 90
+
+    - powershell: 'Get-ChildItem -Path ''$(build.binariesdirectory)'' -Recurse CodeSign* | foreach { Remove-Item -Path $_.FullName }'
+      displayName: 'Delete CodeSign summaries'
+
+    - powershell: |
+      $longVersion = (nbgv get-version -v AssemblyInformationalVersion)
+      $version = $longVersion.split('+')[0]
+      
+      Copy-Item -Path "$(build.sourcesdirectory)\Asa\AsaLaunch.bat" -Destination "$(build.binariesdirectory)\windows\AsaLaunch.bat"
+      Rename-Item -Path "$(build.binariesdirectory)\windows\Asa" -NewName "res"
+      Rename-Item -Path "$(build.binariesdirectory)\windows" -NewName "Asa-win-$version"
+      Compress-Archive -Path "$(build.binariesdirectory)\Asa-win-$version" -DestinationPath "$(build.artifactstagingdirectory)\Asa-win-$version.zip"
+            
+      Rename-Item -Path "$(build.binariesdirectory)\Lib" -NewName "AsaLib-$version"
+      7z a "$(build.artifactstagingdirectory)\AsaLib-$version.zip" "$(build.binariesdirectory)\AsaLib-$version"
+      displayName: 'Prep Artifacts'
+
+    - powershell: |
+      $longVersion = (nbgv get-version -v AssemblyInformationalVersion)
+      $version = $longVersion.split('-')[0]
+      
+      $zips = Get-ChildItem $(build.artifactstagingdirectory) -Filter "*.zip"
+      $zips | Foreach-Object{
+          $name = $_.Name
+          $tmp = (Get-FileHash "$(build.artifactstagingdirectory)\$name").Hash
+          Add-Content $(build.binariesdirectory)\HASHES_WINDOWS.txt "$tmp`t$name"
+      }
+   
+      displayName: 'Generate Hashfile'
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish HASHES.txt'
+      inputs:
+        PathtoPublish: '$(build.binariesdirectory)\HASHES_WINDOWS.txt'
+        ArtifactName: 'HASHES_WINDOWS'
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact'
+      inputs:
+        PathtoPublish: '$(build.artifactstagingdirectory)'
+        ArtifactName: 'BINARIES'
+
+  - job: Linux
+    pool:
+        vmImage: 'Ubuntu-latest'
+    steps:
+    - task: DotNetCoreCLI@2
+      displayName: 'Publish ASA Linux'
+      inputs:
+          command: publish
+          projects: 'Asa/Asa.csproj'
+          arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/linux -r linux-x64'
+          zipAfterPublish: false
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Publish ASA macOS'
+      inputs:
+          command: publish
+          projects: 'Asa/Asa.csproj'
+          arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/macos -r osx-x64'
+          zipAfterPublish: false
+
+    - script: |
+      VERSION="$(nbgv get-version -v AssemblyInformationalVersion | cut -d'+' -f 1)"
+      
+      cp $SRC_DIR/Cli/AsaLaunch.sh $BIN_DIR/linux/AsaLaunch.sh
+      cp $SRC_DIR/Cli/AsaLaunch.sh $BIN_DIR/osx/AsaLaunch.sh
+      
+      mv $BIN_DIR/linux/Asa $BIN_DIR/linux/res
+      mv $BIN_DIR/osx/Asa $BIN_DIR/osx/res
+      
+      mv $BIN_DIR/linux $BIN_DIR/Asa-linux-$VERSION
+      mv $BIN_DIR/osx $BIN_DIR/Asa-macos-$VERSION
+      
+      chmod +x $BIN_DIR/Asa-linux-$VERSION/AsaLaunch.sh
+      chmod +x $BIN_DIR/Asa-macos-$VERSION/AsaLaunch.sh
+      
+      cd $BIN_DIR
+      
+      tar -czvf $ART_DIR/AsaCli-linux-$VERSION.tar.gz Asa-linux-$VERSION
+      tar -czvf $ART_DIR/AsaCli-macos-$VERSION.tar.gz Asa-macos-$VERSION
+      
+      mkdir $BIN_DIR/HASHES
+
+      sha256sum $ART_DIR/Asa-linux-$VERSION.tar.gz | awk ' { n=split($2, a, "/"); $2 = a[n]; print; } ' OFS='\t' >> $BIN_DIR/HASHES.txt
+      sha256sum $ART_DIR/Asa-macos-$VERSION.tar.gz | awk ' { n=split($2, a, "/"); $2 = a[n]; print; } ' OFS='\t' >> $BIN_DIR/HASHES.txt
+      displayName: 'Prepare Artifacts'
+      env:
+        BIN_DIR: $(build.binariesdirectory)
+        ART_DIR: $(build.artifactstagingdirectory)
+        SRC_DIR: $(build.sourcesdirectory)
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish HASHES'
+    inputs:
+      PathtoPublish: '$(build.binariesdirectory)/HASHES/HASHES.txt'
+      ArtifactName: 'HASHES_LINUX'
+  
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Build Artifaces'
+    inputs:
+      PathtoPublish: '$(build.artifactstagingdirectory)/'
+      ArtifactName: 'BINARIES'
+
+- Stage: Hashes
+    steps:
+    - script: |
+      dotnet tool install --tool-path . nbgv
+      nbgv cloud
+      displayName: 'Set cloud version number'
+
+    - task: DownloadBuildArtifacts@0
+      displayName: 'Download HASHES WINDOWS'
+      inputs:
+        downloadType: specific
+        itemPattern: 'HASHES_WINDOWS/HASHES.txt'
+        downloadPath: '$(build.binariesdirectory)'
+
+    - task: DownloadBuildArtifacts@0
+      displayName: 'Download HASHES LINUX/MACOS'
+      inputs:
+        downloadType: specific
+        itemPattern: 'HASHES_LINUX/HASHES.txt'
+        downloadPath: '$(build.binariesdirectory)'
+
+    - powershell: 'cat $(build.binariesdirectory)\HASHES_LINUX\HASHES.txt, $(build.binariesdirectory)\HASHES_WINDOWS\HASHES.txt | sc $(build.binariesdirectory)\HASHES.txt'
+      displayName: 'PowerShell Script'
+
+    - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@1
+      displayName: 'ESRP CodeSigning HASHES'
+      inputs:
+        ConnectedServiceName: CodeSignforATSAN
+        FolderPath: '$(build.binariesdirectory)'
+        Pattern: HASHES.txt
+        signConfigType: inlineSignParams
+        inlineOperation: |
+        [
+          {
+          "KeyCode" : "CP-450778-Pgp",
+          "OperationCode" : "PgpClearsign",
+          "Parameters" : {},
+          "ToolName" : "sign",
+          "ToolVersion" : "1.0"
+          }
+          ]
+      timeoutInMinutes: 90
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish HASHES'
+      inputs:
+        PathtoPublish: '$(build.binariesdirectory)/HASHES.txt'
+        ArtifactName: 'HASHES'
+
+- Stage: Publish to GitHub
+
+  - task: DownloadBuildArtifacts@
+    displayName: 'Download HASHES'
+    inputs:
+      downloadType: specific
+      itemPattern: 'HASHES/HASHES.txt'
+      downloadPath: '$(build.artifactstagingdirectory)'
+
+  - task: DownloadBuildArtifacts@
+    displayName: 'Download Binaries'
+    inputs:
+      downloadType: specific
+      itemPattern: 'BINARIES/*'
+      downloadPath: '$(build.artifactstagingdirectory)'
+
+  - task: GitHubRelease@1
+    displayName: 'GitHub release update'
+    inputs:
+      gitHubConnection: 'Gabe-Asa'
+      action: edit
+      tag: 'v$(Build.BuildNumber)'
+      title: 'v2.1 Public Preview'
+      assets: '$(Build.ArtifactStagingDirectory)/*'
+      assetUploadMode: replace
+      isDraft: true
+      isPreRelease: true
+      changeLogCompareToRelease: lastNonDraftRelease
