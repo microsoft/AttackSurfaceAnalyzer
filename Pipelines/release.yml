@@ -15,6 +15,7 @@ stages:
     pool:
       vmImage: 'windows-latest'
 
+    steps:
     - task: DotNetCoreCLI@2
       displayName: 'Build Tests'
       inputs:
@@ -31,7 +32,7 @@ stages:
   jobs:
   - job: Windows
     pool:
-        vmImage: 'windows-latest'
+      vmImage: 'windows-latest'
 
     steps:
     - task: DotNetCoreCLI@2
@@ -274,7 +275,7 @@ stages:
         ArtifactName: 'HASHES'
 
 - Stage: Publish to GitHub
-
+  steps:
   - task: DownloadBuildArtifacts@
     displayName: 'Download HASHES'
     inputs:
