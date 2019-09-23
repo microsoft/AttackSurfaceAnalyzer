@@ -278,7 +278,7 @@ stages:
         PathtoPublish: '$(build.binariesdirectory)/HASHES.txt'
         ArtifactName: 'HASHES'
 
-- stage: Publish_to_GitHub
+- stage: GitHub
   jobs:
   - job: DownloadArtifactsAndPublish
     steps:
