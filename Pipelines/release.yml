@@ -225,7 +225,7 @@ stages:
     - task: PublishBuildArtifacts@1
       displayName: 'Publish HASHES'
       inputs:
-        PathtoPublish: '$(build.binariesdirectory)/HASHES/HASHES.txt'
+        PathtoPublish: '$(build.binariesdirectory)/HASHES.txt'
         ArtifactName: 'HASHES_LINUX'
     
     - task: PublishBuildArtifacts@1
