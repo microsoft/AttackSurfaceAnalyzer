@@ -127,32 +127,28 @@ stages:
     - powershell: 'Get-ChildItem -Path ''$(build.binariesdirectory)'' -Recurse CodeSign* | foreach { Remove-Item -Path $_.FullName }'
       displayName: 'Delete CodeSign summaries'
 
-    - powershell: |
-      $longVersion = (nbgv get-version -v AssemblyInformationalVersion)
-      $version = $longVersion.split('+')[0]
-      
-      Copy-Item -Path "$(build.sourcesdirectory)\Asa\AsaLaunch.bat" -Destination "$(build.binariesdirectory)\windows\AsaLaunch.bat"
-      Rename-Item -Path "$(build.binariesdirectory)\windows\Asa" -NewName "res"
-      Rename-Item -Path "$(build.binariesdirectory)\windows" -NewName "Asa-win-$version"
-      Compress-Archive -Path "$(build.binariesdirectory)\Asa-win-$version" -DestinationPath "$(build.artifactstagingdirectory)\Asa-win-$version.zip"
-            
-      Rename-Item -Path "$(build.binariesdirectory)\Lib" -NewName "AsaLib-$version"
-      7z a "$(build.artifactstagingdirectory)\AsaLib-$version.zip" "$(build.binariesdirectory)\AsaLib-$version"
-      displayName: 'Prep Artifacts'
-
-    - powershell: |
-      $longVersion = (nbgv get-version -v AssemblyInformationalVersion)
-      $version = $longVersion.split('-')[0]
-      
-      $zips = Get-ChildItem $(build.artifactstagingdirectory) -Filter "*.zip"
-      $zips | Foreach-Object{
-          $name = $_.Name
-          $tmp = (Get-FileHash "$(build.artifactstagingdirectory)\$name").Hash
-          Add-Content $(build.binariesdirectory)\HASHES_WINDOWS.txt "$tmp`t$name"
-      }
+    - task: PowerShell@2
+      inputs:
+        targetType: 'inline'
+        script: |
+          $longVersion = (nbgv get-version -v AssemblyInformationalVersion)
+                $version = $longVersion.split('+')[0]
+                
+                Copy-Item -Path "$(build.sourcesdirectory)\Asa\AsaLaunch.bat" -Destination "$(build.binariesdirectory)\windows\AsaLaunch.bat"
+                Rename-Item -Path "$(build.binariesdirectory)\windows\Asa" -NewName "res"
+                Rename-Item -Path "$(build.binariesdirectory)\windows" -NewName "Asa-win-$version"
+                Compress-Archive -Path "$(build.binariesdirectory)\Asa-win-$version" -DestinationPath "$(build.artifactstagingdirectory)\Asa-win-$version.zip"
+                      
+                Rename-Item -Path "$(build.binariesdirectory)\Lib" -NewName "AsaLib-$version"
+                7z a "$(build.artifactstagingdirectory)\AsaLib-$version.zip" "$(build.binariesdirectory)\AsaLib-$version"
+                
+                $zips = Get-ChildItem $(build.artifactstagingdirectory) -Filter "*.zip"
+                $zips | Foreach-Object{
+                    $name = $_.Name
+                    $tmp = (Get-FileHash "$(build.artifactstagingdirectory)\$name").Hash
+                    Add-Content $(build.binariesdirectory)\HASHES_WINDOWS.txt "$tmp`t$name"
+                }
    
-      displayName: 'Generate Hashfile'
-
     - task: PublishBuildArtifacts@1
       displayName: 'Publish HASHES.txt'
       inputs:
