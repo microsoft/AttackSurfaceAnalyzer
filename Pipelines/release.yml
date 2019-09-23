@@ -57,7 +57,7 @@ stages:
         InputType: 'Basic'
         ScanType: 'CustomScan'
         FileDirPath: '$(Build.binariesdirectory)'
-        EnableServices: false
+        EnableServices: true
         SupportLogOnError: false
         TreatSignatureUpdateFailureAs: 'Standard'
         SignatureFreshness: 'UpToDate'
