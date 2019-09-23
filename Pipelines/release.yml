@@ -252,24 +252,25 @@ stages:
     - powershell: 'cat $(build.binariesdirectory)\HASHES_LINUX\HASHES.txt, $(build.binariesdirectory)\HASHES_WINDOWS\HASHES.txt | sc $(build.binariesdirectory)\HASHES.txt'
       displayName: 'PowerShell Script'
 
-    - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@1
-      displayName: 'ESRP CodeSigning HASHES'
+    - task: EsrpCodeSigning@1
       inputs:
-        ConnectedServiceName: CodeSignforATSAN
+        ConnectedServiceName: 'CodeSignforATSAN'
         FolderPath: '$(build.binariesdirectory)'
-        Pattern: HASHES.txt
-        signConfigType: inlineSignParams
+        Pattern: 'HASHES.txt'
+        signConfigType: 'inlineSignParams'
         inlineOperation: |
-        [
-          {
-          "KeyCode" : "CP-450778-Pgp",
-          "OperationCode" : "PgpClearsign",
-          "Parameters" : {},
-          "ToolName" : "sign",
-          "ToolVersion" : "1.0"
-          }
+          [
+              {
+              "KeyCode" : "CP-450778-Pgp",
+              "OperationCode" : "PgpClearsign",
+              "Parameters" : {},
+              "ToolName" : "sign",
+              "ToolVersion" : "1.0"
+              }
           ]
-      timeoutInMinutes: 90
+        SessionTimeout: '60'
+        MaxConcurrency: '50'
+        MaxRetryAttempts: '5'
 
     - task: PublishBuildArtifacts@1
       displayName: 'Publish HASHES'
@@ -277,31 +278,32 @@ stages:
         PathtoPublish: '$(build.binariesdirectory)/HASHES.txt'
         ArtifactName: 'HASHES'
 
-- Stage: Publish to GitHub
-  steps:
-  - task: DownloadBuildArtifacts@
-    displayName: 'Download HASHES'
-    inputs:
-      downloadType: specific
-      itemPattern: 'HASHES/HASHES.txt'
-      downloadPath: '$(build.artifactstagingdirectory)'
+- stage: Publish to GitHub
+  jobs:
+  - job: DownloadArtifactsAndPublish
+    steps:
+    - task: DownloadBuildArtifacts@0
+      displayName: 'Download HASHES'
+      inputs:
+        downloadType: specific
+        itemPattern: 'HASHES/HASHES.txt'
+        downloadPath: '$(build.artifactstagingdirectory)'
 
-  - task: DownloadBuildArtifacts@
-    displayName: 'Download Binaries'
-    inputs:
-      downloadType: specific
-      itemPattern: 'BINARIES/*'
-      downloadPath: '$(build.artifactstagingdirectory)'
-
-  - task: GitHubRelease@1
-    displayName: 'GitHub release update'
-    inputs:
-      gitHubConnection: 'Gabe-Asa'
-      action: edit
-      tag: 'v$(Build.BuildNumber)'
-      title: 'v2.1 Public Preview'
-      assets: '$(Build.ArtifactStagingDirectory)/*'
-      assetUploadMode: replace
-      isDraft: true
-      isPreRelease: true
-      changeLogCompareToRelease: lastNonDraftRelease
+    - task: DownloadBuildArtifacts@0
+      displayName: 'Download Binaries'
+      inputs:
+        downloadType: specific
+        itemPattern: 'BINARIES/*'
+        downloadPath: '$(build.artifactstagingdirectory)'
+    - task: GitHubRelease@1
+      displayName: 'GitHub release update'
+      inputs:
+        gitHubConnection: 'Gabe-Asa'
+        action: edit
+        tag: 'v$(Build.BuildNumber)'
+        title: 'v2.1 Public Preview'
+        assets: '$(Build.ArtifactStagingDirectory)/*'
+        assetUploadMode: replace
+        isDraft: true
+        isPreRelease: true
+        changeLogCompareToRelease: lastNonDraftRelease
