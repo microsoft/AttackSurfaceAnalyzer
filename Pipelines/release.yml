@@ -212,24 +212,24 @@ stages:
         ART_DIR: $(build.artifactstagingdirectory)
         SRC_DIR: $(build.sourcesdirectory)
 
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish HASHES'
-    inputs:
-      PathtoPublish: '$(build.binariesdirectory)/HASHES/HASHES.txt'
-      ArtifactName: 'HASHES_LINUX'
-  
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish Build Artifaces'
-    inputs:
-      PathtoPublish: '$(build.artifactstagingdirectory)/'
-      ArtifactName: 'BINARIES'
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish HASHES'
+      inputs:
+        PathtoPublish: '$(build.binariesdirectory)/HASHES/HASHES.txt'
+        ArtifactName: 'HASHES_LINUX'
+    
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Build Artifaces'
+      inputs:
+        PathtoPublish: '$(build.artifactstagingdirectory)/'
+        ArtifactName: 'BINARIES'
 
-- Stage: Hashes
-    steps:
-    - script: |
+- stage: Hashes
+  steps:
+    - task: CmdLine@2 |
       dotnet tool install --tool-path . nbgv
       nbgv cloud
-      displayName: 'Set cloud version number'
+    displayName: 'Set cloud version number'
 
     - task: DownloadBuildArtifacts@0
       displayName: 'Download HASHES WINDOWS'
