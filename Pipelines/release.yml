@@ -35,6 +35,9 @@ stages:
       vmImage: 'windows-latest'
 
     steps:
+    - script: 'dotnet tool install -g nbgv'
+      displayName: 'Install GitVersioning'
+    
     - task: DotNetCoreCLI@2
       displayName: 'Publish ASA Windows'
       inputs:
@@ -46,16 +49,20 @@ stages:
     - task: DotNetCoreCLI@2
       displayName: 'Build LIB NuPkg'
       inputs:
-        projects: 'Lib\AsaLib.csproj'
+        projects: 'Lib/AsaLib.csproj'
         arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)\lib\'
 
-    - task: securedevelopmentteam.vss-secure-development-tools.build-task-antimalware.AntiMalware@3
-      displayName: 'AV Scan Artifacts'
+    - task: AntiMalware@3
       inputs:
-        FileDirPath: '$(build.binariesdirectory)'
-        EnableServices: true
-        TreatSignatureUpdateFailureAs: Standard
-
+        InputType: 'Basic'
+        ScanType: 'CustomScan'
+        FileDirPath: '$(Build.binariesdirectory)'
+        EnableServices: false
+        SupportLogOnError: false
+        TreatSignatureUpdateFailureAs: 'Standard'
+        SignatureFreshness: 'UpToDate'
+        TreatStaleSignatureAs: 'Error'
+        
     - task: EsrpCodeSigning@1
       inputs:
         ConnectedServiceName: 'CodeSignforATSAN'
@@ -165,6 +172,9 @@ stages:
     pool:
         vmImage: 'Ubuntu-latest'
     steps:
+    - script: 'dotnet tool install -g nbgv'
+      displayName: 'Install GitVersioning'
+    
     - task: DotNetCoreCLI@2
       displayName: 'Publish ASA Linux'
       inputs:
