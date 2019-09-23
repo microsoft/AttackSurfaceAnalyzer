@@ -60,7 +60,7 @@ stages:
       displayName: 'ESRP CodeSigning CLI'
       inputs:
         ConnectedServiceName: CodeSignforATSAN
-        FolderPath: '$(build.binariesdirectory)\windows'
+        FolderPath: '$(build.binariesdirectory)/windows'
         Pattern: 'Asa.exe, Asa.dll, AsaLib.dll'
         signConfigType: inlineSignParams
         inlineOperation: |
