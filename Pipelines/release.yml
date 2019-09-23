@@ -225,11 +225,15 @@ stages:
         ArtifactName: 'BINARIES'
 
 - stage: Hashes
-  steps:
-    - task: CmdLine@2 |
-      dotnet tool install --tool-path . nbgv
-      nbgv cloud
-    displayName: 'Set cloud version number'
+  jobs:
+  - job: GenerateHashes
+    steps:
+    - task: CmdLine@2
+      inputs:
+        script: |
+          dotnet tool install --tool-path . nbgv
+          nbgv cloud
+      displayName: 'Set cloud version number'
 
     - task: DownloadBuildArtifacts@0
       displayName: 'Download HASHES WINDOWS'
