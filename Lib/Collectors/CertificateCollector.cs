@@ -152,14 +152,13 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <summary>
         /// Execute the certificate collector.
         /// </summary>
-        public override void Execute()
+        public override void ExecuteInternal()
         {
             if (!CanRunOnPlatform())
             {
                 return;
             }
 
-            Start();
             _ = DatabaseManager.Transaction;
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -176,7 +175,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
 
             DatabaseManager.Commit();
-            Stop();
         }
     }
 }

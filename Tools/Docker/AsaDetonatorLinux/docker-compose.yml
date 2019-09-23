@@ -1,0 +1,15 @@
+version: "3.7"
+
+services:
+  chocotester:
+    container_name: AsaDetonator
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - type: bind
+        source: D:/output
+        target: /output
+      - type: bind
+        source: D:/input
+        target: /input

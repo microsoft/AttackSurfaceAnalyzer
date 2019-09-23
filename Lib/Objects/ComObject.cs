@@ -28,9 +28,9 @@ namespace AttackSurfaceAnalyzer.Objects
             {
                 if (!string.IsNullOrEmpty(x86_BinaryName))
                 {
-                    return string.Format("{0} : {1}",x86_BinaryName,Key.Identity.Split("\\").Last());
+                    return string.Format("{0} : {1}", x86_BinaryName, Key.Identity.Split("\\").Last());
                 }
-                else if(!string.IsNullOrEmpty(x64_BinaryName))
+                else if (!string.IsNullOrEmpty(x64_BinaryName))
                 {
                     return string.Format("{0} : {1}", x64_BinaryName, Key.Identity.Split("\\").Last());
                 }

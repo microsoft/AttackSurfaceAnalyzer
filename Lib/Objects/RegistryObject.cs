@@ -15,7 +15,9 @@ namespace AttackSurfaceAnalyzer.Objects
         public string Key;
         public Dictionary<string, string> Values = new Dictionary<string, string>();
         public List<string> Subkeys = new List<string>();
-        public string Permissions;
+        public string PermissionsString;
+        public Dictionary<string, string> Permissions { get; set; }
+
         public int ValueCount
         {
             get { return Values.Count; }
@@ -83,11 +85,11 @@ namespace AttackSurfaceAnalyzer.Objects
             ResultType = RESULT_TYPE.REGISTRY;
             Values = GetValues(Key);
             Subkeys = GetSubkeys(Key);
-            Permissions = "";
+            PermissionsString = "";
 
             try
             {
-                Permissions = Key.GetAccessControl().GetSecurityDescriptorSddlForm(AccessControlSections.All);
+                PermissionsString = Key.GetAccessControl().GetSecurityDescriptorSddlForm(AccessControlSections.All);
             }
             catch (Exception e)
             {

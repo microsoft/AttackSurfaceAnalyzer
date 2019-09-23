@@ -1,16 +1,45 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Types;
+using Mono.Unix;
+using Serilog;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Security.AccessControl;
+using System.Text;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
     public class Helpers
     {
+        public static string HexStringToAscii(string hex)
+        {
+            try
+            {
+                string ascii = string.Empty;
+
+                for (int i = 0; i < hex.Length; i += 2)
+                {
+                    var hs = hex.Substring(i, 2);
+                    uint decval = System.Convert.ToUInt32(hs, 16);
+                    char character = System.Convert.ToChar(decval);
+                    ascii += character;
+                }
+
+                return ascii;
+            }
+            catch (Exception)
+            {
+                Log.Debug("Couldn't convert hex string {0} to ascii", hex);
+            }
+
+            return string.Empty;
+        }
         public static void OpenBrowser(string url)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
