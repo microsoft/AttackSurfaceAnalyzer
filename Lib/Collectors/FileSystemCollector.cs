@@ -1,15 +1,19 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
+using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Mono.Unix;
+using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.AccessControl;
 using System.Security.Cryptography.X509Certificates;
+using System.Security.Principal;
 using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer.Collectors
@@ -59,14 +63,12 @@ namespace AttackSurfaceAnalyzer.Collectors
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
         }
 
-        public override void Execute()
+        public override void ExecuteInternal()
         {
             if (!CanRunOnPlatform())
             {
                 return;
             }
-
-            Start();
 
             if (roots == null || !roots.Any())
             {
@@ -140,96 +142,175 @@ namespace AttackSurfaceAnalyzer.Collectors
                 DatabaseManager.Commit();
 
             }
-
-            Stop();
-
         }
 
         /// <summary>
         /// Converts a FileSystemInfo into a FileSystemObject by reading in data about the file
         /// </summary>
-        /// <param name="fileInfo">A reference to a file on disk</param>
+        /// <param name="fileInfo">A reference to a file on disk.</param>
         /// <param name="downloadCloud">If the file is hosted in the cloud, the user has the option to include cloud files or not.</param>
         /// <param name="INCLUDE_CONTENT_HASH">If we should generate a hash of the file.</param>
         /// <returns></returns>
         public static FileSystemObject FileSystemInfoToFileSystemObject(FileSystemInfo fileInfo, bool downloadCloud = false, bool INCLUDE_CONTENT_HASH = false)
         {
-            FileSystemObject obj = null;
+            FileSystemObject obj = new FileSystemObject()
+            {
+                Path = fileInfo.FullName,
+                PermissionsString = FileSystemUtils.GetFilePermissions(fileInfo),
+            };
 
             try
             {
-                if (fileInfo is DirectoryInfo)
+                // Get Owner/Group
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
-                    obj = new FileSystemObject()
+                    var fileSecurity = new FileSecurity(fileInfo.FullName, AccessControlSections.All);
+                    IdentityReference oid = fileSecurity.GetOwner(typeof(SecurityIdentifier));
+                    IdentityReference gid = fileSecurity.GetGroup(typeof(SecurityIdentifier));
+
+                    // Set the Owner and Group to the SID, in case we can't properly translate
+                    obj.Owner = oid.ToString();
+                    obj.Group = gid.ToString();
+
+                    try
                     {
-                        Path = fileInfo.FullName,
-                        Permissions = FileSystemUtils.GetFilePermissions(fileInfo),
-                        IsDirectory = true
-                    };
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                    {
-                        var file = new UnixFileInfo(fileInfo.FullName);
-                        obj.Owner = file.OwnerUser.UserName;
-                        obj.Group = file.OwnerGroup.GroupName;
-                        obj.SetGid = file.IsSetGroup;
-                        obj.SetUid = file.IsSetUser;
+                        // Translate owner into the string representation.
+                        obj.Owner = (oid.Translate(typeof(NTAccount)) as NTAccount).Value;
                     }
-                }
-                else
-                {
-                    obj = new FileSystemObject()
+                    catch (IdentityNotMappedException)
                     {
-                        Path = fileInfo.FullName,
-                        Permissions = FileSystemUtils.GetFilePermissions(fileInfo),
-                        Size = (ulong)(fileInfo as FileInfo).Length,
-                        IsDirectory = false
-                    };
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                        Log.Verbose("Couldn't find the Owner from SID {0} for file {1}", oid.ToString(), fileInfo.FullName);
+                    }
+                    try
                     {
-                        var file = new UnixFileInfo(fileInfo.FullName);
-                        obj.Owner = file.OwnerUser.UserName;
-                        obj.Group = file.OwnerGroup.GroupName;
-                        obj.SetGid = file.IsSetGroup;
-                        obj.SetUid = file.IsSetUser;
+                        // Translate group into the string representation.
+                        obj.Group = (gid.Translate(typeof(NTAccount)) as NTAccount).Value;
+                    }
+                    catch (IdentityNotMappedException)
+                    {
+                        // This is fine. Some SIDs don't map to NT Accounts.
+                        Log.Verbose("Couldn't find the Group from SID {0} for file {1}", gid.ToString(), fileInfo.FullName);
                     }
 
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                    obj.Permissions = new List<KeyValuePair<string, string>>();
+
+                    var rules = fileSecurity.GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier));
+                    foreach (FileSystemAccessRule rule in rules)
                     {
-                        if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
+                        string name = rule.IdentityReference.Value;
+
+                        try
                         {
-                            if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
+                            name = rule.IdentityReference.Translate(typeof(NTAccount)).Value;
+                        }
+                        catch (IdentityNotMappedException)
+                        {
+                            // This is fine. Some SIDs don't map to NT Accounts.
+                        }
+
+                        foreach (var permission in rule.FileSystemRights.ToString().Split(','))
+                        {
+                            obj.Permissions.Add(new KeyValuePair<string, string>(name, permission));
+                        }
+
+                    }
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                {
+                    var file = new UnixFileInfo(fileInfo.FullName);
+                    obj.Owner = file.OwnerUser.UserName;
+                    obj.Group = file.OwnerGroup.GroupName;
+                    obj.SetGid = file.IsSetGroup;
+                    obj.SetUid = file.IsSetUser;
+
+                    obj.Permissions = new List<KeyValuePair<string, string>>();
+                    if (file.FileAccessPermissions.ToString().Equals("AllPermissions"))
+                    {
+                        obj.Permissions.Add(new KeyValuePair<string, string>("User", "Read"));
+                        obj.Permissions.Add(new KeyValuePair<string, string>("User", "Write"));
+                        obj.Permissions.Add(new KeyValuePair<string, string>("User", "Execute"));
+                        obj.Permissions.Add(new KeyValuePair<string, string>("Group", "Read"));
+                        obj.Permissions.Add(new KeyValuePair<string, string>("Group", "Write"));
+                        obj.Permissions.Add(new KeyValuePair<string, string>("Group", "Execute"));
+                        obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Read"));
+                        obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Write"));
+                        obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Execute"));
+                    }
+                    else
+                    {
+                        foreach (var permission in file.FileAccessPermissions.ToString().Split(',').Where((x) => x.Trim().StartsWith("User")))
+                        {
+                            if (permission.Contains("ReadWriteExecute"))
                             {
-                                obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(fileInfo.FullName);
-                                obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(fileInfo.FullName);
+                                obj.Permissions.Add(new KeyValuePair<string, string>("User", "Read"));
+                                obj.Permissions.Add(new KeyValuePair<string, string>("User", "Write"));
+                                obj.Permissions.Add(new KeyValuePair<string, string>("User", "Execute"));
                             }
                             else
                             {
-                                obj.SignatureStatus = "Cloud";
+                                obj.Permissions.Add(new KeyValuePair<string, string>("User", permission.Trim().Substring(4)));
+                            }
+                        }
+                        foreach (var permission in file.FileAccessPermissions.ToString().Split(',').Where((x) => x.Trim().StartsWith("Group")))
+                        {
+                            if (permission.Contains("ReadWriteExecute"))
+                            {
+                                obj.Permissions.Add(new KeyValuePair<string, string>("Group", "Read"));
+                                obj.Permissions.Add(new KeyValuePair<string, string>("Group", "Write"));
+                                obj.Permissions.Add(new KeyValuePair<string, string>("Group", "Execute"));
+                            }
+                            else
+                            {
+                                obj.Permissions.Add(new KeyValuePair<string, string>("Group", permission.Trim().Substring(5)));
+                            }
+                        }
+                        foreach (var permission in file.FileAccessPermissions.ToString().Split(',').Where((x) => x.Trim().StartsWith("Other")))
+                        {
+                            if (permission.Contains("ReadWriteExecute"))
+                            {
+                                obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Read"));
+                                obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Write"));
+                                obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Execute"));
+                            }
+                            else
+                            {
+                                obj.Permissions.Add(new KeyValuePair<string, string>("Other", permission.Trim().Substring(5)));
                             }
                         }
                     }
+                }
+
+                if (fileInfo is DirectoryInfo)
+                {
+                    obj.IsDirectory = true;
+                }
+                else if (fileInfo is FileInfo)
+                {
+                    obj.Size = (ulong)(fileInfo as FileInfo).Length;
+                    obj.IsDirectory = false;
 
                     if (INCLUDE_CONTENT_HASH)
                     {
                         obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
                     }
 
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                    // Set IsExecutable and Signature Status
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                     {
-                        if (obj.Permissions.Contains("Execute"))
-                        {
-                            obj.IsExecutable = true;
-                        }
-                    }
-                    else
-                    {
+                        obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path);
+
                         try
                         {
-                            if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
+                            if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
                             {
-                                if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
+                                if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
                                 {
-                                    obj.IsExecutable = true;
+                                    obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(fileInfo.FullName);
+                                    obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(fileInfo.FullName);
+                                }
+                                else
+                                {
+                                    obj.SignatureStatus = "Cloud";
                                 }
                             }
                         }
@@ -237,6 +318,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                         {
                             Log.Verbose(ex, "Couldn't access {0} to check if signature is needed.", fileInfo.FullName);
                         }
+                    }
+                    else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                    {
+                        obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path);
                     }
                 }
             }

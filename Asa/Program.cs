@@ -521,7 +521,7 @@ namespace AttackSurfaceAnalyzer
                 NullValueHandling = NullValueHandling.Ignore,
                 DefaultValueHandling = DefaultValueHandling.Ignore,
                 Converters = new List<JsonConverter>() { new StringEnumConverter() },
-                ContractResolver = new HideBigFieldsContractResolver()
+                ContractResolver = new AsaExportContractResolver()
             });
 
             if (opts.ExplodedOutput)
@@ -540,7 +540,7 @@ namespace AttackSurfaceAnalyzer
                         }
                     }
                 }
-                Log.Information(Strings.Get("OutputWrittenTo"), path);
+                Log.Information(Strings.Get("OutputWrittenTo"), (new DirectoryInfo(path)).FullName);
             }
             else
             {
@@ -555,15 +555,15 @@ namespace AttackSurfaceAnalyzer
                         serializer.Serialize(writer, output);
                     }
                 }
-                Log.Information(Strings.Get("OutputWrittenTo"), path);
+                Log.Information(Strings.Get("OutputWrittenTo"), (new FileInfo(path)).FullName);
             }
             return 0;
 
         }
 
-        public class HideBigFieldsContractResolver : DefaultContractResolver
+        public class AsaExportContractResolver : DefaultContractResolver
         {
-            public static readonly HideBigFieldsContractResolver Instance = new HideBigFieldsContractResolver();
+            public static readonly AsaExportContractResolver Instance = new AsaExportContractResolver();
 
             protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
             {
@@ -572,6 +572,14 @@ namespace AttackSurfaceAnalyzer
                 if (property.DeclaringType == typeof(RegistryObject))
                 {
                     if (property.PropertyName == "Subkeys" || property.PropertyName == "Values")
+                    {
+                        property.ShouldSerialize = _ => { return false; };
+                    }
+                }
+
+                if (property.DeclaringType == typeof(Rule))
+                {
+                    if(property.PropertyName != "name" && property.PropertyName != "desc")
                     {
                         property.ShouldSerialize = _ => { return false; };
                     }
@@ -750,7 +758,7 @@ namespace AttackSurfaceAnalyzer
                 serializer.Serialize(writer, output);
             }
 
-            Log.Information(Strings.Get("OutputWrittenTo"), path);
+            Log.Information(Strings.Get("OutputWrittenTo"), (new FileInfo(path)).FullName);
 
         }
 
@@ -1324,7 +1332,6 @@ namespace AttackSurfaceAnalyzer
                 cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                 cmd.Parameters.AddWithValue("@version", Helpers.GetVersionString());
                 cmd.Parameters.AddWithValue("@platform", Helpers.GetPlatformString());
-                Log.Debug("{0} is the platform string", Helpers.GetPlatformString());
 
                 try
                 {
@@ -1354,7 +1361,6 @@ namespace AttackSurfaceAnalyzer
                     Log.Error(ex, Strings.Get("Err_CollectingFrom"), c.GetType().Name, ex.Message, ex.StackTrace);
                     returnValue = 1;
                 }
-                Log.Information(Strings.Get("End"), c.GetType().Name);
             }
             Telemetry.TrackEvent("End Command", EndEvent);
 

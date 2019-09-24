@@ -1,10 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
+using AttackSurfaceAnalyzer.Types;
 using Microsoft.Win32;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Security.AccessControl;
+using System.Security.Principal;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -89,9 +92,25 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     Subkeys = new List<string>(registryKey.GetSubKeyNames()),
                     Key = registryKey.Name,
-                    Permissions = registryKey.GetAccessControl().GetSecurityDescriptorSddlForm(System.Security.AccessControl.AccessControlSections.All),
-                    Values = new Dictionary<string, string>()
+                    Values = new Dictionary<string, string>(),
+                    Permissions = new Dictionary<string, string>()
                 };
+
+                foreach (RegistryAccessRule rule in registryKey.GetAccessControl().GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier)))
+                {
+                    string name = rule.IdentityReference.Value;
+
+                    try
+                    {
+                        name = rule.IdentityReference.Translate(typeof(NTAccount)).Value;
+                    }
+                    catch (IdentityNotMappedException)
+                    {
+                        // This is fine. Some SIDs don't map to NT Accounts.
+                    }
+
+                    regObj.Permissions.Add(name, rule.RegistryRights.ToString());
+                }
 
                 foreach (string valueName in registryKey.GetValueNames())
                 {

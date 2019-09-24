@@ -108,7 +108,7 @@ namespace AttackSurfaceAnalyzer.Utils
             var curFilters = _filters.Where((rule) => (rule.changeTypes.Contains(compareResult.ChangeType) || rule.changeTypes == null)
                                                      && (rule.platforms.Contains(OsName) || rule.platforms == null)
                                                      && (rule.resultType.Equals(compareResult.ResultType)))
-                                .ToList();
+                                                    .ToList();
             if (curFilters.Count > 0)
             {
                 foreach (Rule rule in curFilters)
@@ -139,44 +139,133 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 try
                 {
-                    var complete = false;
                     var valsToCheck = new List<string>();
+                    List<KeyValuePair<string, string>> dictToCheck = new List<KeyValuePair<string, string>>();
 
-                    if (compareResult.ChangeType == CHANGE_TYPE.CREATED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
+                    if (field != null)
                     {
-                        try
+                        if (compareResult.ChangeType == CHANGE_TYPE.CREATED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
                         {
-                            valsToCheck.Add(GetValueByFieldName(compareResult.Compare, field.Name).ToString());
+                            try
+                            {
+                                if (GetValueByFieldName(compareResult.Compare, field.Name) is List<string>)
+                                {
+                                    foreach (var value in (List<string>)GetValueByFieldName(compareResult.Compare, field.Name))
+                                    {
+                                        valsToCheck.Add(value);
+                                    }
+                                }
+                                else if (GetValueByFieldName(compareResult.Compare, field.Name) is Dictionary<string, string>)
+                                {
+                                    dictToCheck = ((Dictionary<string, string>)GetValueByFieldName(compareResult.Compare, field.Name)).ToList();
+                                }
+                                else if (GetValueByFieldName(compareResult.Compare, field.Name) is List<KeyValuePair<string, string>>)
+                                {
+                                    dictToCheck = (List<KeyValuePair<string, string>>)GetValueByFieldName(compareResult.Compare, field.Name);
+                                }
+                                else
+                                {
+                                    valsToCheck.Add(GetValueByFieldName(compareResult.Compare, field.Name).ToString());
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                Log.Debug(e, "Error fetching Property {0} of Type {1}", field.Name, compareResult.ResultType);
+                            }
                         }
-                        catch (NullReferenceException)
+                        if (compareResult.ChangeType == CHANGE_TYPE.DELETED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
                         {
+                            try
+                            {
+                                if (GetValueByFieldName(compareResult.Base, field.Name) is List<string>)
+                                {
+                                    foreach (var value in (List<string>)GetValueByFieldName(compareResult.Base, field.Name))
+                                    {
+                                        valsToCheck.Add(value);
+                                    }
+                                }
+                                else if (GetValueByFieldName(compareResult.Base, field.Name) is Dictionary<string, string>)
+                                {
+                                    dictToCheck = ((Dictionary<string, string>)GetValueByFieldName(compareResult.Base, field.Name)).ToList();
+                                }
+                                else if (GetValueByFieldName(compareResult.Base, field.Name) is List<KeyValuePair<string, string>>)
+                                {
+                                    dictToCheck = (List<KeyValuePair<string, string>>)GetValueByFieldName(compareResult.Base, field.Name);
+                                }
+                                else
+                                {
+                                    valsToCheck.Add(GetValueByFieldName(compareResult.Base, field.Name).ToString());
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                Log.Debug(e, "Error fetching Property {0} of Type {1}", field.Name, compareResult.ResultType);
+                            }
                         }
-                        try
+                    }
+                    if (property != null)
+                    {
+                        if (compareResult.ChangeType == CHANGE_TYPE.CREATED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
                         {
-                            valsToCheck.Add(GetValueByPropertyName(compareResult.Compare, property.Name).ToString());
+                            try
+                            {
+                                if (GetValueByPropertyName(compareResult.Compare, property.Name) is List<string>)
+                                {
+                                    foreach (var value in (List<string>)GetValueByPropertyName(compareResult.Compare, property.Name))
+                                    {
+                                        valsToCheck.Add(value);
+                                    }
+                                }
+                                else if (GetValueByPropertyName(compareResult.Compare, property.Name) is Dictionary<string, string>)
+                                {
+                                    dictToCheck = ((Dictionary<string, string>)GetValueByPropertyName(compareResult.Compare, property.Name)).ToList();
+                                }
+                                else if (GetValueByPropertyName(compareResult.Compare, property.Name) is List<KeyValuePair<string, string>>)
+                                {
+                                    dictToCheck = (List<KeyValuePair<string, string>>)GetValueByPropertyName(compareResult.Compare, property.Name);
+                                }
+                                else
+                                {
+                                    valsToCheck.Add(GetValueByPropertyName(compareResult.Compare, property.Name).ToString());
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                Log.Debug(e, "Error fetching Property {0} of Type {1}", property.Name, compareResult.ResultType);
+                            }
                         }
-                        catch (NullReferenceException)
+                        if (compareResult.ChangeType == CHANGE_TYPE.DELETED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
                         {
+                            try
+                            {
+                                if (GetValueByPropertyName(compareResult.Base, property.Name) is List<string>)
+                                {
+                                    foreach (var value in (List<string>)GetValueByPropertyName(compareResult.Base, property.Name))
+                                    {
+                                        valsToCheck.Add(value);
+                                    }
+                                }
+                                else if (GetValueByPropertyName(compareResult.Base, property.Name) is Dictionary<string, string>)
+                                {
+                                    dictToCheck = ((Dictionary<string, string>)GetValueByPropertyName(compareResult.Base, property.Name)).ToList();
+                                }
+                                else if (GetValueByPropertyName(compareResult.Base, property.Name) is List<KeyValuePair<string, string>>)
+                                {
+                                    dictToCheck = (List<KeyValuePair<string, string>>)GetValueByPropertyName(compareResult.Base, property.Name);
+                                }
+                                else
+                                {
+                                    valsToCheck.Add(GetValueByPropertyName(compareResult.Base, property.Name).ToString());
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                Log.Debug(e, "Error fetching Property {0} of Type {1}", property.Name, compareResult.ResultType);
+                            }
                         }
+                    }
 
-                    }
-                    if (compareResult.ChangeType == CHANGE_TYPE.DELETED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
-                    {
-                        try
-                        {
-                            valsToCheck.Add(GetValueByFieldName(compareResult.Base, field.Name).ToString());
-                        }
-                        catch (NullReferenceException)
-                        {
-                        }
-                        try
-                        {
-                            valsToCheck.Add(GetValueByPropertyName(compareResult.Base, property.Name).ToString());
-                        }
-                        catch (NullReferenceException)
-                        {
-                        }
-                    }
+                    int count = 0, dictCount = 0;
 
                     switch (clause.op)
                     {
@@ -185,10 +274,11 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
                                 foreach (string val in valsToCheck)
                                 {
-                                    complete |= datum.Equals(val);
+                                    count += (datum.Equals(val)) ? 1 : 0;
+                                    break;
                                 }
                             }
-                            if (complete) { break; }
+                            if (count == clause.data.Count) { break; }
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
 
                         case OPERATION.NEQ:
@@ -196,38 +286,83 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
                                 foreach (string val in valsToCheck)
                                 {
-                                    complete |= !datum.Equals(val);
+                                    if (datum.Equals(val))
+                                    {
+                                        return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+                                    }
                                 }
                             }
-                            if (complete) { break; }
-                            return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+                            break;
 
                         case OPERATION.CONTAINS:
-                            foreach (string datum in clause.data)
+                            if (dictToCheck.Count > 0)
                             {
-                                foreach (string val in valsToCheck)
+                                foreach (KeyValuePair<string, string> value in clause.dictData)
                                 {
-                                    complete |= val.Contains(datum);
+                                    if (dictToCheck.Where((x) => x.Key == value.Key && x.Value == value.Value).Count() > 0)
+                                    {
+                                        dictCount++;
+                                    }
+                                }
+                                if (dictCount == clause.dictData.Count)
+                                {
+                                    break;
                                 }
                             }
-                            if (complete) { break; }
+                            else if (valsToCheck.Count > 0)
+                            {
+                                foreach (string datum in clause.data)
+                                {
+                                    foreach (string val in valsToCheck)
+                                    {
+                                        count += (!val.Contains(datum)) ? 1 : 0;
+                                        break;
+                                    }
+                                }
+                                if (count == clause.data.Count)
+                                {
+                                    break;
+                                }
+                            }
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+
+                        case OPERATION.DOES_NOT_CONTAIN:
+                            if (dictToCheck.Count > 0)
+                            {
+                                foreach (KeyValuePair<string, string> value in clause.dictData)
+                                {
+                                    if (dictToCheck.Where((x) => x.Key == value.Key && x.Value == value.Value).Count() > 0)
+                                    {
+                                        return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+                                    }
+                                }
+                            }
+                            else if (valsToCheck.Count > 0)
+                            {
+                                foreach (string datum in clause.data)
+                                {
+                                    if (valsToCheck.Contains(datum))
+                                    {
+                                        return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+                                    }
+                                }
+                            }
+                            break;
 
                         case OPERATION.GT:
                             foreach (string val in valsToCheck)
                             {
-                                complete |= Int32.Parse(val.ToString()) > Int32.Parse(clause.data[0]);
+                                count += (Int32.Parse(val.ToString()) > Int32.Parse(clause.data[0])) ? 1 : 0;
                             }
-                            if (complete) { break; }
+                            if (count == valsToCheck.Count) { break; }
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
 
                         case OPERATION.LT:
                             foreach (string val in valsToCheck)
                             {
-                                complete |= Int32.Parse(val.ToString()) < Int32.Parse(clause.data[0]);
+                                count += (Int32.Parse(val.ToString()) < Int32.Parse(clause.data[0])) ? 1 : 0;
                             }
-                            if (complete) { break; }
-
+                            if (count == valsToCheck.Count) { break; }
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
 
                         case OPERATION.REGEX:
@@ -238,18 +373,20 @@ namespace AttackSurfaceAnalyzer.Utils
                                     var r = new Regex(datum);
                                     if (r.IsMatch(val))
                                     {
-                                        complete = true;
+                                        count++;
                                     }
                                 }
                             }
-                            if (complete) { break; }
+                            if (count == valsToCheck.Count) { break; }
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+
                         case OPERATION.WAS_MODIFIED:
                             if ((valsToCheck.Count == 2) && (valsToCheck[0] == valsToCheck[1]))
                             {
                                 break;
                             }
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+
                         case OPERATION.ENDS_WITH:
                             foreach (string datum in clause.data)
                             {
@@ -257,14 +394,14 @@ namespace AttackSurfaceAnalyzer.Utils
                                 {
                                     if (val.EndsWith(datum, StringComparison.CurrentCulture))
                                     {
-                                        complete = true;
+                                        count++;
                                         break;
                                     }
                                 }
-                                if (complete) { break; }
                             }
-                            if (complete) { break; }
+                            if (count == clause.data.Count) { break; }
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+
                         case OPERATION.STARTS_WITH:
                             foreach (string datum in clause.data)
                             {
@@ -272,14 +409,14 @@ namespace AttackSurfaceAnalyzer.Utils
                                 {
                                     if (val.StartsWith(datum, StringComparison.CurrentCulture))
                                     {
-                                        complete = true;
+                                        count++;
                                         break;
                                     }
                                 }
-                                if (complete) { break; }
                             }
-                            if (complete) { break; }
+                            if (count == clause.data.Count) { break; }
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+
                         default:
                             Log.Debug("Unimplemented operation {0}", clause.op);
                             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
@@ -296,7 +433,7 @@ namespace AttackSurfaceAnalyzer.Utils
         }
 
         private object GetValueByFieldName(object obj, string fieldName) => obj.GetType().GetField(fieldName).GetValue(obj);
-        private object GetValueByPropertyName(object obj, string propertyName) => obj.GetType().GetField(propertyName).GetValue(obj);
+        private object GetValueByPropertyName(object obj, string propertyName) => obj.GetType().GetProperty(propertyName).GetValue(obj);
 
 
         public void DumpFilters()

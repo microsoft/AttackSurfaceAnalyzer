@@ -59,14 +59,14 @@ namespace AttackSurfaceAnalyzer.Collectors
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
         }
 
-        public override void Execute()
+        public override void ExecuteInternal()
         {
 
             if (!this.CanRunOnPlatform())
             {
                 return;
             }
-            Start();
+
             _ = DatabaseManager.Transaction;
 
             Parallel.ForEach(Hives,
@@ -106,7 +106,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }));
 
             DatabaseManager.Commit();
-            Stop();
         }
     }
 }

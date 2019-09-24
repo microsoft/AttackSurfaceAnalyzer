@@ -36,18 +36,68 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// </summary>
         public void ExecuteWindows()
         {
-            // This gathers official "services" on Windows, but perhaps neglects other startup items
-            foreach (ServiceController service in ServiceController.GetServices())
+            System.Management.SelectQuery sQuery = new System.Management.SelectQuery(string.Format("select * from Win32_Service")); // where name = '{0}'", "MCShield.exe"));
+            using (System.Management.ManagementObjectSearcher mgmtSearcher = new System.Management.ManagementObjectSearcher(sQuery))
             {
-                var obj = new ServiceObject()
+                foreach (System.Management.ManagementObject service in mgmtSearcher.Get())
                 {
-                    DisplayName = service.DisplayName,
-                    ServiceName = service.ServiceName,
-                    StartType = service.StartType.ToString(),
-                    CurrentState = service.Status.ToString()
-                };
+                    var obj = new ServiceObject();
 
-                DatabaseManager.Write(obj, this.runId);
+                    if (service["AcceptPause"] != null)
+                        obj.AcceptPause = bool.Parse(service["AcceptPause"].ToString());
+                    if (service["AcceptStop"] != null)
+                        obj.AcceptStop = bool.Parse(service["AcceptStop"].ToString());
+                    if (service["Caption"] != null)
+                        obj.Caption = service["Caption"].ToString();
+                    if (service["CheckPoint"] != null)
+                        obj.CheckPoint = uint.Parse(service["CheckPoint"].ToString());
+                    if (service["CreationClassName"] != null)
+                        obj.CreationClassName = service["CreationClassName"].ToString();
+                    if (service["DelayedAutoStart"] != null)
+                        obj.DelayedAutoStart = bool.Parse(service["DelayedAutoStart"].ToString());
+                    if (service["Description"] != null)
+                        obj.Description = service["Description"].ToString();
+                    if (service["DesktopInteract"] != null)
+                        obj.DesktopInteract = bool.Parse(service["DesktopInteract"].ToString());
+                    if (service["DisplayName"] != null)
+                        obj.DisplayName = service["DisplayName"].ToString();
+                    if (service["ErrorControl"] != null)
+                        obj.ErrorControl = service["ErrorControl"].ToString();
+                    if (service["ExitCode"] != null)
+                        obj.ExitCode = uint.Parse(service["ExitCode"].ToString());
+                    if (service["InstallDate"] != null)
+                        obj.InstallDate = service["InstallDate"].ToString();
+                    if (service["Name"] != null)
+                        obj.Name = service["Name"].ToString();
+                    if (service["PathName"] != null)
+                        obj.PathName = service["PathName"].ToString();
+                    if (service["ProcessId"] != null)
+                        obj.ProcessId = uint.Parse(service["ProcessId"].ToString());
+                    if (service["ServiceSpecificExitCode"] != null)
+                        obj.ServiceSpecificExitCode = uint.Parse(service["ServiceSpecificExitCode"].ToString());
+                    if (service["ServiceType"] != null)
+                        obj.ServiceType = service["ServiceType"].ToString();
+                    if (service["Started"] != null)
+                        obj.Started = bool.Parse(service["Started"].ToString());
+                    if (service["StartMode"] != null)
+                        obj.StartMode = service["StartMode"].ToString();
+                    if (service["StartName"] != null)
+                        obj.StartName = service["StartName"].ToString();
+                    if (service["State"] != null)
+                        obj.State = service["State"].ToString();
+                    if (service["Status"] != null)
+                        obj.Status = service["Status"].ToString();
+                    if (service["SystemCreationClassName"] != null)
+                        obj.SystemCreationClassName = service["SystemCreationClassName"].ToString();
+                    if (service["SystemName"] != null)
+                        obj.SystemName = service["SystemName"].ToString();
+                    if (service["TagId"] != null)
+                        obj.TagId = uint.Parse(service["TagId"].ToString());
+                    if (service["WaitHint"] != null)
+                        obj.WaitHint = uint.Parse(service["WaitHint"].ToString());
+
+                    DatabaseManager.Write(obj, this.runId);
+                }
             }
         }
 
@@ -72,9 +122,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                         var obj = new ServiceObject()
                         {
                             DisplayName = _fields[4],
-                            ServiceName = _fields[0],
-                            StartType = "Unknown",
-                            CurrentState = _fields[3],
+                            Name = _fields[0],
+                            State = _fields[3],
                         };
 
                         DatabaseManager.Write(obj, this.runId);
@@ -102,9 +151,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     var obj = new ServiceObject()
                     {
                         DisplayName = serviceName,
-                        ServiceName = serviceName,
-                        StartType = "Unknown",
-                        CurrentState = "Unknown"
+                        Name = serviceName,
                     };
 
                     DatabaseManager.Write(obj, this.runId);
@@ -150,10 +197,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                     var obj = new ServiceObject()
                     {
                         DisplayName = _fields[2],
-                        ServiceName = _fields[2],
-                        StartType = "Unknown",
+                        Name = _fields[2],
                         // If we have a current PID then it is running.
-                        CurrentState = (_fields[0].Equals("-")) ? "Stopped" : "Running"
+                        State = (_fields[0].Equals("-")) ? "Stopped" : "Running"
                     };
                     if (!outDict.ContainsKey(obj.Identity))
                     {
@@ -179,10 +225,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                     var obj = new ServiceObject()
                     {
                         DisplayName = _fields[2],
-                        ServiceName = _fields[2],
-                        StartType = "Unknown",
+                        Name = _fields[2],
                         // If we have a current PID then it is running.
-                        CurrentState = (_fields[0].Equals("-")) ? "Stopped" : "Running"
+                        State = (_fields[0].Equals("-")) ? "Stopped" : "Running"
                     };
 
                     if (!outDict.ContainsKey(obj.Identity))
@@ -201,19 +246,18 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <summary>
         /// Executes the ServiceCollector.
         /// </summary>
-        public override void Execute()
+        public override void ExecuteInternal()
         {
             if (!this.CanRunOnPlatform())
             {
                 Log.Information(Strings.Get("Err_ServiceCollectorIncompat"));
                 return;
             }
-            Start();
             _ = DatabaseManager.Transaction;
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                ExecuteWindows(); 
+                ExecuteWindows();
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
@@ -225,7 +269,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
 
             DatabaseManager.Commit();
-            Stop();
         }
     }
 }

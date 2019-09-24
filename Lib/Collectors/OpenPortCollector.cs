@@ -50,14 +50,13 @@ namespace AttackSurfaceAnalyzer.Collectors
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
         }
 
-        public override void Execute()
+        public override void ExecuteInternal()
         {
             if (!this.CanRunOnPlatform())
             {
                 return;
             }
 
-            Start();
             _ = DatabaseManager.Transaction;
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -77,7 +76,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                 Log.Warning("OpenPortCollector is not available on {0}", RuntimeInformation.OSDescription);
             }
             DatabaseManager.Commit();
-            Stop();
         }
 
         /// <summary>

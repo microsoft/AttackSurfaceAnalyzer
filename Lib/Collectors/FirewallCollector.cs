@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,25 +34,33 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             foreach (IFirewallRule rule in FirewallManager.Instance.Rules.ToArray())
             {
-                var obj = new FirewallObject()
+                try
                 {
-                    Action = rule.Action,
-                    ApplicationName = rule.ApplicationName,
-                    Direction = rule.Direction,
-                    FriendlyName = rule.FriendlyName,
-                    IsEnable = rule.IsEnable,
-                    LocalAddresses = rule.LocalAddresses.ToList().ConvertAll(address => address.ToString()),
-                    LocalPorts = rule.LocalPorts.ToList().ConvertAll(port => port.ToString()),
-                    LocalPortType = rule.LocalPortType,
-                    Name = rule.Name,
-                    Profiles = rule.Profiles,
-                    Protocol = rule.Protocol.ProtocolNumber.ToString(),
-                    RemoteAddresses = rule.RemoteAddresses.ToList().ConvertAll(address => address.ToString()),
-                    RemotePorts = rule.RemotePorts.ToList().ConvertAll(port => port.ToString()),
-                    Scope = rule.Scope,
-                    ServiceName = rule.ServiceName
-                };
-                DatabaseManager.Write(obj, runId);
+                    var obj = new FirewallObject()
+                    {
+                        Action = rule.Action,
+                        ApplicationName = rule.ApplicationName,
+                        Direction = rule.Direction,
+                        FriendlyName = rule.FriendlyName,
+                        IsEnable = rule.IsEnable,
+                        LocalAddresses = rule.LocalAddresses.ToList().ConvertAll(address => address.ToString()),
+                        LocalPorts = rule.LocalPorts.ToList().ConvertAll(port => port.ToString()),
+                        LocalPortType = rule.LocalPortType,
+                        Name = rule.Name,
+                        Profiles = rule.Profiles,
+                        Protocol = rule.Protocol.ProtocolNumber.ToString(),
+                        RemoteAddresses = rule.RemoteAddresses.ToList().ConvertAll(address => address.ToString()),
+                        RemotePorts = rule.RemotePorts.ToList().ConvertAll(port => port.ToString()),
+                        Scope = rule.Scope,
+                        ServiceName = rule.ServiceName
+                    };
+                    DatabaseManager.Write(obj, runId);
+                }
+                catch (Exception e)
+                {
+                    Logger.DebugException(e);
+                    Log.Debug(rule.FriendlyName);
+                }
             }
         }
 
@@ -226,14 +235,13 @@ ALF: total number of apps = 2
             }
         }
 
-        public override void Execute()
+        public override void ExecuteInternal()
         {
             if (!CanRunOnPlatform())
             {
                 return;
             }
 
-            Start();
             _ = DatabaseManager.Transaction;
 
 
@@ -251,7 +259,6 @@ ALF: total number of apps = 2
             }
 
             DatabaseManager.Commit();
-            Stop();
         }
     }
 }

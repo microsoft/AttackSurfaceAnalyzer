@@ -173,31 +173,51 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                             if (Helpers.IsList(firstVal))
                             {
-                                added = ((List<string>)field.GetValue(second)).Except((List<string>)field.GetValue(first));
-                                removed = ((List<string>)field.GetValue(first)).Except((List<string>)field.GetValue(second));
-                                if (((IEnumerable<string>)added).Count() == 0)
+                                try
+                                {
+                                    added = ((List<object>)field.GetValue(second)).Except((List<object>)field.GetValue(first));
+                                    removed = ((List<object>)field.GetValue(first)).Except((List<object>)field.GetValue(second));
+                                    if (((IEnumerable<object>)added).Count() == 0)
+                                    {
+                                        added = null;
+                                    }
+                                    if (((IEnumerable<object>)removed).Count() == 0)
+                                    {
+                                        removed = null;
+                                    }
+                                }
+                                catch (Exception e)
+                                {
+                                    Log.Debug(e, "Error comparing two List<object>s");
+                                }
+                            }
+                            else if (firstVal is List<KeyValuePair<string, string>>)
+                            {
+                                added = ((List<KeyValuePair<string, string>>)field.GetValue(second)).Except((List<KeyValuePair<string, string>>)field.GetValue(first));
+                                removed = ((List<KeyValuePair<string, string>>)field.GetValue(first)).Except((List<KeyValuePair<string, string>>)field.GetValue(second));
+                                if (((IEnumerable<KeyValuePair<string, string>>)added).Count() == 0)
                                 {
                                     added = null;
                                 }
-                                if (((IEnumerable<string>)removed).Count() == 0)
+                                if (((IEnumerable<KeyValuePair<string, string>>)removed).Count() == 0)
                                 {
                                     removed = null;
                                 }
                             }
                             else if (Helpers.IsDictionary(firstVal))
                             {
-                                added = ((Dictionary<string, string>)secondVal)
-                                    .Except((Dictionary<string, string>)firstVal)
+                                added = ((Dictionary<object, object>)secondVal)
+                                    .Except((Dictionary<object, object>)firstVal)
                                     .ToDictionary(x => x.Key, x => x.Value);
 
-                                removed = ((Dictionary<string, string>)firstVal)
-                                    .Except((Dictionary<string, string>)secondVal)
+                                removed = ((Dictionary<object, object>)firstVal)
+                                    .Except((Dictionary<object, object>)secondVal)
                                     .ToDictionary(x => x.Key, x => x.Value);
-                                if (((IEnumerable<KeyValuePair<string, string>>)added).Count() == 0)
+                                if (((IEnumerable<KeyValuePair<object, object>>)added).Count() == 0)
                                 {
                                     added = null;
                                 }
-                                if (((IEnumerable<KeyValuePair<string, string>>)removed).Count() == 0)
+                                if (((IEnumerable<KeyValuePair<object, object>>)removed).Count() == 0)
                                 {
                                     removed = null;
                                 }
@@ -268,7 +288,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             var firstVal = prop.GetValue(first);
                             var secondVal = prop.GetValue(second);
 
-                            if (Helpers.IsList(firstVal))
+                            if (firstVal is List<string>)
                             {
                                 added = ((List<string>)prop.GetValue(second)).Except((List<string>)prop.GetValue(first));
                                 removed = ((List<string>)prop.GetValue(first)).Except((List<string>)prop.GetValue(second));
@@ -281,7 +301,20 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     removed = null;
                                 }
                             }
-                            else if (Helpers.IsDictionary(firstVal))
+                            else if (firstVal is List<KeyValuePair<string, string>>)
+                            {
+                                added = ((List<KeyValuePair<string, string>>)prop.GetValue(second)).Except((List<KeyValuePair<string, string>>)prop.GetValue(first));
+                                removed = ((List<KeyValuePair<string, string>>)prop.GetValue(first)).Except((List<KeyValuePair<string, string>>)prop.GetValue(second));
+                                if (((IEnumerable<KeyValuePair<string, string>>)added).Count() == 0)
+                                {
+                                    added = null;
+                                }
+                                if (((IEnumerable<KeyValuePair<string, string>>)removed).Count() == 0)
+                                {
+                                    removed = null;
+                                }
+                            }
+                            else if (firstVal is Dictionary<string, string>)
                             {
                                 added = ((Dictionary<string, string>)secondVal)
                                     .Except((Dictionary<string, string>)firstVal)
