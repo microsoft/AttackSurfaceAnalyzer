@@ -1,0 +1,1 @@
+res\AttackSurfaceAnalyzerCli.exe %*

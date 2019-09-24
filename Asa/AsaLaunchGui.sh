@@ -1,0 +1,1 @@
+sudo res/AttackSurfaceAnalyzerCli gui
