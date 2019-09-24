@@ -84,7 +84,7 @@ stages:
       inputs:
         ConnectedServiceName: 'CodeSignforATSAN'
         FolderPath: '$(build.binariesdirectory)/windows'
-        Pattern: 'Asa.exe, Asa.dll, AsaLib.dll'
+        Pattern: 'Asa.exe, Asa.dll, AsaLib.dll, Asa.Views.dll'
         signConfigType: 'inlineSignParams'
         inlineOperation: |
           [
