@@ -14,7 +14,10 @@ steps:
   inputs:
     scanFolder: Asa/wwwroot/js
     debugMode: false
-
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '3.0.100'
 - task: securedevelopmentteam.vss-secure-development-tools.build-task-semmle.Semmle@0
   displayName: 'Run Semmle Asa'
   inputs:
