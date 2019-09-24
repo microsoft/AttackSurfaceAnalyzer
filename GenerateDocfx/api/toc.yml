@@ -20,8 +20,6 @@
     name: FileSystemUtils
   - uid: AttackSurfaceAnalyzer.Collectors.FirewallCollector
     name: FirewallCollector
-  - uid: AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils
-    name: LinuxFileSystemUtils
   - uid: AttackSurfaceAnalyzer.Collectors.OpenPortCollector
     name: OpenPortCollector
   - uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector

@@ -716,19 +716,6 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash
   nameWithType: FileSystemUtils.GetFileHash
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileOwner(System.IO.FileSystemInfo)
-  name: GetFileOwner(FileSystemInfo)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetFileOwner_System_IO_FileSystemInfo_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileOwner(System.IO.FileSystemInfo)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileOwner(System.IO.FileSystemInfo)
-  nameWithType: FileSystemUtils.GetFileOwner(FileSystemInfo)
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileOwner*
-  name: GetFileOwner
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetFileOwner_
-  commentId: Overload:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileOwner
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileOwner
-  nameWithType: FileSystemUtils.GetFileOwner
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
   name: GetFilePermissions(FileSystemInfo)
   href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetFilePermissions_System_IO_FileSystemInfo_
@@ -755,6 +742,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetSignatureDetails
   nameWithType: FileSystemUtils.GetSignatureDetails
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.IsExecutable(System.String)
+  name: IsExecutable(String)
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_IsExecutable_System_String_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.IsExecutable(System.String)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.IsExecutable(System.String)
+  nameWithType: FileSystemUtils.IsExecutable(String)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.IsExecutable*
+  name: IsExecutable
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_IsExecutable_
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.IsExecutable
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.IsExecutable
+  nameWithType: FileSystemUtils.IsExecutable
 - uid: AttackSurfaceAnalyzer.Collectors.FirewallCollector
   name: FirewallCollector
   href: api/AttackSurfaceAnalyzer.Collectors.FirewallCollector.html
@@ -839,25 +839,6 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.FirewallCollector.ExecuteWindows
   nameWithType: FirewallCollector.ExecuteWindows
-- uid: AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils
-  name: LinuxFileSystemUtils
-  href: api/AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils.html
-  commentId: T:AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils
-  fullName: AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils
-  nameWithType: LinuxFileSystemUtils
-- uid: AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
-  name: GetFilePermissions(FileSystemInfo)
-  href: api/AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_LinuxFileSystemUtils_GetFilePermissions_System_IO_FileSystemInfo_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
-  fullName: AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
-  nameWithType: LinuxFileSystemUtils.GetFilePermissions(FileSystemInfo)
-- uid: AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils.GetFilePermissions*
-  name: GetFilePermissions
-  href: api/AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_LinuxFileSystemUtils_GetFilePermissions_
-  commentId: Overload:AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils.GetFilePermissions
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Collectors.LinuxFileSystemUtils.GetFilePermissions
-  nameWithType: LinuxFileSystemUtils.GetFilePermissions
 - uid: AttackSurfaceAnalyzer.Collectors.OpenPortCollector
   name: OpenPortCollector
   href: api/AttackSurfaceAnalyzer.Collectors.OpenPortCollector.html
@@ -1273,19 +1254,6 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetDllCharacteristics
   nameWithType: WindowsFileSystemUtils.GetDllCharacteristics
-- uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
-  name: GetFilePermissions(FileSystemInfo)
-  href: api/AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_WindowsFileSystemUtils_GetFilePermissions_System_IO_FileSystemInfo_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
-  fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
-  nameWithType: WindowsFileSystemUtils.GetFilePermissions(FileSystemInfo)
-- uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetFilePermissions*
-  name: GetFilePermissions
-  href: api/AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_WindowsFileSystemUtils_GetFilePermissions_
-  commentId: Overload:AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetFilePermissions
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetFilePermissions
-  nameWithType: WindowsFileSystemUtils.GetFilePermissions
 - uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetSignatureStatus(System.String)
   name: GetSignatureStatus(String)
   href: api/AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_WindowsFileSystemUtils_GetSignatureStatus_System_String_
@@ -1299,19 +1267,6 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetSignatureStatus
   nameWithType: WindowsFileSystemUtils.GetSignatureStatus
-- uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.IsExecutable(System.String)
-  name: IsExecutable(String)
-  href: api/AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_WindowsFileSystemUtils_IsExecutable_System_String_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.IsExecutable(System.String)
-  fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.IsExecutable(System.String)
-  nameWithType: WindowsFileSystemUtils.IsExecutable(String)
-- uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.IsExecutable*
-  name: IsExecutable
-  href: api/AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_WindowsFileSystemUtils_IsExecutable_
-  commentId: Overload:AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.IsExecutable
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.IsExecutable
-  nameWithType: WindowsFileSystemUtils.IsExecutable
 - uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.IsLocal(System.String)
   name: IsLocal(String)
   href: api/AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_WindowsFileSystemUtils_IsLocal_System_String_
@@ -1338,12 +1293,6 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.NeedsSignature
   nameWithType: WindowsFileSystemUtils.NeedsSignature
-- uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.SIGNED_EXTENSIONS
-  name: SIGNED_EXTENSIONS
-  href: api/AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_WindowsFileSystemUtils_SIGNED_EXTENSIONS
-  commentId: F:AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.SIGNED_EXTENSIONS
-  fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.SIGNED_EXTENSIONS
-  nameWithType: WindowsFileSystemUtils.SIGNED_EXTENSIONS
 - uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.WIN32_FILE_ATTRIBUTE_DATA
   name: WindowsFileSystemUtils.WIN32_FILE_ATTRIBUTE_DATA
   href: api/AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.WIN32_FILE_ATTRIBUTE_DATA.html
@@ -2767,19 +2716,110 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.ServiceObject
   nameWithType: ServiceObject.ServiceObject
-- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.CurrentState
-  name: CurrentState
-  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_CurrentState
-  commentId: P:AttackSurfaceAnalyzer.Objects.ServiceObject.CurrentState
-  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.CurrentState
-  nameWithType: ServiceObject.CurrentState
-- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.CurrentState*
-  name: CurrentState
-  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_CurrentState_
-  commentId: Overload:AttackSurfaceAnalyzer.Objects.ServiceObject.CurrentState
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.AcceptPause
+  name: AcceptPause
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_AcceptPause
+  commentId: P:AttackSurfaceAnalyzer.Objects.ServiceObject.AcceptPause
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.AcceptPause
+  nameWithType: ServiceObject.AcceptPause
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.AcceptPause*
+  name: AcceptPause
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_AcceptPause_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ServiceObject.AcceptPause
   isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.CurrentState
-  nameWithType: ServiceObject.CurrentState
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.AcceptPause
+  nameWithType: ServiceObject.AcceptPause
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.AcceptStop
+  name: AcceptStop
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_AcceptStop
+  commentId: P:AttackSurfaceAnalyzer.Objects.ServiceObject.AcceptStop
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.AcceptStop
+  nameWithType: ServiceObject.AcceptStop
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.AcceptStop*
+  name: AcceptStop
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_AcceptStop_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ServiceObject.AcceptStop
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.AcceptStop
+  nameWithType: ServiceObject.AcceptStop
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.Caption
+  name: Caption
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_Caption
+  commentId: P:AttackSurfaceAnalyzer.Objects.ServiceObject.Caption
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.Caption
+  nameWithType: ServiceObject.Caption
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.Caption*
+  name: Caption
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_Caption_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ServiceObject.Caption
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.Caption
+  nameWithType: ServiceObject.Caption
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.CheckPoint
+  name: CheckPoint
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_CheckPoint
+  commentId: P:AttackSurfaceAnalyzer.Objects.ServiceObject.CheckPoint
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.CheckPoint
+  nameWithType: ServiceObject.CheckPoint
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.CheckPoint*
+  name: CheckPoint
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_CheckPoint_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ServiceObject.CheckPoint
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.CheckPoint
+  nameWithType: ServiceObject.CheckPoint
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.CreationClassName
+  name: CreationClassName
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_CreationClassName
+  commentId: P:AttackSurfaceAnalyzer.Objects.ServiceObject.CreationClassName
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.CreationClassName
+  nameWithType: ServiceObject.CreationClassName
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.CreationClassName*
+  name: CreationClassName
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_CreationClassName_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ServiceObject.CreationClassName
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.CreationClassName
+  nameWithType: ServiceObject.CreationClassName
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.DelayedAutoStart
+  name: DelayedAutoStart
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_DelayedAutoStart
+  commentId: P:AttackSurfaceAnalyzer.Objects.ServiceObject.DelayedAutoStart
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.DelayedAutoStart
+  nameWithType: ServiceObject.DelayedAutoStart
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.DelayedAutoStart*
+  name: DelayedAutoStart
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_DelayedAutoStart_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ServiceObject.DelayedAutoStart
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.DelayedAutoStart
+  nameWithType: ServiceObject.DelayedAutoStart
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.Description
+  name: Description
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_Description
+  commentId: P:AttackSurfaceAnalyzer.Objects.ServiceObject.Description
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.Description
+  nameWithType: ServiceObject.Description
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.Description*
+  name: Description
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_Description_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ServiceObject.Description
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.Description
+  nameWithType: ServiceObject.Description
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.DesktopInteract
+  name: DesktopInteract
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_DesktopInteract
+  commentId: P:AttackSurfaceAnalyzer.Objects.ServiceObject.DesktopInteract
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.DesktopInteract
+  nameWithType: ServiceObject.DesktopInteract
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.DesktopInteract*
+  name: DesktopInteract
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_DesktopInteract_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ServiceObject.DesktopInteract
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.DesktopInteract
+  nameWithType: ServiceObject.DesktopInteract
 - uid: AttackSurfaceAnalyzer.Objects.ServiceObject.DisplayName
   name: DisplayName
   href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_DisplayName
@@ -2793,6 +2833,32 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.DisplayName
   nameWithType: ServiceObject.DisplayName
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.ErrorControl
+  name: ErrorControl
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_ErrorControl
+  commentId: P:AttackSurfaceAnalyzer.Objects.ServiceObject.ErrorControl
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.ErrorControl
+  nameWithType: ServiceObject.ErrorControl
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.ErrorControl*
+  name: ErrorControl
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_ErrorControl_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ServiceObject.ErrorControl
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.ErrorControl
+  nameWithType: ServiceObject.ErrorControl
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.ExitCode
+  name: ExitCode
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_ExitCode
+  commentId: P:AttackSurfaceAnalyzer.Objects.ServiceObject.ExitCode
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.ExitCode
+  nameWithType: ServiceObject.ExitCode
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.ExitCode*
+  name: ExitCode
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_ExitCode_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ServiceObject.ExitCode
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.ExitCode
+  nameWithType: ServiceObject.ExitCode
 - uid: AttackSurfaceAnalyzer.Objects.ServiceObject.Identity
   name: Identity
   href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_Identity
@@ -2806,32 +2872,201 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.Identity
   nameWithType: ServiceObject.Identity
-- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.ServiceName
-  name: ServiceName
-  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_ServiceName
-  commentId: P:AttackSurfaceAnalyzer.Objects.ServiceObject.ServiceName
-  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.ServiceName
-  nameWithType: ServiceObject.ServiceName
-- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.ServiceName*
-  name: ServiceName
-  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_ServiceName_
-  commentId: Overload:AttackSurfaceAnalyzer.Objects.ServiceObject.ServiceName
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.InstallDate
+  name: InstallDate
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_InstallDate
+  commentId: P:AttackSurfaceAnalyzer.Objects.ServiceObject.InstallDate
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.InstallDate
+  nameWithType: ServiceObject.InstallDate
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.InstallDate*
+  name: InstallDate
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_InstallDate_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ServiceObject.InstallDate
   isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.ServiceName
-  nameWithType: ServiceObject.ServiceName
-- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.StartType
-  name: StartType
-  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_StartType
-  commentId: P:AttackSurfaceAnalyzer.Objects.ServiceObject.StartType
-  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.StartType
-  nameWithType: ServiceObject.StartType
-- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.StartType*
-  name: StartType
-  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_StartType_
-  commentId: Overload:AttackSurfaceAnalyzer.Objects.ServiceObject.StartType
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.InstallDate
+  nameWithType: ServiceObject.InstallDate
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.Name
+  name: Name
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_Name
+  commentId: P:AttackSurfaceAnalyzer.Objects.ServiceObject.Name
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.Name
+  nameWithType: ServiceObject.Name
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.Name*
+  name: Name
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_Name_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ServiceObject.Name
   isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.StartType
-  nameWithType: ServiceObject.StartType
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.Name
+  nameWithType: ServiceObject.Name
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.PathName
+  name: PathName
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_PathName
+  commentId: P:AttackSurfaceAnalyzer.Objects.ServiceObject.PathName
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.PathName
+  nameWithType: ServiceObject.PathName
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.PathName*
+  name: PathName
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_PathName_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ServiceObject.PathName
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.PathName
+  nameWithType: ServiceObject.PathName
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.ProcessId
+  name: ProcessId
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_ProcessId
+  commentId: P:AttackSurfaceAnalyzer.Objects.ServiceObject.ProcessId
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.ProcessId
+  nameWithType: ServiceObject.ProcessId
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.ProcessId*
+  name: ProcessId
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_ProcessId_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ServiceObject.ProcessId
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.ProcessId
+  nameWithType: ServiceObject.ProcessId
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.ServiceSpecificExitCode
+  name: ServiceSpecificExitCode
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_ServiceSpecificExitCode
+  commentId: P:AttackSurfaceAnalyzer.Objects.ServiceObject.ServiceSpecificExitCode
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.ServiceSpecificExitCode
+  nameWithType: ServiceObject.ServiceSpecificExitCode
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.ServiceSpecificExitCode*
+  name: ServiceSpecificExitCode
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_ServiceSpecificExitCode_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ServiceObject.ServiceSpecificExitCode
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.ServiceSpecificExitCode
+  nameWithType: ServiceObject.ServiceSpecificExitCode
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.ServiceType
+  name: ServiceType
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_ServiceType
+  commentId: P:AttackSurfaceAnalyzer.Objects.ServiceObject.ServiceType
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.ServiceType
+  nameWithType: ServiceObject.ServiceType
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.ServiceType*
+  name: ServiceType
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_ServiceType_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ServiceObject.ServiceType
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.ServiceType
+  nameWithType: ServiceObject.ServiceType
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.Started
+  name: Started
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_Started
+  commentId: P:AttackSurfaceAnalyzer.Objects.ServiceObject.Started
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.Started
+  nameWithType: ServiceObject.Started
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.Started*
+  name: Started
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_Started_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ServiceObject.Started
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.Started
+  nameWithType: ServiceObject.Started
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.StartMode
+  name: StartMode
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_StartMode
+  commentId: P:AttackSurfaceAnalyzer.Objects.ServiceObject.StartMode
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.StartMode
+  nameWithType: ServiceObject.StartMode
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.StartMode*
+  name: StartMode
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_StartMode_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ServiceObject.StartMode
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.StartMode
+  nameWithType: ServiceObject.StartMode
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.StartName
+  name: StartName
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_StartName
+  commentId: P:AttackSurfaceAnalyzer.Objects.ServiceObject.StartName
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.StartName
+  nameWithType: ServiceObject.StartName
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.StartName*
+  name: StartName
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_StartName_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ServiceObject.StartName
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.StartName
+  nameWithType: ServiceObject.StartName
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.State
+  name: State
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_State
+  commentId: P:AttackSurfaceAnalyzer.Objects.ServiceObject.State
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.State
+  nameWithType: ServiceObject.State
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.State*
+  name: State
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_State_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ServiceObject.State
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.State
+  nameWithType: ServiceObject.State
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.Status
+  name: Status
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_Status
+  commentId: P:AttackSurfaceAnalyzer.Objects.ServiceObject.Status
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.Status
+  nameWithType: ServiceObject.Status
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.Status*
+  name: Status
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_Status_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ServiceObject.Status
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.Status
+  nameWithType: ServiceObject.Status
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.SystemCreationClassName
+  name: SystemCreationClassName
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_SystemCreationClassName
+  commentId: P:AttackSurfaceAnalyzer.Objects.ServiceObject.SystemCreationClassName
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.SystemCreationClassName
+  nameWithType: ServiceObject.SystemCreationClassName
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.SystemCreationClassName*
+  name: SystemCreationClassName
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_SystemCreationClassName_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ServiceObject.SystemCreationClassName
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.SystemCreationClassName
+  nameWithType: ServiceObject.SystemCreationClassName
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.SystemName
+  name: SystemName
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_SystemName
+  commentId: P:AttackSurfaceAnalyzer.Objects.ServiceObject.SystemName
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.SystemName
+  nameWithType: ServiceObject.SystemName
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.SystemName*
+  name: SystemName
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_SystemName_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ServiceObject.SystemName
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.SystemName
+  nameWithType: ServiceObject.SystemName
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.TagId
+  name: TagId
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_TagId
+  commentId: P:AttackSurfaceAnalyzer.Objects.ServiceObject.TagId
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.TagId
+  nameWithType: ServiceObject.TagId
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.TagId*
+  name: TagId
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_TagId_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ServiceObject.TagId
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.TagId
+  nameWithType: ServiceObject.TagId
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.WaitHint
+  name: WaitHint
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_WaitHint
+  commentId: P:AttackSurfaceAnalyzer.Objects.ServiceObject.WaitHint
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.WaitHint
+  nameWithType: ServiceObject.WaitHint
+- uid: AttackSurfaceAnalyzer.Objects.ServiceObject.WaitHint*
+  name: WaitHint
+  href: api/AttackSurfaceAnalyzer.Objects.ServiceObject.html#AttackSurfaceAnalyzer_Objects_ServiceObject_WaitHint_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.ServiceObject.WaitHint
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.WaitHint
+  nameWithType: ServiceObject.WaitHint
 - uid: AttackSurfaceAnalyzer.Objects.ServiceResult
   name: ServiceResult
   href: api/AttackSurfaceAnalyzer.Objects.ServiceResult.html
@@ -5692,6 +5927,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.Helpers.GetVersionString
   nameWithType: Helpers.GetVersionString
+- uid: AttackSurfaceAnalyzer.Utils.Helpers.HexStringToAscii(System.String)
+  name: HexStringToAscii(String)
+  href: api/AttackSurfaceAnalyzer.Utils.Helpers.html#AttackSurfaceAnalyzer_Utils_Helpers_HexStringToAscii_System_String_
+  commentId: M:AttackSurfaceAnalyzer.Utils.Helpers.HexStringToAscii(System.String)
+  fullName: AttackSurfaceAnalyzer.Utils.Helpers.HexStringToAscii(System.String)
+  nameWithType: Helpers.HexStringToAscii(String)
+- uid: AttackSurfaceAnalyzer.Utils.Helpers.HexStringToAscii*
+  name: HexStringToAscii
+  href: api/AttackSurfaceAnalyzer.Utils.Helpers.html#AttackSurfaceAnalyzer_Utils_Helpers_HexStringToAscii_
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.Helpers.HexStringToAscii
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Utils.Helpers.HexStringToAscii
+  nameWithType: Helpers.HexStringToAscii
 - uid: AttackSurfaceAnalyzer.Utils.Helpers.IsAdmin
   name: IsAdmin()
   href: api/AttackSurfaceAnalyzer.Utils.Helpers.html#AttackSurfaceAnalyzer_Utils_Helpers_IsAdmin
@@ -5757,19 +6005,6 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.Helpers.OpenBrowser
   nameWithType: Helpers.OpenBrowser
-- uid: AttackSurfaceAnalyzer.Utils.Helpers.ResultTypeToTableName(AttackSurfaceAnalyzer.Types.RESULT_TYPE)
-  name: ResultTypeToTableName(RESULT_TYPE)
-  href: api/AttackSurfaceAnalyzer.Utils.Helpers.html#AttackSurfaceAnalyzer_Utils_Helpers_ResultTypeToTableName_AttackSurfaceAnalyzer_Types_RESULT_TYPE_
-  commentId: M:AttackSurfaceAnalyzer.Utils.Helpers.ResultTypeToTableName(AttackSurfaceAnalyzer.Types.RESULT_TYPE)
-  fullName: AttackSurfaceAnalyzer.Utils.Helpers.ResultTypeToTableName(AttackSurfaceAnalyzer.Types.RESULT_TYPE)
-  nameWithType: Helpers.ResultTypeToTableName(RESULT_TYPE)
-- uid: AttackSurfaceAnalyzer.Utils.Helpers.ResultTypeToTableName*
-  name: ResultTypeToTableName
-  href: api/AttackSurfaceAnalyzer.Utils.Helpers.html#AttackSurfaceAnalyzer_Utils_Helpers_ResultTypeToTableName_
-  commentId: Overload:AttackSurfaceAnalyzer.Utils.Helpers.ResultTypeToTableName
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Utils.Helpers.ResultTypeToTableName
-  nameWithType: Helpers.ResultTypeToTableName
 - uid: AttackSurfaceAnalyzer.Utils.Helpers.RunIdsToCompareId(System.String,System.String)
   name: RunIdsToCompareId(String, String)
   href: api/AttackSurfaceAnalyzer.Utils.Helpers.html#AttackSurfaceAnalyzer_Utils_Helpers_RunIdsToCompareId_System_String_System_String_
