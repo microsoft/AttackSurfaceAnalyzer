@@ -260,6 +260,8 @@ stages:
 - stage: Hashes
   jobs:
   - job: Sign
+    pool:
+      vmImage: 'windows-latest'
     steps:
 
     - task: DownloadBuildArtifacts@0
@@ -276,7 +278,7 @@ stages:
         itemPattern: 'HASHES_LINUX/HASHES.txt'
         downloadPath: '$(build.binariesdirectory)'
 
-    - powershell: 'Get-Content $(build.binariesdirectory)/HASHES_LINUX/HASHES.txt, $(build.binariesdirectory)/HASHES_WINDOWS/HASHES.txt | Set-Content $(build.binariesdirectory)/HASHES.txt'
+    - powershell: 'Get-Content $(build.binariesdirectory)\HASHES_LINUX\HASHES.txt, $(build.binariesdirectory)\HASHES_WINDOWS\HASHES.txt | Set-Content $(build.binariesdirectory)\HASHES.txt'
       displayName: 'PowerShell Script'
 
     - task: EsrpCodeSigning@1
