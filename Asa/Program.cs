@@ -262,7 +262,6 @@ namespace AttackSurfaceAnalyzer
 
         static void Main(string[] args)
         {
-
 #if DEBUG
             Logger.Setup(true, false);
 #else
@@ -306,7 +305,7 @@ namespace AttackSurfaceAnalyzer
             }))();
             WebHost.CreateDefaultBuilder(new string[] { })
                     .UseApplicationInsights()
-                    .UseStartup<Gui.Startup>()
+                    .UseStartup<Asa.Startup>()
                     .Build()
                     .Run();
 
@@ -579,7 +578,7 @@ namespace AttackSurfaceAnalyzer
 
                 if (property.DeclaringType == typeof(Rule))
                 {
-                    if(property.PropertyName != "name" && property.PropertyName != "desc")
+                    if (property.PropertyName != "name" && property.PropertyName != "desc")
                     {
                         property.ShouldSerialize = _ => { return false; };
                     }

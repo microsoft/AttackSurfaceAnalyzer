@@ -1,17 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Types;
-using Mono.Unix;
 using Serilog;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Security.AccessControl;
-using System.Text;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -92,27 +88,6 @@ namespace AttackSurfaceAnalyzer.Utils
                 return PLATFORM.MACOS.ToString();
             }
             return PLATFORM.UNKNOWN.ToString();
-        }
-
-        public static string ResultTypeToTableName(RESULT_TYPE result_type)
-        {
-            switch (result_type)
-            {
-                case RESULT_TYPE.FILE:
-                    return "file_system";
-                case RESULT_TYPE.PORT:
-                    return "network_ports";
-                case RESULT_TYPE.REGISTRY:
-                    return "registry";
-                case RESULT_TYPE.CERTIFICATE:
-                    return "certificates";
-                case RESULT_TYPE.SERVICE:
-                    return "win_system_service";
-                case RESULT_TYPE.USER:
-                    return "user_account";
-                default:
-                    return "null";
-            }
         }
 
         public static string GetOsVersion()
