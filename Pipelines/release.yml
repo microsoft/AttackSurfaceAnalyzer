@@ -159,6 +159,7 @@ stages:
                 $version = $longVersion.split('+')[0]
                 
                 Copy-Item -Path "$(build.sourcesdirectory)\Asa\AsaLaunch.bat" -Destination "$(build.binariesdirectory)\windows\AsaLaunch.bat"
+                Copy-Item -Path "$(build.sourcesdirectory)\Asa\AsaLaunchGui.bat" -Destination "$(build.binariesdirectory)\windows\AsaLaunchGui.bat"
                 Rename-Item -Path "$(build.binariesdirectory)\windows\Asa" -NewName "res"
                 Rename-Item -Path "$(build.binariesdirectory)\windows" -NewName "Asa-win-$version"
                 Compress-Archive -Path "$(build.binariesdirectory)\Asa-win-$version" -DestinationPath "$(build.artifactstagingdirectory)\Asa-win-$version.zip"
@@ -217,6 +218,8 @@ stages:
                 
                 cp $SRC_DIR/Cli/AsaLaunch.sh $BIN_DIR/linux/AsaLaunch.sh
                 cp $SRC_DIR/Cli/AsaLaunch.sh $BIN_DIR/osx/AsaLaunch.sh
+                cp $SRC_DIR/Cli/AsaLaunchGui.sh $BIN_DIR/osx/AsaLaunchGui.sh
+                cp $SRC_DIR/Cli/AsaLaunchGui.sh $BIN_DIR/osx/AsaLaunchGui.sh
                 
                 mv $BIN_DIR/linux/Asa $BIN_DIR/linux/res
                 mv $BIN_DIR/osx/Asa $BIN_DIR/osx/res
