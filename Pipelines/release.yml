@@ -40,6 +40,7 @@ stages:
       vmImage: 'windows-latest'
 
     steps:
+    # Default Azure Pipelines Image doesn't contain .NET Core 3.0 SDK
     - task: UseDotNet@2
       inputs:
         packageType: 'sdk'
@@ -72,7 +73,13 @@ stages:
         TreatSignatureUpdateFailureAs: 'Standard'
         SignatureFreshness: 'UpToDate'
         TreatStaleSignatureAs: 'Error'
-        
+
+    # Signing task requires .NET Core 2.X
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'runtime'
+        version: '2.2.7'
+
     - task: EsrpCodeSigning@1
       inputs:
         ConnectedServiceName: 'CodeSignforATSAN'
