@@ -53,7 +53,7 @@ stages:
         command: publish
         projects: 'Asa/Asa.csproj'
         arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/windows -r win-x86'
-        zipAfterPublish: false
+        zipAfterPublish: true
 
     - task: DotNetCoreCLI@2
       displayName: 'Publish ASA Linux'
@@ -61,7 +61,7 @@ stages:
           command: publish
           projects: 'Asa/Asa.csproj'
           arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/linux -r linux-x64'
-          zipAfterPublish: false
+          zipAfterPublish: true
 
     - task: DotNetCoreCLI@2
       displayName: 'Publish ASA macOS'
@@ -69,14 +69,18 @@ stages:
           command: publish
           projects: 'Asa/Asa.csproj'
           arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/macos -r osx-x64'
-          zipAfterPublish: false
+          zipAfterPublish: true
 
-    - task: securedevelopmentteam.vss-secure-development-tools.build-task-antimalware.AntiMalware@3
-      displayName: 'AV Scan Artifacts'
+    - task: AntiMalware@3
       inputs:
-        FileDirPath: '$(build.artifactstagingdirectory)'
+        InputType: 'Basic'
+        ScanType: 'CustomScan'
+        FileDirPath: '$(Build.StagingDirectory)'
         EnableServices: true
-        TreatSignatureUpdateFailureAs: Standard
+        SupportLogOnError: false
+        TreatSignatureUpdateFailureAs: 'Warning'
+        SignatureFreshness: 'UpToDate'
+        TreatStaleSignatureAs: 'Error'
 
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact'
