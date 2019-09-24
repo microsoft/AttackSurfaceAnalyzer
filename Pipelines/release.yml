@@ -260,8 +260,9 @@ stages:
 - stage: Hashes
   jobs:
   - job: Sign
+    pool:
+      vmImage: 'windows-latest'
     steps:
-
     - task: DownloadBuildArtifacts@0
       displayName: 'Download HASHES WINDOWS'
       inputs:
