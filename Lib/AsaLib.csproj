@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
     <RootNamespace>AttackSurfaceAnalyzer</RootNamespace>
     <ReleaseVersion>2.1-alpha</ReleaseVersion>
     <PackageId>AttackSurfaceAnalyzer</PackageId>
-    <PackageVersion>2.0.0-pre-alpha</PackageVersion>
+    <PackageVersion>2.1-alpha</PackageVersion>
     <Authors>Microsoft Corporation</Authors>
     <Owners>Microsoft Corporation</Owners>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>

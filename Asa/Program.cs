@@ -262,7 +262,6 @@ namespace AttackSurfaceAnalyzer
 
         static void Main(string[] args)
         {
-
 #if DEBUG
             Logger.Setup(true, false);
 #else
@@ -306,7 +305,7 @@ namespace AttackSurfaceAnalyzer
             }))();
             WebHost.CreateDefaultBuilder(new string[] { })
                     .UseApplicationInsights()
-                    .UseStartup<Gui.Startup>()
+                    .UseStartup<Asa.Startup>()
                     .Build()
                     .Run();
 
