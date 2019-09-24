@@ -1,7 +1,7 @@
 name: ASA 2.1 Release
 
 trigger:
-- master
+- release/v2.1
 
 variables:
   solution: '**/*.sln'
