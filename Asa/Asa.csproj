@@ -32,4 +32,17 @@
     <ProjectReference Include="..\Lib\AsaLib.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <None Update="AsaLaunch.bat">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="AsaLaunch.sh">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="AsaLaunchGui.bat">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
