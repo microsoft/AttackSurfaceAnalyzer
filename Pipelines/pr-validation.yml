@@ -1,7 +1,9 @@
 name: ASA PR Validation
 
-trigger:
+trigger: none
+pr:
 - master
+- releases/*
 
 variables:
   solution: '**/*.sln'
