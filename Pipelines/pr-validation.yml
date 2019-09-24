@@ -42,6 +42,11 @@ stages:
     pool:
         vmImage: 'windows-latest'
     steps:
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'sdk'
+        version: '3.0.100'
+        
     - task: DotNetCoreCLI@2
       displayName: 'Publish ASA Windows'
       inputs:
