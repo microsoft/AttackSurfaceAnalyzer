@@ -5,11 +5,11 @@ $RunName = Get-Content C:\input\RunName
 
 $ScriptBlock = {
     param($RunName) 
-    C:\Asa\Asa.exe collect -fcCusp --runid "$($RunName):BeforeInstall" --databasefilename "$($RunName).sqlite"
+    C:\Asa\Asa.exe collect -a --runid "$($RunName):BeforeInstall" --databasefilename "$($RunName).sqlite"
     C:\input\Install.ps1
-    C:\Asa\Asa.exe collect -fcCusp --runid "$($RunName):AfterInstall" --databasefilename "$($RunName).sqlite"
+    C:\Asa\Asa.exe collect -a --runid "$($RunName):AfterInstall" --databasefilename "$($RunName).sqlite"
     C:\input\Uninstall.ps1
-    C:\Asa\Asa.exe collect -fcCusp --runid "$($RunName):AfterUninstall" --databasefilename "$($RunName).sqlite"
+    C:\Asa\Asa.exe collect -a --runid "$($RunName):AfterUninstall" --databasefilename "$($RunName).sqlite"
     C:\Asa\Asa.exe export-collect --firstrunid "$($RunName):BeforeInstall" --secondrunid "$($RunName):AfterInstall" --databasefilename "$($RunName).sqlite" --outputpath C:\output
     C:\Asa\Asa.exe export-collect --firstrunid "$($RunName):BeforeInstall" --secondrunid "$($RunName):AfterUninstall" --databasefilename "$($RunName).sqlite" --outputpath C:\output
     C:\Asa\Asa.exe export-collect --firstrunid "$($RunName):AfterInstall" --secondrunid "$($RunName):AfterUninstall" --databasefilename "$($RunName).sqlite" --outputpath C:\output
