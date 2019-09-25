@@ -160,13 +160,13 @@ stages:
 
           $longVersion = (nbgv get-version -v AssemblyInformationalVersion)
           $version = $longVersion.split('+')[0]
-          $asaFolder =  "$(build.binariesdirectory)\Asa-win-$version"
+          $asaFolder = "$(build.binariesdirectory)\Asa-win-$version"
           mkdir $asaFolder
 
           Move-Item -Path "$(build.binariesdirectory)\windows" -Destination $asaFolder\res
 
-          Copy-Item -Path "$(build.sourcesdirectory)\Asa\AsaLaunch.bat" -Destination $(build.binariesdirectory)\$asaFolder\AsaLaunch.bat
-          Copy-Item -Path "$(build.sourcesdirectory)\Asa\AsaLaunchGui.bat" -Destination $(build.binariesdirectory)\$asaFolder\AsaLaunchGui.bat
+          Copy-Item -Path "$(build.sourcesdirectory)\Asa\AsaLaunch.bat" -Destination $asaFolder\AsaLaunch.bat
+          Copy-Item -Path "$(build.sourcesdirectory)\Asa\AsaLaunchGui.bat" -Destination $asaFolder\AsaLaunchGui.bat
 
           7z a "$(build.artifactstagingdirectory)\Asa-win-$version.zip" "$(build.binariesdirectory)\Asa-win-$version"
 
