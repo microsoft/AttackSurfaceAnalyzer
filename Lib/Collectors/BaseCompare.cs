@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -22,6 +23,13 @@ namespace AttackSurfaceAnalyzer.Collectors
         public BaseCompare()
         {
             Results = new Dictionary<string, List<CompareResult>>();
+            foreach (RESULT_TYPE result_type in Enum.GetValues(typeof(RESULT_TYPE)))
+            {
+                foreach (CHANGE_TYPE change_type in Enum.GetValues(typeof(CHANGE_TYPE)))
+                {
+                    Results[String.Format("{0}_{1}", result_type.ToString(), change_type.ToString())] = new List<CompareResult>();
+                }
+            }
         }
 
         /// <summary>
@@ -71,13 +79,12 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 throw new ArgumentNullException("secondRunId");
             }
-            List<RawCollectResult> addRows = DatabaseManager.GetMissingFromFirst(firstRunId, secondRunId);
+            List<RawCollectResult> addObjects = DatabaseManager.GetMissingFromFirst(firstRunId, secondRunId);
             List<RawCollectResult> removeObjects = DatabaseManager.GetMissingFromFirst(secondRunId, firstRunId);
             List<RawModifiedResult> modifyObjects = DatabaseManager.GetModified(firstRunId, secondRunId);
 
-            Dictionary<string, List<CompareResult>> results = new Dictionary<string, List<CompareResult>>();
-
-            foreach (var added in addRows)
+            Parallel.ForEach(addObjects,
+                            (added =>
             {
                 var obj = new CompareResult()
                 {
@@ -90,16 +97,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                     Identity = added.Identity
                 };
 
-                if (results.ContainsKey(String.Format("{0}_{1}", added.ResultType.ToString(), CHANGE_TYPE.CREATED.ToString())))
-                {
-                    results[String.Format("{0}_{1}", added.ResultType.ToString(), CHANGE_TYPE.CREATED.ToString())].Add(obj);
-                }
-                else
-                {
-                    results[String.Format("{0}_{1}", added.ResultType.ToString(), CHANGE_TYPE.CREATED.ToString())] = new List<CompareResult>() { obj };
-                }
-            }
-            foreach (var removed in removeObjects)
+                Results[String.Format("{0}_{1}", added.ResultType.ToString(), CHANGE_TYPE.CREATED.ToString())].Add(obj);
+
+            }));
+            Parallel.ForEach(removeObjects,
+                            (removed =>
             {
                 var obj = new CompareResult()
                 {
@@ -111,16 +113,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                     ResultType = removed.ResultType,
                     Identity = removed.Identity
                 };
-                if (results.ContainsKey(String.Format("{0}_{1}", removed.ResultType.ToString(), CHANGE_TYPE.DELETED.ToString())))
-                {
-                    results[String.Format("{0}_{1}", removed.ResultType.ToString(), CHANGE_TYPE.DELETED.ToString())].Add(obj);
-                }
-                else
-                {
-                    results[String.Format("{0}_{1}", removed.ResultType.ToString(), CHANGE_TYPE.DELETED.ToString())] = new List<CompareResult>() { obj };
-                }
-            }
-            foreach (var modified in modifyObjects)
+
+                Results[String.Format("{0}_{1}", removed.ResultType.ToString(), CHANGE_TYPE.DELETED.ToString())].Add(obj);
+            }));
+            Parallel.ForEach(modifyObjects,
+                            (modified =>
             {
                 var first = Hydrate(modified.First);
                 var second = Hydrate(modified.Second);
@@ -359,19 +356,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                 }
 
-                if (results.ContainsKey(String.Format("{0}_{1}", modified.First.ResultType.ToString(), CHANGE_TYPE.MODIFIED.ToString())))
-                {
-                    results[String.Format("{0}_{1}", modified.First.ResultType.ToString(), CHANGE_TYPE.MODIFIED.ToString())].Add(obj);
-                }
-                else
-                {
-                    results[String.Format("{0}_{1}", modified.First.ResultType.ToString(), CHANGE_TYPE.MODIFIED.ToString())] = new List<CompareResult>() { obj };
-                }
-            }
-            foreach (string key in results.Keys)
-            {
-                Results[key] = results[key];
-            }
+                Results[String.Format("{0}_{1}", modified.First.ResultType.ToString(), CHANGE_TYPE.MODIFIED.ToString())].Add(obj);
+            }));
+            Results = Results.Where(x => x.Value.Count > 0).ToDictionary(x => x.Key, x => x.Value);
         }
 
         /// <summary>
