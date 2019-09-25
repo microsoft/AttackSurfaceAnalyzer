@@ -323,14 +323,22 @@ stages:
       inputs:
         downloadType: specific
         itemPattern: 'HASHES/HASHES.txt'
-        downloadPath: '$(build.artifactstagingdirectory)'
+        downloadPath: '$(build.binariesdirectory)'
 
     - task: DownloadBuildArtifacts@0
       displayName: 'Download Binaries'
       inputs:
         downloadType: specific
         itemPattern: 'BINARIES/*'
-        downloadPath: '$(build.artifactstagingdirectory)'
+        downloadPath: '$(build.binariesdirectory)'
+
+    - task: PowerShell@2
+      inputs:
+        targetType: 'inline'
+        script: |
+          Move-Item -Path "$(build.binariesdirectory)\HASHES\*" -Destination "$(build.artifactstagingdirectory)\"
+          Move-Item -Path "$(build.binariesdirectory)\BINARIES\*" -Destination "$(build.artifactstagingdirectory)\"
+
     - task: GitHubRelease@1
       displayName: 'GitHub release update'
       inputs:
