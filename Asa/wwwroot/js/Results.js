@@ -978,11 +978,11 @@ function GenerateExpandedResultsCard(result) {
     if (result.ChangeType == CHANGE_TYPE.MODIFIED) {
         for (var diff in result.Diffs) {
             var row = $('<div/>', {
-                class: 'row bordered'
+                class: 'row bordered diff'
             });
-            var field = $('<div/>', { class: 'col-2', html: diff.Field });
-            var before = $('<div/>', { class: 'col-2', html: diff.Before });
-            var after = $('<div/>', { class: 'col-2', html: diff.After });
+            var field = $('<div/>', { class: 'col-2', html: result.Diffs[diff].Field });
+            var before = $('<div/>', { class: 'col-5', html: result.Diffs[diff].Before });
+            var after = $('<div/>', { class: 'col-5', html: result.Diffs[diff].After });
             row.append(field);
             row.append(before);
             row.append(after);
@@ -990,7 +990,6 @@ function GenerateExpandedResultsCard(result) {
             card.append(row);
         }
     }
-
     if (result.ChangeType == CHANGE_TYPE.CREATED) {
         var protoObj = result.Compare;
     }
