@@ -9,29 +9,29 @@ variables:
   buildConfiguration: 'Release'
 
 stages:
-- stage: Test
-  jobs:
-  - job: Windows
-    pool:
-      vmImage: 'windows-latest'
+# - stage: Test
+#   jobs:
+#   - job: Windows
+#     pool:
+#       vmImage: 'windows-latest'
 
-    steps:
-    - task: UseDotNet@2
-      inputs:
-        packageType: 'sdk'
-        version: '3.0.100'
+#     steps:
+#     - task: UseDotNet@2
+#       inputs:
+#         packageType: 'sdk'
+#         version: '3.0.100'
 
-    - task: DotNetCoreCLI@2
-      displayName: 'Build Tests'
-      inputs:
-        projects: 'AsaTests/AsaTests.csproj'
-        arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)/Tests'
+#     - task: DotNetCoreCLI@2
+#       displayName: 'Build Tests'
+#       inputs:
+#         projects: 'AsaTests/AsaTests.csproj'
+#         arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)/Tests'
 
-    - task: VSTest@2
-      displayName: 'Run Tests'
-      inputs:
-        testAssemblyVer2: AsaTests.dll
-        searchFolder: '$(build.binariesdirectory)/Tests'
+#     - task: VSTest@2
+#       displayName: 'Run Tests'
+#       inputs:
+#         testAssemblyVer2: AsaTests.dll
+#         searchFolder: '$(build.binariesdirectory)/Tests'
 
 - stage: Build
   jobs:
@@ -63,93 +63,93 @@ stages:
         projects: 'Lib/AsaLib.csproj'
         arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)\lib\'
 
-    - task: AntiMalware@3
-      inputs:
-        InputType: 'Basic'
-        ScanType: 'CustomScan'
-        FileDirPath: '$(Build.binariesdirectory)'
-        EnableServices: true
-        SupportLogOnError: false
-        TreatSignatureUpdateFailureAs: 'Standard'
-        SignatureFreshness: 'UpToDate'
-        TreatStaleSignatureAs: 'Error'
+    # - task: AntiMalware@3
+    #   inputs:
+    #     InputType: 'Basic'
+    #     ScanType: 'CustomScan'
+    #     FileDirPath: '$(Build.binariesdirectory)'
+    #     EnableServices: true
+    #     SupportLogOnError: false
+    #     TreatSignatureUpdateFailureAs: 'Standard'
+    #     SignatureFreshness: 'UpToDate'
+    #     TreatStaleSignatureAs: 'Error'
 
-    # Signing task requires .NET Core 2.X
-    - task: UseDotNet@2
-      inputs:
-        packageType: 'runtime'
-        version: '2.2.7'
+    # # Signing task requires .NET Core 2.X
+    # - task: UseDotNet@2
+    #   inputs:
+    #     packageType: 'runtime'
+    #     version: '2.2.7'
 
-    - task: EsrpCodeSigning@1
-      inputs:
-        ConnectedServiceName: 'CodeSignforATSAN'
-        FolderPath: '$(build.binariesdirectory)/windows'
-        Pattern: 'Asa.exe, Asa.dll, AsaLib.dll'
-        signConfigType: 'inlineSignParams'
-        inlineOperation: |
-          [
-              {
-              "keyCode": "CP-230012",
-              "operationSetCode": "SigntoolSign",
-              "parameters": [
-                  {
-                  "parameterName": "OpusName",
-                  "parameterValue": "Microsoft"
-                  },
-                  {
-                  "parameterName": "OpusInfo",
-                  "parameterValue": "http://www.microsoft.com"
-                  },
-                  {
-                  "parameterName": "PageHash",
-                  "parameterValue": "/NPH"
-                  },
-                  {
-                  "parameterName": "FileDigest",
-                  "parameterValue": "/fd sha256"
-                  },
-                  {
-                  "parameterName": "TimeStamp",
-                  "parameterValue": "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
-                  }
-              ],
-              "toolName": "signtool.exe",
-              "toolVersion": "6.2.9304.0"
-              }
-          ]
-        SessionTimeout: '60'
-        MaxConcurrency: '50'
-        MaxRetryAttempts: '5'
+    # - task: EsrpCodeSigning@1
+    #   inputs:
+    #     ConnectedServiceName: 'CodeSignforATSAN'
+    #     FolderPath: '$(build.binariesdirectory)/windows'
+    #     Pattern: 'Asa.exe, Asa.dll, AsaLib.dll'
+    #     signConfigType: 'inlineSignParams'
+    #     inlineOperation: |
+    #       [
+    #           {
+    #           "keyCode": "CP-230012",
+    #           "operationSetCode": "SigntoolSign",
+    #           "parameters": [
+    #               {
+    #               "parameterName": "OpusName",
+    #               "parameterValue": "Microsoft"
+    #               },
+    #               {
+    #               "parameterName": "OpusInfo",
+    #               "parameterValue": "http://www.microsoft.com"
+    #               },
+    #               {
+    #               "parameterName": "PageHash",
+    #               "parameterValue": "/NPH"
+    #               },
+    #               {
+    #               "parameterName": "FileDigest",
+    #               "parameterValue": "/fd sha256"
+    #               },
+    #               {
+    #               "parameterName": "TimeStamp",
+    #               "parameterValue": "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
+    #               }
+    #           ],
+    #           "toolName": "signtool.exe",
+    #           "toolVersion": "6.2.9304.0"
+    #           }
+    #       ]
+    #     SessionTimeout: '60'
+    #     MaxConcurrency: '50'
+    #     MaxRetryAttempts: '5'
 
-    - task: EsrpCodeSigning@1
-      inputs:
-        ConnectedServiceName: 'CodeSignforATSAN'
-        FolderPath: '$(build.binariesdirectory)\Lib'
-        Pattern: '*.nupkg'
-        signConfigType: 'inlineSignParams'
-        inlineOperation: |
-          [ 
-              {
-                  "keyCode": "CP-401405",
-                  "operationSetCode": "NuGetSign",
-                  "parameters": [ ],
-                  "toolName": "sign",
-                  "toolVersion": "1.0"
-              },
-              {
-                  "keyCode": "CP-401405",
-                  "operationSetCode": "NuGetVerify",
-                  "parameters": [ ],
-                  "toolName": "sign",
-                  "toolVersion": "1.0"
-              }
-          ]
-        SessionTimeout: '60'
-        MaxConcurrency: '50'
-        MaxRetryAttempts: '5'
+    # - task: EsrpCodeSigning@1
+    #   inputs:
+    #     ConnectedServiceName: 'CodeSignforATSAN'
+    #     FolderPath: '$(build.binariesdirectory)\Lib'
+    #     Pattern: '*.nupkg'
+    #     signConfigType: 'inlineSignParams'
+    #     inlineOperation: |
+    #       [ 
+    #           {
+    #               "keyCode": "CP-401405",
+    #               "operationSetCode": "NuGetSign",
+    #               "parameters": [ ],
+    #               "toolName": "sign",
+    #               "toolVersion": "1.0"
+    #           },
+    #           {
+    #               "keyCode": "CP-401405",
+    #               "operationSetCode": "NuGetVerify",
+    #               "parameters": [ ],
+    #               "toolName": "sign",
+    #               "toolVersion": "1.0"
+    #           }
+    #       ]
+    #     SessionTimeout: '60'
+    #     MaxConcurrency: '50'
+    #     MaxRetryAttempts: '5'
 
-    - powershell: 'Get-ChildItem -Path ''$(build.binariesdirectory)'' -Recurse CodeSign* | foreach { Remove-Item -Path $_.FullName }'
-      displayName: 'Delete CodeSign summaries'
+    # - powershell: 'Get-ChildItem -Path ''$(build.binariesdirectory)'' -Recurse CodeSign* | foreach { Remove-Item -Path $_.FullName }'
+    #   displayName: 'Delete CodeSign summaries'
 
     - task: PowerShell@2
       displayName: Prepare Artifacts
@@ -160,15 +160,15 @@ stages:
 
           $longVersion = (nbgv get-version -v AssemblyInformationalVersion)
           $version = $longVersion.split('+')[0]
-          $asaFolder =  $(build.binariesdirectory)\Asa-win-$version
+          $asaFolder =  $(build.binariesdirectory)\Asa-win-$(version)
           mkdir $asaFolder
 
-          Move-Item -Path "$(build.binariesdirectory)\windows" -Destination $asaFolder\res
+          Move-Item -Path "$(build.binariesdirectory)\windows" -Destination $(asaFolder)\res
 
-          Copy-Item -Path "$(build.sourcesdirectory)\Asa\AsaLaunch.bat" -Destination "$(build.binariesdirectory)\$asaFolder\AsaLaunch.bat"
-          Copy-Item -Path "$(build.sourcesdirectory)\Asa\AsaLaunchGui.bat" -Destination "$(build.binariesdirectory)\$asaFolder\AsaLaunchGui.bat"
+          Copy-Item -Path "$(build.sourcesdirectory)\Asa\AsaLaunch.bat" -Destination "$(build.binariesdirectory)\$(asaFolder)\AsaLaunch.bat"
+          Copy-Item -Path "$(build.sourcesdirectory)\Asa\AsaLaunchGui.bat" -Destination "$(build.binariesdirectory)\$(asaFolder)\AsaLaunchGui.bat"
 
-          7z a "$(build.artifactstagingdirectory)\Asa-win-$version.zip" "$(build.binariesdirectory)\Asa-win-$version"
+          7z a "$(build.artifactstagingdirectory)\Asa-win-$(version).zip" "$(build.binariesdirectory)\Asa-win-$(version)"
 
           Get-ChildItem $(build.artifactstagingdirectory) | Foreach-Object{
             $name = $_.Name
