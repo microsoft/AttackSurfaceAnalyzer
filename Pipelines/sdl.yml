@@ -9,37 +9,65 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- task: securedevelopmentteam.vss-secure-development-tools.build-task-credscan.CredScan@2
-  displayName: 'Run CredScan'
-  inputs:
-    scanFolder: Asa/wwwroot/js
-    debugMode: false
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
     version: '3.0.100'
-- task: securedevelopmentteam.vss-secure-development-tools.build-task-semmle.Semmle@0
-  displayName: 'Run Semmle Asa'
+- task: CredScan@2
   inputs:
-    sourceCodeDirectory: Asa
+    toolMajorVersion: 'V2'
+    outputFormat: 'sarif'
+- task: Semmle@0
+  inputs:
+    sourceCodeDirectory: '$(Build.SourcesDirectory)\Asa'
+    language: 'csharp'
     cleanupBuildCommands: 'dotnet clean'
     buildCommands: 'dotnet build'
+    querySuite: 'Recommended'
+    timeout: '1800'
+    ram: '16384'
+    addProjectDirToScanningExclusionList: true
 
-- task: securedevelopmentteam.vss-secure-development-tools.build-task-semmle.Semmle@0
-  displayName: 'Run Semmle (javascript)'
+- task: Semmle@0
   inputs:
-    sourceCodeDirectory: Asa/wwwroot
-    language: javascript
+    sourceCodeDirectory: '$(Build.SourcesDirectory)\Asa\wwwroot'
+    language: 'javascript'
+    includeNodeModules: false
+    querySuite: 'Recommended'
+    timeout: '1800'
+    ram: '16384'
+    addProjectDirToScanningExclusionList: true
 
-- task: securedevelopmentteam.vss-secure-development-tools.build-task-report.SdtReport@1
-  displayName: 'Create Security Analysis Report'
+- task: SdtReport@1
   inputs:
+    VstsConsole: false
+    TsvFile: false
+    AllTools: false
+    APIScan: false
+    BinSkim: false
+    CodesignValidation: false
     CredScan: true
+    FortifySCA: false
+    FxCop: false
+    ModernCop: false
+    MSRD: false
+    PoliCheck: false
+    RoslynAnalyzers: false
+    SDLNativeRules: false
     Semmle: true
-    SemmleBreakOn: WarningAbove
+    SemmleBreakOn: 'Error'
+    TSLint: false
+    ToolLogsNotFoundAction: 'Standard'
 
-- task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
-  displayName: 'Component Detection'
-
-- task: msospo.ospo-extension.8d7f9abb-6896-461d-9e25-4f74ed65ddb2.notice@0
-  displayName: 'NOTICE File Generator'
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    projects: '$(build.sourcesdirectory)\Asa\Asa.csproj,$(build.sourcesdirectory)\Lib\AsaLib.csproj'
+- task: ComponentGovernanceComponentDetection@0
+  inputs:
+    scanType: 'Register'
+    verbosity: 'Verbose'
+    alertWarningLevel: 'High'
+- task: notice@0
+  inputs:
+    outputformat: 'text'
