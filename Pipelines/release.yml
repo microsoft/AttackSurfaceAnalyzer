@@ -245,6 +245,8 @@ stages:
 
           sha256sum $ART_DIR/Asa-linux-$VERSION.tar.gz | awk ' { n=split($2, a, "/"); $2 = a[n]; print; } ' OFS='\t' >> $BIN_DIR/HASHES_LINUX.txt
           sha256sum $ART_DIR/Asa-macos-$VERSION.tar.gz | awk ' { n=split($2, a, "/"); $2 = a[n]; print; } ' OFS='\t' >> $BIN_DIR/HASHES_MAC.txt
+          cat $BIN_DIR/HASHES_LINUX.txt
+          sha256sum $ART_DIR/Asa-linux-$VERSION.tar.gz
       displayName: 'Prepare Artifacts'
       env:
         BIN_DIR: $(build.binariesdirectory)
