@@ -182,8 +182,8 @@ function EnableCollectionFields() {
 function GetResultTypes() {
     var data = { 'BaseId': $('#SelectedBaseRunId').val(), 'CompareId': $('#SelectedCompareRunId').val() };
 
-    $.getJSON('GetResultTypes', data, function (result) {
-        if ((result.File || result.Port || result.Certificate || result.Service || result.Registry || result.User) == false) {
+    $.getJSON('GetResultTypes', data, function(result) {
+        if ((result.File || result.Port || result.Certificate || result.Service || result.Registry || result.User || result.Firewall || result.Com) == false) {
             SetStatus("The two runs selected have no common collectors.");
         } else {
             $("#ExportResultsButton").attr('disabled', false);
