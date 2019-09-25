@@ -280,7 +280,7 @@ stages:
       inputs:
         downloadType: specific
         itemPattern: 'HASHES/*.txt'
-        downloadPath: '$(build.binariesdirectory)'
+        downloadPath: '$(build.binariesdirectory)\HASHES'
 
     - powershell: 'dir $(build.binariesdirectory)'
       displayName: 'PowerShell Script'
