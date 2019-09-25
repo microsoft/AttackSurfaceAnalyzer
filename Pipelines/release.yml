@@ -152,28 +152,30 @@ stages:
       displayName: 'Delete CodeSign summaries'
 
     - task: PowerShell@2
+      displayName: Prepare Artifacts
       inputs:
         targetType: 'inline'
         script: |
+          Move-Item -Path "$(build.binariesdirectory)\lib\*" -Destination "$(build.artifactstagingdirectory)"
+
           $longVersion = (nbgv get-version -v AssemblyInformationalVersion)
-                $version = $longVersion.split('+')[0]
-                
-                Copy-Item -Path "$(build.sourcesdirectory)\Asa\AsaLaunch.bat" -Destination "$(build.binariesdirectory)\windows\AsaLaunch.bat"
-                Copy-Item -Path "$(build.sourcesdirectory)\Asa\AsaLaunchGui.bat" -Destination "$(build.binariesdirectory)\windows\AsaLaunchGui.bat"
-                Rename-Item -Path "$(build.binariesdirectory)\windows\Asa" -NewName "res"
-                Rename-Item -Path "$(build.binariesdirectory)\windows" -NewName "Asa-win-$version"
-                Compress-Archive -Path "$(build.binariesdirectory)\Asa-win-$version" -DestinationPath "$(build.artifactstagingdirectory)\Asa-win-$version.zip"
-                      
-                Rename-Item -Path "$(build.binariesdirectory)\Lib" -NewName "AsaLib-$version"
-                7z a "$(build.artifactstagingdirectory)\AsaLib-$version.zip" "$(build.binariesdirectory)\AsaLib-$version"
-                
-                $zips = Get-ChildItem $(build.artifactstagingdirectory) -Filter "*.zip"
-                $zips | Foreach-Object{
-                    $name = $_.Name
-                    $tmp = (Get-FileHash "$(build.artifactstagingdirectory)\$name").Hash
-                    Add-Content $(build.binariesdirectory)\HASHES_WINDOWS.txt "$tmp`t$name"
-                }
-   
+          $version = $longVersion.split('+')[0]
+          $asaFolder =  $(build.binariesdirectory)\Asa-win-$version
+          mkdir $asaFolder
+
+          Move-Item -Path "$(build.binariesdirectory)\windows" -Destination $asaFolder\res
+
+          Copy-Item -Path "$(build.sourcesdirectory)\Asa\AsaLaunch.bat" -Destination "$(build.binariesdirectory)\$asaFolder\AsaLaunch.bat"
+          Copy-Item -Path "$(build.sourcesdirectory)\Asa\AsaLaunchGui.bat" -Destination "$(build.binariesdirectory)\$asaFolder\AsaLaunchGui.bat"
+
+          7z a "$(build.artifactstagingdirectory)\Asa-win-$version.zip" "$(build.binariesdirectory)\Asa-win-$version"
+
+          Get-ChildItem $(build.artifactstagingdirectory) | Foreach-Object{
+            $name = $_.Name
+            $tmp = (Get-FileHash "$(build.artifactstagingdirectory)\$name").Hash
+            Add-Content $(build.binariesdirectory)\HASHES_WINDOWS.txt "$tmp`t$name"
+          }
+
     - task: PublishBuildArtifacts@1
       displayName: 'Publish HASHES.txt'
       inputs:
@@ -201,7 +203,7 @@ stages:
       inputs:
           command: publish
           projects: 'Asa/Asa.csproj'
-          arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/linux -r linux-x64'
+          arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)/linux -r linux-x64'
           zipAfterPublish: false
 
     - task: DotNetCoreCLI@2
@@ -209,36 +211,40 @@ stages:
       inputs:
           command: publish
           projects: 'Asa/Asa.csproj'
-          arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/macos -r osx-x64'
+          arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)/macos -r osx-x64'
           zipAfterPublish: false
     - task: CmdLine@2
       inputs:
         script: |
           VERSION="$(nbgv get-version -v AssemblyInformationalVersion | cut -d'+' -f 1)"
-                
-                cp $SRC_DIR/Cli/AsaLaunch.sh $BIN_DIR/linux/AsaLaunch.sh
-                cp $SRC_DIR/Cli/AsaLaunch.sh $BIN_DIR/osx/AsaLaunch.sh
-                cp $SRC_DIR/Cli/AsaLaunchGui.sh $BIN_DIR/osx/AsaLaunchGui.sh
-                cp $SRC_DIR/Cli/AsaLaunchGui.sh $BIN_DIR/osx/AsaLaunchGui.sh
-                
-                mv $BIN_DIR/linux/Asa $BIN_DIR/linux/res
-                mv $BIN_DIR/osx/Asa $BIN_DIR/osx/res
-                
-                mv $BIN_DIR/linux $BIN_DIR/Asa-linux-$VERSION
-                mv $BIN_DIR/osx $BIN_DIR/Asa-macos-$VERSION
-                
-                chmod +x $BIN_DIR/Asa-linux-$VERSION/AsaLaunch.sh
-                chmod +x $BIN_DIR/Asa-macos-$VERSION/AsaLaunch.sh
-                
-                cd $BIN_DIR
-                
-                tar -czvf $ART_DIR/AsaCli-linux-$VERSION.tar.gz Asa-linux-$VERSION
-                tar -czvf $ART_DIR/AsaCli-macos-$VERSION.tar.gz Asa-macos-$VERSION
-                
-                mkdir $BIN_DIR/HASHES
-          
-                sha256sum $ART_DIR/Asa-linux-$VERSION.tar.gz | awk ' { n=split($2, a, "/"); $2 = a[n]; print; } ' OFS='\t' >> $BIN_DIR/HASHES_LINUX.txt
-                sha256sum $ART_DIR/Asa-macos-$VERSION.tar.gz | awk ' { n=split($2, a, "/"); $2 = a[n]; print; } ' OFS='\t' >> $BIN_DIR/HASHES_MAC.txt
+          mkdir $BIN_DIR/res
+          mv $BIN_DIR/linux/* $BIN_DIR/res/
+          mv $BIN_DIR/res $BIN_DIR/linux/
+
+          mkdir $BIN_DIR/res
+          mv $BIN_DIR/macos/* $BIN_DIR/res/
+          mv $BIN_DIR/res $BIN_DIR/macos/
+
+          cp $SRC_DIR/Asa/AsaLaunch.sh $BIN_DIR/linux/AsaLaunch.sh
+          cp $SRC_DIR/Asa/AsaLaunch.sh $BIN_DIR/macos/AsaLaunch.sh
+          cp $SRC_DIR/Asa/AsaLaunchGui.sh $BIN_DIR/linux/AsaLaunchGui.sh
+          cp $SRC_DIR/Asa/AsaLaunchGui.sh $BIN_DIR/macos/AsaLaunchGui.sh
+
+          mv $BIN_DIR/linux $BIN_DIR/Asa-linux-$VERSION
+          mv $BIN_DIR/osx $BIN_DIR/Asa-macos-$VERSION
+
+          chmod +x $BIN_DIR/Asa-linux-$VERSION/AsaLaunch.sh
+          chmod +x $BIN_DIR/Asa-macos-$VERSION/AsaLaunch.sh
+          chmod +x $BIN_DIR/Asa-linux-$VERSION/AsaLaunchGui.sh
+          chmod +x $BIN_DIR/Asa-macos-$VERSION/AsaLaunchGui.sh
+          chmod +x $BIN_DIR/Asa-linux-$VERSION/res/Asa
+          chmod +x $BIN_DIR/Asa-macos-$VERSION/res/Asa
+
+          tar -czvf $ART_DIR/AsaCli-linux-$VERSION.tar.gz $BIN_DIR/Asa-linux-$VERSION
+          tar -czvf $ART_DIR/AsaCli-macos-$VERSION.tar.gz $BIN_DIR/Asa-macos-$VERSION
+
+          sha256sum $ART_DIR/Asa-linux-$VERSION.tar.gz | awk ' { n=split($2, a, "/"); $2 = a[n]; print; } ' OFS='\t' >> $BIN_DIR/HASHES_LINUX.txt
+          sha256sum $ART_DIR/Asa-macos-$VERSION.tar.gz | awk ' { n=split($2, a, "/"); $2 = a[n]; print; } ' OFS='\t' >> $BIN_DIR/HASHES_MAC.txt
       displayName: 'Prepare Artifacts'
       env:
         BIN_DIR: $(build.binariesdirectory)
