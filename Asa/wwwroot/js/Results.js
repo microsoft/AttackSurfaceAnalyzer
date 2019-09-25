@@ -487,10 +487,6 @@ function InsertIntoFileTable(result) {
     }));
     tmp.append($('<td/>', {
         scope: "col",
-        html: appendObj.Permissions
-    }));
-    tmp.append($('<td/>', {
-        scope: "col",
         html: appendObj.Size
     }));
     $('#FileResultsTableBody').append(tmp);
