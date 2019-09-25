@@ -221,13 +221,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                             }
                             else if (firstVal is string || firstVal is int || firstVal is bool || firstVal is ulong)
                             {
-                                added = null;
-                                removed = null;
-                                obj.Diffs.Add(new ModifiedDiff(field.Name, firstVal, secondVal));
+                                obj.Diffs.Add(new Diff() { Field = field.Name, Before = firstVal, After = secondVal });
                             }
                             else
                             {
-                                obj.Diffs.Add(new ModifiedDiff(field.Name, firstVal, secondVal));
+                                obj.Diffs.Add(new Diff() { Field = field.Name, Before = firstVal, After = secondVal });
                             }
 
                             diffs = GetDiffs(field, added, removed);
@@ -331,11 +329,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                             }
                             else if (firstVal is string || firstVal is int || firstVal is bool)
                             {
-                                obj.Diffs.Add(new ModifiedDiff(prop.Name, firstVal, secondVal));
+                                obj.Diffs.Add(new Diff() { Field = prop.Name, Before = firstVal, After = secondVal });
                             }
                             else
                             {
-                                obj.Diffs.Add(new ModifiedDiff(prop.Name, firstVal, secondVal));
+                                obj.Diffs.Add(new Diff() { Field = prop.Name, Before = firstVal, After = secondVal });
                             }
 
                             diffs = GetDiffs(prop, added, removed);
@@ -373,18 +371,18 @@ namespace AttackSurfaceAnalyzer.Collectors
             List<Diff> diffsOut = new List<Diff>();
             if (added != null)
             {
-                diffsOut.Add(new AddDiff()
+                diffsOut.Add(new Diff()
                 {
                     Field = field.Name,
-                    Added = added
+                    After = added
                 });
             }
             if (removed != null)
             {
-                diffsOut.Add(new RemoveDiff()
+                diffsOut.Add(new Diff()
                 {
                     Field = field.Name,
-                    Removed = removed
+                    Before = removed
                 });
             }
             return diffsOut;
@@ -402,18 +400,18 @@ namespace AttackSurfaceAnalyzer.Collectors
             List<Diff> diffsOut = new List<Diff>();
             if (added != null)
             {
-                diffsOut.Add(new AddDiff()
+                diffsOut.Add(new Diff()
                 {
                     Field = prop.Name,
-                    Added = added
+                    After = added
                 });
             }
             if (removed != null)
             {
-                diffsOut.Add(new RemoveDiff()
+                diffsOut.Add(new Diff()
                 {
                     Field = prop.Name,
-                    Removed = removed
+                    Before = removed
                 });
             }
             return diffsOut;
