@@ -282,7 +282,10 @@ stages:
         itemPattern: 'HASHES/*.txt'
         downloadPath: '$(build.binariesdirectory)'
 
-    - powershell: 'Get-Content $(build.binariesdirectory)\HASHES_LINUX.txt, $(build.binariesdirectory)\HASHES_MAC.txt, $(build.binariesdirectory)\HASHES_WINDOWS.txt | Set-Content $(build.binariesdirectory)\HASHES.txt'
+    - powershell: 'dir $(build.binariesdirectory)'
+      displayName: 'PowerShell Script'
+
+    - powershell: 'Get-Content $(build.binariesdirectory)\HASHES\HASHES_LINUX.txt, $(build.binariesdirectory)\HASHES\HASHES_MAC.txt, $(build.binariesdirectory)\HASHES\HASHES_WINDOWS.txt | Set-Content $(build.binariesdirectory)\HASHES.txt'
       displayName: 'PowerShell Script'
 
     - task: EsrpCodeSigning@1
