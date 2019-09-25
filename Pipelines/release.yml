@@ -282,7 +282,7 @@ stages:
         itemPattern: 'HASHES/*.txt'
         downloadPath: '$(build.binariesdirectory)\HASHES'
 
-    - powershell: 'dir $(build.binariesdirectory)\HASHES'
+    - powershell: 'dir $(build.binariesdirectory)\HASHES\'
       displayName: 'PowerShell Script'
 
     - powershell: 'Get-Content $(build.binariesdirectory)\HASHES\HASHES_LINUX.txt, $(build.binariesdirectory)\HASHES\HASHES_MAC.txt, $(build.binariesdirectory)\HASHES\HASHES_WINDOWS.txt | Set-Content $(build.binariesdirectory)\HASHES.txt'
