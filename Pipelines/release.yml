@@ -178,7 +178,7 @@ stages:
       displayName: 'Publish HASHES.txt'
       inputs:
         PathtoPublish: '$(build.binariesdirectory)\HASHES_WINDOWS.txt'
-        ArtifactName: 'HASHES_WINDOWS'
+        ArtifactName: 'HASHES'
 
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact'
@@ -237,8 +237,8 @@ stages:
                 
                 mkdir $BIN_DIR/HASHES
           
-                sha256sum $ART_DIR/Asa-linux-$VERSION.tar.gz | awk ' { n=split($2, a, "/"); $2 = a[n]; print; } ' OFS='\t' >> $BIN_DIR/HASHES.txt
-                sha256sum $ART_DIR/Asa-macos-$VERSION.tar.gz | awk ' { n=split($2, a, "/"); $2 = a[n]; print; } ' OFS='\t' >> $BIN_DIR/HASHES.txt
+                sha256sum $ART_DIR/Asa-linux-$VERSION.tar.gz | awk ' { n=split($2, a, "/"); $2 = a[n]; print; } ' OFS='\t' >> $BIN_DIR/HASHES_LINUX.txt
+                sha256sum $ART_DIR/Asa-macos-$VERSION.tar.gz | awk ' { n=split($2, a, "/"); $2 = a[n]; print; } ' OFS='\t' >> $BIN_DIR/HASHES_MAC.txt
       displayName: 'Prepare Artifacts'
       env:
         BIN_DIR: $(build.binariesdirectory)
@@ -248,8 +248,14 @@ stages:
     - task: PublishBuildArtifacts@1
       displayName: 'Publish HASHES'
       inputs:
-        PathtoPublish: '$(build.binariesdirectory)/HASHES.txt'
-        ArtifactName: 'HASHES_LINUX'
+        PathtoPublish: '$(build.binariesdirectory)/HASHES_LINUX.txt'
+        ArtifactName: 'HASHES'
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish HASHES'
+      inputs:
+        PathtoPublish: '$(build.binariesdirectory)/HASHES_MAC.txt'
+        ArtifactName: 'HASHES'
     
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Build Artifaces'
@@ -264,20 +270,13 @@ stages:
       vmImage: 'windows-latest'
     steps:
     - task: DownloadBuildArtifacts@0
-      displayName: 'Download HASHES WINDOWS'
+      displayName: 'Download HASH files'
       inputs:
         downloadType: specific
-        itemPattern: 'HASHES_WINDOWS/HASHES.txt'
+        itemPattern: 'HASHES/*.txt'
         downloadPath: '$(build.binariesdirectory)'
 
-    - task: DownloadBuildArtifacts@0
-      displayName: 'Download HASHES LINUX/MACOS'
-      inputs:
-        downloadType: specific
-        itemPattern: 'HASHES_LINUX/HASHES.txt'
-        downloadPath: '$(build.binariesdirectory)'
-
-    - powershell: 'Get-Content $(build.binariesdirectory)\HASHES_LINUX\HASHES.txt, $(build.binariesdirectory)\HASHES_WINDOWS\HASHES_WINDOWS.txt | Set-Content $(build.binariesdirectory)\HASHES.txt'
+    - powershell: 'Get-Content $(build.binariesdirectory)\HASHES_LINUX.txt, $(build.binariesdirectory)\HASHES_MAC.txt, $(build.binariesdirectory)\HASHES_WINDOWS.txt | Set-Content $(build.binariesdirectory)\HASHES.txt'
       displayName: 'PowerShell Script'
 
     - task: EsrpCodeSigning@1
