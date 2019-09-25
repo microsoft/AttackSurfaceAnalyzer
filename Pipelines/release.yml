@@ -231,7 +231,7 @@ stages:
           cp $SRC_DIR/Asa/AsaLaunchGui.sh $BIN_DIR/macos/AsaLaunchGui.sh
 
           mv $BIN_DIR/linux $BIN_DIR/Asa-linux-$VERSION
-          mv $BIN_DIR/osx $BIN_DIR/Asa-macos-$VERSION
+          mv $BIN_DIR/macos $BIN_DIR/Asa-macos-$VERSION
 
           chmod +x $BIN_DIR/Asa-linux-$VERSION/AsaLaunch.sh
           chmod +x $BIN_DIR/Asa-macos-$VERSION/AsaLaunch.sh
