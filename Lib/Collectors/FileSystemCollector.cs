@@ -113,22 +113,30 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     fileInfo.FullName.EndsWith(".der", StringComparison.CurrentCulture) ||
                                     fileInfo.FullName.EndsWith(".p7b", StringComparison.CurrentCulture))
                                 {
-                                    var certificate = X509Certificate.CreateFromCertFile(fileInfo.FullName);
-                                    var certObj = new CertificateObject()
+                                    try
                                     {
-                                        StoreLocation = fileInfo.FullName,
-                                        StoreName = "Disk",
-                                        CertificateHashString = certificate.GetCertHashString(),
-                                        Subject = certificate.Subject,
-                                        Pkcs7 = certificate.Export(X509ContentType.Cert).ToString()
-                                    };
-                                    DatabaseManager.Write(certObj, runId);
+                                        var certificate = X509Certificate.CreateFromCertFile(fileInfo.FullName);
+                                        var certObj = new CertificateObject()
+                                        {
+                                            StoreLocation = fileInfo.FullName,
+                                            StoreName = "Disk",
+                                            CertificateHashString = certificate.GetCertHashString(),
+                                            Subject = certificate.Subject,
+                                            Pkcs7 = certificate.Export(X509ContentType.Cert).ToString()
+                                        };
+                                        DatabaseManager.Write(certObj, runId);
+                                    }
+                                    catch(Exception e)
+                                    {
+                                        Log.Debug(e, "Could not parse certificate from file: {0}", fileInfo.FullName);
+                                    }
+
                                 }
                             }
                         }
                         catch (Exception e)
                         {
-                            Logger.DebugException(e);
+                            Log.Debug(e, "Couldn't create a FileSystemObject from: {0}",fileInfo.FullName);
                         }
                     }));
                 }
