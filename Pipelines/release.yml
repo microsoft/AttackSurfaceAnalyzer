@@ -156,7 +156,7 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          Move-Item -Path "$(build.binariesdirectory)\lib\*" -Destination "$(build.artifactstagingdirectory)"
+          Move-Item -Path "$(build.binariesdirectory)\lib\*.nupkg" -Destination "$(build.artifactstagingdirectory)"
 
           $longVersion = (nbgv get-version -v AssemblyInformationalVersion)
           $version = $longVersion.split('+')[0]
