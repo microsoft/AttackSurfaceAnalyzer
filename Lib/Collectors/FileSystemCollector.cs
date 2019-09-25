@@ -82,11 +82,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                 {
-                    roots.Add("/");   // @TODO Improve this
+                    roots.Add("/");
                 }
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 {
-                    roots.Add("/"); // @TODO Improve this
+                    roots.Add("/");
                 }
             }
 
