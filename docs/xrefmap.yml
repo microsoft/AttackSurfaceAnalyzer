@@ -1716,6 +1716,32 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Objects.Diff
   fullName: AttackSurfaceAnalyzer.Objects.Diff
   nameWithType: Diff
+- uid: AttackSurfaceAnalyzer.Objects.Diff.After
+  name: After
+  href: api/AttackSurfaceAnalyzer.Objects.Diff.html#AttackSurfaceAnalyzer_Objects_Diff_After
+  commentId: P:AttackSurfaceAnalyzer.Objects.Diff.After
+  fullName: AttackSurfaceAnalyzer.Objects.Diff.After
+  nameWithType: Diff.After
+- uid: AttackSurfaceAnalyzer.Objects.Diff.After*
+  name: After
+  href: api/AttackSurfaceAnalyzer.Objects.Diff.html#AttackSurfaceAnalyzer_Objects_Diff_After_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.Diff.After
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.Diff.After
+  nameWithType: Diff.After
+- uid: AttackSurfaceAnalyzer.Objects.Diff.Before
+  name: Before
+  href: api/AttackSurfaceAnalyzer.Objects.Diff.html#AttackSurfaceAnalyzer_Objects_Diff_Before
+  commentId: P:AttackSurfaceAnalyzer.Objects.Diff.Before
+  fullName: AttackSurfaceAnalyzer.Objects.Diff.Before
+  nameWithType: Diff.Before
+- uid: AttackSurfaceAnalyzer.Objects.Diff.Before*
+  name: Before
+  href: api/AttackSurfaceAnalyzer.Objects.Diff.html#AttackSurfaceAnalyzer_Objects_Diff_Before_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.Diff.Before
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.Diff.Before
+  nameWithType: Diff.Before
 - uid: AttackSurfaceAnalyzer.Objects.Diff.Field
   name: Field
   href: api/AttackSurfaceAnalyzer.Objects.Diff.html#AttackSurfaceAnalyzer_Objects_Diff_Field

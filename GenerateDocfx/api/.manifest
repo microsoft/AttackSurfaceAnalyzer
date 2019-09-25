@@ -169,6 +169,8 @@
   "AttackSurfaceAnalyzer.Objects.CompareResult.ShouldSerializeDiffs": "AttackSurfaceAnalyzer.Objects.CompareResult.yml",
   "AttackSurfaceAnalyzer.Objects.CompareResult.ShouldSerializeRules": "AttackSurfaceAnalyzer.Objects.CompareResult.yml",
   "AttackSurfaceAnalyzer.Objects.Diff": "AttackSurfaceAnalyzer.Objects.Diff.yml",
+  "AttackSurfaceAnalyzer.Objects.Diff.After": "AttackSurfaceAnalyzer.Objects.Diff.yml",
+  "AttackSurfaceAnalyzer.Objects.Diff.Before": "AttackSurfaceAnalyzer.Objects.Diff.yml",
   "AttackSurfaceAnalyzer.Objects.Diff.Field": "AttackSurfaceAnalyzer.Objects.Diff.yml",
   "AttackSurfaceAnalyzer.Objects.FileMonitorEvent": "AttackSurfaceAnalyzer.Objects.FileMonitorEvent.yml",
   "AttackSurfaceAnalyzer.Objects.FileMonitorEvent.ChangeType": "AttackSurfaceAnalyzer.Objects.FileMonitorEvent.yml",
