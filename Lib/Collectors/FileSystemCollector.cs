@@ -295,26 +295,23 @@ namespace AttackSurfaceAnalyzer.Collectors
                     // Set IsExecutable and Signature Status
                     if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                     {
-                        obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path);
-
-                        try
+                        if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
                         {
-                            if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
+                            try
                             {
-                                if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
+
+                                if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
                                 {
+
                                     obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(fileInfo.FullName);
                                     obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(fileInfo.FullName);
-                                }
-                                else
-                                {
-                                    obj.SignatureStatus = "Cloud";
+                                    obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path);
                                 }
                             }
-                        }
-                        catch (System.UnauthorizedAccessException ex)
-                        {
-                            Log.Verbose(ex, "Couldn't access {0} to check if signature is needed.", fileInfo.FullName);
+                            catch (System.UnauthorizedAccessException ex)
+                            {
+                                Log.Verbose(ex, "Couldn't access {0} to check if signature is needed.", fileInfo.FullName);
+                            }
                         }
                     }
                     else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
