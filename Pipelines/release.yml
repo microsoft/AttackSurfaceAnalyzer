@@ -345,6 +345,6 @@ stages:
         title: 'v2.1 Public Preview'
         assets: '$(Build.ArtifactStagingDirectory)/*'
         assetUploadMode: replace
-        isDraft: true
+        isDraft: false
         isPreRelease: true
         changeLogCompareToRelease: lastNonDraftRelease
