@@ -1,1 +1,1 @@
-sudo res/AttackSurfaceAnalyzerCli "$@"
+sudo res/Asa "$@"
