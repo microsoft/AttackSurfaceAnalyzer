@@ -1,1 +1,1 @@
-sudo res/AttackSurfaceAnalyzerCli gui
+sudo res/Asa gui

@@ -1,1 +1,1 @@
-res\AttackSurfaceAnalyzerCli.exe gui
+res\Asa.exe gui

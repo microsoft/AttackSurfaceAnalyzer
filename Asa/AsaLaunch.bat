@@ -1,1 +1,1 @@
-res\AttackSurfaceAnalyzerCli.exe %*
+res\Asa.exe %*
