@@ -182,8 +182,8 @@ function EnableCollectionFields() {
 function GetResultTypes() {
     var data = { 'BaseId': $('#SelectedBaseRunId').val(), 'CompareId': $('#SelectedCompareRunId').val() };
 
-    $.getJSON('GetResultTypes', data, function (result) {
-        if ((result.File || result.Port || result.Certificate || result.Service || result.Registry || result.User) == false) {
+    $.getJSON('GetResultTypes', data, function(result) {
+        if ((result.File || result.Port || result.Certificate || result.Service || result.Registry || result.User || result.Firewall || result.Com) == false) {
             SetStatus("The two runs selected have no common collectors.");
         } else {
             $("#ExportResultsButton").attr('disabled', false);
@@ -409,7 +409,7 @@ function GenerateExpandedResultsCard(result) {
         class: 'col', html: result.BaseRunId
     })).append($('<div/>', {
         class: 'col', html: result.CompareRunId
-    }))
+    }));
     card.append(header);
 
     if (result.ChangeType == CHANGE_TYPE.CREATED) {
@@ -484,10 +484,6 @@ function InsertIntoFileTable(result) {
     tmp.append($('<td/>', {
         scope: "col",
         html: appendObj.Path
-    }));
-    tmp.append($('<td/>', {
-        scope: "col",
-        html: appendObj.Permissions
     }));
     tmp.append($('<td/>', {
         scope: "col",
@@ -976,17 +972,17 @@ function GenerateExpandedResultsCard(result) {
         class: 'col', html: result.BaseRunId
     })).append($('<div/>', {
         class: 'col', html: result.CompareRunId
-    }))
+    }));
     card.append(header);
 
     if (result.ChangeType == CHANGE_TYPE.MODIFIED) {
         for (var diff in result.Diffs) {
             var row = $('<div/>', {
-                class: 'row bordered'
+                class: 'row bordered diff'
             });
-            var field = $('<div/>', { class: 'col-2', html: diff.Field });
-            var before = $('<div/>', { class: 'col-2', html: diff.Before });
-            var after = $('<div/>', { class: 'col-2', html: diff.After });
+            var field = $('<div/>', { class: 'col-2', html: result.Diffs[diff].Field });
+            var before = $('<div/>', { class: 'col-5', html: result.Diffs[diff].Before });
+            var after = $('<div/>', { class: 'col-5', html: result.Diffs[diff].After });
             row.append(field);
             row.append(before);
             row.append(after);
@@ -994,7 +990,6 @@ function GenerateExpandedResultsCard(result) {
             card.append(row);
         }
     }
-
     if (result.ChangeType == CHANGE_TYPE.CREATED) {
         var protoObj = result.Compare;
     }

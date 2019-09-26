@@ -82,11 +82,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                 {
-                    roots.Add("/");   // @TODO Improve this
+                    roots.Add("/");
                 }
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 {
-                    roots.Add("/"); // @TODO Improve this
+                    roots.Add("/");
                 }
             }
 
@@ -113,22 +113,30 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     fileInfo.FullName.EndsWith(".der", StringComparison.CurrentCulture) ||
                                     fileInfo.FullName.EndsWith(".p7b", StringComparison.CurrentCulture))
                                 {
-                                    var certificate = X509Certificate.CreateFromCertFile(fileInfo.FullName);
-                                    var certObj = new CertificateObject()
+                                    try
                                     {
-                                        StoreLocation = fileInfo.FullName,
-                                        StoreName = "Disk",
-                                        CertificateHashString = certificate.GetCertHashString(),
-                                        Subject = certificate.Subject,
-                                        Pkcs7 = certificate.Export(X509ContentType.Cert).ToString()
-                                    };
-                                    DatabaseManager.Write(certObj, runId);
+                                        var certificate = X509Certificate.CreateFromCertFile(fileInfo.FullName);
+                                        var certObj = new CertificateObject()
+                                        {
+                                            StoreLocation = fileInfo.FullName,
+                                            StoreName = "Disk",
+                                            CertificateHashString = certificate.GetCertHashString(),
+                                            Subject = certificate.Subject,
+                                            Pkcs7 = certificate.Export(X509ContentType.Cert).ToString()
+                                        };
+                                        DatabaseManager.Write(certObj, runId);
+                                    }
+                                    catch(Exception e)
+                                    {
+                                        Log.Debug(e, "Could not parse certificate from file: {0}", fileInfo.FullName);
+                                    }
+
                                 }
                             }
                         }
                         catch (Exception e)
                         {
-                            Logger.DebugException(e);
+                            Log.Debug(e, "Couldn't create a FileSystemObject from: {0}",fileInfo.FullName);
                         }
                     }));
                 }
@@ -295,26 +303,23 @@ namespace AttackSurfaceAnalyzer.Collectors
                     // Set IsExecutable and Signature Status
                     if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                     {
-                        obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path);
-
-                        try
+                        if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
                         {
-                            if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
+                            try
                             {
-                                if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
+
+                                if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
                                 {
+
                                     obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(fileInfo.FullName);
                                     obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(fileInfo.FullName);
-                                }
-                                else
-                                {
-                                    obj.SignatureStatus = "Cloud";
+                                    obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path);
                                 }
                             }
-                        }
-                        catch (System.UnauthorizedAccessException ex)
-                        {
-                            Log.Verbose(ex, "Couldn't access {0} to check if signature is needed.", fileInfo.FullName);
+                            catch (System.UnauthorizedAccessException ex)
+                            {
+                                Log.Verbose(ex, "Couldn't access {0} to check if signature is needed.", fileInfo.FullName);
+                            }
                         }
                     }
                     else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
