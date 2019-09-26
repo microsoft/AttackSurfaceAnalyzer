@@ -409,7 +409,7 @@ function GenerateExpandedResultsCard(result) {
         class: 'col', html: result.BaseRunId
     })).append($('<div/>', {
         class: 'col', html: result.CompareRunId
-    }))
+    }));
     card.append(header);
 
     if (result.ChangeType == CHANGE_TYPE.CREATED) {
@@ -972,7 +972,7 @@ function GenerateExpandedResultsCard(result) {
         class: 'col', html: result.BaseRunId
     })).append($('<div/>', {
         class: 'col', html: result.CompareRunId
-    }))
+    }));
     card.append(header);
 
     if (result.ChangeType == CHANGE_TYPE.MODIFIED) {
