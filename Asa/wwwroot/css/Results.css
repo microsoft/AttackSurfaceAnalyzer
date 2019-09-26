@@ -38,6 +38,11 @@
     padding: 1em;
 }
 
+.diff {
+    font-weight: bold;
+    font-style: oblique;
+}
+
 .Added {
     border-left: 6px solid green;
     background: #98FB98;
