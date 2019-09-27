@@ -463,6 +463,90 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ParseComObjects
   nameWithType: ComObjectCollector.ParseComObjects
+- uid: AttackSurfaceAnalyzer.Collectors.EventLogCollector
+  name: EventLogCollector
+  href: api/AttackSurfaceAnalyzer.Collectors.EventLogCollector.html
+  commentId: T:AttackSurfaceAnalyzer.Collectors.EventLogCollector
+  fullName: AttackSurfaceAnalyzer.Collectors.EventLogCollector
+  nameWithType: EventLogCollector
+- uid: AttackSurfaceAnalyzer.Collectors.EventLogCollector.#ctor(System.String)
+  name: EventLogCollector(String)
+  href: api/AttackSurfaceAnalyzer.Collectors.EventLogCollector.html#AttackSurfaceAnalyzer_Collectors_EventLogCollector__ctor_System_String_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.EventLogCollector.#ctor(System.String)
+  fullName: AttackSurfaceAnalyzer.Collectors.EventLogCollector.EventLogCollector(System.String)
+  nameWithType: EventLogCollector.EventLogCollector(String)
+- uid: AttackSurfaceAnalyzer.Collectors.EventLogCollector.#ctor*
+  name: EventLogCollector
+  href: api/AttackSurfaceAnalyzer.Collectors.EventLogCollector.html#AttackSurfaceAnalyzer_Collectors_EventLogCollector__ctor_
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.EventLogCollector.#ctor
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Collectors.EventLogCollector.EventLogCollector
+  nameWithType: EventLogCollector.EventLogCollector
+- uid: AttackSurfaceAnalyzer.Collectors.EventLogCollector.CanRunOnPlatform
+  name: CanRunOnPlatform()
+  href: api/AttackSurfaceAnalyzer.Collectors.EventLogCollector.html#AttackSurfaceAnalyzer_Collectors_EventLogCollector_CanRunOnPlatform
+  commentId: M:AttackSurfaceAnalyzer.Collectors.EventLogCollector.CanRunOnPlatform
+  fullName: AttackSurfaceAnalyzer.Collectors.EventLogCollector.CanRunOnPlatform()
+  nameWithType: EventLogCollector.CanRunOnPlatform()
+- uid: AttackSurfaceAnalyzer.Collectors.EventLogCollector.CanRunOnPlatform*
+  name: CanRunOnPlatform
+  href: api/AttackSurfaceAnalyzer.Collectors.EventLogCollector.html#AttackSurfaceAnalyzer_Collectors_EventLogCollector_CanRunOnPlatform_
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.EventLogCollector.CanRunOnPlatform
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Collectors.EventLogCollector.CanRunOnPlatform
+  nameWithType: EventLogCollector.CanRunOnPlatform
+- uid: AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteInternal
+  name: ExecuteInternal()
+  href: api/AttackSurfaceAnalyzer.Collectors.EventLogCollector.html#AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteInternal
+  commentId: M:AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteInternal
+  fullName: AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteInternal()
+  nameWithType: EventLogCollector.ExecuteInternal()
+- uid: AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteInternal*
+  name: ExecuteInternal
+  href: api/AttackSurfaceAnalyzer.Collectors.EventLogCollector.html#AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteInternal_
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteInternal
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteInternal
+  nameWithType: EventLogCollector.ExecuteInternal
+- uid: AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteLinux
+  name: ExecuteLinux()
+  href: api/AttackSurfaceAnalyzer.Collectors.EventLogCollector.html#AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteLinux
+  commentId: M:AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteLinux
+  fullName: AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteLinux()
+  nameWithType: EventLogCollector.ExecuteLinux()
+- uid: AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteLinux*
+  name: ExecuteLinux
+  href: api/AttackSurfaceAnalyzer.Collectors.EventLogCollector.html#AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteLinux_
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteLinux
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteLinux
+  nameWithType: EventLogCollector.ExecuteLinux
+- uid: AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteMacOs
+  name: ExecuteMacOs()
+  href: api/AttackSurfaceAnalyzer.Collectors.EventLogCollector.html#AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteMacOs
+  commentId: M:AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteMacOs
+  fullName: AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteMacOs()
+  nameWithType: EventLogCollector.ExecuteMacOs()
+- uid: AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteMacOs*
+  name: ExecuteMacOs
+  href: api/AttackSurfaceAnalyzer.Collectors.EventLogCollector.html#AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteMacOs_
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteMacOs
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteMacOs
+  nameWithType: EventLogCollector.ExecuteMacOs
+- uid: AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteWindows
+  name: ExecuteWindows()
+  href: api/AttackSurfaceAnalyzer.Collectors.EventLogCollector.html#AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteWindows
+  commentId: M:AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteWindows
+  fullName: AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteWindows()
+  nameWithType: EventLogCollector.ExecuteWindows()
+- uid: AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteWindows*
+  name: ExecuteWindows
+  href: api/AttackSurfaceAnalyzer.Collectors.EventLogCollector.html#AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteWindows_
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteWindows
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteWindows
+  nameWithType: EventLogCollector.ExecuteWindows
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector
   name: FileSystemCollector
   href: api/AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html
@@ -1477,19 +1561,6 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Objects.CollectObject.Identity
   nameWithType: CollectObject.Identity
-- uid: AttackSurfaceAnalyzer.Objects.CollectObject.Message
-  name: Message
-  href: api/AttackSurfaceAnalyzer.Objects.CollectObject.html#AttackSurfaceAnalyzer_Objects_CollectObject_Message
-  commentId: P:AttackSurfaceAnalyzer.Objects.CollectObject.Message
-  fullName: AttackSurfaceAnalyzer.Objects.CollectObject.Message
-  nameWithType: CollectObject.Message
-- uid: AttackSurfaceAnalyzer.Objects.CollectObject.Message*
-  name: Message
-  href: api/AttackSurfaceAnalyzer.Objects.CollectObject.html#AttackSurfaceAnalyzer_Objects_CollectObject_Message_
-  commentId: Overload:AttackSurfaceAnalyzer.Objects.CollectObject.Message
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Objects.CollectObject.Message
-  nameWithType: CollectObject.Message
 - uid: AttackSurfaceAnalyzer.Objects.CollectObject.ResultType
   name: ResultType
   href: api/AttackSurfaceAnalyzer.Objects.CollectObject.html#AttackSurfaceAnalyzer_Objects_CollectObject_ResultType
@@ -1755,6 +1826,129 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Objects.Diff.Field
   nameWithType: Diff.Field
+- uid: AttackSurfaceAnalyzer.Objects.EventLogObject
+  name: EventLogObject
+  href: api/AttackSurfaceAnalyzer.Objects.EventLogObject.html
+  commentId: T:AttackSurfaceAnalyzer.Objects.EventLogObject
+  fullName: AttackSurfaceAnalyzer.Objects.EventLogObject
+  nameWithType: EventLogObject
+- uid: AttackSurfaceAnalyzer.Objects.EventLogObject.#ctor
+  name: EventLogObject()
+  href: api/AttackSurfaceAnalyzer.Objects.EventLogObject.html#AttackSurfaceAnalyzer_Objects_EventLogObject__ctor
+  commentId: M:AttackSurfaceAnalyzer.Objects.EventLogObject.#ctor
+  fullName: AttackSurfaceAnalyzer.Objects.EventLogObject.EventLogObject()
+  nameWithType: EventLogObject.EventLogObject()
+- uid: AttackSurfaceAnalyzer.Objects.EventLogObject.#ctor*
+  name: EventLogObject
+  href: api/AttackSurfaceAnalyzer.Objects.EventLogObject.html#AttackSurfaceAnalyzer_Objects_EventLogObject__ctor_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.EventLogObject.#ctor
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.EventLogObject.EventLogObject
+  nameWithType: EventLogObject.EventLogObject
+- uid: AttackSurfaceAnalyzer.Objects.EventLogObject.Data
+  name: Data
+  href: api/AttackSurfaceAnalyzer.Objects.EventLogObject.html#AttackSurfaceAnalyzer_Objects_EventLogObject_Data
+  commentId: P:AttackSurfaceAnalyzer.Objects.EventLogObject.Data
+  fullName: AttackSurfaceAnalyzer.Objects.EventLogObject.Data
+  nameWithType: EventLogObject.Data
+- uid: AttackSurfaceAnalyzer.Objects.EventLogObject.Data*
+  name: Data
+  href: api/AttackSurfaceAnalyzer.Objects.EventLogObject.html#AttackSurfaceAnalyzer_Objects_EventLogObject_Data_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.EventLogObject.Data
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.EventLogObject.Data
+  nameWithType: EventLogObject.Data
+- uid: AttackSurfaceAnalyzer.Objects.EventLogObject.Event
+  name: Event
+  href: api/AttackSurfaceAnalyzer.Objects.EventLogObject.html#AttackSurfaceAnalyzer_Objects_EventLogObject_Event
+  commentId: P:AttackSurfaceAnalyzer.Objects.EventLogObject.Event
+  fullName: AttackSurfaceAnalyzer.Objects.EventLogObject.Event
+  nameWithType: EventLogObject.Event
+- uid: AttackSurfaceAnalyzer.Objects.EventLogObject.Event*
+  name: Event
+  href: api/AttackSurfaceAnalyzer.Objects.EventLogObject.html#AttackSurfaceAnalyzer_Objects_EventLogObject_Event_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.EventLogObject.Event
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.EventLogObject.Event
+  nameWithType: EventLogObject.Event
+- uid: AttackSurfaceAnalyzer.Objects.EventLogObject.Identity
+  name: Identity
+  href: api/AttackSurfaceAnalyzer.Objects.EventLogObject.html#AttackSurfaceAnalyzer_Objects_EventLogObject_Identity
+  commentId: P:AttackSurfaceAnalyzer.Objects.EventLogObject.Identity
+  fullName: AttackSurfaceAnalyzer.Objects.EventLogObject.Identity
+  nameWithType: EventLogObject.Identity
+- uid: AttackSurfaceAnalyzer.Objects.EventLogObject.Identity*
+  name: Identity
+  href: api/AttackSurfaceAnalyzer.Objects.EventLogObject.html#AttackSurfaceAnalyzer_Objects_EventLogObject_Identity_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.EventLogObject.Identity
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.EventLogObject.Identity
+  nameWithType: EventLogObject.Identity
+- uid: AttackSurfaceAnalyzer.Objects.EventLogObject.Level
+  name: Level
+  href: api/AttackSurfaceAnalyzer.Objects.EventLogObject.html#AttackSurfaceAnalyzer_Objects_EventLogObject_Level
+  commentId: P:AttackSurfaceAnalyzer.Objects.EventLogObject.Level
+  fullName: AttackSurfaceAnalyzer.Objects.EventLogObject.Level
+  nameWithType: EventLogObject.Level
+- uid: AttackSurfaceAnalyzer.Objects.EventLogObject.Level*
+  name: Level
+  href: api/AttackSurfaceAnalyzer.Objects.EventLogObject.html#AttackSurfaceAnalyzer_Objects_EventLogObject_Level_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.EventLogObject.Level
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.EventLogObject.Level
+  nameWithType: EventLogObject.Level
+- uid: AttackSurfaceAnalyzer.Objects.EventLogObject.Process
+  name: Process
+  href: api/AttackSurfaceAnalyzer.Objects.EventLogObject.html#AttackSurfaceAnalyzer_Objects_EventLogObject_Process
+  commentId: P:AttackSurfaceAnalyzer.Objects.EventLogObject.Process
+  fullName: AttackSurfaceAnalyzer.Objects.EventLogObject.Process
+  nameWithType: EventLogObject.Process
+- uid: AttackSurfaceAnalyzer.Objects.EventLogObject.Process*
+  name: Process
+  href: api/AttackSurfaceAnalyzer.Objects.EventLogObject.html#AttackSurfaceAnalyzer_Objects_EventLogObject_Process_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.EventLogObject.Process
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.EventLogObject.Process
+  nameWithType: EventLogObject.Process
+- uid: AttackSurfaceAnalyzer.Objects.EventLogObject.Source
+  name: Source
+  href: api/AttackSurfaceAnalyzer.Objects.EventLogObject.html#AttackSurfaceAnalyzer_Objects_EventLogObject_Source
+  commentId: P:AttackSurfaceAnalyzer.Objects.EventLogObject.Source
+  fullName: AttackSurfaceAnalyzer.Objects.EventLogObject.Source
+  nameWithType: EventLogObject.Source
+- uid: AttackSurfaceAnalyzer.Objects.EventLogObject.Source*
+  name: Source
+  href: api/AttackSurfaceAnalyzer.Objects.EventLogObject.html#AttackSurfaceAnalyzer_Objects_EventLogObject_Source_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.EventLogObject.Source
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.EventLogObject.Source
+  nameWithType: EventLogObject.Source
+- uid: AttackSurfaceAnalyzer.Objects.EventLogObject.Summary
+  name: Summary
+  href: api/AttackSurfaceAnalyzer.Objects.EventLogObject.html#AttackSurfaceAnalyzer_Objects_EventLogObject_Summary
+  commentId: P:AttackSurfaceAnalyzer.Objects.EventLogObject.Summary
+  fullName: AttackSurfaceAnalyzer.Objects.EventLogObject.Summary
+  nameWithType: EventLogObject.Summary
+- uid: AttackSurfaceAnalyzer.Objects.EventLogObject.Summary*
+  name: Summary
+  href: api/AttackSurfaceAnalyzer.Objects.EventLogObject.html#AttackSurfaceAnalyzer_Objects_EventLogObject_Summary_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.EventLogObject.Summary
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.EventLogObject.Summary
+  nameWithType: EventLogObject.Summary
+- uid: AttackSurfaceAnalyzer.Objects.EventLogObject.Timestamp
+  name: Timestamp
+  href: api/AttackSurfaceAnalyzer.Objects.EventLogObject.html#AttackSurfaceAnalyzer_Objects_EventLogObject_Timestamp
+  commentId: P:AttackSurfaceAnalyzer.Objects.EventLogObject.Timestamp
+  fullName: AttackSurfaceAnalyzer.Objects.EventLogObject.Timestamp
+  nameWithType: EventLogObject.Timestamp
+- uid: AttackSurfaceAnalyzer.Objects.EventLogObject.Timestamp*
+  name: Timestamp
+  href: api/AttackSurfaceAnalyzer.Objects.EventLogObject.html#AttackSurfaceAnalyzer_Objects_EventLogObject_Timestamp_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.EventLogObject.Timestamp
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.EventLogObject.Timestamp
+  nameWithType: EventLogObject.Timestamp
 - uid: AttackSurfaceAnalyzer.Objects.FileMonitorEvent
   name: FileMonitorEvent
   href: api/AttackSurfaceAnalyzer.Objects.FileMonitorEvent.html
@@ -5138,6 +5332,12 @@ references:
   commentId: F:AttackSurfaceAnalyzer.Types.RESULT_TYPE.GROUP
   fullName: AttackSurfaceAnalyzer.Types.RESULT_TYPE.GROUP
   nameWithType: RESULT_TYPE.GROUP
+- uid: AttackSurfaceAnalyzer.Types.RESULT_TYPE.LOG
+  name: LOG
+  href: api/AttackSurfaceAnalyzer.Types.RESULT_TYPE.html#AttackSurfaceAnalyzer_Types_RESULT_TYPE_LOG
+  commentId: F:AttackSurfaceAnalyzer.Types.RESULT_TYPE.LOG
+  fullName: AttackSurfaceAnalyzer.Types.RESULT_TYPE.LOG
+  nameWithType: RESULT_TYPE.LOG
 - uid: AttackSurfaceAnalyzer.Types.RESULT_TYPE.PORT
   name: PORT
   href: api/AttackSurfaceAnalyzer.Types.RESULT_TYPE.html#AttackSurfaceAnalyzer_Types_RESULT_TYPE_PORT
@@ -5621,19 +5821,6 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Utils.Elevation
   fullName: AttackSurfaceAnalyzer.Utils.Elevation
   nameWithType: Elevation
-- uid: AttackSurfaceAnalyzer.Utils.Elevation.CheckElevation
-  name: CheckElevation()
-  href: api/AttackSurfaceAnalyzer.Utils.Elevation.html#AttackSurfaceAnalyzer_Utils_Elevation_CheckElevation
-  commentId: M:AttackSurfaceAnalyzer.Utils.Elevation.CheckElevation
-  fullName: AttackSurfaceAnalyzer.Utils.Elevation.CheckElevation()
-  nameWithType: Elevation.CheckElevation()
-- uid: AttackSurfaceAnalyzer.Utils.Elevation.CheckElevation*
-  name: CheckElevation
-  href: api/AttackSurfaceAnalyzer.Utils.Elevation.html#AttackSurfaceAnalyzer_Utils_Elevation_CheckElevation_
-  commentId: Overload:AttackSurfaceAnalyzer.Utils.Elevation.CheckElevation
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Utils.Elevation.CheckElevation
-  nameWithType: Elevation.CheckElevation
 - uid: AttackSurfaceAnalyzer.Utils.Elevation.GetProcessIntegrityLevel
   name: GetProcessIntegrityLevel()
   href: api/AttackSurfaceAnalyzer.Utils.Elevation.html#AttackSurfaceAnalyzer_Utils_Elevation_GetProcessIntegrityLevel
@@ -5705,6 +5892,12 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Utils.ExternalCommandRunner
   fullName: AttackSurfaceAnalyzer.Utils.ExternalCommandRunner
   nameWithType: ExternalCommandRunner
+- uid: AttackSurfaceAnalyzer.Utils.ExternalCommandRunner.RunExternalCommand(System.String,System.String)
+  name: RunExternalCommand(String, String)
+  href: api/AttackSurfaceAnalyzer.Utils.ExternalCommandRunner.html#AttackSurfaceAnalyzer_Utils_ExternalCommandRunner_RunExternalCommand_System_String_System_String_
+  commentId: M:AttackSurfaceAnalyzer.Utils.ExternalCommandRunner.RunExternalCommand(System.String,System.String)
+  fullName: AttackSurfaceAnalyzer.Utils.ExternalCommandRunner.RunExternalCommand(System.String, System.String)
+  nameWithType: ExternalCommandRunner.RunExternalCommand(String, String)
 - uid: AttackSurfaceAnalyzer.Utils.ExternalCommandRunner.RunExternalCommand(System.String,System.String[])
   name: RunExternalCommand(String, String[])
   href: api/AttackSurfaceAnalyzer.Utils.ExternalCommandRunner.html#AttackSurfaceAnalyzer_Utils_ExternalCommandRunner_RunExternalCommand_System_String_System_String___
@@ -5714,6 +5907,15 @@ references:
   fullName.vb: AttackSurfaceAnalyzer.Utils.ExternalCommandRunner.RunExternalCommand(System.String, System.String())
   nameWithType: ExternalCommandRunner.RunExternalCommand(String, String[])
   nameWithType.vb: ExternalCommandRunner.RunExternalCommand(String, String())
+- uid: AttackSurfaceAnalyzer.Utils.ExternalCommandRunner.RunExternalCommand(System.String,System.String[],System.Boolean)
+  name: RunExternalCommand(String, String[], Boolean)
+  href: api/AttackSurfaceAnalyzer.Utils.ExternalCommandRunner.html#AttackSurfaceAnalyzer_Utils_ExternalCommandRunner_RunExternalCommand_System_String_System_String___System_Boolean_
+  commentId: M:AttackSurfaceAnalyzer.Utils.ExternalCommandRunner.RunExternalCommand(System.String,System.String[],System.Boolean)
+  name.vb: RunExternalCommand(String, String(), Boolean)
+  fullName: AttackSurfaceAnalyzer.Utils.ExternalCommandRunner.RunExternalCommand(System.String, System.String[], System.Boolean)
+  fullName.vb: AttackSurfaceAnalyzer.Utils.ExternalCommandRunner.RunExternalCommand(System.String, System.String(), System.Boolean)
+  nameWithType: ExternalCommandRunner.RunExternalCommand(String, String[], Boolean)
+  nameWithType.vb: ExternalCommandRunner.RunExternalCommand(String, String(), Boolean)
 - uid: AttackSurfaceAnalyzer.Utils.ExternalCommandRunner.RunExternalCommand*
   name: RunExternalCommand
   href: api/AttackSurfaceAnalyzer.Utils.ExternalCommandRunner.html#AttackSurfaceAnalyzer_Utils_ExternalCommandRunner_RunExternalCommand_
@@ -6299,6 +6501,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.Telemetry.Flush
   nameWithType: Telemetry.Flush
+- uid: AttackSurfaceAnalyzer.Utils.Telemetry.OptOut
+  name: OptOut
+  href: api/AttackSurfaceAnalyzer.Utils.Telemetry.html#AttackSurfaceAnalyzer_Utils_Telemetry_OptOut
+  commentId: P:AttackSurfaceAnalyzer.Utils.Telemetry.OptOut
+  fullName: AttackSurfaceAnalyzer.Utils.Telemetry.OptOut
+  nameWithType: Telemetry.OptOut
+- uid: AttackSurfaceAnalyzer.Utils.Telemetry.OptOut*
+  name: OptOut
+  href: api/AttackSurfaceAnalyzer.Utils.Telemetry.html#AttackSurfaceAnalyzer_Utils_Telemetry_OptOut_
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.Telemetry.OptOut
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Utils.Telemetry.OptOut
+  nameWithType: Telemetry.OptOut
 - uid: AttackSurfaceAnalyzer.Utils.Telemetry.SetOptOut(System.Boolean)
   name: SetOptOut(Boolean)
   href: api/AttackSurfaceAnalyzer.Utils.Telemetry.html#AttackSurfaceAnalyzer_Utils_Telemetry_SetOptOut_System_Boolean_
