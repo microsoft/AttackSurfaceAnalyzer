@@ -457,7 +457,7 @@ function GenerateExpandedResultsCard(result) {
     return card;
 }
 
-function InsertIntoFileTable(result) {
+function InsertIntoLogTable(result) {
     var appendObj;
     if (result.ChangeType != CHANGE_TYPE.CREATED) {
         appendObj = result.Base;
