@@ -9,6 +9,8 @@ using AttackSurfaceAnalyzer.Utils;
 using Serilog;
 using System.Diagnostics.Tracing;
 using System.IO;
+using System.Diagnostics;
+using System;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -52,7 +54,27 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// </summary>
         public void ExecuteWindows()
         {
-
+            EventLog[] logs = EventLog.GetEventLogs();
+            foreach (var log in logs)
+            {
+                EventLogEntryCollection coll = log.Entries;
+                
+                foreach (EventLogEntry entry in coll)
+                {
+                    if (entry.EntryType.ToString() == "Warning" || entry.EntryType.ToString() == "Error"){
+                        EventLogObject obj = new EventLogObject()
+                        {
+                            Source = log.Source,
+                            Event = string.Format("{0} {1} {2}", entry.TimeGenerated.ToString(), entry.EntryType.ToString(), entry.Message),
+                            Level = entry.EntryType.ToString(),
+                            // Just take the first sentence since this is used in the GUI display.
+                            Message = entry.Message.Split('.')[0],
+                            Timestamp = entry.TimeGenerated.ToString()
+                        };
+                        DatabaseManager.Write(obj, runId);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -125,7 +147,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public override bool CanRunOnPlatform()
         {
-            return RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+            return RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
         }
     }
 }

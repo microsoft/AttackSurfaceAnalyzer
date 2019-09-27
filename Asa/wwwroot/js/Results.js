@@ -64,6 +64,9 @@ ResultTypeGroup.change(function () {
         case RESULT_TYPE.COM:
             $('.com').show();
             break;
+        case RESULT_TYPE.LOG:
+            $('.log').show();
+            break;
     }
 });
 
@@ -183,7 +186,7 @@ function GetResultTypes() {
     var data = { 'BaseId': $('#SelectedBaseRunId').val(), 'CompareId': $('#SelectedCompareRunId').val() };
 
     $.getJSON('GetResultTypes', data, function(result) {
-        if ((result.File || result.Port || result.Certificate || result.Service || result.Registry || result.User || result.Firewall || result.Com) == false) {
+        if ((result.File || result.Port || result.Certificate || result.Service || result.Registry || result.User || result.Firewall || result.Com || result.Log) == false) {
             SetStatus("The two runs selected have no common collectors.");
         } else {
             $("#ExportResultsButton").attr('disabled', false);
@@ -196,6 +199,7 @@ function GetResultTypes() {
         $('#UserRadio').attr('disabled', (result.User) ? false : true);
         $('#FirewallRadio').attr('disabled', (result.Firewall) ? false : true);
         $('#ComRadio').attr('disabled', (result.ComObject) ? false : true);
+        $('#LogRadio').attr('disabled', (result.LogObject) ? false : true);
     });
 }
 
@@ -361,6 +365,10 @@ function InsertIntoTable(result) {
             break;
         case RESULT_TYPE.COM:
             InsertIntoComTable(result);
+            break;
+        case RESULT_TYPE.LOG:
+            InsertIntoLogTable(result);
+            break;
     }
 }
 
@@ -447,6 +455,53 @@ function GenerateExpandedResultsCard(result) {
         }
     }
     return card;
+}
+
+function InsertIntoFileTable(result) {
+    var appendObj;
+    if (result.ChangeType != CHANGE_TYPE.CREATED) {
+        appendObj = result.Base;
+    }
+    else {
+        appendObj = result.Compare;
+    }
+    var uid = uuidv4();
+    var tmp = $('<tr/>', {
+        id: uid,
+        class: 'resultTableRow Info ' + FlagToStyle(result.Analysis),
+    });
+    var arrowTD = $('<td/>', {
+        scope: 'col',
+    });
+    var caretContainer = ($('<div/>'));
+    var caret = $('<i/>', {
+        class: "fas fa-caret-right",
+        id: uid + '_expansion_arrow'
+    });
+    caretContainer.append(caret);
+    arrowTD.append(caretContainer);
+    tmp.append(arrowTD);
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: FlagToString(result.Analysis)
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: ChangeTypeToString(result.ChangeType)
+    }));
+    tmp.append($('<td/>', {
+        scope: "col",
+        html: appendObj.Summary
+    }));
+    $('#LogResultsTableBody').append(tmp);
+    tmp = $('<tr/>');
+    var tmp2 = $('<td/>', {
+        colspan: 3,
+        class: 'resultTableExpanded',
+        id: uid + '_expanded'
+    }).append(GenerateExpandedResultsCard(result));
+    tmp.append(tmp2);
+    $('#LogResultsTableBody').append(tmp);
 }
 
 function InsertIntoFileTable(result) {

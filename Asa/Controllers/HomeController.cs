@@ -290,7 +290,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
         }
 
 
-        public ActionResult StartCollection(string Id, bool File, bool Port, bool Service, bool User, bool Registry, bool Certificates, bool ComObjects, bool Firewall)
+        public ActionResult StartCollection(string Id, bool File, bool Port, bool Service, bool User, bool Registry, bool Certificates, bool ComObjects, bool Firewall, bool EventLogs)
         {
             CollectCommandOptions opts = new CollectCommandOptions();
             opts.RunId = Id.Trim();
@@ -302,6 +302,8 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             opts.EnableCertificateCollector = Certificates;
             opts.EnableComObjectCollector = ComObjects;
             opts.EnableFirewallCollector = Firewall;
+            opts.EnableEventLogCollector = EventLogs;
+
             opts.DatabaseFilename = DatabaseManager.SqliteFilename;
             opts.FilterLocation = "Use embedded filters.";
 

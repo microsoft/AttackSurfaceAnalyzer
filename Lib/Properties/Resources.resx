@@ -471,4 +471,10 @@
   <data name="RegistryPath" xml:space="preserve">
     <value>Registry Path</value>
   </data>
+  <data name="Log" xml:space="preserve">
+    <value>Event Logs</value>
+  </data>
+  <data name="Summary" xml:space="preserve">
+    <value>Summary</value>
+  </data>
 </root>
