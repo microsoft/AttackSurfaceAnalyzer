@@ -100,8 +100,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             try
             {
-                Regex LogHeader = new Regex("^([A-Z][a-z][a-z].*)[\\s].*?[\\s](.*?): (.*)");
-
+                Regex LogHeader = new Regex("^([A-Z][a-z][a-z][0-9:\\s]*)?[\\s].*?[\\s](.*?): (.*)");
                 string[] authLog = File.ReadAllLines("/var/log/auth.log");
                 foreach (var entry in authLog)
                 {
@@ -112,10 +111,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                         var obj = new EventLogObject()
                         {
                             Event = entry,
-                            Summary = LogHeader.Matches(entry).Single().Groups[2].Captures[0].Value,
-                            Timestamp = LogHeader.Matches(entry).Single().Groups[0].Captures[0].Value,
+                            Summary = LogHeader.Matches(entry).Single().Groups[3].Captures[0].Value,
+                            Timestamp = LogHeader.Matches(entry).Single().Groups[1].Captures[0].Value,
                             Source = "/var/log/auth.log",
-                            Process = LogHeader.Matches(entry).Single().Groups[1].Captures[0].Value,
+                            Process = LogHeader.Matches(entry).Single().Groups[2].Captures[0].Value,
                         };
                         DatabaseManager.Write(obj, runId);
                     }
