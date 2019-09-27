@@ -137,6 +137,9 @@ namespace AttackSurfaceAnalyzer
         [Option('C', "com", Required = false, HelpText = "Enable the COM object collector")]
         public bool EnableComObjectCollector { get; set; }
 
+        [Option('l', "logs", Required = false, HelpText = "Enable the Log collector")]
+        public bool EnableEventLogCollector { get; set; }
+
         [Option('a', "all", Required = false, HelpText = "Enable all collectors")]
         public bool EnableAllCollectors { get; set; }
 
@@ -406,13 +409,17 @@ namespace AttackSurfaceAnalyzer
                                                                             reader["type"].ToString(),
                                                                             reader["run_id"].ToString());
                                             Log.Information(output);
-                                            output = String.Format("{0} {1} {2} {3} {4} {5}",
+                                            output = String.Format("{0} {1} {2} {3} {4} {5} {6} {7} {8}",
                                                                     (int.Parse(reader["file_system"].ToString()) != 0) ? "FILES" : "",
                                                                     (int.Parse(reader["ports"].ToString()) != 0) ? "PORTS" : "",
                                                                     (int.Parse(reader["users"].ToString()) != 0) ? "USERS" : "",
                                                                     (int.Parse(reader["services"].ToString()) != 0) ? "SERVICES" : "",
                                                                     (int.Parse(reader["certificates"].ToString()) != 0) ? "CERTIFICATES" : "",
-                                                                    (int.Parse(reader["registry"].ToString()) != 0) ? "REGISTRY" : "");
+                                                                    (int.Parse(reader["registry"].ToString()) != 0) ? "REGISTRY" : "",
+                                                                    (int.Parse(reader["firewall"].ToString()) != 0) ? "FIREWALL" : "",
+                                                                    (int.Parse(reader["comobjects"].ToString()) != 0) ? "COM" : "",
+                                                                    (int.Parse(reader["eventlogs"].ToString()) != 0) ? "LOG" : "");
+                                                                    
                                             Log.Information(output);
 
                                         }
@@ -510,7 +517,6 @@ namespace AttackSurfaceAnalyzer
                 AnalysesFile = opts.AnalysesFile,
                 Analyze = opts.Analyze
             };
-
 
             Dictionary<string, object> results = CompareRuns(options);
 
@@ -810,7 +816,7 @@ namespace AttackSurfaceAnalyzer
 
             }
 
-            string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, firewall, comobjects, type, timestamp, version, platform) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @firewall, @comobjects, @type, @timestamp, @version, @platform)";
+            string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, firewall, comobjects, eventlogs, type, timestamp, version, platform) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @firewall, @comobjects, @eventlogs, @type, @timestamp, @version, @platform)";
 
             var cmd = new SqliteCommand(INSERT_RUN, DatabaseManager.Connection, DatabaseManager.Transaction);
             cmd.Parameters.AddWithValue("@run_id", opts.RunId);
@@ -822,6 +828,7 @@ namespace AttackSurfaceAnalyzer
             cmd.Parameters.AddWithValue("@certificates", false);
             cmd.Parameters.AddWithValue("@firewall", false);
             cmd.Parameters.AddWithValue("@comobjects", false);
+            cmd.Parameters.AddWithValue("@eventlogs", false);
             cmd.Parameters.AddWithValue("@type", "monitor");
             cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
             cmd.Parameters.AddWithValue("@version", Helpers.GetVersionString());
@@ -1142,6 +1149,7 @@ namespace AttackSurfaceAnalyzer
 
             return 0;
         }
+
         public static void AdminOrQuit()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -1211,6 +1219,29 @@ namespace AttackSurfaceAnalyzer
                 opts.RunId = DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss");
             }
 
+            if (opts.MatchedCollectorId != null)
+            {
+                using (var inner_cmd = new SqliteCommand(SQL_GET_RESULT_TYPES_SINGLE, DatabaseManager.Connection, DatabaseManager.Transaction))
+                {
+                    inner_cmd.Parameters.AddWithValue("@run_id", opts.MatchedCollectorId);
+                    using (var reader = inner_cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            opts.EnableFileSystemCollector = (int.Parse(reader["file_system"].ToString()) != 0);
+                            opts.EnableNetworkPortCollector = (int.Parse(reader["ports"].ToString()) != 0);
+                            opts.EnableUserCollector = (int.Parse(reader["users"].ToString()) != 0);
+                            opts.EnableServiceCollector = (int.Parse(reader["services"].ToString()) != 0);
+                            opts.EnableRegistryCollector = (int.Parse(reader["registry"].ToString()) != 0);
+                            opts.EnableCertificateCollector = (int.Parse(reader["certificates"].ToString()) != 0);
+                            opts.EnableFirewallCollector = (int.Parse(reader["firewall"].ToString()) != 0);
+                            opts.EnableComObjectCollector = (int.Parse(reader["comobjects"].ToString()) != 0);
+                            opts.EnableEventLogCollector = (int.Parse(reader["eventlogs"].ToString()) != 0);
+                        }
+                    }
+                }
+            }
+
             if (opts.EnableFileSystemCollector || opts.EnableAllCollectors)
             {
                 collectors.Add(new FileSystemCollector(opts.RunId, enableHashing: opts.GatherHashes, directories: opts.SelectedDirectories, downloadCloud: opts.DownloadCloud, examineCertificates: opts.CertificatesFromFiles));
@@ -1242,6 +1273,10 @@ namespace AttackSurfaceAnalyzer
             if (opts.EnableComObjectCollector || opts.EnableAllCollectors)
             {
                 collectors.Add(new ComObjectCollector(opts.RunId));
+            }
+            if (opts.EnableEventLogCollector || opts.EnableAllCollectors)
+            {
+                collectors.Add(new EventLogCollector(opts.RunId));
             }
 
             if (collectors.Count == 0)
@@ -1285,39 +1320,6 @@ namespace AttackSurfaceAnalyzer
 
             using (var cmd = new SqliteCommand(INSERT_RUN, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
-                if (opts.MatchedCollectorId != null)
-                {
-                    using (var inner_cmd = new SqliteCommand(SQL_GET_RESULT_TYPES_SINGLE, DatabaseManager.Connection, DatabaseManager.Transaction))
-                    {
-                        inner_cmd.Parameters.AddWithValue("@run_id", opts.MatchedCollectorId);
-                        using (var reader = inner_cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                opts.EnableFileSystemCollector = (int.Parse(reader["file_system"].ToString()) != 0);
-                                opts.EnableNetworkPortCollector = (int.Parse(reader["ports"].ToString()) != 0);
-                                opts.EnableUserCollector = (int.Parse(reader["users"].ToString()) != 0);
-                                opts.EnableServiceCollector = (int.Parse(reader["services"].ToString()) != 0);
-                                opts.EnableRegistryCollector = (int.Parse(reader["registry"].ToString()) != 0);
-                                opts.EnableCertificateCollector = (int.Parse(reader["certificates"].ToString()) != 0);
-                                opts.EnableFirewallCollector = (int.Parse(reader["firewall"].ToString()) != 0);
-                                opts.EnableComObjectCollector = (int.Parse(reader["comobjects"].ToString()) != 0);
-                            }
-                        }
-                    }
-                }
-                else if (opts.EnableAllCollectors)
-                {
-                    opts.EnableFileSystemCollector = true;
-                    opts.EnableNetworkPortCollector = true;
-                    opts.EnableUserCollector = true;
-                    opts.EnableServiceCollector = true;
-                    opts.EnableRegistryCollector = true;
-                    opts.EnableCertificateCollector = true;
-                    opts.EnableFirewallCollector = true;
-                    opts.EnableComObjectCollector = true;
-                }
-
                 cmd.Parameters.AddWithValue("@file_system", opts.EnableFileSystemCollector);
                 cmd.Parameters.AddWithValue("@ports", opts.EnableNetworkPortCollector);
                 cmd.Parameters.AddWithValue("@users", opts.EnableUserCollector);
@@ -1326,6 +1328,7 @@ namespace AttackSurfaceAnalyzer
                 cmd.Parameters.AddWithValue("@certificates", opts.EnableCertificateCollector);
                 cmd.Parameters.AddWithValue("@firewall", opts.EnableFirewallCollector);
                 cmd.Parameters.AddWithValue("@comobjects", opts.EnableComObjectCollector);
+                cmd.Parameters.AddWithValue("@eventlogs", opts.EnableEventLogCollector);
                 cmd.Parameters.AddWithValue("@run_id", opts.RunId);
                 cmd.Parameters.AddWithValue("@type", "collect");
                 cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
@@ -1351,7 +1354,6 @@ namespace AttackSurfaceAnalyzer
             {
                 try
                 {
-                    // Ensure we have a valid transaction synchronously since collectors may be multi-threaded
                     c.Execute();
                     EndEvent.Add(c.GetType().ToString(), c.NumCollected().ToString());
                 }
