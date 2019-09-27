@@ -389,7 +389,7 @@
       "REGISTRY": "DEBUG",
       "FIREWALL": "INFORMATION",
       "COM": "INFORMATION",
-      "LOG":  "INFORMATION"
+      "LOG":  "DEBUG"
     }
   }
 }
