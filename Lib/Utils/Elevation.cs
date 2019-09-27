@@ -384,7 +384,6 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static bool IsRunningAsRoot()
         {
-            return true;
             var username = "notroot";
             try
             {
