@@ -12,6 +12,8 @@
     name: CertificateCollector
   - uid: AttackSurfaceAnalyzer.Collectors.ComObjectCollector
     name: ComObjectCollector
+  - uid: AttackSurfaceAnalyzer.Collectors.EventLogCollector
+    name: EventLogCollector
   - uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector
     name: FileSystemCollector
   - uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor
@@ -55,6 +57,8 @@
     name: CompareResult
   - uid: AttackSurfaceAnalyzer.Objects.Diff
     name: Diff
+  - uid: AttackSurfaceAnalyzer.Objects.EventLogObject
+    name: EventLogObject
   - uid: AttackSurfaceAnalyzer.Objects.FileMonitorEvent
     name: FileMonitorEvent
   - uid: AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult

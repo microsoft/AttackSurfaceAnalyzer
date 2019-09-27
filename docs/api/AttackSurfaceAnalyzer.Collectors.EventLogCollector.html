@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class CertificateCollector
+    <title>Class EventLogCollector
    </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class CertificateCollector
+    <meta name="title" content="Class EventLogCollector
    ">
     <meta name="generator" content="docfx 2.45.0.0">
     
@@ -68,19 +68,19 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="AttackSurfaceAnalyzer.Collectors.CertificateCollector">
+            <article class="content wrap" id="_content" data-uid="AttackSurfaceAnalyzer.Collectors.EventLogCollector">
   
   
-  <h1 id="AttackSurfaceAnalyzer_Collectors_CertificateCollector" data-uid="AttackSurfaceAnalyzer.Collectors.CertificateCollector" class="text-break">Class CertificateCollector
+  <h1 id="AttackSurfaceAnalyzer_Collectors_EventLogCollector" data-uid="AttackSurfaceAnalyzer.Collectors.EventLogCollector" class="text-break">Class EventLogCollector
   </h1>
-  <div class="markdown level0 summary"><p>Collects metadata from the local certificate stores.</p>
+  <div class="markdown level0 summary"><p>Collects system event logs.</p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><a class="xref" href="AttackSurfaceAnalyzer.Collectors.BaseCollector.html">BaseCollector</a></div>
-    <div class="level2"><span class="xref">CertificateCollector</span></div>
+    <div class="level2"><span class="xref">EventLogCollector</span></div>
   </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
@@ -129,26 +129,26 @@
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="AttackSurfaceAnalyzer.Collectors.html">AttackSurfaceAnalyzer.Collectors</a></h6>
   <h6><strong>Assembly</strong>: AsaLib.dll</h6>
-  <h5 id="AttackSurfaceAnalyzer_Collectors_CertificateCollector_syntax">Syntax</h5>
+  <h5 id="AttackSurfaceAnalyzer_Collectors_EventLogCollector_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class CertificateCollector : BaseCollector, PlatformRunnable</code></pre>
+    <pre><code class="lang-csharp hljs">public class EventLogCollector : BaseCollector, PlatformRunnable</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/master/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_CertificateCollector__ctor_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.CertificateCollector.%23ctor(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/master/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_EventLogCollector__ctor_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.EventLogCollector.%23ctor(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/Lib/Collectors/CertificateCollector.cs/#L18">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/Lib/Collectors/EventLogCollector.cs/#L22">View Source</a>
   </span>
-  <a id="AttackSurfaceAnalyzer_Collectors_CertificateCollector__ctor_" data-uid="AttackSurfaceAnalyzer.Collectors.CertificateCollector.#ctor*"></a>
-  <h4 id="AttackSurfaceAnalyzer_Collectors_CertificateCollector__ctor_System_String_" data-uid="AttackSurfaceAnalyzer.Collectors.CertificateCollector.#ctor(System.String)">CertificateCollector(String)</h4>
+  <a id="AttackSurfaceAnalyzer_Collectors_EventLogCollector__ctor_" data-uid="AttackSurfaceAnalyzer.Collectors.EventLogCollector.#ctor*"></a>
+  <h4 id="AttackSurfaceAnalyzer_Collectors_EventLogCollector__ctor_System_String_" data-uid="AttackSurfaceAnalyzer.Collectors.EventLogCollector.#ctor(System.String)">EventLogCollector(String)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public CertificateCollector(string runId)</code></pre>
+    <pre><code class="lang-csharp hljs">public EventLogCollector(string runId)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -171,13 +171,13 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/master/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_CertificateCollector_CanRunOnPlatform.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.CertificateCollector.CanRunOnPlatform%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/master/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_EventLogCollector_CanRunOnPlatform.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.EventLogCollector.CanRunOnPlatform%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/Lib/Collectors/CertificateCollector.cs/#L23">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/Lib/Collectors/EventLogCollector.cs/#L212">View Source</a>
   </span>
-  <a id="AttackSurfaceAnalyzer_Collectors_CertificateCollector_CanRunOnPlatform_" data-uid="AttackSurfaceAnalyzer.Collectors.CertificateCollector.CanRunOnPlatform*"></a>
-  <h4 id="AttackSurfaceAnalyzer_Collectors_CertificateCollector_CanRunOnPlatform" data-uid="AttackSurfaceAnalyzer.Collectors.CertificateCollector.CanRunOnPlatform">CanRunOnPlatform()</h4>
+  <a id="AttackSurfaceAnalyzer_Collectors_EventLogCollector_CanRunOnPlatform_" data-uid="AttackSurfaceAnalyzer.Collectors.EventLogCollector.CanRunOnPlatform*"></a>
+  <h4 id="AttackSurfaceAnalyzer_Collectors_EventLogCollector_CanRunOnPlatform" data-uid="AttackSurfaceAnalyzer.Collectors.EventLogCollector.CanRunOnPlatform">CanRunOnPlatform()</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -203,15 +203,14 @@
   <div><a class="xref" href="AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_CanRunOnPlatform">BaseCollector.CanRunOnPlatform()</a></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/master/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_CertificateCollector_ExecuteInternal.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.CertificateCollector.ExecuteInternal%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/master/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteInternal.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteInternal%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/Lib/Collectors/CertificateCollector.cs/#L155">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/Lib/Collectors/EventLogCollector.cs/#L27">View Source</a>
   </span>
-  <a id="AttackSurfaceAnalyzer_Collectors_CertificateCollector_ExecuteInternal_" data-uid="AttackSurfaceAnalyzer.Collectors.CertificateCollector.ExecuteInternal*"></a>
-  <h4 id="AttackSurfaceAnalyzer_Collectors_CertificateCollector_ExecuteInternal" data-uid="AttackSurfaceAnalyzer.Collectors.CertificateCollector.ExecuteInternal">ExecuteInternal()</h4>
-  <div class="markdown level1 summary"><p>Execute the certificate collector.</p>
-</div>
+  <a id="AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteInternal_" data-uid="AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteInternal*"></a>
+  <h4 id="AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteInternal" data-uid="AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteInternal">ExecuteInternal()</h4>
+  <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -221,15 +220,14 @@
   <div><a class="xref" href="AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_ExecuteInternal">BaseCollector.ExecuteInternal()</a></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/master/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_CertificateCollector_ExecuteLinux.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.CertificateCollector.ExecuteLinux%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/master/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteLinux.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteLinux%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/Lib/Collectors/CertificateCollector.cs/#L69">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/Lib/Collectors/EventLogCollector.cs/#L99">View Source</a>
   </span>
-  <a id="AttackSurfaceAnalyzer_Collectors_CertificateCollector_ExecuteLinux_" data-uid="AttackSurfaceAnalyzer.Collectors.CertificateCollector.ExecuteLinux*"></a>
-  <h4 id="AttackSurfaceAnalyzer_Collectors_CertificateCollector_ExecuteLinux" data-uid="AttackSurfaceAnalyzer.Collectors.CertificateCollector.ExecuteLinux">ExecuteLinux()</h4>
-  <div class="markdown level1 summary"><p>On linux we check the central trusted root store (a folder), which has symlinks to actual cert locations scattered across the db
-We list all the certificates and then create a new X509Certificate2 object for each by filename.</p>
+  <a id="AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteLinux_" data-uid="AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteLinux*"></a>
+  <h4 id="AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteLinux" data-uid="AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteLinux">ExecuteLinux()</h4>
+  <div class="markdown level1 summary"><p>Parses /var/log/auth.log and /var/log/syslog</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -238,17 +236,14 @@ We list all the certificates and then create a new X509Certificate2 object for e
   </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/master/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_CertificateCollector_ExecuteMacOs.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.CertificateCollector.ExecuteMacOs%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/master/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteMacOs.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteMacOs%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/Lib/Collectors/CertificateCollector.cs/#L113">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/Lib/Collectors/EventLogCollector.cs/#L154">View Source</a>
   </span>
-  <a id="AttackSurfaceAnalyzer_Collectors_CertificateCollector_ExecuteMacOs_" data-uid="AttackSurfaceAnalyzer.Collectors.CertificateCollector.ExecuteMacOs*"></a>
-  <h4 id="AttackSurfaceAnalyzer_Collectors_CertificateCollector_ExecuteMacOs" data-uid="AttackSurfaceAnalyzer.Collectors.CertificateCollector.ExecuteMacOs">ExecuteMacOs()</h4>
-  <div class="markdown level1 summary"><p>On macos we use the keychain and export the certificates as .pem.
-However, on macos Certificate2 doesn't support loading from a pem.
-So first we need pkcs12s instead, we convert using openssl, which requires we set a password
-we import the pkcs12 with all our certs, delete the temp files and then iterate over it the certs</p>
+  <a id="AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteMacOs_" data-uid="AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteMacOs*"></a>
+  <h4 id="AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteMacOs" data-uid="AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteMacOs">ExecuteMacOs()</h4>
+  <div class="markdown level1 summary"><p>Collect event logs on macOS using the 'log' utility.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -257,14 +252,14 @@ we import the pkcs12 with all our certs, delete the temp files and then iterate 
   </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/master/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_CertificateCollector_ExecuteWindows.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.CertificateCollector.ExecuteWindows%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/master/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteWindows.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteWindows%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/Lib/Collectors/CertificateCollector.cs/#L31">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/Lib/Collectors/EventLogCollector.cs/#L55">View Source</a>
   </span>
-  <a id="AttackSurfaceAnalyzer_Collectors_CertificateCollector_ExecuteWindows_" data-uid="AttackSurfaceAnalyzer.Collectors.CertificateCollector.ExecuteWindows*"></a>
-  <h4 id="AttackSurfaceAnalyzer_Collectors_CertificateCollector_ExecuteWindows" data-uid="AttackSurfaceAnalyzer.Collectors.CertificateCollector.ExecuteWindows">ExecuteWindows()</h4>
-  <div class="markdown level1 summary"><p>On Windows we can use the .NET API to iterate through all the stores.</p>
+  <a id="AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteWindows_" data-uid="AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteWindows*"></a>
+  <h4 id="AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteWindows" data-uid="AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteWindows">ExecuteWindows()</h4>
+  <div class="markdown level1 summary"><p>Collect event logs on Windows using System.Diagnostics.EventLog</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -279,10 +274,10 @@ we import the pkcs12 with all our certs, delete the temp files and then iterate 
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/master/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_CertificateCollector.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.CertificateCollector%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/master/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_EventLogCollector.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.EventLogCollector%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/Lib/Collectors/CertificateCollector.cs/#L16" class="contribution-link">View Source</a>
+                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/Lib/Collectors/EventLogCollector.cs/#L20" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

@@ -9,7 +9,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Collectors.BaseCollector.html",
-          "hash": "pyxKohUnek0/VxezZ6lS5A=="
+          "hash": "YhZDr5I85yEPxO5KGFbThA=="
         }
       },
       "is_incremental": false,
@@ -21,7 +21,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Collectors.BaseCompare.html",
-          "hash": "IEIsdzADY9VBdwf/V2/byg=="
+          "hash": "IRS7O77+2mk4NQNdPu59/w=="
         }
       },
       "is_incremental": false,
@@ -33,7 +33,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Collectors.BaseMonitor.html",
-          "hash": "KsmAwogD1ZHei/F+EP+YLQ=="
+          "hash": "ys7bQPD0zyR3W1nXiaZhmw=="
         }
       },
       "is_incremental": false,
@@ -45,7 +45,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Collectors.CertificateCollector.html",
-          "hash": "yAPt2f/5A0IvXV3QimwADg=="
+          "hash": "ENLjkB7Z+106lDkZ5Je4Aw=="
         }
       },
       "is_incremental": false,
@@ -57,7 +57,19 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Collectors.ComObjectCollector.html",
-          "hash": "nSeDFdBRRFEr+Q2uNEWGyw=="
+          "hash": "dq5jOs5IN9CjIPk2LYvWcA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/AttackSurfaceAnalyzer.Collectors.EventLogCollector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/AttackSurfaceAnalyzer.Collectors.EventLogCollector.html",
+          "hash": "ak0eSaEPJ23n5tbAO+8+8Q=="
         }
       },
       "is_incremental": false,
@@ -69,7 +81,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html",
-          "hash": "CKWy/HGrgds3Yq5vxS3o2w=="
+          "hash": "6KqTAni3tTJS91l2NwdwaQ=="
         }
       },
       "is_incremental": false,
@@ -81,7 +93,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html",
-          "hash": "il+fSeA0SQS3WFeWz6P+QQ=="
+          "hash": "udnAcROgji1ZA/DhlKVgWw=="
         }
       },
       "is_incremental": false,
@@ -93,7 +105,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html",
-          "hash": "zYLzmGIlDGsf+CCRDCq1TA=="
+          "hash": "KzY0T0XUzW5ziCeybet4Pw=="
         }
       },
       "is_incremental": false,
@@ -105,7 +117,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Collectors.FirewallCollector.html",
-          "hash": "XmfT14sDwv9VK47Ac1vXQQ=="
+          "hash": "dZhFp78St9BS8rtiRoZstg=="
         }
       },
       "is_incremental": false,
@@ -117,7 +129,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Collectors.OpenPortCollector.html",
-          "hash": "LCZK+ry8G46rU2GSsm1JwQ=="
+          "hash": "VSujs1O3BZV47JPRBCqvNw=="
         }
       },
       "is_incremental": false,
@@ -129,7 +141,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Collectors.RegistryCollector.html",
-          "hash": "dnbOIxxIZvOamOWC26Kkiw=="
+          "hash": "BAG8TjW/26pWuz93PgZkBA=="
         }
       },
       "is_incremental": false,
@@ -141,7 +153,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Collectors.RegistryMonitor.html",
-          "hash": "qKLhvSr/sjK85KALFAueJw=="
+          "hash": "xZ+OCLmeg3gN/q92mFGdTw=="
         }
       },
       "is_incremental": false,
@@ -153,7 +165,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Collectors.ServiceCollector.html",
-          "hash": "ubolrjWP4m9ggAyt67F4mQ=="
+          "hash": "/hnF25eebHvcD7xj52Q0mA=="
         }
       },
       "is_incremental": false,
@@ -165,7 +177,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Collectors.UserAccountCollector.html",
-          "hash": "MV24jGHDm6UJ0fJJdPnmlQ=="
+          "hash": "/y1oZnBCJ9bofZudoYr1CQ=="
         }
       },
       "is_incremental": false,
@@ -177,7 +189,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.FILETIME.html",
-          "hash": "GATKk21HE/3YW1I92dgfZQ=="
+          "hash": "hUKbDVngqDgdTrhy1VzYyA=="
         }
       },
       "is_incremental": false,
@@ -189,7 +201,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GET_FILEEX_INFO_LEVELS.html",
-          "hash": "CppsY5+SSkDuwYfV2PgASg=="
+          "hash": "SDnA+j6O/quj6lgvaDYojg=="
         }
       },
       "is_incremental": false,
@@ -201,7 +213,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.WIN32_FILE_ATTRIBUTE_DATA.html",
-          "hash": "X/4ldXPSNtNXiiPxQ0Xgbg=="
+          "hash": "ziS4nB0tE03F4om1vGr4lA=="
         }
       },
       "is_incremental": false,
@@ -213,7 +225,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.html",
-          "hash": "Dxk3KA9h0xEIx+lQBcrItA=="
+          "hash": "R+bVgyuEdyRzbEEIQUKmHA=="
         }
       },
       "is_incremental": false,
@@ -225,7 +237,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Collectors.html",
-          "hash": "a/xSb+/PUO41bC8AfDIrSw=="
+          "hash": "BbQ6+8OpXllyOxHM8Y2W4w=="
         }
       },
       "is_incremental": false,
@@ -237,7 +249,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Objects.CertificateObject.html",
-          "hash": "Iw+7mshbXFIiwMCRtBH38A=="
+          "hash": "zcn+vh8sRQnXIAmJJe/qWg=="
         }
       },
       "is_incremental": false,
@@ -249,7 +261,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Objects.CertificateResult.html",
-          "hash": "2U8Dh+DjqC7BmUA2Ji4maQ=="
+          "hash": "ynIuWCz0zRd419WmMzVqcw=="
         }
       },
       "is_incremental": false,
@@ -261,7 +273,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Objects.Clause.html",
-          "hash": "BT4QjrB9CuU/JvXQf79jKg=="
+          "hash": "YnZPsla4P54OR9OU8kV8hw=="
         }
       },
       "is_incremental": false,
@@ -273,7 +285,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Objects.CollectObject.html",
-          "hash": "RDJ9uOuJJyEpUiOWhMfUTA=="
+          "hash": "jcFDlob4dCGIBiZqSXSNFw=="
         }
       },
       "is_incremental": false,
@@ -285,7 +297,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Objects.ComObject.html",
-          "hash": "HdQzWHnpgphRQnArIGvKHA=="
+          "hash": "zFF45csP0CSqpZ4MvXDliQ=="
         }
       },
       "is_incremental": false,
@@ -297,7 +309,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Objects.CompareResult.html",
-          "hash": "TXNZKs99RNjLmay58yv4Aw=="
+          "hash": "ql4KVffpxfrU8sEtbTg11Q=="
         }
       },
       "is_incremental": false,
@@ -309,7 +321,19 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Objects.Diff.html",
-          "hash": "LeNrgYFh3iCgdqgUFx8aDQ=="
+          "hash": "/0pUtk6t9dWrFwVFreEdjQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/AttackSurfaceAnalyzer.Objects.EventLogObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/AttackSurfaceAnalyzer.Objects.EventLogObject.html",
+          "hash": "6gXwwkRq2LJ9jGCh9UZ/4A=="
         }
       },
       "is_incremental": false,
@@ -321,7 +345,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Objects.FileMonitorEvent.html",
-          "hash": "SBOtAO47ZYidxcE7I8fJVQ=="
+          "hash": "ZAlmTahAmYXYPVYj5TcLnw=="
         }
       },
       "is_incremental": false,
@@ -333,7 +357,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult.html",
-          "hash": "f++e5/xg2mPkJb2oQP/cLw=="
+          "hash": "Z71/ah9i0xXQIpGDaOzMvw=="
         }
       },
       "is_incremental": false,
@@ -345,7 +369,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Objects.FileSystemObject.html",
-          "hash": "3EC9VCxsdUTClgedUYG+kQ=="
+          "hash": "ZwHJ2RbEXRrgKmGguXyVyQ=="
         }
       },
       "is_incremental": false,
@@ -357,7 +381,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Objects.FileSystemResult.html",
-          "hash": "ktbJN7qPBI4fEcxOtDKcWw=="
+          "hash": "Y1exRLmX0bJeROzgYIpvtw=="
         }
       },
       "is_incremental": false,
@@ -369,7 +393,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Objects.FirewallObject.html",
-          "hash": "UVP7VPyAcD594pvVt9xFTg=="
+          "hash": "vIf/q6NRLtImZNzsE9qmtg=="
         }
       },
       "is_incremental": false,
@@ -381,7 +405,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Objects.GroupAccountObject.html",
-          "hash": "2DuHf4BwwPvoKCa3NFhu8g=="
+          "hash": "mhg6tDsyrk9Ho2Lo4pzOTA=="
         }
       },
       "is_incremental": false,
@@ -393,7 +417,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Objects.OpenPortObject.html",
-          "hash": "GiAP+8RCxRYFcOHTtdHbrg=="
+          "hash": "I2S3yL814pwgxAeI9l6hwg=="
         }
       },
       "is_incremental": false,
@@ -405,7 +429,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Objects.OpenPortResult.html",
-          "hash": "T98jWsWDu224mY0DWOA31g=="
+          "hash": "8mtmypIKkjmvpaEJ6bgydQ=="
         }
       },
       "is_incremental": false,
@@ -417,7 +441,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Objects.OutputCompareResult.html",
-          "hash": "WwhpIHLtwED4gU8HLdt6TA=="
+          "hash": "c8z63qo/CJbRMDmWKyh7aw=="
         }
       },
       "is_incremental": false,
@@ -429,7 +453,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Objects.OutputFileMonitorResult.html",
-          "hash": "83/4J9aEs6q1fNU1B3JrLw=="
+          "hash": "svAk0eCoDr4VkLuv4t2hCw=="
         }
       },
       "is_incremental": false,
@@ -441,7 +465,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Objects.RawCollectResult.html",
-          "hash": "Jlty7c2SuZSoyOdzwhzcow=="
+          "hash": "YMFa2Mj8grr08ZFPPtXS5Q=="
         }
       },
       "is_incremental": false,
@@ -453,7 +477,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Objects.RawModifiedResult.html",
-          "hash": "JaGru1e/DRavpP1ZARYOwg=="
+          "hash": "HWAnqegYDl3dOdGlhE/3fg=="
         }
       },
       "is_incremental": false,
@@ -465,7 +489,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Objects.RegistryObject.html",
-          "hash": "GAXcnHLdfITtEKygajW+QQ=="
+          "hash": "bTyA0sP9lPmNqf5OuJ3JaA=="
         }
       },
       "is_incremental": false,
@@ -477,7 +501,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Objects.RegistryResult.html",
-          "hash": "+/mU8Gegs0hV0ExyH/opLg=="
+          "hash": "QL7pMZlguD6ELVB0KqfMcw=="
         }
       },
       "is_incremental": false,
@@ -489,7 +513,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Objects.Rule.html",
-          "hash": "M/lYERbAsAqtQQLbpFP5lg=="
+          "hash": "wgm50Ids11m1G4TyETMXQw=="
         }
       },
       "is_incremental": false,
@@ -501,7 +525,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Objects.ServiceObject.html",
-          "hash": "sNiTQH1wTwQnk+U/CS9QVw=="
+          "hash": "hxh/2EwM+C+cXxFoB3GJ1A=="
         }
       },
       "is_incremental": false,
@@ -513,7 +537,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Objects.ServiceResult.html",
-          "hash": "0xgbS7w/dJg06zWQ7T8TDA=="
+          "hash": "PHB8UZezey7aEIYTtnk4Mg=="
         }
       },
       "is_incremental": false,
@@ -525,7 +549,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Objects.UserAccountObject.html",
-          "hash": "P/LmHl2Mkk/TX5uE2X2/Aw=="
+          "hash": "NLd9Z/aiw/SQex3akfs2og=="
         }
       },
       "is_incremental": false,
@@ -537,7 +561,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Objects.UserAccountResult.html",
-          "hash": "liX93B6KtG0ZE/YExIm6hQ=="
+          "hash": "+ImkhdCdbs/2sh88hU2BCQ=="
         }
       },
       "is_incremental": false,
@@ -549,7 +573,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Objects.html",
-          "hash": "VMfNQ26Zhch0BfXzu0VkyA=="
+          "hash": "KPimFUvx6TwqiRVxtbq00A=="
         }
       },
       "is_incremental": false,
@@ -561,7 +585,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Properties.Resources.html",
-          "hash": "1tTJep45LdHI12R6O9R3Gw=="
+          "hash": "PoeRaiST40lmC5368HMtwA=="
         }
       },
       "is_incremental": false,
@@ -585,7 +609,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE.html",
-          "hash": "ZL/9024Tn7XLuk/qsjhtOw=="
+          "hash": "oxYOXZXaJhDRsK65QLcZgQ=="
         }
       },
       "is_incremental": false,
@@ -597,7 +621,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Types.CHANGE_TYPE.html",
-          "hash": "RhzPJgiHei/mWRJITGRNOw=="
+          "hash": "xPp0pOV+fmBupJOqU3O3SQ=="
         }
       },
       "is_incremental": false,
@@ -609,7 +633,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS.html",
-          "hash": "Gm1ze3xl9wsElL8Zaaww4w=="
+          "hash": "o8QUzIqdxSbEPnezc/3+dA=="
         }
       },
       "is_incremental": false,
@@ -621,7 +645,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Types.ERRORS.html",
-          "hash": "uyLfMgd7vYWuN8bXsaffng=="
+          "hash": "zp7ZkDNTuQ9Nn/WEgGeT1A=="
         }
       },
       "is_incremental": false,
@@ -633,7 +657,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Types.OPERATION.html",
-          "hash": "8LqVcXnSDPOMFpnmhpdQ/g=="
+          "hash": "aONJ+P0lW5/z0jAzH4BZEw=="
         }
       },
       "is_incremental": false,
@@ -645,7 +669,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Types.PLATFORM.html",
-          "hash": "+4vLKPQ60Hh4VVRptceL2A=="
+          "hash": "15TI6s+t5CsryCbGLELJug=="
         }
       },
       "is_incremental": false,
@@ -657,7 +681,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Types.RESULT_TYPE.html",
-          "hash": "KIMNE3z4gjabS+4xw3vynw=="
+          "hash": "IsYyKKffikI75+DHHBl08g=="
         }
       },
       "is_incremental": false,
@@ -669,7 +693,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Types.RUN_STATUS.html",
-          "hash": "fXRb5pQGEylbqI1OlKVlGQ=="
+          "hash": "ozoEfomzC8iiwYkYHpCMwg=="
         }
       },
       "is_incremental": false,
@@ -693,7 +717,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Utils.Analyzer.html",
-          "hash": "Zyaj4bi3rorJ4AoHIhBVdA=="
+          "hash": "NvqVaKr9lHJUIAyLViSMYg=="
         }
       },
       "is_incremental": false,
@@ -705,7 +729,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Utils.ConfigurationReader.html",
-          "hash": "KKn06dGG2WKJwp4dTxmSBw=="
+          "hash": "29iqjLfmWUBg6Am6NePqEw=="
         }
       },
       "is_incremental": false,
@@ -717,7 +741,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Utils.CryptoHelpers.html",
-          "hash": "s41DIHIuYTaqbyGuL0V6FQ=="
+          "hash": "tyDA2MrvFaTZG1zetjnyig=="
         }
       },
       "is_incremental": false,
@@ -729,7 +753,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html",
-          "hash": "aHTY4Q5yNTghUiuC2/cA7w=="
+          "hash": "t3L/AyIa+Td/9GKCVASwYw=="
         }
       },
       "is_incremental": false,
@@ -741,7 +765,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Utils.DirectoryWalker.html",
-          "hash": "gZPHUmU9+I7dX6/T85Rufg=="
+          "hash": "MGHMwwAfh2NAcRcY4d7iaw=="
         }
       },
       "is_incremental": false,
@@ -753,7 +777,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Utils.Elevation.html",
-          "hash": "PB5oDEvwbQuT0B/KPpK7Sg=="
+          "hash": "mwjdPuVtmONx6HFVczhxQQ=="
         }
       },
       "is_incremental": false,
@@ -765,7 +789,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Utils.ExternalCommandRunner.html",
-          "hash": "pHuu/9b0+yCo3mYG3GP7hg=="
+          "hash": "iQZuMQ2WII3bWfUn/meJuA=="
         }
       },
       "is_incremental": false,
@@ -777,7 +801,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Utils.FileWatcher.html",
-          "hash": "d5BJUCfS/KoZ6tWSzXO3wg=="
+          "hash": "UN7eo9KCJOq4aH2Rwv4fYg=="
         }
       },
       "is_incremental": false,
@@ -789,7 +813,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Utils.Filter.html",
-          "hash": "XcN9e2jAfMtHM3gW0mD2Fw=="
+          "hash": "GA9CZcbXq4d1XjKz7EASLQ=="
         }
       },
       "is_incremental": false,
@@ -801,7 +825,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Utils.Helpers.html",
-          "hash": "Y847xW6VpJQuTea+IW96fw=="
+          "hash": "oX0i531NNUcwxsdSlxYM6Q=="
         }
       },
       "is_incremental": false,
@@ -813,7 +837,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Utils.Logger.html",
-          "hash": "aQZNpgG6h+yCxNUaRkQL6Q=="
+          "hash": "mS0yi7r8sWqqM13NVabDew=="
         }
       },
       "is_incremental": false,
@@ -825,7 +849,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Utils.ProcessPort.html",
-          "hash": "eZpcjRLw91Yt/lkE5Nd68A=="
+          "hash": "VTT0S+h7KfeCG0ZmFHfnJA=="
         }
       },
       "is_incremental": false,
@@ -837,7 +861,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Utils.RegistryWalker.html",
-          "hash": "BOtOacNc02vLZozeq9FtEQ=="
+          "hash": "kr9Z/VlJlQ5WVL3yrrOQwQ=="
         }
       },
       "is_incremental": false,
@@ -849,7 +873,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Utils.RunManager.html",
-          "hash": "+CynjSIOpdKKRkliJhdzTw=="
+          "hash": "1FMe0UoJHfII0iw47+LKbg=="
         }
       },
       "is_incremental": false,
@@ -861,7 +885,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Utils.SqliteHelper.html",
-          "hash": "/rqTETBaJHiP9cBPBfXVoQ=="
+          "hash": "fU9Eu0UPQcZ/3EGELqZu/Q=="
         }
       },
       "is_incremental": false,
@@ -873,7 +897,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Utils.Strings.html",
-          "hash": "e8L1Td2I+DWIDgewt1NXjw=="
+          "hash": "mLEfUCJjY7itRjChbRRDjA=="
         }
       },
       "is_incremental": false,
@@ -885,7 +909,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Utils.Telemetry.html",
-          "hash": "Be0f8G76NGkgZwkEKvH7lQ=="
+          "hash": "ucQuPJaJfz36atg1EFO3uQ=="
         }
       },
       "is_incremental": false,
@@ -897,7 +921,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Utils.Win32ProcessPorts.html",
-          "hash": "Hac+ZGhtjJ0Z6F+xlxiLOw=="
+          "hash": "mqT7GJqSuSO3CIRROZHzCA=="
         }
       },
       "is_incremental": false,
@@ -924,7 +948,7 @@
           "hash": "nIKkFWpEFHuCz/oZEuxoEA=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -933,7 +957,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "HPD5e/JLULwYFSic9DpKyQ=="
+          "hash": "a4OcaUh2/F9hvAGpQ319kg=="
         }
       },
       "is_incremental": false,
@@ -997,12 +1021,11 @@
         "skipped_file_count": 0
       },
       "processors": {
-        "TocDocumentProcessor": {
-          "can_incremental": false,
-          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": true,
           "incrementalPhase": "build",
-          "total_file_count": 0,
-          "skipped_file_count": 0
+          "total_file_count": 78,
+          "skipped_file_count": 3
         },
         "ConceptualDocumentProcessor": {
           "can_incremental": true,
@@ -1010,11 +1033,12 @@
           "total_file_count": 3,
           "skipped_file_count": 3
         },
-        "ManagedReferenceDocumentProcessor": {
-          "can_incremental": true,
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build",
-          "total_file_count": 76,
-          "skipped_file_count": 5
+          "total_file_count": 0,
+          "skipped_file_count": 0
         }
       }
     },
