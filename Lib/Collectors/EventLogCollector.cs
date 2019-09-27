@@ -65,14 +65,22 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         if (entry.EntryType.ToString() == "Warning" || entry.EntryType.ToString() == "Error")
                         {
+                            var sentences = entry.Message.Split('.');
+
+                            //Let's add the periods back.
+                            for (var i = 0; i<sentences.Length; i++)
+                            {
+                                sentences[i] = string.Concat(sentences[i],".");
+                            }
+
                             EventLogObject obj = new EventLogObject()
                             {
                                 Source = log.Source,
-                                Event = string.Format("{0} {1} {2}", entry.TimeGenerated.ToString(), entry.EntryType.ToString(), entry.Message),
                                 Level = entry.EntryType.ToString(),
-                                // Just take the first sentence since this is used in the GUI display.
-                                Message = entry.Message.Split('.')[0],
-                                Timestamp = entry.TimeGenerated.ToString()
+                                Summary = sentences[0],
+                                Data = new List<string>() { entry.Message },
+                                Timestamp = entry.TimeGenerated.ToString(),
+                                Event = string.Format("{0} {1} {2}", entry.TimeGenerated.ToString(), entry.EntryType.ToString(), entry.Message)
                             };
                             DatabaseManager.Write(obj, runId);
                         }
