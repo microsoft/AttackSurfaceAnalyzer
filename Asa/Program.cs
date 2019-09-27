@@ -251,7 +251,7 @@ namespace AttackSurfaceAnalyzer
         public bool Quiet { get; set; }
     }
 
-    public static class AttackSurfaceAnalyzerCLI
+    public static class AttackSurfaceAnalyzerClient
     {
         private static List<BaseCollector> collectors = new List<BaseCollector>();
         private static List<BaseMonitor> monitors = new List<BaseMonitor>();
@@ -274,7 +274,7 @@ namespace AttackSurfaceAnalyzer
                         .GetEntryAssembly()
                         .GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false)
                         as AssemblyInformationalVersionAttribute[])[0].InformationalVersion;
-            Log.Information("AttackSurfaceAnalyzerCli v.{0}", version);
+            Log.Information("AttackSurfaceAnalyzer v.{0}", version);
 
             Strings.Setup();
 
@@ -1200,6 +1200,7 @@ namespace AttackSurfaceAnalyzer
             StartEvent.Add("Service", opts.EnableServiceCollector.ToString());
             StartEvent.Add("Firewall", opts.EnableFirewallCollector.ToString());
             StartEvent.Add("ComObject", opts.EnableComObjectCollector.ToString());
+            StartEvent.Add("EventLog", opts.EnableEventLogCollector.ToString());
             StartEvent.Add("Admin", Helpers.IsAdmin().ToString());
             Telemetry.TrackEvent("Run Command", StartEvent);
 
@@ -1315,7 +1316,7 @@ namespace AttackSurfaceAnalyzer
             }
             Log.Information(Strings.Get("Begin"), opts.RunId);
 
-            string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, firewall, comobjects, type, timestamp, version, platform) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @firewall, @comobjects, @type, @timestamp, @version, @platform)";
+            string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, firewall, comobjects, eventlogs, type, timestamp, version, platform) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @firewall, @comobjects, @eventlogs, @type, @timestamp, @version, @platform)";
 
             using (var cmd = new SqliteCommand(INSERT_RUN, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
