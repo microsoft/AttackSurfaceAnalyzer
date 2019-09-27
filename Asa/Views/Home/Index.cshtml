@@ -28,7 +28,7 @@
     </div>
 </div>
 @{
-    if (!TelemetryConfiguration.Active.DisableTelemetry)
+    if (!Telemetry.OptOut)
     {
         <label for="TelemetryOpt">
             <input type="checkbox" id="TelemetryOpt" checked /> @Strings.Get("UsageData")  <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/PRIVACY.md" target="_blank">Privacy</a>
@@ -41,7 +41,6 @@
         </label>
     }
 }
-        </label>
 <br />
 <h4>Version History</h4>
 <div class="row">
