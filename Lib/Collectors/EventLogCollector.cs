@@ -94,7 +94,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Parse /var/log
+        /// Parse /var/log/auth.log and /var/log/syslog
         /// </summary>
         public void ExecuteLinux()
         {
