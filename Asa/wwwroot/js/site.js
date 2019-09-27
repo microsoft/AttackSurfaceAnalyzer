@@ -30,7 +30,8 @@ var RESULT_TYPE = {
     USER: 6,
     GROUP: 7,
     FIREWALL: 8,
-    COM: 9
+    COM: 9,
+    LOG: 10
 };
 var CHANGE_TYPE = {
     INVALID: 0,

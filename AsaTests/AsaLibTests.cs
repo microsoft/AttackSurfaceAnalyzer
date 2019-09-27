@@ -70,6 +70,32 @@ namespace AsaTests
         }
 
         /// <summary>
+        /// Requires Admin
+        /// </summary>
+        [TestMethod]
+        public void TestEventCollector()
+        {
+            Setup();
+
+            var FirstRunId = "TestEventCollector-1";
+
+            var fsc = new EventLogCollector(FirstRunId);
+            fsc.Execute();
+
+            List<RawCollectResult> collectResults = DatabaseManager.GetResultsByRunid(FirstRunId);
+            List<EventLogObject> EventLogs = new List<EventLogObject>();
+
+            foreach (var collectResult in collectResults)
+            {
+                EventLogs.Add((EventLogObject)BaseCompare.Hydrate(collectResult));
+            }
+
+            Assert.IsTrue(EventLogs.Where(x => x.Level.Contains("Error")).Count() > 0);
+
+            TearDown();
+        }
+
+        /// <summary>
         /// Does not require admin.
         /// </summary>
         [TestMethod]
@@ -155,12 +181,12 @@ namespace AsaTests
                 var fwc = new FirewallCollector(FirstRunId);
                 fwc.Execute();
 
-                var result = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--add", "/bin/bash");
+                _ = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--add", "/bin/bash");
 
                 fwc = new FirewallCollector(SecondRunId);
                 fwc.Execute();
 
-                result = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--remove", "/bin/bash");
+                _ = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--remove", "/bin/bash");
 
                 BaseCompare bc = new BaseCompare();
                 if (!bc.TryCompare(FirstRunId, SecondRunId))

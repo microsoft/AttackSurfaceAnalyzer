@@ -7,26 +7,6 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 
-/*********************************** Module Header ***********************************\
- Module Name:  MainForm.cs
- Project:      CSUACSelfElevation
- Copyright (c) Microsoft Corporation.
-
- User Account Control (UAC) is a new security component in Windows Vista and newer 
- operating systems. With UAC fully enabled, interactive administrators normally run 
- with least user privileges. This example demonstrates how to check the privilege 
- level of the current process, and how to self-elevate the process by giving explicit 
- consent with the Consent UI. 
-
- This source is subject to the Microsoft Public License.
- See http://www.microsoft.com/en-us/openness/resources/licenses.aspx#MPL
- All other rights reserved.
-
- THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
- EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED 
- WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
-\*************************************************************************************/
-
 namespace AttackSurfaceAnalyzer.Utils
 {
     public class Elevation
@@ -393,40 +373,6 @@ namespace AttackSurfaceAnalyzer.Utils
 
         #endregion
 
-        // @TODO: Rename this, as it actually changes elevation
-        public void CheckElevation()
-        {
-            int IL = GetProcessIntegrityLevel();
-
-            // Elevate the process if it is not run as administrator.
-            if (!IsRunAsAdmin())
-            {
-                // Launch itself as administrator
-                ProcessStartInfo proc = new ProcessStartInfo();
-                proc.UseShellExecute = true;
-                proc.WorkingDirectory = Environment.CurrentDirectory;
-                proc.FileName = "dotnet.exe";
-                proc.Arguments = "AttackSurfaceAnalyzer.dll";
-                proc.Verb = "runas";
-
-                try
-                {
-                    Process.Start(proc);
-                }
-                catch
-                {
-                    // The user refused the elevation.
-                    // Do nothing and return directly ...
-                    return;
-                }
-
-                Environment.Exit(1);
-            }
-            else
-            {
-                Log.Debug("Running as admin.");
-            }
-        }
 
         public bool QueryElevation()
         {

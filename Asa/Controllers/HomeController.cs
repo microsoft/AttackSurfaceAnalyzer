@@ -20,10 +20,6 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 {
     public class HomeController : Controller
     {
-        private TelemetryClient telemetry = new TelemetryClient();
-        private List<BaseCollector> collectors = new List<BaseCollector>();
-        private List<BaseMonitor> monitors = new List<BaseMonitor>();
-
         private static readonly string SQL_QUERY_ANALYZED = "select * from results where status = @status"; //lgtm [cs/literal-as-local]
 
         private static readonly string SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED = "select * from results where base_run_id=@base_run_id and compare_run_id=@compare_run_id"; //lgtm [cs/literal-as-local]
@@ -290,7 +286,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
         }
 
 
-        public ActionResult StartCollection(string Id, bool File, bool Port, bool Service, bool User, bool Registry, bool Certificates, bool ComObjects, bool Firewall)
+        public ActionResult StartCollection(string Id, bool File, bool Port, bool Service, bool User, bool Registry, bool Certificates, bool ComObjects, bool Firewall, bool EventLogs)
         {
             CollectCommandOptions opts = new CollectCommandOptions();
             opts.RunId = Id.Trim();
@@ -302,6 +298,8 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             opts.EnableCertificateCollector = Certificates;
             opts.EnableComObjectCollector = ComObjects;
             opts.EnableFirewallCollector = Firewall;
+            opts.EnableEventLogCollector = EventLogs;
+
             opts.DatabaseFilename = DatabaseManager.SqliteFilename;
             opts.FilterLocation = "Use embedded filters.";
 

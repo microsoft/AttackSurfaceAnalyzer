@@ -361,6 +361,22 @@
           ]
         }
       ]
+    },
+    {
+      "name": "SIP Violation",
+      "desc": "Flags if System Integrity Protection prevented an action.",
+      "flag": "WARNING",
+      "platforms": [
+        "MACOS"
+      ],
+      "resultType": "LOG",
+      "clauses": [
+        {
+          "field": "Summary",
+          "op": "CONTAINS",
+          "data": [ "sandbox" ]
+        }
+      ]
     }
   ],
   "meta": {
@@ -372,7 +388,8 @@
       "USER": "INFORMATION",
       "REGISTRY": "DEBUG",
       "FIREWALL": "INFORMATION",
-      "COM": "INFORMATION"
+      "COM": "INFORMATION",
+      "LOG":  "DEBUG"
     }
   }
 }
