@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -73,24 +74,34 @@ namespace AsaTests
         /// Requires Admin
         /// </summary>
         [TestMethod]
-        public void TestEventCollector()
+        public void TestEventCollectorWindows()
         {
             Setup();
 
             var FirstRunId = "TestEventCollector-1";
+            var SecondRunId = "TestEventCollector-2";
 
             var fsc = new EventLogCollector(FirstRunId);
             fsc.Execute();
 
-            List<RawCollectResult> collectResults = DatabaseManager.GetResultsByRunid(FirstRunId);
-            List<EventLogObject> EventLogs = new List<EventLogObject>();
-
-            foreach (var collectResult in collectResults)
+            using (EventLog eventLog = new EventLog("Application"))
             {
-                EventLogs.Add((EventLogObject)BaseCompare.Hydrate(collectResult));
+                eventLog.Source = "Attack Surface Analyzer Tests";
+                eventLog.WriteEntry("This Log Entry was created for testing the Attack Surface Analyzer library.", EventLogEntryType.Warning, 101, 1);
             }
 
-            Assert.IsTrue(EventLogs.Where(x => x.Level.Contains("Error")).Count() > 0);
+            fsc = new EventLogCollector(SecondRunId);
+            fsc.Execute();
+
+            BaseCompare bc = new BaseCompare();
+            if (!bc.TryCompare(FirstRunId, SecondRunId))
+            {
+                Assert.Fail();
+            }
+
+            Dictionary<string, List<CompareResult>> results = bc.Results;
+
+            Assert.IsTrue(results["LOG_CREATED"].Where(x => ((EventLogObject)x.Compare).Level == "Warning" && ((EventLogObject)x.Compare).Source == "Attack Surface Analyzer Tests").Count() == 1);
 
             TearDown();
         }
