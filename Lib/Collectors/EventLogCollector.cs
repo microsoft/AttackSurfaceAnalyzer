@@ -98,6 +98,54 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// </summary>
         public void ExecuteLinux()
         {
+            try
+            {
+                Regex LogHeader = new Regex("^([A-Z][a-z][a-z].*)[\\s].*?[\\s](.*?): (.*)");
+
+                string[] authLog = File.ReadAllLines("/var/log/auth.log");
+                foreach (var entry in authLog)
+                {
+                    // New log entries start with a timestamp like so:
+                    // Sep  7 02:16:16 testbed sudo: pam_unix(sudo:session):session opened for user root
+                    if (LogHeader.IsMatch(entry))
+                    {
+                        var obj = new EventLogObject()
+                        {
+                            Event = entry,
+                            Summary = LogHeader.Matches(entry).Single().Groups[2].Captures[0].Value,
+                            Timestamp = LogHeader.Matches(entry).Single().Groups[0].Captures[0].Value,
+                            Source = "/var/log/auth.log",
+                            Process = LogHeader.Matches(entry).Single().Groups[1].Captures[0].Value,
+                        };
+                        DatabaseManager.Write(obj, runId);
+                    }
+                    // New log entries start with a timestamp like so:
+                    // Sep  7 02:16:16 testbed systemd[1]: Reloading
+                }
+
+                string[] sysLog = File.ReadAllLines("/var/log/syslog");
+                foreach (var entry in sysLog)
+                {
+                    // New log entries start with a timestamp like so:
+                    // Sep  7 02:16:16 testbed systemd[1]: Reloading
+                    if (LogHeader.IsMatch(entry))
+                    {
+                        var obj = new EventLogObject()
+                        {
+                            Event = entry,
+                            Summary = LogHeader.Matches(entry).Single().Groups[2].Captures[0].Value,
+                            Timestamp = LogHeader.Matches(entry).Single().Groups[0].Captures[0].Value,
+                            Source = "/var/log/syslog",
+                            Process = LogHeader.Matches(entry).Single().Groups[1].Captures[0].Value,
+                        };
+                        DatabaseManager.Write(obj, runId);
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                Log.Debug(e, "Failed to parse /var/log/auth.log");
+            }
 
         }
 
@@ -109,10 +157,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             _ = DatabaseManager.Transaction;
 
             var outputPath = Path.Combine(Directory.GetCurrentDirectory(), "events");
-            //var file = ExternalCommandRunner.RunExternalCommand("sh", "-c 'log show --predicate \"messageType == 16 || messageType == 17\" --last 10m > logEntries'");
             var file = ExternalCommandRunner.RunExternalCommand("log", "show --predicate \"messageType == 16 || messageType == 17\"");
-
-
 
             // New log entries start with a timestamp like so:
             // 2019-09-25 20:38:53.784594-0700 0xdbf47    Error       0x0                  0      0    kernel: (Sandbox) Sandbox: mdworker(15726) deny(1) mach-lookup com.apple.security.syspolicy
@@ -129,10 +174,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         var obj = new EventLogObject()
                         {
-                            Data = data,
+                            Data = (data.Count > 0) ? data : null,
                             Event = previousLine,
                             Level = LogHeader.Matches(previousLine).Single().Groups[2].Value,
-                            Summary = string.Format("{0}:{1}", LogHeader.Matches(previousLine).Single().Groups[4].Captures[0].Value, Timestamp.Matches(previousLine).Single().Groups[5].Captures[0].Value),
+                            Summary = string.Format("{0}:{1}", LogHeader.Matches(previousLine).Single().Groups[4].Captures[0].Value, LogHeader.Matches(previousLine).Single().Groups[5].Captures[0].Value),
                             Timestamp = LogHeader.Matches(previousLine).Single().Groups[1].Captures[0].Value,
                             Source = LogHeader.Matches(previousLine).Single().Groups[4].Captures[0].Value
                         };
@@ -153,9 +198,12 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 var obj = new EventLogObject()
                 {
-                    Data = data,
+                    Data = (data.Count > 0) ? data:null,
                     Event = previousLine,
-                    Timestamp = Timestamp.Matches(previousLine).Single().Groups[0].Captures[0].Value
+                    Level = LogHeader.Matches(previousLine).Single().Groups[2].Value,
+                    Summary = string.Format("{0}:{1}", LogHeader.Matches(previousLine).Single().Groups[4].Captures[0].Value, LogHeader.Matches(previousLine).Single().Groups[5].Captures[0].Value),
+                    Timestamp = LogHeader.Matches(previousLine).Single().Groups[1].Captures[0].Value,
+                    Source = LogHeader.Matches(previousLine).Single().Groups[4].Captures[0].Value
                 };
                 DatabaseManager.Write(obj, runId);
             }
@@ -164,7 +212,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public override bool CanRunOnPlatform()
         {
-            return RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+            return RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         }
     }
 }

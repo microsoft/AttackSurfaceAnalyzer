@@ -10,6 +10,7 @@ namespace AttackSurfaceAnalyzer.Objects
         public string Timestamp { get; set; }
         public string Level { get; set; }
         public string Summary { get; set; }
+        public string Process { get; set; }
         public string Source { get; set; }
         public List<string> Data { get; set; }
         public string Event { get; set; }
