@@ -116,14 +116,14 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             // New log entries start with a timestamp like so:
             // 2019-09-25 20:38:53.784594-0700 0xdbf47    Error       0x0                  0      0    kernel: (Sandbox) Sandbox: mdworker(15726) deny(1) mach-lookup com.apple.security.syspolicy
-            Regex Timestamp = new Regex("^([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-2][0-9]:[0-5][0-9]:[0-5][0-9]).*?0x[0-9a-f]*[\\s]*([A-Za-z]*)[\\s]*0x[0-9a-f][\\s]*[0-9]*[\\s]*([0-9]*)[\\s]*(.*)");
+            Regex LogHeader = new Regex("^([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-2][0-9]:[0-5][0-9]:[0-5][0-9]).*?0x[0-9a-f]*[\\s]*([A-Za-z]*)[\\s]*0x[0-9a-f][\\s]*[0-9]*[\\s]*([0-9]*)[\\s]*(.*?):(.*)");
 
             
             List<string> data = null;
             string previousLine = null;
             foreach(var line in file.Split('\n'))
             {
-                if (Timestamp.IsMatch(line))
+                if (LogHeader.IsMatch(line))
                 {
                     if (previousLine != null)
                     {
@@ -131,9 +131,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                         {
                             Data = data,
                             Event = previousLine,
-                            Level = Timestamp.Matches(previousLine).Single().Groups[2].Value,
-                            Summary = Timestamp.Matches(previousLine).Single().Groups[4].Captures[0].Value,
-                            Timestamp = Timestamp.Matches(previousLine).Single().Groups[1].Captures[0].Value
+                            Level = LogHeader.Matches(previousLine).Single().Groups[2].Value,
+                            Summary = string.Format("{0}:{1}", LogHeader.Matches(previousLine).Single().Groups[4].Captures[0].Value, Timestamp.Matches(previousLine).Single().Groups[5].Captures[0].Value),
+                            Timestamp = LogHeader.Matches(previousLine).Single().Groups[1].Captures[0].Value,
+                            Source = LogHeader.Matches(previousLine).Single().Groups[4].Captures[0].Value
                         };
                         DatabaseManager.Write(obj, runId);
                     }
