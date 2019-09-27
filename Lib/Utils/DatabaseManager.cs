@@ -382,7 +382,7 @@ namespace AttackSurfaceAnalyzer.Utils
             cmd.Parameters.AddWithValue("@run_id", runId);
             cmd.Parameters.AddWithValue("@row_key", CryptoHelpers.CreateHash(JsonConvert.SerializeObject(obj)));
             cmd.Parameters.AddWithValue("@identity", obj.Identity);
-            cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj));
+            cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj,Formatting.None,new JsonSerializerSettings() { DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore }));
             cmd.Parameters.AddWithValue("@result_type", obj.ResultType);
             cmd.ExecuteNonQuery();
         }
