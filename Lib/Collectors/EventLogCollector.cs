@@ -50,7 +50,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Collect event logs on Windows using System.Diagnostics.EventLog
+        /// Collect event logs on Windows using System.Diagnostics.EventLog of Severity Warning or Error
         /// </summary>
         public void ExecuteWindows()
         {
@@ -94,7 +94,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Parses /var/log/auth.log and /var/log/syslog
+        /// Parses /var/log/auth.log and /var/log/syslog (no way to distinguish severity)
         /// </summary>
         public void ExecuteLinux()
         {
@@ -149,7 +149,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Collect event logs on macOS using the 'log' utility.
+        /// Collect event logs on macOS using the 'log' utility of severity "Error" or "Warning"
         /// </summary>
         public void ExecuteMacOs()
         {
