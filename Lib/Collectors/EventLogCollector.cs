@@ -75,9 +75,9 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                             EventLogObject obj = new EventLogObject()
                             {
-                                Source = log.Source,
                                 Level = entry.EntryType.ToString(),
                                 Summary = sentences[0],
+                                Source = string.IsNullOrEmpty(entry.Source) ? null:entry.Source,
                                 Data = new List<string>() { entry.Message },
                                 Timestamp = entry.TimeGenerated.ToString(),
                                 Event = string.Format("{0} {1} {2}", entry.TimeGenerated.ToString(), entry.EntryType.ToString(), entry.Message)
