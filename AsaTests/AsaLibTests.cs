@@ -73,7 +73,7 @@ namespace AsaTests
         /// Requires Admin
         /// </summary>
         [TestMethod]
-        public void TestEventCollectorWindows()
+        public void TestEventCollector()
         {
             Setup();
 
