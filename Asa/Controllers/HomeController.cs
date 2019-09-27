@@ -20,10 +20,6 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 {
     public class HomeController : Controller
     {
-        private TelemetryClient telemetry = new TelemetryClient();
-        private List<BaseCollector> collectors = new List<BaseCollector>();
-        private List<BaseMonitor> monitors = new List<BaseMonitor>();
-
         private static readonly string SQL_QUERY_ANALYZED = "select * from results where status = @status"; //lgtm [cs/literal-as-local]
 
         private static readonly string SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED = "select * from results where base_run_id=@base_run_id and compare_run_id=@compare_run_id"; //lgtm [cs/literal-as-local]

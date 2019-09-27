@@ -307,7 +307,6 @@ namespace AttackSurfaceAnalyzer
                 await Task.Run(() => SleepAndOpenBrowser(1000));
             }))();
             WebHost.CreateDefaultBuilder(new string[] { })
-                    .UseApplicationInsights()
                     .UseStartup<Asa.Startup>()
                     .Build()
                     .Run();

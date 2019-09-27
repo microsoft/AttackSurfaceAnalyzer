@@ -12,8 +12,10 @@ namespace AttackSurfaceAnalyzer.Utils
         private static readonly string UPDATE_TELEMETRY = "replace into persisted_settings values ('telemetry_opt_out',@TelemetryOptOut)"; //lgtm [cs/literal-as-local]
         private static readonly string CHECK_TELEMETRY = "select value from persisted_settings where setting='telemetry_opt_out'";
 
+        private static readonly string INSTRUMENTATION_KEY = "719e5a56-dae8-425f-be07-877db7ae4d3b";
 
         public static TelemetryClient Client;
+        public static bool OptOut { get; private set; }
 
         public static void TestMode()
         {
@@ -25,22 +27,24 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             if (Client == null)
             {
+                var config = TelemetryConfiguration.CreateDefault();
                 using (var cmd = new SqliteCommand(CHECK_TELEMETRY, DatabaseManager.Connection, DatabaseManager.Transaction))
                 {
                     using (var reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            TelemetryConfiguration.Active.DisableTelemetry = bool.Parse(reader["value"].ToString());
+                            OptOut = bool.Parse(reader["value"].ToString());
                         }
                     }
                 }
-                TelemetryConfiguration.Active.InstrumentationKey = "719e5a56-dae8-425f-be07-877db7ae4d3b";
-                Client = new TelemetryClient();
+                config.InstrumentationKey = INSTRUMENTATION_KEY;
+                config.DisableTelemetry = OptOut;
+                Client = new TelemetryClient(config);
                 Client.Context.Component.Version = Helpers.GetVersionString();
                 // Force some values to static values to prevent gathering unneeded data
-                Client.Context.Cloud.RoleInstance = (Gui) ? "GUI" : "CLI";
-                Client.Context.Cloud.RoleName = (Gui) ? "GUI" : "CLI";
+                Client.Context.Cloud.RoleInstance =  "Asa";
+                Client.Context.Cloud.RoleName = "Asa";
                 Client.Context.Location.Ip = "1.1.1.1";
             }
         }
@@ -50,9 +54,18 @@ namespace AttackSurfaceAnalyzer.Utils
             Client.Flush();
         }
 
-        public static void SetOptOut(bool OptOut)
+        public static void SetOptOut(bool optOut)
         {
-            TelemetryConfiguration.Active.DisableTelemetry = OptOut;
+            OptOut = optOut;
+            var config = TelemetryConfiguration.CreateDefault();
+            config.InstrumentationKey = INSTRUMENTATION_KEY;
+            config.DisableTelemetry = OptOut;
+            Client = new TelemetryClient(config);
+            Client.Context.Component.Version = Helpers.GetVersionString();
+            // Force some values to static values to prevent gathering unneeded data
+            Client.Context.Cloud.RoleInstance = "Asa";
+            Client.Context.Cloud.RoleName = "Asa";
+            Client.Context.Location.Ip = "1.1.1.1";
             using (var cmd = new SqliteCommand(UPDATE_TELEMETRY, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
                 cmd.Parameters.AddWithValue("@TelemetryOptOut", OptOut.ToString());
