@@ -14,7 +14,6 @@ namespace AttackSurfaceAnalyzer.Objects
         public List<string> Data { get; set; }
         public string Event { get; set; }
 
-
         public EventLogObject()
         {
             ResultType = Types.RESULT_TYPE.LOG;
