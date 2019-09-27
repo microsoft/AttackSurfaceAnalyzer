@@ -70,6 +70,32 @@ namespace AsaTests
         }
 
         /// <summary>
+        /// Requires Admin
+        /// </summary>
+        [TestMethod]
+        public void TestEventCollectorWindows()
+        {
+            Setup();
+
+            var FirstRunId = "TestEventCollector-1";
+
+            var fsc = new EventLogCollector(FirstRunId);
+            fsc.Execute();
+
+            List<RawCollectResult> collectResults = DatabaseManager.GetResultsByRunid(FirstRunId);
+            List<EventLogObject> EventLogs = new List<EventLogObject>();
+
+            foreach (var collectResult in collectResults)
+            {
+                EventLogs.Add((EventLogObject)BaseCompare.Hydrate(collectResult));
+            }
+
+            Assert.IsTrue(EventLogs.Where(x => x.Level.Contains("Error")).Count() > 0);
+
+            TearDown();
+        }
+
+        /// <summary>
         /// Does not require admin.
         /// </summary>
         [TestMethod]
