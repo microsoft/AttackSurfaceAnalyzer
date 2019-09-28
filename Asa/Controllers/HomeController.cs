@@ -44,14 +44,14 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         public ActionResult WriteMonitorJson(string RunId, int ResultType, string OutputPath)
         {
-            AttackSurfaceAnalyzerCLI.WriteMonitorJson(RunId, ResultType, OutputPath);
+            AttackSurfaceAnalyzerClient.WriteMonitorJson(RunId, ResultType, OutputPath);
 
             return Json(true);
         }
 
         public ActionResult WriteScanJson(int ResultType, string BaseId, string CompareId, bool ExportAll, string OutputPath)
         {
-            AttackSurfaceAnalyzerCLI.WriteScanJson(ResultType, BaseId, CompareId, ExportAll, OutputPath);
+            AttackSurfaceAnalyzerClient.WriteScanJson(ResultType, BaseId, CompareId, ExportAll, OutputPath);
             return Json(true);
         }
 
@@ -164,7 +164,8 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 { "Service", false },
                 { "User", false },
                 { "Firewall", false },
-                { "Com", false }
+                { "Com", false },
+                { "Log", false }
             };
 
             var count = new Dictionary<string, int>()
@@ -176,7 +177,8 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 { "Service", 0 },
                 { "User", 0 },
                 { "Firewall", 0 },
-                { "Com", 0 }
+                { "ComObject", 0 },
+                { "LogEntry", 0 }
             };
             using (var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
@@ -218,6 +220,10 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                         {
                             count["ComObject"]++;
                         }
+                        if (int.Parse(reader["eventlogs"].ToString()) != 0)
+                        {
+                            count["LogEntry"]++;
+                        }
                     }
                 }
             }
@@ -230,16 +236,17 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                     json_out[entry.Key] = true;
                 }
             }
+
             return Json(json_out);
         }
 
         public ActionResult GetCollectors()
         {
             Dictionary<string, RUN_STATUS> dict = new Dictionary<string, RUN_STATUS>();
-            string RunId = AttackSurfaceAnalyzerCLI.GetLatestRunId();
+            string RunId = AttackSurfaceAnalyzerClient.GetLatestRunId();
 
             //TODO: Improve this to not have to change this variable on every loop, without having to call GetCollectors twice.
-            foreach (BaseCollector c in AttackSurfaceAnalyzerCLI.GetCollectors())
+            foreach (BaseCollector c in AttackSurfaceAnalyzerClient.GetCollectors())
             {
                 var fullString = c.GetType().ToString();
                 var splits = fullString.Split('.');
@@ -254,13 +261,13 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         public ActionResult GetLatestRunId()
         {
-            return Json(AttackSurfaceAnalyzerCLI.GetLatestRunId());
+            return Json(AttackSurfaceAnalyzerClient.GetLatestRunId());
         }
 
         public ActionResult GetMonitorStatus()
         {
             Dictionary<string, RUN_STATUS> dict = new Dictionary<string, RUN_STATUS>();
-            foreach (BaseMonitor c in AttackSurfaceAnalyzerCLI.GetMonitors())
+            foreach (BaseMonitor c in AttackSurfaceAnalyzerClient.GetMonitors())
             {
                 var fullString = c.GetType().ToString();
                 var splits = fullString.Split('.');
@@ -274,7 +281,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
         public ActionResult GetComparators()
         {
             Dictionary<string, RUN_STATUS> dict = new Dictionary<string, RUN_STATUS>();
-            foreach (BaseCompare c in AttackSurfaceAnalyzerCLI.GetComparators())
+            foreach (BaseCompare c in AttackSurfaceAnalyzerClient.GetComparators())
             {
                 var fullString = c.GetType().ToString();
                 var splits = fullString.Split('.');
@@ -286,7 +293,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
         }
 
 
-        public ActionResult StartCollection(string Id, bool File, bool Port, bool Service, bool User, bool Registry, bool Certificates, bool ComObjects, bool Firewall, bool EventLogs)
+        public ActionResult StartCollection(string Id, bool File, bool Port, bool Service, bool User, bool Registry, bool Certificates, bool Com, bool Firewall, bool Log)
         {
             CollectCommandOptions opts = new CollectCommandOptions();
             opts.RunId = Id.Trim();
@@ -296,14 +303,14 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             opts.EnableRegistryCollector = Registry;
             opts.EnableUserCollector = User;
             opts.EnableCertificateCollector = Certificates;
-            opts.EnableComObjectCollector = ComObjects;
+            opts.EnableComObjectCollector = Com;
             opts.EnableFirewallCollector = Firewall;
-            opts.EnableEventLogCollector = EventLogs;
+            opts.EnableEventLogCollector = Log;
 
             opts.DatabaseFilename = DatabaseManager.SqliteFilename;
             opts.FilterLocation = "Use embedded filters.";
 
-            foreach (BaseCollector c in AttackSurfaceAnalyzerCLI.GetCollectors())
+            foreach (BaseCollector c in AttackSurfaceAnalyzerClient.GetCollectors())
             {
                 // The GUI *should* prevent us from getting here. But this is extra protection.
                 // We won't start new collections while existing ones are ongoing.
@@ -312,7 +319,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                     return Json(ERRORS.ALREADY_RUNNING);
                 }
             }
-            AttackSurfaceAnalyzerCLI.ClearCollectors();
+            AttackSurfaceAnalyzerClient.ClearCollectors();
             string Select_Runs = "select run_id from runs where run_id=@run_id";
 
             using (var cmd = new SqliteCommand(Select_Runs, DatabaseManager.Connection, DatabaseManager.Transaction))
@@ -327,7 +334,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 }
             }
 
-            Task.Factory.StartNew<int>(() => AttackSurfaceAnalyzerCLI.RunCollectCommand(opts));
+            Task.Factory.StartNew<int>(() => AttackSurfaceAnalyzerClient.RunCollectCommand(opts));
             return Json(ERRORS.NONE);
         }
 
@@ -381,13 +388,13 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 MonitoredDirectories = Directory,
                 FilterLocation = "filters.json"
             };
-            AttackSurfaceAnalyzerCLI.ClearMonitors();
-            return Json((int)AttackSurfaceAnalyzerCLI.RunGuiMonitorCommand(opts));
+            AttackSurfaceAnalyzerClient.ClearMonitors();
+            return Json((int)AttackSurfaceAnalyzerClient.RunGuiMonitorCommand(opts));
         }
 
         public ActionResult StopMonitoring()
         {
-            return Json(AttackSurfaceAnalyzerCLI.StopMonitors());
+            return Json(AttackSurfaceAnalyzerClient.StopMonitors());
         }
 
         public ActionResult RunAnalysis(string first_id, string second_id)
@@ -396,7 +403,8 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             CompareCommandOptions opts = new CompareCommandOptions();
             opts.FirstRunId = first_id;
             opts.SecondRunId = second_id;
-            foreach (BaseCompare c in AttackSurfaceAnalyzerCLI.GetComparators())
+            opts.Analyze = true;
+            foreach (BaseCompare c in AttackSurfaceAnalyzerClient.GetComparators())
             {
                 // The GUI *should* prevent us from getting here. But this is extra protection.
                 // We won't start new collections while existing ones are ongoing.
@@ -420,7 +428,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 }
             }
 
-            Task.Factory.StartNew<Dictionary<string, object>>(() => AttackSurfaceAnalyzerCLI.CompareRuns(opts));
+            Task.Factory.StartNew<Dictionary<string, object>>(() => AttackSurfaceAnalyzerClient.CompareRuns(opts));
 
             return Json("Started Analysis");
         }
@@ -447,7 +455,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         private IEnumerable<DataRunModel> GetMonitorRunModels()
         {
-            List<string> Runs = AttackSurfaceAnalyzerCLI.GetRuns("monitor");
+            List<string> Runs = AttackSurfaceAnalyzerClient.GetRuns("monitor");
 
             List<DataRunModel> runModels = new List<DataRunModel>();
 
@@ -461,7 +469,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         private IEnumerable<DataRunModel> GetRunModels()
         {
-            List<string> Runs = AttackSurfaceAnalyzerCLI.GetRuns("collect");
+            List<string> Runs = AttackSurfaceAnalyzerClient.GetRuns("collect");
 
             List<DataRunModel> runModels = new List<DataRunModel>();
 

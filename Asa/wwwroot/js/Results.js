@@ -186,7 +186,7 @@ function GetResultTypes() {
     var data = { 'BaseId': $('#SelectedBaseRunId').val(), 'CompareId': $('#SelectedCompareRunId').val() };
 
     $.getJSON('GetResultTypes', data, function(result) {
-        if ((result.File || result.Port || result.Certificate || result.Service || result.Registry || result.User || result.Firewall || result.Com || result.Log) == false) {
+        if ((result.File || result.Port || result.Certificate || result.Service || result.Registry || result.User || result.Firewall || result.ComObject || result.LogEntry) == false) {
             SetStatus("The two runs selected have no common collectors.");
         } else {
             $("#ExportResultsButton").attr('disabled', false);
@@ -199,7 +199,7 @@ function GetResultTypes() {
         $('#UserRadio').attr('disabled', (result.User) ? false : true);
         $('#FirewallRadio').attr('disabled', (result.Firewall) ? false : true);
         $('#ComRadio').attr('disabled', (result.ComObject) ? false : true);
-        $('#LogRadio').attr('disabled', (result.LogObject) ? false : true);
+        $('#LogRadio').attr('disabled', (result.LogEntry) ? false : true);
     });
 }
 
@@ -496,7 +496,7 @@ function InsertIntoLogTable(result) {
     $('#LogResultsTableBody').append(tmp);
     tmp = $('<tr/>');
     var tmp2 = $('<td/>', {
-        colspan: 3,
+        colspan: 5,
         class: 'resultTableExpanded',
         id: uid + '_expanded'
     }).append(GenerateExpandedResultsCard(result));

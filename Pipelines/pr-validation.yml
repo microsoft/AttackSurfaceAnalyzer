@@ -2,12 +2,17 @@ name: ASA PR Validation
 
 trigger: none
 pr:
+  autoCancel: true
   branches:    
     include:
     - master
     - releases/*
     exclude:
     - azure_pipelines
+  paths:
+    include:
+    - Asa
+    - Lib
 
 variables:
   solution: '**/*.sln'
