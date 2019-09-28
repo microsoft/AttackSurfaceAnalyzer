@@ -140,6 +140,9 @@ namespace AttackSurfaceAnalyzer
         [Option('l', "logs", Required = false, HelpText = "Enable the Log collector")]
         public bool EnableEventLogCollector { get; set; }
 
+        [Option(HelpText = "Gather all levels in the Log collector. (Default: Only gather Error and Warning when possible.)")]
+        public bool GatherVerboseLogs { get; set; }
+
         [Option('a', "all", Required = false, HelpText = "Enable all collectors")]
         public bool EnableAllCollectors { get; set; }
 
@@ -1276,7 +1279,7 @@ namespace AttackSurfaceAnalyzer
             }
             if (opts.EnableEventLogCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new EventLogCollector(opts.RunId));
+                collectors.Add(new EventLogCollector(opts.RunId, opts.GatherVerboseLogs));
             }
 
             if (collectors.Count == 0)
