@@ -1,15 +1,10 @@
 # Attack Surface Analyzer 
-
+[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/microsoft/AttackSurfaceAnalyzer.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/microsoft/AttackSurfaceAnalyzer/context:javascript)
 ## Getting Attack Surface Analyzer
-Attack Surface Analyzer is distributed via our GitHub [releases](https://github.com/Microsoft/AttackSurfaceAnalyzer/releases/latest) page.  
-- `AsaCli` builds include only the command-line interface. 
-- `AsaGui` builds include only a graphical user interface available either via your own browser (`AsaGui-slim-*` packages) or via an integrated Electron application (`AsaGui-Win10-*`) 
-
-The database format is compatible between the Cli and Gui versions.
+Attack Surface Analyzer is distributed via our GitHub [releases](https://github.com/Microsoft/AttackSurfaceAnalyzer/releases/latest) page.
 
 ## Note on Version
-The latest released version of Attack Surface Analyzer is 2.0 (see [Release\v2.0](https://github.com/Microsoft/AttackSurfaceAnalyzer/tree/release/v2.0)).  
-You are currently viewing the master branch, which tracks continuing development and is not recommended for production use.
+The latest released version of Attack Surface Analyzer is 2.0 (see [Release\v2.0](https://github.com/Microsoft/AttackSurfaceAnalyzer/tree/release/v2.0)).  Version 2.1 is available in Public Beta [Release\v2.0](https://github.com/Microsoft/AttackSurfaceAnalyzer/tree/release/v2.1)
 
 ## Overview
 
@@ -37,7 +32,10 @@ Attack Surface Analyzer currently reports on changes to the following operating 
 - Services
 - Network Ports
 - Certificates
-- Registry (Windows only)
+- Registry
+- COM Objects (New!)
+- Event Logs (New!)
+- Firewall Settings (New!)
 
 All data collected is stored in a local SQLite database called `asa.sqlite`.
 
