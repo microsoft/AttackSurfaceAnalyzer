@@ -19,9 +19,11 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class EventLogCollector : BaseCollector
     {
-        public EventLogCollector(string runId)
+        private bool GatherVerboseLogs;
+        public EventLogCollector(string runId, bool GatherVerboseLogs = false)
         {
             this.runId = runId;
+            this.GatherVerboseLogs = GatherVerboseLogs;
         }
 
         public override void ExecuteInternal()
@@ -63,7 +65,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                     foreach (EventLogEntry entry in coll)
                     {
-                        if (entry.EntryType.ToString() == "Warning" || entry.EntryType.ToString() == "Error")
+                        if (GatherVerboseLogs || entry.EntryType.ToString() == "Warning" || entry.EntryType.ToString() == "Error")
                         {
                             var sentences = entry.Message.Split('.');
 
@@ -94,7 +96,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Parses /var/log/auth.log and /var/log/syslog
+        /// Parses /var/log/auth.log and /var/log/syslog (no way to distinguish severity)
         /// </summary>
         public void ExecuteLinux()
         {
@@ -149,14 +151,14 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Collect event logs on macOS using the 'log' utility.
+        /// Collect event logs on macOS using the 'log' utility
         /// </summary>
         public void ExecuteMacOs()
         {
             _ = DatabaseManager.Transaction;
 
             var outputPath = Path.Combine(Directory.GetCurrentDirectory(), "events");
-            var file = ExternalCommandRunner.RunExternalCommand("log", "show --predicate \"messageType == 16 || messageType == 17\"");
+            var file = (GatherVerboseLogs)? ExternalCommandRunner.RunExternalCommand("log", "show") : ExternalCommandRunner.RunExternalCommand("log", "show --predicate \"messageType == 16 || messageType == 17\"");
 
             // New log entries start with a timestamp like so:
             // 2019-09-25 20:38:53.784594-0700 0xdbf47    Error       0x0                  0      0    kernel: (Sandbox) Sandbox: mdworker(15726) deny(1) mach-lookup com.apple.security.syspolicy
