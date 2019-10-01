@@ -163,7 +163,7 @@ stages:
           $asaFolder = "$(build.binariesdirectory)\Asa-win-$version"
           mkdir $asaFolder
 
-          Move-Item -Path "$(build.binariesdirectory)\windows" -Destination $asaFolder\res
+          Move-Item -Path "$(build.binariesdirectory)\windows\asa" -Destination $asaFolder\res
 
           Copy-Item -Path "$(build.sourcesdirectory)\Asa\AsaLaunch.bat" -Destination $asaFolder\AsaLaunch.bat
           Copy-Item -Path "$(build.sourcesdirectory)\Asa\AsaLaunchGui.bat" -Destination $asaFolder\AsaLaunchGui.bat
@@ -240,8 +240,9 @@ stages:
           chmod +x $BIN_DIR/Asa-linux-$VERSION/res/Asa
           chmod +x $BIN_DIR/Asa-macos-$VERSION/res/Asa
 
-          tar -czvf $ART_DIR/Asa-linux-$VERSION.tar.gz $BIN_DIR/Asa-linux-$VERSION
-          tar -czvf $ART_DIR/Asa-macos-$VERSION.tar.gz $BIN_DIR/Asa-macos-$VERSION
+          cd $BIN_DIR
+          tar -czvf $ART_DIR/Asa-linux-$VERSION.tar.gz Asa-linux-$VERSION
+          tar -czvf $ART_DIR/Asa-macos-$VERSION.tar.gz Asa-macos-$VERSION
 
           sha256sum $ART_DIR/Asa-linux-$VERSION.tar.gz | awk ' { n=split($2, a, "/"); $2 = a[n]; print; } ' OFS='\t' >> $BIN_DIR/HASHES_LINUX.txt
           sha256sum $ART_DIR/Asa-macos-$VERSION.tar.gz | awk ' { n=split($2, a, "/"); $2 = a[n]; print; } ' OFS='\t' >> $BIN_DIR/HASHES_MAC.txt
