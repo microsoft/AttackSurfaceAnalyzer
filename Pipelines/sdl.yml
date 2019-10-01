@@ -1,5 +1,15 @@
 name: ASA SDL
 
+schedules:
+- cron: "2 0 * * *"
+  displayName: Daily 2am
+  branches:
+    include:
+    - master
+    - releases/*
+    exclude:
+    - releases/2.0
+
 pool:
   vmImage: 'windows-latest'
 
