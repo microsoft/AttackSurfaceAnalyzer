@@ -1,7 +1,14 @@
 name: ASA 2.1 Release
 
 trigger:
-- release/v2.1
+  batch: true
+  paths:
+    include:
+    - Asa
+    - Lib
+  branches:
+    include:
+    - release/v2.1
 
 variables:
   solution: '**/*.sln'
