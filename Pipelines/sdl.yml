@@ -1,5 +1,15 @@
 name: ASA SDL
 
+schedules:
+- cron: "2 0 * * *"
+  displayName: Daily 2am
+  branches:
+    include:
+    - master
+    - releases/*
+    exclude:
+    - releases/2.0
+
 pool:
   vmImage: 'windows-latest'
 
@@ -10,6 +20,7 @@ variables:
 
 steps:
 - task: UseDotNet@2
+  displayName: Use DotNet 3.0.100
   inputs:
     packageType: 'sdk'
     version: '3.0.100'
@@ -18,6 +29,7 @@ steps:
     toolMajorVersion: 'V2'
     outputFormat: 'sarif'
 - task: Semmle@0
+  displayName: Semmle C#
   inputs:
     sourceCodeDirectory: '$(Build.SourcesDirectory)\Asa'
     language: 'csharp'
@@ -29,6 +41,7 @@ steps:
     addProjectDirToScanningExclusionList: true
 
 - task: Semmle@0
+  displayName: Semmle JS
   inputs:
     sourceCodeDirectory: '$(Build.SourcesDirectory)\Asa\wwwroot'
     language: 'javascript'
@@ -60,16 +73,37 @@ steps:
     ToolLogsNotFoundAction: 'Standard'
 
 - task: DotNetCoreCLI@2
-  displayName: Build
+  displayName: Build Asa
   inputs:
     command: 'build'
     projects: '$(build.sourcesdirectory)\Asa\Asa.csproj'
 
 - task: ComponentGovernanceComponentDetection@0
+  displayName: Component Detection
   inputs:
     scanType: 'Register'
     verbosity: 'Verbose'
     alertWarningLevel: 'High'
 - task: notice@0
+  displayName: Notice Generator
   inputs:
     outputformat: 'text'
+
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      cd $(Pipeline.Workspace)\_sdt\logs\Semmle
+      dir
+      cd $(Pipeline.Workspace)\_sdt\logs\Semmle\csharp
+      dir
+      cd $(Pipeline.Workspace)\_sdt\logs\
+      dir 
+      cd $(Pipeline.Workspace)\_sdt\logs\CredScan
+      dir
+
+- task: PublishPipelineArtifact@1
+  displayName: Publish Semmle Result
+  inputs:
+    targetPath: '$(Pipeline.Workspace)\_sdt\logs\Semmle\csharp\microsoft.AttackSurfaceAnalyzer-csharp-1.sarif'
+    artifact: 'Semmle.sarif'
