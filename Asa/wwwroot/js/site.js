@@ -2,13 +2,6 @@
 // Licensed under the MIT License.
 "use strict";
 
-if (isIE()) {
-    $("#IeWarning").show();
-}
-else {
-    $("#IeWarning").remove();
-}
-
 function appendDebugMessage(message, remote) {
     $("#debug").add("<div>").html((remote ? "Service: " : "Local: ") + message);
 }
