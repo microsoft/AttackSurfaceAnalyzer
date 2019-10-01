@@ -10,6 +10,7 @@ variables:
 
 steps:
 - task: UseDotNet@2
+  displayName: Use DotNet 3.0.100
   inputs:
     packageType: 'sdk'
     version: '3.0.100'
@@ -18,6 +19,7 @@ steps:
     toolMajorVersion: 'V2'
     outputFormat: 'sarif'
 - task: Semmle@0
+  displayName: Semmle C#
   inputs:
     sourceCodeDirectory: '$(Build.SourcesDirectory)\Asa'
     language: 'csharp'
@@ -29,6 +31,7 @@ steps:
     addProjectDirToScanningExclusionList: true
 
 - task: Semmle@0
+  displayName: Semmle JS
   inputs:
     sourceCodeDirectory: '$(Build.SourcesDirectory)\Asa\wwwroot'
     language: 'javascript'
@@ -60,16 +63,18 @@ steps:
     ToolLogsNotFoundAction: 'Standard'
 
 - task: DotNetCoreCLI@2
-  displayName: Build
+  displayName: Build Asa
   inputs:
     command: 'build'
     projects: '$(build.sourcesdirectory)\Asa\Asa.csproj'
 
 - task: ComponentGovernanceComponentDetection@0
+  displayName: Component Detection
   inputs:
     scanType: 'Register'
     verbosity: 'Verbose'
     alertWarningLevel: 'High'
 - task: notice@0
+  displayName: Notice Generator
   inputs:
     outputformat: 'text'
