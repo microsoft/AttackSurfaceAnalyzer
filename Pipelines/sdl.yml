@@ -78,3 +78,22 @@ steps:
   displayName: Notice Generator
   inputs:
     outputformat: 'text'
+
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      cd $(Pipeline.Workspace)\_sdt\logs\Semmle
+      dir
+      cd $(Pipeline.Workspace)\_sdt\logs\Semmle\csharp
+      dir
+      cd $(Pipeline.Workspace)\_sdt\logs\
+      dir 
+      cd $(Pipeline.Workspace)\_sdt\logs\CredScan
+      dir
+
+- task: PublishPipelineArtifact@1
+  displayName: Publish Semmle Result
+  inputs:
+    targetPath: '$(Pipeline.Workspace)\_sdt\logs\Semmle\csharp\microsoft.AttackSurfaceAnalyzer-csharp-1.sarif'
+    artifact: 'Semmle.sarif'
