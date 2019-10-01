@@ -60,9 +60,11 @@ steps:
     ToolLogsNotFoundAction: 'Standard'
 
 - task: DotNetCoreCLI@2
+  displayName: Build
   inputs:
     command: 'build'
-    projects: '$(build.sourcesdirectory)\Asa\Asa.csproj,$(build.sourcesdirectory)\Lib\AsaLib.csproj'
+    projects: '$(build.sourcesdirectory)\Asa\Asa.csproj'
+
 - task: ComponentGovernanceComponentDetection@0
   inputs:
     scanType: 'Register'
