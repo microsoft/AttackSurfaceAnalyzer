@@ -1,1 +1,3 @@
-res\Asa.exe gui
+cd res
+Asa.exe gui
+cd ..
