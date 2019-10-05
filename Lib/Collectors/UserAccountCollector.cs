@@ -5,6 +5,7 @@ using AttackSurfaceAnalyzer.Utils;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Management;
@@ -24,7 +25,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public UserAccountCollector(string runId)
         {
-            this.runId = runId;
+            this.RunId = runId;
         }
 
         public override bool CanRunOnPlatform()
@@ -76,10 +77,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                         var groupName = line.Substring(1).Trim();
                         GroupAccountObject group;
                         //Get the group details
-                        if (!groups.ContainsKey(String.Format("{0}\\{1}", Environment.MachineName, groupName)))
+                        if (!groups.ContainsKey($"{Environment.MachineName}\\{groupName}"))
                         {
                             SelectQuery query = new SelectQuery("SELECT * FROM Win32_Group where Name='" + groupName + "' AND Domain='" + Environment.MachineName + "'");
-                            ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
+                            using ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
 
                             ManagementObject groupManagementObject = default(ManagementObject);
 
@@ -93,31 +94,30 @@ namespace AttackSurfaceAnalyzer.Collectors
                             group = new GroupAccountObject()
                             {
                                 Name = groupName,
-                                Caption = Convert.ToString(groupManagementObject["Caption"]),
-                                Description = Convert.ToString(groupManagementObject["Description"]),
-                                InstallDate = Convert.ToString(groupManagementObject["InstallDate"]),
-                                Status = Convert.ToString(groupManagementObject["Status"]),
-                                LocalAccount = Convert.ToBoolean(groupManagementObject["LocalAccount"]),
-                                SID = Convert.ToString(groupManagementObject["SID"]),
-                                SIDType = Convert.ToInt32(groupManagementObject["SIDType"]),
-                                Domain = Convert.ToString(groupManagementObject["Domain"]),
-                                Users = new List<string>()
+                                Caption = Convert.ToString(groupManagementObject["Caption"], CultureInfo.InvariantCulture),
+                                Description = Convert.ToString(groupManagementObject["Description"], CultureInfo.InvariantCulture),
+                                InstallDate = Convert.ToString(groupManagementObject["InstallDate"], CultureInfo.InvariantCulture),
+                                Status = Convert.ToString(groupManagementObject["Status"], CultureInfo.InvariantCulture),
+                                LocalAccount = Convert.ToBoolean(groupManagementObject["LocalAccount"], CultureInfo.InvariantCulture),
+                                SID = Convert.ToString(groupManagementObject["SID"], CultureInfo.InvariantCulture),
+                                SIDType = Convert.ToInt32(groupManagementObject["SIDType"], CultureInfo.InvariantCulture),
+                                Domain = Convert.ToString(groupManagementObject["Domain"], CultureInfo.InvariantCulture),
                             };
                         }
                         else
                         {
-                            group = groups[String.Format("{0}\\{1}", Environment.MachineName, groupName)];
+                            group = groups[$"{Environment.MachineName}\\{groupName}"];
                         }
 
                         //Get the members of the group
-                        var args = string.Format("/Node:\"{0}\" path win32_groupuser where (groupcomponent=\"win32_group.name=\\\"{1}\\\",domain=\\\"{2}\\\"\")", Environment.MachineName, groupName, Environment.MachineName);
+                        var args = $"/Node:\"{Environment.MachineName}\" path win32_groupuser where (groupcomponent=\"win32_group.name=\\\"{groupName}\\\",domain=\\\"{Environment.MachineName}\\\"\")";
                         List<string> lines_int = new List<string>(ExternalCommandRunner.RunExternalCommand("wmic", args).Split('\n'));
                         lines_int.RemoveRange(0, 1);
 
                         foreach (string line_int in lines_int)
                         {
                             var userName = line_int.Trim();
-                            if (userName.Equals("") || !userName.Contains("Domain"))
+                            if (string.IsNullOrEmpty(userName) || !userName.Contains("Domain"))
                             {
                                 continue;
                             }
@@ -125,8 +125,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                             {
                                 Regex r = new Regex(@".*Win32_UserAccount.Domain=""(.*?)"",Name=""(.*?)""");
 
-                                var domain = r.Match(userName).Groups[1].Value.ToString();
-                                userName = r.Match(userName).Groups[2].Value.ToString();
+                                var domain = r.Match(userName).Groups[1].Value;
+                                userName = r.Match(userName).Groups[2].Value;
 
                                 if (userName.Equals(""))
                                 {
@@ -134,18 +134,18 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 }
 
                                 Log.Verbose("Found {0}\\{1} as member of {2}", domain, userName, groupName);
-                                if (!group.Users.Contains(String.Format("{0}\\{1}", domain, userName)))
+                                if (!group.Users.Contains($"{domain}\\{userName}"))
                                 {
-                                    group.Users.Add(String.Format("{0}\\{1}", domain, userName));
+                                    group.Users.Add($"{domain}\\{userName}");
                                 }
 
-                                var query = new SelectQuery("SELECT * FROM Win32_UserAccount where Domain='" + domain + "' and Name='" + userName + "'");
+                                var query = new SelectQuery($"SELECT * FROM Win32_UserAccount where Domain='{domain}' and Name='{userName}'");
                                 var searcher = new ManagementObjectSearcher(query);
                                 foreach (ManagementObject user in searcher.Get())
                                 {
                                     if (users.ContainsKey(userName))
                                     {
-                                        if (!users[userName].Groups.Contains(String.Format("{0}\\{1}", domain, groupName)))
+                                        if (!users[userName].Groups.Contains($"{domain}\\{groupName}"))
                                         {
                                             users[userName].Groups.Add(groupName);
                                         }
@@ -159,28 +159,29 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     {
                                         var obj = new UserAccountObject()
                                         {
-                                            AccountType = Convert.ToString(user["AccountType"]),
-                                            Caption = Convert.ToString(user["Caption"]),
-                                            Description = Convert.ToString(user["Description"]),
-                                            Disabled = Convert.ToString(user["Disabled"]),
-                                            Domain = Convert.ToString(user["Domain"]),
-                                            InstallDate = Convert.ToString(user["InstallDate"]),
-                                            LocalAccount = Convert.ToString(user["LocalAccount"]),
-                                            Lockout = Convert.ToString(user["Lockout"]),
-                                            Name = Convert.ToString(user["Name"]),
-                                            FullName = Convert.ToString(user["FullName"]),
-                                            PasswordChangeable = Convert.ToString(user["PasswordChangeable"]),
-                                            PasswordExpires = Convert.ToString(user["PasswordExpires"]),
-                                            PasswordRequired = Convert.ToString(user["PasswordRequired"]),
-                                            SID = Convert.ToString(user["SID"]),
+                                            AccountType = Convert.ToString(user["AccountType"], CultureInfo.InvariantCulture),
+                                            Caption = Convert.ToString(user["Caption"], CultureInfo.InvariantCulture),
+                                            Description = Convert.ToString(user["Description"], CultureInfo.InvariantCulture),
+                                            Disabled = Convert.ToString(user["Disabled"], CultureInfo.InvariantCulture),
+                                            Domain = Convert.ToString(user["Domain"], CultureInfo.InvariantCulture),
+                                            InstallDate = Convert.ToString(user["InstallDate"], CultureInfo.InvariantCulture),
+                                            LocalAccount = Convert.ToString(user["LocalAccount"], CultureInfo.InvariantCulture),
+                                            Lockout = Convert.ToString(user["Lockout"], CultureInfo.InvariantCulture),
+                                            Name = Convert.ToString(user["Name"], CultureInfo.InvariantCulture),
+                                            FullName = Convert.ToString(user["FullName"], CultureInfo.InvariantCulture),
+                                            PasswordChangeable = Convert.ToString(user["PasswordChangeable"], CultureInfo.InvariantCulture),
+                                            PasswordExpires = Convert.ToString(user["PasswordExpires"], CultureInfo.InvariantCulture),
+                                            PasswordRequired = Convert.ToString(user["PasswordRequired"], CultureInfo.InvariantCulture),
+                                            SID = Convert.ToString(user["SID"], CultureInfo.InvariantCulture),
                                             Privileged = (bool)groupName.Equals("Administrators"),
-                                            Groups = new List<string>() { groupName }
+                                            
                                         };
+                                        obj.Groups.Add(groupName);
                                         users.Add(userName, obj);
                                     }
                                 }
                             }
-                            groups[String.Format("{0}\\{1}", Environment.MachineName, groupName)] = group;
+                            groups[$"{Environment.MachineName}\\{groupName}"] = group;
                         }
                     }
                 }
@@ -189,13 +190,15 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 Logger.DebugException(e);
             }
+
             foreach (var user in users)
             {
-                DatabaseManager.Write(user.Value, runId);
+                DatabaseManager.Write(user.Value, RunId);
             }
+
             foreach (var group in groups)
             {
-                DatabaseManager.Write(group.Value, runId);
+                DatabaseManager.Write(group.Value, RunId);
             }
         }
 
@@ -279,15 +282,15 @@ namespace AttackSurfaceAnalyzer.Collectors
                         Groups[group] = new GroupAccountObject()
                         {
                             Name = group,
-                            Users = new List<string>() { username }
                         };
+                        Groups[group].Users.Add(username);
                     }
                 }
-                DatabaseManager.Write(accountDetails[username], this.runId);
+                DatabaseManager.Write(accountDetails[username], this.RunId);
             }
             foreach (var group in Groups)
             {
-                DatabaseManager.Write(group.Value, this.runId);
+                DatabaseManager.Write(group.Value, this.RunId);
             }
         }
 
@@ -379,16 +382,16 @@ namespace AttackSurfaceAnalyzer.Collectors
                         Groups[group] = new GroupAccountObject()
                         {
                             Name = group,
-                            Users = new List<string>() { username }
                         };
+                        Groups[group].Users.Add(username);
                     }
                 }
-                accountDetails[username].Groups = new List<string>(groups);
-                DatabaseManager.Write(accountDetails[username], this.runId);
+                accountDetails[username].Groups.AddRange(groups);
+                DatabaseManager.Write(accountDetails[username], this.RunId);
             }
             foreach (var group in Groups)
             {
-                DatabaseManager.Write(group.Value, this.runId);
+                DatabaseManager.Write(group.Value, this.RunId);
             }
         }
     }

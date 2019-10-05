@@ -6,6 +6,7 @@ using Newtonsoft.Json.Linq;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -53,7 +54,8 @@ namespace AttackSurfaceAnalyzer.Utils
             { RESULT_TYPE.UNKNOWN, ANALYSIS_RESULT_TYPE.INFORMATION },
             { RESULT_TYPE.GROUP, ANALYSIS_RESULT_TYPE.INFORMATION },
             { RESULT_TYPE.COM, ANALYSIS_RESULT_TYPE.INFORMATION },
-            { RESULT_TYPE.LOG, ANALYSIS_RESULT_TYPE.INFORMATION }
+            { RESULT_TYPE.LOG, ANALYSIS_RESULT_TYPE.INFORMATION },
+            { RESULT_TYPE.UNKNOWN, ANALYSIS_RESULT_TYPE.INFORMATION }
         };
 
         JObject config = null;
@@ -105,11 +107,12 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public ANALYSIS_RESULT_TYPE Analyze(CompareResult compareResult)
         {
+            if (compareResult == null) { return DEFAULT_RESULT_TYPE_MAP[RESULT_TYPE.UNKNOWN]; }
             if (config == null) { return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType]; }
             var results = new List<ANALYSIS_RESULT_TYPE>();
-            var curFilters = _filters.Where((rule) => (rule.changeTypes.Contains(compareResult.ChangeType) || rule.changeTypes == null)
-                                                     && (rule.platforms.Contains(OsName) || rule.platforms == null)
-                                                     && (rule.resultType.Equals(compareResult.ResultType)))
+            var curFilters = _filters.Where((rule) => (rule.ChangeTypes.Contains(compareResult.ChangeType) || rule.ChangeTypes == null)
+                                                     && (rule.Platforms.Contains(OsName) || rule.Platforms == null)
+                                                     && (rule.ResultType.Equals(compareResult.ResultType)))
                                                     .ToList();
             if (curFilters.Count > 0)
             {
@@ -126,316 +129,323 @@ namespace AttackSurfaceAnalyzer.Utils
 
         protected ANALYSIS_RESULT_TYPE Apply(Rule rule, CompareResult compareResult)
         {
-            var fields = _Fields[compareResult.ResultType];
-            var properties = _Properties[compareResult.ResultType];
-
-            foreach (Clause clause in rule.clauses)
+            if (compareResult != null && rule != null)
             {
-                FieldInfo field = fields.FirstOrDefault(iField => iField.Name.Equals(clause.field));
-                PropertyInfo property = properties.FirstOrDefault(iProp => iProp.Name.Equals(clause.field));
-                if (field == null && property == null)
-                {
-                    //Custom field logic will go here
-                    return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
-                }
+                var fields = _Fields[compareResult.ResultType];
+                var properties = _Properties[compareResult.ResultType];
 
-                try
+                foreach (Clause clause in rule.Clauses)
                 {
-                    var valsToCheck = new List<string>();
-                    List<KeyValuePair<string, string>> dictToCheck = new List<KeyValuePair<string, string>>();
-
-                    if (field != null)
+                    FieldInfo field = fields.FirstOrDefault(iField => iField.Name.Equals(clause.Field));
+                    PropertyInfo property = properties.FirstOrDefault(iProp => iProp.Name.Equals(clause.Field));
+                    if (field == null && property == null)
                     {
-                        if (compareResult.ChangeType == CHANGE_TYPE.CREATED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
-                        {
-                            try
-                            {
-                                if (GetValueByFieldName(compareResult.Compare, field.Name) is List<string>)
-                                {
-                                    foreach (var value in (List<string>)GetValueByFieldName(compareResult.Compare, field.Name))
-                                    {
-                                        valsToCheck.Add(value);
-                                    }
-                                }
-                                else if (GetValueByFieldName(compareResult.Compare, field.Name) is Dictionary<string, string>)
-                                {
-                                    dictToCheck = ((Dictionary<string, string>)GetValueByFieldName(compareResult.Compare, field.Name)).ToList();
-                                }
-                                else if (GetValueByFieldName(compareResult.Compare, field.Name) is List<KeyValuePair<string, string>>)
-                                {
-                                    dictToCheck = (List<KeyValuePair<string, string>>)GetValueByFieldName(compareResult.Compare, field.Name);
-                                }
-                                else
-                                {
-                                    valsToCheck.Add(GetValueByFieldName(compareResult.Compare, field.Name).ToString());
-                                }
-                            }
-                            catch (Exception e)
-                            {
-                                Log.Debug(e, "Error fetching Property {0} of Type {1}", field.Name, compareResult.ResultType);
-                            }
-                        }
-                        if (compareResult.ChangeType == CHANGE_TYPE.DELETED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
-                        {
-                            try
-                            {
-                                if (GetValueByFieldName(compareResult.Base, field.Name) is List<string>)
-                                {
-                                    foreach (var value in (List<string>)GetValueByFieldName(compareResult.Base, field.Name))
-                                    {
-                                        valsToCheck.Add(value);
-                                    }
-                                }
-                                else if (GetValueByFieldName(compareResult.Base, field.Name) is Dictionary<string, string>)
-                                {
-                                    dictToCheck = ((Dictionary<string, string>)GetValueByFieldName(compareResult.Base, field.Name)).ToList();
-                                }
-                                else if (GetValueByFieldName(compareResult.Base, field.Name) is List<KeyValuePair<string, string>>)
-                                {
-                                    dictToCheck = (List<KeyValuePair<string, string>>)GetValueByFieldName(compareResult.Base, field.Name);
-                                }
-                                else
-                                {
-                                    valsToCheck.Add(GetValueByFieldName(compareResult.Base, field.Name).ToString());
-                                }
-                            }
-                            catch (Exception e)
-                            {
-                                Log.Debug(e, "Error fetching Property {0} of Type {1}", field.Name, compareResult.ResultType);
-                            }
-                        }
-                    }
-                    if (property != null)
-                    {
-                        if (compareResult.ChangeType == CHANGE_TYPE.CREATED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
-                        {
-                            try
-                            {
-                                if (GetValueByPropertyName(compareResult.Compare, property.Name) is List<string>)
-                                {
-                                    foreach (var value in (List<string>)GetValueByPropertyName(compareResult.Compare, property.Name))
-                                    {
-                                        valsToCheck.Add(value);
-                                    }
-                                }
-                                else if (GetValueByPropertyName(compareResult.Compare, property.Name) is Dictionary<string, string>)
-                                {
-                                    dictToCheck = ((Dictionary<string, string>)GetValueByPropertyName(compareResult.Compare, property.Name)).ToList();
-                                }
-                                else if (GetValueByPropertyName(compareResult.Compare, property.Name) is List<KeyValuePair<string, string>>)
-                                {
-                                    dictToCheck = (List<KeyValuePair<string, string>>)GetValueByPropertyName(compareResult.Compare, property.Name);
-                                }
-                                else
-                                {
-                                    valsToCheck.Add(GetValueByPropertyName(compareResult.Compare, property.Name).ToString());
-                                }
-                            }
-                            catch (Exception e)
-                            {
-                                Log.Debug(e, "Error fetching Property {0} of Type {1}", property.Name, compareResult.ResultType);
-                            }
-                        }
-                        if (compareResult.ChangeType == CHANGE_TYPE.DELETED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
-                        {
-                            try
-                            {
-                                if (GetValueByPropertyName(compareResult.Base, property.Name) is List<string>)
-                                {
-                                    foreach (var value in (List<string>)GetValueByPropertyName(compareResult.Base, property.Name))
-                                    {
-                                        valsToCheck.Add(value);
-                                    }
-                                }
-                                else if (GetValueByPropertyName(compareResult.Base, property.Name) is Dictionary<string, string>)
-                                {
-                                    dictToCheck = ((Dictionary<string, string>)GetValueByPropertyName(compareResult.Base, property.Name)).ToList();
-                                }
-                                else if (GetValueByPropertyName(compareResult.Base, property.Name) is List<KeyValuePair<string, string>>)
-                                {
-                                    dictToCheck = (List<KeyValuePair<string, string>>)GetValueByPropertyName(compareResult.Base, property.Name);
-                                }
-                                else
-                                {
-                                    valsToCheck.Add(GetValueByPropertyName(compareResult.Base, property.Name).ToString());
-                                }
-                            }
-                            catch (Exception e)
-                            {
-                                Log.Debug(e, "Error fetching Property {0} of Type {1}", property.Name, compareResult.ResultType);
-                            }
-                        }
+                        //Custom field logic will go here
+                        return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
                     }
 
-                    int count = 0, dictCount = 0;
-
-                    switch (clause.op)
+                    try
                     {
-                        case OPERATION.EQ:
-                            foreach (string datum in clause.data)
-                            {
-                                foreach (string val in valsToCheck)
-                                {
-                                    count += (datum.Equals(val)) ? 1 : 0;
-                                    break;
-                                }
-                            }
-                            if (count == clause.data.Count) { break; }
-                            return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+                        var valsToCheck = new List<string>();
+                        List<KeyValuePair<string, string>> dictToCheck = new List<KeyValuePair<string, string>>();
 
-                        case OPERATION.NEQ:
-                            foreach (string datum in clause.data)
+                        if (field != null)
+                        {
+                            if (compareResult.ChangeType == CHANGE_TYPE.CREATED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
                             {
-                                foreach (string val in valsToCheck)
+                                try
                                 {
-                                    if (datum.Equals(val))
+                                    if (GetValueByFieldName(compareResult.Compare, field.Name) is List<string>)
                                     {
-                                        return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+                                        foreach (var value in (List<string>)GetValueByFieldName(compareResult.Compare, field.Name))
+                                        {
+                                            valsToCheck.Add(value);
+                                        }
+                                    }
+                                    else if (GetValueByFieldName(compareResult.Compare, field.Name) is Dictionary<string, string>)
+                                    {
+                                        dictToCheck = ((Dictionary<string, string>)GetValueByFieldName(compareResult.Compare, field.Name)).ToList();
+                                    }
+                                    else if (GetValueByFieldName(compareResult.Compare, field.Name) is List<KeyValuePair<string, string>>)
+                                    {
+                                        dictToCheck = (List<KeyValuePair<string, string>>)GetValueByFieldName(compareResult.Compare, field.Name);
+                                    }
+                                    else
+                                    {
+                                        valsToCheck.Add(GetValueByFieldName(compareResult.Compare, field.Name).ToString());
                                     }
                                 }
-                            }
-                            break;
-
-                        case OPERATION.CONTAINS:
-                            if (dictToCheck.Count > 0)
-                            {
-                                foreach (KeyValuePair<string, string> value in clause.dictData)
+                                catch (Exception e)
                                 {
-                                    if (dictToCheck.Where((x) => x.Key == value.Key && x.Value == value.Value).Count() > 0)
+                                    Log.Debug(e, "Error fetching Property {0} of Type {1}", field.Name, compareResult.ResultType);
+                                }
+                            }
+                            if (compareResult.ChangeType == CHANGE_TYPE.DELETED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
+                            {
+                                try
+                                {
+                                    if (GetValueByFieldName(compareResult.Base, field.Name) is List<string>)
                                     {
-                                        dictCount++;
+                                        foreach (var value in (List<string>)GetValueByFieldName(compareResult.Base, field.Name))
+                                        {
+                                            valsToCheck.Add(value);
+                                        }
+                                    }
+                                    else if (GetValueByFieldName(compareResult.Base, field.Name) is Dictionary<string, string>)
+                                    {
+                                        dictToCheck = ((Dictionary<string, string>)GetValueByFieldName(compareResult.Base, field.Name)).ToList();
+                                    }
+                                    else if (GetValueByFieldName(compareResult.Base, field.Name) is List<KeyValuePair<string, string>>)
+                                    {
+                                        dictToCheck = (List<KeyValuePair<string, string>>)GetValueByFieldName(compareResult.Base, field.Name);
+                                    }
+                                    else
+                                    {
+                                        valsToCheck.Add(GetValueByFieldName(compareResult.Base, field.Name).ToString());
                                     }
                                 }
-                                if (dictCount == clause.dictData.Count)
+                                catch (Exception e)
                                 {
-                                    break;
+                                    Log.Debug(e, "Error fetching Property {0} of Type {1}", field.Name, compareResult.ResultType);
                                 }
                             }
-                            else if (valsToCheck.Count > 0)
+                        }
+                        if (property != null)
+                        {
+                            if (compareResult.ChangeType == CHANGE_TYPE.CREATED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
                             {
-                                foreach (string datum in clause.data)
+                                try
+                                {
+                                    if (GetValueByPropertyName(compareResult.Compare, property.Name) is List<string>)
+                                    {
+                                        foreach (var value in (List<string>)GetValueByPropertyName(compareResult.Compare, property.Name))
+                                        {
+                                            valsToCheck.Add(value);
+                                        }
+                                    }
+                                    else if (GetValueByPropertyName(compareResult.Compare, property.Name) is Dictionary<string, string>)
+                                    {
+                                        dictToCheck = ((Dictionary<string, string>)GetValueByPropertyName(compareResult.Compare, property.Name)).ToList();
+                                    }
+                                    else if (GetValueByPropertyName(compareResult.Compare, property.Name) is List<KeyValuePair<string, string>>)
+                                    {
+                                        dictToCheck = (List<KeyValuePair<string, string>>)GetValueByPropertyName(compareResult.Compare, property.Name);
+                                    }
+                                    else
+                                    {
+                                        valsToCheck.Add(GetValueByPropertyName(compareResult.Compare, property.Name).ToString());
+                                    }
+                                }
+                                catch (Exception e)
+                                {
+                                    Log.Debug(e, "Error fetching Property {0} of Type {1}", property.Name, compareResult.ResultType);
+                                }
+                            }
+                            if (compareResult.ChangeType == CHANGE_TYPE.DELETED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
+                            {
+                                try
+                                {
+                                    if (GetValueByPropertyName(compareResult.Base, property.Name) is List<string>)
+                                    {
+                                        foreach (var value in (List<string>)GetValueByPropertyName(compareResult.Base, property.Name))
+                                        {
+                                            valsToCheck.Add(value);
+                                        }
+                                    }
+                                    else if (GetValueByPropertyName(compareResult.Base, property.Name) is Dictionary<string, string>)
+                                    {
+                                        dictToCheck = ((Dictionary<string, string>)GetValueByPropertyName(compareResult.Base, property.Name)).ToList();
+                                    }
+                                    else if (GetValueByPropertyName(compareResult.Base, property.Name) is List<KeyValuePair<string, string>>)
+                                    {
+                                        dictToCheck = (List<KeyValuePair<string, string>>)GetValueByPropertyName(compareResult.Base, property.Name);
+                                    }
+                                    else
+                                    {
+                                        valsToCheck.Add(GetValueByPropertyName(compareResult.Base, property.Name).ToString());
+                                    }
+                                }
+                                catch (Exception e)
+                                {
+                                    Log.Debug(e, "Error fetching Property {0} of Type {1}", property.Name, compareResult.ResultType);
+                                }
+                            }
+                        }
+
+                        int count = 0, dictCount = 0;
+
+                        switch (clause.Operation)
+                        {
+                            case OPERATION.EQ:
+                                foreach (string datum in clause.Data)
                                 {
                                     foreach (string val in valsToCheck)
                                     {
-                                        count += (!val.Contains(datum)) ? 1 : 0;
+                                        count += (datum.Equals(val)) ? 1 : 0;
                                         break;
                                     }
                                 }
-                                if (count == clause.data.Count)
+                                if (count == clause.Data.Count) { break; }
+                                return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+
+                            case OPERATION.NEQ:
+                                foreach (string datum in clause.Data)
+                                {
+                                    foreach (string val in valsToCheck)
+                                    {
+                                        if (datum.Equals(val))
+                                        {
+                                            return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+                                        }
+                                    }
+                                }
+                                break;
+
+                            case OPERATION.CONTAINS:
+                                if (dictToCheck.Count > 0)
+                                {
+                                    foreach (KeyValuePair<string, string> value in clause.DictData)
+                                    {
+                                        if (dictToCheck.Where((x) => x.Key == value.Key && x.Value == value.Value).Any())
+                                        {
+                                            dictCount++;
+                                        }
+                                    }
+                                    if (dictCount == clause.DictData.Count)
+                                    {
+                                        break;
+                                    }
+                                }
+                                else if (valsToCheck.Count > 0)
+                                {
+                                    foreach (string datum in clause.Data)
+                                    {
+                                        foreach (string val in valsToCheck)
+                                        {
+                                            count += (!val.Contains(datum)) ? 1 : 0;
+                                            break;
+                                        }
+                                    }
+                                    if (count == clause.Data.Count)
+                                    {
+                                        break;
+                                    }
+                                }
+                                return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+
+                            case OPERATION.DOES_NOT_CONTAIN:
+                                if (dictToCheck.Count > 0)
+                                {
+                                    foreach (KeyValuePair<string, string> value in clause.DictData)
+                                    {
+                                        if (dictToCheck.Where((x) => x.Key == value.Key && x.Value == value.Value).Any())
+                                        {
+                                            return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+                                        }
+                                    }
+                                }
+                                else if (valsToCheck.Count > 0)
+                                {
+                                    foreach (string datum in clause.Data)
+                                    {
+                                        if (valsToCheck.Contains(datum))
+                                        {
+                                            return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+                                        }
+                                    }
+                                }
+                                break;
+
+                            case OPERATION.GT:
+                                foreach (string val in valsToCheck)
+                                {
+                                    count += (int.Parse(val, CultureInfo.InvariantCulture) > int.Parse(clause.Data[0], CultureInfo.InvariantCulture)) ? 1 : 0;
+                                }
+                                if (count == valsToCheck.Count) { break; }
+                                return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+
+                            case OPERATION.LT:
+                                foreach (string val in valsToCheck)
+                                {
+                                    count += (int.Parse(val, CultureInfo.InvariantCulture) < int.Parse(clause.Data[0], CultureInfo.InvariantCulture)) ? 1 : 0;
+                                }
+                                if (count == valsToCheck.Count) { break; }
+                                return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+
+                            case OPERATION.REGEX:
+                                foreach (string val in valsToCheck)
+                                {
+                                    foreach (string datum in clause.Data)
+                                    {
+                                        var r = new Regex(datum);
+                                        if (r.IsMatch(val))
+                                        {
+                                            count++;
+                                        }
+                                    }
+                                }
+                                if (count == valsToCheck.Count) { break; }
+                                return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+
+                            case OPERATION.WAS_MODIFIED:
+                                if ((valsToCheck.Count == 2) && (valsToCheck[0] == valsToCheck[1]))
                                 {
                                     break;
                                 }
-                            }
-                            return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+                                return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
 
-                        case OPERATION.DOES_NOT_CONTAIN:
-                            if (dictToCheck.Count > 0)
-                            {
-                                foreach (KeyValuePair<string, string> value in clause.dictData)
+                            case OPERATION.ENDS_WITH:
+                                foreach (string datum in clause.Data)
                                 {
-                                    if (dictToCheck.Where((x) => x.Key == value.Key && x.Value == value.Value).Count() > 0)
+                                    foreach (var val in valsToCheck)
                                     {
-                                        return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+                                        if (val.EndsWith(datum, StringComparison.CurrentCulture))
+                                        {
+                                            count++;
+                                            break;
+                                        }
                                     }
                                 }
-                            }
-                            else if (valsToCheck.Count > 0)
-                            {
-                                foreach (string datum in clause.data)
+                                if (count == clause.Data.Count) { break; }
+                                return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+
+                            case OPERATION.STARTS_WITH:
+                                foreach (string datum in clause.Data)
                                 {
-                                    if (valsToCheck.Contains(datum))
+                                    foreach (var val in valsToCheck)
                                     {
-                                        return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+                                        if (val.StartsWith(datum, StringComparison.CurrentCulture))
+                                        {
+                                            count++;
+                                            break;
+                                        }
                                     }
                                 }
-                            }
-                            break;
+                                if (count == clause.Data.Count) { break; }
+                                return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
 
-                        case OPERATION.GT:
-                            foreach (string val in valsToCheck)
-                            {
-                                count += (Int32.Parse(val.ToString()) > Int32.Parse(clause.data[0])) ? 1 : 0;
-                            }
-                            if (count == valsToCheck.Count) { break; }
-                            return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
-
-                        case OPERATION.LT:
-                            foreach (string val in valsToCheck)
-                            {
-                                count += (Int32.Parse(val.ToString()) < Int32.Parse(clause.data[0])) ? 1 : 0;
-                            }
-                            if (count == valsToCheck.Count) { break; }
-                            return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
-
-                        case OPERATION.REGEX:
-                            foreach (string val in valsToCheck)
-                            {
-                                foreach (string datum in clause.data)
-                                {
-                                    var r = new Regex(datum);
-                                    if (r.IsMatch(val))
-                                    {
-                                        count++;
-                                    }
-                                }
-                            }
-                            if (count == valsToCheck.Count) { break; }
-                            return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
-
-                        case OPERATION.WAS_MODIFIED:
-                            if ((valsToCheck.Count == 2) && (valsToCheck[0] == valsToCheck[1]))
-                            {
-                                break;
-                            }
-                            return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
-
-                        case OPERATION.ENDS_WITH:
-                            foreach (string datum in clause.data)
-                            {
-                                foreach (var val in valsToCheck)
-                                {
-                                    if (val.EndsWith(datum, StringComparison.CurrentCulture))
-                                    {
-                                        count++;
-                                        break;
-                                    }
-                                }
-                            }
-                            if (count == clause.data.Count) { break; }
-                            return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
-
-                        case OPERATION.STARTS_WITH:
-                            foreach (string datum in clause.data)
-                            {
-                                foreach (var val in valsToCheck)
-                                {
-                                    if (val.StartsWith(datum, StringComparison.CurrentCulture))
-                                    {
-                                        count++;
-                                        break;
-                                    }
-                                }
-                            }
-                            if (count == clause.data.Count) { break; }
-                            return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
-
-                        default:
-                            Log.Debug("Unimplemented operation {0}", clause.op);
-                            return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+                            default:
+                                Log.Debug("Unimplemented operation {0}", clause.Operation);
+                                return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.DebugException(e);
+                        return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
                     }
                 }
-                catch (Exception e)
-                {
-                    Logger.DebugException(e);
-                    return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
-                }
+                compareResult.Rules.Add(rule);
+                return rule.Flag;
             }
-            compareResult.Rules.Add(rule);
-            return rule.flag;
+            else
+            {
+                throw new NullReferenceException();
+            } 
         }
 
-        private object GetValueByFieldName(object obj, string fieldName) => obj.GetType().GetField(fieldName).GetValue(obj);
-        private object GetValueByPropertyName(object obj, string propertyName) => obj.GetType().GetProperty(propertyName).GetValue(obj);
+        private static object GetValueByFieldName(object obj, string fieldName) => obj.GetType().GetField(fieldName).GetValue(obj);
+        private static object GetValueByPropertyName(object obj, string propertyName) => obj.GetType().GetProperty(propertyName).GetValue(obj);
 
 
         public void DumpFilters()

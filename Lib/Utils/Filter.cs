@@ -41,7 +41,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             try
             {
-                string key = String.Format("{0}:{1}:{2}:{3}:{4}", Platform, ScanType, ItemType, Property, FilterType);
+                string key = $"{Platform}:{ScanType}:{ItemType}:{Property}:{FilterType}";
                 List<Regex> filters = new List<Regex>();
 
                 try
@@ -63,7 +63,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
                                 Logger.DebugException(e);
                                 Log.Debug("Failed to make a regex from {0}", filter.ToString());
-                                Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
+                                AsaTelemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                             }
                         }
                         try
@@ -120,7 +120,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 catch (Exception e)
                 {
                     Logger.DebugException(e);
-                    Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
+                    AsaTelemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                 }
 
                 foreach (Regex filter in _filters[key])
@@ -139,7 +139,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         Log.Debug("Probably this is some of those garbled keys or a bad regex");
                         Logger.DebugException(e);
                         Log.Debug(filter.ToString());
-                        Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
+                        AsaTelemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                     }
 
                 }

@@ -4,6 +4,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
 
@@ -95,20 +96,20 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
                                 if (!Tokens[3].Equals("LISTENING")) { continue; }
                                 ProcessPorts.Add(new ProcessPort(
-                                    GetProcessName(Convert.ToInt32(Tokens[4])),
-                                    Convert.ToInt32(Tokens[4]),
-                                    IpAddress.Contains("1.1.1.1") ? String.Format("{0}v6", Tokens[1]) : String.Format("{0}v4", Tokens[1]),
-                                    Convert.ToInt32(IpAddress.Split(':')[1])
+                                    GetProcessName(Convert.ToInt32(Tokens[4], CultureInfo.InvariantCulture)),
+                                    Convert.ToInt32(Tokens[4], CultureInfo.InvariantCulture),
+                                    IpAddress.Contains("1.1.1.1") ? $"{Tokens[1]}v6" : $"{Tokens[1]}v4",
+                                    Convert.ToInt32(IpAddress.Split(':')[1], CultureInfo.InvariantCulture)
                                 ));
 
                             }
                             else if (Tokens.Length == 4 && (Tokens[0].Equals("UDP")))
                             {
                                 ProcessPorts.Add(new ProcessPort(
-                                    GetProcessName(Convert.ToInt32(Tokens[3])),
-                                    Convert.ToInt32(Tokens[3]),
-                                    IpAddress.Contains("1.1.1.1") ? String.Format("{0}v6", Tokens[1]) : String.Format("{0}v4", Tokens[1]),
-                                    Convert.ToInt32(IpAddress.Split(':')[1])
+                                    GetProcessName(Convert.ToInt32(Tokens[3], CultureInfo.InvariantCulture)),
+                                    Convert.ToInt32(Tokens[3], CultureInfo.InvariantCulture),
+                                    IpAddress.Contains("1.1.1.1") ? $"{Tokens[1]}v6" : $"{Tokens[1]}v4",
+                                    Convert.ToInt32(IpAddress.Split(':')[1], CultureInfo.InvariantCulture)
                                 ));
                             }
                             else
@@ -123,7 +124,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         {
                             Log.Warning("Secondary Parsing error when processing netstat.exe output: {0}", outputLine);
                             Logger.DebugException(e);
-                            Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
+                            AsaTelemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                         }
                     }
                 }
@@ -182,7 +183,7 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             get
             {
-                return String.Format("{0} ({1} port {2} pid {3})", _ProcessName, _Protocol, _PortNumber, _ProcessId);
+                return string.Format(CultureInfo.InvariantCulture, "{0} ({1} port {2} pid {3})", _ProcessName, _Protocol, _PortNumber, _ProcessId);
             }
         }
         public string ProcessName

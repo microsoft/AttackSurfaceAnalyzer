@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Libs;
 using AttackSurfaceAnalyzer.Types;
+using AttackSurfaceAnalyzer.Utils;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -12,33 +13,6 @@ namespace AttackSurfaceAnalyzer.Collectors
 {
     public class WindowsFileSystemUtils
     {
-        [StructLayout(LayoutKind.Sequential)]
-        public struct WIN32_FILE_ATTRIBUTE_DATA
-        {
-            public uint dwFileAttributes;
-            public System.Runtime.InteropServices.ComTypes.FILETIME ftCreationTime;
-            public System.Runtime.InteropServices.ComTypes.FILETIME ftLastAccessTime;
-            public System.Runtime.InteropServices.ComTypes.FILETIME ftLastWriteTime;
-            public uint nFileSizeHigh;
-            public uint nFileSizeLow;
-        }
-
-        public enum GET_FILEEX_INFO_LEVELS
-        {
-            GetFileExInfoStandard,
-            GetFileExMaxInfoLevel
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        public class FILETIME
-        {
-            public uint dwLowDateTime;
-            public uint dwHighDateTime;
-        }
-
-        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool GetFileAttributesEx(string lpFileName, GET_FILEEX_INFO_LEVELS fInfoLevelId, out WIN32_FILE_ATTRIBUTE_DATA fileData);
 
         protected internal static string GetSignatureStatus(string Path)
         {
@@ -46,7 +20,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 return string.Empty;
             }
-            string sigStatus = WinTrust.VerifyEmbeddedSignature(Path);
+            string sigStatus = NativeMethods.VerifyEmbeddedSignature(Path);
 
             return sigStatus;
         }
@@ -62,8 +36,8 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         protected internal static bool IsLocal(string path)
         {
-            WIN32_FILE_ATTRIBUTE_DATA fileData;
-            GetFileAttributesEx(path, GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out fileData);
+            NativeMethods.WIN32_FILE_ATTRIBUTE_DATA fileData;
+            NativeMethods.GetFileAttributesEx(path, NativeMethods.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out fileData);
 
             if ((fileData.dwFileAttributes & (0x00040000 + 0x00400000)) == 0)
             {

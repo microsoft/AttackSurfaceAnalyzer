@@ -14,7 +14,7 @@ namespace AttackSurfaceAnalyzer.Utils
         public static string RunExternalCommand(string command, string[] args, bool Redirect)
         {
             string result = default(string);
-            var process = new Process()
+            using var process = new Process()
             {
                 StartInfo = new ProcessStartInfo
                 {
@@ -38,7 +38,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static string RunExternalCommand(string filename, string arguments = null)
         {
-            var process = new Process();
+            using var process = new Process();
 
             process.StartInfo.FileName = filename;
             if (!string.IsNullOrEmpty(arguments))

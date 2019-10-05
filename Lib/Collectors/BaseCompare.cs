@@ -18,7 +18,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class BaseCompare
     {
-        public Dictionary<string, List<CompareResult>> Results { get; protected set; }
+        public Dictionary<string, List<CompareResult>> Results { get; }
 
         public BaseCompare()
         {
@@ -27,7 +27,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 foreach (CHANGE_TYPE change_type in Enum.GetValues(typeof(CHANGE_TYPE)))
                 {
-                    Results[String.Format("{0}_{1}", result_type.ToString(), change_type.ToString())] = new List<CompareResult>();
+                    Results[$"{result_type.ToString()}_{change_type.ToString()}"] = new List<CompareResult>();
                 }
             }
         }
@@ -39,6 +39,10 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <returns>An appropriately typed collect object based on the collect result passed in, or null if the RESULT_TYPE is unknown.</returns>
         public static CollectObject Hydrate(RawCollectResult res)
         {
+            if (res == null)
+            {
+                throw new NullReferenceException();
+            }
             switch (res.ResultType)
             {
                 case RESULT_TYPE.CERTIFICATE:
@@ -75,11 +79,11 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             if (firstRunId == null)
             {
-                throw new ArgumentNullException("firstRunId");
+                throw new ArgumentNullException(nameof(firstRunId));
             }
             if (secondRunId == null)
             {
-                throw new ArgumentNullException("secondRunId");
+                throw new ArgumentNullException(nameof(secondRunId));
             }
             List<RawCollectResult> addObjects = DatabaseManager.GetMissingFromFirst(firstRunId, secondRunId);
             List<RawCollectResult> removeObjects = DatabaseManager.GetMissingFromFirst(secondRunId, firstRunId);
@@ -99,7 +103,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     Identity = added.Identity
                 };
 
-                Results[String.Format("{0}_{1}", added.ResultType.ToString(), CHANGE_TYPE.CREATED.ToString())].Add(obj);
+                Results[$"{added.ResultType.ToString()}_{CHANGE_TYPE.CREATED.ToString()}"].Add(obj);
 
             }));
             Parallel.ForEach(removeObjects,
@@ -116,7 +120,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     Identity = removed.Identity
                 };
 
-                Results[String.Format("{0}_{1}", removed.ResultType.ToString(), CHANGE_TYPE.DELETED.ToString())].Add(obj);
+                Results[$"{removed.ResultType.ToString()}_{CHANGE_TYPE.DELETED.ToString()}"].Add(obj);
             }));
             Parallel.ForEach(modifyObjects,
                             (modified =>
@@ -176,11 +180,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 {
                                     added = ((List<object>)field.GetValue(second)).Except((List<object>)field.GetValue(first));
                                     removed = ((List<object>)field.GetValue(first)).Except((List<object>)field.GetValue(second));
-                                    if (((IEnumerable<object>)added).Count() == 0)
+                                    if (!((IEnumerable<object>)added).Any())
                                     {
                                         added = null;
                                     }
-                                    if (((IEnumerable<object>)removed).Count() == 0)
+                                    if (!((IEnumerable<object>)removed).Any())
                                     {
                                         removed = null;
                                     }
@@ -194,11 +198,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                             {
                                 added = ((List<KeyValuePair<string, string>>)field.GetValue(second)).Except((List<KeyValuePair<string, string>>)field.GetValue(first));
                                 removed = ((List<KeyValuePair<string, string>>)field.GetValue(first)).Except((List<KeyValuePair<string, string>>)field.GetValue(second));
-                                if (((IEnumerable<KeyValuePair<string, string>>)added).Count() == 0)
+                                if (!((IEnumerable<KeyValuePair<string, string>>)added).Any())
                                 {
                                     added = null;
                                 }
-                                if (((IEnumerable<KeyValuePair<string, string>>)removed).Count() == 0)
+                                if (!((IEnumerable<KeyValuePair<string, string>>)removed).Any())
                                 {
                                     removed = null;
                                 }
@@ -212,11 +216,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 removed = ((Dictionary<object, object>)firstVal)
                                     .Except((Dictionary<object, object>)secondVal)
                                     .ToDictionary(x => x.Key, x => x.Value);
-                                if (((IEnumerable<KeyValuePair<object, object>>)added).Count() == 0)
+                                if (!((IEnumerable<KeyValuePair<object, object>>)added).Any())
                                 {
                                     added = null;
                                 }
-                                if (((IEnumerable<KeyValuePair<object, object>>)removed).Count() == 0)
+                                if (!((IEnumerable<KeyValuePair<object, object>>)removed).Any())
                                 {
                                     removed = null;
                                 }
@@ -289,11 +293,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                             {
                                 added = ((List<string>)prop.GetValue(second)).Except((List<string>)prop.GetValue(first));
                                 removed = ((List<string>)prop.GetValue(first)).Except((List<string>)prop.GetValue(second));
-                                if (((IEnumerable<string>)added).Count() == 0)
+                                if (!((IEnumerable<string>)added).Any())
                                 {
                                     added = null;
                                 }
-                                if (((IEnumerable<string>)removed).Count() == 0)
+                                if (!((IEnumerable<string>)removed).Any())
                                 {
                                     removed = null;
                                 }
@@ -302,11 +306,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                             {
                                 added = ((List<KeyValuePair<string, string>>)prop.GetValue(second)).Except((List<KeyValuePair<string, string>>)prop.GetValue(first));
                                 removed = ((List<KeyValuePair<string, string>>)prop.GetValue(first)).Except((List<KeyValuePair<string, string>>)prop.GetValue(second));
-                                if (((IEnumerable<KeyValuePair<string, string>>)added).Count() == 0)
+                                if (!((IEnumerable<KeyValuePair<string, string>>)added).Any())
                                 {
                                     added = null;
                                 }
-                                if (((IEnumerable<KeyValuePair<string, string>>)removed).Count() == 0)
+                                if (!((IEnumerable<KeyValuePair<string, string>>)removed).Any())
                                 {
                                     removed = null;
                                 }
@@ -320,11 +324,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 removed = ((Dictionary<string, string>)firstVal)
                                     .Except((Dictionary<string, string>)secondVal)
                                     .ToDictionary(x => x.Key, x => x.Value);
-                                if (((IEnumerable<KeyValuePair<string, string>>)added).Count() == 0)
+                                if (!((IEnumerable<KeyValuePair<string, string>>)added).Any())
                                 {
                                     added = null;
                                 }
-                                if (((IEnumerable<KeyValuePair<string, string>>)removed).Count() == 0)
+                                if (!((IEnumerable<KeyValuePair<string, string>>)removed).Any())
                                 {
                                     removed = null;
                                 }
@@ -356,9 +360,12 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                 }
 
-                Results[String.Format("{0}_{1}", modified.First.ResultType.ToString(), CHANGE_TYPE.MODIFIED.ToString())].Add(obj);
+                Results[$"{modified.First.ResultType.ToString()}_{CHANGE_TYPE.MODIFIED.ToString()}"].Add(obj);
             }));
-            Results = Results.Where(x => x.Value.Count > 0).ToDictionary(x => x.Key, x => x.Value);
+
+            foreach (var empty in Results.Where(x=>x.Value.Count == 0)){
+                Results.Remove(empty.Key);
+            }
         }
 
         /// <summary>
@@ -368,7 +375,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <param name="added">The added findings.</param>
         /// <param name="removed">The removed findings.</param>
         /// <returns></returns>
-        public List<Diff> GetDiffs(FieldInfo field, object added, object removed)
+        public static List<Diff> GetDiffs(FieldInfo field, object added, object removed)
         {
             List<Diff> diffsOut = new List<Diff>();
             if (added != null)
@@ -397,7 +404,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <param name="added">The added findings.</param>
         /// <param name="removed">The removed findings.</param>
         /// <returns></returns>
-        public List<Diff> GetDiffs(PropertyInfo prop, object added, object removed)
+        public static List<Diff> GetDiffs(PropertyInfo prop, object added, object removed)
         {
             List<Diff> diffsOut = new List<Diff>();
             if (added != null)
@@ -444,8 +451,6 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         private RUN_STATUS _running = RUN_STATUS.NOT_STARTED;
-
-        protected RESULT_TYPE _type = RESULT_TYPE.UNKNOWN;
 
         /// <summary>
         /// Returns if the comparators are still running.

@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
-    public class RegistryMonitor : BaseMonitor
+    public class RegistryMonitor : BaseMonitor, IDisposable
     {
         string tmpFileName = Path.GetTempFileName();
         // I believe auditpol results will go into the system log
@@ -19,17 +19,35 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
         }
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (log != null)
+                {
+                    log.Dispose();
+                    log = null;
+                }
+            }
+        }
+
         public void MyOnEntryWritten(object source, EntryWrittenEventArgs e)
         {
             Log.Information(e.Entry.Source);
         }
 
-        public override void Start()
+        public override void StartRun()
         {
 
 
             // backup the current auditpolicy
-            ExternalCommandRunner.RunExternalCommand("auditpol", String.Format("/backup /file:{0}", tmpFileName));
+            ExternalCommandRunner.RunExternalCommand("auditpol", $"/backup /file:{tmpFileName}");
 
             // start listening to the event log
             log.EntryWritten += new EntryWrittenEventHandler(MyOnEntryWritten);
@@ -42,12 +60,12 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         }
 
-        public override void Stop()
+        public override void StopRun()
         {
 
 
             // restore the old auditpolicy
-            ExternalCommandRunner.RunExternalCommand("auditpol", String.Format("/restore /file:{0}", tmpFileName));
+            ExternalCommandRunner.RunExternalCommand("auditpol", $"/restore /file:{tmpFileName}");
 
             //delete temporary file
             ExternalCommandRunner.RunExternalCommand("del", tmpFileName);

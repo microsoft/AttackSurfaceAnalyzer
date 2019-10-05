@@ -5,6 +5,7 @@ using AttackSurfaceAnalyzer.Utils;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
@@ -26,7 +27,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 throw new ArgumentException("runIdentifier may not be null.");
             }
-            this.runId = runId;
+            this.RunId = runId;
             this.processedObjects = new HashSet<string>();
         }
 
@@ -35,7 +36,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             try
             {
                 var osRelease = File.ReadAllText("/proc/sys/kernel/osrelease") ?? "";
-                osRelease = osRelease.ToLower();
+                osRelease = osRelease.ToLowerInvariant();
                 if (osRelease.Contains("microsoft") || osRelease.Contains("wsl"))
                 {
                     Log.Debug("OpenPortCollector cannot run on WSL until https://github.com/Microsoft/WSL/issues/2249 is fixed.");
@@ -91,34 +92,34 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 var obj = new OpenPortObject()
                 {
-                    family = endpoint.AddressFamily.ToString(),
-                    address = endpoint.Address.ToString(),
-                    port = endpoint.Port.ToString(),
-                    type = "tcp"
+                    Family = endpoint.AddressFamily.ToString(),
+                    Address = endpoint.Address.ToString(),
+                    Port = endpoint.Port.ToString(CultureInfo.InvariantCulture),
+                    Type = "tcp"
                 };
                 foreach (ProcessPort p in Win32ProcessPorts.ProcessPortMap.FindAll(x => x.PortNumber == endpoint.Port))
                 {
-                    obj.processName = p.ProcessName;
+                    obj.ProcessName = p.ProcessName;
                 }
 
-                DatabaseManager.Write(obj, this.runId);
+                DatabaseManager.Write(obj, this.RunId);
             }
 
             foreach (var endpoint in properties.GetActiveUdpListeners())
             {
                 var obj = new OpenPortObject()
                 {
-                    family = endpoint.AddressFamily.ToString(),
-                    address = endpoint.Address.ToString(),
-                    port = endpoint.Port.ToString(),
-                    type = "udp"
+                    Family = endpoint.AddressFamily.ToString(),
+                    Address = endpoint.Address.ToString(),
+                    Port = endpoint.Port.ToString(CultureInfo.InvariantCulture),
+                    Type = "udp"
                 };
                 foreach (ProcessPort p in Win32ProcessPorts.ProcessPortMap.FindAll(x => x.PortNumber == endpoint.Port))
                 {
-                    obj.processName = p.ProcessName;
+                    obj.ProcessName = p.ProcessName;
                 }
 
-                DatabaseManager.Write(obj, this.runId);
+                DatabaseManager.Write(obj, this.RunId);
             }
         }
 
@@ -135,7 +136,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 foreach (var _line in result.Split('\n'))
                 {
                     var line = _line;
-                    line = line.ToLower();
+                    line = line.ToLowerInvariant();
                     if (!line.Contains("listen"))
                     {
                         continue;
@@ -156,12 +157,12 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                         var obj = new OpenPortObject()
                         {
-                            family = parts[0],//@TODO: Determine IPV4 vs IPv6 via looking at the address
-                            address = address,
-                            port = port,
-                            type = parts[0]
+                            Family = parts[0],//@TODO: Determine IPV4 vs IPv6 via looking at the address
+                            Address = address,
+                            Port = port,
+                            Type = parts[0]
                         };
-                        DatabaseManager.Write(obj, this.runId);
+                        DatabaseManager.Write(obj, this.RunId);
                     }
                 }
             }
@@ -208,15 +209,15 @@ namespace AttackSurfaceAnalyzer.Collectors
                         var obj = new OpenPortObject()
                         {
                             // Assuming family means IPv6 vs IPv4
-                            family = parts[4],
-                            address = address,
-                            port = port,
-                            type = parts[7],
-                            processName = parts[0]
+                            Family = parts[4],
+                            Address = address,
+                            Port = port,
+                            Type = parts[7],
+                            ProcessName = parts[0]
                         };
                         try
                         {
-                            DatabaseManager.Write(obj, this.runId);
+                            DatabaseManager.Write(obj, this.RunId);
 
                         }
                         catch (Exception e)

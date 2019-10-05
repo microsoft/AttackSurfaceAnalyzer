@@ -7,7 +7,7 @@ using System.IO;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
-    public class DirectoryWalker
+    public static class DirectoryWalker
     {
         public static IEnumerable<FileSystemInfo> WalkDirectory(string root)
         {
@@ -134,7 +134,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         Logger.DebugException(e);
 
-                        Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Warning, e);
+                        AsaTelemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Warning, e);
                         continue;
                     }
                     dirs.Push(str);

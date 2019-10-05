@@ -7,19 +7,14 @@ namespace AttackSurfaceAnalyzer.Collectors
 {
     public abstract class BaseMonitor : PlatformRunnable
     {
-        protected string runId = null;
+        public string RunId { get; set; } 
 
-        protected RUN_STATUS _running = RUN_STATUS.NOT_STARTED;
+        public RUN_STATUS RunStatus { get; set; }
 
-        public abstract void Start();
+        public abstract void StartRun();
 
-        public abstract void Stop();
+        public abstract void StopRun();
 
         public abstract bool CanRunOnPlatform();
-
-        public RUN_STATUS RunStatus()
-        {
-            return _running;
-        }
     }
 }

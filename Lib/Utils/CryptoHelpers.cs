@@ -8,7 +8,7 @@ using System.Text;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
-    public class CryptoHelpers
+    public static class CryptoHelpers
     {
         public static string CreateHash(string input)
         {
@@ -17,14 +17,14 @@ namespace AttackSurfaceAnalyzer.Utils
                 return null;
             }
 
-            HashAlgorithm murmur128 = MurmurHash.Create128();
+            using HashAlgorithm murmur128 = MurmurHash.Create128();
             byte[] hashOutput = murmur128.ComputeHash(Encoding.UTF8.GetBytes(input));
             return Convert.ToBase64String(hashOutput);
         }
 
         public static string CreateHash(FileStream stream)
         {
-            HashAlgorithm murmur128 = MurmurHash.Create128();
+            using HashAlgorithm murmur128 = MurmurHash.Create128();
             return Convert.ToBase64String(murmur128.ComputeHash(stream));
         }
 

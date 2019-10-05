@@ -12,11 +12,11 @@ namespace AttackSurfaceAnalyzer.Objects
     public class RegistryObject : CollectObject
     {
 
-        public string Key;
-        public Dictionary<string, string> Values = new Dictionary<string, string>();
-        public List<string> Subkeys = new List<string>();
-        public string PermissionsString;
-        public Dictionary<string, string> Permissions { get; set; }
+        public string Key { get; set; }
+        public Dictionary<string, string> Values { get; }
+        public List<string> Subkeys { get; }
+        public string PermissionsString { get; set; }
+        public Dictionary<string, string> Permissions { get; }
 
         public int ValueCount
         {
@@ -30,6 +30,14 @@ namespace AttackSurfaceAnalyzer.Objects
         public RegistryObject()
         {
             ResultType = RESULT_TYPE.REGISTRY;
+            Subkeys = new List<string>();
+            Permissions = new Dictionary<string, string>();
+            Values = new Dictionary<string, string>();
+        }
+
+        public void AddSubKeys(List<string> subkeysIn)
+        {
+            Subkeys.AddRange(subkeysIn);
         }
 
         private static List<string> GetSubkeys(RegistryKey key)

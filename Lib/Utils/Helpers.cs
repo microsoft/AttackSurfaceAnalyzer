@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
-    public class Helpers
+    public static class Helpers
     {
         public static string HexStringToAscii(string hex)
         {
@@ -36,7 +36,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
             return string.Empty;
         }
-        public static void OpenBrowser(string url)
+        public static void OpenBrowser(System.Uri url)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
@@ -44,11 +44,11 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                Process.Start("xdg-open", url);
+                Process.Start("xdg-open", url.ToString());
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                Process.Start("open", url);
+                Process.Start("open", url.ToString());
             }
         }
 
@@ -60,7 +60,7 @@ namespace AttackSurfaceAnalyzer.Utils
         public static string MakeValidFileName(string name)
         {
             string invalidChars = System.Text.RegularExpressions.Regex.Escape(new string(System.IO.Path.GetInvalidFileNameChars()));
-            string invalidRegStr = string.Format(@"([{0}]*\.+$)|([{0}]+)", invalidChars);
+            string invalidRegStr = $"([{invalidChars}]*.+$)|([{invalidChars}]+)";
 
             return System.Text.RegularExpressions.Regex.Replace(name, invalidRegStr, "_");
         }
@@ -129,7 +129,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static string RunIdsToCompareId(string firstRunId, string secondRunId)
         {
-            return string.Format("{0} & {1}", firstRunId, secondRunId);
+            return $"{firstRunId} & {secondRunId}";
         }
 
         public static bool IsList(object o)

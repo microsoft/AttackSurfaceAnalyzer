@@ -4,17 +4,18 @@ using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
-    public class Telemetry
+    public static class AsaTelemetry
     {
-        private static readonly string UPDATE_TELEMETRY = "replace into persisted_settings values ('telemetry_opt_out',@TelemetryOptOut)"; //lgtm [cs/literal-as-local]
-        private static readonly string CHECK_TELEMETRY = "select value from persisted_settings where setting='telemetry_opt_out'";
+        private const string UPDATE_TELEMETRY = "replace into persisted_settings values ('telemetry_opt_out',@TelemetryOptOut)"; //lgtm [cs/literal-as-local]
+        private const string CHECK_TELEMETRY = "select value from persisted_settings where setting='telemetry_opt_out'";
 
-        private static readonly string INSTRUMENTATION_KEY = "719e5a56-dae8-425f-be07-877db7ae4d3b";
+        private const string INSTRUMENTATION_KEY = "719e5a56-dae8-425f-be07-877db7ae4d3b";
 
-        public static TelemetryClient Client;
+        private static TelemetryClient Client;
         public static bool OptOut { get; private set; }
 
         public static void TestMode()
@@ -23,11 +24,11 @@ namespace AttackSurfaceAnalyzer.Utils
             TelemetryConfiguration.Active.DisableTelemetry = true;
         }
 
-        public static void Setup(bool Gui)
+        public static void Setup()
         {
             if (Client == null)
             {
-                var config = TelemetryConfiguration.CreateDefault();
+                using var config = TelemetryConfiguration.CreateDefault();
                 using (var cmd = new SqliteCommand(CHECK_TELEMETRY, DatabaseManager.Connection, DatabaseManager.Transaction))
                 {
                     using (var reader = cmd.ExecuteReader())
@@ -57,7 +58,7 @@ namespace AttackSurfaceAnalyzer.Utils
         public static void SetOptOut(bool optOut)
         {
             OptOut = optOut;
-            var config = TelemetryConfiguration.CreateDefault();
+            using var config = TelemetryConfiguration.CreateDefault();
             config.InstrumentationKey = INSTRUMENTATION_KEY;
             config.DisableTelemetry = OptOut;
             Client = new TelemetryClient(config);
@@ -68,7 +69,7 @@ namespace AttackSurfaceAnalyzer.Utils
             Client.Context.Location.Ip = "1.1.1.1";
             using (var cmd = new SqliteCommand(UPDATE_TELEMETRY, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
-                cmd.Parameters.AddWithValue("@TelemetryOptOut", OptOut.ToString());
+                cmd.Parameters.AddWithValue("@TelemetryOptOut", OptOut.ToString(CultureInfo.InvariantCulture));
                 cmd.ExecuteNonQuery();
                 DatabaseManager.Commit();
             }
@@ -91,7 +92,7 @@ namespace AttackSurfaceAnalyzer.Utils
             evt.Add("OS_Version", Helpers.GetOsVersion());
             evt.Add("Method", new System.Diagnostics.StackFrame(1).GetMethod().Name);
             evt.Add("Stack", e.StackTrace);
-            Client.TrackTrace("Exception", severityLevel, evt);
+            Client.TrackTrace(e.GetType().ToString(), severityLevel, evt);
         }
     }
 }

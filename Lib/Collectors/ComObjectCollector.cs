@@ -20,7 +20,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public ComObjectCollector(string RunId)
         {
-            this.runId = RunId;
+            this.RunId = RunId;
         }
 
         /// <summary>
@@ -46,19 +46,22 @@ namespace AttackSurfaceAnalyzer.Collectors
             _ = DatabaseManager.Transaction;
 
             // Parse system Com Objects
-            RegistryKey SearchKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Default).OpenSubKey("SOFTWARE\\Classes\\CLSID");
+            using var SearchKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Default).OpenSubKey("SOFTWARE\\Classes\\CLSID");
             ParseComObjects(SearchKey);
 
             // Parse user Com Objects
-            SearchKey = RegistryKey.OpenBaseKey(RegistryHive.Users, RegistryView.Default);
-            foreach (string subkeyName in SearchKey.GetSubKeyNames())
+            using var SubSearchKey = RegistryKey.OpenBaseKey(RegistryHive.Users, RegistryView.Default);
+            var subkeyNames = SubSearchKey.GetSubKeyNames();
+            foreach (string subkeyName in subkeyNames)
             {
                 if (subkeyName.EndsWith("Classes"))
                 {
-                    SearchKey = SearchKey.OpenSubKey(subkeyName).OpenSubKey("CLSID");
-                    ParseComObjects(SearchKey);
+                    using var ComKey = SearchKey.OpenSubKey(subkeyName).OpenSubKey("CLSID");
+                    ParseComObjects(ComKey);
+                    SearchKey.Dispose();
                 }
             }
+
 
             DatabaseManager.Commit();
         }
@@ -77,7 +80,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                     ComObject comObject = new ComObject()
                     {
                         Key = RegObj,
-                        Subkeys = new List<RegistryObject>()
                     };
 
                     foreach (string ComDetails in CurrentKey.GetSubKeyNames())
@@ -87,7 +89,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
 
                     //Get the information from the InProcServer32 Subkey (for 32 bit)
-                    if (comObject.Subkeys.Where(x => x.Key.Contains("InprocServer32")).Count() > 0 && comObject.Subkeys.Where(x => x.Key.Contains("InprocServer32")).First().Values.ContainsKey(""))
+                    if (comObject.Subkeys.Where(x => x.Key.Contains("InprocServer32")).Any() && comObject.Subkeys.Where(x => x.Key.Contains("InprocServer32")).First().Values.ContainsKey(""))
                     {
                         comObject.Subkeys.Where(x => x.Key.Contains("InprocServer32")).First().Values.TryGetValue("", out string BinaryPath32);
 
@@ -110,7 +112,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                     }
                     // And the InProcServer64 for 64 bit
-                    if (comObject.Subkeys.Where(x => x.Key.Contains("InprocServer64")).Count() > 0 && comObject.Subkeys.Where(x => x.Key.Contains("InprocServer64")).First().Values.ContainsKey(""))
+                    if (comObject.Subkeys.Where(x => x.Key.Contains("InprocServer64")).Any() && comObject.Subkeys.Where(x => x.Key.Contains("InprocServer64")).First().Values.ContainsKey(""))
                     {
                         comObject.Subkeys.Where(x => x.Key.Contains("InprocServer64")).First().Values.TryGetValue("", out string BinaryPath64);
 
@@ -130,7 +132,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         comObject.x64_BinaryName = BinaryPath64;
                     }
 
-                    DatabaseManager.Write(comObject, runId);
+                    DatabaseManager.Write(comObject, RunId);
                 }
                 catch (Exception e)
                 {

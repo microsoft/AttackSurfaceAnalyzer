@@ -5,6 +5,7 @@ using AttackSurfaceAnalyzer.Utils;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
@@ -18,7 +19,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         public ServiceCollector(string runId)
         {
-            this.runId = runId;
+            this.RunId = runId;
         }
 
         /// <summary>
@@ -35,7 +36,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// </summary>
         public void ExecuteWindows()
         {
-            System.Management.SelectQuery sQuery = new System.Management.SelectQuery(string.Format("select * from Win32_Service")); // where name = '{0}'", "MCShield.exe"));
+            System.Management.SelectQuery sQuery = new System.Management.SelectQuery("select * from Win32_Service"); // where name = '{0}'", "MCShield.exe"));
             using (System.Management.ManagementObjectSearcher mgmtSearcher = new System.Management.ManagementObjectSearcher(sQuery))
             {
                 foreach (System.Management.ManagementObject service in mgmtSearcher.Get())
@@ -49,7 +50,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     if (service["Caption"] != null)
                         obj.Caption = service["Caption"].ToString();
                     if (service["CheckPoint"] != null)
-                        obj.CheckPoint = uint.Parse(service["CheckPoint"].ToString());
+                        obj.CheckPoint = uint.Parse(service["CheckPoint"].ToString(), CultureInfo.InvariantCulture);
                     if (service["CreationClassName"] != null)
                         obj.CreationClassName = service["CreationClassName"].ToString();
                     if (service["DelayedAutoStart"] != null)
@@ -63,7 +64,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     if (service["ErrorControl"] != null)
                         obj.ErrorControl = service["ErrorControl"].ToString();
                     if (service["ExitCode"] != null)
-                        obj.ExitCode = uint.Parse(service["ExitCode"].ToString());
+                        obj.ExitCode = uint.Parse(service["ExitCode"].ToString(), CultureInfo.InvariantCulture);
                     if (service["InstallDate"] != null)
                         obj.InstallDate = service["InstallDate"].ToString();
                     if (service["Name"] != null)
@@ -71,9 +72,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                     if (service["PathName"] != null)
                         obj.PathName = service["PathName"].ToString();
                     if (service["ProcessId"] != null)
-                        obj.ProcessId = uint.Parse(service["ProcessId"].ToString());
+                        obj.ProcessId = uint.Parse(service["ProcessId"].ToString(), CultureInfo.InvariantCulture);
                     if (service["ServiceSpecificExitCode"] != null)
-                        obj.ServiceSpecificExitCode = uint.Parse(service["ServiceSpecificExitCode"].ToString());
+                        obj.ServiceSpecificExitCode = uint.Parse(service["ServiceSpecificExitCode"].ToString(), CultureInfo.InvariantCulture);
                     if (service["ServiceType"] != null)
                         obj.ServiceType = service["ServiceType"].ToString();
                     if (service["Started"] != null)
@@ -91,11 +92,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                     if (service["SystemName"] != null)
                         obj.SystemName = service["SystemName"].ToString();
                     if (service["TagId"] != null)
-                        obj.TagId = uint.Parse(service["TagId"].ToString());
+                        obj.TagId = uint.Parse(service["TagId"].ToString(), CultureInfo.InvariantCulture);
                     if (service["WaitHint"] != null)
-                        obj.WaitHint = uint.Parse(service["WaitHint"].ToString());
+                        obj.WaitHint = uint.Parse(service["WaitHint"].ToString(), CultureInfo.InvariantCulture);
 
-                    DatabaseManager.Write(obj, this.runId);
+                    DatabaseManager.Write(obj, this.RunId);
                 }
             }
         }
@@ -116,7 +117,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 {
                     var _fields = _line.Split('\t');
 
-                    if (_fields.Count() == 5)
+                    if (_fields.Length == 5)
                     {
                         var obj = new ServiceObject()
                         {
@@ -125,7 +126,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             State = _fields[3],
                         };
 
-                        DatabaseManager.Write(obj, this.runId);
+                        DatabaseManager.Write(obj, this.RunId);
                     }
                 }
             }
@@ -153,7 +154,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         Name = serviceName,
                     };
 
-                    DatabaseManager.Write(obj, this.runId);
+                    DatabaseManager.Write(obj, this.RunId);
                 }
             }
             catch (Exception e)
@@ -202,7 +203,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     };
                     if (!outDict.ContainsKey(obj.Identity))
                     {
-                        DatabaseManager.Write(obj, this.runId);
+                        DatabaseManager.Write(obj, this.RunId);
                         outDict.Add(obj.Identity, obj);
                     }
                 }
@@ -231,7 +232,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                     if (!outDict.ContainsKey(obj.Identity))
                     {
-                        DatabaseManager.Write(obj, this.runId);
+                        DatabaseManager.Write(obj, this.RunId);
                         outDict.Add(obj.Identity, obj);
                     }
                 }

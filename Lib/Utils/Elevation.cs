@@ -113,7 +113,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
 
                 // Check if the token to be checked contains admin SID.
-                WindowsIdentity id = new WindowsIdentity(hTokenToCheck.DangerousGetHandle());
+                using WindowsIdentity id = new WindowsIdentity(hTokenToCheck.DangerousGetHandle());
                 WindowsPrincipal principal = new WindowsPrincipal(id);
                 fInAdminGroup = principal.IsInRole(WindowsBuiltInRole.Administrator);
             }

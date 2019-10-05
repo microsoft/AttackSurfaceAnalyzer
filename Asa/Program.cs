@@ -14,6 +14,8 @@ using Newtonsoft.Json.Serialization;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -260,11 +262,11 @@ namespace AttackSurfaceAnalyzer
         private static List<BaseMonitor> monitors = new List<BaseMonitor>();
         private static List<BaseCompare> comparators = new List<BaseCompare>();
 
-        private static readonly string INSERT_RUN_INTO_RESULT_TABLE_SQL = "insert into results (base_run_id, compare_run_id, status) values (@base_run_id, @compare_run_id, @status);";
-        private static readonly string UPDATE_RUN_IN_RESULT_TABLE = "update results set status = @status where (base_run_id = @base_run_id and compare_run_id = @compare_run_id)";
-        private static readonly string SQL_GET_RESULT_TYPES_SINGLE = "select * from runs where run_id = @run_id";
+        private const string INSERT_RUN_INTO_RESULT_TABLE_SQL = "insert into results (base_run_id, compare_run_id, status) values (@base_run_id, @compare_run_id, @status);";
+        private const string UPDATE_RUN_IN_RESULT_TABLE = "update results set status = @status where (base_run_id = @base_run_id and compare_run_id = @compare_run_id)";
+        private const string SQL_GET_RESULT_TYPES_SINGLE = "select * from runs where run_id = @run_id";
 
-        private static readonly string SQL_GET_RUN = "select run_id from runs where run_id=@run_id";
+        private const string SQL_GET_RUN = "select run_id from runs where run_id=@run_id";
 
         static void Main(string[] args)
         {
@@ -304,12 +306,12 @@ namespace AttackSurfaceAnalyzer
 #endif
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
             DatabaseManager.Setup();
-            Telemetry.Setup(Gui: true);
+            AsaTelemetry.Setup();
             ((Action)(async () =>
             {
                 await Task.Run(() => SleepAndOpenBrowser(1000));
             }))();
-            WebHost.CreateDefaultBuilder(new string[] { })
+            WebHost.CreateDefaultBuilder(Array.Empty<string>())
                     .UseStartup<Asa.Startup>()
                     .Build()
                     .Run();
@@ -320,15 +322,17 @@ namespace AttackSurfaceAnalyzer
         private static void SleepAndOpenBrowser(int sleep)
         {
             Thread.Sleep(sleep);
-            Helpers.OpenBrowser("http://localhost:5000");
+            Helpers.OpenBrowser(new System.Uri("http://localhost:5000"));
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2241:Provide correct arguments to formatting methods", Justification = "<Pending>")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1305:Specify IFormatProvider", Justification = "<Pending>")]
         private static int RunConfigCommand(ConfigCommandOptions opts)
         {
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
             DatabaseManager.Setup();
             CheckFirstRun();
-            Telemetry.Setup(Gui: false);
+            AsaTelemetry.Setup();
 
             if (opts.ResetDatabase)
             {
@@ -337,7 +341,7 @@ namespace AttackSurfaceAnalyzer
                 {
                     File.Delete(opts.DatabaseFilename);
                 }
-                catch (Exception e)
+                catch (IOException e)
                 {
                     Log.Fatal(e, Strings.Get("FailedToDeleteDatabase"), opts.DatabaseFilename, e.GetType().ToString(), e.Message);
                     Environment.Exit(-1);
@@ -405,13 +409,9 @@ namespace AttackSurfaceAnalyzer
                                     {
                                         while (reader.Read())
                                         {
-                                            string output = String.Format("{0} {1} {2} {3}",
-                                                                            reader["timestamp"].ToString(),
-                                                                            reader["version"].ToString(),
-                                                                            reader["type"].ToString(),
-                                                                            reader["run_id"].ToString());
+                                            string output = $"{reader["timestamp"].ToString()} {reader["version"].ToString()} {reader["type"].ToString()} {reader["run_id"].ToString()}";
                                             Log.Information(output);
-                                            output = String.Format("{0} {1} {2} {3} {4} {5} {6} {7} {8}",
+                                            output = string.Format("{0} {1} {2} {3} {4} {5} {6} {7} {8}",
                                                                     (int.Parse(reader["file_system"].ToString()) != 0) ? "FILES" : "",
                                                                     (int.Parse(reader["ports"].ToString()) != 0) ? "PORTS" : "",
                                                                     (int.Parse(reader["users"].ToString()) != 0) ? "USERS" : "",
@@ -438,7 +438,7 @@ namespace AttackSurfaceAnalyzer
 
                 if (opts.TelemetryOptOut != null)
                 {
-                    Telemetry.SetOptOut(bool.Parse(opts.TelemetryOptOut));
+                    AsaTelemetry.SetOptOut(bool.Parse(opts.TelemetryOptOut));
                     Log.Information(Strings.Get("TelemetryOptOut"), (bool.Parse(opts.TelemetryOptOut)) ? "Opted out" : "Opted in");
                 }
                 if (opts.DeleteRunId != null)
@@ -451,7 +451,7 @@ namespace AttackSurfaceAnalyzer
 
                     List<string> Runs = new List<string>();
 
-                    var cmd = new SqliteCommand(GET_RUNS, DatabaseManager.Connection, DatabaseManager.Transaction);
+                    using var cmd = new SqliteCommand(GET_RUNS, DatabaseManager.Connection, DatabaseManager.Transaction);
                     using (var reader = cmd.ExecuteReader())
                     {
                         //Skip first row, that is the one we want to keep
@@ -485,7 +485,7 @@ namespace AttackSurfaceAnalyzer
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
             DatabaseManager.Setup();
             CheckFirstRun();
-            Telemetry.Setup(Gui: false);
+            AsaTelemetry.Setup();
             DatabaseManager.VerifySchemaVersion();
 
             if (opts.FirstRunId == "Timestamps" || opts.SecondRunId == "Timestamps")
@@ -507,9 +507,9 @@ namespace AttackSurfaceAnalyzer
             Log.Information(Strings.Get("Comparing"), opts.FirstRunId, opts.SecondRunId);
 
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
-            StartEvent.Add("OutputPathSet", (opts.OutputPath != null).ToString());
+            StartEvent.Add("OutputPathSet", (opts.OutputPath != null).ToString(CultureInfo.InvariantCulture));
 
-            Telemetry.TrackEvent("{0} Export Compare", StartEvent);
+            AsaTelemetry.TrackEvent("{0} Export Compare", StartEvent);
 
             CompareCommandOptions options = new CompareCommandOptions()
             {
@@ -568,7 +568,7 @@ namespace AttackSurfaceAnalyzer
 
         }
 
-        public class AsaExportContractResolver : DefaultContractResolver
+        private class AsaExportContractResolver : DefaultContractResolver
         {
             public static readonly AsaExportContractResolver Instance = new AsaExportContractResolver();
 
@@ -634,7 +634,7 @@ namespace AttackSurfaceAnalyzer
                     }
                 }
 
-                actualExported.Add(ExportType, records.Count());
+                actualExported.Add(ExportType, records.Count);
 
 
                 if (records.Count > 0)
@@ -694,10 +694,10 @@ namespace AttackSurfaceAnalyzer
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
             DatabaseManager.Setup();
             CheckFirstRun();
-            Telemetry.Setup(Gui: false);
+            AsaTelemetry.Setup();
             DatabaseManager.VerifySchemaVersion();
 
-            if (opts.RunId.Equals("Timestamp"))
+            if (opts.RunId.Equals("Timestamp", StringComparison.InvariantCulture))
             {
                 List<string> runIds = DatabaseManager.GetLatestRunIds(1, "monitor");
 
@@ -715,9 +715,9 @@ namespace AttackSurfaceAnalyzer
             Log.Information("{0} {1}", Strings.Get("Exporting"), opts.RunId);
 
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
-            StartEvent.Add("OutputPathSet", (opts.OutputPath != null).ToString());
+            StartEvent.Add("OutputPathSet", (opts.OutputPath != null).ToString(CultureInfo.InvariantCulture));
 
-            Telemetry.TrackEvent("Begin Export Monitor", StartEvent);
+            AsaTelemetry.TrackEvent("Begin Export Monitor", StartEvent);
 
             WriteMonitorJson(opts.RunId, (int)RESULT_TYPE.FILE, opts.OutputPath);
 
@@ -741,7 +741,7 @@ namespace AttackSurfaceAnalyzer
                     while (reader.Read())
                     {
                         obj = JsonConvert.DeserializeObject<FileMonitorEvent>(reader["serialized"].ToString());
-                        obj.ChangeType = (CHANGE_TYPE)int.Parse(reader["change_type"].ToString());
+                        obj.ChangeType = (CHANGE_TYPE)int.Parse(reader["change_type"].ToString(), CultureInfo.InvariantCulture);
                         records.Add(obj);
                     }
                 }
@@ -780,12 +780,12 @@ namespace AttackSurfaceAnalyzer
 
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
             DatabaseManager.Setup();
-            Telemetry.Setup(Gui: false);
+            AsaTelemetry.Setup();
 
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
-            StartEvent.Add("Files", opts.EnableFileSystemMonitor.ToString());
-            StartEvent.Add("Admin", Helpers.IsAdmin().ToString());
-            Telemetry.TrackEvent("Begin monitoring", StartEvent);
+            StartEvent.Add("Files", opts.EnableFileSystemMonitor.ToString(CultureInfo.InvariantCulture));
+            StartEvent.Add("Admin", Helpers.IsAdmin().ToString(CultureInfo.InvariantCulture));
+            AsaTelemetry.TrackEvent("Begin monitoring", StartEvent);
 
             CheckFirstRun();
             DatabaseManager.VerifySchemaVersion();
@@ -794,9 +794,9 @@ namespace AttackSurfaceAnalyzer
 
             opts.RunId = opts.RunId.Trim();
 
-            if (opts.RunId.Equals("Timestamp"))
+            if (opts.RunId.Equals("Timestamp", StringComparison.InvariantCulture))
             {
-                opts.RunId = DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss");
+                opts.RunId = DateTime.Now.ToString("o", CultureInfo.InvariantCulture);
             }
 
             if (opts.Overwrite)
@@ -805,7 +805,7 @@ namespace AttackSurfaceAnalyzer
             }
             else
             {
-                var inner_cmd = new SqliteCommand(SQL_GET_RUN, DatabaseManager.Connection, DatabaseManager.Transaction);
+                using var inner_cmd = new SqliteCommand(SQL_GET_RUN, DatabaseManager.Connection, DatabaseManager.Transaction);
                 inner_cmd.Parameters.AddWithValue("@run_id", opts.RunId);
                 using (var reader = inner_cmd.ExecuteReader())
                 {
@@ -820,7 +820,7 @@ namespace AttackSurfaceAnalyzer
 
             string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, firewall, comobjects, eventlogs, type, timestamp, version, platform) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @firewall, @comobjects, @eventlogs, @type, @timestamp, @version, @platform)";
 
-            var cmd = new SqliteCommand(INSERT_RUN, DatabaseManager.Connection, DatabaseManager.Transaction);
+            using var cmd = new SqliteCommand(INSERT_RUN, DatabaseManager.Connection, DatabaseManager.Transaction);
             cmd.Parameters.AddWithValue("@run_id", opts.RunId);
             cmd.Parameters.AddWithValue("@file_system", opts.EnableFileSystemMonitor);
             cmd.Parameters.AddWithValue("@ports", false);
@@ -832,7 +832,7 @@ namespace AttackSurfaceAnalyzer
             cmd.Parameters.AddWithValue("@comobjects", false);
             cmd.Parameters.AddWithValue("@eventlogs", false);
             cmd.Parameters.AddWithValue("@type", "monitor");
-            cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+            cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("o",CultureInfo.InvariantCulture));
             cmd.Parameters.AddWithValue("@version", Helpers.GetVersionString());
             cmd.Parameters.AddWithValue("@platform", Helpers.GetPlatformString());
             try
@@ -840,11 +840,11 @@ namespace AttackSurfaceAnalyzer
                 cmd.ExecuteNonQuery();
                 DatabaseManager.Commit();
             }
-            catch (Exception e)
+            catch (SqliteException e)
             {
                 Log.Warning(e.StackTrace);
                 Log.Warning(e.Message);
-                Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
+                AsaTelemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
             }
             int returnValue = 0;
 
@@ -854,7 +854,7 @@ namespace AttackSurfaceAnalyzer
 
                 if (opts.MonitoredDirectories != null)
                 {
-                    var parts = opts.MonitoredDirectories.ToString().Split(',');
+                    var parts = opts.MonitoredDirectories.Split(',');
                     foreach (String part in parts)
                     {
                         directories.Add(part);
@@ -886,6 +886,7 @@ namespace AttackSurfaceAnalyzer
                     if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                     {
                         var newMon = new FileSystemMonitor(opts.RunId, dir, false);
+                        monitors.Add(newMon);
                     }
                     else
                     {
@@ -935,9 +936,9 @@ namespace AttackSurfaceAnalyzer
 
                 try
                 {
-                    c.Start();
+                    c.StartRun();
                 }
-                catch (Exception ex)
+                catch (SqliteException ex)
                 {
                     Log.Error(ex, Strings.Get("Err_CollectingFrom"), c.GetType().Name, ex.Message, ex.StackTrace);
                     returnValue = 1;
@@ -963,9 +964,13 @@ namespace AttackSurfaceAnalyzer
 
                 try
                 {
-                    c.Stop();
+                    c.StopRun();
+                    if (c is FileSystemMonitor)
+                    {
+                        ((FileSystemMonitor)c).Dispose();
+                    }
                 }
-                catch (Exception ex)
+                catch (SqliteException ex)
                 {
                     Log.Error(ex, " {0}: {1}", c.GetType().Name, ex.Message, Strings.Get("Err_Stopping"));
                     returnValue = 1;
@@ -994,6 +999,8 @@ namespace AttackSurfaceAnalyzer
 
         public static Dictionary<string, object> CompareRuns(CompareCommandOptions opts)
         {
+            Contract.Requires<ArgumentNullException>(opts != null, nameof(opts));
+
             using (var cmd = new SqliteCommand(INSERT_RUN_INTO_RESULT_TABLE_SQL, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
                 cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
@@ -1017,7 +1024,7 @@ namespace AttackSurfaceAnalyzer
 
             watch.Stop();
             TimeSpan t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
-            string answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+            string answer = string.Format(CultureInfo.InvariantCulture,"{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
                                     t.Hours,
                                     t.Minutes,
                                     t.Seconds,
@@ -1047,7 +1054,7 @@ namespace AttackSurfaceAnalyzer
                 }
                 watch.Stop();
                 t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
-                answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+                answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
                                         t.Hours,
                                         t.Minutes,
                                         t.Seconds,
@@ -1079,7 +1086,7 @@ namespace AttackSurfaceAnalyzer
             }
 
             DatabaseManager.Commit();
-            Telemetry.TrackEvent("End Command", EndEvent);
+            AsaTelemetry.TrackEvent("End Command", EndEvent);
             return results;
         }
 
@@ -1089,7 +1096,7 @@ namespace AttackSurfaceAnalyzer
             {
                 List<String> directories = new List<string>();
 
-                var parts = opts.MonitoredDirectories.ToString().Split(',');
+                var parts = opts.MonitoredDirectories.Split(',');
                 foreach (String part in parts)
                 {
                     directories.Add(part);
@@ -1120,7 +1127,7 @@ namespace AttackSurfaceAnalyzer
             {
                 try
                 {
-                    c.Start();
+                    c.StartRun();
                 }
                 catch (Exception ex)
                 {
@@ -1139,7 +1146,7 @@ namespace AttackSurfaceAnalyzer
 
                 try
                 {
-                    c.Stop();
+                    c.StopRun();
                 }
                 catch (Exception ex)
                 {
@@ -1192,20 +1199,20 @@ namespace AttackSurfaceAnalyzer
 #endif
             DatabaseManager.SqliteFilename = opts.DatabaseFilename;
             DatabaseManager.Setup();
-            Telemetry.Setup(Gui: false);
+            AsaTelemetry.Setup();
 
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
-            StartEvent.Add("Files", opts.EnableAllCollectors ? "True" : opts.EnableFileSystemCollector.ToString());
-            StartEvent.Add("Ports", opts.EnableNetworkPortCollector.ToString());
-            StartEvent.Add("Users", opts.EnableUserCollector.ToString());
-            StartEvent.Add("Certificates", opts.EnableCertificateCollector.ToString());
-            StartEvent.Add("Registry", opts.EnableRegistryCollector.ToString());
-            StartEvent.Add("Service", opts.EnableServiceCollector.ToString());
-            StartEvent.Add("Firewall", opts.EnableFirewallCollector.ToString());
-            StartEvent.Add("ComObject", opts.EnableComObjectCollector.ToString());
-            StartEvent.Add("EventLog", opts.EnableEventLogCollector.ToString());
-            StartEvent.Add("Admin", Helpers.IsAdmin().ToString());
-            Telemetry.TrackEvent("Run Command", StartEvent);
+            StartEvent.Add("Files", opts.EnableAllCollectors ? "True" : opts.EnableFileSystemCollector.ToString(CultureInfo.InvariantCulture));
+            StartEvent.Add("Ports", opts.EnableNetworkPortCollector.ToString(CultureInfo.InvariantCulture));
+            StartEvent.Add("Users", opts.EnableUserCollector.ToString(CultureInfo.InvariantCulture));
+            StartEvent.Add("Certificates", opts.EnableCertificateCollector.ToString(CultureInfo.InvariantCulture));
+            StartEvent.Add("Registry", opts.EnableRegistryCollector.ToString(CultureInfo.InvariantCulture));
+            StartEvent.Add("Service", opts.EnableServiceCollector.ToString(CultureInfo.InvariantCulture));
+            StartEvent.Add("Firewall", opts.EnableFirewallCollector.ToString(CultureInfo.InvariantCulture));
+            StartEvent.Add("ComObject", opts.EnableComObjectCollector.ToString(CultureInfo.InvariantCulture));
+            StartEvent.Add("EventLog", opts.EnableEventLogCollector.ToString(CultureInfo.InvariantCulture));
+            StartEvent.Add("Admin", Helpers.IsAdmin().ToString(CultureInfo.InvariantCulture));
+            AsaTelemetry.TrackEvent("Run Command", StartEvent);
 
             AdminOrQuit();
 
@@ -1217,9 +1224,9 @@ namespace AttackSurfaceAnalyzer
             int returnValue = (int)ERRORS.NONE;
             opts.RunId = opts.RunId.Trim();
 
-            if (opts.RunId.Equals("Timestamp"))
+            if (opts.RunId.Equals("Timestamp", StringComparison.InvariantCulture))
             {
-                opts.RunId = DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss");
+                opts.RunId = DateTime.Now.ToString("o", CultureInfo.InvariantCulture);
             }
 
             if (opts.MatchedCollectorId != null)
@@ -1231,15 +1238,15 @@ namespace AttackSurfaceAnalyzer
                     {
                         while (reader.Read())
                         {
-                            opts.EnableFileSystemCollector = (int.Parse(reader["file_system"].ToString()) != 0);
-                            opts.EnableNetworkPortCollector = (int.Parse(reader["ports"].ToString()) != 0);
-                            opts.EnableUserCollector = (int.Parse(reader["users"].ToString()) != 0);
-                            opts.EnableServiceCollector = (int.Parse(reader["services"].ToString()) != 0);
-                            opts.EnableRegistryCollector = (int.Parse(reader["registry"].ToString()) != 0);
-                            opts.EnableCertificateCollector = (int.Parse(reader["certificates"].ToString()) != 0);
-                            opts.EnableFirewallCollector = (int.Parse(reader["firewall"].ToString()) != 0);
-                            opts.EnableComObjectCollector = (int.Parse(reader["comobjects"].ToString()) != 0);
-                            opts.EnableEventLogCollector = (int.Parse(reader["eventlogs"].ToString()) != 0);
+                            opts.EnableFileSystemCollector = (int.Parse(reader["file_system"].ToString(), CultureInfo.InvariantCulture) != 0);
+                            opts.EnableNetworkPortCollector = (int.Parse(reader["ports"].ToString(), CultureInfo.InvariantCulture) != 0);
+                            opts.EnableUserCollector = (int.Parse(reader["users"].ToString(), CultureInfo.InvariantCulture) != 0);
+                            opts.EnableServiceCollector = (int.Parse(reader["services"].ToString(), CultureInfo.InvariantCulture) != 0);
+                            opts.EnableRegistryCollector = (int.Parse(reader["registry"].ToString(), CultureInfo.InvariantCulture) != 0);
+                            opts.EnableCertificateCollector = (int.Parse(reader["certificates"].ToString(), CultureInfo.InvariantCulture) != 0);
+                            opts.EnableFirewallCollector = (int.Parse(reader["firewall"].ToString(), CultureInfo.InvariantCulture) != 0);
+                            opts.EnableComObjectCollector = (int.Parse(reader["comobjects"].ToString(), CultureInfo.InvariantCulture) != 0);
+                            opts.EnableEventLogCollector = (int.Parse(reader["eventlogs"].ToString(), CultureInfo.InvariantCulture) != 0);
                         }
                     }
                 }
@@ -1290,7 +1297,7 @@ namespace AttackSurfaceAnalyzer
 
             if (!opts.NoFilters)
             {
-                if (opts.FilterLocation.Equals("Use embedded filters."))
+                if (opts.FilterLocation.Equals("Use embedded filters.", StringComparison.InvariantCulture))
                 {
                     Filter.LoadEmbeddedFilters();
                 }
@@ -1306,7 +1313,7 @@ namespace AttackSurfaceAnalyzer
             }
             else
             {
-                var cmd = new SqliteCommand(SQL_GET_RUN, DatabaseManager.Connection, DatabaseManager.Transaction);
+                using var cmd = new SqliteCommand(SQL_GET_RUN, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.Parameters.AddWithValue("@run_id", opts.RunId);
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -1334,7 +1341,7 @@ namespace AttackSurfaceAnalyzer
                 cmd.Parameters.AddWithValue("@eventlogs", opts.EnableEventLogCollector);
                 cmd.Parameters.AddWithValue("@run_id", opts.RunId);
                 cmd.Parameters.AddWithValue("@type", "collect");
-                cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("o", CultureInfo.InvariantCulture));
                 cmd.Parameters.AddWithValue("@version", Helpers.GetVersionString());
                 cmd.Parameters.AddWithValue("@platform", Helpers.GetPlatformString());
 
@@ -1347,10 +1354,10 @@ namespace AttackSurfaceAnalyzer
                     Log.Warning(e.StackTrace);
                     Log.Warning(e.Message);
                     returnValue = (int)ERRORS.UNIQUE_ID;
-                    Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
+                    AsaTelemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                 }
             }
-            Log.Information(Strings.Get("StartingN"), collectors.Count.ToString(), Strings.Get("Collectors"));
+            Log.Information(Strings.Get("StartingN"), collectors.Count.ToString(CultureInfo.InvariantCulture), Strings.Get("Collectors"));
 
             Dictionary<string, string> EndEvent = new Dictionary<string, string>();
             foreach (BaseCollector c in collectors)
@@ -1358,7 +1365,7 @@ namespace AttackSurfaceAnalyzer
                 try
                 {
                     c.Execute();
-                    EndEvent.Add(c.GetType().ToString(), c.NumCollected().ToString());
+                    EndEvent.Add(c.GetType().ToString(), c.NumCollected().ToString(CultureInfo.InvariantCulture));
                 }
                 catch (Exception ex)
                 {
@@ -1366,7 +1373,7 @@ namespace AttackSurfaceAnalyzer
                     returnValue = 1;
                 }
             }
-            Telemetry.TrackEvent("End Command", EndEvent);
+            AsaTelemetry.TrackEvent("End Command", EndEvent);
 
             DatabaseManager.Commit();
             return returnValue;
@@ -1383,7 +1390,7 @@ namespace AttackSurfaceAnalyzer
 
             List<string> Runs = new List<string>();
 
-            var cmd = new SqliteCommand(Select_Runs, DatabaseManager.Connection, DatabaseManager.Transaction);
+            using var cmd = new SqliteCommand(Select_Runs, DatabaseManager.Connection, DatabaseManager.Transaction);
             cmd.Parameters.AddWithValue("@type", type);
             using (var reader = cmd.ExecuteReader())
             {
@@ -1442,7 +1449,7 @@ namespace AttackSurfaceAnalyzer
         {
             if (collectors.Count > 0)
             {
-                return collectors[0].runId;
+                return collectors[0].RunId;
             }
             return "No run id";
         }

@@ -17,7 +17,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         public CertificateCollector(string runId)
         {
-            this.runId = runId;
+            this.RunId = runId;
         }
 
         public override bool CanRunOnPlatform()
@@ -49,14 +49,14 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 Subject = certificate.Subject,
                                 Pkcs12 = certificate.HasPrivateKey ? "redacted" : certificate.Export(X509ContentType.Pkcs12).ToString()
                             };
-                            DatabaseManager.Write(obj, this.runId);
+                            DatabaseManager.Write(obj, this.RunId);
                         }
                         store.Close();
                     }
                     catch (Exception e)
                     {
                         Logger.DebugException(e);
-                        Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
+                        AsaTelemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                     }
                 }
             }
@@ -87,7 +87,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             Subject = certificate.Subject,
                             Pkcs12 = certificate.HasPrivateKey ? "redacted" : certificate.Export(X509ContentType.Pkcs12).ToString()
                         };
-                        DatabaseManager.Write(obj, this.runId);
+                        DatabaseManager.Write(obj, this.RunId);
                     }
                     catch (Exception e)
                     {
@@ -139,7 +139,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         Subject = X509Certificate2Enumerator.Current.Subject,
                         Pkcs12 = X509Certificate2Enumerator.Current.GetRawCertDataString()
                     };
-                    DatabaseManager.Write(obj, this.runId);
+                    DatabaseManager.Write(obj, this.RunId);
                 }
             }
             catch (Exception e)

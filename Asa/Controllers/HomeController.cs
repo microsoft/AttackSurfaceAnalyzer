@@ -13,6 +13,8 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,17 +22,17 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 {
     public class HomeController : Controller
     {
-        private static readonly string SQL_QUERY_ANALYZED = "select * from results where status = @status"; //lgtm [cs/literal-as-local]
+        private const string SQL_QUERY_ANALYZED = "select * from results where status = @status"; //lgtm [cs/literal-as-local]
 
-        private static readonly string SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED = "select * from results where base_run_id=@base_run_id and compare_run_id=@compare_run_id"; //lgtm [cs/literal-as-local]
-        private static readonly string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, type, timestamp, version, platform) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @type, @timestamp, @version, @platform)"; //lgtm [cs/literal-as-local]
-        private static readonly string SQL_GET_RESULT_TYPES = "select * from runs where run_id = @base_run_id or run_id = @compare_run_id"; //lgtm [cs/literal-as-local]
+        private const string SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED = "select * from results where base_run_id=@base_run_id and compare_run_id=@compare_run_id"; //lgtm [cs/literal-as-local]
+        private const string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, type, timestamp, version, platform) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @type, @timestamp, @version, @platform)"; //lgtm [cs/literal-as-local]
+        private const string SQL_GET_RESULT_TYPES = "select * from runs where run_id = @base_run_id or run_id = @compare_run_id"; //lgtm [cs/literal-as-local]
 
-        private static readonly string GET_MONITOR_RESULTS = "select * from file_system_monitored where run_id=@run_id order by timestamp limit @offset,@limit;"; //lgtm [cs/literal-as-local]
-        private static readonly string GET_RESULT_COUNT_MONITORED = "select count(*) from file_system_monitored where run_id=@run_id;"; //lgtm [cs/literal-as-local]
+        private const string GET_MONITOR_RESULTS = "select * from file_system_monitored where run_id=@run_id order by timestamp limit @offset,@limit;"; //lgtm [cs/literal-as-local]
+        private const string GET_RESULT_COUNT_MONITORED = "select count(*) from file_system_monitored where run_id=@run_id;"; //lgtm [cs/literal-as-local]
 
-        private static readonly string GET_COMPARISON_RESULTS = "select * from findings where comparison_id=@comparison_id and result_type=@result_type order by level desc limit @offset,@limit;"; //lgtm [cs/literal-as-local]
-        private static readonly string GET_RESULT_COUNT = "select count(*) from findings where comparison_id=@comparison_id and result_type=@result_type"; //lgtm [cs/literal-as-local]
+        private const string GET_COMPARISON_RESULTS = "select * from findings where comparison_id=@comparison_id and result_type=@result_type order by level desc limit @offset,@limit;"; //lgtm [cs/literal-as-local]
+        private const string GET_RESULT_COUNT = "select count(*) from findings where comparison_id=@comparison_id and result_type=@result_type"; //lgtm [cs/literal-as-local]
 
         public HomeController()
         {
@@ -77,7 +79,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                             OldPath = reader["old_path"].ToString(),
                             Name = reader["path"].ToString(),
                             OldName = reader["old_path"].ToString(),
-                            ChangeType = (CHANGE_TYPE)int.Parse(reader["change_type"].ToString()),
+                            ChangeType = (CHANGE_TYPE)int.Parse(reader["change_type"].ToString(), CultureInfo.InvariantCulture),
                         };
                         results.Add(obj);
 
@@ -94,7 +96,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 {
                     while (reader.Read())
                     {
-                        result_count = int.Parse(reader["count(*)"].ToString());
+                        result_count = int.Parse(reader["count(*)"].ToString(), CultureInfo.InvariantCulture);
                     }
                 }
 
@@ -139,7 +141,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 {
                     while (reader.Read())
                     {
-                        result_count = int.Parse(reader["count(*)"].ToString());
+                        result_count = int.Parse(reader["count(*)"].ToString(), CultureInfo.InvariantCulture);
                     }
                 }
             }
@@ -182,45 +184,45 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             };
             using (var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
-                cmd.Parameters.AddWithValue("@base_run_id", BaseId?.ToString());
-                cmd.Parameters.AddWithValue("@compare_run_id", CompareId?.ToString());
+                cmd.Parameters.AddWithValue("@base_run_id", BaseId?.ToString(CultureInfo.InvariantCulture));
+                cmd.Parameters.AddWithValue("@compare_run_id", CompareId?.ToString(CultureInfo.InvariantCulture));
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        if (int.Parse(reader["file_system"].ToString()) != 0)
+                        if (int.Parse(reader["file_system"].ToString(), CultureInfo.InvariantCulture) != 0)
                         {
                             count["File"]++;
                         }
-                        if (int.Parse(reader["ports"].ToString()) != 0)
+                        if (int.Parse(reader["ports"].ToString(), CultureInfo.InvariantCulture) != 0)
                         {
                             count["Port"]++;
                         }
-                        if (int.Parse(reader["users"].ToString()) != 0)
+                        if (int.Parse(reader["users"].ToString(), CultureInfo.InvariantCulture) != 0)
                         {
                             count["User"]++;
                         }
-                        if (int.Parse(reader["services"].ToString()) != 0)
+                        if (int.Parse(reader["services"].ToString(), CultureInfo.InvariantCulture) != 0)
                         {
                             count["Service"]++;
                         }
-                        if (int.Parse(reader["registry"].ToString()) != 0)
+                        if (int.Parse(reader["registry"].ToString(), CultureInfo.InvariantCulture) != 0)
                         {
                             count["Registry"]++;
                         }
-                        if (int.Parse(reader["certificates"].ToString()) != 0)
+                        if (int.Parse(reader["certificates"].ToString(), CultureInfo.InvariantCulture) != 0)
                         {
                             count["Certificate"]++;
                         }
-                        if (int.Parse(reader["firewall"].ToString()) != 0)
+                        if (int.Parse(reader["firewall"].ToString(), CultureInfo.InvariantCulture) != 0)
                         {
                             count["Firewall"]++;
                         }
-                        if (int.Parse(reader["comobjects"].ToString()) != 0)
+                        if (int.Parse(reader["comobjects"].ToString(), CultureInfo.InvariantCulture) != 0)
                         {
                             count["ComObject"]++;
                         }
-                        if (int.Parse(reader["eventlogs"].ToString()) != 0)
+                        if (int.Parse(reader["eventlogs"].ToString(), CultureInfo.InvariantCulture) != 0)
                         {
                             count["LogEntry"]++;
                         }
@@ -250,7 +252,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             {
                 var fullString = c.GetType().ToString();
                 var splits = fullString.Split('.');
-                dict.Add(splits[splits.Count() - 1], c.IsRunning());
+                dict.Add(splits[splits.Length - 1], c.IsRunning());
             }
             Dictionary<string, object> output = new Dictionary<string, object>();
             output.Add("RunId", RunId);
@@ -271,7 +273,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             {
                 var fullString = c.GetType().ToString();
                 var splits = fullString.Split('.');
-                dict.Add(splits[splits.Count() - 1], c.RunStatus());
+                dict.Add(splits[splits.Length - 1], c.RunStatus);
             }
 
             //@TODO: Also return the RunId
@@ -285,7 +287,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             {
                 var fullString = c.GetType().ToString();
                 var splits = fullString.Split('.');
-                dict.Add(splits[splits.Count() - 1], c.IsRunning());
+                dict.Add(splits[splits.Length - 1], c.IsRunning());
             }
 
             //@TODO: Also return the RunId
@@ -295,6 +297,8 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         public ActionResult StartCollection(string Id, bool File, bool Port, bool Service, bool User, bool Registry, bool Certificates, bool Com, bool Firewall, bool Log)
         {
+            Contract.Requires<ArgumentNullException>(Id != null, nameof(Id));
+
             CollectCommandOptions opts = new CollectCommandOptions();
             opts.RunId = Id.Trim();
             opts.EnableFileSystemCollector = File;
@@ -345,51 +349,54 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         public ActionResult ChangeTelemetryState(bool DisableTelemetry)
         {
-            Telemetry.SetOptOut(DisableTelemetry);
+            AsaTelemetry.SetOptOut(DisableTelemetry);
 
             return Json(true);
         }
 
         public ActionResult StartMonitoring(string RunId, string Directory, string Extension)
         {
-
-            using (var cmd = new SqliteCommand(INSERT_RUN, DatabaseManager.Connection, DatabaseManager.Transaction))
+            if (RunId != null)
             {
-                cmd.Parameters.AddWithValue("@run_id", RunId.Trim());
-                cmd.Parameters.AddWithValue("@file_system", true);
-                cmd.Parameters.AddWithValue("@ports", false);
-                cmd.Parameters.AddWithValue("@users", false);
-                cmd.Parameters.AddWithValue("@services", false);
-                cmd.Parameters.AddWithValue("@registry", false);
-                cmd.Parameters.AddWithValue("@certificates", false);
-                cmd.Parameters.AddWithValue("@firewall", false);
-                cmd.Parameters.AddWithValue("@comobjects", false);
-                cmd.Parameters.AddWithValue("@type", "monitor");
-                cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                cmd.Parameters.AddWithValue("@version", Helpers.GetVersionString());
-                cmd.Parameters.AddWithValue("@platform", Helpers.GetPlatformString());
-                try
+                using (var cmd = new SqliteCommand(INSERT_RUN, DatabaseManager.Connection, DatabaseManager.Transaction))
                 {
-                    cmd.ExecuteNonQuery();
-                    DatabaseManager.Commit();
+                    cmd.Parameters.AddWithValue("@run_id", RunId.Trim());
+                    cmd.Parameters.AddWithValue("@file_system", true);
+                    cmd.Parameters.AddWithValue("@ports", false);
+                    cmd.Parameters.AddWithValue("@users", false);
+                    cmd.Parameters.AddWithValue("@services", false);
+                    cmd.Parameters.AddWithValue("@registry", false);
+                    cmd.Parameters.AddWithValue("@certificates", false);
+                    cmd.Parameters.AddWithValue("@firewall", false);
+                    cmd.Parameters.AddWithValue("@comobjects", false);
+                    cmd.Parameters.AddWithValue("@type", "monitor");
+                    cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("o", CultureInfo.InvariantCulture));
+                    cmd.Parameters.AddWithValue("@version", Helpers.GetVersionString());
+                    cmd.Parameters.AddWithValue("@platform", Helpers.GetPlatformString());
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        DatabaseManager.Commit();
+                    }
+                    catch (SqliteException e)
+                    {
+                        Log.Warning(e.StackTrace);
+                        Log.Warning(e.Message);
+                        return Json((int)ERRORS.UNIQUE_ID);
+                    }
                 }
-                catch (Exception e)
+
+                MonitorCommandOptions opts = new MonitorCommandOptions
                 {
-                    Log.Warning(e.StackTrace);
-                    Log.Warning(e.Message);
-                    return Json((int)ERRORS.UNIQUE_ID);
-                }
+                    RunId = RunId,
+                    EnableFileSystemMonitor = true,
+                    MonitoredDirectories = Directory,
+                    FilterLocation = "filters.json"
+                };
+                AttackSurfaceAnalyzerClient.ClearMonitors();
+                return Json((int)AttackSurfaceAnalyzerClient.RunGuiMonitorCommand(opts));
             }
-
-            MonitorCommandOptions opts = new MonitorCommandOptions
-            {
-                RunId = RunId,
-                EnableFileSystemMonitor = true,
-                MonitoredDirectories = Directory,
-                FilterLocation = "filters.json"
-            };
-            AttackSurfaceAnalyzerClient.ClearMonitors();
-            return Json((int)AttackSurfaceAnalyzerClient.RunGuiMonitorCommand(opts));
+            return Json(-1);
         }
 
         public ActionResult StopMonitoring()
@@ -397,12 +404,12 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             return Json(AttackSurfaceAnalyzerClient.StopMonitors());
         }
 
-        public ActionResult RunAnalysis(string first_id, string second_id)
+        public ActionResult RunAnalysis(string firstId, string secondId)
         {
 
             CompareCommandOptions opts = new CompareCommandOptions();
-            opts.FirstRunId = first_id;
-            opts.SecondRunId = second_id;
+            opts.FirstRunId = firstId;
+            opts.SecondRunId = secondId;
             opts.Analyze = true;
             foreach (BaseCompare c in AttackSurfaceAnalyzerClient.GetComparators())
             {
@@ -459,7 +466,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
             List<DataRunModel> runModels = new List<DataRunModel>();
 
-            for (int i = 0; i < Runs.Count(); i++)
+            for (int i = 0; i < Runs.Count; i++)
             {
                 runModels.Add(new DataRunModel { Key = Runs[i], Text = Runs[i] });
             }
@@ -473,7 +480,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
             List<DataRunModel> runModels = new List<DataRunModel>();
 
-            for (int i = 0; i < Runs.Count(); i++)
+            for (int i = 0; i < Runs.Count; i++)
             {
                 runModels.Add(new DataRunModel { Key = Runs[i], Text = Runs[i] });
             }

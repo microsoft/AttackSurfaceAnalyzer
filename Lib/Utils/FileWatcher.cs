@@ -8,16 +8,16 @@ using System.IO;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
-    public class FileWatcher
+    public class FileWatcher : IDisposable
     {
         private FileSystemWatcher watcher;
 
-        public readonly List<EventArgs> EventList = new List<EventArgs>();
+        public List<EventArgs> EventList { get; }
 
-        private static readonly Action<EventArgs> DefaultChangedDelegate = (e) => { FileSystemEventArgs i_e = (FileSystemEventArgs)e; Log.Information(i_e.ChangeType.ToString() + " " + i_e.FullPath.ToString()); };
-        private static readonly Action<EventArgs> DefaultRenamedDelegate = (e) => { RenamedEventArgs i_e = (RenamedEventArgs)e; Log.Information(i_e.ChangeType.ToString() + " " + i_e.OldFullPath.ToString() + " " + i_e.FullPath.ToString()); };
+        private static readonly Action<EventArgs> DefaultChangedDelegate = (e) => { FileSystemEventArgs i_e = (FileSystemEventArgs)e; Log.Information(i_e.ChangeType.ToString() + " " + i_e.FullPath); };
+        private static readonly Action<EventArgs> DefaultRenamedDelegate = (e) => { RenamedEventArgs i_e = (RenamedEventArgs)e; Log.Information(i_e.ChangeType.ToString() + " " + i_e.OldFullPath + " " + i_e.FullPath); };
 
-        private static readonly NotifyFilters DefaultFilters = NotifyFilters.Attributes
+        private const NotifyFilters DefaultFilters = NotifyFilters.Attributes
                                                 | NotifyFilters.CreationTime
                                                 | NotifyFilters.DirectoryName
                                                 | NotifyFilters.FileName
@@ -26,7 +26,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                                 | NotifyFilters.Security
                                                 | NotifyFilters.Size;
 
-        private static readonly bool DefaultIncludeSubdirectories = true;
+        private const bool DefaultIncludeSubdirectories = true;
 
 
         private Action<EventArgs> OnChangedDelegate;
@@ -55,7 +55,7 @@ namespace AttackSurfaceAnalyzer.Utils
         // 'About as detailed as possible' Constructor
         public FileWatcher(String DirectoryName, Action<EventArgs> OnChangedAction, Action<EventArgs> OnCreatedAction, Action<EventArgs> OnDeletedAction, Action<EventArgs> OnRenamedAction, NotifyFilters NotifyFilters, bool IncludeSubdirectories)
         {
-
+            EventList = new List<EventArgs>();
             OnChangedDelegate = OnChangedAction;
             OnCreatedDelegate = OnCreatedAction;
             OnDeletedDelegate = OnDeletedAction;
@@ -115,6 +115,24 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             EventList.Add(e);
             OnRenamedDelegate(e);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (watcher != null)
+                {
+                    watcher.Dispose();
+                    watcher = null;
+                }
+            }
         }
     }
 }

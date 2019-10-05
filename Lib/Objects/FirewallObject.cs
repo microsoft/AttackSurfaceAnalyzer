@@ -32,11 +32,11 @@ namespace AttackSurfaceAnalyzer.Objects
         /// <summary>
         /// Gets or sets the local addresses that the rule applies to
         /// </summary>
-        public List<string> LocalAddresses { get; set; }
+        public List<string> LocalAddresses { get; }
         /// <summary>
         /// Gets or sets the local ports that the rule applies to 
         /// </summary>
-        public List<string> LocalPorts { get; set; }
+        public List<string> LocalPorts { get; }
         /// <summary>
         /// Gets or sets the type of local ports that the rules applies to
         /// </summary>
@@ -56,11 +56,11 @@ namespace AttackSurfaceAnalyzer.Objects
         /// <summary>
         /// Gets or sets the remote addresses that the rule applies to 
         /// </summary>   
-        public List<string> RemoteAddresses { get; set; }
+        public List<string> RemoteAddresses { get; }
         /// <summary>
         /// Gets or sets the remote ports that the rule applies to
         /// </summary>
-        public List<string> RemotePorts { get; set; }
+        public List<string> RemotePorts { get; }
         /// <summary>
         /// Gets or sets the scope that the rule applies to
         /// </summary>  
@@ -73,13 +73,17 @@ namespace AttackSurfaceAnalyzer.Objects
         public FirewallObject()
         {
             ResultType = RESULT_TYPE.FIREWALL;
+            RemoteAddresses = new List<string>();
+            RemotePorts = new List<string>();
+            LocalAddresses = new List<string>();
+            LocalPorts = new List<string>();
         }
 
         public override string Identity
         {
             get
             {
-                return String.Format("{0} - {1} - {2} - {3} - {4} - {5}", FriendlyName, Direction, Protocol, ApplicationName, Profiles, Name);
+                return $"{FriendlyName} - {Direction} - {Protocol} - {ApplicationName} - {Profiles} - {Name}";
             }
         }
     }

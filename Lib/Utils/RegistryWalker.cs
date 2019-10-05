@@ -69,7 +69,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     catch (Exception e)
                     {
                         Log.Information(e, "Unexpected error when parsing {0}:", currentKey.Name);
-                        Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
+                        AsaTelemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                     }
                 }
 
@@ -80,6 +80,9 @@ namespace AttackSurfaceAnalyzer.Utils
                     yield return regObj;
                 }
             }
+
+            x86_View.Dispose();
+            x64_View.Dispose();
         }
 
         public static RegistryObject RegistryKeyToRegistryObject(RegistryKey registryKey)
@@ -89,11 +92,10 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 regObj = new RegistryObject()
                 {
-                    Subkeys = new List<string>(registryKey.GetSubKeyNames()),
                     Key = registryKey.Name,
-                    Values = new Dictionary<string, string>(),
-                    Permissions = new Dictionary<string, string>()
                 };
+
+                regObj.AddSubKeys(new List<string>(registryKey.GetSubKeyNames()));
 
                 foreach (RegistryAccessRule rule in registryKey.GetAccessControl().GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier)))
                 {

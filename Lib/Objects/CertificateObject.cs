@@ -7,12 +7,12 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class CertificateObject : CollectObject
     {
-        public string StoreLocation;
-        public string StoreName;
-        public string CertificateHashString;
-        public string Subject;
-        public string Pkcs12;
-        public string Pkcs7;
+        public string StoreLocation { get; set; }
+        public string StoreName { get; set; }
+        public string CertificateHashString { get; set; }
+        public string Subject { get; set; }
+        public string Pkcs12 { get; set; }
+        public string Pkcs7 { get; set; }
 
         public CertificateObject()
         {
@@ -23,7 +23,7 @@ namespace AttackSurfaceAnalyzer.Objects
         {
             get
             {
-                return String.Format("{0}{1}{2}", StoreLocation, StoreName, CertificateHashString);
+                return $"{StoreLocation}{StoreName}{CertificateHashString}";
             }
         }
     }

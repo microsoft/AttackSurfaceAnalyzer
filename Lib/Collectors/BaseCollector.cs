@@ -6,6 +6,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -14,11 +15,11 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public abstract class BaseCollector : PlatformRunnable
     {
-        public string runId = null;
+        public string RunId { get; set; }
 
         private RUN_STATUS _running = RUN_STATUS.NOT_STARTED;
 
-        protected int _numCollected = 0;
+        private int _numCollected = 0;
 
         public void Execute()
         {
@@ -51,7 +52,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             _running = RUN_STATUS.COMPLETED;
             watch.Stop();
             TimeSpan t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
-            string answer = string.Format("{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+            string answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms", 
                                     t.Hours,
                                     t.Minutes,
                                     t.Seconds,
@@ -59,9 +60,9 @@ namespace AttackSurfaceAnalyzer.Collectors
             Log.Information(Strings.Get("Completed"), this.GetType().Name, answer);
             var EndEvent = new Dictionary<string, string>();
             EndEvent.Add("Scanner", this.GetType().Name);
-            EndEvent.Add("Duration", watch.ElapsedMilliseconds.ToString());
-            EndEvent.Add("NumResults", _numCollected.ToString());
-            Telemetry.TrackEvent("EndScanFunction", EndEvent);
+            EndEvent.Add("Duration", watch.ElapsedMilliseconds.ToString(CultureInfo.InvariantCulture));
+            EndEvent.Add("NumResults", _numCollected.ToString(CultureInfo.InvariantCulture));
+            AsaTelemetry.TrackEvent("EndScanFunction", EndEvent);
         }
 
         public int NumCollected()

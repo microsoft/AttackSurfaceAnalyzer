@@ -13,7 +13,7 @@ using System.Text;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
-    public class FileSystemUtils
+    public static class FileSystemUtils
     {
         private static readonly List<string> MacMagicNumbers = new List<string>()
         {
@@ -38,107 +38,111 @@ namespace AttackSurfaceAnalyzer.Collectors
         // Java classes
         private static readonly string JavaMagicNumber = Helpers.HexStringToAscii("CAFEBEBE");
 
-        protected internal static string GetFilePermissions(FileSystemInfo fileInfo)
+        public static string GetFilePermissions(FileSystemInfo fileInfo)
         {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            if (fileInfo != null)
             {
-                var filename = fileInfo.FullName;
-
-                FileAccessPermissions permissions = default(FileAccessPermissions);
-
-                if (fileInfo is FileInfo)
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 {
-                    try
+                    var filename = fileInfo.FullName;
+
+                    FileAccessPermissions permissions = default(FileAccessPermissions);
+
+                    if (fileInfo is FileInfo)
                     {
-                        permissions = new UnixFileInfo(filename).FileAccessPermissions;
+                        try
+                        {
+                            permissions = new UnixFileInfo(filename).FileAccessPermissions;
+                        }
+                        catch (IOException ex)
+                        {
+                            Log.Debug("Unable to get access control for {0}: {1}", fileInfo.FullName, ex.Message);
+                        }
                     }
-                    catch (Exception ex)
+                    else if (fileInfo is DirectoryInfo)
                     {
-                        Log.Debug("Unable to get access control for {0}: {1}", fileInfo.FullName, ex.Message);
+                        try
+                        {
+                            permissions = new UnixDirectoryInfo(filename).FileAccessPermissions;
+                        }
+                        catch (IOException ex)
+                        {
+                            Log.Debug("Unable to get access control for {0}: {1}", fileInfo.FullName, ex.Message);
+                        }
                     }
-                }
-                else if (fileInfo is DirectoryInfo)
-                {
-                    try
+                    else
                     {
-                        permissions = new UnixDirectoryInfo(filename).FileAccessPermissions;
+                        return null;
                     }
-                    catch (Exception ex)
-                    {
-                        Log.Debug("Unable to get access control for {0}: {1}", fileInfo.FullName, ex.Message);
-                    }
+
+                    return permissions.ToString();
                 }
                 else
                 {
-                    return null;
-                }
+                    FileSystemSecurity fileSecurity = null;
+                    var filename = fileInfo.FullName;
+                    if (filename.Length >= 260 && !filename.StartsWith(@"\\?\"))
+                    {
+                        filename = $"\\?{filename}";
+                    }
 
-                return permissions.ToString();
+                    if (fileInfo is FileInfo)
+                    {
+                        try
+                        {
+                            fileSecurity = new FileSecurity(filename, AccessControlSections.All);
+                        }
+                        catch (UnauthorizedAccessException)
+                        {
+                            Log.Verbose(Strings.Get("Err_AccessControl"), fileInfo.FullName);
+                        }
+                        catch (InvalidOperationException)
+                        {
+                            Log.Verbose("Invalid operation exception {0}.", fileInfo.FullName);
+                        }
+                        catch (FileNotFoundException)
+                        {
+                            Log.Verbose("File not found to get permissions {0}.", fileInfo.FullName);
+                        }
+                        catch (ArgumentException)
+                        {
+                            Log.Debug("Filename not valid for getting permissions {0}", fileInfo.FullName);
+                        }
+                        catch (Exception e)
+                        {
+                            Logger.DebugException(e);
+                        }
+                    }
+                    else if (fileInfo is DirectoryInfo)
+                    {
+                        try
+                        {
+                            fileSecurity = new DirectorySecurity(filename, AccessControlSections.All);
+                        }
+                        catch (UnauthorizedAccessException)
+                        {
+                            Log.Verbose(Strings.Get("Err_AccessControl"), fileInfo.FullName);
+                        }
+                        catch (InvalidOperationException)
+                        {
+                            Log.Verbose("Invalid operation exception {0}.", fileInfo.FullName);
+                        }
+                        catch (Exception e)
+                        {
+                            Logger.DebugException(e);
+                        }
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                    if (fileSecurity != null)
+                        return fileSecurity.GetSecurityDescriptorSddlForm(AccessControlSections.All);
+                    else
+                        return "";
+                }
             }
-            else
-            {
-                FileSystemSecurity fileSecurity = null;
-                var filename = fileInfo.FullName;
-                if (filename.Length >= 260 && !filename.StartsWith(@"\\?\"))
-                {
-                    filename = string.Format(@"\\?\{0}", filename);
-                }
-
-                if (fileInfo is FileInfo)
-                {
-                    try
-                    {
-                        fileSecurity = new FileSecurity(filename, AccessControlSections.All);
-                    }
-                    catch (UnauthorizedAccessException)
-                    {
-                        Log.Verbose(Strings.Get("Err_AccessControl"), fileInfo.FullName);
-                    }
-                    catch (InvalidOperationException)
-                    {
-                        Log.Verbose("Invalid operation exception {0}.", fileInfo.FullName);
-                    }
-                    catch (FileNotFoundException)
-                    {
-                        Log.Verbose("File not found to get permissions {0}.", fileInfo.FullName);
-                    }
-                    catch (ArgumentException)
-                    {
-                        Log.Debug("Filename not valid for getting permissions {0}", fileInfo.FullName);
-                    }
-                    catch (Exception e)
-                    {
-                        Logger.DebugException(e);
-                    }
-                }
-                else if (fileInfo is DirectoryInfo)
-                {
-                    try
-                    {
-                        fileSecurity = new DirectorySecurity(filename, AccessControlSections.All);
-                    }
-                    catch (UnauthorizedAccessException)
-                    {
-                        Log.Verbose(Strings.Get("Err_AccessControl"), fileInfo.FullName);
-                    }
-                    catch (InvalidOperationException)
-                    {
-                        Log.Verbose("Invalid operation exception {0}.", fileInfo.FullName);
-                    }
-                    catch (Exception e)
-                    {
-                        Logger.DebugException(e);
-                    }
-                }
-                else
-                {
-                    return null;
-                }
-                if (fileSecurity != null)
-                    return fileSecurity.GetSecurityDescriptorSddlForm(AccessControlSections.All);
-                else
-                    return "";
-            }
+            return "";
         }
 
         public static bool IsExecutable(string Path)
@@ -222,57 +226,27 @@ namespace AttackSurfaceAnalyzer.Collectors
             return false;
         }
 
-        protected internal static string GetFileHash(FileSystemInfo fileInfo)
+        public static string GetFileHash(FileSystemInfo fileInfo)
         {
-            Log.Debug("{0} {1}", Strings.Get("FileHash"), fileInfo.FullName);
-
-            string hashValue = null;
-            try
+            if (fileInfo != null)
             {
-                using (var stream = new FileStream(fileInfo.FullName, FileMode.Open, FileAccess.Read))
+                Log.Debug("{0} {1}", Strings.Get("FileHash"), fileInfo.FullName);
+
+                string hashValue = null;
+                try
                 {
-                    hashValue = CryptoHelpers.CreateHash(stream);
+                    using (var stream = new FileStream(fileInfo.FullName, FileMode.Open, FileAccess.Read))
+                    {
+                        hashValue = CryptoHelpers.CreateHash(stream);
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                Log.Warning("{0}: {1} {2}", Strings.Get("Err_UnableToHash"), fileInfo.FullName, ex.Message);
-            }
-            return hashValue;
-        }
-
-        public static KeyValuePair<bool, X509Certificate2> GetSignatureDetails(string path)
-        {
-            if (path == null)
-            {
-                return new KeyValuePair<bool, X509Certificate2>(false, null);
-            }
-
-            if (!File.Exists(path))
-            {
-                return new KeyValuePair<bool, X509Certificate2>(false, null);
-            }
-
-            X509Certificate2 certificate = null;
-            try
-            {
-                certificate = new X509Certificate2(X509Certificate2.CreateFromSignedFile(path));
-                if (!certificate.Verify())
+                catch (Exception ex)
                 {
-                    return new KeyValuePair<bool, X509Certificate2>(false, certificate);
+                    Log.Warning("{0}: {1} {2}", Strings.Get("Err_UnableToHash"), fileInfo.FullName, ex.Message);
                 }
-                if (!certificate.IssuerName.Name.Contains("Microsoft"))
-                {
-                    return new KeyValuePair<bool, X509Certificate2>(false, certificate);
-                }
+                return hashValue;
             }
-            catch (Exception ex)
-            {
-                Log.Debug(ex, "{0} {1}: {2}", Strings.Get("Err_ExceptionCheckSig"), path, ex.Message);
-                return new KeyValuePair<bool, X509Certificate2>(false, certificate);
-            }
-
-            return new KeyValuePair<bool, X509Certificate2>(true, certificate);
+            return string.Empty;
         }
     }
 }

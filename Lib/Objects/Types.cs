@@ -57,10 +57,12 @@ namespace AttackSurfaceAnalyzer.Types
         NO_COLLECTORS
     }
 
+
     /// <summary>
     /// These are the characteristics defined in the PE Header for Windows executables.
     /// See https://docs.microsoft.com/en-us/windows/win32/debug/pe-format for the oracle definitions of these values
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1717:Only FlagsAttribute enums should have plural names", Justification = "This is the official name for the enum.")]
     public enum DLLCHARACTERISTICS
     {
         // 64 Bit ASLR

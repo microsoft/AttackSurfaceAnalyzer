@@ -36,7 +36,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public RegistryCollector(string RunId, List<RegistryHive> Hives, Action<RegistryObject> customHandler)
         {
-            this.runId = RunId;
+            this.RunId = RunId;
             this.Hives = Hives;
             this.roots = new HashSet<string>();
             this._keys = new HashSet<RegistryKey>();
@@ -88,7 +88,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             {
                                 try
                                 {
-                                    DatabaseManager.Write(registryObject, runId);
+                                    DatabaseManager.Write(registryObject, RunId);
                                 }
                                 catch (InvalidOperationException e)
                                 {
@@ -100,7 +100,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     catch (Exception e)
                     {
                         Logger.DebugException(e);
-                        Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
+                        AsaTelemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                     }
 
                 }));

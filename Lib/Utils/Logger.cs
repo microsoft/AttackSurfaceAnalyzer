@@ -7,7 +7,7 @@ using System;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
-    public class Logger
+    public static class Logger
     {
 
         public static void Setup()

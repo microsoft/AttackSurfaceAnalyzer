@@ -9,43 +9,42 @@ namespace AttackSurfaceAnalyzer.Objects
 
     public class RawCollectResult
     {
-        public RESULT_TYPE ResultType;
-        public string RowKey;
-        public string RunId;
-        public string Identity;
-        public string Serialized;
+        public RESULT_TYPE ResultType { get; set; }
+        public string RowKey { get; set; }
+        public string RunId { get; set; }
+        public string Identity { get; set; }
+        public string Serialized { get; set; }
     }
 
     public class RawModifiedResult
     {
-        public RawCollectResult First;
-        public RawCollectResult Second;
+        public RawCollectResult First { get; set; }
+        public RawCollectResult Second { get; set; }
     }
 
     public class FileMonitorEvent
     {
-        public CHANGE_TYPE ChangeType;
-        public string Path;
-        public string OldPath;
-        public string Name;
-        public string OldName;
+        public CHANGE_TYPE ChangeType { get; set; }
+        public string Path { get; set; }
+        public string OldPath { get; set; }
+        public string Name { get; set; }
+        public string OldName { get; set; }
     }
 
     public class CompareResult
     {
-        public string Identity;
-        public CHANGE_TYPE ChangeType;
-        public RESULT_TYPE ResultType;
-        public ANALYSIS_RESULT_TYPE Analysis;
-        public List<Rule> Rules = new List<Rule>();
-        public List<Diff> Diffs = new List<Diff>();
-
-        public string BaseRowKey;
-        public string CompareRowKey;
-        public string BaseRunId;
-        public string CompareRunId;
-        public object Base;
-        public object Compare;
+        public string Identity { get; set; }
+        public CHANGE_TYPE ChangeType { get; set; }
+        public RESULT_TYPE ResultType { get; set; }
+        public ANALYSIS_RESULT_TYPE Analysis { get; set; }
+        public List<Rule> Rules { get; }
+        public List<Diff> Diffs { get; }
+        public string BaseRowKey { get; set; }
+        public string CompareRowKey { get; set; }
+        public string BaseRunId { get; set; }
+        public string CompareRunId { get; set; }
+        public object Base { get; set; }
+        public object Compare { get; set; }
 
         public bool ShouldSerializeDiffs()
         {
@@ -57,29 +56,34 @@ namespace AttackSurfaceAnalyzer.Objects
             return (Rules.Count > 0);
         }
 
+        public CompareResult()
+        {
+            Rules = new List<Rule>();
+            Diffs = new List<Diff>();
+        }
     }
 
     public class OutputFileMonitorResult
     {
-        public string RowKey;
-        public string Timestamp;
-        public string OldPath;
-        public string Path;
-        public string OldName;
-        public string Name;
-        public CHANGE_TYPE ChangeType;
+        public string RowKey { get; set; }
+        public string Timestamp { get; set; }
+        public string OldPath { get; set; }
+        public string Path { get; set; }
+        public string OldName { get; set; }
+        public string Name { get; set; }
+        public CHANGE_TYPE ChangeType { get; set; }
     }
 
     public class OutputCompareResult : CompareResult
     {
-        public string SerializedBase;
-        public string SerializedCompare;
+        public string SerializedBase { get; set; }
+        public string SerializedCompare { get; set; }
     }
 
     public class FileSystemMonitorResult
     {
-        public FileSystemEventArgs evt;
-        public NotifyFilters filter;
+        public FileSystemEventArgs evt { get; set; }
+        public NotifyFilters filter { get; set; }
     }
 
     public class FileSystemResult : CompareResult
