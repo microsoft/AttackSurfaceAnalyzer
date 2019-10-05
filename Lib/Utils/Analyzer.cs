@@ -16,19 +16,6 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public class Analyzer
     {
-        Dictionary<RESULT_TYPE, List<FieldInfo>> _Fields = new Dictionary<RESULT_TYPE, List<FieldInfo>>()
-        {
-            {RESULT_TYPE.FILE , new List<FieldInfo>(new FileSystemObject().GetType().GetFields()) },
-            {RESULT_TYPE.CERTIFICATE, new List<FieldInfo>(new CertificateObject().GetType().GetFields()) },
-            {RESULT_TYPE.PORT, new List<FieldInfo>(new OpenPortObject().GetType().GetFields()) },
-            {RESULT_TYPE.REGISTRY, new List<FieldInfo>(new RegistryObject().GetType().GetFields()) },
-            {RESULT_TYPE.SERVICE, new List<FieldInfo>(new ServiceObject().GetType().GetFields()) },
-            {RESULT_TYPE.USER, new List<FieldInfo>(new UserAccountObject().GetType().GetFields()) },
-            {RESULT_TYPE.GROUP, new List<FieldInfo>(new UserAccountObject().GetType().GetFields()) },
-            {RESULT_TYPE.FIREWALL, new List<FieldInfo>(new FirewallObject().GetType().GetFields()) },
-            {RESULT_TYPE.COM, new List<FieldInfo>(new FirewallObject().GetType().GetFields()) },
-            {RESULT_TYPE.LOG, new List<FieldInfo>(new FirewallObject().GetType().GetFields()) },
-        };
         Dictionary<RESULT_TYPE, List<PropertyInfo>> _Properties = new Dictionary<RESULT_TYPE, List<PropertyInfo>>()
         {
             {RESULT_TYPE.FILE , new List<PropertyInfo>(new FileSystemObject().GetType().GetProperties()) },
@@ -131,14 +118,12 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             if (compareResult != null && rule != null)
             {
-                var fields = _Fields[compareResult.ResultType];
                 var properties = _Properties[compareResult.ResultType];
 
                 foreach (Clause clause in rule.Clauses)
                 {
-                    FieldInfo field = fields.FirstOrDefault(iField => iField.Name.Equals(clause.Field));
                     PropertyInfo property = properties.FirstOrDefault(iProp => iProp.Name.Equals(clause.Field));
-                    if (field == null && property == null)
+                    if (property == null)
                     {
                         //Custom field logic will go here
                         return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
@@ -148,68 +133,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         var valsToCheck = new List<string>();
                         List<KeyValuePair<string, string>> dictToCheck = new List<KeyValuePair<string, string>>();
-
-                        if (field != null)
-                        {
-                            if (compareResult.ChangeType == CHANGE_TYPE.CREATED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
-                            {
-                                try
-                                {
-                                    if (GetValueByFieldName(compareResult.Compare, field.Name) is List<string>)
-                                    {
-                                        foreach (var value in (List<string>)GetValueByFieldName(compareResult.Compare, field.Name))
-                                        {
-                                            valsToCheck.Add(value);
-                                        }
-                                    }
-                                    else if (GetValueByFieldName(compareResult.Compare, field.Name) is Dictionary<string, string>)
-                                    {
-                                        dictToCheck = ((Dictionary<string, string>)GetValueByFieldName(compareResult.Compare, field.Name)).ToList();
-                                    }
-                                    else if (GetValueByFieldName(compareResult.Compare, field.Name) is List<KeyValuePair<string, string>>)
-                                    {
-                                        dictToCheck = (List<KeyValuePair<string, string>>)GetValueByFieldName(compareResult.Compare, field.Name);
-                                    }
-                                    else
-                                    {
-                                        valsToCheck.Add(GetValueByFieldName(compareResult.Compare, field.Name).ToString());
-                                    }
-                                }
-                                catch (Exception e)
-                                {
-                                    Log.Debug(e, "Error fetching Property {0} of Type {1}", field.Name, compareResult.ResultType);
-                                }
-                            }
-                            if (compareResult.ChangeType == CHANGE_TYPE.DELETED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
-                            {
-                                try
-                                {
-                                    if (GetValueByFieldName(compareResult.Base, field.Name) is List<string>)
-                                    {
-                                        foreach (var value in (List<string>)GetValueByFieldName(compareResult.Base, field.Name))
-                                        {
-                                            valsToCheck.Add(value);
-                                        }
-                                    }
-                                    else if (GetValueByFieldName(compareResult.Base, field.Name) is Dictionary<string, string>)
-                                    {
-                                        dictToCheck = ((Dictionary<string, string>)GetValueByFieldName(compareResult.Base, field.Name)).ToList();
-                                    }
-                                    else if (GetValueByFieldName(compareResult.Base, field.Name) is List<KeyValuePair<string, string>>)
-                                    {
-                                        dictToCheck = (List<KeyValuePair<string, string>>)GetValueByFieldName(compareResult.Base, field.Name);
-                                    }
-                                    else
-                                    {
-                                        valsToCheck.Add(GetValueByFieldName(compareResult.Base, field.Name).ToString());
-                                    }
-                                }
-                                catch (Exception e)
-                                {
-                                    Log.Debug(e, "Error fetching Property {0} of Type {1}", field.Name, compareResult.ResultType);
-                                }
-                            }
-                        }
+                                                
                         if (property != null)
                         {
                             if (compareResult.ChangeType == CHANGE_TYPE.CREATED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
@@ -444,7 +368,6 @@ namespace AttackSurfaceAnalyzer.Utils
             } 
         }
 
-        private static object GetValueByFieldName(object obj, string fieldName) => obj.GetType().GetField(fieldName).GetValue(obj);
         private static object GetValueByPropertyName(object obj, string propertyName) => obj.GetType().GetProperty(propertyName).GetValue(obj);
 
 
