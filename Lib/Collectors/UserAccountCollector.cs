@@ -128,7 +128,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 var domain = r.Match(userName).Groups[1].Value;
                                 userName = r.Match(userName).Groups[2].Value;
 
-                                if (userName.Equals(""))
+                                if (string.IsNullOrEmpty(userName))
                                 {
                                     continue;
                                 }
@@ -174,7 +174,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                             PasswordRequired = Convert.ToString(user["PasswordRequired"], CultureInfo.InvariantCulture),
                                             SID = Convert.ToString(user["SID"], CultureInfo.InvariantCulture),
                                             Privileged = (bool)groupName.Equals("Administrators"),
-                                            
+
                                         };
                                         obj.Groups.Add(groupName);
                                         users.Add(userName, obj);
@@ -186,10 +186,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                 }
             }
-            catch (Exception e)
+            catch (ExternalException)
             {
-                Logger.DebugException(e);
+                Log.Error("Failed to run {0}","net localgroup");
             }
+
 
             foreach (var user in users)
             {

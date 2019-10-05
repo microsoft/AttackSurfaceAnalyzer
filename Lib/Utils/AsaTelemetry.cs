@@ -77,11 +77,12 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void TrackEvent(string name, Dictionary<string, string> evt)
         {
-            evt.Add("Version", AsaHelpers.GetVersionString());
-            evt.Add("OS", AsaHelpers.GetOsName());
-            evt.Add("OS_Version", AsaHelpers.GetOsVersion());
-            evt.Add("Method", new System.Diagnostics.StackFrame(1).GetMethod().Name);
-            Client.TrackEvent(name, evt);
+            var track = (evt == null) ? new Dictionary<string, string>() : evt;
+            track.Add("Version", AsaHelpers.GetVersionString());
+            track.Add("OS", AsaHelpers.GetOsName());
+            track.Add("OS_Version", AsaHelpers.GetOsVersion());
+            track.Add("Method", new System.Diagnostics.StackFrame(1).GetMethod().Name);
+            Client.TrackEvent(name, track);
         }
 
         public static void TrackTrace(SeverityLevel severityLevel, Exception e)
@@ -91,8 +92,8 @@ namespace AttackSurfaceAnalyzer.Utils
             evt.Add("OS", AsaHelpers.GetOsName());
             evt.Add("OS_Version", AsaHelpers.GetOsVersion());
             evt.Add("Method", new System.Diagnostics.StackFrame(1).GetMethod().Name);
-            evt.Add("Stack", e.StackTrace);
-            Client.TrackTrace(e.GetType().ToString(), severityLevel, evt);
+            evt.Add("Stack", (e == null)?"":e.StackTrace);
+            Client.TrackTrace((e == null)?"Null":e.GetType().ToString(), severityLevel, evt);
         }
     }
 }

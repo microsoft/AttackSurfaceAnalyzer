@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 using System;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace AttackSurfaceAnalyzer.Utils
@@ -65,7 +66,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             catch (Exception e)
             {
-                throw new Exception("OS error while executing " + Format(filename, arguments) + ": " + e.Message, e);
+                throw new ExternalException("OS error while executing " + Format(filename, arguments) + ": " + e.Message, e);
             }
 
             if (process.ExitCode == 0)
@@ -87,7 +88,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     message.AppendLine(stdOutput.ToString());
                 }
 
-                throw new Exception(Format(filename, arguments) + " finished with exit code = " + process.ExitCode + ": " + message);
+                throw new ExternalException(Format(filename, arguments) + " finished with exit code = " + process.ExitCode + ": " + message);
             }
         }
 

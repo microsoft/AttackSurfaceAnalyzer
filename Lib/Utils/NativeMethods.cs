@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using Microsoft.Win32.SafeHandles;
 using Serilog;
 using System;
 using System.Runtime.InteropServices;
@@ -204,31 +203,11 @@ namespace AttackSurfaceAnalyzer.Utils
         public SID_AND_ATTRIBUTES Label;
     }
 
-    /// <summary>
-    /// Represents a wrapper class for a token handle.
-    /// </summary>
-    internal class SafeTokenHandle : SafeHandleZeroOrMinusOneIsInvalid
+    internal class NativeMethods
     {
-        private SafeTokenHandle() : base(true)
-        {
-        }
-
-        internal SafeTokenHandle(IntPtr handle) : base(true)
-        {
-            base.SetHandle(handle);
-        }
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         internal static extern bool CloseHandle(IntPtr handle);
-
-        protected override bool ReleaseHandle()
-        {
-            return CloseHandle(base.handle);
-        }
-    }
-
-    internal class NativeMethods
-    {
         // Token Specific Access Rights
 
         public const UInt32 STANDARD_RIGHTS_REQUIRED = 0x000F0000;
@@ -472,13 +451,6 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             GetFileExInfoStandard,
             GetFileExMaxInfoLevel
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        public class FILETIME
-        {
-            public uint dwLowDateTime;
-            public uint dwHighDateTime;
         }
 
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]

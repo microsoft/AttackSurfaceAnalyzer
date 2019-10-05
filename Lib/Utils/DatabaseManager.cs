@@ -9,6 +9,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace AttackSurfaceAnalyzer.Utils
@@ -241,9 +242,8 @@ namespace AttackSurfaceAnalyzer.Utils
                         }
                     }
                 }
-                catch (Exception e)
+                catch (SqliteException)
                 {
-                    Logger.DebugException(e);
                     Log.Debug("Couldn't determine latest {0} run ids.", numberOfIds);
                 }
             }
@@ -271,9 +271,9 @@ namespace AttackSurfaceAnalyzer.Utils
                     }
                 }
             }
-            catch (SqliteException e)
+            catch (SqliteException)
             {
-                Logger.DebugException(e);
+                Log.Error(Strings.Get("Err_ResultTypesCounts"));
             }
             return outDict;
         }
@@ -296,9 +296,9 @@ namespace AttackSurfaceAnalyzer.Utils
                     }
                 }
             }
-            catch (SqliteException e)
+            catch (SqliteException)
             {
-                Logger.DebugException(e);
+                Log.Error(Strings.Get("Err_Sql"), MethodBase.GetCurrentMethod().Name);
             }
             return -1;
         }
@@ -378,13 +378,20 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             if (objIn != null && runId != null)
             {
-                using var cmd = new SqliteCommand(SQL_INSERT_COLLECT_RESULT, Connection, Transaction);
-                cmd.Parameters.AddWithValue("@run_id", runId);
-                cmd.Parameters.AddWithValue("@row_key", CryptoHelpers.CreateHash(JsonConvert.SerializeObject(objIn)));
-                cmd.Parameters.AddWithValue("@identity", objIn.Identity);
-                cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(objIn, Formatting.None, new JsonSerializerSettings() { DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore }));
-                cmd.Parameters.AddWithValue("@result_type", objIn.ResultType);
-                cmd.ExecuteNonQuery();
+                try
+                {
+                    using var cmd = new SqliteCommand(SQL_INSERT_COLLECT_RESULT, Connection, Transaction);
+                    cmd.Parameters.AddWithValue("@run_id", runId);
+                    cmd.Parameters.AddWithValue("@row_key", CryptoHelpers.CreateHash(JsonConvert.SerializeObject(objIn)));
+                    cmd.Parameters.AddWithValue("@identity", objIn.Identity);
+                    cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(objIn, Formatting.None, new JsonSerializerSettings() { DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore }));
+                    cmd.Parameters.AddWithValue("@result_type", objIn.ResultType);
+                    cmd.ExecuteNonQuery();
+                }
+                catch (SqliteException)
+                {
+                    Log.Debug($"Error writing {objIn.Identity} to database.");
+                }
             }
         }
 

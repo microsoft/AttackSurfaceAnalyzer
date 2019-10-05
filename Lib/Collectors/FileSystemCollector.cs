@@ -160,6 +160,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <returns></returns>
         public static FileSystemObject FileSystemInfoToFileSystemObject(FileSystemInfo fileInfo, bool downloadCloud = false, bool INCLUDE_CONTENT_HASH = false)
         {
+            if (fileInfo == null) { return null; }
             FileSystemObject obj = new FileSystemObject()
             {
                 Path = fileInfo.FullName,

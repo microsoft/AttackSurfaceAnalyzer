@@ -4,6 +4,7 @@ using AttackSurfaceAnalyzer.Utils;
 using Serilog;
 using System;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Runtime.InteropServices;
 
@@ -39,7 +40,10 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public void MyOnEntryWritten(object source, EntryWrittenEventArgs e)
         {
-            Log.Information(e.Entry.Source);
+            if (e != null)
+            {
+                Log.Information(e.Entry.Source);
+            }
         }
 
         public override void StartRun()

@@ -192,7 +192,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public void WriteRename(RenamedEventArgs objIn)
         {
-
+            if (objIn == null) { return; }
             var evt = new FileMonitorEvent()
             {
                 ChangeType = ChangeTypeToChangeType(objIn.ChangeType),

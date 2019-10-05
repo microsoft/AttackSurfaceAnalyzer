@@ -11,7 +11,6 @@ namespace AttackSurfaceAnalyzer.Objects
         public string StoreName { get; set; }
         public string CertificateHashString { get; set; }
         public string Subject { get; set; }
-        public string Pkcs12 { get; set; }
         public string Pkcs7 { get; set; }
 
         public CertificateObject()

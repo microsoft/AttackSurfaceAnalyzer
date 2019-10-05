@@ -10,10 +10,9 @@ using System.Runtime.InteropServices;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
-    public class WindowsFileSystemUtils
+    public static class WindowsFileSystemUtils
     {
-
-        protected internal static string GetSignatureStatus(string Path)
+        public static string GetSignatureStatus(string Path)
         {
             if (!NeedsSignature(Path))
             {
@@ -24,7 +23,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             return sigStatus;
         }
 
-        protected internal static bool NeedsSignature(string Path)
+        public static bool NeedsSignature(string Path)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
@@ -33,7 +32,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             return false;
         }
 
-        protected internal static bool IsLocal(string path)
+        public static bool IsLocal(string path)
         {
             NativeMethods.WIN32_FILE_ATTRIBUTE_DATA fileData;
             NativeMethods.GetFileAttributesEx(path, NativeMethods.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out fileData);
@@ -46,7 +45,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             return false;
         }
 
-        protected internal static List<string> GetDllCharacteristics(string Path)
+        public static List<string> GetDllCharacteristics(string Path)
         {
             List<string> output = new List<string>();
 

@@ -130,9 +130,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                 }
             }
-            catch (Exception e)
+            catch (ExternalException)
             {
-                Logger.DebugException(e);
+                Log.Error("Error executing {0}", "systemctl list-units --type service");
             }
 
             try
@@ -157,9 +157,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                     DatabaseManager.Write(obj, this.RunId);
                 }
             }
-            catch (Exception e)
+            catch (ExternalException)
             {
-                Logger.DebugException(e);
+                Log.Error("Error executing {0}", "ls /etc/init.d/ -l");
             }
 
 
@@ -179,10 +179,10 @@ namespace AttackSurfaceAnalyzer.Collectors
             // Get the user processes
             // run "launchtl dumpstate" for the super detailed view
             // However, dumpstate is difficult to parse
+            Dictionary<string, ServiceObject> outDict = new Dictionary<string, ServiceObject>();
             try
             {
                 var result = ExternalCommandRunner.RunExternalCommand("launchctl", "list");
-                Dictionary<string, ServiceObject> outDict = new Dictionary<string, ServiceObject>();
                 foreach (var _line in result.Split('\n'))
                 {
                     // Lines are formatted like this:
@@ -207,9 +207,14 @@ namespace AttackSurfaceAnalyzer.Collectors
                         outDict.Add(obj.Identity, obj);
                     }
                 }
-
+            }
+            catch (ExternalException)
+            {
+                Log.Error("Error executing {0}", "launchctl list");
+            }
+            try { 
                 // Then get the system processes
-                result = ExternalCommandRunner.RunExternalCommand("sudo", "launchctl list");
+                var result = ExternalCommandRunner.RunExternalCommand("sudo", "launchctl list");
 
                 foreach (var _line in result.Split('\n'))
                 {
@@ -237,9 +242,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                 }
             }
-            catch (Exception e)
+            catch (ExternalException)
             {
-                Logger.DebugException(e);
+                Log.Error("Error executing {0}", "sudo launchctl list");
             }
         }
 

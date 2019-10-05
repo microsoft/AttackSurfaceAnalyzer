@@ -477,4 +477,13 @@
   <data name="Summary" xml:space="preserve">
     <value>Summary</value>
   </data>
+  <data name="Err_ParsingFilters" xml:space="preserve">
+    <value>Error parsing filters.</value>
+  </data>
+  <data name="Err_ResultTypesCounts" xml:space="preserve">
+    <value>Error fetching result types and counts from the database.</value>
+  </data>
+  <data name="Err_Sql" xml:space="preserve">
+    <value>SQL Error in {0}. Your database may be corrupted.</value>
+  </data>
 </root>

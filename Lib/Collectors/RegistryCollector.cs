@@ -81,28 +81,18 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                     Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "Registry", "Key", "Exclude", hive.ToString());
                     var registryInfoEnumerable = RegistryWalker.WalkHive(hive);
-                    try
-                    {
-                        Parallel.ForEach(registryInfoEnumerable,
-                            (registryObject =>
+                    Parallel.ForEach(registryInfoEnumerable,
+                        (registryObject =>
+                        {
+                            try
                             {
-                                try
-                                {
-                                    DatabaseManager.Write(registryObject, RunId);
-                                }
-                                catch (InvalidOperationException e)
-                                {
-                                    Logger.DebugException(e);
-                                    Log.Debug(JsonConvert.SerializeObject(registryObject) + " invalid op exept");
-                                }
-                            }));
-                    }
-                    catch (Exception e)
-                    {
-                        Logger.DebugException(e);
-                        AsaTelemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
-                    }
-
+                                DatabaseManager.Write(registryObject, RunId);
+                            }
+                            catch (InvalidOperationException e)
+                            {
+                                Log.Debug(e, JsonConvert.SerializeObject(registryObject) + " invalid op exept");
+                            }
+                        }));
                 }));
 
             DatabaseManager.Commit();

@@ -20,6 +20,7 @@ namespace AttackSurfaceAnalyzer.Objects
         public ComObject()
         {
             ResultType = RESULT_TYPE.COM;
+            Subkeys = new List<RegistryObject>();
         }
 
         public void AddSubKeys(List<RegistryObject> subkeysIn)

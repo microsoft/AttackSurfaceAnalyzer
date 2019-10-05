@@ -55,16 +55,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         JArray jFilters = (JArray)config[Platform][ScanType][ItemType][Property][FilterType];
                         foreach (var filter in jFilters)
                         {
-                            try
-                            {
-                                filters.Add(new Regex(filter.ToString()));
-                            }
-                            catch (Exception e)
-                            {
-                                Logger.DebugException(e);
-                                Log.Debug("Failed to make a regex from {0}", filter.ToString());
-                                AsaTelemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
-                            }
+                            filters.Add(new Regex(filter.ToString(),RegexOptions.Compiled));
                         }
                         try
                         {
@@ -90,7 +81,6 @@ namespace AttackSurfaceAnalyzer.Utils
                         }
                         catch (Exception e)
                         {
-                            Logger.DebugException(e);
                             Log.Debug(e.StackTrace);
                         }
 
@@ -110,44 +100,26 @@ namespace AttackSurfaceAnalyzer.Utils
                         }
                         catch (Exception e)
                         {
-                            Logger.DebugException(e);
                             Log.Debug(e.StackTrace);
                         }
                         return false;
                     }
 
                 }
-                catch (Exception e)
-                {
-                    Logger.DebugException(e);
-                    AsaTelemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
-                }
 
                 foreach (Regex filter in _filters[key])
                 {
-                    try
+                    if (filter.IsMatch(Target))
                     {
-                        if (filter.IsMatch(Target))
-                        {
-                            regex = filter;
-                            Log.Verbose("{0} caught {1}", filter, Target);
-                            return true;
-                        }
+                        regex = filter;
+                        Log.Verbose("{0} caught {1}", filter, Target);
+                        return true;
                     }
-                    catch (Exception e)
-                    {
-                        Log.Debug("Probably this is some of those garbled keys or a bad regex");
-                        Logger.DebugException(e);
-                        Log.Debug(filter.ToString());
-                        AsaTelemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
-                    }
-
                 }
             }
-            catch (NullReferenceException e)
+            catch (NullReferenceException)
             {
                 Log.Debug("No Filter Entry {0}, {1}, {2}, {3}, {4}", Platform, ScanType, ItemType, Property, FilterType);
-                Logger.DebugException(e);
             }
 
             return false;

@@ -59,8 +59,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
                 catch (Exception e)
                 {
-                    Logger.DebugException(e);
-                    Log.Debug(rule.FriendlyName);
+                    Log.Debug(e,rule.FriendlyName);
                 }
             }
         }

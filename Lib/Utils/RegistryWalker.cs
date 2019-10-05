@@ -87,6 +87,7 @@ namespace AttackSurfaceAnalyzer.Utils
         public static RegistryObject RegistryKeyToRegistryObject(RegistryKey registryKey)
         {
             RegistryObject regObj = null;
+            if (registryKey == null) { return regObj; }
             try
             {
                 regObj = new RegistryObject()
@@ -109,7 +110,14 @@ namespace AttackSurfaceAnalyzer.Utils
                         // This is fine. Some SIDs don't map to NT Accounts.
                     }
 
-                    regObj.Permissions.Add(name, rule.RegistryRights.ToString());
+                    if (regObj.Permissions.ContainsKey(name))
+                    {
+                        regObj.Permissions[name].Add(rule.RegistryRights.ToString());
+                    }
+                    else
+                    {
+                        regObj.Permissions.Add(name, new List<string>() { rule.RegistryRights.ToString() });
+                    }
                 }
 
                 foreach (string valueName in registryKey.GetValueNames())
@@ -130,7 +138,8 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             catch (System.ArgumentException e)
             {
-                Logger.VerboseException(e);
+
+                Log.Debug(e, "Exception parsing {0}", registryKey.Name);
             }
             catch (Exception e)
             {

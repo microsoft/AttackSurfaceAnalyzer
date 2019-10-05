@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -140,118 +141,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                     Identity = modified.First.Identity
                 };
 
-                var fields = first.GetType().GetFields();
-
-                foreach (var field in fields)
-                {
-                    try
-                    {
-                        var fieldName = field.Name;
-                        List<Diff> diffs;
-                        object added = null;
-                        object removed = null;
-                        object changed = new object();
-                        if (field.GetValue(first) == null && field.GetValue(second) == null)
-                        {
-                            continue;
-                        }
-                        else if (field.GetValue(first) == null && field.GetValue(second) != null)
-                        {
-                            added = field.GetValue(second);
-                            diffs = GetDiffs(field, added, null);
-                        }
-                        else if (field.GetValue(second) == null && field.GetValue(first) != null)
-                        {
-                            removed = field.GetValue(first);
-                            diffs = GetDiffs(field, null, removed);
-                        }
-                        else if (field.GetValue(first).Equals(field.GetValue(second)))
-                        {
-                            continue;
-                        }
-                        else
-                        {
-                            var firstVal = field.GetValue(first);
-                            var secondVal = field.GetValue(second);
-
-                            if (AsaHelpers.IsList(firstVal))
-                            {
-                                try
-                                {
-                                    added = ((List<object>)field.GetValue(second)).Except((List<object>)field.GetValue(first));
-                                    removed = ((List<object>)field.GetValue(first)).Except((List<object>)field.GetValue(second));
-                                    if (!((IEnumerable<object>)added).Any())
-                                    {
-                                        added = null;
-                                    }
-                                    if (!((IEnumerable<object>)removed).Any())
-                                    {
-                                        removed = null;
-                                    }
-                                }
-                                catch (Exception e)
-                                {
-                                    Log.Debug(e, "Error comparing two List<object>s");
-                                }
-                            }
-                            else if (firstVal is List<KeyValuePair<string, string>>)
-                            {
-                                added = ((List<KeyValuePair<string, string>>)field.GetValue(second)).Except((List<KeyValuePair<string, string>>)field.GetValue(first));
-                                removed = ((List<KeyValuePair<string, string>>)field.GetValue(first)).Except((List<KeyValuePair<string, string>>)field.GetValue(second));
-                                if (!((IEnumerable<KeyValuePair<string, string>>)added).Any())
-                                {
-                                    added = null;
-                                }
-                                if (!((IEnumerable<KeyValuePair<string, string>>)removed).Any())
-                                {
-                                    removed = null;
-                                }
-                            }
-                            else if (AsaHelpers.IsDictionary(firstVal))
-                            {
-                                added = ((Dictionary<object, object>)secondVal)
-                                    .Except((Dictionary<object, object>)firstVal)
-                                    .ToDictionary(x => x.Key, x => x.Value);
-
-                                removed = ((Dictionary<object, object>)firstVal)
-                                    .Except((Dictionary<object, object>)secondVal)
-                                    .ToDictionary(x => x.Key, x => x.Value);
-                                if (!((IEnumerable<KeyValuePair<object, object>>)added).Any())
-                                {
-                                    added = null;
-                                }
-                                if (!((IEnumerable<KeyValuePair<object, object>>)removed).Any())
-                                {
-                                    removed = null;
-                                }
-                            }
-                            else if (firstVal is string || firstVal is int || firstVal is bool || firstVal is ulong)
-                            {
-                                obj.Diffs.Add(new Diff() { Field = field.Name, Before = firstVal, After = secondVal });
-                            }
-                            else
-                            {
-                                obj.Diffs.Add(new Diff() { Field = field.Name, Before = firstVal, After = secondVal });
-                            }
-
-                            diffs = GetDiffs(field, added, removed);
-                        }
-                        foreach (var diff in diffs)
-                        {
-                            obj.Diffs.Add(diff);
-                        }
-                    }
-                    catch (InvalidCastException e)
-                    {
-                        Log.Debug("Failed to cast something to dictionary or string");
-                        Logger.DebugException(e);
-                    }
-                    catch (Exception e)
-                    {
-                        Logger.DebugException(e);
-                    }
-                }
-
                 var properties = first.GetType().GetProperties();
 
                 foreach (var prop in properties)
@@ -351,12 +240,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                     catch (InvalidCastException e)
                     {
-                        Log.Debug("Failed to cast something to dictionary or string");
-                        Logger.DebugException(e);
+                        Log.Debug(e,$"Failed to cast something to dictionary or string {JsonConvert.SerializeObject(prop)}");
                     }
                     catch (Exception e)
                     {
-                        Logger.DebugException(e);
+                        Log.Debug(e, "Generic exception. This should be caught specifically.");
                     }
                 }
 
@@ -369,35 +257,6 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Creates a list of Diff objects based on an object field and findings.
-        /// </summary>
-        /// <param name="field">The field of the referenced object.</param>
-        /// <param name="added">The added findings.</param>
-        /// <param name="removed">The removed findings.</param>
-        /// <returns></returns>
-        public static List<Diff> GetDiffs(FieldInfo field, object added, object removed)
-        {
-            List<Diff> diffsOut = new List<Diff>();
-            if (added != null)
-            {
-                diffsOut.Add(new Diff()
-                {
-                    Field = field.Name,
-                    After = added
-                });
-            }
-            if (removed != null)
-            {
-                diffsOut.Add(new Diff()
-                {
-                    Field = field.Name,
-                    Before = removed
-                });
-            }
-            return diffsOut;
-        }
-
-        /// <summary>
         /// Creates a list of Diff objects based on an object property and findings.
         /// </summary>
         /// <param name="prop">The property of the referenced object.</param>
@@ -407,7 +266,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         public static List<Diff> GetDiffs(PropertyInfo prop, object added, object removed)
         {
             List<Diff> diffsOut = new List<Diff>();
-            if (added != null)
+            if (added != null && prop != null)
             {
                 diffsOut.Add(new Diff()
                 {
@@ -415,7 +274,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     After = added
                 });
             }
-            if (removed != null)
+            if (removed != null && prop != null)
             {
                 diffsOut.Add(new Diff()
                 {

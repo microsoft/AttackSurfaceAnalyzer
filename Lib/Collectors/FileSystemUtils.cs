@@ -110,7 +110,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         }
                         catch (Exception e)
                         {
-                            Logger.DebugException(e);
+                            Log.Debug(e,$"Error with {fileInfo.FullName}");
                         }
                     }
                     else if (fileInfo is DirectoryInfo)
@@ -129,7 +129,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         }
                         catch (Exception e)
                         {
-                            Logger.DebugException(e);
+                            Log.Debug(e, $"Error with {fileInfo.FullName}");
                         }
                     }
                     else
@@ -147,6 +147,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public static bool IsExecutable(string Path)
         {
+            if (Path is null) { return false; }
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
                 try
@@ -169,7 +170,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
                 catch (Exception e)
                 {
-                    Logger.DebugException(e);
+                    Log.Debug(e, $"Couldn't chomp 4 bytes of {Path}");
                     return false;
                 }
             }
@@ -195,7 +196,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
                 catch (Exception e)
                 {
-                    Logger.DebugException(e);
+                    Log.Debug(e, $"Couldn't chomp 4 bytes of {Path}");
                     return false;
                 }
             }
@@ -203,13 +204,18 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 try
                 {
-                    var fourBytes = new byte[2];
+                    // We can 'trust' these file extensions to improve performance and more accurately flag system files that don't allow us to read
+                    if (Path.EndsWith(".dll") || Path.EndsWith(".exe"))
+                    {
+                        return true;
+                    }
+                    var fourBytes = new byte[4];
                     using (var fileStream = File.Open(Path, FileMode.Open))
                     {
                         fileStream.Read(fourBytes, 0, 4);
                     }
-                    // Windows header is 2 bytes so we just take the first two to check that
-                    return (Encoding.ASCII.GetString(fourBytes[0..1]) == WindowsMagicNumber) || (Encoding.ASCII.GetString(fourBytes) == JavaMagicNumber);
+                    // Windows header is 2 bytes so we just take the first two to check that    but we use all four bytes for java classes
+                    return (Encoding.ASCII.GetString(fourBytes[0..2]) == WindowsMagicNumber) || (Encoding.ASCII.GetString(fourBytes) == JavaMagicNumber);
                 }
                 catch (UnauthorizedAccessException)
                 {
@@ -219,9 +225,13 @@ namespace AttackSurfaceAnalyzer.Collectors
                 {
                     return false;
                 }
+                catch (ArgumentNullException)
+                {
+                    return false;
+                }
                 catch (Exception e)
                 {
-                    Logger.DebugException(e);
+                    Log.Debug(e, $"Couldn't chomp 4 bytes of {Path}");
                     return false;
                 }
             }
@@ -244,7 +254,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
                 catch (Exception ex)
                 {
-                    Log.Warning("{0}: {1} {2}", Strings.Get("Err_UnableToHash"), fileInfo.FullName, ex.Message);
+                    Log.Warning(ex,"{0}: {1} {2}", Strings.Get("Err_UnableToHash"), fileInfo.FullName, ex.Message);
                 }
                 return hashValue;
             }

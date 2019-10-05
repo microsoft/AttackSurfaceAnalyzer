@@ -308,7 +308,7 @@ namespace AttackSurfaceAnalyzer
             AsaTelemetry.Setup();
             ((Action)(async () =>
             {
-                await Task.Run(() => SleepAndOpenBrowser(1000));
+                await Task.Run(() => SleepAndOpenBrowser(1000)).ConfigureAwait(false);
             }))();
             WebHost.CreateDefaultBuilder(Array.Empty<string>())
                     .UseStartup<Asa.Startup>()
@@ -811,7 +811,7 @@ namespace AttackSurfaceAnalyzer
                     while (reader.Read())
                     {
                         Log.Error(Strings.Get("Err_RunIdAlreadyUsed"));
-                        return (int)ERRORS.UNIQUE_ID;
+                        return (int)GUI_ERROR.UNIQUE_ID;
                     }
                 }
 
@@ -998,8 +998,10 @@ namespace AttackSurfaceAnalyzer
 
         public static Dictionary<string, object> CompareRuns(CompareCommandOptions opts)
         {
-            Contract.Requires<ArgumentNullException>(opts != null, nameof(opts));
-
+            if (opts is null)
+            {
+                throw new ArgumentNullException(nameof(opts));
+            }
             using (var cmd = new SqliteCommand(INSERT_RUN_INTO_RESULT_TABLE_SQL, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
                 cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
@@ -1089,8 +1091,12 @@ namespace AttackSurfaceAnalyzer
             return results;
         }
 
-        public static ERRORS RunGuiMonitorCommand(MonitorCommandOptions opts)
+        public static GUI_ERROR RunGuiMonitorCommand(MonitorCommandOptions opts)
         {
+            if (opts is null)
+            {
+                return GUI_ERROR.NO_COLLECTORS;
+            }
             if (opts.EnableFileSystemMonitor)
             {
                 List<String> directories = new List<string>();
@@ -1112,7 +1118,7 @@ namespace AttackSurfaceAnalyzer
                     catch (ArgumentException)
                     {
                         Log.Warning("{1}: {0}", dir, Strings.Get("InvalidPath"));
-                        return ERRORS.INVALID_PATH;
+                        return GUI_ERROR.INVALID_PATH;
                     }
                 }
             }
@@ -1134,7 +1140,7 @@ namespace AttackSurfaceAnalyzer
                 }
             }
 
-            return ERRORS.NONE;
+            return GUI_ERROR.NONE;
         }
 
         public static int StopMonitors()
@@ -1191,6 +1197,7 @@ namespace AttackSurfaceAnalyzer
 
         public static int RunCollectCommand(CollectCommandOptions opts)
         {
+            if (opts == null) { return -1; }
 #if DEBUG
             Logger.Setup(true, opts.Verbose, opts.Quiet);
 #else
@@ -1220,7 +1227,7 @@ namespace AttackSurfaceAnalyzer
 
 
 
-            int returnValue = (int)ERRORS.NONE;
+            int returnValue = (int)GUI_ERROR.NONE;
             opts.RunId = opts.RunId.Trim();
 
             if (opts.RunId.Equals("Timestamp", StringComparison.InvariantCulture))
@@ -1291,7 +1298,7 @@ namespace AttackSurfaceAnalyzer
             if (collectors.Count == 0)
             {
                 Log.Warning(Strings.Get("Err_NoCollectors"));
-                return (int)ERRORS.NO_COLLECTORS;
+                return (int)GUI_ERROR.NO_COLLECTORS;
             }
 
             if (!opts.NoFilters)
@@ -1319,7 +1326,7 @@ namespace AttackSurfaceAnalyzer
                     while (reader.Read())
                     {
                         Log.Error(Strings.Get("Err_RunIdAlreadyUsed"));
-                        return (int)ERRORS.UNIQUE_ID;
+                        return (int)GUI_ERROR.UNIQUE_ID;
                     }
                 }
             }
@@ -1352,7 +1359,7 @@ namespace AttackSurfaceAnalyzer
                 {
                     Log.Warning(e.StackTrace);
                     Log.Warning(e.Message);
-                    returnValue = (int)ERRORS.UNIQUE_ID;
+                    returnValue = (int)GUI_ERROR.UNIQUE_ID;
                     AsaTelemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                 }
             }

@@ -23,10 +23,6 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public OpenPortCollector(string runId)
         {
-            if (runId == null)
-            {
-                throw new ArgumentException("runIdentifier may not be null.");
-            }
             this.RunId = runId;
             this.processedObjects = new HashSet<string>();
         }
@@ -36,10 +32,10 @@ namespace AttackSurfaceAnalyzer.Collectors
             try
             {
                 var osRelease = File.ReadAllText("/proc/sys/kernel/osrelease") ?? "";
-                osRelease = osRelease.ToLowerInvariant();
-                if (osRelease.Contains("microsoft") || osRelease.Contains("wsl"))
+                osRelease = osRelease.ToUpperInvariant();
+                if (osRelease.Contains("MICROSOFT") || osRelease.Contains("WSL"))
                 {
-                    Log.Debug("OpenPortCollector cannot run on WSL until https://github.com/Microsoft/WSL/issues/2249 is fixed.");
+                    Log.Error("OpenPortCollector cannot run on WSL until https://github.com/Microsoft/WSL/issues/2249 is fixed.");
                     return false;
                 }
             }
@@ -136,8 +132,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                 foreach (var _line in result.Split('\n'))
                 {
                     var line = _line;
-                    line = line.ToLowerInvariant();
-                    if (!line.Contains("listen"))
+                    line = line.ToUpperInvariant();
+                    if (!line.Contains("LISTEN"))
                     {
                         continue;
                     }
@@ -169,7 +165,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             catch (Exception e)
             {
                 Log.Warning(Strings.Get("Err_Iproute2"));
-                Logger.DebugException(e);
+                Log.Debug(e,"");
             }
 
         }
@@ -187,8 +183,8 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 foreach (var _line in result.Split('\n'))
                 {
-                    var line = _line.ToLower();
-                    if (!line.Contains("listen"))
+                    var line = _line.ToUpperInvariant();
+                    if (!line.Contains("LISTEN"))
                     {
                         continue; // Skip any lines which aren't open listeners
                     }
@@ -215,22 +211,14 @@ namespace AttackSurfaceAnalyzer.Collectors
                             Type = parts[7],
                             ProcessName = parts[0]
                         };
-                        try
-                        {
-                            DatabaseManager.Write(obj, this.RunId);
 
-                        }
-                        catch (Exception e)
-                        {
-                            Logger.DebugException(e);
-                        }
+                        DatabaseManager.Write(obj, this.RunId);
                     }
                 }
             }
             catch (Exception e)
             {
-                Log.Error(Strings.Get("Err_Lsof"));
-                Logger.DebugException(e);
+                Log.Error(e,Strings.Get("Err_Lsof"));
             }
         }
     }

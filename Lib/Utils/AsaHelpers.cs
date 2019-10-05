@@ -6,6 +6,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -13,6 +15,22 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public static class AsaHelpers
     {
+        public static string GetTempFolder()
+        {
+            var length = 10;
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var path = Path.Combine(Path.GetTempPath(), new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray()));
+            while (Directory.Exists(path))
+            {
+                path = Path.Combine(Path.GetTempPath(), new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray()));
+            }
+            return path;
+        }
+
+        private static Random random = new Random();
+
         public static string HexStringToAscii(string hex)
         {
             try
@@ -29,7 +47,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 return ascii;
             }
-            catch (Exception)
+            catch (OverflowException)
             {
                 Log.Debug("Couldn't convert hex string {0} to ascii", hex);
             }
@@ -38,6 +56,7 @@ namespace AttackSurfaceAnalyzer.Utils
         }
         public static void OpenBrowser(System.Uri url)
         {
+            if (url == null) { return; }
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 Process.Start(new ProcessStartInfo("cmd", $"/c start {url}"));

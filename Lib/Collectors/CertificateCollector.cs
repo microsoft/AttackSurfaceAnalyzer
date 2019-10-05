@@ -6,6 +6,7 @@ using Serilog;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 
 namespace AttackSurfaceAnalyzer.Collectors
@@ -47,16 +48,16 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 StoreName = storeName.ToString(),
                                 CertificateHashString = certificate.GetCertHashString(),
                                 Subject = certificate.Subject,
-                                Pkcs12 = certificate.HasPrivateKey ? "redacted" : certificate.Export(X509ContentType.Pkcs12).ToString()
+                                Pkcs7 = certificate.Export(X509ContentType.Cert).ToString()
                             };
                             DatabaseManager.Write(obj, this.RunId);
                         }
+
                         store.Close();
                     }
-                    catch (Exception e)
+                    catch (CryptographicException e)
                     {
-                        Logger.DebugException(e);
-                        AsaTelemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
+                        Log.Debug(e, $"Error parsing a certificate in {storeLocation} {storeName}");
                     }
                 }
             }
@@ -85,7 +86,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             StoreName = StoreName.Root.ToString(),
                             CertificateHashString = certificate.GetCertHashString(),
                             Subject = certificate.Subject,
-                            Pkcs12 = certificate.HasPrivateKey ? "redacted" : certificate.Export(X509ContentType.Pkcs12).ToString()
+                            Pkcs7 = certificate.Export(X509ContentType.Cert).ToString()
                         };
                         DatabaseManager.Write(obj, this.RunId);
                     }
@@ -99,8 +100,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
             catch (Exception e)
             {
-                Log.Error("Failed to dump certificates from 'ls /etc/ssl/certs -A'.");
-                Logger.DebugException(e);
+                Log.Error(e,"Failed to dump certificates from 'ls /etc/ssl/certs -A'.");
             }
         }
 
@@ -137,7 +137,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         StoreName = StoreName.Root.ToString(),
                         CertificateHashString = X509Certificate2Enumerator.Current.GetCertHashString(),
                         Subject = X509Certificate2Enumerator.Current.Subject,
-                        Pkcs12 = X509Certificate2Enumerator.Current.GetRawCertDataString()
+                        Pkcs7 = X509Certificate2Enumerator.Current.GetRawCertDataString()
                     };
                     DatabaseManager.Write(obj, this.RunId);
                 }
@@ -145,7 +145,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             catch (Exception e)
             {
                 Log.Error("Failed to dump certificates from 'security' or 'openssl'.");
-                Logger.DebugException(e);
+                Log.Debug(e,"ExecuteMacOs()");
             }
         }
 

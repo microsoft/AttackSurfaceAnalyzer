@@ -48,7 +48,7 @@ namespace AttackSurfaceAnalyzer.Types
     /// <summary>
     /// Errors used to communicate with the GUI.
     /// </summary>
-    public enum ERRORS
+    public enum GUI_ERROR
     {
         NONE,
         UNIQUE_ID,

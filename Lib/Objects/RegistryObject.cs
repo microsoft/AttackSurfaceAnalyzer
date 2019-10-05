@@ -16,7 +16,7 @@ namespace AttackSurfaceAnalyzer.Objects
         public Dictionary<string, string> Values { get; }
         public List<string> Subkeys { get; }
         public string PermissionsString { get; set; }
-        public Dictionary<string, string> Permissions { get; }
+        public Dictionary<string, List<string>> Permissions { get; }
 
         public int ValueCount
         {
@@ -31,7 +31,7 @@ namespace AttackSurfaceAnalyzer.Objects
         {
             ResultType = RESULT_TYPE.REGISTRY;
             Subkeys = new List<string>();
-            Permissions = new Dictionary<string, string>();
+            Permissions = new Dictionary<string, List<string>>();
             Values = new Dictionary<string, string>();
         }
 
@@ -85,24 +85,6 @@ namespace AttackSurfaceAnalyzer.Objects
                 values.Add(value, str);
             }
             return values;
-        }
-
-        public RegistryObject(RegistryKey Key)
-        {
-            this.Key = Key.Name;
-            ResultType = RESULT_TYPE.REGISTRY;
-            Values = GetValues(Key);
-            Subkeys = GetSubkeys(Key);
-            PermissionsString = "";
-
-            try
-            {
-                PermissionsString = Key.GetAccessControl().GetSecurityDescriptorSddlForm(AccessControlSections.All);
-            }
-            catch (Exception e)
-            {
-                Log.Debug(e, "Failed to get security descriptor for " + Key.Name);
-            }
         }
 
         public override string Identity

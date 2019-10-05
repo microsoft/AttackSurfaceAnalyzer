@@ -58,9 +58,9 @@ namespace AttackSurfaceAnalyzer.Utils
                 // even though its not a directory on Mac OS.
                 // System.IO.Directory.GetDirectories is how we get the 
                 // directories which sometimes gives you things that aren't directories.
-                catch (Exception e)
+                catch (IOException)
                 {
-                    Logger.DebugException(e);
+                    Log.Debug("IO Error: {0}", currentDir);
                     continue;
                 }
 
@@ -130,11 +130,8 @@ namespace AttackSurfaceAnalyzer.Utils
                         // then just continue.
                         continue;
                     }
-                    catch (Exception e)
+                    catch (IOException)
                     {
-                        Logger.DebugException(e);
-
-                        AsaTelemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Warning, e);
                         continue;
                     }
                     dirs.Push(str);

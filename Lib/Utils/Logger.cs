@@ -53,15 +53,5 @@ namespace AttackSurfaceAnalyzer.Utils
                    .CreateLogger();
             }
         }
-
-        public static void DebugException(Exception e)
-        {
-            Log.Debug("{0} {1} {2}", e.GetType().ToString(), e.Message, e.StackTrace);
-        }
-
-        public static void VerboseException(Exception e)
-        {
-            Log.Verbose("{0} {1} {2}", e.GetType().ToString(), e.Message, e.StackTrace);
-        }
     }
 }

@@ -86,9 +86,9 @@ namespace AttackSurfaceAnalyzer.Utils
                     }
                 }
             }
-            catch (Exception e)
+            catch (JsonException)
             {
-                Logger.DebugException(e);
+                Log.Information(Strings.Get("Err_ParsingFilters"));
             }
         }
 
@@ -355,7 +355,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     }
                     catch (Exception e)
                     {
-                        Logger.DebugException(e);
+                        Log.Debug(e,$"Hit while parsing {JsonConvert.SerializeObject(rule)} onto {JsonConvert.SerializeObject(compareResult)}");
                         return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
                     }
                 }

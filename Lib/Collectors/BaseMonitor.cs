@@ -5,7 +5,7 @@ using AttackSurfaceAnalyzer.Types;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
-    public abstract class BaseMonitor : PlatformRunnable
+    public abstract class BaseMonitor : IPlatformRunnable
     {
         public string RunId { get; set; } 
 

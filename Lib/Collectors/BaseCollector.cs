@@ -13,7 +13,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// <summary>
     /// Base class for all collectors.
     /// </summary>
-    public abstract class BaseCollector : PlatformRunnable
+    public abstract class BaseCollector : IPlatformRunnable
     {
         public string RunId { get; set; }
 

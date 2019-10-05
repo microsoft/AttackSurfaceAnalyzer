@@ -320,7 +320,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 // We won't start new collections while existing ones are ongoing.
                 if (c.IsRunning() == RUN_STATUS.RUNNING)
                 {
-                    return Json(ERRORS.ALREADY_RUNNING);
+                    return Json(GUI_ERROR.ALREADY_RUNNING);
                 }
             }
             AttackSurfaceAnalyzerClient.ClearCollectors();
@@ -333,13 +333,13 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 {
                     while (reader.Read())
                     {
-                        return Json(ERRORS.UNIQUE_ID);
+                        return Json(GUI_ERROR.UNIQUE_ID);
                     }
                 }
             }
 
             Task.Factory.StartNew<int>(() => AttackSurfaceAnalyzerClient.RunCollectCommand(opts));
-            return Json(ERRORS.NONE);
+            return Json(GUI_ERROR.NONE);
         }
 
         public IActionResult Collect()
@@ -382,7 +382,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                     {
                         Log.Warning(e.StackTrace);
                         Log.Warning(e.Message);
-                        return Json((int)ERRORS.UNIQUE_ID);
+                        return Json((int)GUI_ERROR.UNIQUE_ID);
                     }
                 }
 
