@@ -59,7 +59,7 @@ namespace AttackSurfaceAnalyzer.Utils
             OnChangedDelegate = OnChangedAction;
             OnCreatedDelegate = OnCreatedAction;
             OnDeletedDelegate = OnDeletedAction;
-            OnRenamedDelegate = OnDeletedAction;
+            OnRenamedDelegate = OnRenamedAction;
 
             watcher = new FileSystemWatcher();
 

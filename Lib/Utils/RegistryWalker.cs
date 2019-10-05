@@ -10,9 +10,8 @@ using System.Security.Principal;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
-    public class RegistryWalker
+    public static class RegistryWalker
     {
-
         public static IEnumerable<RegistryObject> WalkHive(RegistryHive Hive, string startingKey = null)
         {
             Stack<RegistryKey> keys = new Stack<RegistryKey>();
@@ -41,7 +40,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     continue;
                 }
-                if (Filter.IsFiltered(Helpers.GetPlatformString(), "Scan", "Registry", "Key", currentKey.Name))
+                if (Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "Registry", "Key", currentKey.Name))
                 {
                     continue;
                 }

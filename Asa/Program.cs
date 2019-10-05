@@ -25,7 +25,6 @@ using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer
 {
-
     public class CompareCommandOptions
     {
         [Option(HelpText = "Name of output database", Default = "asa.sqlite")]
@@ -322,7 +321,7 @@ namespace AttackSurfaceAnalyzer
         private static void SleepAndOpenBrowser(int sleep)
         {
             Thread.Sleep(sleep);
-            Helpers.OpenBrowser(new System.Uri("http://localhost:5000"));
+            AsaHelpers.OpenBrowser(new System.Uri("http://localhost:5000"));
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2241:Provide correct arguments to formatting methods", Justification = "<Pending>")]
@@ -533,12 +532,12 @@ namespace AttackSurfaceAnalyzer
 
             if (opts.ExplodedOutput)
             {
-                results.Add("metadata", Helpers.GenerateMetadata());
-                string path = Path.Combine(opts.OutputPath, Helpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId));
+                results.Add("metadata", AsaHelpers.GenerateMetadata());
+                string path = Path.Combine(opts.OutputPath, AsaHelpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId));
                 Directory.CreateDirectory(path);
                 foreach (var key in results.Keys)
                 {
-                    string filePath = Path.Combine(path, Helpers.MakeValidFileName(key));
+                    string filePath = Path.Combine(path, AsaHelpers.MakeValidFileName(key));
                     using (StreamWriter sw = new StreamWriter(filePath)) //lgtm[cs/path-injection]
                     {
                         using (JsonWriter writer = new JsonTextWriter(sw))
@@ -551,10 +550,10 @@ namespace AttackSurfaceAnalyzer
             }
             else
             {
-                string path = Path.Combine(opts.OutputPath, Helpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId + "_summary.json.txt"));
+                string path = Path.Combine(opts.OutputPath, AsaHelpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId + "_summary.json.txt"));
                 var output = new Dictionary<string, Object>();
                 output["results"] = results;
-                output["metadata"] = Helpers.GenerateMetadata();
+                output["metadata"] = AsaHelpers.GenerateMetadata();
                 using (StreamWriter sw = new StreamWriter(path)) //lgtm[cs/path-injection]
                 {
                     using (JsonWriter writer = new JsonTextWriter(sw))
@@ -623,7 +622,7 @@ namespace AttackSurfaceAnalyzer
                 List<CompareResult> records = new List<CompareResult>();
                 using (var cmd = new SqliteCommand(GET_COMPARISON_RESULTS, DatabaseManager.Connection, DatabaseManager.Transaction))
                 {
-                    cmd.Parameters.AddWithValue("@comparison_id", Helpers.RunIdsToCompareId(BaseId, CompareId));
+                    cmd.Parameters.AddWithValue("@comparison_id", AsaHelpers.RunIdsToCompareId(BaseId, CompareId));
                     cmd.Parameters.AddWithValue("@result_type", ExportType);
                     using (var reader = cmd.ExecuteReader())
                     {
@@ -642,8 +641,8 @@ namespace AttackSurfaceAnalyzer
                     serializer.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
                     var o = new Dictionary<string, Object>();
                     o["results"] = records;
-                    o["metadata"] = Helpers.GenerateMetadata();
-                    using (StreamWriter sw = new StreamWriter(Path.Combine(OutputPath, Helpers.MakeValidFileName(BaseId + "_vs_" + CompareId + "_" + ExportType.ToString() + ".json.txt")))) //lgtm[cs/path-injection]
+                    o["metadata"] = AsaHelpers.GenerateMetadata();
+                    using (StreamWriter sw = new StreamWriter(Path.Combine(OutputPath, AsaHelpers.MakeValidFileName(BaseId + "_vs_" + CompareId + "_" + ExportType.ToString() + ".json.txt")))) //lgtm[cs/path-injection]
                     {
                         using (JsonWriter writer = new JsonTextWriter(sw))
                         {
@@ -656,8 +655,8 @@ namespace AttackSurfaceAnalyzer
             serializer.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
             var output = new Dictionary<string, Object>();
             output["results"] = actualExported;
-            output["metadata"] = Helpers.GenerateMetadata();
-            using (StreamWriter sw = new StreamWriter(Path.Combine(OutputPath, Helpers.MakeValidFileName(BaseId + "_vs_" + CompareId + "_summary.json.txt")))) //lgtm[cs/path-injection]
+            output["metadata"] = AsaHelpers.GenerateMetadata();
+            using (StreamWriter sw = new StreamWriter(Path.Combine(OutputPath, AsaHelpers.MakeValidFileName(BaseId + "_vs_" + CompareId + "_summary.json.txt")))) //lgtm[cs/path-injection]
             {
                 using (JsonWriter writer = new JsonTextWriter(sw))
                 {
@@ -756,8 +755,8 @@ namespace AttackSurfaceAnalyzer
             });
             var output = new Dictionary<string, Object>();
             output["results"] = records;
-            output["metadata"] = Helpers.GenerateMetadata();
-            string path = Path.Combine(OutputPath, Helpers.MakeValidFileName(RunId + "_Monitoring_" + ((RESULT_TYPE)ResultType).ToString() + ".json.txt"));
+            output["metadata"] = AsaHelpers.GenerateMetadata();
+            string path = Path.Combine(OutputPath, AsaHelpers.MakeValidFileName(RunId + "_Monitoring_" + ((RESULT_TYPE)ResultType).ToString() + ".json.txt"));
 
             using (StreamWriter sw = new StreamWriter(path)) //lgtm[cs/path-injection]
             using (JsonWriter writer = new JsonTextWriter(sw))
@@ -784,7 +783,7 @@ namespace AttackSurfaceAnalyzer
 
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("Files", opts.EnableFileSystemMonitor.ToString(CultureInfo.InvariantCulture));
-            StartEvent.Add("Admin", Helpers.IsAdmin().ToString(CultureInfo.InvariantCulture));
+            StartEvent.Add("Admin", AsaHelpers.IsAdmin().ToString(CultureInfo.InvariantCulture));
             AsaTelemetry.TrackEvent("Begin monitoring", StartEvent);
 
             CheckFirstRun();
@@ -833,8 +832,8 @@ namespace AttackSurfaceAnalyzer
             cmd.Parameters.AddWithValue("@eventlogs", false);
             cmd.Parameters.AddWithValue("@type", "monitor");
             cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("o",CultureInfo.InvariantCulture));
-            cmd.Parameters.AddWithValue("@version", Helpers.GetVersionString());
-            cmd.Parameters.AddWithValue("@platform", Helpers.GetPlatformString());
+            cmd.Parameters.AddWithValue("@version", AsaHelpers.GetVersionString());
+            cmd.Parameters.AddWithValue("@platform", AsaHelpers.GetPlatformString());
             try
             {
                 cmd.ExecuteNonQuery();
@@ -1211,7 +1210,7 @@ namespace AttackSurfaceAnalyzer
             StartEvent.Add("Firewall", opts.EnableFirewallCollector.ToString(CultureInfo.InvariantCulture));
             StartEvent.Add("ComObject", opts.EnableComObjectCollector.ToString(CultureInfo.InvariantCulture));
             StartEvent.Add("EventLog", opts.EnableEventLogCollector.ToString(CultureInfo.InvariantCulture));
-            StartEvent.Add("Admin", Helpers.IsAdmin().ToString(CultureInfo.InvariantCulture));
+            StartEvent.Add("Admin", AsaHelpers.IsAdmin().ToString(CultureInfo.InvariantCulture));
             AsaTelemetry.TrackEvent("Run Command", StartEvent);
 
             AdminOrQuit();
@@ -1342,8 +1341,8 @@ namespace AttackSurfaceAnalyzer
                 cmd.Parameters.AddWithValue("@run_id", opts.RunId);
                 cmd.Parameters.AddWithValue("@type", "collect");
                 cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("o", CultureInfo.InvariantCulture));
-                cmd.Parameters.AddWithValue("@version", Helpers.GetVersionString());
-                cmd.Parameters.AddWithValue("@platform", Helpers.GetPlatformString());
+                cmd.Parameters.AddWithValue("@version", AsaHelpers.GetVersionString());
+                cmd.Parameters.AddWithValue("@platform", AsaHelpers.GetPlatformString());
 
                 try
                 {
@@ -1417,7 +1416,9 @@ namespace AttackSurfaceAnalyzer
             collectors = new List<BaseCollector>();
         }
 
+
         // Used for monitors. This writes a little spinner animation to indicate that monitoring is underway
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "These symbols won't be localized")]
         static void WriteSpinner(ManualResetEvent untilDone)
         {
             int counter = 0;

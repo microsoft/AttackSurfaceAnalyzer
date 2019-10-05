@@ -223,7 +223,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         private void OnChanged(object source, FileSystemEventArgs e)
         {
-            if (Filter.IsFiltered(Helpers.GetPlatformString(), "Monitor", "File", "Path", e.FullPath))
+            if (Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Monitor", "File", "Path", e.FullPath))
             {
                 return;
             }
@@ -251,7 +251,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         private void OnRenamed(object source, RenamedEventArgs e)
         {
-            if (Filter.IsFiltered(Helpers.GetPlatformString(), "Monitor", "File", "Path", e.FullPath))
+            if (Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Monitor", "File", "Path", e.FullPath))
             {
                 return;
             }

@@ -27,10 +27,9 @@ namespace AttackSurfaceAnalyzer.Collectors
             ExecuteInternal();
             Stop();
         }
+        public abstract bool CanRunOnPlatform();
 
         public abstract void ExecuteInternal();
-
-        public abstract bool CanRunOnPlatform();
 
         private Stopwatch watch;
 

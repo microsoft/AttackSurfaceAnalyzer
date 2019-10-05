@@ -42,7 +42,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 config.InstrumentationKey = INSTRUMENTATION_KEY;
                 config.DisableTelemetry = OptOut;
                 Client = new TelemetryClient(config);
-                Client.Context.Component.Version = Helpers.GetVersionString();
+                Client.Context.Component.Version = AsaHelpers.GetVersionString();
                 // Force some values to static values to prevent gathering unneeded data
                 Client.Context.Cloud.RoleInstance =  "Asa";
                 Client.Context.Cloud.RoleName = "Asa";
@@ -62,7 +62,7 @@ namespace AttackSurfaceAnalyzer.Utils
             config.InstrumentationKey = INSTRUMENTATION_KEY;
             config.DisableTelemetry = OptOut;
             Client = new TelemetryClient(config);
-            Client.Context.Component.Version = Helpers.GetVersionString();
+            Client.Context.Component.Version = AsaHelpers.GetVersionString();
             // Force some values to static values to prevent gathering unneeded data
             Client.Context.Cloud.RoleInstance = "Asa";
             Client.Context.Cloud.RoleName = "Asa";
@@ -77,9 +77,9 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void TrackEvent(string name, Dictionary<string, string> evt)
         {
-            evt.Add("Version", Helpers.GetVersionString());
-            evt.Add("OS", Helpers.GetOsName());
-            evt.Add("OS_Version", Helpers.GetOsVersion());
+            evt.Add("Version", AsaHelpers.GetVersionString());
+            evt.Add("OS", AsaHelpers.GetOsName());
+            evt.Add("OS_Version", AsaHelpers.GetOsVersion());
             evt.Add("Method", new System.Diagnostics.StackFrame(1).GetMethod().Name);
             Client.TrackEvent(name, evt);
         }
@@ -87,9 +87,9 @@ namespace AttackSurfaceAnalyzer.Utils
         public static void TrackTrace(SeverityLevel severityLevel, Exception e)
         {
             var evt = new Dictionary<string, string>();
-            evt.Add("Version", Helpers.GetVersionString());
-            evt.Add("OS", Helpers.GetOsName());
-            evt.Add("OS_Version", Helpers.GetOsVersion());
+            evt.Add("Version", AsaHelpers.GetVersionString());
+            evt.Add("OS", AsaHelpers.GetOsName());
+            evt.Add("OS_Version", AsaHelpers.GetOsVersion());
             evt.Add("Method", new System.Diagnostics.StackFrame(1).GetMethod().Name);
             evt.Add("Stack", e.StackTrace);
             Client.TrackTrace(e.GetType().ToString(), severityLevel, evt);

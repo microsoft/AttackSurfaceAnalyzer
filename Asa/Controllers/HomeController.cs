@@ -116,7 +116,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
             using (var cmd = new SqliteCommand(GET_COMPARISON_RESULTS, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
-                cmd.Parameters.AddWithValue("@comparison_id", Helpers.RunIdsToCompareId(BaseId, CompareId));
+                cmd.Parameters.AddWithValue("@comparison_id", AsaHelpers.RunIdsToCompareId(BaseId, CompareId));
                 cmd.Parameters.AddWithValue("@result_type", ResultType);
                 cmd.Parameters.AddWithValue("@offset", Offset);
                 cmd.Parameters.AddWithValue("@limit", NumResults);
@@ -135,7 +135,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             var result_count = 0;
             using (var cmd = new SqliteCommand(GET_RESULT_COUNT, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
-                cmd.Parameters.AddWithValue("@comparison_id", Helpers.RunIdsToCompareId(BaseId, CompareId));
+                cmd.Parameters.AddWithValue("@comparison_id", AsaHelpers.RunIdsToCompareId(BaseId, CompareId));
                 cmd.Parameters.AddWithValue("@result_type", ResultType);
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -371,8 +371,8 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                     cmd.Parameters.AddWithValue("@comobjects", false);
                     cmd.Parameters.AddWithValue("@type", "monitor");
                     cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("o", CultureInfo.InvariantCulture));
-                    cmd.Parameters.AddWithValue("@version", Helpers.GetVersionString());
-                    cmd.Parameters.AddWithValue("@platform", Helpers.GetPlatformString());
+                    cmd.Parameters.AddWithValue("@version", AsaHelpers.GetVersionString());
+                    cmd.Parameters.AddWithValue("@platform", AsaHelpers.GetPlatformString());
                     try
                     {
                         cmd.ExecuteNonQuery();

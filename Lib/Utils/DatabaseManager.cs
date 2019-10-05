@@ -200,7 +200,7 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 using (var cmd = new SqliteCommand(SQL_INSERT_FINDINGS_RESULT, Connection, Transaction))
                 {
-                    cmd.Parameters.AddWithValue("@comparison_id", Helpers.RunIdsToCompareId(objIn.BaseRunId, objIn.CompareRunId));
+                    cmd.Parameters.AddWithValue("@comparison_id", AsaHelpers.RunIdsToCompareId(objIn.BaseRunId, objIn.CompareRunId));
                     cmd.Parameters.AddWithValue("@result_type", objIn.ResultType);
                     cmd.Parameters.AddWithValue("@level", objIn.Analysis);
                     cmd.Parameters.AddWithValue("@identity", objIn.Identity);

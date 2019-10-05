@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
-    public static class Helpers
+    public static class AsaHelpers
     {
         public static string HexStringToAscii(string hex)
         {
@@ -107,7 +107,7 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                return Helpers.GetPlatformString();
+                return AsaHelpers.GetPlatformString();
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {

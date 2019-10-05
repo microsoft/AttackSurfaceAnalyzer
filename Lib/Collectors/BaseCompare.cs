@@ -174,7 +174,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             var firstVal = field.GetValue(first);
                             var secondVal = field.GetValue(second);
 
-                            if (Helpers.IsList(firstVal))
+                            if (AsaHelpers.IsList(firstVal))
                             {
                                 try
                                 {
@@ -207,7 +207,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     removed = null;
                                 }
                             }
-                            else if (Helpers.IsDictionary(firstVal))
+                            else if (AsaHelpers.IsDictionary(firstVal))
                             {
                                 added = ((Dictionary<object, object>)secondVal)
                                     .Except((Dictionary<object, object>)firstVal)

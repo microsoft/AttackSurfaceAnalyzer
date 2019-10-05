@@ -73,13 +73,13 @@ namespace AttackSurfaceAnalyzer.Collectors
                 (hive =>
                 {
                     Log.Debug("Starting " + hive.ToString());
-                    if (!Filter.IsFiltered(Helpers.GetPlatformString(), "Scan", "Registry", "Hive", "Include", hive.ToString()) && Filter.IsFiltered(Helpers.GetPlatformString(), "Scan", "Registry", "Hive", "Exclude", hive.ToString(), out Regex Capturer))
+                    if (!Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "Registry", "Hive", "Include", hive.ToString()) && Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "Registry", "Hive", "Exclude", hive.ToString(), out Regex Capturer))
                     {
                         Log.Debug("{0} '{1}' {2} '{3}'.", Strings.Get("ExcludingHive"), hive.ToString(), Strings.Get("DueToFilter"), Capturer.ToString());
                         return;
                     }
 
-                    Filter.IsFiltered(Helpers.GetPlatformString(), "Scan", "Registry", "Key", "Exclude", hive.ToString());
+                    Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "Registry", "Key", "Exclude", hive.ToString());
                     var registryInfoEnumerable = RegistryWalker.WalkHive(hive);
                     try
                     {
