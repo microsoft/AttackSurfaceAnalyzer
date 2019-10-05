@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -56,12 +57,10 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 if (subkeyName.EndsWith("Classes"))
                 {
-                    using var ComKey = SearchKey.OpenSubKey(subkeyName).OpenSubKey("CLSID");
+                    using var ComKey = SubSearchKey.OpenSubKey(subkeyName).OpenSubKey("CLSID");
                     ParseComObjects(ComKey);
-                    SearchKey.Dispose();
                 }
             }
-
 
             DatabaseManager.Commit();
         }
@@ -69,7 +68,8 @@ namespace AttackSurfaceAnalyzer.Collectors
         public void ParseComObjects(RegistryKey SearchKey)
         {
             if (SearchKey == null) { return; }
-            foreach (string SubKeyName in SearchKey.GetSubKeyNames())
+            List<ComObject> comObjects = new List<ComObject>();
+            Parallel.ForEach(SearchKey.GetSubKeyNames(), (SubKeyName) =>
             {
                 try
                 {
@@ -106,10 +106,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                             BinaryPath32 = Path.Combine(Environment.SystemDirectory, BinaryPath32.Trim());
                         }
 
-
                         comObject.x86_Binary = FileSystemCollector.FileSystemInfoToFileSystemObject(new FileInfo(BinaryPath32.Trim()), true);
                         comObject.x86_BinaryName = BinaryPath32;
-
                     }
                     // And the InProcServer64 for 64 bit
                     if (comObject.Subkeys.Where(x => x.Key.Contains("InprocServer64")).Any() && comObject.Subkeys.Where(x => x.Key.Contains("InprocServer64")).First().Values.ContainsKey(""))
@@ -132,13 +130,18 @@ namespace AttackSurfaceAnalyzer.Collectors
                         comObject.x64_BinaryName = BinaryPath64;
                     }
 
-                    DatabaseManager.Write(comObject, RunId);
+                    comObjects.Add(comObject);
                 }
                 catch (Exception e)
                 {
                     Log.Debug(e, "Couldn't parse {0}", SubKeyName);
                 }
 
+            });
+
+            foreach(var comObject in comObjects)
+            {
+                DatabaseManager.Write(comObject, RunId);
             }
         }
     }
