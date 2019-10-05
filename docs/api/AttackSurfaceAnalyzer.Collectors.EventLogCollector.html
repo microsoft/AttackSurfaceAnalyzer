@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class EventLogCollector
    ">
-    <meta name="generator" content="docfx 2.45.0.0">
+    <meta name="generator" content="docfx 2.45.1.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -82,13 +82,14 @@
     <div class="level1"><a class="xref" href="AttackSurfaceAnalyzer.Collectors.BaseCollector.html">BaseCollector</a></div>
     <div class="level2"><span class="xref">EventLogCollector</span></div>
   </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="AttackSurfaceAnalyzer.Collectors.IPlatformRunnable.html">IPlatformRunnable</a></div>
+  </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
     <div>
-      <a class="xref" href="AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_runId">BaseCollector.runId</a>
-    </div>
-    <div>
-      <a class="xref" href="AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector__numCollected">BaseCollector._numCollected</a>
+      <a class="xref" href="AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_RunId">BaseCollector.RunId</a>
     </div>
     <div>
       <a class="xref" href="AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_Execute">BaseCollector.Execute()</a>
@@ -131,24 +132,24 @@
   <h6><strong>Assembly</strong>: AsaLib.dll</h6>
   <h5 id="AttackSurfaceAnalyzer_Collectors_EventLogCollector_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class EventLogCollector : BaseCollector, PlatformRunnable</code></pre>
+    <pre><code class="lang-csharp hljs">public class EventLogCollector : BaseCollector, IPlatformRunnable</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/master/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_EventLogCollector__ctor_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.EventLogCollector.%23ctor(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/DependenciesAndRoslyn/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_EventLogCollector__ctor_System_String_System_Boolean_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.EventLogCollector.%23ctor(System.String%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/Lib/Collectors/EventLogCollector.cs/#L22">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/DependenciesAndRoslyn/Lib/Collectors/EventLogCollector.cs/#L24">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Collectors_EventLogCollector__ctor_" data-uid="AttackSurfaceAnalyzer.Collectors.EventLogCollector.#ctor*"></a>
-  <h4 id="AttackSurfaceAnalyzer_Collectors_EventLogCollector__ctor_System_String_" data-uid="AttackSurfaceAnalyzer.Collectors.EventLogCollector.#ctor(System.String)">EventLogCollector(String)</h4>
+  <h4 id="AttackSurfaceAnalyzer_Collectors_EventLogCollector__ctor_System_String_System_Boolean_" data-uid="AttackSurfaceAnalyzer.Collectors.EventLogCollector.#ctor(System.String,System.Boolean)">EventLogCollector(String, Boolean)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public EventLogCollector(string runId)</code></pre>
+    <pre><code class="lang-csharp hljs">public EventLogCollector(string runId, bool GatherVerboseLogs = false)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -165,16 +166,21 @@
         <td><span class="parametername">runId</span></td>
         <td></td>
       </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">GatherVerboseLogs</span></td>
+        <td></td>
+      </tr>
     </tbody>
   </table>
   <h3 id="methods">Methods
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/master/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_EventLogCollector_CanRunOnPlatform.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.EventLogCollector.CanRunOnPlatform%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/DependenciesAndRoslyn/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_EventLogCollector_CanRunOnPlatform.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.EventLogCollector.CanRunOnPlatform%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/Lib/Collectors/EventLogCollector.cs/#L212">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/DependenciesAndRoslyn/Lib/Collectors/EventLogCollector.cs/#L222">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Collectors_EventLogCollector_CanRunOnPlatform_" data-uid="AttackSurfaceAnalyzer.Collectors.EventLogCollector.CanRunOnPlatform*"></a>
   <h4 id="AttackSurfaceAnalyzer_Collectors_EventLogCollector_CanRunOnPlatform" data-uid="AttackSurfaceAnalyzer.Collectors.EventLogCollector.CanRunOnPlatform">CanRunOnPlatform()</h4>
@@ -203,10 +209,10 @@
   <div><a class="xref" href="AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_CanRunOnPlatform">BaseCollector.CanRunOnPlatform()</a></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/master/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteInternal.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteInternal%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/DependenciesAndRoslyn/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteInternal.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteInternal%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/Lib/Collectors/EventLogCollector.cs/#L27">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/DependenciesAndRoslyn/Lib/Collectors/EventLogCollector.cs/#L30">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteInternal_" data-uid="AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteInternal*"></a>
   <h4 id="AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteInternal" data-uid="AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteInternal">ExecuteInternal()</h4>
@@ -220,14 +226,14 @@
   <div><a class="xref" href="AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_ExecuteInternal">BaseCollector.ExecuteInternal()</a></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/master/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteLinux.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteLinux%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/DependenciesAndRoslyn/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteLinux.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteLinux%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/Lib/Collectors/EventLogCollector.cs/#L99">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/DependenciesAndRoslyn/Lib/Collectors/EventLogCollector.cs/#L102">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteLinux_" data-uid="AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteLinux*"></a>
   <h4 id="AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteLinux" data-uid="AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteLinux">ExecuteLinux()</h4>
-  <div class="markdown level1 summary"><p>Parses /var/log/auth.log and /var/log/syslog</p>
+  <div class="markdown level1 summary"><p>Parses /var/log/auth.log and /var/log/syslog (no way to distinguish severity)</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -236,14 +242,14 @@
   </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/master/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteMacOs.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteMacOs%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/DependenciesAndRoslyn/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteMacOs.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteMacOs%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/Lib/Collectors/EventLogCollector.cs/#L154">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/DependenciesAndRoslyn/Lib/Collectors/EventLogCollector.cs/#L157">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteMacOs_" data-uid="AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteMacOs*"></a>
   <h4 id="AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteMacOs" data-uid="AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteMacOs">ExecuteMacOs()</h4>
-  <div class="markdown level1 summary"><p>Collect event logs on macOS using the 'log' utility.</p>
+  <div class="markdown level1 summary"><p>Collect event logs on macOS using the 'log' utility</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -252,10 +258,10 @@
   </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/master/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteWindows.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteWindows%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/DependenciesAndRoslyn/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteWindows.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteWindows%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/Lib/Collectors/EventLogCollector.cs/#L55">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/DependenciesAndRoslyn/Lib/Collectors/EventLogCollector.cs/#L58">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteWindows_" data-uid="AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteWindows*"></a>
   <h4 id="AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteWindows" data-uid="AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteWindows">ExecuteWindows()</h4>
@@ -266,6 +272,10 @@
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public void ExecuteWindows()</code></pre>
   </div>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="AttackSurfaceAnalyzer.Collectors.IPlatformRunnable.html">IPlatformRunnable</a>
+  </div>
 </article>
           </div>
           
@@ -274,10 +284,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/master/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_EventLogCollector.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.EventLogCollector%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/DependenciesAndRoslyn/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_EventLogCollector.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.EventLogCollector%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/Lib/Collectors/EventLogCollector.cs/#L20" class="contribution-link">View Source</a>
+                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/DependenciesAndRoslyn/Lib/Collectors/EventLogCollector.cs/#L21" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
