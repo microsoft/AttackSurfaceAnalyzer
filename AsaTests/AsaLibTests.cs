@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
+using System.Text;
 using AttackSurfaceAnalyzer.Collectors;
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
@@ -23,7 +24,7 @@ namespace AsaTests
         {
             Logger.Setup();
             Strings.Setup();
-            Telemetry.TestMode();
+            AsaTelemetry.TestMode();
             DatabaseManager.SqliteFilename = Path.GetTempFileName();
             DatabaseManager.Setup();
         }
@@ -48,12 +49,17 @@ namespace AsaTests
             var FirstRunId = "TestFileCollector-1";
             var SecondRunId = "TestFileCollector-2";
 
-            var fsc = new FileSystemCollector(FirstRunId, enableHashing: true, directories: Path.GetTempPath(), downloadCloud: false, examineCertificates: true);
+            var testFolder = AsaHelpers.GetTempFolder();
+            Directory.CreateDirectory(testFolder);
+
+            var fsc = new FileSystemCollector(FirstRunId, enableHashing: true, directories: testFolder, downloadCloud: false, examineCertificates: true);
             fsc.Execute();
 
-            var testFile = Path.GetTempFileName();
+            using var file = File.Open(Path.Combine(testFolder, "AsaLibTester"), FileMode.OpenOrCreate);
+            file.Write(Encoding.ASCII.GetBytes("MZ00"), 0, 4);
+            file.Close();
 
-            fsc = new FileSystemCollector(SecondRunId, enableHashing: true, directories: Path.GetTempPath(), downloadCloud: false, examineCertificates: true);
+            fsc = new FileSystemCollector(SecondRunId, enableHashing: true, directories: testFolder, downloadCloud: false, examineCertificates: true);
             fsc.Execute();
 
             BaseCompare bc = new BaseCompare();
@@ -65,7 +71,8 @@ namespace AsaTests
             Dictionary<string, List<CompareResult>> results = bc.Results;
 
             Assert.IsTrue(results.ContainsKey("FILE_CREATED"));
-            Assert.IsTrue(results["FILE_CREATED"].Where(x => x.Identity.Contains(testFile)).Count() > 0);
+            Assert.IsTrue(results["FILE_CREATED"].Where(x => x.Identity.Contains("AsaLibTester")).Any());
+            Assert.IsTrue(results["FILE_CREATED"].Where(x => ((FileSystemObject)x.Compare).IsExecutable == true).Any());
 
             TearDown();
         }
@@ -380,7 +387,7 @@ namespace AsaTests
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                Assert.IsTrue(Helpers.IsAdmin());
+                Assert.IsTrue(AsaHelpers.IsAdmin());
                 Setup();
 
                 var FirstRunId = "TestUserCollector-1";
@@ -421,7 +428,7 @@ namespace AsaTests
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                Assert.IsTrue(Helpers.IsAdmin());
+                Assert.IsTrue(AsaHelpers.IsAdmin());
                 Setup();
                 var FirstRunId = "TestFirewallCollector-1";
                 var SecondRunId = "TestFirewallCollector-2";
