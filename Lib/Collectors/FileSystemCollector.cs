@@ -13,6 +13,7 @@ using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer.Collectors
@@ -147,8 +148,13 @@ namespace AttackSurfaceAnalyzer.Collectors
                     Log.Warning(e, "Error collecting file system information: {0}", e.Message);
                 }
 
-                DatabaseManager.Commit();
+                while (DatabaseManager.HasElements())
+                {
+                    Log.Debug("Waiting for Database manager to finish flushing.");
+                    Thread.Sleep(1);
+                }
 
+                DatabaseManager.Commit();
             }
         }
 

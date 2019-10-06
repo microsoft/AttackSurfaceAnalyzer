@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer.Collectors
@@ -95,6 +96,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                         }));
                 }));
 
+            while (DatabaseManager.HasElements())
+            {
+                Log.Debug("Waiting for Database manager to finish flushing.");
+                Thread.Sleep(1);
+            }
             DatabaseManager.Commit();
         }
     }

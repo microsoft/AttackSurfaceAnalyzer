@@ -133,4 +133,10 @@ namespace AttackSurfaceAnalyzer.Objects
             ResultType = RESULT_TYPE.CERTIFICATE;
         }
     }
+
+    public class WriteObject
+    {
+        public CollectObject ColObj { get; set; }
+        public string RunId { get; set; }
+    }
 }

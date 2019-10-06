@@ -10,8 +10,7 @@ using System.Security.AccessControl;
 namespace AttackSurfaceAnalyzer.Objects
 {
     public class RegistryObject : CollectObject
-    {
-
+    { 
         public string Key { get; set; }
         public Dictionary<string, string> Values { get; }
         public List<string> Subkeys { get; }

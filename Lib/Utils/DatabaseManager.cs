@@ -7,10 +7,13 @@ using Mono.Unix;
 using Newtonsoft.Json;
 using Serilog;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -73,12 +76,15 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private static SqliteTransaction _transaction;
 
+        private static ConcurrentQueue<WriteObject> WriteQueue { get; set; }
+
         public static bool FirstRun { get; private set; } = true;
 
         public static bool Setup()
         {
             if (Connection == null)
             {
+                WriteQueue = new ConcurrentQueue<WriteObject>();
                 Connection = new SqliteConnection($"Filename=" + _SqliteFilename);
                 Connection.Open();
 
@@ -153,9 +159,32 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
 
                 Commit();
+
+                ((Action)(async () =>
+                {
+                    await Task.Run(() => KeepSleepAndFlushQueue()).ConfigureAwait(false);
+                }))();
                 return true;
             }
             return false;
+        }
+
+        public static bool HasElements()
+        {
+            return !WriteQueue.IsEmpty;
+        }
+
+        public static void KeepSleepAndFlushQueue()
+        {
+            while (true)
+            {
+                SleepAndFlushQueue();
+            }
+        }
+        public static void SleepAndFlushQueue()
+        {
+            while (!WriteQueue.IsEmpty) { WriteNext(); }
+            Thread.Sleep(500);
         }
 
         public static PLATFORM RunIdToPlatform(string runid)
@@ -378,20 +407,26 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             if (objIn != null && runId != null)
             {
-                try
-                {
-                    using var cmd = new SqliteCommand(SQL_INSERT_COLLECT_RESULT, Connection, Transaction);
-                    cmd.Parameters.AddWithValue("@run_id", runId);
-                    cmd.Parameters.AddWithValue("@row_key", CryptoHelpers.CreateHash(JsonConvert.SerializeObject(objIn)));
-                    cmd.Parameters.AddWithValue("@identity", objIn.Identity);
-                    cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(objIn, Formatting.None, new JsonSerializerSettings() { DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore }));
-                    cmd.Parameters.AddWithValue("@result_type", objIn.ResultType);
-                    cmd.ExecuteNonQuery();
-                }
-                catch (SqliteException)
-                {
-                    Log.Debug($"Error writing {objIn.Identity} to database.");
-                }
+                WriteQueue.Enqueue(new WriteObject() { ColObj = objIn, RunId = runId });
+            }
+        }
+
+        public static void WriteNext()
+        {
+            WriteQueue.TryDequeue(out WriteObject objIn);
+            try
+            {
+                using var cmd = new SqliteCommand(SQL_INSERT_COLLECT_RESULT, Connection, Transaction);
+                cmd.Parameters.AddWithValue("@run_id", objIn.RunId);
+                cmd.Parameters.AddWithValue("@row_key", CryptoHelpers.CreateHash(JsonConvert.SerializeObject(objIn.ColObj)));
+                cmd.Parameters.AddWithValue("@identity", objIn.ColObj.Identity);
+                cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(objIn.ColObj, Formatting.None, new JsonSerializerSettings() { DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore }));
+                cmd.Parameters.AddWithValue("@result_type", objIn.ColObj.ResultType);
+                cmd.ExecuteNonQuery();
+            }
+            catch (SqliteException)
+            {
+                Log.Debug($"Error writing {objIn.ColObj.Identity} to database.");
             }
         }
 
