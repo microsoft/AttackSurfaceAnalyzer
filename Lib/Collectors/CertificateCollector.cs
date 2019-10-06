@@ -6,7 +6,9 @@ using Serilog;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -17,7 +19,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         public CertificateCollector(string runId)
         {
-            this.runId = runId;
+            this.RunId = runId;
         }
 
         public override bool CanRunOnPlatform()
@@ -47,16 +49,16 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 StoreName = storeName.ToString(),
                                 CertificateHashString = certificate.GetCertHashString(),
                                 Subject = certificate.Subject,
-                                Pkcs12 = certificate.HasPrivateKey ? "redacted" : certificate.Export(X509ContentType.Pkcs12).ToString()
+                                Pkcs7 = certificate.Export(X509ContentType.Cert).ToString()
                             };
-                            DatabaseManager.Write(obj, this.runId);
+                            DatabaseManager.Write(obj, this.RunId);
                         }
+
                         store.Close();
                     }
-                    catch (Exception e)
+                    catch (CryptographicException e)
                     {
-                        Logger.DebugException(e);
-                        Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
+                        Log.Debug(e, $"Error parsing a certificate in {storeLocation} {storeName}");
                     }
                 }
             }
@@ -85,9 +87,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                             StoreName = StoreName.Root.ToString(),
                             CertificateHashString = certificate.GetCertHashString(),
                             Subject = certificate.Subject,
-                            Pkcs12 = certificate.HasPrivateKey ? "redacted" : certificate.Export(X509ContentType.Pkcs12).ToString()
+                            Pkcs7 = certificate.Export(X509ContentType.Cert).ToString()
                         };
-                        DatabaseManager.Write(obj, this.runId);
+                        DatabaseManager.Write(obj, this.RunId);
                     }
                     catch (Exception e)
                     {
@@ -99,8 +101,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
             catch (Exception e)
             {
-                Log.Error("Failed to dump certificates from 'ls /etc/ssl/certs -A'.");
-                Logger.DebugException(e);
+                Log.Error(e,"Failed to dump certificates from 'ls /etc/ssl/certs -A'.");
             }
         }
 
@@ -137,15 +138,15 @@ namespace AttackSurfaceAnalyzer.Collectors
                         StoreName = StoreName.Root.ToString(),
                         CertificateHashString = X509Certificate2Enumerator.Current.GetCertHashString(),
                         Subject = X509Certificate2Enumerator.Current.Subject,
-                        Pkcs12 = X509Certificate2Enumerator.Current.GetRawCertDataString()
+                        Pkcs7 = X509Certificate2Enumerator.Current.GetRawCertDataString()
                     };
-                    DatabaseManager.Write(obj, this.runId);
+                    DatabaseManager.Write(obj, this.RunId);
                 }
             }
             catch (Exception e)
             {
                 Log.Error("Failed to dump certificates from 'security' or 'openssl'.");
-                Logger.DebugException(e);
+                Log.Debug(e,"ExecuteMacOs()");
             }
         }
 
@@ -154,13 +155,6 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// </summary>
         public override void ExecuteInternal()
         {
-            if (!CanRunOnPlatform())
-            {
-                return;
-            }
-
-            _ = DatabaseManager.Transaction;
-
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 ExecuteWindows();
@@ -173,8 +167,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 ExecuteMacOs();
             }
-
-            DatabaseManager.Commit();
         }
     }
 }

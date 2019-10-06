@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class BaseCollector
    ">
-    <meta name="generator" content="docfx 2.45.0.0">
+    <meta name="generator" content="docfx 2.45.1.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -90,6 +90,10 @@
       <div class="level2"><a class="xref" href="AttackSurfaceAnalyzer.Collectors.ServiceCollector.html">ServiceCollector</a></div>
       <div class="level2"><a class="xref" href="AttackSurfaceAnalyzer.Collectors.UserAccountCollector.html">UserAccountCollector</a></div>
   </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="AttackSurfaceAnalyzer.Collectors.IPlatformRunnable.html">IPlatformRunnable</a></div>
+  </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
     <div>
@@ -118,54 +122,26 @@
   <h6><strong>Assembly</strong>: AsaLib.dll</h6>
   <h5 id="AttackSurfaceAnalyzer_Collectors_BaseCollector_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract class BaseCollector : PlatformRunnable</code></pre>
+    <pre><code class="lang-csharp hljs">public abstract class BaseCollector : IPlatformRunnable</code></pre>
   </div>
-  <h3 id="fields">Fields
+  <h3 id="properties">Properties
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/master/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCollector__numCollected.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCollector._numCollected%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/DependenciesAndRoslyn/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCollector_RunId.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCollector.RunId%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/Lib/Collectors/BaseCollector.cs/#L21">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/DependenciesAndRoslyn/Lib/Collectors/BaseCollector.cs/#L18">View Source</a>
   </span>
-  <h4 id="AttackSurfaceAnalyzer_Collectors_BaseCollector__numCollected" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCollector._numCollected">_numCollected</h4>
+  <a id="AttackSurfaceAnalyzer_Collectors_BaseCollector_RunId_" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCollector.RunId*"></a>
+  <h4 id="AttackSurfaceAnalyzer_Collectors_BaseCollector_RunId" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCollector.RunId">RunId</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected int _numCollected</code></pre>
+    <pre><code class="lang-csharp hljs">public string RunId { get; set; }</code></pre>
   </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Int32</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/master/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCollector_runId.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCollector.runId%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/Lib/Collectors/BaseCollector.cs/#L17">View Source</a>
-  </span>
-  <h4 id="AttackSurfaceAnalyzer_Collectors_BaseCollector_runId" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCollector.runId">runId</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public string runId</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
+  <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
       <tr>
@@ -184,10 +160,10 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/master/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCollector_CanRunOnPlatform.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCollector.CanRunOnPlatform%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/DependenciesAndRoslyn/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCollector_CanRunOnPlatform.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCollector.CanRunOnPlatform%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/Lib/Collectors/BaseCollector.cs/#L32">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/DependenciesAndRoslyn/Lib/Collectors/BaseCollector.cs/#L30">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Collectors_BaseCollector_CanRunOnPlatform_" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCollector.CanRunOnPlatform*"></a>
   <h4 id="AttackSurfaceAnalyzer_Collectors_BaseCollector_CanRunOnPlatform" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCollector.CanRunOnPlatform">CanRunOnPlatform()</h4>
@@ -214,10 +190,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/master/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCollector_Execute.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/DependenciesAndRoslyn/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCollector_Execute.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/Lib/Collectors/BaseCollector.cs/#L23">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/DependenciesAndRoslyn/Lib/Collectors/BaseCollector.cs/#L24">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Collectors_BaseCollector_Execute_" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute*"></a>
   <h4 id="AttackSurfaceAnalyzer_Collectors_BaseCollector_Execute" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute">Execute()</h4>
@@ -229,10 +205,10 @@
   </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/master/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCollector_ExecuteInternal.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCollector.ExecuteInternal%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/DependenciesAndRoslyn/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCollector_ExecuteInternal.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCollector.ExecuteInternal%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/Lib/Collectors/BaseCollector.cs/#L30">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/DependenciesAndRoslyn/Lib/Collectors/BaseCollector.cs/#L32">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Collectors_BaseCollector_ExecuteInternal_" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCollector.ExecuteInternal*"></a>
   <h4 id="AttackSurfaceAnalyzer_Collectors_BaseCollector_ExecuteInternal" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCollector.ExecuteInternal">ExecuteInternal()</h4>
@@ -244,10 +220,10 @@
   </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/master/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCollector_IsRunning.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/DependenciesAndRoslyn/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCollector_IsRunning.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/Lib/Collectors/BaseCollector.cs/#L36">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/DependenciesAndRoslyn/Lib/Collectors/BaseCollector.cs/#L36">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Collectors_BaseCollector_IsRunning_" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning*"></a>
   <h4 id="AttackSurfaceAnalyzer_Collectors_BaseCollector_IsRunning" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning">IsRunning()</h4>
@@ -274,10 +250,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/master/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCollector_NumCollected.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/DependenciesAndRoslyn/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCollector_NumCollected.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/Lib/Collectors/BaseCollector.cs/#L67">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/DependenciesAndRoslyn/Lib/Collectors/BaseCollector.cs/#L67">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Collectors_BaseCollector_NumCollected_" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected*"></a>
   <h4 id="AttackSurfaceAnalyzer_Collectors_BaseCollector_NumCollected" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected">NumCollected()</h4>
@@ -304,10 +280,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/master/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCollector_Start.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCollector.Start%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/DependenciesAndRoslyn/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCollector_Start.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCollector.Start%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/Lib/Collectors/BaseCollector.cs/#L41">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/DependenciesAndRoslyn/Lib/Collectors/BaseCollector.cs/#L41">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Collectors_BaseCollector_Start_" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCollector.Start*"></a>
   <h4 id="AttackSurfaceAnalyzer_Collectors_BaseCollector_Start" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCollector.Start">Start()</h4>
@@ -319,10 +295,10 @@
   </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/master/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCollector_Stop.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCollector.Stop%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/DependenciesAndRoslyn/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCollector_Stop.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCollector.Stop%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/Lib/Collectors/BaseCollector.cs/#L49">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/DependenciesAndRoslyn/Lib/Collectors/BaseCollector.cs/#L49">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Collectors_BaseCollector_Stop_" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCollector.Stop*"></a>
   <h4 id="AttackSurfaceAnalyzer_Collectors_BaseCollector_Stop" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCollector.Stop">Stop()</h4>
@@ -332,6 +308,10 @@
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public void Stop()</code></pre>
   </div>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="AttackSurfaceAnalyzer.Collectors.IPlatformRunnable.html">IPlatformRunnable</a>
+  </div>
 </article>
           </div>
           
@@ -340,10 +320,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/master/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCollector.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCollector%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/DependenciesAndRoslyn/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCollector.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCollector%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/Lib/Collectors/BaseCollector.cs/#L15" class="contribution-link">View Source</a>
+                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/DependenciesAndRoslyn/Lib/Collectors/BaseCollector.cs/#L16" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

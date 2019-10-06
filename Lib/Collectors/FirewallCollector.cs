@@ -5,6 +5,7 @@ using AttackSurfaceAnalyzer.Utils;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
@@ -19,7 +20,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         public FirewallCollector(string runId)
         {
-            this.runId = runId;
+            this.RunId = runId;
         }
 
         public override bool CanRunOnPlatform()
@@ -43,23 +44,22 @@ namespace AttackSurfaceAnalyzer.Collectors
                         Direction = rule.Direction,
                         FriendlyName = rule.FriendlyName,
                         IsEnable = rule.IsEnable,
-                        LocalAddresses = rule.LocalAddresses.ToList().ConvertAll(address => address.ToString()),
-                        LocalPorts = rule.LocalPorts.ToList().ConvertAll(port => port.ToString()),
                         LocalPortType = rule.LocalPortType,
                         Name = rule.Name,
                         Profiles = rule.Profiles,
-                        Protocol = rule.Protocol.ProtocolNumber.ToString(),
-                        RemoteAddresses = rule.RemoteAddresses.ToList().ConvertAll(address => address.ToString()),
-                        RemotePorts = rule.RemotePorts.ToList().ConvertAll(port => port.ToString()),
+                        Protocol = rule.Protocol.ProtocolNumber.ToString(CultureInfo.InvariantCulture),
                         Scope = rule.Scope,
                         ServiceName = rule.ServiceName
                     };
-                    DatabaseManager.Write(obj, runId);
+                    obj.LocalAddresses.AddRange(rule.LocalAddresses.ToList().ConvertAll(address => address.ToString()));
+                    obj.LocalPorts.AddRange(rule.LocalPorts.ToList().ConvertAll(port => port.ToString(CultureInfo.InvariantCulture)));
+                    obj.RemoteAddresses.AddRange(rule.RemoteAddresses.ToList().ConvertAll(address => address.ToString()));
+                    obj.RemotePorts.AddRange(rule.RemotePorts.ToList().ConvertAll(port => port.ToString(CultureInfo.InvariantCulture)));
+                    DatabaseManager.Write(obj, RunId);
                 }
                 catch (Exception e)
                 {
-                    Logger.DebugException(e);
-                    Log.Debug(rule.FriendlyName);
+                    Log.Debug(e,rule.FriendlyName);
                 }
             }
         }
@@ -84,8 +84,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                     var obj = new FirewallObject()
                     {
                         Action = defaultPolicies[chainName],
-                        FriendlyName = string.Format("Default {0} policy", chainName),
-                        Name = string.Format("Default {0} policy", chainName),
+                        FriendlyName = $"Default {chainName} policy",
+                        Name = $"Default {chainName} policy",
                         Scope = FirewallScope.All
                     };
                     if (!chainName.Equals("FORWARD"))
@@ -93,7 +93,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         obj.Direction = chainName.Equals("INPUT") ? FirewallDirection.Inbound : FirewallDirection.Outbound;
                     }
 
-                    DatabaseManager.Write(obj, runId);
+                    DatabaseManager.Write(obj, RunId);
                 }
                 else if (line.StartsWith("-A"))
                 {
@@ -112,22 +112,22 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                     if (Array.IndexOf(splits, "--dport") > 0)
                     {
-                        obj.RemotePorts = new List<string>() { splits[Array.IndexOf(splits, "--dport") + 1] };
+                        obj.RemotePorts.Add(splits[Array.IndexOf(splits, "--dport") + 1]);
                     }
 
                     if (Array.IndexOf(splits, "-d") > 0)
                     {
-                        obj.RemoteAddresses = new List<string>() { splits[Array.IndexOf(splits, "-d") + 1] };
+                        obj.RemoteAddresses.Add(splits[Array.IndexOf(splits, "-d") + 1]);
                     }
 
                     if (Array.IndexOf(splits, "-s") > 0)
                     {
-                        obj.LocalAddresses = new List<string>() { splits[Array.IndexOf(splits, "-s") + 1] };
+                        obj.LocalAddresses.Add(splits[Array.IndexOf(splits, "-s") + 1]);
                     }
 
                     if (Array.IndexOf(splits, "--sport") > 0)
                     {
-                        obj.LocalPorts = new List<string>() { splits[Array.IndexOf(splits, "--sport") + 1] };
+                        obj.LocalPorts.Add(splits[Array.IndexOf(splits, "--sport") + 1]);
                     }
 
                     if (!chainName.Equals("FORWARD"))
@@ -135,7 +135,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         obj.Direction = chainName.Equals("INPUT") ? FirewallDirection.Inbound : FirewallDirection.Outbound;
                     }
 
-                    DatabaseManager.Write(obj, runId);
+                    DatabaseManager.Write(obj, RunId);
                 }
             }
         }
@@ -157,7 +157,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 Name = "Firewall Enabled",
                 Scope = FirewallScope.All
             };
-            DatabaseManager.Write(obj, runId);
+            DatabaseManager.Write(obj, RunId);
 
             // Example output: "Stealth mode disabled"
             result = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--getglobalstate");
@@ -170,7 +170,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 Name = "Stealth Mode",
                 Scope = FirewallScope.All
             };
-            DatabaseManager.Write(obj, runId);
+            DatabaseManager.Write(obj, RunId);
 
             /* Example Output:
              * Automatically allow signed built-in software ENABLED
@@ -185,7 +185,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 Name = "Allow signed built-in software",
                 Scope = FirewallScope.All
             };
-            DatabaseManager.Write(obj, runId);
+            DatabaseManager.Write(obj, RunId);
 
             obj = new FirewallObject()
             {
@@ -196,7 +196,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 Name = "Allow downloaded signed software",
                 Scope = FirewallScope.All
             };
-            DatabaseManager.Write(obj, runId);
+            DatabaseManager.Write(obj, RunId);
 
             /* Example Output:
 ALF: total number of apps = 2 
@@ -210,7 +210,7 @@ ALF: total number of apps = 2
             string appName = "";
             Regex startsWithNumber = new Regex("^[1-9]");
             var lines = new List<string>(result.Split('\n'));
-            if (lines.Count() > 0)
+            if (lines.Any())
             {
                 lines = lines.Skip(2).ToList();
                 foreach (var line in lines)
@@ -229,7 +229,7 @@ ALF: total number of apps = 2
                             Name = appName,
                             Scope = FirewallScope.All
                         };
-                        DatabaseManager.Write(obj, runId);
+                        DatabaseManager.Write(obj, RunId);
                     }
                 }
             }
@@ -237,15 +237,7 @@ ALF: total number of apps = 2
 
         public override void ExecuteInternal()
         {
-            if (!CanRunOnPlatform())
-            {
-                return;
-            }
-
-            _ = DatabaseManager.Transaction;
-
-
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 ExecuteWindows();
             }
@@ -257,8 +249,6 @@ ALF: total number of apps = 2
             {
                 ExecuteLinux();
             }
-
-            DatabaseManager.Commit();
         }
     }
 }

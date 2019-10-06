@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 namespace AttackSurfaceAnalyzer.Collectors
 {
-    interface PlatformRunnable
+    public interface IPlatformRunnable
     {
         bool CanRunOnPlatform();
     }

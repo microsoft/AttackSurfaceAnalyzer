@@ -22,6 +22,8 @@
     name: FileSystemUtils
   - uid: AttackSurfaceAnalyzer.Collectors.FirewallCollector
     name: FirewallCollector
+  - uid: AttackSurfaceAnalyzer.Collectors.IPlatformRunnable
+    name: IPlatformRunnable
   - uid: AttackSurfaceAnalyzer.Collectors.OpenPortCollector
     name: OpenPortCollector
   - uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector
@@ -34,12 +36,6 @@
     name: UserAccountCollector
   - uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils
     name: WindowsFileSystemUtils
-  - uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.FILETIME
-    name: WindowsFileSystemUtils.FILETIME
-  - uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GET_FILEEX_INFO_LEVELS
-    name: WindowsFileSystemUtils.GET_FILEEX_INFO_LEVELS
-  - uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.WIN32_FILE_ATTRIBUTE_DATA
-    name: WindowsFileSystemUtils.WIN32_FILE_ATTRIBUTE_DATA
 - uid: AttackSurfaceAnalyzer.Objects
   name: AttackSurfaceAnalyzer.Objects
   items:
@@ -111,8 +107,8 @@
     name: CHANGE_TYPE
   - uid: AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS
     name: DLLCHARACTERISTICS
-  - uid: AttackSurfaceAnalyzer.Types.ERRORS
-    name: ERRORS
+  - uid: AttackSurfaceAnalyzer.Types.GUI_ERROR
+    name: GUI_ERROR
   - uid: AttackSurfaceAnalyzer.Types.OPERATION
     name: OPERATION
   - uid: AttackSurfaceAnalyzer.Types.PLATFORM
@@ -126,8 +122,10 @@
   items:
   - uid: AttackSurfaceAnalyzer.Utils.Analyzer
     name: Analyzer
-  - uid: AttackSurfaceAnalyzer.Utils.ConfigurationReader
-    name: ConfigurationReader
+  - uid: AttackSurfaceAnalyzer.Utils.AsaHelpers
+    name: AsaHelpers
+  - uid: AttackSurfaceAnalyzer.Utils.AsaTelemetry
+    name: AsaTelemetry
   - uid: AttackSurfaceAnalyzer.Utils.CryptoHelpers
     name: CryptoHelpers
   - uid: AttackSurfaceAnalyzer.Utils.DatabaseManager
@@ -142,8 +140,6 @@
     name: FileWatcher
   - uid: AttackSurfaceAnalyzer.Utils.Filter
     name: Filter
-  - uid: AttackSurfaceAnalyzer.Utils.Helpers
-    name: Helpers
   - uid: AttackSurfaceAnalyzer.Utils.Logger
     name: Logger
   - uid: AttackSurfaceAnalyzer.Utils.ProcessPort
@@ -152,11 +148,7 @@
     name: RegistryWalker
   - uid: AttackSurfaceAnalyzer.Utils.RunManager
     name: RunManager
-  - uid: AttackSurfaceAnalyzer.Utils.SqliteHelper
-    name: SqliteHelper
   - uid: AttackSurfaceAnalyzer.Utils.Strings
     name: Strings
-  - uid: AttackSurfaceAnalyzer.Utils.Telemetry
-    name: Telemetry
   - uid: AttackSurfaceAnalyzer.Utils.Win32ProcessPorts
     name: Win32ProcessPorts

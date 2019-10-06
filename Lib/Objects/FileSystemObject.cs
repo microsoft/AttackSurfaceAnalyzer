@@ -25,14 +25,16 @@ namespace AttackSurfaceAnalyzer.Objects
         public bool SetGid { get; set; }
         public bool SetUid { get; set; }
         public string PermissionsString { get; set; }
-        public List<string> Characteristics { get; set; }
+        public List<string> Characteristics { get; }
 
-        public List<KeyValuePair<string, string>> Permissions { get; set; }
+        public List<KeyValuePair<string, string>> Permissions { get; }
 
 
         public FileSystemObject()
         {
             ResultType = RESULT_TYPE.FILE;
+            Characteristics = new List<string>();
+            Permissions = new List<KeyValuePair<string, string>>();
         }
     }
 }

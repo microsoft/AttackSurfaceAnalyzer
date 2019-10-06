@@ -10,13 +10,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="Content-Security-Policy" content="script-src 'self'">
     @{
-        <title>Attack Surface Analyzer @Helpers.GetVersionString()</title>
+        <title>Attack Surface Analyzer @AsaHelpers.GetVersionString()</title>
     }
     <link rel="stylesheet" href="~/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="localizations" href="~/American-English.json" type="application/vnd.oftn.l10n+json" />
     @{
-        if (!Telemetry.OptOut)
+        if (!AsaTelemetry.OptOut)
         {
             Html.Raw(snippet.FullScript);
         }
@@ -84,7 +84,7 @@
         </div>
     </div>
     <nav class="navbar fixed-bottom navbar-light bg-light">
-        <img src="~/images/microsoft-gray.png" style="height:30px" alt="Microsoft Corporation Logo" /> v. @Helpers.GetVersionString()
+        <img src="~/images/microsoft-gray.png" style="height:30px" alt="Microsoft Corporation Logo" /> v. @AsaHelpers.GetVersionString()
     </nav>
     <script src="~/js/site.js" asp-append-version="true"></script>
 

@@ -6,49 +6,72 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
-    public class Helpers
+    public static class AsaHelpers
     {
-        public static string HexStringToAscii(string hex)
+        public static string GetTempFolder()
+        {
+            var length = 10;
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var path = Path.Combine(Path.GetTempPath(), new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray()));
+            while (Directory.Exists(path))
+            {
+                path = Path.Combine(Path.GetTempPath(), new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray()));
+            }
+            return path;
+        }
+
+        private static Random random = new Random();
+
+        public static byte[] HexStringToBytes(string hex)
         {
             try
             {
-                string ascii = string.Empty;
+                if (hex is null) { throw new ArgumentNullException(nameof(hex)); }
+
+                var ascii = new byte[hex.Length / 2];
 
                 for (int i = 0; i < hex.Length; i += 2)
                 {
                     var hs = hex.Substring(i, 2);
                     uint decval = System.Convert.ToUInt32(hs, 16);
                     char character = System.Convert.ToChar(decval);
-                    ascii += character;
+                    ascii[i / 2] = (byte)character;
                 }
 
                 return ascii;
             }
-            catch (Exception)
+            catch (Exception e) when (
+                e is ArgumentException
+                || e is OverflowException
+                || e is NullReferenceException)
             {
                 Log.Debug("Couldn't convert hex string {0} to ascii", hex);
             }
-
-            return string.Empty;
+            return Array.Empty<byte>();
         }
-        public static void OpenBrowser(string url)
+        public static void OpenBrowser(System.Uri url)
         {
+            if (url == null) { return; }
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 Process.Start(new ProcessStartInfo("cmd", $"/c start {url}"));
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                Process.Start("xdg-open", url);
+                Process.Start("xdg-open", url.ToString());
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                Process.Start("open", url);
+                Process.Start("open", url.ToString());
             }
         }
 
@@ -60,7 +83,7 @@ namespace AttackSurfaceAnalyzer.Utils
         public static string MakeValidFileName(string name)
         {
             string invalidChars = System.Text.RegularExpressions.Regex.Escape(new string(System.IO.Path.GetInvalidFileNameChars()));
-            string invalidRegStr = string.Format(@"([{0}]*\.+$)|([{0}]+)", invalidChars);
+            string invalidRegStr = $"([{invalidChars}]*.+$)|([{invalidChars}]+)";
 
             return System.Text.RegularExpressions.Regex.Replace(name, invalidRegStr, "_");
         }
@@ -107,7 +130,7 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                return Helpers.GetPlatformString();
+                return AsaHelpers.GetPlatformString();
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
@@ -129,7 +152,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static string RunIdsToCompareId(string firstRunId, string secondRunId)
         {
-            return string.Format("{0} & {1}", firstRunId, secondRunId);
+            return $"{firstRunId} & {secondRunId}";
         }
 
         public static bool IsList(object o)

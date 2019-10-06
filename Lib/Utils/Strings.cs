@@ -30,7 +30,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 stringList = new Dictionary<string, string>();
 
                 Stream stream = typeof(FileSystemObject).Assembly.GetManifestResourceStream("AttackSurfaceAnalyzer.Properties.Resources.resources");
-                ResourceReader reader = new ResourceReader(stream);
+                using ResourceReader reader = new ResourceReader(stream);
                 foreach (DictionaryEntry entry in reader)
                 {
                     stringList.Add(entry.Key.ToString(), entry.Value.ToString());
