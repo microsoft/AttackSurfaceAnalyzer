@@ -24,7 +24,10 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public void Execute()
         {
-            if (!CanRunOnPlatform()){ return; }
+            if (!CanRunOnPlatform()){
+                Log.Warning(string.Format(Strings.Get("Err_PlatIncompat"),this.GetType().ToString());
+                return; 
+            }
             Start();
 
             _ = DatabaseManager.Transaction;
@@ -33,7 +36,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             while (DatabaseManager.HasElements())
             {
-                Log.Debug("Waiting for Database manager to finish flushing.");
+                Log.Debug("Sleeping... Waiting for DatabaseManager to finish flushing.");
                 Thread.Sleep(1);
             }
 

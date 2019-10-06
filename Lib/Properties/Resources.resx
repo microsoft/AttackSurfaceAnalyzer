@@ -486,4 +486,7 @@
   <data name="Err_Sql" xml:space="preserve">
     <value>SQL Error in {0}. Your database may be corrupted.</value>
   </data>
+  <data name="Err_PlatIncompat" xml:space="preserve">
+    <value>{0} isn't compatible with this platform and has been skipped.</value>
+  </data>
 </root>
