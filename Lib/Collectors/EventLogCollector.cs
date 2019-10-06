@@ -147,6 +147,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// </summary>
         public void ExecuteMacOs()
         {
+
             var outputPath = Path.Combine(Directory.GetCurrentDirectory(), "events");
             var file = (GatherVerboseLogs)? ExternalCommandRunner.RunExternalCommand("log", "show") : ExternalCommandRunner.RunExternalCommand("log", "show --predicate \"messageType == 16 || messageType == 17\"");
 
@@ -205,6 +206,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
                 DatabaseManager.Write(obj, RunId);
             }
+            DatabaseManager.Commit();
         }
 
         public override bool CanRunOnPlatform()
