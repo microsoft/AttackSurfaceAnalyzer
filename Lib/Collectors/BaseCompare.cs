@@ -6,6 +6,7 @@ using AttackSurfaceAnalyzer.Utils;
 using Newtonsoft.Json;
 using Serilog;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -19,16 +20,16 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class BaseCompare
     {
-        public Dictionary<string, List<CompareResult>> Results { get; }
+        public ConcurrentDictionary<string, ConcurrentQueue<CompareResult>> Results { get; }
 
         public BaseCompare()
         {
-            Results = new Dictionary<string, List<CompareResult>>();
+            Results = new ConcurrentDictionary<string, ConcurrentQueue<CompareResult>>();
             foreach (RESULT_TYPE result_type in Enum.GetValues(typeof(RESULT_TYPE)))
             {
                 foreach (CHANGE_TYPE change_type in Enum.GetValues(typeof(CHANGE_TYPE)))
                 {
-                    Results[$"{result_type.ToString()}_{change_type.ToString()}"] = new List<CompareResult>();
+                    Results[$"{result_type.ToString()}_{change_type.ToString()}"] = new ConcurrentQueue<CompareResult>();
                 }
             }
         }
@@ -103,9 +104,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                     ResultType = added.ResultType,
                     Identity = added.Identity
                 };
-
-                Results[$"{added.ResultType.ToString()}_{CHANGE_TYPE.CREATED.ToString()}"].Add(obj);
-
+                Log.Debug($"Adding {obj.Identity}");
+                Results[$"{added.ResultType.ToString()}_{CHANGE_TYPE.CREATED.ToString()}"].Enqueue(obj);
             }));
             Parallel.ForEach(removeObjects,
                             (removed =>
@@ -121,7 +121,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     Identity = removed.Identity
                 };
 
-                Results[$"{removed.ResultType.ToString()}_{CHANGE_TYPE.DELETED.ToString()}"].Add(obj);
+                Results[$"{removed.ResultType.ToString()}_{CHANGE_TYPE.DELETED.ToString()}"].Enqueue(obj);
             }));
             Parallel.ForEach(modifyObjects,
                             (modified =>
@@ -240,19 +240,19 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                     catch (InvalidCastException e)
                     {
-                        Log.Debug(e,$"Failed to cast something to dictionary or string {JsonConvert.SerializeObject(prop)}");
+                        Log.Debug(e,$"Failed to cast {JsonConvert.SerializeObject(prop)}");
                     }
                     catch (Exception e)
                     {
-                        Log.Debug(e, "Generic exception. This should be caught specifically.");
+                        Log.Debug(e, "Generic exception. Tell a programmer.");
                     }
                 }
 
-                Results[$"{modified.First.ResultType.ToString()}_{CHANGE_TYPE.MODIFIED.ToString()}"].Add(obj);
+                Results[$"{modified.First.ResultType.ToString()}_{CHANGE_TYPE.MODIFIED.ToString()}"].Enqueue(obj);
             }));
 
             foreach (var empty in Results.Where(x=>x.Value.Count == 0)){
-                Results.Remove(empty.Key);
+                Results.Remove(empty.Key, out _);
             }
         }
 
@@ -300,10 +300,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                 Stop();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Log.Warning(ex, "Exception from Compare(): {0}", ex.StackTrace);
-                Log.Warning(ex.Message);
+                Log.Error(exception:e,$"Couldn't compare {firstRunId} and {secondRunId}");
                 Stop();
                 return false;
             }

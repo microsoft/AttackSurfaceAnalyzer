@@ -31,28 +31,32 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private static Random random = new Random();
 
-        public static string HexStringToAscii(string hex)
+        public static byte[] HexStringToBytes(string hex)
         {
             try
             {
-                string ascii = string.Empty;
+                if (hex is null) { throw new ArgumentNullException(nameof(hex)); }
+
+                var ascii = new byte[hex.Length / 2];
 
                 for (int i = 0; i < hex.Length; i += 2)
                 {
                     var hs = hex.Substring(i, 2);
                     uint decval = System.Convert.ToUInt32(hs, 16);
                     char character = System.Convert.ToChar(decval);
-                    ascii += character;
+                    ascii[i / 2] = (byte)character;
                 }
 
                 return ascii;
             }
-            catch (OverflowException)
+            catch (Exception e) when (
+                e is ArgumentException
+                || e is OverflowException
+                || e is NullReferenceException)
             {
                 Log.Debug("Couldn't convert hex string {0} to ascii", hex);
             }
-
-            return string.Empty;
+            return Array.Empty<byte>();
         }
         public static void OpenBrowser(System.Uri url)
         {

@@ -6,6 +6,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using System.Security.Cryptography.X509Certificates;
@@ -15,28 +16,28 @@ namespace AttackSurfaceAnalyzer.Collectors
 {
     public static class FileSystemUtils
     {
-        private static readonly List<string> MacMagicNumbers = new List<string>()
+        public static readonly List<byte[]> MacMagicNumbers = new List<byte[]>()
         {
             // 32 Bit Binary
-            AsaHelpers.HexStringToAscii("FEEDFACE"),
+            AsaHelpers.HexStringToBytes("FEEDFACE"),
             // 64 Bit Binary
-            AsaHelpers.HexStringToAscii("FEEDFACF"),
+            AsaHelpers.HexStringToBytes("FEEDFACF"),
             // 32 Bit Binary (reverse byte ordering)
-            AsaHelpers.HexStringToAscii("CEFAEDFE"),
+            AsaHelpers.HexStringToBytes("CEFAEDFE"),
             // 64 Bit Binary (reverse byte ordering)
-            AsaHelpers.HexStringToAscii("CFFAEDFE"),
+            AsaHelpers.HexStringToBytes("CFFAEDFE"),
             // "Fat Binary"
-            AsaHelpers.HexStringToAscii("CAFEBEBE")
+            AsaHelpers.HexStringToBytes("CAFEBEBE")
         };
 
         // ELF Format
-        private static readonly string ElfMagicNumber = AsaHelpers.HexStringToAscii("7F454C46");
+        public static readonly byte[] ElfMagicNumber = AsaHelpers.HexStringToBytes("7F454C46");
 
         // MZ
-        private static readonly string WindowsMagicNumber = AsaHelpers.HexStringToAscii("4D5A");
+        public static readonly byte[] WindowsMagicNumber = AsaHelpers.HexStringToBytes("4D5A");
 
         // Java classes
-        private static readonly string JavaMagicNumber = AsaHelpers.HexStringToAscii("CAFEBEBE");
+        public static readonly byte[] JavaMagicNumber = AsaHelpers.HexStringToBytes("CAFEBEBE");
 
         public static string GetFilePermissions(FileSystemInfo fileInfo)
         {
@@ -158,7 +159,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         fileStream.Read(fourBytes, 0, 4);
                     }
                     // ELF or java
-                    return (Encoding.ASCII.GetString(fourBytes) == ElfMagicNumber) || (Encoding.ASCII.GetString(fourBytes) == JavaMagicNumber);
+                    return fourBytes.SequenceEqual(ElfMagicNumber) || fourBytes.SequenceEqual(JavaMagicNumber);
                 }
                 catch (UnauthorizedAccessException)
                 {
@@ -184,7 +185,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         fileStream.Read(fourBytes, 0, 4);
                     }
                     // Mach-o format magic numbers or java class
-                    return MacMagicNumbers.Contains(Encoding.ASCII.GetString(fourBytes)) || (Encoding.ASCII.GetString(fourBytes) == JavaMagicNumber);
+                    return MacMagicNumbers.Contains(fourBytes) || fourBytes.SequenceEqual(JavaMagicNumber);
                 }
                 catch (UnauthorizedAccessException)
                 {
@@ -215,7 +216,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         fileStream.Read(fourBytes, 0, 4);
                     }
                     // Windows header is 2 bytes so we just take the first two to check that    but we use all four bytes for java classes
-                    return (Encoding.ASCII.GetString(fourBytes[0..2]) == WindowsMagicNumber) || (Encoding.ASCII.GetString(fourBytes) == JavaMagicNumber);
+                    return fourBytes[0..2].SequenceEqual(WindowsMagicNumber) || fourBytes.SequenceEqual(JavaMagicNumber);
                 }
                 catch (UnauthorizedAccessException)
                 {

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -55,9 +56,18 @@ namespace AsaTests
             var fsc = new FileSystemCollector(FirstRunId, enableHashing: true, directories: testFolder, downloadCloud: false, examineCertificates: true);
             fsc.Execute();
 
-            using var file = File.Open(Path.Combine(testFolder, "AsaLibTester"), FileMode.OpenOrCreate);
-            file.Write(Encoding.ASCII.GetBytes("MZ00"), 0, 4);
-            file.Close();
+            using (var file = File.Open(Path.Combine(testFolder, "AsaLibTesterMZ"), FileMode.OpenOrCreate))
+            {
+                file.Write(FileSystemUtils.WindowsMagicNumber, 0, 2);
+                file.Write(FileSystemUtils.WindowsMagicNumber, 0, 2);
+                file.Close();
+            }
+
+            using (var file = File.Open(Path.Combine(testFolder, "AsaLibTesterJavaClass"), FileMode.OpenOrCreate))
+            {
+                file.Write(FileSystemUtils.JavaMagicNumber, 0, 4);
+                file.Close();
+            }
 
             fsc = new FileSystemCollector(SecondRunId, enableHashing: true, directories: testFolder, downloadCloud: false, examineCertificates: true);
             fsc.Execute();
@@ -68,11 +78,11 @@ namespace AsaTests
                 Assert.Fail();
             }
 
-            Dictionary<string, List<CompareResult>> results = bc.Results;
+            var results = bc.Results;
 
             Assert.IsTrue(results.ContainsKey("FILE_CREATED"));
-            Assert.IsTrue(results["FILE_CREATED"].Where(x => x.Identity.Contains("AsaLibTester")).Any());
-            Assert.IsTrue(results["FILE_CREATED"].Where(x => ((FileSystemObject)x.Compare).IsExecutable == true).Any());
+            Assert.IsTrue(results["FILE_CREATED"].Where(x => x.Identity.Contains("AsaLibTesterMZ") && ((FileSystemObject)x.Compare).IsExecutable == true).Any());
+            Assert.IsTrue(results["FILE_CREATED"].Where(x => x.Identity.Contains("AsaLibTesterJavaClass") && ((FileSystemObject)x.Compare).IsExecutable == true).Any());
 
             TearDown();
         }
@@ -106,7 +116,7 @@ namespace AsaTests
                 Assert.Fail();
             }
 
-            Dictionary<string, List<CompareResult>> results = bc.Results;
+            var results = bc.Results;
 
             Assert.IsTrue(results["LOG_CREATED"].Where(x => ((EventLogObject)x.Compare).Level == "Warning" && ((EventLogObject)x.Compare).Source == "Attack Surface Analyzer Tests").Count() == 1);
 
@@ -176,7 +186,7 @@ namespace AsaTests
                 Assert.Fail();
             }
 
-            Dictionary<string, List<CompareResult>> results = bc.Results;
+            var results = bc.Results;
 
             Assert.IsTrue(results.ContainsKey("PORT_CREATED"));
             Assert.IsTrue(results["PORT_CREATED"].Where(x => x.Identity.Contains("13000")).Count() > 0);
@@ -212,7 +222,7 @@ namespace AsaTests
                     Assert.Fail();
                 }
 
-                Dictionary<string, List<CompareResult>> results = bc.Results;
+                var results = bc.Results;
 
                 Assert.IsTrue(results.ContainsKey("FIREWALL_CREATED"));
                 Assert.IsTrue(results["FIREWALL_CREATED"].Where(x => x.Identity.Contains("/bin/bash")).Count() > 0);
@@ -249,7 +259,7 @@ namespace AsaTests
                     Assert.Fail();
                 }
 
-                Dictionary<string, List<CompareResult>> results = bc.Results;
+                var results = bc.Results;
 
                 Assert.IsTrue(results.ContainsKey("FIREWALL_CREATED"));
                 Assert.IsTrue(results["FIREWALL_CREATED"].Where(x => x.Identity.Contains("9999")).Count() > 0);
@@ -296,7 +306,7 @@ namespace AsaTests
                     Assert.Fail();
                 }
 
-                Dictionary<string, List<CompareResult>> results = bc.Results;
+                var results = bc.Results;
 
                 Assert.IsTrue(results.ContainsKey("REGISTRY_CREATED"));
                 Assert.IsTrue(results["REGISTRY_CREATED"].Where(x => x.Identity.Contains(name)).Count() > 0);
@@ -340,7 +350,7 @@ namespace AsaTests
                     Assert.Fail();
                 }
 
-                Dictionary<string, List<CompareResult>> results = bc.Results;
+                var results = bc.Results;
 
                 Assert.IsTrue(results.ContainsKey("SERVICE_CREATED"));
                 Assert.IsTrue(results["SERVICE_CREATED"].Where(x => x.Identity.Contains("AsaDemoService")).Count() > 0);
@@ -415,7 +425,7 @@ namespace AsaTests
                     Assert.Fail();
                 }
 
-                Dictionary<string, List<CompareResult>> results = bc.Results;
+                var results = bc.Results;
                 Assert.IsTrue(results.ContainsKey("USER_CREATED"));
                 Assert.IsTrue(results["USER_CREATED"].Where(x => x.Identity.Contains(user)).Count() > 0);
 
@@ -473,7 +483,7 @@ namespace AsaTests
                     Assert.Fail();
                 }
 
-                Dictionary<string, List<CompareResult>> results = bc.Results;
+                var results = bc.Results;
 
                 Assert.IsTrue(results.ContainsKey("FIREWALL_CREATED"));
                 Assert.IsTrue(results["FIREWALL_CREATED"].Where(x => ((FirewallObject)x.Compare).LocalPorts.Contains("9999")).Count() > 0);

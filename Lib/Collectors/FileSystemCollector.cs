@@ -96,6 +96,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 Log.Information("{0} root {1}", Strings.Get("Scanning"), root.ToString(CultureInfo.InvariantCulture));
                 //Ensure the transaction is started to prevent collisions on the multithreaded code ahead
                 _ = DatabaseManager.Transaction;
+
                 try
                 {
                     var fileInfoEnumerable = DirectoryWalker.WalkDirectory(root);

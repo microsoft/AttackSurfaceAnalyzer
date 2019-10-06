@@ -399,7 +399,7 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             var output = new List<RawCollectResult>();
 
-            using var cmd = new SqliteCommand(SQL_GET_COLLECT_MISSING_IN_B, DatabaseManager.Connection, DatabaseManager.Transaction);
+            using var cmd = new SqliteCommand(SQL_GET_COLLECT_MISSING_IN_B, Connection, Transaction);
             cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
             cmd.Parameters.AddWithValue("@second_run_id", secondRunId);
             using (var reader = cmd.ExecuteReader())
