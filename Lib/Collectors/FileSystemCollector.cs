@@ -65,11 +65,6 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public override void ExecuteInternal()
         {
-            if (!CanRunOnPlatform())
-            {
-                return;
-            }
-
             if (roots == null || !roots.Any())
             {
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -96,8 +91,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 Log.Information("{0} root {1}", Strings.Get("Scanning"), root.ToString(CultureInfo.InvariantCulture));
                 //Ensure the transaction is started to prevent collisions on the multithreaded code ahead
-                _ = DatabaseManager.Transaction;
-
                 try
                 {
                     var fileInfoEnumerable = DirectoryWalker.WalkDirectory(root);
@@ -147,14 +140,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                 {
                     Log.Warning(e, "Error collecting file system information: {0}", e.Message);
                 }
-
-                while (DatabaseManager.HasElements())
-                {
-                    Log.Debug("Waiting for Database manager to finish flushing.");
-                    Thread.Sleep(1);
-                }
-
-                DatabaseManager.Commit();
             }
         }
 

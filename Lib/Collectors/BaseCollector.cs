@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.Threading;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -23,8 +24,20 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public void Execute()
         {
+            if (!CanRunOnPlatform()){ return; }
             Start();
+
+            _ = DatabaseManager.Transaction;
+
             ExecuteInternal();
+
+            while (DatabaseManager.HasElements())
+            {
+                Log.Debug("Waiting for Database manager to finish flushing.");
+                Thread.Sleep(1);
+            }
+
+            DatabaseManager.Commit();
             Stop();
         }
         public abstract bool CanRunOnPlatform();

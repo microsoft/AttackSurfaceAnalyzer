@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer.Collectors
@@ -39,13 +40,6 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// </summary>
         public override void ExecuteInternal()
         {
-
-            if (!this.CanRunOnPlatform())
-            {
-                return;
-            }
-            _ = DatabaseManager.Transaction;
-
             // Parse system Com Objects
             using var SearchKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Default).OpenSubKey("SOFTWARE\\Classes\\CLSID");
             ParseComObjects(SearchKey);
@@ -61,8 +55,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                     ParseComObjects(ComKey);
                 }
             }
-
-            DatabaseManager.Commit();
         }
 
         public void ParseComObjects(RegistryKey SearchKey)

@@ -8,6 +8,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -154,13 +155,6 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// </summary>
         public override void ExecuteInternal()
         {
-            if (!CanRunOnPlatform())
-            {
-                return;
-            }
-
-            _ = DatabaseManager.Transaction;
-
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 ExecuteWindows();
@@ -173,8 +167,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 ExecuteMacOs();
             }
-
-            DatabaseManager.Commit();
         }
     }
 }

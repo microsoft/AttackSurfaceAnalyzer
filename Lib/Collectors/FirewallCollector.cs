@@ -237,15 +237,7 @@ ALF: total number of apps = 2
 
         public override void ExecuteInternal()
         {
-            if (!CanRunOnPlatform())
-            {
-                return;
-            }
-
-            _ = DatabaseManager.Transaction;
-
-
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 ExecuteWindows();
             }
@@ -257,8 +249,6 @@ ALF: total number of apps = 2
             {
                 ExecuteLinux();
             }
-
-            DatabaseManager.Commit();
         }
     }
 }

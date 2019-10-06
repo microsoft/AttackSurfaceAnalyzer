@@ -11,7 +11,7 @@ using System.Linq;
 using System.Management;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-
+using System.Threading;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -35,12 +35,6 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public override void ExecuteInternal()
         {
-            if (!this.CanRunOnPlatform())
-            {
-                Log.Warning("UserAccountCollector is not available on {0}", RuntimeInformation.OSDescription);
-                return;
-            }
-
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 ExecuteWindows();
@@ -52,10 +46,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
                 ExecuteOsX();
-            }
-            else
-            {
-                Log.Warning("UserAccountCollector is not available on {0}", RuntimeInformation.OSDescription);
             }
         }
 

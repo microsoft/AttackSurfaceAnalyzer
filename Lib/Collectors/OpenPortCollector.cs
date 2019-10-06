@@ -49,13 +49,6 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public override void ExecuteInternal()
         {
-            if (!this.CanRunOnPlatform())
-            {
-                return;
-            }
-
-            _ = DatabaseManager.Transaction;
-
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 ExecuteWindows();
@@ -68,11 +61,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 ExecuteOsX();
             }
-            else
-            {
-                Log.Warning("OpenPortCollector is not available on {0}", RuntimeInformation.OSDescription);
-            }
-            DatabaseManager.Commit();
         }
 
         /// <summary>

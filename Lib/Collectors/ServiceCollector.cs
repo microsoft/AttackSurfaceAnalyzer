@@ -9,6 +9,7 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -253,13 +254,6 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// </summary>
         public override void ExecuteInternal()
         {
-            if (!this.CanRunOnPlatform())
-            {
-                Log.Information(Strings.Get("Err_ServiceCollectorIncompat"));
-                return;
-            }
-            _ = DatabaseManager.Transaction;
-
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 ExecuteWindows();
@@ -272,8 +266,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 ExecuteLinux();
             }
-
-            DatabaseManager.Commit();
         }
     }
 }

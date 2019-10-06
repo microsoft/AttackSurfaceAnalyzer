@@ -62,14 +62,6 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public override void ExecuteInternal()
         {
-
-            if (!this.CanRunOnPlatform())
-            {
-                return;
-            }
-
-            _ = DatabaseManager.Transaction;
-
             Parallel.ForEach(Hives,
                 (hive =>
                 {
@@ -95,13 +87,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                             }
                         }));
                 }));
-
-            while (DatabaseManager.HasElements())
-            {
-                Log.Debug("Waiting for Database manager to finish flushing.");
-                Thread.Sleep(1);
-            }
-            DatabaseManager.Commit();
         }
     }
 }

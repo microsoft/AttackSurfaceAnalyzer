@@ -29,13 +29,6 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public override void ExecuteInternal()
         {
-            if (!CanRunOnPlatform())
-            {
-                return;
-            }
-
-            _ = DatabaseManager.Transaction;
-
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 ExecuteWindows();
@@ -48,8 +41,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 ExecuteMacOs();
             }
-
-            DatabaseManager.Commit();
         }
 
         /// <summary>
@@ -156,8 +147,6 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// </summary>
         public void ExecuteMacOs()
         {
-            _ = DatabaseManager.Transaction;
-
             var outputPath = Path.Combine(Directory.GetCurrentDirectory(), "events");
             var file = (GatherVerboseLogs)? ExternalCommandRunner.RunExternalCommand("log", "show") : ExternalCommandRunner.RunExternalCommand("log", "show --predicate \"messageType == 16 || messageType == 17\"");
 
@@ -216,7 +205,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
                 DatabaseManager.Write(obj, RunId);
             }
-            DatabaseManager.Commit();
         }
 
         public override bool CanRunOnPlatform()
