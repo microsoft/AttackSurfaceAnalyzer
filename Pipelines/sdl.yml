@@ -93,17 +93,27 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      cd $(Pipeline.Workspace)\_sdt\logs\Semmle
-      dir
-      cd $(Pipeline.Workspace)\_sdt\logs\Semmle\csharp
+      cd $(Pipeline.Workspace)\_sdt\logs\Semmle\javascript
       dir
       cd $(Pipeline.Workspace)\_sdt\logs\
       dir 
-      cd $(Pipeline.Workspace)\_sdt\logs\CredScan
+      cd $(Pipeline.Workspace)\_sdt\logs\CredentialScanner
       dir
 
 - task: PublishPipelineArtifact@1
   displayName: Publish Semmle Result
   inputs:
     targetPath: '$(Pipeline.Workspace)\_sdt\logs\Semmle\csharp\microsoft.AttackSurfaceAnalyzer-csharp-1.sarif'
-    artifact: 'Semmle.sarif'
+    artifact: 'Sarif'
+
+- task: PublishPipelineArtifact@1
+  displayName: Publish Semmle Result
+  inputs:
+    targetPath: '$(Pipeline.Workspace)\_sdt\logs\Semmle\javascript\microsoft.AttackSurfaceAnalyzer-javascript-1.sarif'
+    artifact: 'Sarif'
+
+- task: PublishPipelineArtifact@1
+  displayName: Publish Semmle Result
+  inputs:
+    targetPath: '$(Pipeline.Workspace)\_sdt\logs\SdtReport.html'
+    artifact: 'SdtReport'
