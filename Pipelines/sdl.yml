@@ -98,22 +98,22 @@ steps:
   displayName: Publish CredScan Result
   inputs:
     targetPath: '$(Pipeline.Workspace)\_sdt\logs\CredentialScanner\CredentialScanner-matches.sarif'
-    artifact: 'Sarif'
+    artifact: 'CredScan.sarif'
 
 - task: PublishPipelineArtifact@1
   displayName: Publish Semmle Result
   inputs:
     targetPath: '$(Pipeline.Workspace)\_sdt\logs\Semmle\csharp\microsoft.AttackSurfaceAnalyzer-csharp-1.sarif'
-    artifact: 'Sarif'
+    artifact: 'SemmleCS.sarif'
 
 - task: PublishPipelineArtifact@1
   displayName: Publish Semmle Result
   inputs:
     targetPath: '$(Pipeline.Workspace)\_sdt\logs\Semmle\javascript\microsoft.AttackSurfaceAnalyzer-javascript-1.sarif'
-    artifact: 'Sarif'
+    artifact: 'SemmleJS.sarif'
 
 - task: PublishPipelineArtifact@1
   displayName: Publish Semmle Result
   inputs:
     targetPath: '$(Pipeline.Workspace)\_sdt\logs\SdtReport.html'
-    artifact: 'SdtReport'
+    artifact: 'SdtReport.html'
