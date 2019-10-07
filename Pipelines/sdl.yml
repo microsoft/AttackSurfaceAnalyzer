@@ -88,21 +88,17 @@ steps:
     scanType: 'Register'
     verbosity: 'Verbose'
     alertWarningLevel: 'High'
+
 - task: notice@0
   displayName: Notice Generator
   inputs:
     outputformat: 'text'
 
-- task: PowerShell@2
+- task: PublishPipelineArtifact@1
+  displayName: Publish CredScan Result
   inputs:
-    targetType: 'inline'
-    script: |
-      cd $(Pipeline.Workspace)\_sdt\logs\Semmle\javascript
-      dir
-      cd $(Pipeline.Workspace)\_sdt\logs\
-      dir 
-      cd $(Pipeline.Workspace)\_sdt\logs\CredentialScanner
-      dir
+    targetPath: '$(Pipeline.Workspace)\_sdt\logs\CredentialScanner\CredentialScanner-matches.sarif'
+    artifact: 'Sarif'
 
 - task: PublishPipelineArtifact@1
   displayName: Publish Semmle Result
