@@ -101,19 +101,19 @@ steps:
     artifact: 'CredScan.sarif'
 
 - task: PublishPipelineArtifact@1
-  displayName: Publish Semmle Result
+  displayName: Publish C# Semmle Result
   inputs:
     targetPath: '$(Pipeline.Workspace)\_sdt\logs\Semmle\csharp\microsoft.AttackSurfaceAnalyzer-csharp-1.sarif'
     artifact: 'SemmleCS.sarif'
 
 - task: PublishPipelineArtifact@1
-  displayName: Publish Semmle Result
+  displayName: Publish JS Semmle Result
   inputs:
     targetPath: '$(Pipeline.Workspace)\_sdt\logs\Semmle\javascript\microsoft.AttackSurfaceAnalyzer-javascript-1.sarif'
     artifact: 'SemmleJS.sarif'
 
 - task: PublishPipelineArtifact@1
-  displayName: Publish Semmle Result
+  displayName: Publish SDT Report
   inputs:
     targetPath: '$(Pipeline.Workspace)\_sdt\logs\SdtReport.html'
     artifact: 'SdtReport.html'
