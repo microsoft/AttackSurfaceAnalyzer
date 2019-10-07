@@ -171,7 +171,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     Path = objIn.FullPath,
                     Name = objIn.Name
                 };
-                string timestamp = DateTime.Now.ToString("O",CultureInfo.InvariantCulture);
+                string timestamp = DateTime.Now.ToString("O", CultureInfo.InvariantCulture);
 
                 using var cmd = new SqliteCommand(SQL_INSERT, DatabaseManager.Connection, DatabaseManager.Transaction);
                 cmd.Parameters.AddWithValue("@run_id", this.RunId);

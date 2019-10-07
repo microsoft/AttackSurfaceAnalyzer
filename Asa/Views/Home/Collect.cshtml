@@ -66,84 +66,84 @@
 
         @* Begin Scan Section *@
 
-    <div class="scan">
-        <div class="row font-weight-bold">
-            <div class="col">
-                @Strings.Get("ChooseCollectors")
-            </div>
-        </div>
-        <div class="thinspacer"></div>
-        <div class="row">
-            <div class="col">
-                <label class="checkbox-container">
-                    <input type="checkbox" id="enableFileCollector" class="ScanType" checked>
-                    @Strings.Get("Files")
-                </label>
-            </div>
-            <div class="col">
-                <label class="checkbox-container">
-                    <input type="checkbox" id="enableCertificateCollector" class="ScanType" checked>
-                    @Strings.Get("Certificates")
-                </label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <label class="checkbox-container">
-                    <input type="checkbox" id="enablePortCollector" class="ScanType" checked>
-                    @Strings.Get("Ports")
-                </label>
-            </div>
-            <div class="col">
-                <label class="checkbox-container">
-                    <input type="checkbox" id="enableServiceCollector" class="ScanType" checked>
-                    @Strings.Get("Services")
-                </label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <label class="checkbox-container">
-                    <input type="checkbox" id="enableUserCollector" class="ScanType" checked>
-                    @Strings.Get("Users")
-                </label>
-            </div>
-            <div class="col">
-                <label class="checkbox-container">
-                    <input type="checkbox" id="enableFirewallCollector" class="ScanType" checked>
-                    @Strings.Get("Firewall")
-                </label>
-            </div>
-        </div>
-        @{
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                <div class="row">
-
-                    <div class="col">
-                        <label class="checkbox-container">
-                            <input type="checkbox" id="enableRegistryCollector" class="ScanType" checked>
-                            @Strings.Get("Registry")
-                        </label>
-                    </div>
-                    <div class="col">
-                        <label class="checkbox-container">
-                            <input type="checkbox" id="enableComObjectCollector" class="ScanType" checked>
-                            @Strings.Get("Com")
-                        </label>
-                    </div>
+        <div class="scan">
+            <div class="row font-weight-bold">
+                <div class="col">
+                    @Strings.Get("ChooseCollectors")
                 </div>
+            </div>
+            <div class="thinspacer"></div>
+            <div class="row">
+                <div class="col">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="enableFileCollector" class="ScanType" checked>
+                        @Strings.Get("Files")
+                    </label>
+                </div>
+                <div class="col">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="enableCertificateCollector" class="ScanType" checked>
+                        @Strings.Get("Certificates")
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="enablePortCollector" class="ScanType" checked>
+                        @Strings.Get("Ports")
+                    </label>
+                </div>
+                <div class="col">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="enableServiceCollector" class="ScanType" checked>
+                        @Strings.Get("Services")
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="enableUserCollector" class="ScanType" checked>
+                        @Strings.Get("Users")
+                    </label>
+                </div>
+                <div class="col">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="enableFirewallCollector" class="ScanType" checked>
+                        @Strings.Get("Firewall")
+                    </label>
+                </div>
+            </div>
+            @{
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    <div class="row">
+
+                        <div class="col">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="enableRegistryCollector" class="ScanType" checked>
+                                @Strings.Get("Registry")
+                            </label>
+                        </div>
+                        <div class="col">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="enableComObjectCollector" class="ScanType" checked>
+                                @Strings.Get("Com")
+                            </label>
+                        </div>
+                    </div>
+                }
             }
-        }
-        <div class="row">
-            <div class="col">
-                <label class="checkbox-container">
-                    <input type="checkbox" id="enableEventLogCollector" class="ScanType" checked>
-                    @Strings.Get("Log")
-                </label>
+            <div class="row">
+                <div class="col">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="enableEventLogCollector" class="ScanType" checked>
+                        @Strings.Get("Log")
+                    </label>
+                </div>
             </div>
         </div>
-    </div>
         @* End Scan Section *@
 
         @* Begin Monitor Section *@

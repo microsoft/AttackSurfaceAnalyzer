@@ -5,7 +5,6 @@ using AttackSurfaceAnalyzer.Models;
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
-using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
@@ -13,9 +12,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
 using System.Globalization;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer.Gui.Controllers
@@ -297,8 +294,6 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         public ActionResult StartCollection(string Id, bool File, bool Port, bool Service, bool User, bool Registry, bool Certificates, bool Com, bool Firewall, bool Log)
         {
-            Contract.Requires<ArgumentNullException>(Id != null, nameof(Id));
-
             CollectCommandOptions opts = new CollectCommandOptions();
             opts.RunId = Id.Trim();
             opts.EnableFileSystemCollector = File;

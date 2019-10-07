@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer.Collectors
@@ -131,7 +130,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             });
 
-            foreach(var comObject in comObjects)
+            foreach (var comObject in comObjects)
             {
                 DatabaseManager.Write(comObject, RunId);
             }

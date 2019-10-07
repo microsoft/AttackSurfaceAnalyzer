@@ -24,9 +24,10 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public void Execute()
         {
-            if (!CanRunOnPlatform()){
-                Log.Warning(string.Format(CultureInfo.InvariantCulture,Strings.Get("Err_PlatIncompat"), GetType().ToString()));
-                return; 
+            if (!CanRunOnPlatform())
+            {
+                Log.Warning(string.Format(CultureInfo.InvariantCulture, Strings.Get("Err_PlatIncompat"), GetType().ToString()));
+                return;
             }
             Start();
 
@@ -67,7 +68,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             _running = RUN_STATUS.COMPLETED;
             watch.Stop();
             TimeSpan t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
-            string answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms", 
+            string answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
                                     t.Hours,
                                     t.Minutes,
                                     t.Seconds,

@@ -153,7 +153,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             catch (Exception e)
             {
                 Log.Warning(Strings.Get("Err_Iproute2"));
-                Log.Debug(e,"");
+                Log.Debug(e, "");
             }
 
         }
@@ -206,7 +206,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
             catch (Exception e)
             {
-                Log.Error(e,Strings.Get("Err_Lsof"));
+                Log.Error(e, Strings.Get("Err_Lsof"));
             }
         }
     }

@@ -44,7 +44,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 Client = new TelemetryClient(config);
                 Client.Context.Component.Version = AsaHelpers.GetVersionString();
                 // Force some values to static values to prevent gathering unneeded data
-                Client.Context.Cloud.RoleInstance =  "Asa";
+                Client.Context.Cloud.RoleInstance = "Asa";
                 Client.Context.Cloud.RoleName = "Asa";
                 Client.Context.Location.Ip = "1.1.1.1";
             }
@@ -92,8 +92,8 @@ namespace AttackSurfaceAnalyzer.Utils
             evt.Add("OS", AsaHelpers.GetOsName());
             evt.Add("OS_Version", AsaHelpers.GetOsVersion());
             evt.Add("Method", new System.Diagnostics.StackFrame(1).GetMethod().Name);
-            evt.Add("Stack", (e == null)?"":e.StackTrace);
-            Client.TrackTrace((e == null)?"Null":e.GetType().ToString(), severityLevel, evt);
+            evt.Add("Stack", (e == null) ? "" : e.StackTrace);
+            Client.TrackTrace((e == null) ? "Null" : e.GetType().ToString(), severityLevel, evt);
         }
     }
 }

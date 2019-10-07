@@ -133,7 +133,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         var valsToCheck = new List<string>();
                         List<KeyValuePair<string, string>> dictToCheck = new List<KeyValuePair<string, string>>();
-                                                
+
                         if (property != null)
                         {
                             if (compareResult.ChangeType == CHANGE_TYPE.CREATED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
@@ -355,7 +355,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     }
                     catch (Exception e)
                     {
-                        Log.Debug(e,$"Hit while parsing {JsonConvert.SerializeObject(rule)} onto {JsonConvert.SerializeObject(compareResult)}");
+                        Log.Debug(e, $"Hit while parsing {JsonConvert.SerializeObject(rule)} onto {JsonConvert.SerializeObject(compareResult)}");
                         return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
                     }
                 }
@@ -365,7 +365,7 @@ namespace AttackSurfaceAnalyzer.Utils
             else
             {
                 throw new NullReferenceException();
-            } 
+            }
         }
 
         private static object GetValueByPropertyName(object obj, string propertyName) => obj.GetType().GetProperty(propertyName).GetValue(obj);

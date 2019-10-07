@@ -9,7 +9,6 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-using System.Threading;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -213,7 +212,8 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 Log.Error("Error executing {0}", "launchctl list");
             }
-            try { 
+            try
+            {
                 // Then get the system processes
                 var result = ExternalCommandRunner.RunExternalCommand("sudo", "launchctl list");
 

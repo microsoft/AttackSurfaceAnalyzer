@@ -55,7 +55,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         JArray jFilters = (JArray)config[Platform][ScanType][ItemType][Property][FilterType];
                         foreach (var filter in jFilters)
                         {
-                            filters.Add(new Regex(filter.ToString(),RegexOptions.Compiled));
+                            filters.Add(new Regex(filter.ToString(), RegexOptions.Compiled));
                         }
                         try
                         {

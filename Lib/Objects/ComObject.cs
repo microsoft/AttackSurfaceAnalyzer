@@ -34,7 +34,7 @@ namespace AttackSurfaceAnalyzer.Objects
             {
                 if (!string.IsNullOrEmpty(x86_BinaryName))
                 {
-                    return$"{x86_BinaryName} : {Key.Identity.Split("\\").Last()}";
+                    return $"{x86_BinaryName} : {Key.Identity.Split("\\").Last()}";
                 }
                 else if (!string.IsNullOrEmpty(x64_BinaryName))
                 {
