@@ -11,7 +11,6 @@ using System.Linq;
 using System.Management;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-using System.Threading;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -178,7 +177,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
             catch (ExternalException)
             {
-                Log.Error("Failed to run {0}","net localgroup");
+                Log.Error("Failed to run {0}", "net localgroup");
             }
 
 

@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 using Microsoft.Win32.SafeHandles;
 using System;
-using System.Runtime.InteropServices;
 
 namespace AttackSurfaceAnalyzer.Utils
 {

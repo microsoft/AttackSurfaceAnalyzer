@@ -14,7 +14,6 @@ using Newtonsoft.Json.Serialization;
 using Serilog;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -420,7 +419,7 @@ namespace AttackSurfaceAnalyzer
                                                                     (int.Parse(reader["firewall"].ToString()) != 0) ? "FIREWALL" : "",
                                                                     (int.Parse(reader["comobjects"].ToString()) != 0) ? "COM" : "",
                                                                     (int.Parse(reader["eventlogs"].ToString()) != 0) ? "LOG" : "");
-                                                                    
+
                                             Log.Information(output);
 
                                         }
@@ -831,7 +830,7 @@ namespace AttackSurfaceAnalyzer
             cmd.Parameters.AddWithValue("@comobjects", false);
             cmd.Parameters.AddWithValue("@eventlogs", false);
             cmd.Parameters.AddWithValue("@type", "monitor");
-            cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("o",CultureInfo.InvariantCulture));
+            cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("o", CultureInfo.InvariantCulture));
             cmd.Parameters.AddWithValue("@version", AsaHelpers.GetVersionString());
             cmd.Parameters.AddWithValue("@platform", AsaHelpers.GetPlatformString());
             try
@@ -1025,7 +1024,7 @@ namespace AttackSurfaceAnalyzer
 
             watch.Stop();
             TimeSpan t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
-            string answer = string.Format(CultureInfo.InvariantCulture,"{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+            string answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
                                     t.Hours,
                                     t.Minutes,
                                     t.Seconds,

@@ -9,8 +9,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.AccessControl;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -111,7 +109,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         }
                         catch (Exception e)
                         {
-                            Log.Debug(e,$"Error with {fileInfo.FullName}");
+                            Log.Debug(e, $"Error with {fileInfo.FullName}");
                         }
                     }
                     else if (fileInfo is DirectoryInfo)
@@ -255,7 +253,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
                 catch (Exception ex)
                 {
-                    Log.Warning(ex,"{0}: {1} {2}", Strings.Get("Err_UnableToHash"), fileInfo.FullName, ex.Message);
+                    Log.Warning(ex, "{0}: {1} {2}", Strings.Get("Err_UnableToHash"), fileInfo.FullName, ex.Message);
                 }
                 return hashValue;
             }

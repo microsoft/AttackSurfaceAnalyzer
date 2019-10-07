@@ -59,7 +59,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
                 catch (Exception e)
                 {
-                    Log.Debug(e,rule.FriendlyName);
+                    Log.Debug(e, rule.FriendlyName);
                 }
             }
         }
@@ -237,7 +237,7 @@ ALF: total number of apps = 2
 
         public override void ExecuteInternal()
         {
-if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 ExecuteWindows();
             }

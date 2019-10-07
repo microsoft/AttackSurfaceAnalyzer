@@ -8,7 +8,6 @@ using Serilog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -240,7 +239,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                     catch (InvalidCastException e)
                     {
-                        Log.Debug(e,$"Failed to cast {JsonConvert.SerializeObject(prop)}");
+                        Log.Debug(e, $"Failed to cast {JsonConvert.SerializeObject(prop)}");
                     }
                     catch (Exception e)
                     {
@@ -251,7 +250,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                 Results[$"{modified.First.ResultType.ToString()}_{CHANGE_TYPE.MODIFIED.ToString()}"].Enqueue(obj);
             }));
 
-            foreach (var empty in Results.Where(x=>x.Value.Count == 0)){
+            foreach (var empty in Results.Where(x => x.Value.Count == 0))
+            {
                 Results.Remove(empty.Key, out _);
             }
         }
@@ -302,7 +302,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
             catch (Exception e)
             {
-                Log.Error(exception:e,$"Couldn't compare {firstRunId} and {secondRunId}");
+                Log.Error(exception: e, $"Couldn't compare {firstRunId} and {secondRunId}");
                 Stop();
                 return false;
             }

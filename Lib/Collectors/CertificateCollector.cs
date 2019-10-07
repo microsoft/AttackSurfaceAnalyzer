@@ -8,7 +8,6 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
-using System.Threading;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -101,7 +100,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
             catch (Exception e)
             {
-                Log.Error(e,"Failed to dump certificates from 'ls /etc/ssl/certs -A'.");
+                Log.Error(e, "Failed to dump certificates from 'ls /etc/ssl/certs -A'.");
             }
         }
 
@@ -146,7 +145,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             catch (Exception e)
             {
                 Log.Error("Failed to dump certificates from 'security' or 'openssl'.");
-                Log.Debug(e,"ExecuteMacOs()");
+                Log.Debug(e, "ExecuteMacOs()");
             }
         }
 

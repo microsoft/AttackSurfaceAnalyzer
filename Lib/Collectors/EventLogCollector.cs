@@ -1,17 +1,16 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
-using System.Linq;
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using Serilog;
-using System.Diagnostics.Tracing;
-using System.IO;
-using System.Diagnostics;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -62,9 +61,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                             var sentences = entry.Message.Split('.');
 
                             //Let's add the periods back.
-                            for (var i = 0; i<sentences.Length; i++)
+                            for (var i = 0; i < sentences.Length; i++)
                             {
-                                sentences[i] = string.Concat(sentences[i],".");
+                                sentences[i] = string.Concat(sentences[i], ".");
                             }
 
                             EventLogObject obj = new EventLogObject()
@@ -80,7 +79,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         }
                     }
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     Log.Debug(e, "Error parsing log {0}", log.Source);
                 }
@@ -135,7 +134,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Log.Debug(e, "Failed to parse /var/log/auth.log");
             }
@@ -149,16 +148,16 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
 
             var outputPath = Path.Combine(Directory.GetCurrentDirectory(), "events");
-            var file = (GatherVerboseLogs)? ExternalCommandRunner.RunExternalCommand("log", "show") : ExternalCommandRunner.RunExternalCommand("log", "show --predicate \"messageType == 16 || messageType == 17\"");
+            var file = (GatherVerboseLogs) ? ExternalCommandRunner.RunExternalCommand("log", "show") : ExternalCommandRunner.RunExternalCommand("log", "show --predicate \"messageType == 16 || messageType == 17\"");
 
             // New log entries start with a timestamp like so:
             // 2019-09-25 20:38:53.784594-0700 0xdbf47    Error       0x0                  0      0    kernel: (Sandbox) Sandbox: mdworker(15726) deny(1) mach-lookup com.apple.security.syspolicy
             Regex LogHeader = new Regex("^([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-2][0-9]:[0-5][0-9]:[0-5][0-9]).*?0x[0-9a-f]*[\\s]*([A-Za-z]*)[\\s]*0x[0-9a-f][\\s]*[0-9]*[\\s]*([0-9]*)[\\s]*(.*?):(.*)");
 
-            
+
             List<string> data = null;
             string previousLine = null;
-            foreach(var line in file.Split('\n'))
+            foreach (var line in file.Split('\n'))
             {
                 if (LogHeader.IsMatch(line))
                 {

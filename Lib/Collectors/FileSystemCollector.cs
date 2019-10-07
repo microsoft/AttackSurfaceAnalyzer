@@ -13,7 +13,6 @@ using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer.Collectors
@@ -122,7 +121,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                         };
                                         DatabaseManager.Write(certObj, RunId);
                                     }
-                                    catch(ArgumentException e)
+                                    catch (ArgumentException e)
                                     {
                                         Log.Debug(e, "Could not parse certificate from file: {0}", fileInfo.FullName);
                                     }
@@ -132,7 +131,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         }
                         catch (Exception e)
                         {
-                            Log.Debug(e, "Couldn't create a FileSystemObject from: {0}",fileInfo.FullName);
+                            Log.Debug(e, "Couldn't create a FileSystemObject from: {0}", fileInfo.FullName);
                         }
                     }));
                 }

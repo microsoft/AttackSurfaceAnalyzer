@@ -320,7 +320,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         while (reader.Read())
                         {
-                            return int.Parse(reader["the_count"].ToString(),CultureInfo.InvariantCulture);
+                            return int.Parse(reader["the_count"].ToString(), CultureInfo.InvariantCulture);
                         }
                     }
                 }
@@ -513,7 +513,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         }
                         if (reader["type"].ToString() == "monitor")
                         {
-                            if ((int.Parse(reader["file_system"].ToString(),CultureInfo.InvariantCulture) != 0))
+                            if ((int.Parse(reader["file_system"].ToString(), CultureInfo.InvariantCulture) != 0))
                             {
                                 using (var inner_cmd = new SqliteCommand(SQL_TRUNCATE_FILES_MONITORED, DatabaseManager.Connection, DatabaseManager.Transaction))
                                 {
