@@ -10,7 +10,7 @@ namespace AttackSurfaceAnalyzer.Objects
     {
         // From Registry
         public RegistryObject Key { get; set; }
-        public List<RegistryObject> Subkeys { get; set; }
+        public List<RegistryObject> Subkeys { get; }
         // From filesystem
         public FileSystemObject x86_Binary { get; set; }
         public FileSystemObject x64_Binary { get; set; }
@@ -20,6 +20,12 @@ namespace AttackSurfaceAnalyzer.Objects
         public ComObject()
         {
             ResultType = RESULT_TYPE.COM;
+            Subkeys = new List<RegistryObject>();
+        }
+
+        public void AddSubKeys(List<RegistryObject> subkeysIn)
+        {
+            Subkeys.AddRange(subkeysIn);
         }
 
         public override string Identity
@@ -28,11 +34,11 @@ namespace AttackSurfaceAnalyzer.Objects
             {
                 if (!string.IsNullOrEmpty(x86_BinaryName))
                 {
-                    return string.Format("{0} : {1}", x86_BinaryName, Key.Identity.Split("\\").Last());
+                    return$"{x86_BinaryName} : {Key.Identity.Split("\\").Last()}";
                 }
                 else if (!string.IsNullOrEmpty(x64_BinaryName))
                 {
-                    return string.Format("{0} : {1}", x64_BinaryName, Key.Identity.Split("\\").Last());
+                    return $"{x64_BinaryName} : {Key.Identity.Split("\\").Last()}";
                 }
                 else
                 {

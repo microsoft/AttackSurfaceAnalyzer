@@ -113,7 +113,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
 
                 // Check if the token to be checked contains admin SID.
-                WindowsIdentity id = new WindowsIdentity(hTokenToCheck.DangerousGetHandle());
+                using WindowsIdentity id = new WindowsIdentity(hTokenToCheck.DangerousGetHandle());
                 WindowsPrincipal principal = new WindowsPrincipal(id);
                 fInAdminGroup = principal.IsInRole(WindowsBuiltInRole.Administrator);
             }
@@ -157,7 +157,7 @@ namespace AttackSurfaceAnalyzer.Utils
         /// account that is a member of the local Administrators group and it is 
         /// elevated. Returns false if the token does not.
         /// </returns>
-        public bool IsRunAsAdmin()
+        public static bool IsRunAsAdmin()
         {
             WindowsIdentity id = WindowsIdentity.GetCurrent();
             WindowsPrincipal principal = new WindowsPrincipal(id);
@@ -289,7 +289,7 @@ namespace AttackSurfaceAnalyzer.Utils
         /// When any native Windows API call fails, the function throws a Win32Exception 
         /// with the last error code.
         /// </exception>
-        public int GetProcessIntegrityLevel()
+        public static int GetProcessIntegrityLevel()
         {
             int IL = -1;
             SafeTokenHandle hToken = null;
@@ -374,7 +374,7 @@ namespace AttackSurfaceAnalyzer.Utils
         #endregion
 
 
-        public bool QueryElevation()
+        public static bool QueryElevation()
         {
             int IL = GetProcessIntegrityLevel();
 

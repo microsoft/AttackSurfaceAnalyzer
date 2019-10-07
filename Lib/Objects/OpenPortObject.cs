@@ -6,11 +6,11 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class OpenPortObject : CollectObject
     {
-        public string address;
-        public string family;
-        public string type;
-        public string port;
-        public string processName;
+        public string Address { get; set;}
+        public string Family { get; set; }
+        public string Type { get; set; }
+        public string Port { get; set; }
+        public string ProcessName { get; set; }
 
         public OpenPortObject()
         {
@@ -21,7 +21,7 @@ namespace AttackSurfaceAnalyzer.Objects
         {
             get
             {
-                return family + ":" + type + ":" + port;
+                return Family + ":" + Type + ":" + Port;
             }
         }
     }

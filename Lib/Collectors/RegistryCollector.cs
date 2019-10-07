@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer.Collectors
@@ -36,7 +37,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public RegistryCollector(string RunId, List<RegistryHive> Hives, Action<RegistryObject> customHandler)
         {
-            this.runId = RunId;
+            this.RunId = RunId;
             this.Hives = Hives;
             this.roots = new HashSet<string>();
             this._keys = new HashSet<RegistryKey>();
@@ -61,51 +62,31 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public override void ExecuteInternal()
         {
-
-            if (!this.CanRunOnPlatform())
-            {
-                return;
-            }
-
-            _ = DatabaseManager.Transaction;
-
             Parallel.ForEach(Hives,
                 (hive =>
                 {
                     Log.Debug("Starting " + hive.ToString());
-                    if (!Filter.IsFiltered(Helpers.GetPlatformString(), "Scan", "Registry", "Hive", "Include", hive.ToString()) && Filter.IsFiltered(Helpers.GetPlatformString(), "Scan", "Registry", "Hive", "Exclude", hive.ToString(), out Regex Capturer))
+                    if (!Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "Registry", "Hive", "Include", hive.ToString()) && Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "Registry", "Hive", "Exclude", hive.ToString(), out Regex Capturer))
                     {
                         Log.Debug("{0} '{1}' {2} '{3}'.", Strings.Get("ExcludingHive"), hive.ToString(), Strings.Get("DueToFilter"), Capturer.ToString());
                         return;
                     }
 
-                    Filter.IsFiltered(Helpers.GetPlatformString(), "Scan", "Registry", "Key", "Exclude", hive.ToString());
+                    Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "Registry", "Key", "Exclude", hive.ToString());
                     var registryInfoEnumerable = RegistryWalker.WalkHive(hive);
-                    try
-                    {
-                        Parallel.ForEach(registryInfoEnumerable,
-                            (registryObject =>
+                    Parallel.ForEach(registryInfoEnumerable,
+                        (registryObject =>
+                        {
+                            try
                             {
-                                try
-                                {
-                                    DatabaseManager.Write(registryObject, runId);
-                                }
-                                catch (InvalidOperationException e)
-                                {
-                                    Logger.DebugException(e);
-                                    Log.Debug(JsonConvert.SerializeObject(registryObject) + " invalid op exept");
-                                }
-                            }));
-                    }
-                    catch (Exception e)
-                    {
-                        Logger.DebugException(e);
-                        Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
-                    }
-
+                                DatabaseManager.Write(registryObject, RunId);
+                            }
+                            catch (InvalidOperationException e)
+                            {
+                                Log.Debug(e, JsonConvert.SerializeObject(registryObject) + " invalid op exept");
+                            }
+                        }));
                 }));
-
-            DatabaseManager.Commit();
         }
     }
 }

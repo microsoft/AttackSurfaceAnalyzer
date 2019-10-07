@@ -6,12 +6,14 @@ using Mono.Unix;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer.Collectors
@@ -30,14 +32,14 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public FileSystemCollector(string runId, bool enableHashing = false, string directories = "", bool downloadCloud = false, bool examineCertificates = false)
         {
-            this.runId = runId;
+            this.RunId = runId;
             this.downloadCloud = downloadCloud;
             this.examineCertificates = examineCertificates;
 
             roots = new HashSet<string>();
             INCLUDE_CONTENT_HASH = enableHashing;
 
-            if (directories != null && !directories.Equals(""))
+            if (!string.IsNullOrEmpty(directories))
             {
                 foreach (string path in directories.Split(','))
                 {
@@ -63,11 +65,6 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public override void ExecuteInternal()
         {
-            if (!CanRunOnPlatform())
-            {
-                return;
-            }
-
             if (roots == null || !roots.Any())
             {
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -92,9 +89,8 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             foreach (var root in roots)
             {
-                Log.Information("{0} root {1}", Strings.Get("Scanning"), root.ToString());
+                Log.Information("{0} root {1}", Strings.Get("Scanning"), root.ToString(CultureInfo.InvariantCulture));
                 //Ensure the transaction is started to prevent collisions on the multithreaded code ahead
-                _ = DatabaseManager.Transaction;
                 try
                 {
                     var fileInfoEnumerable = DirectoryWalker.WalkDirectory(root);
@@ -107,7 +103,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                             if (obj != null)
                             {
-                                DatabaseManager.Write(obj, runId);
+                                DatabaseManager.Write(obj, RunId);
                                 if (examineCertificates &&
                                     fileInfo.FullName.EndsWith(".cer", StringComparison.CurrentCulture) ||
                                     fileInfo.FullName.EndsWith(".der", StringComparison.CurrentCulture) ||
@@ -124,9 +120,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                                             Subject = certificate.Subject,
                                             Pkcs7 = certificate.Export(X509ContentType.Cert).ToString()
                                         };
-                                        DatabaseManager.Write(certObj, runId);
+                                        DatabaseManager.Write(certObj, RunId);
                                     }
-                                    catch(Exception e)
+                                    catch(ArgumentException e)
                                     {
                                         Log.Debug(e, "Could not parse certificate from file: {0}", fileInfo.FullName);
                                     }
@@ -144,9 +140,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                 {
                     Log.Warning(e, "Error collecting file system information: {0}", e.Message);
                 }
-
-                DatabaseManager.Commit();
-
             }
         }
 
@@ -159,6 +152,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <returns></returns>
         public static FileSystemObject FileSystemInfoToFileSystemObject(FileSystemInfo fileInfo, bool downloadCloud = false, bool INCLUDE_CONTENT_HASH = false)
         {
+            if (fileInfo == null) { return null; }
             FileSystemObject obj = new FileSystemObject()
             {
                 Path = fileInfo.FullName,
@@ -198,8 +192,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                         Log.Verbose("Couldn't find the Group from SID {0} for file {1}", gid.ToString(), fileInfo.FullName);
                     }
 
-                    obj.Permissions = new List<KeyValuePair<string, string>>();
-
                     var rules = fileSecurity.GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier));
                     foreach (FileSystemAccessRule rule in rules)
                     {
@@ -229,8 +221,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     obj.SetGid = file.IsSetGroup;
                     obj.SetUid = file.IsSetUser;
 
-                    obj.Permissions = new List<KeyValuePair<string, string>>();
-                    if (file.FileAccessPermissions.ToString().Equals("AllPermissions"))
+                    if (file.FileAccessPermissions.ToString().Equals("AllPermissions", StringComparison.InvariantCulture))
                     {
                         obj.Permissions.Add(new KeyValuePair<string, string>("User", "Read"));
                         obj.Permissions.Add(new KeyValuePair<string, string>("User", "Write"));
@@ -244,9 +235,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                     else
                     {
-                        foreach (var permission in file.FileAccessPermissions.ToString().Split(',').Where((x) => x.Trim().StartsWith("User")))
+                        foreach (var permission in file.FileAccessPermissions.ToString().Split(',').Where((x) => x.Trim().StartsWith("User", StringComparison.InvariantCulture)))
                         {
-                            if (permission.Contains("ReadWriteExecute"))
+                            if (permission.Contains("ReadWriteExecute", StringComparison.InvariantCulture))
                             {
                                 obj.Permissions.Add(new KeyValuePair<string, string>("User", "Read"));
                                 obj.Permissions.Add(new KeyValuePair<string, string>("User", "Write"));
@@ -257,9 +248,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 obj.Permissions.Add(new KeyValuePair<string, string>("User", permission.Trim().Substring(4)));
                             }
                         }
-                        foreach (var permission in file.FileAccessPermissions.ToString().Split(',').Where((x) => x.Trim().StartsWith("Group")))
+                        foreach (var permission in file.FileAccessPermissions.ToString().Split(',').Where((x) => x.Trim().StartsWith("Group", StringComparison.InvariantCulture)))
                         {
-                            if (permission.Contains("ReadWriteExecute"))
+                            if (permission.Contains("ReadWriteExecute", StringComparison.InvariantCulture))
                             {
                                 obj.Permissions.Add(new KeyValuePair<string, string>("Group", "Read"));
                                 obj.Permissions.Add(new KeyValuePair<string, string>("Group", "Write"));
@@ -270,9 +261,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 obj.Permissions.Add(new KeyValuePair<string, string>("Group", permission.Trim().Substring(5)));
                             }
                         }
-                        foreach (var permission in file.FileAccessPermissions.ToString().Split(',').Where((x) => x.Trim().StartsWith("Other")))
+                        foreach (var permission in file.FileAccessPermissions.ToString().Split(',').Where((x) => x.Trim().StartsWith("Other", StringComparison.InvariantCulture)))
                         {
-                            if (permission.Contains("ReadWriteExecute"))
+                            if (permission.Contains("ReadWriteExecute", StringComparison.InvariantCulture))
                             {
                                 obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Read"));
                                 obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Write"));
@@ -312,7 +303,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 {
 
                                     obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(fileInfo.FullName);
-                                    obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(fileInfo.FullName);
+                                    obj.Characteristics.AddRange(WindowsFileSystemUtils.GetDllCharacteristics(fileInfo.FullName));
                                     obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path);
                                 }
                             }

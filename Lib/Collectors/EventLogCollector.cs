@@ -11,6 +11,7 @@ using System.Diagnostics.Tracing;
 using System.IO;
 using System.Diagnostics;
 using System;
+using System.Globalization;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -22,19 +23,12 @@ namespace AttackSurfaceAnalyzer.Collectors
         private bool GatherVerboseLogs;
         public EventLogCollector(string runId, bool GatherVerboseLogs = false)
         {
-            this.runId = runId;
+            this.RunId = runId;
             this.GatherVerboseLogs = GatherVerboseLogs;
         }
 
         public override void ExecuteInternal()
         {
-            if (!CanRunOnPlatform())
-            {
-                return;
-            }
-
-            _ = DatabaseManager.Transaction;
-
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 ExecuteWindows();
@@ -47,8 +41,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 ExecuteMacOs();
             }
-
-            DatabaseManager.Commit();
         }
 
         /// <summary>
@@ -79,12 +71,12 @@ namespace AttackSurfaceAnalyzer.Collectors
                             {
                                 Level = entry.EntryType.ToString(),
                                 Summary = sentences[0],
-                                Source = string.IsNullOrEmpty(entry.Source) ? null:entry.Source,
-                                Data = new List<string>() { entry.Message },
-                                Timestamp = entry.TimeGenerated.ToString(),
-                                Event = string.Format("{0} {1} {2}", entry.TimeGenerated.ToString(), entry.EntryType.ToString(), entry.Message)
+                                Source = string.IsNullOrEmpty(entry.Source) ? null : entry.Source,
+                                Timestamp = entry.TimeGenerated.ToString("o", CultureInfo.InvariantCulture),
+                                Event = $"{entry.TimeGenerated.ToString("o", CultureInfo.InvariantCulture)} {entry.EntryType.ToString()} {entry.Message}"
                             };
-                            DatabaseManager.Write(obj, runId);
+                            obj.Data.Add(entry.Message);
+                            DatabaseManager.Write(obj, RunId);
                         }
                     }
                 }
@@ -118,7 +110,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             Source = "/var/log/auth.log",
                             Process = LogHeader.Matches(entry).Single().Groups[2].Captures[0].Value,
                         };
-                        DatabaseManager.Write(obj, runId);
+                        DatabaseManager.Write(obj, RunId);
                     }
                     // New log entries start with a timestamp like so:
                     // Sep  7 02:16:16 testbed systemd[1]: Reloading
@@ -139,7 +131,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             Source = "/var/log/syslog",
                             Process = LogHeader.Matches(entry).Single().Groups[1].Captures[0].Value,
                         };
-                        DatabaseManager.Write(obj, runId);
+                        DatabaseManager.Write(obj, RunId);
                     }
                 }
             }
@@ -155,7 +147,6 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// </summary>
         public void ExecuteMacOs()
         {
-            _ = DatabaseManager.Transaction;
 
             var outputPath = Path.Combine(Directory.GetCurrentDirectory(), "events");
             var file = (GatherVerboseLogs)? ExternalCommandRunner.RunExternalCommand("log", "show") : ExternalCommandRunner.RunExternalCommand("log", "show --predicate \"messageType == 16 || messageType == 17\"");
@@ -175,14 +166,18 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         var obj = new EventLogObject()
                         {
-                            Data = (data.Count > 0) ? data : null,
                             Event = previousLine,
                             Level = LogHeader.Matches(previousLine).Single().Groups[2].Value,
-                            Summary = string.Format("{0}:{1}", LogHeader.Matches(previousLine).Single().Groups[4].Captures[0].Value, LogHeader.Matches(previousLine).Single().Groups[5].Captures[0].Value),
+                            Summary = $"{LogHeader.Matches(previousLine).Single().Groups[4].Captures[0].Value}:{LogHeader.Matches(previousLine).Single().Groups[5].Captures[0].Value}",
                             Timestamp = LogHeader.Matches(previousLine).Single().Groups[1].Captures[0].Value,
                             Source = LogHeader.Matches(previousLine).Single().Groups[4].Captures[0].Value
                         };
-                        DatabaseManager.Write(obj, runId);
+                        if (data.Count > 0)
+                        {
+                            obj.Data.AddRange(data);
+                        }
+
+                        DatabaseManager.Write(obj, RunId);
                     }
                     previousLine = line;
                     data = new List<string>();
@@ -199,14 +194,17 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 var obj = new EventLogObject()
                 {
-                    Data = (data.Count > 0) ? data:null,
                     Event = previousLine,
                     Level = LogHeader.Matches(previousLine).Single().Groups[2].Value,
-                    Summary = string.Format("{0}:{1}", LogHeader.Matches(previousLine).Single().Groups[4].Captures[0].Value, LogHeader.Matches(previousLine).Single().Groups[5].Captures[0].Value),
+                    Summary = $"{LogHeader.Matches(previousLine).Single().Groups[4].Captures[0].Value}:{LogHeader.Matches(previousLine).Single().Groups[5].Captures[0].Value}",
                     Timestamp = LogHeader.Matches(previousLine).Single().Groups[1].Captures[0].Value,
                     Source = LogHeader.Matches(previousLine).Single().Groups[4].Captures[0].Value
                 };
-                DatabaseManager.Write(obj, runId);
+                if (data.Count > 0)
+                {
+                    obj.Data.AddRange(data);
+                }
+                DatabaseManager.Write(obj, RunId);
             }
             DatabaseManager.Commit();
         }

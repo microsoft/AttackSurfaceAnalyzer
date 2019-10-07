@@ -225,11 +225,11 @@ stages:
         script: |
           VERSION="$(nbgv get-version -v AssemblyInformationalVersion | cut -d'+' -f 1)"
           mkdir $BIN_DIR/res
-          mv $BIN_DIR/linux/* $BIN_DIR/res/
+          mv $BIN_DIR/linux/Asa $BIN_DIR/res/
           mv $BIN_DIR/res $BIN_DIR/linux/
 
           mkdir $BIN_DIR/res
-          mv $BIN_DIR/macos/* $BIN_DIR/res/
+          mv $BIN_DIR/macos/Asa $BIN_DIR/res/
           mv $BIN_DIR/res $BIN_DIR/macos/
 
           cp $SRC_DIR/Asa/AsaLaunch.sh $BIN_DIR/linux/AsaLaunch.sh

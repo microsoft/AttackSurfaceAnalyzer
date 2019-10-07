@@ -26,7 +26,7 @@
     },
     "Collect": {
       "commandName": "Project",
-      "commandLineArgs": "collect -s --databasefilename C:\\asa.dbg.sqlite"
+      "commandLineArgs": "collect -C --databasefilename C:\\asa.dbg.sqlite"
     }
   }
 }

@@ -9,44 +9,42 @@ namespace AttackSurfaceAnalyzer.Objects
 
     public class UserAccountObject : CollectObject
     {
-        public string AccountType;
-        public string Caption;
-        public string Description;
-        public string Disabled;
-        public string Domain;
-        public string FullName;
-        public string InstallDate;
-        public string LocalAccount;
-        public string Lockout;
-        public string PasswordChangeable;
-        public string PasswordExpires;
-        public string PasswordRequired;
-        public string SID;
-        public string UID;
-        public string GID;
-        public string Inactive;
-        public string HomeDirectory;
-        public string Shell;
-        public string PasswordStorageAlgorithm;
-        public bool Privileged;
-        public string Name;
-
-        public List<string> Groups;
-
-        // Is the user Windows Administrator/sudoer
-
-        public Dictionary<string, string> Properties;
+        public string AccountType { get; set; }
+        public string Caption { get; set; }
+        public string Description { get; set; }
+        public string Disabled { get; set; }
+        public string Domain { get; set; }
+        public string FullName { get; set; }
+        public string InstallDate { get; set; }
+        public string LocalAccount { get; set; }
+        public string Lockout { get; set; }
+        public string PasswordChangeable { get; set; }
+        public string PasswordExpires { get; set; }
+        public string PasswordRequired { get; set; }
+        public string SID { get; set; }
+        public string UID { get; set; }
+        public string GID { get; set; }
+        public string Inactive { get; set; }
+        public string HomeDirectory { get; set; }
+        public string Shell { get; set; }
+        public string PasswordStorageAlgorithm { get; set; }
+        public bool Privileged { get; set; }
+        public string Name { get; set; }
+        public List<string> Groups { get; }
+        public Dictionary<string, string> Properties { get; }
 
         public UserAccountObject()
         {
             ResultType = RESULT_TYPE.USER;
+            Groups = new List<string>();
+            Properties = new Dictionary<string, string>();
         }
 
         public override string Identity
         {
             get
             {
-                return (Domain == null) ? Name : String.Format(@"{0}\{1}", Domain, Name);
+                return (Domain == null) ? Name : $"{Domain}\\{Name}";
             }
         }
     }

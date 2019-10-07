@@ -24,6 +24,10 @@ steps:
   inputs:
     packageType: 'sdk'
     version: '3.0.100'
+
+- script: 'dotnet tool install -g nbgv'
+  displayName: 'Install GitVersioning'
+  
 - task: CredScan@2
   inputs:
     toolMajorVersion: 'V2'
@@ -84,26 +88,32 @@ steps:
     scanType: 'Register'
     verbosity: 'Verbose'
     alertWarningLevel: 'High'
+
 - task: notice@0
   displayName: Notice Generator
   inputs:
     outputformat: 'text'
 
-- task: PowerShell@2
+- task: PublishPipelineArtifact@1
+  displayName: Publish CredScan Result
   inputs:
-    targetType: 'inline'
-    script: |
-      cd $(Pipeline.Workspace)\_sdt\logs\Semmle
-      dir
-      cd $(Pipeline.Workspace)\_sdt\logs\Semmle\csharp
-      dir
-      cd $(Pipeline.Workspace)\_sdt\logs\
-      dir 
-      cd $(Pipeline.Workspace)\_sdt\logs\CredScan
-      dir
+    targetPath: '$(Pipeline.Workspace)\_sdt\logs\CredentialScanner\CredentialScanner-matches.sarif'
+    artifact: 'CredScan.sarif'
 
 - task: PublishPipelineArtifact@1
-  displayName: Publish Semmle Result
+  displayName: Publish C# Semmle Result
   inputs:
     targetPath: '$(Pipeline.Workspace)\_sdt\logs\Semmle\csharp\microsoft.AttackSurfaceAnalyzer-csharp-1.sarif'
-    artifact: 'Semmle.sarif'
+    artifact: 'SemmleCS.sarif'
+
+- task: PublishPipelineArtifact@1
+  displayName: Publish JS Semmle Result
+  inputs:
+    targetPath: '$(Pipeline.Workspace)\_sdt\logs\Semmle\javascript\microsoft.AttackSurfaceAnalyzer-javascript-1.sarif'
+    artifact: 'SemmleJS.sarif'
+
+- task: PublishPipelineArtifact@1
+  displayName: Publish SDT Report
+  inputs:
+    targetPath: '$(Pipeline.Workspace)\_sdt\logs\SdtReport.html'
+    artifact: 'SdtReport.html'

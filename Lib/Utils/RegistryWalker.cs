@@ -10,9 +10,8 @@ using System.Security.Principal;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
-    public class RegistryWalker
+    public static class RegistryWalker
     {
-
         public static IEnumerable<RegistryObject> WalkHive(RegistryHive Hive, string startingKey = null)
         {
             Stack<RegistryKey> keys = new Stack<RegistryKey>();
@@ -41,7 +40,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     continue;
                 }
-                if (Filter.IsFiltered(Helpers.GetPlatformString(), "Scan", "Registry", "Key", currentKey.Name))
+                if (Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "Registry", "Key", currentKey.Name))
                 {
                     continue;
                 }
@@ -69,7 +68,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     catch (Exception e)
                     {
                         Log.Information(e, "Unexpected error when parsing {0}:", currentKey.Name);
-                        Telemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
+                        AsaTelemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                     }
                 }
 
@@ -80,20 +79,23 @@ namespace AttackSurfaceAnalyzer.Utils
                     yield return regObj;
                 }
             }
+
+            x86_View.Dispose();
+            x64_View.Dispose();
         }
 
         public static RegistryObject RegistryKeyToRegistryObject(RegistryKey registryKey)
         {
             RegistryObject regObj = null;
+            if (registryKey == null) { return regObj; }
             try
             {
                 regObj = new RegistryObject()
                 {
-                    Subkeys = new List<string>(registryKey.GetSubKeyNames()),
                     Key = registryKey.Name,
-                    Values = new Dictionary<string, string>(),
-                    Permissions = new Dictionary<string, string>()
                 };
+
+                regObj.AddSubKeys(new List<string>(registryKey.GetSubKeyNames()));
 
                 foreach (RegistryAccessRule rule in registryKey.GetAccessControl().GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier)))
                 {
@@ -108,7 +110,14 @@ namespace AttackSurfaceAnalyzer.Utils
                         // This is fine. Some SIDs don't map to NT Accounts.
                     }
 
-                    regObj.Permissions.Add(name, rule.RegistryRights.ToString());
+                    if (regObj.Permissions.ContainsKey(name))
+                    {
+                        regObj.Permissions[name].Add(rule.RegistryRights.ToString());
+                    }
+                    else
+                    {
+                        regObj.Permissions.Add(name, new List<string>() { rule.RegistryRights.ToString() });
+                    }
                 }
 
                 foreach (string valueName in registryKey.GetValueNames())
@@ -129,7 +138,8 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             catch (System.ArgumentException e)
             {
-                Logger.VerboseException(e);
+
+                Log.Debug(e, "Exception parsing {0}", registryKey.Name);
             }
             catch (Exception e)
             {

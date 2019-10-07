@@ -8,30 +8,32 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class GroupAccountObject : CollectObject
     {
-        public string Caption;
-        public string Description;
-        public string Domain;
-        public string InstallDate;
-        public bool LocalAccount;
-        public string Name;
-        public string Status;
-        public string SID;
-        public int SIDType;
+        public string Caption { get; set; }
+        public string Description { get; set; }
+        public string Domain { get; set; }
+        public string InstallDate { get; set; }
+        public bool LocalAccount { get; set; }
+        public string Name { get; set; }
+        public string Status { get; set; }
+        public string SID { get; set; }
+        public int SIDType { get; set; }
 
-        public List<string> Users;
+        public List<string> Users { get; }
 
-        public Dictionary<string, string> Properties;
+        public Dictionary<string, string> Properties { get; }
 
         public GroupAccountObject()
         {
             ResultType = RESULT_TYPE.GROUP;
+            Users = new List<string>();
+            Properties = new Dictionary<string, string>();
         }
 
         public override string Identity
         {
             get
             {
-                return (Domain == null) ? Name : String.Format(@"{0}\{1}", Domain, Name);
+                return (Domain == null) ? Name : $"{Domain}\\{Name}";
             }
         }
     }
