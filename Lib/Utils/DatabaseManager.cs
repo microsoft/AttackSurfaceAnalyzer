@@ -352,14 +352,12 @@ namespace AttackSurfaceAnalyzer.Utils
                 if (_transaction != null)
                 {
                     _transaction.Commit();
-                    _transaction = null;
                 }
             }
             catch (Exception)
             {
-                Log.Debug("Commit collision");
+                Log.Information("Failed to commit data to database.");
             }
-
             _transaction = null;
         }
 
@@ -399,7 +397,14 @@ namespace AttackSurfaceAnalyzer.Utils
         public static void CloseDatabase()
         {
             Commit();
-            Connection.Close();
+            try
+            {
+                Connection.Close();
+            }
+            catch (NullReferenceException)
+            {
+                // That's fine. We want Connection to be null.
+            }
             Connection = null;
         }
 
@@ -427,6 +432,10 @@ namespace AttackSurfaceAnalyzer.Utils
             catch (SqliteException)
             {
                 Log.Debug($"Error writing {objIn.ColObj.Identity} to database.");
+            }
+            catch (NullReferenceException)
+            {
+                Log.Debug($"Was this a valid WriteObject. It looked null. {JsonConvert.SerializeObject(objIn)}");
             }
         }
 
