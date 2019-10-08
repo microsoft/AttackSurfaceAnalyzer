@@ -5,7 +5,7 @@ $RunName = Get-Content C:\input\RunName
 
 $ScriptBlock = {
     param($RunName) 
-    C:\Asa\Asa.exe collect -a --runid "$($RunName):BeforeInstall" --databasefilename "$($RunName).sqlite"
+    C:\Asa\Asa.exe collect - --runid "$($RunName):BeforeInstall" --databasefilename "$($RunName).sqlite"
     C:\input\Install.ps1
     C:\Asa\Asa.exe collect -a --runid "$($RunName):AfterInstall" --databasefilename "$($RunName).sqlite"
     C:\input\Uninstall.ps1
@@ -30,7 +30,7 @@ while ($job.State -eq "Running" -and $jobTimer.Elapsed.TotalSeconds -le $Timeout
         foreach($line in $logEntry){
             Write-Host $line
         }
-        $logEntry | Out-File C:\output\$RunName.log -Append
+        $logEntry | Out-File C:\logs\$RunName.log -Append
     }
 }
 

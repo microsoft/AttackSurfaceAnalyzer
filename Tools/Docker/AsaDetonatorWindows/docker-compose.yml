@@ -8,8 +8,11 @@ services:
       dockerfile: Dockerfile
     volumes:
       - type: bind
-        source: D:/output
+        source: D:/AsaDetonator/output
         target: C:/output
       - type: bind
-        source: D:/input
+        source: D:/AsaDetonator/input
         target: C:/input
+      - type: bind
+        source: D:/AsaDetonator/logs
+        target: C:/logs
