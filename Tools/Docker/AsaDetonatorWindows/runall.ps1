@@ -8,5 +8,5 @@ foreach($line in Get-Content C:\Users\Gstoc\Documents\GitHub\AttackSurfaceAnalyz
     Add-Content D:\input\RunName "$($line)"
     docker container rm -f AsaDetonator
     docker-compose up --build
-    Add-Content C:\Users\Gstoc\Documents\GitHub\AttackSurfaceAnalyzer\Tools\Docker\processed.txt "$line"
+    Add-Content C:\Users\Gstoc\Documents\GitHub\AttackSurfaceAnalyzer\Tools\Docker\AsaDetonatorWindows\processed.txt "$line"
 }
