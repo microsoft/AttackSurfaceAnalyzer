@@ -796,6 +796,12 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Collectors.FileSystemUtils
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils
   nameWithType: FileSystemUtils
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.ElfMagicNumber
+  name: ElfMagicNumber
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_ElfMagicNumber
+  commentId: F:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.ElfMagicNumber
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.ElfMagicNumber
+  nameWithType: FileSystemUtils.ElfMagicNumber
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash(System.IO.FileSystemInfo)
   name: GetFileHash(FileSystemInfo)
   href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetFileHash_System_IO_FileSystemInfo_
@@ -835,6 +841,24 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.IsExecutable
   nameWithType: FileSystemUtils.IsExecutable
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.JavaMagicNumber
+  name: JavaMagicNumber
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_JavaMagicNumber
+  commentId: F:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.JavaMagicNumber
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.JavaMagicNumber
+  nameWithType: FileSystemUtils.JavaMagicNumber
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.MacMagicNumbers
+  name: MacMagicNumbers
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_MacMagicNumbers
+  commentId: F:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.MacMagicNumbers
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.MacMagicNumbers
+  nameWithType: FileSystemUtils.MacMagicNumbers
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.WindowsMagicNumber
+  name: WindowsMagicNumber
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_WindowsMagicNumber
+  commentId: F:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.WindowsMagicNumber
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.WindowsMagicNumber
+  nameWithType: FileSystemUtils.WindowsMagicNumber
 - uid: AttackSurfaceAnalyzer.Collectors.FirewallCollector
   name: FirewallCollector
   href: api/AttackSurfaceAnalyzer.Collectors.FirewallCollector.html
@@ -4149,6 +4173,38 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Objects.UserAccountResult.UserAccountResult
   nameWithType: UserAccountResult.UserAccountResult
+- uid: AttackSurfaceAnalyzer.Objects.WriteObject
+  name: WriteObject
+  href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html
+  commentId: T:AttackSurfaceAnalyzer.Objects.WriteObject
+  fullName: AttackSurfaceAnalyzer.Objects.WriteObject
+  nameWithType: WriteObject
+- uid: AttackSurfaceAnalyzer.Objects.WriteObject.ColObj
+  name: ColObj
+  href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_ColObj
+  commentId: P:AttackSurfaceAnalyzer.Objects.WriteObject.ColObj
+  fullName: AttackSurfaceAnalyzer.Objects.WriteObject.ColObj
+  nameWithType: WriteObject.ColObj
+- uid: AttackSurfaceAnalyzer.Objects.WriteObject.ColObj*
+  name: ColObj
+  href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_ColObj_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.WriteObject.ColObj
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.WriteObject.ColObj
+  nameWithType: WriteObject.ColObj
+- uid: AttackSurfaceAnalyzer.Objects.WriteObject.RunId
+  name: RunId
+  href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_RunId
+  commentId: P:AttackSurfaceAnalyzer.Objects.WriteObject.RunId
+  fullName: AttackSurfaceAnalyzer.Objects.WriteObject.RunId
+  nameWithType: WriteObject.RunId
+- uid: AttackSurfaceAnalyzer.Objects.WriteObject.RunId*
+  name: RunId
+  href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_RunId_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.WriteObject.RunId
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.WriteObject.RunId
+  nameWithType: WriteObject.RunId
 - uid: AttackSurfaceAnalyzer.Properties
   name: AttackSurfaceAnalyzer.Properties
   href: api/AttackSurfaceAnalyzer.Properties.html
@@ -6245,19 +6301,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.AsaHelpers.GetVersionString
   nameWithType: AsaHelpers.GetVersionString
-- uid: AttackSurfaceAnalyzer.Utils.AsaHelpers.HexStringToAscii(System.String)
-  name: HexStringToAscii(String)
-  href: api/AttackSurfaceAnalyzer.Utils.AsaHelpers.html#AttackSurfaceAnalyzer_Utils_AsaHelpers_HexStringToAscii_System_String_
-  commentId: M:AttackSurfaceAnalyzer.Utils.AsaHelpers.HexStringToAscii(System.String)
-  fullName: AttackSurfaceAnalyzer.Utils.AsaHelpers.HexStringToAscii(System.String)
-  nameWithType: AsaHelpers.HexStringToAscii(String)
-- uid: AttackSurfaceAnalyzer.Utils.AsaHelpers.HexStringToAscii*
-  name: HexStringToAscii
-  href: api/AttackSurfaceAnalyzer.Utils.AsaHelpers.html#AttackSurfaceAnalyzer_Utils_AsaHelpers_HexStringToAscii_
-  commentId: Overload:AttackSurfaceAnalyzer.Utils.AsaHelpers.HexStringToAscii
+- uid: AttackSurfaceAnalyzer.Utils.AsaHelpers.HexStringToBytes(System.String)
+  name: HexStringToBytes(String)
+  href: api/AttackSurfaceAnalyzer.Utils.AsaHelpers.html#AttackSurfaceAnalyzer_Utils_AsaHelpers_HexStringToBytes_System_String_
+  commentId: M:AttackSurfaceAnalyzer.Utils.AsaHelpers.HexStringToBytes(System.String)
+  fullName: AttackSurfaceAnalyzer.Utils.AsaHelpers.HexStringToBytes(System.String)
+  nameWithType: AsaHelpers.HexStringToBytes(String)
+- uid: AttackSurfaceAnalyzer.Utils.AsaHelpers.HexStringToBytes*
+  name: HexStringToBytes
+  href: api/AttackSurfaceAnalyzer.Utils.AsaHelpers.html#AttackSurfaceAnalyzer_Utils_AsaHelpers_HexStringToBytes_
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.AsaHelpers.HexStringToBytes
   isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Utils.AsaHelpers.HexStringToAscii
-  nameWithType: AsaHelpers.HexStringToAscii
+  fullName: AttackSurfaceAnalyzer.Utils.AsaHelpers.HexStringToBytes
+  nameWithType: AsaHelpers.HexStringToBytes
 - uid: AttackSurfaceAnalyzer.Utils.AsaHelpers.IsAdmin
   name: IsAdmin()
   href: api/AttackSurfaceAnalyzer.Utils.AsaHelpers.html#AttackSurfaceAnalyzer_Utils_AsaHelpers_IsAdmin
@@ -6467,6 +6523,19 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Utils.DatabaseManager
   fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager
   nameWithType: DatabaseManager
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.BeginTransaction
+  name: BeginTransaction()
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_BeginTransaction
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.BeginTransaction
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.BeginTransaction()
+  nameWithType: DatabaseManager.BeginTransaction()
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.BeginTransaction*
+  name: BeginTransaction
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_BeginTransaction_
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.BeginTransaction
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.BeginTransaction
+  nameWithType: DatabaseManager.BeginTransaction
 - uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.CloseDatabase
   name: CloseDatabase()
   href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_CloseDatabase
@@ -6597,6 +6666,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultsByRunid
   nameWithType: DatabaseManager.GetResultsByRunid
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultTypes(System.String)
+  name: GetResultTypes(String)
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_GetResultTypes_System_String_
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultTypes(System.String)
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultTypes(System.String)
+  nameWithType: DatabaseManager.GetResultTypes(String)
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultTypes*
+  name: GetResultTypes
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_GetResultTypes_
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultTypes
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultTypes
+  nameWithType: DatabaseManager.GetResultTypes
 - uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultTypesAndCounts(System.String)
   name: GetResultTypesAndCounts(String)
   href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_GetResultTypesAndCounts_System_String_
@@ -6610,6 +6692,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultTypesAndCounts
   nameWithType: DatabaseManager.GetResultTypesAndCounts
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.HasElements
+  name: HasElements()
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_HasElements
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.HasElements
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.HasElements()
+  nameWithType: DatabaseManager.HasElements()
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.HasElements*
+  name: HasElements
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_HasElements_
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.HasElements
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.HasElements
+  nameWithType: DatabaseManager.HasElements
 - uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertAnalyzed(AttackSurfaceAnalyzer.Objects.CompareResult)
   name: InsertAnalyzed(CompareResult)
   href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_InsertAnalyzed_AttackSurfaceAnalyzer_Objects_CompareResult_
@@ -6623,6 +6718,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertAnalyzed
   nameWithType: DatabaseManager.InsertAnalyzed
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.KeepSleepAndFlushQueue
+  name: KeepSleepAndFlushQueue()
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_KeepSleepAndFlushQueue
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.KeepSleepAndFlushQueue
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.KeepSleepAndFlushQueue()
+  nameWithType: DatabaseManager.KeepSleepAndFlushQueue()
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.KeepSleepAndFlushQueue*
+  name: KeepSleepAndFlushQueue
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_KeepSleepAndFlushQueue_
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.KeepSleepAndFlushQueue
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.KeepSleepAndFlushQueue
+  nameWithType: DatabaseManager.KeepSleepAndFlushQueue
 - uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.RunIdToPlatform(System.String)
   name: RunIdToPlatform(String)
   href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_RunIdToPlatform_System_String_
@@ -6636,12 +6744,12 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.RunIdToPlatform
   nameWithType: DatabaseManager.RunIdToPlatform
-- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.Setup
-  name: Setup()
-  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_Setup
-  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.Setup
-  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.Setup()
-  nameWithType: DatabaseManager.Setup()
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.Setup(System.String)
+  name: Setup(String)
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_Setup_System_String_
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.Setup(System.String)
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.Setup(System.String)
+  nameWithType: DatabaseManager.Setup(String)
 - uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.Setup*
   name: Setup
   href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_Setup_
@@ -6649,6 +6757,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.Setup
   nameWithType: DatabaseManager.Setup
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.SleepAndFlushQueue
+  name: SleepAndFlushQueue()
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_SleepAndFlushQueue
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.SleepAndFlushQueue
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.SleepAndFlushQueue()
+  nameWithType: DatabaseManager.SleepAndFlushQueue()
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.SleepAndFlushQueue*
+  name: SleepAndFlushQueue
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_SleepAndFlushQueue_
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.SleepAndFlushQueue
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.SleepAndFlushQueue
+  nameWithType: DatabaseManager.SleepAndFlushQueue
 - uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.SqliteFilename
   name: SqliteFilename
   href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_SqliteFilename
@@ -6701,6 +6822,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.Write
   nameWithType: DatabaseManager.Write
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.WriteNext
+  name: WriteNext()
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_WriteNext
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.WriteNext
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.WriteNext()
+  nameWithType: DatabaseManager.WriteNext()
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.WriteNext*
+  name: WriteNext
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_WriteNext_
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.WriteNext
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.WriteNext
+  nameWithType: DatabaseManager.WriteNext
 - uid: AttackSurfaceAnalyzer.Utils.DirectoryWalker
   name: DirectoryWalker
   href: api/AttackSurfaceAnalyzer.Utils.DirectoryWalker.html
