@@ -86,6 +86,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 throw new ArgumentNullException(nameof(secondRunId));
             }
+
             List<RawCollectResult> addObjects = DatabaseManager.GetMissingFromFirst(firstRunId, secondRunId);
             List<RawCollectResult> removeObjects = DatabaseManager.GetMissingFromFirst(secondRunId, firstRunId);
             List<RawModifiedResult> modifyObjects = DatabaseManager.GetModified(firstRunId, secondRunId);

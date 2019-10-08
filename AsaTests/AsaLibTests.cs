@@ -26,8 +26,7 @@ namespace AsaTests
             Logger.Setup();
             Strings.Setup();
             AsaTelemetry.TestMode();
-            DatabaseManager.SqliteFilename = Path.GetTempFileName();
-            DatabaseManager.Setup();
+            DatabaseManager.Setup(Path.GetTempFileName());
         }
 
         public void TearDown()
@@ -465,16 +464,16 @@ namespace AsaTests
                 fwc = new FirewallCollector(SecondRunId);
                 fwc.Execute();
 
-                rule = FirewallManager.Instance.Rules.SingleOrDefault(r => r.Name == "TestFirewallPortRule");
-                if (rule != null)
+                var rules = FirewallManager.Instance.Rules.Where(r => r.Name == "TestFirewallPortRule");
+                foreach (var ruleIn in rules)
                 {
-                    FirewallManager.Instance.Rules.Remove(rule);
+                    FirewallManager.Instance.Rules.Remove(ruleIn);
                 }
 
-                rule = FirewallManager.Instance.Rules.SingleOrDefault(r => r.Name == "TestFirewallAppRule");
-                if (rule != null)
+                rules = FirewallManager.Instance.Rules.Where(r => r.Name == "TestFirewallAppRule");
+                foreach (var ruleIn in rules)
                 {
-                    FirewallManager.Instance.Rules.Remove(rule);
+                    FirewallManager.Instance.Rules.Remove(ruleIn);
                 }
 
                 BaseCompare bc = new BaseCompare();
