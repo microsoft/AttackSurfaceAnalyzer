@@ -155,8 +155,19 @@ stages:
         MaxConcurrency: '50'
         MaxRetryAttempts: '5'
 
-    - powershell: 'Get-ChildItem -Path ''$(build.binariesdirectory)'' -Recurse CodeSign* | foreach { Remove-Item -Path $_.FullName }'
-      displayName: 'Delete CodeSign summaries'
+    - task: PowerShell@2
+      displayName: Compile CodeSign Summaries for Publication
+      inputs:
+        targetType: 'inline'
+        script: |
+          mkdir $(build.binariesdirectory)\CodeSign
+          Get-ChildItem -Path ''$(build.binariesdirectory)'' -Recurse CodeSign* | foreach { Move-Item -Path $_.FullName -Destination $(build.binariesdirectory)\CodeSign\$_.Name}
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish CodeSign Summaries'
+      inputs:
+        PathtoPublish: '$(build.binariesdirectory)\CodeSign\*'
+        ArtifactName: 'CodeSign'
 
     - task: PowerShell@2
       displayName: Prepare Artifacts
