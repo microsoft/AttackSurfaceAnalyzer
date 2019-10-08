@@ -72,6 +72,8 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private const string SCHEMA_VERSION = "4";
 
+        private static bool WriterStarted = false;
+
         public static SqliteConnection Connection { get; set; }
 
         private static SqliteTransaction _transaction;
@@ -173,10 +175,15 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 Commit();
 
-                ((Action)(async () =>
+                if (!WriterStarted)
                 {
-                    await Task.Run(() => KeepSleepAndFlushQueue()).ConfigureAwait(false);
-                }))();
+                    ((Action)(async () =>
+                    {
+                        await Task.Run(() => KeepSleepAndFlushQueue()).ConfigureAwait(false);
+                    }))();
+                    WriterStarted = true;
+                }
+
                 return true;
             }
             return false;
@@ -216,8 +223,15 @@ namespace AttackSurfaceAnalyzer.Utils
         public static List<RawCollectResult> GetResultsByRunid(string runid)
         {
             var output = new List<RawCollectResult>();
-
-            using var cmd = new SqliteCommand(SQL_GET_RESULTS_BY_RUN_ID, Connection, Transaction);
+            SqliteCommand cmd;
+            if(_transaction == null)
+            {
+                cmd = new SqliteCommand(SQL_GET_RESULTS_BY_RUN_ID, Connection);
+            }
+            else
+            {
+                cmd = new SqliteCommand(SQL_GET_RESULTS_BY_RUN_ID, Connection, Transaction);
+            }
             cmd.Parameters.AddWithValue("@run_id", runid);
             using (var reader = cmd.ExecuteReader())
             {
@@ -233,7 +247,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     });
                 }
             }
-
+            cmd.Dispose();
             return output;
         }
 
