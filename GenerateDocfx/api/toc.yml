@@ -93,6 +93,8 @@
     name: UserAccountObject
   - uid: AttackSurfaceAnalyzer.Objects.UserAccountResult
     name: UserAccountResult
+  - uid: AttackSurfaceAnalyzer.Objects.WriteObject
+    name: WriteObject
 - uid: AttackSurfaceAnalyzer.Properties
   name: AttackSurfaceAnalyzer.Properties
   items:
