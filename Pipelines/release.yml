@@ -161,7 +161,7 @@ stages:
         targetType: 'inline'
         script: |
           mkdir $(build.binariesdirectory)\CodeSign
-          Get-ChildItem -Path $(build.binariesdirectory) -Recurse -Filter CodeSign* | foreach { Copy-Item -Path $_.FullName -Destination $(build.binariesdirectory)\CodeSign\$_.Name; Delete-Item $_.FullName}
+          Get-ChildItem -Path $(build.binariesdirectory) -Recurse -Filter CodeSign* | foreach { Copy-Item -Path $_.FullName -Destination $(build.binariesdirectory)\CodeSign\$_.Name; Remove-Item $_.FullName}
 
     - task: PublishBuildArtifacts@1
       displayName: 'Publish CodeSign Summaries'
