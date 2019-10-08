@@ -31,7 +31,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
             Start();
 
-            _ = DatabaseManager.Transaction;
+            DatabaseManager.BeginTransaction();
 
             ExecuteInternal();
 

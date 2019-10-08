@@ -72,6 +72,8 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private const string SCHEMA_VERSION = "4";
 
+        private static bool WriterStarted = false;
+
         public static SqliteConnection Connection { get; set; }
 
         private static SqliteTransaction _transaction;
@@ -80,8 +82,21 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static bool FirstRun { get; private set; } = true;
 
-        public static bool Setup()
+        public static bool Setup(string filename = null)
         {
+            if (filename != null)
+            {
+                if (_SqliteFilename != filename)
+                {
+
+                    if (Connection != null)
+                    {
+                        CloseDatabase();
+                    }
+
+                    _SqliteFilename = filename;
+                }
+            }
             if (Connection == null)
             {
                 WriteQueue = new ConcurrentQueue<WriteObject>();
@@ -160,10 +175,15 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 Commit();
 
-                ((Action)(async () =>
+                if (!WriterStarted)
                 {
-                    await Task.Run(() => KeepSleepAndFlushQueue()).ConfigureAwait(false);
-                }))();
+                    ((Action)(async () =>
+                    {
+                        await Task.Run(() => KeepSleepAndFlushQueue()).ConfigureAwait(false);
+                    }))();
+                    WriterStarted = true;
+                }
+
                 return true;
             }
             return false;
@@ -189,7 +209,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static PLATFORM RunIdToPlatform(string runid)
         {
-            using (var cmd = new SqliteCommand(SQL_GET_PLATFORM_FROM_RUNID, DatabaseManager.Connection, DatabaseManager.Transaction))
+            using (var cmd = new SqliteCommand(SQL_GET_PLATFORM_FROM_RUNID, Connection, Transaction))
             {
                 cmd.Parameters.AddWithValue("@run_id", runid);
                 using (var reader = cmd.ExecuteReader())
@@ -203,8 +223,15 @@ namespace AttackSurfaceAnalyzer.Utils
         public static List<RawCollectResult> GetResultsByRunid(string runid)
         {
             var output = new List<RawCollectResult>();
-
-            using var cmd = new SqliteCommand(SQL_GET_RESULTS_BY_RUN_ID, DatabaseManager.Connection, DatabaseManager.Transaction);
+            SqliteCommand cmd;
+            if(_transaction == null)
+            {
+                cmd = new SqliteCommand(SQL_GET_RESULTS_BY_RUN_ID, Connection);
+            }
+            else
+            {
+                cmd = new SqliteCommand(SQL_GET_RESULTS_BY_RUN_ID, Connection, Transaction);
+            }
             cmd.Parameters.AddWithValue("@run_id", runid);
             using (var reader = cmd.ExecuteReader())
             {
@@ -220,7 +247,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     });
                 }
             }
-
+            cmd.Dispose();
             return output;
         }
 
@@ -332,15 +359,17 @@ namespace AttackSurfaceAnalyzer.Utils
             return -1;
         }
 
-
+        public static void BeginTransaction()
+        {
+            if (_transaction is null)
+            {
+                _transaction = Connection.BeginTransaction();
+            }
+        }
         public static SqliteTransaction Transaction
         {
             get
             {
-                if (_transaction == null)
-                {
-                    _transaction = Connection.BeginTransaction();
-                }
                 return _transaction;
             }
         }
@@ -360,7 +389,30 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             _transaction = null;
         }
-
+        public static Dictionary<RESULT_TYPE,bool> GetResultTypes(string runId)
+        {
+            var output = new Dictionary<RESULT_TYPE, bool>();
+            using (var inner_cmd = new SqliteCommand(SQL_GET_RESULT_TYPES_SINGLE, DatabaseManager.Connection))
+            {
+                inner_cmd.Parameters.AddWithValue("@run_id", runId);
+                using (var reader = inner_cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        output[RESULT_TYPE.FILE] = (int.Parse(reader["file_system"].ToString(), CultureInfo.InvariantCulture) != 0);
+                        output[RESULT_TYPE.PORT] = (int.Parse(reader["ports"].ToString(), CultureInfo.InvariantCulture) != 0);
+                        output[RESULT_TYPE.USER] = (int.Parse(reader["users"].ToString(), CultureInfo.InvariantCulture) != 0);
+                        output[RESULT_TYPE.SERVICE] = (int.Parse(reader["services"].ToString(), CultureInfo.InvariantCulture) != 0);
+                        output[RESULT_TYPE.REGISTRY] = (int.Parse(reader["registry"].ToString(), CultureInfo.InvariantCulture) != 0);
+                        output[RESULT_TYPE.CERTIFICATE] = (int.Parse(reader["certificates"].ToString(), CultureInfo.InvariantCulture) != 0);
+                        output[RESULT_TYPE.FIREWALL] = (int.Parse(reader["firewall"].ToString(), CultureInfo.InvariantCulture) != 0);
+                        output[RESULT_TYPE.COM] = (int.Parse(reader["comobjects"].ToString(), CultureInfo.InvariantCulture) != 0);
+                        output[RESULT_TYPE.LOG] = (int.Parse(reader["eventlogs"].ToString(), CultureInfo.InvariantCulture) != 0);
+                    }
+                }
+            }
+            return output;
+        }
         private static string _SqliteFilename = "asa.sqlite";
 
         public static string SqliteFilename
@@ -368,29 +420,6 @@ namespace AttackSurfaceAnalyzer.Utils
             get
             {
                 return _SqliteFilename;
-            }
-            set
-            {
-                if (_SqliteFilename != value)
-                {
-
-                    if (Connection != null)
-                    {
-                        CloseDatabase();
-                    }
-
-                    _SqliteFilename = value;
-
-                    try
-                    {
-                        Setup();
-                    }
-                    catch (SqliteException e)
-                    {
-                        Log.Fatal(e, "'{0}' {0}:: {1}: {2}", value, System.Reflection.MethodBase.GetCurrentMethod().Name, e.GetType().ToString(), e.Message);
-                    }
-                }
-
             }
         }
 

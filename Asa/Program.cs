@@ -302,8 +302,7 @@ namespace AttackSurfaceAnalyzer
 #else
             Logger.Setup(opts.Debug, opts.Verbose, opts.Quiet);
 #endif
-            DatabaseManager.SqliteFilename = opts.DatabaseFilename;
-            DatabaseManager.Setup();
+            DatabaseManager.Setup(opts.DatabaseFilename);
             AsaTelemetry.Setup();
             ((Action)(async () =>
             {
@@ -327,8 +326,7 @@ namespace AttackSurfaceAnalyzer
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1305:Specify IFormatProvider", Justification = "<Pending>")]
         private static int RunConfigCommand(ConfigCommandOptions opts)
         {
-            DatabaseManager.SqliteFilename = opts.DatabaseFilename;
-            DatabaseManager.Setup();
+            DatabaseManager.Setup(opts.DatabaseFilename);
             CheckFirstRun();
             AsaTelemetry.Setup();
 
@@ -480,8 +478,7 @@ namespace AttackSurfaceAnalyzer
                 return 0;
             }
 
-            DatabaseManager.SqliteFilename = opts.DatabaseFilename;
-            DatabaseManager.Setup();
+            DatabaseManager.Setup(opts.DatabaseFilename);
             CheckFirstRun();
             AsaTelemetry.Setup();
             DatabaseManager.VerifySchemaVersion();
@@ -689,8 +686,7 @@ namespace AttackSurfaceAnalyzer
                 return 0;
             }
 
-            DatabaseManager.SqliteFilename = opts.DatabaseFilename;
-            DatabaseManager.Setup();
+            DatabaseManager.Setup(opts.DatabaseFilename);
             CheckFirstRun();
             AsaTelemetry.Setup();
             DatabaseManager.VerifySchemaVersion();
@@ -776,8 +772,7 @@ namespace AttackSurfaceAnalyzer
 #endif
             AdminOrQuit();
 
-            DatabaseManager.SqliteFilename = opts.DatabaseFilename;
-            DatabaseManager.Setup();
+            DatabaseManager.Setup(opts.DatabaseFilename);
             AsaTelemetry.Setup();
 
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
@@ -1202,8 +1197,7 @@ namespace AttackSurfaceAnalyzer
 #else
             Logger.Setup(opts.Debug, opts.Verbose, opts.Quiet);
 #endif
-            DatabaseManager.SqliteFilename = opts.DatabaseFilename;
-            DatabaseManager.Setup();
+            DatabaseManager.Setup(opts.DatabaseFilename);
             AsaTelemetry.Setup();
 
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
@@ -1236,23 +1230,35 @@ namespace AttackSurfaceAnalyzer
 
             if (opts.MatchedCollectorId != null)
             {
-                using (var inner_cmd = new SqliteCommand(SQL_GET_RESULT_TYPES_SINGLE, DatabaseManager.Connection, DatabaseManager.Transaction))
+                var resultTypes = DatabaseManager.GetResultTypes(opts.MatchedCollectorId);
+                foreach (var resultType in resultTypes)
                 {
-                    inner_cmd.Parameters.AddWithValue("@run_id", opts.MatchedCollectorId);
-                    using (var reader = inner_cmd.ExecuteReader())
+                    switch (resultType.Key)
                     {
-                        while (reader.Read())
-                        {
-                            opts.EnableFileSystemCollector = (int.Parse(reader["file_system"].ToString(), CultureInfo.InvariantCulture) != 0);
-                            opts.EnableNetworkPortCollector = (int.Parse(reader["ports"].ToString(), CultureInfo.InvariantCulture) != 0);
-                            opts.EnableUserCollector = (int.Parse(reader["users"].ToString(), CultureInfo.InvariantCulture) != 0);
-                            opts.EnableServiceCollector = (int.Parse(reader["services"].ToString(), CultureInfo.InvariantCulture) != 0);
-                            opts.EnableRegistryCollector = (int.Parse(reader["registry"].ToString(), CultureInfo.InvariantCulture) != 0);
-                            opts.EnableCertificateCollector = (int.Parse(reader["certificates"].ToString(), CultureInfo.InvariantCulture) != 0);
-                            opts.EnableFirewallCollector = (int.Parse(reader["firewall"].ToString(), CultureInfo.InvariantCulture) != 0);
-                            opts.EnableComObjectCollector = (int.Parse(reader["comobjects"].ToString(), CultureInfo.InvariantCulture) != 0);
-                            opts.EnableEventLogCollector = (int.Parse(reader["eventlogs"].ToString(), CultureInfo.InvariantCulture) != 0);
-                        }
+                        case RESULT_TYPE.FILE:
+                            opts.EnableFileSystemCollector = resultType.Value;
+                            break;
+                        case RESULT_TYPE.PORT:
+                            opts.EnableNetworkPortCollector = resultType.Value;
+                            break;
+                        case RESULT_TYPE.CERTIFICATE:
+                            opts.EnableCertificateCollector = resultType.Value;
+                            break;
+                        case RESULT_TYPE.COM:
+                            opts.EnableComObjectCollector = resultType.Value;
+                            break;
+                        case RESULT_TYPE.FIREWALL:
+                            opts.EnableFirewallCollector = resultType.Value;
+                            break;
+                        case RESULT_TYPE.LOG:
+                            opts.EnableEventLogCollector = resultType.Value;
+                            break;
+                        case RESULT_TYPE.SERVICE:
+                            opts.EnableServiceCollector = resultType.Value;
+                            break;
+                        case RESULT_TYPE.USER:
+                            opts.EnableUserCollector = resultType.Value;
+                            break;
                     }
                 }
             }
