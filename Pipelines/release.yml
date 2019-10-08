@@ -166,7 +166,7 @@ stages:
     - task: PublishBuildArtifacts@1
       displayName: 'Publish CodeSign Summaries'
       inputs:
-        PathtoPublish: '$(build.binariesdirectory)\CodeSign\*'
+        PathtoPublish: '$(build.binariesdirectory)\CodeSign'
         ArtifactName: 'CodeSign'
 
     - task: PowerShell@2
