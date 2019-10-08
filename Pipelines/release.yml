@@ -61,7 +61,7 @@ stages:
       inputs:
         command: publish
         projects: 'Asa/Asa.csproj'
-        arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)\windows\ -r win-x86'
+        arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)\windows\ -r win-x64'
         zipAfterPublish: false
 
     - task: DotNetCoreCLI@2
@@ -80,6 +80,18 @@ stages:
         TreatSignatureUpdateFailureAs: 'Standard'
         SignatureFreshness: 'UpToDate'
         TreatStaleSignatureAs: 'Error'
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Interim Build Artifacts'
+      inputs:
+        PathtoPublish: '$(build.binariesdirectory)\windows'
+        ArtifactName: 'WindowsBuild'
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Interim Build Artifacts'
+      inputs:
+        PathtoPublish: '$(build.binariesdirectory)\lib'
+        ArtifactName: 'LibraryBuild'
 
     # Signing task requires .NET Core 2.X
     - task: UseDotNet@2
@@ -161,7 +173,7 @@ stages:
         targetType: 'inline'
         script: |
           mkdir $(build.binariesdirectory)\CodeSign
-          Get-ChildItem -Path ''$(build.binariesdirectory)'' -Recurse CodeSign* | foreach { Move-Item -Path $_.FullName -Destination $(build.binariesdirectory)\CodeSign\$_.Name}
+          Get-ChildItem -Path $(build.binariesdirectory) -Recurse -Filter CodeSign* | foreach { Copy-Item -Path $_.FullName -Destination $(build.binariesdirectory)\CodeSign\$_.Name }
 
     - task: PublishBuildArtifacts@1
       displayName: 'Publish CodeSign Summaries'
