@@ -1,8 +1,8 @@
 name: ASA SDL
 
 schedules:
-- cron: "8 0 * * *"
-  displayName: Daily 8am
+- cron: "0 6 * * *"
+  displayName: Daily 2am
   branches:
     include:
     - master
