@@ -37,7 +37,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             while (DatabaseManager.HasElements())
             {
-                Log.Debug("Waiting for DatabaseManager to finish flushing.");
+                Log.Verbose("Waiting for DatabaseManager to finish flushing.");
                 Thread.Sleep(100);
             }
 
