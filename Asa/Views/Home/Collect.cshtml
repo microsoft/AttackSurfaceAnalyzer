@@ -105,7 +105,7 @@
                 <div class="col">
                     <label class="checkbox-container">
                         <input type="checkbox" id="enableUserCollector" class="ScanType" checked>
-                        @Strings.Get("Users")
+                        @Strings.Get("UsersCheckbox")
                     </label>
                 </div>
                 <div class="col">
@@ -195,13 +195,12 @@
             </div>
         </div>
         <div class="container d-flex h-100">
-            <div class="row">
-                <div class="col" id="ScanLiner"></div>
-            </div>
             <div class="row justify-content-center align-self-center">
-                <div class="col justify-content-center" id="ScanStatus">
+                <div class="col-1"></div>
+                <div class="col-10 justify-content-center" id="ScanStatus">
                     @Strings.Get("ReadyToScan")
                 </div>
+                <div class="col-1"></div>
             </div>
         </div>
     </div>
