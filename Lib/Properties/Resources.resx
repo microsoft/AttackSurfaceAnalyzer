@@ -463,7 +463,7 @@
     <value>Binary Name</value>
   </data>
   <data name="Com" xml:space="preserve">
-    <value>Com</value>
+    <value>COM Objects</value>
   </data>
   <data name="Firewall" xml:space="preserve">
     <value>Firewall</value>
@@ -488,5 +488,8 @@
   </data>
   <data name="Err_PlatIncompat" xml:space="preserve">
     <value>{0} isn't compatible with this platform and has been skipped.</value>
+  </data>
+  <data name="UsersCheckbox" xml:space="preserve">
+    <value>Users and Groups</value>
   </data>
 </root>
