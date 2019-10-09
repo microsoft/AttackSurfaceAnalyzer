@@ -23,6 +23,9 @@ stages:
       vmImage: 'windows-latest'
 
     steps:
+    - script: 'dotnet tool install -g nbgv'
+      displayName: 'Install GitVersioning'
+      
     - task: UseDotNet@2
       inputs:
         packageType: 'sdk'
@@ -39,12 +42,6 @@ stages:
       inputs:
         testAssemblyVer2: AsaTests.dll
         searchFolder: '$(build.binariesdirectory)/Tests'
-
-    - task: PublishBuildArtifacts@1
-      displayName: 'Publish Test Results'
-      inputs:
-        PathtoPublish: '$(Common.TestResultsDirectory)'
-        ArtifactName: 'TestResults'
 
 - stage: Build
   jobs:
