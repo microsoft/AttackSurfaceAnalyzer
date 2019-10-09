@@ -45,6 +45,12 @@ stages:
         testAssemblyVer2: AsaTests.dll
         searchFolder: '$(build.binariesdirectory)/Tests'
 
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Test Results'
+      inputs:
+        PathtoPublish: '$(Common.TestResultsDirectory)'
+        ArtifactName: 'TestResults'
+
 - stage: Build
   jobs:
   - job: All
