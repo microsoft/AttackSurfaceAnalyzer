@@ -393,38 +393,47 @@ namespace AttackSurfaceAnalyzer.Utils
             winTrustFileInfo = new WinTrustFileInfo(filename);
             winTrustData = new WinTrustData(filename);
 
-            // call into WinVerifyTrust
-            WinVerifyTrustResult result = WinVerifyTrust(INVALID_HANDLE_VALUE, action, winTrustData);
-            switch (result)
+            try
             {
-                case WinVerifyTrustResult.Success:
-                    return "Valid";
-                case WinVerifyTrustResult.ProviderUnknown:
-                    return "ProviderUnknown";
-                case WinVerifyTrustResult.ActionUnknown:
-                    return "ActionUnknown";
-                case WinVerifyTrustResult.SubjectFormUnknown:
-                    return "SubjectFormUnknown";
-                case WinVerifyTrustResult.SubjectNotTrusted:
-                    return "SubjectNotTrusted";
-                case WinVerifyTrustResult.FileNotSigned:
-                    return "FileNotSigned";
-                case WinVerifyTrustResult.SubjectExplicitlyDistrusted:
-                    return "SubjectExplicitlyDistrusted";
-                case WinVerifyTrustResult.SignatureOrFileCorrupt:
-                    return "SignatureOrFileCorrupt";
-                case WinVerifyTrustResult.SubjectCertExpired:
-                    return "SubjectCertExpired";
-                case WinVerifyTrustResult.SubjectCertificateRevoked:
-                    return "SubjectCertificateRevoked";
-                case WinVerifyTrustResult.UntrustedRoot:
-                    return "UntrustedRoot";
-                default:
-                    // The UI was disabled in dwUIChoice or the admin policy 
-                    // has disabled user trust. lStatus contains the 
-                    // publisher or time stamp chain error.
-                    return result.ToString();
+                WinVerifyTrustResult result = WinVerifyTrust(INVALID_HANDLE_VALUE, action, winTrustData);
+                // call into WinVerifyTrust
+                switch (result)
+                {
+                    case WinVerifyTrustResult.Success:
+                        return "Valid";
+                    case WinVerifyTrustResult.ProviderUnknown:
+                        return "ProviderUnknown";
+                    case WinVerifyTrustResult.ActionUnknown:
+                        return "ActionUnknown";
+                    case WinVerifyTrustResult.SubjectFormUnknown:
+                        return "SubjectFormUnknown";
+                    case WinVerifyTrustResult.SubjectNotTrusted:
+                        return "SubjectNotTrusted";
+                    case WinVerifyTrustResult.FileNotSigned:
+                        return "FileNotSigned";
+                    case WinVerifyTrustResult.SubjectExplicitlyDistrusted:
+                        return "SubjectExplicitlyDistrusted";
+                    case WinVerifyTrustResult.SignatureOrFileCorrupt:
+                        return "SignatureOrFileCorrupt";
+                    case WinVerifyTrustResult.SubjectCertExpired:
+                        return "SubjectCertExpired";
+                    case WinVerifyTrustResult.SubjectCertificateRevoked:
+                        return "SubjectCertificateRevoked";
+                    case WinVerifyTrustResult.UntrustedRoot:
+                        return "UntrustedRoot";
+                    default:
+                        // The UI was disabled in dwUIChoice or the admin policy 
+                        // has disabled user trust. lStatus contains the 
+                        // publisher or time stamp chain error.
+                        return result.ToString();
+                }
             }
+            catch(Exception e) when (
+                e is System.AccessViolationException)
+            {
+                return "FailedToFetch";
+            }
+            
         }
 
         [StructLayout(LayoutKind.Sequential)]
