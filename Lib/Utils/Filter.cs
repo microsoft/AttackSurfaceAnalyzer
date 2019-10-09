@@ -66,14 +66,14 @@ namespace AttackSurfaceAnalyzer.Utils
                             // We are running in parallel, its possible someone added it in between the original check and now. No problem here.
                             filters = _filters[key];
                         }
-                        Log.Debug(Strings.Get("SuccessParsed"), Platform, ScanType, ItemType, Property, FilterType);
+                        Log.Verbose(Strings.Get("SuccessParsed"), Platform, ScanType, ItemType, Property, FilterType);
                     }
                     catch (NullReferenceException)
                     {
                         try
                         {
                             _filters.Add(key, new List<Regex>());
-                            Log.Debug(Strings.Get("EmptyEntry"), Platform, ScanType, ItemType, Property, FilterType);
+                            Log.Verbose(Strings.Get("EmptyEntry"), Platform, ScanType, ItemType, Property, FilterType);
                         }
                         catch (ArgumentException)
                         {

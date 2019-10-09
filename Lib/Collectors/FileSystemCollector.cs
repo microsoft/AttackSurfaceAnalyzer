@@ -158,10 +158,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                 PermissionsString = FileSystemUtils.GetFilePermissions(fileInfo),
             };
 
-            try
+            // Get Owner/Group
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                // Get Owner/Group
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                try
                 {
                     var fileSecurity = new FileSecurity(fileInfo.FullName, AccessControlSections.All);
                     IdentityReference oid = fileSecurity.GetOwner(typeof(SecurityIdentifier));
@@ -212,123 +212,120 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                     }
                 }
+                catch (Exception e) when (
+                    e is ArgumentException
+                    || e is ArgumentNullException
+                    || e is DirectoryNotFoundException
+                    || e is FileNotFoundException
+                    || e is IOException
+                    || e is NotSupportedException
+                    || e is PlatformNotSupportedException
+                    || e is PathTooLongException
+                    || e is PrivilegeNotHeldException
+                    || e is SystemException
+                    || e is UnauthorizedAccessException)
+                {
+                    Log.Verbose($"Error instantiating FileSecurity object {obj.Path} {e.GetType().ToString()}");
+                }
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                var file = new UnixFileInfo(fileInfo.FullName);
+                obj.Owner = file.OwnerUser.UserName;
+                obj.Group = file.OwnerGroup.GroupName;
+                obj.SetGid = file.IsSetGroup;
+                obj.SetUid = file.IsSetUser;
+
+                if (file.FileAccessPermissions.ToString().Equals("AllPermissions", StringComparison.InvariantCulture))
+                {
+                    obj.Permissions.Add(new KeyValuePair<string, string>("User", "Read"));
+                    obj.Permissions.Add(new KeyValuePair<string, string>("User", "Write"));
+                    obj.Permissions.Add(new KeyValuePair<string, string>("User", "Execute"));
+                    obj.Permissions.Add(new KeyValuePair<string, string>("Group", "Read"));
+                    obj.Permissions.Add(new KeyValuePair<string, string>("Group", "Write"));
+                    obj.Permissions.Add(new KeyValuePair<string, string>("Group", "Execute"));
+                    obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Read"));
+                    obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Write"));
+                    obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Execute"));
+                }
+                else
+                {
+                    foreach (var permission in file.FileAccessPermissions.ToString().Split(',').Where((x) => x.Trim().StartsWith("User", StringComparison.InvariantCulture)))
+                    {
+                        if (permission.Contains("ReadWriteExecute", StringComparison.InvariantCulture))
+                        {
+                            obj.Permissions.Add(new KeyValuePair<string, string>("User", "Read"));
+                            obj.Permissions.Add(new KeyValuePair<string, string>("User", "Write"));
+                            obj.Permissions.Add(new KeyValuePair<string, string>("User", "Execute"));
+                        }
+                        else
+                        {
+                            obj.Permissions.Add(new KeyValuePair<string, string>("User", permission.Trim().Substring(4)));
+                        }
+                    }
+                    foreach (var permission in file.FileAccessPermissions.ToString().Split(',').Where((x) => x.Trim().StartsWith("Group", StringComparison.InvariantCulture)))
+                    {
+                        if (permission.Contains("ReadWriteExecute", StringComparison.InvariantCulture))
+                        {
+                            obj.Permissions.Add(new KeyValuePair<string, string>("Group", "Read"));
+                            obj.Permissions.Add(new KeyValuePair<string, string>("Group", "Write"));
+                            obj.Permissions.Add(new KeyValuePair<string, string>("Group", "Execute"));
+                        }
+                        else
+                        {
+                            obj.Permissions.Add(new KeyValuePair<string, string>("Group", permission.Trim().Substring(5)));
+                        }
+                    }
+                    foreach (var permission in file.FileAccessPermissions.ToString().Split(',').Where((x) => x.Trim().StartsWith("Other", StringComparison.InvariantCulture)))
+                    {
+                        if (permission.Contains("ReadWriteExecute", StringComparison.InvariantCulture))
+                        {
+                            obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Read"));
+                            obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Write"));
+                            obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Execute"));
+                        }
+                        else
+                        {
+                            obj.Permissions.Add(new KeyValuePair<string, string>("Other", permission.Trim().Substring(5)));
+                        }
+                    }
+                }
+            }
+
+            if (fileInfo is DirectoryInfo)
+            {
+                obj.IsDirectory = true;
+            }
+            else if (fileInfo is FileInfo)
+            {
+                obj.Size = (ulong)(fileInfo as FileInfo).Length;
+                obj.IsDirectory = false;
+
+                if (INCLUDE_CONTENT_HASH)
+                {
+                    obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
+                }
+
+                // Set IsExecutable and Signature Status
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+
+                    if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
+                    {
+
+                        if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
+                        {
+                            obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(fileInfo.FullName);
+                            obj.Characteristics.AddRange(WindowsFileSystemUtils.GetDllCharacteristics(fileInfo.FullName));
+                            obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path);
+                        }
+                    }
+
+                }
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 {
-                    var file = new UnixFileInfo(fileInfo.FullName);
-                    obj.Owner = file.OwnerUser.UserName;
-                    obj.Group = file.OwnerGroup.GroupName;
-                    obj.SetGid = file.IsSetGroup;
-                    obj.SetUid = file.IsSetUser;
-
-                    if (file.FileAccessPermissions.ToString().Equals("AllPermissions", StringComparison.InvariantCulture))
-                    {
-                        obj.Permissions.Add(new KeyValuePair<string, string>("User", "Read"));
-                        obj.Permissions.Add(new KeyValuePair<string, string>("User", "Write"));
-                        obj.Permissions.Add(new KeyValuePair<string, string>("User", "Execute"));
-                        obj.Permissions.Add(new KeyValuePair<string, string>("Group", "Read"));
-                        obj.Permissions.Add(new KeyValuePair<string, string>("Group", "Write"));
-                        obj.Permissions.Add(new KeyValuePair<string, string>("Group", "Execute"));
-                        obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Read"));
-                        obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Write"));
-                        obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Execute"));
-                    }
-                    else
-                    {
-                        foreach (var permission in file.FileAccessPermissions.ToString().Split(',').Where((x) => x.Trim().StartsWith("User", StringComparison.InvariantCulture)))
-                        {
-                            if (permission.Contains("ReadWriteExecute", StringComparison.InvariantCulture))
-                            {
-                                obj.Permissions.Add(new KeyValuePair<string, string>("User", "Read"));
-                                obj.Permissions.Add(new KeyValuePair<string, string>("User", "Write"));
-                                obj.Permissions.Add(new KeyValuePair<string, string>("User", "Execute"));
-                            }
-                            else
-                            {
-                                obj.Permissions.Add(new KeyValuePair<string, string>("User", permission.Trim().Substring(4)));
-                            }
-                        }
-                        foreach (var permission in file.FileAccessPermissions.ToString().Split(',').Where((x) => x.Trim().StartsWith("Group", StringComparison.InvariantCulture)))
-                        {
-                            if (permission.Contains("ReadWriteExecute", StringComparison.InvariantCulture))
-                            {
-                                obj.Permissions.Add(new KeyValuePair<string, string>("Group", "Read"));
-                                obj.Permissions.Add(new KeyValuePair<string, string>("Group", "Write"));
-                                obj.Permissions.Add(new KeyValuePair<string, string>("Group", "Execute"));
-                            }
-                            else
-                            {
-                                obj.Permissions.Add(new KeyValuePair<string, string>("Group", permission.Trim().Substring(5)));
-                            }
-                        }
-                        foreach (var permission in file.FileAccessPermissions.ToString().Split(',').Where((x) => x.Trim().StartsWith("Other", StringComparison.InvariantCulture)))
-                        {
-                            if (permission.Contains("ReadWriteExecute", StringComparison.InvariantCulture))
-                            {
-                                obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Read"));
-                                obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Write"));
-                                obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Execute"));
-                            }
-                            else
-                            {
-                                obj.Permissions.Add(new KeyValuePair<string, string>("Other", permission.Trim().Substring(5)));
-                            }
-                        }
-                    }
+                    obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path);
                 }
-
-                if (fileInfo is DirectoryInfo)
-                {
-                    obj.IsDirectory = true;
-                }
-                else if (fileInfo is FileInfo)
-                {
-                    obj.Size = (ulong)(fileInfo as FileInfo).Length;
-                    obj.IsDirectory = false;
-
-                    if (INCLUDE_CONTENT_HASH)
-                    {
-                        obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
-                    }
-
-                    // Set IsExecutable and Signature Status
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                    {
-                        if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
-                        {
-                            try
-                            {
-
-                                if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
-                                {
-
-                                    obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(fileInfo.FullName);
-                                    obj.Characteristics.AddRange(WindowsFileSystemUtils.GetDllCharacteristics(fileInfo.FullName));
-                                    obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path);
-                                }
-                            }
-                            catch (System.UnauthorizedAccessException ex)
-                            {
-                                Log.Verbose(ex, "Couldn't access {0} to check if signature is needed.", fileInfo.FullName);
-                            }
-                        }
-                    }
-                    else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                    {
-                        obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path);
-                    }
-                }
-            }
-            catch (System.UnauthorizedAccessException e)
-            {
-                Log.Verbose(e, "Access Denied {0}", fileInfo?.FullName);
-            }
-            catch (System.IO.IOException e)
-            {
-                Log.Verbose(e, "Couldn't parse {0}", fileInfo?.FullName);
-            }
-            catch (Exception e)
-            {
-                Log.Warning(e, "Error collecting file system information: {0}", e.Message);
             }
 
             return obj;

@@ -91,25 +91,20 @@ namespace AttackSurfaceAnalyzer.Collectors
                         {
                             fileSecurity = new FileSecurity(filename, AccessControlSections.All);
                         }
-                        catch (UnauthorizedAccessException)
+                        catch (Exception e) when (
+                            e is ArgumentException
+                            || e is ArgumentNullException
+                            || e is DirectoryNotFoundException
+                            || e is FileNotFoundException
+                            || e is IOException
+                            || e is NotSupportedException
+                            || e is PlatformNotSupportedException
+                            || e is PathTooLongException
+                            || e is PrivilegeNotHeldException
+                            || e is SystemException
+                            || e is UnauthorizedAccessException)
                         {
-                            Log.Verbose(Strings.Get("Err_AccessControl"), fileInfo.FullName);
-                        }
-                        catch (InvalidOperationException)
-                        {
-                            Log.Verbose("Invalid operation exception {0}.", fileInfo.FullName);
-                        }
-                        catch (FileNotFoundException)
-                        {
-                            Log.Verbose("File not found to get permissions {0}.", fileInfo.FullName);
-                        }
-                        catch (ArgumentException)
-                        {
-                            Log.Debug("Filename not valid for getting permissions {0}", fileInfo.FullName);
-                        }
-                        catch (Exception e)
-                        {
-                            Log.Debug(e, $"Error with {fileInfo.FullName}");
+                            Log.Verbose($"Error parsing FileSecurity for {fileInfo.FullName} {e.GetType().ToString()}");
                         }
                     }
                     else if (fileInfo is DirectoryInfo)
@@ -118,17 +113,20 @@ namespace AttackSurfaceAnalyzer.Collectors
                         {
                             fileSecurity = new DirectorySecurity(filename, AccessControlSections.All);
                         }
-                        catch (UnauthorizedAccessException)
+                        catch (Exception e) when (
+                            e is ArgumentException
+                            || e is ArgumentNullException
+                            || e is DirectoryNotFoundException
+                            || e is FileNotFoundException
+                            || e is IOException
+                            || e is NotSupportedException
+                            || e is PlatformNotSupportedException
+                            || e is PathTooLongException
+                            || e is PrivilegeNotHeldException
+                            || e is SystemException
+                            || e is UnauthorizedAccessException)
                         {
-                            Log.Verbose(Strings.Get("Err_AccessControl"), fileInfo.FullName);
-                        }
-                        catch (InvalidOperationException)
-                        {
-                            Log.Verbose("Invalid operation exception {0}.", fileInfo.FullName);
-                        }
-                        catch (Exception e)
-                        {
-                            Log.Debug(e, $"Error with {fileInfo.FullName}");
+                            Log.Verbose($"Error parsing DirectorySecurity for {fileInfo.FullName} {e.GetType().ToString()}");
                         }
                     }
                     else
