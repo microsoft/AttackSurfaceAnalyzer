@@ -1,5 +1,8 @@
 name: ASA SDL
 
+trigger: none
+pr: none
+
 schedules:
 - cron: "0 6 * * *"
   displayName: Daily 2am

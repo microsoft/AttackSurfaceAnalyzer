@@ -1,7 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using System;
+using System.Collections.Generic;
+using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
+using System.Security;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -381,49 +384,63 @@ namespace AttackSurfaceAnalyzer.Utils
         );
 
         // call WinTrust.WinVerifyTrust() to check embedded file signature
+        [HandleProcessCorruptedStateExceptions]
+        [SecurityCritical]
         public static string VerifyEmbeddedSignature(string filename)
         {
-            WinTrustFileInfo winTrustFileInfo = null;
-            WinTrustData winTrustData = null;
-
-            // specify the WinVerifyTrust function/action that we want
-            Guid action = new Guid(WINTRUST_ACTION_GENERIC_VERIFY_V2);
-
-            // instantiate our WinTrustFileInfo and WinTrustData data structures
-            winTrustFileInfo = new WinTrustFileInfo(filename);
-            winTrustData = new WinTrustData(filename);
-
-            // call into WinVerifyTrust
-            WinVerifyTrustResult result = WinVerifyTrust(INVALID_HANDLE_VALUE, action, winTrustData);
-            switch (result)
+            try
             {
-                case WinVerifyTrustResult.Success:
-                    return "Valid";
-                case WinVerifyTrustResult.ProviderUnknown:
-                    return "ProviderUnknown";
-                case WinVerifyTrustResult.ActionUnknown:
-                    return "ActionUnknown";
-                case WinVerifyTrustResult.SubjectFormUnknown:
-                    return "SubjectFormUnknown";
-                case WinVerifyTrustResult.SubjectNotTrusted:
-                    return "SubjectNotTrusted";
-                case WinVerifyTrustResult.FileNotSigned:
-                    return "FileNotSigned";
-                case WinVerifyTrustResult.SubjectExplicitlyDistrusted:
-                    return "SubjectExplicitlyDistrusted";
-                case WinVerifyTrustResult.SignatureOrFileCorrupt:
-                    return "SignatureOrFileCorrupt";
-                case WinVerifyTrustResult.SubjectCertExpired:
-                    return "SubjectCertExpired";
-                case WinVerifyTrustResult.SubjectCertificateRevoked:
-                    return "SubjectCertificateRevoked";
-                case WinVerifyTrustResult.UntrustedRoot:
-                    return "UntrustedRoot";
-                default:
-                    // The UI was disabled in dwUIChoice or the admin policy 
-                    // has disabled user trust. lStatus contains the 
-                    // publisher or time stamp chain error.
-                    return result.ToString();
+                WinTrustFileInfo winTrustFileInfo = null;
+                WinTrustData winTrustData = null;
+
+                // specify the WinVerifyTrust function/action that we want
+                Guid action = new Guid(WINTRUST_ACTION_GENERIC_VERIFY_V2);
+
+                // instantiate our WinTrustFileInfo and WinTrustData data structures
+                winTrustFileInfo = new WinTrustFileInfo(filename);
+                winTrustData = new WinTrustData(filename);
+
+                WinVerifyTrustResult result = WinVerifyTrust(INVALID_HANDLE_VALUE, action, winTrustData);
+                // call into WinVerifyTrust
+                switch (result)
+                {
+                    case WinVerifyTrustResult.Success:
+                        return "Valid";
+                    case WinVerifyTrustResult.ProviderUnknown:
+                        return "ProviderUnknown";
+                    case WinVerifyTrustResult.ActionUnknown:
+                        return "ActionUnknown";
+                    case WinVerifyTrustResult.SubjectFormUnknown:
+                        return "SubjectFormUnknown";
+                    case WinVerifyTrustResult.SubjectNotTrusted:
+                        return "SubjectNotTrusted";
+                    case WinVerifyTrustResult.FileNotSigned:
+                        return "FileNotSigned";
+                    case WinVerifyTrustResult.SubjectExplicitlyDistrusted:
+                        return "SubjectExplicitlyDistrusted";
+                    case WinVerifyTrustResult.SignatureOrFileCorrupt:
+                        return "SignatureOrFileCorrupt";
+                    case WinVerifyTrustResult.SubjectCertExpired:
+                        return "SubjectCertExpired";
+                    case WinVerifyTrustResult.SubjectCertificateRevoked:
+                        return "SubjectCertificateRevoked";
+                    case WinVerifyTrustResult.UntrustedRoot:
+                        return "UntrustedRoot";
+                    default:
+                        // The UI was disabled in dwUIChoice or the admin policy 
+                        // has disabled user trust. lStatus contains the 
+                        // publisher or time stamp chain error.
+                        return result.ToString();
+                }
+            }
+            catch(Exception e) when (
+                e is System.AccessViolationException
+                || e is Exception)
+            {
+                Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
+                ExceptionEvent.Add("Exception Type", e.GetType().ToString());
+                AsaTelemetry.TrackEvent("VerifyEmbeddedSignatureException", ExceptionEvent);
+                return "FailedToFetch";
             }
         }
 
