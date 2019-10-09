@@ -44,6 +44,7 @@ stages:
       inputs:
         testAssemblyVer2: AsaTests.dll
         searchFolder: '$(build.binariesdirectory)/Tests'
+      continueOnError: true
 
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Test Results'
