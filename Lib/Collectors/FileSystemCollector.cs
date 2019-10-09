@@ -278,7 +278,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         }
                     }
                 }
-                catch(Exception e) when(
+                catch (Exception e) when (
                     e is ArgumentNullException
                     || e is ArgumentException)
                 {
