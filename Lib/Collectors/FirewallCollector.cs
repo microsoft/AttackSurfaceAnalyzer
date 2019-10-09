@@ -28,9 +28,11 @@ namespace AttackSurfaceAnalyzer.Collectors
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         }
 
+
         /// <summary>
         /// Uses a library to access the Windows Firewall.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "The specific exceptions thrown by this library are not documented.")]
         public void ExecuteWindows()
         {
             foreach (IFirewallRule rule in FirewallManager.Instance.Rules.ToArray())
@@ -59,7 +61,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
                 catch (Exception e)
                 {
-                    Log.Debug(e, rule.FriendlyName);
+                    Log.Debug(e, "Exception hit while processing Firewall rules");
+                    Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
+                    ExceptionEvent.Add("Exception Type", e.GetType().ToString());
+                    AsaTelemetry.TrackEvent("WindowsFirewallObjectCreationException", ExceptionEvent);
                 }
             }
         }

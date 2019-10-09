@@ -1035,17 +1035,10 @@ namespace AttackSurfaceAnalyzer
 
                 foreach (var key in results.Keys)
                 {
-                    try
+                    Parallel.ForEach(results[key] as List<CompareResult>, (result) =>
                     {
-                        Parallel.ForEach(results[key] as List<CompareResult>, (result) =>
-                        {
-                            result.Analysis = analyzer.Analyze(result);
-                        });
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Debug("{0} {1} {2} {3}", key, e.GetType().ToString(), e.Message, e.StackTrace);
-                    }
+                        result.Analysis = analyzer.Analyze(result);
+                    });
                 }
                 watch.Stop();
                 t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
@@ -1059,16 +1052,9 @@ namespace AttackSurfaceAnalyzer
 
             foreach (var key in results.Keys)
             {
-                try
+                foreach (var result in results[key] as List<CompareResult>)
                 {
-                    foreach (var result in results[key] as List<CompareResult>)
-                    {
-                        DatabaseManager.InsertAnalyzed(result);
-                    }
-                }
-                catch (Exception e)
-                {
-                    Log.Debug("{0} {1} {2} {3}", key, e.GetType().ToString(), e.Message, e.StackTrace);
+                    DatabaseManager.InsertAnalyzed(result);
                 }
             }
 
@@ -1124,14 +1110,7 @@ namespace AttackSurfaceAnalyzer
 
             foreach (var c in monitors)
             {
-                try
-                {
-                    c.StartRun();
-                }
-                catch (Exception ex)
-                {
-                    Log.Error(ex, Strings.Get("Err_CollectingFrom"), c.GetType().Name, ex.Message, ex.StackTrace);
-                }
+                c.StartRun();
             }
 
             return GUI_ERROR.NONE;
@@ -1143,14 +1122,7 @@ namespace AttackSurfaceAnalyzer
             {
                 Log.Information(Strings.Get("End"), c.GetType().Name);
 
-                try
-                {
-                    c.StopRun();
-                }
-                catch (Exception ex)
-                {
-                    Log.Error(ex, "{2} {0}: {1}", c.GetType().Name, ex.Message, Strings.Get("Err_Stopping"));
-                }
+                c.StopRun();
             }
 
             DatabaseManager.Commit();
@@ -1189,6 +1161,7 @@ namespace AttackSurfaceAnalyzer
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Acceptable tradeoff with telemetry (to identify issues) to lessen severity of individual collector crashes.")]
         public static int RunCollectCommand(CollectCommandOptions opts)
         {
             if (opts == null) { return -1; }
@@ -1360,12 +1333,11 @@ namespace AttackSurfaceAnalyzer
                 {
                     cmd.ExecuteNonQuery();
                 }
-                catch (Exception e)
+                catch (SqliteException e)
                 {
                     Log.Warning(e.StackTrace);
                     Log.Warning(e.Message);
                     returnValue = (int)GUI_ERROR.UNIQUE_ID;
-                    AsaTelemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                 }
             }
             Log.Information(Strings.Get("StartingN"), collectors.Count.ToString(CultureInfo.InvariantCulture), Strings.Get("Collectors"));
@@ -1378,9 +1350,14 @@ namespace AttackSurfaceAnalyzer
                     c.Execute();
                     EndEvent.Add(c.GetType().ToString(), c.NumCollected().ToString(CultureInfo.InvariantCulture));
                 }
-                catch (Exception ex)
+                catch (Exception e)
                 {
-                    Log.Error(ex, Strings.Get("Err_CollectingFrom"), c.GetType().Name, ex.Message, ex.StackTrace);
+                    Log.Error(e, Strings.Get("Err_CollectingFrom"), c.GetType().Name, e.Message, e.StackTrace);
+                    Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
+                    ExceptionEvent.Add("Exception Type", e.GetType().ToString());
+                    ExceptionEvent.Add("Stack Trace", e.StackTrace);
+                    ExceptionEvent.Add("Message", e.Message);
+                    AsaTelemetry.TrackEvent("CollectorCrashRogueException", ExceptionEvent);
                     returnValue = 1;
                 }
             }
