@@ -224,7 +224,7 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             var output = new List<RawCollectResult>();
             SqliteCommand cmd;
-            if(_transaction == null)
+            if (_transaction == null)
             {
                 cmd = new SqliteCommand(SQL_GET_RESULTS_BY_RUN_ID, Connection);
             }
@@ -382,7 +382,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             _transaction = null;
         }
-        public static Dictionary<RESULT_TYPE,bool> GetResultTypes(string runId)
+        public static Dictionary<RESULT_TYPE, bool> GetResultTypes(string runId)
         {
             var output = new Dictionary<RESULT_TYPE, bool>();
             using (var inner_cmd = new SqliteCommand(SQL_GET_RESULT_TYPES_SINGLE, DatabaseManager.Connection))

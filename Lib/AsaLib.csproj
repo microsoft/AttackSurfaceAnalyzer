@@ -68,6 +68,7 @@ This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI 
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\AttackSurfaceAnalyzer.sln.licenseheader" Link="AttackSurfaceAnalyzer.sln.licenseheader" />
     <None Include="..\PRIVACY.md" Link="PRIVACY.md" />
     <None Include="..\README.md" Link="README.md" />
   </ItemGroup>

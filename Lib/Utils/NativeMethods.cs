@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using Serilog;
 using System;
 using System.Runtime.InteropServices;
 
@@ -386,7 +385,7 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             WinTrustFileInfo winTrustFileInfo = null;
             WinTrustData winTrustData = null;
-            
+
             // specify the WinVerifyTrust function/action that we want
             Guid action = new Guid(WINTRUST_ACTION_GENERIC_VERIFY_V2);
 

@@ -1,4 +1,6 @@
-﻿using AttackSurfaceAnalyzer.Objects;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+using AttackSurfaceAnalyzer.Objects;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
@@ -71,13 +73,13 @@ namespace AttackSurfaceAnalyzer.Utils
                     catch (Exception e) when (
                         e is NullReferenceException
                         || e is JsonReaderException)
-                    { 
+                    {
                         try
                         {
                             _filters.Add(key, new List<Regex>());
                             Log.Verbose(Strings.Get("EmptyEntry"), Platform, ScanType, ItemType, Property, FilterType);
                         }
-                        catch(Exception ex) when (
+                        catch (Exception ex) when (
                             ex is ArgumentNullException
                             || ex is ArgumentException)
                         {
@@ -183,7 +185,7 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 config = null;
                 //Let the user know we couldn't load their file
-                Log.Warning(Strings.Get("Err_MalformedFilterFile"),filterLoc);
+                Log.Warning(Strings.Get("Err_MalformedFilterFile"), filterLoc);
 
                 return;
             }
