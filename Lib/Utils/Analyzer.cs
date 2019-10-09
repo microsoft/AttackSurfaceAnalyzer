@@ -1,4 +1,6 @@
-﻿using AttackSurfaceAnalyzer.Objects;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -164,7 +166,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                 catch (Exception e)
                                 {
                                     Log.Debug(e, "Error fetching Property {0} of Type {1}", property.Name, compareResult.ResultType);
-                                    
+
                                     Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
                                     ExceptionEvent.Add("Exception Type", e.GetType().ToString());
                                     AsaTelemetry.TrackEvent("ApplyCreatedModifiedException", ExceptionEvent);
