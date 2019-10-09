@@ -376,16 +376,9 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void Commit()
         {
-            try
+            if (_transaction != null)
             {
-                if (_transaction != null)
-                {
-                    _transaction.Commit();
-                }
-            }
-            catch (Exception)
-            {
-                Log.Information("Failed to commit data to database.");
+                _transaction.Commit();
             }
             _transaction = null;
         }

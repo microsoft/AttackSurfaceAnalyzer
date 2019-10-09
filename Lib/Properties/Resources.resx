@@ -492,4 +492,7 @@
   <data name="UsersCheckbox" xml:space="preserve">
     <value>Users and Groups</value>
   </data>
+  <data name="Err_MalformedFilterFile" xml:space="preserve">
+    <value>Provided filter file at {0} was malformed, missing, or otherwise unable to be parsed.</value>
+  </data>
 </root>

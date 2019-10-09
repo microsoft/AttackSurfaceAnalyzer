@@ -90,55 +90,40 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 Log.Information("{0} root {1}", Strings.Get("Scanning"), root.ToString(CultureInfo.InvariantCulture));
                 //Ensure the transaction is started to prevent collisions on the multithreaded code ahead
-                try
+                var fileInfoEnumerable = DirectoryWalker.WalkDirectory(root);
+                Parallel.ForEach(fileInfoEnumerable,
+                                (fileInfo =>
                 {
-                    var fileInfoEnumerable = DirectoryWalker.WalkDirectory(root);
-                    Parallel.ForEach(fileInfoEnumerable,
-                                    (fileInfo =>
+                    FileSystemObject obj = FileSystemInfoToFileSystemObject(fileInfo, downloadCloud, INCLUDE_CONTENT_HASH);
+
+                    if (obj != null)
                     {
-                        try
+                        DatabaseManager.Write(obj, RunId);
+                        if (examineCertificates &&
+                            fileInfo.FullName.EndsWith(".cer", StringComparison.CurrentCulture) ||
+                            fileInfo.FullName.EndsWith(".der", StringComparison.CurrentCulture) ||
+                            fileInfo.FullName.EndsWith(".p7b", StringComparison.CurrentCulture))
                         {
-                            FileSystemObject obj = FileSystemInfoToFileSystemObject(fileInfo, downloadCloud, INCLUDE_CONTENT_HASH);
-
-                            if (obj != null)
+                            try
                             {
-                                DatabaseManager.Write(obj, RunId);
-                                if (examineCertificates &&
-                                    fileInfo.FullName.EndsWith(".cer", StringComparison.CurrentCulture) ||
-                                    fileInfo.FullName.EndsWith(".der", StringComparison.CurrentCulture) ||
-                                    fileInfo.FullName.EndsWith(".p7b", StringComparison.CurrentCulture))
+                                var certificate = X509Certificate.CreateFromCertFile(fileInfo.FullName);
+                                var certObj = new CertificateObject()
                                 {
-                                    try
-                                    {
-                                        var certificate = X509Certificate.CreateFromCertFile(fileInfo.FullName);
-                                        var certObj = new CertificateObject()
-                                        {
-                                            StoreLocation = fileInfo.FullName,
-                                            StoreName = "Disk",
-                                            CertificateHashString = certificate.GetCertHashString(),
-                                            Subject = certificate.Subject,
-                                            Pkcs7 = certificate.Export(X509ContentType.Cert).ToString()
-                                        };
-                                        DatabaseManager.Write(certObj, RunId);
-                                    }
-                                    catch (ArgumentException e)
-                                    {
-                                        Log.Debug(e, "Could not parse certificate from file: {0}", fileInfo.FullName);
-                                    }
-
-                                }
+                                    StoreLocation = fileInfo.FullName,
+                                    StoreName = "Disk",
+                                    CertificateHashString = certificate.GetCertHashString(),
+                                    Subject = certificate.Subject,
+                                    Pkcs7 = certificate.Export(X509ContentType.Cert).ToString()
+                                };
+                                DatabaseManager.Write(certObj, RunId);
+                            }
+                            catch (ArgumentException)
+                            {
+                                Log.Debug($"Could not parse certificate from file: {fileInfo.FullName}");
                             }
                         }
-                        catch (Exception e)
-                        {
-                            Log.Debug(e, "Couldn't create a FileSystemObject from: {0}", fileInfo.FullName);
-                        }
-                    }));
-                }
-                catch (Exception e)
-                {
-                    Log.Warning(e, "Error collecting file system information: {0}", e.Message);
-                }
+                    }
+                }));
             }
         }
 
@@ -158,10 +143,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                 PermissionsString = FileSystemUtils.GetFilePermissions(fileInfo),
             };
 
-            try
+            // Get Owner/Group
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                // Get Owner/Group
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                try
                 {
                     var fileSecurity = new FileSecurity(fileInfo.FullName, AccessControlSections.All);
                     IdentityReference oid = fileSecurity.GetOwner(typeof(SecurityIdentifier));
@@ -212,7 +197,25 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                     }
                 }
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                catch (Exception e) when (
+                    e is ArgumentException
+                    || e is ArgumentNullException
+                    || e is DirectoryNotFoundException
+                    || e is FileNotFoundException
+                    || e is IOException
+                    || e is NotSupportedException
+                    || e is PlatformNotSupportedException
+                    || e is PathTooLongException
+                    || e is PrivilegeNotHeldException
+                    || e is SystemException
+                    || e is UnauthorizedAccessException)
+                {
+                    Log.Verbose($"Error instantiating FileSecurity object {obj.Path} {e.GetType().ToString()}");
+                }
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                try
                 {
                     var file = new UnixFileInfo(fileInfo.FullName);
                     obj.Owner = file.OwnerUser.UserName;
@@ -275,60 +278,48 @@ namespace AttackSurfaceAnalyzer.Collectors
                         }
                     }
                 }
-
-                if (fileInfo is DirectoryInfo)
+                catch(Exception e) when(
+                    e is ArgumentNullException
+                    || e is ArgumentException)
                 {
-                    obj.IsDirectory = true;
+                    Log.Verbose($"Failed to get permissions for {fileInfo.FullName} {e.GetType().ToString()}");
                 }
-                else if (fileInfo is FileInfo)
+            }
+
+            if (fileInfo is DirectoryInfo)
+            {
+                obj.IsDirectory = true;
+            }
+            else if (fileInfo is FileInfo)
+            {
+                obj.Size = (ulong)(fileInfo as FileInfo).Length;
+                obj.IsDirectory = false;
+
+                if (INCLUDE_CONTENT_HASH)
                 {
-                    obj.Size = (ulong)(fileInfo as FileInfo).Length;
-                    obj.IsDirectory = false;
+                    obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
+                }
 
-                    if (INCLUDE_CONTENT_HASH)
-                    {
-                        obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
-                    }
+                // Set IsExecutable and Signature Status
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
 
-                    // Set IsExecutable and Signature Status
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                    if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
                     {
-                        if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
+
+                        if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
                         {
-                            try
-                            {
-
-                                if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
-                                {
-
-                                    obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(fileInfo.FullName);
-                                    obj.Characteristics.AddRange(WindowsFileSystemUtils.GetDllCharacteristics(fileInfo.FullName));
-                                    obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path);
-                                }
-                            }
-                            catch (System.UnauthorizedAccessException ex)
-                            {
-                                Log.Verbose(ex, "Couldn't access {0} to check if signature is needed.", fileInfo.FullName);
-                            }
+                            obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(fileInfo.FullName);
+                            obj.Characteristics.AddRange(WindowsFileSystemUtils.GetDllCharacteristics(fileInfo.FullName));
+                            obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path);
                         }
                     }
-                    else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                    {
-                        obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path);
-                    }
+
                 }
-            }
-            catch (System.UnauthorizedAccessException e)
-            {
-                Log.Verbose(e, "Access Denied {0}", fileInfo?.FullName);
-            }
-            catch (System.IO.IOException e)
-            {
-                Log.Verbose(e, "Couldn't parse {0}", fileInfo?.FullName);
-            }
-            catch (Exception e)
-            {
-                Log.Warning(e, "Error collecting file system information: {0}", e.Message);
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                {
+                    obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path);
+                }
             }
 
             return obj;

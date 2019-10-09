@@ -64,17 +64,13 @@ namespace AttackSurfaceAnalyzer.Collectors
                         }
                     }
                 }
-                catch (IndexOutOfRangeException)
+                catch (Exception e) when (
+                    e is IndexOutOfRangeException
+                    || e is ArgumentNullException
+                    || e is System.IO.IOException
+                    || e is ArgumentException)
                 {
-                    Log.Verbose("Failed to get PE Headers for {0} (IndexOutOfRangeException)", Path);
-                }
-                catch (ArgumentNullException)
-                {
-                    Log.Verbose("Failed to get PE Headers for {0} (ArgumentNullException)", Path);
-                }
-                catch (Exception e)
-                {
-                    Log.Debug(e, "Failed to get DLL Characteristics for path: {0}", Path);
+                    Log.Verbose($"Failed to get PE Headers for {Path} {e.GetType().ToString()}");
                 }
             }
 
