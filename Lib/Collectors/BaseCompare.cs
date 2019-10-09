@@ -71,11 +71,13 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
+
         /// <summary>
         /// Compares all the common collectors between two runs.
         /// </summary>
         /// <param name="firstRunId">The Base run id.</param>
         /// <param name="secondRunId">The Compare run id.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Collecting telemetry on exceptions.")]
         public void Compare(string firstRunId, string secondRunId)
         {
             if (firstRunId == null)
@@ -245,6 +247,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                     catch (Exception e)
                     {
                         Log.Debug(e, "Generic exception. Tell a programmer.");
+                        Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
+                        ExceptionEvent.Add("Exception Type", e.GetType().ToString());
+                        AsaTelemetry.TrackEvent("CompareException", ExceptionEvent);
+
+
                     }
                 }
 
@@ -295,18 +302,9 @@ namespace AttackSurfaceAnalyzer.Collectors
         public bool TryCompare(string firstRunId, string secondRunId)
         {
             Start();
-            try
-            {
-                Compare(firstRunId, secondRunId);
-                Stop();
-                return true;
-            }
-            catch (Exception e)
-            {
-                Log.Error(exception: e, $"Couldn't compare {firstRunId} and {secondRunId}");
-                Stop();
-                return false;
-            }
+            Compare(firstRunId, secondRunId);
+            Stop();
+            return true;
         }
 
         private RUN_STATUS _running = RUN_STATUS.NOT_STARTED;

@@ -68,43 +68,25 @@ namespace AttackSurfaceAnalyzer.Utils
                         }
                         Log.Verbose(Strings.Get("SuccessParsed"), Platform, ScanType, ItemType, Property, FilterType);
                     }
-                    catch (NullReferenceException)
-                    {
+                    catch (Exception e) when (
+                        e is NullReferenceException
+                        || e is JsonReaderException)
+                    { 
                         try
                         {
                             _filters.Add(key, new List<Regex>());
                             Log.Verbose(Strings.Get("EmptyEntry"), Platform, ScanType, ItemType, Property, FilterType);
                         }
-                        catch (ArgumentException)
+                        catch(Exception ex) when (
+                            ex is ArgumentNullException
+                            || ex is ArgumentException)
                         {
                             // We are running in parallel, its possible someone added it in between the original check and now. No problem here.
-                        }
-                        catch (Exception e)
-                        {
-                            Log.Debug(e.StackTrace);
                         }
 
                         //Since there were no filters for this, it is not filtered
                         return false;
                     }
-                    catch (JsonReaderException)
-                    {
-                        try
-                        {
-                            _filters.Add(key, new List<Regex>());
-                            Log.Information(Strings.Get("Err_FiltersFile"), Platform, ScanType, ItemType, Property, FilterType);
-                        }
-                        catch (ArgumentException)
-                        {
-                            // We are running in parallel, its possible someone added it in between the original check and now. No problem here.
-                        }
-                        catch (Exception e)
-                        {
-                            Log.Debug(e.StackTrace);
-                        }
-                        return false;
-                    }
-
                 }
 
                 foreach (Regex filter in _filters[key])
@@ -154,30 +136,21 @@ namespace AttackSurfaceAnalyzer.Utils
                     Log.Debug("Out of entries");
                 }
             }
-            catch (FileNotFoundException)
+            catch (Exception e) when (
+                e is ArgumentNullException
+                || e is ArgumentException
+                || e is FileLoadException
+                || e is FileNotFoundException
+                || e is BadImageFormatException
+                || e is NotImplementedException)
             {
                 config = null;
-                Log.Debug("{0} is missing (filter configuration file)", "Embedded");
+                Log.Debug("Could not load filters {0} {1}", "Embedded", e.GetType().ToString());
 
-                return;
-            }
-            catch (NullReferenceException)
-            {
-                config = null;
-                Log.Debug("{0} is missing (filter configuration file)", "Embedded");
-
-                return;
-            }
-            catch (ArgumentNullException)
-            {
-                config = null;
-                Log.Debug("{0} is missing (filter configuration file)", "Embedded");
-            }
-            catch (Exception e)
-            {
-                config = null;
-                Log.Warning("Could not load filters {0} {1}", "Embedded", e.GetType().ToString());
-
+                // This is interesting. We shouldn't hit exceptions when loading the embedded resource.
+                Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
+                ExceptionEvent.Add("Exception Type", e.GetType().ToString());
+                AsaTelemetry.TrackEvent("EmbeddedFilterLoadException", ExceptionEvent);
                 return;
             }
         }
@@ -198,29 +171,22 @@ namespace AttackSurfaceAnalyzer.Utils
                     Log.Debug("Out of entries");
                 }
             }
-            catch (System.IO.FileNotFoundException)
+
+            catch (Exception e) when (
+                e is UnauthorizedAccessException
+                || e is ArgumentException
+                || e is ArgumentNullException
+                || e is PathTooLongException
+                || e is DirectoryNotFoundException
+                || e is FileNotFoundException
+                || e is NotSupportedException)
             {
-                //That's fine, we just don't have any filters to load
                 config = null;
-                Log.Warning("{0} is missing (filter configuration file)", filterLoc);
+                //Let the user know we couldn't load their file
+                Log.Warning(Strings.Get("Err_MalformedFilterFile"),filterLoc);
 
                 return;
             }
-            catch (NullReferenceException)
-            {
-                config = null;
-                Log.Warning("{0} is missing (filter configuration file)", filterLoc);
-
-                return;
-            }
-            catch (Exception e)
-            {
-                config = null;
-                Log.Warning("Could not load filters {0} {1}", filterLoc, e.GetType().ToString());
-                return;
-            }
-
         }
-
     }
 }

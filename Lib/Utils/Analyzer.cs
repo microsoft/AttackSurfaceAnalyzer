@@ -114,6 +114,7 @@ namespace AttackSurfaceAnalyzer.Utils
             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Will gather exception information for analysis via telemetry.")]
         protected ANALYSIS_RESULT_TYPE Apply(Rule rule, CompareResult compareResult)
         {
             if (compareResult != null && rule != null)
@@ -163,6 +164,10 @@ namespace AttackSurfaceAnalyzer.Utils
                                 catch (Exception e)
                                 {
                                     Log.Debug(e, "Error fetching Property {0} of Type {1}", property.Name, compareResult.ResultType);
+                                    
+                                    Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
+                                    ExceptionEvent.Add("Exception Type", e.GetType().ToString());
+                                    AsaTelemetry.TrackEvent("ApplyCreatedModifiedException", ExceptionEvent);
                                 }
                             }
                             if (compareResult.ChangeType == CHANGE_TYPE.DELETED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
@@ -191,7 +196,9 @@ namespace AttackSurfaceAnalyzer.Utils
                                 }
                                 catch (Exception e)
                                 {
-                                    Log.Debug(e, "Error fetching Property {0} of Type {1}", property.Name, compareResult.ResultType);
+                                    Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
+                                    ExceptionEvent.Add("Exception Type", e.GetType().ToString());
+                                    AsaTelemetry.TrackEvent("ApplyDeletedModifiedException", ExceptionEvent);
                                 }
                             }
                         }
@@ -356,6 +363,9 @@ namespace AttackSurfaceAnalyzer.Utils
                     catch (Exception e)
                     {
                         Log.Debug(e, $"Hit while parsing {JsonConvert.SerializeObject(rule)} onto {JsonConvert.SerializeObject(compareResult)}");
+                        Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
+                        ExceptionEvent.Add("Exception Type", e.GetType().ToString());
+                        AsaTelemetry.TrackEvent("ApplyOverallException", ExceptionEvent);
                         return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
                     }
                 }
@@ -399,31 +409,22 @@ namespace AttackSurfaceAnalyzer.Utils
                 ParseFilters();
                 DumpFilters();
             }
-            catch (FileNotFoundException)
+            catch (Exception e) when (
+                e is ArgumentNullException
+                || e is ArgumentException
+                || e is FileLoadException
+                || e is FileNotFoundException
+                || e is BadImageFormatException
+                || e is NotImplementedException)
             {
-                config = null;
-                Log.Debug("{0} is missing (filter configuration file)", "Embedded");
 
-                return;
-            }
-            catch (NullReferenceException)
-            {
                 config = null;
-                Log.Debug("{0} is missing (filter configuration file)", "Embedded");
+                Log.Debug("Could not load filters {0} {1}", "Embedded", e.GetType().ToString());
 
-                return;
-            }
-            catch (JsonReaderException)
-            {
-                config = null;
-                Log.Warning("Error when parsing '{0}' analyses file. This is likely an issue with your JSON formatting.", "Embedded");
-            }
-            catch (Exception e)
-            {
-                config = null;
-                Log.Warning("Could not load filters {0} {1} {2}", "Embedded", e.GetType().ToString(), e.StackTrace);
-
-                return;
+                // This is interesting. We shouldn't hit exceptions when loading the embedded resource.
+                Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
+                ExceptionEvent.Add("Exception Type", e.GetType().ToString());
+                AsaTelemetry.TrackEvent("EmbeddedAnalysesFilterLoadException", ExceptionEvent);
             }
         }
 
@@ -445,30 +446,19 @@ namespace AttackSurfaceAnalyzer.Utils
                 ParseFilters();
                 DumpFilters();
             }
-            catch (System.IO.FileNotFoundException)
+            catch (Exception e) when (
+                e is UnauthorizedAccessException
+                || e is ArgumentException
+                || e is ArgumentNullException
+                || e is PathTooLongException
+                || e is DirectoryNotFoundException
+                || e is FileNotFoundException
+                || e is NotSupportedException)
             {
-                //That's fine, we just don't have any filters to load
                 config = null;
-                Log.Warning("{0} is missing (filter configuration file)", filterLoc);
+                //Let the user know we couldn't load their file
+                Log.Warning(Strings.Get("Err_MalformedFilterFile"), filterLoc);
 
-                return;
-            }
-            catch (NullReferenceException)
-            {
-                config = null;
-                Log.Warning("{0} is missing (filter configuration file)", filterLoc);
-
-                return;
-            }
-            catch (JsonReaderException)
-            {
-                config = null;
-                Log.Warning("Error when parsing '{0}' analyses file. This is likely an issue with your JSON formatting.", filterLoc);
-            }
-            catch (Exception e)
-            {
-                config = null;
-                Log.Warning("Could not load filters {0} {1} {2}", filterLoc, e.GetType().ToString(), e.StackTrace);
                 return;
             }
         }

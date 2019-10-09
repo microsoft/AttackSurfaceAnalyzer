@@ -71,14 +71,13 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                     else
                     {
-                        return null;
+                        return "";
                     }
 
                     return permissions.ToString();
                 }
                 else
                 {
-                    FileSystemSecurity fileSecurity = null;
                     var filename = fileInfo.FullName;
                     if (filename.Length >= 260 && !filename.StartsWith(@"\\?\"))
                     {
@@ -89,7 +88,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         try
                         {
-                            fileSecurity = new FileSecurity(filename, AccessControlSections.All);
+                            return new FileSecurity(filename, AccessControlSections.All).GetSecurityDescriptorSddlForm(AccessControlSections.All);
+
                         }
                         catch (Exception e) when (
                             e is ArgumentException
@@ -111,7 +111,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         try
                         {
-                            fileSecurity = new DirectorySecurity(filename, AccessControlSections.All);
+                            return new DirectorySecurity(filename, AccessControlSections.All).GetSecurityDescriptorSddlForm(AccessControlSections.All);
                         }
                         catch (Exception e) when (
                             e is ArgumentException
@@ -129,14 +129,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             Log.Verbose($"Error parsing DirectorySecurity for {fileInfo.FullName} {e.GetType().ToString()}");
                         }
                     }
-                    else
-                    {
-                        return null;
-                    }
-                    if (fileSecurity != null)
-                        return fileSecurity.GetSecurityDescriptorSddlForm(AccessControlSections.All);
-                    else
-                        return "";
+                    return "";
                 }
             }
             return "";
@@ -145,94 +138,38 @@ namespace AttackSurfaceAnalyzer.Collectors
         public static bool IsExecutable(string Path)
         {
             if (Path is null) { return false; }
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+
+            // Shortcut to help with system files we can't read directly
+            if (Path.EndsWith(".dll") || Path.EndsWith(".exe"))
             {
-                try
+                return true;
+            }
+
+            byte[] fourBytes = new byte[4];
+            try
+            {
+                using (var fileStream = File.Open(Path, FileMode.Open))
                 {
-                    var fourBytes = new byte[4];
-                    using (var fileStream = File.Open(Path, FileMode.Open))
-                    {
-                        fileStream.Read(fourBytes, 0, 4);
-                    }
-                    // ELF or java
-                    return fourBytes.SequenceEqual(ElfMagicNumber) || fourBytes.SequenceEqual(JavaMagicNumber);
-                }
-                catch (UnauthorizedAccessException)
-                {
-                    return false;
-                }
-                catch (IOException)
-                {
-                    return false;
-                }
-                catch (Exception e)
-                {
-                    Log.Debug(e, $"Couldn't chomp 4 bytes of {Path}");
-                    return false;
+                    fileStream.Read(fourBytes, 0, 4);
                 }
             }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            catch (Exception e) when (
+                e is ArgumentException
+                || e is ArgumentNullException
+                || e is PathTooLongException
+                || e is DirectoryNotFoundException
+                || e is IOException
+                || e is UnauthorizedAccessException
+                || e is ArgumentOutOfRangeException
+                || e is FileNotFoundException
+                || e is NotSupportedException
+                || e is ObjectDisposedException)
             {
-                try
-                {
-                    var fourBytes = new byte[4];
-                    using (var fileStream = File.Open(Path, FileMode.Open))
-                    {
-                        fileStream.Read(fourBytes, 0, 4);
-                    }
-                    // Mach-o format magic numbers or java class
-                    return MacMagicNumbers.Contains(fourBytes) || fourBytes.SequenceEqual(JavaMagicNumber);
-                }
-                catch (UnauthorizedAccessException)
-                {
-                    return false;
-                }
-                catch (IOException)
-                {
-                    return false;
-                }
-                catch (Exception e)
-                {
-                    Log.Debug(e, $"Couldn't chomp 4 bytes of {Path}");
-                    return false;
-                }
+                Log.Debug(e, $"Couldn't chomp 4 bytes of {Path}");
+                return false;
             }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                try
-                {
-                    // We can 'trust' these file extensions to improve performance and more accurately flag system files that don't allow us to read
-                    if (Path.EndsWith(".dll") || Path.EndsWith(".exe"))
-                    {
-                        return true;
-                    }
-                    var fourBytes = new byte[4];
-                    using (var fileStream = File.Open(Path, FileMode.Open))
-                    {
-                        fileStream.Read(fourBytes, 0, 4);
-                    }
-                    // Windows header is 2 bytes so we just take the first two to check that    but we use all four bytes for java classes
-                    return fourBytes[0..2].SequenceEqual(WindowsMagicNumber) || fourBytes.SequenceEqual(JavaMagicNumber);
-                }
-                catch (UnauthorizedAccessException)
-                {
-                    return false;
-                }
-                catch (IOException)
-                {
-                    return false;
-                }
-                catch (ArgumentNullException)
-                {
-                    return false;
-                }
-                catch (Exception e)
-                {
-                    Log.Debug(e, $"Couldn't chomp 4 bytes of {Path}");
-                    return false;
-                }
-            }
-            return false;
+            // ELF or java
+            return fourBytes.SequenceEqual(ElfMagicNumber) || fourBytes.SequenceEqual(JavaMagicNumber) || MacMagicNumbers.Contains(fourBytes) || fourBytes[0..2].SequenceEqual(WindowsMagicNumber);
         }
 
         public static string GetFileHash(FileSystemInfo fileInfo)
@@ -249,9 +186,19 @@ namespace AttackSurfaceAnalyzer.Collectors
                         hashValue = CryptoHelpers.CreateHash(stream);
                     }
                 }
-                catch (Exception ex)
+                catch (Exception e) when (
+                    e is ArgumentNullException
+                    || e is ArgumentException
+                    || e is NotSupportedException
+                    || e is FileNotFoundException
+                    || e is IOException
+                    || e is System.Security.SecurityException
+                    || e is DirectoryNotFoundException
+                    || e is UnauthorizedAccessException
+                    || e is PathTooLongException
+                    || e is ArgumentOutOfRangeException)
                 {
-                    Log.Warning(ex, "{0}: {1} {2}", Strings.Get("Err_UnableToHash"), fileInfo.FullName, ex.Message);
+                    Log.Verbose("{0}: {1} {2}", Strings.Get("Err_UnableToHash"), fileInfo.FullName, e.GetType().ToString());
                 }
                 return hashValue;
             }

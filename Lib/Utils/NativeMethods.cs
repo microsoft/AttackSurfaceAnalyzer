@@ -386,54 +386,46 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             WinTrustFileInfo winTrustFileInfo = null;
             WinTrustData winTrustData = null;
+            
+            // specify the WinVerifyTrust function/action that we want
+            Guid action = new Guid(WINTRUST_ACTION_GENERIC_VERIFY_V2);
 
-            try
+            // instantiate our WinTrustFileInfo and WinTrustData data structures
+            winTrustFileInfo = new WinTrustFileInfo(filename);
+            winTrustData = new WinTrustData(filename);
+
+            // call into WinVerifyTrust
+            WinVerifyTrustResult result = WinVerifyTrust(INVALID_HANDLE_VALUE, action, winTrustData);
+            switch (result)
             {
-                // specify the WinVerifyTrust function/action that we want
-                Guid action = new Guid(WINTRUST_ACTION_GENERIC_VERIFY_V2);
-
-                // instantiate our WinTrustFileInfo and WinTrustData data structures
-                winTrustFileInfo = new WinTrustFileInfo(filename);
-                winTrustData = new WinTrustData(filename);
-
-                // call into WinVerifyTrust
-                WinVerifyTrustResult result = WinVerifyTrust(INVALID_HANDLE_VALUE, action, winTrustData);
-                switch (result)
-                {
-                    case WinVerifyTrustResult.Success:
-                        return "Valid";
-                    case WinVerifyTrustResult.ProviderUnknown:
-                        return "ProviderUnknown";
-                    case WinVerifyTrustResult.ActionUnknown:
-                        return "ActionUnknown";
-                    case WinVerifyTrustResult.SubjectFormUnknown:
-                        return "SubjectFormUnknown";
-                    case WinVerifyTrustResult.SubjectNotTrusted:
-                        return "SubjectNotTrusted";
-                    case WinVerifyTrustResult.FileNotSigned:
-                        return "FileNotSigned";
-                    case WinVerifyTrustResult.SubjectExplicitlyDistrusted:
-                        return "SubjectExplicitlyDistrusted";
-                    case WinVerifyTrustResult.SignatureOrFileCorrupt:
-                        return "SignatureOrFileCorrupt";
-                    case WinVerifyTrustResult.SubjectCertExpired:
-                        return "SubjectCertExpired";
-                    case WinVerifyTrustResult.SubjectCertificateRevoked:
-                        return "SubjectCertificateRevoked";
-                    case WinVerifyTrustResult.UntrustedRoot:
-                        return "UntrustedRoot";
-                    default:
-                        // The UI was disabled in dwUIChoice or the admin policy 
-                        // has disabled user trust. lStatus contains the 
-                        // publisher or time stamp chain error.
-                        return result.ToString();
-                }
+                case WinVerifyTrustResult.Success:
+                    return "Valid";
+                case WinVerifyTrustResult.ProviderUnknown:
+                    return "ProviderUnknown";
+                case WinVerifyTrustResult.ActionUnknown:
+                    return "ActionUnknown";
+                case WinVerifyTrustResult.SubjectFormUnknown:
+                    return "SubjectFormUnknown";
+                case WinVerifyTrustResult.SubjectNotTrusted:
+                    return "SubjectNotTrusted";
+                case WinVerifyTrustResult.FileNotSigned:
+                    return "FileNotSigned";
+                case WinVerifyTrustResult.SubjectExplicitlyDistrusted:
+                    return "SubjectExplicitlyDistrusted";
+                case WinVerifyTrustResult.SignatureOrFileCorrupt:
+                    return "SignatureOrFileCorrupt";
+                case WinVerifyTrustResult.SubjectCertExpired:
+                    return "SubjectCertExpired";
+                case WinVerifyTrustResult.SubjectCertificateRevoked:
+                    return "SubjectCertificateRevoked";
+                case WinVerifyTrustResult.UntrustedRoot:
+                    return "UntrustedRoot";
+                default:
+                    // The UI was disabled in dwUIChoice or the admin policy 
+                    // has disabled user trust. lStatus contains the 
+                    // publisher or time stamp chain error.
+                    return result.ToString();
             }
-            catch (Exception e)
-            {
-                Log.Debug("{0} error decoding signature on {1}", e.GetType().ToString(), filename);
-            }
-            return "Unknown";
         }
 
         [StructLayout(LayoutKind.Sequential)]

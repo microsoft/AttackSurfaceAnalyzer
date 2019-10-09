@@ -42,9 +42,11 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
+
         /// <summary>
         /// Collect event logs on Windows using System.Diagnostics.EventLog
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Official documentation for this functionality does not specify what exceptions it throws. https://docs.microsoft.com/en-us/dotnet/api/system.diagnostics.eventlogentrycollection?view=netcore-3.0")]
         public void ExecuteWindows()
         {
             EventLog[] logs = EventLog.GetEventLogs();
@@ -91,9 +93,10 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// </summary>
         public void ExecuteLinux()
         {
+            Regex LogHeader = new Regex("^([A-Z][a-z][a-z][0-9:\\s]*)?[\\s].*?[\\s](.*?): (.*)");
+
             try
             {
-                Regex LogHeader = new Regex("^([A-Z][a-z][a-z][0-9:\\s]*)?[\\s].*?[\\s](.*?): (.*)");
                 string[] authLog = File.ReadAllLines("/var/log/auth.log");
                 foreach (var entry in authLog)
                 {
@@ -114,7 +117,22 @@ namespace AttackSurfaceAnalyzer.Collectors
                     // New log entries start with a timestamp like so:
                     // Sep  7 02:16:16 testbed systemd[1]: Reloading
                 }
-
+            }
+            catch (Exception e) when (
+                e is ArgumentException
+                || e is ArgumentNullException
+                || e is DirectoryNotFoundException
+                || e is PathTooLongException
+                || e is FileNotFoundException
+                || e is IOException
+                || e is NotSupportedException
+                || e is System.Security.SecurityException
+                || e is UnauthorizedAccessException)
+            {
+                Log.Debug("Failed to parse /var/auth/auth.log");
+            }
+            try
+            {
                 string[] sysLog = File.ReadAllLines("/var/log/syslog");
                 foreach (var entry in sysLog)
                 {
@@ -134,11 +152,19 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception e) when (
+                e is ArgumentException
+                || e is ArgumentNullException
+                || e is DirectoryNotFoundException
+                || e is PathTooLongException
+                || e is FileNotFoundException
+                || e is IOException
+                || e is NotSupportedException
+                || e is System.Security.SecurityException
+                || e is UnauthorizedAccessException)
             {
-                Log.Debug(e, "Failed to parse /var/log/auth.log");
+                Log.Debug("Failed to parse /var/log/syslog");
             }
-
         }
 
         /// <summary>
