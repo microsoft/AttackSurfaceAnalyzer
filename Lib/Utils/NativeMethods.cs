@@ -381,6 +381,8 @@ namespace AttackSurfaceAnalyzer.Utils
         );
 
         // call WinTrust.WinVerifyTrust() to check embedded file signature
+        [System.Runtime.ExceptionServices.HandleProcessCorruptedStateExceptions]
+        [System.Security.SecurityCritical]
         public static string VerifyEmbeddedSignature(string filename)
         {
             WinTrustFileInfo winTrustFileInfo = null;
