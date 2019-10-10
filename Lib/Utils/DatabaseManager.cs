@@ -451,9 +451,9 @@ namespace AttackSurfaceAnalyzer.Utils
                 cmd.Parameters.AddWithValue("@result_type", objIn.ColObj.ResultType);
                 cmd.ExecuteNonQuery();
             }
-            catch (SqliteException)
+            catch (SqliteException e)
             {
-                Log.Debug($"Error writing {objIn.ColObj.Identity} to database.");
+                Log.Debug(exception:e,$"Error writing {objIn.ColObj.Identity} to database.");
             }
             catch (NullReferenceException)
             {

@@ -117,7 +117,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 };
                                 DatabaseManager.Write(certObj, RunId);
                             }
-                            catch (ArgumentException)
+                            catch (Exception e) when (
+                                e is System.Security.Cryptography.CryptographicException
+                                || e is ArgumentException)
                             {
                                 Log.Debug($"Could not parse certificate from file: {fileInfo.FullName}");
                             }

@@ -165,10 +165,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                 || e is NotSupportedException
                 || e is ObjectDisposedException)
             {
-                Log.Debug(e, $"Couldn't chomp 4 bytes of {Path}");
+                Log.Verbose(e, $"Couldn't chomp 4 bytes of {Path}");
                 return false;
             }
-            // ELF or java
+
             return fourBytes.SequenceEqual(ElfMagicNumber) || fourBytes.SequenceEqual(JavaMagicNumber) || MacMagicNumbers.Contains(fourBytes) || fourBytes[0..2].SequenceEqual(WindowsMagicNumber);
         }
 
