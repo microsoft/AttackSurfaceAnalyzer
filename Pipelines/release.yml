@@ -250,21 +250,16 @@ stages:
       inputs:
         script: |
           VERSION="$(nbgv get-version -v AssemblyInformationalVersion | cut -d'+' -f 1)"
-          mkdir $BIN_DIR/res
-          mv $BIN_DIR/linux/Asa $BIN_DIR/res/
-          mv $BIN_DIR/res $BIN_DIR/linux/
+          mkdir $BIN_DIR/Asa-linux-$VERSION
+          mv $BIN_DIR/linux/Asa $BIN_DIR/Asa-linux-$VERSION/res/
 
-          mkdir $BIN_DIR/res
-          mv $BIN_DIR/macos/Asa $BIN_DIR/res/
-          mv $BIN_DIR/res $BIN_DIR/macos/
+          mkdir $BIN_DIR/Asa-macos-$VERSION
+          mv $BIN_DIR/macos/Asa $BIN_DIR/Asa-macos-$VERSION/res/
 
           cp $SRC_DIR/Asa/AsaLaunch.sh $BIN_DIR/linux/AsaLaunch.sh
           cp $SRC_DIR/Asa/AsaLaunch.sh $BIN_DIR/macos/AsaLaunch.sh
           cp $SRC_DIR/Asa/AsaLaunchGui.sh $BIN_DIR/linux/AsaLaunchGui.sh
           cp $SRC_DIR/Asa/AsaLaunchGui.sh $BIN_DIR/macos/AsaLaunchGui.sh
-
-          mv $BIN_DIR/linux $BIN_DIR/Asa-linux-$VERSION
-          mv $BIN_DIR/macos $BIN_DIR/Asa-macos-$VERSION
 
           chmod +x $BIN_DIR/Asa-linux-$VERSION/AsaLaunch.sh
           chmod +x $BIN_DIR/Asa-macos-$VERSION/AsaLaunch.sh
