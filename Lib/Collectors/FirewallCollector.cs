@@ -35,37 +35,46 @@ namespace AttackSurfaceAnalyzer.Collectors
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "The specific exceptions thrown by this library are not documented.")]
         public void ExecuteWindows()
         {
-            foreach (IFirewallRule rule in FirewallManager.Instance.Rules.ToArray())
+            try
             {
-                try
+                foreach (IFirewallRule rule in FirewallManager.Instance.Rules.ToArray())
                 {
-                    var obj = new FirewallObject()
+                    try
                     {
-                        Action = rule.Action,
-                        ApplicationName = rule.ApplicationName,
-                        Direction = rule.Direction,
-                        FriendlyName = rule.FriendlyName,
-                        IsEnable = rule.IsEnable,
-                        LocalPortType = rule.LocalPortType,
-                        Name = rule.Name,
-                        Profiles = rule.Profiles,
-                        Protocol = rule.Protocol.ProtocolNumber.ToString(CultureInfo.InvariantCulture),
-                        Scope = rule.Scope,
-                        ServiceName = rule.ServiceName
-                    };
-                    obj.LocalAddresses.AddRange(rule.LocalAddresses.ToList().ConvertAll(address => address.ToString()));
-                    obj.LocalPorts.AddRange(rule.LocalPorts.ToList().ConvertAll(port => port.ToString(CultureInfo.InvariantCulture)));
-                    obj.RemoteAddresses.AddRange(rule.RemoteAddresses.ToList().ConvertAll(address => address.ToString()));
-                    obj.RemotePorts.AddRange(rule.RemotePorts.ToList().ConvertAll(port => port.ToString(CultureInfo.InvariantCulture)));
-                    DatabaseManager.Write(obj, RunId);
+                        var obj = new FirewallObject()
+                        {
+                            Action = rule.Action,
+                            ApplicationName = rule.ApplicationName,
+                            Direction = rule.Direction,
+                            FriendlyName = rule.FriendlyName,
+                            IsEnable = rule.IsEnable,
+                            LocalPortType = rule.LocalPortType,
+                            Name = rule.Name,
+                            Profiles = rule.Profiles,
+                            Protocol = rule.Protocol.ProtocolNumber.ToString(CultureInfo.InvariantCulture),
+                            Scope = rule.Scope,
+                            ServiceName = rule.ServiceName
+                        };
+                        obj.LocalAddresses.AddRange(rule.LocalAddresses.ToList().ConvertAll(address => address.ToString()));
+                        obj.LocalPorts.AddRange(rule.LocalPorts.ToList().ConvertAll(port => port.ToString(CultureInfo.InvariantCulture)));
+                        obj.RemoteAddresses.AddRange(rule.RemoteAddresses.ToList().ConvertAll(address => address.ToString()));
+                        obj.RemotePorts.AddRange(rule.RemotePorts.ToList().ConvertAll(port => port.ToString(CultureInfo.InvariantCulture)));
+                        DatabaseManager.Write(obj, RunId);
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Debug(e, "Exception hit while processing Firewall rules");
+                        Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
+                        ExceptionEvent.Add("Exception Type", e.GetType().ToString());
+                        AsaTelemetry.TrackEvent("WindowsFirewallObjectCreationException", ExceptionEvent);
+                    }
                 }
-                catch (Exception e)
-                {
-                    Log.Debug(e, "Exception hit while processing Firewall rules");
-                    Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
-                    ExceptionEvent.Add("Exception Type", e.GetType().ToString());
-                    AsaTelemetry.TrackEvent("WindowsFirewallObjectCreationException", ExceptionEvent);
-                }
+            }
+            catch(Exception e) when(
+                e is COMException ||
+                e is NotSupportedException)
+            {
+                Log.Warning(Strings.Get("CollectorNotSupportedOnPlatform"), this.GetType().ToString());
             }
         }
 

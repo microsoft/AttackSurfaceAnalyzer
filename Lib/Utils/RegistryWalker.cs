@@ -5,6 +5,7 @@ using Microsoft.Win32;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Security.AccessControl;
 using System.Security.Principal;
 
@@ -16,21 +17,49 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             Stack<RegistryKey> keys = new Stack<RegistryKey>();
 
-            RegistryKey x86_View = RegistryKey.OpenBaseKey(Hive, RegistryView.Registry32);
-            if (startingKey != null)
+            RegistryKey x86_View = null, x64_View = null;
+            try
             {
-                x86_View = x86_View.OpenSubKey(startingKey);
+                x86_View = RegistryKey.OpenBaseKey(Hive, RegistryView.Registry32);
+            }
+            catch(Exception e) when (
+                e is IOException ||
+                e is ArgumentException ||
+                e is UnauthorizedAccessException ||
+                e is System.Security.SecurityException)
+            {
+
+            }
+            try
+            {
+                x64_View = RegistryKey.OpenBaseKey(Hive, RegistryView.Registry32);
+            }
+            catch (Exception e) when (
+                e is IOException ||
+                e is ArgumentException || 
+                e is UnauthorizedAccessException ||
+                e is System.Security.SecurityException)
+            {
+
+            }
+            
+            if (x86_View != null)
+            {
+                if (startingKey != null)
+                {
+                    x86_View = x86_View.OpenSubKey(startingKey);
+                }
+                keys.Push(x86_View);
             }
 
-            keys.Push(x86_View);
-
-            RegistryKey x64_View = RegistryKey.OpenBaseKey(Hive, RegistryView.Registry64);
-            if (startingKey != null)
+            if (x64_View != null)
             {
-                x64_View = x64_View.OpenSubKey(startingKey);
+                if (startingKey != null)
+                {
+                    x64_View = x64_View.OpenSubKey(startingKey);
+                }
+                keys.Push(x64_View);
             }
-
-            keys.Push(x64_View);
 
             while (keys.Count > 0)
             {

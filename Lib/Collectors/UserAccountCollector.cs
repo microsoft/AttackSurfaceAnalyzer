@@ -175,6 +175,12 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                 }
             }
+            catch (Exception e) when (
+                e is TypeInitializationException ||
+                e is PlatformNotSupportedException)
+            {
+                Log.Warning(Strings.Get("CollectorNotSupportedOnPlatform"), this.GetType().ToString());
+            }
             catch (ExternalException)
             {
                 Log.Error("Failed to run {0}", "net localgroup");
