@@ -44,7 +44,6 @@ namespace AttackSurfaceAnalyzer.Utils
             { RESULT_TYPE.GROUP, ANALYSIS_RESULT_TYPE.INFORMATION },
             { RESULT_TYPE.COM, ANALYSIS_RESULT_TYPE.INFORMATION },
             { RESULT_TYPE.LOG, ANALYSIS_RESULT_TYPE.INFORMATION },
-            { RESULT_TYPE.UNKNOWN, ANALYSIS_RESULT_TYPE.INFORMATION }
         };
 
         JObject config = null;
