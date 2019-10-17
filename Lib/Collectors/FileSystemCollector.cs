@@ -288,40 +288,49 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
             }
 
-            if (fileInfo is DirectoryInfo)
+            try
             {
-                obj.IsDirectory = true;
-            }
-            else if (fileInfo is FileInfo)
-            {
-                obj.Size = (ulong)(fileInfo as FileInfo).Length;
-                obj.IsDirectory = false;
-
-                if (INCLUDE_CONTENT_HASH)
+                if (fileInfo is DirectoryInfo)
                 {
-                    obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
+                    obj.IsDirectory = true;
                 }
-
-                // Set IsExecutable and Signature Status
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                else if (fileInfo is FileInfo)
                 {
+                    obj.Size = (ulong)(fileInfo as FileInfo).Length;
+                    obj.IsDirectory = false;
 
-                    if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
+                    if (INCLUDE_CONTENT_HASH)
                     {
-
-                        if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
-                        {
-                            obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(fileInfo.FullName);
-                            obj.Characteristics.AddRange(WindowsFileSystemUtils.GetDllCharacteristics(fileInfo.FullName));
-                            obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path);
-                        }
+                        obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
                     }
 
+                    // Set IsExecutable and Signature Status
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                    {
+
+                        if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
+                        {
+
+                            if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
+                            {
+                                obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(fileInfo.FullName);
+                                obj.Characteristics.AddRange(WindowsFileSystemUtils.GetDllCharacteristics(fileInfo.FullName));
+                                obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path);
+                            }
+                        }
+
+                    }
+                    else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                    {
+                        obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path);
+                    }
                 }
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                {
-                    obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path);
-                }
+            }
+            catch(Exception e) when (
+                e is FileNotFoundException ||
+                e is IOException)
+            {
+
             }
 
             return obj;
