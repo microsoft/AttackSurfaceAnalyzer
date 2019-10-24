@@ -87,7 +87,7 @@ $("#RunAnalysisButton").click(function () {
         EnableCollectionFields();
     }
     else {
-        var compare = { 'first_id': $('#SelectedBaseRunId').val(), 'second_id': $('#SelectedCompareRunId').val() };
+        var compare = { 'firstId': $('#SelectedBaseRunId').val(), 'secondId': $('#SelectedCompareRunId').val() };
         $.getJSON('RunAnalysis', compare, function (result) {
             SetStatus(result);
         });

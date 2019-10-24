@@ -417,20 +417,20 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             }
 
 
-            using (var cmd = new SqliteCommand(SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED, DatabaseManager.Connection, DatabaseManager.Transaction))
-            {
-                cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
-                cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
-                using (var reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        return Json("Using cached comparison calculations.");
-                    }
-                }
-            }
+            //using (var cmd = new SqliteCommand(SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED, DatabaseManager.Connection, DatabaseManager.Transaction))
+            //{
+            //    cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
+            //    cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
+            //    using (var reader = cmd.ExecuteReader())
+            //    {
+            //        while (reader.Read())
+            //        {
+            //            return Json("Using cached comparison calculations.");
+            //        }
+            //    }
+            //}
 
-            Task.Factory.StartNew<Dictionary<string, object>>(() => AttackSurfaceAnalyzerClient.CompareRuns(opts));
+            Task.Factory.StartNew(() => AttackSurfaceAnalyzerClient.CompareRuns(opts));
 
             return Json("Started Analysis");
         }

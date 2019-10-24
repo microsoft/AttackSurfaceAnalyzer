@@ -13,6 +13,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Serilog;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -1038,7 +1039,7 @@ namespace AttackSurfaceAnalyzer
                     {
                         try
                         {
-                            Parallel.ForEach(results[key] as List<CompareResult>, (result) =>
+                            Parallel.ForEach(results[key] as ConcurrentQueue<CompareResult>, (result) =>
                             {
                                 result.Analysis = analyzer.Analyze(result);
                             });
@@ -1064,7 +1065,7 @@ namespace AttackSurfaceAnalyzer
             {
                 try
                 {
-                    foreach (var result in results[key] as List<CompareResult>)
+                    foreach (var result in (results[key] as ConcurrentQueue<CompareResult>))
                     {
                         DatabaseManager.InsertAnalyzed(result);
                     }
