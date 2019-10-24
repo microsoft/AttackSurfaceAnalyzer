@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer.Gui.Controllers
@@ -406,16 +407,10 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             opts.FirstRunId = firstId;
             opts.SecondRunId = secondId;
             opts.Analyze = true;
-            foreach (BaseCompare c in AttackSurfaceAnalyzerClient.GetComparators())
+            if (AttackSurfaceAnalyzerClient.GetComparators().Where(c => c.IsRunning() == RUN_STATUS.RUNNING).Any())
             {
-                // The GUI *should* prevent us from getting here. But this is extra protection.
-                // We won't start new collections while existing ones are ongoing.
-                if (c.IsRunning() == RUN_STATUS.RUNNING)
-                {
-                    return Json("Comparators already running!");
-                }
+                return Json("Comparators already running!");
             }
-
 
             using (var cmd = new SqliteCommand(SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
@@ -430,7 +425,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 }
             }
 
-            Task.Factory.StartNew<Dictionary<string, object>>(() => AttackSurfaceAnalyzerClient.CompareRuns(opts));
+            Task.Factory.StartNew(() => AttackSurfaceAnalyzerClient.CompareRuns(opts));
 
             return Json("Started Analysis");
         }
@@ -455,7 +450,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        private IEnumerable<DataRunModel> GetMonitorRunModels()
+        private static IEnumerable<DataRunModel> GetMonitorRunModels()
         {
             List<string> Runs = AttackSurfaceAnalyzerClient.GetRuns("monitor");
 

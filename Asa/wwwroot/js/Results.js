@@ -79,15 +79,15 @@ $("#RunAnalysisButton").click(function () {
 
     appendDebugMessage("Button Clicked", false);
     if ($("#SelectedBaseRunId").value == "" || $("#SelectedCompareRunId").val() == "") {
-        SetStatus("Must select runs.");
+        SetStatus(l("%SelectRuns"));
         EnableCollectionFields();
     }
     else if ($("#SelectedBaseRunId").val() == $("#SelectedCompareRunId").val()) {
-        SetStatus("Must select different runs.");
+        SetStatus(l("%SelectDifferentRuns"));
         EnableCollectionFields();
     }
     else {
-        var compare = { 'first_id': $('#SelectedBaseRunId').val(), 'second_id': $('#SelectedCompareRunId').val() };
+        var compare = { 'firstId': $('#SelectedBaseRunId').val(), 'secondId': $('#SelectedCompareRunId').val() };
         $.getJSON('RunAnalysis', compare, function (result) {
             SetStatus(result);
         });
@@ -161,6 +161,7 @@ function GetComparators() {
         else {
             EnableCollectionFields();
             GetResultTypes();
+            SetStatus(l("%ComparisonCompleted"));
         }
     });
 }
@@ -187,7 +188,7 @@ function GetResultTypes() {
 
     $.getJSON('GetResultTypes', data, function (result) {
         if ((result.File || result.Port || result.Certificate || result.Service || result.Registry || result.User || result.Firewall || result.ComObject || result.LogEntry) == false) {
-            SetStatus("The two runs selected have no common collectors.");
+            SetStatus(l("%NoCommon"));
         } else {
             $("#ExportResultsButton").attr('disabled', false);
         }
@@ -322,7 +323,7 @@ function ExportToExcel() {
         'OutputPath': ($('#DirectoryPath').val() == "") ? $('#DirectoryPath').attr('placeholder') : $('#DirectoryPath').val()
     };
     $.getJSON('WriteScanJson', data, function (results) {
-        SetStatus("Results Written");
+        SetStatus(l("%ResultsWritten"));
     });
 }
 
