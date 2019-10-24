@@ -13,6 +13,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Serilog;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -1032,14 +1033,24 @@ namespace AttackSurfaceAnalyzer
                 watch = System.Diagnostics.Stopwatch.StartNew();
 
                 Analyzer analyzer = new Analyzer(DatabaseManager.RunIdToPlatform(opts.FirstRunId), opts.AnalysesFile);
-
-                foreach (var key in results.Keys)
+                if (results.Count > 0)
                 {
-                    Parallel.ForEach(results[key] as List<CompareResult>, (result) =>
+                    foreach (var key in results.Keys)
                     {
-                        result.Analysis = analyzer.Analyze(result);
-                    });
+                        try
+                        {
+                            Parallel.ForEach(results[key] as ConcurrentQueue<CompareResult>, (result) =>
+                            {
+                                result.Analysis = analyzer.Analyze(result);
+                            });
+                        }
+                        catch (ArgumentNullException)
+                        {
+
+                        }
+                    }
                 }
+                
                 watch.Stop();
                 t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
                 answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
@@ -1052,9 +1063,16 @@ namespace AttackSurfaceAnalyzer
 
             foreach (var key in results.Keys)
             {
-                foreach (var result in results[key] as List<CompareResult>)
+                try
                 {
-                    DatabaseManager.InsertAnalyzed(result);
+                    foreach (var result in (results[key] as ConcurrentQueue<CompareResult>))
+                    {
+                        DatabaseManager.InsertAnalyzed(result);
+                    }
+                }
+                catch (NullReferenceException)
+                {
+                    Log.Debug(key);
                 }
             }
 
