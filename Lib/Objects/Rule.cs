@@ -10,8 +10,12 @@ namespace AttackSurfaceAnalyzer.Objects
 
     public class Rule
     {
+        [DefaultValue(new PLATFORM[] { PLATFORM.LINUX, PLATFORM.MACOS, PLATFORM.WINDOWS })]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public List<PLATFORM> Platforms { get; }
 
+        [DefaultValue(new CHANGE_TYPE[] { CHANGE_TYPE.CREATED, CHANGE_TYPE.DELETED, CHANGE_TYPE.MODIFIED })]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public List<CHANGE_TYPE> ChangeTypes { get; }
 
         public string Name { get; set; }
@@ -19,6 +23,7 @@ namespace AttackSurfaceAnalyzer.Objects
         public ANALYSIS_RESULT_TYPE Flag { get; set; }
         public RESULT_TYPE ResultType { get; set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "If these are made readonly clauses don't get properly deserializedin Analyzer.cs/ParseFilters.")]
         public List<Clause> Clauses { get; set; }
     }
 
@@ -27,8 +32,10 @@ namespace AttackSurfaceAnalyzer.Objects
         public string Field { get; set; }
         public OPERATION Operation { get; set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "If these are made readonly clauses don't get properly deserializedin Analyzer.cs/ParseFilters.")]
         public List<string> Data { get; set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "If these are made readonly clauses don't get properly deserializedin Analyzer.cs/ParseFilters.")]
         public List<KeyValuePair<string, string>> DictData { get; set; }
     }
 }
