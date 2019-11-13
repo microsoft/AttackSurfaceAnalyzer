@@ -72,6 +72,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     _filters.Add(R.ToObject<Rule>());
                 }
+
                 foreach (var R in (JObject)config["meta"])
                 {
                     switch (R.Key)

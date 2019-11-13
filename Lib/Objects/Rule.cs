@@ -22,14 +22,20 @@ namespace AttackSurfaceAnalyzer.Objects
         public string Description { get; set; }
         public ANALYSIS_RESULT_TYPE Flag { get; set; }
         public RESULT_TYPE ResultType { get; set; }
-        public List<Clause> Clauses { get; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "If these are made readonly clauses don't get properly deserializedin Analyzer.cs/ParseFilters.")]
+        public List<Clause> Clauses { get; set; }
     }
 
     public class Clause
     {
         public string Field { get; set; }
         public OPERATION Operation { get; set; }
-        public List<string> Data { get; }
-        public List<KeyValuePair<string, string>> DictData { get; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "If these are made readonly clauses don't get properly deserializedin Analyzer.cs/ParseFilters.")]
+        public List<string> Data { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "If these are made readonly clauses don't get properly deserializedin Analyzer.cs/ParseFilters.")]
+        public List<KeyValuePair<string, string>> DictData { get; set; }
     }
 }
