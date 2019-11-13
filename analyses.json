@@ -1,39 +1,39 @@
 {
   "rules": [
     {
-      "name": "Privileged ports",
-      "desc": "Flag when privileged ports are opened.",
-      "flag": "WARNING",
-      "resultType": "PORT",
-      "clauses": [
+      "Name": "Privileged ports",
+      "Description": "Flag when privileged ports are opened.",
+      "Flag": "WARNING",
+      "ResultType": "PORT",
+      "Clauses": [
         {
-          "field": "port",
-          "op": "LT",
-          "data": [
+          "Field": "port",
+          "Operation": "LT",
+          "Data": [
             "1024"
           ]
         }
       ]
     },
     {
-      "name": "Privileged users",
-      "desc": "Flag when privileged users are modified.",
-      "flag": "WARNING",
-      "resultType": "USER",
-      "clauses": [
+      "Name": "Privileged users",
+      "Description": "Flag when privileged users are modified.",
+      "Flag": "WARNING",
+      "ResultType": "USER",
+      "Clauses": [
         {
-          "field": "Privileged",
-          "op": "EQ",
-          "data": [
+          "Field": "Privileged",
+          "Operation": "EQ",
+          "Data": [
             "True"
           ]
         }
       ]
     },
     {
-      "name": "Unsigned binaries",
-      "desc": "Flag when unsigned/incorrectly signed binaries are added.",
-      "flag": "WARNING",
+      "Name": "Unsigned binaries",
+      "Description": "Flag when unsigned/incorrectly signed binaries are added.",
+      "Flag": "WARNING",
       "platforms": [
         "WINDOWS"
       ],
@@ -41,28 +41,28 @@
         "CREATED",
         "MODIFIED"
       ],
-      "resultType": "FILE",
-      "clauses": [
+      "ResultType": "FILE",
+      "Clauses": [
         {
-          "field": "IsExecutable",
-          "op": "EQ",
-          "data": [
+          "Field": "IsExecutable",
+          "Operation": "EQ",
+          "Data": [
             "True"
           ]
         },
         {
-          "field": "SignatureStatus",
-          "op": "NEQ",
-          "data": [
+          "Field": "SignatureStatus",
+          "Operation": "NEQ",
+          "Data": [
             "Valid"
           ]
         }
       ]
     },
     {
-      "name": "SetUid",
-      "desc": "Flag UID is set on a file.",
-      "flag": "WARNING",
+      "Name": "SetUid",
+      "Description": "Flag UID is set on a file.",
+      "Flag": "WARNING",
       "platforms": [
         "LINUX",
         "MACOS"
@@ -71,21 +71,21 @@
         "CREATED",
         "MODIFIED"
       ],
-      "resultType": "FILE",
-      "clauses": [
+      "ResultType": "FILE",
+      "Clauses": [
         {
-          "field": "SetUid",
-          "op": "EQ",
-          "data": [
+          "Field": "SetUid",
+          "Operation": "EQ",
+          "Data": [
             "True"
           ]
         }
       ]
     },
     {
-      "name": "SetGid",
-      "desc": "Flag GID is set on a file.",
-      "flag": "WARNING",
+      "Name": "SetGid",
+      "Description": "Flag GID is set on a file.",
+      "Flag": "WARNING",
       "platforms": [
         "LINUX",
         "MACOS"
@@ -94,21 +94,21 @@
         "CREATED",
         "MODIFIED"
       ],
-      "resultType": "FILE",
-      "clauses": [
+      "ResultType": "FILE",
+      "Clauses": [
         {
-          "field": "SetGid",
-          "op": "EQ",
-          "data": [
+          "Field": "SetGid",
+          "Operation": "EQ",
+          "Data": [
             "True"
           ]
         }
       ]
     },
     {
-      "name": "Missing ASLR",
-      "desc": "Flag when executables are created without ASLR.",
-      "flag": "WARNING",
+      "Name": "Missing ASLR",
+      "Description": "Flag when executables are created without ASLR.",
+      "Flag": "WARNING",
       "platforms": [
         "WINDOWS"
       ],
@@ -116,19 +116,19 @@
         "CREATED",
         "MODIFIED"
       ],
-      "resultType": "FILE",
-      "clauses": [
+      "ResultType": "FILE",
+      "Clauses": [
         {
-          "field": "IsExecutable",
-          "op": "EQ",
-          "data": [
+          "Field": "IsExecutable",
+          "Operation": "EQ",
+          "Data": [
             "True"
           ]
         },
         {
-          "field": "Characteristics",
-          "op": "DOES_NOT_CONTAIN",
-          "data": [
+          "Field": "Characteristics",
+          "Operation": "DOES_NOT_CONTAIN",
+          "Data": [
             "IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE",
             "IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA"
           ]
@@ -136,9 +136,9 @@
       ]
     },
     {
-      "name": "Missing DEP",
-      "desc": "Flag when executables are created without DEP.",
-      "flag": "WARNING",
+      "Name": "Missing DEP",
+      "Description": "Flag when executables are created without DEP.",
+      "Flag": "WARNING",
       "platforms": [
         "WINDOWS"
       ],
@@ -146,28 +146,28 @@
         "CREATED",
         "MODIFIED"
       ],
-      "resultType": "FILE",
-      "clauses": [
+      "ResultType": "FILE",
+      "Clauses": [
         {
-          "field": "IsExecutable",
-          "op": "EQ",
-          "data": [
+          "Field": "IsExecutable",
+          "Operation": "EQ",
+          "Data": [
             "True"
           ]
         },
         {
-          "field": "Characteristics",
-          "op": "DOES_NOT_CONTAIN",
-          "data": [
+          "Field": "Characteristics",
+          "Operation": "DOES_NOT_CONTAIN",
+          "Data": [
             "IMAGE_DLLCHARACTERISTICS_NX_COMPAT"
           ]
         }
       ]
     },
     {
-      "name": "Missing Signed Enforcement",
-      "desc": "Flag when executables are signed binaries are created without Force Integrity flag.",
-      "flag": "DEBUG",
+      "Name": "Missing Signed Enforcement",
+      "Description": "Flag when executables are signed binaries are created without Force Integrity Flag.",
+      "Flag": "DEBUG",
       "platforms": [
         "WINDOWS"
       ],
@@ -175,46 +175,41 @@
         "CREATED",
         "MODIFIED"
       ],
-      "resultType": "FILE",
-      "clauses": [
+      "ResultType": "FILE",
+      "Clauses": [
         {
-          "field": "IsExecutable",
-          "op": "EQ",
-          "data": [
+          "Field": "IsExecutable",
+          "Operation": "EQ",
+          "Data": [
             "True"
           ]
         },
         {
-          "field": "SignatureStatus",
-          "op": "EQ",
-          "data": [
+          "Field": "SignatureStatus",
+          "Operation": "EQ",
+          "Data": [
             "Valid"
           ]
         },
         {
-          "field": "Characteristics",
-          "op": "DOES_NOT_CONTAIN",
-          "data": [
+          "Field": "Characteristics",
+          "Operation": "DOES_NOT_CONTAIN",
+          "Data": [
             "IMAGE_DLLCHARACTERISTICS_FORCE_INTEGRITY"
           ]
         }
       ]
     },
     {
-      "name": "Certificates",
-      "desc": "Flag when certificates are placed on disk.",
-      "flag": "INFORMATION",
-      "platforms": [
-        "LINUX",
-        "MACOS",
-        "WINDOWS"
-      ],
-      "resultType": "FILE",
-      "clauses": [
+      "Name": "Certificates",
+      "Description": "Flag when certificates are placed on disk.",
+      "Flag": "INFORMATION",
+      "ResultType": "FILE",
+      "Clauses": [
         {
-          "field": "Path",
-          "op": "ENDS_WITH",
-          "data": [
+          "Field": "Path",
+          "Operation": "ENDS_WITH",
+          "Data": [
             ".cer",
             ".der",
             ".crt"
@@ -223,105 +218,95 @@
       ]
     },
     {
-      "name": "UPNP Ports",
-      "desc": "Universal Plug n' Play.",
-      "flag": "INFORMATION",
-      "platforms": [
-        "LINUX",
-        "MACOS",
-        "WINDOWS"
-      ],
-      "resultType": "PORT",
-      "clauses": [
+      "Name": "UPNP Ports",
+      "Description": "Universal Plug n' Play.",
+      "Flag": "INFORMATION",
+      "ResultType": "PORT",
+      "Clauses": [
         {
-          "field": "port",
-          "op": "EQ",
-          "data": [
+          "Field": "port",
+          "Operation": "EQ",
+          "Data": [
             "1900"
           ]
         }
       ]
     },
     {
-      "name": "Keystore Files",
-      "desc": "Java keystore files contain encryption keys and certificates.",
-      "flag": "INFORMATION",
-      "platforms": [
-        "LINUX",
-        "MACOS",
-        "WINDOWS"
-      ],
-      "resultType": "FILE",
-      "clauses": [
+      "Name": "Keystore Files",
+      "Description": "Java keystore files contain encryption keys and certificates.",
+      "Flag": "INFORMATION",
+      "ResultType": "FILE",
+      "Clauses": [
         {
-          "field": "Path",
-          "op": "ENDS_WITH",
-          "data": [
+          "Field": "Path",
+          "Operation": "ENDS_WITH",
+          "Data": [
             ".keystore"
           ]
         }
       ]
     },
     {
-      "name": "Firewall Settings Modified",
-      "desc": "Flag when OS X firewall settings are modified.",
-      "flag": "INFORMATION",
+      "Name": "Firewall Settings Modified",
+      "Description": "Flag when OS X firewall settings are modified.",
+      "Flag": "INFORMATION",
       "platforms": [
         "MACOS"
       ],
-      "resultType": "FILE",
-      "clauses": [
+      "ResultType": "FILE",
+      "Clauses": [
         {
-          "field": "Path",
-          "op": "EQ",
-          "data": [
+          "Field": "Path",
+          "Operation": "EQ",
+          "Data": [
             "/Library/Preferences/com.apple.alf.plist"
           ]
         }
       ]
     },
     {
-      "name": "COM Objects Modified",
-      "desc": "Flags when a COM Object has been Added, Removed or Modified.",
-      "flag": "INFORMATION",
+      "Name": "COM Objects Modified",
+      "Description": "Flags when a COM Object has been Added, Removed or Modified.",
+      "Flag": "INFORMATION",
       "platforms": [
         "WINDOWS"
       ],
-      "resultType": "REGISTRY",
-      "clauses": [
+      "ResultType": "REGISTRY",
+      "Clauses": [
         {
-          "field": "KEY",
-          "op": "CONTAINS",
-          "data": [
+          "Field": "KEY",
+          "Operation": "CONTAINS",
+          "Data": [
             "HKEY_LOCAL_MACHINE\\SOFTWARE\\Classes\\CLSID"
           ]
         }
       ]
     },
     {
-      "name": "Weak Permissions on UID Binaries",
-      "desc": "Flags if a binary is Executable by everyone but has SETUID.",
-      "flag": "WARNING",
+      "Name": "Weak Permissions on UID Binaries",
+      "Description": "Flags if a binary is Executable by everyone but has SETUID.",
+      "Flag": "WARNING",
       "platforms": [
         "LINUX",
         "MACOS"
       ],
-      "resultType": "FILE",
-      "clauses": [
+      "ResultType": "FILE",
+      "Clauses": [
         {
-          "field": "IsExecutable",
-          "op": "EQ",
-          "data": [ "True" ]
+          "Field": "IsExecutable",
+          "Operation": "EQ",
+          "Data": [ "True" ]
         },
         {
-          "field": "SetUid",
-          "op": "EQ",
-          "data": [ "True" ]
+          "Field": "SetUid",
+          "Operation": "EQ",
+          "Data": [ "True" ]
         },
         {
-          "field": "Permissions",
-          "op": "CONTAINS",
-          "dictData": [
+          "Field": "Permissions",
+          "Operation": "CONTAINS",
+          "DictData": [
             {
               "Key": "Other",
               "Value": "Execute"
@@ -331,29 +316,29 @@
       ]
     },
     {
-      "name": "Weak Permissions on GID Binaries",
-      "desc": "Flags if a binary is Executable by everyone but has SETGID.",
-      "flag": "WARNING",
+      "Name": "Weak Permissions on GID Binaries",
+      "Description": "Flags if a binary is Executable by everyone but has SETGID.",
+      "Flag": "WARNING",
       "platforms": [
         "LINUX",
         "MACOS"
       ],
-      "resultType": "FILE",
-      "clauses": [
+      "ResultType": "FILE",
+      "Clauses": [
         {
-          "field": "IsExecutable",
-          "op": "EQ",
-          "data": [ "True" ]
+          "Field": "IsExecutable",
+          "Operation": "EQ",
+          "Data": [ "True" ]
         },
         {
-          "field": "SetGid",
-          "op": "EQ",
-          "data": [ "True" ]
+          "Field": "SetGid",
+          "Operation": "EQ",
+          "Data": [ "True" ]
         },
         {
-          "field": "Permissions",
-          "op": "CONTAINS",
-          "dictData": [
+          "Field": "Permissions",
+          "Operation": "CONTAINS",
+          "DictData": [
             {
               "Key": "Other",
               "Value": "Execute"
@@ -363,18 +348,18 @@
       ]
     },
     {
-      "name": "SIP Violation",
-      "desc": "Flags if System Integrity Protection prevented an action.",
-      "flag": "WARNING",
+      "Name": "SIP Violation",
+      "Description": "Flags if System Integrity Protection prevented an action.",
+      "Flag": "WARNING",
       "platforms": [
         "MACOS"
       ],
-      "resultType": "LOG",
-      "clauses": [
+      "ResultType": "LOG",
+      "Clauses": [
         {
-          "field": "Summary",
-          "op": "CONTAINS",
-          "data": [ "sandbox" ]
+          "Field": "Summary",
+          "Operation": "CONTAINS",
+          "Data": [ "sandbox" ]
         }
       ]
     }
