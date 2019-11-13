@@ -305,10 +305,12 @@ namespace AttackSurfaceAnalyzer
 #endif
             DatabaseManager.Setup(opts.DatabaseFilename);
             AsaTelemetry.Setup();
+
             ((Action)(async () =>
             {
-                await Task.Run(() => SleepAndOpenBrowser(1000)).ConfigureAwait(false);
+                await Task.Run(() => SleepAndOpenBrowser(1500)).ConfigureAwait(false);
             }))();
+
             WebHost.CreateDefaultBuilder(Array.Empty<string>())
                     .UseStartup<Asa.Startup>()
                     .Build()
