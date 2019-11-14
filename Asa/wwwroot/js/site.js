@@ -60,15 +60,15 @@ var ANALYSIS_RESULT_TYPE = {
 function runStatusToString(runStatus) {
     switch (runStatus) {
         case RUN_STATUS.NOT_STARTED:
-            return "Not Started"
+            return l("%NotStarted")
         case RUN_STATUS.RUNNING:
-            return "Running"
+            return l("%Running")
         case RUN_STATUS.FAILED:
-            return "Failed"
+            return l("%Failed")
         case RUN_STATUS.COMPLETED:
-            return "Completed"
+            return l("%Completed")
         case RUN_STATUS.NO_RESULTS:
-            return "No Results"
+            return l("%NoResults")
     }
 }
 

@@ -128,23 +128,23 @@ function GetMonitorStatus() {
             if (value === RUN_STATUS.RUNNING) {
                 keepChecking = true;
                 icon = '<i class="fas fa-cog fa-spin"></i>  ';
-                midword = ' is ';
+                midword = ' '+l("%is")+' ';
             }
             else if (value === RUN_STATUS.COMPLETED) {
                 icon = '<i class="far fa-check-circle" style="color:green"></i>  ';
-                midword = ' has ';
+                midword = ' ' + l("%has") + ' ';
             }
             else if (value === RUN_STATUS.NOT_STARTED) {
                 icon = '<i class="fas fa-cog"></i>  ';
-                midword = ' has ';
+                midword = ' ' + l("%has") + ' ';
             }
             else if (value === RUN_STATUS.NO_RESULTS) {
                 icon = '<i class="far fa-check-circle" style="color:yellow"></i>  ';
-                midword = ' has ';
+                midword = ' ' + l("%has") + ' ';
             }
             else {
                 icon = '<i class="fas fa-exclamation-triangle"></i>  ';
-                midword = ' has ';
+                midword = ' ' + l("%has") + ' ';
             }
             $('#ScanStatus').append($('<div/>', { html: icon + key + midword + runStatusToString(value), class: 'monitor' }));
         });
