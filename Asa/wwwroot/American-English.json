@@ -28,6 +28,12 @@
     "%ResultsWritten": "Results written.",
     "%SelectRuns": "Must select runs.",
     "%SelectDifferentRuns": "Must select different runs.",
-
+    "%is": "is",
+    "%has": "has",
+    "%NotStarted": "Not Started",
+    "%Running": "Running",
+    "%Failed": "Failed",
+    "%Completed": "Completed",
+    "%NoResults": "No Results"
   }
 }
