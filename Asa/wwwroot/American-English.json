@@ -27,7 +27,6 @@
     "%NoCommon": "The two runs selected have no common collectors.",
     "%ResultsWritten": "Results written.",
     "%SelectRuns": "Must select runs.",
-    "%SelectDifferentRuns": "Must select different runs.",
-
+    "%SelectDifferentRuns": "Must select different runs."
   }
 }

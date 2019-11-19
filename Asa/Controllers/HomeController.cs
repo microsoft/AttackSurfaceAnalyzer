@@ -15,6 +15,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace AttackSurfaceAnalyzer.Gui.Controllers
 {
@@ -255,13 +256,12 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             Dictionary<string, object> output = new Dictionary<string, object>();
             output.Add("RunId", RunId);
             output.Add("Runs", dict);
-            //@TODO: Also return the RunId
-            return Json(JsonConvert.SerializeObject(output));
+            return Json(output);
         }
 
         public ActionResult GetLatestRunId()
         {
-            return Json(AttackSurfaceAnalyzerClient.GetLatestRunId());
+            return Json(HttpUtility.UrlEncode(AttackSurfaceAnalyzerClient.GetLatestRunId()));
         }
 
         public ActionResult GetMonitorStatus()

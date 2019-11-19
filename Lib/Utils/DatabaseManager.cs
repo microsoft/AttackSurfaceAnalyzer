@@ -457,7 +457,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             catch (NullReferenceException)
             {
-                Log.Debug($"Was this a valid WriteObject. It looked null. {JsonConvert.SerializeObject(objIn)}");
+                Log.Debug($"Was this a valid WriteObject? It looked null. {JsonConvert.SerializeObject(objIn)}");
             }
         }
 

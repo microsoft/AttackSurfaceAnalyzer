@@ -13,7 +13,7 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public static class RegistryWalker
     {
-        public static IEnumerable<RegistryObject> WalkHive(RegistryHive Hive, string startingKey = null)
+        public static IEnumerable<RegistryKey> WalkHive(RegistryHive Hive, string startingKey = null)
         {
             Stack<RegistryKey> keys = new Stack<RegistryKey>();
 
@@ -32,7 +32,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             try
             {
-                x64_View = RegistryKey.OpenBaseKey(Hive, RegistryView.Registry32);
+                x64_View = RegistryKey.OpenBaseKey(Hive, RegistryView.Registry64);
             }
             catch (Exception e) when (
                 e is IOException ||
@@ -75,38 +75,34 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
 
                 // First push all the new subkeys onto our stack.
-                foreach (string key in currentKey.GetSubKeyNames())
+                try
                 {
-                    try
+                    foreach (string key in currentKey.GetSubKeyNames())
                     {
+
                         var next = currentKey.OpenSubKey(name: key, writable: false);
                         keys.Push(next);
                     }
-                    // These are expected as we are running as administrator, not System.
-                    catch (System.Security.SecurityException e)
-                    {
-                        Log.Verbose(e, "Permission Denied: {0}", currentKey.Name);
-                    }
-                    // There seem to be some keys which are listed as existing by the APIs but don't actually exist.
-                    // Unclear if these are just super transient keys or what the other cause might be.
-                    // Since this isn't user actionable, also just supress these to the verbose stream.
-                    catch (System.IO.IOException e)
-                    {
-                        Log.Verbose(e, "Error Reading: {0}", currentKey.Name);
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Information(e, "Unexpected error when parsing {0}:", currentKey.Name);
-                        AsaTelemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
-                    }
                 }
-
-                var regObj = RegistryKeyToRegistryObject(currentKey);
-
-                if (regObj != null)
+                // These are expected as we are running as administrator, not System.
+                catch (System.Security.SecurityException e)
                 {
-                    yield return regObj;
+                    Log.Verbose(e, "Permission Denied: {0}", currentKey.Name);
                 }
+                // There seem to be some keys which are listed as existing by the APIs but don't actually exist.
+                // Unclear if these are just super transient keys or what the other cause might be.
+                // Since this isn't user actionable, also just supress these to the verbose stream.
+                catch (System.IO.IOException e)
+                {
+                    Log.Verbose(e, "Error Reading: {0}", currentKey.Name);
+                }
+                catch (Exception e)
+                {
+                    Log.Information(e, "Unexpected error when parsing {0}:", currentKey.Name);
+                    AsaTelemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
+                }
+
+                yield return currentKey;
             }
 
             x86_View.Dispose();
