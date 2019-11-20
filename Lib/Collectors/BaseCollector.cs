@@ -35,8 +35,11 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             ExecuteInternal();
 
+            Log.Verbose("Finished execution of {0}",GetType().Name);
+
             while (DatabaseManager.HasElements())
             {
+                Log.Information("Flushing {0} results.", DatabaseManager.WriteQueue.Count);
                 Log.Verbose("Waiting for DatabaseManager to finish flushing.");
                 Thread.Sleep(100);
             }

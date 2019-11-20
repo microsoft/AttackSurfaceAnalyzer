@@ -164,7 +164,7 @@ namespace AttackSurfaceAnalyzer.Utils
             catch (System.ArgumentException e)
             {
 
-                Log.Debug(e, "Exception parsing {0}", registryKey.Name);
+                Log.Debug("Invalid Handle (ArgumentException) {0}", registryKey.Name);
             }
             catch (Exception e)
             {

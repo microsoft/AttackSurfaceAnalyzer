@@ -6,6 +6,7 @@ using Microsoft.Win32;
 using Newtonsoft.Json;
 using Serilog;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Security.AccessControl;
@@ -24,6 +25,8 @@ namespace AttackSurfaceAnalyzer.Collectors
         private HashSet<string> roots;
         private HashSet<RegistryKey> _keys;
         private HashSet<RegistryObject> _values;
+
+        private static ConcurrentDictionary<string, string> SidMap = new ConcurrentDictionary<string, string>();
 
         private static readonly List<RegistryHive> DefaultHives = new List<RegistryHive>()
         {
@@ -61,6 +64,25 @@ namespace AttackSurfaceAnalyzer.Collectors
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
         }
 
+        public static string GetName(RegistryAccessRule rule)
+        {
+            if (!SidMap.ContainsKey(rule.IdentityReference.Value))
+            {
+                try
+                {
+                    var mappedValue = rule.IdentityReference.Translate(typeof(NTAccount)).Value;
+                    SidMap.TryAdd(rule.IdentityReference.Value, mappedValue);
+                }
+                catch (IdentityNotMappedException)
+                {
+                    // This is fine. Some SIDs don't map to NT Accounts.
+                    SidMap.TryAdd(rule.IdentityReference.Value, rule.IdentityReference.Value);
+                }
+            }
+            
+            return SidMap[rule.IdentityReference.Value];
+        }
+
         public static RegistryObject RegistryKeyToRegistryObject(RegistryKey registryKey)
         {
             RegistryObject regObj = null;
@@ -76,16 +98,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 foreach (RegistryAccessRule rule in registryKey.GetAccessControl().GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier)))
                 {
-                    string name = rule.IdentityReference.Value;
-
-                    try
-                    {
-                        name = rule.IdentityReference.Translate(typeof(NTAccount)).Value;
-                    }
-                    catch (IdentityNotMappedException)
-                    {
-                        // This is fine. Some SIDs don't map to NT Accounts.
-                    }
+                    string name = GetName(rule);
 
                     if (regObj.Permissions.ContainsKey(name))
                     {
