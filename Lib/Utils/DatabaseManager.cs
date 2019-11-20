@@ -71,14 +71,11 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string PRAGMAS = "PRAGMA main.auto_vacuum = 1;";
 
         private const string SCHEMA_VERSION = "4";
-
         private static bool WriterStarted = false;
 
         public static SqliteConnection Connection { get; set; }
 
-        private static SqliteTransaction _transaction;
-
-        private static ConcurrentQueue<WriteObject> WriteQueue { get; set; }
+        public static ConcurrentQueue<WriteObject> WriteQueue { get; set; }
 
         public static bool FirstRun { get; private set; } = true;
 
@@ -203,7 +200,9 @@ namespace AttackSurfaceAnalyzer.Utils
         }
         public static void SleepAndFlushQueue()
         {
-            while (!WriteQueue.IsEmpty) { WriteNext(); }
+            while (!WriteQueue.IsEmpty) { 
+                WriteNext(); 
+            }
             Thread.Sleep(500);
         }
 
@@ -224,7 +223,7 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             var output = new List<RawCollectResult>();
             SqliteCommand cmd;
-            if (_transaction == null)
+            if (Transaction == null)
             {
                 cmd = new SqliteCommand(SQL_GET_RESULTS_BY_RUN_ID, Connection);
             }
@@ -361,26 +360,20 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void BeginTransaction()
         {
-            if (_transaction is null)
+            if (Transaction is null)
             {
-                _transaction = Connection.BeginTransaction();
+                Transaction = Connection.BeginTransaction();
             }
         }
-        public static SqliteTransaction Transaction
-        {
-            get
-            {
-                return _transaction;
-            }
-        }
+        public static SqliteTransaction Transaction { get; private set; }
 
         public static void Commit()
         {
-            if (_transaction != null)
+            if (Transaction != null)
             {
-                _transaction.Commit();
+                Transaction.Commit();
             }
-            _transaction = null;
+            Transaction = null;
         }
         public static Dictionary<RESULT_TYPE, bool> GetResultTypes(string runId)
         {
@@ -437,7 +430,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 WriteQueue.Enqueue(new WriteObject() { ColObj = objIn, RunId = runId });
             }
         }
-
+        
         public static void WriteNext()
         {
             WriteQueue.TryDequeue(out WriteObject objIn);
@@ -457,7 +450,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             catch (NullReferenceException)
             {
-                Log.Debug($"Was this a valid WriteObject. It looked null. {JsonConvert.SerializeObject(objIn)}");
+                Log.Debug($"Was this a valid WriteObject? It looked null. {JsonConvert.SerializeObject(objIn)}");
             }
         }
 
