@@ -68,7 +68,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private const string SQL_GET_RESULTS_BY_RUN_ID = "select * from collect where run_id = @run_id";
 
-        private const string PRAGMAS = "PRAGMA main.auto_vacuum = 1;";
+        private const string PRAGMAS = "PRAGMA main.auto_vacuum = 0;";
 
         private const string SCHEMA_VERSION = "4";
         private static bool WriterStarted = false;
