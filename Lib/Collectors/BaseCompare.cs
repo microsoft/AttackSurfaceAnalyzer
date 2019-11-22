@@ -3,6 +3,7 @@
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
+using KellermanSoftware.CompareNetObjects;
 using Newtonsoft.Json;
 using Serilog;
 using System;
@@ -128,6 +129,8 @@ namespace AttackSurfaceAnalyzer.Collectors
             Parallel.ForEach(modifyObjects,
                             (modified =>
             {
+                var compareLogic = new CompareLogic();
+                compareLogic.Config.IgnoreCollectionOrder = true;
                 var first = Hydrate(modified.First);
                 var second = Hydrate(modified.Second);
                 var obj = new CompareResult()
@@ -171,7 +174,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             removed = prop.GetValue(first);
                             diffs = GetDiffs(prop, null, removed);
                         }
-                        else if (firstProp != null && secondProp != null && firstProp.Equals(secondProp))
+                        else if (firstProp != null && secondProp != null && compareLogic.Compare(firstProp,secondProp).AreEqual)
                         {
                             continue;
                         }

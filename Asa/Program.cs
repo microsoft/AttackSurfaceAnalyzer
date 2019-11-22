@@ -1063,6 +1063,9 @@ namespace AttackSurfaceAnalyzer
                 Log.Information(Strings.Get("Completed"), "Analysis", answer);
             }
 
+            watch = System.Diagnostics.Stopwatch.StartNew();
+
+
             foreach (var key in results.Keys)
             {
                 try
@@ -1077,6 +1080,15 @@ namespace AttackSurfaceAnalyzer
                     Log.Debug(key);
                 }
             }
+
+            watch.Stop();
+            t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
+            answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+                                    t.Hours,
+                                    t.Minutes,
+                                    t.Seconds,
+                                    t.Milliseconds);
+            Log.Information(Strings.Get("Completed"), "Flushing", answer);
 
             using (var cmd = new SqliteCommand(UPDATE_RUN_IN_RESULT_TABLE, DatabaseManager.Connection, DatabaseManager.Transaction))
             {
