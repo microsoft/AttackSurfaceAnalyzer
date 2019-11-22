@@ -23,6 +23,7 @@ This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI 
     <Compile Remove="Collectors\OpenPorts\WindowsOpenPortUtils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="CompareNETObjects" Version="4.63.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.6">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
