@@ -246,7 +246,6 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             Dictionary<string, RUN_STATUS> dict = new Dictionary<string, RUN_STATUS>();
             string RunId = AttackSurfaceAnalyzerClient.GetLatestRunId();
 
-            //TODO: Improve this to not have to change this variable on every loop, without having to call GetCollectors twice.
             foreach (BaseCollector c in AttackSurfaceAnalyzerClient.GetCollectors())
             {
                 var fullString = c.GetType().ToString();
@@ -256,7 +255,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             Dictionary<string, object> output = new Dictionary<string, object>();
             output.Add("RunId", RunId);
             output.Add("Runs", dict);
-            return Json(output);
+            return Json(JsonConvert.SerializeObject(output));
         }
 
         public ActionResult GetLatestRunId()
