@@ -32,17 +32,41 @@ namespace AttackSurfaceAnalyzer.Collectors
             Start();
 
             DatabaseManager.BeginTransaction();
+            var watch = System.Diagnostics.Stopwatch.StartNew();
 
             ExecuteInternal();
 
-            Log.Verbose("Finished execution of {0}",GetType().Name);
+            watch.Stop();
+            TimeSpan t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
+            string answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+                                    t.Hours,
+                                    t.Minutes,
+                                    t.Seconds,
+                                    t.Milliseconds);
+            Log.Information(Strings.Get("Completed"), this.GetType().Name, answer);
+
+            var prevFlush = DatabaseManager.WriteQueue.Count;
+
+            watch = System.Diagnostics.Stopwatch.StartNew();
 
             while (DatabaseManager.HasElements())
             {
-                Log.Debug("Flushing {0} results.", DatabaseManager.WriteQueue.Count);
                 Thread.Sleep(1000);
+                var sample = DatabaseManager.WriteQueue.Count;
+                Log.Debug("Flushing {0} results. ({1}/s)", DatabaseManager.WriteQueue.Count, prevFlush - sample);
+                prevFlush = sample;
             }
 
+            watch.Stop();
+            t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
+            answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+                                    t.Hours,
+                                    t.Minutes,
+                                    t.Seconds,
+                                    t.Milliseconds);
+            Log.Debug($"Completed flushing in {answer}");
+
+            Log.Debug("Committing data.");
             DatabaseManager.Commit();
             Stop();
         }
