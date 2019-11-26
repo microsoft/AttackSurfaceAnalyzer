@@ -1033,8 +1033,10 @@ namespace AttackSurfaceAnalyzer
             if (opts.Analyze)
             {
                 watch = System.Diagnostics.Stopwatch.StartNew();
+                Analyzer analyzer;
 
-                Analyzer analyzer = new Analyzer(DatabaseManager.RunIdToPlatform(opts.FirstRunId), opts.AnalysesFile);
+                analyzer = new Analyzer(DatabaseManager.RunIdToPlatform(opts.FirstRunId), opts.AnalysesFile);
+
                 if (results.Count > 0)
                 {
                     foreach (var key in results.Keys)

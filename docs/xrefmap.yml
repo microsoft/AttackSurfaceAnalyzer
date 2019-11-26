@@ -1109,6 +1109,32 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector.ExecuteInternal
   nameWithType: RegistryCollector.ExecuteInternal
+- uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector.GetName(System.Security.AccessControl.RegistryAccessRule)
+  name: GetName(RegistryAccessRule)
+  href: api/AttackSurfaceAnalyzer.Collectors.RegistryCollector.html#AttackSurfaceAnalyzer_Collectors_RegistryCollector_GetName_System_Security_AccessControl_RegistryAccessRule_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.RegistryCollector.GetName(System.Security.AccessControl.RegistryAccessRule)
+  fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector.GetName(System.Security.AccessControl.RegistryAccessRule)
+  nameWithType: RegistryCollector.GetName(RegistryAccessRule)
+- uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector.GetName*
+  name: GetName
+  href: api/AttackSurfaceAnalyzer.Collectors.RegistryCollector.html#AttackSurfaceAnalyzer_Collectors_RegistryCollector_GetName_
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.RegistryCollector.GetName
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector.GetName
+  nameWithType: RegistryCollector.GetName
+- uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryKeyToRegistryObject(Microsoft.Win32.RegistryKey)
+  name: RegistryKeyToRegistryObject(RegistryKey)
+  href: api/AttackSurfaceAnalyzer.Collectors.RegistryCollector.html#AttackSurfaceAnalyzer_Collectors_RegistryCollector_RegistryKeyToRegistryObject_Microsoft_Win32_RegistryKey_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryKeyToRegistryObject(Microsoft.Win32.RegistryKey)
+  fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryKeyToRegistryObject(Microsoft.Win32.RegistryKey)
+  nameWithType: RegistryCollector.RegistryKeyToRegistryObject(RegistryKey)
+- uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryKeyToRegistryObject*
+  name: RegistryKeyToRegistryObject
+  href: api/AttackSurfaceAnalyzer.Collectors.RegistryCollector.html#AttackSurfaceAnalyzer_Collectors_RegistryCollector_RegistryKeyToRegistryObject_
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryKeyToRegistryObject
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryKeyToRegistryObject
+  nameWithType: RegistryCollector.RegistryKeyToRegistryObject
 - uid: AttackSurfaceAnalyzer.Collectors.RegistryMonitor
   name: RegistryMonitor
   href: api/AttackSurfaceAnalyzer.Collectors.RegistryMonitor.html
@@ -6126,12 +6152,12 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Utils.Analyzer
   fullName: AttackSurfaceAnalyzer.Utils.Analyzer
   nameWithType: Analyzer
-- uid: AttackSurfaceAnalyzer.Utils.Analyzer.#ctor(AttackSurfaceAnalyzer.Types.PLATFORM,System.String)
-  name: Analyzer(PLATFORM, String)
-  href: api/AttackSurfaceAnalyzer.Utils.Analyzer.html#AttackSurfaceAnalyzer_Utils_Analyzer__ctor_AttackSurfaceAnalyzer_Types_PLATFORM_System_String_
-  commentId: M:AttackSurfaceAnalyzer.Utils.Analyzer.#ctor(AttackSurfaceAnalyzer.Types.PLATFORM,System.String)
-  fullName: AttackSurfaceAnalyzer.Utils.Analyzer.Analyzer(AttackSurfaceAnalyzer.Types.PLATFORM, System.String)
-  nameWithType: Analyzer.Analyzer(PLATFORM, String)
+- uid: AttackSurfaceAnalyzer.Utils.Analyzer.#ctor(AttackSurfaceAnalyzer.Types.PLATFORM,System.String,System.String)
+  name: Analyzer(PLATFORM, String, String)
+  href: api/AttackSurfaceAnalyzer.Utils.Analyzer.html#AttackSurfaceAnalyzer_Utils_Analyzer__ctor_AttackSurfaceAnalyzer_Types_PLATFORM_System_String_System_String_
+  commentId: M:AttackSurfaceAnalyzer.Utils.Analyzer.#ctor(AttackSurfaceAnalyzer.Types.PLATFORM,System.String,System.String)
+  fullName: AttackSurfaceAnalyzer.Utils.Analyzer.Analyzer(AttackSurfaceAnalyzer.Types.PLATFORM, System.String, System.String)
+  nameWithType: Analyzer.Analyzer(PLATFORM, String, String)
 - uid: AttackSurfaceAnalyzer.Utils.Analyzer.#ctor*
   name: Analyzer
   href: api/AttackSurfaceAnalyzer.Utils.Analyzer.html#AttackSurfaceAnalyzer_Utils_Analyzer__ctor_
@@ -6178,6 +6204,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.Analyzer.DumpFilters
   nameWithType: Analyzer.DumpFilters
+- uid: AttackSurfaceAnalyzer.Utils.Analyzer.LoadBase64Filters(System.String)
+  name: LoadBase64Filters(String)
+  href: api/AttackSurfaceAnalyzer.Utils.Analyzer.html#AttackSurfaceAnalyzer_Utils_Analyzer_LoadBase64Filters_System_String_
+  commentId: M:AttackSurfaceAnalyzer.Utils.Analyzer.LoadBase64Filters(System.String)
+  fullName: AttackSurfaceAnalyzer.Utils.Analyzer.LoadBase64Filters(System.String)
+  nameWithType: Analyzer.LoadBase64Filters(String)
+- uid: AttackSurfaceAnalyzer.Utils.Analyzer.LoadBase64Filters*
+  name: LoadBase64Filters
+  href: api/AttackSurfaceAnalyzer.Utils.Analyzer.html#AttackSurfaceAnalyzer_Utils_Analyzer_LoadBase64Filters_
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.Analyzer.LoadBase64Filters
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Utils.Analyzer.LoadBase64Filters
+  nameWithType: Analyzer.LoadBase64Filters
 - uid: AttackSurfaceAnalyzer.Utils.Analyzer.LoadEmbeddedFilters
   name: LoadEmbeddedFilters()
   href: api/AttackSurfaceAnalyzer.Utils.Analyzer.html#AttackSurfaceAnalyzer_Utils_Analyzer_LoadEmbeddedFilters
@@ -6835,6 +6874,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.WriteNext
   nameWithType: DatabaseManager.WriteNext
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.WriteQueue
+  name: WriteQueue
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_WriteQueue
+  commentId: P:AttackSurfaceAnalyzer.Utils.DatabaseManager.WriteQueue
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.WriteQueue
+  nameWithType: DatabaseManager.WriteQueue
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.WriteQueue*
+  name: WriteQueue
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_WriteQueue_
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.WriteQueue
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.WriteQueue
+  nameWithType: DatabaseManager.WriteQueue
 - uid: AttackSurfaceAnalyzer.Utils.DirectoryWalker
   name: DirectoryWalker
   href: api/AttackSurfaceAnalyzer.Utils.DirectoryWalker.html

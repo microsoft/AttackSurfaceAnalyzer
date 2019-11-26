@@ -52,8 +52,13 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public Analyzer(PLATFORM platform, string filterLocation = null)
         {
-            if (filterLocation == null) { LoadEmbeddedFilters(); }
-            else { LoadFilters(filterLocation); }
+            if (filterLocation == null)
+            {
+                LoadEmbeddedFilters();
+            }
+            else { 
+                LoadFilters(filterLocation); 
+            }
 
             OsName = platform;
         }
@@ -430,7 +435,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        public void LoadFilters(string filterLoc = "analyses.json")
+        public void LoadFilters(string filterLoc = null)
         {
             try
             {
