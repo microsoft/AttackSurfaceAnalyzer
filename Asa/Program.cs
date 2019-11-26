@@ -45,6 +45,9 @@ namespace AttackSurfaceAnalyzer
         [Option(HelpText = "Custom analysis rules file.")]
         public string AnalysesFile { get; set; }
 
+        [Option(HelpText = "Custom analysis rules string in base64.")]
+        public string AnalysesBase64 { get; set; }
+
         [Option(HelpText = "Show debug logging statements.")]
         public bool Debug { get; set; }
 
@@ -1033,8 +1036,15 @@ namespace AttackSurfaceAnalyzer
             if (opts.Analyze)
             {
                 watch = System.Diagnostics.Stopwatch.StartNew();
-
-                Analyzer analyzer = new Analyzer(DatabaseManager.RunIdToPlatform(opts.FirstRunId), opts.AnalysesFile);
+                Analyzer analyzer;
+                if (opts.AnalysesBase64 != null)
+                {
+                    analyzer = new Analyzer(DatabaseManager.RunIdToPlatform(opts.FirstRunId), base64filters: opts.AnalysesBase64);
+                }
+                else
+                {
+                    analyzer = new Analyzer(DatabaseManager.RunIdToPlatform(opts.FirstRunId), opts.AnalysesFile);
+                }
                 if (results.Count > 0)
                 {
                     foreach (var key in results.Keys)

@@ -5,6 +5,7 @@ using AttackSurfaceAnalyzer.Models;
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
@@ -13,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -401,11 +403,52 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         public ActionResult RunAnalysis(string firstId, string secondId)
         {
-
             CompareCommandOptions opts = new CompareCommandOptions();
             opts.FirstRunId = firstId;
             opts.SecondRunId = secondId;
             opts.Analyze = true;
+            if (AttackSurfaceAnalyzerClient.GetComparators().Where(c => c.IsRunning() == RUN_STATUS.RUNNING).Any())
+            {
+                return Json("Comparators already running!");
+            }
+
+            using (var cmd = new SqliteCommand(SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED, DatabaseManager.Connection, DatabaseManager.Transaction))
+            {
+                cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
+                cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        return Json("Using cached comparison calculations.");
+                    }
+                }
+            }
+
+            Task.Factory.StartNew(() => AttackSurfaceAnalyzerClient.CompareRuns(opts));
+
+            return Json("Started Analysis");
+        }
+
+        [HttpPost]
+        public ActionResult RunAnalysisWithAnalyses(string SelectedBaseRunId, string SelectedCompareRunId, IFormFile AnalysisFilterFile)
+        {
+            var filePath = Path.GetTempFileName();
+
+            CompareCommandOptions opts = new CompareCommandOptions();
+            opts.FirstRunId = SelectedBaseRunId;
+            opts.SecondRunId = SelectedCompareRunId;
+            opts.Analyze = true;
+
+            if (AnalysisFilterFile != null)
+            {
+                using (var stream = System.IO.File.Create(filePath))
+                {
+                    AnalysisFilterFile.CopyTo(stream);
+                }
+                opts.AnalysesFile = filePath;
+            }
+
             if (AttackSurfaceAnalyzerClient.GetComparators().Where(c => c.IsRunning() == RUN_STATUS.RUNNING).Any())
             {
                 return Json("Comparators already running!");

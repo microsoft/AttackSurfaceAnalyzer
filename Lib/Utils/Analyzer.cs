@@ -50,9 +50,19 @@ namespace AttackSurfaceAnalyzer.Utils
         List<Rule> _filters = new List<Rule>();
         PLATFORM OsName;
 
-        public Analyzer(PLATFORM platform, string filterLocation = null)
+        public Analyzer(PLATFORM platform, string filterLocation = null, string base64filters = null)
         {
-            if (filterLocation == null) { LoadEmbeddedFilters(); }
+            if (filterLocation == null)
+            {
+                if (base64filters == null)
+                {
+                    LoadEmbeddedFilters();
+                }
+                else
+                {
+                    LoadBase64Filters(base64: base64filters);
+                }
+            }
             else { LoadFilters(filterLocation); }
 
             OsName = platform;
@@ -430,7 +440,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        public void LoadFilters(string filterLoc = "analyses.json")
+        public void LoadFilters(string filterLoc = null)
         {
             try
             {
@@ -463,6 +473,17 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 return;
             }
+        }
+
+        public void LoadBase64Filters(string base64 = null)
+        {
+            byte[] analyses = System.Convert.FromBase64String(base64);
+            string analysesString = System.Text.ASCIIEncoding.ASCII.GetString(analyses);
+
+            var config = JObject.Parse(analysesString);
+            Log.Debug("Loaded Analyses from Base64String");
+            ParseFilters();
+            DumpFilters();
         }
     }
 }
