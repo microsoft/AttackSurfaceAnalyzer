@@ -371,9 +371,9 @@ stages:
         gitHubConnection: 'Gabe-Asa'
         action: edit
         tag: 'v$(Build.BuildNumber)'
-        title: 'v2.1 Public Preview'
+        title: 'v2.1 Release'
         assets: '$(Build.ArtifactStagingDirectory)/*'
         assetUploadMode: replace
         isDraft: false
-        isPreRelease: true
+        isPreRelease: false
         changeLogCompareToRelease: lastNonDraftRelease
