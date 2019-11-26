@@ -73,28 +73,31 @@ ResultTypeGroup.change(function () {
 $('#SelectedBaseRunId').change(function () { ResetResults(); });
 $('#SelectedCompareRunId').change(function () { ResetResults(); });
 
-$("#RunAnalysisButton").click(function () {
-    ResetResults();
-    DisableCollectionFields();
+$('#formId').submit(
+    function (e) {
+        ResetResults();
+        DisableCollectionFields();
 
-    appendDebugMessage("Button Clicked", false);
-    if ($("#SelectedBaseRunId").value == "" || $("#SelectedCompareRunId").val() == "") {
-        SetStatus(l("%SelectRuns"));
-        EnableCollectionFields();
-    }
-    else if ($("#SelectedBaseRunId").val() == $("#SelectedCompareRunId").val()) {
-        SetStatus(l("%SelectDifferentRuns"));
-        EnableCollectionFields();
-    }
-    else {
-        var compare = { 'firstId': $('#SelectedBaseRunId').val(), 'secondId': $('#SelectedCompareRunId').val() };
-        $.getJSON('RunAnalysis', compare, function (result) {
-            SetStatus(result);
+        var datas = new FormData(this);
+        datas.append('SelectedBaseRunId', $('#SelectedBaseRunId').val());
+        datas.append('SelectedCompareRunId', $('#SelectedCompareRunId').val());
+
+
+        $.ajax({
+            url: '/Home/RunAnalysisWithAnalyses',
+            type: 'POST',
+            data: datas,
+            processData: false,
+            contentType: false,
+            success: function (result) {
+                console.log(result);
+                SetStatus(result)
+                setTimeout(GetComparators, 500);
+            }
         });
-
-        setTimeout(GetComparators, 500);
+        e.preventDefault();
     }
-});
+);
 
 $("#FetchResultsButton").click(function () {
     resultOffset = resultOffset + 100;
@@ -108,6 +111,34 @@ $("#RunMonitorAnalysisButton").click(function () {
 
 $('#ExportResultsButton').click(ExportToExcel);
 $('#ExportMonitorResults').click(ExportMonitorResults);
+
+function RunAnalysis() {
+    appendDebugMessage("Button Clicked", false);
+    if ($("#SelectedBaseRunId").value == "" || $("#SelectedCompareRunId").val() == "") {
+        SetStatus(l("%SelectRuns"));
+        EnableCollectionFields();
+    }
+    else if ($("#SelectedBaseRunId").val() == $("#SelectedCompareRunId").val()) {
+        SetStatus(l("%SelectDifferentRuns"));
+        EnableCollectionFields();
+    }
+    else {
+        var compare;
+        if (!arguments[0]) {
+            compare = { 'firstId': $('#SelectedBaseRunId').val(), 'secondId': $('#SelectedCompareRunId').val() };
+            $.getJSON('RunAnalysis', compare, function (result) {
+                SetStatus(result);
+            });
+        }
+        else {
+            compare = { 'firstId': $('#SelectedBaseRunId').val(), 'secondId': $('#SelectedCompareRunId').val(), 'analyses': arguments[0] };
+            $.getJSON('RunAnalysisWithAnalyses', compare, function (result) {
+                SetStatus(result);
+            });
+        }
+        
+    }
+}
 
 function ResetResults() {
     $('.results').hide();
