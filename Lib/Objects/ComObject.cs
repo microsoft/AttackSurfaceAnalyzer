@@ -32,18 +32,7 @@ namespace AttackSurfaceAnalyzer.Objects
         {
             get
             {
-                if (!string.IsNullOrEmpty(x86_BinaryName))
-                {
-                    return $"{x86_BinaryName} : {Key.Identity.Split("\\").Last()}";
-                }
-                else if (!string.IsNullOrEmpty(x64_BinaryName))
-                {
-                    return $"{x64_BinaryName} : {Key.Identity.Split("\\").Last()}";
-                }
-                else
-                {
-                    return Key.Identity.Split("\\").Last();
-                }
+                return Key.Identity;
             }
         }
     }
