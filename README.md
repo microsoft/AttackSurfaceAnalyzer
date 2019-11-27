@@ -4,7 +4,7 @@
 Attack Surface Analyzer is distributed via our GitHub [releases](https://github.com/Microsoft/AttackSurfaceAnalyzer/releases/latest) page.
 
 ## Note on Version
-The latest released version of Attack Surface Analyzer is 2.0 (see [Release\v2.0](https://github.com/Microsoft/AttackSurfaceAnalyzer/tree/release/v2.0)).  Version 2.1 is available in Public Beta [Release\v2.0](https://github.com/Microsoft/AttackSurfaceAnalyzer/tree/release/v2.1)
+The latest released version of Attack Surface Analyzer is 2.1 (see [Release\v2.1](https://github.com/Microsoft/AttackSurfaceAnalyzer/tree/release/v2.1)).
 
 ## Overview
 
@@ -12,7 +12,7 @@ Attack Surface Analyzer is a Microsoft-developed open source security tool that 
 surface of a target system and reports on potential security vulnerabilities introduced during
 the installation of software or system misconfiguration. 
 
-Attack Surface Analyzer 2.0 replaces the original [Attack Surface Analyzer](https://www.microsoft.com/en-us/download/details.aspx?id=24487) tool, released publicly in 2012.
+Attack Surface Analyzer 2.1 replaces the original [Attack Surface Analyzer](https://www.microsoft.com/en-us/download/details.aspx?id=24487) tool, released publicly in 2012.
 
 Potential users of Attack Surface Analyzer include:
 
@@ -41,7 +41,7 @@ All data collected is stored in a local SQLite database called `asa.sqlite`.
 
 ## How to Use Attack Surface Analyzer
 
-Run the following commands in an Administrator Shell (or as root)
+Run the following commands in an Administrator Shell (or as root).  You can replace `asa.exe` below with either the launch script included in your package (`AsaLaunch.bat`) or by accessing the binary in the `res` folder directly.
 
 ### CLI Mode
 To start a default all collectors run: ```asa.exe collect```
@@ -107,7 +107,7 @@ the [Security TechCenter](https://technet.microsoft.com/en-us/security/default).
 
 ## License
 
-Attack Surface Analyzer 2.0 is licensed under the
+Attack Surface Analyzer 2.1 is licensed under the
 [MIT license](https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/LICENSE).
 
 
