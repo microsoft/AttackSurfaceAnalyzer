@@ -401,35 +401,6 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             return Json(AttackSurfaceAnalyzerClient.StopMonitors());
         }
 
-        public ActionResult RunAnalysis(string firstId, string secondId)
-        {
-            CompareCommandOptions opts = new CompareCommandOptions();
-            opts.FirstRunId = firstId;
-            opts.SecondRunId = secondId;
-            opts.Analyze = true;
-            if (AttackSurfaceAnalyzerClient.GetComparators().Where(c => c.IsRunning() == RUN_STATUS.RUNNING).Any())
-            {
-                return Json("Comparators already running!");
-            }
-
-            using (var cmd = new SqliteCommand(SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED, DatabaseManager.Connection, DatabaseManager.Transaction))
-            {
-                cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
-                cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
-                using (var reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        return Json("Using cached comparison calculations.");
-                    }
-                }
-            }
-
-            Task.Factory.StartNew(() => AttackSurfaceAnalyzerClient.CompareRuns(opts));
-
-            return Json("Started Analysis");
-        }
-
         [HttpPost]
         public ActionResult RunAnalysisWithAnalyses(string SelectedBaseRunId, string SelectedCompareRunId, IFormFile AnalysisFilterFile)
         {
@@ -439,6 +410,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             opts.FirstRunId = SelectedBaseRunId;
             opts.SecondRunId = SelectedCompareRunId;
             opts.Analyze = true;
+            opts.SaveToDatabase = true;
 
             if (AnalysisFilterFile != null)
             {
