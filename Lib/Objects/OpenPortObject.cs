@@ -21,7 +21,7 @@ namespace AttackSurfaceAnalyzer.Objects
         {
             get
             {
-                return Family + ":" + Type + ":" + Port;
+                return $"{Address}:{Family}:{Type}:{Port}:{ProcessName}";
             }
         }
     }

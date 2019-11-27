@@ -45,6 +45,9 @@ namespace AttackSurfaceAnalyzer
         [Option(HelpText = "Custom analysis rules file.")]
         public string AnalysesFile { get; set; }
 
+        [Option(HelpText = "Save to internal database for review in GUI", Default = false)]
+        public bool SaveToDatabase { get; set; }
+
         [Option(HelpText = "Show debug logging statements.")]
         public bool Debug { get; set; }
 
@@ -999,13 +1002,18 @@ namespace AttackSurfaceAnalyzer
             {
                 throw new ArgumentNullException(nameof(opts));
             }
-            using (var cmd = new SqliteCommand(INSERT_RUN_INTO_RESULT_TABLE_SQL, DatabaseManager.Connection, DatabaseManager.Transaction))
+
+            if (opts.SaveToDatabase)
             {
-                cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
-                cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
-                cmd.Parameters.AddWithValue("@status", RUN_STATUS.RUNNING);
-                cmd.ExecuteNonQuery();
+                using (var cmd = new SqliteCommand(INSERT_RUN_INTO_RESULT_TABLE_SQL, DatabaseManager.Connection, DatabaseManager.Transaction))
+                {
+                    cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
+                    cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
+                    cmd.Parameters.AddWithValue("@status", RUN_STATUS.RUNNING);
+                    cmd.ExecuteNonQuery();
+                }
             }
+            
             var results = new Dictionary<string, object>();
 
             comparators = new List<BaseCompare>();
@@ -1068,20 +1076,24 @@ namespace AttackSurfaceAnalyzer
             watch = System.Diagnostics.Stopwatch.StartNew();
 
 
-            foreach (var key in results.Keys)
+            if (opts.SaveToDatabase)
             {
-                try
+                foreach (var key in results.Keys)
                 {
-                    foreach (var result in (results[key] as ConcurrentQueue<CompareResult>))
+                    try
                     {
-                        DatabaseManager.InsertAnalyzed(result);
+                        foreach (var result in (results[key] as ConcurrentQueue<CompareResult>))
+                        {
+                            DatabaseManager.InsertAnalyzed(result);
+                        }
+                    }
+                    catch (NullReferenceException)
+                    {
+                        Log.Debug(key);
                     }
                 }
-                catch (NullReferenceException)
-                {
-                    Log.Debug(key);
-                }
             }
+                
 
             watch.Stop();
             t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
@@ -1092,12 +1104,15 @@ namespace AttackSurfaceAnalyzer
                                     t.Milliseconds);
             Log.Information(Strings.Get("Completed"), "Flushing", answer);
 
-            using (var cmd = new SqliteCommand(UPDATE_RUN_IN_RESULT_TABLE, DatabaseManager.Connection, DatabaseManager.Transaction))
+            if (opts.SaveToDatabase)
             {
-                cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
-                cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
-                cmd.Parameters.AddWithValue("@status", RUN_STATUS.COMPLETED);
-                cmd.ExecuteNonQuery();
+                using (var cmd = new SqliteCommand(UPDATE_RUN_IN_RESULT_TABLE, DatabaseManager.Connection, DatabaseManager.Transaction))
+                {
+                    cmd.Parameters.AddWithValue("@base_run_id", opts.FirstRunId);
+                    cmd.Parameters.AddWithValue("@compare_run_id", opts.SecondRunId);
+                    cmd.Parameters.AddWithValue("@status", RUN_STATUS.COMPLETED);
+                    cmd.ExecuteNonQuery();
+                }
             }
 
             DatabaseManager.Commit();
