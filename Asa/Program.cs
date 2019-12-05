@@ -76,6 +76,9 @@ namespace AttackSurfaceAnalyzer
         [Option(HelpText = "Set Enable/Disable Analysis.", Default = true)]
         public bool Analyze { get; set; }
 
+        [Option(HelpText = "Save to internal database for review in GUI", Default = false)]
+        public bool SaveToDatabase { get; set; }
+
         [Option(HelpText = "Custom analysis rules file.")]
         public string AnalysesFile { get; set; }
 
@@ -518,7 +521,8 @@ namespace AttackSurfaceAnalyzer
                 FirstRunId = opts.FirstRunId,
                 SecondRunId = opts.SecondRunId,
                 AnalysesFile = opts.AnalysesFile,
-                Analyze = opts.Analyze
+                Analyze = opts.Analyze,
+                SaveToDatabase = opts.SaveToDatabase
             };
 
             Dictionary<string, object> results = CompareRuns(options);
