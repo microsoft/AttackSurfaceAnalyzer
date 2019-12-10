@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
     <ReleaseVersion>2.1-alpha</ReleaseVersion>
   </PropertyGroup>
@@ -17,14 +17,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="docfx.console" Version="2.45.1">
+    <PackageReference Include="docfx.console" Version="2.48.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="Nerdbank.GitVersioning" Version="3.0.26" />
+    <PackageReference Update="Nerdbank.GitVersioning" Version="3.0.28" />
   </ItemGroup>
 
 </Project>

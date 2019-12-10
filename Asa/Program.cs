@@ -328,7 +328,7 @@ namespace AttackSurfaceAnalyzer
         private static void SleepAndOpenBrowser(int sleep)
         {
             Thread.Sleep(sleep);
-            AsaHelpers.OpenBrowser(new System.Uri("http://localhost:5000"));
+            AsaHelpers.OpenBrowser(new System.Uri("http://localhost:5000")); /*DevSkim: ignore DS137138*/
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2241:Provide correct arguments to formatting methods", Justification = "<Pending>")]
@@ -676,7 +676,7 @@ namespace AttackSurfaceAnalyzer
         {
             if (DatabaseManager.FirstRun)
             {
-                string exeStr = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "AttackSurfaceAnalyzerCli.exe config --telemetry-opt-out true" : "AttackSurfaceAnalyzerCli config --telemetry-opt-out true";
+                string exeStr = $"{System.Reflection.Assembly.GetExecutingAssembly().CodeBase.Split('/').Last()} config --telemetry-opt-out true";
                 Log.Information(Strings.Get("ApplicationHasTelemetry"));
                 Log.Information(Strings.Get("ApplicationHasTelemetry2"), "https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/PRIVACY.md");
                 Log.Information(Strings.Get("ApplicationHasTelemetry3"), exeStr);
@@ -915,13 +915,13 @@ namespace AttackSurfaceAnalyzer
                 returnValue = 1;
             }
 
-            var exitEvent = new ManualResetEvent(false);
+            using var exitEvent = new ManualResetEvent(false);
 
             // If duration is set, we use the secondary timer.
             if (opts.Duration > 0)
             {
                 Log.Information("{0} {1} {2}.", Strings.Get("MonitorStartedFor"), opts.Duration, Strings.Get("Minutes"));
-                var aTimer = new System.Timers.Timer
+                using var aTimer = new System.Timers.Timer
                 {
                     Interval = opts.Duration * 60 * 1000,
                     AutoReset = false,

@@ -161,9 +161,8 @@ namespace AttackSurfaceAnalyzer.Utils
                     }
                 }
             }
-            catch (System.ArgumentException e)
+            catch (System.ArgumentException)
             {
-
                 Log.Debug("Invalid Handle (ArgumentException) {0}", registryKey.Name);
             }
             catch (Exception e)
