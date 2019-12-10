@@ -42,8 +42,9 @@ namespace AttackSurfaceAnalyzer.Collectors
             try
             {
                 // Parse system Com Objects
-                using var SearchKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Default).OpenSubKey("SOFTWARE\\Classes\\CLSID");
-                ParseComObjects(SearchKey);
+                using var SearchKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Default);
+                var CLDIDs = SearchKey.OpenSubKey("SOFTWARE\\Classes\\CLSID");
+                ParseComObjects(CLDIDs);
             }
             catch(Exception e) when (
                 e is ArgumentException

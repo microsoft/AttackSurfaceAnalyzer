@@ -29,7 +29,7 @@ stages:
     - task: UseDotNet@2
       inputs:
         packageType: 'sdk'
-        version: '3.0.100'
+        version: '3.1.100'
 
     - task: DotNetCoreCLI@2
       displayName: 'Build Tests'
@@ -50,11 +50,10 @@ stages:
       vmImage: 'windows-latest'
 
     steps:
-    # Default Azure Pipelines Image doesn't contain .NET Core 3.0 SDK
     - task: UseDotNet@2
       inputs:
         packageType: 'sdk'
-        version: '3.0.100'
+        version: '3.1.100'
 
     - script: 'dotnet tool install -g nbgv'
       displayName: 'Install GitVersioning'
@@ -230,7 +229,7 @@ stages:
     - task: UseDotNet@2
       inputs:
         packageType: 'sdk'
-        version: '3.0.100'
+        version: '3.1.100'
     - task: DotNetCoreCLI@2
       displayName: 'Publish ASA Linux'
       inputs:
@@ -313,26 +312,6 @@ stages:
 
     - powershell: 'Get-Content $(build.binariesdirectory)\HASHES\HASHES_LINUX.txt, $(build.binariesdirectory)\HASHES\HASHES_MAC.txt, $(build.binariesdirectory)\HASHES\HASHES_WINDOWS.txt | Set-Content $(build.binariesdirectory)\HASHES.txt'
       displayName: 'PowerShell Script'
-
-    - task: EsrpCodeSigning@1
-      inputs:
-        ConnectedServiceName: 'CodeSignforATSAN'
-        FolderPath: '$(build.binariesdirectory)'
-        Pattern: 'HASHES.txt'
-        signConfigType: 'inlineSignParams'
-        inlineOperation: |
-          [
-              {
-              "KeyCode" : "CP-450778-Pgp",
-              "OperationCode" : "PgpClearsign",
-              "Parameters" : {},
-              "ToolName" : "sign",
-              "ToolVersion" : "1.0"
-              }
-          ]
-        SessionTimeout: '60'
-        MaxConcurrency: '50'
-        MaxRetryAttempts: '5'
 
     - task: PublishBuildArtifacts@1
       displayName: 'Publish HASHES'

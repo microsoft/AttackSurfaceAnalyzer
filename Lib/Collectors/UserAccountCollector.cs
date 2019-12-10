@@ -129,7 +129,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 }
 
                                 var query = new SelectQuery($"SELECT * FROM Win32_UserAccount where Domain='{domain}' and Name='{userName}'");
-                                var searcher = new ManagementObjectSearcher(query);
+                                using var searcher = new ManagementObjectSearcher(query);
                                 foreach (ManagementObject user in searcher.Get())
                                 {
                                     if (users.ContainsKey(userName))
