@@ -17,14 +17,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="docfx.console" Version="2.45.1">
+    <PackageReference Include="docfx.console" Version="2.48.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="Nerdbank.GitVersioning" Version="3.0.26" />
+    <PackageReference Update="Nerdbank.GitVersioning" Version="3.0.28" />
   </ItemGroup>
 
 </Project>

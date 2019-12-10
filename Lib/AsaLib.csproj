@@ -23,30 +23,30 @@ This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI 
     <Compile Remove="Collectors\OpenPorts\WindowsOpenPortUtils.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CompareNETObjects" Version="4.63.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.6">
+    <PackageReference Include="CompareNETObjects" Version="4.64.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.PowerShell.Commands.Diagnostics" Version="6.2.3" />
     <PackageReference Include="Microsoft.PowerShell.SDK" Version="6.2.3" />
-    <PackageReference Include="Microsoft.Win32.Registry" Version="4.6.0" />
-    <PackageReference Include="Microsoft.Windows.Compatibility" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="3.1.0" />
     <PackageReference Include="murmurhash" Version="1.0.3" />
-    <PackageReference Include="PeNet" Version="1.1.0" />
-    <PackageReference Include="Serilog" Version="2.8.0" />
+    <PackageReference Include="PeNet" Version="1.2.0" />
+    <PackageReference Include="Serilog" Version="2.9.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
-    <PackageReference Include="Serilog.Sinks.File" Version="4.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
     <PackageReference Include="System.Diagnostics.Process" Version="4.3.0" />
-    <PackageReference Include="System.Management" Version="4.6.0" />
+    <PackageReference Include="System.Management" Version="4.7.0" />
     <PackageReference Include="System.Net.NetworkInformation" Version="4.3.0" />
-    <PackageReference Include="System.IO.FileSystem.AccessControl" Version="4.6.0" />
-    <PackageReference Include="Microsoft.Win32.Registry.AccessControl" Version="4.6.0" />
+    <PackageReference Include="System.IO.FileSystem.AccessControl" Version="4.7.0" />
+    <PackageReference Include="Microsoft.Win32.Registry.AccessControl" Version="4.7.0" />
     <PackageReference Include="System.Runtime" Version="4.3.1" />
-    <PackageReference Include="System.Security.AccessControl" Version="4.6.0" />
-    <PackageReference Include="System.Threading.AccessControl" Version="4.6.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="3.0.0" />
+    <PackageReference Include="System.Security.AccessControl" Version="4.7.0" />
+    <PackageReference Include="System.Threading.AccessControl" Version="4.7.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="3.1.0" />
     <PackageReference Include="NuGet.Build.Packaging" Version="0.2.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -54,7 +54,7 @@ This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI 
     <PackageReference Include="System.Net.Security" Version="4.3.2" />
     <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
     <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="3.0.4" />
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.0.26">
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.0.28">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
