@@ -297,7 +297,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
         public ActionResult StartCollection(string Id, bool File, bool Port, bool Service, bool User, bool Registry, bool Certificates, bool Com, bool Firewall, bool Log)
         {
             CollectCommandOptions opts = new CollectCommandOptions();
-            opts.RunId = Id.Trim();
+            opts.RunId = Id?.Trim();
             opts.EnableFileSystemCollector = File;
             opts.EnableNetworkPortCollector = Port;
             opts.EnableServiceCollector = Service;
@@ -335,7 +335,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 }
             }
 
-            Task.Factory.StartNew<int>(() => AttackSurfaceAnalyzerClient.RunCollectCommand(opts));
+            _ = Task.Factory.StartNew(() => AttackSurfaceAnalyzerClient.RunCollectCommand(opts));
             return Json(GUI_ERROR.NONE);
         }
 
