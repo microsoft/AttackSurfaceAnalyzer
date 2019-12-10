@@ -66,6 +66,10 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public static string GetName(RegistryAccessRule rule)
         {
+            if (rule == null)
+            {
+                return string.Empty;
+            }
             if (!SidMap.ContainsKey(rule.IdentityReference.Value))
             {
                 try

@@ -73,9 +73,9 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string SCHEMA_VERSION = "4";
         private static bool WriterStarted = false;
 
-        public static SqliteConnection Connection { get; set; }
+        public static SqliteConnection Connection { get; private set; }
 
-        public static ConcurrentQueue<WriteObject> WriteQueue { get; set; }
+        public static ConcurrentQueue<WriteObject> WriteQueue { get; private set; }
 
         public static bool FirstRun { get; private set; } = true;
 
