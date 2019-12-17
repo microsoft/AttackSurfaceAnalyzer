@@ -249,23 +249,24 @@ stages:
       inputs:
         script: |
           VERSION="$(nbgv get-version -v AssemblyInformationalVersion | cut -d'+' -f 1)"
-          mkdir $BIN_DIR/Asa-linux-$VERSION
-          mv $BIN_DIR/linux/Asa $BIN_DIR/Asa-linux-$VERSION/res/
-
-          mkdir $BIN_DIR/Asa-macos-$VERSION
-          mv $BIN_DIR/macos/Asa $BIN_DIR/Asa-macos-$VERSION/res/
 
           cp $SRC_DIR/Asa/AsaLaunch.sh $BIN_DIR/linux/AsaLaunch.sh
           cp $SRC_DIR/Asa/AsaLaunch.sh $BIN_DIR/macos/AsaLaunch.sh
           cp $SRC_DIR/Asa/AsaLaunchGui.sh $BIN_DIR/linux/AsaLaunchGui.sh
           cp $SRC_DIR/Asa/AsaLaunchGui.sh $BIN_DIR/macos/AsaLaunchGui.sh
 
-          chmod +x $BIN_DIR/Asa-linux-$VERSION/AsaLaunch.sh
-          chmod +x $BIN_DIR/Asa-macos-$VERSION/AsaLaunch.sh
-          chmod +x $BIN_DIR/Asa-linux-$VERSION/AsaLaunchGui.sh
-          chmod +x $BIN_DIR/Asa-macos-$VERSION/AsaLaunchGui.sh
-          chmod +x $BIN_DIR/Asa-linux-$VERSION/res/Asa
-          chmod +x $BIN_DIR/Asa-macos-$VERSION/res/Asa
+          chmod +x $BIN_DIR/linux/AsaLaunch.sh
+          chmod +x $BIN_DIR/macos/AsaLaunch.sh
+          chmod +x $BIN_DIR/linux/AsaLaunchGui.sh
+          chmod +x $BIN_DIR/macos/AsaLaunchGui.sh
+          chmod +x $BIN_DIR/linux/res/Asa
+          chmod +x $BIN_DIR/macos/res/Asa
+
+          mkdir $BIN_DIR/Asa-linux-$VERSION
+          mv $BIN_DIR/linux/Asa $BIN_DIR/Asa-linux-$VERSION/res/
+
+          mkdir $BIN_DIR/Asa-macos-$VERSION
+          mv $BIN_DIR/macos/Asa $BIN_DIR/Asa-macos-$VERSION/res/
 
           cd $BIN_DIR
           tar -czvf $ART_DIR/Asa-linux-$VERSION.tar.gz Asa-linux-$VERSION
