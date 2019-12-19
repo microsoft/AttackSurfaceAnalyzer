@@ -203,7 +203,7 @@ namespace AttackSurfaceAnalyzer.Utils
             while (!WriteQueue.IsEmpty) { 
                 WriteNext(); 
             }
-            Thread.Sleep(500);
+            Thread.Sleep(100);
         }
 
         public static PLATFORM RunIdToPlatform(string runid)
