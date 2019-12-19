@@ -15,11 +15,10 @@ namespace AttackSurfaceAnalyzer.Utils
             // examined for files.
             Stack<string> dirs = new Stack<string>();
 
-            if (!System.IO.Directory.Exists(root))
+            if (System.IO.Directory.Exists(root))
             {
-                throw new ArgumentException("Unable to find [" + root + "]");
+                dirs.Push(root);
             }
-            dirs.Push(root);
 
             while (dirs.Count > 0)
             {
