@@ -185,6 +185,9 @@ namespace AttackSurfaceAnalyzer
 
         [Option(HelpText = "Suppress all logging statements below WARN")]
         public bool Quiet { set; get; }
+
+        [Option(HelpText = "Force run without admin/root (collectors may not function).")]
+        public bool ForceNoAdmin { set; get; }
     }
     [Verb("monitor", HelpText = "Continue running and monitor activity")]
     public class MonitorCommandOptions
@@ -1239,7 +1242,10 @@ namespace AttackSurfaceAnalyzer
             StartEvent.Add("Admin", AsaHelpers.IsAdmin().ToString(CultureInfo.InvariantCulture));
             AsaTelemetry.TrackEvent("Run Command", StartEvent);
 
-            AdminOrQuit();
+            if (!opts.ForceNoAdmin)
+            {
+                AdminOrQuit();
+            }
 
             CheckFirstRun();
             DatabaseManager.VerifySchemaVersion();
