@@ -55,7 +55,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         }
                         catch (IOException e)
                         {
-                            Log.Debug("Unable to get access control for {0}: {1}", fileInfo.FullName, ex.Message);
+                            Log.Debug("Unable to get access control for {0}: {1}", fileInfo.FullName, e.Message);
                         }
                         catch (InvalidOperationException e)
                         {
@@ -70,7 +70,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         }
                         catch (IOException e)
                         {
-                            Log.Debug("Unable to get access control for {0}: {1}", fileInfo.FullName, ex.Message);
+                            Log.Debug("Unable to get access control for {0}: {1}", fileInfo.FullName, e.Message);
                         }
                         catch (InvalidOperationException e)
                         {

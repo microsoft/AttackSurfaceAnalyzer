@@ -282,7 +282,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
                 catch (Exception e) when (
                     e is ArgumentNullException
-                    || e is ArgumentException)
+                    || e is ArgumentException
+                    || e is InvalidOperationException)
                 {
                     Log.Verbose($"Failed to get permissions for {fileInfo.FullName} {e.GetType().ToString()}");
                 }
