@@ -415,7 +415,7 @@
     <value>For our privacy policy visit: {0}.</value>
   </data>
   <data name="ApplicationHasTelemetry3" xml:space="preserve">
-    <value>To disable telemetry run '{0}'.</value>
+    <value>To disable telemetry run Attack Surface Analyzer with these arguments: '{0}'.</value>
   </data>
   <data name="DumpingDataFromDatabase" xml:space="preserve">
     <value>Dumping data from database located at {0}.</value>

@@ -185,6 +185,9 @@ namespace AttackSurfaceAnalyzer
 
         [Option(HelpText = "Suppress all logging statements below WARN")]
         public bool Quiet { set; get; }
+
+        [Option(HelpText = "Force run without admin/root (collectors may not function).")]
+        public bool ForceNoAdmin { set; get; }
     }
     [Verb("monitor", HelpText = "Continue running and monitor activity")]
     public class MonitorCommandOptions
@@ -676,7 +679,7 @@ namespace AttackSurfaceAnalyzer
         {
             if (DatabaseManager.FirstRun)
             {
-                string exeStr = $"{System.Reflection.Assembly.GetExecutingAssembly().CodeBase.Split('/').Last()} config --telemetry-opt-out true";
+                string exeStr = $"config --telemetry-opt-out true";
                 Log.Information(Strings.Get("ApplicationHasTelemetry"));
                 Log.Information(Strings.Get("ApplicationHasTelemetry2"), "https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/PRIVACY.md");
                 Log.Information(Strings.Get("ApplicationHasTelemetry3"), exeStr);
@@ -1239,7 +1242,10 @@ namespace AttackSurfaceAnalyzer
             StartEvent.Add("Admin", AsaHelpers.IsAdmin().ToString(CultureInfo.InvariantCulture));
             AsaTelemetry.TrackEvent("Run Command", StartEvent);
 
-            AdminOrQuit();
+            if (!opts.ForceNoAdmin)
+            {
+                AdminOrQuit();
+            }
 
             CheckFirstRun();
             DatabaseManager.VerifySchemaVersion();

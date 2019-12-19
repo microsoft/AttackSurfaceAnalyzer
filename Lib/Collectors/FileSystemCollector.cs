@@ -88,8 +88,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             foreach (var root in roots)
             {
-                Log.Information("{0} root {1}", Strings.Get("Scanning"), root.ToString(CultureInfo.InvariantCulture));
-                //Ensure the transaction is started to prevent collisions on the multithreaded code ahead
+                Log.Information("{0} root {1}", Strings.Get("Scanning"), root);
                 var fileInfoEnumerable = DirectoryWalker.WalkDirectory(root);
                 Parallel.ForEach(fileInfoEnumerable,
                                 (fileInfo =>
@@ -282,7 +281,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
                 catch (Exception e) when (
                     e is ArgumentNullException
-                    || e is ArgumentException)
+                    || e is ArgumentException
+                    || e is InvalidOperationException)
                 {
                     Log.Verbose($"Failed to get permissions for {fileInfo.FullName} {e.GetType().ToString()}");
                 }
