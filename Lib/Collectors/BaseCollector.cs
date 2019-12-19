@@ -46,6 +46,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             Log.Information(Strings.Get("Completed"), this.GetType().Name, answer);
 
             var prevFlush = DatabaseManager.WriteQueue.Count;
+            var totFlush = prevFlush;
 
             watch = System.Diagnostics.Stopwatch.StartNew();
 
@@ -53,7 +54,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 Thread.Sleep(1000);
                 var sample = DatabaseManager.WriteQueue.Count;
-                Log.Debug("Flushing {0} results. ({1}/s)", DatabaseManager.WriteQueue.Count, prevFlush - sample);
+                Log.Debug("Flushing {0} results. ({1}/s {2:0.00}/s overall)", DatabaseManager.WriteQueue.Count, prevFlush - sample, ((double)(totFlush - sample)/watch.ElapsedMilliseconds) * 1000);
                 prevFlush = sample;
             }
 

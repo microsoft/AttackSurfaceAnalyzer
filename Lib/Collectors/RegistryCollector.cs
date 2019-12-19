@@ -87,57 +87,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             return SidMap[rule.IdentityReference.Value];
         }
 
-        public static RegistryObject RegistryKeyToRegistryObject(RegistryKey registryKey)
-        {
-            RegistryObject regObj = null;
-            if (registryKey == null) { return regObj; }
-            try
-            {
-                regObj = new RegistryObject()
-                {
-                    Key = registryKey.Name,
-                };
-
-                regObj.AddSubKeys(new List<string>(registryKey.GetSubKeyNames()));
-
-                foreach (RegistryAccessRule rule in registryKey.GetAccessControl().GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier)))
-                {
-                    string name = GetName(rule);
-
-                    if (regObj.Permissions.ContainsKey(name))
-                    {
-                        regObj.Permissions[name].Add(rule.RegistryRights.ToString());
-                    }
-                    else
-                    {
-                        regObj.Permissions.Add(name, new List<string>() { rule.RegistryRights.ToString() });
-                    }
-                }
-
-                foreach (string valueName in registryKey.GetValueNames())
-                {
-                    try
-                    {
-                        regObj.Values.Add(valueName, (registryKey.GetValue(valueName) == null) ? "" : (registryKey.GetValue(valueName).ToString()));
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.Debug(ex, "Found an exception processing registry values.");
-                    }
-                }
-            }
-            catch (System.ArgumentException e)
-            {
-                Log.Debug(e, "Exception parsing {0}", registryKey.Name);
-            }
-            catch (Exception e)
-            {
-                Log.Debug(e, "Couldn't process reg key {0}", registryKey.Name);
-            }
-
-            return regObj;
-        }
-
         public override void ExecuteInternal()
         {
             foreach (var hive in Hives)
@@ -156,7 +105,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         try
                         {
-                            var regObj = RegistryKeyToRegistryObject(registryKey);
+                            var regObj = RegistryWalker.RegistryKeyToRegistryObject(registryKey);
 
                             if (regObj != null)
                             {

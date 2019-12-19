@@ -57,7 +57,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         {
                             Log.Debug("Unable to get access control for {0}: {1}", fileInfo.FullName, e.Message);
                         }
-                        catch (InvalidOperationException e)
+                        catch (InvalidOperationException)
                         {
                             Log.Debug("Path probably doesn't exist: {0}", fileInfo.FullName);
                         }
@@ -72,7 +72,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         {
                             Log.Debug("Unable to get access control for {0}: {1}", fileInfo.FullName, e.Message);
                         }
-                        catch (InvalidOperationException e)
+                        catch (InvalidOperationException)
                         {
                             Log.Debug("Path probably doesn't exist: {0}", fileInfo.FullName);
                         }
