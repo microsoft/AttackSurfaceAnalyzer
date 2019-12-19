@@ -58,7 +58,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             return Json(true);
         }
 
-        public ActionResult GetMonitorResults(string RunId, int ResultType, int Offset, int NumResults)
+        public ActionResult GetMonitorResults(string RunId, int Offset, int NumResults)
         {
 
             var results = new List<OutputFileMonitorResult>();
@@ -351,7 +351,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             return Json(true);
         }
 
-        public ActionResult StartMonitoring(string RunId, string Directory, string Extension)
+        public ActionResult StartMonitoring(string RunId, string Directory)
         {
             if (RunId != null)
             {
@@ -478,7 +478,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             return runModels;
         }
 
-        private IEnumerable<DataRunModel> GetRunModels()
+        private static IEnumerable<DataRunModel> GetRunModels()
         {
             List<string> Runs = AttackSurfaceAnalyzerClient.GetRuns("collect");
 

@@ -17,7 +17,6 @@
             "^HKEY_USERS\\\\S-[0-9]*-[0-9]*-[0-9]*\\\\Software\\\\Microsoft\\\\Cryptography$",
             "^HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\Microsoft\\\\Windows NT\\\\CurrentVersion\\\\Perflib",
             "^HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\Microsoft\\\\Windows NT\\\\CurrentVersion\\\\AppCompatFlags\\\\CIT$",
-            "^HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\Microsoft\\\\Windows\\\\CurrentVersion",
             "^HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\Microsoft\\\\WcmSvc\\\\wifinetworkmanager$",
             "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\ControlSet001\\\\Services\\\\ADOVMPPackages",
             "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\ControlSet001\\\\Services\\\\DeviceAssociationService\\\\State\\\\Store\\\\",
