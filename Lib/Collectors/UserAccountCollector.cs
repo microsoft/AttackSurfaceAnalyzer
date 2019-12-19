@@ -19,9 +19,6 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class UserAccountCollector : BaseCollector
     {
-        Dictionary<string, UserAccountObject> users = new Dictionary<string, UserAccountObject>();
-        Dictionary<string, GroupAccountObject> groups = new Dictionary<string, GroupAccountObject>();
-
         public UserAccountCollector(string runId)
         {
             this.RunId = runId;
@@ -53,6 +50,8 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// </summary>
         public void ExecuteWindows()
         {
+            Dictionary<string, UserAccountObject> users = new Dictionary<string, UserAccountObject>();
+            Dictionary<string, GroupAccountObject> groups = new Dictionary<string, GroupAccountObject>();
             try
             {
                 List<string> lines = new List<string>(ExternalCommandRunner.RunExternalCommand("net", "localgroup").Split('\n'));
@@ -363,9 +362,18 @@ namespace AttackSurfaceAnalyzer.Collectors
             foreach (var username in accountDetails.Keys)
             {
                 // Admin user details
-                var groupsRaw = ExternalCommandRunner.RunExternalCommand("groups", "username");
+                string groupsRaw = string.Empty;
 
-                var groups = result.Split(' ');
+                try
+                {
+                    groupsRaw = ExternalCommandRunner.RunExternalCommand("groups", username);
+                }
+                catch (Exception)
+                {
+
+                }
+
+                var groups = groupsRaw.Split(' ');
                 foreach (var group in groups)
                 {
                     accountDetails[username].Groups.Add(group);
