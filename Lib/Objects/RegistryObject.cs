@@ -33,7 +33,7 @@ namespace AttackSurfaceAnalyzer.Objects
             Values = new Dictionary<string, string>();
         }
 
-        public void AddSubKeys(List<string> subkeysIn)
+        public void AddSubKeys(string[] subkeysIn)
         {
             Subkeys.AddRange(subkeysIn);
         }
