@@ -8,6 +8,7 @@
     <PackageVersion>2.1-alpha</PackageVersion>
     <Authors>Microsoft Corporation</Authors>
     <Owners>Microsoft Corporation</Owners>
+    <LangVersion>8.0</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Attack Surface Analyzer is a Microsoft-developed open source security tool available at https://github.com/microsoft/AttackSurfaceAnalyzer that analyzes the attack surface of a target system and reports on potential security vulnerabilities introduced by the installation of software or by system misconfiguration.
 
@@ -17,11 +18,6 @@ This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI 
     <UpgradeBackupLocation>C:\Users\Gstoc\Documents\GitHub\AttackSurfaceAnalyzer\Backup\Lib\</UpgradeBackupLocation>
     <OldToolsVersion>2.0</OldToolsVersion>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Utils\CommandOptions.cs" />
-    <Compile Remove="Collectors\OpenPorts\LinuxOpenPortUtils.cs" />
-    <Compile Remove="Collectors\OpenPorts\WindowsOpenPortUtils.cs" />
-  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CompareNETObjects" Version="4.64.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
@@ -33,7 +29,7 @@ This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI 
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="3.1.0" />
     <PackageReference Include="murmurhash" Version="1.0.3" />
-    <PackageReference Include="PeNet" Version="1.2.0" />
+    <PackageReference Include="PeNet" Version="1.3.3" />
     <PackageReference Include="Serilog" Version="2.9.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
     <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />

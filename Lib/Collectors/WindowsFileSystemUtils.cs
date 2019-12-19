@@ -68,7 +68,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                     e is IndexOutOfRangeException
                     || e is ArgumentNullException
                     || e is System.IO.IOException
-                    || e is ArgumentException)
+                    || e is ArgumentException
+                    || e is UnauthorizedAccessException)
                 {
                     Log.Verbose($"Failed to get PE Headers for {Path} {e.GetType().ToString()}");
                 }
