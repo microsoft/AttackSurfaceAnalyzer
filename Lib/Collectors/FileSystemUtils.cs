@@ -53,9 +53,13 @@ namespace AttackSurfaceAnalyzer.Collectors
                         {
                             permissions = new UnixFileInfo(filename).FileAccessPermissions;
                         }
-                        catch (IOException ex)
+                        catch (IOException e)
                         {
                             Log.Debug("Unable to get access control for {0}: {1}", fileInfo.FullName, ex.Message);
+                        }
+                        catch (InvalidOperationException e)
+                        {
+                            Log.Debug("Path probably doesn't exist: {0}", fileInfo.FullName);
                         }
                     }
                     else if (fileInfo is DirectoryInfo)
@@ -64,9 +68,13 @@ namespace AttackSurfaceAnalyzer.Collectors
                         {
                             permissions = new UnixDirectoryInfo(filename).FileAccessPermissions;
                         }
-                        catch (IOException ex)
+                        catch (IOException e)
                         {
                             Log.Debug("Unable to get access control for {0}: {1}", fileInfo.FullName, ex.Message);
+                        }
+                        catch (InvalidOperationException e)
+                        {
+                            Log.Debug("Path probably doesn't exist: {0}", fileInfo.FullName);
                         }
                     }
                     else
