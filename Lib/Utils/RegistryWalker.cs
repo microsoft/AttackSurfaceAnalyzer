@@ -83,20 +83,20 @@ namespace AttackSurfaceAnalyzer.Utils
                         keys.Push(next);
                     }
                     // These are expected as we are running as administrator, not System.
-                    catch (System.Security.SecurityException e)
+                    catch (System.Security.SecurityException)
                     {
-                        Log.Debug(e, "Permission Denied: {0}", currentKey.Name);
+                        Log.Debug("Permission Denied Opening Subkey: {0}\\{1}", currentKey.Name, key);
                     }
                     // There seem to be some keys which are listed as existing by the APIs but don't actually exist.
                     // Unclear if these are just super transient keys or what the other cause might be.
                     // Since this isn't user actionable, also just supress these to the verbose stream.
-                    catch (System.IO.IOException e)
+                    catch (System.IO.IOException)
                     {
-                        Log.Debug(e, "Error Reading: {0}", currentKey.Name);
+                        Log.Debug("IOError Reading: {0}\\{1}", currentKey.Name, key);
                     }
                     catch (Exception e)
                     {
-                        Log.Information(e, "Unexpected error when parsing {0}:", currentKey.Name);
+                        Log.Information(e, "Unexpected error when parsing {0}\\{1}", currentKey.Name, key);
                         AsaTelemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                     }
                 }
@@ -129,28 +129,41 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 Log.Debug(e, "Couldn't process reg key {0}", registryKey.Name);
             }
-            foreach (RegistryAccessRule rule in registryKey.GetAccessControl().GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier)))
+
+            try
             {
-                string name = rule.IdentityReference.Value;
+                foreach (RegistryAccessRule rule in registryKey.GetAccessControl().GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier)))
+                {
+                    string name = rule.IdentityReference.Value;
 
-                try
-                {
-                    name = rule.IdentityReference.Translate(typeof(NTAccount)).Value;
-                }
-                catch (IdentityNotMappedException)
-                {
-                    // This is fine. Some SIDs don't map to NT Accounts.
-                }
+                    try
+                    {
+                        name = rule.IdentityReference.Translate(typeof(NTAccount)).Value;
+                    }
+                    catch (IdentityNotMappedException)
+                    {
+                        // This is fine. Some SIDs don't map to NT Accounts.
+                    }
 
-                if (regObj.Permissions.ContainsKey(name))
-                {
-                    regObj.Permissions[name].Add(rule.RegistryRights.ToString());
-                }
-                else
-                {
-                    regObj.Permissions.Add(name, new List<string>() { rule.RegistryRights.ToString() });
+                    if (regObj.Permissions.ContainsKey(name))
+                    {
+                        regObj.Permissions[name].Add(rule.RegistryRights.ToString());
+                    }
+                    else
+                    {
+                        regObj.Permissions.Add(name, new List<string>() { rule.RegistryRights.ToString() });
+                    }
                 }
             }
+            catch (ArgumentException)
+            {
+                Log.Debug("Failed to get permissions (handle is invalid) for {0}", regObj.Key);
+            }
+            catch (Exception e)
+            {
+                Log.Debug(e, "Failed to get permissions for {0}", regObj.Key);
+            }
+
 
             foreach (string valueName in registryKey.GetValueNames())
             {
@@ -160,7 +173,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
                 catch (Exception ex)
                 {
-                    Log.Debug(ex, "Found an exception processing registry values.");
+                    Log.Debug(ex, "Found an exception processing registry values of {0}.",registryKey.Name);
                 }
             }
 
