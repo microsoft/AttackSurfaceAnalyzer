@@ -120,7 +120,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 e is System.Security.Cryptography.CryptographicException
                                 || e is ArgumentException)
                             {
-                                Log.Debug($"Could not parse certificate from file: {fileInfo.FullName}");
+                                Log.Verbose($"Could not parse certificate from file: {fileInfo.FullName}");
                             }
                         }
                     }

@@ -74,6 +74,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                 {
                     Log.Verbose($"Failed to get PE Headers for {Path} {e.GetType().ToString()}");
                 }
+                catch (Exception e)
+                {
+                    Log.Debug(e, $"Failed to get PE Headers for {Path}");
+                }
             }
 
             return output;
