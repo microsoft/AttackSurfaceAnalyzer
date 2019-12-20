@@ -69,7 +69,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                     || e is ArgumentNullException
                     || e is System.IO.IOException
                     || e is ArgumentException
-                    || e is UnauthorizedAccessException)
+                    || e is UnauthorizedAccessException
+                    || e is NullReferenceException)
                 {
                     Log.Verbose($"Failed to get PE Headers for {Path} {e.GetType().ToString()}");
                 }
