@@ -115,12 +115,9 @@
         "Path": {
           "Exclude": [
             "^/proc/",
-            "^/usr/share/",
-            "^/usr/src/",
             "^/snap/",
-            "^/run/systemd/",
-            "^/run/udev/",
-            "^/dev"
+            "^/dev",
+            "^/run"
           ]
         }
       }
