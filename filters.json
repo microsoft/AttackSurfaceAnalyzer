@@ -114,8 +114,8 @@
       "File": {
         "Path": {
           "Exclude": [
-            "^/proc/",
-            "^/snap/",
+            "^/proc",
+            "^/snap",
             "^/dev",
             "^/run"
           ]

@@ -53,13 +53,12 @@ namespace AttackSurfaceAnalyzer.Collectors
                         {
                             permissions = new UnixFileInfo(filename).FileAccessPermissions;
                         }
-                        catch (IOException e)
+                        catch (Exception e) when (
+                            e is IOException
+                            || e is InvalidOperationException
+                        )
                         {
-                            Log.Debug("Unable to get access control for {0}: {1}", fileInfo.FullName, e.Message);
-                        }
-                        catch (InvalidOperationException)
-                        {
-                            Log.Debug("Path probably doesn't exist: {0}", fileInfo.FullName);
+                            Log.Debug("Unable to get access control for {0}: {1}", fileInfo.FullName, e.GetType().ToString());
                         }
                     }
                     else if (fileInfo is DirectoryInfo)
@@ -68,18 +67,17 @@ namespace AttackSurfaceAnalyzer.Collectors
                         {
                             permissions = new UnixDirectoryInfo(filename).FileAccessPermissions;
                         }
-                        catch (IOException e)
+                        catch (Exception e) when (
+                            e is IOException
+                            || e is InvalidOperationException
+                        )
                         {
-                            Log.Debug("Unable to get access control for {0}: {1}", fileInfo.FullName, e.Message);
-                        }
-                        catch (InvalidOperationException)
-                        {
-                            Log.Debug("Path probably doesn't exist: {0}", fileInfo.FullName);
+                            Log.Debug("Unable to get access control for {0}: {1}", fileInfo.FullName, e.GetType().ToString());
                         }
                     }
                     else
                     {
-                        return "";
+                        return string.Empty;
                     }
 
                     return permissions.ToString();
@@ -173,7 +171,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 || e is NotSupportedException
                 || e is ObjectDisposedException)
             {
-                Log.Verbose(e, $"Couldn't chomp 4 bytes of {Path}");
+                Log.Verbose($"Couldn't chomp 4 bytes of {Path} ({e.GetType().ToString()})");
                 return false;
             }
 

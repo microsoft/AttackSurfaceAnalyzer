@@ -23,6 +23,7 @@ namespace AttackSurfaceAnalyzer.Utils
             while (dirs.Count > 0)
             {
                 string currentDir = dirs.Pop();
+                Log.Verbose($"DirectoryWalker {currentDir}");
                 if (Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "File", "Path", currentDir))
                 {
                     continue;
@@ -85,10 +86,17 @@ namespace AttackSurfaceAnalyzer.Utils
                 // Modify this block to perform your required task.
                 foreach (string file in files)
                 {
+                    if (Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "File", "Path", file))
+                    {
+                        continue;
+                    }
+
                     FileInfo fileInfo = null;
                     try
                     {
+                        Log.Verbose($"Getting FileInfo for {file}");
                         fileInfo = new FileInfo(file);
+                        Log.Verbose($"Got FileInfo for {file}");
                     }
                     catch (System.IO.FileNotFoundException e)
                     {
@@ -98,22 +106,21 @@ namespace AttackSurfaceAnalyzer.Utils
                         Log.Debug(e.Message);
                         continue;
                     }
-                    if (Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "File", "Path", file))
-                    {
-                        continue;
-                    }
-                    yield return fileInfo;
 
+                    yield return fileInfo;
                 }
 
                 // Push the subdirectories onto the stack for traversal.
                 // This could also be done before handing the files.
-                foreach (string str in subDirs)
+                foreach (string dir in subDirs)
                 {
                     DirectoryInfo fileInfo = null;
                     try
                     {
-                        fileInfo = new DirectoryInfo(str);
+                        Log.Verbose($"Getting DirectoryInfo for {dir}");
+
+                        fileInfo = new DirectoryInfo(dir);
+                        Log.Verbose($"Got DirectoryInfo for {dir}");
 
                         // Skip symlinks to avoid loops
                         // Future improvement: log it as a symlink in the data
@@ -133,7 +140,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         continue;
                     }
-                    dirs.Push(str);
+                    dirs.Push(dir);
                     yield return fileInfo;
                 }
             }
