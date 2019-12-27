@@ -150,7 +150,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 || e is NotSupportedException
                 || e is ObjectDisposedException)
             {
-                Log.Verbose($"Couldn't chomp 4 bytes of {Path} ({e.GetType().ToString()})");
+                Log.Verbose("Couldn't chomp 4 bytes of {0} ({1})", Path, e.GetType().ToString());
                 return false;
             }
 

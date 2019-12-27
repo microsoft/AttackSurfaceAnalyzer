@@ -4,6 +4,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -23,7 +24,6 @@ namespace AttackSurfaceAnalyzer.Utils
             while (dirs.Count > 0)
             {
                 string currentDir = dirs.Pop();
-                Log.Verbose($"DirectoryWalker {currentDir}");
                 if (Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "File", "Path", currentDir))
                 {
                     continue;
@@ -60,58 +60,40 @@ namespace AttackSurfaceAnalyzer.Utils
                 string[] subDirs;
                 try
                 {
-                    subDirs = System.IO.Directory.GetDirectories(currentDir);
+                    subDirs = Directory.GetDirectories(currentDir);
                 }
-                // An UnauthorizedAccessException exception will be thrown if we do not have
-                // discovery permission on a folder or file. It may or may not be acceptable 
-                // to ignore the exception and continue enumerating the remaining files and 
-                // folders. It is also possible (but unlikely) that a DirectoryNotFound exception 
-                // will be raised. This will happen if currentDir has been deleted by
-                // another application or thread after our call to Directory.Exists. The 
-                // choice of which exceptions to catch depends entirely on the specific task 
-                // you are intending to perform and also on how much you know with certainty 
-                // about the systems on which this code will run.
-                catch (UnauthorizedAccessException)
+                catch (Exception e) when (
+                    e is ArgumentException ||
+                    e is ArgumentNullException ||
+                    e is PathTooLongException ||
+                    e is IOException ||
+                    e is DirectoryNotFoundException ||
+                    e is UnauthorizedAccessException)
                 {
-                    Log.Debug("Unable to access: {0}", currentDir);
-                    continue;
-                }
-                catch (System.IO.DirectoryNotFoundException)
-                {
-                    Log.Debug("Directory not found: {0}", currentDir);
-                    continue;
-                }
-                // @TODO: Improve this catch. 
-                // This catches a case where we sometimes try to walk a file
-                // even though its not a directory on Mac OS.
-                // System.IO.Directory.GetDirectories is how we get the 
-                // directories which sometimes gives you things that aren't directories.
-                catch (IOException)
-                {
-                    Log.Debug("IO Error: {0}", currentDir);
+                    Log.Verbose("Failed to get Directories for {0} {1}", currentDir, e.GetType().ToString());
                     continue;
                 }
 
-                string[] files = null;
+                string[] files;
                 try
                 {
-                    files = System.IO.Directory.GetFiles(currentDir);
+                    files = Directory.GetFiles(currentDir);
                 }
 
-                catch (UnauthorizedAccessException e)
+                catch (Exception e) when (
+                    e is UnauthorizedAccessException ||
+                    e is IOException ||
+                    e is ArgumentException ||
+                    e is ArgumentNullException ||
+                    e is PathTooLongException ||
+                    e is DirectoryNotFoundException)
                 {
-
-                    Log.Debug(e.Message);
+                    Log.Verbose("Failed to get files for {0} {1}", currentDir, e.GetType().ToString());
                     continue;
                 }
 
-                catch (System.IO.DirectoryNotFoundException e)
-                {
-                    Log.Debug(e.Message);
-                    continue;
-                }
+                
                 // Perform the required action on each file here.
-                // Modify this block to perform your required task.
                 foreach (string file in files)
                 {
                     if (Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "File", "Path", file))
@@ -124,12 +106,15 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         fileInfo = new FileInfo(file);
                     }
-                    catch (System.IO.FileNotFoundException e)
+                    catch (Exception e) when (
+                        e is ArgumentNullException ||
+                        e is SecurityException ||
+                        e is ArgumentException ||
+                        e is UnauthorizedAccessException ||
+                        e is PathTooLongException ||
+                        e is NotSupportedException)
                     {
-                        // If file was deleted by a separate application
-                        //  or thread since the call to TraverseTree()
-                        // then just continue.
-                        Log.Debug(e.Message);
+                        Log.Verbose("Failed to create FileInfo from File at {0} {1}", file, e.GetType().ToString());
                         continue;
                     }
 
@@ -153,16 +138,15 @@ namespace AttackSurfaceAnalyzer.Utils
                         }
                     }
                     catch (Exception e) when (
-                        e is DirectoryNotFoundException
-                        || e is IOException
-                        || e is UnauthorizedAccessException)
+                        e is SecurityException
+                        || e is ArgumentException
+                        || e is ArgumentException
+                        || e is PathTooLongException)
                     {
+                        Log.Verbose("Failed to create DirectoryInfo from Directory at {0} {1}", dir, e.GetType().ToString());
                         continue;
                     }
-                    catch (Exception e)
-                    {
-                        Log.Debug($"Should be catching {e.GetType().ToString()} in WalkDirectory");
-                    }
+                    
 
                     if (fileInfo != null)
                     {

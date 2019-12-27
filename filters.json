@@ -101,7 +101,6 @@
       "File": {
         "Path": {
           "Exclude": [
-            "^/private/var/db/uuidtext",
             "^/.Spotlight-V100"
           ]
         }

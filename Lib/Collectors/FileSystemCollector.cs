@@ -93,11 +93,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                 Parallel.ForEach(fileInfoEnumerable,
                                 (fileInfo =>
                 {
-                //    foreach (var fileInfo in fileInfoEnumerable)
-                //{
-                    Log.Verbose($"Processing {fileInfo.FullName}");
+                    if (fileInfo is DirectoryInfo)
+                    {
+                        Log.Verbose("Starting Directory {0}", fileInfo.FullName);
+                    }
                     FileSystemObject obj = FileSystemInfoToFileSystemObject(fileInfo, downloadCloud, INCLUDE_CONTENT_HASH);
-                    Log.Verbose($"Processed {fileInfo.FullName}");
                     if (obj != null)
                     {
                         DatabaseManager.Write(obj, RunId);
@@ -127,7 +127,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                             }
                         }
                     }
-                    //}
                 }));
             }
         }
