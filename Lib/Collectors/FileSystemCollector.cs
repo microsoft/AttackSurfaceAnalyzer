@@ -28,12 +28,14 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         private bool downloadCloud;
         private bool examineCertificates;
+        private bool parallel;
 
-        public FileSystemCollector(string runId, bool enableHashing = false, string directories = "", bool downloadCloud = false, bool examineCertificates = false)
+        public FileSystemCollector(string runId, bool enableHashing = false, string directories = "", bool downloadCloud = false, bool examineCertificates = false, bool parallel = true)
         {
             this.RunId = runId;
             this.downloadCloud = downloadCloud;
             this.examineCertificates = examineCertificates;
+            this.parallel = parallel;
 
             roots = new HashSet<string>();
             INCLUDE_CONTENT_HASH = enableHashing;
@@ -62,6 +64,8 @@ namespace AttackSurfaceAnalyzer.Collectors
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
         }
 
+        
+
         public override void ExecuteInternal()
         {
             if (roots == null || !roots.Any())
@@ -86,48 +90,64 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
             }
 
+            Action<FileSystemInfo> IterateOn = fileInfo =>
+            {
+                if (fileInfo is DirectoryInfo)
+                {
+                    Log.Verbose("Starting Directory {0}", fileInfo.FullName);
+                }
+                FileSystemObject obj = FileSystemInfoToFileSystemObject(fileInfo, downloadCloud, INCLUDE_CONTENT_HASH);
+                if (obj != null)
+                {
+                    DatabaseManager.Write(obj, RunId);
+                    if (examineCertificates &&
+                        fileInfo.FullName.EndsWith(".cer", StringComparison.CurrentCulture) ||
+                        fileInfo.FullName.EndsWith(".der", StringComparison.CurrentCulture) ||
+                        fileInfo.FullName.EndsWith(".p7b", StringComparison.CurrentCulture))
+                    {
+                        try
+                        {
+                            var certificate = X509Certificate.CreateFromCertFile(fileInfo.FullName);
+                            var certObj = new CertificateObject()
+                            {
+                                StoreLocation = fileInfo.FullName,
+                                StoreName = "Disk",
+                                CertificateHashString = certificate.GetCertHashString(),
+                                Subject = certificate.Subject,
+                                Pkcs7 = certificate.Export(X509ContentType.Cert).ToString()
+                            };
+                            DatabaseManager.Write(certObj, RunId);
+                        }
+                        catch (Exception e) when (
+                            e is System.Security.Cryptography.CryptographicException
+                            || e is ArgumentException)
+                        {
+                            Log.Verbose($"Could not parse certificate from file: {fileInfo.FullName}");
+                        }
+                    }
+                }
+            };
+
             foreach (var root in roots)
             {
                 Log.Information("{0} root {1}", Strings.Get("Scanning"), root);
                 var fileInfoEnumerable = DirectoryWalker.WalkDirectory(root);
-                Parallel.ForEach(fileInfoEnumerable,
-                                (fileInfo =>
+                
+                if (parallel)
                 {
-                    if (fileInfo is DirectoryInfo)
+                    Parallel.ForEach(fileInfoEnumerable,
+                                    (fileInfo =>
+                                    {
+                                        IterateOn(fileInfo);
+                                    }));
+                }
+                else
+                {
+                    foreach (var fileInfo in fileInfoEnumerable)
                     {
-                        Log.Verbose("Starting Directory {0}", fileInfo.FullName);
+                        IterateOn(fileInfo);
                     }
-                    FileSystemObject obj = FileSystemInfoToFileSystemObject(fileInfo, downloadCloud, INCLUDE_CONTENT_HASH);
-                    if (obj != null)
-                    {
-                        DatabaseManager.Write(obj, RunId);
-                        if (examineCertificates &&
-                            fileInfo.FullName.EndsWith(".cer", StringComparison.CurrentCulture) ||
-                            fileInfo.FullName.EndsWith(".der", StringComparison.CurrentCulture) ||
-                            fileInfo.FullName.EndsWith(".p7b", StringComparison.CurrentCulture))
-                        {
-                            try
-                            {
-                                var certificate = X509Certificate.CreateFromCertFile(fileInfo.FullName);
-                                var certObj = new CertificateObject()
-                                {
-                                    StoreLocation = fileInfo.FullName,
-                                    StoreName = "Disk",
-                                    CertificateHashString = certificate.GetCertHashString(),
-                                    Subject = certificate.Subject,
-                                    Pkcs7 = certificate.Export(X509ContentType.Cert).ToString()
-                                };
-                                DatabaseManager.Write(certObj, RunId);
-                            }
-                            catch (Exception e) when (
-                                e is System.Security.Cryptography.CryptographicException
-                                || e is ArgumentException)
-                            {
-                                Log.Verbose($"Could not parse certificate from file: {fileInfo.FullName}");
-                            }
-                        }
-                    }
-                }));
+                }
             }
         }
 
