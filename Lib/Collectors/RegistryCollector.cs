@@ -25,6 +25,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         private HashSet<string> roots;
         private HashSet<RegistryKey> _keys;
         private HashSet<RegistryObject> _values;
+        private bool Parallelize;
 
         private static ConcurrentDictionary<string, string> SidMap = new ConcurrentDictionary<string, string>();
 
@@ -35,11 +36,11 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         private Action<RegistryObject> customCrawlHandler = null;
 
-        public RegistryCollector(string RunId) : this(RunId, DefaultHives, null) { }
+        public RegistryCollector(string RunId, bool Parallelize) : this(RunId, DefaultHives, Parallelize, null) { }
 
-        public RegistryCollector(string RunId, List<RegistryHive> Hives) : this(RunId, Hives, null) { }
+        public RegistryCollector(string RunId, List<RegistryHive> Hives, bool Parallelize) : this(RunId, Hives, Parallelize, null) { }
 
-        public RegistryCollector(string RunId, List<RegistryHive> Hives, Action<RegistryObject> customHandler)
+        public RegistryCollector(string RunId, List<RegistryHive> Hives, bool Parallelize, Action<RegistryObject> customHandler)
         {
             this.RunId = RunId;
             this.Hives = Hives;
@@ -47,6 +48,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             this._keys = new HashSet<RegistryKey>();
             this._values = new HashSet<RegistryObject>();
             this.customCrawlHandler = customHandler;
+            this.Parallelize = Parallelize;
         }
 
         public void AddRoot(string root)
@@ -98,25 +100,41 @@ namespace AttackSurfaceAnalyzer.Collectors
                     return;
                 }
 
+                Action<RegistryKey> IterateOn = fileInfo =>
+                {
+                    try
+                    {
+                        var regObj = RegistryWalker.RegistryKeyToRegistryObject(registryKey);
+
+                        if (regObj != null)
+                        {
+                            DatabaseManager.Write(regObj, RunId);
+                        }
+                    }
+                    catch (InvalidOperationException e)
+                    {
+                        Log.Debug(e, JsonConvert.SerializeObject(registryKey) + " invalid op exept");
+                    }
+                };
+
                 Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "Registry", "Key", "Exclude", hive.ToString());
                 var registryInfoEnumerable = RegistryWalker.WalkHive(hive);
-                Parallel.ForEach(registryInfoEnumerable,
+                
+                if (Parallelize)
+                {
+                    Parallel.ForEach(registryInfoEnumerable,
                     (registryKey =>
                     {
-                        try
-                        {
-                            var regObj = RegistryWalker.RegistryKeyToRegistryObject(registryKey);
-
-                            if (regObj != null)
-                            {
-                                DatabaseManager.Write(regObj, RunId);
-                            }
-                        }
-                        catch (InvalidOperationException e)
-                        {
-                            Log.Debug(e, JsonConvert.SerializeObject(registryKey) + " invalid op exept");
-                        }
+                        IterateOn(registryKey);
                     }));
+                }
+                else
+                {
+                    foreach (var registryKey in registryInfoEnumerable)
+                    {
+                        IterateOn(registryKey);
+                    }
+                }
                 Log.Debug("Finished " + hive.ToString());
             }
         }

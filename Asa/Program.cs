@@ -1314,7 +1314,7 @@ namespace AttackSurfaceAnalyzer
             }
             if (opts.EnableRegistryCollector || (opts.EnableAllCollectors && RuntimeInformation.IsOSPlatform(OSPlatform.Windows)))
             {
-                collectors.Add(new RegistryCollector(opts.RunId));
+                collectors.Add(new RegistryCollector(opts.RunId, opts.Parallelization));
             }
             if (opts.EnableCertificateCollector || opts.EnableAllCollectors)
             {
