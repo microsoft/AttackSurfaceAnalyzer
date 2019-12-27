@@ -93,6 +93,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                 Parallel.ForEach(fileInfoEnumerable,
                                 (fileInfo =>
                 {
+                //    foreach (var fileInfo in fileInfoEnumerable)
+                //{
                     Log.Verbose($"Processing {fileInfo.FullName}");
                     FileSystemObject obj = FileSystemInfoToFileSystemObject(fileInfo, downloadCloud, INCLUDE_CONTENT_HASH);
                     Log.Verbose($"Processed {fileInfo.FullName}");
@@ -125,6 +127,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             }
                         }
                     }
+                    //}
                 }));
             }
         }
@@ -144,7 +147,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                 Path = fileInfo.FullName,
                 PermissionsString = FileSystemUtils.GetFilePermissions(fileInfo),
             };
-
             // Get Owner/Group
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
@@ -312,18 +314,18 @@ namespace AttackSurfaceAnalyzer.Collectors
                         if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
                         {
 
-                            if (WindowsFileSystemUtils.NeedsSignature(obj.Path))
+                            if (WindowsFileSystemUtils.NeedsSignature(obj))
                             {
                                 obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(fileInfo.FullName);
                                 obj.Characteristics.AddRange(WindowsFileSystemUtils.GetDllCharacteristics(fileInfo.FullName));
-                                obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path);
+                                obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, obj.Size);
                             }
                         }
 
                     }
                     else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                     {
-                        obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path);
+                        obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, obj.Size);
                     }
                 }
             }
@@ -333,7 +335,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
 
             }
-
             return obj;
         }
 

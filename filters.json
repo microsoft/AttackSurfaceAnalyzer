@@ -103,11 +103,7 @@
           "Exclude": [
             "^/private/var/db/uuidtext",
             "^/dev",
-            "^/.Spotlight-V100",
-            "^/private/tmp",
-            "^/private/var",
-            "^/System/Volumes/Data/private/tmp",
-            "^/System/Volumes/Data/private/var"
+            "^/.Spotlight-V100"
           ]
         }
       }

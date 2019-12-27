@@ -73,7 +73,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     return permissions.ToString();
 
                 }
-                else
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
                     var filename = fileInfo.FullName;
                     if (filename.Length >= 260 && !filename.StartsWith(@"\\?\"))
@@ -119,9 +119,10 @@ namespace AttackSurfaceAnalyzer.Collectors
             return string.Empty;
         }
 
-        public static bool IsExecutable(string Path)
+        public static bool IsExecutable(string Path, ulong Size)
         {
             if (Path is null) { return false; }
+            if (Size < 4) { return false; }
 
             // Shortcut to help with system files we can't read directly
             if (Path.EndsWith(".dll") || Path.EndsWith(".exe"))
