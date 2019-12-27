@@ -100,7 +100,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     return;
                 }
 
-                Action<RegistryKey> IterateOn = fileInfo =>
+                Action<RegistryKey> IterateOn = registryKey =>
                 {
                     try
                     {
