@@ -64,8 +64,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
         }
 
-        
-
         public override void ExecuteInternal()
         {
             if (roots == null || !roots.Any())
@@ -95,6 +93,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                 if (fileInfo is DirectoryInfo)
                 {
                     Log.Verbose("Starting Directory {0}", fileInfo.FullName);
+                }
+                else
+                {
+                    Log.Verbose("Started parsing {0}", fileInfo.FullName);
                 }
                 FileSystemObject obj = FileSystemInfoToFileSystemObject(fileInfo, downloadCloud, INCLUDE_CONTENT_HASH);
                 if (obj != null)
@@ -126,6 +128,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         }
                     }
                 }
+                Log.Verbose("Finished parsing {0}", fileInfo.FullName);
             };
 
             foreach (var root in roots)
@@ -166,6 +169,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 Path = fileInfo.FullName,
                 PermissionsString = FileSystemUtils.GetFilePermissions(fileInfo),
             };
+            Log.Verbose("Starting constructing {0}", obj.Path);
             // Get Owner/Group
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
@@ -240,11 +244,13 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 try
                 {
+                    Log.Verbose("Before UnixFileInfo {0}", fileInfo.FullName);
                     var file = new UnixFileInfo(fileInfo.FullName);
                     obj.Owner = file.OwnerUser.UserName;
                     obj.Group = file.OwnerGroup.GroupName;
                     obj.SetGid = file.IsSetGroup;
                     obj.SetUid = file.IsSetUser;
+                    Log.Verbose("After UnixFileInfo {0}", fileInfo.FullName);
 
                     if (file.FileAccessPermissions.ToString().Equals("AllPermissions", StringComparison.InvariantCulture))
                     {
@@ -311,17 +317,19 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
 
 
-                if (fileInfo is DirectoryInfo)
-                {
-                    obj.IsDirectory = true;
-                }
-                else if (fileInfo is FileInfo)
-                {
-                    obj.IsDirectory = false;
+            if (fileInfo is DirectoryInfo)
+            {
+                obj.IsDirectory = true;
+            }
+            else if (fileInfo is FileInfo)
+            {
+                obj.IsDirectory = false;
                 try
                 {
+                    Log.Verbose("Before Getting Size {0}", fileInfo.FullName);
                     // This can throw if access is denied. That's fine as everything below also wouldn't work when access is denied.
                     obj.Size = (ulong)(fileInfo as FileInfo).Length;
+                    Log.Verbose("After Getting Size {0}", fileInfo.FullName);
 
                     if (INCLUDE_CONTENT_HASH)
                     {
@@ -346,7 +354,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                     else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                     {
+                        Log.Verbose("Before Is Executable {0}", fileInfo.FullName);
                         obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, obj.Size);
+                        Log.Verbose("After Is Executable {0}", fileInfo.FullName);
                     }
                 }
                 catch (Exception e) when (
@@ -364,6 +374,5 @@ namespace AttackSurfaceAnalyzer.Collectors
             
             return obj;
         }
-
     }
 }

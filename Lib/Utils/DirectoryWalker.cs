@@ -33,6 +33,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     DirectoryInfo fileInfo = null;
                     try
                     {
+                        Log.Verbose("Spooling up {0}",currentDir);
                         fileInfo = new DirectoryInfo(currentDir);
                         // Skip symlinks to avoid loops
                         // Future improvement: log it as a symlink in the data
@@ -60,7 +61,9 @@ namespace AttackSurfaceAnalyzer.Utils
                 string[] subDirs;
                 try
                 {
+                    Log.Verbose("Getting directories {0}", currentDir);
                     subDirs = Directory.GetDirectories(currentDir);
+                    Log.Verbose("Got directories {0}", currentDir);
                 }
                 catch (Exception e) when (
                     e is ArgumentException ||
@@ -77,7 +80,9 @@ namespace AttackSurfaceAnalyzer.Utils
                 string[] files;
                 try
                 {
+                    Log.Verbose("Getting files {0}", currentDir);
                     files = Directory.GetFiles(currentDir);
+                    Log.Verbose("Got files {0}", currentDir);
                 }
 
                 catch (Exception e) when (
@@ -91,7 +96,6 @@ namespace AttackSurfaceAnalyzer.Utils
                     Log.Verbose("Failed to get files for {0} {1}", currentDir, e.GetType().ToString());
                     continue;
                 }
-
                 
                 // Perform the required action on each file here.
                 foreach (string file in files)
@@ -104,7 +108,9 @@ namespace AttackSurfaceAnalyzer.Utils
                     FileInfo fileInfo = null;
                     try
                     {
+                        Log.Verbose("Getting FileInfo {0}", file);
                         fileInfo = new FileInfo(file);
+                        Log.Verbose("Got FileInfo {0}", file);
                     }
                     catch (Exception e) when (
                         e is ArgumentNullException ||
