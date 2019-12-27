@@ -28,6 +28,34 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     continue;
                 }
+                else
+                {
+                    DirectoryInfo fileInfo = null;
+                    try
+                    {
+                        fileInfo = new DirectoryInfo(currentDir);
+                        // Skip symlinks to avoid loops
+                        // Future improvement: log it as a symlink in the data
+                        if (fileInfo.Attributes.HasFlag(FileAttributes.ReparsePoint))
+                        {
+                            Log.Verbose($"Skipping symlink at {currentDir}");
+                            continue;
+                        }
+                    }
+                    catch (Exception e) when (
+                        e is DirectoryNotFoundException
+                        || e is IOException
+                        || e is UnauthorizedAccessException)
+                    {
+                        continue;
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Debug($"Should be catching {e.GetType().ToString()} in WalkDirectory");
+                    }
+
+                    yield return fileInfo;
+                }
 
                 string[] subDirs;
                 try
@@ -94,9 +122,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     FileInfo fileInfo = null;
                     try
                     {
-                        Log.Verbose($"Getting FileInfo for {file}");
                         fileInfo = new FileInfo(file);
-                        Log.Verbose($"Got FileInfo for {file}");
                     }
                     catch (System.IO.FileNotFoundException e)
                     {
@@ -117,10 +143,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     DirectoryInfo fileInfo = null;
                     try
                     {
-                        Log.Verbose($"Getting DirectoryInfo for {dir}");
-
                         fileInfo = new DirectoryInfo(dir);
-                        Log.Verbose($"Got DirectoryInfo for {dir}");
 
                         // Skip symlinks to avoid loops
                         // Future improvement: log it as a symlink in the data
@@ -129,19 +152,22 @@ namespace AttackSurfaceAnalyzer.Utils
                             continue;
                         }
                     }
-                    catch (System.IO.DirectoryNotFoundException)
-                    {
-                        // If file was deleted by a separate application
-                        //  or thread since the call to TraverseTree()
-                        // then just continue.
-                        continue;
-                    }
-                    catch (IOException)
+                    catch (Exception e) when (
+                        e is DirectoryNotFoundException
+                        || e is IOException
+                        || e is UnauthorizedAccessException)
                     {
                         continue;
                     }
-                    dirs.Push(dir);
-                    yield return fileInfo;
+                    catch (Exception e)
+                    {
+                        Log.Debug($"Should be catching {e.GetType().ToString()} in WalkDirectory");
+                    }
+
+                    if (fileInfo != null)
+                    {
+                        dirs.Push(dir);
+                    }
                 }
             }
         }

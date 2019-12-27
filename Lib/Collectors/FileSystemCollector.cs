@@ -93,8 +93,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                 Parallel.ForEach(fileInfoEnumerable,
                                 (fileInfo =>
                 {
+                    Log.Verbose($"Processing {fileInfo.FullName}");
                     FileSystemObject obj = FileSystemInfoToFileSystemObject(fileInfo, downloadCloud, INCLUDE_CONTENT_HASH);
-
+                    Log.Verbose($"Processed {fileInfo.FullName}");
                     if (obj != null)
                     {
                         DatabaseManager.Write(obj, RunId);

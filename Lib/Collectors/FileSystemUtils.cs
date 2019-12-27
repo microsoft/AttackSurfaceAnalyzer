@@ -47,40 +47,31 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                     FileAccessPermissions permissions = default(FileAccessPermissions);
 
-                    if (fileInfo is FileInfo)
+                    try
                     {
-                        try
+                        if (fileInfo is FileInfo)
                         {
                             permissions = new UnixFileInfo(filename).FileAccessPermissions;
                         }
-                        catch (Exception e) when (
-                            e is IOException
-                            || e is InvalidOperationException
-                        )
-                        {
-                            Log.Debug("Unable to get access control for {0}: {1}", fileInfo.FullName, e.GetType().ToString());
-                        }
-                    }
-                    else if (fileInfo is DirectoryInfo)
-                    {
-                        try
+                        else if (fileInfo is DirectoryInfo)
                         {
                             permissions = new UnixDirectoryInfo(filename).FileAccessPermissions;
                         }
-                        catch (Exception e) when (
-                            e is IOException
-                            || e is InvalidOperationException
-                        )
-                        {
-                            Log.Debug("Unable to get access control for {0}: {1}", fileInfo.FullName, e.GetType().ToString());
-                        }
                     }
-                    else
+                    catch (Exception e) when (
+                        e is IOException
+                        || e is InvalidOperationException
+                    )
                     {
-                        return string.Empty;
+                        Log.Verbose("Unable to get access control for {0}: {1}", fileInfo.FullName, e.GetType().ToString());
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Debug($"Error Getting File Permissions {e.GetType().ToString()}");
                     }
 
                     return permissions.ToString();
+
                 }
                 else
                 {
@@ -90,55 +81,42 @@ namespace AttackSurfaceAnalyzer.Collectors
                         filename = $"\\?{filename}";
                     }
 
-                    if (fileInfo is FileInfo)
+                    try
                     {
-                        try
+                        if (fileInfo is FileInfo)
                         {
                             return new FileSecurity(filename, AccessControlSections.All).GetSecurityDescriptorSddlForm(AccessControlSections.All);
-
                         }
-                        catch (Exception e) when (
-                            e is ArgumentException
-                            || e is ArgumentNullException
-                            || e is DirectoryNotFoundException
-                            || e is FileNotFoundException
-                            || e is IOException
-                            || e is NotSupportedException
-                            || e is PlatformNotSupportedException
-                            || e is PathTooLongException
-                            || e is PrivilegeNotHeldException
-                            || e is SystemException
-                            || e is UnauthorizedAccessException)
-                        {
-                            Log.Verbose($"Error parsing FileSecurity for {fileInfo.FullName} {e.GetType().ToString()}");
-                        }
-                    }
-                    else if (fileInfo is DirectoryInfo)
-                    {
-                        try
+                        else if (fileInfo is DirectoryInfo)
                         {
                             return new DirectorySecurity(filename, AccessControlSections.All).GetSecurityDescriptorSddlForm(AccessControlSections.All);
                         }
-                        catch (Exception e) when (
-                            e is ArgumentException
-                            || e is ArgumentNullException
-                            || e is DirectoryNotFoundException
-                            || e is FileNotFoundException
-                            || e is IOException
-                            || e is NotSupportedException
-                            || e is PlatformNotSupportedException
-                            || e is PathTooLongException
-                            || e is PrivilegeNotHeldException
-                            || e is SystemException
-                            || e is UnauthorizedAccessException)
-                        {
-                            Log.Verbose($"Error parsing DirectorySecurity for {fileInfo.FullName} {e.GetType().ToString()}");
-                        }
                     }
-                    return "";
+                    catch (Exception e) when (
+                        e is ArgumentException
+                        || e is ArgumentNullException
+                        || e is DirectoryNotFoundException
+                        || e is FileNotFoundException
+                        || e is IOException
+                        || e is NotSupportedException
+                        || e is PlatformNotSupportedException
+                        || e is PathTooLongException
+                        || e is PrivilegeNotHeldException
+                        || e is SystemException
+                        || e is UnauthorizedAccessException)
+                    {
+                        var InfoType = fileInfo is FileInfo ? "FileSecurity" : "DirectorySecurity";
+                        Log.Verbose($"Error parsing {InfoType} for {fileInfo.FullName} {e.GetType().ToString()}");
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Debug($"Error Getting File Permissions {e.GetType().ToString()}");
+                    }
+
+                    return string.Empty;
                 }
             }
-            return "";
+            return string.Empty;
         }
 
         public static bool IsExecutable(string Path)
