@@ -291,16 +291,18 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
             }
 
-            try
-            {
+
                 if (fileInfo is DirectoryInfo)
                 {
                     obj.IsDirectory = true;
                 }
                 else if (fileInfo is FileInfo)
                 {
-                    obj.Size = (ulong)(fileInfo as FileInfo).Length;
                     obj.IsDirectory = false;
+                try
+                {
+                    // This can throw if access is denied. That's fine as everything below also wouldn't work when access is denied.
+                    obj.Size = (ulong)(fileInfo as FileInfo).Length;
 
                     if (INCLUDE_CONTENT_HASH)
                     {
@@ -328,13 +330,19 @@ namespace AttackSurfaceAnalyzer.Collectors
                         obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, obj.Size);
                     }
                 }
-            }
-            catch(Exception e) when (
-                e is FileNotFoundException ||
-                e is IOException)
-            {
+                catch (Exception e) when (
+                    e is FileNotFoundException ||
+                    e is IOException ||
+                    e is UnauthorizedAccessException)
+                {
 
+                }
+                catch (Exception e)
+                {
+                    Log.Debug("Should be catching in FileSystemInfoToFileSystemObject {0}", e.GetType().ToString());
+                }
             }
+            
             return obj;
         }
 
