@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+using Mono.Unix;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -97,20 +98,33 @@ namespace AttackSurfaceAnalyzer.Utils
                     continue;
                 }
                 
-                // Perform the required action on each file here.
                 foreach (string file in files)
                 {
                     if (Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "File", "Path", file))
                     {
                         continue;
                     }
-
                     FileInfo fileInfo = null;
+
                     try
                     {
-                        Log.Verbose("Getting FileInfo {0}", file);
-                        fileInfo = new FileInfo(file);
-                        Log.Verbose("Got FileInfo {0}", file);
+                        // Exclude weird files like sockets and sym links.
+                        UnixSymbolicLinkInfo i = new UnixSymbolicLinkInfo(file);
+                        switch (i.FileType)
+                        {
+                            case FileTypes.SymbolicLink:
+                            case FileTypes.Fifo:
+                            case FileTypes.Socket:
+                            case FileTypes.BlockDevice:
+                            case FileTypes.CharacterDevice:
+                            case FileTypes.Directory:
+                                break;
+                            case FileTypes.RegularFile:
+                                Log.Verbose("Getting FileInfo {0}", file);
+                                fileInfo = new FileInfo(file);
+                                Log.Verbose("Got FileInfo {0}", file);
+                                break;
+                        }
                     }
                     catch (Exception e) when (
                         e is ArgumentNullException ||
@@ -118,13 +132,20 @@ namespace AttackSurfaceAnalyzer.Utils
                         e is ArgumentException ||
                         e is UnauthorizedAccessException ||
                         e is PathTooLongException ||
-                        e is NotSupportedException)
+                        e is NotSupportedException ||
+                        e is InvalidOperationException)
                     {
                         Log.Verbose("Failed to create FileInfo from File at {0} {1}", file, e.GetType().ToString());
                         continue;
                     }
-
-                    yield return fileInfo;
+                    catch (Exception e)
+                    {
+                        Log.Debug("Should be caught in DirectoryWalker {0}", e.GetType().ToString());
+                    }
+                    if (fileInfo != null)
+                    {
+                        yield return fileInfo;
+                    }
                 }
 
                 // Push the subdirectories onto the stack for traversal.
@@ -147,7 +168,9 @@ namespace AttackSurfaceAnalyzer.Utils
                         e is SecurityException
                         || e is ArgumentException
                         || e is ArgumentException
-                        || e is PathTooLongException)
+                        || e is PathTooLongException
+                        || e is UnauthorizedAccessException
+                        || e is IOException)
                     {
                         Log.Verbose("Failed to create DirectoryInfo from Directory at {0} {1}", dir, e.GetType().ToString());
                         continue;
