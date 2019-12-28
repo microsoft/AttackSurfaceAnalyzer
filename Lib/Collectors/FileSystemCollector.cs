@@ -327,7 +327,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         // TODO: Handle these somehow.  Directly instantiating a FileInfo on them hangs the program.
                         // Could switch directory walker to just return raw paths, converting to fileinfo in the filesystemcollector
                         UnixSymbolicLinkInfo i = new UnixSymbolicLinkInfo(path);
-                        obj.fileTypes = i.FileType;
+                        obj.fileType = i.FileType.ToString();
                         obj.Size = (ulong)i.Length;
                         obj.IsDirectory = false;
                         switch (i.FileType)

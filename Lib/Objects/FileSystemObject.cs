@@ -21,7 +21,7 @@ namespace AttackSurfaceAnalyzer.Objects
         public string ContentHash { get; set; }
         public bool IsExecutable { get; set; }
         public bool IsDirectory { get; set; }
-        public Mono.Unix.FileTypes fileTypes { get; set; }
+        public string fileType { get; set; }
         public string Owner { get; set; }
         public string Group { get; set; }
         public bool SetGid { get; set; }
