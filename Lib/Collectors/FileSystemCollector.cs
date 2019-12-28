@@ -319,6 +319,20 @@ namespace AttackSurfaceAnalyzer.Collectors
                     if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                     {
                         fileInfo = new FileInfo(path);
+                        obj.Size = (ulong)fileInfo.Length;
+                        if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
+                        {
+                            if (includeContentHash)
+                            {
+                                obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
+                            }
+                            if (WindowsFileSystemUtils.NeedsSignature(obj))
+                            {
+                                obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(path);
+                                obj.Characteristics.AddRange(WindowsFileSystemUtils.GetDllCharacteristics(path));
+                                obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, obj.Size);
+                            }
+                        }
                     }
                     else
                     {
@@ -343,25 +357,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 {
                                     obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
                                 }
-                                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                                {
-
-                                    if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
-                                    {
-
-                                        if (WindowsFileSystemUtils.NeedsSignature(obj))
-                                        {
-                                            obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(path);
-                                            obj.Characteristics.AddRange(WindowsFileSystemUtils.GetDllCharacteristics(path));
-                                            obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, obj.Size);
-                                        }
-                                    }
-
-                                }
-                                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                                {
-                                    obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, obj.Size);
-                                }
+                                obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, obj.Size);
                                 break;
                         }
                     }
