@@ -89,23 +89,23 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
             }
 
-            Action<string> IterateOn = fileInfo =>
+            Action<string> IterateOn = Path =>
             {
-                FileSystemObject obj = FilePathToFileSystemObject(fileInfo, downloadCloud, INCLUDE_CONTENT_HASH);
+                FileSystemObject obj = FilePathToFileSystemObject(Path, downloadCloud, INCLUDE_CONTENT_HASH);
                 if (obj != null)
                 {
                     DatabaseManager.Write(obj, RunId);
                     if (examineCertificates &&
-                        fileInfo.EndsWith(".cer", StringComparison.CurrentCulture) ||
-                        fileInfo.EndsWith(".der", StringComparison.CurrentCulture) ||
-                        fileInfo.EndsWith(".p7b", StringComparison.CurrentCulture))
+                        Path.EndsWith(".cer", StringComparison.CurrentCulture) ||
+                        Path.EndsWith(".der", StringComparison.CurrentCulture) ||
+                        Path.EndsWith(".p7b", StringComparison.CurrentCulture))
                     {
                         try
                         {
-                            var certificate = X509Certificate.CreateFromCertFile(fileInfo);
+                            var certificate = X509Certificate.CreateFromCertFile(Path);
                             var certObj = new CertificateObject()
                             {
-                                StoreLocation = fileInfo,
+                                StoreLocation = Path,
                                 StoreName = "Disk",
                                 CertificateHashString = certificate.GetCertHashString(),
                                 Subject = certificate.Subject,
@@ -117,31 +117,31 @@ namespace AttackSurfaceAnalyzer.Collectors
                             e is System.Security.Cryptography.CryptographicException
                             || e is ArgumentException)
                         {
-                            Log.Verbose($"Could not parse certificate from file: {fileInfo}");
+                            Log.Verbose($"Could not parse certificate from file: {Path}");
                         }
                     }
                 }
-                Log.Verbose("Finished parsing {0}", fileInfo);
+                Log.Verbose("Finished parsing {0}", Path);
             };
 
             foreach (var root in roots)
             {
                 Log.Information("{0} root {1}", Strings.Get("Scanning"), root);
-                var fileInfoEnumerable = DirectoryWalker.WalkDirectory(root);
+                var filePathEnumerable = DirectoryWalker.WalkDirectory(root);
                 
                 if (parallel)
                 {
-                    Parallel.ForEach(fileInfoEnumerable,
-                                    (fileInfo =>
+                    Parallel.ForEach(filePathEnumerable,
+                                    (filePath =>
                                     {
-                                        IterateOn(fileInfo);
+                                        IterateOn(filePath);
                                     }));
                 }
                 else
                 {
-                    foreach (var fileInfo in fileInfoEnumerable)
+                    foreach (var filePath in filePathEnumerable)
                     {
-                        IterateOn(fileInfo);
+                        IterateOn(filePath);
                     }
                 }
             }
@@ -152,9 +152,9 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// </summary>
         /// <param name="fileInfo">A reference to a file on disk.</param>
         /// <param name="downloadCloud">If the file is hosted in the cloud, the user has the option to include cloud files or not.</param>
-        /// <param name="INCLUDE_CONTENT_HASH">If we should generate a hash of the file.</param>
+        /// <param name="includeContentHash">If we should generate a hash of the file.</param>
         /// <returns></returns>
-        public static FileSystemObject FilePathToFileSystemObject(string path, bool downloadCloud = false, bool INCLUDE_CONTENT_HASH = false)
+        public static FileSystemObject FilePathToFileSystemObject(string path, bool downloadCloud = false, bool includeContentHash = false)
         {
             if (path == null) { return null; }
             FileSystemObject obj = new FileSystemObject()
@@ -236,13 +236,11 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 try
                 {
-                    Log.Verbose("Before UnixFileInfo {0}", path);
                     var file = new UnixSymbolicLinkInfo(path);
                     obj.Owner = file.OwnerUser.UserName;
                     obj.Group = file.OwnerGroup.GroupName;
                     obj.SetGid = file.IsSetGroup;
                     obj.SetUid = file.IsSetUser;
-                    Log.Verbose("After UnixFileInfo {0}", path);
 
                     if (file.FileAccessPermissions.ToString().Equals("AllPermissions", StringComparison.InvariantCulture))
                     {
@@ -342,7 +340,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             case FileTypes.Directory:
                                 break;
                             case FileTypes.RegularFile:
-                                if (INCLUDE_CONTENT_HASH)
+                                if (includeContentHash)
                                 {
                                     obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
                                 }
