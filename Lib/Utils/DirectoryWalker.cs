@@ -5,6 +5,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Security;
 
 namespace AttackSurfaceAnalyzer.Utils
@@ -108,24 +109,31 @@ namespace AttackSurfaceAnalyzer.Utils
 
                     try
                     {
-                        // Exclude weird files like sockets and sym links.
-                        // TODO: Handle these somehow.  Directly instantiating a FileInfo on them hangs the program.
-                        // Could switch directory walker to just return raw paths, converting to fileinfo in the filesystemcollector
-                        UnixSymbolicLinkInfo i = new UnixSymbolicLinkInfo(file);
-                        switch (i.FileType)
+                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                         {
-                            case FileTypes.SymbolicLink:
-                            case FileTypes.Fifo:
-                            case FileTypes.Socket:
-                            case FileTypes.BlockDevice:
-                            case FileTypes.CharacterDevice:
-                            case FileTypes.Directory:
-                                break;
-                            case FileTypes.RegularFile:
-                                Log.Verbose("Getting FileInfo {0}", file);
-                                fileInfo = new FileInfo(file);
-                                Log.Verbose("Got FileInfo {0}", file);
-                                break;
+                            fileInfo = new FileInfo(file);
+                        }
+                        else
+                        {
+                            // Exclude weird files like sockets and sym links.
+                            // TODO: Handle these somehow.  Directly instantiating a FileInfo on them hangs the program.
+                            // Could switch directory walker to just return raw paths, converting to fileinfo in the filesystemcollector
+                            UnixSymbolicLinkInfo i = new UnixSymbolicLinkInfo(file);
+                            switch (i.FileType)
+                            {
+                                case FileTypes.SymbolicLink:
+                                case FileTypes.Fifo:
+                                case FileTypes.Socket:
+                                case FileTypes.BlockDevice:
+                                case FileTypes.CharacterDevice:
+                                case FileTypes.Directory:
+                                    break;
+                                case FileTypes.RegularFile:
+                                    Log.Verbose("Getting FileInfo {0}", file);
+                                    fileInfo = new FileInfo(file);
+                                    Log.Verbose("Got FileInfo {0}", file);
+                                    break;
+                            }
                         }
                     }
                     catch (Exception e) when (
