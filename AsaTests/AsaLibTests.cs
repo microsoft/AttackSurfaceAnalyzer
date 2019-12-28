@@ -280,7 +280,7 @@ namespace AsaTests
                 var FirstRunId = "TestRegistryCollector-1";
                 var SecondRunId = "TestRegistryCollector-2";
 
-                var rc = new RegistryCollector(FirstRunId, new List<RegistryHive>() { RegistryHive.CurrentUser });
+                var rc = new RegistryCollector(FirstRunId, new List<RegistryHive>() { RegistryHive.CurrentUser }, true);
                 rc.Execute();
 
                 // Create a registry key
@@ -293,7 +293,7 @@ namespace AsaTests
                 key.SetValue(value, value2);
                 key.Close();
 
-                rc = new RegistryCollector(SecondRunId, new List<RegistryHive>() { RegistryHive.CurrentUser });
+                rc = new RegistryCollector(SecondRunId, new List<RegistryHive>() { RegistryHive.CurrentUser }, true);
                 rc.Execute();
 
                 // Clean up

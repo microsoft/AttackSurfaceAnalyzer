@@ -4,39 +4,6 @@
       "Registry": {
         "Key": {
           "Exclude": [
-            "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Control$",
-            "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\DriverDatabase\\\\DriverPackages$",
-            "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Enum$",
-            "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Services\\\\DeviceAssociationService\\\\State\\\\Store$",
-            "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Services\\\\mpssvc\\\\Parameters$",
-            "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\ControlSet001\\\\Enum$",
-            "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\ControlSet001\\\\Control$",
-            "^HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\Microsoft\\\\WwanSvc$",
-            "^HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\WOW6432Node\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\AppModel$",
-            "^HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\WOW6432Node\\\\Microsoft\\\\Windows NT\\\\CurrentVersion\\\\Perflib\\\\CurrentLanguage$",
-            "^HKEY_USERS\\\\S-[0-9]*-[0-9]*-[0-9]*\\\\Software\\\\Microsoft\\\\Cryptography$",
-            "^HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\Microsoft\\\\Windows NT\\\\CurrentVersion\\\\Perflib",
-            "^HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\Microsoft\\\\Windows NT\\\\CurrentVersion\\\\AppCompatFlags\\\\CIT$",
-            "^HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\Microsoft\\\\WcmSvc\\\\wifinetworkmanager$",
-            "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\ControlSet001\\\\Services\\\\ADOVMPPackages",
-            "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\ControlSet001\\\\Services\\\\DeviceAssociationService\\\\State\\\\Store\\\\",
-            "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\ControlSet001\\\\Services\\\\mpssvc\\\\Parameterss",
-            "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\ControlSet001\\\\Services\\\\PolicyAgent\\\\Parameters",
-            "^HKEY_CURRENT_USER\\\\System\\\\CurrentControlSet\\\\Control\\\\DeviceContainers\\\\",
-            "^HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\WOW6432Node\\\\Microsoft\\\\EAPSIMMethods",
-            "^HKEY_LOCAL_MACHINE\\\\SECURITY",
-            "^HKEY_LOCAL_MACHINE\\\\SAM",
-            "^HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\Microsoft\\\\EAPSIMMethods",
-            "^HKEY_USERS\\\\S-[0-9-]*\\\\System\\\\CurrentControlSet\\\\Control\\\\DeviceContainers",
-            "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\ControlSet001\\\\Services\\\\ADOVMPPackage",
-            "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\ControlSet001\\\\Services\\\\BTHPORT\\\\Parameters",
-            "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\ControlSet001\\\\Services\\\\mpssvc\\\\Parameters",
-            "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Services\\\\ADOVMPPackage",
-            "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Services\\\\BTHPORT\\\\Parameters",
-            "^HKEY_LOCAL_MACHINE\\\\SYSTEM\\\\CurrentControlSet\\\\Services\\\\PolicyAgent\\\\Parameters",
-            "^HKEY_CURRENT_USER\\\\Software\\\\Classes\\\\Local Settings\\\\MuiCache",
-            "^HKEY_LOCAL_MACHINE\\\\SOFTWARE\\\\Microsoft\\\\Windows\\\\Windows Error Reporting",
-            "^HKEY_CLASSES_ROOT\\\\VirtualStore\\\\MACHINE\\\\SOFTWARE\\\\WOW6432Node\\\\Microsoft\\\\IdentityCRL"
           ]
         },
       },
@@ -46,41 +13,6 @@
             "^[A-Z]:\\\\pagefile.sys$",
             "^[A-Z]:\\\\hiberfil.sys$",
             "^[A-Z]:\\\\swapfile.sys$",
-            "^[A-Z]:\\\\Windows\\\\CSC$",
-            "^[A-Z]:\\\\Windows\\\\System32\\\\LogFiles\\\\WMI\\\\RtBackup$",
-            "^[A-Z]:\\\\Windows\\\\ServiceProfiles\\\\LocalService\\\\AppData\\\\Local\\\\Microsoft\\\\Ngc$",
-            "^[A-Z]:\\\\Windows\\\\ServiceProfiles\\\\NetworkService\\\\AppData\\\\Local\\\\Microsoft\\\\Windows\\\\DeliveryOptimization\\\\Logs",
-            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows\\\\AppRepository\\\\Packages\\\\Microsoft.Windows.ContentDeliveryManager",
-            "^[A-Z]:\\\\Windows\\\\Prefetch",
-            "^[A-Z]:\\\\Windows\\\\ServiceProfiles\\\\NetworkService\\\\AppData\\\\Local\\\\Microsoft\\\\Windows\\\\DeliveryOptimization\\\\Logs",
-            "^[A-Z]:\\\\Windows\\\\System32\\\\config\\\\SYSTEM.LOG",
-            "^[A-Z]:\\\\Windows\\\\System32\\\\config\\\\BBI.LOG",
-            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows Defender Advanced Threat Protection\\\\Cache$",
-            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows Defender Advanced Threat Protection\\\\Cyber$",
-            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows Defender Advanced Threat Protection\\\\Trace$",
-            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows Defender\\\\Scans\\\\History\\\\CacheManager$",
-            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows\\\\SystemData$",
-            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Diagnosis$",
-            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Crypto\\\\RSA\\\\MachineKeys$",
-            "^[A-Z]:\\\\System Volume Information$",
-            "^[A-Z]:\\\\Windows\\\\System32\\\\LogFiles\\\\WMI\\\\LwtNetLog.etl$",
-            "^[A-Z]:\\\\Windows\\\\Logs\\\\WindowsUpdate$",
-            "^[A-Z]:\\\\Windows\\\\Temp\\\\MpCmdRun.log$",
-            "^[A-Z]:\\\\Windows\\\\Temp\\\\MpSigStub.log$",
-            "^[A-Z]:\\\\Windows\\\\WinSxS",
-            "^[A-Z]:\\\\Windows\\\\System32\\\\LogFiles\\\\WMI\\\\LwtNetLog.etl$",
-            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows Defender\\\\Support\\\\MpWppTracing$",
-            "^[A-Z]:\\\\Windows\\\\CCM\\\\ScriptStore",
-            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows\\\\Containers\\\\BaseImages\\\\.*?\\\\Files\\\\System Volume Information",
-            "^[A-Z]:\\\\WcSandboxState",
-            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows Defender Advanced Threat Protection",
-            "^[A-Z]:\\\\Program Files\\\\Windows Defender Advanced Threat Protection\\\\Classification\\\\Configuration",
-            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows\\\\WER\\\\Temp",
-            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows\\\\WER\\\\ReportArchive",
-            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Windows\\\\ClipSVC\\\\tokens.dat",
-            "^[A-Z]:\\\\Windows\\\\ServiceProfiles\\\\NetworkService\\\\AppData\\\\Local\\\\Microsoft\\\\Windows\\\\DeliveryOptimization\\State",
-            "^[A-Z]:\\\\ProgramData\\\\Microsoft\\\\Network\\\\Downloader",
-            "^[A-Z]:\\\\Windows\\\\Temp"
           ]
         }
       }
@@ -101,8 +33,6 @@
       "File": {
         "Path": {
           "Exclude": [
-            "^/private/var/db/uuidtext",
-            "^/dev",
             "^/.Spotlight-V100"
           ]
         }
@@ -114,10 +44,6 @@
       "File": {
         "Path": {
           "Exclude": [
-            "^/proc/",
-            "^/snap/",
-            "^/dev",
-            "^/run"
           ]
         }
       }

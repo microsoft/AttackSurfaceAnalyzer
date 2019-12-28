@@ -188,6 +188,9 @@ namespace AttackSurfaceAnalyzer
 
         [Option(HelpText = "Force run without admin/root (collectors may not function).")]
         public bool ForceNoAdmin { set; get; }
+
+        [Option(HelpText = "Run parallelized collectors when available.", Default = true)]
+        public bool Parallelization { set; get; }
     }
     [Verb("monitor", HelpText = "Continue running and monitor activity")]
     public class MonitorCommandOptions
@@ -1250,8 +1253,6 @@ namespace AttackSurfaceAnalyzer
             CheckFirstRun();
             DatabaseManager.VerifySchemaVersion();
 
-
-
             int returnValue = (int)GUI_ERROR.NONE;
             opts.RunId = opts.RunId.Trim();
 
@@ -1297,7 +1298,7 @@ namespace AttackSurfaceAnalyzer
 
             if (opts.EnableFileSystemCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new FileSystemCollector(opts.RunId, enableHashing: opts.GatherHashes, directories: opts.SelectedDirectories, downloadCloud: opts.DownloadCloud, examineCertificates: opts.CertificatesFromFiles));
+                collectors.Add(new FileSystemCollector(opts.RunId, enableHashing: opts.GatherHashes, directories: opts.SelectedDirectories, downloadCloud: opts.DownloadCloud, examineCertificates: opts.CertificatesFromFiles, parallel: opts.Parallelization));
             }
             if (opts.EnableNetworkPortCollector || opts.EnableAllCollectors)
             {
@@ -1313,7 +1314,7 @@ namespace AttackSurfaceAnalyzer
             }
             if (opts.EnableRegistryCollector || (opts.EnableAllCollectors && RuntimeInformation.IsOSPlatform(OSPlatform.Windows)))
             {
-                collectors.Add(new RegistryCollector(opts.RunId));
+                collectors.Add(new RegistryCollector(opts.RunId, opts.Parallelization));
             }
             if (opts.EnableCertificateCollector || opts.EnableAllCollectors)
             {
