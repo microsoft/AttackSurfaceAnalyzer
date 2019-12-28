@@ -1,9 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+using Mono.Unix;
 using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Security;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -27,93 +30,142 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     continue;
                 }
-
-                string[] subDirs;
-                try
-                {
-                    subDirs = System.IO.Directory.GetDirectories(currentDir);
-                }
-                // An UnauthorizedAccessException exception will be thrown if we do not have
-                // discovery permission on a folder or file. It may or may not be acceptable 
-                // to ignore the exception and continue enumerating the remaining files and 
-                // folders. It is also possible (but unlikely) that a DirectoryNotFound exception 
-                // will be raised. This will happen if currentDir has been deleted by
-                // another application or thread after our call to Directory.Exists. The 
-                // choice of which exceptions to catch depends entirely on the specific task 
-                // you are intending to perform and also on how much you know with certainty 
-                // about the systems on which this code will run.
-                catch (UnauthorizedAccessException)
-                {
-                    Log.Debug("Unable to access: {0}", currentDir);
-                    continue;
-                }
-                catch (System.IO.DirectoryNotFoundException)
-                {
-                    Log.Debug("Directory not found: {0}", currentDir);
-                    continue;
-                }
-                // @TODO: Improve this catch. 
-                // This catches a case where we sometimes try to walk a file
-                // even though its not a directory on Mac OS.
-                // System.IO.Directory.GetDirectories is how we get the 
-                // directories which sometimes gives you things that aren't directories.
-                catch (IOException)
-                {
-                    Log.Debug("IO Error: {0}", currentDir);
-                    continue;
-                }
-
-                string[] files = null;
-                try
-                {
-                    files = System.IO.Directory.GetFiles(currentDir);
-                }
-
-                catch (UnauthorizedAccessException e)
-                {
-
-                    Log.Debug(e.Message);
-                    continue;
-                }
-
-                catch (System.IO.DirectoryNotFoundException e)
-                {
-                    Log.Debug(e.Message);
-                    continue;
-                }
-                // Perform the required action on each file here.
-                // Modify this block to perform your required task.
-                foreach (string file in files)
-                {
-                    FileInfo fileInfo = null;
-                    try
-                    {
-                        fileInfo = new FileInfo(file);
-                    }
-                    catch (System.IO.FileNotFoundException e)
-                    {
-                        // If file was deleted by a separate application
-                        //  or thread since the call to TraverseTree()
-                        // then just continue.
-                        Log.Debug(e.Message);
-                        continue;
-                    }
-                    if (Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "File", "Path", file))
-                    {
-                        continue;
-                    }
-                    yield return fileInfo;
-
-                }
-
-                // Push the subdirectories onto the stack for traversal.
-                // This could also be done before handing the files.
-                foreach (string str in subDirs)
+                else
                 {
                     DirectoryInfo fileInfo = null;
                     try
                     {
-                        fileInfo = new DirectoryInfo(str);
+                        Log.Verbose("Spooling up {0}",currentDir);
+                        fileInfo = new DirectoryInfo(currentDir);
+                        // Skip symlinks to avoid loops
+                        // Future improvement: log it as a symlink in the data
+                        if (fileInfo.Attributes.HasFlag(FileAttributes.ReparsePoint))
+                        {
+                            Log.Verbose($"Skipping symlink at {currentDir}");
+                            continue;
+                        }
+                    }
+                    catch (Exception e) when (
+                        e is DirectoryNotFoundException
+                        || e is IOException
+                        || e is UnauthorizedAccessException)
+                    {
+                        continue;
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Debug($"Should be catching {e.GetType().ToString()} in WalkDirectory");
+                    }
+
+                    yield return fileInfo;
+                }
+
+                string[] subDirs;
+                try
+                {
+                    Log.Verbose("Getting directories {0}", currentDir);
+                    subDirs = Directory.GetDirectories(currentDir);
+                    Log.Verbose("Got directories {0}", currentDir);
+                }
+                catch (Exception e) when (
+                    e is ArgumentException ||
+                    e is ArgumentNullException ||
+                    e is PathTooLongException ||
+                    e is IOException ||
+                    e is DirectoryNotFoundException ||
+                    e is UnauthorizedAccessException)
+                {
+                    Log.Verbose("Failed to get Directories for {0} {1}", currentDir, e.GetType().ToString());
+                    continue;
+                }
+
+                string[] files;
+                try
+                {
+                    Log.Verbose("Getting files {0}", currentDir);
+                    files = Directory.GetFiles(currentDir);
+                    Log.Verbose("Got files {0}", currentDir);
+                }
+
+                catch (Exception e) when (
+                    e is UnauthorizedAccessException ||
+                    e is IOException ||
+                    e is ArgumentException ||
+                    e is ArgumentNullException ||
+                    e is PathTooLongException ||
+                    e is DirectoryNotFoundException)
+                {
+                    Log.Verbose("Failed to get files for {0} {1}", currentDir, e.GetType().ToString());
+                    continue;
+                }
+                
+                foreach (string file in files)
+                {
+                    if (Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "File", "Path", file))
+                    {
+                        continue;
+                    }
+                    FileInfo fileInfo = null;
+
+                    try
+                    {
+                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                        {
+                            fileInfo = new FileInfo(file);
+                        }
+                        else
+                        {
+                            // Exclude weird files like sockets and sym links.
+                            // TODO: Handle these somehow.  Directly instantiating a FileInfo on them hangs the program.
+                            // Could switch directory walker to just return raw paths, converting to fileinfo in the filesystemcollector
+                            UnixSymbolicLinkInfo i = new UnixSymbolicLinkInfo(file);
+                            switch (i.FileType)
+                            {
+                                case FileTypes.SymbolicLink:
+                                case FileTypes.Fifo:
+                                case FileTypes.Socket:
+                                case FileTypes.BlockDevice:
+                                case FileTypes.CharacterDevice:
+                                case FileTypes.Directory:
+                                    break;
+                                case FileTypes.RegularFile:
+                                    Log.Verbose("Getting FileInfo {0}", file);
+                                    fileInfo = new FileInfo(file);
+                                    Log.Verbose("Got FileInfo {0}", file);
+                                    break;
+                            }
+                        }
+                    }
+                    catch (Exception e) when (
+                        e is ArgumentNullException ||
+                        e is SecurityException ||
+                        e is ArgumentException ||
+                        e is UnauthorizedAccessException ||
+                        e is PathTooLongException ||
+                        e is NotSupportedException ||
+                        e is InvalidOperationException)
+                    {
+                        Log.Verbose("Failed to create FileInfo from File at {0} {1}", file, e.GetType().ToString());
+                        continue;
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Debug("Should be caught in DirectoryWalker {0}", e.GetType().ToString());
+                    }
+                    if (fileInfo != null)
+                    {
+                        yield return fileInfo;
+                    }
+                }
+
+                // Push the subdirectories onto the stack for traversal.
+                // This could also be done before handing the files.
+                foreach (string dir in subDirs)
+                {
+                    DirectoryInfo fileInfo = null;
+                    try
+                    {
+                        fileInfo = new DirectoryInfo(dir);
 
                         // Skip symlinks to avoid loops
                         // Future improvement: log it as a symlink in the data
@@ -122,19 +174,23 @@ namespace AttackSurfaceAnalyzer.Utils
                             continue;
                         }
                     }
-                    catch (System.IO.DirectoryNotFoundException)
+                    catch (Exception e) when (
+                        e is SecurityException
+                        || e is ArgumentException
+                        || e is ArgumentException
+                        || e is PathTooLongException
+                        || e is UnauthorizedAccessException
+                        || e is IOException)
                     {
-                        // If file was deleted by a separate application
-                        //  or thread since the call to TraverseTree()
-                        // then just continue.
+                        Log.Verbose("Failed to create DirectoryInfo from Directory at {0} {1}", dir, e.GetType().ToString());
                         continue;
                     }
-                    catch (IOException)
+                    
+
+                    if (fileInfo != null)
                     {
-                        continue;
+                        dirs.Push(dir);
                     }
-                    dirs.Push(str);
-                    yield return fileInfo;
                 }
             }
         }
