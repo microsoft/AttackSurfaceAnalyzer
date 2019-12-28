@@ -169,7 +169,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                 Path = fileInfo.FullName,
                 PermissionsString = FileSystemUtils.GetFilePermissions(fileInfo),
             };
-            Log.Verbose("Starting constructing {0}", obj.Path);
             // Get Owner/Group
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
@@ -326,10 +325,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                 obj.IsDirectory = false;
                 try
                 {
-                    Log.Verbose("Before Getting Size {0}", fileInfo.FullName);
                     // This can throw if access is denied. That's fine as everything below also wouldn't work when access is denied.
                     obj.Size = (ulong)(fileInfo as FileInfo).Length;
-                    Log.Verbose("After Getting Size {0}", fileInfo.FullName);
 
                     if (INCLUDE_CONTENT_HASH)
                     {
@@ -354,9 +351,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                     else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                     {
-                        Log.Verbose("Before Is Executable {0}", fileInfo.FullName);
                         obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, obj.Size);
-                        Log.Verbose("After Is Executable {0}", fileInfo.FullName);
                     }
                 }
                 catch (Exception e) when (
