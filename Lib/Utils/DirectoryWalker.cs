@@ -32,13 +32,25 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     yield return currentDir;
 
-                    var fileInfo = new DirectoryInfo(currentDir);
-                    // Skip symlinks to avoid loops
-                    // Future improvement: log it as a symlink in the data
-                    if (fileInfo.Attributes.HasFlag(FileAttributes.ReparsePoint))
+                    try
                     {
-                        Log.Verbose($"Skipping symlink at {currentDir}");
-                        continue;
+                        var fileInfo = new DirectoryInfo(currentDir);
+                        // Skip symlinks to avoid loops
+                        // Future improvement: log it as a symlink in the data
+                        if (fileInfo.Attributes.HasFlag(FileAttributes.ReparsePoint))
+                        {
+                            Log.Verbose($"Skipping symlink at {currentDir}");
+                            continue;
+                        }
+                    }
+                    catch(Exception e) when (
+                        e is UnauthorizedAccessException)
+                    {
+
+                    }
+                    catch(Exception e)
+                    {
+                        Log.Debug("Should be catching {0} in DirectoryWalker.", e.GetType().ToString());
                     }
                 }
 
