@@ -326,11 +326,13 @@ namespace AttackSurfaceAnalyzer.Collectors
                             {
                                 obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
                             }
-                            if (WindowsFileSystemUtils.NeedsSignature(obj))
+
+                            obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, obj.Size);
+
+                            if (obj.IsExecutable)
                             {
                                 obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(path);
                                 obj.Characteristics.AddRange(WindowsFileSystemUtils.GetDllCharacteristics(path));
-                                obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, obj.Size);
                             }
                         }
                     }
