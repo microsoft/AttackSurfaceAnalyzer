@@ -6,7 +6,6 @@ using Mono.Unix;
 using Serilog;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -128,7 +127,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 Log.Information("{0} root {1}", Strings.Get("Scanning"), root);
                 var filePathEnumerable = DirectoryWalker.WalkDirectory(root);
-                
+
                 if (parallel)
                 {
                     Parallel.ForEach(filePathEnumerable,

@@ -1,11 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using Mono.Unix;
 using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Security;
 
 namespace AttackSurfaceAnalyzer.Utils
@@ -78,7 +76,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     Log.Verbose("Failed to get files for {0} {1}", currentDir, e.GetType().ToString());
                     continue;
                 }
-                
+
                 foreach (string file in files)
                 {
                     if (Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "File", "Path", file))
@@ -89,7 +87,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     yield return file;
                     //FileInfo fileInfo = null;
 
-                    
+
                 }
 
                 // Push the subdirectories onto the stack for traversal.
@@ -119,7 +117,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         Log.Verbose("Failed to create DirectoryInfo from Directory at {0} {1}", dir, e.GetType().ToString());
                         continue;
                     }
-                    
+
 
                     if (fileInfo != null)
                     {

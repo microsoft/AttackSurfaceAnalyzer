@@ -60,7 +60,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                         t.Minutes,
                                         t.Seconds,
                                         t.Milliseconds);
-                Log.Debug("Flushing {0} results. ({1}/s {2:0.00}/s overall {3} ETA)", DatabaseManager.WriteQueue.Count, prevFlush - sample, ((double)(totFlush - sample)/watch.ElapsedMilliseconds) * 1000, answer);
+                Log.Debug("Flushing {0} results. ({1}/s {2:0.00}/s overall {3} ETA)", DatabaseManager.WriteQueue.Count, prevFlush - sample, ((double)(totFlush - sample) / watch.ElapsedMilliseconds) * 1000, answer);
                 prevFlush = sample;
             }
 

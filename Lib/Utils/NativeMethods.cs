@@ -433,7 +433,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         return result.ToString();
                 }
             }
-            catch(Exception e) when (
+            catch (Exception e) when (
                 e is System.AccessViolationException
                 || e is Exception)
             {
