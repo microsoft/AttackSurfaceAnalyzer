@@ -10,6 +10,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security;
 using System.Security.AccessControl;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
@@ -88,31 +89,23 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
             }
 
-            Action<FileSystemInfo> IterateOn = fileInfo =>
+            Action<string> IterateOn = fileInfo =>
             {
-                if (fileInfo is DirectoryInfo)
-                {
-                    Log.Verbose("Starting Directory {0}", fileInfo.FullName);
-                }
-                else
-                {
-                    Log.Verbose("Started parsing {0}", fileInfo.FullName);
-                }
-                FileSystemObject obj = FileSystemInfoToFileSystemObject(fileInfo, downloadCloud, INCLUDE_CONTENT_HASH);
+                FileSystemObject obj = FilePathToFileSystemObject(fileInfo, downloadCloud, INCLUDE_CONTENT_HASH);
                 if (obj != null)
                 {
                     DatabaseManager.Write(obj, RunId);
                     if (examineCertificates &&
-                        fileInfo.FullName.EndsWith(".cer", StringComparison.CurrentCulture) ||
-                        fileInfo.FullName.EndsWith(".der", StringComparison.CurrentCulture) ||
-                        fileInfo.FullName.EndsWith(".p7b", StringComparison.CurrentCulture))
+                        fileInfo.EndsWith(".cer", StringComparison.CurrentCulture) ||
+                        fileInfo.EndsWith(".der", StringComparison.CurrentCulture) ||
+                        fileInfo.EndsWith(".p7b", StringComparison.CurrentCulture))
                     {
                         try
                         {
-                            var certificate = X509Certificate.CreateFromCertFile(fileInfo.FullName);
+                            var certificate = X509Certificate.CreateFromCertFile(fileInfo);
                             var certObj = new CertificateObject()
                             {
-                                StoreLocation = fileInfo.FullName,
+                                StoreLocation = fileInfo,
                                 StoreName = "Disk",
                                 CertificateHashString = certificate.GetCertHashString(),
                                 Subject = certificate.Subject,
@@ -124,11 +117,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                             e is System.Security.Cryptography.CryptographicException
                             || e is ArgumentException)
                         {
-                            Log.Verbose($"Could not parse certificate from file: {fileInfo.FullName}");
+                            Log.Verbose($"Could not parse certificate from file: {fileInfo}");
                         }
                     }
                 }
-                Log.Verbose("Finished parsing {0}", fileInfo.FullName);
+                Log.Verbose("Finished parsing {0}", fileInfo);
             };
 
             foreach (var root in roots)
@@ -161,20 +154,20 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <param name="downloadCloud">If the file is hosted in the cloud, the user has the option to include cloud files or not.</param>
         /// <param name="INCLUDE_CONTENT_HASH">If we should generate a hash of the file.</param>
         /// <returns></returns>
-        public static FileSystemObject FileSystemInfoToFileSystemObject(FileSystemInfo fileInfo, bool downloadCloud = false, bool INCLUDE_CONTENT_HASH = false)
+        public static FileSystemObject FilePathToFileSystemObject(string path, bool downloadCloud = false, bool INCLUDE_CONTENT_HASH = false)
         {
-            if (fileInfo == null) { return null; }
+            if (path == null) { return null; }
             FileSystemObject obj = new FileSystemObject()
             {
-                Path = fileInfo.FullName,
-                PermissionsString = FileSystemUtils.GetFilePermissions(fileInfo),
+                Path = path,
             };
+
             // Get Owner/Group
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 try
                 {
-                    var fileSecurity = new FileSecurity(fileInfo.FullName, AccessControlSections.All);
+                    var fileSecurity = new FileSecurity(path, AccessControlSections.All);
                     IdentityReference oid = fileSecurity.GetOwner(typeof(SecurityIdentifier));
                     IdentityReference gid = fileSecurity.GetGroup(typeof(SecurityIdentifier));
 
@@ -189,7 +182,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                     catch (IdentityNotMappedException)
                     {
-                        Log.Verbose("Couldn't find the Owner from SID {0} for file {1}", oid.ToString(), fileInfo.FullName);
+                        Log.Verbose("Couldn't find the Owner from SID {0} for file {1}", oid.ToString(), path);
                     }
                     try
                     {
@@ -199,7 +192,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     catch (IdentityNotMappedException)
                     {
                         // This is fine. Some SIDs don't map to NT Accounts.
-                        Log.Verbose("Couldn't find the Group from SID {0} for file {1}", gid.ToString(), fileInfo.FullName);
+                        Log.Verbose("Couldn't find the Group from SID {0} for file {1}", gid.ToString(), path);
                     }
 
                     var rules = fileSecurity.GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier));
@@ -243,13 +236,13 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 try
                 {
-                    Log.Verbose("Before UnixFileInfo {0}", fileInfo.FullName);
-                    var file = new UnixFileInfo(fileInfo.FullName);
+                    Log.Verbose("Before UnixFileInfo {0}", path);
+                    var file = new UnixSymbolicLinkInfo(path);
                     obj.Owner = file.OwnerUser.UserName;
                     obj.Group = file.OwnerGroup.GroupName;
                     obj.SetGid = file.IsSetGroup;
                     obj.SetUid = file.IsSetUser;
-                    Log.Verbose("After UnixFileInfo {0}", fileInfo.FullName);
+                    Log.Verbose("After UnixFileInfo {0}", path);
 
                     if (file.FileAccessPermissions.ToString().Equals("AllPermissions", StringComparison.InvariantCulture))
                     {
@@ -311,62 +304,87 @@ namespace AttackSurfaceAnalyzer.Collectors
                     || e is ArgumentException
                     || e is InvalidOperationException)
                 {
-                    Log.Verbose($"Failed to get permissions for {fileInfo.FullName} {e.GetType().ToString()}");
+                    Log.Verbose($"Failed to get permissions for {path} {e.GetType().ToString()}");
                 }
             }
 
 
-            if (fileInfo is DirectoryInfo)
+            if (Directory.Exists(path))
             {
                 obj.IsDirectory = true;
             }
-            else if (fileInfo is FileInfo)
+            else
             {
-                obj.IsDirectory = false;
+                FileInfo fileInfo = null;
+
                 try
                 {
-                    // This can throw if access is denied. That's fine as everything below also wouldn't work when access is denied.
-                    obj.Size = (ulong)(fileInfo as FileInfo).Length;
-
-                    if (INCLUDE_CONTENT_HASH)
-                    {
-                        obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
-                    }
-
-                    // Set IsExecutable and Signature Status
                     if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                     {
-
-                        if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
-                        {
-
-                            if (WindowsFileSystemUtils.NeedsSignature(obj))
-                            {
-                                obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(fileInfo.FullName);
-                                obj.Characteristics.AddRange(WindowsFileSystemUtils.GetDllCharacteristics(fileInfo.FullName));
-                                obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, obj.Size);
-                            }
-                        }
-
+                        fileInfo = new FileInfo(path);
                     }
-                    else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                    else
                     {
-                        obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, obj.Size);
+                        // Exclude weird files like sockets and sym links.
+                        // TODO: Handle these somehow.  Directly instantiating a FileInfo on them hangs the program.
+                        // Could switch directory walker to just return raw paths, converting to fileinfo in the filesystemcollector
+                        UnixSymbolicLinkInfo i = new UnixSymbolicLinkInfo(path);
+                        obj.fileTypes = i.FileType;
+                        obj.Size = (ulong)i.Length;
+                        obj.IsDirectory = false;
+                        switch (i.FileType)
+                        {
+                            case FileTypes.SymbolicLink:
+                            case FileTypes.Fifo:
+                            case FileTypes.Socket:
+                            case FileTypes.BlockDevice:
+                            case FileTypes.CharacterDevice:
+                            case FileTypes.Directory:
+                                break;
+                            case FileTypes.RegularFile:
+                                if (INCLUDE_CONTENT_HASH)
+                                {
+                                    obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
+                                }
+                                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                                {
+
+                                    if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
+                                    {
+
+                                        if (WindowsFileSystemUtils.NeedsSignature(obj))
+                                        {
+                                            obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(path);
+                                            obj.Characteristics.AddRange(WindowsFileSystemUtils.GetDllCharacteristics(path));
+                                            obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, obj.Size);
+                                        }
+                                    }
+
+                                }
+                                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                                {
+                                    obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, obj.Size);
+                                }
+                                break;
+                        }
                     }
                 }
                 catch (Exception e) when (
-                    e is FileNotFoundException ||
-                    e is IOException ||
-                    e is UnauthorizedAccessException)
+                    e is ArgumentNullException ||
+                    e is SecurityException ||
+                    e is ArgumentException ||
+                    e is UnauthorizedAccessException ||
+                    e is PathTooLongException ||
+                    e is NotSupportedException ||
+                    e is InvalidOperationException)
                 {
-
+                    Log.Verbose("Failed to create FileInfo from File at {0} {1}", path, e.GetType().ToString());
                 }
                 catch (Exception e)
                 {
-                    Log.Debug("Should be catching in FileSystemInfoToFileSystemObject {0}", e.GetType().ToString());
+                    Log.Debug("Should be caught in DirectoryWalker {0}", e.GetType().ToString());
                 }
             }
-            
             return obj;
         }
     }

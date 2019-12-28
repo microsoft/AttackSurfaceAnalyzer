@@ -12,7 +12,7 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public static class DirectoryWalker
     {
-        public static IEnumerable<FileSystemInfo> WalkDirectory(string root)
+        public static IEnumerable<string> WalkDirectory(string root)
         {
             // Data structure to hold names of subfolders to be
             // examined for files.
@@ -32,40 +32,22 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
                 else
                 {
-                    DirectoryInfo fileInfo = null;
-                    try
+                    yield return currentDir;
+
+                    var fileInfo = new DirectoryInfo(currentDir);
+                    // Skip symlinks to avoid loops
+                    // Future improvement: log it as a symlink in the data
+                    if (fileInfo.Attributes.HasFlag(FileAttributes.ReparsePoint))
                     {
-                        Log.Verbose("Spooling up {0}",currentDir);
-                        fileInfo = new DirectoryInfo(currentDir);
-                        // Skip symlinks to avoid loops
-                        // Future improvement: log it as a symlink in the data
-                        if (fileInfo.Attributes.HasFlag(FileAttributes.ReparsePoint))
-                        {
-                            Log.Verbose($"Skipping symlink at {currentDir}");
-                            continue;
-                        }
-                    }
-                    catch (Exception e) when (
-                        e is DirectoryNotFoundException
-                        || e is IOException
-                        || e is UnauthorizedAccessException)
-                    {
+                        Log.Verbose($"Skipping symlink at {currentDir}");
                         continue;
                     }
-                    catch (Exception e)
-                    {
-                        Log.Debug($"Should be catching {e.GetType().ToString()} in WalkDirectory");
-                    }
-
-                    yield return fileInfo;
                 }
 
                 string[] subDirs;
                 try
                 {
-                    Log.Verbose("Getting directories {0}", currentDir);
                     subDirs = Directory.GetDirectories(currentDir);
-                    Log.Verbose("Got directories {0}", currentDir);
                 }
                 catch (Exception e) when (
                     e is ArgumentException ||
@@ -82,9 +64,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 string[] files;
                 try
                 {
-                    Log.Verbose("Getting files {0}", currentDir);
                     files = Directory.GetFiles(currentDir);
-                    Log.Verbose("Got files {0}", currentDir);
                 }
 
                 catch (Exception e) when (
@@ -105,57 +85,11 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         continue;
                     }
-                    FileInfo fileInfo = null;
 
-                    try
-                    {
-                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                        {
-                            fileInfo = new FileInfo(file);
-                        }
-                        else
-                        {
-                            // Exclude weird files like sockets and sym links.
-                            // TODO: Handle these somehow.  Directly instantiating a FileInfo on them hangs the program.
-                            // Could switch directory walker to just return raw paths, converting to fileinfo in the filesystemcollector
-                            UnixSymbolicLinkInfo i = new UnixSymbolicLinkInfo(file);
-                            switch (i.FileType)
-                            {
-                                case FileTypes.SymbolicLink:
-                                case FileTypes.Fifo:
-                                case FileTypes.Socket:
-                                case FileTypes.BlockDevice:
-                                case FileTypes.CharacterDevice:
-                                case FileTypes.Directory:
-                                    break;
-                                case FileTypes.RegularFile:
-                                    Log.Verbose("Getting FileInfo {0}", file);
-                                    fileInfo = new FileInfo(file);
-                                    Log.Verbose("Got FileInfo {0}", file);
-                                    break;
-                            }
-                        }
-                    }
-                    catch (Exception e) when (
-                        e is ArgumentNullException ||
-                        e is SecurityException ||
-                        e is ArgumentException ||
-                        e is UnauthorizedAccessException ||
-                        e is PathTooLongException ||
-                        e is NotSupportedException ||
-                        e is InvalidOperationException)
-                    {
-                        Log.Verbose("Failed to create FileInfo from File at {0} {1}", file, e.GetType().ToString());
-                        continue;
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Debug("Should be caught in DirectoryWalker {0}", e.GetType().ToString());
-                    }
-                    if (fileInfo != null)
-                    {
-                        yield return fileInfo;
-                    }
+                    yield return file;
+                    //FileInfo fileInfo = null;
+
+                    
                 }
 
                 // Push the subdirectories onto the stack for traversal.

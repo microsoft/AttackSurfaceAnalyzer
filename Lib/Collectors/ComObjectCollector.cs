@@ -121,7 +121,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 BinaryPath32 = Path.Combine(Environment.SystemDirectory, BinaryPath32.Trim());
                             }
 
-                            comObject.x86_Binary = FileSystemCollector.FileSystemInfoToFileSystemObject(new FileInfo(BinaryPath32.Trim()), true);
+                            comObject.x86_Binary = FileSystemCollector.FilePathToFileSystemObject(BinaryPath32.Trim(), true);
                             comObject.x86_BinaryName = BinaryPath32;
                         }
                         // And the InProcServer64 for 64 bit
@@ -141,7 +141,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             {
                                 BinaryPath64 = Path.Combine(Environment.SystemDirectory, BinaryPath64.Trim());
                             }
-                            comObject.x64_Binary = FileSystemCollector.FileSystemInfoToFileSystemObject(new FileInfo(BinaryPath64.Trim()), true);
+                            comObject.x64_Binary = FileSystemCollector.FilePathToFileSystemObject(BinaryPath64.Trim(), true);
                             comObject.x64_BinaryName = BinaryPath64;
                         }
 

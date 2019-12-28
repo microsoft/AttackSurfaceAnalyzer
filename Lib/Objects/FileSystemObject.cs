@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Types;
+using Mono.Unix;
 using System.Collections.Generic;
 
 namespace AttackSurfaceAnalyzer.Objects
@@ -20,6 +21,7 @@ namespace AttackSurfaceAnalyzer.Objects
         public string ContentHash { get; set; }
         public bool IsExecutable { get; set; }
         public bool IsDirectory { get; set; }
+        public Mono.Unix.FileTypes fileTypes { get; set; }
         public string Owner { get; set; }
         public string Group { get; set; }
         public bool SetGid { get; set; }
