@@ -109,6 +109,8 @@ namespace AttackSurfaceAnalyzer.Utils
                     try
                     {
                         // Exclude weird files like sockets and sym links.
+                        // TODO: Handle these somehow.  Directly instantiating a FileInfo on them hangs the program.
+                        // Could switch directory walker to just return raw paths, converting to fileinfo in the filesystemcollector
                         UnixSymbolicLinkInfo i = new UnixSymbolicLinkInfo(file);
                         switch (i.FileType)
                         {
