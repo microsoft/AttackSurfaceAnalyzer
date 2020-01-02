@@ -20,15 +20,19 @@ namespace AttackSurfaceAnalyzer.Objects
         public string ContentHash { get; set; }
         public bool IsExecutable { get; set; }
         public bool IsDirectory { get; set; }
+        public bool IsLink { get; set; }
         public string fileType { get; set; }
         public string Owner { get; set; }
         public string Group { get; set; }
         public bool SetGid { get; set; }
         public bool SetUid { get; set; }
         public string PermissionsString { get; set; }
-        public List<string> Characteristics { get; }
+        public List<string> Characteristics { get; set; }
 
-        public List<KeyValuePair<string, string>> Permissions { get; }
+        // If this is a link, where does it point to
+        public string Target { get; set; }
+
+        public List<KeyValuePair<string, string>> Permissions { get; set; }
 
 
         public FileSystemObject()

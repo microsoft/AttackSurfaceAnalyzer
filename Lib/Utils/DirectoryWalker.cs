@@ -36,7 +36,6 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         var fileInfo = new DirectoryInfo(currentDir);
                         // Skip symlinks to avoid loops
-                        // Future improvement: log it as a symlink in the data
                         if (fileInfo.Attributes.HasFlag(FileAttributes.ReparsePoint))
                         {
                             Log.Verbose($"Skipping symlink at {currentDir}");

@@ -306,19 +306,27 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
 
 
-            if (Directory.Exists(path))
+            try
             {
-                obj.IsDirectory = true;
-            }
-            else
-            {
-                FileInfo fileInfo = null;
-
-                try
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                    if (Directory.Exists(path))
                     {
-                        fileInfo = new FileInfo(path);
+                        var fileInfo = new DirectoryInfo(path);
+                        // Skip symlinks to avoid loops
+                        if (fileInfo.Attributes.HasFlag(FileAttributes.ReparsePoint))
+                        {
+                            obj.IsLink = true;
+                            obj.Target = NativeMethods.GetFinalPathName(path);
+                        }
+                        else
+                        {
+                            obj.IsDirectory = true;
+                        }
+                    }
+                    else
+                    {
+                        var fileInfo = new FileInfo(path);
                         obj.Size = (ulong)fileInfo.Length;
                         if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
                         {
@@ -336,49 +344,50 @@ namespace AttackSurfaceAnalyzer.Collectors
                             }
                         }
                     }
-                    else
+                }
+                else
+                {
+                    UnixSymbolicLinkInfo i = new UnixSymbolicLinkInfo(path);
+                    obj.fileType = i.FileType.ToString();
+                    obj.Size = (ulong)i.Length;
+                    obj.IsDirectory = false;
+                    switch (i.FileType)
                     {
-                        // Exclude weird files like sockets and sym links.
-                        // TODO: Handle these somehow.  Directly instantiating a FileInfo on them hangs the program.
-                        // Could switch directory walker to just return raw paths, converting to fileinfo in the filesystemcollector
-                        UnixSymbolicLinkInfo i = new UnixSymbolicLinkInfo(path);
-                        obj.fileType = i.FileType.ToString();
-                        obj.Size = (ulong)i.Length;
-                        obj.IsDirectory = false;
-                        switch (i.FileType)
-                        {
-                            case FileTypes.SymbolicLink:
-                            case FileTypes.Fifo:
-                            case FileTypes.Socket:
-                            case FileTypes.BlockDevice:
-                            case FileTypes.CharacterDevice:
-                            case FileTypes.Directory:
-                                break;
-                            case FileTypes.RegularFile:
-                                if (includeContentHash)
-                                {
-                                    obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
-                                }
-                                obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, obj.Size);
-                                break;
-                        }
+                        case FileTypes.SymbolicLink:
+                            obj.IsLink = true;
+                            obj.Target = i.ContentsPath;
+                            break;
+                        case FileTypes.Fifo:
+                        case FileTypes.Socket:
+                        case FileTypes.BlockDevice:
+                        case FileTypes.CharacterDevice:
+                        case FileTypes.Directory:
+                            obj.IsDirectory = true;
+                            break;
+                        case FileTypes.RegularFile:
+                            if (includeContentHash)
+                            {
+                                obj.ContentHash = FileSystemUtils.GetFileHash(path);
+                            }
+                            obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, obj.Size);
+                            break;
                     }
                 }
-                catch (Exception e) when (
-                    e is ArgumentNullException ||
-                    e is SecurityException ||
-                    e is ArgumentException ||
-                    e is UnauthorizedAccessException ||
-                    e is PathTooLongException ||
-                    e is NotSupportedException ||
-                    e is InvalidOperationException)
-                {
-                    Log.Verbose("Failed to create FileInfo from File at {0} {1}", path, e.GetType().ToString());
-                }
-                catch (Exception e)
-                {
-                    Log.Debug("Should be caught in DirectoryWalker {0}", e.GetType().ToString());
-                }
+            }
+            catch (Exception e) when (
+                e is ArgumentNullException ||
+                e is SecurityException ||
+                e is ArgumentException ||
+                e is UnauthorizedAccessException ||
+                e is PathTooLongException ||
+                e is NotSupportedException ||
+                e is InvalidOperationException)
+            {
+                Log.Verbose("Failed to create FileInfo from File at {0} {1}", path, e.GetType().ToString());
+            }
+            catch (Exception e)
+            {
+                Log.Debug("Should be caught in DirectoryWalker {0}", e.GetType().ToString());
             }
             return obj;
         }

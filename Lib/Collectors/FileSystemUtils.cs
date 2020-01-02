@@ -157,6 +157,18 @@ namespace AttackSurfaceAnalyzer.Collectors
             return fourBytes.SequenceEqual(ElfMagicNumber) || fourBytes.SequenceEqual(JavaMagicNumber) || MacMagicNumbers.Contains(fourBytes) || fourBytes[0..2].SequenceEqual(WindowsMagicNumber);
         }
 
+        public static string GetFileHash(string path)
+        {
+            try
+            {
+                return GetFileHash(new FileInfo(path));
+            }
+            catch(Exception)
+            {
+                return string.Empty;
+            }
+        }
+
         public static string GetFileHash(FileSystemInfo fileInfo)
         {
             if (fileInfo != null)

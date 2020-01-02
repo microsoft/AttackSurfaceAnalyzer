@@ -2,9 +2,12 @@
 // Licensed under the MIT License.
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 using System.Security;
+using System.Text;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -596,6 +599,49 @@ namespace AttackSurfaceAnalyzer.Utils
             SubjectCertExpired = 0x800B0101,        // CERT_E_EXPIRED - Signer's certificate was expired
             SubjectCertificateRevoked = 0x800B010C,     // CERT_E_REVOKED Subject's certificate was revoked
             UntrustedRoot = 0x800B0109          // CERT_E_UNTRUSTEDROOT - A certification chain processed correctly but terminated in a root certificate that is not trusted by the trust provider.
+        }
+
+        private const uint FILE_READ_EA = 0x0008;
+        private const uint FILE_FLAG_BACKUP_SEMANTICS = 0x2000000;
+
+        [DllImport("Kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        static extern uint GetFinalPathNameByHandle(IntPtr hFile, [MarshalAs(UnmanagedType.LPTStr)] StringBuilder lpszFilePath, uint cchFilePath, uint dwFlags);
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern IntPtr CreateFile(
+                [MarshalAs(UnmanagedType.LPTStr)] string filename,
+                [MarshalAs(UnmanagedType.U4)] uint access,
+                [MarshalAs(UnmanagedType.U4)] FileShare share,
+                IntPtr securityAttributes, // optional SECURITY_ATTRIBUTES struct or IntPtr.Zero
+                [MarshalAs(UnmanagedType.U4)] FileMode creationDisposition,
+                [MarshalAs(UnmanagedType.U4)] uint flagsAndAttributes,
+                IntPtr templateFile);
+
+        public static string GetFinalPathName(string path)
+        {
+            var h = CreateFile(path,
+                FILE_READ_EA,
+                FileShare.ReadWrite | FileShare.Delete,
+                IntPtr.Zero,
+                FileMode.Open,
+                FILE_FLAG_BACKUP_SEMANTICS,
+                IntPtr.Zero);
+            if (h == INVALID_HANDLE_VALUE)
+                throw new Win32Exception();
+
+            try
+            {
+                var sb = new StringBuilder(1024);
+                var res = GetFinalPathNameByHandle(h, sb, 1024, 0);
+                if (res == 0)
+                    throw new Win32Exception();
+
+                return sb.ToString();
+            }
+            finally
+            {
+                CloseHandle(h);
+            }
         }
     }
 }
