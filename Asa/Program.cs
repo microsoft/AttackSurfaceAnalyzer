@@ -1023,7 +1023,7 @@ namespace AttackSurfaceAnalyzer
                     cmd.ExecuteNonQuery();
                 }
             }
-            
+
             var results = new Dictionary<string, object>();
 
             comparators = new List<BaseCompare>();
@@ -1072,7 +1072,7 @@ namespace AttackSurfaceAnalyzer
                         }
                     }
                 }
-                
+
                 watch.Stop();
                 t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
                 answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
@@ -1103,7 +1103,7 @@ namespace AttackSurfaceAnalyzer
                     }
                 }
             }
-                
+
 
             watch.Stop();
             t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);

@@ -24,7 +24,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             return sigStatus;
         }
-        
+
         public static bool NeedsSignature(string Path)
         {
             if (Path is null)
@@ -57,7 +57,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 return false;
             }
-            if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 return FileSystemUtils.IsExecutable(Path, Size);
             }
