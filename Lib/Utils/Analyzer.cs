@@ -56,8 +56,9 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 LoadEmbeddedFilters();
             }
-            else { 
-                LoadFilters(filterLocation); 
+            else
+            {
+                LoadFilters(filterLocation);
             }
 
             OsName = platform;

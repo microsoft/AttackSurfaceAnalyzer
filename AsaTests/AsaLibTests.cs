@@ -59,6 +59,7 @@ namespace AsaTests
             {
                 file.Write(FileSystemUtils.WindowsMagicNumber, 0, 2);
                 file.Write(FileSystemUtils.WindowsMagicNumber, 0, 2);
+                
                 file.Close();
             }
 

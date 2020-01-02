@@ -22,7 +22,7 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 x86_View = RegistryKey.OpenBaseKey(Hive, RegistryView.Registry32);
             }
-            catch(Exception e) when (
+            catch (Exception e) when (
                 e is IOException ||
                 e is ArgumentException ||
                 e is UnauthorizedAccessException ||
@@ -36,13 +36,13 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             catch (Exception e) when (
                 e is IOException ||
-                e is ArgumentException || 
+                e is ArgumentException ||
                 e is UnauthorizedAccessException ||
                 e is System.Security.SecurityException)
             {
 
             }
-            
+
             if (x86_View != null)
             {
                 if (startingKey != null)
@@ -100,7 +100,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         AsaTelemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                     }
                 }
-                
+
                 yield return currentKey;
             }
 
@@ -113,10 +113,10 @@ namespace AttackSurfaceAnalyzer.Utils
             RegistryObject regObj = null;
             if (registryKey == null) { return regObj; }
 
-                regObj = new RegistryObject()
-                {
-                    Key = registryKey.Name,
-                };
+            regObj = new RegistryObject()
+            {
+                Key = registryKey.Name,
+            };
             try
             {
                 regObj.AddSubKeys(registryKey.GetSubKeyNames());
@@ -173,7 +173,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
                 catch (Exception ex)
                 {
-                    Log.Debug(ex, "Found an exception processing registry values of {0}.",registryKey.Name);
+                    Log.Debug(ex, "Found an exception processing registry values of {0}.", registryKey.Name);
                 }
             }
 

@@ -200,8 +200,9 @@ namespace AttackSurfaceAnalyzer.Utils
         }
         public static void SleepAndFlushQueue()
         {
-            while (!WriteQueue.IsEmpty) { 
-                WriteNext(); 
+            while (!WriteQueue.IsEmpty)
+            {
+                WriteNext();
             }
             Thread.Sleep(100);
         }
@@ -430,7 +431,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 WriteQueue.Enqueue(new WriteObject() { ColObj = objIn, RunId = runId });
             }
         }
-        
+
         public static void WriteNext()
         {
             WriteQueue.TryDequeue(out WriteObject objIn);
@@ -446,7 +447,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             catch (SqliteException e)
             {
-                Log.Debug(exception:e,$"Error writing {objIn.ColObj.Identity} to database.");
+                Log.Debug(exception: e, $"Error writing {objIn.ColObj.Identity} to database.");
             }
             catch (NullReferenceException)
             {
