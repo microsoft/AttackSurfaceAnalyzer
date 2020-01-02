@@ -313,7 +313,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                     if (Directory.Exists(path))
                     {
                         var fileInfo = new DirectoryInfo(path);
-                        // Skip symlinks to avoid loops
                         if (fileInfo.Attributes.HasFlag(FileAttributes.ReparsePoint))
                         {
                             obj.IsLink = true;
