@@ -85,7 +85,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     SidMap.TryAdd(rule.IdentityReference.Value, rule.IdentityReference.Value);
                 }
             }
-            
+
             return SidMap[rule.IdentityReference.Value];
         }
 
@@ -119,7 +119,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "Registry", "Key", "Exclude", hive.ToString());
                 var registryInfoEnumerable = RegistryWalker.WalkHive(hive);
-                
+
                 if (Parallelize)
                 {
                     Parallel.ForEach(registryInfoEnumerable,

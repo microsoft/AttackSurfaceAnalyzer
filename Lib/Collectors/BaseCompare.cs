@@ -174,7 +174,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             removed = prop.GetValue(first);
                             diffs = GetDiffs(prop, null, removed);
                         }
-                        else if (firstProp != null && secondProp != null && compareLogic.Compare(firstProp,secondProp).AreEqual)
+                        else if (firstProp != null && secondProp != null && compareLogic.Compare(firstProp, secondProp).AreEqual)
                         {
                             continue;
                         }
