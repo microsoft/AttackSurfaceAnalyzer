@@ -90,6 +90,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             Action<string> IterateOn = Path =>
             {
+                Log.Verbose("Started parsing {0}", Path);
                 FileSystemObject obj = FilePathToFileSystemObject(Path, downloadCloud, INCLUDE_CONTENT_HASH);
                 if (obj != null)
                 {
