@@ -252,7 +252,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 accountDetails[username] = tempDict;
             }
 
-            var result = ExternalCommandRunner.RunExternalCommand("grep", "'^sudo:.*$' /etc/group | cut - d: -f4");
+            var result = ExternalCommandRunner.RunExternalCommand("grep", "'^sudo:.*$' /etc/group | cut -d: -f4");
 
             foreach (var _line in result.Split('\n'))
             {
