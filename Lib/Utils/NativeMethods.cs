@@ -11,22 +11,6 @@ using System.Text;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
-    /****************************** Module Header ******************************\
-     Module Name:  NativeMethod.cs
-     Project:      CSUACSelfElevation
-     Copyright (c) Microsoft Corporation.
-
-     The P/Invoke signature some native Windows APIs used by the code sample.
-
-     This source is subject to the Microsoft Public License.
-     See http://www.microsoft.com/en-us/openness/resources/licenses.aspx#MPL
-     All other rights reserved.
-
-     THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
-     EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED 
-     WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
-    \***************************************************************************/
-
     /// <summary>
     /// The TOKEN_INFORMATION_CLASS enumeration type contains values that 
     /// specify the type of information being assigned to or retrieved from 
@@ -605,11 +589,11 @@ namespace AttackSurfaceAnalyzer.Utils
         private const uint FILE_FLAG_BACKUP_SEMANTICS = 0x2000000;
 
         [DllImport("Kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        static extern uint GetFinalPathNameByHandle(IntPtr hFile, [MarshalAs(UnmanagedType.LPTStr)] StringBuilder lpszFilePath, uint cchFilePath, uint dwFlags);
+        static extern uint GetFinalPathNameByHandle(IntPtr hFile, [MarshalAs(UnmanagedType.LPWStr)] StringBuilder lpszFilePath, uint cchFilePath, uint dwFlags);
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern IntPtr CreateFile(
-                [MarshalAs(UnmanagedType.LPTStr)] string filename,
+                [MarshalAs(UnmanagedType.LPWStr)] string filename,
                 [MarshalAs(UnmanagedType.U4)] uint access,
                 [MarshalAs(UnmanagedType.U4)] FileShare share,
                 IntPtr securityAttributes, // optional SECURITY_ATTRIBUTES struct or IntPtr.Zero
