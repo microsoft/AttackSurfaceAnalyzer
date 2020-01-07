@@ -142,7 +142,7 @@
     <value>Enumerating Monitor Run Ids</value>
   </data>
   <data name="Err_CollectingFrom" xml:space="preserve">
-    <value>Error collecting from {1}: {2} {3}</value>
+    <value>Error collecting from {0}: {1} {2}</value>
   </data>
   <data name="Err_CouldntDetermineOneRun" xml:space="preserve">
     <value>Couldn't determine latest run id. Can't continue.</value>
