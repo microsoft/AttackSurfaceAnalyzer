@@ -255,7 +255,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             foreach (var username in accountDetails.Keys)
             {
                 // Admin user details
-                var groupsRaw = ExternalCommandRunner.RunExternalCommand("groups", "username");
+                var groupsRaw = ExternalCommandRunner.RunExternalCommand("groups", username);
 
                 var groups = groupsRaw.Split(' ');
                 foreach (var group in groups)
