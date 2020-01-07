@@ -10,34 +10,10 @@ namespace AttackSurfaceAnalyzer.Utils
     public static class ExternalCommandRunner
     {
 
-        public static string RunExternalCommand(string command, params string[] args) => RunExternalCommand(command, args, true);
 
-        public static string RunExternalCommand(string command, string[] args, bool Redirect)
-        {
-            string result = default(string);
-            using var process = new Process()
-            {
-                StartInfo = new ProcessStartInfo
-                {
-                    FileName = command,
-                    Arguments = string.Join(' ', args),
-                    RedirectStandardOutput = Redirect,
-                    RedirectStandardError = Redirect,
-                    UseShellExecute = false,
-                    CreateNoWindow = false
-                }
-            };
-            Serilog.Log.Verbose("Running external command {0} {1}", command, Newtonsoft.Json.JsonConvert.SerializeObject(args));
-            process.Start();
-            if (Redirect)
-            {
-                result = process.StandardOutput.ReadToEnd();
-            }
-            process.WaitForExit();
-            return result;
-        }
+        public static string RunExternalCommand(string command, string[] args, bool Redirect = true) => RunExternalCommand(command, string.Join(' ', args), Redirect);
 
-        public static string RunExternalCommand(string filename, string arguments = null)
+        public static string RunExternalCommand(string filename, string arguments = null, bool Redirect = true)
         {
             using var process = new Process()
             {
@@ -45,8 +21,8 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     FileName = filename,
                     Arguments = string.IsNullOrEmpty(arguments) ? string.Empty : arguments,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
+                    RedirectStandardOutput = Redirect,
+                    RedirectStandardError = Redirect,
                     UseShellExecute = false,
                     CreateNoWindow = true,
                     WindowStyle = ProcessWindowStyle.Hidden
