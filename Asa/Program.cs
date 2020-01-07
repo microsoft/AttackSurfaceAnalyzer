@@ -949,7 +949,7 @@ namespace AttackSurfaceAnalyzer
                 }
                 catch (SqliteException ex)
                 {
-                    Log.Error(ex, Strings.Get("Err_CollectingFrom"), c.GetType().Name, ex.Message, ex.StackTrace);
+                    Log.Error(Strings.Get("Err_CollectingFrom"), c.GetType().Name, ex.Message, ex.StackTrace);
                     returnValue = 1;
                 }
             }
@@ -1412,7 +1412,7 @@ namespace AttackSurfaceAnalyzer
                 }
                 catch (Exception e)
                 {
-                    Log.Error(e, Strings.Get("Err_CollectingFrom"), c.GetType().Name, e.Message, e.StackTrace);
+                    Log.Error(Strings.Get("Err_CollectingFrom"), c.GetType().Name, e.Message, e.StackTrace);
                     Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
                     ExceptionEvent.Add("Exception Type", e.GetType().ToString());
                     ExceptionEvent.Add("Stack Trace", e.StackTrace);

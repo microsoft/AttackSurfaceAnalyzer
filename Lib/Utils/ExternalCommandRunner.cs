@@ -9,50 +9,24 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public static class ExternalCommandRunner
     {
+        public static string RunExternalCommand(string command, params string[] args) => RunExternalCommand(command, string.Join(' ', args), true);
 
-        public static string RunExternalCommand(string command, params string[] args) => RunExternalCommand(command, args, true);
-
-        public static string RunExternalCommand(string command, string[] args, bool Redirect)
+        public static string RunExternalCommand(string filename, string arguments = null, bool Redirect = true)
         {
-            string result = default(string);
             using var process = new Process()
             {
                 StartInfo = new ProcessStartInfo
                 {
-                    FileName = command,
-                    Arguments = string.Join(' ', args),
+                    FileName = filename,
+                    Arguments = string.IsNullOrEmpty(arguments) ? string.Empty : arguments,
                     RedirectStandardOutput = Redirect,
                     RedirectStandardError = Redirect,
                     UseShellExecute = false,
-                    CreateNoWindow = false
+                    CreateNoWindow = true,
+                    WindowStyle = ProcessWindowStyle.Hidden
                 }
             };
-            Serilog.Log.Verbose("Running external command {0} {1}", command, Newtonsoft.Json.JsonConvert.SerializeObject(args));
-            process.Start();
-            if (Redirect)
-            {
-                result = process.StandardOutput.ReadToEnd();
-            }
-            process.WaitForExit();
-            return result;
-        }
-
-        public static string RunExternalCommand(string filename, string arguments = null)
-        {
-            using var process = new Process();
-
-            process.StartInfo.FileName = filename;
-            if (!string.IsNullOrEmpty(arguments))
-            {
-                process.StartInfo.Arguments = arguments;
-            }
-
-            process.StartInfo.CreateNoWindow = true;
-            process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            process.StartInfo.UseShellExecute = false;
-
-            process.StartInfo.RedirectStandardError = true;
-            process.StartInfo.RedirectStandardOutput = true;
+            
             var stdOutput = new StringBuilder();
             process.OutputDataReceived += (sender, args) => stdOutput.AppendLine(args.Data); // Use AppendLine rather than Append since args.Data is one line of output, not including the newline character.
 

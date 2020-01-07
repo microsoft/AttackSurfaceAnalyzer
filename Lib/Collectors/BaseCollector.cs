@@ -43,7 +43,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     t.Minutes,
                                     t.Seconds,
                                     t.Milliseconds);
-            Log.Information(Strings.Get("Completed"), this.GetType().Name, answer);
+            Log.Debug(Strings.Get("Completed"), this.GetType().Name, answer);
 
             var prevFlush = DatabaseManager.WriteQueue.Count;
             var totFlush = prevFlush;
@@ -82,9 +82,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     t.Minutes,
                                     t.Seconds,
                                     t.Milliseconds);
-            Log.Debug($"Completed flushing in {answer}");
+            Log.Debug("Completed flushing in {0}", answer);
 
-            Log.Debug("Committing data.");
             DatabaseManager.Commit();
             Stop();
         }

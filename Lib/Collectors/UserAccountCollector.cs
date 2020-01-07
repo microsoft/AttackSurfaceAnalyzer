@@ -252,21 +252,18 @@ namespace AttackSurfaceAnalyzer.Collectors
                 accountDetails[username] = tempDict;
             }
 
-            var result = ExternalCommandRunner.RunExternalCommand("grep", "'^sudo:.*$' /etc/group | cut -d: -f4");
-
-            foreach (var _line in result.Split('\n'))
-            {
-                accountDetails[_line].Privileged = true;
-            }
-
             foreach (var username in accountDetails.Keys)
             {
                 // Admin user details
-                var groupsRaw = ExternalCommandRunner.RunExternalCommand("groups", "username");
+                var groupsRaw = ExternalCommandRunner.RunExternalCommand("groups", username);
 
-                var groups = result.Split(' ');
+                var groups = groupsRaw.Split(' ');
                 foreach (var group in groups)
                 {
+                    if (group.Equals("sudo"))
+                    {
+                        accountDetails[username].Privileged = true;
+                    }
                     accountDetails[username].Groups.Add(group);
                     if (Groups.ContainsKey(group))
                     {

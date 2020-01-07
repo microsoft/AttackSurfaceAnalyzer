@@ -15,10 +15,13 @@ namespace AttackSurfaceAnalyzer.Utils
             // Data structure to hold names of subfolders to be
             // examined for files.
             Stack<string> dirs = new Stack<string>();
+            // Master list of all directories seen, to prevent loops from Hard Links.
+            HashSet<string> dirsSet = new HashSet<string>();
 
             if (System.IO.Directory.Exists(root))
             {
                 dirs.Push(root);
+                dirsSet.Add(root);
             }
 
             while (dirs.Count > 0)
@@ -132,7 +135,15 @@ namespace AttackSurfaceAnalyzer.Utils
 
                     if (fileInfo != null)
                     {
-                        dirs.Push(dir);
+                        if (!dirsSet.Contains(dir))
+                        {
+                            dirs.Push(dir);
+                            dirsSet.Add(dir);
+                        }
+                        else
+                        {
+                            Log.Verbose("Loop detected. Skipping duplicate directory {0} as a subdirectory of {1}", dir, currentDir);
+                        }
                     }
                 }
             }
