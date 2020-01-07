@@ -140,6 +140,10 @@ namespace AttackSurfaceAnalyzer.Utils
                             dirs.Push(dir);
                             dirsSet.Add(dir);
                         }
+                        else
+                        {
+                            Log.Verbose("Loop detected. Skipping duplicate directory {0} as a subdirectory of {1}", dir, currentDir);
+                        }
                     }
                 }
             }
