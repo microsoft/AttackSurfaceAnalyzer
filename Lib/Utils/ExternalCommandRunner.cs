@@ -39,20 +39,20 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static string RunExternalCommand(string filename, string arguments = null)
         {
-            using var process = new Process();
-
-            process.StartInfo.FileName = filename;
-            if (!string.IsNullOrEmpty(arguments))
+            using var process = new Process()
             {
-                process.StartInfo.Arguments = arguments;
-            }
-
-            process.StartInfo.CreateNoWindow = true;
-            process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            process.StartInfo.UseShellExecute = false;
-
-            process.StartInfo.RedirectStandardError = true;
-            process.StartInfo.RedirectStandardOutput = true;
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = filename,
+                    Arguments = string.IsNullOrEmpty(arguments) ? string.Empty : arguments,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    WindowStyle = ProcessWindowStyle.Hidden
+                }
+            };
+            
             var stdOutput = new StringBuilder();
             process.OutputDataReceived += (sender, args) => stdOutput.AppendLine(args.Data); // Use AppendLine rather than Append since args.Data is one line of output, not including the newline character.
 
