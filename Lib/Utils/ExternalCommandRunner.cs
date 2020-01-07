@@ -11,8 +11,6 @@ namespace AttackSurfaceAnalyzer.Utils
     {
         public static string RunExternalCommand(string command, params string[] args) => RunExternalCommand(command, string.Join(' ', args), true);
 
-        public static string RunExternalCommand(string command, string[] args, bool Redirect = true) => RunExternalCommand(command, string.Join(' ', args), Redirect);
-
         public static string RunExternalCommand(string filename, string arguments = null, bool Redirect = true)
         {
             using var process = new Process()
