@@ -59,18 +59,19 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 if (currentInterval++ % printInterval == 0)
                 {
+                    var actualDuration = (currentInterval < printInterval) ? currentInterval : printInterval;
                     var sample = DatabaseManager.WriteQueue.Count;
                     var curRate = prevFlush - sample;
                     var totRate = (double)(totFlush - sample) / watch.ElapsedMilliseconds;
                     try
                     {
-                        t = TimeSpan.FromMilliseconds(sample / totRate);
+                        t = TimeSpan.FromMilliseconds(sample / (curRate/(actualDuration * 1000)));
                         answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
                                                 t.Hours,
                                                 t.Minutes,
                                                 t.Seconds,
                                                 t.Milliseconds);
-                        Log.Debug("Flushing {0} results. ({1}/{4}s {2:0.00}/s overall {3} ETA)", DatabaseManager.WriteQueue.Count, curRate, totRate * 1000, answer, (currentInterval < printInterval)?currentInterval:printInterval);
+                        Log.Debug("Flushing {0} results. ({1}/{4}s {2:0.00}/s overall {3} ETA)", DatabaseManager.WriteQueue.Count, curRate, totRate * 1000, answer, actualDuration);
                     }
                     catch (Exception e) when (
                         e is OverflowException)
