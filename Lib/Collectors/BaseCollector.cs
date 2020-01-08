@@ -32,12 +32,13 @@ namespace AttackSurfaceAnalyzer.Collectors
             Start();
 
             DatabaseManager.BeginTransaction();
-            var watch = System.Diagnostics.Stopwatch.StartNew();
+
+            var StopWatch = System.Diagnostics.Stopwatch.StartNew();
 
             ExecuteInternal();
 
-            watch.Stop();
-            TimeSpan t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
+            StopWatch.Stop();
+            TimeSpan t = TimeSpan.FromMilliseconds(StopWatch.ElapsedMilliseconds);
             string answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
                                     t.Hours,
                                     t.Minutes,
@@ -51,7 +52,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             var printInterval = 10;
             var currentInterval = 0;
 
-            watch = System.Diagnostics.Stopwatch.StartNew();
+            StopWatch = System.Diagnostics.Stopwatch.StartNew();
 
             while (DatabaseManager.HasElements())
             {
@@ -62,7 +63,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     var actualDuration = (currentInterval < printInterval) ? currentInterval : printInterval;
                     var sample = DatabaseManager.WriteQueue.Count;
                     var curRate = prevFlush - sample;
-                    var totRate = (double)(totFlush - sample) / watch.ElapsedMilliseconds;
+                    var totRate = (double)(totFlush - sample) / StopWatch.ElapsedMilliseconds;
                     try
                     {
                         t = TimeSpan.FromMilliseconds(sample / (curRate/(actualDuration * 1000)));
@@ -84,8 +85,8 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             }
 
-            watch.Stop();
-            t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
+            StopWatch.Stop();
+            t = TimeSpan.FromMilliseconds(StopWatch.ElapsedMilliseconds);
             answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
                                     t.Hours,
                                     t.Minutes,
