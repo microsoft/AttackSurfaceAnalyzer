@@ -1324,7 +1324,7 @@ namespace AttackSurfaceAnalyzer
             {
                 collectors.Add(new FirewallCollector(opts.RunId));
             }
-            if (opts.EnableComObjectCollector || opts.EnableAllCollectors)
+            if (opts.EnableComObjectCollector || (opts.EnableAllCollectors && RuntimeInformation.IsOSPlatform(OSPlatform.Windows)))
             {
                 collectors.Add(new ComObjectCollector(opts.RunId));
             }
@@ -1401,6 +1401,12 @@ namespace AttackSurfaceAnalyzer
                 }
             }
             Log.Information(Strings.Get("StartingN"), collectors.Count.ToString(CultureInfo.InvariantCulture), Strings.Get("Collectors"));
+
+            Console.CancelKeyPress += delegate {
+                Log.Information("Cancelling collection. Rolling back transaction. Please wait to avoid corrupting database.");
+                DatabaseManager.Transaction.Rollback();
+                Environment.Exit(0);
+            };
 
             Dictionary<string, string> EndEvent = new Dictionary<string, string>();
             foreach (BaseCollector c in collectors)
