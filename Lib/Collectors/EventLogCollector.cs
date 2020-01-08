@@ -19,6 +19,12 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class EventLogCollector : BaseCollector
     {
+        // New log entries start with a timestamp like so:
+        // 2019-09-25 20:38:53.784594-0700 0xdbf47    Error       0x0                  0      0    kernel: (Sandbox) Sandbox: mdworker(15726) deny(1) mach-lookup com.apple.security.syspolicy
+        Regex MacLogHeader = new Regex("^([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-2][0-9]:[0-5][0-9]:[0-5][0-9]).*?0x[0-9a-f]*[\\s]*([A-Za-z]*)[\\s]*0x[0-9a-f][\\s]*[0-9]*[\\s]*([0-9]*)[\\s]*(.*?):(.*)");
+        List<string> data = new List<string>();
+        EventLogObject curObject;
+
         private bool GatherVerboseLogs;
         public EventLogCollector(string runId, bool GatherVerboseLogs = false)
         {
@@ -148,6 +154,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                             Source = "/var/log/syslog",
                             Process = LogHeader.Matches(entry).Single().Groups[1].Captures[0].Value,
                         };
+                        if (data.Count > 0)
+                        {
+                            obj.Data.AddRange(data);
+                            data = new List<string>();
+                        }
                         DatabaseManager.Write(obj, RunId);
                     }
                 }
@@ -167,71 +178,72 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
+        public void ParseMacEvent(string evt)
+        {
+            if (string.IsNullOrEmpty(evt))
+            {
+                return;
+            }
+            else if (MacLogHeader.IsMatch(evt))
+            {
+                DatabaseManager.Write(curObject, RunId);
+
+                curObject = new EventLogObject()
+                {
+                    Event = evt,
+                    Level = MacLogHeader.Matches(evt).Single().Groups[2].Value,
+                    Summary = $"{MacLogHeader.Matches(evt).Single().Groups[4].Captures[0].Value}:{MacLogHeader.Matches(evt).Single().Groups[5].Captures[0].Value}",
+                    Timestamp = MacLogHeader.Matches(evt).Single().Groups[1].Captures[0].Value,
+                    Source = MacLogHeader.Matches(evt).Single().Groups[4].Captures[0].Value,
+                };
+
+                data = new List<string>();
+
+            }
+            else if (evt.StartsWith("Timestamp", StringComparison.InvariantCulture))
+            {
+                // Removes the header line
+                return;
+            }
+            else
+            {
+                curObject.Data.Append(evt);
+            }
+        }
+
         /// <summary>
         /// Collect event logs on macOS using the 'log' utility
         /// </summary>
         public void ExecuteMacOs()
         {
-
-            var outputPath = Path.Combine(Directory.GetCurrentDirectory(), "events");
-            var file = (GatherVerboseLogs) ? ExternalCommandRunner.RunExternalCommand("log", "show") : ExternalCommandRunner.RunExternalCommand("log", "show --predicate \"messageType == 16 || messageType == 17\"");
-
-            // New log entries start with a timestamp like so:
-            // 2019-09-25 20:38:53.784594-0700 0xdbf47    Error       0x0                  0      0    kernel: (Sandbox) Sandbox: mdworker(15726) deny(1) mach-lookup com.apple.security.syspolicy
-            Regex LogHeader = new Regex("^([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-2][0-9]:[0-5][0-9]:[0-5][0-9]).*?0x[0-9a-f]*[\\s]*([A-Za-z]*)[\\s]*0x[0-9a-f][\\s]*[0-9]*[\\s]*([0-9]*)[\\s]*(.*?):(.*)");
-
-
-            List<string> data = null;
-            string previousLine = null;
-            foreach (var line in file.Split('\n'))
+            using var process = new Process()
             {
-                if (LogHeader.IsMatch(line))
+                StartInfo = new ProcessStartInfo
                 {
-                    if (previousLine != null)
-                    {
-                        var obj = new EventLogObject()
-                        {
-                            Event = previousLine,
-                            Level = LogHeader.Matches(previousLine).Single().Groups[2].Value,
-                            Summary = $"{LogHeader.Matches(previousLine).Single().Groups[4].Captures[0].Value}:{LogHeader.Matches(previousLine).Single().Groups[5].Captures[0].Value}",
-                            Timestamp = LogHeader.Matches(previousLine).Single().Groups[1].Captures[0].Value,
-                            Source = LogHeader.Matches(previousLine).Single().Groups[4].Captures[0].Value
-                        };
-                        if (data.Count > 0)
-                        {
-                            obj.Data.AddRange(data);
-                        }
+                    FileName = "log",
+                    Arguments = (GatherVerboseLogs) ? "show" : "show --predicate \"messageType == 16 || messageType == 17\"",
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    WindowStyle = ProcessWindowStyle.Hidden
+                }
+            };
 
-                        DatabaseManager.Write(obj, RunId);
-                    }
-                    previousLine = line;
-                    data = new List<string>();
-                }
-                else
-                {
-                    if (previousLine != null)
-                    {
-                        data.Add(line);
-                    }
-                }
-            }
-            if (previousLine != null)
+            string stdError = null;
+            try
             {
-                var obj = new EventLogObject()
-                {
-                    Event = previousLine,
-                    Level = LogHeader.Matches(previousLine).Single().Groups[2].Value,
-                    Summary = $"{LogHeader.Matches(previousLine).Single().Groups[4].Captures[0].Value}:{LogHeader.Matches(previousLine).Single().Groups[5].Captures[0].Value}",
-                    Timestamp = LogHeader.Matches(previousLine).Single().Groups[1].Captures[0].Value,
-                    Source = LogHeader.Matches(previousLine).Single().Groups[4].Captures[0].Value
-                };
-                if (data.Count > 0)
-                {
-                    obj.Data.AddRange(data);
-                }
-                DatabaseManager.Write(obj, RunId);
+                process.Start();
+                process.OutputDataReceived += (sender, args) => ParseMacEvent(args.Data);
+                process.BeginOutputReadLine();
+                stdError = process.StandardError.ReadToEnd();
+                process.WaitForExit();
+                DatabaseManager.Write(curObject, RunId);
             }
-            DatabaseManager.Commit();
+            catch (Exception e)
+            {
+                Log.Debug(e, "Failed to gather event logs on Mac OS");
+            }
         }
 
         public override bool CanRunOnPlatform()
