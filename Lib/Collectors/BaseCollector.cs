@@ -66,7 +66,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     var totRate = (double)(totFlush - sample) / StopWatch.ElapsedMilliseconds;
                     try
                     {
-                        t = TimeSpan.FromMilliseconds(sample / (curRate/(actualDuration * 1000)));
+                        t = (curRate > 0) ? TimeSpan.FromMilliseconds(sample / (curRate / (actualDuration * 1000))) : TimeSpan.FromHours(1);
                         answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
                                                 t.Hours,
                                                 t.Minutes,
