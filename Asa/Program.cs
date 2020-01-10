@@ -186,9 +186,6 @@ namespace AttackSurfaceAnalyzer
         [Option(HelpText = "Suppress all logging statements below WARN")]
         public bool Quiet { set; get; }
 
-        [Option(HelpText = "Force run without admin/root (collectors may not function).")]
-        public bool ForceNoAdmin { set; get; }
-
         [Option(HelpText = "Run parallelized collectors when available.", Default = true)]
         public bool Parallelization { set; get; }
     }
@@ -1195,27 +1192,21 @@ namespace AttackSurfaceAnalyzer
             {
                 if (!Elevation.IsAdministrator())
                 {
-                    Log.Fatal(Strings.Get("Err_RunAsAdmin"));
-                    Log.CloseAndFlush();
-                    Environment.Exit(1);
+                    Log.Warning(Strings.Get("Err_RunAsAdmin"));
                 }
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
                 if (!Elevation.IsRunningAsRoot())
                 {
-                    Log.Fatal(Strings.Get("Err_RunAsRoot"));
-                    Log.CloseAndFlush();
-                    Environment.Exit(1);
+                    Log.Warning(Strings.Get("Err_RunAsRoot"));
                 }
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
                 if (!Elevation.IsRunningAsRoot())
                 {
-                    Log.Fatal(Strings.Get("Err_RunAsRoot"));
-                    Log.CloseAndFlush();
-                    Environment.Exit(1);
+                    Log.Warning(Strings.Get("Err_RunAsRoot"));
                 }
             }
         }
@@ -1245,10 +1236,7 @@ namespace AttackSurfaceAnalyzer
             StartEvent.Add("Admin", AsaHelpers.IsAdmin().ToString(CultureInfo.InvariantCulture));
             AsaTelemetry.TrackEvent("Run Command", StartEvent);
 
-            if (!opts.ForceNoAdmin)
-            {
-                AdminOrQuit();
-            }
+            AdminOrQuit();
 
             CheckFirstRun();
             DatabaseManager.VerifySchemaVersion();

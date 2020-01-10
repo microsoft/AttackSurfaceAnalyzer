@@ -451,10 +451,10 @@
     <value>Starting {0} {1}.</value>
   </data>
   <data name="Err_RunAsAdmin" xml:space="preserve">
-    <value>Attack Surface Analyzer must be run as Administrator.</value>
+    <value>Attack Surface Analyzer should be run as Administrator. Results will not be complete.</value>
   </data>
   <data name="Err_RunAsRoot" xml:space="preserve">
-    <value>Attack Surface Analyzer must be run as root.</value>
+    <value>Attack Surface Analyzer should be run as root. Results will not be complete.</value>
   </data>
   <data name="LoadedAnalyses" xml:space="preserve">
     <value>Loaded Analyses from {0}.</value>
