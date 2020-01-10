@@ -218,17 +218,17 @@ stages:
         ArtifactName: 'BINARIES'
 
     - task: GitHubRelease@1
-    displayName: 'GitHub release update'
-    inputs:
-      gitHubConnection: 'Gabe-Asa'
-      action: edit
-      tag: 'v$(Build.BuildNumber)'
-      title: 'v2.1 Release'
-      assets: '$(build.artifactstagingdirectory)/*'
-      assetUploadMode: replace
-      isDraft: false
-      isPreRelease: false
-      changeLogCompareToRelease: lastNonDraftRelease
+      displayName: 'GitHub release update'
+      inputs:
+        gitHubConnection: 'Gabe-Asa'
+        action: edit
+        tag: 'v$(Build.BuildNumber)'
+        title: 'v2.1 Release'
+        assets: '$(build.artifactstagingdirectory)/*'
+        assetUploadMode: replace
+        isDraft: false
+        isPreRelease: false
+        changeLogCompareToRelease: lastNonDraftRelease
 
   - job: Linux
     pool:
@@ -286,17 +286,17 @@ stages:
         ArtifactName: 'BINARIES'
 
     - task: GitHubRelease@1
-    displayName: 'GitHub release update'
-    inputs:
-      gitHubConnection: 'Gabe-Asa'
-      action: edit
-      tag: 'v$(Build.BuildNumber)'
-      title: 'v2.1 Release'
-      assets: '$(build.artifactstagingdirectory)/*'
-      assetUploadMode: replace
-      isDraft: false
-      isPreRelease: false
-      changeLogCompareToRelease: lastNonDraftRelease
+      displayName: 'GitHub release update'
+      inputs:
+        gitHubConnection: 'Gabe-Asa'
+        action: edit
+        tag: 'v$(Build.BuildNumber)'
+        title: 'v2.1 Release'
+        assets: '$(build.artifactstagingdirectory)/*'
+        assetUploadMode: replace
+        isDraft: false
+        isPreRelease: false
+        changeLogCompareToRelease: lastNonDraftRelease
 
   - job: Mac
     pool:
@@ -354,17 +354,17 @@ stages:
         ArtifactName: 'BINARIES'
 
     - task: GitHubRelease@1
-    displayName: 'GitHub release update'
-    inputs:
-      gitHubConnection: 'Gabe-Asa'
-      action: edit
-      tag: 'v$(Build.BuildNumber)'
-      title: 'v2.1 Release'
-      assets: '$(build.artifactstagingdirectory)/*'
-      assetUploadMode: replace
-      isDraft: false
-      isPreRelease: false
-      changeLogCompareToRelease: lastNonDraftRelease
+      displayName: 'GitHub release update'
+      inputs:
+        gitHubConnection: 'Gabe-Asa'
+        action: edit
+        tag: 'v$(Build.BuildNumber)'
+        title: 'v2.1 Release'
+        assets: '$(build.artifactstagingdirectory)/*'
+        assetUploadMode: replace
+        isDraft: false
+        isPreRelease: false
+        changeLogCompareToRelease: lastNonDraftRelease
 
 - stage: Hashes
   jobs:
@@ -389,14 +389,14 @@ stages:
         ArtifactName: 'HASHES'
 
     - task: GitHubRelease@1
-    displayName: 'GitHub release update'
-    inputs:
-      gitHubConnection: 'Gabe-Asa'
-      action: edit
-      tag: 'v$(Build.BuildNumber)'
-      title: 'v2.1 Release'
-      assets: '$(build.binariesdirectory)/HASHES.txt'
-      assetUploadMode: replace
-      isDraft: false
-      isPreRelease: false
-      changeLogCompareToRelease: lastNonDraftRelease
+      displayName: 'GitHub release update'
+      inputs:
+        gitHubConnection: 'Gabe-Asa'
+        action: edit
+        tag: 'v$(Build.BuildNumber)'
+        title: 'v2.1 Release'
+        assets: '$(build.binariesdirectory)/HASHES.txt'
+        assetUploadMode: replace
+        isDraft: false
+        isPreRelease: false
+        changeLogCompareToRelease: lastNonDraftRelease
