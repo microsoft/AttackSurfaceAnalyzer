@@ -41,7 +41,7 @@ All data collected is stored in a local SQLite database called `asa.sqlite`.
 
 ## How to Use Attack Surface Analyzer
 
-Run the following commands in an Administrator Shell (or as root).  You can replace `asa.exe` below with either the launch script included in your package (`AsaLaunch.bat`) or by accessing the binary in the `res` folder directly.
+Run the following commands in an Administrator Shell (or as root).  Replace ```asa.exe``` with ```asa``` as appropriate for your platform.
 
 ### CLI Mode
 To start a default all collectors run: ```asa.exe collect```
