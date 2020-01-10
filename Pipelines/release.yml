@@ -195,12 +195,9 @@ stages:
           $asaFolder = "$(build.binariesdirectory)\Asa-win-$version"
           mkdir $asaFolder
 
-          Move-Item -Path "$(build.binariesdirectory)\windows\asa" -Destination $asaFolder\res
+          Move-Item -Path "$(build.binariesdirectory)\windows\asa" -Destination $asaFolder
 
-          Copy-Item -Path "$(build.sourcesdirectory)\Asa\AsaLaunch.bat" -Destination $asaFolder\AsaLaunch.bat
-          Copy-Item -Path "$(build.sourcesdirectory)\Asa\AsaLaunchGui.bat" -Destination $asaFolder\AsaLaunchGui.bat
-
-          7z a "$(build.artifactstagingdirectory)\Asa-win-$version.zip" "$(build.binariesdirectory)\Asa-win-$version"
+          7z a "$(build.artifactstagingdirectory)\Asa-win-$version.zip" $asaFolder
 
           Get-ChildItem $(build.artifactstagingdirectory) | Foreach-Object{
             $name = $_.Name
