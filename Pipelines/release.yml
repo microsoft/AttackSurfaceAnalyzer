@@ -217,9 +217,22 @@ stages:
         PathtoPublish: '$(build.artifactstagingdirectory)'
         ArtifactName: 'BINARIES'
 
+    - task: GitHubRelease@1
+    displayName: 'GitHub release update'
+    inputs:
+      gitHubConnection: 'Gabe-Asa'
+      action: edit
+      tag: 'v$(Build.BuildNumber)'
+      title: 'v2.1 Release'
+      assets: '$(build.artifactstagingdirectory)/*'
+      assetUploadMode: replace
+      isDraft: false
+      isPreRelease: false
+      changeLogCompareToRelease: lastNonDraftRelease
+
   - job: Linux
     pool:
-        vmImage: 'Ubuntu-latest'
+        vmImage: 'ubuntu-latest'
     steps:
     - script: 'dotnet tool install -g nbgv'
       displayName: 'Install GitVersioning'
@@ -235,6 +248,67 @@ stages:
           arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)/linux -r linux-x64'
           zipAfterPublish: false
 
+    - task: CmdLine@2
+      inputs:
+        script: |
+          VERSION="$(nbgv get-version -v AssemblyInformationalVersion | cut -d'+' -f 1)"
+
+          mkdir $BIN_DIR/Asa-linux-$VERSION
+          mv $BIN_DIR/linux/Asa $BIN_DIR/Asa-linux-$VERSION/res/
+
+          cp $SRC_DIR/Asa/AsaLaunch.sh $BIN_DIR/Asa-linux-$VERSION/AsaLaunch.sh
+          cp $SRC_DIR/Asa/AsaLaunchGui.sh $BIN_DIR/Asa-linux-$VERSION/AsaLaunchGui.sh
+
+          chmod +x $BIN_DIR/Asa-linux-$VERSION/AsaLaunch.sh
+          chmod +x $BIN_DIR/Asa-linux-$VERSION/AsaLaunchGui.sh
+          chmod +x $BIN_DIR/Asa-linux-$VERSION/res/Asa
+
+          cd $BIN_DIR
+          tar -czvf $ART_DIR/Asa-linux-$VERSION.tar.gz Asa-linux-$VERSION
+
+          sha256sum $ART_DIR/Asa-linux-$VERSION.tar.gz | awk ' { n=split($2, a, "/"); $2 = a[n]; print; } ' OFS='\t' >> $BIN_DIR/HASHES_LINUX.txt
+      displayName: 'Prepare Artifacts'
+      env:
+        BIN_DIR: $(build.binariesdirectory)
+        ART_DIR: $(build.artifactstagingdirectory)
+        SRC_DIR: $(build.sourcesdirectory)
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish HASHES'
+      inputs:
+        PathtoPublish: '$(build.binariesdirectory)/HASHES_LINUX.txt'
+        ArtifactName: 'HASHES'
+    
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Build Artifacts'
+      inputs:
+        PathtoPublish: '$(build.artifactstagingdirectory)/'
+        ArtifactName: 'BINARIES'
+
+    - task: GitHubRelease@1
+    displayName: 'GitHub release update'
+    inputs:
+      gitHubConnection: 'Gabe-Asa'
+      action: edit
+      tag: 'v$(Build.BuildNumber)'
+      title: 'v2.1 Release'
+      assets: '$(build.artifactstagingdirectory)/*'
+      assetUploadMode: replace
+      isDraft: false
+      isPreRelease: false
+      changeLogCompareToRelease: lastNonDraftRelease
+
+  - job: Mac
+    pool:
+        vmImage: 'macOS-latest'
+    steps:
+    - script: 'dotnet tool install -g nbgv'
+      displayName: 'Install GitVersioning'
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'sdk'
+        version: '3.1.100'
+
     - task: DotNetCoreCLI@2
       displayName: 'Publish ASA macOS'
       inputs:
@@ -247,41 +321,25 @@ stages:
         script: |
           VERSION="$(nbgv get-version -v AssemblyInformationalVersion | cut -d'+' -f 1)"
 
-          mkdir $BIN_DIR/Asa-linux-$VERSION
-          mv $BIN_DIR/linux/Asa $BIN_DIR/Asa-linux-$VERSION/res/
-
           mkdir $BIN_DIR/Asa-macos-$VERSION
           mv $BIN_DIR/macos/Asa $BIN_DIR/Asa-macos-$VERSION/res/
 
-          cp $SRC_DIR/Asa/AsaLaunch.sh $BIN_DIR/Asa-linux-$VERSION/AsaLaunch.sh
           cp $SRC_DIR/Asa/AsaLaunch.sh $BIN_DIR/Asa-macos-$VERSION/AsaLaunch.sh
-          cp $SRC_DIR/Asa/AsaLaunchGui.sh $BIN_DIR/Asa-linux-$VERSION/AsaLaunchGui.sh
           cp $SRC_DIR/Asa/AsaLaunchGui.sh $BIN_DIR/Asa-macos-$VERSION/AsaLaunchGui.sh
 
-          chmod +x $BIN_DIR/Asa-linux-$VERSION/AsaLaunch.sh
           chmod +x $BIN_DIR/Asa-macos-$VERSION/AsaLaunch.sh
-          chmod +x $BIN_DIR/Asa-linux-$VERSION/AsaLaunchGui.sh
           chmod +x $BIN_DIR/Asa-macos-$VERSION/AsaLaunchGui.sh
-          chmod +x $BIN_DIR/Asa-linux-$VERSION/res/Asa
           chmod +x $BIN_DIR/Asa-macos-$VERSION/res/Asa
 
           cd $BIN_DIR
-          tar -czvf $ART_DIR/Asa-linux-$VERSION.tar.gz Asa-linux-$VERSION
           tar -czvf $ART_DIR/Asa-macos-$VERSION.tar.gz Asa-macos-$VERSION
 
-          sha256sum $ART_DIR/Asa-linux-$VERSION.tar.gz | awk ' { n=split($2, a, "/"); $2 = a[n]; print; } ' OFS='\t' >> $BIN_DIR/HASHES_LINUX.txt
           sha256sum $ART_DIR/Asa-macos-$VERSION.tar.gz | awk ' { n=split($2, a, "/"); $2 = a[n]; print; } ' OFS='\t' >> $BIN_DIR/HASHES_MAC.txt
       displayName: 'Prepare Artifacts'
       env:
         BIN_DIR: $(build.binariesdirectory)
         ART_DIR: $(build.artifactstagingdirectory)
         SRC_DIR: $(build.sourcesdirectory)
-
-    - task: PublishBuildArtifacts@1
-      displayName: 'Publish HASHES'
-      inputs:
-        PathtoPublish: '$(build.binariesdirectory)/HASHES_LINUX.txt'
-        ArtifactName: 'HASHES'
 
     - task: PublishBuildArtifacts@1
       displayName: 'Publish HASHES'
@@ -294,6 +352,19 @@ stages:
       inputs:
         PathtoPublish: '$(build.artifactstagingdirectory)/'
         ArtifactName: 'BINARIES'
+
+    - task: GitHubRelease@1
+    displayName: 'GitHub release update'
+    inputs:
+      gitHubConnection: 'Gabe-Asa'
+      action: edit
+      tag: 'v$(Build.BuildNumber)'
+      title: 'v2.1 Release'
+      assets: '$(build.artifactstagingdirectory)/*'
+      assetUploadMode: replace
+      isDraft: false
+      isPreRelease: false
+      changeLogCompareToRelease: lastNonDraftRelease
 
 - stage: Hashes
   jobs:
@@ -317,40 +388,15 @@ stages:
         PathtoPublish: '$(build.binariesdirectory)/HASHES.txt'
         ArtifactName: 'HASHES'
 
-- stage: GitHub
-  jobs:
-  - job: Publish
-    steps:
-    - task: DownloadBuildArtifacts@0
-      displayName: 'Download HASHES'
-      inputs:
-        downloadType: specific
-        itemPattern: 'HASHES/HASHES.txt'
-        downloadPath: '$(build.binariesdirectory)'
-
-    - task: DownloadBuildArtifacts@0
-      displayName: 'Download Binaries'
-      inputs:
-        downloadType: specific
-        itemPattern: 'BINARIES/*'
-        downloadPath: '$(build.binariesdirectory)'
-
-    - task: PowerShell@2
-      inputs:
-        targetType: 'inline'
-        script: |
-          Move-Item -Path "$(build.binariesdirectory)\HASHES\*" -Destination "$(build.artifactstagingdirectory)\"
-          Move-Item -Path "$(build.binariesdirectory)\BINARIES\*" -Destination "$(build.artifactstagingdirectory)\"
-
     - task: GitHubRelease@1
-      displayName: 'GitHub release update'
-      inputs:
-        gitHubConnection: 'Gabe-Asa'
-        action: edit
-        tag: 'v$(Build.BuildNumber)'
-        title: 'v2.1 Release'
-        assets: '$(Build.ArtifactStagingDirectory)/*'
-        assetUploadMode: replace
-        isDraft: false
-        isPreRelease: false
-        changeLogCompareToRelease: lastNonDraftRelease
+    displayName: 'GitHub release update'
+    inputs:
+      gitHubConnection: 'Gabe-Asa'
+      action: edit
+      tag: 'v$(Build.BuildNumber)'
+      title: 'v2.1 Release'
+      assets: '$(build.binariesdirectory)/HASHES.txt'
+      assetUploadMode: replace
+      isDraft: false
+      isPreRelease: false
+      changeLogCompareToRelease: lastNonDraftRelease
