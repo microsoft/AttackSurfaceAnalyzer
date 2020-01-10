@@ -8,14 +8,16 @@
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
-  <!--<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PublishTrimmed>true</PublishTrimmed>
-  </PropertyGroup>-->
-
+  </PropertyGroup>
+  <ItemGroup>
+    <RuntimeHostConfigurationOption Include="System.Globalization.Invariant" Value="true" />
+  </ItemGroup>
 
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Collect' ">
     <StartAction>Project</StartAction>
-    <LaunchBrowser></LaunchBrowser>
+    <ApplicationURL>http://localhost:5002</ApplicationURL>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="asa.sqlite" />
