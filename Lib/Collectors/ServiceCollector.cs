@@ -221,41 +221,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 Log.Error("Error executing {0}", "launchctl list");
             }
-            try
-            {
-                // Then get the system processes
-                var result = ExternalCommandRunner.RunExternalCommand("sudo", "launchctl list");
-
-                foreach (var _line in result.Split('\n'))
-                {
-                    // Lines are formatted like this, with single tab separation:
-                    //  PID     Exit    Name
-                    //  1015    0       com.apple.appstoreagent
-                    var _fields = _line.Split('\t');
-                    if (_fields.Length < 3 || _fields[0].Contains("PID"))
-                    {
-                        continue;
-
-                    }
-                    var obj = new ServiceObject()
-                    {
-                        DisplayName = _fields[2],
-                        Name = _fields[2],
-                        // If we have a current PID then it is running.
-                        State = (_fields[0].Equals("-")) ? "Stopped" : "Running"
-                    };
-
-                    if (!outDict.ContainsKey(obj.Identity))
-                    {
-                        DatabaseManager.Write(obj, this.RunId);
-                        outDict.Add(obj.Identity, obj);
-                    }
-                }
-            }
-            catch (ExternalException)
-            {
-                Log.Error("Error executing {0}", "sudo launchctl list");
-            }
         }
 
         /// <summary>

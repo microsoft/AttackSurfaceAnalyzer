@@ -167,7 +167,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             try
             {
-                var result = ExternalCommandRunner.RunExternalCommand("sudo", "lsof -Pn -i4 -i6");
+                string result = ExternalCommandRunner.RunExternalCommand("lsof -Pn -i4 -i6");
 
                 foreach (var _line in result.Split('\n'))
                 {
