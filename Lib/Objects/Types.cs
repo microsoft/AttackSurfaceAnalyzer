@@ -17,7 +17,8 @@ namespace AttackSurfaceAnalyzer.Types
         GROUP,
         FIREWALL,
         COM,
-        LOG
+        LOG,
+        FILEMONITOR
     };
 
     /// <summary>

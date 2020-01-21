@@ -68,6 +68,12 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private const string SQL_GET_RESULTS_BY_RUN_ID = "select * from collect where run_id = @run_id";
 
+        private const string UPDATE_TELEMETRY = "replace into persisted_settings values ('telemetry_opt_out',@TelemetryOptOut)"; //lgtm [cs/literal-as-local]
+        private const string CHECK_TELEMETRY = "select value from persisted_settings where setting='telemetry_opt_out'";
+
+        private const string SQL_TRUNCATE = "delete from file_system_monitored where run_id=@run_id";
+        private const string SQL_INSERT = "insert into file_system_monitored (run_id, row_key, timestamp, change_type, path, old_path, name, old_name, extended_results, notify_filters, serialized) values (@run_id, @row_key, @timestamp, @change_type, @path, @old_path, @name, @old_name, @extended_results, @notify_filters, @serialized)";
+
         private const string PRAGMAS = "PRAGMA main.auto_vacuum = 0; PRAGMA main.synchronous = OFF; PRAGMA main.journal_mode = DELETE;";
 
         private const string SCHEMA_VERSION = "4";
@@ -451,7 +457,6 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             catch (NullReferenceException)
             {
-                Log.Debug($"Was this a valid WriteObject? It looked null. {JsonConvert.SerializeObject(objIn)}");
             }
         }
 
@@ -564,6 +569,43 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
             }
             DatabaseManager.Commit();
+        }
+
+        public static bool GetOptOut()
+        {
+            using (var cmd = new SqliteCommand(CHECK_TELEMETRY, DatabaseManager.Connection, DatabaseManager.Transaction))
+            {
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        return bool.Parse(reader["value"].ToString());
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        public static void SetOptOut(bool OptOut)
+        {
+            using (var cmd = new SqliteCommand(UPDATE_TELEMETRY, DatabaseManager.Connection, DatabaseManager.Transaction))
+            {
+                cmd.Parameters.AddWithValue("@TelemetryOptOut", OptOut.ToString(CultureInfo.InvariantCulture));
+                cmd.ExecuteNonQuery();
+                DatabaseManager.Commit();
+            }
+        }
+
+        public static void WriteFileMonitor(FileMonitorObject obj, string RunId)
+        {
+            using var cmd = new SqliteCommand(SQL_INSERT, Connection, Transaction);
+            cmd.Parameters.AddWithValue("@run_id", RunId);
+            cmd.Parameters.AddWithValue("@path", obj.Path);
+            cmd.Parameters.AddWithValue("@timestamp", obj.Timestamp);
+            cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj));
+
+            cmd.ExecuteNonQuery();
         }
     }
 }
