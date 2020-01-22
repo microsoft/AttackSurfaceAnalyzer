@@ -130,4 +130,11 @@ namespace AttackSurfaceAnalyzer.Types
         MACOS,
         UNKNOWN
     }
+
+    public enum RUN_TYPE
+    {
+        COLLECT,
+        MONITOR,
+        COMPARE
+    }
 }
