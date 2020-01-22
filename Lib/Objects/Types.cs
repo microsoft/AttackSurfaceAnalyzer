@@ -17,7 +17,8 @@ namespace AttackSurfaceAnalyzer.Types
         GROUP,
         FIREWALL,
         COM,
-        LOG
+        LOG,
+        FILEMONITOR
     };
 
     /// <summary>
@@ -128,5 +129,12 @@ namespace AttackSurfaceAnalyzer.Types
         LINUX,
         MACOS,
         UNKNOWN
+    }
+
+    public enum RUN_TYPE
+    {
+        COLLECT,
+        MONITOR,
+        COMPARE
     }
 }

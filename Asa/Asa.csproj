@@ -17,7 +17,7 @@
 
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Collect' ">
     <StartAction>Project</StartAction>
-    <ApplicationURL>http://localhost:5002</ApplicationURL>
+    <ApplicationURL>http://localhost:5000</ApplicationURL>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="asa.sqlite" />
@@ -31,7 +31,7 @@
 
 
   <ItemGroup>
-    <PackageReference Include="CommandLineParser" Version="2.6.0" />
+    <PackageReference Include="CommandLineParser" Version="2.7.82" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.12.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
       <PrivateAssets>all</PrivateAssets>
