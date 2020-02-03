@@ -16,7 +16,7 @@ namespace AttackSurfaceAnalyzer.Objects
         }
         public string Path { get; set; }
         public ulong Size { get; set; }
-        public string SignatureStatus { get; set; }
+        public Signature SignatureStatus { get; set; }
         public string ContentHash { get; set; }
         public bool IsExecutable { get; set; }
         public bool IsDirectory { get; set; }

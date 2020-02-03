@@ -127,7 +127,7 @@ namespace AttackSurfaceAnalyzer
         [Option("directories", Required = false, HelpText = "Comma separated list of paths to scan with FileSystemCollector")]
         public string SelectedDirectories { get; set; }
 
-        [Option("certificate-files", Default = false, HelpText = "Scan the filesystem for certificates (high overhead).")]
+        [Option("certificate-files", Default = false, HelpText = "When used with Certificate Collector, also scan the entire filesystem for certificates.")]
         public bool CertificatesFromFiles { get; set; }
 
         [Option(HelpText = "Download files from thin Cloud Folders (like OneDrive) to check them.", Default = false)]
@@ -135,9 +135,6 @@ namespace AttackSurfaceAnalyzer
 
         [Option(HelpText = "If the specified runid already exists delete all data from that run before proceeding.")]
         public bool Overwrite { get; set; }
-
-        [Option(HelpText = "Suppress all logging statements below WARN")]
-        public bool Quiet { set; get; }
 
         [Option(HelpText = "Run parallelized collectors when available.", Default = true)]
         public bool Parallelization { set; get; }
