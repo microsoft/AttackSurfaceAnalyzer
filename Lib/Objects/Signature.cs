@@ -15,7 +15,7 @@ namespace AttackSurfaceAnalyzer.Objects
                 IsAuthenticodeValid = authenticodeInfo.IsAuthenticodeValid;
                 SignedHash = authenticodeInfo.SignedHash;
                 SignerSerialNumber = authenticodeInfo.SignerSerialNumber;
-                SigningCertificate = SerializableCertificate.SerializableCertificateFromX509(authenticodeInfo.SigningCertificate);
+                SigningCertificate = new SerializableCertificate(authenticodeInfo.SigningCertificate);
             }
         }
 

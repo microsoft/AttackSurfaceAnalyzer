@@ -5,18 +5,19 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class SerializableCertificate
     {
-        public static SerializableCertificate SerializableCertificateFromX509(X509Certificate2 certificate)
+        public SerializableCertificate (X509Certificate2 certificate)
         {
-            return new SerializableCertificate()
-            {
-                Thumbprint = certificate.Thumbprint,
-                Subject = certificate.Subject,
-                PublicKey = certificate.PublicKey.EncodedKeyValue.Format(true),
-                NotAfter = certificate.NotAfter,
-                NotBefore = certificate.NotBefore,
-                Issuer = certificate.Issuer,
-                SerialNumber = certificate.SerialNumber,
-            };
+            Thumbprint = certificate.Thumbprint;
+            Subject = certificate.Subject;
+            PublicKey = certificate.PublicKey.EncodedKeyValue.Format(true);
+            NotAfter = certificate.NotAfter;
+            NotBefore = certificate.NotBefore;
+            Issuer = certificate.Issuer;
+            SerialNumber = certificate.SerialNumber;
+        }
+
+        public SerializableCertificate()
+        {
         }
 
         public string Thumbprint { get; set; }
