@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -78,6 +79,9 @@ namespace AttackSurfaceAnalyzer
 
             WebHost.CreateDefaultBuilder(Array.Empty<string>())
                     .UseStartup<Asa.Startup>()
+                    .UseKestrel(options => {
+                        options.Listen(IPAddress.Loopback, 5000); //HTTP port
+                    })
                     .Build()
                     .Run();
 
