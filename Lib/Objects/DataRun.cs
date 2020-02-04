@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AttackSurfaceAnalyzer.Models
+namespace AttackSurfaceAnalyzer.Objects
 {
     public class DataRunModel
     {

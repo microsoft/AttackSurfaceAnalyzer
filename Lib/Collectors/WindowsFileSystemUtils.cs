@@ -3,6 +3,7 @@
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
+using PeNet.Authenticode;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -14,15 +15,23 @@ namespace AttackSurfaceAnalyzer.Collectors
 {
     public static class WindowsFileSystemUtils
     {
-        public static string GetSignatureStatus(string Path)
+        public static Signature GetSignatureStatus(string Path)
         {
             if (!NeedsSignature(Path))
             {
-                return string.Empty;
+                return null;
             }
-            string sigStatus = NativeMethods.VerifyEmbeddedSignature(Path);
-
-            return sigStatus;
+            try
+            {
+                var peHeader = new PeNet.PeFile(Path);
+                var authenticodeInfo = new AuthenticodeInfo(peHeader);
+                var sig = new Signature(authenticodeInfo);
+                return sig;
+            }
+            catch(Exception e)
+            {
+            }
+            return null;
         }
 
         public static bool NeedsSignature(string Path)
@@ -59,7 +68,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                return FileSystemUtils.IsExecutable(Path, Size);
+                return FileSystemUtils.IsWindowsExecutable(Path, Size);
             }
             return false;
         }

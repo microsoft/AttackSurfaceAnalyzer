@@ -2,33 +2,31 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:24644",
+    "iis": {
+      "applicationUrl": "http://localhost/Asa",
       "sslPort": 0
     }
   },
   "profiles": {
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
     "Collect": {
       "commandName": "Project",
-      "commandLineArgs": "collect -C --databasefilename C:\\asa.dbg.sqlite",
-      "environmentVariables": {},
-      "applicationUrl": "http://localhost:5000/"
+      "commandLineArgs": "collect -f --directories C:\\Users\\Gstoc\\Downloads\\Test",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "http://localhost:5002"
     },
     "Asa": {
       "commandName": "Project",
-      "commandLineArgs": "export-collect --databasefilename C:\\asa.dbg.sqlite",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "http://localhost:5000"
+    },
+    "Export-Collect": {
+      "commandName": "Project",
+      "commandLineArgs": "export-collect"
     }
   }
 }
