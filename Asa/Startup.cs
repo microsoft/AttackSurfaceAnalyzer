@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 using System;
 using System.IO;
 using System.Reflection;
@@ -42,17 +43,24 @@ namespace Asa
 
             app.UseRouting();
 
-            app.UseAuthorization();
-
             string codeBase = Assembly.GetExecutingAssembly().CodeBase;
             UriBuilder uri = new UriBuilder(codeBase);
             string path = Path.Combine(Path.GetDirectoryName(Uri.UnescapeDataString(uri.Path)),"wwwroot");
 
-            app.UseStaticFiles(new StaticFileOptions
+            try
             {
-                FileProvider = new PhysicalFileProvider(path),
-                RequestPath = new PathString("")
-            });
+                app.UseStaticFiles(new StaticFileOptions
+                {
+                    FileProvider = new PhysicalFileProvider(path),
+                    RequestPath = new PathString("")
+                });
+            }
+            catch(Exception e)
+            {
+                Log.Debug("Had an issue setting static file path. Reverting to default.");
+                app.UseStaticFiles();
+            }
+
 
             app.UseEndpoints(endpoints =>
             {
