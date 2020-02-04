@@ -1,8 +1,16 @@
 {
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://localhost/Asa",
+      "sslPort": 0
+    }
+  },
   "profiles": {
     "Collect": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "commandLineArgs": "collect -f --directories C:\\Users\\Gstoc\\Downloads\\Test",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
@@ -15,6 +23,10 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "http://localhost:5000"
+    },
+    "Export-Collect": {
+      "commandName": "Project",
+      "commandLineArgs": "export-collect"
     }
   }
 }
