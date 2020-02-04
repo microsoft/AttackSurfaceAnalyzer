@@ -156,6 +156,43 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             return fourBytes.SequenceEqual(ElfMagicNumber) || fourBytes.SequenceEqual(JavaMagicNumber) || MacMagicNumbers.Contains(fourBytes) || fourBytes[0..2].SequenceEqual(WindowsMagicNumber);
         }
+        public static bool IsWindowsExecutable(string Path, ulong Size)
+        {
+            if (Path is null) { return false; }
+            if (Size < 4) { return false; }
+
+            // Shortcut to help with system files we can't read directly
+            if (Path.EndsWith(".dll") || Path.EndsWith(".exe"))
+            {
+                return true;
+            }
+
+            byte[] fourBytes = new byte[4];
+            try
+            {
+                using (var fileStream = File.Open(Path, FileMode.Open))
+                {
+                    fileStream.Read(fourBytes, 0, 4);
+                }
+            }
+            catch (Exception e) when (
+                e is ArgumentException
+                || e is ArgumentNullException
+                || e is PathTooLongException
+                || e is DirectoryNotFoundException
+                || e is IOException
+                || e is UnauthorizedAccessException
+                || e is ArgumentOutOfRangeException
+                || e is FileNotFoundException
+                || e is NotSupportedException
+                || e is ObjectDisposedException)
+            {
+                Log.Verbose("Couldn't chomp 4 bytes of {0} ({1})", Path, e.GetType().ToString());
+                return false;
+            }
+
+            return fourBytes[0..2].SequenceEqual(WindowsMagicNumber);
+        }
 
         public static string GetFileHash(string path)
         {

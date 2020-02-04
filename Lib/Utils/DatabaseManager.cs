@@ -101,7 +101,7 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string GET_COMPARISON_RESULTS_LIMIT = "select * from findings where comparison_id=@comparison_id and result_type=@result_type order by level desc limit @offset,@limit;"; //lgtm [cs/literal-as-local]
         private const string GET_RESULT_COUNT = "select count(*) from findings where comparison_id=@comparison_id and result_type=@result_type"; //lgtm [cs/literal-as-local]
 
-        private const string SCHEMA_VERSION = "4";
+        private const string SCHEMA_VERSION = "5";
         private static bool WriterStarted = false;
 
         public static SqliteConnection Connection { get; private set; }

@@ -26,3 +26,4 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1707:Identifiers should not contain underscores", Justification = "Preferred format.", Scope = "type", Target = "~T:AttackSurfaceAnalyzer.Types.RESULT_TYPE")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1707:Identifiers should not contain underscores", Justification = "Preferred format.", Scope = "type", Target = "~T:AttackSurfaceAnalyzer.Types.RUN_STATUS")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1707:Identifiers should not contain underscores", Justification = "Preferred format.", Scope = "type", Target = "~T:AttackSurfaceAnalyzer.Types.GUI_ERROR")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "<Pending>", Scope = "member", Target = "~P:AttackSurfaceAnalyzer.Objects.Signature.SignedHash")]
