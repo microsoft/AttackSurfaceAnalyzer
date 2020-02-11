@@ -224,7 +224,7 @@ stages:
         gitHubConnection: 'Gabe-Asa'
         action: edit
         tag: 'v$(Build.BuildNumber)'
-        title: 'v2.1 Release'
+        title: 'v$(Build.BuildNumber)'
         assets: '$(build.artifactstagingdirectory)/*'
         assetUploadMode: replace
         isDraft: false
@@ -293,7 +293,7 @@ stages:
         gitHubConnection: 'Gabe-Asa'
         action: edit
         tag: 'v$(Build.BuildNumber)'
-        title: 'v2.1 Release'
+        title: 'v$(Build.BuildNumber)'
         assets: '$(build.artifactstagingdirectory)/*'
         assetUploadMode: replace
         isDraft: false
@@ -362,7 +362,7 @@ stages:
         gitHubConnection: 'Gabe-Asa'
         action: edit
         tag: 'v$(Build.BuildNumber)'
-        title: 'v2.1 Release'
+        title: 'v$(Build.BuildNumber)'
         assets: '$(build.artifactstagingdirectory)/*'
         assetUploadMode: replace
         isDraft: false
@@ -398,7 +398,7 @@ stages:
         gitHubConnection: 'Gabe-Asa'
         action: edit
         tag: 'v$(Build.BuildNumber)'
-        title: 'v2.1 Release'
+        title: 'v$(Build.BuildNumber)'
         assets: '$(build.binariesdirectory)/HASHES.txt'
         assetUploadMode: replace
         isDraft: false
