@@ -5,11 +5,11 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class Run
     {
-        public RUN_TYPE Type;
-        public string RunId;
-        public string Timestamp;
-        public string Version;
-        public string Platform;
-        public Dictionary<RESULT_TYPE, bool> ResultTypes;
+        public RUN_TYPE Type { get; set; }
+        public string RunId { get; set; }
+        public string Timestamp { get; set; }
+        public string Version { get; set; }
+        public string Platform { get; set; }
+        public Dictionary<RESULT_TYPE, bool> ResultTypes { get; set; }
     }
 }

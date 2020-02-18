@@ -5,15 +5,15 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class FileMonitorObject : CollectObject
     {
-        public string Path;
-        public string OldPath;
-        public string Name;
-        public string OldName;
-        public CHANGE_TYPE ChangeType;
-        public string ExtendedResults;
-        public string NotifyFilters;
-        public string Serialized;
-        public string Timestamp;
+        public string Path { get; set; }
+        public string OldPath { get; set; }
+        public string Name { get; set; }
+        public string OldName { get; set; }
+        public CHANGE_TYPE ChangeType { get; set; }
+        public string ExtendedResults { get; set; }
+        public string NotifyFilters { get; set; }
+        public string Serialized { get; set; }
+        public string Timestamp { get; set; }
 
         public override string Identity
         {
