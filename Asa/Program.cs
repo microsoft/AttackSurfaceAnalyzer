@@ -353,7 +353,7 @@ namespace AttackSurfaceAnalyzer
                     var o = new Dictionary<string, Object>();
                     o["results"] = records;
                     o["metadata"] = AsaHelpers.GenerateMetadata();
-                    using (StreamWriter sw = new StreamWriter(Path.Combine(OutputPath, AsaHelpers.MakeValidFileName(BaseId + "_vs_" + CompareId + "_" + ExportType.ToString() + ".json.txt")))) //lgtm[cs/path-injection]
+                    using (StreamWriter sw = new StreamWriter(Path.Combine(OutputPath, AsaHelpers.MakeValidFileName(BaseId + "_vs_" + CompareId + "_" + ExportType.ToString() + ".json.txt")))) //lgtm[SM00414]
                     {
                         using (JsonWriter writer = new JsonTextWriter(sw))
                         {
@@ -367,7 +367,7 @@ namespace AttackSurfaceAnalyzer
             var output = new Dictionary<string, Object>();
             output["results"] = actualExported;
             output["metadata"] = AsaHelpers.GenerateMetadata();
-            using (StreamWriter sw = new StreamWriter(Path.Combine(OutputPath, AsaHelpers.MakeValidFileName(BaseId + "_vs_" + CompareId + "_summary.json.txt")))) //lgtm[cs/path-injection]
+            using (StreamWriter sw = new StreamWriter(Path.Combine(OutputPath, AsaHelpers.MakeValidFileName(BaseId + "_vs_" + CompareId + "_summary.json.txt")))) //lgtm[SM00414]
             {
                 using (JsonWriter writer = new JsonTextWriter(sw))
                 {
@@ -449,7 +449,7 @@ namespace AttackSurfaceAnalyzer
             output["metadata"] = AsaHelpers.GenerateMetadata();
             string path = Path.Combine(OutputPath, AsaHelpers.MakeValidFileName(RunId + "_Monitoring_" + ((RESULT_TYPE)ResultType).ToString() + ".json.txt"));
 
-            using (StreamWriter sw = new StreamWriter(path)) //lgtm[cs/path-injection]
+            using (StreamWriter sw = new StreamWriter(path)) //lgtm[SM00414]
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
                 serializer.Serialize(writer, output);

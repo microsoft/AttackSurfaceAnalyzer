@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
+using Microsoft.Win32;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -162,7 +163,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                             PasswordRequired = Convert.ToString(user["PasswordRequired"], CultureInfo.InvariantCulture),
                                             SID = Convert.ToString(user["SID"], CultureInfo.InvariantCulture),
                                             Privileged = (bool)groupName.Equals("Administrators"),
-
+                                            Hidden = IsHiddenWindowsUser(Convert.ToString(user["Name"], CultureInfo.InvariantCulture))
                                         };
                                         obj.Groups.Add(groupName);
                                         users.Add(userName, obj);
@@ -195,6 +196,29 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 DatabaseManager.Write(group.Value, RunId);
             }
+        }
+
+        private bool IsHiddenWindowsUser(string username)
+        {
+            try
+            {
+                using var BaseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Default);
+                var SpecialAccounts = BaseKey.OpenSubKey("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\UserList");
+                if (SpecialAccounts.GetValueNames().Contains(username))
+                {
+                    return true;
+                }
+            }
+            catch (Exception e) when (
+                e is IOException ||
+                e is ArgumentException ||
+                e is UnauthorizedAccessException ||
+                e is System.Security.SecurityException ||
+                e is ArgumentNullException)
+            {
+
+            }
+            return false;
         }
 
         /// <summary>
