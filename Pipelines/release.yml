@@ -35,13 +35,13 @@ stages:
       displayName: 'Build Tests'
       inputs:
         projects: 'AsaTests/AsaTests.csproj'
-        arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)/Tests'
+        arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)\Tests'
 
     - task: VSTest@2
       displayName: 'Run Tests'
       inputs:
         testAssemblyVer2: AsaTests.dll
-        searchFolder: '$(build.binariesdirectory)/Tests'
+        searchFolder: '$(build.binariesdirectory)\Tests'
 
 - stage: Build
   jobs:
