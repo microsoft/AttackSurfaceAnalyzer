@@ -19,7 +19,7 @@ var RESULT_TYPE = {
     PORT: 2,
     REGISTRY: 3,
     CERTIFICATE: 4,
-    SERVICES: 5,
+    SERVICE: 5,
     USER: 6,
     GROUP: 7,
     FIREWALL: 8,
