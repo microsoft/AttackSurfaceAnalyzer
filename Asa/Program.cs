@@ -314,7 +314,7 @@ namespace AttackSurfaceAnalyzer
 
                 if (property.DeclaringType == typeof(Rule))
                 {
-                    if (property.PropertyName != "name" && property.PropertyName != "desc")
+                    if (property.PropertyName != "Name" && property.PropertyName != "Description" && property.PropertyName != "Flag")
                     {
                         property.ShouldSerialize = _ => { return false; };
                     }
