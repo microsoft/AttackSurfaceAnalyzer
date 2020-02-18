@@ -29,6 +29,7 @@ namespace AttackSurfaceAnalyzer.Objects
         public string PasswordStorageAlgorithm { get; set; }
         public bool Privileged { get; set; }
         public string Name { get; set; }
+        public bool Hidden { get; set; }
         public List<string> Groups { get; }
         public Dictionary<string, string> Properties { get; }
 

@@ -31,6 +31,21 @@
       ]
     },
     {
+      "Name": "Hidden users",
+      "Description": "Flag when hidden user accounts are modified.",
+      "Flag": "WARNING",
+      "ResultType": "USER",
+      "Clauses": [
+        {
+          "Field": "Hidden",
+          "Operation": "EQ",
+          "Data": [
+            "True"
+          ]
+        }
+      ]
+    },
+    {
       "Name": "Unsigned binaries",
       "Description": "Flag when unsigned/incorrectly signed binaries are added.",
       "Flag": "WARNING",
