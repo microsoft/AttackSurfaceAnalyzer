@@ -371,7 +371,7 @@ stages:
 
 - stage: Hashes
   jobs:
-  - job: Sign
+  - job: CombineAndPublish
     pool:
       vmImage: 'windows-latest'
     steps:
