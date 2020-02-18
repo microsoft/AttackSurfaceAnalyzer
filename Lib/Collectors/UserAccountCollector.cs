@@ -198,7 +198,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
-        private bool IsHiddenWindowsUser(string username)
+        private static bool IsHiddenWindowsUser(string username)
         {
             try
             {
@@ -214,7 +214,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                 e is ArgumentException ||
                 e is UnauthorizedAccessException ||
                 e is System.Security.SecurityException ||
-                e is ArgumentNullException)
+                e is ArgumentNullException ||
+                e is NullReferenceException)
             {
 
             }
