@@ -74,7 +74,6 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string UPDATE_TELEMETRY = "replace into persisted_settings values ('telemetry_opt_out',@TelemetryOptOut)"; //lgtm [cs/literal-as-local]
         private const string CHECK_TELEMETRY = "select value from persisted_settings where setting='telemetry_opt_out'";
 
-        private const string SQL_TRUNCATE = "delete from file_system_monitored where run_id=@run_id";
         private const string SQL_INSERT = "insert into file_system_monitored (run_id, row_key, timestamp, change_type, path, old_path, name, old_name, extended_results, notify_filters, serialized) values (@run_id, @row_key, @timestamp, @change_type, @path, @old_path, @name, @old_name, @extended_results, @notify_filters, @serialized)";
 
         private const string PRAGMAS = "PRAGMA main.auto_vacuum = 0; PRAGMA main.synchronous = OFF; PRAGMA main.journal_mode = DELETE;";
@@ -82,7 +81,6 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string INSERT_RUN_INTO_RESULT_TABLE_SQL = "insert into results (base_run_id, compare_run_id, status) values (@base_run_id, @compare_run_id, @status);";
         private const string UPDATE_RUN_IN_RESULT_TABLE = "update results set status = @status where (base_run_id = @base_run_id and compare_run_id = @compare_run_id)";
 
-        private const string SQL_GET_RUN = "select run_id from runs where run_id=@run_id";
 
         private const string GET_COMPARISON_RESULTS = "select * from findings where comparison_id = @comparison_id and result_type=@result_type order by level des;";
         private const string GET_SERIALIZED_RESULTS = "select change_type, Serialized from file_system_monitored where run_id = @run_id";
@@ -92,7 +90,6 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string SQL_QUERY_ANALYZED = "select * from results where status = @status"; //lgtm [cs/literal-as-local]
 
         private const string SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED = "select * from results where base_run_id=@base_run_id and compare_run_id=@compare_run_id"; //lgtm [cs/literal-as-local]
-        private const string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, type, timestamp, version, platform) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @type, @timestamp, @version, @platform)"; //lgtm [cs/literal-as-local]
         private const string SQL_GET_RESULT_TYPES = "select * from runs where run_id = @base_run_id or run_id = @compare_run_id"; //lgtm [cs/literal-as-local]
 
         private const string GET_MONITOR_RESULTS = "select * from file_system_monitored where run_id=@run_id order by timestamp limit @offset,@limit;"; //lgtm [cs/literal-as-local]
@@ -217,12 +214,12 @@ namespace AttackSurfaceAnalyzer.Utils
             return false;
         }
 
-        public static List<DataRunModel> GetResultModels(RUN_STATUS cOMPLETED)
+        public static List<DataRunModel> GetResultModels(RUN_STATUS runStatus)
         {
             var output = new List<DataRunModel>();
             using (var cmd = new SqliteCommand(SQL_QUERY_ANALYZED, Connection, Transaction))
             {
-                cmd.Parameters.AddWithValue("@status", RUN_STATUS.COMPLETED);
+                cmd.Parameters.AddWithValue("@status", runStatus);
 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -478,6 +475,10 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void InsertRun(string runId, Dictionary<RESULT_TYPE, bool> dictionary)
         {
+            if (dictionary == null)
+            {
+                return;
+            }
             string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, firewall, comobjects, eventlogs, type, timestamp, version, platform) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @firewall, @comobjects, @eventlogs, @type, @timestamp, @version, @platform)";
 
             using var cmd = new SqliteCommand(INSERT_RUN, Connection, Transaction);
@@ -753,13 +754,17 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        public static void WriteFileMonitor(FileMonitorObject obj, string RunId)
+        public static void WriteFileMonitor(FileMonitorObject fmo, string RunId)
         {
+            if (fmo == null)
+            {
+                return;
+            }
             using var cmd = new SqliteCommand(SQL_INSERT, Connection, Transaction);
             cmd.Parameters.AddWithValue("@run_id", RunId);
-            cmd.Parameters.AddWithValue("@path", obj.Path);
-            cmd.Parameters.AddWithValue("@timestamp", obj.Timestamp);
-            cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(obj));
+            cmd.Parameters.AddWithValue("@path", fmo.Path);
+            cmd.Parameters.AddWithValue("@timestamp", fmo.Timestamp);
+            cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(fmo));
 
             cmd.ExecuteNonQuery();
         }

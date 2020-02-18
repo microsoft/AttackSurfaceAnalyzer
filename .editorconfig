@@ -11,3 +11,9 @@ dotnet_diagnostic.CA1307.severity = none
 
 # CA1031: General Exceptions
 dotnet_diagnostic.CA1031.severity = none
+
+# CA1707: Remove the underscores from type name AttackSurfaceAnalyzer.Types.RUN_TYPE.
+dotnet_diagnostic.CA1707.severity = none
+
+# CA2227: Collection properties should be read only
+dotnet_diagnostic.CA2227.severity = none
