@@ -55,7 +55,7 @@ namespace Asa
                     RequestPath = new PathString("")
                 });
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 Log.Debug("Had an issue setting static file path. Reverting to default.");
                 app.UseStaticFiles();

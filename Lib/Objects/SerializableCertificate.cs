@@ -7,7 +7,7 @@ namespace AttackSurfaceAnalyzer.Objects
     {
         public SerializableCertificate (X509Certificate2 certificate)
         {
-            Thumbprint = certificate.Thumbprint;
+            Thumbprint = certificate?.Thumbprint;
             Subject = certificate.Subject;
             PublicKey = certificate.PublicKey.EncodedKeyValue.Format(true);
             NotAfter = certificate.NotAfter;
