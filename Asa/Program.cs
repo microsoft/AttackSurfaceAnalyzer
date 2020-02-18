@@ -72,19 +72,19 @@ namespace AttackSurfaceAnalyzer
             DatabaseManager.Setup(opts.DatabaseFilename);
             AsaTelemetry.Setup();
 
+            var server = WebHost.CreateDefaultBuilder(Array.Empty<string>())
+                    .UseStartup<Asa.Startup>()
+                    .UseKestrel(options => {
+                        options.Listen(IPAddress.Loopback, 5000); //HTTP port
+                    })
+                    .Build();
+
             ((Action)(async () =>
             {
                 await Task.Run(() => SleepAndOpenBrowser(1500)).ConfigureAwait(false);
             }))();
 
-            WebHost.CreateDefaultBuilder(Array.Empty<string>())
-                    .UseStartup<Asa.Startup>()
-                    .UseKestrel(options => {
-                        options.Listen(IPAddress.Loopback, 5000); //HTTP port
-                    })
-                    .Build()
-                    .Run();
-
+            server.Run();
             return 0;
         }
 
