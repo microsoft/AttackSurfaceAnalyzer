@@ -219,7 +219,6 @@ stages:
 
     - task: GitHubRelease@1
       displayName: 'GitHub release update'
-      condition: not(variables['DisableGithubRelease'])
       inputs:
         gitHubConnection: 'Gabe-Asa'
         action: edit
@@ -288,7 +287,6 @@ stages:
 
     - task: GitHubRelease@1
       displayName: 'GitHub release update'
-      condition: not(variables['DisableGithubRelease'])
       inputs:
         gitHubConnection: 'Gabe-Asa'
         action: edit
@@ -357,7 +355,6 @@ stages:
 
     - task: GitHubRelease@1
       displayName: 'GitHub release update'
-      condition: not(variables['DisableGithubRelease'])
       inputs:
         gitHubConnection: 'Gabe-Asa'
         action: edit
@@ -393,7 +390,6 @@ stages:
 
     - task: GitHubRelease@1
       displayName: 'GitHub release update'
-      condition: not(variables['DisableGithubRelease'])
       inputs:
         gitHubConnection: 'Gabe-Asa'
         action: edit
