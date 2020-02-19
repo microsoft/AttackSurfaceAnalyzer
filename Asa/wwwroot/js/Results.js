@@ -441,6 +441,19 @@ function GenerateExpandedResultsCard(result) {
     var card = $('<div/>', {
         class: 'card card-body'
     });
+    for (const rule of result.Rules) {
+        var ruleDiv = $('<div/>', {
+            class: 'row'
+        }).append($('<div/>', {
+            class: 'col', html: FlagToString(rule.Flag)
+        })).append($('<div/>', {
+            class: 'col', html: rule.Name
+        })).append($('<div/>', {
+            class: 'col', html: rule.Description
+        }));
+        card.append(ruleDiv);
+    }
+    
     var header = $('<div/>', {
         class: 'row'
     }).append($('<div/>', {
