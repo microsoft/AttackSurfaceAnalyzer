@@ -37,8 +37,8 @@ namespace AttackSurfaceAnalyzer.Objects
         public CHANGE_TYPE ChangeType { get; set; }
         public RESULT_TYPE ResultType { get; set; }
         public ANALYSIS_RESULT_TYPE Analysis { get; set; }
-        public List<Rule> Rules { get; }
-        public List<Diff> Diffs { get; }
+        public List<Rule> Rules { get; set; }
+        public List<Diff> Diffs { get; set; }
         public string BaseRowKey { get; set; }
         public string CompareRowKey { get; set; }
         public string BaseRunId { get; set; }
