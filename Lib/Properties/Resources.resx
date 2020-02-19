@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AdminWarning" xml:space="preserve">
-    <value>Attack Surface Analyzer is not running as Administrator/Root and cannot run collections.</value>
+    <value>Attack Surface Analyzer is not running as Administrator/Root results may be incomplete.</value>
   </data>
   <data name="Begin" xml:space="preserve">
     <value>Begin {0}.</value>

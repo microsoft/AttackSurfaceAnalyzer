@@ -204,9 +204,13 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 using var BaseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Default);
                 var SpecialAccounts = BaseKey.OpenSubKey("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\UserList");
-                if (SpecialAccounts.GetValueNames().Contains(username))
+                var ValueName = SpecialAccounts.GetValueNames().Where(x => x.ToUpperInvariant().Equals(username.ToUpperInvariant())).FirstOrDefault();
+                if (ValueName != null)
                 {
-                    return true;
+                    if (SpecialAccounts.GetValue(ValueName).Equals(0x0))
+                    {
+                        return true;
+                    }
                 }
             }
             catch (Exception e) when (
