@@ -528,7 +528,7 @@ function InsertIntoLogTable(result) {
     $('#LogResultsTableBody').append(tmp);
     tmp = $('<tr/>');
     var tmp2 = $('<td/>', {
-        colspan: 5,
+        colspan: 4,
         class: 'resultTableExpanded',
         id: uid + '_expanded'
     }).append(GenerateExpandedResultsCard(result));
@@ -638,7 +638,7 @@ function InsertIntoPortTable(result) {
 
     tmp = $('<tr/>');
     var tmp2 = $('<td/>', {
-        colspan: 5,
+        colspan: 6,
         class: 'resultTableExpanded',
         id: uid + '_expanded'
     }).append(GenerateExpandedResultsCard(result));
@@ -687,7 +687,7 @@ function InsertIntoRegistryTable(result) {
     tmp = $('<tr/>');
 
     var tmp2 = $('<td/>', {
-        colspan: 5,
+        colspan: 4,
         class: 'resultTableExpanded',
         id: uid + '_expanded'
     }).append(GenerateExpandedResultsCard(result));
@@ -748,7 +748,7 @@ function InsertIntoCertificateTable(result) {
 
     tmp = $('<tr/>');
     var tmp2 = $('<td/>', {
-        colspan: 5,
+        colspan: 7,
         class: 'resultTableExpanded',
         id: uid + '_expanded'
     }).append(GenerateExpandedResultsCard(result));
@@ -808,7 +808,7 @@ function InsertIntoServiceTable(result) {
     $('#ServiceResultsTableBody').append(tmp);
     tmp = $('<tr/>');
     var tmp2 = $('<td/>', {
-        colspan: 5,
+        colspan: 7,
         class: 'resultTableExpanded',
         id: uid + '_expanded'
     }).append(GenerateExpandedResultsCard(result));
@@ -865,7 +865,7 @@ function InsertIntoUserTable(result) {
 
     tmp = $('<tr/>');
     var tmp2 = $('<td/>', {
-        colspan: 5,
+        colspan: 6,
         class: 'resultTableExpanded',
         id: uid + '_expanded'
     }).append(GenerateExpandedResultsCard(result));
@@ -922,7 +922,7 @@ function InsertIntoGroupTable(result) {
 
     tmp = $('<tr/>');
     var tmp2 = $('<td/>', {
-        colspan: 5,
+        colspan: 6,
         class: 'resultTableExpanded',
         id: uid + '_expanded'
     }).append(GenerateExpandedResultsCard(result));
@@ -971,7 +971,7 @@ function InsertIntoFirewallTable(result) {
 
     tmp = $('<tr/>');
     var tmp2 = $('<td/>', {
-        colspan: 5,
+        colspan: 4,
         class: 'resultTableExpanded',
         id: uid + '_expanded'
     }).append(GenerateExpandedResultsCard(result));
@@ -1038,7 +1038,7 @@ function InsertIntoComTable(result) {
 
     tmp = $('<tr/>');
     var tmp2 = $('<td/>', {
-        colspan: 5,
+        colspan: 6,
         class: 'resultTableExpanded',
         id: uid + '_expanded'
     }).append(GenerateExpandedResultsCard(result));
