@@ -437,71 +437,6 @@ function FlagToString(flag) {
     }
 }
 
-function GenerateExpandedResultsCard(result) {
-    var card = $('<div/>', {
-        class: 'card card-body'
-    });
-    for (const rule of result.Rules) {
-        var ruleDiv = $('<div/>', {
-            class: 'row'
-        }).append($('<div/>', {
-            class: 'col', html: FlagToString(rule.Flag)
-        })).append($('<div/>', {
-            class: 'col', html: rule.Name
-        })).append($('<div/>', {
-            class: 'col', html: rule.Description
-        }));
-        card.append(ruleDiv);
-    }
-    
-    var header = $('<div/>', {
-        class: 'row'
-    }).append($('<div/>', {
-        class: 'col', html: l('%Property')
-    })).append($('<div/>', {
-        class: 'col', html: result.BaseRunId
-    })).append($('<div/>', {
-        class: 'col', html: result.CompareRunId
-    }));
-    card.append(header);
-
-    if (result.ChangeType == CHANGE_TYPE.CREATED) {
-        var protoObj = result.Compare;
-    }
-    else {
-        var protoObj = result.Base;
-    }
-    for (var prop in protoObj) {
-        if (protoObj.hasOwnProperty(prop)) {
-            var before, after;
-            var row = $('<div/>', {
-                class: 'row bordered'
-            });
-
-            var property = $('<div/>', { class: 'col-2', html: prop });
-
-            if (result.ChangeType == CHANGE_TYPE.DELETED) {
-                before = $('<div/>', { class: 'col-5', html: result.Base[prop] });
-                after = $('<div/>', { class: 'col-5' });
-            }
-            else if (result.ChangeType == CHANGE_TYPE.CREATED) {
-                before = $('<div/>', { class: 'col-5' });
-                after = $('<div/>', { class: 'col-5', html: result.Compare[prop] });
-            }
-            else if (result.ChangeType == CHANGE_TYPE.MODIFIED) {
-                before = $('<div/>', { class: 'col-5', html: result.Base[prop] });
-                after = $('<div/>', { class: 'col-5', html: result.Compare[prop] });
-            }
-            row.append(property);
-            row.append(before);
-            row.append(after);
-
-            card.append(row);
-        }
-    }
-    return card;
-}
-
 function InsertIntoLogTable(result) {
     var appendObj;
     if (result.ChangeType != CHANGE_TYPE.CREATED) {
@@ -1064,14 +999,42 @@ function GenerateExpandedResultsCard(result) {
     var card = $('<div/>', {
         class: 'card card-body'
     });
+
+    if (result.Rules.length > 0) {
+        var rulesHeader = $('<div/>', {
+            class: 'row bordered header'
+        }).append($('<div/>', {
+            class: 'col-4', html: l("%Rules")
+        })).append($('<div/>', {
+            class: 'col-4', html: l("%Name")
+        })).append($('<div/>', {
+            class: 'col-4', html: l("%Description")
+        }));
+        card.append(rulesHeader);
+
+        for (var i = 0; i < result.Rules.length; i++) {
+            var rule = result.Rules[i];
+            var ruleDiv = $('<div/>', {
+                class: 'row bordered'
+            }).append($('<div/>', {
+                class: 'col-4', html: FlagToString(rule.Flag)
+            })).append($('<div/>', {
+                class: 'col-4', html: rule.Name
+            })).append($('<div/>', {
+                class: 'col-4', html: rule.Description
+            }));
+            card.append(ruleDiv);
+        }
+    }
+
     var header = $('<div/>', {
-        class: 'row'
+        class: 'row bordered header'
     }).append($('<div/>', {
-        class: 'col', html: l('%Property')
+        class: 'col-4', html: l('%Property')
     })).append($('<div/>', {
-        class: 'col', html: result.BaseRunId
+        class: 'col-4', html: result.BaseRunId
     })).append($('<div/>', {
-        class: 'col', html: result.CompareRunId
+        class: 'col-4', html: result.CompareRunId
     }));
     card.append(header);
 
@@ -1080,9 +1043,9 @@ function GenerateExpandedResultsCard(result) {
             var row = $('<div/>', {
                 class: 'row bordered diff'
             });
-            var field = $('<div/>', { class: 'col-2', html: result.Diffs[diff].Field });
-            var before = $('<div/>', { class: 'col-5', html: result.Diffs[diff].Before });
-            var after = $('<div/>', { class: 'col-5', html: result.Diffs[diff].After });
+            var field = $('<div/>', { class: 'col-4', html: result.Diffs[diff].Field });
+            var before = $('<div/>', { class: 'col-4', html: result.Diffs[diff].Before });
+            var after = $('<div/>', { class: 'col-4', html: result.Diffs[diff].After });
             row.append(field);
             row.append(before);
             row.append(after);
@@ -1103,19 +1066,19 @@ function GenerateExpandedResultsCard(result) {
                 class: 'row bordered'
             });
 
-            var property = $('<div/>', { class: 'col-2', html: prop });
+            var property = $('<div/>', { class: 'col-4', html: prop });
 
             if (result.ChangeType == CHANGE_TYPE.DELETED) {
-                before = $('<div/>', { class: 'col-5', html: result.Base[prop] });
-                after = $('<div/>', { class: 'col-5' });
+                before = $('<div/>', { class: 'col-4', html: result.Base[prop] });
+                after = $('<div/>', { class: 'col-4' });
             }
             else if (result.ChangeType == CHANGE_TYPE.CREATED) {
-                before = $('<div/>', { class: 'col-5' });
-                after = $('<div/>', { class: 'col-5', html: result.Compare[prop] });
+                before = $('<div/>', { class: 'col-4' });
+                after = $('<div/>', { class: 'col-4', html: result.Compare[prop] });
             }
             else if (result.ChangeType == CHANGE_TYPE.MODIFIED) {
-                before = $('<div/>', { class: 'col-5', html: result.Base[prop] });
-                after = $('<div/>', { class: 'col-5', html: result.Compare[prop] });
+                before = $('<div/>', { class: 'col-4', html: result.Base[prop] });
+                after = $('<div/>', { class: 'col-4', html: result.Compare[prop] });
             }
             row.append(property);
             row.append(before);

@@ -38,8 +38,11 @@
     padding: 1em;
 }
 
-.diff {
+.header {
     font-weight: bold;
+}
+
+.diff {
     font-style: oblique;
 }
 
