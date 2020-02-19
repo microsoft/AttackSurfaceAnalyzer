@@ -35,7 +35,7 @@ namespace Asa
                 config.AddEventSourceLogger();
 
                 // Only console log asp.net in development.
-                if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Microsoft.AspNetCore.Hosting.EnvironmentName.Development)
+                if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Microsoft.Extensions.Hosting.Environments.Development)
                 {
                     config.AddConsole();
                 }

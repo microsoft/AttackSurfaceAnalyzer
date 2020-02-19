@@ -34,6 +34,9 @@
     "%Running": "Running",
     "%Failed": "Failed",
     "%Completed": "Completed",
-    "%NoResults": "No Results"
+    "%NoResults": "No Results",
+    "%Rules": "Matched Rule",
+    "%Name": "Name",
+    "%Description": "Description"
   }
 }

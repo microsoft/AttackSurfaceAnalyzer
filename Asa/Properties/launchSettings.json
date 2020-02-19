@@ -18,7 +18,7 @@
     },
     "Asa": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "commandLineArgs": "gui",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
