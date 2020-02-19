@@ -23,12 +23,7 @@ group.change(function () {
 }).change();
 
 
-if ($('#AdminWarning').length) {
-    DisableCollectionFields();
-}
-else {
-    GetCollectors();
-}
+GetCollectors();
 
 function StopMonitoring() {
     $("#StartCollectionButton").show();
