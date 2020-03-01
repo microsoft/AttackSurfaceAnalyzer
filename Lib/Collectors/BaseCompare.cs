@@ -110,6 +110,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 Log.Debug($"Adding {obj.Identity}");
                 Results[$"{added.ResultType.ToString()}_{CHANGE_TYPE.CREATED.ToString()}"].Enqueue(obj);
             }));
+
             Parallel.ForEach(removeObjects,
                             (removed =>
             {
@@ -126,6 +127,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 Results[$"{removed.ResultType.ToString()}_{CHANGE_TYPE.DELETED.ToString()}"].Enqueue(obj);
             }));
+
             Parallel.ForEach(modifyObjects,
                             (modified =>
             {
