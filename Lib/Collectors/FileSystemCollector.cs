@@ -258,10 +258,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                     else
                     {
                         var keys = new List<string>() { "User", "Group", "Other" };
-
+                        var splits = file.FileAccessPermissions.ToString().Split(',').Select(x => x.Trim());
                         foreach (var key in keys)
                         {
-                            foreach (var permission in file.FileAccessPermissions.ToString().Split(',').Where((x) => x.Trim().StartsWith(key, StringComparison.InvariantCulture)))
+                            foreach (var permission in splits.Where((x) => x.StartsWith(key, StringComparison.InvariantCulture)))
                             {
                                 if (permission.Contains("ReadWriteExecute", StringComparison.InvariantCulture))
                                 {
