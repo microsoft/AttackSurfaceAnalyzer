@@ -21,7 +21,6 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -1009,7 +1008,7 @@ namespace AttackSurfaceAnalyzer
 
             Console.CancelKeyPress += delegate {
                 Log.Information("Cancelling collection. Rolling back transaction. Please wait to avoid corrupting database.");
-                DatabaseManager.Transaction.Rollback();
+                DatabaseManager.RollBack();
                 Environment.Exit(0);
             };
 

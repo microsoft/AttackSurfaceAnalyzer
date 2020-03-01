@@ -868,6 +868,11 @@ namespace AttackSurfaceAnalyzer.Utils
             return 0;
         }
 
+        public static void RollBack()
+        {
+            Transaction.Rollback();
+        }
+
         public static List<CompareResult> GetComparisonResults(string comparisonId, int resultType, int offset, int numResults)
         {
             var results = new List<CompareResult>();
