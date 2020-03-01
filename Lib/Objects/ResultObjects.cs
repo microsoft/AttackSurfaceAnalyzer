@@ -171,6 +171,11 @@ namespace AttackSurfaceAnalyzer.Objects
             return false;
         }
 
+        public bool Equals(WriteObject other)
+        {
+            return _rowKey.SequenceEqual(other.GetRowKey());
+        }
+
         public static bool operator ==(WriteObject left, WriteObject right)
         {
             return left.Equals(right);
