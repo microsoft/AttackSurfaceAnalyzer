@@ -23,7 +23,7 @@ namespace AsaTests
     {
         public void Setup()
         {
-            Logger.Setup();
+            Logger.Setup(false, true);
             Strings.Setup();
             AsaTelemetry.TestMode();
             DatabaseManager.Setup(Path.GetTempFileName());
