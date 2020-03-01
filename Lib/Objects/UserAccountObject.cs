@@ -30,8 +30,8 @@ namespace AttackSurfaceAnalyzer.Objects
         public bool Privileged { get; set; }
         public string Name { get; set; }
         public bool Hidden { get; set; }
-        public List<string> Groups { get; }
-        public Dictionary<string, string> Properties { get; }
+        public List<string> Groups { get; set; }
+        public Dictionary<string, string> Properties { get; set; }
 
         public UserAccountObject()
         {

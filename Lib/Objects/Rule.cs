@@ -12,11 +12,11 @@ namespace AttackSurfaceAnalyzer.Objects
     {
         [DefaultValue(new PLATFORM[] { PLATFORM.LINUX, PLATFORM.MACOS, PLATFORM.WINDOWS })]
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public List<PLATFORM> Platforms { get; }
+        public List<PLATFORM> Platforms { get; set; }
 
         [DefaultValue(new CHANGE_TYPE[] { CHANGE_TYPE.CREATED, CHANGE_TYPE.DELETED, CHANGE_TYPE.MODIFIED })]
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public List<CHANGE_TYPE> ChangeTypes { get; }
+        public List<CHANGE_TYPE> ChangeTypes { get; set; }
 
         public string Name { get; set; }
         public string Description { get; set; }

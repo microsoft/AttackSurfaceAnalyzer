@@ -11,10 +11,10 @@ namespace AttackSurfaceAnalyzer.Objects
     public class RegistryObject : CollectObject
     {
         public string Key { get; set; }
-        public Dictionary<string, string> Values { get; }
-        public List<string> Subkeys { get; }
+        public Dictionary<string, string> Values { get; set; }
+        public List<string> Subkeys { get; set; }
         public string PermissionsString { get; set; }
-        public Dictionary<string, List<string>> Permissions { get; }
+        public Dictionary<string, List<string>> Permissions { get; set; }
 
         public int ValueCount
         {

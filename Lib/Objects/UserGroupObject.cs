@@ -17,9 +17,9 @@ namespace AttackSurfaceAnalyzer.Objects
         public string SID { get; set; }
         public int SIDType { get; set; }
 
-        public List<string> Users { get; }
+        public List<string> Users { get; set; }
 
-        public Dictionary<string, string> Properties { get; }
+        public Dictionary<string, string> Properties { get; set; }
 
         public GroupAccountObject()
         {
