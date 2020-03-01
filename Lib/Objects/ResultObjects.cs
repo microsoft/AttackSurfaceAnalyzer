@@ -4,6 +4,7 @@ using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace AttackSurfaceAnalyzer.Objects
 {
@@ -135,20 +136,49 @@ namespace AttackSurfaceAnalyzer.Objects
         }
     }
 
-    public readonly struct WriteObject
+    public readonly struct WriteObject : System.IEquatable<WriteObject>
     {
         public CollectObject ColObj { get; }
         public string RunId { get; }
-        public byte[] RowKey { get; }
-        public byte[] Serialized { get; }
+        private readonly byte[] _rowKey;
+        private readonly byte[] _serialized;
+        public byte[] GetRowKey() { return _rowKey; }
+        public byte[] GetSerialized() { return _serialized; }
 
         public WriteObject(CollectObject ColObj, string RunId)
         {
             this.ColObj = ColObj;
             this.RunId = RunId;
 
-            Serialized = JsonUtils.Dehydrate(ColObj);
-            RowKey = CryptoHelpers.CreateHash(Serialized);
+            _serialized = JsonUtils.Dehydrate(ColObj);
+            _rowKey = CryptoHelpers.CreateHash(_serialized);
+        }
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var result = 0;
+                foreach (byte b in _rowKey)
+                    result = (result * 31) ^ b;
+                return result;
+            }
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is WriteObject wo)
+                return _rowKey.SequenceEqual(wo.GetRowKey());
+            return false;
+        }
+
+        public static bool operator ==(WriteObject left, WriteObject right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(WriteObject left, WriteObject right)
+        {
+            return !(left == right);
         }
     }
 }
