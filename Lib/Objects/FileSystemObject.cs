@@ -32,14 +32,14 @@ namespace AttackSurfaceAnalyzer.Objects
         // If this is a link, where does it point to
         public string Target { get; set; }
 
-        public List<KeyValuePair<string, string>> Permissions { get; set; }
+        public Dictionary<string,string> Permissions { get; set; }
 
 
         public FileSystemObject()
         {
             ResultType = RESULT_TYPE.FILE;
             Characteristics = new List<string>();
-            Permissions = new List<KeyValuePair<string, string>>();
+            Permissions = new Dictionary<string, string>();
         }
     }
 }
