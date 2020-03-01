@@ -66,7 +66,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     var totRate = (double)(totFlush - sample) / StopWatch.ElapsedMilliseconds;
                     try
                     {
-                        t = (curRate > 0) ? TimeSpan.FromMilliseconds( sample / (curRate / (actualDuration*1000))) : TimeSpan.FromMilliseconds(99999999);
+                        t = (curRate > 0) ? TimeSpan.FromMilliseconds( sample / ((double)curRate / (actualDuration*1000))) : TimeSpan.FromMilliseconds(99999999);
                         answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
                                                 t.Hours,
                                                 t.Minutes,
@@ -77,7 +77,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     catch (Exception e) when (
                         e is OverflowException)
                     {
-                        Log.Debug($"Overflowed: {curRate} {totRate} {sample} {sample / totRate} {t} {answer}");
+                        Log.Debug($"Overflowed: {curRate} {totRate} {sample} {t} {answer}");
                         Log.Debug("Flushing {0} results. ({1}/s {2:0.00}/s)", DatabaseManager.WriteQueue.Count, curRate, totRate * 1000);
                     }
                     prevFlush = sample;
