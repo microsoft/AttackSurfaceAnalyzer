@@ -58,12 +58,10 @@ This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI 
     <PackageReference Include="Utf8Json" Version="1.3.7" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="..\analyses.json" Link="analyses.json" />
     <EmbeddedResource Include="..\filters.json" Link="filters.json" />
     <Content Include="..\LICENSE.txt" Link="LICENSE.txt" />
     <Content Include="..\NOTICE.txt" Link="NOTICE.txt" />
-    <EmbeddedResource Include="..\analyses.json">
-      <Link>analyses.json</Link>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\AttackSurfaceAnalyzer.sln.licenseheader" Link="AttackSurfaceAnalyzer.sln.licenseheader" />

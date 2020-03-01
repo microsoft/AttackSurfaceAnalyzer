@@ -333,7 +333,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 else
                 {
                     UnixSymbolicLinkInfo i = new UnixSymbolicLinkInfo(path);
-                    obj.fileType = i.FileType.ToString();
+                    obj.FileType = i.FileType.ToString();
                     obj.Size = (ulong)i.Length;
                     obj.IsDirectory = false;
                     switch (i.FileType)
