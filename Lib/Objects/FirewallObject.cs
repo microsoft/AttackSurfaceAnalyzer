@@ -31,11 +31,11 @@ namespace AttackSurfaceAnalyzer.Objects
         /// <summary>
         /// Gets or sets the local addresses that the rule applies to
         /// </summary>
-        public List<string> LocalAddresses { get; }
+        public List<string> LocalAddresses { get; set; }
         /// <summary>
         /// Gets or sets the local ports that the rule applies to 
         /// </summary>
-        public List<string> LocalPorts { get; }
+        public List<string> LocalPorts { get; set; }
         /// <summary>
         /// Gets or sets the type of local ports that the rules applies to
         /// </summary>
@@ -55,11 +55,11 @@ namespace AttackSurfaceAnalyzer.Objects
         /// <summary>
         /// Gets or sets the remote addresses that the rule applies to 
         /// </summary>   
-        public List<string> RemoteAddresses { get; }
+        public List<string> RemoteAddresses { get; set; }
         /// <summary>
         /// Gets or sets the remote ports that the rule applies to
         /// </summary>
-        public List<string> RemotePorts { get; }
+        public List<string> RemotePorts { get; set; }
         /// <summary>
         /// Gets or sets the scope that the rule applies to
         /// </summary>  
