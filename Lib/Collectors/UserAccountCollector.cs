@@ -22,7 +22,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         public UserAccountCollector(string runId)
         {
-            this.RunId = runId;
+            RunId = runId;
         }
 
         public override bool CanRunOnPlatform()
@@ -179,7 +179,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 e is TypeInitializationException ||
                 e is PlatformNotSupportedException)
             {
-                Log.Warning(Strings.Get("CollectorNotSupportedOnPlatform"), this.GetType().ToString());
+                Log.Warning(Strings.Get("CollectorNotSupportedOnPlatform"), GetType().ToString());
             }
             catch (ExternalException)
             {
@@ -307,11 +307,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                         Groups[group].Users.Add(username);
                     }
                 }
-                DatabaseManager.Write(accountDetails[username], this.RunId);
+                DatabaseManager.Write(accountDetails[username], RunId);
             }
             foreach (var group in Groups)
             {
-                DatabaseManager.Write(group.Value, this.RunId);
+                DatabaseManager.Write(group.Value, RunId);
             }
         }
 
@@ -417,11 +417,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                 }
                 accountDetails[username].Groups.AddRange(groups);
-                DatabaseManager.Write(accountDetails[username], this.RunId);
+                DatabaseManager.Write(accountDetails[username], RunId);
             }
             foreach (var group in Groups)
             {
-                DatabaseManager.Write(group.Value, this.RunId);
+                DatabaseManager.Write(group.Value, RunId);
             }
         }
     }

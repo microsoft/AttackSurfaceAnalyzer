@@ -44,7 +44,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     t.Minutes,
                                     t.Seconds,
                                     t.Milliseconds);
-            Log.Debug(Strings.Get("Completed"), this.GetType().Name, answer);
+            Log.Debug(Strings.Get("Completed"), GetType().Name, answer);
 
             var prevFlush = DatabaseManager.WriteQueue.Count;
             var totFlush = prevFlush;
@@ -113,7 +113,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             _running = RUN_STATUS.RUNNING;
             watch = System.Diagnostics.Stopwatch.StartNew();
 
-            Log.Information(Strings.Get("Starting"), this.GetType().Name);
+            Log.Information(Strings.Get("Starting"), GetType().Name);
         }
 
         public void Stop()
@@ -126,9 +126,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     t.Minutes,
                                     t.Seconds,
                                     t.Milliseconds);
-            Log.Information(Strings.Get("Completed"), this.GetType().Name, answer);
+            Log.Information(Strings.Get("Completed"), GetType().Name, answer);
             var EndEvent = new Dictionary<string, string>();
-            EndEvent.Add("Scanner", this.GetType().Name);
+            EndEvent.Add("Scanner", GetType().Name);
             EndEvent.Add("Duration", watch.ElapsedMilliseconds.ToString(CultureInfo.InvariantCulture));
             EndEvent.Add("NumResults", _numCollected.ToString(CultureInfo.InvariantCulture));
             AsaTelemetry.TrackEvent("EndScanFunction", EndEvent);

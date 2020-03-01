@@ -23,7 +23,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         private readonly bool GatherVerboseLogs;
         public EventLogCollector(string runId, bool GatherVerboseLogs = false)
         {
-            this.RunId = runId;
+            RunId = runId;
             this.GatherVerboseLogs = GatherVerboseLogs;
         }
 

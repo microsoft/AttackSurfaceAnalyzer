@@ -89,7 +89,7 @@ namespace AttackSurfaceAnalyzer.Objects
         {
             get
             {
-                return this.Key;
+                return Key;
             }
         }
     }

@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Types;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel;
 
@@ -11,11 +10,9 @@ namespace AttackSurfaceAnalyzer.Objects
     public class Rule
     {
         [DefaultValue(new PLATFORM[] { PLATFORM.LINUX, PLATFORM.MACOS, PLATFORM.WINDOWS })]
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public List<PLATFORM> Platforms { get; set; }
 
         [DefaultValue(new CHANGE_TYPE[] { CHANGE_TYPE.CREATED, CHANGE_TYPE.DELETED, CHANGE_TYPE.MODIFIED })]
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public List<CHANGE_TYPE> ChangeTypes { get; set; }
 
         public string Name { get; set; }

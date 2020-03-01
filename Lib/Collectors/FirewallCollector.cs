@@ -20,7 +20,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         public FirewallCollector(string runId)
         {
-            this.RunId = runId;
+            RunId = runId;
         }
 
         public override bool CanRunOnPlatform()
@@ -74,7 +74,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 e is COMException ||
                 e is NotSupportedException)
             {
-                Log.Warning(Strings.Get("CollectorNotSupportedOnPlatform"), this.GetType().ToString());
+                Log.Warning(Strings.Get("CollectorNotSupportedOnPlatform"), GetType().ToString());
             }
         }
 

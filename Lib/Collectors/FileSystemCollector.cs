@@ -32,7 +32,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public FileSystemCollector(string runId, bool enableHashing = false, string directories = "", bool downloadCloud = false, bool examineCertificates = false, bool parallel = true)
         {
-            this.RunId = runId;
+            RunId = runId;
             this.downloadCloud = downloadCloud;
             this.examineCertificates = examineCertificates;
             this.parallel = parallel;

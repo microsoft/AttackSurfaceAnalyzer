@@ -19,7 +19,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         public ServiceCollector(string runId)
         {
-            this.RunId = runId;
+            RunId = runId;
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         if (service["WaitHint"] != null)
                             obj.WaitHint = uint.Parse(service["WaitHint"].ToString(), CultureInfo.InvariantCulture);
 
-                        DatabaseManager.Write(obj, this.RunId);
+                        DatabaseManager.Write(obj, RunId);
                     }
                 }
             }
@@ -106,7 +106,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 e is TypeInitializationException ||
                 e is PlatformNotSupportedException)
             {
-                Log.Warning(Strings.Get("CollectorNotSupportedOnPlatform"), this.GetType().ToString());
+                Log.Warning(Strings.Get("CollectorNotSupportedOnPlatform"), GetType().ToString());
             }
         }
 
@@ -135,7 +135,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             State = _fields[3],
                         };
 
-                        DatabaseManager.Write(obj, this.RunId);
+                        DatabaseManager.Write(obj, RunId);
                     }
                 }
             }
@@ -163,7 +163,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         Name = serviceName,
                     };
 
-                    DatabaseManager.Write(obj, this.RunId);
+                    DatabaseManager.Write(obj, RunId);
                 }
             }
             catch (ExternalException)
@@ -212,7 +212,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     };
                     if (!outDict.ContainsKey(obj.Identity))
                     {
-                        DatabaseManager.Write(obj, this.RunId);
+                        DatabaseManager.Write(obj, RunId);
                         outDict.Add(obj.Identity, obj);
                     }
                 }

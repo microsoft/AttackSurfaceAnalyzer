@@ -217,7 +217,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public void SetCustomChangeHandler(Action<EventArgs> handler)
         {
-            this.customChangeHandler = handler;
+            customChangeHandler = handler;
         }
 
         public void Dispose()

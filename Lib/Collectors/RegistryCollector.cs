@@ -3,7 +3,6 @@
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Win32;
-using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.Collections.Concurrent;
@@ -44,21 +43,21 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             this.RunId = RunId;
             this.Hives = Hives;
-            this.roots = new HashSet<string>();
-            this._keys = new HashSet<RegistryKey>();
-            this._values = new HashSet<RegistryObject>();
-            this.customCrawlHandler = customHandler;
+            roots = new HashSet<string>();
+            _keys = new HashSet<RegistryKey>();
+            _values = new HashSet<RegistryObject>();
+            customCrawlHandler = customHandler;
             this.Parallelize = Parallelize;
         }
 
         public void AddRoot(string root)
         {
-            this.roots.Add(root);
+            roots.Add(root);
         }
 
         public void ClearRoots()
         {
-            this.roots.Clear();
+            roots.Clear();
         }
 
         public override bool CanRunOnPlatform()
