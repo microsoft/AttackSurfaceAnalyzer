@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Types;
+using AttackSurfaceAnalyzer.Utils;
 using System.Collections.Generic;
 using System.IO;
 
@@ -134,9 +135,20 @@ namespace AttackSurfaceAnalyzer.Objects
         }
     }
 
-    public class WriteObject
+    public readonly struct WriteObject
     {
-        public CollectObject ColObj { get; set; }
-        public string RunId { get; set; }
+        public CollectObject ColObj { get; }
+        public string RunId { get; }
+        public byte[] RowKey { get; }
+        public byte[] Serialized { get; }
+
+        public WriteObject(CollectObject ColObj, string RunId)
+        {
+            this.ColObj = ColObj;
+            this.RunId = RunId;
+
+            Serialized = JsonUtils.Dehydrate(ColObj);
+            RowKey = CryptoHelpers.CreateHash(Serialized);
+        }
     }
 }

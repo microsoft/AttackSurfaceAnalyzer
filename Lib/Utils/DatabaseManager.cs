@@ -571,7 +571,7 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             if (objIn != null && runId != null)
             {
-                WriteQueue.Enqueue(new WriteObject() { ColObj = objIn, RunId = runId });
+                WriteQueue.Enqueue(new WriteObject(objIn, runId));
             }
         }
 
@@ -586,53 +586,18 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        public static byte[] Dehydrate(CollectObject colObj)
-        {
-            if (colObj == null)
-            {
-                return null;
-            }
-
-            switch (colObj)
-            {
-                case CertificateObject certificateObject:
-                    return JsonSerializer.Serialize(certificateObject);
-                case FileSystemObject fileSystemObject:
-                    return JsonSerializer.Serialize(fileSystemObject);
-                case OpenPortObject openPortObject:
-                    return Utf8Json.JsonSerializer.Serialize(openPortObject);
-                case RegistryObject registryObject:
-                    return Utf8Json.JsonSerializer.Serialize(registryObject);
-                case ServiceObject serviceObject:
-                    return Utf8Json.JsonSerializer.Serialize(serviceObject);
-                case UserAccountObject userAccountObject:
-                    return Utf8Json.JsonSerializer.Serialize(userAccountObject);
-                case GroupAccountObject groupAccountObject:
-                    return Utf8Json.JsonSerializer.Serialize(groupAccountObject);
-                case FirewallObject firewallObject:
-                    return Utf8Json.JsonSerializer.Serialize(firewallObject);
-                case ComObject comObject:
-                    return Utf8Json.JsonSerializer.Serialize(comObject);
-                case EventLogObject eventLogObject:
-                    return Utf8Json.JsonSerializer.Serialize(eventLogObject);
-                default:
-                    return null;
-            }
-        }
-
         public static void WriteNext()
         {
             WriteQueue.TryDequeue(out WriteObject objIn);
             var typ = objIn.ColObj.GetType();
-            var serialized = Dehydrate(objIn.ColObj);
-                
+
             try
             {
                 using var cmd = new SqliteCommand(SQL_INSERT_COLLECT_RESULT, Connection, Transaction);
                 cmd.Parameters.AddWithValue("@run_id", objIn.RunId);
-                cmd.Parameters.AddWithValue("@row_key", CryptoHelpers.CreateHash(serialized));
+                cmd.Parameters.AddWithValue("@row_key", objIn.RowKey);
                 cmd.Parameters.AddWithValue("@identity", objIn.ColObj.Identity);
-                cmd.Parameters.AddWithValue("@serialized", serialized);
+                cmd.Parameters.AddWithValue("@serialized", objIn.Serialized);
                 cmd.Parameters.AddWithValue("@result_type", objIn.ColObj.ResultType);
                 cmd.ExecuteNonQuery();
             }
