@@ -589,15 +589,14 @@ namespace AttackSurfaceAnalyzer.Utils
         public static void WriteNext()
         {
             WriteQueue.TryDequeue(out WriteObject objIn);
-            var typ = objIn.ColObj.GetType();
 
             try
             {
                 using var cmd = new SqliteCommand(SQL_INSERT_COLLECT_RESULT, Connection, Transaction);
                 cmd.Parameters.AddWithValue("@run_id", objIn.RunId);
-                cmd.Parameters.AddWithValue("@row_key", objIn.RowKey);
+                cmd.Parameters.AddWithValue("@row_key", objIn.GetRowKey());
                 cmd.Parameters.AddWithValue("@identity", objIn.ColObj.Identity);
-                cmd.Parameters.AddWithValue("@serialized", objIn.Serialized);
+                cmd.Parameters.AddWithValue("@serialized", objIn.GetSerialized());
                 cmd.Parameters.AddWithValue("@result_type", objIn.ColObj.ResultType);
                 cmd.ExecuteNonQuery();
             }
