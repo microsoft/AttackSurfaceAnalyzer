@@ -25,7 +25,7 @@ namespace AsaTests
         {
             Logger.Setup(false, true);
             Strings.Setup();
-            AsaTelemetry.TestMode();
+            AsaTelemetry.Setup(test: true);
             DatabaseManager.Setup(Path.GetTempFileName());
         }
 
