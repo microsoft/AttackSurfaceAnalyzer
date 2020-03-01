@@ -12,6 +12,7 @@ using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Utf8Json;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -112,7 +113,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                     catch (InvalidOperationException e)
                     {
-                        Log.Debug(e, JsonConvert.SerializeObject(registryKey) + " invalid op exept");
+                        Log.Debug(e, JsonSerializer.Serialize(registryKey) + " invalid op exept");
                     }
                 };
 
