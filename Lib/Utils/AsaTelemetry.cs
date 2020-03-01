@@ -20,9 +20,9 @@ namespace AttackSurfaceAnalyzer.Utils
             if (Client == null)
             {
                 using var config = TelemetryConfiguration.CreateDefault();
-                OptOut = DatabaseManager.GetOptOut();
+                OptOut = test ? true: DatabaseManager.GetOptOut();
                 config.InstrumentationKey = INSTRUMENTATION_KEY;
-                config.DisableTelemetry = test ? false : OptOut;
+                config.DisableTelemetry = OptOut;
                 Client = new TelemetryClient(config);
                 Client.Context.Component.Version = AsaHelpers.GetVersionString();
                 // Force some values to static values to prevent gathering unneeded data
