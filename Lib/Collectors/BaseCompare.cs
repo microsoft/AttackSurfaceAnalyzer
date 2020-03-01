@@ -48,25 +48,25 @@ namespace AttackSurfaceAnalyzer.Collectors
             switch (res.ResultType)
             {
                 case RESULT_TYPE.CERTIFICATE:
-                    return JsonConvert.DeserializeObject<CertificateObject>(res.Serialized);
+                    return Utf8Json.JsonSerializer.Deserialize<CertificateObject>(res.Serialized);
                 case RESULT_TYPE.FILE:
-                    return JsonConvert.DeserializeObject<FileSystemObject>(res.Serialized);
+                    return Utf8Json.JsonSerializer.Deserialize<FileSystemObject>(res.Serialized);
                 case RESULT_TYPE.PORT:
-                    return JsonConvert.DeserializeObject<OpenPortObject>(res.Serialized);
+                    return Utf8Json.JsonSerializer.Deserialize<OpenPortObject>(res.Serialized);
                 case RESULT_TYPE.REGISTRY:
-                    return JsonConvert.DeserializeObject<RegistryObject>(res.Serialized);
+                    return Utf8Json.JsonSerializer.Deserialize<RegistryObject>(res.Serialized);
                 case RESULT_TYPE.SERVICE:
-                    return JsonConvert.DeserializeObject<ServiceObject>(res.Serialized);
+                    return Utf8Json.JsonSerializer.Deserialize<ServiceObject>(res.Serialized);
                 case RESULT_TYPE.USER:
-                    return JsonConvert.DeserializeObject<UserAccountObject>(res.Serialized);
+                    return Utf8Json.JsonSerializer.Deserialize<UserAccountObject>(res.Serialized);
                 case RESULT_TYPE.GROUP:
-                    return JsonConvert.DeserializeObject<GroupAccountObject>(res.Serialized);
+                    return Utf8Json.JsonSerializer.Deserialize<GroupAccountObject>(res.Serialized);
                 case RESULT_TYPE.FIREWALL:
-                    return JsonConvert.DeserializeObject<FirewallObject>(res.Serialized);
+                    return Utf8Json.JsonSerializer.Deserialize<FirewallObject>(res.Serialized);
                 case RESULT_TYPE.COM:
-                    return JsonConvert.DeserializeObject<ComObject>(res.Serialized);
+                    return Utf8Json.JsonSerializer.Deserialize<ComObject>(res.Serialized);
                 case RESULT_TYPE.LOG:
-                    return JsonConvert.DeserializeObject<EventLogObject>(res.Serialized);
+                    return Utf8Json.JsonSerializer.Deserialize<EventLogObject>(res.Serialized);
                 default:
                     return null;
             }

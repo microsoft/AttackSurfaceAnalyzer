@@ -587,13 +587,14 @@ namespace AttackSurfaceAnalyzer.Utils
         public static void WriteNext()
         {
             WriteQueue.TryDequeue(out WriteObject objIn);
+            var serialized = Utf8Json.JsonSerializer.ToJsonString(objIn.ColObj);
             try
             {
                 using var cmd = new SqliteCommand(SQL_INSERT_COLLECT_RESULT, Connection, Transaction);
                 cmd.Parameters.AddWithValue("@run_id", objIn.RunId);
-                cmd.Parameters.AddWithValue("@row_key", CryptoHelpers.CreateHash(JsonConvert.SerializeObject(objIn.ColObj)));
+                cmd.Parameters.AddWithValue("@row_key", CryptoHelpers.CreateHash(serialized));
                 cmd.Parameters.AddWithValue("@identity", objIn.ColObj.Identity);
-                cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(objIn.ColObj, Formatting.None, new JsonSerializerSettings() { DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore }));
+                cmd.Parameters.AddWithValue("@serialized", serialized);
                 cmd.Parameters.AddWithValue("@result_type", objIn.ColObj.ResultType);
                 cmd.ExecuteNonQuery();
             }
