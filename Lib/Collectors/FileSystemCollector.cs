@@ -24,11 +24,11 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         private readonly HashSet<string> roots;
 
-        private bool INCLUDE_CONTENT_HASH = false;
+        private readonly bool INCLUDE_CONTENT_HASH = false;
 
-        private bool downloadCloud;
-        private bool examineCertificates;
-        private bool parallel;
+        private readonly bool downloadCloud;
+        private readonly bool examineCertificates;
+        private readonly bool parallel;
 
         public FileSystemCollector(string runId, bool enableHashing = false, string directories = "", bool downloadCloud = false, bool examineCertificates = false, bool parallel = true)
         {

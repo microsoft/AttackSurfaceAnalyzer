@@ -7,13 +7,9 @@ using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
-using Serilog;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -44,7 +40,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
         public ActionResult GetMonitorResults(string RunId, int Offset, int NumResults)
         {
             List<OutputFileMonitorResult> results = DatabaseManager.GetMonitorResults(RunId, Offset, NumResults);
-            
+
             Dictionary<string, object> output = new Dictionary<string, object>();
 
             output["Results"] = results;

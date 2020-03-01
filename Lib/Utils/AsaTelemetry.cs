@@ -3,10 +3,8 @@
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.ApplicationInsights.Extensibility;
-using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 
 namespace AttackSurfaceAnalyzer.Utils
 {

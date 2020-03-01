@@ -162,7 +162,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                             PasswordExpires = Convert.ToString(user["PasswordExpires"], CultureInfo.InvariantCulture),
                                             PasswordRequired = Convert.ToString(user["PasswordRequired"], CultureInfo.InvariantCulture),
                                             SID = Convert.ToString(user["SID"], CultureInfo.InvariantCulture),
-                                            Privileged = (bool)groupName.Equals("Administrators"),
+                                            Privileged = groupName.Equals("Administrators"),
                                             Hidden = IsHiddenWindowsUser(Convert.ToString(user["Name"], CultureInfo.InvariantCulture))
                                         };
                                         obj.Groups.Add(groupName);

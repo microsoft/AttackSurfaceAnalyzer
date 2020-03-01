@@ -5,7 +5,7 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class SerializableCertificate
     {
-        public SerializableCertificate (X509Certificate2 certificate)
+        public SerializableCertificate(X509Certificate2 certificate)
         {
             Thumbprint = certificate?.Thumbprint;
             Subject = certificate.Subject;

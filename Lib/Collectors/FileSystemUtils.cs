@@ -200,7 +200,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 return GetFileHash(new FileInfo(path));
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return string.Empty;
             }

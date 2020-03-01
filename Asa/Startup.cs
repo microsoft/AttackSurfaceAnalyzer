@@ -64,7 +64,7 @@ namespace Asa
 
             string codeBase = Assembly.GetExecutingAssembly().CodeBase;
             UriBuilder uri = new UriBuilder(codeBase);
-            string path = Path.Combine(Path.GetDirectoryName(Uri.UnescapeDataString(uri.Path)),"wwwroot");
+            string path = Path.Combine(Path.GetDirectoryName(Uri.UnescapeDataString(uri.Path)), "wwwroot");
 
             try
             {
@@ -74,7 +74,7 @@ namespace Asa
                     RequestPath = new PathString("")
                 });
             }
-            catch(Exception)
+            catch (Exception)
             {
                 Log.Debug("Had an issue setting static file path. Reverting to default.");
                 app.UseStaticFiles();

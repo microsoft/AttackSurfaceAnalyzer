@@ -3,8 +3,6 @@
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
-using Microsoft.Data.Sqlite;
-using Newtonsoft.Json;
 using System;
 using System.Globalization;
 using System.IO;
@@ -31,7 +29,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         private Action<EventArgs> customChangeHandler = null;
 
-        private bool getFileDetails = true;
+        private readonly bool getFileDetails = true;
 
         public override void StartRun()
         {
@@ -154,7 +152,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     Timestamp = DateTime.Now.ToString("O", CultureInfo.InvariantCulture)
                 };
 
-                DatabaseManager.WriteFileMonitor(ToWrite,RunId);
+                DatabaseManager.WriteFileMonitor(ToWrite, RunId);
             }
         }
 

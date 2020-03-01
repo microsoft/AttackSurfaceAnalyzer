@@ -29,10 +29,10 @@ namespace AttackSurfaceAnalyzer.Utils
         private const bool DefaultIncludeSubdirectories = true;
 
 
-        private Action<EventArgs> OnChangedDelegate;
-        private Action<EventArgs> OnCreatedDelegate;
-        private Action<EventArgs> OnDeletedDelegate;
-        private Action<EventArgs> OnRenamedDelegate;
+        private readonly Action<EventArgs> OnChangedDelegate;
+        private readonly Action<EventArgs> OnCreatedDelegate;
+        private readonly Action<EventArgs> OnDeletedDelegate;
+        private readonly Action<EventArgs> OnRenamedDelegate;
 
         // Default constructor which gathers everything and prints to stdout.
         public FileWatcher() : this("/")

@@ -21,20 +21,20 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class RegistryCollector : BaseCollector
     {
-        private List<RegistryHive> Hives;
-        private HashSet<string> roots;
-        private HashSet<RegistryKey> _keys;
-        private HashSet<RegistryObject> _values;
-        private bool Parallelize;
+        private readonly List<RegistryHive> Hives;
+        private readonly HashSet<string> roots;
+        private readonly HashSet<RegistryKey> _keys;
+        private readonly HashSet<RegistryObject> _values;
+        private readonly bool Parallelize;
 
-        private static ConcurrentDictionary<string, string> SidMap = new ConcurrentDictionary<string, string>();
+        private static readonly ConcurrentDictionary<string, string> SidMap = new ConcurrentDictionary<string, string>();
 
         private static readonly List<RegistryHive> DefaultHives = new List<RegistryHive>()
         {
             RegistryHive.ClassesRoot, RegistryHive.CurrentConfig, RegistryHive.CurrentUser, RegistryHive.LocalMachine, RegistryHive.Users
         };
 
-        private Action<RegistryObject> customCrawlHandler = null;
+        private readonly Action<RegistryObject> customCrawlHandler = null;
 
         public RegistryCollector(string RunId, bool Parallelize) : this(RunId, DefaultHives, Parallelize, null) { }
 

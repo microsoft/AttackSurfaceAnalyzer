@@ -13,13 +13,12 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Text.Unicode;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
     public class Analyzer
     {
-        Dictionary<RESULT_TYPE, List<PropertyInfo>> _Properties = new Dictionary<RESULT_TYPE, List<PropertyInfo>>()
+        private readonly Dictionary<RESULT_TYPE, List<PropertyInfo>> _Properties = new Dictionary<RESULT_TYPE, List<PropertyInfo>>()
         {
             {RESULT_TYPE.FILE , new List<PropertyInfo>(new FileSystemObject().GetType().GetProperties()) },
             {RESULT_TYPE.CERTIFICATE, new List<PropertyInfo>(new CertificateObject().GetType().GetProperties()) },
@@ -33,7 +32,7 @@ namespace AttackSurfaceAnalyzer.Utils
             {RESULT_TYPE.LOG, new List<PropertyInfo>(new FirewallObject().GetType().GetProperties()) },
 
         };
-        Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DEFAULT_RESULT_TYPE_MAP = new Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>()
+        private Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DEFAULT_RESULT_TYPE_MAP = new Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>()
         {
             { RESULT_TYPE.CERTIFICATE, ANALYSIS_RESULT_TYPE.INFORMATION },
             { RESULT_TYPE.FILE, ANALYSIS_RESULT_TYPE.INFORMATION },
@@ -46,10 +45,9 @@ namespace AttackSurfaceAnalyzer.Utils
             { RESULT_TYPE.COM, ANALYSIS_RESULT_TYPE.INFORMATION },
             { RESULT_TYPE.LOG, ANALYSIS_RESULT_TYPE.INFORMATION },
         };
-
-        JObject config = null;
-        List<Rule> _filters = new List<Rule>();
-        PLATFORM OsName;
+        private JObject config = null;
+        private List<Rule> _filters = new List<Rule>();
+        private readonly PLATFORM OsName;
 
         public Analyzer(PLATFORM platform, string filterLocation = null)
         {

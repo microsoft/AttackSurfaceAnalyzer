@@ -32,7 +32,7 @@ namespace AttackSurfaceAnalyzer.Objects
         // If this is a link, where does it point to
         public string Target { get; set; }
 
-        public Dictionary<string,string> Permissions { get; set; }
+        public Dictionary<string, string> Permissions { get; set; }
 
         public bool ShouldSerializeCharacteristics()
         {

@@ -26,7 +26,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     WindowStyle = ProcessWindowStyle.Hidden
                 }
             };
-            
+
             var stdOutput = new StringBuilder();
             process.OutputDataReceived += (sender, args) => stdOutput.AppendLine(args.Data); // Use AppendLine rather than Append since args.Data is one line of output, not including the newline character.
 

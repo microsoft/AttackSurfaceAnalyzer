@@ -29,7 +29,7 @@ namespace AttackSurfaceAnalyzer.Utils
             return path;
         }
 
-        private static Random random = new Random();
+        private static readonly Random random = new Random();
 
         public static byte[] HexStringToBytes(string hex)
         {

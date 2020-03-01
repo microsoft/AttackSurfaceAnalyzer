@@ -494,7 +494,7 @@ namespace AttackSurfaceAnalyzer.Utils
             cmd.Parameters.AddWithValue("@firewall", (dictionary.ContainsKey(RESULT_TYPE.FIREWALL) && dictionary[RESULT_TYPE.FIREWALL]));
             cmd.Parameters.AddWithValue("@comobjects", (dictionary.ContainsKey(RESULT_TYPE.COM) && dictionary[RESULT_TYPE.COM]));
             cmd.Parameters.AddWithValue("@eventlogs", (dictionary.ContainsKey(RESULT_TYPE.LOG) && dictionary[RESULT_TYPE.LOG]));
-            cmd.Parameters.AddWithValue("@type", (dictionary.ContainsKey(RESULT_TYPE.FILEMONITOR) && dictionary[RESULT_TYPE.FILEMONITOR])?"monitor":"collect");
+            cmd.Parameters.AddWithValue("@type", (dictionary.ContainsKey(RESULT_TYPE.FILEMONITOR) && dictionary[RESULT_TYPE.FILEMONITOR]) ? "monitor" : "collect");
             cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("o", CultureInfo.InvariantCulture));
             cmd.Parameters.AddWithValue("@version", AsaHelpers.GetVersionString());
             cmd.Parameters.AddWithValue("@platform", AsaHelpers.GetPlatformString());
@@ -781,7 +781,8 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     while (reader.Read())
                     {
-                        return new Run() {
+                        return new Run()
+                        {
                             Platform = reader["platform"].ToString(),
                             Timestamp = reader["timestamp"].ToString(),
                             Version = reader["version"].ToString(),

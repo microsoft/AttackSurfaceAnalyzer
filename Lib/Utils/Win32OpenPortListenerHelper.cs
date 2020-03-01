@@ -158,10 +158,10 @@ namespace AttackSurfaceAnalyzer.Utils
     /// </summary>
     public class ProcessPort
     {
-        private string _ProcessName = String.Empty;
-        private int _ProcessId = 0;
-        private string _Protocol = String.Empty;
-        private int _PortNumber = 0;
+        private readonly string _ProcessName = String.Empty;
+        private readonly int _ProcessId = 0;
+        private readonly string _Protocol = String.Empty;
+        private readonly int _PortNumber = 0;
 
         /// <summary>
         /// Internal constructor to initialize the mapping of process to port.

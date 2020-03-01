@@ -20,7 +20,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         private RUN_STATUS _running = RUN_STATUS.NOT_STARTED;
 
-        private int _numCollected = 0;
+        private readonly int _numCollected = 0;
 
         public void Execute()
         {
@@ -66,7 +66,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     var totRate = (double)(totFlush - sample) / StopWatch.ElapsedMilliseconds;
                     try
                     {
-                        t = (curRate > 0) ? TimeSpan.FromMilliseconds( sample / ((double)curRate / (actualDuration*1000))) : TimeSpan.FromMilliseconds(99999999);
+                        t = (curRate > 0) ? TimeSpan.FromMilliseconds(sample / ((double)curRate / (actualDuration * 1000))) : TimeSpan.FromMilliseconds(99999999);
                         answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
                                                 t.Hours,
                                                 t.Minutes,

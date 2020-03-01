@@ -1,5 +1,4 @@
-﻿using System;
-using AttackSurfaceAnalyzer.Types;
+﻿using AttackSurfaceAnalyzer.Types;
 
 namespace AttackSurfaceAnalyzer.Objects
 {

@@ -28,7 +28,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 var sig = new Signature(authenticodeInfo);
                 return sig;
             }
-            catch(Exception)
+            catch (Exception)
             {
             }
             return null;

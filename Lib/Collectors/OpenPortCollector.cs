@@ -19,7 +19,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     public class OpenPortCollector : BaseCollector
     {
 
-        private HashSet<string> processedObjects;
+        private readonly HashSet<string> processedObjects;
 
         public OpenPortCollector(string runId)
         {
