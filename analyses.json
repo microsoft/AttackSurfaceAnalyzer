@@ -1,5 +1,5 @@
 {
-  "rules": [
+  "Rules": [
     {
       "Name": "Privileged ports",
       "Description": "Flag when privileged ports are opened.",
@@ -379,8 +379,7 @@
       ]
     }
   ],
-  "meta": {
-    "defaultLevels": {
+  "DefaultLevels": {
       "PORT": "INFORMATION",
       "FILE": "DEBUG",
       "SERVICE": "INFORMATION",
@@ -390,6 +389,5 @@
       "FIREWALL": "INFORMATION",
       "COM": "INFORMATION",
       "LOG": "DEBUG"
-    }
   }
 }
