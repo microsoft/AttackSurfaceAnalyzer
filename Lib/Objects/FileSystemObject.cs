@@ -34,6 +34,15 @@ namespace AttackSurfaceAnalyzer.Objects
 
         public Dictionary<string,string> Permissions { get; set; }
 
+        public bool ShouldSerializeCharacteristics()
+        {
+            return Characteristics.Count > 0;
+        }
+
+        public bool ShouldSerializePermissions()
+        {
+            return Permissions.Count > 0;
+        }
 
         public FileSystemObject()
         {
