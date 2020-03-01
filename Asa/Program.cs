@@ -7,7 +7,6 @@ using AttackSurfaceAnalyzer.Utils;
 using CommandLine;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -594,7 +593,7 @@ namespace AttackSurfaceAnalyzer
                 {
                     c.StartRun();
                 }
-                catch (SqliteException ex)
+                catch (Exception ex)
                 {
                     Log.Error(Strings.Get("Err_CollectingFrom"), c.GetType().Name, ex.Message, ex.StackTrace);
                     returnValue = 1;
@@ -626,7 +625,7 @@ namespace AttackSurfaceAnalyzer
                         ((FileSystemMonitor)c).Dispose();
                     }
                 }
-                catch (SqliteException ex)
+                catch (Exception ex)
                 {
                     Log.Error(ex, " {0}: {1}", c.GetType().Name, ex.Message, Strings.Get("Err_Stopping"));
                     returnValue = 1;
