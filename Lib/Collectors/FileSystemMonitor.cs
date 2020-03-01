@@ -3,8 +3,6 @@
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
-using Microsoft.Data.Sqlite;
-using Newtonsoft.Json;
 using System;
 using System.Globalization;
 using System.IO;
