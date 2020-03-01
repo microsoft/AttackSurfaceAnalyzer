@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
-using Microsoft.Data.Sqlite;
+using System.Data.SQLite;
 using Mono.Unix;
 using Newtonsoft.Json;
 using Serilog;
@@ -101,7 +101,7 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string SCHEMA_VERSION = "5";
         private static bool WriterStarted = false;
 
-        public static SqliteConnection Connection { get; private set; }
+        public static SQLiteConnection Connection { get; private set; }
 
         public static ConcurrentQueue<WriteObject> WriteQueue { get; private set; }
 
@@ -125,7 +125,7 @@ namespace AttackSurfaceAnalyzer.Utils
             if (Connection == null)
             {
                 WriteQueue = new ConcurrentQueue<WriteObject>();
-                Connection = new SqliteConnection($"Filename=" + _SqliteFilename);
+                Connection = new SQLiteConnection($"Data Source=" + _SqliteFilename);
                 Connection.Open();
 
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
@@ -138,7 +138,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         | FileAccessPermissions.OtherRead | FileAccessPermissions.OtherWrite;
                 }
 
-                using (var cmd = new SqliteCommand(SQL_CREATE_RUNS, Connection, Transaction))
+                using (var cmd = new SQLiteCommand(SQL_CREATE_RUNS, Connection, Transaction))
                 {
                     cmd.ExecuteNonQuery();
 
@@ -217,7 +217,7 @@ namespace AttackSurfaceAnalyzer.Utils
         public static List<DataRunModel> GetResultModels(RUN_STATUS runStatus)
         {
             var output = new List<DataRunModel>();
-            using (var cmd = new SqliteCommand(SQL_QUERY_ANALYZED, Connection, Transaction))
+            using (var cmd = new SQLiteCommand(SQL_QUERY_ANALYZED, Connection, Transaction))
             {
                 cmd.Parameters.AddWithValue("@status", runStatus);
 
@@ -236,7 +236,7 @@ namespace AttackSurfaceAnalyzer.Utils
         public static void TrimToLatest()
         {
             List<string> Runs = new List<string>();
-            using var cmd = new SqliteCommand(GET_RUNS, Connection, Transaction);
+            using var cmd = new SQLiteCommand(GET_RUNS, Connection, Transaction);
             using (var reader = cmd.ExecuteReader())
             {
                 //Skip first row, that is the one we want to keep
@@ -272,7 +272,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static PLATFORM RunIdToPlatform(string runid)
         {
-            using (var cmd = new SqliteCommand(SQL_GET_PLATFORM_FROM_RUNID, Connection, Transaction))
+            using (var cmd = new SQLiteCommand(SQL_GET_PLATFORM_FROM_RUNID, Connection, Transaction))
             {
                 cmd.Parameters.AddWithValue("@run_id", runid);
                 using (var reader = cmd.ExecuteReader())
@@ -286,14 +286,14 @@ namespace AttackSurfaceAnalyzer.Utils
         public static List<RawCollectResult> GetResultsByRunid(string runid)
         {
             var output = new List<RawCollectResult>();
-            SqliteCommand cmd;
+            SQLiteCommand cmd;
             if (Transaction == null)
             {
-                cmd = new SqliteCommand(SQL_GET_RESULTS_BY_RUN_ID, Connection);
+                cmd = new SQLiteCommand(SQL_GET_RESULTS_BY_RUN_ID, Connection);
             }
             else
             {
-                cmd = new SqliteCommand(SQL_GET_RESULTS_BY_RUN_ID, Connection, Transaction);
+                cmd = new SQLiteCommand(SQL_GET_RESULTS_BY_RUN_ID, Connection, Transaction);
             }
             cmd.Parameters.AddWithValue("@run_id", runid);
             using (var reader = cmd.ExecuteReader())
@@ -318,7 +318,7 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             if (objIn != null)
             {
-                using (var cmd = new SqliteCommand(SQL_INSERT_FINDINGS_RESULT, Connection, Transaction))
+                using (var cmd = new SQLiteCommand(SQL_INSERT_FINDINGS_RESULT, Connection, Transaction))
                 {
                     cmd.Parameters.AddWithValue("@comparison_id", AsaHelpers.RunIdsToCompareId(objIn.BaseRunId, objIn.CompareRunId));
                     cmd.Parameters.AddWithValue("@result_type", objIn.ResultType);
@@ -332,7 +332,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void VerifySchemaVersion()
         {
-            using (var cmd = new SqliteCommand(SQL_GET_SCHEMA_VERSION, Connection, Transaction))
+            using (var cmd = new SQLiteCommand(SQL_GET_SCHEMA_VERSION, Connection, Transaction))
             using (var reader = cmd.ExecuteReader())
             {
                 reader.Read();
@@ -347,7 +347,7 @@ namespace AttackSurfaceAnalyzer.Utils
         public static List<string> GetLatestRunIds(int numberOfIds, string type)
         {
             List<string> output = new List<string>();
-            using (var cmd = new SqliteCommand(SQL_SELECT_LATEST_N_RUNS, Connection, Transaction))
+            using (var cmd = new SQLiteCommand(SQL_SELECT_LATEST_N_RUNS, Connection, Transaction))
             {
                 cmd.Parameters.AddWithValue("@type", type);
                 cmd.Parameters.AddWithValue("@limit", numberOfIds);
@@ -361,7 +361,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         }
                     }
                 }
-                catch (SqliteException)
+                catch (SQLiteException)
                 {
                     Log.Debug("Couldn't determine latest {0} run ids.", numberOfIds);
                 }
@@ -372,7 +372,7 @@ namespace AttackSurfaceAnalyzer.Utils
         public static List<CompareResult> GetComparisonResults(string compareId, RESULT_TYPE exportType)
         {
             List<CompareResult> records = new List<CompareResult>();
-            using (var cmd = new SqliteCommand(GET_COMPARISON_RESULTS, Connection, Transaction))
+            using (var cmd = new SQLiteCommand(GET_COMPARISON_RESULTS, Connection, Transaction))
             {
                 cmd.Parameters.AddWithValue("@comparison_id", compareId);
                 cmd.Parameters.AddWithValue("@result_type", exportType);
@@ -392,7 +392,7 @@ namespace AttackSurfaceAnalyzer.Utils
             var outDict = new Dictionary<RESULT_TYPE, int>() { };
             try
             {
-                using (var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES_COUNTS, Connection, Transaction))
+                using (var cmd = new SQLiteCommand(SQL_GET_RESULT_TYPES_COUNTS, Connection, Transaction))
                 {
                     cmd.Parameters.AddWithValue("@run_id", runId);
 
@@ -408,7 +408,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     }
                 }
             }
-            catch (SqliteException)
+            catch (SQLiteException)
             {
                 Log.Error(Strings.Get("Err_ResultTypesCounts"));
             }
@@ -419,7 +419,7 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             try
             {
-                using (var cmd = new SqliteCommand(SQL_GET_NUM_RESULTS, Connection, Transaction))
+                using (var cmd = new SQLiteCommand(SQL_GET_NUM_RESULTS, Connection, Transaction))
                 {
                     cmd.Parameters.AddWithValue("@run_id", runId);
                     cmd.Parameters.AddWithValue("@result_type", ResultType.ToString());
@@ -433,7 +433,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     }
                 }
             }
-            catch (SqliteException)
+            catch (SQLiteException)
             {
                 Log.Error(Strings.Get("Err_Sql"), MethodBase.GetCurrentMethod().Name);
             }
@@ -444,7 +444,7 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             List<FileMonitorEvent> records = new List<FileMonitorEvent>();
 
-            using (var cmd = new SqliteCommand(GET_SERIALIZED_RESULTS, Connection, Transaction))
+            using (var cmd = new SQLiteCommand(GET_SERIALIZED_RESULTS, Connection, Transaction))
             {
                 cmd.Parameters.AddWithValue("@run_id", runId);
                 using (var reader = cmd.ExecuteReader())
@@ -471,7 +471,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 Transaction = Connection.BeginTransaction();
             }
         }
-        public static SqliteTransaction Transaction { get; private set; }
+        public static SQLiteTransaction Transaction { get; private set; }
 
         public static void InsertRun(string runId, Dictionary<RESULT_TYPE, bool> dictionary)
         {
@@ -481,7 +481,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, firewall, comobjects, eventlogs, type, timestamp, version, platform) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @firewall, @comobjects, @eventlogs, @type, @timestamp, @version, @platform)";
 
-            using var cmd = new SqliteCommand(INSERT_RUN, Connection, Transaction);
+            using var cmd = new SQLiteCommand(INSERT_RUN, Connection, Transaction);
             cmd.Parameters.AddWithValue("@run_id", runId);
             cmd.Parameters.AddWithValue("@file_system", (dictionary.ContainsKey(RESULT_TYPE.FILE) && dictionary[RESULT_TYPE.FILE]) || (dictionary.ContainsKey(RESULT_TYPE.FILEMONITOR) && dictionary[RESULT_TYPE.FILEMONITOR]));
             cmd.Parameters.AddWithValue("@ports", (dictionary.ContainsKey(RESULT_TYPE.PORT) && dictionary[RESULT_TYPE.PORT]));
@@ -501,7 +501,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 cmd.ExecuteNonQuery();
                 Commit();
             }
-            catch (SqliteException e)
+            catch (SQLiteException e)
             {
                 Log.Warning(e.StackTrace);
                 Log.Warning(e.Message);
@@ -520,7 +520,7 @@ namespace AttackSurfaceAnalyzer.Utils
         public static Dictionary<RESULT_TYPE, bool> GetResultTypes(string runId)
         {
             var output = new Dictionary<RESULT_TYPE, bool>();
-            using (var inner_cmd = new SqliteCommand(SQL_GET_RESULT_TYPES_SINGLE, Connection))
+            using (var inner_cmd = new SQLiteCommand(SQL_GET_RESULT_TYPES_SINGLE, Connection))
             {
                 inner_cmd.Parameters.AddWithValue("@run_id", runId);
                 using (var reader = inner_cmd.ExecuteReader())
@@ -541,7 +541,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             return output;
         }
-        private static string _SqliteFilename = "asa.sqlite";
+        private static string _SqliteFilename = "asa.SQLite";
 
         public static string SqliteFilename
         {
@@ -575,7 +575,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void InsertCompareRun(string firstRunId, string secondRunId, RUN_STATUS runStatus)
         {
-            using (var cmd = new SqliteCommand(INSERT_RUN_INTO_RESULT_TABLE_SQL, Connection, Transaction))
+            using (var cmd = new SQLiteCommand(INSERT_RUN_INTO_RESULT_TABLE_SQL, Connection, Transaction))
             {
                 cmd.Parameters.AddWithValue("@base_run_id", firstRunId);
                 cmd.Parameters.AddWithValue("@compare_run_id", secondRunId);
@@ -589,7 +589,7 @@ namespace AttackSurfaceAnalyzer.Utils
             WriteQueue.TryDequeue(out WriteObject objIn);
             try
             {
-                using var cmd = new SqliteCommand(SQL_INSERT_COLLECT_RESULT, Connection, Transaction);
+                using var cmd = new SQLiteCommand(SQL_INSERT_COLLECT_RESULT, Connection, Transaction);
                 cmd.Parameters.AddWithValue("@run_id", objIn.RunId);
                 cmd.Parameters.AddWithValue("@row_key", CryptoHelpers.CreateHash(JsonConvert.SerializeObject(objIn.ColObj)));
                 cmd.Parameters.AddWithValue("@identity", objIn.ColObj.Identity);
@@ -597,7 +597,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 cmd.Parameters.AddWithValue("@result_type", objIn.ColObj.ResultType);
                 cmd.ExecuteNonQuery();
             }
-            catch (SqliteException e)
+            catch (SQLiteException e)
             {
                 Log.Debug(exception: e, $"Error writing {objIn.ColObj.Identity} to database.");
             }
@@ -610,7 +610,7 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             var output = new List<RawCollectResult>();
 
-            using var cmd = new SqliteCommand(SQL_GET_COLLECT_MISSING_IN_B, Connection, Transaction);
+            using var cmd = new SQLiteCommand(SQL_GET_COLLECT_MISSING_IN_B, Connection, Transaction);
             cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
             cmd.Parameters.AddWithValue("@second_run_id", secondRunId);
             using (var reader = cmd.ExecuteReader())
@@ -635,7 +635,7 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             var output = new List<RawModifiedResult>();
 
-            using var cmd = new SqliteCommand(SQL_GET_COLLECT_MODIFIED, Connection, Transaction);
+            using var cmd = new SQLiteCommand(SQL_GET_COLLECT_MODIFIED, Connection, Transaction);
             cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
             cmd.Parameters.AddWithValue("@second_run_id", secondRunId);
             using (var reader = cmd.ExecuteReader())
@@ -670,7 +670,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void UpdateCompareRun(string firstRunId, string secondRunId, RUN_STATUS runStatus)
         {
-            using (var cmd = new SqliteCommand(UPDATE_RUN_IN_RESULT_TABLE, Connection, Transaction))
+            using (var cmd = new SQLiteCommand(UPDATE_RUN_IN_RESULT_TABLE, Connection, Transaction))
             {
                 cmd.Parameters.AddWithValue("@base_run_id", firstRunId);
                 cmd.Parameters.AddWithValue("@compare_run_id", secondRunId);
@@ -681,7 +681,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void DeleteRun(string runid)
         {
-            using (var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES_SINGLE, Connection, Transaction))
+            using (var cmd = new SQLiteCommand(SQL_GET_RESULT_TYPES_SINGLE, Connection, Transaction))
             {
                 cmd.Parameters.AddWithValue("@run_id", runid);
                 using (var reader = cmd.ExecuteReader())
@@ -693,7 +693,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     }
                     while (reader.Read())
                     {
-                        using (var inner_cmd = new SqliteCommand(SQL_TRUNCATE_RUN, Connection, Transaction))
+                        using (var inner_cmd = new SQLiteCommand(SQL_TRUNCATE_RUN, Connection, Transaction))
                         {
                             inner_cmd.Parameters.AddWithValue("@run_id", runid);
                             inner_cmd.ExecuteNonQuery();
@@ -702,7 +702,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         {
                             if ((int.Parse(reader["file_system"].ToString(), CultureInfo.InvariantCulture) != 0))
                             {
-                                using (var inner_cmd = new SqliteCommand(SQL_TRUNCATE_FILES_MONITORED, Connection, Transaction))
+                                using (var inner_cmd = new SQLiteCommand(SQL_TRUNCATE_FILES_MONITORED, Connection, Transaction))
                                 {
                                     inner_cmd.Parameters.AddWithValue("@run_id", runid);
                                     inner_cmd.ExecuteNonQuery();
@@ -711,12 +711,12 @@ namespace AttackSurfaceAnalyzer.Utils
                         }
                         else
                         {
-                            using (var inner_cmd = new SqliteCommand(SQL_TRUNCATE_RESULTS, Connection, Transaction))
+                            using (var inner_cmd = new SQLiteCommand(SQL_TRUNCATE_RESULTS, Connection, Transaction))
                             {
                                 inner_cmd.Parameters.AddWithValue("@run_id", runid);
                                 inner_cmd.ExecuteNonQuery();
                             }
-                            using (var inner_cmd = new SqliteCommand(SQL_TRUNCATE_COLLECT, Connection, Transaction))
+                            using (var inner_cmd = new SQLiteCommand(SQL_TRUNCATE_COLLECT, Connection, Transaction))
                             {
                                 inner_cmd.Parameters.AddWithValue("@run_id", runid);
                                 inner_cmd.ExecuteNonQuery();
@@ -730,7 +730,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static bool GetOptOut()
         {
-            using (var cmd = new SqliteCommand(CHECK_TELEMETRY, Connection, Transaction))
+            using (var cmd = new SQLiteCommand(CHECK_TELEMETRY, Connection, Transaction))
             {
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -746,7 +746,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void SetOptOut(bool OptOut)
         {
-            using (var cmd = new SqliteCommand(UPDATE_TELEMETRY, Connection, Transaction))
+            using (var cmd = new SQLiteCommand(UPDATE_TELEMETRY, Connection, Transaction))
             {
                 cmd.Parameters.AddWithValue("@TelemetryOptOut", OptOut.ToString(CultureInfo.InvariantCulture));
                 cmd.ExecuteNonQuery();
@@ -760,7 +760,7 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 return;
             }
-            using var cmd = new SqliteCommand(SQL_INSERT, Connection, Transaction);
+            using var cmd = new SQLiteCommand(SQL_INSERT, Connection, Transaction);
             cmd.Parameters.AddWithValue("@run_id", RunId);
             cmd.Parameters.AddWithValue("@path", fmo.Path);
             cmd.Parameters.AddWithValue("@timestamp", fmo.Timestamp);
@@ -771,7 +771,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static Run GetRun(string RunId)
         {
-            using (var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES_SINGLE, Connection, Transaction))
+            using (var cmd = new SQLiteCommand(SQL_GET_RESULT_TYPES_SINGLE, Connection, Transaction))
             {
                 cmd.Parameters.AddWithValue("@run_id", RunId);
                 using (var reader = cmd.ExecuteReader())
@@ -803,7 +803,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
             List<string> Runs = new List<string>();
 
-            using var cmd = new SqliteCommand(Select_Runs, Connection, Transaction);
+            using var cmd = new SQLiteCommand(Select_Runs, Connection, Transaction);
             cmd.Parameters.AddWithValue("@type", type);
             using (var reader = cmd.ExecuteReader())
             {
@@ -823,7 +823,7 @@ namespace AttackSurfaceAnalyzer.Utils
         public static List<OutputFileMonitorResult> GetMonitorResults(string runId, int offset, int numResults)
         {
             var results = new List<OutputFileMonitorResult>();
-            using (var cmd = new SqliteCommand(GET_MONITOR_RESULTS, Connection, Transaction))
+            using (var cmd = new SQLiteCommand(GET_MONITOR_RESULTS, Connection, Transaction))
             {
                 cmd.Parameters.AddWithValue("@run_id", runId);
                 cmd.Parameters.AddWithValue("@offset", offset);
@@ -853,7 +853,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static int GetNumMonitorResults(string runId)
         {
-            using (var cmd = new SqliteCommand(GET_RESULT_COUNT_MONITORED, Connection, Transaction))
+            using (var cmd = new SQLiteCommand(GET_RESULT_COUNT_MONITORED, Connection, Transaction))
             {
                 cmd.Parameters.AddWithValue("@run_id", runId);
                 using (var reader = cmd.ExecuteReader())
@@ -871,7 +871,7 @@ namespace AttackSurfaceAnalyzer.Utils
         public static List<CompareResult> GetComparisonResults(string comparisonId, int resultType, int offset, int numResults)
         {
             var results = new List<CompareResult>();
-            using (var cmd = new SqliteCommand(GET_COMPARISON_RESULTS_LIMIT, Connection, Transaction))
+            using (var cmd = new SQLiteCommand(GET_COMPARISON_RESULTS_LIMIT, Connection, Transaction))
             {
                 cmd.Parameters.AddWithValue("@comparison_id", comparisonId);
                 cmd.Parameters.AddWithValue("@result_type", resultType);
@@ -893,7 +893,7 @@ namespace AttackSurfaceAnalyzer.Utils
         public static int GetComparisonResultsCount(string comparisonId, int resultType)
         {
             var result_count = 0;
-            using (var cmd = new SqliteCommand(GET_RESULT_COUNT, Connection, Transaction))
+            using (var cmd = new SQLiteCommand(GET_RESULT_COUNT, Connection, Transaction))
             {
                 cmd.Parameters.AddWithValue("@comparison_id", comparisonId);
                 cmd.Parameters.AddWithValue("@result_type", resultType);
@@ -934,7 +934,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 { "ComObject", 0 },
                 { "LogEntry", 0 }
             };
-            using (var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES, Connection, Transaction))
+            using (var cmd = new SQLiteCommand(SQL_GET_RESULT_TYPES, Connection, Transaction))
             {
                 cmd.Parameters.AddWithValue("@base_run_id", baseId?.ToString(CultureInfo.InvariantCulture));
                 cmd.Parameters.AddWithValue("@compare_run_id", compareId?.ToString(CultureInfo.InvariantCulture));
@@ -996,7 +996,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static bool GetComparisonCompleted(string firstRunId, string secondRunId)
         {
-            using (var cmd = new SqliteCommand(SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED, Connection, Transaction))
+            using (var cmd = new SQLiteCommand(SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED, Connection, Transaction))
             {
                 cmd.Parameters.AddWithValue("@base_run_id", firstRunId);
                 cmd.Parameters.AddWithValue("@compare_run_id", secondRunId);
