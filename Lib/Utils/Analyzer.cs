@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Text.Unicode;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -172,7 +173,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                 catch (Exception e)
                                 {
                                     Log.Debug(e, "Error fetching Property {0} of Type {1}", property.Name, compareResult.ResultType);
-
+                                    Log.Debug(Utf8Json.JsonSerializer.ToJsonString(compareResult));
                                     Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
                                     ExceptionEvent.Add("Exception Type", e.GetType().ToString());
                                     AsaTelemetry.TrackEvent("ApplyCreatedModifiedException", ExceptionEvent);

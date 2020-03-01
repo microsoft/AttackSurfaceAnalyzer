@@ -4,7 +4,6 @@ using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using Microsoft.Data.Sqlite;
 using Mono.Unix;
-using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.Collections.Concurrent;
@@ -14,6 +13,8 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Utf8Json;
+using Utf8Json.Resolvers;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -22,7 +23,7 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string SQL_CREATE_RUNS = "create table if not exists runs (run_id text, file_system int, ports int, users int, services int, registry int, certificates int, firewall int, comobjects int, eventlogs int, type text, timestamp text, version text, platform text, unique(run_id))";
         private const string SQL_CREATE_FILE_MONITORED = "create table if not exists file_system_monitored (run_id text, row_key text, timestamp text, change_type int, path text, old_path text, name text, old_name text, extended_results text, notify_filters text, serialized text)";
 
-        private const string SQL_CREATE_COLLECT_RESULTS = "create table if not exists collect (run_id text, result_type text, row_key text, identity text, serialized text)";
+        private const string SQL_CREATE_COLLECT_RESULTS = "create table if not exists collect (run_id text, result_type text, identity text, row_key blob, serialized blob)";
 
         private const string SQL_CREATE_COLLECT_ROW_KEY_INDEX = "create index if not exists i_collect_row_key on collect(row_key)";
         private const string SQL_CREATE_COLLECT_RUN_ID_INDEX = "create index if not exists i_collect_run_id on collect(run_id)";
@@ -98,7 +99,7 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string GET_COMPARISON_RESULTS_LIMIT = "select * from findings where comparison_id=@comparison_id and result_type=@result_type order by level desc limit @offset,@limit;"; //lgtm [cs/literal-as-local]
         private const string GET_RESULT_COUNT = "select count(*) from findings where comparison_id=@comparison_id and result_type=@result_type"; //lgtm [cs/literal-as-local]
 
-        private const string SCHEMA_VERSION = "5";
+        private const string SCHEMA_VERSION = "6";
         private static bool WriterStarted = false;
 
         public static SqliteConnection Connection { get; private set; }
@@ -109,6 +110,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static bool Setup(string filename = null)
         {
+            JsonSerializer.SetDefaultResolver(StandardResolver.ExcludeNull);
             if (filename != null)
             {
                 if (_SqliteFilename != filename)
@@ -305,8 +307,8 @@ namespace AttackSurfaceAnalyzer.Utils
                         Identity = reader["identity"].ToString(),
                         RunId = reader["run_id"].ToString(),
                         ResultType = (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["result_type"].ToString()),
-                        RowKey = reader["row_key"].ToString(),
-                        Serialized = reader["serialized"].ToString()
+                        RowKey = (byte[])reader["row_key"],
+                        Serialized = (byte[])reader["serialized"]
                     });
                 }
             }
@@ -324,7 +326,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     cmd.Parameters.AddWithValue("@result_type", objIn.ResultType);
                     cmd.Parameters.AddWithValue("@level", objIn.Analysis);
                     cmd.Parameters.AddWithValue("@identity", objIn.Identity);
-                    cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(objIn));
+                    cmd.Parameters.AddWithValue("@serialized", JsonSerializer.Serialize(objIn));
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -380,7 +382,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     while (reader.Read())
                     {
-                        records.Add(JsonConvert.DeserializeObject<CompareResult>(reader["serialized"].ToString()));
+                        records.Add(JsonSerializer.Deserialize<CompareResult>(reader["serialized"].ToString()));
                     }
                 }
             }
@@ -454,7 +456,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
                     while (reader.Read())
                     {
-                        obj = JsonConvert.DeserializeObject<FileMonitorEvent>(reader["serialized"].ToString());
+                        obj = JsonSerializer.Deserialize<FileMonitorEvent>(reader["serialized"].ToString());
                         obj.ChangeType = (CHANGE_TYPE)int.Parse(reader["change_type"].ToString(), CultureInfo.InvariantCulture);
                         records.Add(obj);
                     }
@@ -584,10 +586,46 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
+        public static byte[] Dehydrate(CollectObject colObj)
+        {
+            if (colObj == null)
+            {
+                return null;
+            }
+
+            switch (colObj)
+            {
+                case CertificateObject certificateObject:
+                    return JsonSerializer.Serialize(certificateObject);
+                case FileSystemObject fileSystemObject:
+                    return JsonSerializer.Serialize(fileSystemObject);
+                case OpenPortObject openPortObject:
+                    return Utf8Json.JsonSerializer.Serialize(openPortObject);
+                case RegistryObject registryObject:
+                    return Utf8Json.JsonSerializer.Serialize(registryObject);
+                case ServiceObject serviceObject:
+                    return Utf8Json.JsonSerializer.Serialize(serviceObject);
+                case UserAccountObject userAccountObject:
+                    return Utf8Json.JsonSerializer.Serialize(userAccountObject);
+                case GroupAccountObject groupAccountObject:
+                    return Utf8Json.JsonSerializer.Serialize(groupAccountObject);
+                case FirewallObject firewallObject:
+                    return Utf8Json.JsonSerializer.Serialize(firewallObject);
+                case ComObject comObject:
+                    return Utf8Json.JsonSerializer.Serialize(comObject);
+                case EventLogObject eventLogObject:
+                    return Utf8Json.JsonSerializer.Serialize(eventLogObject);
+                default:
+                    return null;
+            }
+        }
+
         public static void WriteNext()
         {
             WriteQueue.TryDequeue(out WriteObject objIn);
-            var serialized = Utf8Json.JsonSerializer.ToJsonString(objIn.ColObj);
+            var typ = objIn.ColObj.GetType();
+            var serialized = Dehydrate(objIn.ColObj);
+                
             try
             {
                 using var cmd = new SqliteCommand(SQL_INSERT_COLLECT_RESULT, Connection, Transaction);
@@ -623,8 +661,8 @@ namespace AttackSurfaceAnalyzer.Utils
                         Identity = reader["identity"].ToString(),
                         RunId = reader["run_id"].ToString(),
                         ResultType = (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["result_type"].ToString()),
-                        RowKey = reader["row_key"].ToString(),
-                        Serialized = reader["serialized"].ToString()
+                        RowKey = (byte[])reader["row_key"],
+                        Serialized = (byte[])reader["serialized"]
                     });
                 }
             }
@@ -650,16 +688,16 @@ namespace AttackSurfaceAnalyzer.Utils
                             Identity = reader["a_identity"].ToString(),
                             RunId = reader["a_run_id"].ToString(),
                             ResultType = (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["a_result_type"].ToString()),
-                            RowKey = reader["a_row_key"].ToString(),
-                            Serialized = reader["a_serialized"].ToString()
+                            RowKey = (byte[])reader["a_row_key"],
+                            Serialized = (byte[])reader["a_serialized"]
                         },
                         Second = new RawCollectResult()
                         {
                             Identity = reader["b_identity"].ToString(),
                             RunId = reader["b_run_id"].ToString(),
                             ResultType = (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["b_result_type"].ToString()),
-                            RowKey = reader["b_row_key"].ToString(),
-                            Serialized = reader["b_serialized"].ToString()
+                            RowKey = (byte[])reader["b_row_key"],
+                            Serialized = (byte[])reader["b_serialized"]
                         }
                     }
                     );
@@ -765,7 +803,7 @@ namespace AttackSurfaceAnalyzer.Utils
             cmd.Parameters.AddWithValue("@run_id", RunId);
             cmd.Parameters.AddWithValue("@path", fmo.Path);
             cmd.Parameters.AddWithValue("@timestamp", fmo.Timestamp);
-            cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(fmo));
+            cmd.Parameters.AddWithValue("@serialized", JsonSerializer.Serialize(fmo));
 
             cmd.ExecuteNonQuery();
         }
@@ -882,7 +920,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     while (reader.Read())
                     {
-                        var obj = JsonConvert.DeserializeObject<CompareResult>(reader["serialized"].ToString());
+                        var obj = JsonSerializer.Deserialize<CompareResult>(reader["serialized"].ToString());
                         results.Add(obj);
                     }
                 }

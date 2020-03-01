@@ -22,6 +22,16 @@ namespace AttackSurfaceAnalyzer.Utils
             return Convert.ToBase64String(hashOutput);
         }
 
+        public static byte[] CreateHash(byte[] input)
+        {
+            if (input == null)
+            {
+                return null;
+            }
+            using HashAlgorithm murmur128 = MurmurHash.Create128();
+            return murmur128.ComputeHash(input);
+        }
+
         public static string CreateHash(FileStream stream)
         {
             using HashAlgorithm murmur128 = MurmurHash.Create128();
