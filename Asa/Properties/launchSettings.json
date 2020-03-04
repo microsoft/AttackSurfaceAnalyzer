@@ -16,17 +16,19 @@
       },
       "applicationUrl": "http://localhost:5002"
     },
+    "Export-Collect": {
+      "commandName": "Project",
+      "commandLineArgs": "export-collect",
+      "environmentVariables": {}
+    },
     "Asa": {
       "commandName": "Project",
       "commandLineArgs": "gui",
+      "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "http://localhost:5000"
-    },
-    "Export-Collect": {
-      "commandName": "Project",
-      "commandLineArgs": "export-collect"
     }
   }
 }

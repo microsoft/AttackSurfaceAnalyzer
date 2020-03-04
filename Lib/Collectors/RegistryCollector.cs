@@ -3,7 +3,6 @@
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Win32;
-using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.Collections.Concurrent;
@@ -13,6 +12,7 @@ using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Utf8Json;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -21,20 +21,20 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class RegistryCollector : BaseCollector
     {
-        private List<RegistryHive> Hives;
-        private HashSet<string> roots;
-        private HashSet<RegistryKey> _keys;
-        private HashSet<RegistryObject> _values;
-        private bool Parallelize;
+        private readonly List<RegistryHive> Hives;
+        private readonly HashSet<string> roots;
+        private readonly HashSet<RegistryKey> _keys;
+        private readonly HashSet<RegistryObject> _values;
+        private readonly bool Parallelize;
 
-        private static ConcurrentDictionary<string, string> SidMap = new ConcurrentDictionary<string, string>();
+        private static readonly ConcurrentDictionary<string, string> SidMap = new ConcurrentDictionary<string, string>();
 
         private static readonly List<RegistryHive> DefaultHives = new List<RegistryHive>()
         {
             RegistryHive.ClassesRoot, RegistryHive.CurrentConfig, RegistryHive.CurrentUser, RegistryHive.LocalMachine, RegistryHive.Users
         };
 
-        private Action<RegistryObject> customCrawlHandler = null;
+        private readonly Action<RegistryObject> customCrawlHandler = null;
 
         public RegistryCollector(string RunId, bool Parallelize) : this(RunId, DefaultHives, Parallelize, null) { }
 
@@ -44,21 +44,21 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             this.RunId = RunId;
             this.Hives = Hives;
-            this.roots = new HashSet<string>();
-            this._keys = new HashSet<RegistryKey>();
-            this._values = new HashSet<RegistryObject>();
-            this.customCrawlHandler = customHandler;
+            roots = new HashSet<string>();
+            _keys = new HashSet<RegistryKey>();
+            _values = new HashSet<RegistryObject>();
+            customCrawlHandler = customHandler;
             this.Parallelize = Parallelize;
         }
 
         public void AddRoot(string root)
         {
-            this.roots.Add(root);
+            roots.Add(root);
         }
 
         public void ClearRoots()
         {
-            this.roots.Clear();
+            roots.Clear();
         }
 
         public override bool CanRunOnPlatform()
@@ -113,7 +113,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                     catch (InvalidOperationException e)
                     {
-                        Log.Debug(e, JsonConvert.SerializeObject(registryKey) + " invalid op exept");
+                        Log.Debug(e, JsonSerializer.Serialize(registryKey) + " invalid op exept");
                     }
                 };
 

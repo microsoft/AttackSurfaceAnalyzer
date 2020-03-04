@@ -24,15 +24,15 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         private readonly HashSet<string> roots;
 
-        private bool INCLUDE_CONTENT_HASH = false;
+        private readonly bool INCLUDE_CONTENT_HASH = false;
 
-        private bool downloadCloud;
-        private bool examineCertificates;
-        private bool parallel;
+        private readonly bool downloadCloud;
+        private readonly bool examineCertificates;
+        private readonly bool parallel;
 
         public FileSystemCollector(string runId, bool enableHashing = false, string directories = "", bool downloadCloud = false, bool examineCertificates = false, bool parallel = true)
         {
-            this.RunId = runId;
+            RunId = runId;
             this.downloadCloud = downloadCloud;
             this.examineCertificates = examineCertificates;
             this.parallel = parallel;
@@ -211,7 +211,14 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                         foreach (var permission in rule.FileSystemRights.ToString().Split(','))
                         {
-                            obj.Permissions.Add(new KeyValuePair<string, string>(name, permission));
+                            if (obj.Permissions.ContainsKey(name))
+                            {
+                                obj.Permissions[name] = $"{obj.Permissions[name]},{permission}";
+                            }
+                            else
+                            {
+                                obj.Permissions.Add(name, permission);
+                            }
                         }
 
                     }
@@ -244,55 +251,33 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                     if (file.FileAccessPermissions.ToString().Equals("AllPermissions", StringComparison.InvariantCulture))
                     {
-                        obj.Permissions.Add(new KeyValuePair<string, string>("User", "Read"));
-                        obj.Permissions.Add(new KeyValuePair<string, string>("User", "Write"));
-                        obj.Permissions.Add(new KeyValuePair<string, string>("User", "Execute"));
-                        obj.Permissions.Add(new KeyValuePair<string, string>("Group", "Read"));
-                        obj.Permissions.Add(new KeyValuePair<string, string>("Group", "Write"));
-                        obj.Permissions.Add(new KeyValuePair<string, string>("Group", "Execute"));
-                        obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Read"));
-                        obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Write"));
-                        obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Execute"));
+                        obj.Permissions.Add("User", "Read,Write,Execute");
+                        obj.Permissions.Add("Group", "Read,Write,Execute");
+                        obj.Permissions.Add("Other", "Read,Write,Execute");
                     }
                     else
                     {
-                        foreach (var permission in file.FileAccessPermissions.ToString().Split(',').Where((x) => x.Trim().StartsWith("User", StringComparison.InvariantCulture)))
+                        var keys = new List<string>() { "User", "Group", "Other" };
+                        var splits = file.FileAccessPermissions.ToString().Split(',').Select(x => x.Trim());
+                        foreach (var key in keys)
                         {
-                            if (permission.Contains("ReadWriteExecute", StringComparison.InvariantCulture))
+                            foreach (var permission in splits.Where((x) => x.StartsWith(key, StringComparison.InvariantCulture)))
                             {
-                                obj.Permissions.Add(new KeyValuePair<string, string>("User", "Read"));
-                                obj.Permissions.Add(new KeyValuePair<string, string>("User", "Write"));
-                                obj.Permissions.Add(new KeyValuePair<string, string>("User", "Execute"));
-                            }
-                            else
-                            {
-                                obj.Permissions.Add(new KeyValuePair<string, string>("User", permission.Trim().Substring(4)));
-                            }
-                        }
-                        foreach (var permission in file.FileAccessPermissions.ToString().Split(',').Where((x) => x.Trim().StartsWith("Group", StringComparison.InvariantCulture)))
-                        {
-                            if (permission.Contains("ReadWriteExecute", StringComparison.InvariantCulture))
-                            {
-                                obj.Permissions.Add(new KeyValuePair<string, string>("Group", "Read"));
-                                obj.Permissions.Add(new KeyValuePair<string, string>("Group", "Write"));
-                                obj.Permissions.Add(new KeyValuePair<string, string>("Group", "Execute"));
-                            }
-                            else
-                            {
-                                obj.Permissions.Add(new KeyValuePair<string, string>("Group", permission.Trim().Substring(5)));
-                            }
-                        }
-                        foreach (var permission in file.FileAccessPermissions.ToString().Split(',').Where((x) => x.Trim().StartsWith("Other", StringComparison.InvariantCulture)))
-                        {
-                            if (permission.Contains("ReadWriteExecute", StringComparison.InvariantCulture))
-                            {
-                                obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Read"));
-                                obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Write"));
-                                obj.Permissions.Add(new KeyValuePair<string, string>("Other", "Execute"));
-                            }
-                            else
-                            {
-                                obj.Permissions.Add(new KeyValuePair<string, string>("Other", permission.Trim().Substring(5)));
+                                if (permission.Contains("ReadWriteExecute", StringComparison.InvariantCulture))
+                                {
+                                    obj.Permissions.Add(key, "Read,Write,Execute");
+                                }
+                                else
+                                {
+                                    if (obj.Permissions.ContainsKey(key))
+                                    {
+                                        obj.Permissions[key] = $"{obj.Permissions[key]},{permission.Trim().Substring(key.Length)}";
+                                    }
+                                    else
+                                    {
+                                        obj.Permissions.Add(key, permission.Trim().Substring(key.Length));
+                                    }
+                                }
                             }
                         }
                     }
@@ -302,7 +287,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     || e is ArgumentException
                     || e is InvalidOperationException)
                 {
-                    Log.Verbose($"Failed to get permissions for {path} {e.GetType().ToString()}");
+                    Log.Debug($"Failed to get permissions for {path} {e.GetType().ToString()}");
                 }
             }
 
@@ -348,7 +333,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 else
                 {
                     UnixSymbolicLinkInfo i = new UnixSymbolicLinkInfo(path);
-                    obj.fileType = i.FileType.ToString();
+                    obj.FileType = i.FileType.ToString();
                     obj.Size = (ulong)i.Length;
                     obj.IsDirectory = false;
                     switch (i.FileType)

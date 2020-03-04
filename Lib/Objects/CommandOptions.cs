@@ -137,7 +137,7 @@ namespace AttackSurfaceAnalyzer
         public bool Overwrite { get; set; }
 
         [Option(HelpText = "Run parallelized collectors when available.", Default = true)]
-        public bool Parallelization { set; get; }
+        public bool Parallelization { get; set; }
     }
     [Verb("monitor", HelpText = "Continue running and monitor activity")]
     public class MonitorCommandOptions : CommandOptions

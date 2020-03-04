@@ -11,9 +11,10 @@ namespace AttackSurfaceAnalyzer.Collectors
 {
     public class RegistryMonitor : BaseMonitor, IDisposable
     {
-        string tmpFileName = Path.GetTempFileName();
+        private readonly string tmpFileName = Path.GetTempFileName();
+
         // I believe auditpol results will go into the system log
-        EventLog log = new EventLog("System");
+        private EventLog log = new EventLog("System");
 
         public RegistryMonitor()
         {

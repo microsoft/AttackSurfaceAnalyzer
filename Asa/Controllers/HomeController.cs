@@ -7,16 +7,13 @@ using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Serilog;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using Utf8Json;
 
 namespace AttackSurfaceAnalyzer.Gui.Controllers
 {
@@ -43,7 +40,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
         public ActionResult GetMonitorResults(string RunId, int Offset, int NumResults)
         {
             List<OutputFileMonitorResult> results = DatabaseManager.GetMonitorResults(RunId, Offset, NumResults);
-            
+
             Dictionary<string, object> output = new Dictionary<string, object>();
 
             output["Results"] = results;
@@ -52,7 +49,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             output["Requested"] = NumResults;
             output["Actual"] = results.Count;
 
-            return Json(JsonConvert.SerializeObject(output));
+            return Json(JsonSerializer.Serialize(output));
         }
 
         public ActionResult GetResults(string BaseId, string CompareId, int ResultType, int Offset, int NumResults)
@@ -66,7 +63,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             output["Offset"] = Offset;
             output["Requested"] = NumResults;
             output["Actual"] = results.Count;
-            return Json(JsonConvert.SerializeObject(output));
+            return Json(JsonSerializer.Serialize(output));
         }
 
 
@@ -92,7 +89,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             Dictionary<string, object> output = new Dictionary<string, object>();
             output.Add("RunId", RunId);
             output.Add("Runs", dict);
-            return Json(JsonConvert.SerializeObject(output));
+            return Json(JsonSerializer.Serialize(output));
         }
 
         public ActionResult GetLatestRunId()
@@ -111,7 +108,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             }
 
             //@TODO: Also return the RunId
-            return Json(JsonConvert.SerializeObject(dict));
+            return Json(JsonSerializer.Serialize(dict));
         }
 
         public ActionResult GetComparators()
@@ -125,7 +122,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             }
 
             //@TODO: Also return the RunId
-            return Json(JsonConvert.SerializeObject(dict));
+            return Json(JsonSerializer.Serialize(dict));
         }
 
 

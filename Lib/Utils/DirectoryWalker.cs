@@ -45,12 +45,12 @@ namespace AttackSurfaceAnalyzer.Utils
                             continue;
                         }
                     }
-                    catch(Exception e) when (
+                    catch (Exception e) when (
                         e is UnauthorizedAccessException)
                     {
 
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         Log.Debug("Should be catching {0} in DirectoryWalker.", e.GetType().ToString());
                     }

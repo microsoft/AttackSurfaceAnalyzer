@@ -1,12 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
-using System.Security;
 using System.Text;
 
 namespace AttackSurfaceAnalyzer.Utils
@@ -266,7 +263,7 @@ namespace AttackSurfaceAnalyzer.Utils
         /// </param>
         /// <returns></returns>
         [DllImport("advapi32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        public extern static bool DuplicateToken(
+        public static extern bool DuplicateToken(
             SafeTokenHandle ExistingTokenHandle,
             SECURITY_IMPERSONATION_LEVEL ImpersonationLevel,
             out SafeTokenHandle DuplicateTokenHandle);
@@ -387,7 +384,7 @@ namespace AttackSurfaceAnalyzer.Utils
         private const uint FILE_FLAG_BACKUP_SEMANTICS = 0x2000000;
 
         [DllImport("Kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        static extern uint GetFinalPathNameByHandle(IntPtr hFile, [MarshalAs(UnmanagedType.LPWStr)] StringBuilder lpszFilePath, uint cchFilePath, uint dwFlags);
+        private static extern uint GetFinalPathNameByHandle(IntPtr hFile, [MarshalAs(UnmanagedType.LPWStr)] StringBuilder lpszFilePath, uint cchFilePath, uint dwFlags);
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern IntPtr CreateFile(

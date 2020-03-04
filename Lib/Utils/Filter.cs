@@ -13,8 +13,8 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public static class Filter
     {
-        static JObject config = null;
-        static Dictionary<string, List<Regex>> _filters = new Dictionary<string, List<Regex>>() {
+        private static JObject config = null;
+        private static readonly Dictionary<string, List<Regex>> _filters = new Dictionary<string, List<Regex>>() {
             { "Certificates:Scan:File:Path:Include",new List<Regex>(){ new Regex("^.*\\.cer$") } },
             { "Certificates:Scan:File:Path:Exclude",new List<Regex>(){ new Regex(".*") } }
         };

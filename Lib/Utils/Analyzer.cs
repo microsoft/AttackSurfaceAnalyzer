@@ -2,9 +2,6 @@
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -13,12 +10,13 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Utf8Json;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
     public class Analyzer
     {
-        Dictionary<RESULT_TYPE, List<PropertyInfo>> _Properties = new Dictionary<RESULT_TYPE, List<PropertyInfo>>()
+        private readonly Dictionary<RESULT_TYPE, List<PropertyInfo>> _Properties = new Dictionary<RESULT_TYPE, List<PropertyInfo>>()
         {
             {RESULT_TYPE.FILE , new List<PropertyInfo>(new FileSystemObject().GetType().GetProperties()) },
             {RESULT_TYPE.CERTIFICATE, new List<PropertyInfo>(new CertificateObject().GetType().GetProperties()) },
@@ -32,7 +30,7 @@ namespace AttackSurfaceAnalyzer.Utils
             {RESULT_TYPE.LOG, new List<PropertyInfo>(new FirewallObject().GetType().GetProperties()) },
 
         };
-        Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DEFAULT_RESULT_TYPE_MAP = new Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>()
+        private Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DEFAULT_RESULT_TYPE_MAP = new Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>()
         {
             { RESULT_TYPE.CERTIFICATE, ANALYSIS_RESULT_TYPE.INFORMATION },
             { RESULT_TYPE.FILE, ANALYSIS_RESULT_TYPE.INFORMATION },
@@ -45,10 +43,8 @@ namespace AttackSurfaceAnalyzer.Utils
             { RESULT_TYPE.COM, ANALYSIS_RESULT_TYPE.INFORMATION },
             { RESULT_TYPE.LOG, ANALYSIS_RESULT_TYPE.INFORMATION },
         };
-
-        JObject config = null;
-        List<Rule> _filters = new List<Rule>();
-        PLATFORM OsName;
+        private readonly PLATFORM OsName;
+        private RuleFile config;
 
         public Analyzer(PLATFORM platform, string filterLocation = null)
         {
@@ -64,48 +60,12 @@ namespace AttackSurfaceAnalyzer.Utils
             OsName = platform;
         }
 
-        protected void ParseFilters()
-        {
-            _filters = new List<Rule>();
-            DEFAULT_RESULT_TYPE_MAP = new Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>();
-            foreach (RESULT_TYPE r in Enum.GetValues(typeof(RESULT_TYPE)))
-            {
-                DEFAULT_RESULT_TYPE_MAP.Add(r, ANALYSIS_RESULT_TYPE.INFORMATION);
-            }
-            try
-            {
-                foreach (var R in (JArray)config["rules"])
-                {
-                    _filters.Add(R.ToObject<Rule>());
-                }
-
-                foreach (var R in (JObject)config["meta"])
-                {
-                    switch (R.Key)
-                    {
-                        case "defaultLevels":
-                            var loadedMap = R.Value.ToObject<Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>>();
-                            foreach (var kvpair in loadedMap)
-                            {
-                                //Overwrite the defaults with settings made (if any)
-                                DEFAULT_RESULT_TYPE_MAP[kvpair.Key] = kvpair.Value;
-                            }
-                            break;
-                    }
-                }
-            }
-            catch (JsonException)
-            {
-                Log.Information(Strings.Get("Err_ParsingFilters"));
-            }
-        }
-
         public ANALYSIS_RESULT_TYPE Analyze(CompareResult compareResult)
         {
             if (compareResult == null) { return DEFAULT_RESULT_TYPE_MAP[RESULT_TYPE.UNKNOWN]; }
             if (config == null) { return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType]; }
             var results = new List<ANALYSIS_RESULT_TYPE>();
-            var curFilters = _filters.Where((rule) => (rule.ChangeTypes == null || rule.ChangeTypes.Contains(compareResult.ChangeType))
+            var curFilters = config.Rules.Where((rule) => (rule.ChangeTypes == null || rule.ChangeTypes.Contains(compareResult.ChangeType))
                                                      && (rule.Platforms == null || rule.Platforms.Contains(OsName))
                                                      && (rule.ResultType.Equals(compareResult.ResultType)))
                                                     .ToList();
@@ -172,7 +132,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                 catch (Exception e)
                                 {
                                     Log.Debug(e, "Error fetching Property {0} of Type {1}", property.Name, compareResult.ResultType);
-
+                                    Log.Debug(Utf8Json.JsonSerializer.ToJsonString(compareResult));
                                     Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
                                     ExceptionEvent.Add("Exception Type", e.GetType().ToString());
                                     AsaTelemetry.TrackEvent("ApplyCreatedModifiedException", ExceptionEvent);
@@ -370,7 +330,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     }
                     catch (Exception e)
                     {
-                        Log.Debug(e, $"Hit while parsing {JsonConvert.SerializeObject(rule)} onto {JsonConvert.SerializeObject(compareResult)}");
+                        Log.Debug(e, $"Hit while parsing {JsonSerializer.Serialize(rule)} onto {JsonSerializer.Serialize(compareResult)}");
                         Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
                         ExceptionEvent.Add("Exception Type", e.GetType().ToString());
                         AsaTelemetry.TrackEvent("ApplyOverallException", ExceptionEvent);
@@ -392,7 +352,7 @@ namespace AttackSurfaceAnalyzer.Utils
         public void DumpFilters()
         {
             Log.Verbose("Filter dump:");
-            Log.Verbose(JsonConvert.SerializeObject(_filters, new StringEnumConverter()));
+            Log.Verbose(JsonSerializer.ToJsonString(config));
         }
 
         public void LoadEmbeddedFilters()
@@ -403,10 +363,9 @@ namespace AttackSurfaceAnalyzer.Utils
                 var resourceName = "AttackSurfaceAnalyzer.analyses.json";
 
                 using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-                using (StreamReader streamreader = new StreamReader(stream))
-                using (JsonTextReader reader = new JsonTextReader(streamreader))
+                using (StreamReader reader = new StreamReader(stream))
                 {
-                    config = (JObject)JToken.ReadFrom(reader);
+                    config = JsonSerializer.Deserialize<RuleFile>(reader.ReadToEnd());
                     Log.Information(Strings.Get("LoadedAnalyses"), "Embedded");
                 }
                 if (config == null)
@@ -414,7 +373,6 @@ namespace AttackSurfaceAnalyzer.Utils
                     Log.Debug("No filters today.");
                     return;
                 }
-                ParseFilters();
                 DumpFilters();
             }
             catch (Exception e) when (
@@ -441,9 +399,8 @@ namespace AttackSurfaceAnalyzer.Utils
             try
             {
                 using (StreamReader file = System.IO.File.OpenText(filterLoc))
-                using (JsonTextReader reader = new JsonTextReader(file))
                 {
-                    config = (JObject)JToken.ReadFrom(reader);
+                    config = JsonSerializer.Deserialize<RuleFile>(file.ReadToEnd());
                     Log.Information(Strings.Get("LoadedAnalyses"), filterLoc);
                 }
                 if (config == null)
@@ -451,7 +408,6 @@ namespace AttackSurfaceAnalyzer.Utils
                     Log.Debug("No filters this time.");
                     return;
                 }
-                ParseFilters();
                 DumpFilters();
             }
             catch (Exception e) when (

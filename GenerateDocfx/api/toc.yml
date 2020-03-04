@@ -1,4 +1,23 @@
 ### YamlMime:TableOfContent
+- uid: AttackSurfaceAnalyzer
+  name: AttackSurfaceAnalyzer
+  items:
+  - uid: AttackSurfaceAnalyzer.CollectCommandOptions
+    name: CollectCommandOptions
+  - uid: AttackSurfaceAnalyzer.CommandOptions
+    name: CommandOptions
+  - uid: AttackSurfaceAnalyzer.CompareCommandOptions
+    name: CompareCommandOptions
+  - uid: AttackSurfaceAnalyzer.ConfigCommandOptions
+    name: ConfigCommandOptions
+  - uid: AttackSurfaceAnalyzer.ExportCollectCommandOptions
+    name: ExportCollectCommandOptions
+  - uid: AttackSurfaceAnalyzer.ExportMonitorCommandOptions
+    name: ExportMonitorCommandOptions
+  - uid: AttackSurfaceAnalyzer.GuiCommandOptions
+    name: GuiCommandOptions
+  - uid: AttackSurfaceAnalyzer.MonitorCommandOptions
+    name: MonitorCommandOptions
 - uid: AttackSurfaceAnalyzer.Collectors
   name: AttackSurfaceAnalyzer.Collectors
   items:
@@ -51,12 +70,20 @@
     name: ComObject
   - uid: AttackSurfaceAnalyzer.Objects.CompareResult
     name: CompareResult
+  - uid: AttackSurfaceAnalyzer.Objects.DataResultModel
+    name: DataResultModel
+  - uid: AttackSurfaceAnalyzer.Objects.DataRunListModel
+    name: DataRunListModel
+  - uid: AttackSurfaceAnalyzer.Objects.DataRunModel
+    name: DataRunModel
   - uid: AttackSurfaceAnalyzer.Objects.Diff
     name: Diff
   - uid: AttackSurfaceAnalyzer.Objects.EventLogObject
     name: EventLogObject
   - uid: AttackSurfaceAnalyzer.Objects.FileMonitorEvent
     name: FileMonitorEvent
+  - uid: AttackSurfaceAnalyzer.Objects.FileMonitorObject
+    name: FileMonitorObject
   - uid: AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult
     name: FileSystemMonitorResult
   - uid: AttackSurfaceAnalyzer.Objects.FileSystemObject
@@ -85,10 +112,16 @@
     name: RegistryResult
   - uid: AttackSurfaceAnalyzer.Objects.Rule
     name: Rule
+  - uid: AttackSurfaceAnalyzer.Objects.Run
+    name: Run
+  - uid: AttackSurfaceAnalyzer.Objects.SerializableCertificate
+    name: SerializableCertificate
   - uid: AttackSurfaceAnalyzer.Objects.ServiceObject
     name: ServiceObject
   - uid: AttackSurfaceAnalyzer.Objects.ServiceResult
     name: ServiceResult
+  - uid: AttackSurfaceAnalyzer.Objects.Signature
+    name: Signature
   - uid: AttackSurfaceAnalyzer.Objects.UserAccountObject
     name: UserAccountObject
   - uid: AttackSurfaceAnalyzer.Objects.UserAccountResult
@@ -119,6 +152,8 @@
     name: RESULT_TYPE
   - uid: AttackSurfaceAnalyzer.Types.RUN_STATUS
     name: RUN_STATUS
+  - uid: AttackSurfaceAnalyzer.Types.RUN_TYPE
+    name: RUN_TYPE
 - uid: AttackSurfaceAnalyzer.Utils
   name: AttackSurfaceAnalyzer.Utils
   items:
@@ -142,6 +177,8 @@
     name: FileWatcher
   - uid: AttackSurfaceAnalyzer.Utils.Filter
     name: Filter
+  - uid: AttackSurfaceAnalyzer.Utils.JsonUtils
+    name: JsonUtils
   - uid: AttackSurfaceAnalyzer.Utils.Logger
     name: Logger
   - uid: AttackSurfaceAnalyzer.Utils.ProcessPort

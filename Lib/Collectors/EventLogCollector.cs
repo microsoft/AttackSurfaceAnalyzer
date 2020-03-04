@@ -4,7 +4,6 @@ using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using Serilog;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -21,10 +20,10 @@ namespace AttackSurfaceAnalyzer.Collectors
     public class EventLogCollector : BaseCollector
     {
 
-        private bool GatherVerboseLogs;
+        private readonly bool GatherVerboseLogs;
         public EventLogCollector(string runId, bool GatherVerboseLogs = false)
         {
-            this.RunId = runId;
+            RunId = runId;
             this.GatherVerboseLogs = GatherVerboseLogs;
         }
 
@@ -90,7 +89,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
-        
+
 
         /// <summary>
         /// Parses /var/log/auth.log and /var/log/syslog (no way to distinguish severity)
@@ -133,7 +132,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     || e is System.Security.SecurityException
                     || e is UnauthorizedAccessException)
                 {
-                    Log.Debug("Failed to parse {0}",path);
+                    Log.Debug("Failed to parse {0}", path);
                 }
             }
 
@@ -200,7 +199,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
             catch (Exception e)
             {
-                Log.Debug(e, "Failed to gather event logs on Mac OS. {0}",stdError);
+                Log.Debug(e, "Failed to gather event logs on Mac OS. {0}", stdError);
             }
         }
 

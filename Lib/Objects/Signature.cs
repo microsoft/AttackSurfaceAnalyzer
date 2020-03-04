@@ -1,8 +1,5 @@
 ﻿using PeNet.Authenticode;
 using System;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 
 namespace AttackSurfaceAnalyzer.Objects
 {
@@ -19,8 +16,8 @@ namespace AttackSurfaceAnalyzer.Objects
             }
         }
 
-        public Signature() 
-        { 
+        public Signature()
+        {
         }
 
         public bool IsAuthenticodeValid { get; set; }

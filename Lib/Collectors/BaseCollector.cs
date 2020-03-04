@@ -20,7 +20,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         private RUN_STATUS _running = RUN_STATUS.NOT_STARTED;
 
-        private int _numCollected = 0;
+        private readonly int _numCollected = 0;
 
         public void Execute()
         {
@@ -44,7 +44,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     t.Minutes,
                                     t.Seconds,
                                     t.Milliseconds);
-            Log.Debug(Strings.Get("Completed"), this.GetType().Name, answer);
+            Log.Debug(Strings.Get("Completed"), GetType().Name, answer);
 
             var prevFlush = DatabaseManager.WriteQueue.Count;
             var totFlush = prevFlush;
@@ -66,7 +66,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     var totRate = (double)(totFlush - sample) / StopWatch.ElapsedMilliseconds;
                     try
                     {
-                        t = (totRate > 0) ? TimeSpan.FromMilliseconds( sample / totRate ) : TimeSpan.FromMilliseconds(99999999);
+                        t = (curRate > 0) ? TimeSpan.FromMilliseconds(sample / ((double)curRate / (actualDuration * 1000))) : TimeSpan.FromMilliseconds(99999999);
                         answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
                                                 t.Hours,
                                                 t.Minutes,
@@ -77,7 +77,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     catch (Exception e) when (
                         e is OverflowException)
                     {
-                        Log.Debug($"Overflowed: {curRate} {totRate} {sample} {sample / totRate} {t} {answer}");
+                        Log.Debug($"Overflowed: {curRate} {totRate} {sample} {t} {answer}");
                         Log.Debug("Flushing {0} results. ({1}/s {2:0.00}/s)", DatabaseManager.WriteQueue.Count, curRate, totRate * 1000);
                     }
                     prevFlush = sample;
@@ -113,7 +113,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             _running = RUN_STATUS.RUNNING;
             watch = System.Diagnostics.Stopwatch.StartNew();
 
-            Log.Information(Strings.Get("Starting"), this.GetType().Name);
+            Log.Information(Strings.Get("Starting"), GetType().Name);
         }
 
         public void Stop()
@@ -126,9 +126,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     t.Minutes,
                                     t.Seconds,
                                     t.Milliseconds);
-            Log.Information(Strings.Get("Completed"), this.GetType().Name, answer);
+            Log.Information(Strings.Get("Completed"), GetType().Name, answer);
             var EndEvent = new Dictionary<string, string>();
-            EndEvent.Add("Scanner", this.GetType().Name);
+            EndEvent.Add("Scanner", GetType().Name);
             EndEvent.Add("Duration", watch.ElapsedMilliseconds.ToString(CultureInfo.InvariantCulture));
             EndEvent.Add("NumResults", _numCollected.ToString(CultureInfo.InvariantCulture));
             AsaTelemetry.TrackEvent("EndScanFunction", EndEvent);

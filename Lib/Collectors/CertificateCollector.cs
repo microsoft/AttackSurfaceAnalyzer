@@ -18,7 +18,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         public CertificateCollector(string runId)
         {
-            this.RunId = runId;
+            RunId = runId;
         }
 
         public override bool CanRunOnPlatform()
@@ -50,7 +50,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 Subject = certificate.Subject,
                                 Pkcs7 = certificate.Export(X509ContentType.Cert).ToString()
                             };
-                            DatabaseManager.Write(obj, this.RunId);
+                            DatabaseManager.Write(obj, RunId);
                         }
 
                         store.Close();
@@ -88,7 +88,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             Subject = certificate.Subject,
                             Pkcs7 = certificate.Export(X509ContentType.Cert).ToString()
                         };
-                        DatabaseManager.Write(obj, this.RunId);
+                        DatabaseManager.Write(obj, RunId);
                     }
                     catch (Exception e)
                     {
@@ -139,7 +139,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         Subject = X509Certificate2Enumerator.Current.Subject,
                         Pkcs7 = X509Certificate2Enumerator.Current.GetRawCertDataString()
                     };
-                    DatabaseManager.Write(obj, this.RunId);
+                    DatabaseManager.Write(obj, RunId);
                 }
             }
             catch (Exception e)

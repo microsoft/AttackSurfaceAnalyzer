@@ -4,7 +4,6 @@ using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using KellermanSoftware.CompareNetObjects;
-using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.Collections.Concurrent;
@@ -12,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Utf8Json;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -48,25 +48,25 @@ namespace AttackSurfaceAnalyzer.Collectors
             switch (res.ResultType)
             {
                 case RESULT_TYPE.CERTIFICATE:
-                    return JsonConvert.DeserializeObject<CertificateObject>(res.Serialized);
+                    return JsonSerializer.Deserialize<CertificateObject>(res.Serialized);
                 case RESULT_TYPE.FILE:
-                    return JsonConvert.DeserializeObject<FileSystemObject>(res.Serialized);
+                    return JsonSerializer.Deserialize<FileSystemObject>(res.Serialized);
                 case RESULT_TYPE.PORT:
-                    return JsonConvert.DeserializeObject<OpenPortObject>(res.Serialized);
+                    return JsonSerializer.Deserialize<OpenPortObject>(res.Serialized);
                 case RESULT_TYPE.REGISTRY:
-                    return JsonConvert.DeserializeObject<RegistryObject>(res.Serialized);
+                    return JsonSerializer.Deserialize<RegistryObject>(res.Serialized);
                 case RESULT_TYPE.SERVICE:
-                    return JsonConvert.DeserializeObject<ServiceObject>(res.Serialized);
+                    return JsonSerializer.Deserialize<ServiceObject>(res.Serialized);
                 case RESULT_TYPE.USER:
-                    return JsonConvert.DeserializeObject<UserAccountObject>(res.Serialized);
+                    return JsonSerializer.Deserialize<UserAccountObject>(res.Serialized);
                 case RESULT_TYPE.GROUP:
-                    return JsonConvert.DeserializeObject<GroupAccountObject>(res.Serialized);
+                    return JsonSerializer.Deserialize<GroupAccountObject>(res.Serialized);
                 case RESULT_TYPE.FIREWALL:
-                    return JsonConvert.DeserializeObject<FirewallObject>(res.Serialized);
+                    return JsonSerializer.Deserialize<FirewallObject>(res.Serialized);
                 case RESULT_TYPE.COM:
-                    return JsonConvert.DeserializeObject<ComObject>(res.Serialized);
+                    return JsonSerializer.Deserialize<ComObject>(res.Serialized);
                 case RESULT_TYPE.LOG:
-                    return JsonConvert.DeserializeObject<EventLogObject>(res.Serialized);
+                    return JsonSerializer.Deserialize<EventLogObject>(res.Serialized);
                 default:
                     return null;
             }
@@ -110,6 +110,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 Log.Debug($"Adding {obj.Identity}");
                 Results[$"{added.ResultType.ToString()}_{CHANGE_TYPE.CREATED.ToString()}"].Enqueue(obj);
             }));
+
             Parallel.ForEach(removeObjects,
                             (removed =>
             {
@@ -126,6 +127,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 Results[$"{removed.ResultType.ToString()}_{CHANGE_TYPE.DELETED.ToString()}"].Enqueue(obj);
             }));
+
             Parallel.ForEach(modifyObjects,
                             (modified =>
             {
@@ -245,7 +247,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                     catch (InvalidCastException e)
                     {
-                        Log.Debug(e, $"Failed to cast {JsonConvert.SerializeObject(prop)}");
+                        Log.Debug(e, $"Failed to cast {JsonSerializer.Serialize(prop)}");
                     }
                     catch (Exception e)
                     {

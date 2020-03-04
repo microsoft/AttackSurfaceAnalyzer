@@ -9,7 +9,7 @@ namespace AttackSurfaceAnalyzer.Objects
     {
         // From Registry
         public RegistryObject Key { get; set; }
-        public List<RegistryObject> Subkeys { get; }
+        public List<RegistryObject> Subkeys { get; set; }
         // From filesystem
         public FileSystemObject x86_Binary { get; set; }
         public FileSystemObject x64_Binary { get; set; }

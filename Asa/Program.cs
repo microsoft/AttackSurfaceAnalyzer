@@ -24,14 +24,14 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer
-{ 
+{
     public static class AttackSurfaceAnalyzerClient
     {
         private static List<BaseCollector> collectors = new List<BaseCollector>();
-        private static List<BaseMonitor> monitors = new List<BaseMonitor>();
+        private static readonly List<BaseMonitor> monitors = new List<BaseMonitor>();
         private static List<BaseCompare> comparators = new List<BaseCompare>();
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
 #if DEBUG
             Logger.Setup(true, false);
@@ -72,7 +72,8 @@ namespace AttackSurfaceAnalyzer
 
             var server = WebHost.CreateDefaultBuilder(Array.Empty<string>())
                     .UseStartup<Asa.Startup>()
-                    .UseKestrel(options => {
+                    .UseKestrel(options =>
+                    {
                         options.Listen(IPAddress.Loopback, 5000); //HTTP port
                     })
                     .Build();
@@ -166,7 +167,7 @@ namespace AttackSurfaceAnalyzer
                                     string output = $"{run.RunId} {run.Timestamp} {run.Version} {run.Type}";
                                     Log.Information(output);
                                     Log.Information(string.Join(',', run.ResultTypes.Keys.Where(x => run.ResultTypes[x])));
-                                }  
+                                }
                             }
                         }
                         else
@@ -993,7 +994,7 @@ namespace AttackSurfaceAnalyzer
             }
             else
             {
-                if(DatabaseManager.GetRun(opts.RunId) != null)
+                if (DatabaseManager.GetRun(opts.RunId) != null)
                 {
                     Log.Error(Strings.Get("Err_RunIdAlreadyUsed"));
                     return (int)GUI_ERROR.UNIQUE_ID;
@@ -1002,10 +1003,11 @@ namespace AttackSurfaceAnalyzer
             Log.Information(Strings.Get("Begin"), opts.RunId);
 
             DatabaseManager.InsertRun(opts.RunId, dict);
-            
+
             Log.Information(Strings.Get("StartingN"), collectors.Count.ToString(CultureInfo.InvariantCulture), Strings.Get("Collectors"));
 
-            Console.CancelKeyPress += delegate {
+            Console.CancelKeyPress += delegate
+            {
                 Log.Information("Cancelling collection. Rolling back transaction. Please wait to avoid corrupting database.");
                 DatabaseManager.RollBack();
                 Environment.Exit(0);
@@ -1048,7 +1050,7 @@ namespace AttackSurfaceAnalyzer
 
         // Used for monitors. This writes a little spinner animation to indicate that monitoring is underway
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "These symbols won't be localized")]
-        static void WriteSpinner(ManualResetEvent untilDone)
+        private static void WriteSpinner(ManualResetEvent untilDone)
         {
             int counter = 0;
             while (!untilDone.WaitOne(200))

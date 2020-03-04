@@ -5,7 +5,6 @@ using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.ApplicationInsights.Extensibility;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -16,18 +15,12 @@ namespace AttackSurfaceAnalyzer.Utils
         private static TelemetryClient Client;
         public static bool OptOut { get; private set; }
 
-        public static void TestMode()
-        {
-            Client = new TelemetryClient();
-            TelemetryConfiguration.Active.DisableTelemetry = true;
-        }
-
-        public static void Setup()
+        public static void Setup(bool test = false)
         {
             if (Client == null)
             {
                 using var config = TelemetryConfiguration.CreateDefault();
-                OptOut = DatabaseManager.GetOptOut();
+                OptOut = test ? true: DatabaseManager.GetOptOut();
                 config.InstrumentationKey = INSTRUMENTATION_KEY;
                 config.DisableTelemetry = OptOut;
                 Client = new TelemetryClient(config);

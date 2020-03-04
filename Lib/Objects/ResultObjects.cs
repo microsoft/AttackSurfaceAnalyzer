@@ -1,8 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Types;
+using AttackSurfaceAnalyzer.Utils;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace AttackSurfaceAnalyzer.Objects
 {
@@ -10,10 +12,10 @@ namespace AttackSurfaceAnalyzer.Objects
     public class RawCollectResult
     {
         public RESULT_TYPE ResultType { get; set; }
-        public string RowKey { get; set; }
+        public byte[] RowKey { get; set; }
         public string RunId { get; set; }
         public string Identity { get; set; }
-        public string Serialized { get; set; }
+        public byte[] Serialized { get; set; }
     }
 
     public class RawModifiedResult
@@ -39,8 +41,8 @@ namespace AttackSurfaceAnalyzer.Objects
         public ANALYSIS_RESULT_TYPE Analysis { get; set; }
         public List<Rule> Rules { get; set; }
         public List<Diff> Diffs { get; set; }
-        public string BaseRowKey { get; set; }
-        public string CompareRowKey { get; set; }
+        public byte[] BaseRowKey { get; set; }
+        public byte[] CompareRowKey { get; set; }
         public string BaseRunId { get; set; }
         public string CompareRunId { get; set; }
         public object Base { get; set; }
@@ -134,9 +136,54 @@ namespace AttackSurfaceAnalyzer.Objects
         }
     }
 
-    public class WriteObject
+    public readonly struct WriteObject : System.IEquatable<WriteObject>
     {
-        public CollectObject ColObj { get; set; }
-        public string RunId { get; set; }
+        public CollectObject ColObj { get; }
+        public string RunId { get; }
+        private readonly byte[] _rowKey;
+        private readonly byte[] _serialized;
+        public byte[] GetRowKey() { return _rowKey; }
+        public byte[] GetSerialized() { return _serialized; }
+
+        public WriteObject(CollectObject ColObj, string RunId)
+        {
+            this.ColObj = ColObj;
+            this.RunId = RunId;
+
+            _serialized = JsonUtils.Dehydrate(ColObj);
+            _rowKey = CryptoHelpers.CreateHash(_serialized);
+        }
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var result = 0;
+                foreach (byte b in _rowKey)
+                    result = (result * 31) ^ b;
+                return result;
+            }
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is WriteObject wo)
+                return _rowKey.SequenceEqual(wo.GetRowKey());
+            return false;
+        }
+
+        public bool Equals(WriteObject other)
+        {
+            return _rowKey.SequenceEqual(other.GetRowKey());
+        }
+
+        public static bool operator ==(WriteObject left, WriteObject right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(WriteObject left, WriteObject right)
+        {
+            return !(left == right);
+        }
     }
 }

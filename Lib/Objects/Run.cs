@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using AttackSurfaceAnalyzer.Types;
+﻿using AttackSurfaceAnalyzer.Types;
+using System.Collections.Generic;
 
 namespace AttackSurfaceAnalyzer.Objects
 {

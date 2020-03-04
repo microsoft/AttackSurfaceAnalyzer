@@ -29,7 +29,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         private Action<EventArgs> customChangeHandler = null;
 
-        private bool getFileDetails = true;
+        private readonly bool getFileDetails = true;
 
         public override void StartRun()
         {
@@ -152,7 +152,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     Timestamp = DateTime.Now.ToString("O", CultureInfo.InvariantCulture)
                 };
 
-                DatabaseManager.WriteFileMonitor(ToWrite,RunId);
+                DatabaseManager.WriteFileMonitor(ToWrite, RunId);
             }
         }
 
@@ -217,7 +217,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public void SetCustomChangeHandler(Action<EventArgs> handler)
         {
-            this.customChangeHandler = handler;
+            customChangeHandler = handler;
         }
 
         public void Dispose()

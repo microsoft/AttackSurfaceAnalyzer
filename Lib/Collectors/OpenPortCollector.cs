@@ -19,12 +19,12 @@ namespace AttackSurfaceAnalyzer.Collectors
     public class OpenPortCollector : BaseCollector
     {
 
-        private HashSet<string> processedObjects;
+        private readonly HashSet<string> processedObjects;
 
         public OpenPortCollector(string runId)
         {
-            this.RunId = runId;
-            this.processedObjects = new HashSet<string>();
+            RunId = runId;
+            processedObjects = new HashSet<string>();
         }
 
         public override bool CanRunOnPlatform()
@@ -86,7 +86,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     obj.ProcessName = p.ProcessName;
                 }
 
-                DatabaseManager.Write(obj, this.RunId);
+                DatabaseManager.Write(obj, RunId);
             }
 
             foreach (var endpoint in properties.GetActiveUdpListeners())
@@ -103,7 +103,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     obj.ProcessName = p.ProcessName;
                 }
 
-                DatabaseManager.Write(obj, this.RunId);
+                DatabaseManager.Write(obj, RunId);
             }
         }
 
@@ -146,7 +146,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             Port = port,
                             Type = parts[0]
                         };
-                        DatabaseManager.Write(obj, this.RunId);
+                        DatabaseManager.Write(obj, RunId);
                     }
                 }
             }
@@ -200,7 +200,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             ProcessName = parts[0]
                         };
 
-                        DatabaseManager.Write(obj, this.RunId);
+                        DatabaseManager.Write(obj, RunId);
                     }
                 }
             }
