@@ -23,18 +23,18 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string SQL_CREATE_RUNS = "create table if not exists runs (run_id text, file_system int, ports int, users int, services int, registry int, certificates int, firewall int, comobjects int, eventlogs int, type text, timestamp text, version text, platform text, unique(run_id))";
         private const string SQL_CREATE_FILE_MONITORED = "create table if not exists file_system_monitored (run_id text, row_key text, timestamp text, change_type int, path text, old_path text, name text, old_name text, extended_results text, notify_filters text, serialized text)";
 
-        private const string SQL_CREATE_COLLECT_RESULTS = "create table if not exists collect (run_id text, result_type text, identity text, row_key blob, serialized blob)";
+        private const string SQL_CREATE_COLLECT_RESULTS = "create table if not exists {0} (run_id text, result_type text, identity text, row_key blob, serialized blob)";
 
-        private const string SQL_CREATE_COLLECT_ROW_KEY_INDEX = "create index if not exists i_collect_row_key on collect(row_key)";
-        private const string SQL_CREATE_COLLECT_RUN_ID_INDEX = "create index if not exists i_collect_run_id on collect(run_id)";
+        private const string SQL_CREATE_COLLECT_ROW_KEY_INDEX = "create index if not exists i_collect_{0}_row_key on {0}(row_key)";
+        private const string SQL_CREATE_COLLECT_RUN_ID_INDEX = "create index if not exists i_collect_{0}_run_id on {0}(run_id)";
 
-        private const string SQL_CREATE_COLLECT_RESULT_TYPE_INDEX = "create index if not exists i_collect_result_type on collect(result_type)";
+        private const string SQL_CREATE_COLLECT_RESULT_TYPE_INDEX = "create index if not exists i_collect_{0}_result_type on {0}(result_type)";
 
-        private const string SQL_CREATE_COLLECT_RUN_KEY_COMBINED_INDEX = "create index if not exists i_collect_row_run on collect(run_id, row_key)";
-        private const string SQL_CREATE_COLLECT_RUN_TYPE_COMBINED_INDEX = "create index if not exists i_collect_row_type on collect(run_id, result_type)";
-        private const string SQL_CREATE_COLLECT_KEY_IDENTITY_COMBINED_INDEX = "create index if not exists i_collect_row_type on collect(identity, row_key)";
+        private const string SQL_CREATE_COLLECT_RUN_KEY_COMBINED_INDEX = "create index if not exists i_collect_{0}_row_run on {0}(run_id, row_key)";
+        private const string SQL_CREATE_COLLECT_RUN_TYPE_COMBINED_INDEX = "create index if not exists i_collect_{0}_row_type on {0}(run_id, result_type)";
+        private const string SQL_CREATE_COLLECT_KEY_IDENTITY_COMBINED_INDEX = "create index if not exists i_collect_{0}_row_type on {0}(identity, row_key)";
 
-        private const string SQL_CREATE_COLLECT_RUN_KEY_IDENTITY_COMBINED_INDEX = "create index if not exists i_collect_runid_row_type on collect(run_id, identity, row_key)";
+        private const string SQL_CREATE_COLLECT_RUN_KEY_IDENTITY_COMBINED_INDEX = "create index if not exists i_collect_{0}_runid_row_type on {0}(run_id, identity, row_key)";
 
         private const string SQL_CREATE_RESULTS = "create table if not exists results (base_run_id text, compare_run_id text, status text);";
 
@@ -52,7 +52,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private const string SQL_GET_RESULT_TYPES_SINGLE = "select * from runs where run_id = @run_id";
 
-        private const string SQL_TRUNCATE_COLLECT = "delete from collect where run_id=@run_id";
+        private const string SQL_DROP_TABLE = "drop table {0}";
         private const string SQL_TRUNCATE_FILES_MONITORED = "delete from file_system_monitored where run_id=@run_id";
         private const string SQL_TRUNCATE_RUN = "delete from runs where run_id=@run_id";
         private const string SQL_TRUNCATE_RESULTS = "delete from results where base_run_id=@run_id or compare_run_id=@run_id";
@@ -63,11 +63,11 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string SQL_GET_NUM_RESULTS = "select count(*) as the_count from collect where run_id = @run_id and result_type = @result_type";
         private const string SQL_GET_PLATFORM_FROM_RUNID = "select platform from runs where run_id = @run_id";
 
-        private const string SQL_INSERT_COLLECT_RESULT = "insert into collect (run_id, result_type, row_key, identity, serialized) values (@run_id, @result_type, @row_key, @identity, @serialized)";
+        private const string SQL_INSERT_COLLECT_RESULT = "insert into {0} (run_id, result_type, row_key, identity, serialized) values (@run_id, @result_type, @row_key, @identity, @serialized)";
         private const string SQL_INSERT_FINDINGS_RESULT = "insert into findings (comparison_id, result_type, level, identity, serialized) values (@comparison_id, @result_type, @level, @identity, @serialized)";
 
-        private const string SQL_GET_COLLECT_MISSING_IN_B = "select * from collect b where b.run_id = @second_run_id and b.identity not in (select identity from collect a where a.run_id = @first_run_id);";
-        private const string SQL_GET_COLLECT_MODIFIED = "select a.row_key as 'a_row_key', a.serialized as 'a_serialized', a.result_type as 'a_result_type', a.identity as 'a_identity', a.run_id as 'a_run_id', b.row_key as 'b_row_key', b.serialized as 'b_serialized', b.result_type as 'b_result_type', b.identity as 'b_identity', b.run_id as 'b_run_id' from collect a indexed by i_collect_runid_row_type, collect b indexed by i_collect_runid_row_type where a.run_id=@first_run_id and b.run_id=@second_run_id and a.identity = b.identity and a.row_key != b.row_key;";
+        private const string SQL_GET_COLLECT_MISSING_IN_B = "select * from {0} b where b.run_id = @second_run_id and b.identity not in (select identity from {0} a where a.run_id = @first_run_id);";
+        private const string SQL_GET_COLLECT_MODIFIED = "select a.row_key as 'a_row_key', a.serialized as 'a_serialized', a.result_type as 'a_result_type', a.identity as 'a_identity', a.run_id as 'a_run_id', b.row_key as 'b_row_key', b.serialized as 'b_serialized', b.result_type as 'b_result_type', b.identity as 'b_identity', b.run_id as 'b_run_id' from {0} a indexed by i_collect_{0}_runid_row_type, {0} b indexed by i_collect_{0}_runid_row_type where a.run_id=@first_run_id and b.run_id=@second_run_id and a.identity = b.identity and a.row_key != b.row_key and a.result_type = b.result_type;";
         private const string SQL_GET_RESULT_TYPES_COUNTS = "select count(*) as count,result_type from collect where run_id = @run_id group by result_type";
 
         private const string SQL_GET_RESULTS_BY_RUN_ID = "select * from collect where run_id = @run_id";
@@ -81,7 +81,6 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private const string INSERT_RUN_INTO_RESULT_TABLE_SQL = "insert into results (base_run_id, compare_run_id, status) values (@base_run_id, @compare_run_id, @status);";
         private const string UPDATE_RUN_IN_RESULT_TABLE = "update results set status = @status where (base_run_id = @base_run_id and compare_run_id = @compare_run_id)";
-
 
         private const string GET_COMPARISON_RESULTS = "select * from findings where comparison_id = @comparison_id and result_type=@result_type order by level des;";
         private const string GET_SERIALIZED_RESULTS = "select change_type, Serialized from file_system_monitored where run_id = @run_id";
@@ -99,7 +98,10 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string GET_COMPARISON_RESULTS_LIMIT = "select * from findings where comparison_id=@comparison_id and result_type=@result_type order by level desc limit @offset,@limit;"; //lgtm [cs/literal-as-local]
         private const string GET_RESULT_COUNT = "select count(*) from findings where comparison_id=@comparison_id and result_type=@result_type"; //lgtm [cs/literal-as-local]
 
-        private const string SCHEMA_VERSION = "6";
+        private const string SCHEMA_VERSION = "7";
+
+        private const int SHARDING_FACTOR = 10;
+
         private static bool WriterStarted = false;
 
         public static SQLiteConnection Connection { get; private set; }
@@ -147,30 +149,6 @@ namespace AttackSurfaceAnalyzer.Utils
                     cmd.CommandText = PRAGMAS;
                     cmd.ExecuteNonQuery();
 
-                    cmd.CommandText = SQL_CREATE_COLLECT_RESULTS;
-                    cmd.ExecuteNonQuery();
-
-                    cmd.CommandText = SQL_CREATE_COLLECT_ROW_KEY_INDEX;
-                    cmd.ExecuteNonQuery();
-
-                    cmd.CommandText = SQL_CREATE_COLLECT_RUN_ID_INDEX;
-                    cmd.ExecuteNonQuery();
-
-                    cmd.CommandText = SQL_CREATE_COLLECT_RESULT_TYPE_INDEX;
-                    cmd.ExecuteNonQuery();
-
-                    cmd.CommandText = SQL_CREATE_COLLECT_RUN_KEY_COMBINED_INDEX;
-                    cmd.ExecuteNonQuery();
-
-                    cmd.CommandText = SQL_CREATE_COLLECT_RUN_TYPE_COMBINED_INDEX;
-                    cmd.ExecuteNonQuery();
-
-                    cmd.CommandText = SQL_CREATE_COLLECT_KEY_IDENTITY_COMBINED_INDEX;
-                    cmd.ExecuteNonQuery();
-
-                    cmd.CommandText = SQL_CREATE_COLLECT_RUN_KEY_IDENTITY_COMBINED_INDEX;
-                    cmd.ExecuteNonQuery();
-
                     cmd.CommandText = SQL_CREATE_RESULTS;
                     cmd.ExecuteNonQuery();
 
@@ -197,6 +175,12 @@ namespace AttackSurfaceAnalyzer.Utils
 
                     cmd.CommandText = SQL_CREATE_DEFAULT_SETTINGS;
                     cmd.Parameters.AddWithValue("@schema_version", SCHEMA_VERSION);
+
+                    for (int i = 0; i < SHARDING_FACTOR; i++)
+                    {
+                        CreateCollectTable($"collect_{i}");
+                    }
+
                     FirstRun &= cmd.ExecuteNonQuery() != 0;
                 }
 
@@ -206,7 +190,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     ((Action)(async () =>
                     {
-                        await Task.Run(() => KeepSleepAndFlushQueue()).ConfigureAwait(false);
+                        await Task.Run(() => KeepFlushQueue()).ConfigureAwait(false);
                     }))();
                     WriterStarted = true;
                 }
@@ -251,25 +235,49 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
+        public static void CreateCollectTable(string tablename) {
+            using (var cmd = new SQLiteCommand(string.Format(SQL_CREATE_COLLECT_RESULTS,tablename), Connection, Transaction))
+            {
+                cmd.ExecuteNonQuery();
+
+                cmd.CommandText = string.Format(SQL_CREATE_COLLECT_ROW_KEY_INDEX,tablename);
+                cmd.ExecuteNonQuery();
+
+                cmd.CommandText = string.Format(SQL_CREATE_COLLECT_RUN_ID_INDEX,tablename);
+                cmd.ExecuteNonQuery();
+
+                cmd.CommandText = string.Format(SQL_CREATE_COLLECT_RESULT_TYPE_INDEX,tablename);
+                cmd.ExecuteNonQuery();
+
+                cmd.CommandText = string.Format(SQL_CREATE_COLLECT_RUN_KEY_COMBINED_INDEX,tablename);
+                cmd.ExecuteNonQuery();
+
+                cmd.CommandText = string.Format(SQL_CREATE_COLLECT_RUN_TYPE_COMBINED_INDEX,tablename);
+                cmd.ExecuteNonQuery();
+
+                cmd.CommandText = string.Format(SQL_CREATE_COLLECT_KEY_IDENTITY_COMBINED_INDEX,tablename);
+                cmd.ExecuteNonQuery();
+
+                cmd.CommandText = string.Format(SQL_CREATE_COLLECT_RUN_KEY_IDENTITY_COMBINED_INDEX,tablename);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
         public static bool HasElements()
         {
             return !WriteQueue.IsEmpty;
         }
 
-        public static void KeepSleepAndFlushQueue()
+        public static void KeepFlushQueue()
         {
             while (true)
             {
-                SleepAndFlushQueue();
+                while (!WriteQueue.IsEmpty)
+                {
+                    WriteNext();
+                }
+                Thread.Sleep(100);
             }
-        }
-        public static void SleepAndFlushQueue()
-        {
-            while (!WriteQueue.IsEmpty)
-            {
-                WriteNext();
-            }
-            Thread.Sleep(100);
         }
 
         public static PLATFORM RunIdToPlatform(string runid)
@@ -592,7 +600,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
             try
             {
-                using var cmd = new SQLiteCommand(SQL_INSERT_COLLECT_RESULT, Connection, Transaction);
+                using var cmd = new SQLiteCommand(string.Format(SQL_INSERT_COLLECT_RESULT, $"collect_{ModuloString(objIn.ColObj.Identity)}"), Connection, Transaction);
                 cmd.Parameters.AddWithValue("@run_id", objIn.RunId);
                 cmd.Parameters.AddWithValue("@row_key", objIn.GetRowKey());
                 cmd.Parameters.AddWithValue("@identity", objIn.ColObj.Identity);
@@ -609,25 +617,39 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
+        private static int ModuloString(string identity)
+        {
+            int sum = 0;
+            foreach (var byt in identity.AsSpan())
+            {
+                sum = (sum + byt) % SHARDING_FACTOR;
+            }
+            return sum;
+        }
+
         public static List<RawCollectResult> GetMissingFromFirst(string firstRunId, string secondRunId)
         {
             var output = new List<RawCollectResult>();
 
-            using var cmd = new SQLiteCommand(SQL_GET_COLLECT_MISSING_IN_B, Connection, Transaction);
-            cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
-            cmd.Parameters.AddWithValue("@second_run_id", secondRunId);
-            using (var reader = cmd.ExecuteReader())
+
+            for (int i = 0; i < SHARDING_FACTOR; i++)
             {
-                while (reader.Read())
+                using var cmd = new SQLiteCommand(string.Format(SQL_GET_COLLECT_MISSING_IN_B, $"collect_{i}"), Connection, Transaction);
+                cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
+                cmd.Parameters.AddWithValue("@second_run_id", secondRunId);
+                using (var reader = cmd.ExecuteReader())
                 {
-                    output.Add(new RawCollectResult()
+                    while (reader.Read())
                     {
-                        Identity = reader["identity"].ToString(),
-                        RunId = reader["run_id"].ToString(),
-                        ResultType = (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["result_type"].ToString()),
-                        RowKey = (byte[])reader["row_key"],
-                        Serialized = (byte[])reader["serialized"]
-                    });
+                        output.Add(new RawCollectResult()
+                        {
+                            Identity = reader["identity"].ToString(),
+                            RunId = reader["run_id"].ToString(),
+                            ResultType = (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["result_type"].ToString()),
+                            RowKey = (byte[])reader["row_key"],
+                            Serialized = (byte[])reader["serialized"]
+                        });
+                    }
                 }
             }
 
@@ -638,35 +660,40 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             var output = new List<RawModifiedResult>();
 
-            using var cmd = new SQLiteCommand(SQL_GET_COLLECT_MODIFIED, Connection, Transaction);
-            cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
-            cmd.Parameters.AddWithValue("@second_run_id", secondRunId);
-            using (var reader = cmd.ExecuteReader())
+            for (int i = 0; i < SHARDING_FACTOR; i++)
             {
-                while (reader.Read())
+                using var cmd = new SQLiteCommand(string.Format(SQL_GET_COLLECT_MODIFIED, $"collect_{i}"), Connection, Transaction);
+                cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
+                cmd.Parameters.AddWithValue("@second_run_id", secondRunId);
+                using (var reader = cmd.ExecuteReader())
                 {
-                    output.Add(new RawModifiedResult()
+                    while (reader.Read())
                     {
-                        First = new RawCollectResult()
+                        output.Add(new RawModifiedResult()
                         {
-                            Identity = reader["a_identity"].ToString(),
-                            RunId = reader["a_run_id"].ToString(),
-                            ResultType = (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["a_result_type"].ToString()),
-                            RowKey = (byte[])reader["a_row_key"],
-                            Serialized = (byte[])reader["a_serialized"]
-                        },
-                        Second = new RawCollectResult()
-                        {
-                            Identity = reader["b_identity"].ToString(),
-                            RunId = reader["b_run_id"].ToString(),
-                            ResultType = (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["b_result_type"].ToString()),
-                            RowKey = (byte[])reader["b_row_key"],
-                            Serialized = (byte[])reader["b_serialized"]
+                            First = new RawCollectResult()
+                            {
+                                Identity = reader["a_identity"].ToString(),
+                                RunId = reader["a_run_id"].ToString(),
+                                ResultType = (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["a_result_type"].ToString()),
+                                RowKey = (byte[])reader["a_row_key"],
+                                Serialized = (byte[])reader["a_serialized"]
+                            },
+                            Second = new RawCollectResult()
+                            {
+                                Identity = reader["b_identity"].ToString(),
+                                RunId = reader["b_run_id"].ToString(),
+                                ResultType = (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["b_result_type"].ToString()),
+                                RowKey = (byte[])reader["b_row_key"],
+                                Serialized = (byte[])reader["b_serialized"]
+                            }
                         }
+                        );
                     }
-                    );
                 }
             }
+
+            
 
             return output;
         }
@@ -719,11 +746,15 @@ namespace AttackSurfaceAnalyzer.Utils
                                 inner_cmd.Parameters.AddWithValue("@run_id", runid);
                                 inner_cmd.ExecuteNonQuery();
                             }
-                            using (var inner_cmd = new SQLiteCommand(SQL_TRUNCATE_COLLECT, Connection, Transaction))
+
+                            for (int i = 0; i < SHARDING_FACTOR; i++)
                             {
-                                inner_cmd.Parameters.AddWithValue("@run_id", runid);
-                                inner_cmd.ExecuteNonQuery();
+                                using (var inner_cmd = new SQLiteCommand(string.Format(SQL_DROP_TABLE, $"collect_{i}"), Connection, Transaction))
+                                {
+                                    inner_cmd.ExecuteNonQuery();
+                                }
                             }
+                            
                         }
                     }
                 }
