@@ -142,6 +142,7 @@ namespace AttackSurfaceAnalyzer.Objects
         public string RunId { get; }
         private readonly byte[] _rowKey;
         private readonly byte[] _serialized;
+        public readonly int Shard;
         public byte[] GetRowKey() { return _rowKey; }
         public byte[] GetSerialized() { return _serialized; }
 
@@ -152,7 +153,9 @@ namespace AttackSurfaceAnalyzer.Objects
 
             _serialized = JsonUtils.Dehydrate(ColObj);
             _rowKey = CryptoHelpers.CreateHash(_serialized);
+            Shard = DatabaseManager.ModuloString(ColObj.Identity);
         }
+
         public override int GetHashCode()
         {
             unchecked

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 using System.Threading;
 
 namespace AttackSurfaceAnalyzer.Collectors
@@ -46,7 +47,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     t.Milliseconds);
             Log.Debug(Strings.Get("Completed"), GetType().Name, answer);
 
-            var prevFlush = DatabaseManager.WriteQueue.Count;
+            var prevFlush = DatabaseManager.Connections.Select(x => x.WriteQueue.Count).Sum();
             var totFlush = prevFlush;
 
             var printInterval = 10;
@@ -61,7 +62,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 if (currentInterval++ % printInterval == 0)
                 {
                     var actualDuration = (currentInterval < printInterval) ? currentInterval : printInterval;
-                    var sample = DatabaseManager.WriteQueue.Count;
+                    var sample = DatabaseManager.Connections.Select(x => x.WriteQueue.Count).Sum();
                     var curRate = prevFlush - sample;
                     var totRate = (double)(totFlush - sample) / StopWatch.ElapsedMilliseconds;
                     try
@@ -72,13 +73,13 @@ namespace AttackSurfaceAnalyzer.Collectors
                                                 t.Minutes,
                                                 t.Seconds,
                                                 t.Milliseconds);
-                        Log.Debug("Flushing {0} results. ({1}/{4}s {2:0.00}/s overall {3} ETA)", DatabaseManager.WriteQueue.Count, curRate, totRate * 1000, answer, actualDuration);
+                        Log.Debug("Flushing {0} results. ({1}/{4}s {2:0.00}/s overall {3} ETA)", sample, curRate, totRate * 1000, answer, actualDuration);
                     }
                     catch (Exception e) when (
                         e is OverflowException)
                     {
                         Log.Debug($"Overflowed: {curRate} {totRate} {sample} {t} {answer}");
-                        Log.Debug("Flushing {0} results. ({1}/s {2:0.00}/s)", DatabaseManager.WriteQueue.Count, curRate, totRate * 1000);
+                        Log.Debug("Flushing {0} results. ({1}/s {2:0.00}/s)", sample, curRate, totRate * 1000);
                     }
                     prevFlush = sample;
                 }
