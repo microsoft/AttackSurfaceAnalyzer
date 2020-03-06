@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using Utf8Json;
 using Utf8Json.Resolvers;
 using System.Linq;
+using System.IO;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -35,7 +36,7 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string SQL_CREATE_COLLECT_RUN_TYPE_COMBINED_INDEX = "create index if not exists i_collect_collect_row_type on collect(run_id, result_type)";
         private const string SQL_CREATE_COLLECT_KEY_IDENTITY_COMBINED_INDEX = "create index if not exists i_collect_collect_row_type on collect(identity, row_key)";
 
-        private const string SQL_CREATE_COLLECT_RUN_KEY_IDENTITY_COMBINED_INDEX = "create index if not exists i_collect_collect_runid_row_type on collect(run_id, identity, row_key)";
+        private const string SQL_CREATE_COLLECT_RUN_KEY_IDENTITY_COMBINED_INDEX = "create index if not exists i_collect_collect_runid_row_type on collect(run_id, identity, row_key, result_type)";
 
         private const string SQL_CREATE_RESULTS = "create table if not exists results (base_run_id text, compare_run_id text, status text);";
 
@@ -56,6 +57,7 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string SQL_DROP_TABLE = "drop table collect";
         private const string SQL_TRUNCATE_FILES_MONITORED = "delete from file_system_monitored where run_id=@run_id";
         private const string SQL_TRUNCATE_RUN = "delete from runs where run_id=@run_id";
+
         private const string SQL_TRUNCATE_RESULTS = "delete from results where base_run_id=@run_id or compare_run_id=@run_id";
 
         private const string SQL_SELECT_LATEST_N_RUNS = "select run_id from runs where type = @type order by timestamp desc limit 0,@limit;";
@@ -68,7 +70,12 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string SQL_INSERT_FINDINGS_RESULT = "insert into findings (comparison_id, result_type, level, identity, serialized) values (@comparison_id, @result_type, @level, @identity, @serialized)";
 
         private const string SQL_GET_COLLECT_MISSING_IN_B = "select * from collect b where b.run_id = @second_run_id and b.identity not in (select identity from collect a where a.run_id = @first_run_id);";
-        private const string SQL_GET_COLLECT_MODIFIED = "select a.row_key as 'a_row_key', a.serialized as 'a_serialized', a.result_type as 'a_result_type', a.identity as 'a_identity', a.run_id as 'a_run_id', b.row_key as 'b_row_key', b.serialized as 'b_serialized', b.result_type as 'b_result_type', b.identity as 'b_identity', b.run_id as 'b_run_id' from collect a indexed by i_collect_collect_runid_row_type, collect b indexed by i_collect_collect_runid_row_type where a.run_id=@first_run_id and b.run_id=@second_run_id and a.identity = b.identity and a.row_key != b.row_key and a.result_type = b.result_type;";
+        private const string SQL_GET_COLLECT_MODIFIED = "select a.row_key as 'a_row_key', a.serialized as 'a_serialized', a.result_type as 'a_result_type', a.identity as 'a_identity', a.run_id as 'a_run_id'," +
+                                                            " b.row_key as 'b_row_key', b.serialized as 'b_serialized', b.result_type as 'b_result_type', b.identity as 'b_identity', b.run_id as 'b_run_id'" +
+                                                                " from collect a indexed by i_collect_collect_runid_row_type," +
+                                                                    " collect b indexed by i_collect_collect_runid_row_type" +
+                                                                        " where a.run_id=@first_run_id and b.run_id=@second_run_id and a.identity = b.identity and a.row_key != b.row_key and a.result_type = b.result_type;";
+
         private const string SQL_GET_RESULT_TYPES_COUNTS = "select count(*) as count,result_type from collect where run_id = @run_id group by result_type";
 
         private const string SQL_GET_RESULTS_BY_RUN_ID = "select * from collect where run_id = @run_id";
@@ -114,13 +121,11 @@ namespace AttackSurfaceAnalyzer.Utils
         public static bool Setup(string filename = null, int shardingFactor = 10)
         {
             SHARDING_FACTOR = shardingFactor;
-
             JsonSerializer.SetDefaultResolver(StandardResolver.ExcludeNull);
             if (filename != null)
             {
                 if (_SqliteFilename != filename)
                 {
-
                     if (Connection != null)
                     {
                         CloseDatabase();
@@ -133,15 +138,14 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 Connections = new List<SqlConnectionHolder>();
 
-                Connection = new SQLiteConnection($"Data Source=" + _SqliteFilename);
+                Connection = new SQLiteConnection($"Data Source={_SqliteFilename}");
                 Connection.Open();
 
                 for (int i = 0; i < SHARDING_FACTOR; i++)
                 {
-                    Connections.Add(new SqlConnectionHolder(new SQLiteConnection($"Data Source=" + $"{_SqliteFilename}_{i}")));
+                    Connections.Add(new SqlConnectionHolder(new SQLiteConnection($"Data Source={_SqliteFilename}_{i}")));
                     Connections[i].Connection.Open();
                 }
-
 
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 {
@@ -224,47 +228,26 @@ namespace AttackSurfaceAnalyzer.Utils
                     txn.Commit();
                 }
 
-
-                if (!WriterStarted)
-                {
-                    foreach(var cxn in Connections)
-                    {
-                        cxn.StartWriter();
-                    }
-                    WriterStarted = true;
-                }
-
                 return true;
             }
             return false;
         }
 
-        public static void CreateCollectTable(string tablename)
+        public static void Destroy()
         {
-            using (var cmd = new SQLiteCommand(string.Format(SQL_CREATE_COLLECT_RESULTS, tablename), Connection, Transaction))
+            CloseDatabase();
+            try
             {
-                cmd.ExecuteNonQuery();
-
-                cmd.CommandText = string.Format(SQL_CREATE_COLLECT_ROW_KEY_INDEX, tablename);
-                cmd.ExecuteNonQuery();
-
-                cmd.CommandText = string.Format(SQL_CREATE_COLLECT_RUN_ID_INDEX, tablename);
-                cmd.ExecuteNonQuery();
-
-                cmd.CommandText = string.Format(SQL_CREATE_COLLECT_RESULT_TYPE_INDEX, tablename);
-                cmd.ExecuteNonQuery();
-
-                cmd.CommandText = string.Format(SQL_CREATE_COLLECT_RUN_KEY_COMBINED_INDEX, tablename);
-                cmd.ExecuteNonQuery();
-
-                cmd.CommandText = string.Format(SQL_CREATE_COLLECT_RUN_TYPE_COMBINED_INDEX, tablename);
-                cmd.ExecuteNonQuery();
-
-                cmd.CommandText = string.Format(SQL_CREATE_COLLECT_KEY_IDENTITY_COMBINED_INDEX, tablename);
-                cmd.ExecuteNonQuery();
-
-                cmd.CommandText = string.Format(SQL_CREATE_COLLECT_RUN_KEY_IDENTITY_COMBINED_INDEX, tablename);
-                cmd.ExecuteNonQuery();
+                File.Delete(SqliteFilename);
+                for (int i = 0; i < SHARDING_FACTOR; i++)
+                {
+                    File.Delete($"{SqliteFilename}_{i}");
+                }
+            }
+            catch (IOException e)
+            {
+                Log.Fatal(e, Strings.Get("FailedToDeleteDatabase"), SqliteFilename, e.GetType().ToString(), e.Message);
+                Environment.Exit(-1);
             }
         }
 
@@ -624,6 +607,7 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 try
                 {
+                    cxn.KeepRunning = false;
                     cxn.Connection.Close();
                 }
                 catch (NullReferenceException)
@@ -633,14 +617,12 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             Connections = null;
             Connection = null;
-
         }
 
         public static void Write(CollectObject colObj, string runId)
         {
             if (colObj != null && runId != null)
             {
-
                 var objIn = new WriteObject(colObj, runId);
 
                 Connections[objIn.Shard].WriteQueue.Enqueue(objIn);
@@ -947,6 +929,12 @@ namespace AttackSurfaceAnalyzer.Utils
         public static void RollBack()
         {
             Transaction.Rollback();
+            Transaction = null;
+            foreach (var cxn in Connections)
+            {
+                cxn.Transaction.Rollback();
+                cxn.Transaction = null;
+            }
         }
 
         public static List<CompareResult> GetComparisonResults(string comparisonId, int resultType, int offset, int numResults)

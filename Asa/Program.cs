@@ -23,7 +23,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AttackSurfaceAnalyzer
+namespace AttackSurfaceAnalyzer.Cli
 {
     public static class AttackSurfaceAnalyzerClient
     {
@@ -71,10 +71,10 @@ namespace AttackSurfaceAnalyzer
             AsaTelemetry.Setup();
 
             var server = WebHost.CreateDefaultBuilder(Array.Empty<string>())
-                    .UseStartup<Asa.Startup>()
+                    .UseStartup<Startup>()
                     .UseKestrel(options =>
                     {
-                        options.Listen(IPAddress.Loopback, 5000); //HTTP port
+                        options.Listen(IPAddress.Loopback, 5000);
                     })
                     .Build();
 
@@ -103,17 +103,9 @@ namespace AttackSurfaceAnalyzer
 
             if (opts.ResetDatabase)
             {
-                DatabaseManager.CloseDatabase();
-                try
-                {
-                    File.Delete(opts.DatabaseFilename);
-                }
-                catch (IOException e)
-                {
-                    Log.Fatal(e, Strings.Get("FailedToDeleteDatabase"), opts.DatabaseFilename, e.GetType().ToString(), e.Message);
-                    Environment.Exit(-1);
-                }
-                Log.Information(Strings.Get("DeletedDatabaseAt"), opts.DatabaseFilename);
+                var filename = DatabaseManager.SqliteFilename;
+                DatabaseManager.Destroy();
+                Log.Information(Strings.Get("DeletedDatabaseAt"), filename);
             }
             else
             {

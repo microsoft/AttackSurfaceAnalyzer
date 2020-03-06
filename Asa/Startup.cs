@@ -11,7 +11,7 @@ using System;
 using System.IO;
 using System.Reflection;
 
-namespace Asa
+namespace AttackSurfaceAnalyzer.Cli
 {
     public class Startup
     {

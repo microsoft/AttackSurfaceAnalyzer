@@ -12,12 +12,14 @@ namespace AttackSurfaceAnalyzer.Objects
         public SQLiteTransaction Transaction {get; set;}
         public SQLiteConnection Connection {get; set;}
         public ConcurrentQueue<WriteObject> WriteQueue { get; private set; }
+        public bool KeepRunning { get; set; }
 
         public SqlConnectionHolder(SQLiteConnection connection, SQLiteTransaction transaction = null)
         {
             Connection = connection;
             Transaction = transaction;
             WriteQueue = new ConcurrentQueue<WriteObject>();
+            StartWriter();
         }
 
         internal void StartWriter()
@@ -28,16 +30,16 @@ namespace AttackSurfaceAnalyzer.Objects
             }))();
         }
 
-
         public void KeepFlushQueue()
         {
-            while (true)
+            KeepRunning = true;
+            while (KeepRunning)
             {
                 while (!WriteQueue.IsEmpty)
                 {
                     WriteNext();
                 }
-                Thread.Sleep(100);
+                Thread.Sleep(1);
             }
         }
 
