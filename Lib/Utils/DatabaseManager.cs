@@ -43,7 +43,7 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string SQL_CREATE_FINDINGS_LEVEL_RESULT_TYPE_INDEX = "create index if not exists i_findings_level_result_type on findings(level, result_type)";
 
         private const string SQL_CREATE_PERSISTED_SETTINGS = "create table if not exists persisted_settings (setting text, value text, unique(setting))";
-        private const string SQL_CREATE_DEFAULT_SETTINGS = "insert or ignore into persisted_settings (setting, value) values ('telemetry_opt_out','false'),('schema_version',@schema_version)";
+        private const string SQL_CREATE_DEFAULT_SETTINGS = "insert or ignore into persisted_settings (setting, value) values ('telemetry_opt_out','false'),('schema_version',@schema_version),('sharding_factor',@sharding_factor)";
 
         private const string SQL_GET_RESULT_TYPES_SINGLE = "select * from runs where run_id = @run_id";
 
@@ -74,6 +74,8 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private const string UPDATE_TELEMETRY = "replace into persisted_settings values ('telemetry_opt_out',@TelemetryOptOut)"; //lgtm [cs/literal-as-local]
         private const string CHECK_TELEMETRY = "select value from persisted_settings where setting='telemetry_opt_out'";
+        private const string GET_SHARDING_FACTOR = "select value from persisted_settings where setting='sharding_factor'";
+
 
         private const string SQL_INSERT = "insert into file_system_monitored (run_id, row_key, timestamp, change_type, path, old_path, name, old_name, extended_results, notify_filters, serialized) values (@run_id, @row_key, @timestamp, @change_type, @path, @old_path, @name, @old_name, @extended_results, @notify_filters, @serialized)";
 
@@ -112,36 +114,29 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static bool Setup(string filename = null, int shardingFactor = 10)
         {
-            SHARDING_FACTOR = shardingFactor;
             JsonSerializer.SetDefaultResolver(StandardResolver.ExcludeNull);
             if (filename != null)
             {
-                if (_SqliteFilename != filename)
+                if (SqliteFilename != filename)
                 {
                     if (Connection != null)
                     {
                         CloseDatabase();
                     }
 
-                    _SqliteFilename = filename;
+                    SqliteFilename = filename;
                 }
             }
             if (Connection == null)
             {
                 Connections = new List<SqlConnectionHolder>();
 
-                Connection = new SQLiteConnection($"Data Source={_SqliteFilename}");
+                Connection = new SQLiteConnection($"Data Source={SqliteFilename}");
                 Connection.Open();
-
-                for (int i = 0; i < SHARDING_FACTOR; i++)
-                {
-                    Connections.Add(new SqlConnectionHolder(new SQLiteConnection($"Data Source={_SqliteFilename}_{i}")));
-                    Connections[i].Connection.Open();
-                }
 
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 {
-                    var unixFileInfo = new UnixFileInfo(_SqliteFilename);
+                    var unixFileInfo = new UnixFileInfo(SqliteFilename);
                     // set file permission to 666
                     unixFileInfo.FileAccessPermissions =
                         FileAccessPermissions.UserRead | FileAccessPermissions.UserWrite
@@ -182,11 +177,20 @@ namespace AttackSurfaceAnalyzer.Utils
 
                     cmd.CommandText = SQL_CREATE_DEFAULT_SETTINGS;
                     cmd.Parameters.AddWithValue("@schema_version", SCHEMA_VERSION);
+                    cmd.Parameters.AddWithValue("@sharding_factor", shardingFactor);
 
                     FirstRun &= cmd.ExecuteNonQuery() != 0;
                 }
 
                 Commit();
+
+                SHARDING_FACTOR = GetShardingFactor();
+
+                for (int i = 0; i < SHARDING_FACTOR; i++)
+                {
+                    Connections.Add(new SqlConnectionHolder(new SQLiteConnection($"Data Source={SqliteFilename}_{i}")));
+                    Connections[i].Connection.Open();
+                }
 
                 for (int i = 0; i < Connections.Count; i++)
                 {
@@ -208,6 +212,20 @@ namespace AttackSurfaceAnalyzer.Utils
                 return true;
             }
             return false;
+        }
+
+        private static int GetShardingFactor()
+        {
+            using (var cmd = new SQLiteCommand(GET_SHARDING_FACTOR, Connection, Transaction))
+            {
+                using var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    return int.Parse(reader["value"].ToString());
+                }
+            }
+
+            return SHARDING_FACTOR;            
         }
 
         public static void Destroy()
@@ -559,15 +577,8 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             return output;
         }
-        private static string _SqliteFilename = "asa.SQLite";
 
-        public static string SqliteFilename
-        {
-            get
-            {
-                return _SqliteFilename;
-            }
-        }
+        public static string SqliteFilename { get; private set; } = "asa.SQLite";
 
         public static void CloseDatabase()
         {
@@ -580,16 +591,19 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 // That's fine. We want Connection to be null.
             }
-            foreach (var cxn in Connections)
+            if (Connections != null)
             {
-                try
+                foreach (var cxn in Connections.Where(x => x.Connection != null))
                 {
-                    cxn.KeepRunning = false;
-                    cxn.Connection.Close();
-                }
-                catch (NullReferenceException)
-                {
-                    // That's fine. We want Connection to be null.
+                    try
+                    {
+                        cxn.KeepRunning = false;
+                        cxn.Connection.Close();
+                    }
+                    catch (NullReferenceException)
+                    {
+                        // That's fine. We want Connection to be null.
+                    }
                 }
             }
             Connections = null;
@@ -911,10 +925,13 @@ namespace AttackSurfaceAnalyzer.Utils
                 Transaction = null;
             }
 
-            foreach (var cxn in Connections.Where(x => x.Transaction != null))
+            if (Connections != null)
             {
-                cxn.Transaction.Rollback();
-                cxn.Transaction = null;
+                foreach (var cxn in Connections.Where(x => x.Transaction != null))
+                {
+                    cxn.Transaction.Rollback();
+                    cxn.Transaction = null;
+                }
             }
         }
 
