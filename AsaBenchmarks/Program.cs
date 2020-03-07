@@ -1,15 +1,6 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Security.Cryptography;
-using System.Threading;
-using System.Threading.Tasks;
-using AttackSurfaceAnalyzer.Objects;
-using AttackSurfaceAnalyzer.Utils;
-using BenchmarkDotNet.Attributes;
+﻿using AttackSurfaceAnalyzer.Utils;
+using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Running;
-using Serilog;
 
 namespace AttackSurfaceAnalyzer.Benchmarks
 {
