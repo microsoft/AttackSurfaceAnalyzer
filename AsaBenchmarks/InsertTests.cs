@@ -7,6 +7,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -44,11 +45,13 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         }
 
         [Benchmark]
-        public void Insert_N_Objects()
+        public void Insert_N_Objects() => Insert_X_Objects(N);
+        
+        public void Insert_X_Objects(int X)
         {
             DatabaseManager.BeginTransaction();
 
-            Parallel.For(0, N, i =>
+            Parallel.For(0, X, i =>
             {
                 var obj = GetRandomObject();
                 DatabaseManager.Write(obj, $"Insert_N_Objects");
@@ -64,12 +67,19 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         }
 
         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        const int length = 50;
-        private static Random random = new Random();
+        const int length = 64;
 
-        public string GetRandomString(int characters)
+        public string GetRandomString(int characters) => new string(Enumerable.Range(1, characters).Select(_ => chars[GetRandomPositiveIndex(chars.Length)]).ToArray());
+
+        public int GetRandomPositiveIndex(int max)
         {
-            return Enumerable.Range(1, characters).Select(_ => chars[random.Next(chars.Length)]).ToString();
+            using (RNGCryptoServiceProvider crypto = new RNGCryptoServiceProvider())
+            {
+                byte[] data = new byte[4];
+                crypto.GetBytes(data);
+                var randomInteger = Math.Abs(BitConverter.ToInt32(data, 0));
+                return randomInteger % max;
+            }
         }
 
         public FileSystemObject GetRandomObject()
@@ -95,18 +105,9 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         public void PopulateDatabases()
         {
             DatabaseManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite", shardingFactor: Shards);
-            DatabaseManager.BeginTransaction();
 
-            Parallel.For(0, N, i =>
-            {
-                DatabaseManager.Write(GetRandomObject(), $"PopulateDatabases");
-            });
+            Insert_X_Objects(StartingSize);
 
-            while (DatabaseManager.HasElements())
-            {
-                Thread.Sleep(10);
-            }
-            DatabaseManager.Commit();
             DatabaseManager.CloseDatabase();
         }
 
