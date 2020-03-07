@@ -571,7 +571,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void CloseDatabase()
         {
-            Commit();
+            RollBack();
             try
             {
                 Connection.Close();
@@ -905,9 +905,13 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void RollBack()
         {
-            Transaction.Rollback();
-            Transaction = null;
-            foreach (var cxn in Connections)
+            if (Transaction != null)
+            {
+                Transaction.Rollback();
+                Transaction = null;
+            }
+
+            foreach (var cxn in Connections.Where(x => x.Transaction != null))
             {
                 cxn.Transaction.Rollback();
                 cxn.Transaction = null;
