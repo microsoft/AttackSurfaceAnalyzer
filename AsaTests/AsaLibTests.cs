@@ -31,14 +31,7 @@ namespace AsaTests
 
         public void TearDown()
         {
-            DatabaseManager.CloseDatabase();
-            try
-            {
-                File.Delete(DatabaseManager.SqliteFilename);
-            }
-            catch (Exception)
-            {
-            }
+            DatabaseManager.Destroy();
         }
 
         [TestMethod]
