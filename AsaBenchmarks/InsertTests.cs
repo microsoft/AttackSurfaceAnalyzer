@@ -1,9 +1,11 @@
 ﻿using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using BenchmarkDotNet.Attributes;
+using Serilog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -44,6 +46,8 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Benchmark]
         public void Insert_N_Objects()
         {
+            DatabaseManager.BeginTransaction();
+
             Parallel.For(0, N, i =>
             {
                 var obj = GetRandomObject();
@@ -55,7 +59,17 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             {
                 Thread.Sleep(1);
             }
+
             DatabaseManager.Commit();
+        }
+
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        const int length = 50;
+        private static Random random = new Random();
+
+        public string GetRandomString(int characters)
+        {
+            return Enumerable.Range(1, characters).Select(_ => chars[random.Next(chars.Length)]).ToString();
         }
 
         public FileSystemObject GetRandomObject()
@@ -64,16 +78,16 @@ namespace AttackSurfaceAnalyzer.Benchmarks
 
             if (obj != null)
             {
-                obj.Path = $"/bin/AttackSurfaceAnalyzer_{rnd.Next()}";
+                obj.Path = GetRandomString(length);
                 return obj;
             }
             else
             {
                 return new FileSystemObject()
                 {
-                    // Pad this field with extra data.  The ObjectSize parameter determines the size of this data.
-                    FileType = Enumerable.Repeat("a", ObjectSize).ToString(),
-                    Path = $"/bin/AttackSurfaceAnalyzer_{rnd.Next()}",
+                    // Pad this field with extra data.
+                    FileType = GetRandomString(ObjectSize),
+                    Path = GetRandomString(length)
                 };
             }
         }
@@ -112,7 +126,6 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         public void IterationSetup()
         {
             DatabaseManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite", shardingFactor: Shards);
-            DatabaseManager.BeginTransaction();
         }
 
         [IterationCleanup]
