@@ -100,6 +100,8 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string GET_COMPARISON_RESULTS_LIMIT = "select * from findings where comparison_id=@comparison_id and result_type=@result_type order by level desc limit @offset,@limit;"; //lgtm [cs/literal-as-local]
         private const string GET_RESULT_COUNT = "select count(*) from findings where comparison_id=@comparison_id and result_type=@result_type"; //lgtm [cs/literal-as-local]
 
+        private const string SQL_DELETE_RUN = "delete from collect where run_id=@run_id"; //lgtm [cs/literal-as-local]
+
         private const string SCHEMA_VERSION = "7";
 
         private static int SHARDING_FACTOR = 10;
@@ -738,11 +740,6 @@ namespace AttackSurfaceAnalyzer.Utils
                 cmd.Parameters.AddWithValue("@run_id", runid);
                 using (var reader = cmd.ExecuteReader())
                 {
-                    if (!reader.HasRows)
-                    {
-                        Log.Warning("That Run ID wasn't found in the database");
-                        return;
-                    }
                     while (reader.Read())
                     {
                         using (var inner_cmd = new SQLiteCommand(SQL_TRUNCATE_RUN, Connection, Transaction))
@@ -768,20 +765,18 @@ namespace AttackSurfaceAnalyzer.Utils
                                 inner_cmd.Parameters.AddWithValue("@run_id", runid);
                                 inner_cmd.ExecuteNonQuery();
                             }
-
-                            for (int i = 0; i < SHARDING_FACTOR; i++)
-                            {
-                                using (var inner_cmd = new SQLiteCommand(string.Format(SQL_DROP_TABLE, $"collect"), Connections[i].Connection, Connections[i].Transaction))
-                                {
-                                    inner_cmd.ExecuteNonQuery();
-                                }
-                            }
-                            
                         }
                     }
                 }
+                for (int i = 0; i < SHARDING_FACTOR; i++)
+                {
+                    using (var inner_cmd = new SQLiteCommand(SQL_DELETE_RUN, Connections[i].Connection, Connections[i].Transaction))
+                    {
+                        inner_cmd.Parameters.AddWithValue("@run_id", runid);
+                        inner_cmd.ExecuteNonQuery();
+                    }
+                }
             }
-            Commit();
         }
 
         public static bool GetOptOut()
