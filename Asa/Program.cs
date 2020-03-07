@@ -183,7 +183,6 @@ namespace AttackSurfaceAnalyzer.Cli
                     DatabaseManager.TrimToLatest();
                 }
             }
-
             return 0;
         }
 
