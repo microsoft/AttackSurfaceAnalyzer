@@ -641,15 +641,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        public static int ModuloString(string identity)
-        {
-            int sum = 0;
-            foreach (var byt in identity.AsSpan())
-            {
-                sum = (sum + byt) % SHARDING_FACTOR;
-            }
-            return sum;
-        }
+        public static int ModuloString(string identity) => identity.Sum(x => x) % SHARDING_FACTOR;
 
         public static List<RawCollectResult> GetMissingFromFirst(string firstRunId, string secondRunId)
         {
