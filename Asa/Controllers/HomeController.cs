@@ -150,18 +150,18 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 // We won't start new collections while existing ones are ongoing.
                 if (c.IsRunning() == RUN_STATUS.RUNNING)
                 {
-                    return Json(GUI_ERROR.ALREADY_RUNNING);
+                    return Json(ASA_ERROR.ALREADY_RUNNING);
                 }
             }
             AttackSurfaceAnalyzerClient.ClearCollectors();
 
             if (DatabaseManager.GetRun(Id) != null)
             {
-                return Json(GUI_ERROR.UNIQUE_ID);
+                return Json(ASA_ERROR.UNIQUE_ID);
             }
 
             _ = Task.Factory.StartNew(() => AttackSurfaceAnalyzerClient.RunCollectCommand(opts));
-            return Json(GUI_ERROR.NONE);
+            return Json(ASA_ERROR.NONE);
         }
 
         public IActionResult Collect()
@@ -182,7 +182,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             {
                 if (DatabaseManager.GetRun(RunId) != null)
                 {
-                    return Json(GUI_ERROR.UNIQUE_ID);
+                    return Json(ASA_ERROR.UNIQUE_ID);
                 }
 
                 DatabaseManager.InsertRun(RunId, new Dictionary<RESULT_TYPE, bool>() { { RESULT_TYPE.FILEMONITOR, true } });

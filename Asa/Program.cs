@@ -488,7 +488,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 if (DatabaseManager.GetRun(opts.RunId) != null)
                 {
                     Log.Error(Strings.Get("Err_RunIdAlreadyUsed"));
-                    return (int)GUI_ERROR.UNIQUE_ID;
+                    return (int)ASA_ERROR.UNIQUE_ID;
                 }
             }
 
@@ -557,7 +557,7 @@ namespace AttackSurfaceAnalyzer.Cli
             if (monitors.Count == 0)
             {
                 Log.Warning(Strings.Get("Err_NoMonitors"));
-                returnValue = 1;
+                returnValue = (int)ASA_ERROR.NO_COLLECTORS;
             }
 
             using var exitEvent = new ManualResetEvent(false);
@@ -621,7 +621,6 @@ namespace AttackSurfaceAnalyzer.Cli
                 catch (Exception ex)
                 {
                     Log.Error(ex, " {0}: {1}", c.GetType().Name, ex.Message, Strings.Get("Err_Stopping"));
-                    returnValue = 1;
                 }
             }
 
@@ -757,11 +756,11 @@ namespace AttackSurfaceAnalyzer.Cli
             return results;
         }
 
-        public static GUI_ERROR RunGuiMonitorCommand(MonitorCommandOptions opts)
+        public static ASA_ERROR RunGuiMonitorCommand(MonitorCommandOptions opts)
         {
             if (opts is null)
             {
-                return GUI_ERROR.NO_COLLECTORS;
+                return ASA_ERROR.NO_COLLECTORS;
             }
             if (opts.EnableFileSystemMonitor)
             {
@@ -784,7 +783,7 @@ namespace AttackSurfaceAnalyzer.Cli
                     catch (ArgumentException)
                     {
                         Log.Warning("{1}: {0}", dir, Strings.Get("InvalidPath"));
-                        return GUI_ERROR.INVALID_PATH;
+                        return ASA_ERROR.INVALID_PATH;
                     }
                 }
             }
@@ -799,7 +798,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 c.StartRun();
             }
 
-            return GUI_ERROR.NONE;
+            return ASA_ERROR.NONE;
         }
 
         public static int StopMonitors()
@@ -871,7 +870,7 @@ namespace AttackSurfaceAnalyzer.Cli
             CheckFirstRun();
             DatabaseManager.VerifySchemaVersion();
 
-            int returnValue = (int)GUI_ERROR.NONE;
+            int returnValue = (int)ASA_ERROR.NONE;
             opts.RunId = opts.RunId.Trim();
 
             if (opts.RunId.Equals("Timestamp", StringComparison.InvariantCulture))
@@ -965,7 +964,7 @@ namespace AttackSurfaceAnalyzer.Cli
             if (collectors.Count == 0)
             {
                 Log.Warning(Strings.Get("Err_NoCollectors"));
-                return (int)GUI_ERROR.NO_COLLECTORS;
+                return (int)ASA_ERROR.NO_COLLECTORS;
             }
 
             if (!opts.NoFilters)
@@ -989,7 +988,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 if (DatabaseManager.GetRun(opts.RunId) != null)
                 {
                     Log.Error(Strings.Get("Err_RunIdAlreadyUsed"));
-                    return (int)GUI_ERROR.UNIQUE_ID;
+                    return (int)ASA_ERROR.UNIQUE_ID;
                 }
             }
             Log.Information(Strings.Get("Begin"), opts.RunId);
@@ -1002,7 +1001,7 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 Log.Information("Cancelling collection. Rolling back transaction. Please wait to avoid corrupting database.");
                 DatabaseManager.RollBack();
-                Environment.Exit(0);
+                Environment.Exit(-1);
             };
 
             Dictionary<string, string> EndEvent = new Dictionary<string, string>();
@@ -1027,6 +1026,7 @@ namespace AttackSurfaceAnalyzer.Cli
             AsaTelemetry.TrackEvent("End Command", EndEvent);
 
             DatabaseManager.Commit();
+            DatabaseManager.CloseDatabase();
             return returnValue;
         }
 
