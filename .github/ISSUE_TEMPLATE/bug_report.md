@@ -3,7 +3,7 @@ name: Bug report
 about: Create a report to help us improve
 title: Your Bug Title Here
 labels: bug
-assignees: gfs
+assignees: ''
 
 ---
 
