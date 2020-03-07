@@ -138,6 +138,9 @@ namespace AttackSurfaceAnalyzer
 
         [Option(HelpText = "Run parallelized collectors when available.", Default = true)]
         public bool Parallelization { get; set; }
+
+        [Option(HelpText = "Number of Database Shards to use.", Default = 10)]
+        public int Shards { get; set; }
     }
     [Verb("monitor", HelpText = "Continue running and monitor activity")]
     public class MonitorCommandOptions : CommandOptions

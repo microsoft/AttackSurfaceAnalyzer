@@ -849,7 +849,7 @@ namespace AttackSurfaceAnalyzer.Cli
 #else
             Logger.Setup(opts.Debug, opts.Verbose, opts.Quiet);
 #endif
-            DatabaseManager.Setup(opts.DatabaseFilename);
+            DatabaseManager.Setup(opts.DatabaseFilename, opts.Shards);
             AsaTelemetry.Setup();
 
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();

@@ -186,6 +186,11 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 SHARDING_FACTOR = GetShardingFactor();
 
+                if (shardingFactor != SHARDING_FACTOR)
+                {
+                    Log.Information($"Requested sharding level of {shardingFactor} but database was created with {SHARDING_FACTOR}. Ignoring request.");
+                }
+
                 for (int i = 0; i < SHARDING_FACTOR; i++)
                 {
                     Connections.Add(new SqlConnectionHolder(new SQLiteConnection($"Data Source={SqliteFilename}_{i}")));
@@ -616,7 +621,10 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 var objIn = new WriteObject(colObj, runId);
 
-                Connections[objIn.Shard].WriteQueue.Enqueue(objIn);
+                if (objIn.Shard >= 0)
+                {
+                    Connections[objIn.Shard].WriteQueue.Enqueue(objIn);
+                }
             }
         }
 
