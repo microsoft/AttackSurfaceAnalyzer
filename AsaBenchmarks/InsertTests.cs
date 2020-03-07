@@ -15,11 +15,11 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     public class InsertTests
     {
         // The number of records to insert for the benchmark
-        [Params(10000)]
+        [Params(10000, 100000)]
         public int N { get; set; }
 
         // The number of records to populate the database with before the benchmark
-        [Params(0,100000,200000,300000,400000,500000,600000,700000,800000,900000,1000000)]
+        [Params(0,1000000)]
         public int StartingSize { get; set; }
 
         // The amount of padding to add to the object in bytes
@@ -47,7 +47,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             Parallel.For(0, N, i =>
             {
                 var obj = GetRandomObject();
-                DatabaseManager.Write(obj, $"InsertTest_Sharding");
+                DatabaseManager.Write(obj, $"Insert_N_Objects");
                 BagOfObjects.Add(obj);
             });
 
@@ -55,7 +55,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             {
                 Thread.Sleep(1);
             }
-
+            DatabaseManager.Commit();
         }
 
         public FileSystemObject GetRandomObject()
@@ -85,14 +85,13 @@ namespace AttackSurfaceAnalyzer.Benchmarks
 
             Parallel.For(0, N, i =>
             {
-                DatabaseManager.Write(GetRandomObject(), $"InsertTest_Sharding");
+                DatabaseManager.Write(GetRandomObject(), $"PopulateDatabases");
             });
 
             while (DatabaseManager.HasElements())
             {
                 Thread.Sleep(10);
             }
-
             DatabaseManager.Commit();
             DatabaseManager.CloseDatabase();
         }
@@ -119,6 +118,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [IterationCleanup]
         public void IterationCleanup()
         {
+            DatabaseManager.DeleteRun("Insert_N_Objects");
             DatabaseManager.CloseDatabase();
         }
     }
