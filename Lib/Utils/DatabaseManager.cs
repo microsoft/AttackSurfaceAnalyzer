@@ -27,14 +27,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private const string SQL_CREATE_COLLECT_RESULTS = "create table if not exists collect (run_id text, result_type text, identity text, row_key blob, serialized blob)";
 
-        private const string SQL_CREATE_COLLECT_ROW_KEY_INDEX = "create index if not exists i_collect_collect_row_key on collect(row_key)";
         private const string SQL_CREATE_COLLECT_RUN_ID_INDEX = "create index if not exists i_collect_collect_run_id on collect(run_id)";
-
-        private const string SQL_CREATE_COLLECT_RESULT_TYPE_INDEX = "create index if not exists i_collect_collect_result_type on collect(result_type)";
-
-        private const string SQL_CREATE_COLLECT_RUN_KEY_COMBINED_INDEX = "create index if not exists i_collect_collect_row_run on collect(run_id, row_key)";
-        private const string SQL_CREATE_COLLECT_RUN_TYPE_COMBINED_INDEX = "create index if not exists i_collect_collect_row_type on collect(run_id, result_type)";
-        private const string SQL_CREATE_COLLECT_KEY_IDENTITY_COMBINED_INDEX = "create index if not exists i_collect_collect_row_type on collect(identity, row_key)";
 
         private const string SQL_CREATE_COLLECT_RUN_KEY_IDENTITY_COMBINED_INDEX = "create index if not exists i_collect_collect_runid_row_type on collect(run_id, identity, row_key, result_type)";
 
@@ -66,7 +59,6 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string SQL_GET_NUM_RESULTS = "select count(*) as the_count from collect where run_id = @run_id and result_type = @result_type";
         private const string SQL_GET_PLATFORM_FROM_RUNID = "select platform from runs where run_id = @run_id";
 
-        private const string SQL_INSERT_COLLECT_RESULT = "insert into collect (run_id, result_type, row_key, identity, serialized) values (@run_id, @result_type, @row_key, @identity, @serialized)";
         private const string SQL_INSERT_FINDINGS_RESULT = "insert into findings (comparison_id, result_type, level, identity, serialized) values (@comparison_id, @result_type, @level, @identity, @serialized)";
 
         private const string SQL_GET_COLLECT_MISSING_IN_B = "select * from collect b where b.run_id = @second_run_id and b.identity not in (select identity from collect a where a.run_id = @first_run_id);";
@@ -204,22 +196,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         cmd.ExecuteNonQuery();
 
-                        cmd.CommandText = SQL_CREATE_COLLECT_ROW_KEY_INDEX;
-                        cmd.ExecuteNonQuery();
-
                         cmd.CommandText = SQL_CREATE_COLLECT_RUN_ID_INDEX;
-                        cmd.ExecuteNonQuery();
-
-                        cmd.CommandText = SQL_CREATE_COLLECT_RESULT_TYPE_INDEX;
-                        cmd.ExecuteNonQuery();
-
-                        cmd.CommandText = SQL_CREATE_COLLECT_RUN_KEY_COMBINED_INDEX;
-                        cmd.ExecuteNonQuery();
-
-                        cmd.CommandText = SQL_CREATE_COLLECT_RUN_TYPE_COMBINED_INDEX;
-                        cmd.ExecuteNonQuery();
-
-                        cmd.CommandText = SQL_CREATE_COLLECT_KEY_IDENTITY_COMBINED_INDEX;
                         cmd.ExecuteNonQuery();
 
                         cmd.CommandText = SQL_CREATE_COLLECT_RUN_KEY_IDENTITY_COMBINED_INDEX;
