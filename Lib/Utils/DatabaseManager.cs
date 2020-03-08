@@ -13,6 +13,7 @@ using Utf8Json.Resolvers;
 using System.Linq;
 using System.IO;
 using Microsoft.Data.Sqlite;
+using System.Management.Automation;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -220,6 +221,7 @@ namespace AttackSurfaceAnalyzer.Utils
         private static Settings GetSettings()
         {
             using var getSettings = new SqliteCommand(SQL_GET_PERSISTED_SETTINGS, MainConnection.Connection, MainConnection.Transaction);
+            getSettings.Parameters.AddWithValue("@id", "Persisted");
             using var reader = getSettings.ExecuteReader();
 
             // Settings exist, this isn't the first run
@@ -245,12 +247,12 @@ namespace AttackSurfaceAnalyzer.Utils
             catch (SqliteException) { }
         }
 
-    public static int PopulateConnections()
+        public static int PopulateConnections()
         {
             var connectionsCreated = 0;
             for (int i = Connections.Count; i < SHARDING_FACTOR; i++)
             {
-                Connections.Add(new SqlConnectionHolder(new SqliteConnection( i==0 ? $"Data Source={SqliteFilename};" : $"Data Source={SqliteFilename}_{i};" )));
+                Connections.Add(GenerateSqlConnection(i,SqliteFilename));
                 Connections[i].Connection.Open();
                 connectionsCreated++;
             }
@@ -258,7 +260,17 @@ namespace AttackSurfaceAnalyzer.Utils
             return connectionsCreated;
         }
 
-
+        private static SqlConnectionHolder GenerateSqlConnection(int i, string sqliteFilename)
+        {
+            if (i == 0)
+            {
+                return new SqlConnectionHolder(SqliteFilename);
+            }
+            else
+            {
+                return new SqlConnectionHolder($"{SqliteFilename}_{i}");
+            }
+        }
 
         private static int GetShardingFactor(int defaultReturn = -1)
         {
@@ -706,75 +718,36 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void DeleteRun(string runid)
         {
-            using (var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES_SINGLE, MainConnection.Connection, MainConnection.Transaction))
+            using var truncateRunsTable = new SqliteCommand(SQL_TRUNCATE_RUN, MainConnection.Connection, MainConnection.Transaction);
+            truncateRunsTable.Parameters.AddWithValue("@run_id", runid);
+            truncateRunsTable.ExecuteNonQuery();
+
+            Connections.AsParallel().ForAll(cxn =>
             {
-                cmd.Parameters.AddWithValue("@run_id", runid);
-                using (var reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        using (var inner_cmd = new SqliteCommand(SQL_TRUNCATE_RUN, MainConnection.Connection, MainConnection.Transaction))
-                        {
-                            inner_cmd.Parameters.AddWithValue("@run_id", runid);
-                            inner_cmd.ExecuteNonQuery();
-                        }
-                        if (reader["type"].ToString() == "monitor")
-                        {
-                            if ((int.Parse(reader["file_system"].ToString(), CultureInfo.InvariantCulture) != 0))
-                            {
-                                using (var inner_cmd = new SqliteCommand(SQL_TRUNCATE_FILES_MONITORED, MainConnection.Connection, MainConnection.Transaction))
-                                {
-                                    inner_cmd.Parameters.AddWithValue("@run_id", runid);
-                                    inner_cmd.ExecuteNonQuery();
-                                }
-                            }
-                        }
-                        else
-                        {
-                            using (var inner_cmd = new SqliteCommand(SQL_TRUNCATE_RESULTS, MainConnection.Connection, MainConnection.Transaction))
-                            {
-                                inner_cmd.Parameters.AddWithValue("@run_id", runid);
-                                inner_cmd.ExecuteNonQuery();
-                            }
-                        }
-                    }
-                }
-                for (int i = 0; i < SHARDING_FACTOR; i++)
-                {
-                    using (var inner_cmd = new SqliteCommand(SQL_DELETE_RUN, Connections[i].Connection, Connections[i].Transaction))
-                    {
-                        inner_cmd.Parameters.AddWithValue("@run_id", runid);
-                        inner_cmd.ExecuteNonQuery();
-                    }
-                }
-            }
+                using var truncateCollectTable = new SqliteCommand(SQL_DELETE_RUN, cxn.Connection, cxn.Transaction);
+                truncateRunsTable.Parameters.AddWithValue("@run_id", runid);
+                truncateRunsTable.ExecuteNonQuery();
+            });
         }
 
-        public static bool GetOptOut()
+        public static bool GetTelemetryEnabled()
         {
-            using (var cmd = new SqliteCommand(CHECK_TELEMETRY, MainConnection.Connection, MainConnection.Transaction))
+            var settings = GetSettings();
+            if (settings != null)
             {
-                using (var reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        return bool.Parse(reader["value"].ToString());
-                    }
-                }
+                return settings.TelemetryEnabled;
             }
-
-            return false;
+            return true;
         }
 
-        public static void SetOptOut(bool OptOut)
+        public static void SetTelemetryEnabled(bool Enabled)
         {
-
-            using (var cmd = new SqliteCommand(UPDATE_TELEMETRY, MainConnection.Connection, MainConnection.Transaction))
+            var settings = GetSettings();
+            if (settings != null)
             {
-                cmd.Parameters.AddWithValue("@TelemetryOptOut", OptOut.ToString(CultureInfo.InvariantCulture));
-                cmd.ExecuteNonQuery();
-                Commit();
+                settings.TelemetryEnabled = Enabled;
             }
+            SetSettings(settings);
         }
 
         public static void WriteFileMonitor(FileMonitorObject fmo, string RunId)

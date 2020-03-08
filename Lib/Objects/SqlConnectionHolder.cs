@@ -9,22 +9,25 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class SqlConnectionHolder
     {
-        public SqliteTransaction Transaction {get; set;}
-        public SqliteConnection Connection {get; set;}
-        public ConcurrentQueue<WriteObject> WriteQueue { get; private set; }
+        public SqliteTransaction Transaction { get; set; }
+        public SqliteConnection Connection { get; set; }
+        public ConcurrentQueue<WriteObject> WriteQueue { get; private set; } = new ConcurrentQueue<WriteObject>();
         public bool KeepRunning { get; set; }
+        public string Source { get; set; }
 
         public SqlConnectionHolder(string databaseFilename)
         {
-
+            Source = databaseFilename;
+            Connection = new SqliteConnection($"Data source={Source}");
+            StartWriter();
         }
 
         public SqlConnectionHolder(SqliteConnection connection, SqliteTransaction transaction = null)
         {
             Connection = connection;
             Transaction = transaction;
-            WriteQueue = new ConcurrentQueue<WriteObject>();
             StartWriter();
+            Source = Connection.ConnectionString;
         }
 
         internal void StartWriter()

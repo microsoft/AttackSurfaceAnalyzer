@@ -486,7 +486,12 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
             }
 
-            DatabaseManager.InsertRun(opts.RunId, new Dictionary<RESULT_TYPE, bool>() { { RESULT_TYPE.FILEMONITOR, true } });
+            var run = new Run()
+            {
+                RunId = opts.RunId,
+                ResultTypes = new Dictionary<RESULT_TYPE, bool>() { { RESULT_TYPE.FILEMONITOR, true } }
+            };
+            DatabaseManager.InsertRun(run);
 
             int returnValue = 0;
 
@@ -873,8 +878,8 @@ namespace AttackSurfaceAnalyzer.Cli
 
             if (opts.MatchedCollectorId != null)
             {
-                var run = DatabaseManager.GetRun(opts.MatchedCollectorId);
-                foreach (var resultType in run.ResultTypes)
+                var matchedRun = DatabaseManager.GetRun(opts.MatchedCollectorId);
+                foreach (var resultType in matchedRun.ResultTypes)
                 {
                     switch (resultType.Key)
                     {
@@ -986,7 +991,13 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             Log.Information(Strings.Get("Begin"), opts.RunId);
 
-            DatabaseManager.InsertRun(opts.RunId, dict);
+            var run = new Run()
+            {
+                RunId = opts.RunId,
+                ResultTypes = dict
+            };
+
+            DatabaseManager.InsertRun(run);
 
             Log.Information(Strings.Get("StartingN"), collectors.Count.ToString(CultureInfo.InvariantCulture), Strings.Get("Collectors"));
 
