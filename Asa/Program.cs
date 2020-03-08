@@ -879,8 +879,8 @@ namespace AttackSurfaceAnalyzer.Cli
 
             if (opts.MatchedCollectorId != null)
             {
-                var resultTypes = DatabaseManager.GetResultTypes(opts.MatchedCollectorId);
-                foreach (var resultType in resultTypes)
+                var run = DatabaseManager.GetRun(opts.MatchedCollectorId);
+                foreach (var resultType in run.ResultTypes)
                 {
                     switch (resultType.Key)
                     {

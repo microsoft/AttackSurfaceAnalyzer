@@ -2,15 +2,11 @@
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
-using Mono.Unix;
 using Serilog;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Threading;
 using System.Threading.Tasks;
 using Utf8Json;
 using Utf8Json.Resolvers;
@@ -45,7 +41,7 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string SQL_CREATE_PERSISTED_SETTINGS = "create table if not exists persisted_settings (setting text, value text, unique(setting))";
         private const string SQL_CREATE_DEFAULT_SETTINGS = "insert or ignore into persisted_settings (setting, value) values ('telemetry_opt_out','false'),('schema_version',@schema_version),('sharding_factor',@sharding_factor)";
 
-        private const string SQL_GET_RESULT_TYPES_SINGLE = "select * from runs where run_id = @run_id";
+        private const string SQL_GET_RUN = "select * from runs where run_id = @run_id";
 
         private const string SQL_TRUNCATE_FILES_MONITORED = "delete from file_system_monitored where run_id=@run_id";
         private const string SQL_TRUNCATE_RUN = "delete from runs where run_id=@run_id";
@@ -59,6 +55,8 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string SQL_GET_PLATFORM_FROM_RUNID = "select platform from runs where run_id = @run_id";
 
         private const string SQL_INSERT_FINDINGS_RESULT = "insert into findings (comparison_id, result_type, level, identity, serialized) values (@comparison_id, @result_type, @level, @identity, @serialized)";
+
+        private const string SQL_INSERT_RUN = "insert into runs (run_id, type, serialized) values (@run_id, @type, @serialized)";
 
         private const string SQL_GET_COLLECT_MISSING_IN_B = "select * from collect b where b.run_id = @second_run_id and b.identity not in (select identity from collect a where a.run_id = @first_run_id);";
         private const string SQL_GET_COLLECT_MODIFIED = "select a.row_key as 'a_row_key', a.serialized as 'a_serialized', a.result_type as 'a_result_type', a.identity as 'a_identity', a.run_id as 'a_run_id'," +
@@ -517,33 +515,21 @@ namespace AttackSurfaceAnalyzer.Utils
             Connections.AsParallel().ForAll(cxn => cxn.BeginTransaction());
         }
 
-        public static void InsertRun(string runId, Dictionary<RESULT_TYPE, bool> dictionary)
+        public static void InsertRun(Run run)
         {
-            if (dictionary == null)
+            if (run == null)
             {
                 return;
             }
-            string INSERT_RUN = "insert into runs (run_id, file_system, ports, users, services, registry, certificates, firewall, comobjects, eventlogs, type, timestamp, version, platform) values (@run_id, @file_system, @ports, @users, @services, @registry, @certificates, @firewall, @comobjects, @eventlogs, @type, @timestamp, @version, @platform)";
 
-            using var cmd = new SqliteCommand(INSERT_RUN, MainConnection.Connection, MainConnection.Transaction);
-            cmd.Parameters.AddWithValue("@run_id", runId);
-            cmd.Parameters.AddWithValue("@file_system", (dictionary.ContainsKey(RESULT_TYPE.FILE) && dictionary[RESULT_TYPE.FILE]) || (dictionary.ContainsKey(RESULT_TYPE.FILEMONITOR) && dictionary[RESULT_TYPE.FILEMONITOR]));
-            cmd.Parameters.AddWithValue("@ports", (dictionary.ContainsKey(RESULT_TYPE.PORT) && dictionary[RESULT_TYPE.PORT]));
-            cmd.Parameters.AddWithValue("@users", (dictionary.ContainsKey(RESULT_TYPE.USER) && dictionary[RESULT_TYPE.USER]));
-            cmd.Parameters.AddWithValue("@services", (dictionary.ContainsKey(RESULT_TYPE.SERVICE) && dictionary[RESULT_TYPE.SERVICE]));
-            cmd.Parameters.AddWithValue("@registry", (dictionary.ContainsKey(RESULT_TYPE.REGISTRY) && dictionary[RESULT_TYPE.REGISTRY]));
-            cmd.Parameters.AddWithValue("@certificates", (dictionary.ContainsKey(RESULT_TYPE.CERTIFICATE) && dictionary[RESULT_TYPE.CERTIFICATE]));
-            cmd.Parameters.AddWithValue("@firewall", (dictionary.ContainsKey(RESULT_TYPE.FIREWALL) && dictionary[RESULT_TYPE.FIREWALL]));
-            cmd.Parameters.AddWithValue("@comobjects", (dictionary.ContainsKey(RESULT_TYPE.COM) && dictionary[RESULT_TYPE.COM]));
-            cmd.Parameters.AddWithValue("@eventlogs", (dictionary.ContainsKey(RESULT_TYPE.LOG) && dictionary[RESULT_TYPE.LOG]));
-            cmd.Parameters.AddWithValue("@type", (dictionary.ContainsKey(RESULT_TYPE.FILEMONITOR) && dictionary[RESULT_TYPE.FILEMONITOR]) ? "monitor" : "collect");
-            cmd.Parameters.AddWithValue("@timestamp", DateTime.Now.ToString("o", CultureInfo.InvariantCulture));
-            cmd.Parameters.AddWithValue("@version", AsaHelpers.GetVersionString());
-            cmd.Parameters.AddWithValue("@platform", AsaHelpers.GetPlatformString());
+            using var cmd = new SqliteCommand(SQL_INSERT_RUN, MainConnection.Connection, MainConnection.Transaction);
+            cmd.Parameters.AddWithValue("@run_id", run.RunId);
+            cmd.Parameters.AddWithValue("@type", run.Type);
+            cmd.Parameters.AddWithValue("@serialized", JsonSerializer.Serialize(run));
+
             try
             {
                 cmd.ExecuteNonQuery();
-                Commit();
             }
             catch (SqliteException e)
             {
@@ -556,34 +542,6 @@ namespace AttackSurfaceAnalyzer.Utils
         public static void Commit()
         {
             Connections.AsParallel().ForAll(x => x.Commit());
-            foreach (var cxn in Connections)
-            {
-               
-            }
-        }
-        public static Dictionary<RESULT_TYPE, bool> GetResultTypes(string runId)
-        {
-            var output = new Dictionary<RESULT_TYPE, bool>();
-            using (var inner_cmd = new SqliteCommand(SQL_GET_RESULT_TYPES_SINGLE, MainConnection.Connection))
-            {
-                inner_cmd.Parameters.AddWithValue("@run_id", runId);
-                using (var reader = inner_cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        output[RESULT_TYPE.FILE] = (int.Parse(reader["file_system"].ToString(), CultureInfo.InvariantCulture) != 0);
-                        output[RESULT_TYPE.PORT] = (int.Parse(reader["ports"].ToString(), CultureInfo.InvariantCulture) != 0);
-                        output[RESULT_TYPE.USER] = (int.Parse(reader["users"].ToString(), CultureInfo.InvariantCulture) != 0);
-                        output[RESULT_TYPE.SERVICE] = (int.Parse(reader["services"].ToString(), CultureInfo.InvariantCulture) != 0);
-                        output[RESULT_TYPE.REGISTRY] = (int.Parse(reader["registry"].ToString(), CultureInfo.InvariantCulture) != 0);
-                        output[RESULT_TYPE.CERTIFICATE] = (int.Parse(reader["certificates"].ToString(), CultureInfo.InvariantCulture) != 0);
-                        output[RESULT_TYPE.FIREWALL] = (int.Parse(reader["firewall"].ToString(), CultureInfo.InvariantCulture) != 0);
-                        output[RESULT_TYPE.COM] = (int.Parse(reader["comobjects"].ToString(), CultureInfo.InvariantCulture) != 0);
-                        output[RESULT_TYPE.LOG] = (int.Parse(reader["eventlogs"].ToString(), CultureInfo.InvariantCulture) != 0);
-                    }
-                }
-            }
-            return output;
         }
 
         public static string SqliteFilename { get; private set; } = "asa.Sqlite";
@@ -819,22 +777,14 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static Run GetRun(string RunId)
         {
-            using (var cmd = new SqliteCommand(SQL_GET_RESULT_TYPES_SINGLE, MainConnection.Connection, MainConnection.Transaction))
+            using (var cmd = new SqliteCommand(SQL_GET_RUN, MainConnection.Connection, MainConnection.Transaction))
             {
                 cmd.Parameters.AddWithValue("@run_id", RunId);
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        return new Run()
-                        {
-                            Platform = reader["platform"].ToString(),
-                            Timestamp = reader["timestamp"].ToString(),
-                            Version = reader["version"].ToString(),
-                            RunId = reader["run_id"].ToString(),
-                            ResultTypes = GetResultTypes(RunId)
-                        };
-
+                        return JsonSerializer.Deserialize<Run>(reader["serialized"].ToString());
                     }
                 }
             }
