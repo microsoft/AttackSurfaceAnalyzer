@@ -182,13 +182,12 @@ namespace AttackSurfaceAnalyzer.Utils
                         cmd2.CommandText = SQL_CREATE_PERSISTED_SETTINGS;
                         cmd2.ExecuteNonQuery();
 
-                        cmd2.CommandText = SQL_UPSERT_PERSISTED_SETTINGS;
-                        var settings = new Settings()
+                        SetSettings(new Settings()
                         {
                             SchemaVersion = SCHEMA_VERSION,
                             ShardingFactor = shardingFactor,
-                            TelemetryEnabled = false
-                        };
+                            TelemetryEnabled = true
+                        });
 
                         for (int i = 0; i < Connections.Count; i++)
                         {

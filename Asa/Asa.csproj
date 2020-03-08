@@ -17,10 +17,12 @@
 
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Collect' ">
     <StartAction>Project</StartAction>
+    <ExternalConsole>true</ExternalConsole>
     <ApplicationURL>http://localhost:5002</ApplicationURL>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Export-Collect' ">
     <StartAction>Project</StartAction>
+    <ExternalConsole>true</ExternalConsole>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="asa.sqlite" />
