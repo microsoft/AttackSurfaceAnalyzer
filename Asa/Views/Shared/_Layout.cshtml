@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="localizations" href="~/American-English.json" type="application/vnd.oftn.l10n+json" />
     @{
-        if (!AsaTelemetry.OptOut)
+        if (AsaTelemetry.Enabled)
         {
             Html.Raw(snippet.FullScript);
         }
