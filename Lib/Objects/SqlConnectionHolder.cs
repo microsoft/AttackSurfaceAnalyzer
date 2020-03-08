@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Data.SQLite;
+using Microsoft.Data.Sqlite;
 using System.Threading;
 using System.Threading.Tasks;
 using Serilog;
@@ -9,12 +9,12 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class SqlConnectionHolder
     {
-        public SQLiteTransaction Transaction {get; set;}
-        public SQLiteConnection Connection {get; set;}
+        public SqliteTransaction Transaction {get; set;}
+        public SqliteConnection Connection {get; set;}
         public ConcurrentQueue<WriteObject> WriteQueue { get; private set; }
         public bool KeepRunning { get; set; }
 
-        public SqlConnectionHolder(SQLiteConnection connection, SQLiteTransaction transaction = null)
+        public SqlConnectionHolder(SqliteConnection connection, SqliteTransaction transaction = null)
         {
             Connection = connection;
             Transaction = transaction;
@@ -51,7 +51,7 @@ namespace AttackSurfaceAnalyzer.Objects
 
             try
             {
-                using var cmd = new SQLiteCommand(SQL_INSERT_COLLECT_RESULT, Connection, Transaction);
+                using var cmd = new SqliteCommand(SQL_INSERT_COLLECT_RESULT, Connection, Transaction);
                 cmd.Parameters.AddWithValue("@run_id", objIn.RunId);
                 cmd.Parameters.AddWithValue("@row_key", objIn.GetRowKey());
                 cmd.Parameters.AddWithValue("@identity", objIn.ColObj.Identity);
@@ -59,7 +59,7 @@ namespace AttackSurfaceAnalyzer.Objects
                 cmd.Parameters.AddWithValue("@result_type", objIn.ColObj.ResultType);
                 cmd.ExecuteNonQuery();
             }
-            catch (SQLiteException e)
+            catch (SqliteException e)
             {
                 Log.Debug(exception: e, $"Error writing {objIn.ColObj.Identity} to database.");
             }
