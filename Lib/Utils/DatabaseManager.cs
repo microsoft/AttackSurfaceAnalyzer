@@ -220,18 +220,26 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private static Settings GetSettings()
         {
-            using var getSettings = new SqliteCommand(SQL_GET_PERSISTED_SETTINGS, MainConnection.Connection, MainConnection.Transaction);
-            getSettings.Parameters.AddWithValue("@id", "Persisted");
-            using var reader = getSettings.ExecuteReader();
-
-            // Settings exist, this isn't the first run
-            if (reader.HasRows)
+            try
             {
-                while (reader.Read())
+                using var getSettings = new SqliteCommand(SQL_GET_PERSISTED_SETTINGS, MainConnection.Connection, MainConnection.Transaction);
+                getSettings.Parameters.AddWithValue("@id", "Persisted");
+                using var reader = getSettings.ExecuteReader();
+
+                // Settings exist, this isn't the first run
+                if (reader.HasRows)
                 {
-                    return JsonSerializer.Deserialize<Settings>(reader["serialized"].ToString());
+                    while (reader.Read())
+                    {
+                        return JsonSerializer.Deserialize<Settings>(reader["serialized"].ToString());
+                    }
                 }
             }
+            catch (SqliteException)
+            {
+                //Expected when the table doesn't exist (first run)
+            }
+
             return null;
         }
 
