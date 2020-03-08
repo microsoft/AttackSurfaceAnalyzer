@@ -505,11 +505,16 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             if (MainConnection.Transaction is null)
             {
-                foreach(var cxn in Connections)
+                Parallel.ForEach(Connections, cxn =>
                 {
-                    cxn.Transaction = cxn.Connection.BeginTransaction();
-                }
+                    cxn.BeginTransaction();
+                });
             }
+        }
+
+        public static void BeginTransactionLinq()
+        {
+            Connections.AsParallel().ForAll(cxn => cxn.BeginTransaction());
         }
 
         public static void InsertRun(string runId, Dictionary<RESULT_TYPE, bool> dictionary)
@@ -550,20 +555,10 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void Commit()
         {
+            Connections.AsParallel().ForAll(x => x.Commit());
             foreach (var cxn in Connections)
             {
-                try
-                {
-                    cxn.Transaction.Commit();
-                }
-                catch(Exception)
-                {
-                    Log.Warning($"Failed to commit data to {cxn.Connection.ConnectionString}");
-                }
-                finally
-                {
-                    cxn.Transaction = null;
-                }
+               
             }
         }
         public static Dictionary<RESULT_TYPE, bool> GetResultTypes(string runId)

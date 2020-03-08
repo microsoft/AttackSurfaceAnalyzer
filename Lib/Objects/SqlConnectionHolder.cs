@@ -14,6 +14,11 @@ namespace AttackSurfaceAnalyzer.Objects
         public ConcurrentQueue<WriteObject> WriteQueue { get; private set; }
         public bool KeepRunning { get; set; }
 
+        public SqlConnectionHolder(string databaseFilename)
+        {
+
+        }
+
         public SqlConnectionHolder(SqliteConnection connection, SqliteTransaction transaction = null)
         {
             Connection = connection;
@@ -42,6 +47,31 @@ namespace AttackSurfaceAnalyzer.Objects
                 Thread.Sleep(1);
             }
         }
+
+        public void BeginTransaction()
+        {
+            if (Transaction == null && Connection != null)
+            {
+                Transaction = Connection.BeginTransaction();
+            }
+        }
+
+        public void Commit()
+        {
+            try
+            {
+                Transaction.Commit();
+            }
+            catch (Exception)
+            {
+                Log.Warning($"Failed to commit data to {Source}");
+            }
+            finally
+            {
+                Transaction = null;
+            }
+        }
+         
 
         public void WriteNext()
         {
