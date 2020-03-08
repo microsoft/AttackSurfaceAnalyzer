@@ -223,7 +223,7 @@ namespace AttackSurfaceAnalyzer.Utils
             var connectionsCreated = 0;
             for (int i = Connections.Count; i < SHARDING_FACTOR; i++)
             {
-                Connections.Add(new SqlConnectionHolder(new SqliteConnection( i==0 ? "Data Source=SqliteFilename;" : $"Data Source={SqliteFilename}_{i};" )));
+                Connections.Add(new SqlConnectionHolder(new SqliteConnection( i==0 ? $"Data Source={SqliteFilename};" : $"Data Source={SqliteFilename}_{i};" )));
                 Connections[i].Connection.Open();
                 connectionsCreated++;
             }
