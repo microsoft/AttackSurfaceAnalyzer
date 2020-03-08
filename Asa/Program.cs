@@ -109,8 +109,6 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             else
             {
-                DatabaseManager.VerifySchemaVersion();
-
                 if (opts.ListRuns)
                 {
                     if (DatabaseManager.FirstRun)
@@ -171,7 +169,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
                 if (opts.TelemetryOptOut != null)
                 {
-                    AsaTelemetry.SetOptOut(bool.Parse(opts.TelemetryOptOut));
+                    AsaTelemetry.SetEnabled(!bool.Parse(opts.TelemetryOptOut));
                     Log.Information(Strings.Get("TelemetryOptOut"), (bool.Parse(opts.TelemetryOptOut)) ? "Opted out" : "Opted in");
                 }
                 if (opts.DeleteRunId != null)
@@ -203,7 +201,6 @@ namespace AttackSurfaceAnalyzer.Cli
             DatabaseManager.Setup(opts.DatabaseFilename);
             CheckFirstRun();
             AsaTelemetry.Setup();
-            DatabaseManager.VerifySchemaVersion();
 
             if (opts.FirstRunId == "Timestamps" || opts.SecondRunId == "Timestamps")
             {
@@ -394,7 +391,6 @@ namespace AttackSurfaceAnalyzer.Cli
             DatabaseManager.Setup(opts.DatabaseFilename);
             CheckFirstRun();
             AsaTelemetry.Setup();
-            DatabaseManager.VerifySchemaVersion();
 
             if (opts.RunId.Equals("Timestamp", StringComparison.InvariantCulture))
             {
@@ -467,7 +463,6 @@ namespace AttackSurfaceAnalyzer.Cli
             AsaTelemetry.TrackEvent("Begin monitoring", StartEvent);
 
             CheckFirstRun();
-            DatabaseManager.VerifySchemaVersion();
 
             Filter.LoadFilters(opts.FilterLocation);
 
@@ -867,7 +862,6 @@ namespace AttackSurfaceAnalyzer.Cli
             AdminOrQuit();
 
             CheckFirstRun();
-            DatabaseManager.VerifySchemaVersion();
 
             int returnValue = (int)ASA_ERROR.NONE;
             opts.RunId = opts.RunId.Trim();

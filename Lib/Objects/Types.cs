@@ -54,7 +54,8 @@ namespace AttackSurfaceAnalyzer.Types
         UNIQUE_ID,
         INVALID_PATH,
         ALREADY_RUNNING,
-        NO_COLLECTORS
+        NO_COLLECTORS,
+        MATCHING_SCHEMA
     }
 
 

@@ -169,9 +169,9 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             return View();
         }
 
-        public ActionResult ChangeTelemetryState(bool DisableTelemetry)
+        public ActionResult ChangeTelemetryState(bool EnableTelemetry)
         {
-            AsaTelemetry.SetOptOut(DisableTelemetry);
+            AsaTelemetry.SetEnabled(EnableTelemetry);
 
             return Json(true);
         }
@@ -185,7 +185,13 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                     return Json(ASA_ERROR.UNIQUE_ID);
                 }
 
-                DatabaseManager.InsertRun(RunId, new Dictionary<RESULT_TYPE, bool>() { { RESULT_TYPE.FILEMONITOR, true } });
+                var run = new Run()
+                {
+                    RunId = RunId,
+                    ResultTypes = new Dictionary<RESULT_TYPE, bool>() { { RESULT_TYPE.FILEMONITOR, true } },
+                    Type = RUN_TYPE.MONITOR
+                };
+                DatabaseManager.InsertRun(run);
 
                 MonitorCommandOptions opts = new MonitorCommandOptions
                 {

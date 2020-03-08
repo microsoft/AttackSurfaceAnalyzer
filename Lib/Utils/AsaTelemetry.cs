@@ -37,9 +37,9 @@ namespace AttackSurfaceAnalyzer.Utils
             Client.Flush();
         }
 
-        public static void SetOptOut(bool optOut)
+        public static void SetEnabled(bool enabled)
         {
-            OptOut = optOut;
+            OptOut = !enabled;
             using var config = TelemetryConfiguration.CreateDefault();
             config.InstrumentationKey = INSTRUMENTATION_KEY;
             config.DisableTelemetry = OptOut;
@@ -49,7 +49,7 @@ namespace AttackSurfaceAnalyzer.Utils
             Client.Context.Cloud.RoleInstance = "Asa";
             Client.Context.Cloud.RoleName = "Asa";
             Client.Context.Location.Ip = "1.1.1.1";
-            DatabaseManager.SetOptOut(optOut);
+            DatabaseManager.SetOptOut(OptOut);
         }
 
         public static void TrackEvent(string name, Dictionary<string, string> evt)

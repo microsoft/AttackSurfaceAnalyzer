@@ -38,8 +38,9 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private const string SQL_CREATE_FINDINGS_LEVEL_RESULT_TYPE_INDEX = "create index if not exists i_findings_level_result_type on findings(level, result_type)";
 
-        private const string SQL_CREATE_PERSISTED_SETTINGS = "create table if not exists persisted_settings (setting text, value text, unique(setting))";
-        private const string SQL_CREATE_DEFAULT_SETTINGS = "insert or ignore into persisted_settings (setting, value) values ('telemetry_opt_out','false'),('schema_version',@schema_version),('sharding_factor',@sharding_factor)";
+        private const string SQL_CREATE_PERSISTED_SETTINGS = "create table if not exists persisted_settings (id text, serialized text, unique(setting))";
+        private const string SQL_UPSERT_PERSISTED_SETTINGS = "insert or replace into persisted_settings (id, serialized) values (@id, @serialized)";
+        private const string SQL_GET_PERSISTED_SETTINGS = "select serialized from persisted_settings where id=@id";
 
         private const string SQL_GET_RUN = "select * from runs where run_id = @run_id";
 
@@ -50,7 +51,6 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private const string SQL_SELECT_LATEST_N_RUNS = "select run_id from runs where type = @type order by timestamp desc limit 0,@limit;";
 
-        private const string SQL_GET_SCHEMA_VERSION = "select value from persisted_settings where setting = 'schema_version' limit 0,1";
         private const string SQL_GET_NUM_RESULTS = "select count(*) as the_count from collect where run_id = @run_id and result_type = @result_type";
         private const string SQL_GET_PLATFORM_FROM_RUNID = "select platform from runs where run_id = @run_id";
 
@@ -68,11 +68,6 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string SQL_GET_RESULT_TYPES_COUNTS = "select count(*) as count,result_type from collect where run_id = @run_id group by result_type";
 
         private const string SQL_GET_RESULTS_BY_RUN_ID = "select * from collect where run_id = @run_id";
-
-        private const string UPDATE_TELEMETRY = "replace into persisted_settings values ('telemetry_opt_out',@TelemetryOptOut)"; //lgtm [cs/literal-as-local]
-        private const string CHECK_TELEMETRY = "select value from persisted_settings where setting='telemetry_opt_out'";
-        private const string GET_SHARDING_FACTOR = "select value from persisted_settings where setting='sharding_factor'";
-
 
         private const string SQL_INSERT = "insert into file_system_monitored (run_id, row_key, timestamp, change_type, path, old_path, name, old_name, extended_results, notify_filters, serialized) values (@run_id, @row_key, @timestamp, @change_type, @path, @old_path, @name, @old_name, @extended_results, @notify_filters, @serialized)";
 
@@ -101,9 +96,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private const string SQL_VACUUM = "VACUUM";
 
-        private const string SQL_GET_SETTINGS = "select * from persisted_settings";
-
-        private const string SCHEMA_VERSION = "7";
+        private const int SCHEMA_VERSION = 8;
 
         private static int SHARDING_FACTOR = 1;
 
@@ -134,7 +127,17 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 PopulateConnections();
 
-                SHARDING_FACTOR = GetShardingFactor(shardingFactor);
+                var settings = GetSettings();
+
+                if (settings != null)
+                {
+                    if (SCHEMA_VERSION != settings.SchemaVersion) {
+                        Log.Fatal("Database has schema version {settings.SchemaVersion} but database has schema version {SCHEMA_VERSION}.");
+                        Environment.Exit((int)ASA_ERROR.MATCHING_SCHEMA);
+                    }
+                    SHARDING_FACTOR = settings.ShardingFactor;
+                    AsaTelemetry.SetEnabled(settings.TelemetryEnabled);
+                }
 
                 if (shardingFactor != SHARDING_FACTOR)
                 {
@@ -144,70 +147,66 @@ namespace AttackSurfaceAnalyzer.Utils
                 PopulateConnections();
 
                 try
-                {
-                    using var getSettings = new SqliteCommand(SQL_GET_SETTINGS, MainConnection.Connection, MainConnection.Transaction);
-                    using var reader = getSettings.ExecuteReader();
-
-                    while (reader.Read())
+                {   
+                    if (FirstRun)
                     {
-                        //Read settings in
+                        using var cmd = new SqliteCommand(PRAGMAS, MainConnection.Connection);
+                        cmd.ExecuteNonQuery();
+
+                        BeginTransaction();
+
+                        using var cmd2 = new SqliteCommand(SQL_CREATE_RUNS, MainConnection.Connection, MainConnection.Transaction);
+                        cmd2.ExecuteNonQuery();
+
+                        cmd2.CommandText = SQL_CREATE_RESULTS;
+                        cmd2.ExecuteNonQuery();
+
+                        cmd2.CommandText = SQL_CREATE_FINDINGS_RESULTS;
+                        cmd2.ExecuteNonQuery();
+
+                        cmd2.CommandText = SQL_CREATE_FINDINGS_LEVEL_INDEX;
+                        cmd2.ExecuteNonQuery();
+
+                        cmd2.CommandText = SQL_CREATE_FINDINGS_RESULT_TYPE_INDEX;
+                        cmd2.ExecuteNonQuery();
+
+                        cmd2.CommandText = SQL_CREATE_FINDINGS_IDENTITY_INDEX;
+                        cmd2.ExecuteNonQuery();
+
+                        cmd2.CommandText = SQL_CREATE_FINDINGS_LEVEL_RESULT_TYPE_INDEX;
+                        cmd2.ExecuteNonQuery();
+
+                        cmd2.CommandText = SQL_CREATE_FILE_MONITORED;
+                        cmd2.ExecuteNonQuery();
+
+                        cmd2.CommandText = SQL_CREATE_PERSISTED_SETTINGS;
+                        cmd2.ExecuteNonQuery();
+
+                        cmd2.CommandText = SQL_UPSERT_PERSISTED_SETTINGS;
+                        var settings = new Settings()
+                        {
+                            SchemaVersion = SCHEMA_VERSION,
+                            ShardingFactor = shardingFactor,
+                            TelemetryEnabled = false
+                        };
+
+                        for (int i = 0; i < Connections.Count; i++)
+                        {
+                            var cxn = Connections[i];
+                            using (var innerCmd = new SqliteCommand(SQL_CREATE_COLLECT_RESULTS, cxn.Connection, cxn.Transaction))
+                            {
+                                innerCmd.ExecuteNonQuery();
+
+                                innerCmd.CommandText = SQL_CREATE_COLLECT_RUN_ID_INDEX;
+                                innerCmd.ExecuteNonQuery();
+
+                                innerCmd.CommandText = SQL_CREATE_COLLECT_RUN_KEY_IDENTITY_COMBINED_INDEX;
+                                innerCmd.ExecuteNonQuery();
+                            }
+                        }
                     }
                 }
                 catch (SqliteException) { }
-
-
-                using var cmd = new SqliteCommand(PRAGMAS, MainConnection.Connection);
-                cmd.ExecuteNonQuery();
-
-                BeginTransaction();
-
-                using var cmd2 = new SqliteCommand(SQL_CREATE_RUNS, MainConnection.Connection, MainConnection.Transaction);
-                cmd2.ExecuteNonQuery();
-
-                cmd2.CommandText = SQL_CREATE_RESULTS;
-                cmd2.ExecuteNonQuery();
-
-                cmd2.CommandText = SQL_CREATE_FINDINGS_RESULTS;
-                cmd2.ExecuteNonQuery();
-
-                cmd2.CommandText = SQL_CREATE_FINDINGS_LEVEL_INDEX;
-                cmd2.ExecuteNonQuery();
-
-                cmd2.CommandText = SQL_CREATE_FINDINGS_RESULT_TYPE_INDEX;
-                cmd2.ExecuteNonQuery();
-
-                cmd2.CommandText = SQL_CREATE_FINDINGS_IDENTITY_INDEX;
-                cmd2.ExecuteNonQuery();
-
-                cmd2.CommandText = SQL_CREATE_FINDINGS_LEVEL_RESULT_TYPE_INDEX;
-                cmd2.ExecuteNonQuery();
-
-                cmd2.CommandText = SQL_CREATE_FILE_MONITORED;
-                cmd2.ExecuteNonQuery();
-
-                cmd2.CommandText = SQL_CREATE_PERSISTED_SETTINGS;
-                cmd2.ExecuteNonQuery();
-
-                cmd2.CommandText = SQL_CREATE_DEFAULT_SETTINGS;
-                cmd2.Parameters.AddWithValue("@schema_version", SCHEMA_VERSION);
-                cmd2.Parameters.AddWithValue("@sharding_factor", shardingFactor);
-
-                FirstRun &= cmd2.ExecuteNonQuery() != 0;
-                
-                for (int i = 0; i < Connections.Count; i++)
-                {
-                    var cxn = Connections[i];
-                    using (var innerCmd = new SqliteCommand(SQL_CREATE_COLLECT_RESULTS, cxn.Connection, cxn.Transaction))
-                    {
-                        innerCmd.ExecuteNonQuery();
-
-                        innerCmd.CommandText = SQL_CREATE_COLLECT_RUN_ID_INDEX;
-                        innerCmd.ExecuteNonQuery();
-
-                        innerCmd.CommandText = SQL_CREATE_COLLECT_RUN_KEY_IDENTITY_COMBINED_INDEX;
-                        innerCmd.ExecuteNonQuery();
-                    }
-                }
 
                 Commit();
 
@@ -216,7 +215,37 @@ namespace AttackSurfaceAnalyzer.Utils
             return false;
         }
 
-        public static int PopulateConnections()
+        private static Settings GetSettings()
+        {
+            using var getSettings = new SqliteCommand(SQL_GET_PERSISTED_SETTINGS, MainConnection.Connection, MainConnection.Transaction);
+            using var reader = getSettings.ExecuteReader();
+
+            // Settings exist, this isn't the first run
+            if (reader.HasRows)
+            {
+                FirstRun = false;
+
+                while (reader.Read())
+                {
+                    return JsonSerializer.Deserialize<Settings>(reader["serialized"].ToString());
+                }
+            }
+            return null;
+        }
+
+        private static void SetSettings(Settings settings)
+        {
+            try
+            {
+                using var cmd = new SqliteCommand(SQL_UPSERT_PERSISTED_SETTINGS, MainConnection.Connection, MainConnection.Transaction);
+                cmd.Parameters.AddWithValue("@serialized", JsonSerializer.Serialize(settings));
+                cmd.Parameters.AddWithValue("@id", "Persisted");
+                cmd.ExecuteNonQuery();
+            }
+            catch (SqliteException) { }
+        }
+
+    public static int PopulateConnections()
         {
             var connectionsCreated = 0;
             for (int i = Connections.Count; i < SHARDING_FACTOR; i++)
@@ -235,11 +264,12 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             try
             {
-                using var cmd = new SqliteCommand(GET_SHARDING_FACTOR, MainConnection.Connection, MainConnection.Transaction);
+                using var cmd = new SqliteCommand(SQL_GET_PERSISTED_SETTINGS, MainConnection.Connection, MainConnection.Transaction);
                 using var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    return int.Parse(reader["value"].ToString());
+                    var settings = JsonSerializer.Deserialize<Settings>(reader["value"].ToString());
+                    return settings.ShardingFactor;
                 }
             }
             catch (SqliteException) { }
@@ -361,20 +391,6 @@ namespace AttackSurfaceAnalyzer.Utils
                     cmd.Parameters.AddWithValue("@identity", objIn.Identity);
                     cmd.Parameters.AddWithValue("@serialized", JsonSerializer.Serialize(objIn));
                     cmd.ExecuteNonQuery();
-                }
-            }
-        }
-
-        public static void VerifySchemaVersion()
-        {
-            using (var cmd = new SqliteCommand(SQL_GET_SCHEMA_VERSION, MainConnection.Connection, MainConnection.Transaction))
-            using (var reader = cmd.ExecuteReader())
-            {
-                reader.Read();
-                if (!reader["value"].ToString().Equals(SCHEMA_VERSION))
-                {
-                    Log.Fatal("Schema version of database is {0} but {1} is required. Use config --reset-database to delete the incompatible database.", reader["value"].ToString(), SCHEMA_VERSION);
-                    Environment.Exit(-1);
                 }
             }
         }
@@ -752,6 +768,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void SetOptOut(bool OptOut)
         {
+
             using (var cmd = new SqliteCommand(UPDATE_TELEMETRY, MainConnection.Connection, MainConnection.Transaction))
             {
                 cmd.Parameters.AddWithValue("@TelemetryOptOut", OptOut.ToString(CultureInfo.InvariantCulture));
