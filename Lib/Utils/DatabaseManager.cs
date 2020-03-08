@@ -135,6 +135,9 @@ namespace AttackSurfaceAnalyzer.Utils
                         Log.Fatal("Database has schema version {settings.SchemaVersion} but database has schema version {SCHEMA_VERSION}.");
                         Environment.Exit((int)ASA_ERROR.MATCHING_SCHEMA);
                     }
+
+                    FirstRun = false;
+
                     SHARDING_FACTOR = settings.ShardingFactor;
                     AsaTelemetry.SetEnabled(settings.TelemetryEnabled);
                 }
@@ -222,8 +225,6 @@ namespace AttackSurfaceAnalyzer.Utils
             // Settings exist, this isn't the first run
             if (reader.HasRows)
             {
-                FirstRun = false;
-
                 while (reader.Read())
                 {
                     return JsonSerializer.Deserialize<Settings>(reader["serialized"].ToString());
