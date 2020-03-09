@@ -39,7 +39,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private const string SQL_CREATE_FINDINGS_LEVEL_RESULT_TYPE_INDEX = "create index if not exists i_findings_level_result_type on findings(level, result_type)";
 
-        private const string SQL_CREATE_PERSISTED_SETTINGS = "create table if not exists persisted_settings (id text, serialized text, unique(setting))";
+        private const string SQL_CREATE_PERSISTED_SETTINGS = "create table if not exists persisted_settings (id text, serialized text, unique(id))";
         private const string SQL_UPSERT_PERSISTED_SETTINGS = "insert or replace into persisted_settings (id, serialized) values (@id, @serialized)";
         private const string SQL_GET_PERSISTED_SETTINGS = "select serialized from persisted_settings where id=@id";
 
@@ -155,9 +155,9 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 PopulateConnections();
 
-                try
-                {   
-                    if (FirstRun)
+                if (FirstRun)
+                {
+                    try
                     {
                         using var cmd = new SqliteCommand(PRAGMAS, MainConnection.Connection);
                         cmd.ExecuteNonQuery();
@@ -213,10 +213,15 @@ namespace AttackSurfaceAnalyzer.Utils
                             }
                         }
                     }
+                    catch (SqliteException e) {
+                        Log.Debug(e,"Failed to set up fresh database.");
+                        Environment.Exit((int)ASA_ERROR.FAILED_TO_CREATE_DATABASE);
+                    }
+					finally
+                    {
+                        Commit();
+                    }
                 }
-                catch (SqliteException) { }
-
-                Commit();
 
                 return true;
             }
@@ -236,7 +241,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     while (reader.Read())
                     {
-                        return JsonSerializer.Deserialize<Settings>(reader["serialized"].ToString());
+                        return JsonSerializer.Deserialize<Settings>((byte[])reader["serialized"]);
                     }
                 }
             }
@@ -538,17 +543,6 @@ namespace AttackSurfaceAnalyzer.Utils
         }
 
         public static void BeginTransaction()
-        {
-            if (MainConnection.Transaction is null)
-            {
-                Parallel.ForEach(Connections, cxn =>
-                {
-                    cxn.BeginTransaction();
-                });
-            }
-        }
-
-        public static void BeginTransactionLinq()
         {
             Connections.AsParallel().ForAll(cxn => cxn.BeginTransaction());
         }
