@@ -38,12 +38,6 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             DatabaseManager.BeginTransaction();
         }
 
-        [Benchmark]
-        public void BeginTransactionLinq()
-        {
-            DatabaseManager.BeginTransactionLinq();
-        }
-
         public void PopulateDatabases()
         {
             DatabaseManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite", shardingFactor: Shards);
