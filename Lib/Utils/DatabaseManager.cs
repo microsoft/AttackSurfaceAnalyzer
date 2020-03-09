@@ -140,12 +140,17 @@ namespace AttackSurfaceAnalyzer.Utils
                     FirstRun = false;
 
                     SHARDING_FACTOR = settings.ShardingFactor;
+
+                    if (shardingFactor != SHARDING_FACTOR)
+                    {
+                        Log.Information($"Requested sharding level of {shardingFactor} but database was created with {SHARDING_FACTOR}. Ignoring request and using {SHARDING_FACTOR}.");
+                    }
+
                     AsaTelemetry.SetEnabled(settings.TelemetryEnabled);
                 }
-
-                if (shardingFactor != SHARDING_FACTOR)
+                else
                 {
-                    Log.Information($"Requested sharding level of {shardingFactor} but database was created with {SHARDING_FACTOR}. Ignoring request and using {SHARDING_FACTOR}.");
+                    SHARDING_FACTOR = shardingFactor;
                 }
 
                 PopulateConnections();
@@ -299,20 +304,17 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void Destroy()
         {
-            CloseDatabase();
             try
             {
-                File.Delete(SqliteFilename);
-                for (int i = 1; i < SHARDING_FACTOR; i++)
-                {
-                    File.Delete($"{SqliteFilename}_{i}");
-                }
+                Log.Information($"Deleting {SqliteFilename}");
+                Connections.AsParallel().ForAll(x => x.Destroy());
             }
             catch (IOException e)
             {
                 Log.Fatal(e, Strings.Get("FailedToDeleteDatabase"), SqliteFilename, e.GetType().ToString(), e.Message);
                 Environment.Exit(-1);
             }
+            Connections = null;
         }
 
         public static List<DataRunModel> GetResultModels(RUN_STATUS runStatus)

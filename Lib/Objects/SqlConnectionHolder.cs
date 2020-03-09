@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Concurrent;
 using Microsoft.Data.Sqlite;
 using System.Threading;
@@ -22,20 +23,29 @@ namespace AttackSurfaceAnalyzer.Objects
             StartWriter();
         }
 
-        public SqlConnectionHolder(SqliteConnection connection, SqliteTransaction transaction = null)
-        {
-            Connection = connection;
-            Transaction = transaction;
-            StartWriter();
-            Source = Connection.ConnectionString;
-        }
-
         internal void StartWriter()
         {
             ((Action)(async () =>
             {
                 await Task.Run(() => KeepFlushQueue()).ConfigureAwait(false);
             }))();
+        }
+
+        public void Destroy()
+        {
+            if (Connection != null)
+            {
+                Connection.Close();
+            }
+            Connection = null;
+            Transaction = null;
+            Log.Information($"Deleting {Source}");
+            try{
+                File.Delete(Source);
+            }
+            catch(Exception e){
+                Log.Warning(e,$"Failed to delete database at {Source}");
+            }
         }
 
         public void KeepFlushQueue()
@@ -74,7 +84,6 @@ namespace AttackSurfaceAnalyzer.Objects
                 Transaction = null;
             }
         }
-         
 
         public void WriteNext()
         {
