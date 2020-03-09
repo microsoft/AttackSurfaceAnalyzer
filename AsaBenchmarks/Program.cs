@@ -1,6 +1,4 @@
-﻿using AttackSurfaceAnalyzer.Utils;
-using BenchmarkDotNet.Configs;
-using BenchmarkDotNet.Running;
+﻿using BenchmarkDotNet.Running;
 
 namespace AttackSurfaceAnalyzer.Benchmarks
 {
@@ -8,7 +6,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     {
         public static void Main(string[] args)
         {
-            var summary = BenchmarkRunner.Run<OpenTransactionTest>();
+            var summary = BenchmarkRunner.Run<InsertTests>();
         }
     }
 }
