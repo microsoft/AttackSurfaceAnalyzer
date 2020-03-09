@@ -55,7 +55,8 @@ namespace AttackSurfaceAnalyzer.Types
         INVALID_PATH,
         ALREADY_RUNNING,
         NO_COLLECTORS,
-        MATCHING_SCHEMA
+        MATCHING_SCHEMA,
+        FAILED_TO_CREATE_DATABASE
     }
 
 
