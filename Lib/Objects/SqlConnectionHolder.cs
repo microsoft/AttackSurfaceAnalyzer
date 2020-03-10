@@ -74,9 +74,9 @@ namespace AttackSurfaceAnalyzer.Objects
             {
                 Transaction.Commit();
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Log.Warning($"Failed to commit data to {Source}");
+                Log.Warning(e,$"Failed to commit data to {Source}");
             }
             finally
             {
