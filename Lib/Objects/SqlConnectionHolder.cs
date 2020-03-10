@@ -39,7 +39,6 @@ namespace AttackSurfaceAnalyzer.Objects
             }
             Connection = null;
             Transaction = null;
-            Log.Information($"Deleting {Source}");
             try{
                 File.Delete(Source);
             }

@@ -309,16 +309,8 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void Destroy()
         {
-            try
-            {
-                Log.Information($"Deleting {SqliteFilename}");
-                Connections.AsParallel().ForAll(x => x.Destroy());
-            }
-            catch (IOException e)
-            {
-                Log.Fatal(e, Strings.Get("FailedToDeleteDatabase"), SqliteFilename, e.GetType().ToString(), e.Message);
-                Environment.Exit(-1);
-            }
+            Log.Information($"Deleting {SqliteFilename}");
+            Connections.AsParallel().ForAll(x => x.Destroy());
             Connections = null;
         }
 
@@ -729,8 +721,8 @@ namespace AttackSurfaceAnalyzer.Utils
             Connections.AsParallel().ForAll(cxn =>
             {
                 using var truncateCollectTable = new SqliteCommand(SQL_DELETE_RUN, cxn.Connection, cxn.Transaction);
-                truncateRunsTable.Parameters.AddWithValue("@run_id", runid);
-                truncateRunsTable.ExecuteNonQuery();
+                truncateCollectTable.Parameters.AddWithValue("@run_id", runid);
+                truncateCollectTable.ExecuteNonQuery();
             });
         }
 
