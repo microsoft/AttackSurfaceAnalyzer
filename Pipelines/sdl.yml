@@ -23,10 +23,10 @@ variables:
 
 steps:
 - task: UseDotNet@2
-  displayName: Use DotNet 3.1.100
+  displayName: Use DotNet 3.1
   inputs:
     packageType: 'sdk'
-    version: '3.1.100'
+    version: '3.1.x'
 
 - script: 'dotnet tool install -g nbgv'
   displayName: 'Install GitVersioning'
