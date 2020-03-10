@@ -373,7 +373,7 @@ namespace AsaTests
 
                 foreach (var collectResult in collectResults)
                 {
-                    comObjects.Add((ComObject)JsonUtils.Hydrate(collectResult));
+                    comObjects.Add((ComObject)(collectResult.DeserializedObject));
                 }
 
                 Assert.IsTrue(comObjects.Where(x => x.x86_Binary != null).Count() > 0);

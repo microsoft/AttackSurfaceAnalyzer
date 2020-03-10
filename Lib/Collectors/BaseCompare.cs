@@ -60,7 +60,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 var obj = new CompareResult()
                 {
-                    Compare = JsonUtils.Hydrate(added),
+                    Compare = added.DeserializedObject,
                     BaseRunId = firstRunId,
                     CompareRunId = secondRunId,
                     CompareRowKey = added.RowKey,
@@ -77,7 +77,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 var obj = new CompareResult()
                 {
-                    Base = JsonUtils.Hydrate(removed),
+                    Base = removed.DeserializedObject,
                     BaseRunId = firstRunId,
                     CompareRunId = secondRunId,
                     BaseRowKey = removed.RowKey,
@@ -94,8 +94,8 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 var compareLogic = new CompareLogic();
                 compareLogic.Config.IgnoreCollectionOrder = true;
-                var first = JsonUtils.Hydrate(modified.First);
-                var second = JsonUtils.Hydrate(modified.Second);
+                var first = modified.First.DeserializedObject;
+                var second = modified.Second.DeserializedObject;
                 var obj = new CompareResult()
                 {
                     Base = first,

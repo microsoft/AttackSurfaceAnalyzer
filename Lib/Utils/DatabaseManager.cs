@@ -652,7 +652,8 @@ namespace AttackSurfaceAnalyzer.Utils
                             RunId = reader["run_id"].ToString(),
                             ResultType = (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["result_type"].ToString()),
                             RowKey = (byte[])reader["row_key"],
-                            Serialized = (byte[])reader["serialized"]
+                            Serialized = (byte[])reader["serialized"],
+                            DeserializedObject = JsonUtils.Hydrate((byte[])reader["serialized"],(RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["result_type"].ToString()))
                         });
                     }
                 }
@@ -682,7 +683,8 @@ namespace AttackSurfaceAnalyzer.Utils
                                 RunId = reader["a_run_id"].ToString(),
                                 ResultType = (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["a_result_type"].ToString()),
                                 RowKey = (byte[])reader["a_row_key"],
-                                Serialized = (byte[])reader["a_serialized"]
+                                Serialized = (byte[])reader["a_serialized"],
+                                DeserializedObject = JsonUtils.Hydrate((byte[])reader["a_serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["a_result_type"].ToString()))
                             },
                             Second = new RawCollectResult()
                             {
@@ -690,7 +692,8 @@ namespace AttackSurfaceAnalyzer.Utils
                                 RunId = reader["b_run_id"].ToString(),
                                 ResultType = (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["b_result_type"].ToString()),
                                 RowKey = (byte[])reader["b_row_key"],
-                                Serialized = (byte[])reader["b_serialized"]
+                                Serialized = (byte[])reader["b_serialized"],
+                                DeserializedObject = JsonUtils.Hydrate((byte[])reader["b_serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["b_result_type"].ToString()))
                             }
                         }
                         );
