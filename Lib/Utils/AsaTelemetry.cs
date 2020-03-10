@@ -13,16 +13,16 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string INSTRUMENTATION_KEY = "719e5a56-dae8-425f-be07-877db7ae4d3b";
 
         private static TelemetryClient Client;
-        public static bool OptOut { get; private set; }
+        public static bool Enabled { get; private set; }
 
         public static void Setup(bool test = false)
         {
             if (Client == null)
             {
                 using var config = TelemetryConfiguration.CreateDefault();
-                OptOut = test ? true: DatabaseManager.GetOptOut();
+                Enabled = test ? true: DatabaseManager.GetTelemetryEnabled();
                 config.InstrumentationKey = INSTRUMENTATION_KEY;
-                config.DisableTelemetry = OptOut;
+                config.DisableTelemetry = !Enabled;
                 Client = new TelemetryClient(config);
                 Client.Context.Component.Version = AsaHelpers.GetVersionString();
                 // Force some values to static values to prevent gathering unneeded data
@@ -37,19 +37,19 @@ namespace AttackSurfaceAnalyzer.Utils
             Client.Flush();
         }
 
-        public static void SetOptOut(bool optOut)
+        public static void SetEnabled(bool enabled)
         {
-            OptOut = optOut;
+            Enabled = enabled;
             using var config = TelemetryConfiguration.CreateDefault();
             config.InstrumentationKey = INSTRUMENTATION_KEY;
-            config.DisableTelemetry = OptOut;
+            config.DisableTelemetry = Enabled;
             Client = new TelemetryClient(config);
             Client.Context.Component.Version = AsaHelpers.GetVersionString();
             // Force some values to static values to prevent gathering unneeded data
             Client.Context.Cloud.RoleInstance = "Asa";
             Client.Context.Cloud.RoleName = "Asa";
             Client.Context.Location.Ip = "1.1.1.1";
-            DatabaseManager.SetOptOut(optOut);
+            DatabaseManager.SetTelemetryEnabled(Enabled);
         }
 
         public static void TrackEvent(string name, Dictionary<string, string> evt)

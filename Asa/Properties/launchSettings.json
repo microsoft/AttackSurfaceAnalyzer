@@ -11,6 +11,7 @@
     "Collect": {
       "commandName": "Project",
       "commandLineArgs": "collect -f --directories C:\\Users\\Gstoc\\Downloads\\Test",
+      "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
@@ -19,7 +20,11 @@
     "Export-Collect": {
       "commandName": "Project",
       "commandLineArgs": "export-collect",
-      "environmentVariables": {}
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "http://localhost:5000/"
     },
     "Asa": {
       "commandName": "Project",

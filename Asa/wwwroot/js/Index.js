@@ -2,6 +2,6 @@
 // Licensed under the MIT License.
 "use strict";
 $('#TelemetryOpt').change(function () {
-    var data = { 'DisableTelemetry': !$('#TelemetryOpt').is(":checked") };
+    var data = { 'EnableTelemetry': $('#TelemetryOpt').is(":checked") };
     $.getJSON('Home/ChangeTelemetryState', data, function () { });
 })

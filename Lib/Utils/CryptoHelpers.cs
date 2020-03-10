@@ -3,6 +3,7 @@
 using Murmur;
 using System;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -36,6 +37,26 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             using HashAlgorithm murmur128 = MurmurHash.Create128();
             return Convert.ToBase64String(murmur128.ComputeHash(stream));
+        }
+
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        const int length = 64;
+
+        private readonly static RNGCryptoServiceProvider crypto = new RNGCryptoServiceProvider();
+
+        public static string GetRandomString(int characters) => new string(Enumerable.Range(1, characters).Select(_ => chars[GetRandomPositiveIndex(chars.Length)]).ToArray());
+
+        public static int GetRandomPositiveIndex(int max)
+        {
+            var randomInteger = UInt32.MaxValue;
+            while (randomInteger == UInt32.MaxValue)
+            {
+                byte[] data = new byte[4];
+                crypto.GetBytes(data);
+                randomInteger = BitConverter.ToUInt32(data, 0);
+            }
+
+            return (int)(max * (randomInteger / (double)uint.MaxValue));
         }
 
     }

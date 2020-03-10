@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+using AttackSurfaceAnalyzer.Cli;
 using AttackSurfaceAnalyzer.Collectors;
 using AttackSurfaceAnalyzer.Models;
 using AttackSurfaceAnalyzer.Objects;
@@ -149,18 +150,18 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 // We won't start new collections while existing ones are ongoing.
                 if (c.IsRunning() == RUN_STATUS.RUNNING)
                 {
-                    return Json(GUI_ERROR.ALREADY_RUNNING);
+                    return Json(ASA_ERROR.ALREADY_RUNNING);
                 }
             }
             AttackSurfaceAnalyzerClient.ClearCollectors();
 
             if (DatabaseManager.GetRun(Id) != null)
             {
-                return Json(GUI_ERROR.UNIQUE_ID);
+                return Json(ASA_ERROR.UNIQUE_ID);
             }
 
             _ = Task.Factory.StartNew(() => AttackSurfaceAnalyzerClient.RunCollectCommand(opts));
-            return Json(GUI_ERROR.NONE);
+            return Json(ASA_ERROR.NONE);
         }
 
         public IActionResult Collect()
@@ -168,9 +169,9 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             return View();
         }
 
-        public ActionResult ChangeTelemetryState(bool DisableTelemetry)
+        public ActionResult ChangeTelemetryState(bool EnableTelemetry)
         {
-            AsaTelemetry.SetOptOut(DisableTelemetry);
+            AsaTelemetry.SetEnabled(EnableTelemetry);
 
             return Json(true);
         }
@@ -181,10 +182,16 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             {
                 if (DatabaseManager.GetRun(RunId) != null)
                 {
-                    return Json(GUI_ERROR.UNIQUE_ID);
+                    return Json(ASA_ERROR.UNIQUE_ID);
                 }
 
-                DatabaseManager.InsertRun(RunId, new Dictionary<RESULT_TYPE, bool>() { { RESULT_TYPE.FILEMONITOR, true } });
+                var run = new Run()
+                {
+                    RunId = RunId,
+                    ResultTypes = new Dictionary<RESULT_TYPE, bool>() { { RESULT_TYPE.FILEMONITOR, true } },
+                    Type = RUN_TYPE.MONITOR
+                };
+                DatabaseManager.InsertRun(run);
 
                 MonitorCommandOptions opts = new MonitorCommandOptions
                 {

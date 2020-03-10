@@ -31,14 +31,7 @@ namespace AsaTests
 
         public void TearDown()
         {
-            DatabaseManager.CloseDatabase();
-            try
-            {
-                File.Delete(DatabaseManager.SqliteFilename);
-            }
-            catch (Exception)
-            {
-            }
+            DatabaseManager.Destroy();
         }
 
         [TestMethod]
@@ -380,7 +373,7 @@ namespace AsaTests
 
                 foreach (var collectResult in collectResults)
                 {
-                    comObjects.Add((ComObject)BaseCompare.Hydrate(collectResult));
+                    comObjects.Add((ComObject)(collectResult.DeserializedObject));
                 }
 
                 Assert.IsTrue(comObjects.Where(x => x.x86_Binary != null).Count() > 0);

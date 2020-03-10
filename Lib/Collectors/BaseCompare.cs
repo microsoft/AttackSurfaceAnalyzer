@@ -35,45 +35,6 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Deserialize a Collect object from a RawCollectResult
-        /// </summary>
-        /// <param name="res">The RawCollectResult containing the JsonSerialized object to hydrate.</param>
-        /// <returns>An appropriately typed collect object based on the collect result passed in, or null if the RESULT_TYPE is unknown.</returns>
-        public static CollectObject Hydrate(RawCollectResult res)
-        {
-            if (res == null)
-            {
-                throw new NullReferenceException();
-            }
-            switch (res.ResultType)
-            {
-                case RESULT_TYPE.CERTIFICATE:
-                    return JsonSerializer.Deserialize<CertificateObject>(res.Serialized);
-                case RESULT_TYPE.FILE:
-                    return JsonSerializer.Deserialize<FileSystemObject>(res.Serialized);
-                case RESULT_TYPE.PORT:
-                    return JsonSerializer.Deserialize<OpenPortObject>(res.Serialized);
-                case RESULT_TYPE.REGISTRY:
-                    return JsonSerializer.Deserialize<RegistryObject>(res.Serialized);
-                case RESULT_TYPE.SERVICE:
-                    return JsonSerializer.Deserialize<ServiceObject>(res.Serialized);
-                case RESULT_TYPE.USER:
-                    return JsonSerializer.Deserialize<UserAccountObject>(res.Serialized);
-                case RESULT_TYPE.GROUP:
-                    return JsonSerializer.Deserialize<GroupAccountObject>(res.Serialized);
-                case RESULT_TYPE.FIREWALL:
-                    return JsonSerializer.Deserialize<FirewallObject>(res.Serialized);
-                case RESULT_TYPE.COM:
-                    return JsonSerializer.Deserialize<ComObject>(res.Serialized);
-                case RESULT_TYPE.LOG:
-                    return JsonSerializer.Deserialize<EventLogObject>(res.Serialized);
-                default:
-                    return null;
-            }
-        }
-
-
-        /// <summary>
         /// Compares all the common collectors between two runs.
         /// </summary>
         /// <param name="firstRunId">The Base run id.</param>
@@ -99,7 +60,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 var obj = new CompareResult()
                 {
-                    Compare = Hydrate(added),
+                    Compare = added.DeserializedObject,
                     BaseRunId = firstRunId,
                     CompareRunId = secondRunId,
                     CompareRowKey = added.RowKey,
@@ -116,7 +77,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 var obj = new CompareResult()
                 {
-                    Base = Hydrate(removed),
+                    Base = removed.DeserializedObject,
                     BaseRunId = firstRunId,
                     CompareRunId = secondRunId,
                     BaseRowKey = removed.RowKey,
@@ -133,8 +94,8 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 var compareLogic = new CompareLogic();
                 compareLogic.Config.IgnoreCollectionOrder = true;
-                var first = Hydrate(modified.First);
-                var second = Hydrate(modified.Second);
+                var first = modified.First.DeserializedObject;
+                var second = modified.Second.DeserializedObject;
                 var obj = new CompareResult()
                 {
                     Base = first,

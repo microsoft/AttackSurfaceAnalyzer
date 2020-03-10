@@ -46,15 +46,17 @@ namespace AttackSurfaceAnalyzer.Types
     }
 
     /// <summary>
-    /// Errors used to communicate with the GUI.
+    /// Errors enum.
     /// </summary>
-    public enum GUI_ERROR
+    public enum ASA_ERROR
     {
         NONE,
         UNIQUE_ID,
         INVALID_PATH,
         ALREADY_RUNNING,
-        NO_COLLECTORS
+        NO_COLLECTORS,
+        MATCHING_SCHEMA,
+        FAILED_TO_CREATE_DATABASE
     }
 
 

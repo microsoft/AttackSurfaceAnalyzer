@@ -13,6 +13,8 @@ pr:
     include:
     - Asa
     - Lib
+    - AsaTests
+    - AsaBenchmarks
 
 variables:
   solution: '**/*.sln'

@@ -23,7 +23,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AttackSurfaceAnalyzer
+namespace AttackSurfaceAnalyzer.Cli
 {
     public static class AttackSurfaceAnalyzerClient
     {
@@ -71,10 +71,10 @@ namespace AttackSurfaceAnalyzer
             AsaTelemetry.Setup();
 
             var server = WebHost.CreateDefaultBuilder(Array.Empty<string>())
-                    .UseStartup<Asa.Startup>()
+                    .UseStartup<Startup>()
                     .UseKestrel(options =>
                     {
-                        options.Listen(IPAddress.Loopback, 5000); //HTTP port
+                        options.Listen(IPAddress.Loopback, 5000);
                     })
                     .Build();
 
@@ -103,22 +103,12 @@ namespace AttackSurfaceAnalyzer
 
             if (opts.ResetDatabase)
             {
-                DatabaseManager.CloseDatabase();
-                try
-                {
-                    File.Delete(opts.DatabaseFilename);
-                }
-                catch (IOException e)
-                {
-                    Log.Fatal(e, Strings.Get("FailedToDeleteDatabase"), opts.DatabaseFilename, e.GetType().ToString(), e.Message);
-                    Environment.Exit(-1);
-                }
-                Log.Information(Strings.Get("DeletedDatabaseAt"), opts.DatabaseFilename);
+                var filename = DatabaseManager.SqliteFilename;
+                DatabaseManager.Destroy();
+                Log.Information(Strings.Get("DeletedDatabaseAt"), filename);
             }
             else
             {
-                DatabaseManager.VerifySchemaVersion();
-
                 if (opts.ListRuns)
                 {
                     if (DatabaseManager.FirstRun)
@@ -179,7 +169,7 @@ namespace AttackSurfaceAnalyzer
 
                 if (opts.TelemetryOptOut != null)
                 {
-                    AsaTelemetry.SetOptOut(bool.Parse(opts.TelemetryOptOut));
+                    AsaTelemetry.SetEnabled(!bool.Parse(opts.TelemetryOptOut));
                     Log.Information(Strings.Get("TelemetryOptOut"), (bool.Parse(opts.TelemetryOptOut)) ? "Opted out" : "Opted in");
                 }
                 if (opts.DeleteRunId != null)
@@ -191,7 +181,6 @@ namespace AttackSurfaceAnalyzer
                     DatabaseManager.TrimToLatest();
                 }
             }
-
             return 0;
         }
 
@@ -212,7 +201,6 @@ namespace AttackSurfaceAnalyzer
             DatabaseManager.Setup(opts.DatabaseFilename);
             CheckFirstRun();
             AsaTelemetry.Setup();
-            DatabaseManager.VerifySchemaVersion();
 
             if (opts.FirstRunId == "Timestamps" || opts.SecondRunId == "Timestamps")
             {
@@ -403,7 +391,6 @@ namespace AttackSurfaceAnalyzer
             DatabaseManager.Setup(opts.DatabaseFilename);
             CheckFirstRun();
             AsaTelemetry.Setup();
-            DatabaseManager.VerifySchemaVersion();
 
             if (opts.RunId.Equals("Timestamp", StringComparison.InvariantCulture))
             {
@@ -476,7 +463,6 @@ namespace AttackSurfaceAnalyzer
             AsaTelemetry.TrackEvent("Begin monitoring", StartEvent);
 
             CheckFirstRun();
-            DatabaseManager.VerifySchemaVersion();
 
             Filter.LoadFilters(opts.FilterLocation);
 
@@ -496,11 +482,16 @@ namespace AttackSurfaceAnalyzer
                 if (DatabaseManager.GetRun(opts.RunId) != null)
                 {
                     Log.Error(Strings.Get("Err_RunIdAlreadyUsed"));
-                    return (int)GUI_ERROR.UNIQUE_ID;
+                    return (int)ASA_ERROR.UNIQUE_ID;
                 }
             }
 
-            DatabaseManager.InsertRun(opts.RunId, new Dictionary<RESULT_TYPE, bool>() { { RESULT_TYPE.FILEMONITOR, true } });
+            var run = new Run()
+            {
+                RunId = opts.RunId,
+                ResultTypes = new Dictionary<RESULT_TYPE, bool>() { { RESULT_TYPE.FILEMONITOR, true } }
+            };
+            DatabaseManager.InsertRun(run);
 
             int returnValue = 0;
 
@@ -565,7 +556,7 @@ namespace AttackSurfaceAnalyzer
             if (monitors.Count == 0)
             {
                 Log.Warning(Strings.Get("Err_NoMonitors"));
-                returnValue = 1;
+                returnValue = (int)ASA_ERROR.NO_COLLECTORS;
             }
 
             using var exitEvent = new ManualResetEvent(false);
@@ -629,7 +620,6 @@ namespace AttackSurfaceAnalyzer
                 catch (Exception ex)
                 {
                     Log.Error(ex, " {0}: {1}", c.GetType().Name, ex.Message, Strings.Get("Err_Stopping"));
-                    returnValue = 1;
                 }
             }
 
@@ -765,11 +755,11 @@ namespace AttackSurfaceAnalyzer
             return results;
         }
 
-        public static GUI_ERROR RunGuiMonitorCommand(MonitorCommandOptions opts)
+        public static ASA_ERROR RunGuiMonitorCommand(MonitorCommandOptions opts)
         {
             if (opts is null)
             {
-                return GUI_ERROR.NO_COLLECTORS;
+                return ASA_ERROR.NO_COLLECTORS;
             }
             if (opts.EnableFileSystemMonitor)
             {
@@ -792,7 +782,7 @@ namespace AttackSurfaceAnalyzer
                     catch (ArgumentException)
                     {
                         Log.Warning("{1}: {0}", dir, Strings.Get("InvalidPath"));
-                        return GUI_ERROR.INVALID_PATH;
+                        return ASA_ERROR.INVALID_PATH;
                     }
                 }
             }
@@ -807,7 +797,7 @@ namespace AttackSurfaceAnalyzer
                 c.StartRun();
             }
 
-            return GUI_ERROR.NONE;
+            return ASA_ERROR.NONE;
         }
 
         public static int StopMonitors()
@@ -858,7 +848,7 @@ namespace AttackSurfaceAnalyzer
 #else
             Logger.Setup(opts.Debug, opts.Verbose, opts.Quiet);
 #endif
-            DatabaseManager.Setup(opts.DatabaseFilename);
+            DatabaseManager.Setup(opts.DatabaseFilename, opts.Shards);
             AsaTelemetry.Setup();
 
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
@@ -877,9 +867,8 @@ namespace AttackSurfaceAnalyzer
             AdminOrQuit();
 
             CheckFirstRun();
-            DatabaseManager.VerifySchemaVersion();
 
-            int returnValue = (int)GUI_ERROR.NONE;
+            int returnValue = (int)ASA_ERROR.NONE;
             opts.RunId = opts.RunId.Trim();
 
             if (opts.RunId.Equals("Timestamp", StringComparison.InvariantCulture))
@@ -889,8 +878,8 @@ namespace AttackSurfaceAnalyzer
 
             if (opts.MatchedCollectorId != null)
             {
-                var resultTypes = DatabaseManager.GetResultTypes(opts.MatchedCollectorId);
-                foreach (var resultType in resultTypes)
+                var matchedRun = DatabaseManager.GetRun(opts.MatchedCollectorId);
+                foreach (var resultType in matchedRun.ResultTypes)
                 {
                     switch (resultType.Key)
                     {
@@ -973,7 +962,7 @@ namespace AttackSurfaceAnalyzer
             if (collectors.Count == 0)
             {
                 Log.Warning(Strings.Get("Err_NoCollectors"));
-                return (int)GUI_ERROR.NO_COLLECTORS;
+                return (int)ASA_ERROR.NO_COLLECTORS;
             }
 
             if (!opts.NoFilters)
@@ -997,12 +986,18 @@ namespace AttackSurfaceAnalyzer
                 if (DatabaseManager.GetRun(opts.RunId) != null)
                 {
                     Log.Error(Strings.Get("Err_RunIdAlreadyUsed"));
-                    return (int)GUI_ERROR.UNIQUE_ID;
+                    return (int)ASA_ERROR.UNIQUE_ID;
                 }
             }
             Log.Information(Strings.Get("Begin"), opts.RunId);
 
-            DatabaseManager.InsertRun(opts.RunId, dict);
+            var run = new Run()
+            {
+                RunId = opts.RunId,
+                ResultTypes = dict
+            };
+
+            DatabaseManager.InsertRun(run);
 
             Log.Information(Strings.Get("StartingN"), collectors.Count.ToString(CultureInfo.InvariantCulture), Strings.Get("Collectors"));
 
@@ -1010,7 +1005,7 @@ namespace AttackSurfaceAnalyzer
             {
                 Log.Information("Cancelling collection. Rolling back transaction. Please wait to avoid corrupting database.");
                 DatabaseManager.RollBack();
-                Environment.Exit(0);
+                Environment.Exit(-1);
             };
 
             Dictionary<string, string> EndEvent = new Dictionary<string, string>();
@@ -1035,6 +1030,7 @@ namespace AttackSurfaceAnalyzer
             AsaTelemetry.TrackEvent("End Command", EndEvent);
 
             DatabaseManager.Commit();
+            DatabaseManager.CloseDatabase();
             return returnValue;
         }
 
