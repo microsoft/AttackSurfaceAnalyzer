@@ -373,7 +373,7 @@ namespace AsaTests
 
                 foreach (var collectResult in collectResults)
                 {
-                    comObjects.Add((ComObject)BaseCompare.Hydrate(collectResult));
+                    comObjects.Add((ComObject)JsonUtils.Hydrate(collectResult));
                 }
 
                 Assert.IsTrue(comObjects.Where(x => x.x86_Binary != null).Count() > 0);
