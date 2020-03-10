@@ -1,4 +1,5 @@
 ﻿using AttackSurfaceAnalyzer.Objects;
+using AttackSurfaceAnalyzer.Types;
 using System;
 using Utf8Json;
 
@@ -54,25 +55,25 @@ namespace AttackSurfaceAnalyzer.Utils
             switch (res.ResultType)
             {
                 case RESULT_TYPE.CERTIFICATE:
-                    return JsonSerializer.Deserialize<CertificateObject>(res.ColObj);
+                    return JsonSerializer.Deserialize<CertificateObject>(res.Serialized);
                 case RESULT_TYPE.FILE:
-                    return JsonSerializer.Deserialize<FileSystemObject>(res.ColObj);
+                    return JsonSerializer.Deserialize<FileSystemObject>(res.Serialized);
                 case RESULT_TYPE.PORT:
-                    return JsonSerializer.Deserialize<OpenPortObject>(res.ColObj);
+                    return JsonSerializer.Deserialize<OpenPortObject>(res.Serialized);
                 case RESULT_TYPE.REGISTRY:
-                    return JsonSerializer.Deserialize<RegistryObject>(res.ColObj);
+                    return JsonSerializer.Deserialize<RegistryObject>(res.Serialized);
                 case RESULT_TYPE.SERVICE:
-                    return JsonSerializer.Deserialize<ServiceObject>(res.ColObj);
+                    return JsonSerializer.Deserialize<ServiceObject>(res.Serialized);
                 case RESULT_TYPE.USER:
-                    return JsonSerializer.Deserialize<UserAccountObject>(res.ColObj);
+                    return JsonSerializer.Deserialize<UserAccountObject>(res.Serialized);
                 case RESULT_TYPE.GROUP:
-                    return JsonSerializer.Deserialize<GroupAccountObject>(res.ColObj);
+                    return JsonSerializer.Deserialize<GroupAccountObject>(res.Serialized);
                 case RESULT_TYPE.FIREWALL:
-                    return JsonSerializer.Deserialize<FirewallObject>(res.ColObj);
+                    return JsonSerializer.Deserialize<FirewallObject>(res.Serialized);
                 case RESULT_TYPE.COM:
-                    return JsonSerializer.Deserialize<ComObject>(res.ColObj);
+                    return JsonSerializer.Deserialize<ComObject>(res.Serialized);
                 case RESULT_TYPE.LOG:
-                    return JsonSerializer.Deserialize<EventLogObject>(res.ColObj);
+                    return JsonSerializer.Deserialize<EventLogObject>(res.Serialized);
                 default:
                     return null;
             }
