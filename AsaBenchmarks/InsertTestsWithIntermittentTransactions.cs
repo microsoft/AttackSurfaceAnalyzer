@@ -1,6 +1,7 @@
 ﻿using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using BenchmarkDotNet.Attributes;
+using Serilog;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     {
         // The number of records to insert for the benchmark
         //[Params(25000,50000,100000)]
-        [Params(100000)]
+        [Params(100000,1000000)]
         public int N { get; set; }
 
         // The number of records to populate the database with before the benchmark
@@ -28,11 +29,11 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         public int ObjectPadding { get; set; }
 
         // The number of Shards/Threads to use for Database operations
-        [Params(1,2,3,4,5,6,7,8,9,10,11,12)]
+        [Params(6)]
         public int Shards { get; set; }
 
         // The number of Shards/Threads to use for Database operations
-        [Params(5000,10000,25000)]
+        [Params(5000,10000,25000,100000,-1)]
         public int FlushCount { get; set; }
 
         // Bag of reusable objects to write to the database.
@@ -117,18 +118,11 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [IterationCleanup]
         public void IterationCleanup()
         {
-            if (StartingSize == 0)
-            {
-                DatabaseManager.Destroy();
-            }
-            else
-            {
-                DatabaseManager.BeginTransaction();
-                DatabaseManager.DeleteRun("Insert_N_Objects");
-                DatabaseManager.Commit();
-                DatabaseManager.Vacuum();
-                DatabaseManager.CloseDatabase();
-            }
+            DatabaseManager.BeginTransaction();
+            DatabaseManager.DeleteRun("Insert_N_Objects");
+            DatabaseManager.Commit();
+            DatabaseManager.Vacuum();
+            DatabaseManager.CloseDatabase();
         }
     }
 }
