@@ -103,7 +103,17 @@ namespace AttackSurfaceAnalyzer.Utils
         private static int FLUSH_COUNT = -1;
 
 
-        public static SqlConnectionHolder MainConnection { get; private set; }
+        public static SqlConnectionHolder MainConnection
+        {
+            get
+            {
+                if (Connections == null)
+                {
+                    return null;
+                }
+                return Connections[0];
+            }
+        }
 
         public static List<SqlConnectionHolder> Connections { get; private set; }
 
@@ -116,14 +126,15 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 if (SqliteFilename != filename)
                 {
-                    if (Connections != null)
-                    {
-                        CloseDatabase();
-                    }
-
                     SqliteFilename = filename;
                 }
             }
+
+            if (Connections != null)
+            {
+                CloseDatabase();
+            }
+
             if (Connections == null)
             {
                 Connections = new List<SqlConnectionHolder>();
@@ -133,7 +144,6 @@ namespace AttackSurfaceAnalyzer.Utils
                 PopulateConnections();
 
                 var settings = GetSettings();
-
                 if (settings != null)
                 {
                     if (SCHEMA_VERSION != settings.SchemaVersion) {
@@ -155,10 +165,10 @@ namespace AttackSurfaceAnalyzer.Utils
                 else
                 {
                     SHARDING_FACTOR = shardingFactor;
+                    FirstRun = true;
                 }
 
                 PopulateConnections();
-
                 if (FirstRun)
                 {
                     try
@@ -278,7 +288,6 @@ namespace AttackSurfaceAnalyzer.Utils
                 Connections[i].Connection.Open();
                 connectionsCreated++;
             }
-            MainConnection = Connections[0];
             return connectionsCreated;
         }
 
@@ -294,26 +303,8 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        private static int GetShardingFactor(int defaultReturn = -1)
-        {
-            try
-            {
-                using var cmd = new SqliteCommand(SQL_GET_PERSISTED_SETTINGS, MainConnection.Connection, MainConnection.Transaction);
-                using var reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    var settings = JsonSerializer.Deserialize<Settings>(reader["value"].ToString());
-                    return settings.ShardingFactor;
-                }
-            }
-            catch (SqliteException) { }
-
-            return defaultReturn;            
-        }
-
         public static void Destroy()
         {
-            Log.Information($"Deleting {SqliteFilename}");
             Connections.AsParallel().ForAll(x => x.Destroy());
             Connections = null;
         }
@@ -586,7 +577,6 @@ namespace AttackSurfaceAnalyzer.Utils
         public static void CloseDatabase()
         {
             RollBack();
-            //Vacuum();
             if (Connections != null)
             {
                 foreach (var cxn in Connections.Where(x => x.Connection != null))
@@ -603,7 +593,6 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
             }
             Connections = null;
-            MainConnection = null;
         }
 
         public static void Write(CollectObject colObj, string runId)
