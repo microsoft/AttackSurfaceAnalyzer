@@ -12,18 +12,18 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     public class InsertTests
     {
         // The number of records to insert for the benchmark
-        [Params(10000)]
+        [Params(25000)]
         public int N { get; set; }
 
         // The number of records to populate the database with before the benchmark
         //[Params(0,100000,200000,400000,800000,1600000,3200000)]
-        [Params(0)]
+        [Params(5000000)]
         public int StartingSize { get; set; }
 
         // The amount of padding to add to the object in bytes
         // Default size is approx 530 bytes serialized
         // Does not include SQL overhead
-        [Params(0,500)]
+        [Params(500)]
         public int ObjectPadding { get; set; }
 
         // The number of Shards/Threads to use for Database operations
@@ -31,7 +31,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         public int Shards { get; set; }
 
         // Bag of reusable objects to write to the database.
-        private static readonly ConcurrentBag<FileSystemObject> BagOfObjects = new ConcurrentBag<FileSystemObject>();
+        private readonly ConcurrentBag<FileSystemObject> BagOfObjects = new ConcurrentBag<FileSystemObject>();
 
         public InsertTests()
         {
@@ -111,8 +111,6 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [IterationCleanup]
         public void IterationCleanup()
         {
-            DatabaseManager.RollBack();
-            DatabaseManager.DeleteRun("Insert_N_Objects");
             DatabaseManager.CloseDatabase();
         }
     }

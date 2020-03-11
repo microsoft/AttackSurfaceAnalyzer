@@ -572,21 +572,17 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void Vacuum()
         {
-            using var cmd = new SqliteCommand(SQL_VACUUM, MainConnection.Connection, MainConnection.Transaction);
-            cmd.ExecuteNonQuery();
-
-            foreach(var cxn in Connections)
+            Connections.AsParallel().ForAll(cxn =>
             {
                 using var inner_cmd = new SqliteCommand(SQL_VACUUM, cxn.Connection, cxn.Transaction);
                 inner_cmd.ExecuteNonQuery();
-            }
-
+            });
         }
 
         public static void CloseDatabase()
         {
             RollBack();
-            Vacuum();
+            //Vacuum();
             if (Connections != null)
             {
                 foreach (var cxn in Connections.Where(x => x.Connection != null))
@@ -860,16 +856,19 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             if (Connections != null)
             {
-                foreach (var cxn in Connections.Where(x => x.Transaction != null))
+                Connections.AsParallel().ForAll(cxn =>
                 {
                     try
                     {
                         cxn.Transaction.Rollback();
                     }
-                    catch(NullReferenceException e)
+                    catch (NullReferenceException e)
                     { }
-                    cxn.Transaction = null;
-                }
+                    finally
+                    {
+                        cxn.Transaction = null;
+                    }
+                });
             }
         }
 
