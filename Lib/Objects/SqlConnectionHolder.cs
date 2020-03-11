@@ -5,6 +5,7 @@ using Microsoft.Data.Sqlite;
 using System.Threading;
 using System.Threading.Tasks;
 using Serilog;
+using System.Globalization;
 
 namespace AttackSurfaceAnalyzer.Objects
 {
@@ -18,10 +19,21 @@ namespace AttackSurfaceAnalyzer.Objects
         private int RecordCount { get; set; }
         public int FlushCount { get; set; } = -1;
 
-        public SqlConnectionHolder(string databaseFilename, int flushCount = -1)
+        private const string PRAGMAS = "PRAGMA auto_vacuum = 0; PRAGMA synchronous = OFF";
+        private const string JOURNAL_MODE = "PRAGMA journal_mode = {0};";
+
+        public SqlConnectionHolder(string databaseFilename, int flushCount = -1, string journalMode = "OFF")
         {
             Source = databaseFilename;
             Connection = new SqliteConnection($"Data source={Source}");
+            Connection.Open();
+
+            using var cmd = new SqliteCommand(PRAGMAS, Connection);
+            cmd.ExecuteNonQuery();
+
+            cmd.CommandText = string.Format(CultureInfo.InvariantCulture,JOURNAL_MODE, journalMode);
+            cmd.ExecuteNonQuery();
+
             StartWriter();
             FlushCount = flushCount;
         }

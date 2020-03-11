@@ -69,8 +69,6 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private const string SQL_INSERT = "insert into file_system_monitored (run_id, row_key, timestamp, change_type, path, old_path, name, old_name, extended_results, notify_filters, serialized) values (@run_id, @row_key, @timestamp, @change_type, @path, @old_path, @name, @old_name, @extended_results, @notify_filters, @serialized)";
 
-        private const string PRAGMAS = "PRAGMA main.auto_vacuum = 0; PRAGMA main.synchronous = OFF; PRAGMA main.journal_mode = OFF;";
-
         private const string INSERT_RUN_INTO_RESULT_TABLE_SQL = "insert into results (base_run_id, compare_run_id, status) values (@base_run_id, @compare_run_id, @status);";
         private const string UPDATE_RUN_IN_RESULT_TABLE = "update results set status = @status where (base_run_id = @base_run_id and compare_run_id = @compare_run_id)";
 
@@ -99,6 +97,8 @@ namespace AttackSurfaceAnalyzer.Utils
         private static int SHARDING_FACTOR = 1;
         private static int FLUSH_COUNT = -1;
 
+        private static string JOURNAL_MODE;
+
 
         public static SqlConnectionHolder MainConnection
         {
@@ -116,9 +116,12 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static bool FirstRun { get; private set; } = true;
 
-        public static bool Setup(string filename = null, int shardingFactor = 1, int flushCount = -1)
+        public static bool Setup(string filename = null, int shardingFactor = 1, int flushCount = -1, string JournalMode = "OFF")
         {
             JsonSerializer.SetDefaultResolver(StandardResolver.ExcludeNull);
+
+            JOURNAL_MODE = JournalMode;
+
             if (filename != null)
             {
                 if (SqliteFilename != filename)
@@ -170,9 +173,6 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     try
                     {
-                        using var cmd = new SqliteCommand(PRAGMAS, MainConnection.Connection);
-                        cmd.ExecuteNonQuery();
-
                         BeginTransaction();
 
                         using var cmd2 = new SqliteCommand(SQL_CREATE_RUNS, MainConnection.Connection, MainConnection.Transaction);
@@ -282,7 +282,6 @@ namespace AttackSurfaceAnalyzer.Utils
             for (int i = Connections.Count; i < SHARDING_FACTOR; i++)
             {
                 Connections.Add(GenerateSqlConnection(i));
-                Connections[i].Connection.Open();
                 connectionsCreated++;
             }
             return connectionsCreated;
@@ -292,11 +291,11 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             if (i == 0)
             {
-                return new SqlConnectionHolder(SqliteFilename, flushCount:FLUSH_COUNT);
+                return new SqlConnectionHolder(SqliteFilename, flushCount:FLUSH_COUNT, journalMode:JOURNAL_MODE);
             }
             else
             {
-                return new SqlConnectionHolder($"{SqliteFilename}_{i}", flushCount: FLUSH_COUNT);
+                return new SqlConnectionHolder($"{SqliteFilename}_{i}", flushCount: FLUSH_COUNT, journalMode: JOURNAL_MODE);
             }
         }
 

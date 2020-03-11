@@ -1,6 +1,7 @@
 ﻿using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using BenchmarkDotNet.Attributes;
+using System;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     {
         // The number of records to insert for the benchmark
         //[Params(25000,50000,100000)]
-        [Params(75000)]
+        [Params(10000)]
         public int N { get; set; }
 
         // The number of records to populate the database with before the benchmark
@@ -30,6 +31,9 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         // The number of Shards/Threads to use for Database operations
         [Params(1,2,3,4,5,6,7,8,9,10,11,12)]
         public int Shards { get; set; }
+
+        [Params("OFF","DELETE","WAL","MEMORY")]
+        public string JournalMode { get; set; }
 
         // Bag of reusable objects to write to the database.
         private static readonly ConcurrentBag<FileSystemObject> BagOfObjects = new ConcurrentBag<FileSystemObject>();
@@ -80,7 +84,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
 
         public void PopulateDatabases()
         {
-            DatabaseManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite", shardingFactor: Shards);
+            Setup();
             DatabaseManager.BeginTransaction();
 
             Insert_X_Objects(StartingSize,ObjectPadding,"PopulateDatabase");
@@ -98,15 +102,20 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [GlobalCleanup]
         public void GlobalCleanup()
         {
-            DatabaseManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite", shardingFactor: Shards);
+            Setup();
             DatabaseManager.Destroy();
         }
 
         [IterationSetup]
         public void IterationSetup()
         {
-            DatabaseManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite", shardingFactor: Shards);
+            Setup();
             DatabaseManager.BeginTransaction();
+        }
+
+        private void Setup()
+        {
+            DatabaseManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite", shardingFactor: Shards, JournalMode: JournalMode);
         }
 
         [IterationCleanup]
