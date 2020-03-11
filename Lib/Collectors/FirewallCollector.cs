@@ -37,7 +37,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             try
             {
-                foreach (IFirewallRule rule in FirewallManager.Instance.Rules.ToArray())
+                foreach (IFirewallRule rule in FirewallManager.Instance.Rules)
                 {
                     try
                     {
