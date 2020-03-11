@@ -12,10 +12,9 @@ namespace AttackSurfaceAnalyzer.Objects
     public class RawCollectResult
     {
         public RESULT_TYPE ResultType { get; set; }
-        public byte[] RowKey { get; set; }
+        public string RowKey { get; set; }
         public string RunId { get; set; }
         public string Identity { get; set; }
-        public byte[] Serialized { get; set; }
         public CollectObject DeserializedObject { get; set; }
     }
 
@@ -42,8 +41,8 @@ namespace AttackSurfaceAnalyzer.Objects
         public ANALYSIS_RESULT_TYPE Analysis { get; set; }
         public List<Rule> Rules { get; set; }
         public List<Diff> Diffs { get; set; }
-        public byte[] BaseRowKey { get; set; }
-        public byte[] CompareRowKey { get; set; }
+        public string BaseRowKey { get; set; }
+        public string CompareRowKey { get; set; }
         public string BaseRunId { get; set; }
         public string CompareRunId { get; set; }
         public object Base { get; set; }

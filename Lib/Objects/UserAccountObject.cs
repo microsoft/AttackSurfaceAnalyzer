@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Types;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace AttackSurfaceAnalyzer.Objects
 {
@@ -44,7 +45,7 @@ namespace AttackSurfaceAnalyzer.Objects
         {
             get
             {
-                return string.Format("{0}{1}","User: ",(Domain == null) ? Name : $"{Domain}\\{Name}");
+                return string.Format(CultureInfo.InvariantCulture,"{0}{1}","User: ",(Domain == null) ? Name : $"{Domain}\\{Name}");
             }
         }
     }

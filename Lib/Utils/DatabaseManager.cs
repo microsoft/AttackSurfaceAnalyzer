@@ -45,10 +45,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private const string SQL_GET_RUN = "select * from runs where run_id = @run_id";
 
-        private const string SQL_TRUNCATE_FILES_MONITORED = "delete from file_system_monitored where run_id=@run_id";
         private const string SQL_TRUNCATE_RUN = "delete from runs where run_id=@run_id";
-
-        private const string SQL_TRUNCATE_RESULTS = "delete from results where base_run_id=@run_id or compare_run_id=@run_id";
 
         private const string SQL_SELECT_LATEST_N_RUNS = "select run_id from runs where type = @type order by timestamp desc limit 0,@limit;";
 
@@ -384,8 +381,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         Identity = reader["identity"].ToString(),
                         RunId = reader["run_id"].ToString(),
                         ResultType = (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["result_type"].ToString()),
-                        RowKey = (byte[])reader["row_key"],
-                        Serialized = (byte[])reader["serialized"]
+                        RowKey = Convert.ToBase64String((byte[])reader["row_key"]),
                     });
                 }
             }
@@ -640,8 +636,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             Identity = reader["identity"].ToString(),
                             RunId = reader["run_id"].ToString(),
                             ResultType = (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["result_type"].ToString()),
-                            RowKey = (byte[])reader["row_key"],
-                            Serialized = (byte[])reader["serialized"],
+                            RowKey = Convert.ToBase64String((byte[])reader["row_key"]),
                             DeserializedObject = JsonUtils.Hydrate((byte[])reader["serialized"],(RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["result_type"].ToString()))
                         });
                     }
@@ -671,8 +666,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                 Identity = reader["a_identity"].ToString(),
                                 RunId = reader["a_run_id"].ToString(),
                                 ResultType = (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["a_result_type"].ToString()),
-                                RowKey = (byte[])reader["a_row_key"],
-                                Serialized = (byte[])reader["a_serialized"],
+                                RowKey = Convert.ToBase64String((byte[])reader["a_row_key"]),
                                 DeserializedObject = JsonUtils.Hydrate((byte[])reader["a_serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["a_result_type"].ToString()))
                             },
                             Second = new RawCollectResult()
@@ -680,8 +674,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                 Identity = reader["b_identity"].ToString(),
                                 RunId = reader["b_run_id"].ToString(),
                                 ResultType = (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["b_result_type"].ToString()),
-                                RowKey = (byte[])reader["b_row_key"],
-                                Serialized = (byte[])reader["b_serialized"],
+                                RowKey = Convert.ToBase64String((byte[])reader["b_row_key"]),
                                 DeserializedObject = JsonUtils.Hydrate((byte[])reader["b_serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["b_result_type"].ToString()))
                             }
                         }
@@ -855,7 +848,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         cxn.Transaction.Rollback();
                     }
-                    catch (NullReferenceException e)
+                    catch (NullReferenceException)
                     { }
                     finally
                     {

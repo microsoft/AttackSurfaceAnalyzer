@@ -40,7 +40,6 @@ namespace AttackSurfaceAnalyzer.Utils
         }
 
         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        const int length = 64;
 
         private readonly static RNGCryptoServiceProvider crypto = new RNGCryptoServiceProvider();
 
