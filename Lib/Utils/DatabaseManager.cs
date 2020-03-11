@@ -205,13 +205,12 @@ namespace AttackSurfaceAnalyzer.Utils
                         SetSettings(new Settings()
                         {
                             SchemaVersion = SCHEMA_VERSION,
-                            ShardingFactor = shardingFactor,
+                            ShardingFactor = SHARDING_FACTOR,
                             TelemetryEnabled = true
                         });
 
-                        for (int i = 0; i < Connections.Count; i++)
+                        Connections.AsParallel().ForAll(cxn =>
                         {
-                            var cxn = Connections[i];
                             using (var innerCmd = new SqliteCommand(SQL_CREATE_COLLECT_RESULTS, cxn.Connection, cxn.Transaction))
                             {
                                 innerCmd.ExecuteNonQuery();
@@ -222,7 +221,8 @@ namespace AttackSurfaceAnalyzer.Utils
                                 innerCmd.CommandText = SQL_CREATE_COLLECT_RUN_KEY_IDENTITY_COMBINED_INDEX;
                                 innerCmd.ExecuteNonQuery();
                             }
-                        }
+                        });
+
                     }
                     catch (SqliteException e) {
                         Log.Debug(e,"Failed to set up fresh database.");
