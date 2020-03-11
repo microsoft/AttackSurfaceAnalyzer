@@ -15,12 +15,15 @@ namespace AttackSurfaceAnalyzer.Objects
         public ConcurrentQueue<WriteObject> WriteQueue { get; private set; } = new ConcurrentQueue<WriteObject>();
         public bool KeepRunning { get; set; }
         public string Source { get; set; }
+        private int RecordCount { get; set; }
+        public int FlushCount { get; set; } = -1;
 
-        public SqlConnectionHolder(string databaseFilename)
+        public SqlConnectionHolder(string databaseFilename, int flushCount = -1)
         {
             Source = databaseFilename;
             Connection = new SqliteConnection($"Data source={Source}");
             StartWriter();
+            FlushCount = flushCount;
         }
 
         internal void StartWriter()
@@ -54,6 +57,14 @@ namespace AttackSurfaceAnalyzer.Objects
             {
                 while (!WriteQueue.IsEmpty)
                 {
+                    if (FlushCount > 0)
+                    {
+                        if (RecordCount % FlushCount == FlushCount-1)
+                        {
+                            Commit();
+                            BeginTransaction();
+                        }
+                    }
                     WriteNext();
                 }
                 Thread.Sleep(1);
@@ -76,7 +87,7 @@ namespace AttackSurfaceAnalyzer.Objects
             }
             catch (Exception e)
             {
-                Log.Warning(e,$"Failed to commit data to {Source}");
+                Log.Warning(e,$"Failed to commit data to {Source}, {e.StackTrace}");
             }
             finally
             {

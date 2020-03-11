@@ -100,6 +100,8 @@ namespace AttackSurfaceAnalyzer.Utils
         private const int SCHEMA_VERSION = 8;
 
         private static int SHARDING_FACTOR = 1;
+        private static int FLUSH_COUNT = -1;
+
 
         public static SqlConnectionHolder MainConnection { get; private set; }
 
@@ -107,14 +109,14 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static bool FirstRun { get; private set; } = true;
 
-        public static bool Setup(string filename = null, int shardingFactor = 1)
+        public static bool Setup(string filename = null, int shardingFactor = 1, int flushCount = -1)
         {
             JsonSerializer.SetDefaultResolver(StandardResolver.ExcludeNull);
             if (filename != null)
             {
                 if (SqliteFilename != filename)
                 {
-                    if (MainConnection != null)
+                    if (Connections != null)
                     {
                         CloseDatabase();
                     }
@@ -122,9 +124,11 @@ namespace AttackSurfaceAnalyzer.Utils
                     SqliteFilename = filename;
                 }
             }
-            if (MainConnection == null)
+            if (Connections == null)
             {
                 Connections = new List<SqlConnectionHolder>();
+
+                FLUSH_COUNT = flushCount;
 
                 PopulateConnections();
 
@@ -270,7 +274,7 @@ namespace AttackSurfaceAnalyzer.Utils
             var connectionsCreated = 0;
             for (int i = Connections.Count; i < SHARDING_FACTOR; i++)
             {
-                Connections.Add(GenerateSqlConnection(i,SqliteFilename));
+                Connections.Add(GenerateSqlConnection(i));
                 Connections[i].Connection.Open();
                 connectionsCreated++;
             }
@@ -278,15 +282,15 @@ namespace AttackSurfaceAnalyzer.Utils
             return connectionsCreated;
         }
 
-        private static SqlConnectionHolder GenerateSqlConnection(int i, string sqliteFilename)
+        private static SqlConnectionHolder GenerateSqlConnection(int i)
         {
             if (i == 0)
             {
-                return new SqlConnectionHolder(SqliteFilename);
+                return new SqlConnectionHolder(SqliteFilename, flushCount:FLUSH_COUNT);
             }
             else
             {
-                return new SqlConnectionHolder($"{SqliteFilename}_{i}");
+                return new SqlConnectionHolder($"{SqliteFilename}_{i}", flushCount: FLUSH_COUNT);
             }
         }
 

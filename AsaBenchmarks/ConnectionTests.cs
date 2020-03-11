@@ -43,7 +43,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             DatabaseManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite", shardingFactor: Shards);
             DatabaseManager.BeginTransaction();
 
-            InsertTests.Insert_X_Objects(StartingSize);
+            InsertTestsWithoutTransactions.Insert_X_Objects(StartingSize);
 
             DatabaseManager.Commit();
             DatabaseManager.CloseDatabase();
