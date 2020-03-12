@@ -1,12 +1,12 @@
-﻿using System;
-using System.IO;
-using System.Collections.Concurrent;
+﻿using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
+using Serilog;
+using System;
+using System.Collections.Concurrent;
+using System.Globalization;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Serilog;
-using System.Globalization;
-using AttackSurfaceAnalyzer.Utils;
 
 namespace AttackSurfaceAnalyzer.Objects
 {
@@ -21,7 +21,7 @@ namespace AttackSurfaceAnalyzer.Objects
         public int FlushCount { get; set; } = -1;
         public int TableShards { get; set; } = 1;
 
-        private DBSettings settings;
+        private readonly DBSettings settings;
 
         private const string PRAGMAS = "PRAGMA auto_vacuum = 0; PRAGMA synchronous = {0}; PRAGMA journal_mode = {1}; PRAGMA page_size = {2}; PRAGMA locking_mode = {3};";
 
@@ -32,7 +32,7 @@ namespace AttackSurfaceAnalyzer.Objects
             Source = databaseFilename;
             Connection = new SqliteConnection($"Data source={Source}");
             Connection.Open();
-            
+
             if (settings != null)
             {
                 var command = string.Format(CultureInfo.InvariantCulture, PRAGMAS, settings.Synchronous, settings.JournalMode, settings.PageSize, settings.LockingMode);
@@ -59,11 +59,13 @@ namespace AttackSurfaceAnalyzer.Objects
             ShutDown();
             Connection = null;
             Transaction = null;
-            try{
+            try
+            {
                 File.Delete(Source);
             }
-            catch(Exception e){
-                Log.Warning(e,$"Failed to delete database at {Source}");
+            catch (Exception e)
+            {
+                Log.Warning(e, $"Failed to delete database at {Source}");
             }
         }
 
@@ -76,7 +78,7 @@ namespace AttackSurfaceAnalyzer.Objects
                 {
                     if (FlushCount > 0)
                     {
-                        if (RecordCount % FlushCount == FlushCount-1)
+                        if (RecordCount % FlushCount == FlushCount - 1)
                         {
                             Commit();
                             BeginTransaction();
@@ -104,7 +106,7 @@ namespace AttackSurfaceAnalyzer.Objects
             }
             catch (Exception e)
             {
-                Log.Warning(e,$"Failed to commit data to {Source}, {e.StackTrace}");
+                Log.Warning(e, $"Failed to commit data to {Source}, {e.StackTrace}");
             }
             finally
             {

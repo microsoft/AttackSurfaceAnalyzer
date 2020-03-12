@@ -36,7 +36,7 @@ namespace AttackSurfaceAnalyzer.Cli
 #if DEBUG
             Logger.Setup(true, false);
 #else
-            Logger.Setup(false,false);
+            Logger.Setup(false, false);
 #endif
             string version = (Assembly
                         .GetEntryAssembly()

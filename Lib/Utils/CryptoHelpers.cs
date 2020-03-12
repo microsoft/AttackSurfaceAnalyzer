@@ -41,7 +41,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-        private readonly static RNGCryptoServiceProvider crypto = new RNGCryptoServiceProvider();
+        private static readonly RNGCryptoServiceProvider crypto = new RNGCryptoServiceProvider();
 
         public static string GetRandomString(int characters) => new string(Enumerable.Range(1, characters).Select(_ => chars[GetRandomPositiveIndex(chars.Length)]).ToArray());
 

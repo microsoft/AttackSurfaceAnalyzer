@@ -30,7 +30,7 @@ namespace AttackSurfaceAnalyzer.Utils
             {RESULT_TYPE.LOG, new List<PropertyInfo>(new FirewallObject().GetType().GetProperties()) },
 
         };
-        private Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DEFAULT_RESULT_TYPE_MAP = new Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>()
+        private readonly Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DEFAULT_RESULT_TYPE_MAP = new Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>()
         {
             { RESULT_TYPE.CERTIFICATE, ANALYSIS_RESULT_TYPE.INFORMATION },
             { RESULT_TYPE.FILE, ANALYSIS_RESULT_TYPE.INFORMATION },

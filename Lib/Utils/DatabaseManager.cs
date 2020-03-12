@@ -2,19 +2,16 @@
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
+using Microsoft.Data.Sqlite;
 using Serilog;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using Utf8Json;
 using Utf8Json.Resolvers;
-using System.Linq;
-using System.IO;
-using Microsoft.Data.Sqlite;
-using System.Management.Automation;
-using System.Collections.Concurrent;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -22,7 +19,7 @@ namespace AttackSurfaceAnalyzer.Utils
     {
         public string JournalMode { get; set; } = "WAL";
         public int PageSize { get; set; } = 4096;
-        public int Synchronous { get; set; } = 0;
+        public string Synchronous { get; set; } = "OFF";
         public string LockingMode { get; set; } = "NORMAL";
         public int ShardingFactor { get; set; } = 7;
         public int FlushCount { get; set; } = -1;
@@ -157,7 +154,8 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     FirstRun = false;
 
-                    if (SCHEMA_VERSION != settings.SchemaVersion) {
+                    if (SCHEMA_VERSION != settings.SchemaVersion)
+                    {
                         Log.Fatal("Database has schema version {settings.SchemaVersion} but database has schema version {SCHEMA_VERSION}.");
                         Environment.Exit((int)ASA_ERROR.MATCHING_SCHEMA);
                     }
@@ -236,11 +234,12 @@ namespace AttackSurfaceAnalyzer.Utils
                         });
 
                     }
-                    catch (SqliteException e) {
-                        Log.Debug(e,"Failed to set up fresh database.");
+                    catch (SqliteException e)
+                    {
+                        Log.Debug(e, "Failed to set up fresh database.");
                         Environment.Exit((int)ASA_ERROR.FAILED_TO_CREATE_DATABASE);
                     }
-					finally
+                    finally
                     {
                         Commit();
                     }

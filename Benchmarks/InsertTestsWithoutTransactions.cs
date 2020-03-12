@@ -13,7 +13,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     {
         // The number of records to insert for the benchmark
         //[Params(25000,50000,100000)]
-        [Params(25000)]
+        [Params(10000)]
         public int N { get; set; }
 
         // The number of records to populate the database with before the benchmark
@@ -38,11 +38,11 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Params("NORMAL")]
         public string LockingMode { get; set; }
 
-        [Params(512, 1024, 2048, 4096, 8192, 16384, 32768)]
+        [Params(4096)]
         public int PageSize { get; set; }
 
-        [Params(0)]
-        public int Synchronous { get; set; }
+        [Params("OFF", "NORMAL", "FULL", "EXTRA")]
+        public string Synchronous { get; set; }
 
         // Bag of reusable objects to write to the database.
         private static readonly ConcurrentBag<FileSystemObject> BagOfObjects = new ConcurrentBag<FileSystemObject>();

@@ -45,7 +45,7 @@ namespace AttackSurfaceAnalyzer.Objects
         {
             get
             {
-                return string.Format(CultureInfo.InvariantCulture,"{0}{1}","User: ",(Domain == null) ? Name : $"{Domain}\\{Name}");
+                return string.Format(CultureInfo.InvariantCulture, "{0}{1}", "User: ", (Domain == null) ? Name : $"{Domain}\\{Name}");
             }
         }
     }

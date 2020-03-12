@@ -8,7 +8,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     public class CommitTest
     {
         //Rows to write in the open transaction before the commit
-        [Params(10000,20000,40000)]
+        [Params(10000, 20000, 40000)]
         public int N { get; set; }
 
         // The number of Shards/Threads to use for Database operations
