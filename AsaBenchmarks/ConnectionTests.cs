@@ -26,6 +26,9 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Params(1,2,3,4,5,6,7,8,9,10,11,12)]
         public int Shards { get; set; }
 
+        [Params("OFF", "DELETE", "WAL", "MEMORY")]
+        public string JournalMode { get; set; }
+
         public OpenTransactionTest()
         {
             Logger.Setup(true, true);
@@ -38,9 +41,18 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             DatabaseManager.BeginTransaction();
         }
 
+        public void Setup()
+        {
+            DatabaseManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite", new DBSettings()
+            {
+                JournalMode = JournalMode,
+                ShardingFactor = Shards
+            });
+        }
+
         public void PopulateDatabases()
         {
-            DatabaseManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite", shardingFactor: Shards);
+            Setup();
             DatabaseManager.BeginTransaction();
 
             InsertTestsWithoutTransactions.Insert_X_Objects(StartingSize);
@@ -58,14 +70,14 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [GlobalCleanup]
         public void GlobalCleanup()
         {
-            DatabaseManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite", shardingFactor: Shards);
+            Setup();
             DatabaseManager.Destroy();
         }
 
         [IterationSetup]
         public void IterationSetup()
         {
-            DatabaseManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite", shardingFactor: Shards);
+            Setup();
         }
 
         [IterationCleanup]

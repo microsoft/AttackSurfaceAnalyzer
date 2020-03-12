@@ -32,9 +32,14 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Params(6)]
         public int Shards { get; set; }
 
-        // The number of Shards/Threads to use for Database operations
-        [Params(5000,10000,25000,100000,-1)]
+        // If not -1, how many records each writer should write before committing. When -1 don't do checkpoint commits.
+        [Params(-1)]
         public int FlushCount { get; set; }
+
+        // Journaling mode, options are
+        //[Params("OFF","DELETE","WAL","MEMORY")]
+        [Params("WAL")]
+        public string JournalMode { get; set; }
 
         // Bag of reusable objects to write to the database.
         private static readonly ConcurrentBag<FileSystemObject> BagOfObjects = new ConcurrentBag<FileSystemObject>();
@@ -87,9 +92,19 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             }
         }
 
+        public void Setup()
+        {
+            DatabaseManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite", new DBSettings()
+            {
+                ShardingFactor = Shards,
+                FlushCount = FlushCount,
+                JournalMode = JournalMode
+            });
+        }
+
         public void PopulateDatabases()
         {
-            DatabaseManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite", shardingFactor: Shards);
+            Setup();
 
             Insert_X_Objects(StartingSize,ObjectPadding,"PopulateDatabase");
 
@@ -105,14 +120,14 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [GlobalCleanup]
         public void GlobalCleanup()
         {
-            DatabaseManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite", shardingFactor: Shards);
+            Setup();
             DatabaseManager.Destroy();
         }
 
         [IterationSetup]
         public void IterationSetup()
         {
-            DatabaseManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite", shardingFactor: Shards, flushCount: FlushCount);
+            Setup();
         }
 
         [IterationCleanup]

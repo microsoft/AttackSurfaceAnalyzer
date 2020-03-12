@@ -51,12 +51,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                 throw new ArgumentNullException(nameof(secondRunId));
             }
 
-            List<RawCollectResult> addObjects = DatabaseManager.GetMissingFromFirst(firstRunId, secondRunId);
-            List<RawCollectResult> removeObjects = DatabaseManager.GetMissingFromFirst(secondRunId, firstRunId);
-            List<RawModifiedResult> modifyObjects = DatabaseManager.GetModified(firstRunId, secondRunId);
+            ConcurrentBag<RawCollectResult> addObjects = DatabaseManager.GetMissingFromFirst(firstRunId, secondRunId);
+            ConcurrentBag<RawCollectResult> removeObjects = DatabaseManager.GetMissingFromFirst(secondRunId, firstRunId);
+            ConcurrentBag<RawModifiedResult> modifyObjects = DatabaseManager.GetModified(firstRunId, secondRunId);
 
-            Parallel.ForEach(addObjects,
-                            (added =>
+            addObjects.AsParallel().ForAll(added =>
             {
                 var obj = new CompareResult()
                 {
@@ -70,10 +69,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                 };
                 Log.Debug($"Adding {obj.Identity}");
                 Results[$"{added.ResultType.ToString()}_{CHANGE_TYPE.CREATED.ToString()}"].Enqueue(obj);
-            }));
+            });
 
-            Parallel.ForEach(removeObjects,
-                            (removed =>
+
+            removeObjects.AsParallel().ForAll(removed =>
             {
                 var obj = new CompareResult()
                 {
@@ -87,10 +86,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                 };
 
                 Results[$"{removed.ResultType.ToString()}_{CHANGE_TYPE.DELETED.ToString()}"].Enqueue(obj);
-            }));
+            });
 
-            Parallel.ForEach(modifyObjects,
-                            (modified =>
+            modifyObjects.AsParallel().ForAll(modified =>
             {
                 var compareLogic = new CompareLogic();
                 compareLogic.Config.IgnoreCollectionOrder = true;
@@ -216,13 +214,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                         Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
                         ExceptionEvent.Add("Exception Type", e.GetType().ToString());
                         AsaTelemetry.TrackEvent("CompareException", ExceptionEvent);
-
-
                     }
                 }
 
                 Results[$"{modified.First.ResultType.ToString()}_{CHANGE_TYPE.MODIFIED.ToString()}"].Enqueue(obj);
-            }));
+            });
 
             foreach (var empty in Results.Where(x => x.Value.Count == 0))
             {

@@ -14,9 +14,20 @@ using System.Linq;
 using System.IO;
 using Microsoft.Data.Sqlite;
 using System.Management.Automation;
+using System.Collections.Concurrent;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
+    public class DBSettings
+    {
+        public string JournalMode { get; set; } = "WAL";
+        public int PageSize { get; set; } = 4096;
+        public int Synchronous { get; set; } = 0;
+        public string LockingMode { get; set; } = "EXCLUSIVE";
+        public int ShardingFactor { get; set; } = 7;
+        public int FlushCount { get; set; } = -1;
+    }
+
     public static class DatabaseManager
     {
         private const string SQL_CREATE_RUNS = "create table if not exists runs (run_id text, file_system int, ports int, users int, services int, registry int, certificates int, firewall int, comobjects int, eventlogs int, type text, timestamp text, version text, platform text, unique(run_id))";
@@ -94,10 +105,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private const int SCHEMA_VERSION = 8;
 
-        private static int SHARDING_FACTOR = 1;
-        private static int FLUSH_COUNT = -1;
-
-        private static string JOURNAL_MODE;
+        private static DBSettings dbSettings;
 
 
         public static SqlConnectionHolder MainConnection
@@ -116,11 +124,11 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static bool FirstRun { get; private set; } = true;
 
-        public static bool Setup(string filename = null, int shardingFactor = 1, int flushCount = -1, string JournalMode = "OFF")
+        public static bool Setup(string filename = null, DBSettings dbSettingsIn = default)
         {
             JsonSerializer.SetDefaultResolver(StandardResolver.ExcludeNull);
 
-            JOURNAL_MODE = JournalMode;
+            dbSettings = dbSettingsIn;
 
             if (filename != null)
             {
@@ -139,36 +147,34 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 Connections = new List<SqlConnectionHolder>();
 
-                FLUSH_COUNT = flushCount;
-
                 PopulateConnections();
 
                 var settings = GetSettings();
                 if (settings != null)
                 {
+                    FirstRun = false;
+
                     if (SCHEMA_VERSION != settings.SchemaVersion) {
                         Log.Fatal("Database has schema version {settings.SchemaVersion} but database has schema version {SCHEMA_VERSION}.");
                         Environment.Exit((int)ASA_ERROR.MATCHING_SCHEMA);
                     }
 
-                    FirstRun = false;
+                    dbSettings.ShardingFactor = settings.ShardingFactor;
 
-                    SHARDING_FACTOR = settings.ShardingFactor;
-
-                    if (shardingFactor != SHARDING_FACTOR)
+                    if (settings.ShardingFactor != dbSettingsIn.ShardingFactor)
                     {
-                        Log.Information($"Requested sharding level of {shardingFactor} but database was created with {SHARDING_FACTOR}. Ignoring request and using {SHARDING_FACTOR}.");
+                        Log.Information($"Requested sharding level of {dbSettingsIn.ShardingFactor} but database was created with {settings.ShardingFactor}. Ignoring request and using {settings.ShardingFactor}.");
                     }
 
                     AsaTelemetry.SetEnabled(settings.TelemetryEnabled);
                 }
                 else
                 {
-                    SHARDING_FACTOR = shardingFactor;
                     FirstRun = true;
                 }
 
                 PopulateConnections();
+
                 if (FirstRun)
                 {
                     try
@@ -205,7 +211,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         SetSettings(new Settings()
                         {
                             SchemaVersion = SCHEMA_VERSION,
-                            ShardingFactor = SHARDING_FACTOR,
+                            ShardingFactor = dbSettings.ShardingFactor,
                             TelemetryEnabled = true
                         });
 
@@ -279,7 +285,7 @@ namespace AttackSurfaceAnalyzer.Utils
         public static int PopulateConnections()
         {
             var connectionsCreated = 0;
-            for (int i = Connections.Count; i < SHARDING_FACTOR; i++)
+            for (int i = Connections.Count; i < dbSettings.ShardingFactor; i++)
             {
                 Connections.Add(GenerateSqlConnection(i));
                 connectionsCreated++;
@@ -291,11 +297,11 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             if (i == 0)
             {
-                return new SqlConnectionHolder(SqliteFilename, flushCount:FLUSH_COUNT, journalMode:JOURNAL_MODE);
+                return new SqlConnectionHolder(SqliteFilename, dbSettings);
             }
             else
             {
-                return new SqlConnectionHolder($"{SqliteFilename}_{i}", flushCount: FLUSH_COUNT, journalMode: JOURNAL_MODE);
+                return new SqlConnectionHolder($"{SqliteFilename}_{i}", dbSettings);
             }
         }
 
@@ -574,18 +580,10 @@ namespace AttackSurfaceAnalyzer.Utils
             RollBack();
             if (Connections != null)
             {
-                foreach (var cxn in Connections.Where(x => x.Connection != null))
+                Connections.AsParallel().ForAll(cxn =>
                 {
-                    try
-                    {
-                        cxn.KeepRunning = false;
-                        cxn.Connection.Close();
-                    }
-                    catch (NullReferenceException)
-                    {
-                        // That's fine. We want Connection to be null.
-                    }
-                }
+                    cxn.ShutDown();
+                });
             }
             Connections = null;
         }
@@ -614,16 +612,15 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        public static int ModuloString(string identity) => identity.Sum(x => x) % SHARDING_FACTOR;
+        public static int ModuloString(string identity) => identity.Sum(x => x) % dbSettings.ShardingFactor;
 
-        public static List<RawCollectResult> GetMissingFromFirst(string firstRunId, string secondRunId)
+        public static ConcurrentBag<RawCollectResult> GetMissingFromFirst(string firstRunId, string secondRunId)
         {
-            var output = new List<RawCollectResult>();
+            var output = new ConcurrentBag<RawCollectResult>();
 
-
-            for (int i = 0; i < SHARDING_FACTOR; i++)
+            Connections.AsParallel().ForAll(cxn =>
             {
-                using var cmd = new SqliteCommand(SQL_GET_COLLECT_MISSING_IN_B, Connections[i].Connection, Connections[i].Transaction);
+                using var cmd = new SqliteCommand(SQL_GET_COLLECT_MISSING_IN_B, cxn.Connection, cxn.Transaction);
                 cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
                 cmd.Parameters.AddWithValue("@second_run_id", secondRunId);
                 using (var reader = cmd.ExecuteReader())
@@ -636,22 +633,22 @@ namespace AttackSurfaceAnalyzer.Utils
                             RunId = reader["run_id"].ToString(),
                             ResultType = (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["result_type"].ToString()),
                             RowKey = Convert.ToBase64String((byte[])reader["row_key"]),
-                            DeserializedObject = JsonUtils.Hydrate((byte[])reader["serialized"],(RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["result_type"].ToString()))
+                            DeserializedObject = JsonUtils.Hydrate((byte[])reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["result_type"].ToString()))
                         });
                     }
                 }
-            }
+            });
 
             return output;
         }
 
-        public static List<RawModifiedResult> GetModified(string firstRunId, string secondRunId)
+        public static ConcurrentBag<RawModifiedResult> GetModified(string firstRunId, string secondRunId)
         {
-            var output = new List<RawModifiedResult>();
+            var output = new ConcurrentBag<RawModifiedResult>();
 
-            for (int i = 0; i < SHARDING_FACTOR; i++)
+            Connections.AsParallel().ForAll(cxn =>
             {
-                using var cmd = new SqliteCommand(SQL_GET_COLLECT_MODIFIED, Connections[i].Connection, Connections[i].Transaction);
+                using var cmd = new SqliteCommand(SQL_GET_COLLECT_MODIFIED, cxn.Connection, cxn.Transaction);
                 cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
                 cmd.Parameters.AddWithValue("@second_run_id", secondRunId);
                 using (var reader = cmd.ExecuteReader())
@@ -680,7 +677,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         );
                     }
                 }
-            }
+            });
 
             return output;
         }

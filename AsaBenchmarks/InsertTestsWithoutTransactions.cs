@@ -14,7 +14,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     {
         // The number of records to insert for the benchmark
         //[Params(25000,50000,100000)]
-        [Params(10000)]
+        [Params(25000)]
         public int N { get; set; }
 
         // The number of records to populate the database with before the benchmark
@@ -29,11 +29,21 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         public int ObjectPadding { get; set; }
 
         // The number of Shards/Threads to use for Database operations
-        [Params(1,2,3,4,5,6,7,8,9,10,11,12)]
+        [Params(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)]
         public int Shards { get; set; }
 
-        [Params("OFF","DELETE","WAL","MEMORY")]
+        //[Params("OFF","DELETE","WAL","MEMORY")]
+        [Params("WAL")]
         public string JournalMode { get; set; }
+
+        [Params("NORMAL","EXCLUSIVE")]
+        public string LockingMode { get; set; }
+
+        [Params(4096)]
+        public int PageSize { get; set; }
+
+        [Params(0)]
+        public int Synchronous { get; set; }
 
         // Bag of reusable objects to write to the database.
         private static readonly ConcurrentBag<FileSystemObject> BagOfObjects = new ConcurrentBag<FileSystemObject>();
@@ -61,6 +71,8 @@ namespace AttackSurfaceAnalyzer.Benchmarks
                 Thread.Sleep(1);
             }
         }
+
+
 
         public static FileSystemObject GetRandomObject(int ObjectPadding = 0)
         {
@@ -115,7 +127,14 @@ namespace AttackSurfaceAnalyzer.Benchmarks
 
         private void Setup()
         {
-            DatabaseManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite", shardingFactor: Shards, JournalMode: JournalMode);
+            DatabaseManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite", new DBSettings()
+            {
+                JournalMode = JournalMode,
+                LockingMode = LockingMode,
+                PageSize = PageSize,
+                ShardingFactor = Shards,
+                Synchronous = Synchronous
+            });
         }
 
         [IterationCleanup]

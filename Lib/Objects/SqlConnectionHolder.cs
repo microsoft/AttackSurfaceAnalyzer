@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Serilog;
 using System.Globalization;
+using AttackSurfaceAnalyzer.Utils;
 
 namespace AttackSurfaceAnalyzer.Objects
 {
@@ -19,23 +20,27 @@ namespace AttackSurfaceAnalyzer.Objects
         private int RecordCount { get; set; }
         public int FlushCount { get; set; } = -1;
 
-        private const string PRAGMAS = "PRAGMA auto_vacuum = 0; PRAGMA synchronous = OFF";
-        private const string JOURNAL_MODE = "PRAGMA journal_mode = {0};";
+        private DBSettings settings;
 
-        public SqlConnectionHolder(string databaseFilename, int flushCount = -1, string journalMode = "OFF")
+        private const string PRAGMAS = "PRAGMA auto_vacuum = 0; PRAGMA synchronous = {0}; PRAGMA journal_mode = {1}; PRAGMA page_size = {2}; PRAGMA locking_mode = {3};";
+
+        public SqlConnectionHolder(string databaseFilename, DBSettings dBSettings = default)
         {
+            settings = dBSettings;
+
             Source = databaseFilename;
             Connection = new SqliteConnection($"Data source={Source}");
             Connection.Open();
-
-            using var cmd = new SqliteCommand(PRAGMAS, Connection);
-            cmd.ExecuteNonQuery();
-
-            cmd.CommandText = string.Format(CultureInfo.InvariantCulture,JOURNAL_MODE, journalMode);
-            cmd.ExecuteNonQuery();
+            
+            if (settings != null)
+            {
+                var command = string.Format(CultureInfo.InvariantCulture, PRAGMAS, settings.Synchronous, settings.JournalMode, settings.PageSize, settings.LockingMode);
+                using var cmd = new SqliteCommand(command, Connection);
+                cmd.ExecuteNonQuery();
+            }
 
             StartWriter();
-            FlushCount = flushCount;
+            FlushCount = settings.FlushCount;
         }
 
         internal void StartWriter()
@@ -48,10 +53,7 @@ namespace AttackSurfaceAnalyzer.Objects
 
         public void Destroy()
         {
-            if (Connection != null)
-            {
-                Connection.Close();
-            }
+            ShutDown();
             Connection = null;
             Transaction = null;
             try{
@@ -130,6 +132,14 @@ namespace AttackSurfaceAnalyzer.Objects
             catch (NullReferenceException)
             {
             }
+        }
+
+        internal void ShutDown()
+        {
+            KeepRunning = false;
+            Connection.Close();
+            Connection = null;
+            Transaction = null;
         }
     }
 }
