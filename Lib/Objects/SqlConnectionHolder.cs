@@ -19,12 +19,13 @@ namespace AttackSurfaceAnalyzer.Objects
         public string Source { get; set; }
         private int RecordCount { get; set; }
         public int FlushCount { get; set; } = -1;
+        public int TableShards { get; set; } = 1;
 
         private DBSettings settings;
 
         private const string PRAGMAS = "PRAGMA auto_vacuum = 0; PRAGMA synchronous = {0}; PRAGMA journal_mode = {1}; PRAGMA page_size = {2}; PRAGMA locking_mode = {3};";
 
-        public SqlConnectionHolder(string databaseFilename, DBSettings dBSettings = default)
+        public SqlConnectionHolder(string databaseFilename, DBSettings dBSettings = default, int tableShards = 1)
         {
             settings = dBSettings;
 
@@ -38,6 +39,8 @@ namespace AttackSurfaceAnalyzer.Objects
                 using var cmd = new SqliteCommand(command, Connection);
                 cmd.ExecuteNonQuery();
             }
+
+            TableShards = tableShards;
 
             StartWriter();
             FlushCount = settings.FlushCount;

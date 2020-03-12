@@ -31,11 +31,11 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         public int RunTwoSize { get; set; }
 
         // Percent of identities which should match between the two runs (% of the smaller run)
-        [Params(.25,.5,.75)]
+        [Params(0,.25,.5,.75,1)]
         public double IdentityMatches { get; set; }
 
         // Percent of those identities which match which should match in rowkey
-        [Params(.25,.5,.75)]
+        [Params(0,.25,.5,.75,1)]
         public double RowKeyMatches { get; set; }
 
         // The number of Shards/Threads to use for Database operations
@@ -71,25 +71,12 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             Strings.Setup();
         }
 
-        public void Insert_X_Objects(int X, string runName = "Insert_X_Objects")
+        public void InsertFirstRun()
         {
-            Parallel.For(0, X, i =>
+            Parallel.For(0, RunOneSize, i =>
             {
                 var obj = GetRandomObject(ObjectPadding);
-                DatabaseManager.Write(obj, runName);
-
-                if (BagOfIdentities.Any())
-                {
-                    if (CryptoHelpers.GetRandomPositiveDouble(1) > IdentityMatches)
-                    {
-                        BagOfIdentities.TryTake(out (string, string) Id);
-                        obj.Path = Id.Item1;
-                        if (CryptoHelpers.GetRandomPositiveDouble(1) > IdentityMatches)
-                        {
-                            obj.FileType = Id.Item2;
-                        }
-                    }
-                }
+                DatabaseManager.Write(obj, RunOneName);
 
                 BagOfIdentities.Add((obj.Identity, obj.FileType));
                 BagOfObjects.Add(obj);
@@ -101,12 +88,36 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             }
         }
 
+        public void InsertSecondRun()
+        {
+            Parallel.For(0, RunTwoSize, i =>
+            {
+                var obj = GetRandomObject(ObjectPadding);
+
+                
+
+                if (BagOfIdentities.TryTake(out (string, string) Id))
+                {
+                    if (CryptoHelpers.GetRandomPositiveDouble(1) > IdentityMatches)
+                    {
+                        obj.Path = Id.Item1;
+                        if (CryptoHelpers.GetRandomPositiveDouble(1) > RowKeyMatches)
+                        {
+                            obj.FileType = Id.Item2;
+                        }
+                    }
+                }
+
+                DatabaseManager.Write(obj, RunTwoName);
+                BagOfObjects.Add(obj);
+            });
+        }
+
         public static FileSystemObject GetRandomObject(int ObjectPadding = 0)
         {
-            BagOfObjects.TryTake(out FileSystemObject obj);
-
-            if (obj != null)
+            if (BagOfObjects.TryTake(out FileSystemObject obj))
             {
+                obj.FileType = CryptoHelpers.GetRandomString(ObjectPadding);
                 obj.Path = CryptoHelpers.GetRandomString(32);
                 return obj;
             }
@@ -138,8 +149,12 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             Setup();
             DatabaseManager.BeginTransaction();
 
-            Insert_X_Objects(RunOneSize, RunOneName);
-            Insert_X_Objects(RunTwoSize, RunTwoName);
+            InsertFirstRun();
+            InsertSecondRun();
+
+            while(DatabaseManager.HasElements()){
+                Thread.Sleep(1);
+            }
 
             DatabaseManager.Commit();
             DatabaseManager.CloseDatabase();
