@@ -58,5 +58,12 @@ namespace AttackSurfaceAnalyzer.Utils
             return (int)(max * (randomInteger / (double)uint.MaxValue));
         }
 
+        public static double GetRandomPositiveDouble(double max)
+        {
+            var bytes = new byte[8];
+            crypto.GetBytes(bytes);
+            return (BitConverter.ToUInt64(bytes, 0) >> 11) / ulong.MaxValue * max;
+        }
+
     }
 }

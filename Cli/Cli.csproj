@@ -24,6 +24,11 @@
     <StartAction>Project</StartAction>
     <ExternalConsole>true</ExternalConsole>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Asa' ">
+    <StartAction>Project</StartAction>
+    <ExternalConsole>true</ExternalConsole>
+    <ApplicationURL>http://localhost:5000</ApplicationURL>
+  </PropertyGroup>
   <ItemGroup>
     <None Remove="asa.sqlite" />
     <None Remove="asa.log.txt" />
@@ -47,15 +52,15 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\Lib\AsaLib.csproj" />
-  </ItemGroup>
-
-
-  <ItemGroup>
     <PackageReference Include="Nerdbank.GitVersioning" Version="3.0.50">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Lib\Lib.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
