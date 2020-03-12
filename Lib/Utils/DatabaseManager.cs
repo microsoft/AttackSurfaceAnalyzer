@@ -23,7 +23,7 @@ namespace AttackSurfaceAnalyzer.Utils
         public string JournalMode { get; set; } = "WAL";
         public int PageSize { get; set; } = 4096;
         public int Synchronous { get; set; } = 0;
-        public string LockingMode { get; set; } = "EXCLUSIVE";
+        public string LockingMode { get; set; } = "NORMAL";
         public int ShardingFactor { get; set; } = 7;
         public int FlushCount { get; set; } = -1;
     }
@@ -128,7 +128,7 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             JsonSerializer.SetDefaultResolver(StandardResolver.ExcludeNull);
 
-            dbSettings = dbSettingsIn;
+            dbSettings = (dbSettingsIn == null) ? new DBSettings() : dbSettingsIn;
 
             if (filename != null)
             {
@@ -159,12 +159,12 @@ namespace AttackSurfaceAnalyzer.Utils
                         Environment.Exit((int)ASA_ERROR.MATCHING_SCHEMA);
                     }
 
-                    dbSettings.ShardingFactor = settings.ShardingFactor;
-
-                    if (settings.ShardingFactor != dbSettingsIn.ShardingFactor)
+                    if (dbSettingsIn != null && settings.ShardingFactor != dbSettingsIn.ShardingFactor)
                     {
                         Log.Information($"Requested sharding level of {dbSettingsIn.ShardingFactor} but database was created with {settings.ShardingFactor}. Ignoring request and using {settings.ShardingFactor}.");
                     }
+
+                    dbSettings.ShardingFactor = settings.ShardingFactor;
 
                     AsaTelemetry.SetEnabled(settings.TelemetryEnabled);
                 }

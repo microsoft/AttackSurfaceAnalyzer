@@ -1,7 +1,6 @@
 ﻿using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using BenchmarkDotNet.Attributes;
-using Serilog;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,7 +13,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     {
         // The number of records to insert for the benchmark
         //[Params(25000,50000,100000)]
-        [Params(100000,1000000)]
+        [Params(100000, 1000000)]
         public int N { get; set; }
 
         // The number of records to populate the database with before the benchmark
@@ -106,7 +105,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         {
             Setup();
 
-            Insert_X_Objects(StartingSize,ObjectPadding,"PopulateDatabase");
+            Insert_X_Objects(StartingSize, ObjectPadding, "PopulateDatabase");
 
             DatabaseManager.CloseDatabase();
         }

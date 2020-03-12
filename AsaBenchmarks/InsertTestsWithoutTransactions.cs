@@ -1,7 +1,6 @@
 ﻿using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using BenchmarkDotNet.Attributes;
-using System;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,10 +35,10 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Params("WAL")]
         public string JournalMode { get; set; }
 
-        [Params("NORMAL","EXCLUSIVE")]
+        [Params("NORMAL")]
         public string LockingMode { get; set; }
 
-        [Params(4096)]
+        [Params(512, 1024, 2048, 4096, 8192, 16384, 32768)]
         public int PageSize { get; set; }
 
         [Params(0)]
@@ -99,7 +98,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             Setup();
             DatabaseManager.BeginTransaction();
 
-            Insert_X_Objects(StartingSize,ObjectPadding,"PopulateDatabase");
+            Insert_X_Objects(StartingSize, ObjectPadding, "PopulateDatabase");
 
             DatabaseManager.Commit();
             DatabaseManager.CloseDatabase();
