@@ -12,9 +12,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     [JsonExporterAttribute.Full]
     public class QueryTests
     {
-        // The number of records to populate the database with before the benchmark
-        // 
-        //[Params(0,100000,200000,400000,800000,1600000,3200000)]
+        // The number random records to populate the database with before the two compare runs are added
         [Params(0)]
         public int StartingSize { get; set; }
 
@@ -24,9 +22,11 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Params(0)]
         public int ObjectPadding { get; set; }
 
+        // The number of records in run one
         [Params(10000)]
         public int RunOneSize { get; set; }
 
+        // The number of records in run two
         [Params(10000)]
         public int RunTwoSize { get; set; }
 
@@ -34,7 +34,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Params(.25,.5,.75)]
         public double IdentityMatches { get; set; }
 
-        // Percent of those identities which match which should match in rowkey
+        // Percent of those Identity matched identities which should also match in rowkey
         [Params(.25,.5,.75)]
         public double RowKeyMatches { get; set; }
 
@@ -46,14 +46,17 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Params("WAL")]
         public string JournalMode { get; set; }
 
+        // Options are NORMAL, EXCLUSIVE
         [Params("NORMAL")]
         public string LockingMode { get; set; }
 
+        // Options are powers of 2 between 512 and 65536
         [Params(4096)]
         public int PageSize { get; set; }
 
-        [Params(0)]
-        public int Synchronous { get; set; }
+        // Options are OFF, NORMAL, FULL, EXTRA
+        [Params("OFF")]
+        public string Synchronous { get; set; }
 
         private string RunOneName = "RunOne";
         private string RunTwoName = "RunTwo";
