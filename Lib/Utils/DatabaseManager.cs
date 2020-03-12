@@ -22,7 +22,7 @@ namespace AttackSurfaceAnalyzer.Utils
     {
         public string JournalMode { get; set; } = "WAL";
         public int PageSize { get; set; } = 4096;
-        public int Synchronous { get; set; } = 0;
+        public string Synchronous { get; set; } = "OFF";
         public string LockingMode { get; set; } = "NORMAL";
         public int ShardingFactor { get; set; } = 7;
         public int FlushCount { get; set; } = -1;
