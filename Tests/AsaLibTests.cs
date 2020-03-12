@@ -1,5 +1,10 @@
+using AttackSurfaceAnalyzer.Collectors;
+using AttackSurfaceAnalyzer.Objects;
+using AttackSurfaceAnalyzer.Types;
+using AttackSurfaceAnalyzer.Utils;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.Win32;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -7,13 +12,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
-using System.Text;
-using AttackSurfaceAnalyzer.Collectors;
-using AttackSurfaceAnalyzer.Objects;
-using AttackSurfaceAnalyzer.Types;
-using AttackSurfaceAnalyzer.Utils;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.Win32;
 using WindowsFirewallHelper;
 
 namespace AsaTests
@@ -52,7 +50,7 @@ namespace AsaTests
             {
                 file.Write(FileSystemUtils.WindowsMagicNumber, 0, 2);
                 file.Write(FileSystemUtils.WindowsMagicNumber, 0, 2);
-                
+
                 file.Close();
             }
 

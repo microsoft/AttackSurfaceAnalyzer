@@ -20,7 +20,7 @@ namespace AttackSurfaceAnalyzer.Utils
             if (Client == null)
             {
                 using var config = TelemetryConfiguration.CreateDefault();
-                Enabled = test ? true: DatabaseManager.GetTelemetryEnabled();
+                Enabled = test ? true : DatabaseManager.GetTelemetryEnabled();
                 config.InstrumentationKey = INSTRUMENTATION_KEY;
                 config.DisableTelemetry = !Enabled;
                 Client = new TelemetryClient(config);

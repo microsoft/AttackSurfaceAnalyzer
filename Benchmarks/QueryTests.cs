@@ -31,11 +31,11 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         public int RunTwoSize { get; set; }
 
         // Percent of identities which should match between the two runs (% of the smaller run)
-        [Params(.25,.5,.75)]
+        [Params(.25, .5, .75)]
         public double IdentityMatches { get; set; }
 
         // Percent of those Identity matched identities which should also match in rowkey
-        [Params(.25,.5,.75)]
+        [Params(.25, .5, .75)]
         public double RowKeyMatches { get; set; }
 
         // The number of Shards/Threads to use for Database operations
@@ -58,14 +58,14 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Params("OFF")]
         public string Synchronous { get; set; }
 
-        private string RunOneName = "RunOne";
-        private string RunTwoName = "RunTwo";
+        private readonly string RunOneName = "RunOne";
+        private readonly string RunTwoName = "RunTwo";
 
         // Bag of reusable objects to write to the database.
         private static readonly ConcurrentBag<FileSystemObject> BagOfObjects = new ConcurrentBag<FileSystemObject>();
 
         // Bag of reusable identities
-        private static readonly ConcurrentBag<(string,string)> BagOfIdentities = new ConcurrentBag<(string,string)>();
+        private static readonly ConcurrentBag<(string, string)> BagOfIdentities = new ConcurrentBag<(string, string)>();
 
 
         public QueryTests()
