@@ -2,10 +2,17 @@
 // Licensed under the MIT License.
 namespace AttackSurfaceAnalyzer.Objects
 {
-    public class Diff
+    public readonly struct Diff
     {
-        public string Field { get; set; }
-        public object Before { get; set; }
-        public object After { get; set; }
+        public readonly string Field { get; }
+        public readonly object? Before { get; }
+        public readonly object? After { get; }
+
+        public Diff(string FieldIn, object? BeforeIn = null, object? AfterIn = null)
+        {
+            Field = FieldIn;
+            Before = BeforeIn;
+            After = AfterIn;
+        }
     }
 }

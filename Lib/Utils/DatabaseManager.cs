@@ -68,8 +68,8 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string SQL_INSERT_RUN = "insert into runs (run_id, type, serialized) values (@run_id, @type, @serialized)";
 
         private const string SQL_GET_COLLECT_MISSING_IN_B = "select * from collect b where b.run_id = @second_run_id and b.identity not in (select identity from collect a where a.run_id = @first_run_id);";
-        private const string SQL_GET_COLLECT_MODIFIED = "select a.row_key as 'a_row_key', a.serialized as 'a_serialized', a.result_type as 'a_result_type', a.identity as 'a_identity', a.run_id as 'a_run_id'," +
-                                                            " b.row_key as 'b_row_key', b.serialized as 'b_serialized', b.result_type as 'b_result_type', b.identity as 'b_identity', b.run_id as 'b_run_id'" +
+        private const string SQL_GET_COLLECT_MODIFIED = "select a.serialized as 'a_serialized', a.result_type as 'a_result_type', a.run_id as 'a_run_id'," +
+                                                            "b.serialized as 'b_serialized', b.result_type as 'b_result_type', b.run_id as 'b_run_id'" +
                                                                 " from collect a indexed by i_collect_collect_runid_row_type," +
                                                                     " collect b indexed by i_collect_collect_runid_row_type" +
                                                                         " where a.run_id=@first_run_id and b.run_id=@second_run_id and a.identity = b.identity and a.row_key != b.row_key and a.result_type = b.result_type;";
@@ -176,6 +176,12 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 PopulateConnections();
 
+                if (MainConnection == null)
+                {
+                    Log.Warning("Failed to set up Main Database connection. Cannot set up database.");
+                    return false;
+                }
+
                 if (FirstRun)
                 {
                     try
@@ -250,11 +256,11 @@ namespace AttackSurfaceAnalyzer.Utils
             return false;
         }
 
-        private static Settings GetSettings()
+        private static Settings? GetSettings()
         {
             try
             {
-                using var getSettings = new SqliteCommand(SQL_GET_PERSISTED_SETTINGS, MainConnection.Connection, MainConnection.Transaction);
+                using var getSettings = new SqliteCommand(SQL_GET_PERSISTED_SETTINGS, MainConnection?.Connection, MainConnection?.Transaction);
                 getSettings.Parameters.AddWithValue("@id", "Persisted");
                 using var reader = getSettings.ExecuteReader();
 
@@ -267,7 +273,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     }
                 }
             }
-            catch (SqliteException)
+            catch (Exception e) when (e is SqliteException || e is ArgumentNullException || e is NullReferenceException)
             {
                 //Expected when the table doesn't exist (first run)
             }
@@ -371,9 +377,9 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        public static List<RawCollectResult> GetResultsByRunid(string runid)
+        public static List<WriteObject> GetResultsByRunid(string runid)
         {
-            var output = new List<RawCollectResult>();
+            var output = new List<WriteObject>();
             SqliteCommand cmd;
             if (MainConnection.Transaction == null)
             {
@@ -388,13 +394,12 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 while (reader.Read())
                 {
-                    output.Add(new RawCollectResult()
+                    var runId = reader["run_id"].ToString();
+                    var resultTypeString = reader["result_type"].ToString();
+                    if (runId != null && resultTypeString != null)
                     {
-                        Identity = reader["identity"].ToString(),
-                        RunId = reader["run_id"].ToString(),
-                        ResultType = (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["result_type"].ToString()),
-                        RowKey = Convert.ToBase64String((byte[])reader["row_key"]),
-                    });
+                        output.Add(new WriteObject((byte[])reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId));
+                    }
                 }
             }
             cmd.Dispose();
@@ -617,9 +622,9 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static int ModuloString(string identity, int shardingFactor) => identity.Sum(x => x) % shardingFactor;
 
-        public static ConcurrentBag<RawCollectResult> GetMissingFromFirst(string firstRunId, string secondRunId)
+        public static ConcurrentBag<WriteObject> GetMissingFromFirst(string firstRunId, string secondRunId)
         {
-            var output = new ConcurrentBag<RawCollectResult>();
+            var output = new ConcurrentBag<WriteObject>();
 
             Connections.AsParallel().ForAll(cxn =>
             {
@@ -630,14 +635,12 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     while (reader.Read())
                     {
-                        output.Add(new RawCollectResult()
+                        var runId = reader["run_id"].ToString();
+                        var resultTypeString = reader["result_type"].ToString();
+                        if (runId != null && resultTypeString != null)
                         {
-                            Identity = reader["identity"].ToString(),
-                            RunId = reader["run_id"].ToString(),
-                            ResultType = (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["result_type"].ToString()),
-                            RowKey = Convert.ToBase64String((byte[])reader["row_key"]),
-                            DeserializedObject = JsonUtils.Hydrate((byte[])reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["result_type"].ToString()))
-                        });
+                            output.Add(new WriteObject((byte[])reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId));
+                        }
                     }
                 }
             });
@@ -660,24 +663,9 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         output.Add(new RawModifiedResult()
                         {
-                            First = new RawCollectResult()
-                            {
-                                Identity = reader["a_identity"].ToString(),
-                                RunId = reader["a_run_id"].ToString(),
-                                ResultType = (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["a_result_type"].ToString()),
-                                RowKey = Convert.ToBase64String((byte[])reader["a_row_key"]),
-                                DeserializedObject = JsonUtils.Hydrate((byte[])reader["a_serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["a_result_type"].ToString()))
-                            },
-                            Second = new RawCollectResult()
-                            {
-                                Identity = reader["b_identity"].ToString(),
-                                RunId = reader["b_run_id"].ToString(),
-                                ResultType = (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["b_result_type"].ToString()),
-                                RowKey = Convert.ToBase64String((byte[])reader["b_row_key"]),
-                                DeserializedObject = JsonUtils.Hydrate((byte[])reader["b_serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["b_result_type"].ToString()))
-                            }
-                        }
-                        );
+                            First = new WriteObject((byte[])reader["a_serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["a_result_type"].ToString()), reader["a_run_id"].ToString()),                            
+                            Second = new WriteObject((byte[])reader["b_serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["b_result_type"].ToString()), reader["b_run_id"].ToString())
+                        });
                     }
                 }
             });

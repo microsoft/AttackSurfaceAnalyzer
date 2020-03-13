@@ -24,9 +24,9 @@ namespace AttackSurfaceAnalyzer.Collectors
         public BaseCompare()
         {
             Results = new ConcurrentDictionary<string, ConcurrentQueue<CompareResult>>();
-            foreach (RESULT_TYPE result_type in Enum.GetValues(typeof(RESULT_TYPE)))
+            foreach (RESULT_TYPE? result_type in Enum.GetValues(typeof(RESULT_TYPE)))
             {
-                foreach (CHANGE_TYPE change_type in Enum.GetValues(typeof(CHANGE_TYPE)))
+                foreach (CHANGE_TYPE? change_type in Enum.GetValues(typeof(CHANGE_TYPE)))
                 {
                     Results[$"{result_type.ToString()}_{change_type.ToString()}"] = new ConcurrentQueue<CompareResult>();
                 }
@@ -50,24 +50,24 @@ namespace AttackSurfaceAnalyzer.Collectors
                 throw new ArgumentNullException(nameof(secondRunId));
             }
 
-            ConcurrentBag<RawCollectResult> addObjects = DatabaseManager.GetMissingFromFirst(firstRunId, secondRunId);
-            ConcurrentBag<RawCollectResult> removeObjects = DatabaseManager.GetMissingFromFirst(secondRunId, firstRunId);
+            ConcurrentBag<WriteObject> addObjects = DatabaseManager.GetMissingFromFirst(firstRunId, secondRunId);
+            ConcurrentBag<WriteObject> removeObjects = DatabaseManager.GetMissingFromFirst(secondRunId, firstRunId);
             ConcurrentBag<RawModifiedResult> modifyObjects = DatabaseManager.GetModified(firstRunId, secondRunId);
 
             addObjects.AsParallel().ForAll(added =>
             {
                 var obj = new CompareResult()
                 {
-                    Compare = added.DeserializedObject,
+                    Compare = added.ColObj,
                     BaseRunId = firstRunId,
                     CompareRunId = secondRunId,
-                    CompareRowKey = added.RowKey,
+                    CompareRowKey = added.InstanceHash,
                     ChangeType = CHANGE_TYPE.CREATED,
-                    ResultType = added.ResultType,
+                    ResultType = added.ColObj.ResultType,
                     Identity = added.Identity
                 };
                 Log.Debug($"Adding {obj.Identity}");
-                Results[$"{added.ResultType.ToString()}_{CHANGE_TYPE.CREATED.ToString()}"].Enqueue(obj);
+                Results[$"{added.ColObj.ResultType.ToString()}_{CHANGE_TYPE.CREATED.ToString()}"].Enqueue(obj);
             });
 
 
@@ -75,34 +75,34 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 var obj = new CompareResult()
                 {
-                    Base = removed.DeserializedObject,
+                    Base = removed.ColObj,
                     BaseRunId = firstRunId,
                     CompareRunId = secondRunId,
-                    BaseRowKey = removed.RowKey,
+                    BaseRowKey = removed.InstanceHash,
                     ChangeType = CHANGE_TYPE.DELETED,
-                    ResultType = removed.ResultType,
+                    ResultType = removed.ColObj.ResultType,
                     Identity = removed.Identity
                 };
 
-                Results[$"{removed.ResultType.ToString()}_{CHANGE_TYPE.DELETED.ToString()}"].Enqueue(obj);
+                Results[$"{removed.ColObj.ResultType.ToString()}_{CHANGE_TYPE.DELETED.ToString()}"].Enqueue(obj);
             });
 
             modifyObjects.AsParallel().ForAll(modified =>
             {
                 var compareLogic = new CompareLogic();
                 compareLogic.Config.IgnoreCollectionOrder = true;
-                var first = modified.First.DeserializedObject;
-                var second = modified.Second.DeserializedObject;
+                var first = modified.First.ColObj;
+                var second = modified.Second.ColObj;
                 var obj = new CompareResult()
                 {
                     Base = first,
                     Compare = second,
                     BaseRunId = firstRunId,
                     CompareRunId = secondRunId,
-                    BaseRowKey = modified.First.RowKey,
-                    CompareRowKey = modified.Second.RowKey,
+                    BaseRowKey = modified.First.InstanceHash,
+                    CompareRowKey = modified.Second.InstanceHash,
                     ChangeType = CHANGE_TYPE.MODIFIED,
-                    ResultType = modified.First.ResultType,
+                    ResultType = modified.First.ColObj.ResultType,
                     Identity = modified.First.Identity
                 };
 
@@ -114,12 +114,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         var propName = prop.Name;
                         List<Diff> diffs;
-                        object added = null;
-                        object removed = null;
-                        object changed = new object();
+                        object? added = null;
+                        object? removed = null;
 
-                        object firstProp = prop.GetValue(first);
-                        object secondProp = prop.GetValue(second);
+                        object? firstProp = prop.GetValue(first);
+                        object? secondProp = prop.GetValue(second);
                         if (firstProp == null && secondProp == null)
                         {
                             continue;
@@ -143,10 +142,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                             var firstVal = prop.GetValue(first);
                             var secondVal = prop.GetValue(second);
 
-                            if (firstVal is List<string>)
+                            if (firstVal is List<string> && secondVal is List<string>)
                             {
-                                added = ((List<string>)prop.GetValue(second)).Except((List<string>)prop.GetValue(first));
-                                removed = ((List<string>)prop.GetValue(first)).Except((List<string>)prop.GetValue(second));
+                                added = ((List<string>)secondVal).Except((List<string>)firstVal);
+                                removed = ((List<string>)firstVal).Except((List<string>?)prop.GetValue(second));
                                 if (!((IEnumerable<string>)added).Any())
                                 {
                                     added = null;
@@ -156,10 +155,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     removed = null;
                                 }
                             }
-                            else if (firstVal is List<KeyValuePair<string, string>>)
+                            else if (firstVal is List<KeyValuePair<string, string>> && secondVal is List<KeyValuePair<string,string>>)
                             {
-                                added = ((List<KeyValuePair<string, string>>)prop.GetValue(second)).Except((List<KeyValuePair<string, string>>)prop.GetValue(first));
-                                removed = ((List<KeyValuePair<string, string>>)prop.GetValue(first)).Except((List<KeyValuePair<string, string>>)prop.GetValue(second));
+                                added = ((List<KeyValuePair<string, string>>)secondVal).Except((List<KeyValuePair<string, string>>)firstVal);
+                                removed = ((List<KeyValuePair<string, string>>)firstVal).Except((List<KeyValuePair<string, string>>)secondVal);
                                 if (!((IEnumerable<KeyValuePair<string, string>>)added).Any())
                                 {
                                     added = null;
@@ -169,7 +168,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     removed = null;
                                 }
                             }
-                            else if (firstVal is Dictionary<string, string>)
+                            else if (firstVal is Dictionary<string, string> && secondVal is Dictionary<string,string>)
                             {
                                 added = ((Dictionary<string, string>)secondVal)
                                     .Except((Dictionary<string, string>)firstVal)
@@ -187,13 +186,13 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     removed = null;
                                 }
                             }
-                            else if (firstVal is string || firstVal is int || firstVal is bool)
+                            else if ((firstVal is string || firstVal is int || firstVal is bool) && (secondVal is string || secondVal is int || secondVal is bool))
                             {
-                                obj.Diffs.Add(new Diff() { Field = prop.Name, Before = firstVal, After = secondVal });
+                                obj.Diffs.Add(new Diff(prop.Name, firstVal, secondVal));
                             }
                             else
                             {
-                                obj.Diffs.Add(new Diff() { Field = prop.Name, Before = firstVal, After = secondVal });
+                                obj.Diffs.Add(new Diff(prop.Name, firstVal, secondVal));
                             }
 
                             diffs = GetDiffs(prop, added, removed);
@@ -216,7 +215,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                 }
 
-                Results[$"{modified.First.ResultType.ToString()}_{CHANGE_TYPE.MODIFIED.ToString()}"].Enqueue(obj);
+                Results[$"{modified.First.ColObj.ResultType.ToString()}_{CHANGE_TYPE.MODIFIED.ToString()}"].Enqueue(obj);
             });
 
             foreach (var empty in Results.Where(x => x.Value.Count == 0))
@@ -232,24 +231,16 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <param name="added">The added findings.</param>
         /// <param name="removed">The removed findings.</param>
         /// <returns></returns>
-        public static List<Diff> GetDiffs(PropertyInfo prop, object added, object removed)
+        public static List<Diff> GetDiffs(PropertyInfo prop, object? added, object? removed)
         {
             List<Diff> diffsOut = new List<Diff>();
             if (added != null && prop != null)
             {
-                diffsOut.Add(new Diff()
-                {
-                    Field = prop.Name,
-                    After = added
-                });
+                diffsOut.Add(new Diff(FieldIn: prop.Name, AfterIn: added));
             }
             if (removed != null && prop != null)
             {
-                diffsOut.Add(new Diff()
-                {
-                    Field = prop.Name,
-                    Before = removed
-                });
+                diffsOut.Add(new Diff(FieldIn: prop.Name, BeforeIn: removed));
             }
             return diffsOut;
         }

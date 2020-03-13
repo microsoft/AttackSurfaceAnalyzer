@@ -1,4 +1,5 @@
-﻿using AttackSurfaceAnalyzer.Utils;
+﻿using AttackSurfaceAnalyzer.Types;
+using AttackSurfaceAnalyzer.Utils;
 using System;
 using System.Linq;
 
@@ -13,17 +14,21 @@ namespace AttackSurfaceAnalyzer.Objects
         public byte[] GetRowKey() { return _rowKey; }
         public byte[] GetSerialized() { return _serialized; }
 
-        public WriteObject(CollectObject ColObj, string RunId)
+        public WriteObject(CollectObject ColObjIn, string RunIdIn)
         {
-            if (ColObj == null)
-            {
-                throw new ArgumentNullException(nameof(ColObj));
-            }
-            this.ColObj = ColObj;
-            this.RunId = RunId;
+            ColObj = ColObjIn;
+            RunId = RunIdIn;
 
-            _serialized = JsonUtils.Dehydrate(ColObj);
+            _serialized = JsonUtils.Dehydrate(ColObjIn);
             _rowKey = CryptoHelpers.CreateHash(_serialized);
+        }
+
+        public WriteObject(byte[] SerializedIn, RESULT_TYPE ResultTypeIn, string RunIdIn)
+        {
+            _serialized = SerializedIn;
+            _rowKey = CryptoHelpers.CreateHash(_serialized);
+            RunId = RunIdIn;
+            ColObj = JsonUtils.Hydrate(_serialized, ResultTypeIn);
         }
 
         public override int GetHashCode()

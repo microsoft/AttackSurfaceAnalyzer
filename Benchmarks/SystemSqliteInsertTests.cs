@@ -9,7 +9,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
 {
     [MarkdownExporterAttribute.GitHub]
     [JsonExporterAttribute.Full]
-    public class InsertTestsWithoutTransactions
+    public class SystemSqliteInsertTestsWithoutTransactions
     {
         // The number of records to insert for the benchmark
         //[Params(25000,50000,100000)]
@@ -47,7 +47,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         // Bag of reusable objects to write to the database.
         private static readonly ConcurrentBag<FileSystemObject> BagOfObjects = new ConcurrentBag<FileSystemObject>();
 
-        public InsertTestsWithoutTransactions()
+        public SystemSqliteInsertTestsWithoutTransactions()
         {
             Logger.Setup(true, true);
             Strings.Setup();

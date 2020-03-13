@@ -6,20 +6,10 @@ using System.IO;
 
 namespace AttackSurfaceAnalyzer.Objects
 {
-
-    public class RawCollectResult
-    {
-        public RESULT_TYPE ResultType { get; set; }
-        public string RowKey { get; set; }
-        public string RunId { get; set; }
-        public string Identity { get; set; }
-        public CollectObject DeserializedObject { get; set; }
-    }
-
     public class RawModifiedResult
     {
-        public RawCollectResult First { get; set; }
-        public RawCollectResult Second { get; set; }
+        public WriteObject First { get; set; }
+        public WriteObject Second { get; set; }
     }
 
     public class FileMonitorEvent

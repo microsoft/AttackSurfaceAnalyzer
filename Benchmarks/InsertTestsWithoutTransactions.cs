@@ -24,7 +24,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         // The amount of padding to add to the object in bytes
         // Default size is approx 530 bytes serialized
         // Does not include SQL overhead
-        [Params(0,500,1500,2500,3500,4500)]
+        [Params(1000,2000,3000,4000,5000,5500,6000,6500,7000,7500,8000,8500,9000,9500)]
         public int ObjectPadding { get; set; }
 
         // The number of Shards/Threads to use for Database operations

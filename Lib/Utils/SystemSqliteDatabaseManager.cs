@@ -359,9 +359,9 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        public static List<RawCollectResult> GetResultsByRunid(string runid)
+        public static List<WriteObject> GetResultsByRunid(string runid)
         {
-            var output = new List<RawCollectResult>();
+            var output = new List<WriteObject>();
             SQLiteCommand cmd;
             if (MainConnection.Transaction == null)
             {
@@ -376,13 +376,12 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 while (reader.Read())
                 {
-                    output.Add(new RawCollectResult()
+                    var runId = reader["run_id"].ToString();
+                    var resultTypeString = reader["result_type"].ToString();
+                    if (runId != null && resultTypeString != null)
                     {
-                        Identity = reader["identity"].ToString(),
-                        RunId = reader["run_id"].ToString(),
-                        ResultType = (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["result_type"].ToString()),
-                        RowKey = Convert.ToBase64String((byte[])reader["row_key"]),
-                    });
+                        output.Add(new WriteObject((byte[])reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId));
+                    }
                 }
             }
             cmd.Dispose();
@@ -605,9 +604,9 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static int ModuloString(string identity, int shardingFactor) => identity.Sum(x => x) % shardingFactor;
 
-        public static ConcurrentBag<RawCollectResult> GetMissingFromFirst(string firstRunId, string secondRunId)
+        public static ConcurrentBag<WriteObject> GetMissingFromFirst(string firstRunId, string secondRunId)
         {
-            var output = new ConcurrentBag<RawCollectResult>();
+            var output = new ConcurrentBag<WriteObject>();
 
             Connections.AsParallel().ForAll(cxn =>
             {
@@ -618,7 +617,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     while (reader.Read())
                     {
-                        output.Add(new RawCollectResult()
+                        output.Add(new WriteObject()
                         {
                             Identity = reader["identity"].ToString(),
                             RunId = reader["run_id"].ToString(),
@@ -648,7 +647,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         output.Add(new RawModifiedResult()
                         {
-                            First = new RawCollectResult()
+                            First = new WriteObject()
                             {
                                 Identity = reader["a_identity"].ToString(),
                                 RunId = reader["a_run_id"].ToString(),
@@ -656,7 +655,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                 RowKey = Convert.ToBase64String((byte[])reader["a_row_key"]),
                                 DeserializedObject = JsonUtils.Hydrate((byte[])reader["a_serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), reader["a_result_type"].ToString()))
                             },
-                            Second = new RawCollectResult()
+                            Second = new WriteObject()
                             {
                                 Identity = reader["b_identity"].ToString(),
                                 RunId = reader["b_run_id"].ToString(),

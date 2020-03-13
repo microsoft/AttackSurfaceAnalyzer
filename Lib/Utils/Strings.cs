@@ -31,12 +31,10 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 using Stream stream = typeof(FileSystemObject).Assembly.GetManifestResourceStream("AttackSurfaceAnalyzer.Properties.Resources.resources") ?? new MemoryStream();
                 using ResourceReader reader = new ResourceReader(stream);
-                foreach (DictionaryEntry? entry in reader)
+                foreach (DictionaryEntry entry in reader)
                 {
-                    if (entry != null)
-                    {
+                    if (entry.Key != null && entry.Value != null)
                         stringList.Add(entry.Key.ToString(), entry.Value.ToString());
-                    }
                 }
             }
         }
