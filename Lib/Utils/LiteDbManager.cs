@@ -37,24 +37,17 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             if (filename != null)
             {
-                if (Filename != filename)
-                {
-
-                    if (db != null)
-                    {
-                        CloseDatabase();
-                    }
-                }
+                Filename = filename;
             }
 
-            Filename = filename;
-
-            var StopWatch = System.Diagnostics.Stopwatch.StartNew();
+            if (db != null)
+            {
+                CloseDatabase();
+            }
 
             try
             {
                 db = new LiteDatabase(Filename);
-                StopWatch.Stop();
 
                 db.BeginTrans();
 
