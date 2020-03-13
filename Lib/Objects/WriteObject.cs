@@ -60,5 +60,21 @@ namespace AttackSurfaceAnalyzer.Objects
         {
             return !(left == right);
         }
+
+        public string Identity
+        {
+            get
+            {
+                return ColObj.Identity;
+            }
+        }
+
+        public string InstanceHash
+        {
+            get
+            {
+                return Convert.ToBase64String(_rowKey);
+            }
+        }
     }
 }
