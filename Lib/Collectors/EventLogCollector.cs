@@ -57,28 +57,31 @@ namespace AttackSurfaceAnalyzer.Collectors
                 {
                     EventLogEntryCollection coll = log.Entries;
 
-                    foreach (EventLogEntry entry in coll)
+                    foreach (EventLogEntry? entry in coll)
                     {
-                        if (GatherVerboseLogs || entry.EntryType.ToString() == "Warning" || entry.EntryType.ToString() == "Error")
+                        if (entry != null)
                         {
-                            var sentences = entry.Message.Split('.');
-
-                            //Let's add the periods back.
-                            for (var i = 0; i < sentences.Length; i++)
+                            if (GatherVerboseLogs || entry.EntryType.ToString() == "Warning" || entry.EntryType.ToString() == "Error")
                             {
-                                sentences[i] = string.Concat(sentences[i], ".");
+                                var sentences = entry.Message.Split('.');
+
+                                //Let's add the periods back.
+                                for (var i = 0; i < sentences.Length; i++)
+                                {
+                                    sentences[i] = string.Concat(sentences[i], ".");
+                                }
+
+                                EventLogObject obj = new EventLogObject()
+                                {
+                                    Level = entry.EntryType.ToString(),
+                                    Summary = sentences[0],
+                                    Source = string.IsNullOrEmpty(entry.Source) ? null : entry.Source,
+                                    Timestamp = entry.TimeGenerated.ToString("o", CultureInfo.InvariantCulture),
+                                    Event = $"{entry.TimeGenerated.ToString("o", CultureInfo.InvariantCulture)} {entry.EntryType.ToString()} {entry.Message}"
+                                };
+                                obj.Data.Add(entry.Message);
+                                DatabaseManager.Write(obj, RunId);
                             }
-
-                            EventLogObject obj = new EventLogObject()
-                            {
-                                Level = entry.EntryType.ToString(),
-                                Summary = sentences[0],
-                                Source = string.IsNullOrEmpty(entry.Source) ? null : entry.Source,
-                                Timestamp = entry.TimeGenerated.ToString("o", CultureInfo.InvariantCulture),
-                                Event = $"{entry.TimeGenerated.ToString("o", CultureInfo.InvariantCulture)} {entry.EntryType.ToString()} {entry.Message}"
-                            };
-                            obj.Data.Add(entry.Message);
-                            DatabaseManager.Write(obj, RunId);
                         }
                     }
                 }
