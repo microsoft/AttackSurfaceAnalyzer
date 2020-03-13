@@ -9,7 +9,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
 {
     [MarkdownExporterAttribute.GitHub]
     [JsonExporterAttribute.Full]
-    public class InsertTestsWithoutTransactions
+    public class LiteDbInsertTests
     {
         // The number of records to insert for the benchmark
         //[Params(25000,50000,100000)]
@@ -28,26 +28,14 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         public int ObjectPadding { get; set; }
 
         // The number of Shards/Threads to use for Database operations
-        [Params(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)]
+        //[Params(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)]
+        [Params(1)]
         public int Shards { get; set; }
-
-        //[Params("OFF","DELETE","WAL","MEMORY")]
-        [Params("WAL")]
-        public string JournalMode { get; set; }
-
-        [Params("NORMAL")]
-        public string LockingMode { get; set; }
-
-        [Params(4096)]
-        public int PageSize { get; set; }
-
-        [Params("OFF", "NORMAL", "FULL", "EXTRA")]
-        public string Synchronous { get; set; }
 
         // Bag of reusable objects to write to the database.
         private static readonly ConcurrentBag<FileSystemObject> BagOfObjects = new ConcurrentBag<FileSystemObject>();
 
-        public InsertTestsWithoutTransactions()
+        public LiteDbInsertTests()
         {
             Logger.Setup(true, true);
             Strings.Setup();
@@ -61,11 +49,11 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             Parallel.For(0, X, i =>
             {
                 var obj = GetRandomObject(ObjectPadding);
-                DatabaseManager.Write(obj, runName);
+                LiteDbManager.Write(obj, runName);
                 BagOfObjects.Add(obj);
             });
 
-            while (DatabaseManager.HasElements())
+            while (LiteDbManager.HasElements())
             {
                 Thread.Sleep(1);
             }
@@ -94,12 +82,12 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         public void PopulateDatabases()
         {
             Setup();
-            DatabaseManager.BeginTransaction();
+            LiteDbManager.BeginTransaction();
 
             Insert_X_Objects(StartingSize, ObjectPadding, "PopulateDatabase");
 
-            DatabaseManager.Commit();
-            DatabaseManager.CloseDatabase();
+            LiteDbManager.Commit();
+            LiteDbManager.CloseDatabase();
         }
 
         [GlobalSetup]
@@ -112,32 +100,25 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         public void GlobalCleanup()
         {
             Setup();
-            DatabaseManager.Destroy();
+            LiteDbManager.Destroy();
         }
 
         [IterationSetup]
         public void IterationSetup()
         {
             Setup();
-            DatabaseManager.BeginTransaction();
+            LiteDbManager.BeginTransaction();
         }
 
         private void Setup()
         {
-            DatabaseManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite", new DBSettings()
-            {
-                JournalMode = JournalMode,
-                LockingMode = LockingMode,
-                PageSize = PageSize,
-                ShardingFactor = Shards,
-                Synchronous = Synchronous
-            });
+            LiteDbManager.Setup(filename: $"AsaBenchmark_{Shards}.litedb");
         }
 
         [IterationCleanup]
         public void IterationCleanup()
         {
-            DatabaseManager.CloseDatabase();
+            LiteDbManager.CloseDatabase();
         }
     }
 }

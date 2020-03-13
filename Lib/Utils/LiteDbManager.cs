@@ -21,7 +21,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private static bool WriterStarted = false;
 
-        private static ConcurrentBag<LiteCollection<WriteObject>> WriteObjectCollections = new ConcurrentBag<LiteCollection<WriteObject>>();
+        private static ConcurrentBag<ILiteCollection<WriteObject>> WriteObjectCollections = new ConcurrentBag<ILiteCollection<WriteObject>>();
 
         private static Settings settings;
 
@@ -33,7 +33,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static string Filename { get; private set; } = "asa.litedb";
 
-        public static bool Setup(string filename = null, LiteDbSettings dbSettings = default)
+        public static bool Setup(string filename = null)
         {
             if (filename != null)
             {
@@ -61,7 +61,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             try
             {
-                db = new LiteDatabase("Filename=asa.litedb;Journal=false;Mode=Exclusive");
+                db = new LiteDatabase(Filename);
                 StopWatch.Stop();
                 var t = TimeSpan.FromMilliseconds(StopWatch.ElapsedMilliseconds);
                 var answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
@@ -193,13 +193,13 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void VerifySchemaVersion()
         {
-            var settings = db.GetCollection<Setting>("Settings");
+            //var settings = db.GetCollection<Setting>("Settings");
 
-            if (!(settings.Exists(Query.And(Query.EQ("Name", "SchemaVersion"), Query.EQ("Value", SCHEMA_VERSION)))))
-            {
-                Log.Fatal("Schema version of database is {0} but {1} is required. Use config --reset-database to delete the incompatible database.", settings.FindOne(x => x.Name.Equals("SchemaVersion")).Value, SCHEMA_VERSION);
-                Environment.Exit(-1);
-            }
+            //if (!(settings.Exists(Query.And(Query.EQ("Name", "SchemaVersion"), Query.EQ("Value", SCHEMA_VERSION)))))
+            //{
+            //    Log.Fatal("Schema version of database is {0} but {1} is required. Use config --reset-database to delete the incompatible database.", settings.FindOne(x => x.Name.Equals("SchemaVersion")).Value, SCHEMA_VERSION);
+            //    Environment.Exit(-1);
+            //}
         }
 
         public static List<string> GetLatestRunIds(int numberOfIds, RUN_TYPE type)
@@ -237,11 +237,12 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static IEnumerable<FileMonitorEvent> GetSerializedMonitorResults(string runId)
         {
-            List<FileMonitorEvent> records = new List<FileMonitorEvent>();
+            //List<FileMonitorEvent> records = new List<FileMonitorEvent>();
 
-            var fme = db.GetCollection<FileMonitorEvent>("FileMonitorEvents");
+            //var fme = db.GetCollection<FileMonitorEvent>("FileMonitorEvents");
 
-            return fme.Find(x => x.RunId.Equals(runId));
+            //return fme.Find(x => x.RunId.Equals(runId));
+            return new List<FileMonitorEvent>();
         }
 
         public static void InsertRun(string runId, Dictionary<RESULT_TYPE, bool> dictionary)
@@ -278,7 +279,7 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             if (objIn != null && runId != null)
             {
-                WriteQueue.Enqueue(new WriteObject() { ColObj = objIn, RunId = runId });
+                WriteQueue.Enqueue(new WriteObject(objIn, runId));
             }
         }
 
@@ -308,9 +309,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static bool RunContains(string runId, string IdentityHash)
         {
-            LiteCollection<WriteObject> col;
-            WriteObjectCollections.TryTake(out col);
-            if (col == null)
+            if (!WriteObjectCollections.TryTake(out ILiteCollection<WriteObject> col))
             {
                 col = db.GetCollection<WriteObject>();
             }
@@ -325,9 +324,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static WriteObject GetWriteObject(string RunId, string IdentityHash)
         {
-            LiteCollection<WriteObject> col;
-            WriteObjectCollections.TryTake(out col);
-            if (col == null)
+            if (!WriteObjectCollections.TryTake(out ILiteCollection<WriteObject> col))
             {
                 col = db.GetCollection<WriteObject>();
             }
@@ -408,22 +405,20 @@ namespace AttackSurfaceAnalyzer.Utils
         }
 
 
-        public static IEnumerable<Tuple<WriteObject, WriteObject>> GetModified(string firstRunId, string secondRunId)
+        public static IEnumerable<(WriteObject, WriteObject)> GetModified(string firstRunId, string secondRunId)
         {
             var col = db.GetCollection<WriteObject>("WriteObjects");
 
-            var list = new ConcurrentBag<Tuple<WriteObject, WriteObject>>();
+            var list = new ConcurrentBag<(WriteObject, WriteObject)>();
 
             Parallel.ForEach(GetWriteObjects(firstRunId).ToList(), WO =>
             {
                 var secondItem = col.FindOne(Query.And(Query.EQ("RunId", secondRunId), Query.EQ("IdentityHash", WO.Identity), Query.Not("InstanceHash", WO.InstanceHash)));
                 if (secondItem != null)
                 {
-                    var tuple = new Tuple<WriteObject, WriteObject>(WO, secondItem);
-                    list.Add(tuple);
+                    list.Add((WO, secondItem));
                 }
-            }
-            );
+            });
 
             return list;
         }
@@ -450,28 +445,29 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static bool GetOptOut()
         {
-            var settings = db.GetCollection<Setting>("Settings");
-            var optout = settings.FindOne(x => x.Name == "TelemetryOptOut");
-            return bool.Parse(optout.Value);
+            //var settings = db.GetCollection<Setting>("Settings");
+            //var optout = settings.FindOne(x => x.Name == "TelemetryOptOut");
+            //return bool.Parse(optout.Value);
+            return false;
         }
 
         public static void SetOptOut(bool OptOut)
         {
-            var settings = db.GetCollection<Setting>("Settings");
+            //var settings = db.GetCollection<Setting>("Settings");
 
-            settings.Upsert(new Setting() { Name = "TelemetryOptOut", Value = OptOut.ToString() });
+            //settings.Upsert(new Setting() { Name = "TelemetryOptOut", Value = OptOut.ToString() });
         }
 
-        public static void WriteFileMonitor(FileMonitorObject obj, string runId)
-        {
-            var fme = db.GetCollection<FileMonitorEvent>();
+        //public static void WriteFileMonitor(FileMonitorObject obj, string runId)
+        //{
+        //    var fme = db.GetCollection<FileMonitorEvent>();
 
-            fme.Insert(new FileMonitorEvent()
-            {
-                RunId = runId,
-                FMO = obj
-            });
-        }
+        //    fme.Insert(new FileMonitorEvent()
+        //    {
+        //        RunId = runId,
+        //        FMO = obj
+        //    });
+        //}
 
         public static Run GetRun(string RunId)
         {
@@ -499,14 +495,16 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static List<FileMonitorEvent> GetMonitorResults(string runId, int offset, int numResults)
         {
-            var fme = db.GetCollection<FileMonitorEvent>("FileMonitorEvents");
-            return fme.Find(x => x.RunId.Equals(runId), skip: offset, limit: numResults).ToList();
+            //var fme = db.GetCollection<FileMonitorEvent>("FileMonitorEvents");
+            //return fme.Find(x => x.RunId.Equals(runId), skip: offset, limit: numResults).ToList();
+            return new List<FileMonitorEvent>();
         }
 
         public static int GetNumMonitorResults(string runId)
         {
-            var fme = db.GetCollection<FileMonitorEvent>("FileMonitorEvent");
-            return fme.Count(x => x.RunId.Equals(runId));
+            //var fme = db.GetCollection<FileMonitorEvent>("FileMonitorEvent");
+            //return fme.Count(x => x.RunId.Equals(runId));
+            return 0;
         }
 
         public static IEnumerable<CompareResult> GetComparisonResults(string firstRunId, string secondRunId, RESULT_TYPE resultType, int offset = 0, int numResults = 2147483647)
@@ -588,9 +586,48 @@ namespace AttackSurfaceAnalyzer.Utils
 
             return cr.Exists(x => x.FirstRunId.Equals(firstRunId) && x.SecondRunId.Equals(secondRunId));
         }
+
+        public static void BeginTransaction()
+        {
+            db.BeginTrans();
+        }
+
+        public static void Commit()
+        {
+            db.Commit();
+        }
+
+        public static void Destroy()
+        {
+            try
+            {
+                File.Delete(Filename);
+            }
+            catch(Exception e)
+            {
+                Log.Information($"Failed to clean up database located at {Filename}");
+            }
+        }
+    }
+    public class Comparison
+    {
+        public string FirstRunId { get; set; }
+        public string SecondRunId { get; set; }
+        public RUN_STATUS Status { get; set; }
+        public int Id { get; set; }
+
+        public Comparison(string firstRunId, string secondRunId, RUN_STATUS status)
+        {
+            FirstRunId = firstRunId;
+            SecondRunId = secondRunId;
+            Status = status;
+        }
     }
 
-    public class LiteDbSettings
+    public class CompareRun
     {
+        public string FirstRunId { get; set; }
+        public string SecondRunId { get; set; }
+        public RUN_STATUS Status { get; set; }
     }
 }
