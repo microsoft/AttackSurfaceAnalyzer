@@ -13,7 +13,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     {
         // The number of records to insert for the benchmark
         //[Params(25000,50000,100000)]
-        [Params(25000)]
+        [Params(10000)]
         public int N { get; set; }
 
         // The number of records to populate the database with before the benchmark

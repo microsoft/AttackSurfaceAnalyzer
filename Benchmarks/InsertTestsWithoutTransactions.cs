@@ -13,7 +13,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     {
         // The number of records to insert for the benchmark
         //[Params(25000,50000,100000)]
-        [Params(25000)]
+        [Params(10000)]
         public int N { get; set; }
 
         // The number of records to populate the database with before the benchmark
@@ -24,7 +24,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         // The amount of padding to add to the object in bytes
         // Default size is approx 530 bytes serialized
         // Does not include SQL overhead
-        [Params(0)]
+        [Params(0,500,1500,2500,3500,4500)]
         public int ObjectPadding { get; set; }
 
         // The number of Shards/Threads to use for Database operations
@@ -41,7 +41,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Params(4096)]
         public int PageSize { get; set; }
 
-        [Params("OFF", "NORMAL", "FULL", "EXTRA")]
+        [Params("OFF")]
         public string Synchronous { get; set; }
 
         // Bag of reusable objects to write to the database.

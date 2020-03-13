@@ -51,25 +51,10 @@ namespace AttackSurfaceAnalyzer.Utils
 
             var StopWatch = System.Diagnostics.Stopwatch.StartNew();
 
-            if (System.IO.File.Exists(Filename))
-            {
-                Log.Debug($"Loading Database {Filename} of size {new FileInfo(Filename).Length}");
-            }
-            else
-            {
-                Log.Debug($"Initializing database at {Filename}");
-            }
             try
             {
                 db = new LiteDatabase(Filename);
                 StopWatch.Stop();
-                var t = TimeSpan.FromMilliseconds(StopWatch.ElapsedMilliseconds);
-                var answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
-                                        t.Hours,
-                                        t.Minutes,
-                                        t.Seconds,
-                                        t.Milliseconds);
-                Log.Debug("Completed opening database in {0}", answer);
 
                 db.BeginTrans();
 
@@ -271,6 +256,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void CloseDatabase()
         {
+            db.Rollback();
             db.Dispose();
             db = null;
         }

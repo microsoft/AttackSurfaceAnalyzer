@@ -598,11 +598,7 @@ namespace AttackSurfaceAnalyzer.Utils
             if (colObj != null && runId != null)
             {
                 var objIn = new WriteObject(colObj, runId);
-
-                if (objIn.Shard >= 0)
-                {
-                    Connections[objIn.Shard].WriteQueue.Enqueue(objIn);
-                }
+                Connections[ModuloString(objIn.Identity, shardingFactor: dbSettings.ShardingFactor)].WriteQueue.Enqueue(objIn);
             }
         }
 
@@ -617,7 +613,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        public static int ModuloString(string identity) => identity.Sum(x => x) % dbSettings.ShardingFactor;
+        public static int ModuloString(string identity, int shardingFactor) => identity.Sum(x => x) % shardingFactor;
 
         public static ConcurrentBag<RawCollectResult> GetMissingFromFirst(string firstRunId, string secondRunId)
         {
