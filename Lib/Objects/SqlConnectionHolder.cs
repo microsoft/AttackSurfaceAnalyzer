@@ -12,7 +12,7 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class SqlConnectionHolder
     {
-        public SqliteTransaction Transaction { get; set; }
+        public SqliteTransaction? Transaction { get; set; }
         public SqliteConnection Connection { get; set; }
         public ConcurrentQueue<WriteObject> WriteQueue { get; private set; } = new ConcurrentQueue<WriteObject>();
         public bool KeepRunning { get; set; }
@@ -21,24 +21,24 @@ namespace AttackSurfaceAnalyzer.Objects
         public int FlushCount { get; set; } = -1;
         public int TableShards { get; set; } = 1;
 
-        private readonly DBSettings settings;
+        private readonly DBSettings settings = new DBSettings();
 
         private const string PRAGMAS = "PRAGMA auto_vacuum = 0; PRAGMA synchronous = {0}; PRAGMA journal_mode = {1}; PRAGMA page_size = {2}; PRAGMA locking_mode = {3};";
 
-        public SqlConnectionHolder(string databaseFilename, DBSettings dBSettings = default, int tableShards = 1)
+        public SqlConnectionHolder(string databaseFilename, DBSettings dBSettings, int tableShards = 1)
         {
-            settings = dBSettings;
+            if (dBSettings != null)
+            {
+                settings = dBSettings;
+            }
 
             Source = databaseFilename;
             Connection = new SqliteConnection($"Data source={Source}");
             Connection.Open();
 
-            if (settings != null)
-            {
-                var command = string.Format(CultureInfo.InvariantCulture, PRAGMAS, settings.Synchronous, settings.JournalMode, settings.PageSize, settings.LockingMode);
-                using var cmd = new SqliteCommand(command, Connection);
-                cmd.ExecuteNonQuery();
-            }
+            var command = string.Format(CultureInfo.InvariantCulture, PRAGMAS, settings.Synchronous, settings.JournalMode, settings.PageSize, settings.LockingMode);
+            using var cmd = new SqliteCommand(command, Connection);
+            cmd.ExecuteNonQuery();
 
             TableShards = tableShards;
 
@@ -57,8 +57,7 @@ namespace AttackSurfaceAnalyzer.Objects
         public void Destroy()
         {
             ShutDown();
-            Connection = null;
-            Transaction = null;
+
             try
             {
                 File.Delete(Source);
@@ -102,7 +101,7 @@ namespace AttackSurfaceAnalyzer.Objects
         {
             try
             {
-                Transaction.Commit();
+                Transaction?.Commit();
             }
             catch (Exception e)
             {
@@ -143,7 +142,7 @@ namespace AttackSurfaceAnalyzer.Objects
         {
             KeepRunning = false;
             Connection.Close();
-            Connection = null;
+            Connection.Dispose();
             Transaction = null;
         }
     }

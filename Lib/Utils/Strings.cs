@@ -14,7 +14,7 @@ namespace AttackSurfaceAnalyzer.Utils
         /// <summary>
         /// Internal member structure holding string resources
         /// </summary>
-        private static Dictionary<string, string> stringList;
+        private static Dictionary<string, string> stringList = new Dictionary<string, string>();
 
         public static string Get(string key)
         {
@@ -25,17 +25,18 @@ namespace AttackSurfaceAnalyzer.Utils
             return key;
         }
 
-        public static void Setup(string locale = null)
+        public static void Setup(string locale = "")
         {
-            if (locale == null)
+            if (string.IsNullOrEmpty(locale))
             {
-                stringList = new Dictionary<string, string>();
-
-                Stream stream = typeof(FileSystemObject).Assembly.GetManifestResourceStream("AttackSurfaceAnalyzer.Properties.Resources.resources");
+                using Stream stream = typeof(FileSystemObject).Assembly.GetManifestResourceStream("AttackSurfaceAnalyzer.Properties.Resources.resources") ?? new MemoryStream();
                 using ResourceReader reader = new ResourceReader(stream);
-                foreach (DictionaryEntry entry in reader)
+                foreach (DictionaryEntry? entry in reader)
                 {
-                    stringList.Add(entry.Key.ToString(), entry.Value.ToString());
+                    if (entry != null)
+                    {
+                        stringList.Add(entry.Key.ToString(), entry.Value.ToString());
+                    }
                 }
             }
         }

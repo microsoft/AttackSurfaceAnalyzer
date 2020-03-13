@@ -5,7 +5,7 @@ namespace AttackSurfaceAnalyzer
     public class CommandOptions
     {
         [Option(Required = false, HelpText = "Name of output database (default: asa.sqlite)", Default = "asa.sqlite")]
-        public string DatabaseFilename { get; set; }
+        public string? DatabaseFilename { get; set; }
 
         [Option(HelpText = "Show debug logging statements.")]
         public bool Debug { get; set; }
@@ -20,19 +20,19 @@ namespace AttackSurfaceAnalyzer
     public class CompareCommandOptions : CommandOptions
     {
         [Option(HelpText = "First run (pre-install) identifier", Default = "Timestamps")]
-        public string FirstRunId { get; set; }
+        public string? FirstRunId { get; set; }
 
         [Option(HelpText = "Second run (post-install) identifier", Default = "Timestamps")]
-        public string SecondRunId { get; set; }
+        public string? SecondRunId { get; set; }
 
         [Option(HelpText = "Base name of output file", Default = "output")]
-        public string OutputBaseFilename { get; set; }
+        public string? OutputBaseFilename { get; set; }
 
         [Option(HelpText = "Set Enable/Disable Analysis.", Default = true)]
         public bool Analyze { get; set; }
 
         [Option(HelpText = "Custom analysis rules file.")]
-        public string AnalysesFile { get; set; }
+        public string? AnalysesFile { get; set; }
 
         [Option(HelpText = "Save to internal database for review in GUI", Default = false)]
         public bool SaveToDatabase { get; set; }
@@ -42,13 +42,13 @@ namespace AttackSurfaceAnalyzer
     public class ExportCollectCommandOptions : CommandOptions
     {
         [Option(HelpText = "First run (pre-install) identifier", Default = "Timestamps")]
-        public string FirstRunId { get; set; }
+        public string? FirstRunId { get; set; }
 
         [Option(HelpText = "Second run (post-install) identifier", Default = "Timestamps")]
-        public string SecondRunId { get; set; }
+        public string? SecondRunId { get; set; }
 
         [Option(HelpText = "Directory to output to", Default = ".")]
-        public string OutputPath { get; set; }
+        public string? OutputPath { get; set; }
 
         [Option(HelpText = "Exploded output")]
         public bool ExplodedOutput { get; set; }
@@ -60,24 +60,24 @@ namespace AttackSurfaceAnalyzer
         public bool SaveToDatabase { get; set; }
 
         [Option(HelpText = "Custom analysis rules file.")]
-        public string AnalysesFile { get; set; }
+        public string? AnalysesFile { get; set; }
 
     }
     [Verb("export-monitor", HelpText = "Output a .json report for a monitor run")]
     public class ExportMonitorCommandOptions : CommandOptions
     {
         [Option(HelpText = "Monitor run identifier", Default = "Timestamp")]
-        public string RunId { get; set; }
+        public string? RunId { get; set; }
 
         [Option(HelpText = "Directory to output to", Default = ".")]
-        public string OutputPath { get; set; }
+        public string? OutputPath { get; set; }
 
     }
     [Verb("collect", HelpText = "Collect operating system metrics")]
     public class CollectCommandOptions : CommandOptions
     {
         [Option(HelpText = "Identifies which run this is (used during comparison)", Default = "Timestamp")]
-        public string RunId { get; set; }
+        public string? RunId { get; set; }
 
         [Option('c', "certificates", Required = false, HelpText = "Enable the certificate store collector")]
         public bool EnableCertificateCollector { get; set; }
@@ -113,10 +113,10 @@ namespace AttackSurfaceAnalyzer
         public bool EnableAllCollectors { get; set; }
 
         [Option("match-run-id", Required = false, HelpText = "Match the collectors used on another run id")]
-        public string MatchedCollectorId { get; set; }
+        public string? MatchedCollectorId { get; set; }
 
         [Option("filter", Required = false, HelpText = "Provide a JSON filter file.", Default = "Use embedded filters.")]
-        public string FilterLocation { get; set; }
+        public string? FilterLocation { get; set; }
 
         [Option("no-filters", HelpText = "Disables the embedded filters.")]
         public bool NoFilters { get; set; }
@@ -125,7 +125,7 @@ namespace AttackSurfaceAnalyzer
         public bool GatherHashes { get; set; }
 
         [Option("directories", Required = false, HelpText = "Comma separated list of paths to scan with FileSystemCollector")]
-        public string SelectedDirectories { get; set; }
+        public string? SelectedDirectories { get; set; }
 
         [Option("certificate-files", Default = false, HelpText = "When used with Certificate Collector, also scan the entire filesystem for certificates.")]
         public bool CertificatesFromFiles { get; set; }
@@ -146,19 +146,19 @@ namespace AttackSurfaceAnalyzer
     public class MonitorCommandOptions : CommandOptions
     {
         [Option(HelpText = "Identifies which run this is. Monitor output can be combined with collect output, but doesn't need to be compared.", Default = "Timestamp")]
-        public string RunId { get; set; }
+        public string? RunId { get; set; }
 
         [Option('f', "file-system", Required = false, HelpText = "Enable the file system monitor. Unless -d is specified will monitor the entire file system.")]
         public bool EnableFileSystemMonitor { get; set; }
 
         [Option('d', "directories", Required = false, HelpText = "Comma-separated list of directories to monitor.")]
-        public string MonitoredDirectories { get; set; }
+        public string? MonitoredDirectories { get; set; }
 
         [Option('i', "interrogate-file-changes", Required = false, HelpText = "On a file create or change gather the post-change file size and security attributes (Linux/Mac only)")]
         public bool InterrogateChanges { get; set; }
 
         [Option("filter", Required = false, HelpText = "Provide a JSON filter file.", Default = "filters.json")]
-        public string FilterLocation { get; set; }
+        public string? FilterLocation { get; set; }
 
         //[Option('r', "registry", Required = false, HelpText = "Monitor the registry for changes. (Windows Only)")]
         //public bool EnableRegistryMonitor { get; set; }
@@ -180,10 +180,10 @@ namespace AttackSurfaceAnalyzer
         public bool ResetDatabase { get; set; }
 
         [Option("telemetry-opt-out", Required = false, HelpText = "Change your telemetry opt out setting [True | False]")]
-        public string TelemetryOptOut { get; set; }
+        public string? TelemetryOptOut { get; set; }
 
         [Option("delete-run", Required = false, HelpText = "Delete a specific run from the database")]
-        public string DeleteRunId { get; set; }
+        public string? DeleteRunId { get; set; }
 
         [Option("trim-to-latest", HelpText = "Delete all runs except the latest.")]
         public bool TrimToLatest { get; set; }

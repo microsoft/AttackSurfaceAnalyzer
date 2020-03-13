@@ -33,9 +33,9 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static string Filename { get; private set; } = "asa.litedb";
 
-        public static bool Setup(string filename = null)
+        public static bool Setup(string filename = "")
         {
-            if (filename != null)
+            if (!string.IsNullOrEmpty(filename))
             {
                 Filename = filename;
             }

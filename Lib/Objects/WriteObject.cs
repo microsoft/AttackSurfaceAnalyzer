@@ -37,7 +37,7 @@ namespace AttackSurfaceAnalyzer.Objects
             }
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj is WriteObject wo)
                 return _rowKey.SequenceEqual(wo.GetRowKey());

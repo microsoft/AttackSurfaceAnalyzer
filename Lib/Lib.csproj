@@ -3,20 +3,18 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
     <RootNamespace>AttackSurfaceAnalyzer</RootNamespace>
-    <ReleaseVersion>2.1-alpha</ReleaseVersion>
+    <ReleaseVersion>0.0.0</ReleaseVersion>
     <PackageId>AttackSurfaceAnalyzer</PackageId>
-    <PackageVersion>2.1-alpha</PackageVersion>
+    <PackageVersion>0.0.0</PackageVersion>
     <Authors>Microsoft Corporation</Authors>
     <Owners>Microsoft Corporation</Owners>
     <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Attack Surface Analyzer is a Microsoft-developed open source security tool available at https://github.com/microsoft/AttackSurfaceAnalyzer that analyzes the attack surface of a target system and reports on potential security vulnerabilities introduced by the installation of software or by system misconfiguration.
 
 This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI and GUI available on GitHub.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <FileUpgradeFlags>40</FileUpgradeFlags>
-    <UpgradeBackupLocation>C:\Users\Gstoc\Documents\GitHub\AttackSurfaceAnalyzer\Backup\Lib\</UpgradeBackupLocation>
-    <OldToolsVersion>2.0</OldToolsVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="CompareNETObjects" Version="4.65.0" />

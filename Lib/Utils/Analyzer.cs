@@ -46,9 +46,11 @@ namespace AttackSurfaceAnalyzer.Utils
         private readonly PLATFORM OsName;
         private RuleFile config;
 
-        public Analyzer(PLATFORM platform, string filterLocation = null)
+        public Analyzer(PLATFORM platform, string filterLocation = "")
         {
-            if (filterLocation == null)
+            config = new RuleFile();
+
+            if (string.IsNullOrEmpty(filterLocation))
             {
                 LoadEmbeddedFilters();
             }
@@ -63,7 +65,6 @@ namespace AttackSurfaceAnalyzer.Utils
         public ANALYSIS_RESULT_TYPE Analyze(CompareResult compareResult)
         {
             if (compareResult == null) { return DEFAULT_RESULT_TYPE_MAP[RESULT_TYPE.UNKNOWN]; }
-            if (config == null) { return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType]; }
             var results = new List<ANALYSIS_RESULT_TYPE>();
             var curFilters = config.Rules.Where((rule) => (rule.ChangeTypes == null || rule.ChangeTypes.Contains(compareResult.ChangeType))
                                                      && (rule.Platforms == null || rule.Platforms.Contains(OsName))
@@ -111,22 +112,26 @@ namespace AttackSurfaceAnalyzer.Utils
                                 {
                                     if (GetValueByPropertyName(compareResult.Compare, property.Name) is List<string>)
                                     {
-                                        foreach (var value in (List<string>)GetValueByPropertyName(compareResult.Compare, property.Name))
+                                        foreach (var value in (List<string>)(GetValueByPropertyName(compareResult.Compare, property.Name) ?? new List<string>()))
                                         {
                                             valsToCheck.Add(value);
                                         }
                                     }
                                     else if (GetValueByPropertyName(compareResult.Compare, property.Name) is Dictionary<string, string>)
                                     {
-                                        dictToCheck = ((Dictionary<string, string>)GetValueByPropertyName(compareResult.Compare, property.Name)).ToList();
+                                        dictToCheck = ((Dictionary<string, string>)(GetValueByPropertyName(compareResult.Compare, property.Name) ?? new Dictionary<string,string>())).ToList();
                                     }
                                     else if (GetValueByPropertyName(compareResult.Compare, property.Name) is List<KeyValuePair<string, string>>)
                                     {
-                                        dictToCheck = (List<KeyValuePair<string, string>>)GetValueByPropertyName(compareResult.Compare, property.Name);
+                                        dictToCheck = (List<KeyValuePair<string, string>>)(GetValueByPropertyName(compareResult.Compare, property.Name) ?? new List<KeyValuePair<string, string>>());
                                     }
                                     else
                                     {
-                                        valsToCheck.Add(GetValueByPropertyName(compareResult.Compare, property.Name).ToString());
+                                        var val = GetValueByPropertyName(compareResult.Compare, property.Name)?.ToString();
+                                        if (!string.IsNullOrEmpty(val))
+                                        {
+                                            valsToCheck.Add(val);
+                                        }
                                     }
                                 }
                                 catch (Exception e)
@@ -144,22 +149,26 @@ namespace AttackSurfaceAnalyzer.Utils
                                 {
                                     if (GetValueByPropertyName(compareResult.Base, property.Name) is List<string>)
                                     {
-                                        foreach (var value in (List<string>)GetValueByPropertyName(compareResult.Base, property.Name))
+                                        foreach (var value in (List<string>)(GetValueByPropertyName(compareResult.Base, property.Name) ?? new List<string>()))
                                         {
                                             valsToCheck.Add(value);
                                         }
                                     }
                                     else if (GetValueByPropertyName(compareResult.Base, property.Name) is Dictionary<string, string>)
                                     {
-                                        dictToCheck = ((Dictionary<string, string>)GetValueByPropertyName(compareResult.Base, property.Name)).ToList();
+                                        dictToCheck = ((Dictionary<string, string>)(GetValueByPropertyName(compareResult.Base, property.Name) ?? new Dictionary<string, string>())).ToList();
                                     }
                                     else if (GetValueByPropertyName(compareResult.Base, property.Name) is List<KeyValuePair<string, string>>)
                                     {
-                                        dictToCheck = (List<KeyValuePair<string, string>>)GetValueByPropertyName(compareResult.Base, property.Name);
+                                        dictToCheck = (List<KeyValuePair<string, string>>)(GetValueByPropertyName(compareResult.Base, property.Name) ?? new List<KeyValuePair<string, string>>());
                                     }
                                     else
                                     {
-                                        valsToCheck.Add(GetValueByPropertyName(compareResult.Base, property.Name).ToString());
+                                        var val = GetValueByPropertyName(compareResult.Base, property.Name)?.ToString();
+                                        if (!string.IsNullOrEmpty(val))
+                                        {
+                                            valsToCheck.Add(val);
+                                        }
                                     }
                                 }
                                 catch (Exception e)
@@ -346,7 +355,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        private static object GetValueByPropertyName(object obj, string propertyName) => obj.GetType().GetProperty(propertyName).GetValue(obj);
+        private static object? GetValueByPropertyName(object obj, string propertyName) => obj?.GetType().GetProperty(propertyName)?.GetValue(obj);
 
 
         public void DumpFilters()
@@ -361,8 +370,7 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 var assembly = typeof(FileSystemObject).Assembly;
                 var resourceName = "AttackSurfaceAnalyzer.analyses.json";
-
-                using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+                using (Stream stream = assembly.GetManifestResourceStream(resourceName) ?? new MemoryStream())
                 using (StreamReader reader = new StreamReader(stream))
                 {
                     config = JsonSerializer.Deserialize<RuleFile>(reader.ReadToEnd());
@@ -384,7 +392,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 || e is NotImplementedException)
             {
 
-                config = null;
+                config = new RuleFile();
                 Log.Debug("Could not load filters {0} {1}", "Embedded", e.GetType().ToString());
 
                 // This is interesting. We shouldn't hit exceptions when loading the embedded resource.
@@ -394,37 +402,41 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        public void LoadFilters(string filterLoc = null)
+        public void LoadFilters(string filterLoc = "")
         {
-            try
+            if (!string.IsNullOrEmpty(filterLoc))
             {
-                using (StreamReader file = System.IO.File.OpenText(filterLoc))
+                try
                 {
-                    config = JsonSerializer.Deserialize<RuleFile>(file.ReadToEnd());
-                    Log.Information(Strings.Get("LoadedAnalyses"), filterLoc);
+                    using (StreamReader file = System.IO.File.OpenText(filterLoc))
+                    {
+                        config = JsonSerializer.Deserialize<RuleFile>(file.ReadToEnd());
+                        Log.Information(Strings.Get("LoadedAnalyses"), filterLoc);
+                    }
+                    if (config == null)
+                    {
+                        Log.Debug("No filters this time.");
+                        return;
+                    }
+                    DumpFilters();
                 }
-                if (config == null)
+                catch (Exception e) when (
+                    e is UnauthorizedAccessException
+                    || e is ArgumentException
+                    || e is ArgumentNullException
+                    || e is PathTooLongException
+                    || e is DirectoryNotFoundException
+                    || e is FileNotFoundException
+                    || e is NotSupportedException)
                 {
-                    Log.Debug("No filters this time.");
+                    config = new RuleFile();
+                    //Let the user know we couldn't load their file
+                    Log.Warning(Strings.Get("Err_MalformedFilterFile"), filterLoc);
+
                     return;
                 }
-                DumpFilters();
             }
-            catch (Exception e) when (
-                e is UnauthorizedAccessException
-                || e is ArgumentException
-                || e is ArgumentNullException
-                || e is PathTooLongException
-                || e is DirectoryNotFoundException
-                || e is FileNotFoundException
-                || e is NotSupportedException)
-            {
-                config = null;
-                //Let the user know we couldn't load their file
-                Log.Warning(Strings.Get("Err_MalformedFilterFile"), filterLoc);
-
-                return;
-            }
+            
         }
     }
 }

@@ -105,10 +105,10 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private const int SCHEMA_VERSION = 8;
 
-        private static DBSettings dbSettings;
+        private static DBSettings dbSettings = new DBSettings();
 
 
-        public static SqlConnectionHolder MainConnection
+        public static SqlConnectionHolder? MainConnection
         {
             get
             {
@@ -120,11 +120,11 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        public static List<SqlConnectionHolder> Connections { get; private set; }
+        public static List<SqlConnectionHolder> Connections { get; private set; } = new List<SqlConnectionHolder>();
 
         public static bool FirstRun { get; private set; } = true;
 
-        public static bool Setup(string filename = null, DBSettings dbSettingsIn = default)
+        public static bool Setup(string filename, DBSettings dbSettingsIn)
         {
             JsonSerializer.SetDefaultResolver(StandardResolver.ExcludeNull);
 
@@ -279,12 +279,14 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             try
             {
-                using var cmd = new SqliteCommand(SQL_UPSERT_PERSISTED_SETTINGS, MainConnection.Connection, MainConnection.Transaction);
+                using var cmd = new SqliteCommand(SQL_UPSERT_PERSISTED_SETTINGS, MainConnection?.Connection, MainConnection?.Transaction);
                 cmd.Parameters.AddWithValue("@serialized", JsonSerializer.Serialize(settings));
                 cmd.Parameters.AddWithValue("@id", "Persisted");
                 cmd.ExecuteNonQuery();
             }
             catch (SqliteException) { }
+            // Main Connection is probably null
+            catch (NullReferenceException) { }
         }
 
         public static int PopulateConnections()
