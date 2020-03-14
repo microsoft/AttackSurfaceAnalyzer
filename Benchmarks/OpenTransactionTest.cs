@@ -18,8 +18,9 @@ namespace AttackSurfaceAnalyzer.Benchmarks
 
         [Params("OFF", "DELETE", "WAL", "MEMORY")]
         public string JournalMode { get; set; }
-
+#nullable disable
         public OpenTransactionTest()
+#nullable restore
         {
             Logger.Setup(true, true);
             Strings.Setup();

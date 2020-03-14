@@ -498,4 +498,7 @@
   <data name="CollectorNotSupportedOnPlatform" xml:space="preserve">
     <value>{0} isn't supported on this platform and failed to run. This won't impact results for other collectors.</value>
   </data>
+  <data name="MainConnection" xml:space="preserve">
+    <value>MainConnection</value>
+  </data>
 </root>

@@ -52,6 +52,10 @@ namespace AttackSurfaceAnalyzer.Objects
 
         public static Dictionary<string, string> GetValues(RegistryKey key)
         {
+            if (key is null)
+            {
+                throw new ArgumentNullException(nameof(key));
+            }
             Dictionary<string, string> values = new Dictionary<string, string>();
             // Write values under key and commit
             foreach (var value in key.GetValueNames())

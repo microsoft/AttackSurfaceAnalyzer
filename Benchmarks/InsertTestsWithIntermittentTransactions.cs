@@ -41,9 +41,9 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         public string JournalMode { get; set; }
 
         // Bag of reusable objects to write to the database.
-        private static readonly ConcurrentBag<FileSystemObject> BagOfObjects = new ConcurrentBag<FileSystemObject>();
-
+#nullable disable
         public InsertTestsWithIntermittentTransactions()
+#nullable restore
         {
             Logger.Setup(true, true);
             Strings.Setup();
@@ -58,7 +58,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
 
             Parallel.For(0, X, i =>
             {
-                var obj = InsertTestsWithoutTransactions.GetRandomObject(ObjectPadding);
+                var obj = GetRandomObject(ObjectPadding);
                 DatabaseManager.Write(obj, runName);
                 BagOfObjects.Add(obj);
             });

@@ -61,14 +61,12 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         private readonly string RunOneName = "RunOne";
         private readonly string RunTwoName = "RunTwo";
 
-        // Bag of reusable objects to write to the database.
-        private static readonly ConcurrentBag<FileSystemObject> BagOfObjects = new ConcurrentBag<FileSystemObject>();
-
         // Bag of reusable identities
         private static readonly ConcurrentBag<(string, string)> BagOfIdentities = new ConcurrentBag<(string, string)>();
 
-
+#nullable disable
         public QueryTests()
+#nullable restore
         {
             Logger.Setup(true, true);
             Strings.Setup();
@@ -81,8 +79,10 @@ namespace AttackSurfaceAnalyzer.Benchmarks
                 var obj = GetRandomObject(ObjectPadding);
                 DatabaseManager.Write(obj, RunOneName);
 
-                BagOfIdentities.Add((obj.Identity, obj.FileType));
-                BagOfObjects.Add(obj);
+                if (obj.FileType != null)
+                {
+                    BagOfObjects.Add(obj);
+                }
             });
 
             while (DatabaseManager.HasElements())

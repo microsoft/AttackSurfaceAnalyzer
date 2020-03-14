@@ -41,10 +41,11 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Params(4096)]
         public int PageSize { get; set; }
 
-        [Params("OFF","NORMAL","FULL","EXTRA")]
+        [Params("OFF")]
         public string Synchronous { get; set; }
-
+#nullable disable
         public SystemSqliteInsertTestsWithoutTransactions()
+#nullable restore
         {
             Logger.Setup(true, true);
             Strings.Setup();

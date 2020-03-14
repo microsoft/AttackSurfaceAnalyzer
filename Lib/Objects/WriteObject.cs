@@ -7,7 +7,7 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public readonly struct WriteObject : IEquatable<WriteObject>
     {
-        public readonly CollectObject? ColObj { get; }
+        public readonly CollectObject ColObj { get; }
         public readonly string RunId { get; }
         private readonly byte[] _rowKey;
         private readonly byte[] _serialized;
@@ -23,12 +23,22 @@ namespace AttackSurfaceAnalyzer.Objects
             _rowKey = CryptoHelpers.CreateHash(_serialized);
         }
 
-        public WriteObject(byte[] SerializedIn, RESULT_TYPE ResultTypeIn, string RunIdIn)
+        public static WriteObject? FromBytes(byte[] SerializedIn, RESULT_TYPE ResultTypeIn, string RunIdIn)
+        {
+            var wo = new WriteObject(SerializedIn, ResultTypeIn, RunIdIn); 
+            if (wo.ColObj == null)
+            {
+                return null;
+            }
+            return wo;
+        }
+
+        private WriteObject(byte[] SerializedIn, RESULT_TYPE ResultTypeIn, string RunIdIn)
         {
             _serialized = SerializedIn;
             _rowKey = CryptoHelpers.CreateHash(_serialized);
             RunId = RunIdIn;
-            ColObj = JsonUtils.Hydrate(_serialized, ResultTypeIn);
+            ColObj = JsonUtils.Hydrate(SerializedIn, ResultTypeIn)!;
         }
 
         public override int GetHashCode()

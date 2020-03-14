@@ -7,7 +7,9 @@ namespace AttackSurfaceAnalyzer.Collectors
 {
     public abstract class BaseMonitor : IPlatformRunnable
     {
+#nullable disable
         public string RunId { get; set; }
+#nullable restore
 
         public RUN_STATUS RunStatus { get; set; }
 
