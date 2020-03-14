@@ -11,23 +11,24 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public static class CryptoHelpers
     {
+        // These are not intended to be cryptographically secure hashes
+        // These are used as a uniqueness check
+        static HashAlgorithm murmur128 = MurmurHash.Create128();
+
         public static string CreateHash(string input)
         {
-            using HashAlgorithm murmur128 = MurmurHash.Create128();
             byte[] hashOutput = murmur128.ComputeHash(Encoding.UTF8.GetBytes(input));
             return Convert.ToBase64String(hashOutput);
         }
 
         public static byte[] CreateHash(byte[] input)
         {
-            using HashAlgorithm murmur128 = MurmurHash.Create128();
             return murmur128.ComputeHash(input);
         }
 
         public static string CreateHash(FileStream stream)
         {
-            using HashAlgorithm murmur128 = MurmurHash.Create128();
-            return Convert.ToBase64String(murmur128.ComputeHash(stream));
+            return Convert.ToBase64String(murmur128.ComputeHash(stream) ?? Array.Empty<byte>());
         }
 
         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

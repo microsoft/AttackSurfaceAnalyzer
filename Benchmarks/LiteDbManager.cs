@@ -12,6 +12,8 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Utf8Json;
+using JsonSerializer = Utf8Json.JsonSerializer;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -366,25 +368,20 @@ namespace AttackSurfaceAnalyzer.Utils
 
             var list = new ConcurrentBag<WriteObject>();
 
-            var wos = col?.Find(x => x.RunId == secondRunId);
+            var wos = col?.Find(x => x.RunId == secondRunId) ?? Array.Empty<WriteObject>();
 
-            wos.AsParallel().ForAll(wo =>
+            //wos.AsParallel().ForAll(wo =>
+            foreach (var wo in wos)
             {
-                if (!WriteObjectExists(firstRunId, wo.Identity))
+                Log.Information($"{firstRunId},{JsonSerializer.ToJsonString(wo)}");
+                if (col?.Exists(x => x.Identity == firstRunId && x.RunId == wo.Identity) == true)
                 {
                     list.Add(wo);
                 }
-            });
+            }
+            //});
 
             return wos ?? new List<WriteObject>();
-        }
-
-        private static bool WriteObjectExists(string RunId, string IdentityHash)
-        {
-            var col = db?.GetCollection<WriteObject>("WriteObjects");
-            var exists = col?.Exists(x => x.Identity == IdentityHash && x.RunId == RunId);
-
-            return exists ?? false;
         }
 
         public static IEnumerable<WriteObject> GetWriteObjects(string runId)
@@ -401,14 +398,17 @@ namespace AttackSurfaceAnalyzer.Utils
 
             var list = new ConcurrentBag<(WriteObject, WriteObject)>();
 
-            Parallel.ForEach(GetWriteObjects(firstRunId).ToList(), WO =>
+            //GetWriteObjects(firstRunId).AsParallel().ForAll(WO =>
+            foreach (var WO in GetWriteObjects(firstRunId))
             {
+                Log.Information(JsonSerializer.ToJsonString(WO));
                 var secondItem = col?.FindOne(Query.And(Query.EQ("RunId", secondRunId), Query.EQ("IdentityHash", WO.Identity), Query.Not("InstanceHash", WO.InstanceHash)));
                 if (secondItem is WriteObject WO2)
                 {
                     list.Add((WO, WO2));
                 }
-            });
+            }
+            //});
 
             return list;
         }
