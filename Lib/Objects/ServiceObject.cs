@@ -33,8 +33,8 @@ namespace AttackSurfaceAnalyzer.Objects
         public uint? TagId { get; set; }
         public uint? WaitHint { get; set; }
 
-        public ServiceObject(string NameIn){
-            Name = NameIn;
+        public ServiceObject(string Name){
+            this.Name = Name;
             ResultType = RESULT_TYPE.SERVICE;
         }
 

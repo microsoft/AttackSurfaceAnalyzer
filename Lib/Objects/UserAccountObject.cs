@@ -34,9 +34,9 @@ namespace AttackSurfaceAnalyzer.Objects
         public List<string> Groups { get; set; } = new List<string>();
         public Dictionary<string, string>? Properties { get; set; }
 
-        public UserAccountObject(string NameIn)
+        public UserAccountObject(string Name)
         {
-            Name = NameIn;
+            this.Name = Name;
             ResultType = RESULT_TYPE.USER;
         }
 
