@@ -36,111 +36,92 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// </summary>
         public void ExecuteWindows()
         {
-            try
+
+            System.Management.SelectQuery sQuery = new System.Management.SelectQuery("select * from Win32_Service"); // where name = '{0}'", "MCShield.exe"));
+            using System.Management.ManagementObjectSearcher mgmtSearcher = new System.Management.ManagementObjectSearcher(sQuery);
+            foreach (System.Management.ManagementObject service in mgmtSearcher.Get())
             {
-                System.Management.SelectQuery sQuery = new System.Management.SelectQuery("select * from Win32_Service"); // where name = '{0}'", "MCShield.exe"));
-                using (System.Management.ManagementObjectSearcher mgmtSearcher = new System.Management.ManagementObjectSearcher(sQuery))
+                try
                 {
-                    foreach (System.Management.ManagementObject service in mgmtSearcher.Get())
+                    var val = service.GetPropertyValue("Name").ToString();
+                    if (val != null)
                     {
-                        var val = service["Name"].ToString();
-                        if (val != null)
-                        {
-                            var obj = new ServiceObject(val);
+                        var obj = new ServiceObject(val);
 
-                            val = service["AcceptPause"].ToString();
-                            if (!string.IsNullOrEmpty(val))
-                                obj.AcceptPause = bool.Parse(val);
+                        val = service.GetPropertyValue("AcceptPause")?.ToString();
+                        if (!string.IsNullOrEmpty(val))
+                            obj.AcceptPause = bool.Parse(val);
 
-                            val = service["AcceptStop"].ToString();
-                            if (!string.IsNullOrEmpty(val))
-                                obj.AcceptStop = bool.Parse(val);
+                        val = service.GetPropertyValue("AcceptStop")?.ToString();
+                        if (!string.IsNullOrEmpty(val))
+                            obj.AcceptStop = bool.Parse(val);
 
-                            val = service["Caption"].ToString();
-                            if (!string.IsNullOrEmpty(val))
-                                obj.Caption = val;
+                        obj.Caption = service.GetPropertyValue("Caption")?.ToString();
 
-                            val = service["CheckPoint"].ToString();
-                            if (!string.IsNullOrEmpty(val))
-                                obj.CheckPoint = uint.Parse(val, CultureInfo.InvariantCulture);
+                        val = service.GetPropertyValue("CheckPoint")?.ToString();
+                        if (!string.IsNullOrEmpty(val))
+                            obj.CheckPoint = uint.Parse(val, CultureInfo.InvariantCulture);
 
-                            val = service["CreationClassName"].ToString();
-                            if (!string.IsNullOrEmpty(val))
-                                obj.CreationClassName = val;
+                        obj.CreationClassName = service.GetPropertyValue("CreationClassName")?.ToString();
 
-                            val = service["DelayedAutoStart"].ToString();
-                            if (!string.IsNullOrEmpty(val))
-                                obj.DelayedAutoStart = bool.Parse(val);
+                        val = service.GetPropertyValue("DelayedAutoStart")?.ToString();
+                        if (!string.IsNullOrEmpty(val))
+                            obj.DelayedAutoStart = bool.Parse(val);
 
-                            val = service["Description"].ToString();
-                            if (!string.IsNullOrEmpty(val))
-                                obj.Description = val;
+                        obj.Description = service.GetPropertyValue("Description")?.ToString();
 
-                            val = service["DesktopInteract"].ToString();
-                            if (!string.IsNullOrEmpty(val))
-                                obj.DesktopInteract = bool.Parse(val);
+                        val = service.GetPropertyValue("DesktopInteract")?.ToString();
+                        if (!string.IsNullOrEmpty(val))
+                            obj.DesktopInteract = bool.Parse(val);
 
-                            val = service["DisplayName"].ToString();
-                            if (!string.IsNullOrEmpty(val))
-                                obj.DisplayName = val;
+                        obj.DisplayName = service.GetPropertyValue("DisplayName")?.ToString();
+                        obj.ErrorControl = service.GetPropertyValue("ErrorControl")?.ToString();
 
-                            service["ErrorControl"].ToString();
-                            if (!string.IsNullOrEmpty(val))
-                                obj.ErrorControl = val;
+                        val = service.GetPropertyValue("ExitCode")?.ToString();
+                        if (!string.IsNullOrEmpty(val))
+                            obj.ExitCode = uint.Parse(val, CultureInfo.InvariantCulture);
 
-                            val = service["ExitCode"].ToString();
-                            if (!string.IsNullOrEmpty(val))
-                                obj.ExitCode = uint.Parse(val, CultureInfo.InvariantCulture);
+                        obj.InstallDate = service.GetPropertyValue("InstallDate")?.ToString();
+                        obj.PathName = service.GetPropertyValue("PathName")?.ToString();
 
-                            val = service["InstallDate"].ToString();
-                            if (!string.IsNullOrEmpty(val))
-                                obj.InstallDate = val;
+                        val = service.GetPropertyValue("ProcessId")?.ToString();
+                        if (!string.IsNullOrEmpty(val))
+                            obj.ProcessId = uint.Parse(val, CultureInfo.InvariantCulture);
 
-                            val = service["PathName"].ToString();
-                            if (!string.IsNullOrEmpty(val))
-                                obj.PathName = val;
+                        val = service.GetPropertyValue("ServiceSpecificExitCode")?.ToString();
+                        if (!string.IsNullOrEmpty(val))
+                            obj.ServiceSpecificExitCode = uint.Parse(val, CultureInfo.InvariantCulture);
 
-                            val = service["ProcessId"].ToString();
-                            if (!string.IsNullOrEmpty(val))
-                                obj.ProcessId = uint.Parse(val, CultureInfo.InvariantCulture);
+                        obj.ServiceType = service.GetPropertyValue("ServiceType")?.ToString();
 
-                            val = service["ServiceSpecificExitCode"].ToString();
-                            if (!string.IsNullOrEmpty(val))
-                                obj.ServiceSpecificExitCode = uint.Parse(val, CultureInfo.InvariantCulture);
+                        val = service.GetPropertyValue("Started").ToString();
+                        if (!string.IsNullOrEmpty(val))
+                            obj.Started = bool.Parse(val);
 
-                            obj.ServiceType = service["ServiceType"].ToString();
+                        obj.StartMode = service.GetPropertyValue("StartMode")?.ToString();
+                        obj.StartName = service.GetPropertyValue("StartName")?.ToString();
+                        obj.State = service.GetPropertyValue("State")?.ToString();
+                        obj.Status = service.GetPropertyValue("Status")?.ToString();
+                        obj.SystemCreationClassName = service.GetPropertyValue("SystemCreationClassName")?.ToString();
+                        obj.SystemName = service.GetPropertyValue("SystemName")?.ToString();
 
-                            val = service["Started"].ToString();
-                            if (!string.IsNullOrEmpty(val))
-                                obj.Started = bool.Parse(val);
+                        val = service.GetPropertyValue("TagId")?.ToString();
+                        if (!string.IsNullOrEmpty(val))
+                            obj.TagId = uint.Parse(val, CultureInfo.InvariantCulture);
 
-                            obj.StartMode = service["StartMode"].ToString();
+                        val = service.GetPropertyValue("WaitHint")?.ToString();
+                        if (!string.IsNullOrEmpty(val))
+                            obj.WaitHint = uint.Parse(val, CultureInfo.InvariantCulture);
 
-                            obj.StartName = service["StartName"].ToString();
-
-                            obj.State = service["State"].ToString();
-                            obj.Status = service["Status"].ToString();
-                            obj.SystemCreationClassName = service["SystemCreationClassName"].ToString();
-                            obj.SystemName = service["SystemName"].ToString();
-
-                            val = service["TagId"].ToString();
-                            if (!string.IsNullOrEmpty(val))
-                                obj.TagId = uint.Parse(val, CultureInfo.InvariantCulture);
-
-                            val = service["WaitHint"].ToString();
-                            if (!string.IsNullOrEmpty(val))
-                                obj.WaitHint = uint.Parse(val, CultureInfo.InvariantCulture);
-
-                            DatabaseManager.Write(obj, RunId);
-                        }
+                        DatabaseManager.Write(obj, RunId);
                     }
                 }
-            }
-            catch (Exception e) when (
-                e is TypeInitializationException ||
-                e is PlatformNotSupportedException)
-            {
-                Log.Warning(Strings.Get("CollectorNotSupportedOnPlatform"), GetType().ToString());
+                catch (Exception e) when (
+                    e is TypeInitializationException ||
+                    e is PlatformNotSupportedException)
+                {
+                    Log.Warning(Strings.Get("CollectorNotSupportedOnPlatform"), GetType().ToString());
+                }
             }
         }
 
