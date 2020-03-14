@@ -18,16 +18,16 @@ namespace AttackSurfaceAnalyzer.Utils
     {
         private readonly Dictionary<RESULT_TYPE, List<PropertyInfo>> _Properties = new Dictionary<RESULT_TYPE, List<PropertyInfo>>()
         {
-            {RESULT_TYPE.FILE , new List<PropertyInfo>(new FileSystemObject().GetType().GetProperties()) },
-            {RESULT_TYPE.CERTIFICATE, new List<PropertyInfo>(new CertificateObject().GetType().GetProperties()) },
-            {RESULT_TYPE.PORT, new List<PropertyInfo>(new OpenPortObject().GetType().GetProperties()) },
-            {RESULT_TYPE.REGISTRY, new List<PropertyInfo>(new RegistryObject().GetType().GetProperties()) },
-            {RESULT_TYPE.SERVICE, new List<PropertyInfo>(new ServiceObject().GetType().GetProperties()) },
-            {RESULT_TYPE.USER, new List<PropertyInfo>(new UserAccountObject().GetType().GetProperties()) },
-            {RESULT_TYPE.GROUP, new List<PropertyInfo>(new UserAccountObject().GetType().GetProperties()) },
-            {RESULT_TYPE.FIREWALL, new List<PropertyInfo>(new FirewallObject().GetType().GetProperties()) },
-            {RESULT_TYPE.COM, new List<PropertyInfo>(new FirewallObject().GetType().GetProperties()) },
-            {RESULT_TYPE.LOG, new List<PropertyInfo>(new FirewallObject().GetType().GetProperties()) },
+            {RESULT_TYPE.FILE , new List<PropertyInfo>(typeof(FileSystemObject).GetProperties()) },
+            {RESULT_TYPE.CERTIFICATE, new List<PropertyInfo>(typeof(CertificateObject).GetProperties()) },
+            {RESULT_TYPE.PORT, new List<PropertyInfo>(typeof(OpenPortObject).GetProperties()) },
+            {RESULT_TYPE.REGISTRY, new List<PropertyInfo>(typeof(RegistryObject).GetProperties()) },
+            {RESULT_TYPE.SERVICE, new List<PropertyInfo>(typeof(ServiceObject).GetProperties()) },
+            {RESULT_TYPE.USER, new List<PropertyInfo>(typeof(UserAccountObject).GetProperties()) },
+            {RESULT_TYPE.GROUP, new List<PropertyInfo>(typeof(UserAccountObject).GetProperties()) },
+            {RESULT_TYPE.FIREWALL, new List<PropertyInfo>(typeof(FirewallObject).GetProperties()) },
+            {RESULT_TYPE.COM, new List<PropertyInfo>(typeof(FirewallObject).GetProperties()) },
+            {RESULT_TYPE.LOG, new List<PropertyInfo>(typeof(FirewallObject).GetProperties()) },
 
         };
         private readonly Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DEFAULT_RESULT_TYPE_MAP = new Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>()
@@ -185,89 +185,109 @@ namespace AttackSurfaceAnalyzer.Utils
                         switch (clause.Operation)
                         {
                             case OPERATION.EQ:
-                                foreach (string datum in clause.Data)
+                                if (clause.Data is List<string> EqualsData)
                                 {
-                                    foreach (string val in valsToCheck)
+                                    if (EqualsData.Intersect(valsToCheck).Any())
                                     {
-                                        count += (datum.Equals(val)) ? 1 : 0;
                                         break;
                                     }
                                 }
-                                if (count == clause.Data.Count) { break; }
                                 return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
 
                             case OPERATION.NEQ:
-                                foreach (string datum in clause.Data)
+                                if (clause.Data is List<string> NotEqualsData)
                                 {
-                                    foreach (string val in valsToCheck)
-                                    {
-                                        if (datum.Equals(val))
-                                        {
-                                            return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
-                                        }
-                                    }
-                                }
-                                break;
-
-                            case OPERATION.CONTAINS:
-                                if (dictToCheck.Count > 0)
-                                {
-                                    foreach (KeyValuePair<string, string> value in clause.DictData)
-                                    {
-                                        if (dictToCheck.Where((x) => x.Key == value.Key && x.Value == value.Value).Any())
-                                        {
-                                            dictCount++;
-                                        }
-                                    }
-                                    if (dictCount == clause.DictData.Count)
-                                    {
-                                        break;
-                                    }
-                                }
-                                else if (valsToCheck.Count > 0)
-                                {
-                                    foreach (string datum in clause.Data)
-                                    {
-                                        foreach (string val in valsToCheck)
-                                        {
-                                            count += (!val.Contains(datum)) ? 1 : 0;
-                                            break;
-                                        }
-                                    }
-                                    if (count == clause.Data.Count)
+                                    if (!NotEqualsData.Intersect(valsToCheck).Any())
                                     {
                                         break;
                                     }
                                 }
                                 return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
 
-                            case OPERATION.DOES_NOT_CONTAIN:
+
+                            // If *every* entry of the clause data is matched
+                            case OPERATION.CONTAINS:
                                 if (dictToCheck.Count > 0)
                                 {
-                                    foreach (KeyValuePair<string, string> value in clause.DictData)
+                                    if (clause.DictData is List<KeyValuePair<string, string>> ContainsData)
                                     {
-                                        if (dictToCheck.Where((x) => x.Key == value.Key && x.Value == value.Value).Any())
+                                        if (ContainsData.Where(y => dictToCheck.Where((x) => x.Key == y.Key && x.Value == y.Value).Any()).Count() == ContainsData.Count)
                                         {
-                                            return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+                                            break;
                                         }
                                     }
                                 }
                                 else if (valsToCheck.Count > 0)
                                 {
-                                    foreach (string datum in clause.Data)
+                                    if (clause.Data is List<string> ContainsDataList)
                                     {
-                                        if (valsToCheck.Contains(datum))
+                                        if (ContainsDataList.Intersect(valsToCheck).Count() == ContainsDataList.Count)
                                         {
-                                            return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+                                            break;
                                         }
                                     }
                                 }
+                                return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+
+                            // If *any* entry of the clause data is matched
+                            case OPERATION.CONTAINS_ANY:
+                                if (dictToCheck.Count > 0)
+                                {
+                                    if (clause.DictData is List<KeyValuePair<string, string>> ContainsData)
+                                    {
+                                        foreach (KeyValuePair<string, string> value in ContainsData)
+                                        {
+                                            if (dictToCheck.Where((x) => x.Key == value.Key && x.Value == value.Value).Any())
+                                            {
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                                else if (valsToCheck.Count > 0)
+                                {
+                                    if (clause.Data is List<string> ContainsDataList)
+                                    {
+                                        if (clause.Data.Intersect(valsToCheck).Any())
+                                        {
+                                            break;
+                                        }
+                                    }
+                                }
+                                return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+
+                            // If any of the clauses are not contained
+                            case OPERATION.DOES_NOT_CONTAIN:
+                                if (dictToCheck.Count > 0)
+                                {
+                                    if (clause.DictData is List<KeyValuePair<string, string>> ContainsData)
+                                    {
+                                        if (ContainsData.Where(y => dictToCheck.Where((x) => x.Key == y.Key && x.Value == y.Value).Any()).Any())
+                                        {
+                                            break;
+                                        }
+                                        return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+                                    }
+                                }
+                                else if (valsToCheck.Count > 0)
+                                {
+                                    if (clause.Data is List<string> ContainsDataList)
+                                    {
+                                        if (ContainsDataList.Intersect(valsToCheck).Any())
+                                        {
+                                            break;
+                                        }
+                                        return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+                                    }
+                                }
                                 break;
+
+
 
                             case OPERATION.GT:
                                 foreach (string val in valsToCheck)
                                 {
-                                    count += (int.Parse(val, CultureInfo.InvariantCulture) > int.Parse(clause.Data[0], CultureInfo.InvariantCulture)) ? 1 : 0;
+                                    count += (int.Parse(val, CultureInfo.InvariantCulture) > int.Parse(clause.Data?[0] ?? $"{int.MinValue}", CultureInfo.InvariantCulture)) ? 1 : 0;
                                 }
                                 if (count == valsToCheck.Count) { break; }
                                 return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
@@ -275,7 +295,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             case OPERATION.LT:
                                 foreach (string val in valsToCheck)
                                 {
-                                    count += (int.Parse(val, CultureInfo.InvariantCulture) < int.Parse(clause.Data[0], CultureInfo.InvariantCulture)) ? 1 : 0;
+                                    count += (int.Parse(val, CultureInfo.InvariantCulture) < int.Parse(clause.Data?[0] ?? $"{int.MinValue}", CultureInfo.InvariantCulture)) ? 1 : 0;
                                 }
                                 if (count == valsToCheck.Count) { break; }
                                 return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
@@ -283,12 +303,16 @@ namespace AttackSurfaceAnalyzer.Utils
                             case OPERATION.REGEX:
                                 foreach (string val in valsToCheck)
                                 {
-                                    foreach (string datum in clause.Data)
+                                    if (clause.Data is List<string> RegexList)
                                     {
-                                        var r = new Regex(datum);
-                                        if (r.IsMatch(val))
+                                        foreach (string datum in RegexList)
                                         {
-                                            count++;
+                                            // TODO: Potential for optimization to cache these somewhere
+                                            var r = new Regex(datum);
+                                            if (r.IsMatch(val))
+                                            {
+                                                count++;
+                                            }
                                         }
                                     }
                                 }
@@ -302,34 +326,26 @@ namespace AttackSurfaceAnalyzer.Utils
                                 }
                                 return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
 
+                            // Ends with any of the provided data
                             case OPERATION.ENDS_WITH:
-                                foreach (string datum in clause.Data)
+                                if (clause.Data is List<string> EndsWithData)
                                 {
-                                    foreach (var val in valsToCheck)
+                                    if (valsToCheck.Where(x => EndsWithData.Where(y => x.EndsWith(y, StringComparison.CurrentCulture)).Any()).Any())
                                     {
-                                        if (val.EndsWith(datum, StringComparison.CurrentCulture))
-                                        {
-                                            count++;
-                                            break;
-                                        }
+                                        break;
                                     }
                                 }
-                                if (count == clause.Data.Count) { break; }
                                 return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
 
+                            // Starts with any of the provided data
                             case OPERATION.STARTS_WITH:
-                                foreach (string datum in clause.Data)
+                                if (clause.Data is List<string> StartsWithData)
                                 {
-                                    foreach (var val in valsToCheck)
+                                    if (valsToCheck.Where(x => StartsWithData.Where(y => x.StartsWith(y, StringComparison.CurrentCulture)).Any()).Any())
                                     {
-                                        if (val.StartsWith(datum, StringComparison.CurrentCulture))
-                                        {
-                                            count++;
-                                            break;
-                                        }
+                                        break;
                                     }
                                 }
-                                if (count == clause.Data.Count) { break; }
                                 return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
 
                             default:
@@ -355,7 +371,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        private static object? GetValueByPropertyName(object obj, string propertyName) => obj?.GetType().GetProperty(propertyName)?.GetValue(obj);
+        private static object? GetValueByPropertyName(object? obj, string? propertyName) => obj?.GetType().GetProperty(propertyName ?? string.Empty)?.GetValue(obj);
 
 
         public void DumpFilters()

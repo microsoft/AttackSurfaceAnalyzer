@@ -30,7 +30,7 @@ namespace AttackSurfaceAnalyzer.Utils
             var stdOutput = new StringBuilder();
             process.OutputDataReceived += (sender, args) => stdOutput.AppendLine(args.Data); // Use AppendLine rather than Append since args.Data is one line of output, not including the newline character.
 
-            string stdError = null;
+            string stdError = string.Empty;
             try
             {
                 process.Start();

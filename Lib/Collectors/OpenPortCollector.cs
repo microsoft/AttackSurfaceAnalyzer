@@ -130,14 +130,12 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         continue;       // Not long enough, must be an error
                     }
-                    string address = null;
-                    string port = null;
 
                     var addressMatches = Regex.Match(parts[4], @"^(.*):(\d+)$");
                     if (addressMatches.Success)
                     {
-                        address = addressMatches.Groups[1].ToString();
-                        port = addressMatches.Groups[2].ToString();
+                        var address = addressMatches.Groups[1].ToString();
+                        var port = addressMatches.Groups[2].ToString();
 
                         var obj = new OpenPortObject()
                         {
@@ -181,14 +179,12 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         continue;       // Not long enough
                     }
-                    string address = null;
-                    string port = null;
 
                     var addressMatches = Regex.Match(parts[8], @"^(.*):(\d+)$");
                     if (addressMatches.Success)
                     {
-                        address = addressMatches.Groups[1].ToString();
-                        port = addressMatches.Groups[2].ToString();
+                        var address = addressMatches.Groups[1].ToString();
+                        var port = addressMatches.Groups[2].ToString();
 
                         var obj = new OpenPortObject()
                         {

@@ -25,7 +25,7 @@ namespace AttackSurfaceAnalyzer.Objects
 
         private const string PRAGMAS = "PRAGMA auto_vacuum = 0; PRAGMA synchronous = {0}; PRAGMA journal_mode = {1}; PRAGMA page_size = {2}; PRAGMA locking_mode = {3};";
 
-        public SqlConnectionHolder(string databaseFilename, DBSettings dBSettings, int tableShards = 1)
+        public SqlConnectionHolder(string databaseFilename, DBSettings? dBSettings = null, int tableShards = 1)
         {
             if (dBSettings != null)
             {

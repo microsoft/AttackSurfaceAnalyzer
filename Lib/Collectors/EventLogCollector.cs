@@ -4,6 +4,7 @@ using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using Serilog;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -71,15 +72,14 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     sentences[i] = string.Concat(sentences[i], ".");
                                 }
 
-                                EventLogObject obj = new EventLogObject()
+                                EventLogObject obj = new EventLogObject($"{entry.TimeGenerated.ToString("o", CultureInfo.InvariantCulture)} {entry.EntryType.ToString()} {entry.Message}")
                                 {
                                     Level = entry.EntryType.ToString(),
                                     Summary = sentences[0],
                                     Source = string.IsNullOrEmpty(entry.Source) ? null : entry.Source,
                                     Timestamp = entry.TimeGenerated.ToString("o", CultureInfo.InvariantCulture),
-                                    Event = $"{entry.TimeGenerated.ToString("o", CultureInfo.InvariantCulture)} {entry.EntryType.ToString()} {entry.Message}"
+                                    Data = new List<string>() { entry.Message }
                                 };
-                                obj.Data.Add(entry.Message);
                                 DatabaseManager.Write(obj, RunId);
                             }
                         }
@@ -112,9 +112,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                         // Sep  7 02:16:16 testbed sudo: pam_unix(sudo:session):session opened for user root
                         if (LogHeader.IsMatch(entry))
                         {
-                            var obj = new EventLogObject()
+                            var obj = new EventLogObject(entry)
                             {
-                                Event = entry,
                                 Summary = LogHeader.Matches(entry).Single().Groups[3].Captures[0].Value,
                                 Timestamp = LogHeader.Matches(entry).Single().Groups[1].Captures[0].Value,
                                 Source = path,
@@ -151,7 +150,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             // New log entries start with a timestamp like so:
             // 2019-09-25 20:38:53.784594-0700 0xdbf47    Error       0x0                  0      0    kernel: (Sandbox) Sandbox: mdworker(15726) deny(1) mach-lookup com.apple.security.syspolicy
             Regex MacLogHeader = new Regex("^([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-2][0-9]:[0-5][0-9]:[0-5][0-9]).*?0x[0-9a-f]*[\\s]*([A-Za-z]*)[\\s]*0x[0-9a-f][\\s]*[0-9]*[\\s]*([0-9]*)[\\s]*(.*?):(.*)");
-            EventLogObject curObject = null;
+            EventLogObject? curObject = null;
 
             using var process = new Process()
             {
@@ -179,13 +178,12 @@ namespace AttackSurfaceAnalyzer.Collectors
                 {
                     var evt = process.StandardOutput.ReadLine();
 
-                    if (MacLogHeader.IsMatch(evt))
+                    if (evt != null && MacLogHeader.IsMatch(evt))
                     {
                         DatabaseManager.Write(curObject, RunId);
 
-                        curObject = new EventLogObject()
+                        curObject = new EventLogObject(evt)
                         {
-                            Event = evt,
                             Level = MacLogHeader.Matches(evt).Single().Groups[2].Value,
                             Summary = $"{MacLogHeader.Matches(evt).Single().Groups[4].Captures[0].Value}:{MacLogHeader.Matches(evt).Single().Groups[5].Captures[0].Value}",
                             Timestamp = MacLogHeader.Matches(evt).Single().Groups[1].Captures[0].Value,
@@ -194,7 +192,14 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                     else
                     {
-                        curObject.Data.Append(evt);
+                        if (curObject != null)
+                        {
+                            if (curObject.Data == null)
+                            {
+                                curObject.Data = new List<string>();
+                            }
+                            curObject.Data.Append(evt);
+                        }
                     }
                 }
                 process.WaitForExit();

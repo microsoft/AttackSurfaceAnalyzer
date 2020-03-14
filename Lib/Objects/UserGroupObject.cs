@@ -7,25 +7,24 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class GroupAccountObject : CollectObject
     {
-        public string Caption { get; set; }
-        public string Description { get; set; }
-        public string Domain { get; set; }
-        public string InstallDate { get; set; }
-        public bool LocalAccount { get; set; }
+        public string? Caption { get; set; }
+        public string? Description { get; set; }
+        public string? Domain { get; set; }
+        public string? InstallDate { get; set; }
+        public bool? LocalAccount { get; set; }
         public string Name { get; set; }
-        public string Status { get; set; }
-        public string SID { get; set; }
-        public int SIDType { get; set; }
+        public string? Status { get; set; }
+        public string? SID { get; set; }
+        public int? SIDType { get; set; }
 
-        public List<string> Users { get; set; }
+        public List<string> Users { get; set; } = new List<string>();
 
-        public Dictionary<string, string> Properties { get; set; }
+        public Dictionary<string, string>? Properties { get; set; }
 
-        public GroupAccountObject()
+        public GroupAccountObject(string NameIn)
         {
+            Name = NameIn;
             ResultType = RESULT_TYPE.GROUP;
-            Users = new List<string>();
-            Properties = new Dictionary<string, string>();
         }
 
         public override string Identity

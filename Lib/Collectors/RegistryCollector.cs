@@ -34,13 +34,11 @@ namespace AttackSurfaceAnalyzer.Collectors
             RegistryHive.ClassesRoot, RegistryHive.CurrentConfig, RegistryHive.CurrentUser, RegistryHive.LocalMachine, RegistryHive.Users
         };
 
-        private readonly Action<RegistryObject> customCrawlHandler = null;
+        private readonly Action<RegistryObject>? customCrawlHandler;
 
         public RegistryCollector(string RunId, bool Parallelize) : this(RunId, DefaultHives, Parallelize, null) { }
 
-        public RegistryCollector(string RunId, List<RegistryHive> Hives, bool Parallelize) : this(RunId, Hives, Parallelize, null) { }
-
-        public RegistryCollector(string RunId, List<RegistryHive> Hives, bool Parallelize, Action<RegistryObject> customHandler)
+        public RegistryCollector(string RunId, List<RegistryHive> Hives, bool Parallelize, Action<RegistryObject>? customHandler = null)
         {
             this.RunId = RunId;
             this.Hives = Hives;
@@ -94,9 +92,9 @@ namespace AttackSurfaceAnalyzer.Collectors
             foreach (var hive in Hives)
             {
                 Log.Debug("Starting " + hive.ToString());
-                if (!Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "Registry", "Hive", "Include", hive.ToString()) && Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "Registry", "Hive", "Exclude", hive.ToString(), out Regex Capturer))
+                if (!Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "Registry", "Hive", "Include", hive.ToString()) && Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "Registry", "Hive", "Exclude", hive.ToString(), out Regex? Capturer))
                 {
-                    Log.Debug("{0} '{1}' {2} '{3}'.", Strings.Get("ExcludingHive"), hive.ToString(), Strings.Get("DueToFilter"), Capturer.ToString());
+                    Log.Debug("{0} '{1}' {2} '{3}'.", Strings.Get("ExcludingHive"), hive.ToString(), Strings.Get("DueToFilter"), Capturer?.ToString());
                     return;
                 }
 

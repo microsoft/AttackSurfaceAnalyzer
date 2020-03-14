@@ -52,11 +52,11 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             ConcurrentBag<WriteObject> addObjects = DatabaseManager.GetMissingFromFirst(firstRunId, secondRunId);
             ConcurrentBag<WriteObject> removeObjects = DatabaseManager.GetMissingFromFirst(secondRunId, firstRunId);
-            ConcurrentBag<RawModifiedResult> modifyObjects = DatabaseManager.GetModified(firstRunId, secondRunId);
+            ConcurrentBag<(WriteObject,WriteObject)> modifyObjects = DatabaseManager.GetModified(firstRunId, secondRunId);
 
             addObjects.AsParallel().ForAll(added =>
             {
-                var obj = new CompareResult()
+                var obj = new CompareResult(added.Identity)
                 {
                     Compare = added.ColObj,
                     BaseRunId = firstRunId,
@@ -64,7 +64,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                     CompareRowKey = added.InstanceHash,
                     ChangeType = CHANGE_TYPE.CREATED,
                     ResultType = added.ColObj.ResultType,
-                    Identity = added.Identity
                 };
                 Log.Debug($"Adding {obj.Identity}");
                 Results[$"{added.ColObj.ResultType.ToString()}_{CHANGE_TYPE.CREATED.ToString()}"].Enqueue(obj);
@@ -73,7 +72,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             removeObjects.AsParallel().ForAll(removed =>
             {
-                var obj = new CompareResult()
+                var obj = new CompareResult(removed.Identity)
                 {
                     Base = removed.ColObj,
                     BaseRunId = firstRunId,
@@ -81,7 +80,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                     BaseRowKey = removed.InstanceHash,
                     ChangeType = CHANGE_TYPE.DELETED,
                     ResultType = removed.ColObj.ResultType,
-                    Identity = removed.Identity
                 };
 
                 Results[$"{removed.ColObj.ResultType.ToString()}_{CHANGE_TYPE.DELETED.ToString()}"].Enqueue(obj);
@@ -91,19 +89,18 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 var compareLogic = new CompareLogic();
                 compareLogic.Config.IgnoreCollectionOrder = true;
-                var first = modified.First.ColObj;
-                var second = modified.Second.ColObj;
-                var obj = new CompareResult()
+                var first = modified.Item1.ColObj;
+                var second = modified.Item2.ColObj;
+                var obj = new CompareResult(modified.Item1.Identity)
                 {
                     Base = first,
                     Compare = second,
                     BaseRunId = firstRunId,
                     CompareRunId = secondRunId,
-                    BaseRowKey = modified.First.InstanceHash,
-                    CompareRowKey = modified.Second.InstanceHash,
+                    BaseRowKey = modified.Item1.InstanceHash,
+                    CompareRowKey = modified.Item2.InstanceHash,
                     ChangeType = CHANGE_TYPE.MODIFIED,
-                    ResultType = modified.First.ColObj.ResultType,
-                    Identity = modified.First.Identity
+                    ResultType = modified.Item1.ColObj.ResultType,
                 };
 
                 var properties = first.GetType().GetProperties();
@@ -215,7 +212,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                 }
 
-                Results[$"{modified.First.ColObj.ResultType.ToString()}_{CHANGE_TYPE.MODIFIED.ToString()}"].Enqueue(obj);
+                Results[$"{modified.Item1.ColObj.ResultType.ToString()}_{CHANGE_TYPE.MODIFIED.ToString()}"].Enqueue(obj);
             });
 
             foreach (var empty in Results.Where(x => x.Value.Count == 0))

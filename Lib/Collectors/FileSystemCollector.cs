@@ -66,7 +66,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public override void ExecuteInternal()
         {
-            if (roots == null || !roots.Any())
+            if (!roots.Any())
             {
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
@@ -103,11 +103,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                         try
                         {
                             var certificate = X509Certificate.CreateFromCertFile(Path);
-                            var certObj = new CertificateObject()
+                            var certObj = new CertificateObject(
+                                StoreLocationIn: Path,
+                                StoreNameIn: "Disk",
+                                CertificateHashStringIn: certificate.GetCertHashString())
                             {
-                                StoreLocation = Path,
-                                StoreName = "Disk",
-                                CertificateHashString = certificate.GetCertHashString(),
                                 Subject = certificate.Subject,
                                 Pkcs7 = certificate.Export(X509ContentType.Cert).ToString()
                             };
@@ -157,11 +157,8 @@ namespace AttackSurfaceAnalyzer.Collectors
         public static FileSystemObject FilePathToFileSystemObject(string path, bool downloadCloud = false, bool includeContentHash = false)
         {
             if (path == null) { return null; }
-            FileSystemObject obj = new FileSystemObject()
-            {
-                Path = path,
-            };
-
+            FileSystemObject obj = new FileSystemObject(path);
+            
             // Get Owner/Group
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
@@ -312,7 +309,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                     else
                     {
                         var fileInfo = new FileInfo(path);
-                        obj.Size = (ulong)fileInfo.Length;
+                        var size = (ulong)fileInfo.Length;
+                        obj.Size = size;
                         if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
                         {
                             if (includeContentHash)
@@ -320,12 +318,12 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
                             }
 
-                            obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, obj.Size);
+                            obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, size);
 
-                            if (obj.IsExecutable)
+                            if (obj.IsExecutable != null && (bool)obj.IsExecutable)
                             {
                                 obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(path);
-                                obj.Characteristics.AddRange(WindowsFileSystemUtils.GetDllCharacteristics(path));
+                                obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(path);
                             }
                         }
                     }

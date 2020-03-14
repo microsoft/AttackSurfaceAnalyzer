@@ -94,6 +94,22 @@ namespace AttackSurfaceAnalyzer.Utils
             return fileVersionInfo.ProductVersion;
         }
 
+        public static PLATFORM GetPlatform()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                return PLATFORM.LINUX;
+            }
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return PLATFORM.WINDOWS;
+            }
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                return PLATFORM.MACOS;
+            }
+            return PLATFORM.UNKNOWN;
+        }
 
         public static string GetPlatformString()
         {

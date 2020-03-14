@@ -15,7 +15,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 {
     public static class WindowsFileSystemUtils
     {
-        public static Signature GetSignatureStatus(string Path)
+        public static Signature? GetSignatureStatus(string Path)
         {
             if (!NeedsSignature(Path))
             {
@@ -81,7 +81,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                return FileSystemUtils.IsExecutable(file.Path, file.Size);
+                return FileSystemUtils.IsExecutable(file.Path, file.Size) ?? false;
             }
             return false;
         }
@@ -110,11 +110,14 @@ namespace AttackSurfaceAnalyzer.Collectors
                     // This line throws the exceptions below.
                     var peHeader1 = new PeNet.PeFile(Path);
                     ushort characteristics = peHeader1.ImageNtHeaders.OptionalHeader.DllCharacteristics;
-                    foreach (DLLCHARACTERISTICS characteristic in Enum.GetValues(typeof(DLLCHARACTERISTICS)))
+                    foreach (var characteristic in Enum.GetValues(typeof(DLLCHARACTERISTICS)))
                     {
-                        if (((ushort)characteristic & characteristics) == (ushort)characteristic)
+                        if (characteristic is DLLCHARACTERISTICS c)
                         {
-                            output.Add(characteristic.ToString());
+                            if (((ushort)c & characteristics) == (ushort)characteristic)
+                            {
+                                output.Add(c.ToString());
+                            }
                         }
                     }
                 }

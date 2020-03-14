@@ -185,7 +185,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                     return Json(ASA_ERROR.UNIQUE_ID);
                 }
 
-                var run = new Run()
+                var run = new AsaRun()
                 {
                     RunId = RunId,
                     ResultTypes = new Dictionary<RESULT_TYPE, bool>() { { RESULT_TYPE.FILEMONITOR, true } },

@@ -30,11 +30,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             if (disposing)
             {
-                if (log != null)
-                {
-                    log.Dispose();
-                    log = null;
-                }
+                log.Dispose();
             }
         }
 

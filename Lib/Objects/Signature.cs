@@ -14,16 +14,21 @@ namespace AttackSurfaceAnalyzer.Objects
                 SignerSerialNumber = authenticodeInfo.SignerSerialNumber;
                 SigningCertificate = new SerializableCertificate(authenticodeInfo.SigningCertificate);
             }
+            else
+            {
+                IsAuthenticodeValid = false;
+            }
         }
 
-        public Signature()
+        public Signature(bool valid)
         {
+            IsAuthenticodeValid = valid;
         }
 
         public bool IsAuthenticodeValid { get; set; }
-        public byte[] SignedHash { get; set; }
-        public string SignerSerialNumber { get; set; }
-        public SerializableCertificate SigningCertificate { get; set; }
+        public byte[]? SignedHash { get; set; }
+        public string? SignerSerialNumber { get; set; }
+        public SerializableCertificate? SigningCertificate { get; set; }
 
         public bool IsTimeValid
         {

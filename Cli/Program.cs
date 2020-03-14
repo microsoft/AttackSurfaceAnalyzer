@@ -486,7 +486,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
             }
 
-            var run = new Run()
+            var run = new AsaRun()
             {
                 RunId = opts.RunId,
                 ResultTypes = new Dictionary<RESULT_TYPE, bool>() { { RESULT_TYPE.FILEMONITOR, true } }
@@ -991,7 +991,7 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             Log.Information(Strings.Get("Begin"), opts.RunId);
 
-            var run = new Run()
+            var run = new AsaRun()
             {
                 RunId = opts.RunId,
                 ResultTypes = dict

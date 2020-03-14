@@ -12,7 +12,7 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class SystemSQLiteSqlConnectionHolder
     {
-        public SQLiteTransaction Transaction { get; set; }
+        public SQLiteTransaction? Transaction { get; set; }
         public SQLiteConnection Connection { get; set; }
         public ConcurrentQueue<WriteObject> WriteQueue { get; private set; } = new ConcurrentQueue<WriteObject>();
         public bool KeepRunning { get; set; }
@@ -25,7 +25,7 @@ namespace AttackSurfaceAnalyzer.Objects
 
         private const string PRAGMAS = "PRAGMA auto_vacuum = 0; PRAGMA locking_mode = {0};";
 
-        public SystemSQLiteSqlConnectionHolder(string databaseFilename, DBSettings dBSettings = default, int tableShards = 1)
+        public SystemSQLiteSqlConnectionHolder(string databaseFilename, DBSettings? dBSettings = default, int tableShards = 1)
         {
             _settings = dBSettings == null ? new DBSettings() : dBSettings;
 
@@ -33,12 +33,9 @@ namespace AttackSurfaceAnalyzer.Objects
             Connection = new SQLiteConnection($"Data source={Source}; Page Size={_settings.PageSize}; Journal Mode={_settings.JournalMode}; Synchronous={_settings.Synchronous};");
             Connection.Open();
 
-            if (_settings != null)
-            {
-                var command = string.Format(CultureInfo.InvariantCulture, PRAGMAS, _settings.LockingMode);
-                using var cmd = new SQLiteCommand(command, Connection);
-                cmd.ExecuteNonQuery();
-            }
+            var command = string.Format(CultureInfo.InvariantCulture, PRAGMAS, _settings.LockingMode);
+            using var cmd = new SQLiteCommand(command, Connection);
+            cmd.ExecuteNonQuery();
 
             TableShards = tableShards;
 
@@ -57,8 +54,6 @@ namespace AttackSurfaceAnalyzer.Objects
         public void Destroy()
         {
             ShutDown();
-            Connection = null;
-            Transaction = null;
             try
             {
                 File.Delete(Source);
@@ -102,7 +97,7 @@ namespace AttackSurfaceAnalyzer.Objects
         {
             try
             {
-                Transaction.Commit();
+                Transaction?.Commit();
             }
             catch (Exception e)
             {
@@ -143,7 +138,7 @@ namespace AttackSurfaceAnalyzer.Objects
         {
             KeepRunning = false;
             Connection.Close();
-            Connection = null;
+            Connection.Dispose();
             Transaction = null;
         }
     }

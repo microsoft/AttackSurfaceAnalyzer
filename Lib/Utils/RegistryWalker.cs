@@ -6,6 +6,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Security.AccessControl;
 using System.Security.Principal;
 
@@ -13,11 +14,11 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public static class RegistryWalker
     {
-        public static IEnumerable<RegistryKey> WalkHive(RegistryHive Hive, string startingKey = null)
+        public static IEnumerable<RegistryKey> WalkHive(RegistryHive Hive, string startingKey = "")
         {
             Stack<RegistryKey> keys = new Stack<RegistryKey>();
 
-            RegistryKey x86_View = null, x64_View = null;
+            RegistryKey? x86_View = null, x64_View = null;
             try
             {
                 x86_View = RegistryKey.OpenBaseKey(Hive, RegistryView.Registry32);
@@ -104,19 +105,15 @@ namespace AttackSurfaceAnalyzer.Utils
                 yield return currentKey;
             }
 
-            x86_View.Dispose();
-            x64_View.Dispose();
+            x86_View?.Dispose();
+            x64_View?.Dispose();
         }
 
-        public static RegistryObject RegistryKeyToRegistryObject(RegistryKey registryKey)
+        public static RegistryObject? RegistryKeyToRegistryObject(RegistryKey registryKey)
         {
-            RegistryObject regObj = null;
-            if (registryKey == null) { return regObj; }
+            if (registryKey == null) { return null; }
 
-            regObj = new RegistryObject()
-            {
-                Key = registryKey.Name,
-            };
+            RegistryObject regObj = new RegistryObject(registryKey.Name);
             try
             {
                 regObj.AddSubKeys(registryKey.GetSubKeyNames());
@@ -132,27 +129,31 @@ namespace AttackSurfaceAnalyzer.Utils
 
             try
             {
-                foreach (RegistryAccessRule rule in registryKey.GetAccessControl().GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier)))
+                foreach (RegistryAccessRule? rule in registryKey.GetAccessControl().GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier)))
                 {
-                    string name = rule.IdentityReference.Value;
+                    if (rule != null)
+                    {
+                        string name = rule.IdentityReference.Value;
 
-                    try
-                    {
-                        name = rule.IdentityReference.Translate(typeof(NTAccount)).Value;
-                    }
-                    catch (IdentityNotMappedException)
-                    {
-                        // This is fine. Some SIDs don't map to NT Accounts.
-                    }
+                        try
+                        {
+                            name = rule.IdentityReference.Translate(typeof(NTAccount)).Value;
+                        }
+                        catch (IdentityNotMappedException)
+                        {
+                            // This is fine. Some SIDs don't map to NT Accounts.
+                        }
 
-                    if (regObj.Permissions.ContainsKey(name))
-                    {
-                        regObj.Permissions[name].Add(rule.RegistryRights.ToString());
+                        if (regObj.Permissions.ContainsKey(name))
+                        {
+                            regObj.Permissions[name].Add(rule.RegistryRights.ToString());
+                        }
+                        else
+                        {
+                            regObj.Permissions.Add(name, new List<string>() { rule.RegistryRights.ToString() });
+                        }
                     }
-                    else
-                    {
-                        regObj.Permissions.Add(name, new List<string>() { rule.RegistryRights.ToString() });
-                    }
+                    
                 }
             }
             catch (ArgumentException)
@@ -169,14 +170,17 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 try
                 {
-                    regObj.Values.Add(valueName, (registryKey.GetValue(valueName) == null) ? "" : (registryKey.GetValue(valueName).ToString()));
+                    var value = registryKey.GetValue(valueName).ToString();
+                    if (!string.IsNullOrEmpty(value))
+                    {
+                        regObj.Values.Add(valueName, value);
+                    }
                 }
                 catch (Exception ex)
                 {
                     Log.Debug(ex, "Found an exception processing registry values of {0}.", registryKey.Name);
                 }
             }
-
 
             return regObj;
         }

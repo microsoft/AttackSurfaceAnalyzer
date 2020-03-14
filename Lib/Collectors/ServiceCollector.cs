@@ -43,62 +43,96 @@ namespace AttackSurfaceAnalyzer.Collectors
                 {
                     foreach (System.Management.ManagementObject service in mgmtSearcher.Get())
                     {
-                        var obj = new ServiceObject();
+                        var val = service["Name"].ToString();
+                        if (val != null)
+                        {
+                            var obj = new ServiceObject(val);
 
-                        if (service["AcceptPause"] != null)
-                            obj.AcceptPause = bool.Parse(service["AcceptPause"].ToString());
-                        if (service["AcceptStop"] != null)
-                            obj.AcceptStop = bool.Parse(service["AcceptStop"].ToString());
-                        if (service["Caption"] != null)
-                            obj.Caption = service["Caption"].ToString();
-                        if (service["CheckPoint"] != null)
-                            obj.CheckPoint = uint.Parse(service["CheckPoint"].ToString(), CultureInfo.InvariantCulture);
-                        if (service["CreationClassName"] != null)
-                            obj.CreationClassName = service["CreationClassName"].ToString();
-                        if (service["DelayedAutoStart"] != null)
-                            obj.DelayedAutoStart = bool.Parse(service["DelayedAutoStart"].ToString());
-                        if (service["Description"] != null)
-                            obj.Description = service["Description"].ToString();
-                        if (service["DesktopInteract"] != null)
-                            obj.DesktopInteract = bool.Parse(service["DesktopInteract"].ToString());
-                        if (service["DisplayName"] != null)
-                            obj.DisplayName = service["DisplayName"].ToString();
-                        if (service["ErrorControl"] != null)
-                            obj.ErrorControl = service["ErrorControl"].ToString();
-                        if (service["ExitCode"] != null)
-                            obj.ExitCode = uint.Parse(service["ExitCode"].ToString(), CultureInfo.InvariantCulture);
-                        if (service["InstallDate"] != null)
-                            obj.InstallDate = service["InstallDate"].ToString();
-                        if (service["Name"] != null)
-                            obj.Name = service["Name"].ToString();
-                        if (service["PathName"] != null)
-                            obj.PathName = service["PathName"].ToString();
-                        if (service["ProcessId"] != null)
-                            obj.ProcessId = uint.Parse(service["ProcessId"].ToString(), CultureInfo.InvariantCulture);
-                        if (service["ServiceSpecificExitCode"] != null)
-                            obj.ServiceSpecificExitCode = uint.Parse(service["ServiceSpecificExitCode"].ToString(), CultureInfo.InvariantCulture);
-                        if (service["ServiceType"] != null)
+                            val = service["AcceptPause"].ToString();
+                            if (!string.IsNullOrEmpty(val))
+                                obj.AcceptPause = bool.Parse(val);
+
+                            val = service["AcceptStop"].ToString();
+                            if (!string.IsNullOrEmpty(val))
+                                obj.AcceptStop = bool.Parse(val);
+
+                            val = service["Caption"].ToString();
+                            if (!string.IsNullOrEmpty(val))
+                                obj.Caption = val;
+
+                            val = service["CheckPoint"].ToString();
+                            if (!string.IsNullOrEmpty(val))
+                                obj.CheckPoint = uint.Parse(val, CultureInfo.InvariantCulture);
+
+                            val = service["CreationClassName"].ToString();
+                            if (!string.IsNullOrEmpty(val))
+                                obj.CreationClassName = val;
+
+                            val = service["DelayedAutoStart"].ToString();
+                            if (!string.IsNullOrEmpty(val))
+                                obj.DelayedAutoStart = bool.Parse(val);
+
+                            val = service["Description"].ToString();
+                            if (!string.IsNullOrEmpty(val))
+                                obj.Description = val;
+
+                            val = service["DesktopInteract"].ToString();
+                            if (!string.IsNullOrEmpty(val))
+                                obj.DesktopInteract = bool.Parse(val);
+
+                            val = service["DisplayName"].ToString();
+                            if (!string.IsNullOrEmpty(val))
+                                obj.DisplayName = val;
+
+                            service["ErrorControl"].ToString();
+                            if (!string.IsNullOrEmpty(val))
+                                obj.ErrorControl = val;
+
+                            val = service["ExitCode"].ToString();
+                            if (!string.IsNullOrEmpty(val))
+                                obj.ExitCode = uint.Parse(val, CultureInfo.InvariantCulture);
+
+                            val = service["InstallDate"].ToString();
+                            if (!string.IsNullOrEmpty(val))
+                                obj.InstallDate = val;
+
+                            val = service["PathName"].ToString();
+                            if (!string.IsNullOrEmpty(val))
+                                obj.PathName = val;
+
+                            val = service["ProcessId"].ToString();
+                            if (!string.IsNullOrEmpty(val))
+                                obj.ProcessId = uint.Parse(val, CultureInfo.InvariantCulture);
+
+                            val = service["ServiceSpecificExitCode"].ToString();
+                            if (!string.IsNullOrEmpty(val))
+                                obj.ServiceSpecificExitCode = uint.Parse(val, CultureInfo.InvariantCulture);
+
                             obj.ServiceType = service["ServiceType"].ToString();
-                        if (service["Started"] != null)
-                            obj.Started = bool.Parse(service["Started"].ToString());
-                        if (service["StartMode"] != null)
-                            obj.StartMode = service["StartMode"].ToString();
-                        if (service["StartName"] != null)
-                            obj.StartName = service["StartName"].ToString();
-                        if (service["State"] != null)
-                            obj.State = service["State"].ToString();
-                        if (service["Status"] != null)
-                            obj.Status = service["Status"].ToString();
-                        if (service["SystemCreationClassName"] != null)
-                            obj.SystemCreationClassName = service["SystemCreationClassName"].ToString();
-                        if (service["SystemName"] != null)
-                            obj.SystemName = service["SystemName"].ToString();
-                        if (service["TagId"] != null)
-                            obj.TagId = uint.Parse(service["TagId"].ToString(), CultureInfo.InvariantCulture);
-                        if (service["WaitHint"] != null)
-                            obj.WaitHint = uint.Parse(service["WaitHint"].ToString(), CultureInfo.InvariantCulture);
 
-                        DatabaseManager.Write(obj, RunId);
+                            val = service["Started"].ToString();
+                            if (!string.IsNullOrEmpty(val))
+                                obj.Started = bool.Parse(val);
+
+                            obj.StartMode = service["StartMode"].ToString();
+
+                            obj.StartName = service["StartName"].ToString();
+
+                            obj.State = service["State"].ToString();
+                            obj.Status = service["Status"].ToString();
+                            obj.SystemCreationClassName = service["SystemCreationClassName"].ToString();
+                            obj.SystemName = service["SystemName"].ToString();
+
+                            val = service["TagId"].ToString();
+                            if (!string.IsNullOrEmpty(val))
+                                obj.TagId = uint.Parse(val, CultureInfo.InvariantCulture);
+
+                            val = service["WaitHint"].ToString();
+                            if (!string.IsNullOrEmpty(val))
+                                obj.WaitHint = uint.Parse(val, CultureInfo.InvariantCulture);
+
+                            DatabaseManager.Write(obj, RunId);
+                        }
                     }
                 }
             }
@@ -128,10 +162,9 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                     if (_fields.Length == 5)
                     {
-                        var obj = new ServiceObject()
+                        var obj = new ServiceObject(_fields[0])
                         {
                             DisplayName = _fields[4],
-                            Name = _fields[0],
                             State = _fields[3],
                         };
 
@@ -157,10 +190,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                     GroupCollection groups = match.Groups;
                     var serviceName = groups[1].ToString();
 
-                    var obj = new ServiceObject()
+                    var obj = new ServiceObject(serviceName)
                     {
                         DisplayName = serviceName,
-                        Name = serviceName,
                     };
 
                     DatabaseManager.Write(obj, RunId);
@@ -203,10 +235,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                         continue;
 
                     }
-                    var obj = new ServiceObject()
+                    var obj = new ServiceObject(_fields[2])
                     {
                         DisplayName = _fields[2],
-                        Name = _fields[2],
                         // If we have a current PID then it is running.
                         State = (_fields[0].Equals("-")) ? "Stopped" : "Running"
                     };

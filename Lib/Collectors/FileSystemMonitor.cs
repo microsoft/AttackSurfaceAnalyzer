@@ -27,7 +27,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public static readonly NotifyFilters defaultFiltersWithAccessTime = defaultFilters | NotifyFilters.LastAccess;
 
-        private Action<EventArgs> customChangeHandler = null;
+        private Action<EventArgs>? customChangeHandler = null;
 
         private readonly bool getFileDetails = true;
 
@@ -87,11 +87,10 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             if (objIn != null)
             {
-                var ToWrite = new FileMonitorObject
+                var ToWrite = new FileMonitorObject(objIn.FullPath)
                 {
                     ResultType = RESULT_TYPE.FILEMONITOR,
                     ChangeType = ChangeTypeStringToChangeType(objIn.ChangeType.ToString()),
-                    Path = objIn.FullPath,
                     Name = objIn.Name,
                     Timestamp = DateTime.Now.ToString("O", CultureInfo.InvariantCulture)
                 };
@@ -142,11 +141,10 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             if (objIn != null)
             {
-                var ToWrite = new FileMonitorObject
+                var ToWrite = new FileMonitorObject(objIn.FullPath)
                 {
                     ResultType = RESULT_TYPE.FILEMONITOR,
                     ChangeType = ChangeTypeStringToChangeType(objIn.ChangeType.ToString()),
-                    Path = objIn.FullPath,
                     Name = objIn.Name,
                     ExtendedResults = details,
                     Timestamp = DateTime.Now.ToString("O", CultureInfo.InvariantCulture)
@@ -162,11 +160,10 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             string timestamp = DateTime.Now.ToString("O", CultureInfo.InvariantCulture);
 
-            var ToWrite = new FileMonitorObject
+            var ToWrite = new FileMonitorObject(objIn.FullPath)
             {
                 ResultType = RESULT_TYPE.FILEMONITOR,
                 ChangeType = ChangeTypeStringToChangeType(objIn.ChangeType.ToString()),
-                Path = objIn.FullPath,
                 OldPath = objIn.OldFullPath,
                 Name = objIn.Name,
                 OldName = objIn.OldName,

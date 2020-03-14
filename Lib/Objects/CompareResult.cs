@@ -1,25 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Types;
+using Markdig.Helpers;
 using System.Collections.Generic;
 using System.IO;
 
 namespace AttackSurfaceAnalyzer.Objects
 {
-    public class RawModifiedResult
-    {
-        public WriteObject First { get; set; }
-        public WriteObject Second { get; set; }
-    }
-
-    public class FileMonitorEvent
-    {
-        public CHANGE_TYPE ChangeType { get; set; }
-        public string Path { get; set; }
-        public string OldPath { get; set; }
-        public string Name { get; set; }
-        public string OldName { get; set; }
-    }
+    
 
     public class CompareResult
     {
@@ -27,58 +15,69 @@ namespace AttackSurfaceAnalyzer.Objects
         public CHANGE_TYPE ChangeType { get; set; }
         public RESULT_TYPE ResultType { get; set; }
         public ANALYSIS_RESULT_TYPE Analysis { get; set; }
-        public List<Rule> Rules { get; set; }
-        public List<Diff> Diffs { get; set; }
-        public string BaseRowKey { get; set; }
-        public string CompareRowKey { get; set; }
-        public string BaseRunId { get; set; }
-        public string CompareRunId { get; set; }
-        public object Base { get; set; }
-        public object Compare { get; set; }
+        public List<Rule> Rules { get; set; } = new List<Rule>();
+        public List<Diff> Diffs { get; set; } = new List<Diff>();
+        public string? BaseRowKey { get; set; }
+        public string? CompareRowKey { get; set; }
+        public string? BaseRunId { get; set; }
+        public string? CompareRunId { get; set; }
+        public object? Base { get; set; }
+        public object? Compare { get; set; }
 
         public bool ShouldSerializeDiffs()
         {
-            return (Diffs.Count > 0);
+            return Diffs?.Count > 0;
         }
 
         public bool ShouldSerializeRules()
         {
-            return (Rules.Count > 0);
+            return Rules?.Count > 0;
         }
 
-        public CompareResult()
+        public CompareResult(string IdentityIn)
         {
-            Rules = new List<Rule>();
-            Diffs = new List<Diff>();
+            Identity = IdentityIn;
         }
     }
 
     public class OutputFileMonitorResult
     {
-        public string RowKey { get; set; }
-        public string Timestamp { get; set; }
-        public string OldPath { get; set; }
+        public string? RowKey { get; set; }
+        public string? Timestamp { get; set; }
+        public string? OldPath { get; set; }
         public string Path { get; set; }
-        public string OldName { get; set; }
-        public string Name { get; set; }
+        public string? OldName { get; set; }
+        public string? Name { get; set; }
         public CHANGE_TYPE ChangeType { get; set; }
+
+        public OutputFileMonitorResult(string PathIn)
+        {
+            Path = PathIn;
+        }
     }
 
     public class OutputCompareResult : CompareResult
     {
-        public string SerializedBase { get; set; }
-        public string SerializedCompare { get; set; }
+        public string? SerializedBase { get; set; }
+        public string? SerializedCompare { get; set; }
+
+        public OutputCompareResult(string IdentityIn) : base(IdentityIn) { }
     }
 
     public class FileSystemMonitorResult
     {
         public FileSystemEventArgs evt { get; set; }
         public NotifyFilters filter { get; set; }
+
+        public FileSystemMonitorResult(FileSystemEventArgs evtIn)
+        {
+            evt = evtIn;
+        }
     }
 
     public class FileSystemResult : CompareResult
     {
-        public FileSystemResult()
+        public FileSystemResult(string IdentityIn) : base(IdentityIn)
         {
             ResultType = RESULT_TYPE.FILE;
         }
@@ -86,7 +85,7 @@ namespace AttackSurfaceAnalyzer.Objects
 
     public class OpenPortResult : CompareResult
     {
-        public OpenPortResult()
+        public OpenPortResult(string IdentityIn) : base(IdentityIn)
         {
             ResultType = RESULT_TYPE.PORT;
         }
@@ -94,7 +93,7 @@ namespace AttackSurfaceAnalyzer.Objects
 
     public class RegistryResult : CompareResult
     {
-        public RegistryResult()
+        public RegistryResult(string IdentityIn) : base(IdentityIn)
         {
             ResultType = RESULT_TYPE.REGISTRY;
         }
@@ -102,7 +101,7 @@ namespace AttackSurfaceAnalyzer.Objects
 
     public class ServiceResult : CompareResult
     {
-        public ServiceResult()
+        public ServiceResult(string IdentityIn) : base(IdentityIn)
         {
             ResultType = RESULT_TYPE.SERVICE;
         }
@@ -110,7 +109,7 @@ namespace AttackSurfaceAnalyzer.Objects
 
     public class UserAccountResult : CompareResult
     {
-        public UserAccountResult()
+        public UserAccountResult(string IdentityIn) : base(IdentityIn)
         {
             ResultType = RESULT_TYPE.USER;
         }
@@ -118,7 +117,7 @@ namespace AttackSurfaceAnalyzer.Objects
 
     public class CertificateResult : CompareResult
     {
-        public CertificateResult()
+        public CertificateResult(string IdentityIn) : base(IdentityIn)
         {
             ResultType = RESULT_TYPE.CERTIFICATE;
         }

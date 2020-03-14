@@ -23,13 +23,13 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private static ConcurrentBag<ILiteCollection<WriteObject>> WriteObjectCollections = new ConcurrentBag<ILiteCollection<WriteObject>>();
 
-        private static Settings settings;
+        private static Settings settings { get; set; } = new Settings() { SchemaVersion = SCHEMA_VERSION, ShardingFactor = 1, TelemetryEnabled = true };
 
         public static ConcurrentQueue<WriteObject> WriteQueue { get; private set; } = new ConcurrentQueue<WriteObject>();
 
         public static bool FirstRun { get; private set; } = true;
 
-        public static LiteDatabase db;
+        public static LiteDatabase? db { get; private set; }
 
         public static string Filename { get; private set; } = "asa.litedb";
 
@@ -86,13 +86,16 @@ namespace AttackSurfaceAnalyzer.Utils
         public static List<DataRunModel> GetResultModels(RUN_STATUS status)
         {
             var output = new List<DataRunModel>();
-            var comparisons = db.GetCollection<Comparison>("Comparisons");
+            var comparisons = db?.GetCollection<Comparison>("Comparisons");
 
-            var results = comparisons.Find(x => x.Status.Equals(status));
+            var results = comparisons?.Find(x => x.Status.Equals(status));
 
-            foreach (var result in results)
+            if (results != null)
             {
-                output.Add(new DataRunModel { Key = result.FirstRunId + " vs. " + result.SecondRunId, Text = result.FirstRunId + " vs. " + result.SecondRunId });
+                foreach (var result in results)
+                {
+                    output.Add(new DataRunModel(KeyIn: result.FirstRunId + " vs. " + result.SecondRunId, TextIn: result.FirstRunId + " vs. " + result.SecondRunId));
+                }
             }
 
             return output;
@@ -102,16 +105,20 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             List<string> Runs = new List<string>();
 
-            var runs = db.GetCollection<Run>("Runs");
+            var runs = db?.GetCollection<AsaRun>("Runs");
 
-            var all = runs.FindAll();
+            var all = runs?.FindAll();
 
-            var allButLatest = all.Except(new List<Run>() { all.Last() });
-
-            foreach (var run in allButLatest)
+            if (all != null)
             {
-                DeleteRun(run.RunId);
+                var allButLatest = all.Except(new List<AsaRun>() { all.Last() });
+
+                foreach (var run in allButLatest)
+                {
+                    DeleteRun(run.RunId);
+                }
             }
+
         }
 
         public static bool HasElements()
@@ -137,12 +144,12 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static PLATFORM RunIdToPlatform(string runid)
         {
-            var col = db.GetCollection<Run>("Runs");
+            var col = db?.GetCollection<AsaRun>("Runs");
 
-            var results = col.Find(x => x.RunId.Equals(runid));
+            var results = col?.Find(x => x.RunId.Equals(runid));
             if (results.Any())
             {
-                return (PLATFORM)Enum.Parse(typeof(PLATFORM), results.First().Platform);
+                return results.First().Platform;
             }
             else
             {
@@ -154,9 +161,9 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             var output = new List<WriteObject>();
 
-            var wo = db.GetCollection<WriteObject>("WriteObjects");
+            var wo = db?.GetCollection<WriteObject>("WriteObjects");
 
-            return wo.Find(x => x.RunId.Equals(runid)).ToList();
+            return wo?.Find(x => x.RunId.Equals(runid)).ToList() ?? new List<WriteObject>();
         }
 
         public static void InsertAnalyzed(CompareResult objIn)
@@ -182,7 +189,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static List<string> GetLatestRunIds(int numberOfIds, RUN_TYPE type)
         {
-            var runs = db.GetCollection<Run>("Runs");
+            var runs = db.GetCollection<AsaRun>("Runs");
             var selectedRuns = runs.Find(Query.All(Query.Descending)).Where(x => x.Type == type).Select(x => x.RunId).Take(numberOfIds).ToList();
             return selectedRuns;
         }
@@ -223,24 +230,23 @@ namespace AttackSurfaceAnalyzer.Utils
             return new List<FileMonitorEvent>();
         }
 
-        public static void InsertRun(string runId, Dictionary<RESULT_TYPE, bool> dictionary)
+        public static void InsertRun(string runId, List<RESULT_TYPE> typeList, RUN_TYPE type)
         {
-            var runs = db.GetCollection<Run>("Runs");
+            var runs = db?.GetCollection<AsaRun>("Runs");
 
-            runs.Insert(new Run()
-            {
-                RunId = runId,
-                ResultTypes = dictionary,
-                Platform = AsaHelpers.GetPlatformString(),
-                Timestamp = DateTime.Now.ToString("o", CultureInfo.InvariantCulture),
-                Type = (dictionary.ContainsKey(RESULT_TYPE.FILEMONITOR) && dictionary[RESULT_TYPE.FILEMONITOR]) ? RUN_TYPE.MONITOR : RUN_TYPE.COLLECT,
-                Version = AsaHelpers.GetVersionString()
-            });
+            runs?.Insert(new AsaRun(
+                RunId: runId,
+                ResultTypes: typeList,
+                Platform: AsaHelpers.GetPlatform(),
+                Timestamp: DateTime.Now,
+                Type: type,
+                Version: AsaHelpers.GetVersionString()
+            ));
         }
 
-        public static Dictionary<RESULT_TYPE, bool> GetResultTypes(string runId)
+        public static List<RESULT_TYPE> GetResultTypes(string runId)
         {
-            var runs = db.GetCollection<Run>("Runs");
+            var runs = db.GetCollection<AsaRun>("Runs");
 
             var run = runs.FindOne(x => x.RunId.Equals(runId));
 
@@ -266,7 +272,7 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             var crs = db.GetCollection<CompareRun>("CompareRun");
 
-            var cr = new CompareRun() { FirstRunId = firstRunId, SecondRunId = secondRunId, Status = runStatus };
+            var cr = new CompareRun(FirstRunIdIn: firstRunId, SecondRunIdIn: secondRunId, RunStatusIn: runStatus);
 
             crs.Insert(cr);
         }
@@ -413,7 +419,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void DeleteRun(string runId)
         {
-            var Runs = db.GetCollection<Run>("Runs");
+            var Runs = db.GetCollection<AsaRun>("Runs");
 
             Runs.DeleteMany(x => x.RunId == runId);
 
@@ -448,9 +454,9 @@ namespace AttackSurfaceAnalyzer.Utils
         //    });
         //}
 
-        public static Run GetRun(string RunId)
+        public static AsaRun GetRun(string RunId)
         {
-            var runs = db.GetCollection<Run>("Runs");
+            var runs = db.GetCollection<AsaRun>("Runs");
 
             return runs.FindOne(Query.EQ("RunId", RunId));
         }
@@ -462,7 +468,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static List<string> GetRuns(string type)
         {
-            var runs = db.GetCollection<Run>("Runs");
+            var runs = db.GetCollection<AsaRun>("Runs");
 
             return runs.Find(x => x.Type.Equals(type)).Select(x => x.RunId).ToList();
         }
@@ -502,61 +508,12 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static object GetCommonResultTypes(string baseId, string compareId)
         {
-            var json_out = new Dictionary<string, bool>(){
-                { "File", false },
-                { "Certificate", false },
-                { "Registry", false },
-                { "Port", false },
-                { "Service", false },
-                { "User", false },
-                { "Firewall", false },
-                { "Com", false },
-                { "Log", false }
-            };
-
-            var runs = db.GetCollection<Run>("Runs");
+            var runs = db.GetCollection<AsaRun>("Runs");
 
             var firstRun = runs.FindOne(x => x.RunId.Equals(baseId));
             var secondRun = runs.FindOne(x => x.RunId.Equals(compareId));
 
-            foreach (var collectType in firstRun.ResultTypes)
-            {
-                if (collectType.Value.Equals(true) && secondRun.ResultTypes[collectType.Key].Equals(true))
-                {
-                    switch (collectType.Key)
-                    {
-                        case RESULT_TYPE.FILE:
-                            json_out["File"] = true;
-                            break;
-                        case RESULT_TYPE.CERTIFICATE:
-                            json_out["Certificate"] = true;
-                            break;
-                        case RESULT_TYPE.REGISTRY:
-                            json_out["Registry"] = true;
-                            break;
-                        case RESULT_TYPE.PORT:
-                            json_out["Port"] = true;
-                            break;
-                        case RESULT_TYPE.SERVICE:
-                            json_out["Service"] = true;
-                            break;
-                        case RESULT_TYPE.USER:
-                            json_out["User"] = true;
-                            break;
-                        case RESULT_TYPE.FIREWALL:
-                            json_out["Firewall"] = true;
-                            break;
-                        case RESULT_TYPE.COM:
-                            json_out["Com"] = true;
-                            break;
-                        case RESULT_TYPE.LOG:
-                            json_out["Log"] = true;
-                            break;
-                    }
-                }
-            }
-
-            return json_out;
+            return firstRun.ResultTypes.Intersect(secondRun.ResultTypes);
         }
 
         public static bool GetComparisonCompleted(string firstRunId, string secondRunId)
@@ -605,8 +562,16 @@ namespace AttackSurfaceAnalyzer.Utils
 
     public class CompareRun
     {
-        public string FirstRunId { get; set; }
-        public string SecondRunId { get; set; }
+        public string FirstRunId { get; }
+        public string SecondRunId { get; }
         public RUN_STATUS Status { get; set; }
+
+        public CompareRun(string FirstRunIdIn, string SecondRunIdIn, RUN_STATUS RunStatusIn)
+        {
+            FirstRunId = FirstRunIdIn;
+            SecondRunId = SecondRunIdIn;
+            Status = RunStatusIn;
+        }
+
     }
 }

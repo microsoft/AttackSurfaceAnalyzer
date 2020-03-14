@@ -102,7 +102,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public abstract void ExecuteInternal();
 
-        private Stopwatch watch;
+        private Stopwatch? watch;
 
         public RUN_STATUS IsRunning()
         {
@@ -120,8 +120,8 @@ namespace AttackSurfaceAnalyzer.Collectors
         public void Stop()
         {
             _running = RUN_STATUS.COMPLETED;
-            watch.Stop();
-            TimeSpan t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
+            watch?.Stop();
+            TimeSpan t = TimeSpan.FromMilliseconds(watch?.ElapsedMilliseconds ?? 0);
             string answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
                                     t.Hours,
                                     t.Minutes,
@@ -130,7 +130,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             Log.Information(Strings.Get("Completed"), GetType().Name, answer);
             var EndEvent = new Dictionary<string, string>();
             EndEvent.Add("Scanner", GetType().Name);
-            EndEvent.Add("Duration", watch.ElapsedMilliseconds.ToString(CultureInfo.InvariantCulture));
+            EndEvent.Add("Duration", watch?.ElapsedMilliseconds.ToString(CultureInfo.InvariantCulture) ?? "");
             EndEvent.Add("NumResults", _numCollected.ToString(CultureInfo.InvariantCulture));
             AsaTelemetry.TrackEvent("EndScanFunction", EndEvent);
         }

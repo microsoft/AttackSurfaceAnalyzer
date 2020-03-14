@@ -365,13 +365,13 @@ namespace AsaTests
                 var coc = new ComObjectCollector(FirstRunId);
                 coc.Execute();
 
-                List<WriteObject> collectResults = DatabaseManager.GetResultsByRunid(FirstRunId);
+                var collectResults = DatabaseManager.GetResultsByRunid(FirstRunId);
 
                 List<ComObject> comObjects = new List<ComObject>();
 
                 foreach (var collectResult in collectResults)
                 {
-                    comObjects.Add((ComObject)(collectResult.DeserializedObject));
+                    comObjects.Add((ComObject)(collectResult.ColObj));
                 }
 
                 Assert.IsTrue(comObjects.Where(x => x.x86_Binary != null).Count() > 0);

@@ -13,11 +13,6 @@ namespace AttackSurfaceAnalyzer.Utils
     {
         public static string CreateHash(string input)
         {
-            if (input == null)
-            {
-                return null;
-            }
-
             using HashAlgorithm murmur128 = MurmurHash.Create128();
             byte[] hashOutput = murmur128.ComputeHash(Encoding.UTF8.GetBytes(input));
             return Convert.ToBase64String(hashOutput);
@@ -25,10 +20,6 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static byte[] CreateHash(byte[] input)
         {
-            if (input == null)
-            {
-                return null;
-            }
             using HashAlgorithm murmur128 = MurmurHash.Create128();
             return murmur128.ComputeHash(input);
         }

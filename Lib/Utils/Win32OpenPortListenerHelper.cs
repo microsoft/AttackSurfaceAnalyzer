@@ -15,7 +15,7 @@ namespace AttackSurfaceAnalyzer.Utils
     /// </summary>
     public static class Win32ProcessPorts
     {
-        private static List<ProcessPort> CachedProcessPortMap;
+        private static List<ProcessPort> CachedProcessPortMap = new List<ProcessPort>();
 
         /// <summary>
         /// A list of ProcesesPorts that contain the mapping of processes and the ports that the process uses.

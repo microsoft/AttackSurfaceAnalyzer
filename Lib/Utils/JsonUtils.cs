@@ -9,11 +9,6 @@ namespace AttackSurfaceAnalyzer.Utils
     {
         public static byte[] Dehydrate(CollectObject colObj)
         {
-            if (colObj == null)
-            {
-                return null;
-            }
-
             switch (colObj)
             {
                 case CertificateObject certificateObject:
@@ -37,7 +32,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 case EventLogObject eventLogObject:
                     return JsonSerializer.Serialize(eventLogObject);
                 default:
-                    return null;
+                    return JsonSerializer.Serialize(colObj);
             }
         }
 

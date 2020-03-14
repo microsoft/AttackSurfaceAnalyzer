@@ -11,35 +11,35 @@ namespace AttackSurfaceAnalyzer.Objects
         /// <summary>
         /// Gets or sets the action that the rules defines
         /// </summary>
-        public FirewallAction Action { get; set; }
+        public FirewallAction? Action { get; set; }
         /// <summary>
         /// Gets or sets the name of the application that this rule is about
         /// </summary>
-        public string ApplicationName { get; set; }
+        public string? ApplicationName { get; set; }
         /// <summary>
         /// Gets or sets the data direction that the rule applies to
         /// </summary>   
-        public FirewallDirection Direction { get; set; }
+        public FirewallDirection? Direction { get; set; }
         /// <summary>
         /// Gets or sets the resolved name of the rule
         /// </summary>   
-        public string FriendlyName { get; set; }
+        public string? FriendlyName { get; set; }
         /// <summary>
         /// Gets or sets a Boolean value indicating if this rule is active 
         /// </summary>
-        public bool IsEnable { get; set; }
+        public bool? IsEnable { get; set; }
         /// <summary>
         /// Gets or sets the local addresses that the rule applies to
         /// </summary>
-        public List<string> LocalAddresses { get; set; }
+        public List<string>? LocalAddresses { get; set; }
         /// <summary>
         /// Gets or sets the local ports that the rule applies to 
         /// </summary>
-        public List<string> LocalPorts { get; set; }
+        public List<string>? LocalPorts { get; set; }
         /// <summary>
         /// Gets or sets the type of local ports that the rules applies to
         /// </summary>
-        public FirewallPortType LocalPortType { get; set; }
+        public FirewallPortType? LocalPortType { get; set; }
         /// <summary>
         /// Gets or sets the name of the rule in native format w/o auto string resolving
         /// </summary>
@@ -47,35 +47,32 @@ namespace AttackSurfaceAnalyzer.Objects
         /// <summary>
         /// Gets the profiles that this rule belongs to 
         /// </summary>
-        public FirewallProfiles Profiles { get; set; }
+        public FirewallProfiles? Profiles { get; set; }
         /// <summary>
         /// Gets or sets the protocol that the rule applies to
         /// </summary>
-        public string Protocol { get; set; }
+        public string? Protocol { get; set; }
         /// <summary>
         /// Gets or sets the remote addresses that the rule applies to 
         /// </summary>   
-        public List<string> RemoteAddresses { get; set; }
+        public List<string>? RemoteAddresses { get; set; }
         /// <summary>
         /// Gets or sets the remote ports that the rule applies to
         /// </summary>
-        public List<string> RemotePorts { get; set; }
+        public List<string>? RemotePorts { get; set; }
         /// <summary>
         /// Gets or sets the scope that the rule applies to
         /// </summary>  
-        public FirewallScope Scope { get; set; }
+        public FirewallScope? Scope { get; set; }
         /// <summary>
         /// Gets or sets the name of the service that this rule is about
         /// </summary>   
-        public string ServiceName { get; set; }
+        public string? ServiceName { get; set; }
 
-        public FirewallObject()
+        public FirewallObject(string NameIn)
         {
             ResultType = RESULT_TYPE.FIREWALL;
-            RemoteAddresses = new List<string>();
-            RemotePorts = new List<string>();
-            LocalAddresses = new List<string>();
-            LocalPorts = new List<string>();
+            Name = NameIn;
         }
 
         public override string Identity

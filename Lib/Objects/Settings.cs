@@ -8,5 +8,6 @@ namespace AttackSurfaceAnalyzer.Objects
         public int ShardingFactor { get; set; }
         public bool TelemetryEnabled { get; set; }
         public int SchemaVersion { get; set; }
+
     }
 }
