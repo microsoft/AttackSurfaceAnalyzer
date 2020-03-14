@@ -3,7 +3,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
     <RootNamespace>AttackSurfaceAnalyzer</RootNamespace>
-    <ReleaseVersion>0.0.0</ReleaseVersion>
+    <ReleaseVersion>2.1-alpha</ReleaseVersion>
     <PackageId>AttackSurfaceAnalyzer</PackageId>
     <PackageVersion>0.0.0</PackageVersion>
     <Authors>Microsoft Corporation</Authors>
