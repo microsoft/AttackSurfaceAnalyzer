@@ -109,8 +109,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                             var certificate = X509Certificate.CreateFromCertFile(Path);
                             var certObj = new CertificateObject(
                                 StoreLocation: Path,
-                                StoreNameIn: "Disk",
-                                CertificateHashStringIn: certificate.GetCertHashString())
+                                StoreName: "Disk",
+                                CertificateHashString: certificate.GetCertHashString())
                             {
                                 Subject = certificate.Subject,
                                 Pkcs7 = certificate.Export(X509ContentType.Cert).ToString()
@@ -178,16 +178,17 @@ namespace AttackSurfaceAnalyzer.Collectors
                     try
                     {
                         // Translate owner into the string representation.
-                        obj.Owner = (oid.Translate(typeof(NTAccount)) as NTAccount)?.Value;
+                        obj.Owner = oid.Translate(typeof(NTAccount))?.Value ?? obj.Owner;
                     }
                     catch (IdentityNotMappedException)
                     {
                         Log.Verbose("Couldn't find the Owner from SID {0} for file {1}", oid.ToString(), path);
                     }
+
                     try
                     {
                         // Translate group into the string representation.
-                        obj.Group = (gid.Translate(typeof(NTAccount)) as NTAccount)?.Value;
+                        obj.Group = gid.Translate(typeof(NTAccount))?.Value ?? obj.Group;
                     }
                     catch (IdentityNotMappedException)
                     {
@@ -327,7 +328,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                             obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, size);
 
-                            if (obj.IsExecutable != null && (bool)obj.IsExecutable)
+                            if (obj.IsExecutable is bool && (bool)obj.IsExecutable)
                             {
                                 obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(path);
                                 obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(path);

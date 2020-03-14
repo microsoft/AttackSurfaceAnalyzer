@@ -24,11 +24,11 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         public int ObjectPadding { get; set; }
 
         // The number of records in run one
-        [Params(100000)]
+        [Params(10000)]
         public int RunOneSize { get; set; }
 
         // The number of records in run two
-        [Params(100000)]
+        [Params(10000)]
         public int RunTwoSize { get; set; }
 
         // Percent of identities which should match between the two runs (% of the smaller run)
@@ -98,8 +98,6 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             {
                 var obj = GetRandomObject(ObjectPadding);
 
-                
-
                 if (BagOfIdentities.TryTake(out (string, string) Id))
                 {
                     if (CryptoHelpers.GetRandomPositiveDouble(1) > IdentityMatches)
@@ -146,6 +144,12 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         public void GetAllMissing2Test()
         {
             DatabaseManager.GetAllMissing2(RunOneName, RunTwoName);
+        }
+
+        [Benchmark]
+        public void GetAllMissingExplicitIndexing()
+        {
+            DatabaseManager.GetAllMissingExplicit(RunOneName, RunTwoName);
         }
 
         public void PopulateDatabases()

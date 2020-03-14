@@ -67,7 +67,10 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private const string SQL_INSERT_RUN = "insert into runs (run_id, type, serialized) values (@run_id, @type, @serialized)";
 
-        private const string SQL_GET_COLLECT_MISSING_IN_B = "select * from collect b where b.run_id = @second_run_id and b.identity not in (select identity from collect a where a.run_id = @first_run_id);";
+        private const string SQL_GET_COLLECT_MISSING_IN_B = "SELECT * FROM collect b WHERE b.run_id = @second_run_id AND b.identity NOT IN (SELECT identity FROM collect a WHERE a.run_id = @first_run_id);";
+        private const string SQL_GET_UNIQUE_BETWEEN_RUNS = "SELECT run_id, result_type, serialized, COUNT (*) FROM collect WHERE run_id = @first_run_id or run_id = @second_run_id GROUP BY identity, result_type HAVING COUNT(*) == 1;";
+        private const string SQL_GET_UNIQUE_BETWEEN_RUNS_EXPLICIT = "SELECT run_id, result_type, serialized, COUNT (*) FROM collect indexed by i_collect_collect_runid_row_type WHERE run_id = @first_run_id or run_id = @second_run_id GROUP BY identity, result_type HAVING COUNT(*) == 1;";
+
         private const string SQL_GET_COLLECT_MODIFIED = "select a.serialized as 'a_serialized', a.result_type as 'a_result_type', a.run_id as 'a_run_id'," +
                                                             "b.serialized as 'b_serialized', b.result_type as 'b_result_type', b.run_id as 'b_run_id'" +
                                                                 " from collect a indexed by i_collect_collect_runid_row_type," +
@@ -702,12 +705,39 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static ConcurrentBag<WriteObject> GetAllMissing(string firstRunId, string secondRunId)
         {
-            string SQL_GROUPED = "SELECT run_id, result_type, serialized, COUNT (*) FROM collect WHERE run_id = @first_run_id or run_id = @second_run_id GROUP BY identity HAVING COUNT(*) == 1;";
             var output = new ConcurrentBag<WriteObject>();
 
             Connections.AsParallel().ForAll(cxn =>
             {
-                using var cmd = new SqliteCommand(SQL_GROUPED, cxn.Connection, cxn.Transaction);
+                using var cmd = new SqliteCommand(SQL_GET_UNIQUE_BETWEEN_RUNS, cxn.Connection, cxn.Transaction);
+                cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
+                cmd.Parameters.AddWithValue("@second_run_id", secondRunId);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var runId = reader["run_id"].ToString();
+                        var resultTypeString = reader["result_type"].ToString();
+                        if (runId != null && resultTypeString != null)
+                        {
+                            var wo = WriteObject.FromBytes((byte[])reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
+                            if (wo is WriteObject WO)
+                                output.Add(WO);
+                        }
+                    }
+                }
+            });
+
+            return output;
+        }
+
+        public static ConcurrentBag<WriteObject> GetAllMissingExplicit(string firstRunId, string secondRunId)
+        {
+            var output = new ConcurrentBag<WriteObject>();
+
+            Connections.AsParallel().ForAll(cxn =>
+            {
+                using var cmd = new SqliteCommand(SQL_GET_UNIQUE_BETWEEN_RUNS_EXPLICIT, cxn.Connection, cxn.Transaction);
                 cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
                 cmd.Parameters.AddWithValue("@second_run_id", secondRunId);
                 using (var reader = cmd.ExecuteReader())
