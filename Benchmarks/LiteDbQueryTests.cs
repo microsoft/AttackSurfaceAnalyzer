@@ -10,7 +10,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
 {
     [MarkdownExporterAttribute.GitHub]
     [JsonExporterAttribute.Full]
-    public class QueryTests : AsaDatabaseBenchmark
+    public class LiteDbQueryTests : AsaDatabaseBenchmark
     {
         // The number random records to populate the database with before the two compare runs are added
         [Params(0)]
@@ -65,7 +65,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         private static readonly ConcurrentBag<(string, string)> BagOfIdentities = new ConcurrentBag<(string, string)>();
 
 #nullable disable
-        public QueryTests()
+        public LiteDbQueryTests()
 #nullable restore
         {
             Logger.Setup(true, true);
@@ -77,7 +77,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             Parallel.For(0, RunOneSize, i =>
             {
                 var obj = GetRandomObject(ObjectPadding);
-                DatabaseManager.Write(obj, RunOneName);
+                LiteDbManager.Write(obj, RunOneName);
 
                 if (obj.FileType != null)
                 {
@@ -85,7 +85,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
                 }
             });
 
-            while (DatabaseManager.HasElements())
+            while (LiteDbManager.HasElements())
             {
                 Thread.Sleep(1);
             }
@@ -111,7 +111,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
                     }
                 }
 
-                DatabaseManager.Write(obj, RunTwoName);
+                LiteDbManager.Write(obj, RunTwoName);
                 BagOfObjects.Add(obj);
             });
         }
@@ -119,29 +119,29 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Benchmark]
         public void GetMissingFromFirstTest()
         {
-            DatabaseManager.GetMissingFromFirst(RunOneName, RunTwoName);
+            LiteDbManager.GetMissingFromFirst(RunOneName, RunTwoName).Count();
         }
 
         [Benchmark]
         public void GetModifiedTest()
         {
-            DatabaseManager.GetModified(RunOneName, RunTwoName);
+            LiteDbManager.GetModified(RunOneName, RunTwoName);
         }
 
         public void PopulateDatabases()
         {
             Setup();
-            DatabaseManager.BeginTransaction();
+            LiteDbManager.BeginTransaction();
 
             InsertFirstRun();
             InsertSecondRun();
 
-            while(DatabaseManager.HasElements()){
+            while(LiteDbManager.HasElements()){
                 Thread.Sleep(1);
             }
 
-            DatabaseManager.Commit();
-            DatabaseManager.CloseDatabase();
+            LiteDbManager.Commit();
+            LiteDbManager.CloseDatabase();
         }
 
         [GlobalSetup]
@@ -155,7 +155,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         public void GlobalCleanup()
         {
             Setup();
-            DatabaseManager.Destroy();
+            LiteDbManager.Destroy();
         }
 
         [IterationSetup]
@@ -166,20 +166,13 @@ namespace AttackSurfaceAnalyzer.Benchmarks
 
         private void Setup()
         {
-            DatabaseManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite", new DBSettings()
-            {
-                JournalMode = JournalMode,
-                LockingMode = LockingMode,
-                PageSize = PageSize,
-                ShardingFactor = Shards,
-                Synchronous = Synchronous
-            });
+            LiteDbManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite");
         }
 
         [IterationCleanup]
         public void IterationCleanup()
         {
-            DatabaseManager.CloseDatabase();
+            LiteDbManager.CloseDatabase();
         }
     }
 }
