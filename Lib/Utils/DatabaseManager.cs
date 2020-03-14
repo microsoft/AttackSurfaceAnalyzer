@@ -121,7 +121,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static bool FirstRun { get; private set; } = true;
 
-        public static bool Setup(string filename, DBSettings dbSettingsIn)
+        public static bool Setup(string filename, DBSettings? dbSettingsIn = null)
         {
             JsonSerializer.SetDefaultResolver(StandardResolver.ExcludeNull);
 

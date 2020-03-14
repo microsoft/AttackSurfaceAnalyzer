@@ -30,19 +30,23 @@ namespace AttackSurfaceAnalyzer.Collectors
         private readonly bool examineCertificates;
         private readonly bool parallel;
 
-        public FileSystemCollector(string runId, bool enableHashing = false, string directories = "", bool downloadCloud = false, bool examineCertificates = false, bool parallel = true)
+        public FileSystemCollector(CollectCommandOptions opts)
         {
-            RunId = runId;
-            this.downloadCloud = downloadCloud;
-            this.examineCertificates = examineCertificates;
-            this.parallel = parallel;
+            if (opts.RunId is null)
+            {
+                throw new ArgumentNullException(nameof(opts));
+            }
+            RunId = opts.RunId;
+            downloadCloud = opts.DownloadCloud;
+            examineCertificates = opts.CertificatesFromFiles;
+            parallel = opts.Parallelization;
 
             roots = new HashSet<string>();
-            INCLUDE_CONTENT_HASH = enableHashing;
+            INCLUDE_CONTENT_HASH = opts.GatherHashes;
 
-            if (!string.IsNullOrEmpty(directories))
+            if (!string.IsNullOrEmpty(opts.SelectedDirectories))
             {
-                foreach (string path in directories.Split(','))
+                foreach (string path in opts.SelectedDirectories.Split(','))
                 {
                     AddRoot(path);
                 }

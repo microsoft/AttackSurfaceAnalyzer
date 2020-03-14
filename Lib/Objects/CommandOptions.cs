@@ -5,7 +5,7 @@ namespace AttackSurfaceAnalyzer
     public class CommandOptions
     {
         [Option(Required = false, HelpText = "Name of output database (default: asa.sqlite)", Default = "asa.sqlite")]
-        public string? DatabaseFilename { get; set; }
+        public string DatabaseFilename { get; set; } = "asa.sqlite";
 
         [Option(HelpText = "Show debug logging statements.")]
         public bool Debug { get; set; }
@@ -20,10 +20,10 @@ namespace AttackSurfaceAnalyzer
     public class CompareCommandOptions : CommandOptions
     {
         [Option(HelpText = "First run (pre-install) identifier", Default = "Timestamps")]
-        public string? FirstRunId { get; set; }
+        public string FirstRunId { get; set; } = "Timestamps";
 
         [Option(HelpText = "Second run (post-install) identifier", Default = "Timestamps")]
-        public string? SecondRunId { get; set; }
+        public string SecondRunId { get; set; } =  "Timestamps";
 
         [Option(HelpText = "Base name of output file", Default = "output")]
         public string? OutputBaseFilename { get; set; }
@@ -66,10 +66,10 @@ namespace AttackSurfaceAnalyzer
     [Verb("export-monitor", HelpText = "Output a .json report for a monitor run")]
     public class ExportMonitorCommandOptions : CommandOptions
     {
-        [Option(HelpText = "Monitor run identifier", Default = "Timestamp")]
+        [Option(HelpText = "Monitor run identifier")]
         public string? RunId { get; set; }
 
-        [Option(HelpText = "Directory to output to", Default = ".")]
+        [Option(HelpText = "Directory to output to")]
         public string? OutputPath { get; set; }
 
     }
@@ -115,7 +115,7 @@ namespace AttackSurfaceAnalyzer
         [Option("match-run-id", Required = false, HelpText = "Match the collectors used on another run id")]
         public string? MatchedCollectorId { get; set; }
 
-        [Option("filter", Required = false, HelpText = "Provide a JSON filter file.", Default = "Use embedded filters.")]
+        [Option("filter", Required = false, HelpText = "Provide a JSON filter file.")]
         public string? FilterLocation { get; set; }
 
         [Option("no-filters", HelpText = "Disables the embedded filters.")]

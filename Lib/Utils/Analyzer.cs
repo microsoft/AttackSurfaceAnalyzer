@@ -46,7 +46,7 @@ namespace AttackSurfaceAnalyzer.Utils
         private readonly PLATFORM OsName;
         private RuleFile config;
 
-        public Analyzer(PLATFORM platform, string filterLocation = "")
+        public Analyzer(PLATFORM platform, string? filterLocation = null)
         {
             config = new RuleFile();
 

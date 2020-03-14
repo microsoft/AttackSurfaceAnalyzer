@@ -62,31 +62,34 @@ namespace AttackSurfaceAnalyzer.Cli
 
             app.UseRouting();
 
-            string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-            UriBuilder uri = new UriBuilder(codeBase);
-            string path = Path.Combine(Path.GetDirectoryName(Uri.UnescapeDataString(uri.Path)), "wwwroot");
-
-            try
+            string? codeBase = Assembly.GetExecutingAssembly().CodeBase;
+            if (codeBase is string Location)
             {
-                app.UseStaticFiles(new StaticFileOptions
+                UriBuilder uri = new UriBuilder(codeBase);
+                string path = Path.Combine(Path.GetDirectoryName(Uri.UnescapeDataString(uri.Path)) ?? string.Empty, "wwwroot");
+
+                try
                 {
-                    FileProvider = new PhysicalFileProvider(path),
-                    RequestPath = new PathString("")
+                    app.UseStaticFiles(new StaticFileOptions
+                    {
+                        FileProvider = new PhysicalFileProvider(path),
+                        RequestPath = new PathString("")
+                    });
+                }
+                catch (Exception)
+                {
+                    Log.Debug("Had an issue setting static file path. Reverting to default.");
+                    app.UseStaticFiles();
+                }
+
+
+                app.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllerRoute(
+                        name: "default",
+                        pattern: "{controller=Home}/{action=Index}/{id?}");
                 });
             }
-            catch (Exception)
-            {
-                Log.Debug("Had an issue setting static file path. Reverting to default.");
-                app.UseStaticFiles();
-            }
-
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-            });
         }
     }
 }

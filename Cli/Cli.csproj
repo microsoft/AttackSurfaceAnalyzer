@@ -6,6 +6,7 @@
     <OutputType>Exe</OutputType>
     <ReleaseVersion>2.1-alpha</ReleaseVersion>
     <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
