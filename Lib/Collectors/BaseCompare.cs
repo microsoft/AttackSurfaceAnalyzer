@@ -50,39 +50,38 @@ namespace AttackSurfaceAnalyzer.Collectors
                 throw new ArgumentNullException(nameof(secondRunId));
             }
 
-            ConcurrentBag<WriteObject> addObjects = DatabaseManager.GetMissingFromFirst(firstRunId, secondRunId);
-            ConcurrentBag<WriteObject> removeObjects = DatabaseManager.GetMissingFromFirst(secondRunId, firstRunId);
+            ConcurrentBag<WriteObject> differentObjects = DatabaseManager.GetAllMissing(firstRunId, secondRunId);
             ConcurrentBag<(WriteObject,WriteObject)> modifyObjects = DatabaseManager.GetModified(firstRunId, secondRunId);
 
-            addObjects.AsParallel().ForAll(added =>
+            differentObjects.AsParallel().ForAll(different =>
             {
-                var obj = new CompareResult(added.Identity)
+                if (different.RunId.Equals(firstRunId))
                 {
-                    Compare = added.ColObj,
-                    BaseRunId = firstRunId,
-                    CompareRunId = secondRunId,
-                    CompareRowKey = added.InstanceHash,
-                    ChangeType = CHANGE_TYPE.CREATED,
-                    ResultType = added.ColObj?.ResultType ?? RESULT_TYPE.UNKNOWN
-                };
-                Log.Debug($"Adding {obj.Identity}");
-                Results[$"{added.ColObj?.ResultType}_{CHANGE_TYPE.CREATED}"].Enqueue(obj);
-            });
+                    var obj = new CompareResult(different.Identity)
+                    {
+                        Base = different.ColObj,
+                        BaseRunId = firstRunId,
+                        CompareRunId = secondRunId,
+                        BaseRowKey = different.InstanceHash,
+                        ChangeType = CHANGE_TYPE.DELETED,
+                        ResultType = different.ColObj?.ResultType ?? RESULT_TYPE.UNKNOWN
+                    };
 
-
-            removeObjects.AsParallel().ForAll(removed =>
-            {
-                var obj = new CompareResult(removed.Identity)
+                    Results[$"{different.ColObj?.ResultType}_{CHANGE_TYPE.DELETED}"].Enqueue(obj);
+                }
+                else if (different.RunId.Equals(secondRunId))
                 {
-                    Base = removed.ColObj,
-                    BaseRunId = firstRunId,
-                    CompareRunId = secondRunId,
-                    BaseRowKey = removed.InstanceHash,
-                    ChangeType = CHANGE_TYPE.DELETED,
-                    ResultType = removed.ColObj?.ResultType ?? RESULT_TYPE.UNKNOWN
-                };
-
-                Results[$"{removed.ColObj?.ResultType}_{CHANGE_TYPE.DELETED}"].Enqueue(obj);
+                    var obj = new CompareResult(different.Identity)
+                    {
+                        Compare = different.ColObj,
+                        BaseRunId = firstRunId,
+                        CompareRunId = secondRunId,
+                        CompareRowKey = different.InstanceHash,
+                        ChangeType = CHANGE_TYPE.CREATED,
+                        ResultType = different.ColObj?.ResultType ?? RESULT_TYPE.UNKNOWN
+                    };
+                    Results[$"{different.ColObj?.ResultType}_{CHANGE_TYPE.CREATED}"].Enqueue(obj);
+                }
             });
 
             modifyObjects.AsParallel().ForAll(modified =>
