@@ -9,7 +9,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
 {
     [MarkdownExporterAttribute.GitHub]
     [JsonExporterAttribute.Full]
-    public class SystemSqliteInsertTestsWithoutTransactions
+    public class SystemSqliteInsertTestsWithoutTransactions : AsaDatabaseBenchmark
     {
         // The number of records to insert for the benchmark
         //[Params(25000,50000,100000)]
@@ -44,9 +44,6 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Params("OFF","NORMAL","FULL","EXTRA")]
         public string Synchronous { get; set; }
 
-        // Bag of reusable objects to write to the database.
-        private static readonly ConcurrentBag<FileSystemObject> BagOfObjects = new ConcurrentBag<FileSystemObject>();
-
         public SystemSqliteInsertTestsWithoutTransactions()
         {
             Logger.Setup(true, true);
@@ -61,45 +58,25 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             Parallel.For(0, X, i =>
             {
                 var obj = GetRandomObject(ObjectPadding);
-                SystemSqliteDatabaseManager.Write(obj, runName);
+                SystemSQLiteDatabaseManager.Write(obj, runName);
                 BagOfObjects.Add(obj);
             });
 
-            while (SystemSqliteDatabaseManager.HasElements())
+            while (SystemSQLiteDatabaseManager.HasElements())
             {
                 Thread.Sleep(1);
-            }
-        }
-
-        public static FileSystemObject GetRandomObject(int ObjectPadding = 0)
-        {
-            BagOfObjects.TryTake(out FileSystemObject obj);
-
-            if (obj != null)
-            {
-                obj.Path = CryptoHelpers.GetRandomString(32);
-                return obj;
-            }
-            else
-            {
-                return new FileSystemObject()
-                {
-                    // Pad this field with extra data.
-                    FileType = CryptoHelpers.GetRandomString(ObjectPadding),
-                    Path = CryptoHelpers.GetRandomString(32)
-                };
             }
         }
 
         public void PopulateDatabases()
         {
             Setup();
-            SystemSqliteDatabaseManager.BeginTransaction();
+            SystemSQLiteDatabaseManager.BeginTransaction();
 
             Insert_X_Objects(StartingSize, ObjectPadding, "PopulateDatabase");
 
-            SystemSqliteDatabaseManager.Commit();
-            SystemSqliteDatabaseManager.CloseDatabase();
+            SystemSQLiteDatabaseManager.Commit();
+            SystemSQLiteDatabaseManager.CloseDatabase();
         }
 
         [GlobalSetup]
@@ -112,19 +89,19 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         public void GlobalCleanup()
         {
             Setup();
-            SystemSqliteDatabaseManager.Destroy();
+            SystemSQLiteDatabaseManager.Destroy();
         }
 
         [IterationSetup]
         public void IterationSetup()
         {
             Setup();
-            SystemSqliteDatabaseManager.BeginTransaction();
+            SystemSQLiteDatabaseManager.BeginTransaction();
         }
 
         private void Setup()
         {
-            SystemSqliteDatabaseManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite", new DBSettings()
+            SystemSQLiteDatabaseManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite", new DBSettings()
             {
                 JournalMode = JournalMode,
                 LockingMode = LockingMode,
@@ -137,7 +114,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [IterationCleanup]
         public void IterationCleanup()
         {
-            SystemSqliteDatabaseManager.CloseDatabase();
+            SystemSQLiteDatabaseManager.CloseDatabase();
         }
     }
 }

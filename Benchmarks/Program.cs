@@ -6,8 +6,8 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     {
         public static void Main(string[] args)
         {
-            var summary = BenchmarkRunner.Run<InsertTestsWithoutTransactions>();
-            summary = BenchmarkRunner.Run<SystemSqliteInsertTestsWithoutTransactions>();
+            var summary = BenchmarkRunner.Run<SystemSqliteInsertTestsWithoutTransactions>();
+            summary = BenchmarkRunner.Run<InsertTestsWithoutTransactions>();
         }
     }
 }

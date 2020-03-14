@@ -9,7 +9,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
 {
     [MarkdownExporterAttribute.GitHub]
     [JsonExporterAttribute.Full]
-    public class InsertTestsWithIntermittentTransactions
+    public class InsertTestsWithIntermittentTransactions : AsaDatabaseBenchmark
     {
         // The number of records to insert for the benchmark
         //[Params(25000,50000,100000)]
@@ -58,7 +58,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
 
             Parallel.For(0, X, i =>
             {
-                var obj = GetRandomObject(ObjectPadding);
+                var obj = InsertTestsWithoutTransactions.GetRandomObject(ObjectPadding);
                 DatabaseManager.Write(obj, runName);
                 BagOfObjects.Add(obj);
             });
@@ -69,26 +69,6 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             }
 
             DatabaseManager.Commit();
-        }
-
-        public static FileSystemObject GetRandomObject(int ObjectPadding = 0)
-        {
-            BagOfObjects.TryTake(out FileSystemObject obj);
-
-            if (obj != null)
-            {
-                obj.Path = CryptoHelpers.GetRandomString(32);
-                return obj;
-            }
-            else
-            {
-                return new FileSystemObject()
-                {
-                    // Pad this field with extra data.
-                    FileType = CryptoHelpers.GetRandomString(ObjectPadding),
-                    Path = CryptoHelpers.GetRandomString(32)
-                };
-            }
         }
 
         public void Setup()

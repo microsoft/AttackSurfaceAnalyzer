@@ -5,7 +5,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
 {
     [MarkdownExporterAttribute.GitHub]
     [JsonExporterAttribute.Full]
-    public class OpenTransactionTest
+    public class OpenTransactionTest : AsaDatabaseBenchmark
     {
         // The number of records to populate the database with before the benchmark
         //[Params(0,100000,200000,400000,800000,1600000,3200000)]

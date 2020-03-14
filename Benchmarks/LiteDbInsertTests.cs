@@ -9,7 +9,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
 {
     [MarkdownExporterAttribute.GitHub]
     [JsonExporterAttribute.Full]
-    public class LiteDbInsertTests
+    public class LiteDbInsertTests : AsaDatabaseBenchmark
     {
         // The number of records to insert for the benchmark
         //[Params(25000,50000,100000)]
@@ -56,26 +56,6 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             while (LiteDbManager.HasElements())
             {
                 Thread.Sleep(1);
-            }
-        }
-
-        public static FileSystemObject GetRandomObject(int ObjectPadding = 0)
-        {
-            BagOfObjects.TryTake(out FileSystemObject obj);
-
-            if (obj != null)
-            {
-                obj.Path = CryptoHelpers.GetRandomString(32);
-                return obj;
-            }
-            else
-            {
-                return new FileSystemObject()
-                {
-                    // Pad this field with extra data.
-                    FileType = CryptoHelpers.GetRandomString(ObjectPadding),
-                    Path = CryptoHelpers.GetRandomString(32)
-                };
             }
         }
 

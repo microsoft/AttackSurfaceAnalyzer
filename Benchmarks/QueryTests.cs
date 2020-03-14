@@ -10,7 +10,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
 {
     [MarkdownExporterAttribute.GitHub]
     [JsonExporterAttribute.Full]
-    public class QueryTests
+    public class QueryTests : AsaDatabaseBenchmark
     {
         // The number random records to populate the database with before the two compare runs are added
         [Params(0)]
@@ -114,25 +114,6 @@ namespace AttackSurfaceAnalyzer.Benchmarks
                 DatabaseManager.Write(obj, RunTwoName);
                 BagOfObjects.Add(obj);
             });
-        }
-
-        public static FileSystemObject GetRandomObject(int ObjectPadding = 0)
-        {
-            if (BagOfObjects.TryTake(out FileSystemObject obj))
-            {
-                obj.FileType = CryptoHelpers.GetRandomString(ObjectPadding);
-                obj.Path = CryptoHelpers.GetRandomString(32);
-                return obj;
-            }
-            else
-            {
-                return new FileSystemObject()
-                {
-                    // Pad this field with extra data.
-                    FileType = CryptoHelpers.GetRandomString(ObjectPadding),
-                    Path = CryptoHelpers.GetRandomString(32)
-                };
-            }
         }
 
         [Benchmark]

@@ -255,7 +255,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     while (reader.Read())
                     {
-                        return JsonSerializer.Deserialize<Settings>((byte[])reader["serialized"]);
+                        return JsonSerializer.Deserialize<Settings>((string)reader["serialized"]);
                     }
                 }
             }

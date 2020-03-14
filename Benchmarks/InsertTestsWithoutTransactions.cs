@@ -9,7 +9,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
 {
     [MarkdownExporterAttribute.GitHub]
     [JsonExporterAttribute.Full]
-    public class InsertTestsWithoutTransactions
+    public class InsertTestsWithoutTransactions : AsaDatabaseBenchmark
     {
         // The number of records to insert for the benchmark
         //[Params(25000,50000,100000)]
@@ -24,7 +24,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         // The amount of padding to add to the object in bytes
         // Default size is approx 530 bytes serialized
         // Does not include SQL overhead
-        [Params(1000,2000,3000,4000,5000,5500,6000,6500,7000,7500,8000,8500,9000,9500)]
+        [Params(0)]
         public int ObjectPadding { get; set; }
 
         // The number of Shards/Threads to use for Database operations
@@ -41,11 +41,8 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Params(4096)]
         public int PageSize { get; set; }
 
-        [Params("OFF")]
+        [Params("OFF", "NORMAL", "FULL", "EXTRA")]
         public string Synchronous { get; set; }
-
-        // Bag of reusable objects to write to the database.
-        private static readonly ConcurrentBag<FileSystemObject> BagOfObjects = new ConcurrentBag<FileSystemObject>();
 
         public InsertTestsWithoutTransactions()
         {
@@ -68,26 +65,6 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             while (DatabaseManager.HasElements())
             {
                 Thread.Sleep(1);
-            }
-        }
-
-        public static FileSystemObject GetRandomObject(int ObjectPadding = 0)
-        {
-            BagOfObjects.TryTake(out FileSystemObject obj);
-
-            if (obj != null)
-            {
-                obj.Path = CryptoHelpers.GetRandomString(32);
-                return obj;
-            }
-            else
-            {
-                return new FileSystemObject()
-                {
-                    // Pad this field with extra data.
-                    FileType = CryptoHelpers.GetRandomString(ObjectPadding),
-                    Path = CryptoHelpers.GetRandomString(32)
-                };
             }
         }
 
