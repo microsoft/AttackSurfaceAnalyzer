@@ -27,7 +27,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
     public static class DatabaseManager
     {
-        private const string SQL_CREATE_RUNS = "create table if not exists runs (run_id text, serialized blob, unique(run_id))";
+        private const string SQL_CREATE_RUNS = "create table if not exists runs (run_id text, type string, serialized blob, unique(run_id))";
         private const string SQL_CREATE_FILE_MONITORED = "create table if not exists file_system_monitored (run_id text, row_key text, timestamp text, change_type int, path text, old_path text, name text, old_name text, extended_results text, notify_filters text, serialized text)";
 
         private const string SQL_CREATE_COLLECT_RESULTS = "create table if not exists collect (run_id text, result_type text, identity text, row_key blob, serialized blob)";
@@ -679,6 +679,35 @@ namespace AttackSurfaceAnalyzer.Utils
             Connections.AsParallel().ForAll(cxn =>
             {
                 using var cmd = new SqliteCommand(SQL_GET_COLLECT_MISSING_IN_B, cxn.Connection, cxn.Transaction);
+                cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
+                cmd.Parameters.AddWithValue("@second_run_id", secondRunId);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var runId = reader["run_id"].ToString();
+                        var resultTypeString = reader["result_type"].ToString();
+                        if (runId != null && resultTypeString != null)
+                        {
+                            var wo = WriteObject.FromBytes((byte[])reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
+                            if (wo is WriteObject WO)
+                                output.Add(WO);
+                        }
+                    }
+                }
+            });
+
+            return output;
+        }
+
+        public static ConcurrentBag<WriteObject> GetAllMissing(string firstRunId, string secondRunId)
+        {
+            string SQL_GROUPED = "SELECT run_id, result_type, serialized, COUNT (*) FROM collect WHERE run_id = @first_run_id or run_id = @second_run_id GROUP BY identity HAVING COUNT(*) == 1;";
+            var output = new ConcurrentBag<WriteObject>();
+
+            Connections.AsParallel().ForAll(cxn =>
+            {
+                using var cmd = new SqliteCommand(SQL_GROUPED, cxn.Connection, cxn.Transaction);
                 cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
                 cmd.Parameters.AddWithValue("@second_run_id", secondRunId);
                 using (var reader = cmd.ExecuteReader())

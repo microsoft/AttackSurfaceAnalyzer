@@ -128,6 +128,12 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             DatabaseManager.GetModified(RunOneName, RunTwoName);
         }
 
+        [Benchmark]
+        public void GetAllMissingTest()
+        {
+            DatabaseManager.GetAllMissing(RunOneName, RunTwoName);
+        }
+
         public void PopulateDatabases()
         {
             Setup();

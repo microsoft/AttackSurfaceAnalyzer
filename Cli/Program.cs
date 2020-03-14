@@ -206,8 +206,9 @@ namespace AttackSurfaceAnalyzer.Cli
             CheckFirstRun();
             AsaTelemetry.Setup();
 
-            if (opts.FirstRunId == "Timestamps" || opts.SecondRunId == "Timestamps")
+            if (opts.FirstRunId is null || opts.SecondRunId is null)
             {
+                Log.Information("Provided null run Ids using latest two runs.");
                 List<string> runIds = DatabaseManager.GetLatestRunIds(2, "collect");
 
                 if (runIds.Count < 2)
