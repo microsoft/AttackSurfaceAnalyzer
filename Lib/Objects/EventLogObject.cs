@@ -14,9 +14,9 @@ namespace AttackSurfaceAnalyzer.Objects
         public List<string>? Data { get; set; }
         public string Event { get; set; }
 
-        public EventLogObject(string EventIn)
+        public EventLogObject(string Event)
         {
-            Event = EventIn;
+            this.Event = Event;
             ResultType = Types.RESULT_TYPE.LOG;
             Data = new List<string>();
         }

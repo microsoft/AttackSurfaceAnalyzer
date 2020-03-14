@@ -12,11 +12,11 @@ namespace AttackSurfaceAnalyzer.Objects
         public string? Subject { get; set; }
         public string? Pkcs7 { get; set; }
 
-        public CertificateObject(string StoreLocationIn, string StoreNameIn, string CertificateHashStringIn)
+        public CertificateObject(string StoreLocation, string StoreName, string CertificateHashString)
         {
-            StoreLocation = StoreLocationIn;
-            StoreName = StoreNameIn;
-            CertificateHashString = CertificateHashStringIn;
+            this.StoreLocation = StoreLocation;
+            this.StoreName = StoreName;
+            this.CertificateHashString = CertificateHashString;
             ResultType = RESULT_TYPE.CERTIFICATE;
         }
 

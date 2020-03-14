@@ -69,10 +69,10 @@ namespace AttackSurfaceAnalyzer.Objects
         /// </summary>   
         public string? ServiceName { get; set; }
 
-        public FirewallObject(string NameIn)
+        public FirewallObject(string Name)
         {
             ResultType = RESULT_TYPE.FIREWALL;
-            Name = NameIn;
+            this.Name = Name;
         }
 
         public override string Identity

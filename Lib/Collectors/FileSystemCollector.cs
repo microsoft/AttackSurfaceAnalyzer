@@ -108,7 +108,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         {
                             var certificate = X509Certificate.CreateFromCertFile(Path);
                             var certObj = new CertificateObject(
-                                StoreLocationIn: Path,
+                                StoreLocation: Path,
                                 StoreNameIn: "Disk",
                                 CertificateHashStringIn: certificate.GetCertHashString())
                             {
@@ -161,7 +161,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         public static FileSystemObject FilePathToFileSystemObject(string path, bool downloadCloud = false, bool includeContentHash = false)
         {
             FileSystemObject obj = new FileSystemObject(path);
-            
+
             // Get Owner/Group
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {

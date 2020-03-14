@@ -44,9 +44,9 @@ namespace AttackSurfaceAnalyzer.Objects
             return Permissions?.Count > 0;
         }
 
-        public FileSystemObject(string PathIn)
+        public FileSystemObject(string Path)
         {
-            Path = PathIn;
+            this.Path = Path;
             ResultType = RESULT_TYPE.FILE;
         }
     }

@@ -21,9 +21,9 @@ namespace AttackSurfaceAnalyzer.Objects
 
         public Dictionary<string, string>? Properties { get; set; }
 
-        public GroupAccountObject(string NameIn)
+        public GroupAccountObject(string Name)
         {
-            Name = NameIn;
+            this.Name = Name;
             ResultType = RESULT_TYPE.GROUP;
         }
 

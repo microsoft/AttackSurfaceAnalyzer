@@ -26,10 +26,10 @@ namespace AttackSurfaceAnalyzer.Objects
             get { return Subkeys?.Count ?? 0; }
         }
 
-        public RegistryObject(string KeyIn)
+        public RegistryObject(string Key)
         {
             ResultType = RESULT_TYPE.REGISTRY;
-            Key = KeyIn;
+            this.Key = Key;
         }
 
         public void AddSubKeys(string[] subkeysIn)

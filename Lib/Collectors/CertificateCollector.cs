@@ -43,9 +43,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                         foreach (X509Certificate2 certificate in store.Certificates)
                         {
                             var obj = new CertificateObject(
-                                StoreLocationIn: storeLocation.ToString(),
-                                StoreNameIn: storeName.ToString(),
-                                CertificateHashStringIn: certificate.GetCertHashString())
+                                StoreLocation: storeLocation.ToString(),
+                                StoreName: storeName.ToString(),
+                                CertificateHashString: certificate.GetCertHashString())
                             {
                                 Subject = certificate.Subject,
                                 Pkcs7 = certificate.Export(X509ContentType.Cert).ToString()
@@ -81,9 +81,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                         X509Certificate2 certificate = new X509Certificate2("/etc/ssl/certs/" + _line);
 
                         var obj = new CertificateObject(
-                                StoreLocationIn: StoreLocation.LocalMachine.ToString(),
-                                StoreNameIn: StoreName.Root.ToString(),
-                                CertificateHashStringIn: certificate.GetCertHashString())
+                                StoreLocation: StoreLocation.LocalMachine.ToString(),
+                                StoreName: StoreName.Root.ToString(),
+                                CertificateHashString: certificate.GetCertHashString())
                         {
                             Subject = certificate.Subject,
                             Pkcs7 = certificate.Export(X509ContentType.Cert).ToString()
@@ -132,9 +132,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                 while (X509Certificate2Enumerator.MoveNext())
                 {
                     var obj = new CertificateObject(
-                                StoreLocationIn: StoreLocation.LocalMachine.ToString(),
-                                StoreNameIn: StoreName.Root.ToString(),
-                                CertificateHashStringIn: X509Certificate2Enumerator.Current.GetCertHashString())
+                                StoreLocation: StoreLocation.LocalMachine.ToString(),
+                                StoreName: StoreName.Root.ToString(),
+                                CertificateHashString: X509Certificate2Enumerator.Current.GetCertHashString())
                     {
                         Subject = X509Certificate2Enumerator.Current.Subject,
                         Pkcs7 = X509Certificate2Enumerator.Current.GetRawCertDataString()
