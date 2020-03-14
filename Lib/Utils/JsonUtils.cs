@@ -41,7 +41,7 @@ namespace AttackSurfaceAnalyzer.Utils
         /// </summary>
         /// <param name="res">The RawCollectResult containing the JsonSerialized object to hydrate.</param>
         /// <returns>An appropriately typed collect object based on the collect result passed in, or null if the RESULT_TYPE is unknown.</returns>
-        public static CollectObject Hydrate(byte[] bytes, RESULT_TYPE type)
+        public static CollectObject? Hydrate(byte[] bytes, RESULT_TYPE type)
         {
             if (bytes == null)
             {

@@ -63,10 +63,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                     CompareRunId = secondRunId,
                     CompareRowKey = added.InstanceHash,
                     ChangeType = CHANGE_TYPE.CREATED,
-                    ResultType = added.ColObj.ResultType,
+                    ResultType = added.ColObj?.ResultType ?? RESULT_TYPE.UNKNOWN
                 };
                 Log.Debug($"Adding {obj.Identity}");
-                Results[$"{added.ColObj.ResultType.ToString()}_{CHANGE_TYPE.CREATED.ToString()}"].Enqueue(obj);
+                Results[$"{added.ColObj?.ResultType}_{CHANGE_TYPE.CREATED}"].Enqueue(obj);
             });
 
 
@@ -79,10 +79,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                     CompareRunId = secondRunId,
                     BaseRowKey = removed.InstanceHash,
                     ChangeType = CHANGE_TYPE.DELETED,
-                    ResultType = removed.ColObj.ResultType,
+                    ResultType = removed.ColObj?.ResultType ?? RESULT_TYPE.UNKNOWN
                 };
 
-                Results[$"{removed.ColObj.ResultType.ToString()}_{CHANGE_TYPE.DELETED.ToString()}"].Enqueue(obj);
+                Results[$"{removed.ColObj?.ResultType}_{CHANGE_TYPE.DELETED}"].Enqueue(obj);
             });
 
             modifyObjects.AsParallel().ForAll(modified =>
@@ -100,119 +100,122 @@ namespace AttackSurfaceAnalyzer.Collectors
                     BaseRowKey = modified.Item1.InstanceHash,
                     CompareRowKey = modified.Item2.InstanceHash,
                     ChangeType = CHANGE_TYPE.MODIFIED,
-                    ResultType = modified.Item1.ColObj.ResultType,
+                    ResultType = modified.Item1.ColObj?.ResultType ?? RESULT_TYPE.UNKNOWN
                 };
 
-                var properties = first.GetType().GetProperties();
+                var properties = first?.GetType().GetProperties();
 
-                foreach (var prop in properties)
+                if (properties is PropertyInfo[])
                 {
-                    try
+                    foreach (var prop in properties)
                     {
-                        var propName = prop.Name;
-                        List<Diff> diffs;
-                        object? added = null;
-                        object? removed = null;
+                        try
+                        {
+                            var propName = prop.Name;
+                            List<Diff> diffs;
+                            object? added = null;
+                            object? removed = null;
 
-                        object? firstProp = prop.GetValue(first);
-                        object? secondProp = prop.GetValue(second);
-                        if (firstProp == null && secondProp == null)
-                        {
-                            continue;
-                        }
-                        else if (firstProp == null && secondProp != null)
-                        {
-                            added = prop.GetValue(second);
-                            diffs = GetDiffs(prop, added, null);
-                        }
-                        else if (secondProp == null && firstProp != null)
-                        {
-                            removed = prop.GetValue(first);
-                            diffs = GetDiffs(prop, null, removed);
-                        }
-                        else if (firstProp != null && secondProp != null && compareLogic.Compare(firstProp, secondProp).AreEqual)
-                        {
-                            continue;
-                        }
-                        else
-                        {
-                            var firstVal = prop.GetValue(first);
-                            var secondVal = prop.GetValue(second);
-
-                            if (firstVal is List<string> && secondVal is List<string>)
+                            object? firstProp = prop.GetValue(first);
+                            object? secondProp = prop.GetValue(second);
+                            if (firstProp == null && secondProp == null)
                             {
-                                added = ((List<string>)secondVal).Except((List<string>)firstVal);
-                                removed = ((List<string>)firstVal).Except((List<string>?)prop.GetValue(second));
-                                if (!((IEnumerable<string>)added).Any())
-                                {
-                                    added = null;
-                                }
-                                if (!((IEnumerable<string>)removed).Any())
-                                {
-                                    removed = null;
-                                }
+                                continue;
                             }
-                            else if (firstVal is List<KeyValuePair<string, string>> && secondVal is List<KeyValuePair<string,string>>)
+                            else if (firstProp == null && secondProp != null)
                             {
-                                added = ((List<KeyValuePair<string, string>>)secondVal).Except((List<KeyValuePair<string, string>>)firstVal);
-                                removed = ((List<KeyValuePair<string, string>>)firstVal).Except((List<KeyValuePair<string, string>>)secondVal);
-                                if (!((IEnumerable<KeyValuePair<string, string>>)added).Any())
-                                {
-                                    added = null;
-                                }
-                                if (!((IEnumerable<KeyValuePair<string, string>>)removed).Any())
-                                {
-                                    removed = null;
-                                }
+                                added = prop.GetValue(second);
+                                diffs = GetDiffs(prop, added, null);
                             }
-                            else if (firstVal is Dictionary<string, string> && secondVal is Dictionary<string,string>)
+                            else if (secondProp == null && firstProp != null)
                             {
-                                added = ((Dictionary<string, string>)secondVal)
-                                    .Except((Dictionary<string, string>)firstVal)
-                                    .ToDictionary(x => x.Key, x => x.Value);
-
-                                removed = ((Dictionary<string, string>)firstVal)
-                                    .Except((Dictionary<string, string>)secondVal)
-                                    .ToDictionary(x => x.Key, x => x.Value);
-                                if (!((IEnumerable<KeyValuePair<string, string>>)added).Any())
-                                {
-                                    added = null;
-                                }
-                                if (!((IEnumerable<KeyValuePair<string, string>>)removed).Any())
-                                {
-                                    removed = null;
-                                }
+                                removed = prop.GetValue(first);
+                                diffs = GetDiffs(prop, null, removed);
                             }
-                            else if ((firstVal is string || firstVal is int || firstVal is bool) && (secondVal is string || secondVal is int || secondVal is bool))
+                            else if (firstProp != null && secondProp != null && compareLogic.Compare(firstProp, secondProp).AreEqual)
                             {
-                                obj.Diffs.Add(new Diff(prop.Name, firstVal, secondVal));
+                                continue;
                             }
                             else
                             {
-                                obj.Diffs.Add(new Diff(prop.Name, firstVal, secondVal));
-                            }
+                                var firstVal = prop.GetValue(first);
+                                var secondVal = prop.GetValue(second);
 
-                            diffs = GetDiffs(prop, added, removed);
+                                if (firstVal is List<string> && secondVal is List<string>)
+                                {
+                                    added = ((List<string>)secondVal).Except((List<string>)firstVal);
+                                    removed = ((List<string>)firstVal).Except((List<string>?)prop.GetValue(second));
+                                    if (!((IEnumerable<string>)added).Any())
+                                    {
+                                        added = null;
+                                    }
+                                    if (!((IEnumerable<string>)removed).Any())
+                                    {
+                                        removed = null;
+                                    }
+                                }
+                                else if (firstVal is List<KeyValuePair<string, string>> && secondVal is List<KeyValuePair<string, string>>)
+                                {
+                                    added = ((List<KeyValuePair<string, string>>)secondVal).Except((List<KeyValuePair<string, string>>)firstVal);
+                                    removed = ((List<KeyValuePair<string, string>>)firstVal).Except((List<KeyValuePair<string, string>>)secondVal);
+                                    if (!((IEnumerable<KeyValuePair<string, string>>)added).Any())
+                                    {
+                                        added = null;
+                                    }
+                                    if (!((IEnumerable<KeyValuePair<string, string>>)removed).Any())
+                                    {
+                                        removed = null;
+                                    }
+                                }
+                                else if (firstVal is Dictionary<string, string> && secondVal is Dictionary<string, string>)
+                                {
+                                    added = ((Dictionary<string, string>)secondVal)
+                                        .Except((Dictionary<string, string>)firstVal)
+                                        .ToDictionary(x => x.Key, x => x.Value);
+
+                                    removed = ((Dictionary<string, string>)firstVal)
+                                        .Except((Dictionary<string, string>)secondVal)
+                                        .ToDictionary(x => x.Key, x => x.Value);
+                                    if (!((IEnumerable<KeyValuePair<string, string>>)added).Any())
+                                    {
+                                        added = null;
+                                    }
+                                    if (!((IEnumerable<KeyValuePair<string, string>>)removed).Any())
+                                    {
+                                        removed = null;
+                                    }
+                                }
+                                else if ((firstVal is string || firstVal is int || firstVal is bool) && (secondVal is string || secondVal is int || secondVal is bool))
+                                {
+                                    obj.Diffs.Add(new Diff(prop.Name, firstVal, secondVal));
+                                }
+                                else
+                                {
+                                    obj.Diffs.Add(new Diff(prop.Name, firstVal, secondVal));
+                                }
+
+                                diffs = GetDiffs(prop, added, removed);
+                            }
+                            foreach (var diff in diffs)
+                            {
+                                obj.Diffs.Add(diff);
+                            }
                         }
-                        foreach (var diff in diffs)
+                        catch (InvalidCastException e)
                         {
-                            obj.Diffs.Add(diff);
+                            Log.Debug(e, $"Failed to cast {JsonSerializer.Serialize(prop)}");
                         }
-                    }
-                    catch (InvalidCastException e)
-                    {
-                        Log.Debug(e, $"Failed to cast {JsonSerializer.Serialize(prop)}");
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Debug(e, "Generic exception. Tell a programmer.");
-                        Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
-                        ExceptionEvent.Add("Exception Type", e.GetType().ToString());
-                        AsaTelemetry.TrackEvent("CompareException", ExceptionEvent);
+                        catch (Exception e)
+                        {
+                            Log.Debug(e, "Generic exception. Tell a programmer.");
+                            Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
+                            ExceptionEvent.Add("Exception Type", e.GetType().ToString());
+                            AsaTelemetry.TrackEvent("CompareException", ExceptionEvent);
+                        }
                     }
                 }
 
-                Results[$"{modified.Item1.ColObj.ResultType.ToString()}_{CHANGE_TYPE.MODIFIED.ToString()}"].Enqueue(obj);
+                Results[$"{modified.Item1.ColObj?.ResultType.ToString()}_{CHANGE_TYPE.MODIFIED}"].Enqueue(obj);
             });
 
             foreach (var empty in Results.Where(x => x.Value.Count == 0))

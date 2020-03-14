@@ -227,11 +227,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             if (disposing)
             {
-                if (watcher != null)
-                {
-                    watcher.Dispose();
-                    watcher = null;
-                }
+                watcher.Dispose();
             }
         }
     }

@@ -180,8 +180,6 @@ namespace AttackSurfaceAnalyzer.Utils
                             }
                         }
 
-                        int count = 0, dictCount = 0;
-
                         switch (clause.Operation)
                         {
                             case OPERATION.EQ:
@@ -282,43 +280,30 @@ namespace AttackSurfaceAnalyzer.Utils
                                 }
                                 break;
 
-
-
+                            // If any of the data values are greater than the first provided data value
                             case OPERATION.GT:
-                                foreach (string val in valsToCheck)
-                                {
-                                    count += (int.Parse(val, CultureInfo.InvariantCulture) > int.Parse(clause.Data?[0] ?? $"{int.MinValue}", CultureInfo.InvariantCulture)) ? 1 : 0;
-                                }
-                                if (count == valsToCheck.Count) { break; }
+                                if (valsToCheck.Where(val => (int.Parse(val, CultureInfo.InvariantCulture) > int.Parse(clause.Data?[0] ?? $"{int.MinValue}", CultureInfo.InvariantCulture))).Any()) { break; }
                                 return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
 
+                            // If any of the data values are less than the first provided data value
                             case OPERATION.LT:
-                                foreach (string val in valsToCheck)
-                                {
-                                    count += (int.Parse(val, CultureInfo.InvariantCulture) < int.Parse(clause.Data?[0] ?? $"{int.MinValue}", CultureInfo.InvariantCulture)) ? 1 : 0;
-                                }
-                                if (count == valsToCheck.Count) { break; }
+                                if (valsToCheck.Where(val => (int.Parse(val, CultureInfo.InvariantCulture) < int.Parse(clause.Data?[0] ?? $"{int.MaxValue}", CultureInfo.InvariantCulture))).Any()) { break; }
                                 return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
 
+                            // If any of the regexes match any of the values
                             case OPERATION.REGEX:
-                                foreach (string val in valsToCheck)
+                                if (clause.Data is List<string> RegexList)
                                 {
-                                    if (clause.Data is List<string> RegexList)
+                                    var regexList = RegexList.Select(x => new Regex(x));
+
+                                    if (valsToCheck.Where(x => regexList.Where(y => y.IsMatch(x)).Any()).Any())
                                     {
-                                        foreach (string datum in RegexList)
-                                        {
-                                            // TODO: Potential for optimization to cache these somewhere
-                                            var r = new Regex(datum);
-                                            if (r.IsMatch(val))
-                                            {
-                                                count++;
-                                            }
-                                        }
+                                        break;
                                     }
                                 }
-                                if (count == valsToCheck.Count) { break; }
                                 return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
 
+                            // Ignores provided data. Checks if the named property has changed.
                             case OPERATION.WAS_MODIFIED:
                                 if ((valsToCheck.Count == 2) && (valsToCheck[0] == valsToCheck[1]))
                                 {

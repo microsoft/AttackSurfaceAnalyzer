@@ -17,7 +17,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public abstract class BaseCollector : IPlatformRunnable
     {
-        public string RunId { get; set; }
+        public string RunId { get; set; } = "";
 
         private RUN_STATUS _running = RUN_STATUS.NOT_STARTED;
 

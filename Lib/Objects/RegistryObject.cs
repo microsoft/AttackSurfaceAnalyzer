@@ -15,7 +15,7 @@ namespace AttackSurfaceAnalyzer.Objects
         public Dictionary<string, string>? Values { get; set; }
         public List<string>? Subkeys { get; set; }
         public string? PermissionsString { get; set; }
-        public Dictionary<string, List<string>>? Permissions { get; set; }
+        public Dictionary<string, List<string>> Permissions { get; set; } = new Dictionary<string, List<string>>();
 
         public int ValueCount
         {
@@ -41,12 +41,16 @@ namespace AttackSurfaceAnalyzer.Objects
             Subkeys.AddRange(subkeysIn);
         }
 
-        private static List<string> GetSubkeys(RegistryKey key)
+        public static List<string> GetSubkeys(RegistryKey key)
         {
+            if (key is null)
+            {
+                return new List<string>();
+            }
             return new List<string>(key.GetSubKeyNames());
         }
 
-        private static Dictionary<string, string> GetValues(RegistryKey key)
+        public static Dictionary<string, string> GetValues(RegistryKey key)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
             // Write values under key and commit

@@ -165,22 +165,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 Log.Debug(e, "Failed to get permissions for {0}", regObj.Key);
             }
 
-
-            foreach (string valueName in registryKey.GetValueNames())
-            {
-                try
-                {
-                    var value = registryKey.GetValue(valueName).ToString();
-                    if (!string.IsNullOrEmpty(value))
-                    {
-                        regObj.Values.Add(valueName, value);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Log.Debug(ex, "Found an exception processing registry values of {0}.", registryKey.Name);
-                }
-            }
+            regObj.Values = RegistryObject.GetValues(registryKey);
 
             return regObj;
         }

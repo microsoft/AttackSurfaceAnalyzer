@@ -36,7 +36,12 @@ namespace AttackSurfaceAnalyzer.Objects
             Connection = new SqliteConnection($"Data source={Source}");
             Connection.Open();
 
-            var command = string.Format(CultureInfo.InvariantCulture, PRAGMAS, settings.Synchronous, settings.JournalMode, settings.PageSize, settings.LockingMode);
+            string command = string.Format(CultureInfo.InvariantCulture,
+                                           PRAGMAS,
+                                           settings.Synchronous,
+                                           settings.JournalMode,
+                                           settings.PageSize,
+                                           settings.LockingMode);
             using var cmd = new SqliteCommand(command, Connection);
             cmd.ExecuteNonQuery();
 
@@ -124,14 +129,14 @@ namespace AttackSurfaceAnalyzer.Objects
                 using var cmd = new SqliteCommand(SQL_INSERT_COLLECT_RESULT, Connection, Transaction);
                 cmd.Parameters.AddWithValue("@run_id", objIn.RunId);
                 cmd.Parameters.AddWithValue("@row_key", objIn.GetRowKey());
-                cmd.Parameters.AddWithValue("@identity", objIn.ColObj.Identity);
+                cmd.Parameters.AddWithValue("@identity", objIn.ColObj?.Identity);
                 cmd.Parameters.AddWithValue("@serialized", objIn.GetSerialized());
-                cmd.Parameters.AddWithValue("@result_type", objIn.ColObj.ResultType);
+                cmd.Parameters.AddWithValue("@result_type", objIn.ColObj?.ResultType);
                 cmd.ExecuteNonQuery();
             }
             catch (SqliteException e)
             {
-                Log.Debug(exception: e, $"Error writing {objIn.ColObj.Identity} to database.");
+                Log.Debug(exception: e, $"Error writing {objIn.ColObj?.Identity} to database.");
             }
             catch (NullReferenceException)
             {

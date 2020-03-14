@@ -226,12 +226,23 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
 
                 // Marshal the TOKEN_ELEVATION struct from native to .NET object.
-                TOKEN_ELEVATION elevation = (TOKEN_ELEVATION)Marshal.PtrToStructure(
-                    pTokenElevation, typeof(TOKEN_ELEVATION));
+                //TOKEN_ELEVATION elevation = (TOKEN_ELEVATION)
 
-                // TOKEN_ELEVATION.TokenIsElevated is a non-zero value if the token 
-                // has elevated privileges; otherwise, a zero value.
-                fIsElevated = (elevation.TokenIsElevated != 0);
+                // Marshal the TOKEN_MANDATORY_LABEL struct from native to .NET object.
+                var elevation = Marshal.PtrToStructure(pTokenElevation, typeof(TOKEN_ELEVATION));
+
+                if (elevation is TOKEN_ELEVATION elevationToken)
+                {
+                    // TOKEN_ELEVATION.TokenIsElevated is a non-zero value if the token 
+                    // has elevated privileges; otherwise, a zero value.
+                    fIsElevated = (elevationToken.TokenIsElevated != 0);
+                }
+                else
+                {
+                    throw new NullReferenceException(nameof(elevation));
+                }
+
+               
             }
             finally
             {

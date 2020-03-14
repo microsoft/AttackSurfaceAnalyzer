@@ -7,8 +7,8 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public readonly struct WriteObject : IEquatable<WriteObject>
     {
-        public CollectObject ColObj { get; }
-        public string RunId { get; }
+        public readonly CollectObject? ColObj { get; }
+        public readonly string RunId { get; }
         private readonly byte[] _rowKey;
         private readonly byte[] _serialized;
         public byte[] GetRowKey() { return _rowKey; }
@@ -68,7 +68,7 @@ namespace AttackSurfaceAnalyzer.Objects
         {
             get
             {
-                return ColObj.Identity;
+                return ColObj?.Identity ?? string.Empty;
             }
         }
 

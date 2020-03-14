@@ -10,7 +10,7 @@ namespace AttackSurfaceAnalyzer.Objects
             if (authenticodeInfo != null)
             {
                 IsAuthenticodeValid = authenticodeInfo.IsAuthenticodeValid;
-                SignedHash = authenticodeInfo.SignedHash;
+                SignedHash = Convert.ToBase64String(authenticodeInfo.SignedHash);
                 SignerSerialNumber = authenticodeInfo.SignerSerialNumber;
                 SigningCertificate = new SerializableCertificate(authenticodeInfo.SigningCertificate);
             }
@@ -26,7 +26,7 @@ namespace AttackSurfaceAnalyzer.Objects
         }
 
         public bool IsAuthenticodeValid { get; set; }
-        public byte[]? SignedHash { get; set; }
+        public string? SignedHash { get; set; }
         public string? SignerSerialNumber { get; set; }
         public SerializableCertificate? SigningCertificate { get; set; }
 

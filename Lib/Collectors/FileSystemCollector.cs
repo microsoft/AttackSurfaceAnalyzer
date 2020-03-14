@@ -156,7 +156,6 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <returns></returns>
         public static FileSystemObject FilePathToFileSystemObject(string path, bool downloadCloud = false, bool includeContentHash = false)
         {
-            if (path == null) { return null; }
             FileSystemObject obj = new FileSystemObject(path);
             
             // Get Owner/Group
@@ -175,7 +174,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     try
                     {
                         // Translate owner into the string representation.
-                        obj.Owner = (oid.Translate(typeof(NTAccount)) as NTAccount).Value;
+                        obj.Owner = (oid.Translate(typeof(NTAccount)) as NTAccount)?.Value;
                     }
                     catch (IdentityNotMappedException)
                     {
@@ -184,7 +183,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     try
                     {
                         // Translate group into the string representation.
-                        obj.Group = (gid.Translate(typeof(NTAccount)) as NTAccount).Value;
+                        obj.Group = (gid.Translate(typeof(NTAccount)) as NTAccount)?.Value;
                     }
                     catch (IdentityNotMappedException)
                     {
@@ -193,31 +192,34 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
 
                     var rules = fileSecurity.GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier));
-                    foreach (FileSystemAccessRule rule in rules)
+                    foreach (FileSystemAccessRule? rule in rules)
                     {
-                        string name = rule.IdentityReference.Value;
+                        if (rule != null)
+                        {
+                            string name = rule.IdentityReference.Value;
 
-                        try
-                        {
-                            name = rule.IdentityReference.Translate(typeof(NTAccount)).Value;
-                        }
-                        catch (IdentityNotMappedException)
-                        {
-                            // This is fine. Some SIDs don't map to NT Accounts.
-                        }
-
-                        foreach (var permission in rule.FileSystemRights.ToString().Split(','))
-                        {
-                            if (obj.Permissions.ContainsKey(name))
+                            try
                             {
-                                obj.Permissions[name] = $"{obj.Permissions[name]},{permission}";
+                                name = rule.IdentityReference.Translate(typeof(NTAccount)).Value;
                             }
-                            else
+                            catch (IdentityNotMappedException)
                             {
-                                obj.Permissions.Add(name, permission);
+                                // This is fine. Some SIDs don't map to NT Accounts.
+                            }
+                            obj.Permissions = new Dictionary<string, string>();
+
+                            foreach (var permission in rule.FileSystemRights.ToString().Split(','))
+                            {
+                                if (obj.Permissions.ContainsKey(name))
+                                {
+                                    obj.Permissions[name] = $"{obj.Permissions[name]},{permission}";
+                                }
+                                else
+                                {
+                                    obj.Permissions.Add(name, permission);
+                                }
                             }
                         }
-
                     }
                 }
                 catch (Exception e) when (
@@ -246,6 +248,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     obj.SetGid = file.IsSetGroup;
                     obj.SetUid = file.IsSetUser;
 
+                    obj.Permissions = new Dictionary<string, string>();
                     if (file.FileAccessPermissions.ToString().Equals("AllPermissions", StringComparison.InvariantCulture))
                     {
                         obj.Permissions.Add("User", "Read,Write,Execute");
