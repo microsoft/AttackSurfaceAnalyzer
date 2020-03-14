@@ -729,6 +729,35 @@ namespace AttackSurfaceAnalyzer.Utils
             return output;
         }
 
+        public static ConcurrentBag<WriteObject> GetAllMissing2(string firstRunId, string secondRunId)
+        {
+            string SQL_GROUPED = "SELECT run_id, result_type, serialized FROM collect WHERE run_id = @first_run_id OR run_id = @second_run_id AND identity in (SELECT identity FROM collect WHERE run_id = @first_run_id OR run_id = @second_run_id GROUP BY identity HAVING COUNT(*) == 1);";
+            var output = new ConcurrentBag<WriteObject>();
+
+            Connections.AsParallel().ForAll(cxn =>
+            {
+                using var cmd = new SqliteCommand(SQL_GROUPED, cxn.Connection, cxn.Transaction);
+                cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
+                cmd.Parameters.AddWithValue("@second_run_id", secondRunId);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var runId = reader["run_id"].ToString();
+                        var resultTypeString = reader["result_type"].ToString();
+                        if (runId != null && resultTypeString != null)
+                        {
+                            var wo = WriteObject.FromBytes((byte[])reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
+                            if (wo is WriteObject WO)
+                                output.Add(WO);
+                        }
+                    }
+                }
+            });
+
+            return output;
+        }
+
         public static ConcurrentBag<(WriteObject,WriteObject)> GetModified(string firstRunId, string secondRunId)
         {
             var output = new ConcurrentBag<(WriteObject,WriteObject)>();

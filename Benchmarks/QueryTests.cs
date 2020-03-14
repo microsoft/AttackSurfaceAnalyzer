@@ -3,6 +3,7 @@ using AttackSurfaceAnalyzer.Utils;
 using BenchmarkDotNet.Attributes;
 using System.Collections.Concurrent;
 using System.Linq;
+using System.Security.Policy;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -23,11 +24,11 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         public int ObjectPadding { get; set; }
 
         // The number of records in run one
-        [Params(10000)]
+        [Params(100000)]
         public int RunOneSize { get; set; }
 
         // The number of records in run two
-        [Params(10000)]
+        [Params(100000)]
         public int RunTwoSize { get; set; }
 
         // Percent of identities which should match between the two runs (% of the smaller run)
@@ -116,22 +117,35 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             });
         }
 
-        [Benchmark]
-        public void GetMissingFromFirstTest()
-        {
-            DatabaseManager.GetMissingFromFirst(RunOneName, RunTwoName);
-        }
+        //[Benchmark]
+        //public void GetMissingFromFirstTest()
+        //{
+        //    DatabaseManager.GetMissingFromFirst(RunOneName, RunTwoName);
+        //}
 
-        [Benchmark]
-        public void GetModifiedTest()
-        {
-            DatabaseManager.GetModified(RunOneName, RunTwoName);
-        }
+        //[Benchmark]
+        //public void GetModifiedTest()
+        //{
+        //    DatabaseManager.GetModified(RunOneName, RunTwoName);
+        //}
 
-        [Benchmark]
+        [Benchmark (Baseline = true)]
         public void GetAllMissingTest()
         {
             DatabaseManager.GetAllMissing(RunOneName, RunTwoName);
+        }
+
+        [Benchmark]
+        public void GetMissingFromFirstTwice()
+        {
+            DatabaseManager.GetMissingFromFirst(RunOneName, RunTwoName);
+            DatabaseManager.GetMissingFromFirst(RunTwoName, RunOneName);
+        }
+
+        [Benchmark]
+        public void GetAllMissing2Test()
+        {
+            DatabaseManager.GetAllMissing2(RunOneName, RunTwoName);
         }
 
         public void PopulateDatabases()
