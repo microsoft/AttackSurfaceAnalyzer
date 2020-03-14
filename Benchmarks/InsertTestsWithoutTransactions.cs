@@ -13,12 +13,12 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     {
         // The number of records to insert for the benchmark
         //[Params(25000,50000,100000)]
-        [Params(10000)]
+        [Params(1000000)]
         public int N { get; set; }
 
         // The number of records to populate the database with before the benchmark
         //[Params(0,100000,200000,400000,800000,1600000,3200000)]
-        [Params(1000000,5000000,10000000)]
+        [Params(0,10000000)]
         public int StartingSize { get; set; }
 
         // The amount of padding to add to the object in bytes

@@ -33,8 +33,6 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         public int Shards { get; set; }
 
         // Bag of reusable objects to write to the database.
-        private static readonly ConcurrentBag<FileSystemObject> BagOfObjects = new ConcurrentBag<FileSystemObject>();
-
         public LiteDbInsertTests()
         {
             Logger.Setup(true, true);

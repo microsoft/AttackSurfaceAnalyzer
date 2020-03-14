@@ -709,24 +709,22 @@ namespace AttackSurfaceAnalyzer.Utils
                 using var cmd = new SqliteCommand(SQL_GET_COLLECT_MODIFIED, cxn.Connection, cxn.Transaction);
                 cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
                 cmd.Parameters.AddWithValue("@second_run_id", secondRunId);
-                using (var reader = cmd.ExecuteReader())
+                using var reader = cmd.ExecuteReader();
+                while (reader.Read())
                 {
-                    while (reader.Read())
-                    {
-                        var aRunId = reader["a_run_id"].ToString();
-                        var bRunId = reader["b_run_id"].ToString();
-                        var aResultType = reader["a_result_type"].ToString();
-                        var bResultType = reader["b_result_type"].ToString();
+                    var aRunId = reader["a_run_id"].ToString();
+                    var bRunId = reader["b_run_id"].ToString();
+                    var aResultType = reader["a_result_type"].ToString();
+                    var bResultType = reader["b_result_type"].ToString();
 
-                        if (aRunId != null && bRunId != null && aResultType != null && bResultType != null)
+                    if (aRunId != null && bRunId != null && aResultType != null && bResultType != null)
+                    {
+                        var val1 = WriteObject.FromBytes((byte[])reader["a_serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), aResultType), aRunId);
+                        var val2 = WriteObject.FromBytes((byte[])reader["b_serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), bResultType), bRunId);
+
+                        if (val1 is WriteObject V1 && val2 is WriteObject V2)
                         {
-                            var val1 = WriteObject.FromBytes((byte[])reader["a_serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), aResultType), aRunId);
-                            var val2 = WriteObject.FromBytes((byte[])reader["b_serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), bResultType), bRunId);
-                            
-                            if(val1 is WriteObject V1 && val2 is WriteObject V2)
-                            {
-                                output.Add((V1, V2));
-                            }
+                            output.Add((V1, V2));
                         }
                     }
                 }
