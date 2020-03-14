@@ -19,11 +19,11 @@ namespace AttackSurfaceAnalyzer
 
     public class CompareCommandOptions : CommandOptions
     {
-        [Option(HelpText = "First run (pre-install) identifier", Default = "Timestamps")]
-        public string FirstRunId { get; set; } = "Timestamps";
+        [Option(HelpText = "First run (pre-install) identifier")]
+        public string FirstRunId { get; set; }
 
-        [Option(HelpText = "Second run (post-install) identifier", Default = "Timestamps")]
-        public string SecondRunId { get; set; } =  "Timestamps";
+        [Option(HelpText = "Second run (post-install) identifier")]
+        public string SecondRunId { get; set; }
 
         [Option(HelpText = "Base name of output file", Default = "output")]
         public string? OutputBaseFilename { get; set; }
@@ -41,10 +41,10 @@ namespace AttackSurfaceAnalyzer
     [Verb("export-collect", HelpText = "Compare ASA executions and output a .json report")]
     public class ExportCollectCommandOptions : CommandOptions
     {
-        [Option(HelpText = "First run (pre-install) identifier", Default = "Timestamps")]
+        [Option(HelpText = "First run (pre-install) identifier")]
         public string? FirstRunId { get; set; }
 
-        [Option(HelpText = "Second run (post-install) identifier", Default = "Timestamps")]
+        [Option(HelpText = "Second run (post-install) identifier")]
         public string? SecondRunId { get; set; }
 
         [Option(HelpText = "Directory to output to", Default = ".")]
@@ -76,7 +76,7 @@ namespace AttackSurfaceAnalyzer
     [Verb("collect", HelpText = "Collect operating system metrics")]
     public class CollectCommandOptions : CommandOptions
     {
-        [Option(HelpText = "Identifies which run this is (used during comparison)", Default = "Timestamp")]
+        [Option(HelpText = "Identifies which run this is.")]
         public string? RunId { get; set; }
 
         [Option('c', "certificates", Required = false, HelpText = "Enable the certificate store collector")]
