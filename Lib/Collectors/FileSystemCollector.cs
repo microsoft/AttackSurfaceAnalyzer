@@ -109,8 +109,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                             var certificate = X509Certificate.CreateFromCertFile(Path);
                             var certObj = new CertificateObject(
                                 StoreLocation: Path,
-                                StoreNameIn: "Disk",
-                                CertificateHashStringIn: certificate.GetCertHashString())
+                                StoreName: "Disk",
+                                CertificateHashString: certificate.GetCertHashString())
                             {
                                 Subject = certificate.Subject,
                                 Pkcs7 = certificate.Export(X509ContentType.Cert).ToString()
