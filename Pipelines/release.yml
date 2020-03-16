@@ -4,7 +4,7 @@ trigger:
   batch: true
   paths:
     include:
-    - Asa
+    - Cli
     - Lib
   branches:
     include:
@@ -62,14 +62,14 @@ stages:
       displayName: 'Publish ASA Windows'
       inputs:
         command: publish
-        projects: 'Asa/Asa.csproj'
+        projects: 'Cli/Cli.csproj'
         arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)\windows\ -r win-x64'
         zipAfterPublish: false
 
     - task: DotNetCoreCLI@2
       displayName: 'Build LIB NuPkg'
       inputs:
-        projects: 'Lib/AsaLib.csproj'
+        projects: 'Lib/Lib.csproj'
         arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)\lib\'
 
     - task: AntiMalware@3
@@ -244,7 +244,7 @@ stages:
       displayName: 'Publish ASA Linux'
       inputs:
           command: publish
-          projects: 'Asa/Asa.csproj'
+          projects: 'Cli/Cli.csproj'
           arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)/linux -r linux-x64'
           zipAfterPublish: false
 
@@ -313,7 +313,7 @@ stages:
       displayName: 'Publish ASA macOS'
       inputs:
           command: publish
-          projects: 'Asa/Asa.csproj'
+          projects: 'Cli/Cli.csproj'
           arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)/macos -r osx-x64'
           zipAfterPublish: false
     - task: CmdLine@2

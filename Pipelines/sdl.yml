@@ -38,7 +38,7 @@ steps:
 - task: Semmle@0
   displayName: Semmle C#
   inputs:
-    sourceCodeDirectory: '$(Build.SourcesDirectory)\Asa'
+    sourceCodeDirectory: '$(Build.SourcesDirectory)\'
     language: 'csharp'
     cleanupBuildCommands: 'dotnet clean'
     buildCommands: 'dotnet build'
@@ -50,7 +50,7 @@ steps:
 - task: Semmle@0
   displayName: Semmle JS
   inputs:
-    sourceCodeDirectory: '$(Build.SourcesDirectory)\Asa\wwwroot'
+    sourceCodeDirectory: '$(Build.SourcesDirectory)\Cli\wwwroot'
     language: 'javascript'
     includeNodeModules: false
     querySuite: 'Recommended'
@@ -83,7 +83,7 @@ steps:
   displayName: Build Asa
   inputs:
     command: 'build'
-    projects: '$(build.sourcesdirectory)\Asa\Asa.csproj'
+    projects: '$(build.sourcesdirectory)\Cli\Cli.csproj'
 
 - task: ComponentGovernanceComponentDetection@0
   displayName: Component Detection
