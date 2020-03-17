@@ -1,10 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
     <IsPackable>false</IsPackable>
-    <ReleaseVersion>2.1-alpha</ReleaseVersion>
+    <AssemblyName>AsaTests</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

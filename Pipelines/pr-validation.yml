@@ -38,13 +38,13 @@ stages:
     - task: DotNetCoreCLI@2
       displayName: 'Build Tests'
       inputs:
-        projects: 'AsaTests/AsaTests.csproj'
+        projects: 'Tests/Tests.csproj'
         arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)\Tests'
 
     - task: VSTest@2
       displayName: 'Run Tests'
       inputs:
-        testAssemblyVer2: AsaTests.dll
+        testAssemblyVer2: Microsoft.CST.AttackSurfaceAnalyzer.Tests.dll
         searchFolder: '$(build.binariesdirectory)\Tests'
       continueOnError: true
 

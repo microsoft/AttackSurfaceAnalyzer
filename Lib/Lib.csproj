@@ -3,7 +3,6 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
     <RootNamespace>AttackSurfaceAnalyzer</RootNamespace>
-    <ReleaseVersion>2.1-alpha</ReleaseVersion>
     <PackageId>AttackSurfaceAnalyzer</PackageId>
     <PackageVersion>0.0.0</PackageVersion>
     <Authors>Microsoft Corporation</Authors>
@@ -15,7 +14,7 @@
 
 This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI and GUI available on GitHub.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <AssemblyName>Microsoft.CST.AttackSurfaceAnalyzer.Lib</AssemblyName>
+    <AssemblyName>AsaLib</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="CompareNETObjects" Version="4.65.0" />
