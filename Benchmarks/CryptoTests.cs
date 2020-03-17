@@ -30,6 +30,8 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         static HashAlgorithm murmur128 = MurmurHash.Create128();
         static HashAlgorithm sha256 = SHA256.Create();
 
+        static HashAlgorithm sha512 = SHA512.Create();
+
         private ConcurrentQueue<byte[]> hashObjects = new ConcurrentQueue<byte[]>();
 
 #nullable disable
@@ -48,6 +50,24 @@ namespace AttackSurfaceAnalyzer.Benchmarks
                 if (result is byte[])
                 {
                     _ = sha256.ComputeHash(result);
+                    hashObjects.Enqueue(result);
+                }
+                else
+                {
+                    Log.Information("The queue is polluted with nulls");
+                }
+            }
+        }
+
+        [Benchmark]
+        public void Generate_N_SHA512_Hashes()
+        {
+            for (int i = 0; i < N; i++)
+            {
+                hashObjects.TryDequeue(out byte[]? result);
+                if (result is byte[])
+                {
+                    _ = sha512.ComputeHash(result);
                     hashObjects.Enqueue(result);
                 }
                 else
