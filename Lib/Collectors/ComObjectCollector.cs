@@ -102,7 +102,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 var obj = RegistryWalker.RegistryKeyToRegistryObject(ComKey);
                                 if (obj != null)
                                 {
-                                    comObject.Subkeys.Add(obj);
+                                    comObject.AddSubKey(obj);
                                 }
                             }
 

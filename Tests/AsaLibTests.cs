@@ -1,3 +1,4 @@
+using AttackSurfaceAnalyzer;
 using AttackSurfaceAnalyzer.Collectors;
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
@@ -43,7 +44,17 @@ namespace AsaTests
             var testFolder = AsaHelpers.GetTempFolder();
             Directory.CreateDirectory(testFolder);
 
-            var fsc = new FileSystemCollector(FirstRunId, enableHashing: true, directories: testFolder, downloadCloud: false, examineCertificates: true);
+            var opts = new CollectCommandOptions()
+            {
+                RunId = FirstRunId,
+                EnableFileSystemCollector = true,
+                GatherHashes = true,
+                SelectedDirectories = testFolder,
+                DownloadCloud = false,
+                CertificatesFromFiles = false
+            };
+
+            var fsc = new FileSystemCollector(opts);
             fsc.Execute();
 
             using (var file = File.Open(Path.Combine(testFolder, "AsaLibTesterMZ"), FileMode.OpenOrCreate))
@@ -60,7 +71,9 @@ namespace AsaTests
                 file.Close();
             }
 
-            fsc = new FileSystemCollector(SecondRunId, enableHashing: true, directories: testFolder, downloadCloud: false, examineCertificates: true);
+            opts.RunId = SecondRunId;
+
+            fsc = new FileSystemCollector(opts);
             fsc.Execute();
 
             BaseCompare bc = new BaseCompare();
@@ -129,7 +142,7 @@ namespace AsaTests
 
             var results = DatabaseManager.GetResultsByRunid(FirstRunId);
 
-            Assert.IsTrue(results.Where(x => x.ResultType == RESULT_TYPE.CERTIFICATE).Count() > 0);
+            Assert.IsTrue(results.Where(x => x.ColObj.ResultType == RESULT_TYPE.CERTIFICATE).Count() > 0);
 
             TearDown();
         }

@@ -46,6 +46,15 @@ namespace AttackSurfaceAnalyzer.Objects
             Subkeys.AddRange(subkeysIn);
         }
 
+        public void AddSubKey(RegistryObject subkeysIn)
+        {
+            if (Subkeys == null)
+            {
+                Subkeys = new List<RegistryObject>();
+            }
+            Subkeys.Add(subkeysIn);
+        }
+
         public override string Identity
         {
             get
