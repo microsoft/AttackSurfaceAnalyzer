@@ -234,11 +234,9 @@ namespace AttackSurfaceAnalyzer.Cli
 
             AsaTelemetry.TrackEvent("{0} Export Compare", StartEvent);
 
-            CompareCommandOptions options = new CompareCommandOptions()
+            CompareCommandOptions options = new CompareCommandOptions(opts.FirstRunId, opts.SecondRunId)
             {
                 DatabaseFilename = opts.DatabaseFilename,
-                FirstRunId = opts.FirstRunId,
-                SecondRunId = opts.SecondRunId,
                 AnalysesFile = opts.AnalysesFile,
                 Analyze = opts.Analyze,
                 SaveToDatabase = opts.SaveToDatabase

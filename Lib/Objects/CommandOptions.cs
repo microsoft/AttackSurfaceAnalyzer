@@ -37,6 +37,11 @@ namespace AttackSurfaceAnalyzer
         [Option(HelpText = "Save to internal database for review in GUI", Default = false)]
         public bool SaveToDatabase { get; set; }
 
+        public CompareCommandOptions(string FirstRunId, string SecondRunId)
+        {
+            this.FirstRunId = FirstRunId;
+            this.SecondRunId = SecondRunId;
+        }
     }
     [Verb("export-collect", HelpText = "Compare ASA executions and output a .json report")]
     public class ExportCollectCommandOptions : CommandOptions
