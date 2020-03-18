@@ -44,7 +44,7 @@ stages:
     - task: VSTest@2
       displayName: 'Run Tests'
       inputs:
-        testAssemblyVer2: Microsoft.CST.AttackSurfaceAnalyzer.Tests.dll
+        testAssemblyVer2: AsaTests.dll
         searchFolder: '$(build.binariesdirectory)\Tests'
       continueOnError: true
 
