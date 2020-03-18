@@ -15,7 +15,7 @@ using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using WindowsFirewallHelper;
 
-namespace AsaTests
+namespace AttackSurfaceAnalyzer.Tests
 {
     [TestClass]
     public class AsaLibTests
@@ -289,12 +289,12 @@ namespace AsaTests
                 rc.Execute();
 
                 // Create a registry key
-                var name = System.Guid.NewGuid().ToString().Substring(0, 10);
-                var value = System.Guid.NewGuid().ToString().Substring(0, 10);
-                var value2 = System.Guid.NewGuid().ToString().Substring(0, 10);
+                var name = Guid.NewGuid().ToString();
+                var value = Guid.NewGuid().ToString();
+                var value2 = Guid.NewGuid().ToString();
 
                 RegistryKey key;
-                key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(name);
+                key = Registry.CurrentUser.CreateSubKey(name);
                 key.SetValue(value, value2);
                 key.Close();
 
@@ -302,7 +302,7 @@ namespace AsaTests
                 rc.Execute();
 
                 // Clean up
-                Microsoft.Win32.Registry.CurrentUser.DeleteSubKey(name);
+                Registry.CurrentUser.DeleteSubKey(name);
 
                 BaseCompare bc = new BaseCompare();
                 if (!bc.TryCompare(FirstRunId, SecondRunId))
