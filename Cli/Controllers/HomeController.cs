@@ -217,11 +217,11 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
         {
             var filePath = Path.GetTempFileName();
 
-            CompareCommandOptions opts = new CompareCommandOptions();
-            opts.FirstRunId = SelectedBaseRunId;
-            opts.SecondRunId = SelectedCompareRunId;
-            opts.Analyze = true;
-            opts.SaveToDatabase = true;
+            CompareCommandOptions opts = new CompareCommandOptions(SelectedBaseRunId, SelectedCompareRunId)
+            {
+                Analyze = true,
+                SaveToDatabase = true
+            };
 
             if (AnalysisFilterFile != null)
             {
