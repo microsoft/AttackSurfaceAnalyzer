@@ -29,22 +29,20 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             if (string.IsNullOrEmpty(locale))
             {
-                using Stream stream = typeof(FileSystemObject).Assembly.GetManifestResourceStream("AttackSurfaceAnalyzer.Properties.Resources.resources") ?? new MemoryStream();
-                using ResourceReader reader = new ResourceReader(stream);
-                
-                if (reader.GetEnumerator().Current != null)
+                using Stream? stream = typeof(FileSystemObject).Assembly.GetManifestResourceStream("AttackSurfaceAnalyzer.Properties.Resources.resources");
+                if (stream is Stream)
                 {
                     stringList.Clear();
-                }
-
-                foreach (DictionaryEntry? entry in reader)
-                {
-                    if (entry is DictionaryEntry dictionaryEntry)
+                    using ResourceReader reader = new ResourceReader(stream);
+                    foreach (DictionaryEntry? entry in reader)
                     {
-                        var keyStr = dictionaryEntry.Key.ToString();
-                        var valueStr = dictionaryEntry.Value?.ToString();
-                        if (!string.IsNullOrEmpty(keyStr) && !string.IsNullOrEmpty(valueStr))
-                            stringList.TryAdd(keyStr, valueStr);
+                        if (entry is DictionaryEntry dictionaryEntry)
+                        {
+                            var keyStr = dictionaryEntry.Key.ToString();
+                            var valueStr = dictionaryEntry.Value?.ToString();
+                            if (!string.IsNullOrEmpty(keyStr) && !string.IsNullOrEmpty(valueStr))
+                                stringList.TryAdd(keyStr, valueStr);
+                        }
                     }
                 }
             }
