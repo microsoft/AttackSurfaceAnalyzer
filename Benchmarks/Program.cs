@@ -6,7 +6,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     {
         public static void Main(string[] args)
         {
-            var summary = BenchmarkRunner.Run<QueryTests>();
+            var summary = BenchmarkRunner.Run<CryptoTests>();
         }
     }
 }

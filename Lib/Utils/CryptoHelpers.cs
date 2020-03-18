@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using Murmur;
 using System;
 using System.IO;
 using System.Linq;
@@ -13,22 +12,22 @@ namespace AttackSurfaceAnalyzer.Utils
     {
         // These are not intended to be cryptographically secure hashes
         // These are used as a uniqueness check
-        static HashAlgorithm murmur128 = MurmurHash.Create128();
+        static HashAlgorithm sha512 = SHA512.Create();
 
         public static string CreateHash(string input)
         {
-            byte[] hashOutput = murmur128.ComputeHash(Encoding.UTF8.GetBytes(input));
+            byte[] hashOutput = sha512.ComputeHash(Encoding.UTF8.GetBytes(input));
             return Convert.ToBase64String(hashOutput);
         }
 
         public static byte[] CreateHash(byte[] input)
         {
-            return murmur128.ComputeHash(input);
+            return sha512.ComputeHash(input);
         }
 
         public static string CreateHash(FileStream stream)
         {
-            return Convert.ToBase64String(murmur128.ComputeHash(stream) ?? Array.Empty<byte>());
+            return Convert.ToBase64String(sha512.ComputeHash(stream) ?? Array.Empty<byte>());
         }
 
         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
