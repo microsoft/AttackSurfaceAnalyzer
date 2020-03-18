@@ -31,6 +31,12 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 using Stream stream = typeof(FileSystemObject).Assembly.GetManifestResourceStream("AttackSurfaceAnalyzer.Properties.Resources.resources") ?? new MemoryStream();
                 using ResourceReader reader = new ResourceReader(stream);
+                
+                if (reader.GetEnumerator().Current != null)
+                {
+                    stringList.Clear();
+                }
+
                 foreach (DictionaryEntry? entry in reader)
                 {
                     if (entry is DictionaryEntry dictionaryEntry)
@@ -38,7 +44,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         var keyStr = dictionaryEntry.Key.ToString();
                         var valueStr = dictionaryEntry.Value?.ToString();
                         if (!string.IsNullOrEmpty(keyStr) && !string.IsNullOrEmpty(valueStr))
-                            stringList.Add(keyStr, valueStr);
+                            stringList.TryAdd(keyStr, valueStr);
                     }
                 }
             }
