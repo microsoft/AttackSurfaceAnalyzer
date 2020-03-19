@@ -149,14 +149,15 @@ namespace AttackSurfaceAnalyzer.Objects
 
             if (cmd.CommandText.Length > 1000000)
             {
-                foreach(var WO in innerQueue)
-                {
-                    WriteQueue.Enqueue(WO);
-                }
+                Log.Information("Compound query was too large. Lowering BatchSize for the remainder of the run.");
                 settings.BatchSize = settings.BatchSize - 1;
                 if (settings.BatchSize == 0)
                 {
                     Log.Fatal("One object is bigger than the sql limit");
+                }
+                foreach (var WO in innerQueue)
+                {
+                    WriteQueue.Enqueue(WO);
                 }
             }
             else
