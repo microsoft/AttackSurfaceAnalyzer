@@ -17,12 +17,13 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public class DBSettings
     {
-        public string JournalMode { get; set; } = "WAL";
+        public string JournalMode { get; set; } = "DELETE";
         public int PageSize { get; set; } = 4096;
         public string Synchronous { get; set; } = "OFF";
         public string LockingMode { get; set; } = "NORMAL";
         public int ShardingFactor { get; set; } = 7;
         public int FlushCount { get; set; } = -1;
+        public int BatchSize { get; set; } = 1;
     }
 
     public static class DatabaseManager

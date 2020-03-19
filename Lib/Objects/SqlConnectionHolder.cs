@@ -3,8 +3,10 @@ using Microsoft.Data.Sqlite;
 using Serilog;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,19 +20,14 @@ namespace AttackSurfaceAnalyzer.Objects
         public bool KeepRunning { get; set; }
         public string Source { get; set; }
         private int RecordCount { get; set; }
-        public int FlushCount { get; set; } = -1;
-        public int TableShards { get; set; } = 1;
 
-        private readonly DBSettings settings = new DBSettings();
+        private readonly DBSettings settings;
 
         private const string PRAGMAS = "PRAGMA auto_vacuum = 0; PRAGMA synchronous = {0}; PRAGMA journal_mode = {1}; PRAGMA page_size = {2}; PRAGMA locking_mode = {3};";
 
-        public SqlConnectionHolder(string databaseFilename, DBSettings? dBSettings = null, int tableShards = 1)
+        public SqlConnectionHolder(string databaseFilename, DBSettings? dBSettings = null)
         {
-            if (dBSettings != null)
-            {
-                settings = dBSettings;
-            }
+            settings = dBSettings ?? new DBSettings();
 
             Source = databaseFilename;
             Connection = new SqliteConnection($"Data source={Source}");
@@ -45,10 +42,12 @@ namespace AttackSurfaceAnalyzer.Objects
             using var cmd = new SqliteCommand(command, Connection);
             cmd.ExecuteNonQuery();
 
-            TableShards = tableShards;
+            if (settings.BatchSize < 1)
+            {
+                settings.BatchSize = 1;
+            }
 
             StartWriter();
-            FlushCount = settings.FlushCount;
         }
 
         internal void StartWriter()
@@ -80,9 +79,9 @@ namespace AttackSurfaceAnalyzer.Objects
             {
                 while (!WriteQueue.IsEmpty)
                 {
-                    if (FlushCount > 0)
+                    if (settings.FlushCount > 0)
                     {
-                        if (RecordCount % FlushCount == FlushCount - 1)
+                        if (RecordCount % settings.FlushCount == settings.FlushCount - 1)
                         {
                             Commit();
                             BeginTransaction();
@@ -120,23 +119,41 @@ namespace AttackSurfaceAnalyzer.Objects
 
         public void WriteNext()
         {
-            string SQL_INSERT_COLLECT_RESULT = "insert into collect (run_id, result_type, row_key, identity, serialized) values (@run_id, @result_type, @row_key, @identity, @serialized)";
+            string SQL_INSERT_COLLECT_RESULT = "insert into collect (run_id, result_type, row_key, identity, serialized) values (@run_id_0, @result_type_0, @row_key_0, @identity_0, @serialized_0)";
 
-            WriteQueue.TryDequeue(out WriteObject objIn);
+            var innerQueue = new List<WriteObject>();
+            
+            while (innerQueue.Count < settings.BatchSize && WriteQueue.TryDequeue(out WriteObject objIn))
+            {
+                innerQueue.Add(objIn);
+            }
+
+            var stringBuilder = new StringBuilder();
+            stringBuilder.Append(SQL_INSERT_COLLECT_RESULT);
+
+            for (int i = 1; i < innerQueue.Count; i++)
+            {
+                stringBuilder.Append($",(@run_id_{i}, @result_type_{i}, @row_key_{i}, @identity_{i}, @serialized_{i})");
+            }
+
+            using var cmd = new SqliteCommand(SQL_INSERT_COLLECT_RESULT, Connection, Transaction);
+
+            for (int i = 0; i < innerQueue.Count; i++)
+            {
+                cmd.Parameters.AddWithValue($"@run_id_{i}", innerQueue[i].RunId);
+                cmd.Parameters.AddWithValue($"@row_key_{i}", innerQueue[i].GetRowKey());
+                cmd.Parameters.AddWithValue($"@identity_{i}", innerQueue[i].ColObj?.Identity);
+                cmd.Parameters.AddWithValue($"@serialized_{i}", innerQueue[i].GetSerialized());
+                cmd.Parameters.AddWithValue($"@result_type_{i}", innerQueue[i].ColObj?.ResultType);
+            }
 
             try
             {
-                using var cmd = new SqliteCommand(SQL_INSERT_COLLECT_RESULT, Connection, Transaction);
-                cmd.Parameters.AddWithValue("@run_id", objIn.RunId);
-                cmd.Parameters.AddWithValue("@row_key", objIn.GetRowKey());
-                cmd.Parameters.AddWithValue("@identity", objIn.ColObj?.Identity);
-                cmd.Parameters.AddWithValue("@serialized", objIn.GetSerialized());
-                cmd.Parameters.AddWithValue("@result_type", objIn.ColObj?.ResultType);
                 cmd.ExecuteNonQuery();
             }
             catch (SqliteException e)
             {
-                Log.Debug(exception: e, $"Error writing {objIn.ColObj?.Identity} to database.");
+                Log.Debug(exception: e, $"Error writing to database.");
             }
             catch (NullReferenceException)
             {

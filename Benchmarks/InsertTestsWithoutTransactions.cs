@@ -44,6 +44,9 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Params("OFF")]
         public string Synchronous { get; set; }
 
+        [Params(1, 10)]
+        public int BatchSize { get; set; }
+
 #nullable disable
         public InsertTestsWithoutTransactions()
 #nullable restore
@@ -109,8 +112,9 @@ namespace AttackSurfaceAnalyzer.Benchmarks
                 LockingMode = LockingMode,
                 PageSize = PageSize,
                 ShardingFactor = Shards,
-                Synchronous = Synchronous
-            });
+                Synchronous = Synchronous,
+                BatchSize = BatchSize
+            })
         }
 
         [IterationCleanup]
