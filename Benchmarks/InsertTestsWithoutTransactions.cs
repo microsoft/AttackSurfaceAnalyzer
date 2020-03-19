@@ -13,22 +13,22 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     {
         // The number of records to insert for the benchmark
         //[Params(25000,50000,100000)]
-        [Params(1000000)]
+        [Params(10000)]
         public int N { get; set; }
 
         // The number of records to populate the database with before the benchmark
         //[Params(0,100000,200000,400000,800000,1600000,3200000)]
-        [Params(0,10000000)]
+        [Params(0)]
         public int StartingSize { get; set; }
 
         // The amount of padding to add to the object in bytes
         // Default size is approx 530 bytes serialized
         // Does not include SQL overhead
-        [Params(0)]
+        [Params(1500)]
         public int ObjectPadding { get; set; }
 
         // The number of Shards/Threads to use for Database operations
-        [Params(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)]
+        [Params(1)]
         public int Shards { get; set; }
 
         //[Params("OFF","DELETE","WAL","MEMORY")]
@@ -44,7 +44,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Params("OFF")]
         public string Synchronous { get; set; }
 
-        [Params(1, 10)]
+        [Params(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20)]
         public int BatchSize { get; set; }
 
 #nullable disable
@@ -114,7 +114,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
                 ShardingFactor = Shards,
                 Synchronous = Synchronous,
                 BatchSize = BatchSize
-            })
+            });
         }
 
         [IterationCleanup]

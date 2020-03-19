@@ -136,7 +136,7 @@ namespace AttackSurfaceAnalyzer.Objects
                 stringBuilder.Append($",(@run_id_{i}, @result_type_{i}, @row_key_{i}, @identity_{i}, @serialized_{i})");
             }
 
-            using var cmd = new SqliteCommand(SQL_INSERT_COLLECT_RESULT, Connection, Transaction);
+            using var cmd = new SqliteCommand(stringBuilder.ToString(), Connection, Transaction);
 
             for (int i = 0; i < innerQueue.Count; i++)
             {
@@ -147,31 +147,22 @@ namespace AttackSurfaceAnalyzer.Objects
                 cmd.Parameters.AddWithValue($"@result_type_{i}", innerQueue[i].ColObj?.ResultType);
             }
 
-            if (cmd.CommandText.Length > 1000000)
+            try
             {
-                Log.Information("Compound query was too large. Lowering BatchSize for the remainder of the run.");
-                settings.BatchSize = settings.BatchSize - 1;
-                if (settings.BatchSize == 0)
-                {
-                    Log.Fatal("One object is bigger than the sql limit");
-                }
+                cmd.ExecuteNonQuery();
+            }
+            catch (SqliteException e)
+            {
+                Log.Debug(exception: e, $"Error writing to database.");
+            }
+            catch (NullReferenceException)
+            {
+            }
+            catch (ObjectDisposedException)
+            {
                 foreach (var WO in innerQueue)
                 {
                     WriteQueue.Enqueue(WO);
-                }
-            }
-            else
-            {
-                try
-                {
-                    cmd.ExecuteNonQuery();
-                }
-                catch (SqliteException e)
-                {
-                    Log.Debug(exception: e, $"Error writing to database.");
-                }
-                catch (NullReferenceException)
-                {
                 }
             }
         }
