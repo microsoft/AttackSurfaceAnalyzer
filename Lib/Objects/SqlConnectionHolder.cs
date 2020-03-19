@@ -147,16 +147,31 @@ namespace AttackSurfaceAnalyzer.Objects
                 cmd.Parameters.AddWithValue($"@result_type_{i}", innerQueue[i].ColObj?.ResultType);
             }
 
-            try
+            if (cmd.CommandText.Length > 1000000)
             {
-                cmd.ExecuteNonQuery();
+                foreach(var WO in innerQueue)
+                {
+                    WriteQueue.Enqueue(WO);
+                }
+                settings.BatchSize = settings.BatchSize - 1;
+                if (settings.BatchSize == 0)
+                {
+                    Log.Fatal("One object is bigger than the sql limit");
+                }
             }
-            catch (SqliteException e)
+            else
             {
-                Log.Debug(exception: e, $"Error writing to database.");
-            }
-            catch (NullReferenceException)
-            {
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                catch (SqliteException e)
+                {
+                    Log.Debug(exception: e, $"Error writing to database.");
+                }
+                catch (NullReferenceException)
+                {
+                }
             }
         }
 
