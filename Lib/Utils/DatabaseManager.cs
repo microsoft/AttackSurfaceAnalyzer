@@ -377,7 +377,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static bool HasElements()
         {
-            return Connections.Any(x => !x.WriteQueue.IsEmpty);
+            return Connections.Any(x => !x.WriteQueue.IsEmpty || x.IsWriting);
         }
 
         public static PLATFORM RunIdToPlatform(string runid)
