@@ -44,7 +44,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Params("OFF")]
         public string Synchronous { get; set; }
 
-        [Params(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20)]
+        [Params(1,10,20,40,80,160,320,640,1280)]
         public int BatchSize { get; set; }
 
 #nullable disable
