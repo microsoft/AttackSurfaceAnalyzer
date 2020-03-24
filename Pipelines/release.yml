@@ -53,7 +53,7 @@ stages:
     - task: UseDotNet@2
       inputs:
         packageType: 'sdk'
-        version: '3.1.100'
+        version: '3.1.x'
 
     - script: 'dotnet tool install -g nbgv'
       displayName: 'Install GitVersioning'
@@ -239,7 +239,7 @@ stages:
     - task: UseDotNet@2
       inputs:
         packageType: 'sdk'
-        version: '3.1.100'
+        version: '3.1.x'
     - task: DotNetCoreCLI@2
       displayName: 'Publish ASA Linux'
       inputs:
@@ -307,7 +307,7 @@ stages:
     - task: UseDotNet@2
       inputs:
         packageType: 'sdk'
-        version: '3.1.100'
+        version: '3.1.x'
 
     - task: DotNetCoreCLI@2
       displayName: 'Publish ASA macOS'
