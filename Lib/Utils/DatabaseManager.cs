@@ -23,7 +23,7 @@ namespace AttackSurfaceAnalyzer.Utils
         public string LockingMode { get; set; } = "NORMAL";
         public int ShardingFactor { get; set; } = 7;
         public int FlushCount { get; set; } = -1;
-        public int BatchSize { get; set; } = 1;
+        public int BatchSize { get; set; } = 10;
     }
 
     public static class DatabaseManager

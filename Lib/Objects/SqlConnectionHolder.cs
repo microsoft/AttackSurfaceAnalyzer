@@ -22,7 +22,7 @@ namespace AttackSurfaceAnalyzer.Objects
         private int RecordCount { get; set; }
         public bool IsWriting { get; private set; }
 
-        private readonly DBSettings settings;
+        private DBSettings settings;
 
         private const string PRAGMAS = "PRAGMA auto_vacuum = 0; PRAGMA synchronous = {0}; PRAGMA journal_mode = {1}; PRAGMA page_size = {2}; PRAGMA locking_mode = {3};";
 
@@ -123,8 +123,13 @@ namespace AttackSurfaceAnalyzer.Objects
             IsWriting = true;
             string SQL_INSERT_COLLECT_RESULT = "insert into collect (run_id, result_type, row_key, identity, serialized) values (@run_id_0, @result_type_0, @row_key_0, @identity_0, @serialized_0)";
 
+            if (settings.BatchSize > 199)
+            {
+                Log.Warning("Maximum batch size is 199. Settings Batch size to 199");
+                settings.BatchSize = 199;
+            }
+
             var innerQueue = new List<WriteObject>();
-            
             while (innerQueue.Count < settings.BatchSize && WriteQueue.TryDequeue(out WriteObject objIn))
             {
                 innerQueue.Add(objIn);
@@ -155,11 +160,9 @@ namespace AttackSurfaceAnalyzer.Objects
             }
             catch (SqliteException e)
             {
-                Log.Debug(exception: e, $"Error writing to database.");
+                Log.Warning(exception: e, $"Error writing to database.");
             }
-            catch (NullReferenceException)
-            {
-            }
+
             IsWriting = false;
         }
 

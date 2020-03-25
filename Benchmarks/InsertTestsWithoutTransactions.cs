@@ -24,7 +24,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         // The amount of padding to add to the object in bytes
         // Default size is approx 530 bytes serialized
         // Does not include SQL overhead
-        [Params(1500)]
+        [Params(0,4500)]
         public int ObjectPadding { get; set; }
 
         // The number of Shards/Threads to use for Database operations
@@ -32,7 +32,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         public int Shards { get; set; }
 
         //[Params("OFF","DELETE","WAL","MEMORY")]
-        [Params("WAL")]
+        [Params("DELETE")]
         public string JournalMode { get; set; }
 
         [Params("NORMAL")]
@@ -44,7 +44,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Params("OFF")]
         public string Synchronous { get; set; }
 
-        [Params(1,10,20,40,80,160,320,640,1280)]
+        [Params(10)]
         public int BatchSize { get; set; }
 
 #nullable disable
