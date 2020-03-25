@@ -305,10 +305,8 @@ namespace AttackSurfaceAnalyzer.Tests
                 Registry.CurrentUser.DeleteSubKey(name);
 
                 BaseCompare bc = new BaseCompare();
-                if (!bc.TryCompare(FirstRunId, SecondRunId))
-                {
-                    Assert.Fail();
-                }
+                
+                Assert.IsTrue(bc.TryCompare(FirstRunId, SecondRunId));
 
                 var results = bc.Results;
 
