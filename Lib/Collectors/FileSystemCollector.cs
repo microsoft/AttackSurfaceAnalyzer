@@ -171,46 +171,16 @@ namespace AttackSurfaceAnalyzer.Collectors
                     IdentityReference oid = fileSecurity.GetOwner(typeof(SecurityIdentifier));
                     IdentityReference gid = fileSecurity.GetGroup(typeof(SecurityIdentifier));
 
-                    // Set the Owner and Group to the SID, in case we can't properly translate
-                    obj.Owner = oid.ToString();
-                    obj.Group = gid.ToString();
+                    obj.Owner = AsaHelpers.SidToName(oid);
+                    obj.Group = AsaHelpers.SidToName(gid);
 
-                    try
-                    {
-                        // Translate owner into the string representation.
-                        obj.Owner = oid.Translate(typeof(NTAccount))?.Value ?? obj.Owner;
-                    }
-                    catch (IdentityNotMappedException)
-                    {
-                        Log.Verbose("Couldn't find the Owner from SID {0} for file {1}", oid.ToString(), path);
-                    }
-
-                    try
-                    {
-                        // Translate group into the string representation.
-                        obj.Group = gid.Translate(typeof(NTAccount))?.Value ?? obj.Group;
-                    }
-                    catch (IdentityNotMappedException)
-                    {
-                        // This is fine. Some SIDs don't map to NT Accounts.
-                        Log.Verbose("Couldn't find the Group from SID {0} for file {1}", gid.ToString(), path);
-                    }
-
-                    var rules = fileSecurity.GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier));
+                    var rules = fileSecurity.GetAccessRules(true, true, typeof(SecurityIdentifier));
                     foreach (FileSystemAccessRule? rule in rules)
                     {
                         if (rule != null)
                         {
-                            string name = rule.IdentityReference.Value;
-
-                            try
-                            {
-                                name = rule.IdentityReference.Translate(typeof(NTAccount)).Value;
-                            }
-                            catch (IdentityNotMappedException)
-                            {
-                                // This is fine. Some SIDs don't map to NT Accounts.
-                            }
+                            string name = AsaHelpers.SidToName(rule.IdentityReference);
+                            
                             obj.Permissions = new Dictionary<string, string>();
 
                             foreach (var permission in rule.FileSystemRights.ToString().Split(','))

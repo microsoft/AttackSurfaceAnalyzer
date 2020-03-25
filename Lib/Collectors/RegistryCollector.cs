@@ -64,29 +64,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
         }
 
-        public static string GetName(RegistryAccessRule rule)
-        {
-            if (rule == null)
-            {
-                return string.Empty;
-            }
-            if (!SidMap.ContainsKey(rule.IdentityReference.Value))
-            {
-                try
-                {
-                    var mappedValue = rule.IdentityReference.Translate(typeof(NTAccount)).Value;
-                    SidMap.TryAdd(rule.IdentityReference.Value, mappedValue);
-                }
-                catch (IdentityNotMappedException)
-                {
-                    // This is fine. Some SIDs don't map to NT Accounts.
-                    SidMap.TryAdd(rule.IdentityReference.Value, rule.IdentityReference.Value);
-                }
-            }
-
-            return SidMap[rule.IdentityReference.Value];
-        }
-
         public override void ExecuteInternal()
         {
             foreach (var hive in Hives)

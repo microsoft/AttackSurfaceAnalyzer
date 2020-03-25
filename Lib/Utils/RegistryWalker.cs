@@ -129,20 +129,11 @@ namespace AttackSurfaceAnalyzer.Utils
 
             try
             {
-                foreach (RegistryAccessRule? rule in registryKey.GetAccessControl().GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier)))
+                foreach (RegistryAccessRule? rule in registryKey.GetAccessControl().GetAccessRules(true, true, typeof(SecurityIdentifier)))
                 {
                     if (rule != null)
                     {
-                        string name = rule.IdentityReference.Value;
-
-                        try
-                        {
-                            name = rule.IdentityReference.Translate(typeof(NTAccount)).Value;
-                        }
-                        catch (IdentityNotMappedException)
-                        {
-                            // This is fine. Some SIDs don't map to NT Accounts.
-                        }
+                        string name = AsaHelpers.SidToName(rule.IdentityReference);
 
                         if (regObj.Permissions.ContainsKey(name))
                         {

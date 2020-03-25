@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Security.Principal;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -184,6 +185,25 @@ namespace AttackSurfaceAnalyzer.Utils
             return o is IDictionary &&
                    o.GetType().IsGenericType &&
                    o.GetType().GetGenericTypeDefinition().IsAssignableFrom(typeof(Dictionary<,>));
+        }
+
+        public static string SidToName(IdentityReference sid)
+        {
+            string output = sid.Value;
+
+            // Only map NTAccounts, https://en.wikipedia.org/wiki/Security_Identifier
+            if (output.StartsWith("S-1-5"))
+            {
+                try
+                {
+                    output = sid.Translate(typeof(NTAccount))?.Value ?? output;
+                }
+                catch (IdentityNotMappedException)
+                {
+                }
+            }
+
+            return output;
         }
     }
 }
