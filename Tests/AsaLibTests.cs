@@ -306,7 +306,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
                 BaseCompare bc = new BaseCompare();
                 
-                Assert.IsTrue(bc.TryCompare(FirstRunId, SecondRunId));
+                bc.TryCompare(FirstRunId, SecondRunId);
 
                 var results = bc.Results;
 
