@@ -10,7 +10,7 @@ namespace AttackSurfaceAnalyzer.Objects
     {
         // From Registry
         public RegistryObject Key { get; set; }
-        public List<RegistryObject>? Subkeys { get; set; }
+        public List<RegistryObject> Subkeys { get; set; }
         // From filesystem
         public FileSystemObject? x86_Binary { get; set; }
         public FileSystemObject? x64_Binary { get; set; }
@@ -24,34 +24,17 @@ namespace AttackSurfaceAnalyzer.Objects
         public ComObject(RegistryObject Key) : base()
         {
             this.Key = Key;
-        }
-
-        
-#nullable disable
-        /// <summary>
-        /// This constructor is for deserialization.
-        /// </summary>
-        public ComObject()
-#nullable restore
-        {
+            Subkeys = new List<RegistryObject>();
             ResultType = RESULT_TYPE.COM;
         }
 
         public void AddSubKeys(List<RegistryObject> subkeysIn)
         {
-            if (Subkeys == null)
-            {
-                Subkeys = new List<RegistryObject>();
-            }
             Subkeys.AddRange(subkeysIn);
         }
 
         public void AddSubKey(RegistryObject subkeysIn)
         {
-            if (Subkeys == null)
-            {
-                Subkeys = new List<RegistryObject>();
-            }
             Subkeys.Add(subkeysIn);
         }
 

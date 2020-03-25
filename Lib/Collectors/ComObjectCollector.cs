@@ -107,34 +107,33 @@ namespace AttackSurfaceAnalyzer.Collectors
                             }
 
                             //Get the information from the InProcServer32 Subkey (for 32 bit)
-                            if (comObject.Subkeys.Where(x => x.Key.Contains("InprocServer32")).Any())
+                            string? BinaryPath32 = null;
+                            var InProcServer32SubKeys = comObject.Subkeys.Where(x => x.Key.Contains("InprocServer32"));
+                            if (InProcServer32SubKeys.Any() && InProcServer32SubKeys.First().Values?.TryGetValue("", out BinaryPath32) is bool successful)
                             {
-                                string? BinaryPath32 = null;
-                                if (comObject.Subkeys.Where(x => x.Key.Contains("InprocServer32")).First().Values?.TryGetValue("", out BinaryPath32) is bool successful)
+                                if (BinaryPath32 != null && successful)
                                 {
-                                    if (BinaryPath32 != null && successful)
+                                    // Clean up cases where some extra spaces are thrown into the start (breaks our permission checker)
+                                    BinaryPath32 = BinaryPath32.Trim();
+                                    // Clean up cases where the binary is quoted (also breaks permission checker)
+                                    if (BinaryPath32.StartsWith("\"") && BinaryPath32.EndsWith("\""))
                                     {
-                                        // Clean up cases where some extra spaces are thrown into the start (breaks our permission checker)
-                                        BinaryPath32 = BinaryPath32.Trim();
-                                        // Clean up cases where the binary is quoted (also breaks permission checker)
-                                        if (BinaryPath32.StartsWith("\"") && BinaryPath32.EndsWith("\""))
-                                        {
-                                            BinaryPath32 = BinaryPath32.AsSpan().Slice(1, BinaryPath32.Length - 2).ToString();
-                                        }
-                                        // Unqualified binary name probably comes from Windows\System32
-                                        if (!BinaryPath32.Contains("\\") && !BinaryPath32.Contains("%"))
-                                        {
-                                            BinaryPath32 = Path.Combine(Environment.SystemDirectory, BinaryPath32.Trim());
-                                        }
-
-                                        comObject.x86_Binary = FileSystemCollector.FilePathToFileSystemObject(BinaryPath32.Trim(), true);
-                                        comObject.x86_BinaryName = BinaryPath32;
+                                        BinaryPath32 = BinaryPath32.AsSpan().Slice(1, BinaryPath32.Length - 2).ToString();
                                     }
+                                    // Unqualified binary name probably comes from Windows\System32
+                                    if (!BinaryPath32.Contains("\\") && !BinaryPath32.Contains("%"))
+                                    {
+                                        BinaryPath32 = Path.Combine(Environment.SystemDirectory, BinaryPath32.Trim());
+                                    }
+
+                                    comObject.x86_Binary = FileSystemCollector.FilePathToFileSystemObject(BinaryPath32.Trim(), true);
+                                    comObject.x86_BinaryName = BinaryPath32;
                                 }
                             }
                             // And the InProcServer64 for 64 bit
                             string? BinaryPath64 = null;
-                            if (comObject.Subkeys.Where(x => x.Key.Contains("InprocServer64")).First().Values?.TryGetValue("", out BinaryPath64) is bool successful64)
+                            var InProcServer64SubKeys = comObject.Subkeys.Where(x => x.Key.Contains("InprocServer64"));
+                            if (InProcServer64SubKeys.Any() && InProcServer64SubKeys.First().Values?.TryGetValue("", out BinaryPath64) is bool successful64)
                             {
                                 if (BinaryPath64 != null && successful64)
                                 {

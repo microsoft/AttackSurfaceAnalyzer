@@ -20,9 +20,13 @@ namespace AttackSurfaceAnalyzer.Objects
             }
         }
 
-        public Signature(bool valid)
+        /// <summary>
+        /// This constructor is for deserialization.
+        /// </summary>
+        /// <param name="IsAuthenticodeValid"></param>
+        public Signature(bool IsAuthenticodeValid)
         {
-            IsAuthenticodeValid = valid;
+            this.IsAuthenticodeValid = IsAuthenticodeValid;
         }
 
         public bool IsAuthenticodeValid { get; set; }
