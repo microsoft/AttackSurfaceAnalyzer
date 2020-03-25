@@ -71,16 +71,12 @@ namespace AttackSurfaceAnalyzer.Objects
                     case RegistryValueKind.Binary:
                         str = Convert.ToBase64String((byte[])key.GetValue(value));
                         break;
-                    case RegistryValueKind.DWord:
-                        str = ((int)key.GetValue(value)).ToString(CultureInfo.InvariantCulture);
-                        break;
                     case RegistryValueKind.ExpandString:
                     case RegistryValueKind.String:
                         str = (string)key.GetValue(value);
                         break;
+                    case RegistryValueKind.DWord:
                     case RegistryValueKind.QWord:
-                        str = ((long)key.GetValue(value)).ToString(CultureInfo.InvariantCulture);
-                        break;
                     default:
                         str = key.GetValue(value).ToString() ?? string.Empty;
                         break;
