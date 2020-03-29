@@ -39,12 +39,17 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// </summary>
         public override void ExecuteInternal()
         {
+            ParseView(RegistryView.Registry32);
+            ParseView(RegistryView.Registry64);
+        }
+
+        public void ParseView(RegistryView view) {
             try
             {
                 // Parse system Com Objects
-                using var SearchKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Default);
+                using var SearchKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, view);
                 var CLDIDs = SearchKey.OpenSubKey("SOFTWARE\\Classes\\CLSID");
-                ParseComObjects(CLDIDs);
+                ParseComObjects(CLDIDs, view);
             }
             catch (Exception e) when (
                 e is ArgumentException
@@ -54,18 +59,17 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             }
 
-
             try
             {
                 // Parse user Com Objects
-                using var SearchKey = RegistryKey.OpenBaseKey(RegistryHive.Users, RegistryView.Default);
+                using var SearchKey = RegistryKey.OpenBaseKey(RegistryHive.Users, view);
                 var subkeyNames = SearchKey.GetSubKeyNames();
                 foreach (string subkeyName in subkeyNames)
                 {
                     if (subkeyName.EndsWith("Classes"))
                     {
                         using var ComKey = SearchKey.OpenSubKey(subkeyName).OpenSubKey("CLSID");
-                        ParseComObjects(ComKey);
+                        ParseComObjects(ComKey, view);
                     }
                 }
             }
@@ -78,7 +82,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
-        public void ParseComObjects(RegistryKey SearchKey)
+        public void ParseComObjects(RegistryKey SearchKey, RegistryView View)
         {
             if (SearchKey == null) { return; }
             List<ComObject> comObjects = new List<ComObject>();
@@ -90,7 +94,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         RegistryKey CurrentKey = SearchKey.OpenSubKey(SubKeyName);
 
-                        var RegObj = RegistryWalker.RegistryKeyToRegistryObject(CurrentKey);
+                        var RegObj = RegistryWalker.RegistryKeyToRegistryObject(CurrentKey, View);
 
                         if (RegObj != null)
                         {
@@ -99,7 +103,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             foreach (string ComDetails in CurrentKey.GetSubKeyNames())
                             {
                                 var ComKey = CurrentKey.OpenSubKey(ComDetails);
-                                var obj = RegistryWalker.RegistryKeyToRegistryObject(ComKey);
+                                var obj = RegistryWalker.RegistryKeyToRegistryObject(ComKey, View);
                                 if (obj != null)
                                 {
                                     comObject.AddSubKey(obj);

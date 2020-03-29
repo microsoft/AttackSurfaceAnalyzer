@@ -89,7 +89,7 @@ namespace AttackSurfaceAnalyzer.Utils
             BaseKey?.Dispose();
         }
 
-        public static RegistryObject? RegistryKeyToRegistryObject(RegistryKey registryKey, RegistryView registryView = RegistryView.Default)
+        public static RegistryObject? RegistryKeyToRegistryObject(RegistryKey registryKey, RegistryView registryView)
         {
             if (registryKey == null) { return null; }
 
