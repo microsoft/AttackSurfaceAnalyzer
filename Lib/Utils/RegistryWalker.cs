@@ -14,26 +14,16 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public static class RegistryWalker
     {
-        public static IEnumerable<RegistryKey> WalkHive(RegistryHive Hive, string startingKey = "")
+        public static IEnumerable<RegistryKey> WalkHive(RegistryHive Hive, RegistryView View, string startingKey = "")
         {
             Stack<RegistryKey> keys = new Stack<RegistryKey>();
 
-            RegistryKey? x86_View = null, x64_View = null;
-            try
-            {
-                x86_View = RegistryKey.OpenBaseKey(Hive, RegistryView.Registry32);
-            }
-            catch (Exception e) when (
-                e is IOException ||
-                e is ArgumentException ||
-                e is UnauthorizedAccessException ||
-                e is System.Security.SecurityException)
-            {
 
-            }
+
+            RegistryKey? BaseKey = null;
             try
             {
-                x64_View = RegistryKey.OpenBaseKey(Hive, RegistryView.Registry64);
+                BaseKey = RegistryKey.OpenBaseKey(Hive, View);
             }
             catch (Exception e) when (
                 e is IOException ||
@@ -44,22 +34,13 @@ namespace AttackSurfaceAnalyzer.Utils
 
             }
 
-            if (x86_View != null)
+            if (BaseKey != null)
             {
                 if (startingKey != null)
                 {
-                    x86_View = x86_View.OpenSubKey(startingKey, writable: false);
+                    BaseKey = BaseKey.OpenSubKey(startingKey, writable: false);
                 }
-                keys.Push(x86_View);
-            }
-
-            if (x64_View != null)
-            {
-                if (startingKey != null)
-                {
-                    x64_View = x64_View.OpenSubKey(startingKey, writable: false);
-                }
-                keys.Push(x64_View);
+                keys.Push(BaseKey);
             }
 
             while (keys.Count > 0)
@@ -105,15 +86,14 @@ namespace AttackSurfaceAnalyzer.Utils
                 yield return currentKey;
             }
 
-            x86_View?.Dispose();
-            x64_View?.Dispose();
+            BaseKey?.Dispose();
         }
 
-        public static RegistryObject? RegistryKeyToRegistryObject(RegistryKey registryKey)
+        public static RegistryObject? RegistryKeyToRegistryObject(RegistryKey registryKey, RegistryView registryView = RegistryView.Default)
         {
             if (registryKey == null) { return null; }
 
-            RegistryObject regObj = new RegistryObject(registryKey.Name);
+            RegistryObject regObj = new RegistryObject(registryKey.Name, registryView);
             try
             {
                 regObj.AddSubKeys(registryKey.GetSubKeyNames());

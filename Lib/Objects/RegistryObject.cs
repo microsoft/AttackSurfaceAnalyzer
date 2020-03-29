@@ -17,6 +17,8 @@ namespace AttackSurfaceAnalyzer.Objects
         public string? PermissionsString { get; set; }
         public Dictionary<string, List<string>> Permissions { get; set; } = new Dictionary<string, List<string>>();
 
+        public RegistryView RV { get; private set; }
+
         public int ValueCount
         {
             get { return Values?.Count ?? 0; }
@@ -26,9 +28,10 @@ namespace AttackSurfaceAnalyzer.Objects
             get { return Subkeys?.Count ?? 0; }
         }
 
-        public RegistryObject(string Key)
+        public RegistryObject(string Key, RegistryView RV)
         {
             ResultType = RESULT_TYPE.REGISTRY;
+            this.RV = RV;
             this.Key = Key;
         }
 
@@ -90,7 +93,7 @@ namespace AttackSurfaceAnalyzer.Objects
         {
             get
             {
-                return Key;
+                return $"{RV}_{Key}";
             }
         }
     }

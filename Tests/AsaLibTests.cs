@@ -308,10 +308,8 @@ namespace AttackSurfaceAnalyzer.Tests
                 
                 bc.TryCompare(FirstRunId, SecondRunId);
 
-                var results = bc.Results;
-
-                Assert.IsTrue(results.ContainsKey("REGISTRY_CREATED"));
-                Assert.IsTrue(results["REGISTRY_CREATED"].Where(x => x.Identity.Contains(name)).Count() > 0);
+                Assert.IsTrue(bc.Results.ContainsKey("REGISTRY_CREATED"));
+                Assert.IsTrue(bc.Results["REGISTRY_CREATED"].Where(x => x.Identity.Contains(name)).Count() > 0);
 
                 TearDown();
             }

@@ -7,6 +7,7 @@ using Serilog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using System.Security.Principal;
@@ -75,11 +76,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                     return;
                 }
 
-                Action<RegistryKey> IterateOn = registryKey =>
+                Action<RegistryKey, RegistryView> IterateOn = (registryKey, registryView) =>
                 {
                     try
                     {
-                        var regObj = RegistryWalker.RegistryKeyToRegistryObject(registryKey);
+                        var regObj = RegistryWalker.RegistryKeyToRegistryObject(registryKey, registryView);
 
                         if (regObj != null)
                         {
@@ -93,21 +94,32 @@ namespace AttackSurfaceAnalyzer.Collectors
                 };
 
                 Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "Registry", "Key", "Exclude", hive.ToString());
-                var registryInfoEnumerable = RegistryWalker.WalkHive(hive);
+
+                var x86_Enumerable = RegistryWalker.WalkHive(hive, RegistryView.Registry32);
+                var x64_Enumerable = RegistryWalker.WalkHive(hive, RegistryView.Registry64);
 
                 if (Parallelize)
                 {
-                    Parallel.ForEach(registryInfoEnumerable,
+                    Parallel.ForEach(x86_Enumerable,
                     (registryKey =>
                     {
-                        IterateOn(registryKey);
+                        IterateOn(registryKey, RegistryView.Registry32);
+                    }));
+                    Parallel.ForEach(x86_Enumerable,
+                    (registryKey =>
+                    {
+                        IterateOn(registryKey, RegistryView.Registry64);
                     }));
                 }
                 else
                 {
-                    foreach (var registryKey in registryInfoEnumerable)
+                    foreach (var registryKey in x86_Enumerable)
                     {
-                        IterateOn(registryKey);
+                        IterateOn(registryKey, RegistryView.Registry32);
+                    }
+                    foreach (var registryKey in x64_Enumerable)
+                    {
+                        IterateOn(registryKey, RegistryView.Registry64);
                     }
                 }
                 Log.Debug("Finished " + hive.ToString());
