@@ -6,7 +6,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     {
         public static void Main(string[] args)
         {
-            var summary = BenchmarkRunner.Run<InsertTestsWithIntermittentTransactions>();
+            var summary = BenchmarkRunner.Run<InsertTestsWithoutTransactions>();
         }
     }
 }

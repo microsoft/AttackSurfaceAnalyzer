@@ -1,5 +1,11 @@
+using AttackSurfaceAnalyzer;
+using AttackSurfaceAnalyzer.Collectors;
+using AttackSurfaceAnalyzer.Objects;
+using AttackSurfaceAnalyzer.Types;
+using AttackSurfaceAnalyzer.Utils;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.Win32;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -7,16 +13,9 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
-using System.Text;
-using AttackSurfaceAnalyzer.Collectors;
-using AttackSurfaceAnalyzer.Objects;
-using AttackSurfaceAnalyzer.Types;
-using AttackSurfaceAnalyzer.Utils;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.Win32;
 using WindowsFirewallHelper;
 
-namespace AsaTests
+namespace AttackSurfaceAnalyzer.Tests
 {
     [TestClass]
     public class AsaLibTests
@@ -45,14 +44,24 @@ namespace AsaTests
             var testFolder = AsaHelpers.GetTempFolder();
             Directory.CreateDirectory(testFolder);
 
-            var fsc = new FileSystemCollector(FirstRunId, enableHashing: true, directories: testFolder, downloadCloud: false, examineCertificates: true);
+            var opts = new CollectCommandOptions()
+            {
+                RunId = FirstRunId,
+                EnableFileSystemCollector = true,
+                GatherHashes = true,
+                SelectedDirectories = testFolder,
+                DownloadCloud = false,
+                CertificatesFromFiles = false
+            };
+
+            var fsc = new FileSystemCollector(opts);
             fsc.Execute();
 
             using (var file = File.Open(Path.Combine(testFolder, "AsaLibTesterMZ"), FileMode.OpenOrCreate))
             {
                 file.Write(FileSystemUtils.WindowsMagicNumber, 0, 2);
                 file.Write(FileSystemUtils.WindowsMagicNumber, 0, 2);
-                
+
                 file.Close();
             }
 
@@ -62,7 +71,9 @@ namespace AsaTests
                 file.Close();
             }
 
-            fsc = new FileSystemCollector(SecondRunId, enableHashing: true, directories: testFolder, downloadCloud: false, examineCertificates: true);
+            opts.RunId = SecondRunId;
+
+            fsc = new FileSystemCollector(opts);
             fsc.Execute();
 
             BaseCompare bc = new BaseCompare();
@@ -131,7 +142,7 @@ namespace AsaTests
 
             var results = DatabaseManager.GetResultsByRunid(FirstRunId);
 
-            Assert.IsTrue(results.Where(x => x.ResultType == RESULT_TYPE.CERTIFICATE).Count() > 0);
+            Assert.IsTrue(results.Where(x => x.ColObj.ResultType == RESULT_TYPE.CERTIFICATE).Count() > 0);
 
             TearDown();
         }
@@ -278,12 +289,12 @@ namespace AsaTests
                 rc.Execute();
 
                 // Create a registry key
-                var name = System.Guid.NewGuid().ToString().Substring(0, 10);
-                var value = System.Guid.NewGuid().ToString().Substring(0, 10);
-                var value2 = System.Guid.NewGuid().ToString().Substring(0, 10);
+                var name = Guid.NewGuid().ToString();
+                var value = Guid.NewGuid().ToString();
+                var value2 = Guid.NewGuid().ToString();
 
                 RegistryKey key;
-                key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(name);
+                key = Registry.CurrentUser.CreateSubKey(name);
                 key.SetValue(value, value2);
                 key.Close();
 
@@ -291,18 +302,14 @@ namespace AsaTests
                 rc.Execute();
 
                 // Clean up
-                Microsoft.Win32.Registry.CurrentUser.DeleteSubKey(name);
+                Registry.CurrentUser.DeleteSubKey(name);
 
                 BaseCompare bc = new BaseCompare();
-                if (!bc.TryCompare(FirstRunId, SecondRunId))
-                {
-                    Assert.Fail();
-                }
+                
+                bc.TryCompare(FirstRunId, SecondRunId);
 
-                var results = bc.Results;
-
-                Assert.IsTrue(results.ContainsKey("REGISTRY_CREATED"));
-                Assert.IsTrue(results["REGISTRY_CREATED"].Where(x => x.Identity.Contains(name)).Count() > 0);
+                Assert.IsTrue(bc.Results.ContainsKey("REGISTRY_CREATED"));
+                Assert.IsTrue(bc.Results["REGISTRY_CREATED"].Where(x => x.Identity.Contains(name)).Count() > 0);
 
                 TearDown();
             }
@@ -367,13 +374,13 @@ namespace AsaTests
                 var coc = new ComObjectCollector(FirstRunId);
                 coc.Execute();
 
-                List<RawCollectResult> collectResults = DatabaseManager.GetResultsByRunid(FirstRunId);
+                var collectResults = DatabaseManager.GetResultsByRunid(FirstRunId);
 
                 List<ComObject> comObjects = new List<ComObject>();
 
                 foreach (var collectResult in collectResults)
                 {
-                    comObjects.Add((ComObject)(collectResult.DeserializedObject));
+                    comObjects.Add((ComObject)(collectResult.ColObj));
                 }
 
                 Assert.IsTrue(comObjects.Where(x => x.x86_Binary != null).Count() > 0);

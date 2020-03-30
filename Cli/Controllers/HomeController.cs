@@ -8,6 +8,7 @@ using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -155,6 +156,11 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             }
             AttackSurfaceAnalyzerClient.ClearCollectors();
 
+            if (Id is null)
+            {
+                return Json(ASA_ERROR.INVALID_ID);
+            }
+
             if (DatabaseManager.GetRun(Id) != null)
             {
                 return Json(ASA_ERROR.UNIQUE_ID);
@@ -185,12 +191,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                     return Json(ASA_ERROR.UNIQUE_ID);
                 }
 
-                var run = new Run()
-                {
-                    RunId = RunId,
-                    ResultTypes = new Dictionary<RESULT_TYPE, bool>() { { RESULT_TYPE.FILEMONITOR, true } },
-                    Type = RUN_TYPE.MONITOR
-                };
+                var run = new AsaRun(RunId: RunId, Timestamp: DateTime.Now, Version: AsaHelpers.GetVersionString(), Platform: AsaHelpers.GetPlatform(), new List<RESULT_TYPE>() { RESULT_TYPE.FILEMONITOR }, RUN_TYPE.MONITOR);
                 DatabaseManager.InsertRun(run);
 
                 MonitorCommandOptions opts = new MonitorCommandOptions
@@ -216,11 +217,11 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
         {
             var filePath = Path.GetTempFileName();
 
-            CompareCommandOptions opts = new CompareCommandOptions();
-            opts.FirstRunId = SelectedBaseRunId;
-            opts.SecondRunId = SelectedCompareRunId;
-            opts.Analyze = true;
-            opts.SaveToDatabase = true;
+            CompareCommandOptions opts = new CompareCommandOptions(SelectedBaseRunId, SelectedCompareRunId)
+            {
+                Analyze = true,
+                SaveToDatabase = true
+            };
 
             if (AnalysisFilterFile != null)
             {
@@ -275,7 +276,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
             for (int i = 0; i < Runs.Count; i++)
             {
-                runModels.Add(new DataRunModel { Key = Runs[i], Text = Runs[i] });
+                runModels.Add(new DataRunModel(Runs[i], Runs[i]));
             }
 
             return runModels;
@@ -289,7 +290,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
             for (int i = 0; i < Runs.Count; i++)
             {
-                runModels.Add(new DataRunModel { Key = Runs[i], Text = Runs[i] });
+                runModels.Add(new DataRunModel(Runs[i], Runs[i]));
             }
 
             return runModels;

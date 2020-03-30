@@ -36,7 +36,7 @@ namespace AttackSurfaceAnalyzer.Cli
 #if DEBUG
             Logger.Setup(true, false);
 #else
-            Logger.Setup(false,false);
+            Logger.Setup(false, false);
 #endif
             string version = (Assembly
                         .GetEntryAssembly()
@@ -125,16 +125,20 @@ namespace AttackSurfaceAnalyzer.Cli
                             foreach (string runId in CollectRuns)
                             {
                                 var run = DatabaseManager.GetRun(runId);
-                                Log.Information("RunId:{2} Timestamp:{0} AsaVersion:{1} ",
+
+                                if (run is AsaRun)
+                                {
+                                    Log.Information("RunId:{2} Timestamp:{0} AsaVersion:{1} ",
                                     run.Timestamp,
                                     run.Version,
                                     run.RunId);
 
-                                var resultTypesAndCounts = DatabaseManager.GetResultTypesAndCounts(run.RunId);
+                                    var resultTypesAndCounts = DatabaseManager.GetResultTypesAndCounts(run.RunId);
 
-                                foreach (var kvPair in resultTypesAndCounts)
-                                {
-                                    Log.Information("{0} : {1}", kvPair.Key, kvPair.Value);
+                                    foreach (var kvPair in resultTypesAndCounts)
+                                    {
+                                        Log.Information("{0} : {1}", kvPair.Key, kvPair.Value);
+                                    }
                                 }
                             }
                         }
@@ -156,7 +160,7 @@ namespace AttackSurfaceAnalyzer.Cli
                                 {
                                     string output = $"{run.RunId} {run.Timestamp} {run.Version} {run.Type}";
                                     Log.Information(output);
-                                    Log.Information(string.Join(',', run.ResultTypes.Keys.Where(x => run.ResultTypes[x])));
+                                    Log.Information(string.Join(',', run.ResultTypes.Where(x => run.ResultTypes.Contains(x))));
                                 }
                             }
                         }
@@ -202,8 +206,9 @@ namespace AttackSurfaceAnalyzer.Cli
             CheckFirstRun();
             AsaTelemetry.Setup();
 
-            if (opts.FirstRunId == "Timestamps" || opts.SecondRunId == "Timestamps")
+            if (opts.FirstRunId is null || opts.SecondRunId is null)
             {
+                Log.Information("Provided null run Ids using latest two runs.");
                 List<string> runIds = DatabaseManager.GetLatestRunIds(2, "collect");
 
                 if (runIds.Count < 2)
@@ -218,6 +223,10 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
             }
 
+            if (opts.FirstRunId is null || opts.SecondRunId is null)
+            {
+                return (int)ASA_ERROR.INVALID_ID;
+            }
             Log.Information(Strings.Get("Comparing"), opts.FirstRunId, opts.SecondRunId);
 
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
@@ -225,11 +234,9 @@ namespace AttackSurfaceAnalyzer.Cli
 
             AsaTelemetry.TrackEvent("{0} Export Compare", StartEvent);
 
-            CompareCommandOptions options = new CompareCommandOptions()
+            CompareCommandOptions options = new CompareCommandOptions(opts.FirstRunId, opts.SecondRunId)
             {
                 DatabaseFilename = opts.DatabaseFilename,
-                FirstRunId = opts.FirstRunId,
-                SecondRunId = opts.SecondRunId,
                 AnalysesFile = opts.AnalysesFile,
                 Analyze = opts.Analyze,
                 SaveToDatabase = opts.SaveToDatabase
@@ -245,11 +252,16 @@ namespace AttackSurfaceAnalyzer.Cli
                 Converters = new List<JsonConverter>() { new StringEnumConverter() },
                 ContractResolver = new AsaExportContractResolver()
             });
-
+            var outputPath = opts.OutputPath;
+            if (outputPath is null)
+            {
+                outputPath = Directory.GetCurrentDirectory();
+            }
             if (opts.ExplodedOutput)
             {
                 results.Add("metadata", AsaHelpers.GenerateMetadata());
-                string path = Path.Combine(opts.OutputPath, AsaHelpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId));
+
+                string path = Path.Combine(outputPath, AsaHelpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId));
                 Directory.CreateDirectory(path);
                 foreach (var key in results.Keys)
                 {
@@ -266,7 +278,7 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             else
             {
-                string path = Path.Combine(opts.OutputPath, AsaHelpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId + "_summary.json.txt"));
+                string path = Path.Combine(outputPath, AsaHelpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId + "_summary.json.txt"));
                 var output = new Dictionary<string, Object>();
                 output["results"] = results;
                 output["metadata"] = AsaHelpers.GenerateMetadata();
@@ -382,7 +394,8 @@ namespace AttackSurfaceAnalyzer.Cli
 #else
             Logger.Setup(opts.Debug, opts.Verbose);
 #endif
-            if (opts.OutputPath != null && !Directory.Exists(opts.OutputPath))
+            var outPath = opts.OutputPath ?? Directory.GetCurrentDirectory();
+            if (!Directory.Exists(outPath))
             {
                 Log.Fatal(Strings.Get("Err_OutputPathNotExist"), opts.OutputPath);
                 return 0;
@@ -392,7 +405,7 @@ namespace AttackSurfaceAnalyzer.Cli
             CheckFirstRun();
             AsaTelemetry.Setup();
 
-            if (opts.RunId.Equals("Timestamp", StringComparison.InvariantCulture))
+            if (opts.RunId is null)
             {
                 List<string> runIds = DatabaseManager.GetLatestRunIds(1, "monitor");
 
@@ -464,11 +477,16 @@ namespace AttackSurfaceAnalyzer.Cli
 
             CheckFirstRun();
 
-            Filter.LoadFilters(opts.FilterLocation);
+            if (opts.FilterLocation is string)
+            {
+                Filter.LoadFilters(opts.FilterLocation);
+            }
 
-            opts.RunId = opts.RunId.Trim();
-
-            if (opts.RunId.Equals("Timestamp", StringComparison.InvariantCulture))
+            if (opts.RunId is string)
+            {
+                opts.RunId = opts.RunId.Trim();
+            }
+            else
             {
                 opts.RunId = DateTime.Now.ToString("o", CultureInfo.InvariantCulture);
             }
@@ -485,12 +503,8 @@ namespace AttackSurfaceAnalyzer.Cli
                     return (int)ASA_ERROR.UNIQUE_ID;
                 }
             }
+            var run = new AsaRun(RunId: opts.RunId, Timestamp: DateTime.Now, Version: AsaHelpers.GetVersionString(), Platform: AsaHelpers.GetPlatform(), new List<RESULT_TYPE>() { RESULT_TYPE.FILEMONITOR }, RUN_TYPE.MONITOR);
 
-            var run = new Run()
-            {
-                RunId = opts.RunId,
-                ResultTypes = new Dictionary<RESULT_TYPE, bool>() { { RESULT_TYPE.FILEMONITOR, true } }
-            };
             DatabaseManager.InsertRun(run);
 
             int returnValue = 0;
@@ -723,9 +737,12 @@ namespace AttackSurfaceAnalyzer.Cli
                 {
                     try
                     {
-                        foreach (var result in (results[key] as ConcurrentQueue<CompareResult>))
+                        if (results[key] is ConcurrentQueue<CompareResult> queue)
                         {
-                            DatabaseManager.InsertAnalyzed(result);
+                            foreach (var result in queue)
+                            {
+                                DatabaseManager.InsertAnalyzed(result);
+                            }
                         }
                     }
                     catch (NullReferenceException)
@@ -763,20 +780,20 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             if (opts.EnableFileSystemMonitor)
             {
-                List<String> directories = new List<string>();
+                List<string> directories = new List<string>();
 
-                var parts = opts.MonitoredDirectories.Split(',');
-                foreach (String part in parts)
+                var parts = opts.MonitoredDirectories?.Split(',') ?? Array.Empty<string>();
+
+                foreach (string part in parts)
                 {
                     directories.Add(part);
                 }
 
-
-                foreach (String dir in directories)
+                foreach (string dir in directories)
                 {
                     try
                     {
-                        FileSystemMonitor newMon = new FileSystemMonitor(opts.RunId, dir, opts.InterrogateChanges);
+                        FileSystemMonitor newMon = new FileSystemMonitor(opts.RunId ?? DateTime.Now.ToString("o", CultureInfo.InvariantCulture), dir, opts.InterrogateChanges);
                         monitors.Add(newMon);
                     }
                     catch (ArgumentException)
@@ -848,7 +865,11 @@ namespace AttackSurfaceAnalyzer.Cli
 #else
             Logger.Setup(opts.Debug, opts.Verbose, opts.Quiet);
 #endif
-            DatabaseManager.Setup(opts.DatabaseFilename, opts.Shards);
+            var dbSettings = new DBSettings()
+            {
+                ShardingFactor = opts.Shards
+            };
+            DatabaseManager.Setup(opts.DatabaseFilename, dbSettings);
             AsaTelemetry.Setup();
 
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
@@ -869,94 +890,92 @@ namespace AttackSurfaceAnalyzer.Cli
             CheckFirstRun();
 
             int returnValue = (int)ASA_ERROR.NONE;
-            opts.RunId = opts.RunId.Trim();
-
-            if (opts.RunId.Equals("Timestamp", StringComparison.InvariantCulture))
-            {
-                opts.RunId = DateTime.Now.ToString("o", CultureInfo.InvariantCulture);
-            }
+            opts.RunId = opts.RunId?.Trim() ?? DateTime.Now.ToString("o", CultureInfo.InvariantCulture);
 
             if (opts.MatchedCollectorId != null)
             {
                 var matchedRun = DatabaseManager.GetRun(opts.MatchedCollectorId);
-                foreach (var resultType in matchedRun.ResultTypes)
+                if (matchedRun is AsaRun)
                 {
-                    switch (resultType.Key)
+                    foreach (var resultType in matchedRun.ResultTypes)
                     {
-                        case RESULT_TYPE.FILE:
-                            opts.EnableFileSystemCollector = resultType.Value;
-                            break;
-                        case RESULT_TYPE.PORT:
-                            opts.EnableNetworkPortCollector = resultType.Value;
-                            break;
-                        case RESULT_TYPE.CERTIFICATE:
-                            opts.EnableCertificateCollector = resultType.Value;
-                            break;
-                        case RESULT_TYPE.COM:
-                            opts.EnableComObjectCollector = resultType.Value;
-                            break;
-                        case RESULT_TYPE.FIREWALL:
-                            opts.EnableFirewallCollector = resultType.Value;
-                            break;
-                        case RESULT_TYPE.LOG:
-                            opts.EnableEventLogCollector = resultType.Value;
-                            break;
-                        case RESULT_TYPE.SERVICE:
-                            opts.EnableServiceCollector = resultType.Value;
-                            break;
-                        case RESULT_TYPE.USER:
-                            opts.EnableUserCollector = resultType.Value;
-                            break;
+                        switch (resultType)
+                        {
+                            case RESULT_TYPE.FILE:
+                                opts.EnableFileSystemCollector = true;
+                                break;
+                            case RESULT_TYPE.PORT:
+                                opts.EnableNetworkPortCollector = true;
+                                break;
+                            case RESULT_TYPE.CERTIFICATE:
+                                opts.EnableCertificateCollector = true;
+                                break;
+                            case RESULT_TYPE.COM:
+                                opts.EnableComObjectCollector = true;
+                                break;
+                            case RESULT_TYPE.FIREWALL:
+                                opts.EnableFirewallCollector = true;
+                                break;
+                            case RESULT_TYPE.LOG:
+                                opts.EnableEventLogCollector = true;
+                                break;
+                            case RESULT_TYPE.SERVICE:
+                                opts.EnableServiceCollector = true;
+                                break;
+                            case RESULT_TYPE.USER:
+                                opts.EnableUserCollector = true;
+                                break;
+                        }
                     }
                 }
             }
 
-            var dict = new Dictionary<RESULT_TYPE, bool>();
+            var dict = new List<RESULT_TYPE>();
 
             if (opts.EnableFileSystemCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new FileSystemCollector(opts.RunId, enableHashing: opts.GatherHashes, directories: opts.SelectedDirectories, downloadCloud: opts.DownloadCloud, examineCertificates: opts.CertificatesFromFiles, parallel: opts.Parallelization));
-                dict.Add(RESULT_TYPE.FILE, true);
+                collectors.Add(new FileSystemCollector(opts));
+                dict.Add(RESULT_TYPE.FILE);
             }
             if (opts.EnableNetworkPortCollector || opts.EnableAllCollectors)
             {
                 collectors.Add(new OpenPortCollector(opts.RunId));
-                dict.Add(RESULT_TYPE.PORT, true);
+                dict.Add(RESULT_TYPE.PORT);
             }
             if (opts.EnableServiceCollector || opts.EnableAllCollectors)
             {
                 collectors.Add(new ServiceCollector(opts.RunId));
-                dict.Add(RESULT_TYPE.SERVICE, true);
+                dict.Add(RESULT_TYPE.SERVICE);
             }
             if (opts.EnableUserCollector || opts.EnableAllCollectors)
             {
                 collectors.Add(new UserAccountCollector(opts.RunId));
-                dict.Add(RESULT_TYPE.USER, true);
+                dict.Add(RESULT_TYPE.USER);
             }
             if (opts.EnableRegistryCollector || (opts.EnableAllCollectors && RuntimeInformation.IsOSPlatform(OSPlatform.Windows)))
             {
                 collectors.Add(new RegistryCollector(opts.RunId, opts.Parallelization));
-                dict.Add(RESULT_TYPE.REGISTRY, true);
+                dict.Add(RESULT_TYPE.REGISTRY);
             }
             if (opts.EnableCertificateCollector || opts.EnableAllCollectors)
             {
                 collectors.Add(new CertificateCollector(opts.RunId));
-                dict.Add(RESULT_TYPE.CERTIFICATE, true);
+                dict.Add(RESULT_TYPE.CERTIFICATE);
             }
             if (opts.EnableFirewallCollector || opts.EnableAllCollectors)
             {
                 collectors.Add(new FirewallCollector(opts.RunId));
-                dict.Add(RESULT_TYPE.FIREWALL, true);
+                dict.Add(RESULT_TYPE.FIREWALL);
             }
             if (opts.EnableComObjectCollector || (opts.EnableAllCollectors && RuntimeInformation.IsOSPlatform(OSPlatform.Windows)))
             {
                 collectors.Add(new ComObjectCollector(opts.RunId));
-                dict.Add(RESULT_TYPE.COM, true);
+                dict.Add(RESULT_TYPE.COM);
             }
             if (opts.EnableEventLogCollector || opts.EnableAllCollectors)
             {
                 collectors.Add(new EventLogCollector(opts.RunId, opts.GatherVerboseLogs));
-                dict.Add(RESULT_TYPE.LOG, true);
+                dict.Add(RESULT_TYPE.LOG);
             }
 
             if (collectors.Count == 0)
@@ -967,13 +986,13 @@ namespace AttackSurfaceAnalyzer.Cli
 
             if (!opts.NoFilters)
             {
-                if (opts.FilterLocation.Equals("Use embedded filters.", StringComparison.InvariantCulture))
+                if (opts.FilterLocation is string Loc)
                 {
-                    Filter.LoadEmbeddedFilters();
+                    Filter.LoadFilters(Loc);
                 }
                 else
                 {
-                    Filter.LoadFilters(opts.FilterLocation);
+                    Filter.LoadEmbeddedFilters();
                 }
             }
 
@@ -991,11 +1010,7 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             Log.Information(Strings.Get("Begin"), opts.RunId);
 
-            var run = new Run()
-            {
-                RunId = opts.RunId,
-                ResultTypes = dict
-            };
+            var run = new AsaRun(RunId: opts.RunId, Timestamp: DateTime.Now, Version: AsaHelpers.GetVersionString(), Platform: AsaHelpers.GetPlatform(), ResultTypes: dict, Type: RUN_TYPE.COLLECT);
 
             DatabaseManager.InsertRun(run);
 
@@ -1021,7 +1036,7 @@ namespace AttackSurfaceAnalyzer.Cli
                     Log.Error(Strings.Get("Err_CollectingFrom"), c.GetType().Name, e.Message, e.StackTrace);
                     Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
                     ExceptionEvent.Add("Exception Type", e.GetType().ToString());
-                    ExceptionEvent.Add("Stack Trace", e.StackTrace);
+                    ExceptionEvent.Add("Stack Trace", e.StackTrace ?? string.Empty);
                     ExceptionEvent.Add("Message", e.Message);
                     AsaTelemetry.TrackEvent("CollectorCrashRogueException", ExceptionEvent);
                     returnValue = 1;

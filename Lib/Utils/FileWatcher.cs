@@ -127,11 +127,7 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             if (disposing)
             {
-                if (watcher != null)
-                {
-                    watcher.Dispose();
-                    watcher = null;
-                }
+                watcher.Dispose();
             }
         }
     }

@@ -6,6 +6,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Security.AccessControl;
 using System.Security.Principal;
 
@@ -13,26 +14,16 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public static class RegistryWalker
     {
-        public static IEnumerable<RegistryKey> WalkHive(RegistryHive Hive, string startingKey = null)
+        public static IEnumerable<RegistryKey> WalkHive(RegistryHive Hive, RegistryView View, string startingKey = "")
         {
             Stack<RegistryKey> keys = new Stack<RegistryKey>();
 
-            RegistryKey x86_View = null, x64_View = null;
-            try
-            {
-                x86_View = RegistryKey.OpenBaseKey(Hive, RegistryView.Registry32);
-            }
-            catch (Exception e) when (
-                e is IOException ||
-                e is ArgumentException ||
-                e is UnauthorizedAccessException ||
-                e is System.Security.SecurityException)
-            {
 
-            }
+
+            RegistryKey? BaseKey = null;
             try
             {
-                x64_View = RegistryKey.OpenBaseKey(Hive, RegistryView.Registry64);
+                BaseKey = RegistryKey.OpenBaseKey(Hive, View);
             }
             catch (Exception e) when (
                 e is IOException ||
@@ -43,22 +34,13 @@ namespace AttackSurfaceAnalyzer.Utils
 
             }
 
-            if (x86_View != null)
+            if (BaseKey != null)
             {
                 if (startingKey != null)
                 {
-                    x86_View = x86_View.OpenSubKey(startingKey, writable: false);
+                    BaseKey = BaseKey.OpenSubKey(startingKey, writable: false);
                 }
-                keys.Push(x86_View);
-            }
-
-            if (x64_View != null)
-            {
-                if (startingKey != null)
-                {
-                    x64_View = x64_View.OpenSubKey(startingKey, writable: false);
-                }
-                keys.Push(x64_View);
+                keys.Push(BaseKey);
             }
 
             while (keys.Count > 0)
@@ -104,19 +86,14 @@ namespace AttackSurfaceAnalyzer.Utils
                 yield return currentKey;
             }
 
-            x86_View.Dispose();
-            x64_View.Dispose();
+            BaseKey?.Dispose();
         }
 
-        public static RegistryObject RegistryKeyToRegistryObject(RegistryKey registryKey)
+        public static RegistryObject? RegistryKeyToRegistryObject(RegistryKey registryKey, RegistryView registryView)
         {
-            RegistryObject regObj = null;
-            if (registryKey == null) { return regObj; }
+            if (registryKey == null) { return null; }
 
-            regObj = new RegistryObject()
-            {
-                Key = registryKey.Name,
-            };
+            RegistryObject regObj = new RegistryObject(registryKey.Name, registryView);
             try
             {
                 regObj.AddSubKeys(registryKey.GetSubKeyNames());
@@ -132,27 +109,22 @@ namespace AttackSurfaceAnalyzer.Utils
 
             try
             {
-                foreach (RegistryAccessRule rule in registryKey.GetAccessControl().GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier)))
+                foreach (RegistryAccessRule? rule in registryKey.GetAccessControl().GetAccessRules(true, true, typeof(SecurityIdentifier)))
                 {
-                    string name = rule.IdentityReference.Value;
+                    if (rule != null)
+                    {
+                        string name = AsaHelpers.SidToName(rule.IdentityReference);
 
-                    try
-                    {
-                        name = rule.IdentityReference.Translate(typeof(NTAccount)).Value;
+                        if (regObj.Permissions.ContainsKey(name))
+                        {
+                            regObj.Permissions[name].Add(rule.RegistryRights.ToString());
+                        }
+                        else
+                        {
+                            regObj.Permissions.Add(name, new List<string>() { rule.RegistryRights.ToString() });
+                        }
                     }
-                    catch (IdentityNotMappedException)
-                    {
-                        // This is fine. Some SIDs don't map to NT Accounts.
-                    }
-
-                    if (regObj.Permissions.ContainsKey(name))
-                    {
-                        regObj.Permissions[name].Add(rule.RegistryRights.ToString());
-                    }
-                    else
-                    {
-                        regObj.Permissions.Add(name, new List<string>() { rule.RegistryRights.ToString() });
-                    }
+                    
                 }
             }
             catch (ArgumentException)
@@ -164,19 +136,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 Log.Debug(e, "Failed to get permissions for {0}", regObj.Key);
             }
 
-
-            foreach (string valueName in registryKey.GetValueNames())
-            {
-                try
-                {
-                    regObj.Values.Add(valueName, (registryKey.GetValue(valueName) == null) ? "" : (registryKey.GetValue(valueName).ToString()));
-                }
-                catch (Exception ex)
-                {
-                    Log.Debug(ex, "Found an exception processing registry values of {0}.", registryKey.Name);
-                }
-            }
-
+            regObj.Values = RegistryObject.GetValues(registryKey);
 
             return regObj;
         }

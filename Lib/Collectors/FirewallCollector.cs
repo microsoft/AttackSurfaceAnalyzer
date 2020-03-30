@@ -37,11 +37,11 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             try
             {
-                foreach (IFirewallRule rule in FirewallManager.Instance.Rules.ToArray())
+                foreach (IFirewallRule rule in FirewallManager.Instance.Rules)
                 {
                     try
                     {
-                        var obj = new FirewallObject()
+                        var obj = new FirewallObject(rule.Name)
                         {
                             Action = rule.Action,
                             ApplicationName = rule.ApplicationName,
@@ -49,16 +49,15 @@ namespace AttackSurfaceAnalyzer.Collectors
                             FriendlyName = rule.FriendlyName,
                             IsEnable = rule.IsEnable,
                             LocalPortType = rule.LocalPortType,
-                            Name = rule.Name,
                             Profiles = rule.Profiles,
                             Protocol = rule.Protocol.ProtocolNumber.ToString(CultureInfo.InvariantCulture),
                             Scope = rule.Scope,
                             ServiceName = rule.ServiceName
                         };
-                        obj.LocalAddresses.AddRange(rule.LocalAddresses.ToList().ConvertAll(address => address.ToString()));
-                        obj.LocalPorts.AddRange(rule.LocalPorts.ToList().ConvertAll(port => port.ToString(CultureInfo.InvariantCulture)));
-                        obj.RemoteAddresses.AddRange(rule.RemoteAddresses.ToList().ConvertAll(address => address.ToString()));
-                        obj.RemotePorts.AddRange(rule.RemotePorts.ToList().ConvertAll(port => port.ToString(CultureInfo.InvariantCulture)));
+                        obj.LocalAddresses = rule.LocalAddresses.ToList().ConvertAll(address => address.ToString());
+                        obj.LocalPorts = rule.LocalPorts.ToList().ConvertAll(port => port.ToString(CultureInfo.InvariantCulture));
+                        obj.RemoteAddresses = rule.RemoteAddresses.ToList().ConvertAll(address => address.ToString());
+                        obj.RemotePorts = rule.RemotePorts.ToList().ConvertAll(port => port.ToString(CultureInfo.InvariantCulture));
                         DatabaseManager.Write(obj, RunId);
                     }
                     catch (Exception e)
@@ -95,11 +94,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                 {
                     var chainName = line.Split(' ')[1];
                     defaultPolicies.Add(chainName, line.Contains("ACCEPT") ? FirewallAction.Allow : FirewallAction.Block);
-                    var obj = new FirewallObject()
+                    var obj = new FirewallObject($"Default {chainName} policy")
                     {
                         Action = defaultPolicies[chainName],
                         FriendlyName = $"Default {chainName} policy",
-                        Name = $"Default {chainName} policy",
                         Scope = FirewallScope.All
                     };
                     if (!chainName.Equals("FORWARD"))
@@ -115,33 +113,32 @@ namespace AttackSurfaceAnalyzer.Collectors
                     var chainName = splits[1];
 
 
-                    var obj = new FirewallObject()
+                    var obj = new FirewallObject(line)
                     {
                         Action = (splits[Array.IndexOf(splits, "-j") + 1] == "ACCEPT") ? FirewallAction.Allow : FirewallAction.Block,
                         FriendlyName = line,
-                        Name = line,
                         Scope = FirewallScope.All,
                         Protocol = splits[Array.IndexOf(splits, "-p") + 1]
                     };
 
                     if (Array.IndexOf(splits, "--dport") > 0)
                     {
-                        obj.RemotePorts.Add(splits[Array.IndexOf(splits, "--dport") + 1]);
+                        obj.RemotePorts = splits[Array.IndexOf(splits, "--dport") + 1].OfType<string>().ToList();
                     }
 
                     if (Array.IndexOf(splits, "-d") > 0)
                     {
-                        obj.RemoteAddresses.Add(splits[Array.IndexOf(splits, "-d") + 1]);
+                        obj.RemoteAddresses = splits[Array.IndexOf(splits, "-d") + 1].OfType<string>().ToList();
                     }
 
                     if (Array.IndexOf(splits, "-s") > 0)
                     {
-                        obj.LocalAddresses.Add(splits[Array.IndexOf(splits, "-s") + 1]);
+                        obj.LocalAddresses = splits[Array.IndexOf(splits, "-s") + 1].OfType<string>().ToList();
                     }
 
                     if (Array.IndexOf(splits, "--sport") > 0)
                     {
-                        obj.LocalPorts.Add(splits[Array.IndexOf(splits, "--sport") + 1]);
+                        obj.LocalPorts = splits[Array.IndexOf(splits, "--sport") + 1].OfType<string>().ToList();
                     }
 
                     if (!chainName.Equals("FORWARD"))
@@ -162,26 +159,24 @@ namespace AttackSurfaceAnalyzer.Collectors
             // Example output: "Firewall is enabled. (State = 1)"
             var result = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--getglobalstate");
             var enabled = result.Contains("1");
-            var obj = new FirewallObject()
+            var obj = new FirewallObject("Firewall Enabled")
             {
                 Action = FirewallAction.Block,
                 Direction = FirewallDirection.Inbound,
                 IsEnable = enabled,
                 FriendlyName = "Firewall Enabled",
-                Name = "Firewall Enabled",
                 Scope = FirewallScope.All
             };
             DatabaseManager.Write(obj, RunId);
 
             // Example output: "Stealth mode disabled"
             result = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--getglobalstate");
-            obj = new FirewallObject()
+            obj = new FirewallObject("Stealth Mode")
             {
                 Action = FirewallAction.Block,
                 Direction = FirewallDirection.Inbound,
                 IsEnable = result.Contains("enabled"),
                 FriendlyName = "Stealth Mode",
-                Name = "Stealth Mode",
                 Scope = FirewallScope.All
             };
             DatabaseManager.Write(obj, RunId);
@@ -190,24 +185,22 @@ namespace AttackSurfaceAnalyzer.Collectors
              * Automatically allow signed built-in software ENABLED
              * Automatically allow downloaded signed software ENABLED */
             result = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--getallowsigned");
-            obj = new FirewallObject()
+            obj = new FirewallObject("Allow signed built-in software")
             {
                 Action = FirewallAction.Allow,
                 Direction = FirewallDirection.Inbound,
                 IsEnable = result.Split('\n')[0].Contains("ENABLED"),
                 FriendlyName = "Allow signed built-in software",
-                Name = "Allow signed built-in software",
                 Scope = FirewallScope.All
             };
             DatabaseManager.Write(obj, RunId);
 
-            obj = new FirewallObject()
+            obj = new FirewallObject("Allow downloaded signed software")
             {
                 Action = FirewallAction.Allow,
                 Direction = FirewallDirection.Inbound,
                 IsEnable = result.Split('\n')[1].Contains("ENABLED"),
                 FriendlyName = "Allow downloaded signed software",
-                Name = "Allow downloaded signed software",
                 Scope = FirewallScope.All
             };
             DatabaseManager.Write(obj, RunId);
@@ -235,12 +228,11 @@ ALF: total number of apps = 2
                     }
                     else if (line.Contains("incoming connections"))
                     {
-                        obj = new FirewallObject()
+                        obj = new FirewallObject(appName)
                         {
                             Action = (line.Contains("Allow")) ? FirewallAction.Allow : FirewallAction.Block,
                             Direction = FirewallDirection.Inbound,
                             FriendlyName = appName,
-                            Name = appName,
                             Scope = FirewallScope.All
                         };
                         DatabaseManager.Write(obj, RunId);

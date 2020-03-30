@@ -1,4 +1,5 @@
-﻿using AttackSurfaceAnalyzer.Utils;
+﻿using AttackSurfaceAnalyzer.Types;
+using AttackSurfaceAnalyzer.Utils;
 using System;
 using System.Linq;
 
@@ -6,26 +7,38 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public readonly struct WriteObject : IEquatable<WriteObject>
     {
-        public CollectObject ColObj { get; }
-        public string RunId { get; }
+        public readonly CollectObject ColObj { get; }
+        public readonly string RunId { get; }
         private readonly byte[] _rowKey;
         private readonly byte[] _serialized;
-        public int Shard { get; }
         public byte[] GetRowKey() { return _rowKey; }
         public byte[] GetSerialized() { return _serialized; }
 
-        public WriteObject(CollectObject ColObj, string RunId)
+        public WriteObject(CollectObject ColObjIn, string RunIdIn)
         {
-            if (ColObj == null)
-            {
-                throw new ArgumentNullException(nameof(ColObj));
-            }
-            this.ColObj = ColObj;
-            this.RunId = RunId;
+            ColObj = ColObjIn;
+            RunId = RunIdIn;
 
-            _serialized = JsonUtils.Dehydrate(ColObj);
+            _serialized = JsonUtils.Dehydrate(ColObjIn);
             _rowKey = CryptoHelpers.CreateHash(_serialized);
-            Shard = DatabaseManager.ModuloString(ColObj.Identity);
+        }
+
+        public static WriteObject? FromBytes(byte[] SerializedIn, RESULT_TYPE ResultTypeIn, string RunIdIn)
+        {
+            var wo = new WriteObject(SerializedIn, ResultTypeIn, RunIdIn); 
+            if (wo.ColObj == null)
+            {
+                return null;
+            }
+            return wo;
+        }
+
+        private WriteObject(byte[] SerializedIn, RESULT_TYPE ResultTypeIn, string RunIdIn)
+        {
+            _serialized = SerializedIn;
+            _rowKey = CryptoHelpers.CreateHash(_serialized);
+            RunId = RunIdIn;
+            ColObj = JsonUtils.Hydrate(SerializedIn, ResultTypeIn)!;
         }
 
         public override int GetHashCode()
@@ -39,7 +52,7 @@ namespace AttackSurfaceAnalyzer.Objects
             }
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj is WriteObject wo)
                 return _rowKey.SequenceEqual(wo.GetRowKey());
@@ -59,6 +72,22 @@ namespace AttackSurfaceAnalyzer.Objects
         public static bool operator !=(WriteObject left, WriteObject right)
         {
             return !(left == right);
+        }
+
+        public string Identity
+        {
+            get
+            {
+                return ColObj?.Identity ?? string.Empty;
+            }
+        }
+
+        public string InstanceHash
+        {
+            get
+            {
+                return Convert.ToBase64String(_rowKey);
+            }
         }
     }
 }

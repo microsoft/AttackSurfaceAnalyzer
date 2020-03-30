@@ -4,22 +4,22 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class DataRunModel
     {
-        public string Key { get; set; }
-        public string Text { get; set; }
+        public string Key { get; }
+        public string Text { get; }
+
+        public DataRunModel(string KeyIn, string TextIn)
+        {
+            Key = KeyIn;
+            Text = TextIn;
+        }
     }
 
     public class DataRunListModel
     {
-        public string SelectedBaseRunId { get; set; }
-        public string SelectedCompareRunId { get; set; }
-        public IEnumerable<DataRunModel> Runs { get; set; }
-        public string SelectedMonitorRunId { get; set; }
-        public IEnumerable<DataRunModel> MonitorRuns { get; set; }
-    }
-
-    public class DataResultModel
-    {
-        public string Key { get; set; }
-        public string Text { get; set; }
+        public string? SelectedBaseRunId { get; set; }
+        public string? SelectedCompareRunId { get; set; }
+        public IEnumerable<DataRunModel>? Runs { get; set; }
+        public string? SelectedMonitorRunId { get; set; }
+        public IEnumerable<DataRunModel>? MonitorRuns { get; set; }
     }
 }

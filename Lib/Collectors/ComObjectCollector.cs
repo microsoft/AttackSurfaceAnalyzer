@@ -39,12 +39,17 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// </summary>
         public override void ExecuteInternal()
         {
+            ParseView(RegistryView.Registry32);
+            ParseView(RegistryView.Registry64);
+        }
+
+        public void ParseView(RegistryView view) {
             try
             {
                 // Parse system Com Objects
-                using var SearchKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Default);
+                using var SearchKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, view);
                 var CLDIDs = SearchKey.OpenSubKey("SOFTWARE\\Classes\\CLSID");
-                ParseComObjects(CLDIDs);
+                ParseComObjects(CLDIDs, view);
             }
             catch (Exception e) when (
                 e is ArgumentException
@@ -54,18 +59,17 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             }
 
-
             try
             {
                 // Parse user Com Objects
-                using var SearchKey = RegistryKey.OpenBaseKey(RegistryHive.Users, RegistryView.Default);
+                using var SearchKey = RegistryKey.OpenBaseKey(RegistryHive.Users, view);
                 var subkeyNames = SearchKey.GetSubKeyNames();
                 foreach (string subkeyName in subkeyNames)
                 {
                     if (subkeyName.EndsWith("Classes"))
                     {
                         using var ComKey = SearchKey.OpenSubKey(subkeyName).OpenSubKey("CLSID");
-                        ParseComObjects(ComKey);
+                        ParseComObjects(ComKey, view);
                     }
                 }
             }
@@ -78,7 +82,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
-        public void ParseComObjects(RegistryKey SearchKey)
+        public void ParseComObjects(RegistryKey SearchKey, RegistryView View)
         {
             if (SearchKey == null) { return; }
             List<ComObject> comObjects = new List<ComObject>();
@@ -90,62 +94,72 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         RegistryKey CurrentKey = SearchKey.OpenSubKey(SubKeyName);
 
-                        var RegObj = RegistryWalker.RegistryKeyToRegistryObject(CurrentKey);
+                        var RegObj = RegistryWalker.RegistryKeyToRegistryObject(CurrentKey, View);
 
-                        ComObject comObject = new ComObject()
+                        if (RegObj != null)
                         {
-                            Key = RegObj,
-                        };
+                            ComObject comObject = new ComObject(RegObj);
 
-                        foreach (string ComDetails in CurrentKey.GetSubKeyNames())
-                        {
-                            var ComKey = CurrentKey.OpenSubKey(ComDetails);
-                            comObject.Subkeys.Add(RegistryWalker.RegistryKeyToRegistryObject(ComKey));
+                            foreach (string ComDetails in CurrentKey.GetSubKeyNames())
+                            {
+                                var ComKey = CurrentKey.OpenSubKey(ComDetails);
+                                var obj = RegistryWalker.RegistryKeyToRegistryObject(ComKey, View);
+                                if (obj != null)
+                                {
+                                    comObject.AddSubKey(obj);
+                                }
+                            }
+
+                            //Get the information from the InProcServer32 Subkey (for 32 bit)
+                            string? BinaryPath32 = null;
+                            var InProcServer32SubKeys = comObject.Subkeys.Where(x => x.Key.Contains("InprocServer32"));
+                            if (InProcServer32SubKeys.Any() && InProcServer32SubKeys.First().Values?.TryGetValue("", out BinaryPath32) is bool successful)
+                            {
+                                if (BinaryPath32 != null && successful)
+                                {
+                                    // Clean up cases where some extra spaces are thrown into the start (breaks our permission checker)
+                                    BinaryPath32 = BinaryPath32.Trim();
+                                    // Clean up cases where the binary is quoted (also breaks permission checker)
+                                    if (BinaryPath32.StartsWith("\"") && BinaryPath32.EndsWith("\""))
+                                    {
+                                        BinaryPath32 = BinaryPath32.AsSpan().Slice(1, BinaryPath32.Length - 2).ToString();
+                                    }
+                                    // Unqualified binary name probably comes from Windows\System32
+                                    if (!BinaryPath32.Contains("\\") && !BinaryPath32.Contains("%"))
+                                    {
+                                        BinaryPath32 = Path.Combine(Environment.SystemDirectory, BinaryPath32.Trim());
+                                    }
+
+                                    comObject.x86_Binary = FileSystemCollector.FilePathToFileSystemObject(BinaryPath32.Trim(), true);
+                                    comObject.x86_BinaryName = BinaryPath32;
+                                }
+                            }
+                            // And the InProcServer64 for 64 bit
+                            string? BinaryPath64 = null;
+                            var InProcServer64SubKeys = comObject.Subkeys.Where(x => x.Key.Contains("InprocServer64"));
+                            if (InProcServer64SubKeys.Any() && InProcServer64SubKeys.First().Values?.TryGetValue("", out BinaryPath64) is bool successful64)
+                            {
+                                if (BinaryPath64 != null && successful64)
+                                {
+                                    // Clean up cases where some extra spaces are thrown into the start (breaks our permission checker)
+                                    BinaryPath64 = BinaryPath64.Trim();
+                                    // Clean up cases where the binary is quoted (also breaks permission checker)
+                                    if (BinaryPath64.StartsWith("\"") && BinaryPath64.EndsWith("\""))
+                                    {
+                                        BinaryPath64 = BinaryPath64.Substring(1, BinaryPath64.Length - 2);
+                                    }
+                                    // Unqualified binary name probably comes from Windows\System32
+                                    if (!BinaryPath64.Contains("\\") && !BinaryPath64.Contains("%"))
+                                    {
+                                        BinaryPath64 = Path.Combine(Environment.SystemDirectory, BinaryPath64.Trim());
+                                    }
+                                    comObject.x64_Binary = FileSystemCollector.FilePathToFileSystemObject(BinaryPath64.Trim(), true);
+                                    comObject.x64_BinaryName = BinaryPath64;
+                                }
+                            }
+
+                            comObjects.Add(comObject);
                         }
-
-                        //Get the information from the InProcServer32 Subkey (for 32 bit)
-                        if (comObject.Subkeys.Where(x => x.Key.Contains("InprocServer32")).Any() && comObject.Subkeys.Where(x => x.Key.Contains("InprocServer32")).First().Values.ContainsKey(""))
-                        {
-                            comObject.Subkeys.Where(x => x.Key.Contains("InprocServer32")).First().Values.TryGetValue("", out string BinaryPath32);
-
-                            // Clean up cases where some extra spaces are thrown into the start (breaks our permission checker)
-                            BinaryPath32 = BinaryPath32.Trim();
-                            // Clean up cases where the binary is quoted (also breaks permission checker)
-                            if (BinaryPath32.StartsWith("\"") && BinaryPath32.EndsWith("\""))
-                            {
-                                BinaryPath32 = BinaryPath32.Substring(1, BinaryPath32.Length - 2);
-                            }
-                            // Unqualified binary name probably comes from Windows\System32
-                            if (!BinaryPath32.Contains("\\") && !BinaryPath32.Contains("%"))
-                            {
-                                BinaryPath32 = Path.Combine(Environment.SystemDirectory, BinaryPath32.Trim());
-                            }
-
-                            comObject.x86_Binary = FileSystemCollector.FilePathToFileSystemObject(BinaryPath32.Trim(), true);
-                            comObject.x86_BinaryName = BinaryPath32;
-                        }
-                        // And the InProcServer64 for 64 bit
-                        if (comObject.Subkeys.Where(x => x.Key.Contains("InprocServer64")).Any() && comObject.Subkeys.Where(x => x.Key.Contains("InprocServer64")).First().Values.ContainsKey(""))
-                        {
-                            comObject.Subkeys.Where(x => x.Key.Contains("InprocServer64")).First().Values.TryGetValue("", out string BinaryPath64);
-
-                            // Clean up cases where some extra spaces are thrown into the start (breaks our permission checker)
-                            BinaryPath64 = BinaryPath64.Trim();
-                            // Clean up cases where the binary is quoted (also breaks permission checker)
-                            if (BinaryPath64.StartsWith("\"") && BinaryPath64.EndsWith("\""))
-                            {
-                                BinaryPath64 = BinaryPath64.Substring(1, BinaryPath64.Length - 2);
-                            }
-                            // Unqualified binary name probably comes from Windows\System32
-                            if (!BinaryPath64.Contains("\\") && !BinaryPath64.Contains("%"))
-                            {
-                                BinaryPath64 = Path.Combine(Environment.SystemDirectory, BinaryPath64.Trim());
-                            }
-                            comObject.x64_Binary = FileSystemCollector.FilePathToFileSystemObject(BinaryPath64.Trim(), true);
-                            comObject.x64_BinaryName = BinaryPath64;
-                        }
-
-                        comObjects.Add(comObject);
                     }
                     catch (Exception e) when (
                         e is System.Security.SecurityException

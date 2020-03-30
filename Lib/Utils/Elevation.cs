@@ -30,8 +30,8 @@ namespace AttackSurfaceAnalyzer.Utils
         internal bool IsUserInAdminGroup()
         {
             bool fInAdminGroup = false;
-            SafeTokenHandle hToken = null;
-            SafeTokenHandle hTokenToCheck = null;
+            SafeTokenHandle? hToken = null;
+            SafeTokenHandle? hTokenToCheck = null;
             IntPtr pElevationType = IntPtr.Zero;
             IntPtr pLinkedToken = IntPtr.Zero;
             int cbSize = 0;
@@ -192,7 +192,7 @@ namespace AttackSurfaceAnalyzer.Utils
         internal bool IsProcessElevated()
         {
             bool fIsElevated = false;
-            SafeTokenHandle hToken = null;
+            SafeTokenHandle? hToken = null;
             int cbTokenElevation = 0;
             IntPtr pTokenElevation = IntPtr.Zero;
 
@@ -226,12 +226,23 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
 
                 // Marshal the TOKEN_ELEVATION struct from native to .NET object.
-                TOKEN_ELEVATION elevation = (TOKEN_ELEVATION)Marshal.PtrToStructure(
-                    pTokenElevation, typeof(TOKEN_ELEVATION));
+                //TOKEN_ELEVATION elevation = (TOKEN_ELEVATION)
 
-                // TOKEN_ELEVATION.TokenIsElevated is a non-zero value if the token 
-                // has elevated privileges; otherwise, a zero value.
-                fIsElevated = (elevation.TokenIsElevated != 0);
+                // Marshal the TOKEN_MANDATORY_LABEL struct from native to .NET object.
+                var elevation = Marshal.PtrToStructure(pTokenElevation, typeof(TOKEN_ELEVATION));
+
+                if (elevation is TOKEN_ELEVATION elevationToken)
+                {
+                    // TOKEN_ELEVATION.TokenIsElevated is a non-zero value if the token 
+                    // has elevated privileges; otherwise, a zero value.
+                    fIsElevated = (elevationToken.TokenIsElevated != 0);
+                }
+                else
+                {
+                    throw new NullReferenceException(nameof(elevation));
+                }
+
+               
             }
             finally
             {
@@ -292,7 +303,7 @@ namespace AttackSurfaceAnalyzer.Utils
         public static int GetProcessIntegrityLevel()
         {
             int IL = -1;
-            SafeTokenHandle hToken = null;
+            SafeTokenHandle? hToken = null;
             int cbTokenIL = 0;
             IntPtr pTokenIL = IntPtr.Zero;
 
@@ -343,14 +354,20 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
 
                 // Marshal the TOKEN_MANDATORY_LABEL struct from native to .NET object.
-                TOKEN_MANDATORY_LABEL tokenIL = (TOKEN_MANDATORY_LABEL)
-                    Marshal.PtrToStructure(pTokenIL, typeof(TOKEN_MANDATORY_LABEL));
+                var tokenMandatoryLabel = Marshal.PtrToStructure(pTokenIL, typeof(TOKEN_MANDATORY_LABEL));
 
-                // Integrity Level SIDs are in the form of S-1-16-0xXXXX. (e.g. 
-                // S-1-16-0x1000 stands for low integrity level SID). There is one 
-                // and only one subauthority.
-                IntPtr pIL = NativeMethods.GetSidSubAuthority(tokenIL.Label.Sid, 0);
-                IL = Marshal.ReadInt32(pIL);
+                if (tokenMandatoryLabel is TOKEN_MANDATORY_LABEL tokenIL)
+                {
+                    // Integrity Level SIDs are in the form of S-1-16-0xXXXX. (e.g. 
+                    // S-1-16-0x1000 stands for low integrity level SID). There is one 
+                    // and only one subauthority.
+                    IntPtr pIL = NativeMethods.GetSidSubAuthority(tokenIL.Label.Sid, 0);
+                    IL = Marshal.ReadInt32(pIL);
+                }
+                else
+                {
+                    throw new NullReferenceException(nameof(tokenMandatoryLabel));
+                }
             }
             finally
             {

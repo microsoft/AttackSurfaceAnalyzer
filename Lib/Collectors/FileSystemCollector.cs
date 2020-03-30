@@ -30,19 +30,23 @@ namespace AttackSurfaceAnalyzer.Collectors
         private readonly bool examineCertificates;
         private readonly bool parallel;
 
-        public FileSystemCollector(string runId, bool enableHashing = false, string directories = "", bool downloadCloud = false, bool examineCertificates = false, bool parallel = true)
+        public FileSystemCollector(CollectCommandOptions opts)
         {
-            RunId = runId;
-            this.downloadCloud = downloadCloud;
-            this.examineCertificates = examineCertificates;
-            this.parallel = parallel;
+            if (opts is null || opts.RunId is null)
+            {
+                throw new ArgumentNullException(nameof(opts));
+            }
+            RunId = opts.RunId;
+            downloadCloud = opts.DownloadCloud;
+            examineCertificates = opts.CertificatesFromFiles;
+            parallel = opts.Parallelization;
 
             roots = new HashSet<string>();
-            INCLUDE_CONTENT_HASH = enableHashing;
+            INCLUDE_CONTENT_HASH = opts.GatherHashes;
 
-            if (!string.IsNullOrEmpty(directories))
+            if (!string.IsNullOrEmpty(opts.SelectedDirectories))
             {
-                foreach (string path in directories.Split(','))
+                foreach (string path in opts.SelectedDirectories.Split(','))
                 {
                     AddRoot(path);
                 }
@@ -66,7 +70,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public override void ExecuteInternal()
         {
-            if (roots == null || !roots.Any())
+            if (!roots.Any())
             {
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
@@ -103,11 +107,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                         try
                         {
                             var certificate = X509Certificate.CreateFromCertFile(Path);
-                            var certObj = new CertificateObject()
+                            var certObj = new CertificateObject(
+                                StoreLocation: Path,
+                                StoreName: "Disk",
+                                CertificateHashString: certificate.GetCertHashString())
                             {
-                                StoreLocation = Path,
-                                StoreName = "Disk",
-                                CertificateHashString = certificate.GetCertHashString(),
                                 Subject = certificate.Subject,
                                 Pkcs7 = certificate.Export(X509ContentType.Cert).ToString()
                             };
@@ -156,11 +160,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <returns></returns>
         public static FileSystemObject FilePathToFileSystemObject(string path, bool downloadCloud = false, bool includeContentHash = false)
         {
-            if (path == null) { return null; }
-            FileSystemObject obj = new FileSystemObject()
-            {
-                Path = path,
-            };
+            FileSystemObject obj = new FileSystemObject(path);
 
             // Get Owner/Group
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -171,56 +171,30 @@ namespace AttackSurfaceAnalyzer.Collectors
                     IdentityReference oid = fileSecurity.GetOwner(typeof(SecurityIdentifier));
                     IdentityReference gid = fileSecurity.GetGroup(typeof(SecurityIdentifier));
 
-                    // Set the Owner and Group to the SID, in case we can't properly translate
-                    obj.Owner = oid.ToString();
-                    obj.Group = gid.ToString();
+                    obj.Owner = AsaHelpers.SidToName(oid);
+                    obj.Group = AsaHelpers.SidToName(gid);
 
-                    try
+                    var rules = fileSecurity.GetAccessRules(true, true, typeof(SecurityIdentifier));
+                    foreach (FileSystemAccessRule? rule in rules)
                     {
-                        // Translate owner into the string representation.
-                        obj.Owner = (oid.Translate(typeof(NTAccount)) as NTAccount).Value;
-                    }
-                    catch (IdentityNotMappedException)
-                    {
-                        Log.Verbose("Couldn't find the Owner from SID {0} for file {1}", oid.ToString(), path);
-                    }
-                    try
-                    {
-                        // Translate group into the string representation.
-                        obj.Group = (gid.Translate(typeof(NTAccount)) as NTAccount).Value;
-                    }
-                    catch (IdentityNotMappedException)
-                    {
-                        // This is fine. Some SIDs don't map to NT Accounts.
-                        Log.Verbose("Couldn't find the Group from SID {0} for file {1}", gid.ToString(), path);
-                    }
-
-                    var rules = fileSecurity.GetAccessRules(true, true, typeof(System.Security.Principal.SecurityIdentifier));
-                    foreach (FileSystemAccessRule rule in rules)
-                    {
-                        string name = rule.IdentityReference.Value;
-
-                        try
+                        if (rule != null)
                         {
-                            name = rule.IdentityReference.Translate(typeof(NTAccount)).Value;
-                        }
-                        catch (IdentityNotMappedException)
-                        {
-                            // This is fine. Some SIDs don't map to NT Accounts.
-                        }
+                            string name = AsaHelpers.SidToName(rule.IdentityReference);
+                            
+                            obj.Permissions = new Dictionary<string, string>();
 
-                        foreach (var permission in rule.FileSystemRights.ToString().Split(','))
-                        {
-                            if (obj.Permissions.ContainsKey(name))
+                            foreach (var permission in rule.FileSystemRights.ToString().Split(','))
                             {
-                                obj.Permissions[name] = $"{obj.Permissions[name]},{permission}";
-                            }
-                            else
-                            {
-                                obj.Permissions.Add(name, permission);
+                                if (obj.Permissions.ContainsKey(name))
+                                {
+                                    obj.Permissions[name] = $"{obj.Permissions[name]},{permission}";
+                                }
+                                else
+                                {
+                                    obj.Permissions.Add(name, permission);
+                                }
                             }
                         }
-
                     }
                 }
                 catch (Exception e) when (
@@ -249,6 +223,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     obj.SetGid = file.IsSetGroup;
                     obj.SetUid = file.IsSetUser;
 
+                    obj.Permissions = new Dictionary<string, string>();
                     if (file.FileAccessPermissions.ToString().Equals("AllPermissions", StringComparison.InvariantCulture))
                     {
                         obj.Permissions.Add("User", "Read,Write,Execute");
@@ -312,7 +287,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                     else
                     {
                         var fileInfo = new FileInfo(path);
-                        obj.Size = (ulong)fileInfo.Length;
+                        var size = (ulong)fileInfo.Length;
+                        obj.Size = size;
                         if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
                         {
                             if (includeContentHash)
@@ -320,12 +296,12 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
                             }
 
-                            obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, obj.Size);
+                            obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, size);
 
-                            if (obj.IsExecutable)
+                            if (obj.IsExecutable is bool && (bool)obj.IsExecutable)
                             {
                                 obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(path);
-                                obj.Characteristics.AddRange(WindowsFileSystemUtils.GetDllCharacteristics(path));
+                                obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(path);
                             }
                         }
                     }

@@ -119,9 +119,9 @@ namespace AttackSurfaceAnalyzer.Collectors
             return string.Empty;
         }
 
-        public static bool IsExecutable(string Path, ulong Size)
+        public static bool? IsExecutable(string? Path, ulong? Size)
         {
-            if (Path is null) { return false; }
+            if (Path is null || Size is null) { return null; }
             if (Size < 4) { return false; }
 
             // Shortcut to help with system files we can't read directly
@@ -198,7 +198,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             try
             {
-                return GetFileHash(new FileInfo(path));
+                return GetFileHash(new FileInfo(path)) ?? string.Empty;
             }
             catch (Exception)
             {
@@ -206,13 +206,13 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
-        public static string GetFileHash(FileSystemInfo fileInfo)
+        public static string? GetFileHash(FileSystemInfo fileInfo)
         {
             if (fileInfo != null)
             {
                 Log.Debug("{0} {1}", Strings.Get("FileHash"), fileInfo.FullName);
 
-                string hashValue = null;
+                string? hashValue = null;
                 try
                 {
                     using (var stream = new FileStream(fileInfo.FullName, FileMode.Open, FileAccess.Read))
@@ -236,7 +236,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
                 return hashValue;
             }
-            return string.Empty;
+            return null;
         }
     }
 }

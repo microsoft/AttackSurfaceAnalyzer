@@ -3,20 +3,18 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
     <RootNamespace>AttackSurfaceAnalyzer</RootNamespace>
-    <ReleaseVersion>2.1-alpha</ReleaseVersion>
     <PackageId>AttackSurfaceAnalyzer</PackageId>
-    <PackageVersion>2.1-alpha</PackageVersion>
+    <PackageVersion>0.0.0</PackageVersion>
     <Authors>Microsoft Corporation</Authors>
     <Owners>Microsoft Corporation</Owners>
     <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Attack Surface Analyzer is a Microsoft-developed open source security tool available at https://github.com/microsoft/AttackSurfaceAnalyzer that analyzes the attack surface of a target system and reports on potential security vulnerabilities introduced by the installation of software or by system misconfiguration.
 
 This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI and GUI available on GitHub.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <FileUpgradeFlags>40</FileUpgradeFlags>
-    <UpgradeBackupLocation>C:\Users\Gstoc\Documents\GitHub\AttackSurfaceAnalyzer\Backup\Lib\</UpgradeBackupLocation>
-    <OldToolsVersion>2.0</OldToolsVersion>
+    <AssemblyName>AsaLib</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="CompareNETObjects" Version="4.65.0" />
@@ -29,7 +27,6 @@ This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI 
     <PackageReference Include="Microsoft.PowerShell.SDK" Version="6.2.4" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="3.1.0" />
-    <PackageReference Include="murmurhash" Version="1.0.3" />
     <PackageReference Include="PeNet" Version="1.6.0" />
     <PackageReference Include="Serilog" Version="2.9.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
@@ -56,6 +53,7 @@ This NuGet contains the AttackSurfaceAnalyzer Library, which is used by the CLI 
     <PackageReference Include="WindowsFirewallHelper" Version="2.0.2.29-beta1" />
     <PackageReference Include="CommandLineParser" Version="2.7.82" />
     <PackageReference Include="Utf8Json" Version="1.3.7" />
+    <PackageReference Include="sqlite" Version="3.13.0" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\analyses.json" Link="analyses.json" />

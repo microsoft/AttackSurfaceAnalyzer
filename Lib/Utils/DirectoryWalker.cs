@@ -108,16 +108,24 @@ namespace AttackSurfaceAnalyzer.Utils
                 // This could also be done before handing the files.
                 foreach (string dir in subDirs)
                 {
-                    DirectoryInfo fileInfo = null;
                     try
                     {
-                        fileInfo = new DirectoryInfo(dir);
+                        DirectoryInfo directoryInfo = new DirectoryInfo(dir);
 
                         // Skip symlinks to avoid loops
                         // Future improvement: log it as a symlink in the data
-                        if (fileInfo.Attributes.HasFlag(FileAttributes.ReparsePoint))
+                        if (directoryInfo.Attributes.HasFlag(FileAttributes.ReparsePoint))
                         {
                             continue;
+                        }
+                        if (!dirsSet.Contains(dir))
+                        {
+                            dirs.Push(dir);
+                            dirsSet.Add(dir);
+                        }
+                        else
+                        {
+                            Log.Verbose("Loop detected. Skipping duplicate directory {0} as a subdirectory of {1}", dir, currentDir);
                         }
                     }
                     catch (Exception e) when (
@@ -130,20 +138,6 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         Log.Verbose("Failed to create DirectoryInfo from Directory at {0} {1}", dir, e.GetType().ToString());
                         continue;
-                    }
-
-
-                    if (fileInfo != null)
-                    {
-                        if (!dirsSet.Contains(dir))
-                        {
-                            dirs.Push(dir);
-                            dirsSet.Add(dir);
-                        }
-                        else
-                        {
-                            Log.Verbose("Loop detected. Skipping duplicate directory {0} as a subdirectory of {1}", dir, currentDir);
-                        }
                     }
                 }
             }

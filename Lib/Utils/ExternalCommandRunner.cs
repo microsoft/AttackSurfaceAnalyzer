@@ -11,7 +11,7 @@ namespace AttackSurfaceAnalyzer.Utils
     {
         public static string RunExternalCommand(string command, params string[] args) => RunExternalCommand(command, string.Join(' ', args), true);
 
-        public static string RunExternalCommand(string filename, string arguments = null, bool Redirect = true)
+        public static string RunExternalCommand(string filename, string arguments = "", bool Redirect = true)
         {
             using var process = new Process()
             {
@@ -30,7 +30,7 @@ namespace AttackSurfaceAnalyzer.Utils
             var stdOutput = new StringBuilder();
             process.OutputDataReceived += (sender, args) => stdOutput.AppendLine(args.Data); // Use AppendLine rather than Append since args.Data is one line of output, not including the newline character.
 
-            string stdError = null;
+            string stdError = string.Empty;
             try
             {
                 process.Start();

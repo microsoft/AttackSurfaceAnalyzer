@@ -9,11 +9,11 @@ namespace AttackSurfaceAnalyzer.Benchmarks
 {
     [MarkdownExporterAttribute.GitHub]
     [JsonExporterAttribute.Full]
-    public class InsertTestsWithIntermittentTransactions
+    public class InsertTestsWithIntermittentTransactions : AsaDatabaseBenchmark
     {
         // The number of records to insert for the benchmark
         //[Params(25000,50000,100000)]
-        [Params(100000)]
+        [Params(100000, 1000000)]
         public int N { get; set; }
 
         // The number of records to populate the database with before the benchmark
@@ -28,17 +28,22 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         public int ObjectPadding { get; set; }
 
         // The number of Shards/Threads to use for Database operations
-        [Params(1,2,3,4,5,6,7,8,9,10,11,12)]
+        [Params(6)]
         public int Shards { get; set; }
 
-        // The number of Shards/Threads to use for Database operations
-        [Params(5000,10000,25000)]
+        // If not -1, how many records each writer should write before committing. When -1 don't do checkpoint commits.
+        [Params(-1)]
         public int FlushCount { get; set; }
 
-        // Bag of reusable objects to write to the database.
-        private static readonly ConcurrentBag<FileSystemObject> BagOfObjects = new ConcurrentBag<FileSystemObject>();
+        // Journaling mode, options are
+        //[Params("OFF","DELETE","WAL","MEMORY")]
+        [Params("WAL")]
+        public string JournalMode { get; set; }
 
+        // Bag of reusable objects to write to the database.
+#nullable disable
         public InsertTestsWithIntermittentTransactions()
+#nullable restore
         {
             Logger.Setup(true, true);
             Strings.Setup();
@@ -66,31 +71,21 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             DatabaseManager.Commit();
         }
 
-        public static FileSystemObject GetRandomObject(int ObjectPadding = 0)
+        public void Setup()
         {
-            BagOfObjects.TryTake(out FileSystemObject obj);
-
-            if (obj != null)
+            DatabaseManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite", new DBSettings()
             {
-                obj.Path = CryptoHelpers.GetRandomString(32);
-                return obj;
-            }
-            else
-            {
-                return new FileSystemObject()
-                {
-                    // Pad this field with extra data.
-                    FileType = CryptoHelpers.GetRandomString(ObjectPadding),
-                    Path = CryptoHelpers.GetRandomString(32)
-                };
-            }
+                ShardingFactor = Shards,
+                FlushCount = FlushCount,
+                JournalMode = JournalMode
+            });
         }
 
         public void PopulateDatabases()
         {
-            DatabaseManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite", shardingFactor: Shards);
+            Setup();
 
-            Insert_X_Objects(StartingSize,ObjectPadding,"PopulateDatabase");
+            Insert_X_Objects(StartingSize, ObjectPadding, "PopulateDatabase");
 
             DatabaseManager.CloseDatabase();
         }
@@ -104,31 +99,24 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [GlobalCleanup]
         public void GlobalCleanup()
         {
-            DatabaseManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite", shardingFactor: Shards);
+            Setup();
             DatabaseManager.Destroy();
         }
 
         [IterationSetup]
         public void IterationSetup()
         {
-            DatabaseManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite", shardingFactor: Shards, flushCount: FlushCount);
+            Setup();
         }
 
         [IterationCleanup]
         public void IterationCleanup()
         {
-            if (StartingSize == 0)
-            {
-                DatabaseManager.Destroy();
-            }
-            else
-            {
-                DatabaseManager.BeginTransaction();
-                DatabaseManager.DeleteRun("Insert_N_Objects");
-                DatabaseManager.Commit();
-                DatabaseManager.Vacuum();
-                DatabaseManager.CloseDatabase();
-            }
+            DatabaseManager.BeginTransaction();
+            DatabaseManager.DeleteRun("Insert_N_Objects");
+            DatabaseManager.Commit();
+            DatabaseManager.Vacuum();
+            DatabaseManager.CloseDatabase();
         }
     }
 }

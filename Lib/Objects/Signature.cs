@@ -10,20 +10,29 @@ namespace AttackSurfaceAnalyzer.Objects
             if (authenticodeInfo != null)
             {
                 IsAuthenticodeValid = authenticodeInfo.IsAuthenticodeValid;
-                SignedHash = authenticodeInfo.SignedHash;
+                SignedHash = Convert.ToBase64String(authenticodeInfo.SignedHash);
                 SignerSerialNumber = authenticodeInfo.SignerSerialNumber;
                 SigningCertificate = new SerializableCertificate(authenticodeInfo.SigningCertificate);
             }
+            else
+            {
+                IsAuthenticodeValid = false;
+            }
         }
 
-        public Signature()
+        /// <summary>
+        /// This constructor is for deserialization.
+        /// </summary>
+        /// <param name="IsAuthenticodeValid"></param>
+        public Signature(bool IsAuthenticodeValid)
         {
+            this.IsAuthenticodeValid = IsAuthenticodeValid;
         }
 
         public bool IsAuthenticodeValid { get; set; }
-        public byte[] SignedHash { get; set; }
-        public string SignerSerialNumber { get; set; }
-        public SerializableCertificate SigningCertificate { get; set; }
+        public string? SignedHash { get; set; }
+        public string? SignerSerialNumber { get; set; }
+        public SerializableCertificate? SigningCertificate { get; set; }
 
         public bool IsTimeValid
         {

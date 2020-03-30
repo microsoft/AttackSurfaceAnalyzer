@@ -12,7 +12,7 @@ namespace AttackSurfaceAnalyzer.Utils
     {
         private const string INSTRUMENTATION_KEY = "719e5a56-dae8-425f-be07-877db7ae4d3b";
 
-        private static TelemetryClient Client;
+        private static TelemetryClient? Client;
         public static bool Enabled { get; private set; }
 
         public static void Setup(bool test = false)
@@ -20,7 +20,7 @@ namespace AttackSurfaceAnalyzer.Utils
             if (Client == null)
             {
                 using var config = TelemetryConfiguration.CreateDefault();
-                Enabled = test ? true: DatabaseManager.GetTelemetryEnabled();
+                Enabled = test ? true : DatabaseManager.GetTelemetryEnabled();
                 config.InstrumentationKey = INSTRUMENTATION_KEY;
                 config.DisableTelemetry = !Enabled;
                 Client = new TelemetryClient(config);
@@ -34,7 +34,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void Flush()
         {
-            Client.Flush();
+            Client?.Flush();
         }
 
         public static void SetEnabled(bool enabled)
@@ -58,8 +58,8 @@ namespace AttackSurfaceAnalyzer.Utils
             track.Add("Version", AsaHelpers.GetVersionString());
             track.Add("OS", AsaHelpers.GetOsName());
             track.Add("OS_Version", AsaHelpers.GetOsVersion());
-            track.Add("Method", new System.Diagnostics.StackFrame(1).GetMethod().Name);
-            Client.TrackEvent(name, track);
+            track.Add("Method", new System.Diagnostics.StackFrame(1).GetMethod()?.Name ?? "");
+            Client?.TrackEvent(name, track);
         }
 
         public static void TrackTrace(SeverityLevel severityLevel, Exception e)
@@ -68,9 +68,9 @@ namespace AttackSurfaceAnalyzer.Utils
             evt.Add("Version", AsaHelpers.GetVersionString());
             evt.Add("OS", AsaHelpers.GetOsName());
             evt.Add("OS_Version", AsaHelpers.GetOsVersion());
-            evt.Add("Method", new System.Diagnostics.StackFrame(1).GetMethod().Name);
-            evt.Add("Stack", (e == null) ? "" : e.StackTrace);
-            Client.TrackTrace((e == null) ? "Null" : e.GetType().ToString(), severityLevel, evt);
+            evt.Add("Method", new System.Diagnostics.StackFrame(1).GetMethod()?.Name ?? "");
+            evt.Add("Stack", (e == null || e.StackTrace == null) ? "" : e.StackTrace);
+            Client?.TrackTrace((e == null) ? "Null" : e.GetType().ToString(), severityLevel, evt);
         }
     }
 }

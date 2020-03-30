@@ -7,6 +7,7 @@ using Serilog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using System.Security.Principal;
@@ -34,13 +35,11 @@ namespace AttackSurfaceAnalyzer.Collectors
             RegistryHive.ClassesRoot, RegistryHive.CurrentConfig, RegistryHive.CurrentUser, RegistryHive.LocalMachine, RegistryHive.Users
         };
 
-        private readonly Action<RegistryObject> customCrawlHandler = null;
+        private readonly Action<RegistryObject>? customCrawlHandler;
 
         public RegistryCollector(string RunId, bool Parallelize) : this(RunId, DefaultHives, Parallelize, null) { }
 
-        public RegistryCollector(string RunId, List<RegistryHive> Hives, bool Parallelize) : this(RunId, Hives, Parallelize, null) { }
-
-        public RegistryCollector(string RunId, List<RegistryHive> Hives, bool Parallelize, Action<RegistryObject> customHandler)
+        public RegistryCollector(string RunId, List<RegistryHive> Hives, bool Parallelize, Action<RegistryObject>? customHandler = null)
         {
             this.RunId = RunId;
             this.Hives = Hives;
@@ -66,45 +65,22 @@ namespace AttackSurfaceAnalyzer.Collectors
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
         }
 
-        public static string GetName(RegistryAccessRule rule)
-        {
-            if (rule == null)
-            {
-                return string.Empty;
-            }
-            if (!SidMap.ContainsKey(rule.IdentityReference.Value))
-            {
-                try
-                {
-                    var mappedValue = rule.IdentityReference.Translate(typeof(NTAccount)).Value;
-                    SidMap.TryAdd(rule.IdentityReference.Value, mappedValue);
-                }
-                catch (IdentityNotMappedException)
-                {
-                    // This is fine. Some SIDs don't map to NT Accounts.
-                    SidMap.TryAdd(rule.IdentityReference.Value, rule.IdentityReference.Value);
-                }
-            }
-
-            return SidMap[rule.IdentityReference.Value];
-        }
-
         public override void ExecuteInternal()
         {
             foreach (var hive in Hives)
             {
                 Log.Debug("Starting " + hive.ToString());
-                if (!Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "Registry", "Hive", "Include", hive.ToString()) && Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "Registry", "Hive", "Exclude", hive.ToString(), out Regex Capturer))
+                if (!Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "Registry", "Hive", "Include", hive.ToString()) && Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "Registry", "Hive", "Exclude", hive.ToString(), out Regex? Capturer))
                 {
-                    Log.Debug("{0} '{1}' {2} '{3}'.", Strings.Get("ExcludingHive"), hive.ToString(), Strings.Get("DueToFilter"), Capturer.ToString());
+                    Log.Debug("{0} '{1}' {2} '{3}'.", Strings.Get("ExcludingHive"), hive.ToString(), Strings.Get("DueToFilter"), Capturer?.ToString());
                     return;
                 }
 
-                Action<RegistryKey> IterateOn = registryKey =>
+                Action<RegistryKey, RegistryView> IterateOn = (registryKey, registryView) =>
                 {
                     try
                     {
-                        var regObj = RegistryWalker.RegistryKeyToRegistryObject(registryKey);
+                        var regObj = RegistryWalker.RegistryKeyToRegistryObject(registryKey, registryView);
 
                         if (regObj != null)
                         {
@@ -118,21 +94,32 @@ namespace AttackSurfaceAnalyzer.Collectors
                 };
 
                 Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "Registry", "Key", "Exclude", hive.ToString());
-                var registryInfoEnumerable = RegistryWalker.WalkHive(hive);
+
+                var x86_Enumerable = RegistryWalker.WalkHive(hive, RegistryView.Registry32);
+                var x64_Enumerable = RegistryWalker.WalkHive(hive, RegistryView.Registry64);
 
                 if (Parallelize)
                 {
-                    Parallel.ForEach(registryInfoEnumerable,
+                    Parallel.ForEach(x86_Enumerable,
                     (registryKey =>
                     {
-                        IterateOn(registryKey);
+                        IterateOn(registryKey, RegistryView.Registry32);
+                    }));
+                    Parallel.ForEach(x86_Enumerable,
+                    (registryKey =>
+                    {
+                        IterateOn(registryKey, RegistryView.Registry64);
                     }));
                 }
                 else
                 {
-                    foreach (var registryKey in registryInfoEnumerable)
+                    foreach (var registryKey in x86_Enumerable)
                     {
-                        IterateOn(registryKey);
+                        IterateOn(registryKey, RegistryView.Registry32);
+                    }
+                    foreach (var registryKey in x64_Enumerable)
+                    {
+                        IterateOn(registryKey, RegistryView.Registry64);
                     }
                 }
                 Log.Debug("Finished " + hive.ToString());

@@ -5,80 +5,84 @@ using Microsoft.Win32;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace AttackSurfaceAnalyzer.Objects
 {
     public class RegistryObject : CollectObject
     {
         public string Key { get; set; }
-        public Dictionary<string, string> Values { get; set; }
-        public List<string> Subkeys { get; set; }
-        public string PermissionsString { get; set; }
-        public Dictionary<string, List<string>> Permissions { get; set; }
+        public Dictionary<string, string>? Values { get; set; }
+        public List<string>? Subkeys { get; set; }
+        public string? PermissionsString { get; set; }
+        public Dictionary<string, List<string>> Permissions { get; set; } = new Dictionary<string, List<string>>();
+
+        public RegistryView View { get; private set; }
 
         public int ValueCount
         {
-            get { return Values.Count; }
+            get { return Values?.Count ?? 0; }
         }
         public int SubkeyCount
         {
-            get { return Subkeys.Count; }
+            get { return Subkeys?.Count ?? 0; }
         }
 
-        public RegistryObject()
+        public RegistryObject(string Key, RegistryView View)
         {
             ResultType = RESULT_TYPE.REGISTRY;
-            Subkeys = new List<string>();
-            Permissions = new Dictionary<string, List<string>>();
-            Values = new Dictionary<string, string>();
+            this.View = View;
+            this.Key = Key;
         }
 
         public void AddSubKeys(string[] subkeysIn)
         {
+            if (Subkeys == null)
+            {
+                Subkeys = new List<string>();
+            }
             Subkeys.AddRange(subkeysIn);
         }
 
-        private static List<string> GetSubkeys(RegistryKey key)
+        public static List<string> GetSubkeys(RegistryKey key)
         {
+            if (key is null)
+            {
+                return new List<string>();
+            }
             return new List<string>(key.GetSubKeyNames());
         }
 
-        private static Dictionary<string, string> GetValues(RegistryKey key)
+        public static Dictionary<string, string> GetValues(RegistryKey key)
         {
+            if (key is null)
+            {
+                throw new ArgumentNullException(nameof(key));
+            }
             Dictionary<string, string> values = new Dictionary<string, string>();
             // Write values under key and commit
             foreach (var value in key.GetValueNames())
             {
-                var Value = key.GetValue(value);
+                RegistryValueKind rvk = key.GetValueKind(value);
                 string str = "";
 
-                // This is okay. It is a zero-length value
-                if (Value == null)
+                switch (rvk)
                 {
-                    // We can leave this empty
-                }
-
-                else if (Value.ToString() == "System.Byte[]")
-                {
-                    str = Convert.ToBase64String((System.Byte[])Value);
-                }
-
-                else if (Value.ToString() == "System.String[]")
-                {
-                    str = "";
-                    foreach (String st in (System.String[])Value)
-                    {
-                        str += st;
-                    }
-                }
-
-                else
-                {
-                    if (Value.ToString() == Value.GetType().ToString())
-                    {
-                        Log.Warning("Uh oh, this type isn't handled. " + Value.ToString());
-                    }
-                    str = Value.ToString();
+                    case RegistryValueKind.MultiString:
+                        str = string.Join(Environment.NewLine, (string[])key.GetValue(value));
+                        break;
+                    case RegistryValueKind.Binary:
+                        str = Convert.ToBase64String((byte[])key.GetValue(value));
+                        break;
+                    case RegistryValueKind.ExpandString:
+                    case RegistryValueKind.String:
+                        str = (string)key.GetValue(value);
+                        break;
+                    case RegistryValueKind.DWord:
+                    case RegistryValueKind.QWord:
+                    default:
+                        str = key.GetValue(value).ToString() ?? string.Empty;
+                        break;
                 }
                 values.Add(value, str);
             }
@@ -89,7 +93,7 @@ namespace AttackSurfaceAnalyzer.Objects
         {
             get
             {
-                return Key;
+                return $"{View}_{Key}";
             }
         }
     }

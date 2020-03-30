@@ -13,7 +13,7 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public static class Filter
     {
-        private static JObject config = null;
+        private static JObject? config;
         private static readonly Dictionary<string, List<Regex>> _filters = new Dictionary<string, List<Regex>>() {
             { "Certificates:Scan:File:Path:Include",new List<Regex>(){ new Regex("^.*\\.cer$") } },
             { "Certificates:Scan:File:Path:Exclude",new List<Regex>(){ new Regex(".*") } }
@@ -32,9 +32,9 @@ namespace AttackSurfaceAnalyzer.Utils
             return IsFiltered(Platform, ScanType, ItemType, Property, "Exclude", Target);
         }
 
-        public static bool IsFiltered(string Platform, string ScanType, string ItemType, string Property, string FilterType, string Target) => IsFiltered(Platform, ScanType, ItemType, Property, FilterType, Target, out Regex dummy);
+        public static bool IsFiltered(string Platform, string ScanType, string ItemType, string Property, string FilterType, string Target) => IsFiltered(Platform, ScanType, ItemType, Property, FilterType, Target, out Regex? _);
 
-        public static bool IsFiltered(string Platform, string ScanType, string ItemType, string Property, string FilterType, string Target, out Regex regex)
+        public static bool IsFiltered(string Platform, string ScanType, string ItemType, string Property, string FilterType, string Target, out Regex? regex)
         {
             regex = null;
             if (config == null)
@@ -54,7 +54,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     try
                     {
-                        JArray jFilters = (JArray)config[Platform][ScanType][ItemType][Property][FilterType];
+                        var jFilters = (JArray?)config[Platform]?[ScanType]?[ItemType]?[Property]?[FilterType] ?? new JArray();
                         foreach (var filter in jFilters)
                         {
                             filters.Add(new Regex(filter.ToString(), RegexOptions.Compiled));
@@ -112,9 +112,12 @@ namespace AttackSurfaceAnalyzer.Utils
         public static void DumpFilters()
         {
             Log.Verbose("Filter dump:");
-            foreach (var filter in config)
+            if (config != null)
             {
-                Log.Verbose(filter.Value.ToString());
+                foreach (var filter in config)
+                {
+                    Log.Verbose(filter.Value?.ToString());
+                }
             }
         }
 
@@ -125,7 +128,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 var assembly = typeof(FileSystemObject).Assembly;
                 var resourceName = "AttackSurfaceAnalyzer.filters.json";
 
-                using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+                using (Stream stream = assembly.GetManifestResourceStream(resourceName) ?? new MemoryStream())
                 using (StreamReader streamreader = new StreamReader(stream))
                 using (JsonTextReader reader = new JsonTextReader(streamreader))
                 {

@@ -6,6 +6,9 @@
     <OutputType>Exe</OutputType>
     <ReleaseVersion>2.1-alpha</ReleaseVersion>
     <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Asa</AssemblyName>
+    <RootNamespace>AttackSurfaceAnalyzer.Cli</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -24,10 +27,11 @@
     <StartAction>Project</StartAction>
     <ExternalConsole>true</ExternalConsole>
   </PropertyGroup>
-  <ItemGroup>
-    <None Remove="asa.sqlite" />
-    <None Remove="asa.log.txt" />
-  </ItemGroup>
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Asa' ">
+    <StartAction>Project</StartAction>
+    <ExternalConsole>true</ExternalConsole>
+    <ApplicationURL>http://localhost:5000</ApplicationURL>
+  </PropertyGroup>
 
   <ItemGroup>
     <Content Include="..\LICENSE.txt" Link="LICENSE.txt" />
@@ -47,15 +51,15 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\Lib\AsaLib.csproj" />
-  </ItemGroup>
-
-
-  <ItemGroup>
     <PackageReference Include="Nerdbank.GitVersioning" Version="3.0.50">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Lib\Lib.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
