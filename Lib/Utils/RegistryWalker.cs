@@ -18,8 +18,6 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             Stack<RegistryKey> keys = new Stack<RegistryKey>();
 
-
-
             RegistryKey? BaseKey = null;
             try
             {
@@ -64,6 +62,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         var next = currentKey.OpenSubKey(name: key, writable: false);
                         keys.Push(next);
                     }
+                    // TODO: Capture that these keys exist but we couldn't access them in the results
                     // These are expected as we are running as administrator, not System.
                     catch (System.Security.SecurityException)
                     {
