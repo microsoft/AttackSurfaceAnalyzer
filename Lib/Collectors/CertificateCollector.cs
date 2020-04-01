@@ -37,7 +37,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 {
                     try
                     {
-                        X509Store store = new X509Store(storeName, storeLocation);
+                        using X509Store store = new X509Store(storeName, storeLocation);
                         store.Open(OpenFlags.ReadOnly);
 
                         foreach (X509Certificate2 certificate in store.Certificates)
@@ -45,11 +45,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                             var obj = new CertificateObject(
                                 StoreLocation: storeLocation.ToString(),
                                 StoreName: storeName.ToString(),
-                                CertificateHashString: certificate.GetCertHashString())
-                            {
-                                Subject = certificate.Subject,
-                                Pkcs7 = certificate.Export(X509ContentType.Cert).ToString()
-                            };
+                                Certificate: new SerializableCertificate(certificate),
+                                Pkcs7: certificate.Export(X509ContentType.Cert).ToString());
                             DatabaseManager.Write(obj, RunId);
                         }
 
@@ -78,16 +75,14 @@ namespace AttackSurfaceAnalyzer.Collectors
                     Log.Debug("{0}", _line);
                     try
                     {
-                        X509Certificate2 certificate = new X509Certificate2("/etc/ssl/certs/" + _line);
+                        using X509Certificate2 certificate = new X509Certificate2("/etc/ssl/certs/" + _line);
 
                         var obj = new CertificateObject(
-                                StoreLocation: StoreLocation.LocalMachine.ToString(),
-                                StoreName: StoreName.Root.ToString(),
-                                CertificateHashString: certificate.GetCertHashString())
-                        {
-                            Subject = certificate.Subject,
-                            Pkcs7 = certificate.Export(X509ContentType.Cert).ToString()
-                        };
+                            StoreLocation: StoreLocation.LocalMachine.ToString(),
+                            StoreName: StoreName.Root.ToString(),
+                            Certificate: new SerializableCertificate(certificate),
+                            Pkcs7: certificate.Export(X509ContentType.Cert).ToString());
+
                         DatabaseManager.Write(obj, RunId);
                     }
                     catch (Exception e)
@@ -131,14 +126,14 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 while (X509Certificate2Enumerator.MoveNext())
                 {
+                    var certificate = X509Certificate2Enumerator.Current;
+
                     var obj = new CertificateObject(
-                                StoreLocation: StoreLocation.LocalMachine.ToString(),
-                                StoreName: StoreName.Root.ToString(),
-                                CertificateHashString: X509Certificate2Enumerator.Current.GetCertHashString())
-                    {
-                        Subject = X509Certificate2Enumerator.Current.Subject,
-                        Pkcs7 = X509Certificate2Enumerator.Current.GetRawCertDataString()
-                    };
+                        StoreLocation: StoreLocation.LocalMachine.ToString(),
+                        StoreName: StoreName.Root.ToString(),
+                        Certificate: new SerializableCertificate(certificate),
+                        Pkcs7: certificate.Export(X509ContentType.Cert).ToString());
+                    
                     DatabaseManager.Write(obj, RunId);
                 }
             }

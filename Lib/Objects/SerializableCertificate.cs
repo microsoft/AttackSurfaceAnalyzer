@@ -15,9 +15,10 @@ namespace AttackSurfaceAnalyzer.Objects
             NotBefore = certificate.NotBefore;
             Issuer = certificate.Issuer;
             SerialNumber = certificate.SerialNumber;
+            CertHashString = certificate.GetCertHashString();
         }
 
-        public SerializableCertificate(string Thumbprint, string Subject, string PublicKey, DateTime NotAfter, DateTime NotBefore, string Issuer, string SerialNumber)
+        public SerializableCertificate(string Thumbprint, string Subject, string PublicKey, DateTime NotAfter, DateTime NotBefore, string Issuer, string SerialNumber, string CertHashString)
         {
             this.Thumbprint = Thumbprint;
             this.Subject = Subject;
@@ -26,6 +27,7 @@ namespace AttackSurfaceAnalyzer.Objects
             this.NotBefore = NotBefore;
             this.Issuer = Issuer;
             this.SerialNumber = SerialNumber;
+            this.CertHashString = CertHashString;
         }
 
         public string Thumbprint { get; set; }
@@ -35,5 +37,6 @@ namespace AttackSurfaceAnalyzer.Objects
         public DateTime NotBefore { get; set; }
         public string Issuer { get; set; }
         public string SerialNumber { get; set; }
+        public string CertHashString { get; set; }
     }
 }

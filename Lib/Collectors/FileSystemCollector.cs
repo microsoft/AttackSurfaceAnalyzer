@@ -106,15 +106,15 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         try
                         {
-                            var certificate = X509Certificate.CreateFromCertFile(Path);
+                            var certificate = new X509Certificate2();
+                            certificate.Import(Path);
+
                             var certObj = new CertificateObject(
-                                StoreLocation: Path,
-                                StoreName: "Disk",
-                                CertificateHashString: certificate.GetCertHashString())
-                            {
-                                Subject = certificate.Subject,
-                                Pkcs7 = certificate.Export(X509ContentType.Cert).ToString()
-                            };
+                                StoreLocation: StoreLocation.LocalMachine.ToString(),
+                                StoreName: StoreName.Root.ToString(),
+                                Certificate: new SerializableCertificate(certificate),
+                                Pkcs7: certificate.Export(X509ContentType.Cert).ToString());
+
                             DatabaseManager.Write(certObj, RunId);
                         }
                         catch (Exception e) when (
