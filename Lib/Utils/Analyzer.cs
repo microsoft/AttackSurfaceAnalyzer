@@ -74,301 +74,331 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             if (compareResult != null && rule != null)
             {
+                var ClauseResults = new Dictionary<Clause, bool>();
                 foreach (Clause clause in rule.Clauses)
                 {
-                    try
+                    ClauseResults.Add(clause, AnalyzeClause(clause, compareResult));
+                }
+               
+                if (rule.Expression == null)
+                {
+                    if (ClauseResults.Where(x => x.Value).Count() == ClauseResults.Count)
                     {
-                        var valsToCheck = new List<string>();
-                        List<KeyValuePair<string, string>> dictToCheck = new List<KeyValuePair<string, string>>();
-
-                        if (compareResult.ChangeType == CHANGE_TYPE.CREATED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
-                        {
-                            object? obj = null;
-                            try
-                            {
-                                var splits = clause.Field.Split('.');
-                                obj = GetValueByPropertyName(compareResult.Compare, splits[0]);
-                                for (int i = 1; i < splits.Length; i++)
-                                {
-                                    obj = GetValueByPropertyName(obj, splits[i]);
-                                }
-                            }
-                            catch (Exception e)
-                            {
-                                Log.Information(e, $"Fetching Field {clause.Field} failed from {compareResult.Base?.GetType().ToString() ?? "{null}"}");
-                            }
-
-                            if (obj != null)
-                            {
-                                try
-                                {
-                                    if (obj is List<string>)
-                                    {
-                                        foreach (var value in (List<string>)(obj ?? new List<string>()))
-                                        {
-                                            valsToCheck.Add(value);
-                                        }
-                                    }
-                                    else if (obj is Dictionary<string, string>)
-                                    {
-                                        dictToCheck = ((Dictionary<string, string>)(obj ?? new Dictionary<string, string>())).ToList();
-                                    }
-                                    else if (obj is List<KeyValuePair<string, string>>)
-                                    {
-                                        dictToCheck = (List<KeyValuePair<string, string>>)(obj ?? new List<KeyValuePair<string, string>>());
-                                    }
-                                    else
-                                    {
-                                        var val = obj?.ToString();
-                                        if (!string.IsNullOrEmpty(val))
-                                        {
-                                            valsToCheck.Add(val);
-                                        }
-                                    }
-                                }
-                                catch (Exception e)
-                                {
-                                    Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
-                                    ExceptionEvent.Add("Exception Type", e.GetType().ToString());
-                                    AsaTelemetry.TrackEvent("ApplyCreatedModifiedException", ExceptionEvent);
-                                }
-                            }                            
-                        }
-                        if (compareResult.ChangeType == CHANGE_TYPE.DELETED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
-                        {
-                            object? obj = null;
-                            try
-                            {
-                                var splits = clause.Field.Split('.');
-                                obj = GetValueByPropertyName(compareResult.Base, splits[0]);
-                                for (int i = 1; i < splits.Length; i++)
-                                {
-                                    obj = GetValueByPropertyName(obj, splits[i]);
-                                }
-                            }
-                            catch(Exception e)
-                            {
-                                Log.Information(e,$"Fetching Field {clause.Field} failed from {compareResult.Base?.GetType().ToString() ?? "{null}"}");
-                            }
-
-                            if (obj != null)
-                            {
-                                try
-                                {
-                                    if (obj is List<string>)
-                                    {
-                                        foreach (var value in (List<string>)(obj ?? new List<string>()))
-                                        {
-                                            valsToCheck.Add(value);
-                                        }
-                                    }
-                                    else if (obj is Dictionary<string, string>)
-                                    {
-                                        dictToCheck = ((Dictionary<string, string>)(obj ?? new Dictionary<string, string>())).ToList();
-                                    }
-                                    else if (obj is List<KeyValuePair<string, string>>)
-                                    {
-                                        dictToCheck = (List<KeyValuePair<string, string>>)(obj ?? new List<KeyValuePair<string, string>>());
-                                    }
-                                    else
-                                    {
-                                        var val = obj?.ToString();
-                                        if (!string.IsNullOrEmpty(val))
-                                        {
-                                            valsToCheck.Add(val);
-                                        }
-                                    }
-                                }
-                                catch (Exception e)
-                                {
-                                    Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
-                                    ExceptionEvent.Add("Exception Type", e.GetType().ToString());
-                                    AsaTelemetry.TrackEvent("ApplyDeletedModifiedException", ExceptionEvent);
-                                }
-                            }
-                            else{
-                                valsToCheck.Add(string.Empty);
-                            }
-                        }
-
-                        switch (clause.Operation)
-                        {
-                            case OPERATION.EQ:
-                                if (clause.Data is List<string> EqualsData)
-                                {
-                                    if (EqualsData.Intersect(valsToCheck).Any())
-                                    {
-                                        break;
-                                    }
-                                }
-                                return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
-
-                            case OPERATION.NEQ:
-                                if (clause.Data is List<string> NotEqualsData)
-                                {
-                                    if (!NotEqualsData.Intersect(valsToCheck).Any())
-                                    {
-                                        break;
-                                    }
-                                }
-                                return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
-
-
-                            // If *every* entry of the clause data is matched
-                            case OPERATION.CONTAINS:
-                                if (dictToCheck.Count > 0)
-                                {
-                                    if (clause.DictData is List<KeyValuePair<string, string>> ContainsData)
-                                    {
-                                        if (ContainsData.Where(y => dictToCheck.Where((x) => x.Key == y.Key && x.Value == y.Value).Any()).Count() == ContainsData.Count)
-                                        {
-                                            break;
-                                        }
-                                    }
-                                }
-                                else if (valsToCheck.Count > 0)
-                                {
-                                    if (clause.Data is List<string> ContainsDataList)
-                                    {
-                                        if (ContainsDataList.Intersect(valsToCheck).Count() == ContainsDataList.Count)
-                                        {
-                                            break;
-                                        }
-                                    }
-                                }
-                                return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
-
-                            // If *any* entry of the clause data is matched
-                            case OPERATION.CONTAINS_ANY:
-                                if (dictToCheck.Count > 0)
-                                {
-                                    if (clause.DictData is List<KeyValuePair<string, string>> ContainsData)
-                                    {
-                                        foreach (KeyValuePair<string, string> value in ContainsData)
-                                        {
-                                            if (dictToCheck.Where((x) => x.Key == value.Key && x.Value == value.Value).Any())
-                                            {
-                                                break;
-                                            }
-                                        }
-                                    }
-                                }
-                                else if (valsToCheck.Count > 0)
-                                {
-                                    if (clause.Data is List<string> ContainsDataList)
-                                    {
-                                        if (clause.Data.Intersect(valsToCheck).Any())
-                                        {
-                                            break;
-                                        }
-                                    }
-                                }
-                                return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
-
-                            // If any of the clauses are not contained
-                            case OPERATION.DOES_NOT_CONTAIN:
-                                if (dictToCheck.Count > 0)
-                                {
-                                    if (clause.DictData is List<KeyValuePair<string, string>> ContainsData)
-                                    {
-                                        if (ContainsData.Where(y => dictToCheck.Where((x) => x.Key == y.Key && x.Value == y.Value).Any()).Any())
-                                        {
-                                            break;
-                                        }
-                                        return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
-                                    }
-                                }
-                                else if (valsToCheck.Count > 0)
-                                {
-                                    if (clause.Data is List<string> ContainsDataList)
-                                    {
-                                        if (ContainsDataList.Intersect(valsToCheck).Any())
-                                        {
-                                            break;
-                                        }
-                                        return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
-                                    }
-                                }
-                                break;
-
-                            // If any of the data values are greater than the first provided data value
-                            case OPERATION.GT:
-                                if (valsToCheck.Where(val => (int.Parse(val, CultureInfo.InvariantCulture) > int.Parse(clause.Data?[0] ?? $"{int.MinValue}", CultureInfo.InvariantCulture))).Any()) { break; }
-                                return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
-
-                            // If any of the data values are less than the first provided data value
-                            case OPERATION.LT:
-                                if (valsToCheck.Where(val => (int.Parse(val, CultureInfo.InvariantCulture) < int.Parse(clause.Data?[0] ?? $"{int.MaxValue}", CultureInfo.InvariantCulture))).Any()) { break; }
-                                return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
-
-                            // If any of the regexes match any of the values
-                            case OPERATION.REGEX:
-                                if (clause.Data is List<string> RegexList)
-                                {
-                                    var regexList = RegexList.Select(x => new Regex(x));
-
-                                    if (valsToCheck.Where(x => regexList.Where(y => y.IsMatch(x)).Any()).Any())
-                                    {
-                                        break;
-                                    }
-                                }
-                                return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
-
-                            // Ignores provided data. Checks if the named property has changed.
-                            case OPERATION.WAS_MODIFIED:
-                                if ((valsToCheck.Count == 2) && (valsToCheck[0] != valsToCheck[1]))
-                                {
-                                    break;
-                                }
-                                if ((valsToCheck.Count == 1) && compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
-                                {
-                                    break;
-                                }
-                                return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
-
-                            // Ends with any of the provided data
-                            case OPERATION.ENDS_WITH:
-                                if (clause.Data is List<string> EndsWithData)
-                                {
-                                    if (valsToCheck.Where(x => EndsWithData.Where(y => x.EndsWith(y, StringComparison.CurrentCulture)).Any()).Any())
-                                    {
-                                        break;
-                                    }
-                                }
-                                return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
-
-                            // Starts with any of the provided data
-                            case OPERATION.STARTS_WITH:
-                                if (clause.Data is List<string> StartsWithData)
-                                {
-                                    if (valsToCheck.Where(x => StartsWithData.Where(y => x.StartsWith(y, StringComparison.CurrentCulture)).Any()).Any())
-                                    {
-                                        break;
-                                    }
-                                }
-                                return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
-
-                            default:
-                                Log.Debug("Unimplemented operation {0}", clause.Operation);
-                                return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Debug(e, $"Hit while parsing {JsonSerializer.Serialize(rule)} onto {JsonSerializer.Serialize(compareResult)}");
-                        Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
-                        ExceptionEvent.Add("Exception Type", e.GetType().ToString());
-                        AsaTelemetry.TrackEvent("ApplyOverallException", ExceptionEvent);
-                        return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+                        compareResult.Rules.Add(rule);
+                        return rule.Flag;
                     }
                 }
-                compareResult.Rules.Add(rule);
-                return rule.Flag;
+
+                return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
             }
             else
             {
                 throw new NullReferenceException();
             }
+        }
+        
+        private static (List<string>,List<KeyValuePair<string,string>>) ObjectToValues(object? obj)
+        {
+            var valsToCheck = new List<string>();
+            var dictToCheck = new List<KeyValuePair<string, string>>();
+            if (obj != null)
+            {
+                try
+                {
+                    if (obj is List<string>)
+                    {
+                        foreach (var value in (List<string>)(obj ?? new List<string>()))
+                        {
+                            valsToCheck.Add(value);
+                        }
+                    }
+                    else if (obj is Dictionary<string, string>)
+                    {
+                        dictToCheck = ((Dictionary<string, string>)(obj ?? new Dictionary<string, string>())).ToList();
+                    }
+                    else if (obj is List<KeyValuePair<string, string>>)
+                    {
+                        dictToCheck = (List<KeyValuePair<string, string>>)(obj ?? new List<KeyValuePair<string, string>>());
+                    }
+                    else
+                    {
+                        var val = obj?.ToString();
+                        if (!string.IsNullOrEmpty(val))
+                        {
+                            valsToCheck.Add(val);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
+                    ExceptionEvent.Add("Exception Type", e.GetType().ToString());
+                    AsaTelemetry.TrackEvent("ApplyDeletedModifiedException", ExceptionEvent);
+                }
+            }
+            else
+            {
+                valsToCheck.Add(string.Empty);
+            }
+
+            return (valsToCheck, dictToCheck);
+        }
+
+        protected static bool AnalyzeClause(Clause clause, CompareResult compareResult)
+        {
+            if (clause == null || compareResult == null)
+            {
+                return false;
+            }
+            try
+            {
+                object? before = null;
+                object? after = null;
+
+                if (compareResult.ChangeType == CHANGE_TYPE.CREATED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
+                {
+                    try
+                    {
+                        var splits = clause.Field.Split('.');
+                        after = GetValueByPropertyName(compareResult.Compare, splits[0]);
+                        for (int i = 1; i < splits.Length; i++)
+                        {
+                            after = GetValueByPropertyName(after, splits[i]);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Information(e, $"Fetching Field {clause.Field} failed from {compareResult.Base?.GetType().ToString() ?? "{null}"}");
+                    }
+                }
+                if (compareResult.ChangeType == CHANGE_TYPE.DELETED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
+                {
+                    try
+                    {
+                        var splits = clause.Field.Split('.');
+                        before = GetValueByPropertyName(compareResult.Base, splits[0]);
+                        for (int i = 1; i < splits.Length; i++)
+                        {
+                            before = GetValueByPropertyName(before, splits[i]);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Information(e, $"Fetching Field {clause.Field} failed from {compareResult.Base?.GetType().ToString() ?? "{null}"}");
+                    }
+                }
+
+
+                (var beforeList, var beforeDict) = ObjectToValues(before);
+                (var afterList, var afterDict) = ObjectToValues(after);
+
+                var valsToCheck = beforeList.Union(afterList);
+                var dictToCheck = beforeDict.Union(afterDict);
+
+                switch (clause.Operation)
+                {
+                    case OPERATION.EQ:
+                        if (clause.Data is List<string> EqualsData)
+                        {   
+                            if (EqualsData.Intersect(valsToCheck).Any())
+                            {
+                                return true;
+                            }
+                        }
+                        return false;
+
+                    case OPERATION.NEQ:
+                        if (clause.Data is List<string> NotEqualsData)
+                        {
+                            if (!NotEqualsData.Intersect(valsToCheck).Any())
+                            {
+                                return true;
+                            }
+                        }
+                        return false;
+
+
+                    // If *every* entry of the clause data is matched
+                    case OPERATION.CONTAINS:
+                        if (dictToCheck.Any())
+                        {
+                            if (clause.DictData is List<KeyValuePair<string, string>> ContainsData)
+                            {
+                                if (ContainsData.Where(y => dictToCheck.Where((x) => x.Key == y.Key && x.Value == y.Value).Any()).Count() == ContainsData.Count)
+                                {
+                                    return true;
+                                }
+                            }
+                        }
+                        else if (valsToCheck.Any())
+                        {
+                            if (clause.Data is List<string> ContainsDataList)
+                            {
+                                if (ContainsDataList.Intersect(valsToCheck).Count() == ContainsDataList.Count)
+                                {
+                                    return true;
+                                }
+                            }
+                        }
+                        return false;
+
+                    // If *any* entry of the clause data is matched
+                    case OPERATION.CONTAINS_ANY:
+                        if (dictToCheck.Any())
+                        {
+                            if (clause.DictData is List<KeyValuePair<string, string>> ContainsData)
+                            {
+                                foreach (KeyValuePair<string, string> value in ContainsData)
+                                {
+                                    if (dictToCheck.Where((x) => x.Key == value.Key && x.Value == value.Value).Any())
+                                    {
+                                        return true;
+                                    }
+                                }
+                            }
+                        }
+                        else if (valsToCheck.Any())
+                        {
+                            if (clause.Data is List<string> ContainsDataList)
+                            {
+                                if (clause.Data.Intersect(valsToCheck).Any())
+                                {
+                                    return true;
+                                }
+                            }
+                        }
+                        return false;
+
+                    // If any of the clauses are not contained
+                    case OPERATION.DOES_NOT_CONTAIN:
+                        if (dictToCheck.Any())
+                        {
+                            if (clause.DictData is List<KeyValuePair<string, string>> ContainsData)
+                            {
+                                if (ContainsData.Where(y => dictToCheck.Where((x) => x.Key == y.Key && x.Value == y.Value).Any()).Any())
+                                {
+                                    return true;
+                                }
+                                return false;
+                            }
+                        }
+                        else if (valsToCheck.Any())
+                        {
+                            if (clause.Data is List<string> ContainsDataList)
+                            {
+                                if (ContainsDataList.Intersect(valsToCheck).Any())
+                                {
+                                    return true;
+                                }
+                                return false;
+                            }
+                        }
+                        break;
+
+                case OPERATION.DOES_NOT_CONTAIN_ALL:
+                    if (dictToCheck.Any())
+                    {
+                        if (clause.DictData is List<KeyValuePair<string, string>> ContainsData)
+                        {
+                            if (ContainsData.Where(y => dictToCheck.Where((x) => x.Key == y.Key && x.Value == y.Value).Any()).Count() == ContainsData.Count)
+                            {
+                                return true;
+                            }
+                            return false;
+                        }
+                    }
+                    else if (valsToCheck.Any())
+                    {
+                        if (clause.Data is List<string> ContainsDataList)
+                        {
+                            if (ContainsDataList.Intersect(valsToCheck).Count() == ContainsDataList.Count)
+                            {
+                                return true;
+                            }
+                            return false;
+                        }
+                    }
+                    break;
+
+                    // If any of the data values are greater than the first provided data value
+                    case OPERATION.GT:
+                        if (valsToCheck.Where(val => (int.Parse(val, CultureInfo.InvariantCulture) > int.Parse(clause.Data?[0] ?? $"{int.MinValue}", CultureInfo.InvariantCulture))).Any()) { return true; }
+                        return false;
+
+                    // If any of the data values are less than the first provided data value
+                    case OPERATION.LT:
+                        if (valsToCheck.Where(val => (int.Parse(val, CultureInfo.InvariantCulture) < int.Parse(clause.Data?[0] ?? $"{int.MaxValue}", CultureInfo.InvariantCulture))).Any()) { return true; }
+                        return false;
+
+                    // If any of the regexes match any of the values
+                    case OPERATION.REGEX:
+                        if (clause.Data is List<string> RegexList)
+                        {
+                            var regexList = RegexList.Select(x => new Regex(x));
+
+                            if (valsToCheck.Where(x => regexList.Where(y => y.IsMatch(x)).Any()).Any())
+                            {
+                                return true;
+                            }
+                        }
+                        return false;
+
+                    // Ignores provided data. Checks if the named property has changed.
+                    case OPERATION.WAS_MODIFIED:
+                        if (compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
+                        {
+                            if (beforeList == null || afterList == null)
+                            {
+                                if (beforeList == null && afterList == null)
+                                {
+                                    return false;
+                                }
+                                return true;
+                            }
+
+                            if (beforeList.Count == afterList.Count && beforeList.Intersect(afterList).Count() == beforeList.Count)
+                            {
+                                return false;
+                            }
+                        }
+                        return true;
+
+                    // Ends with any of the provided data
+                    case OPERATION.ENDS_WITH:
+                        if (clause.Data is List<string> EndsWithData)
+                        {
+                            if (valsToCheck.Where(x => EndsWithData.Where(y => x.EndsWith(y, StringComparison.CurrentCulture)).Any()).Any())
+                            {
+                                return true;
+                            }
+                        }
+                        return false;
+
+                    // Starts with any of the provided data
+                    case OPERATION.STARTS_WITH:
+                        if (clause.Data is List<string> StartsWithData)
+                        {
+                            if (valsToCheck.Where(x => StartsWithData.Where(y => x.StartsWith(y, StringComparison.CurrentCulture)).Any()).Any())
+                            {
+                                return true;
+                            }
+                        }
+                        return false;
+
+                    default:
+                        Log.Debug("Unimplemented operation {0}", clause.Operation);
+                        return false;
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Debug(e, $"Hit while parsing {JsonSerializer.Serialize(clause)} onto {JsonSerializer.Serialize(compareResult)}");
+                Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
+                ExceptionEvent.Add("Exception Type", e.GetType().ToString());
+                AsaTelemetry.TrackEvent("ApplyOverallException", ExceptionEvent);
+            }
+
+            return false;
         }
 
         private static object? GetValueByPropertyName(object? obj, string? propertyName) => obj?.GetType().GetProperty(propertyName ?? string.Empty)?.GetValue(obj);

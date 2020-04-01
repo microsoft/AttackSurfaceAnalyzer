@@ -17,6 +17,8 @@ namespace AttackSurfaceAnalyzer.Objects
         public ANALYSIS_RESULT_TYPE Flag { get; set; }
         public RESULT_TYPE ResultType { get; set; }
         public List<Clause> Clauses { get; set; } = new List<Clause>();
+        public string? Expression { get; set; }
+
         public Rule(string Name)
         {
             this.Name = Name;
@@ -30,10 +32,10 @@ namespace AttackSurfaceAnalyzer.Objects
 
         public List<string>? Data { get; set; }
         public List<KeyValuePair<string, string>>? DictData { get; set; }
-
-        public Clause(string Field)
+        public Clause(string Field, OPERATION Operation)
         {
             this.Field = Field;
+            this.Operation = Operation;
         }
     }
 }
