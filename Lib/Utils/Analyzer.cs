@@ -69,7 +69,6 @@ namespace AttackSurfaceAnalyzer.Utils
             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Will gather exception information for analysis via telemetry.")]
         protected ANALYSIS_RESULT_TYPE Apply(Rule rule, CompareResult compareResult)
         {
             if (compareResult != null && rule != null)
@@ -144,6 +143,7 @@ namespace AttackSurfaceAnalyzer.Utils
             return (valsToCheck, dictToCheck);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Will gather exception information for analysis via telemetry.")]
         protected static bool AnalyzeClause(Clause clause, CompareResult compareResult)
         {
             if (clause == null || compareResult == null)
@@ -187,7 +187,6 @@ namespace AttackSurfaceAnalyzer.Utils
                         Log.Information(e, $"Fetching Field {clause.Field} failed from {compareResult.Base?.GetType().ToString() ?? "{null}"}");
                     }
                 }
-
 
                 (var beforeList, var beforeDict) = ObjectToValues(before);
                 (var afterList, var afterDict) = ObjectToValues(after);
