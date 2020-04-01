@@ -28,8 +28,6 @@ namespace AttackSurfaceAnalyzer.Collectors
         private readonly HashSet<RegistryObject> _values;
         private readonly bool Parallelize;
 
-        private static readonly ConcurrentDictionary<string, string> SidMap = new ConcurrentDictionary<string, string>();
-
         private static readonly List<RegistryHive> DefaultHives = new List<RegistryHive>()
         {
             RegistryHive.ClassesRoot, RegistryHive.CurrentConfig, RegistryHive.CurrentUser, RegistryHive.LocalMachine, RegistryHive.Users
