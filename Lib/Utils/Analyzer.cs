@@ -16,20 +16,6 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public class Analyzer
     {
-        private readonly Dictionary<RESULT_TYPE, List<PropertyInfo>> _Properties = new Dictionary<RESULT_TYPE, List<PropertyInfo>>()
-        {
-            {RESULT_TYPE.FILE , new List<PropertyInfo>(typeof(FileSystemObject).GetProperties()) },
-            {RESULT_TYPE.CERTIFICATE, new List<PropertyInfo>(typeof(CertificateObject).GetProperties()) },
-            {RESULT_TYPE.PORT, new List<PropertyInfo>(typeof(OpenPortObject).GetProperties()) },
-            {RESULT_TYPE.REGISTRY, new List<PropertyInfo>(typeof(RegistryObject).GetProperties()) },
-            {RESULT_TYPE.SERVICE, new List<PropertyInfo>(typeof(ServiceObject).GetProperties()) },
-            {RESULT_TYPE.USER, new List<PropertyInfo>(typeof(UserAccountObject).GetProperties()) },
-            {RESULT_TYPE.GROUP, new List<PropertyInfo>(typeof(UserAccountObject).GetProperties()) },
-            {RESULT_TYPE.FIREWALL, new List<PropertyInfo>(typeof(FirewallObject).GetProperties()) },
-            {RESULT_TYPE.COM, new List<PropertyInfo>(typeof(FirewallObject).GetProperties()) },
-            {RESULT_TYPE.LOG, new List<PropertyInfo>(typeof(FirewallObject).GetProperties()) },
-
-        };
         private readonly Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DEFAULT_RESULT_TYPE_MAP = new Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>()
         {
             { RESULT_TYPE.CERTIFICATE, ANALYSIS_RESULT_TYPE.INFORMATION },
@@ -88,46 +74,52 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             if (compareResult != null && rule != null)
             {
-                var properties = _Properties[compareResult.ResultType];
-
                 foreach (Clause clause in rule.Clauses)
                 {
-                    PropertyInfo property = properties.FirstOrDefault(iProp => iProp.Name.Equals(clause.Field));
-                    if (property == null)
-                    {
-                        //Custom field logic will go here
-                        return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
-                    }
-
                     try
                     {
                         var valsToCheck = new List<string>();
                         List<KeyValuePair<string, string>> dictToCheck = new List<KeyValuePair<string, string>>();
 
-                        if (property != null)
+                        if (compareResult.ChangeType == CHANGE_TYPE.CREATED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
                         {
-                            if (compareResult.ChangeType == CHANGE_TYPE.CREATED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
+                            object? obj = null;
+                            try
+                            {
+                                var splits = clause.Field.Split('.');
+                                obj = GetValueByPropertyName(compareResult.Compare, splits[0]);
+                                for (int i = 0; i < splits.Length; i++)
+                                {
+                                    obj = GetValueByPropertyName(obj, splits[i]);
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                Log.Information(e, $"Fetching Field {clause.Field} failed from {compareResult.Base?.GetType().ToString() ?? "{null}"}");
+                            }
+
+                            if (obj != null)
                             {
                                 try
                                 {
-                                    if (GetValueByPropertyName(compareResult.Compare, property.Name) is List<string>)
+                                    if (obj is List<string>)
                                     {
-                                        foreach (var value in (List<string>)(GetValueByPropertyName(compareResult.Compare, property.Name) ?? new List<string>()))
+                                        foreach (var value in (List<string>)(obj ?? new List<string>()))
                                         {
                                             valsToCheck.Add(value);
                                         }
                                     }
-                                    else if (GetValueByPropertyName(compareResult.Compare, property.Name) is Dictionary<string, string>)
+                                    else if (obj is Dictionary<string, string>)
                                     {
-                                        dictToCheck = ((Dictionary<string, string>)(GetValueByPropertyName(compareResult.Compare, property.Name) ?? new Dictionary<string,string>())).ToList();
+                                        dictToCheck = ((Dictionary<string, string>)(obj ?? new Dictionary<string, string>())).ToList();
                                     }
-                                    else if (GetValueByPropertyName(compareResult.Compare, property.Name) is List<KeyValuePair<string, string>>)
+                                    else if (obj is List<KeyValuePair<string, string>>)
                                     {
-                                        dictToCheck = (List<KeyValuePair<string, string>>)(GetValueByPropertyName(compareResult.Compare, property.Name) ?? new List<KeyValuePair<string, string>>());
+                                        dictToCheck = (List<KeyValuePair<string, string>>)(obj ?? new List<KeyValuePair<string, string>>());
                                     }
                                     else
                                     {
-                                        var val = GetValueByPropertyName(compareResult.Compare, property.Name)?.ToString();
+                                        var val = obj?.ToString();
                                         if (!string.IsNullOrEmpty(val))
                                         {
                                             valsToCheck.Add(val);
@@ -136,35 +128,51 @@ namespace AttackSurfaceAnalyzer.Utils
                                 }
                                 catch (Exception e)
                                 {
-                                    Log.Debug(e, "Error fetching Property {0} of Type {1}", property.Name, compareResult.ResultType);
-                                    Log.Debug(Utf8Json.JsonSerializer.ToJsonString(compareResult));
                                     Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
                                     ExceptionEvent.Add("Exception Type", e.GetType().ToString());
                                     AsaTelemetry.TrackEvent("ApplyCreatedModifiedException", ExceptionEvent);
                                 }
+                            }                            
+                        }
+                        if (compareResult.ChangeType == CHANGE_TYPE.DELETED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
+                        {
+                            object? obj = null;
+                            try
+                            {
+                                var splits = clause.Field.Split('.');
+                                obj = GetValueByPropertyName(compareResult.Base, splits[0]);
+                                for (int i = 0; i < splits.Length; i++)
+                                {
+                                    obj = GetValueByPropertyName(obj, splits[i]);
+                                }
                             }
-                            if (compareResult.ChangeType == CHANGE_TYPE.DELETED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
+                            catch(Exception e)
+                            {
+                                Log.Information(e,$"Fetching Field {clause.Field} failed from {compareResult.Base?.GetType().ToString() ?? "{null}"}");
+                            }
+
+                            if (obj != null)
                             {
                                 try
                                 {
-                                    if (GetValueByPropertyName(compareResult.Base, property.Name) is List<string>)
+                                    if (obj is List<string>)
                                     {
-                                        foreach (var value in (List<string>)(GetValueByPropertyName(compareResult.Base, property.Name) ?? new List<string>()))
+                                        foreach (var value in (List<string>)(obj ?? new List<string>()))
                                         {
                                             valsToCheck.Add(value);
                                         }
                                     }
-                                    else if (GetValueByPropertyName(compareResult.Base, property.Name) is Dictionary<string, string>)
+                                    else if (obj is Dictionary<string, string>)
                                     {
-                                        dictToCheck = ((Dictionary<string, string>)(GetValueByPropertyName(compareResult.Base, property.Name) ?? new Dictionary<string, string>())).ToList();
+                                        dictToCheck = ((Dictionary<string, string>)(obj ?? new Dictionary<string, string>())).ToList();
                                     }
-                                    else if (GetValueByPropertyName(compareResult.Base, property.Name) is List<KeyValuePair<string, string>>)
+                                    else if (obj is List<KeyValuePair<string, string>>)
                                     {
-                                        dictToCheck = (List<KeyValuePair<string, string>>)(GetValueByPropertyName(compareResult.Base, property.Name) ?? new List<KeyValuePair<string, string>>());
+                                        dictToCheck = (List<KeyValuePair<string, string>>)(obj ?? new List<KeyValuePair<string, string>>());
                                     }
                                     else
                                     {
-                                        var val = GetValueByPropertyName(compareResult.Base, property.Name)?.ToString();
+                                        var val = obj?.ToString();
                                         if (!string.IsNullOrEmpty(val))
                                         {
                                             valsToCheck.Add(val);
