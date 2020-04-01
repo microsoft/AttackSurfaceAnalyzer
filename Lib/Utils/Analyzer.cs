@@ -88,7 +88,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
                                 var splits = clause.Field.Split('.');
                                 obj = GetValueByPropertyName(compareResult.Compare, splits[0]);
-                                for (int i = 0; i < splits.Length; i++)
+                                for (int i = 1; i < splits.Length; i++)
                                 {
                                     obj = GetValueByPropertyName(obj, splits[i]);
                                 }
@@ -141,7 +141,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
                                 var splits = clause.Field.Split('.');
                                 obj = GetValueByPropertyName(compareResult.Base, splits[0]);
-                                for (int i = 0; i < splits.Length; i++)
+                                for (int i = 1; i < splits.Length; i++)
                                 {
                                     obj = GetValueByPropertyName(obj, splits[i]);
                                 }
