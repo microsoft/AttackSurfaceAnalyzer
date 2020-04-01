@@ -270,7 +270,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         private static IEnumerable<DataRunModel> GetMonitorRunModels()
         {
-            List<string> Runs = DatabaseManager.GetRuns("monitor");
+            List<string> Runs = DatabaseManager.GetRuns(RUN_TYPE.MONITOR);
 
             List<DataRunModel> runModels = new List<DataRunModel>();
 
@@ -284,7 +284,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         private static IEnumerable<DataRunModel> GetRunModels()
         {
-            List<string> Runs = DatabaseManager.GetRuns("collect");
+            List<string> Runs = DatabaseManager.GetRuns(RUN_TYPE.COLLECT);
 
             List<DataRunModel> runModels = new List<DataRunModel>();
 

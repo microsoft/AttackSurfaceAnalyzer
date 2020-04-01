@@ -118,7 +118,7 @@ namespace AttackSurfaceAnalyzer.Cli
                     else
                     {
                         Log.Information(Strings.Get("DumpingDataFromDatabase"), opts.DatabaseFilename);
-                        List<string> CollectRuns = DatabaseManager.GetRuns("collect");
+                        List<string> CollectRuns = DatabaseManager.GetRuns(RUN_TYPE.COLLECT);
                         if (CollectRuns.Count > 0)
                         {
                             Log.Information(Strings.Get("Begin"), Strings.Get("EnumeratingCollectRunIds"));
@@ -147,7 +147,7 @@ namespace AttackSurfaceAnalyzer.Cli
                             Log.Information(Strings.Get("NoCollectRuns"));
                         }
 
-                        List<string> MonitorRuns = DatabaseManager.GetRuns("monitor");
+                        List<string> MonitorRuns = DatabaseManager.GetRuns(RUN_TYPE.MONITOR);
                         if (MonitorRuns.Count > 0)
                         {
                             Log.Information(Strings.Get("Begin"), Strings.Get("EnumeratingMonitorRunIds"));
@@ -209,7 +209,7 @@ namespace AttackSurfaceAnalyzer.Cli
             if (opts.FirstRunId is null || opts.SecondRunId is null)
             {
                 Log.Information("Provided null run Ids using latest two runs.");
-                List<string> runIds = DatabaseManager.GetLatestRunIds(2, "collect");
+                List<string> runIds = DatabaseManager.GetLatestRunIds(2, RUN_TYPE.COLLECT);
 
                 if (runIds.Count < 2)
                 {
@@ -407,7 +407,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             if (opts.RunId is null)
             {
-                List<string> runIds = DatabaseManager.GetLatestRunIds(1, "monitor");
+                List<string> runIds = DatabaseManager.GetLatestRunIds(1, RUN_TYPE.MONITOR);
 
                 if (runIds.Count < 1)
                 {

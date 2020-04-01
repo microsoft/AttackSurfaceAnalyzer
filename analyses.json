@@ -377,12 +377,37 @@
           "Data": [ "sandbox" ]
         }
       ]
+    },
+    {
+      "Name": "Signatory Change",
+      "Description": "Flag when the signatory of an executable changes.",
+      "Flag": "WARNING",
+      "platforms": [
+        "WINDOWS"
+      ],
+      "changeTypes": [
+        "MODIFIED"
+      ],
+      "ResultType": "FILE",
+      "Clauses": [
+        {
+          "Field": "IsExecutable",
+          "Operation": "EQ",
+          "Data": [
+            "True"
+          ]
+        },
+        {
+          "Field": "SignatureStatus.SigningCertificate.Issuer",
+          "Operation": "WAS_MODIFIED"
+        }
+      ]
     }
   ],
   "DefaultLevels": {
       "PORT": "INFORMATION",
       "FILE": "DEBUG",
-      "SERVICE": "INFORMATION",
+      "SERVICE": "WARNING",
       "CERTIFICATE": "INFORMATION",
       "USER": "INFORMATION",
       "REGISTRY": "DEBUG",

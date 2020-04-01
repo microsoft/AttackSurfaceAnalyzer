@@ -85,8 +85,8 @@ namespace AttackSurfaceAnalyzer.Tests
             var results = bc.Results;
 
             Assert.IsTrue(results.ContainsKey("FILE_CREATED"));
-            Assert.IsTrue(results["FILE_CREATED"].Where(x => x.Identity.Contains("AsaLibTesterMZ") && ((FileSystemObject)x.Compare).IsExecutable == true).Any());
-            Assert.IsTrue(results["FILE_CREATED"].Where(x => x.Identity.Contains("AsaLibTesterJavaClass") && ((FileSystemObject)x.Compare).IsExecutable == true).Any());
+            Assert.IsTrue(results["FILE_CREATED"].Any(x => x.Identity.Contains("AsaLibTesterMZ") && ((FileSystemObject)x.Compare).IsExecutable == true));
+            Assert.IsTrue(results["FILE_CREATED"].Any(x => x.Identity.Contains("AsaLibTesterJavaClass") && ((FileSystemObject)x.Compare).IsExecutable == true));
 
             TearDown();
         }

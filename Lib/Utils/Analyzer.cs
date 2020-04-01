@@ -186,6 +186,9 @@ namespace AttackSurfaceAnalyzer.Utils
                                     AsaTelemetry.TrackEvent("ApplyDeletedModifiedException", ExceptionEvent);
                                 }
                             }
+                            else{
+                                valsToCheck.Add(string.Empty);
+                            }
                         }
 
                         switch (clause.Operation)
@@ -313,7 +316,11 @@ namespace AttackSurfaceAnalyzer.Utils
 
                             // Ignores provided data. Checks if the named property has changed.
                             case OPERATION.WAS_MODIFIED:
-                                if ((valsToCheck.Count == 2) && (valsToCheck[0] == valsToCheck[1]))
+                                if ((valsToCheck.Count == 2) && (valsToCheck[0] != valsToCheck[1]))
+                                {
+                                    break;
+                                }
+                                if ((valsToCheck.Count == 1) && compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
                                 {
                                     break;
                                 }

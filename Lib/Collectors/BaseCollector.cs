@@ -34,7 +34,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             DatabaseManager.BeginTransaction();
 
-            var StopWatch = System.Diagnostics.Stopwatch.StartNew();
+            var StopWatch = Stopwatch.StartNew();
 
             ExecuteInternal();
 
@@ -53,7 +53,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             var printInterval = 10;
             var currentInterval = 0;
 
-            StopWatch = System.Diagnostics.Stopwatch.StartNew();
+            StopWatch = Stopwatch.StartNew();
 
             while (DatabaseManager.HasElements())
             {
@@ -98,6 +98,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             DatabaseManager.Commit();
             Stop();
         }
+
         public abstract bool CanRunOnPlatform();
 
         public abstract void ExecuteInternal();

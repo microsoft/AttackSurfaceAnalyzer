@@ -10,7 +10,7 @@
   "profiles": {
     "Collect": {
       "commandName": "Project",
-      "commandLineArgs": "collect -f --directories C:\\Users\\Gstoc\\Downloads\\Test",
+      "commandLineArgs": "collect -f --directories C:\\temp",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

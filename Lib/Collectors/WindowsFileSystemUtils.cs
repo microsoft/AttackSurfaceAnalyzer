@@ -24,12 +24,15 @@ namespace AttackSurfaceAnalyzer.Collectors
             try
             {
                 var peHeader = new PeNet.PeFile(Path);
-                var authenticodeInfo = new AuthenticodeInfo(peHeader);
-                var sig = new Signature(authenticodeInfo);
+                var sig = new Signature(peHeader.Authenticode);
                 return sig;
             }
-            catch (Exception)
+            catch (Exception e) when (e is NullReferenceException)
             {
+            }
+            catch(Exception e)
+            {
+                Log.Debug(e,"Thrown in GetSignatureStatus");
             }
             return null;
         }
@@ -110,11 +113,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                     // This line throws the exceptions below.
                     var peHeader1 = new PeNet.PeFile(Path);
                     ushort characteristics = peHeader1.ImageNtHeaders.OptionalHeader.DllCharacteristics;
-                    foreach (var characteristic in Enum.GetValues(typeof(DLLCHARACTERISTICS)))
+                    foreach (DLLCHARACTERISTICS? characteristic in Enum.GetValues(typeof(DLLCHARACTERISTICS)))
                     {
                         if (characteristic is DLLCHARACTERISTICS c)
                         {
-                            if (((ushort)c & characteristics) == (ushort)characteristic)
+                            if (((ushort)c & characteristics) == (ushort)c)
                             {
                                 output.Add(c.ToString());
                             }

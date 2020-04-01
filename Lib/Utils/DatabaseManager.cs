@@ -59,10 +59,9 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private const string SQL_TRUNCATE_RUN = "delete from runs where run_id=@run_id";
 
-        private const string SQL_SELECT_LATEST_N_RUNS = "select run_id from runs where type = @type order by timestamp desc limit 0,@limit;";
+        private const string SQL_SELECT_LATEST_N_RUNS = "select run_id from runs where type = @type order by ROWID desc limit 0,@limit;";
 
         private const string SQL_GET_NUM_RESULTS = "select count(*) as the_count from collect where run_id = @run_id and result_type = @result_type";
-        private const string SQL_GET_PLATFORM_FROM_RUNID = "select platform from runs where run_id = @run_id";
 
         private const string SQL_INSERT_FINDINGS_RESULT = "insert into findings (first_run_id, second_run_id, result_type, level, identity, serialized) values (@first_run_id, @second_run_id, @result_type, @level, @identity, @serialized)";
 
@@ -90,7 +89,7 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string GET_COMPARISON_RESULTS = "select * from findings where comparison_id = @comparison_id and result_type=@result_type order by level des;";
         private const string GET_SERIALIZED_RESULTS = "select change_type, Serialized from file_system_monitored where run_id = @run_id";
 
-        private const string GET_RUNS = "select run_id from runs order by timestamp desc;";
+        private const string GET_RUNS = "select run_id from runs order by ROWID desc;";
 
         private const string SQL_QUERY_ANALYZED = "select * from results where status = @status"; //lgtm [cs/literal-as-local]
 
@@ -103,6 +102,8 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string GET_RESULT_COUNT = "select count(*) from findings where comparison_id=@comparison_id and result_type=@result_type"; //lgtm [cs/literal-as-local]
 
         private const string SQL_DELETE_RUN = "delete from collect where run_id=@run_id"; //lgtm [cs/literal-as-local]
+
+        private const string SQL_SELECT_RUNS = "select distinct run_id from runs where type=@type order by ROWID asc;";
 
         private const string SQL_VACUUM = "VACUUM";
 
@@ -148,7 +149,7 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 Connections = new List<SqlConnectionHolder>();
 
-                PopulateConnections();
+                EstablishMainConnection();
 
                 var settings = GetSettings();
                 if (settings != null)
@@ -296,6 +297,19 @@ namespace AttackSurfaceAnalyzer.Utils
             catch (NullReferenceException) { }
         }
 
+        public static bool EstablishMainConnection()
+        {
+            if (Connections.Count > 0)
+            {
+                return false;
+            }
+            else
+            {
+                Connections.Add(GenerateSqlConnection(0));
+                return true;
+            }
+        }
+
         public static int PopulateConnections()
         {
             var connectionsCreated = 0;
@@ -384,19 +398,8 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             if (MainConnection != null)
             {
-                using (var cmd = new SqliteCommand(SQL_GET_PLATFORM_FROM_RUNID, MainConnection.Connection, MainConnection.Transaction))
-                {
-                    cmd.Parameters.AddWithValue("@run_id", runid);
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        reader.Read();
-                        var platform = reader["platform"].ToString();
-                        if (platform != null)
-                        {
-                            return (PLATFORM)Enum.Parse(typeof(PLATFORM), platform);
-                        }
-                    }
-                }
+                var Run = GetRun(runid);
+                return Run.Platform;
             }
             else
             {
@@ -452,7 +455,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        public static List<string> GetLatestRunIds(int numberOfIds, string type)
+        public static List<string> GetLatestRunIds(int numberOfIds, RUN_TYPE type)
         {
             List<string> output = new List<string>();
             if (MainConnection != null)
@@ -896,7 +899,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     while (reader.Read())
                     {
-                        return JsonSerializer.Deserialize<AsaRun>(reader["serialized"].ToString());
+                        return JsonSerializer.Deserialize<AsaRun>((byte[])reader["serialized"]);
                     }
                 }
             }
@@ -905,18 +908,16 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static List<string> GetMonitorRuns()
         {
-            return GetRuns("monitor");
+            return GetRuns(RUN_TYPE.MONITOR);
         }
 
-        public static List<string> GetRuns(string type)
+        public static List<string> GetRuns(RUN_TYPE type)
         {
             _ = MainConnection ?? throw new NullReferenceException(Strings.Get("MainConnection"));
 
-            string Select_Runs = "select distinct run_id from runs where type=@type order by timestamp asc;";
-
             List<string> Runs = new List<string>();
 
-            using var cmd = new SqliteCommand(Select_Runs, MainConnection.Connection, MainConnection.Transaction);
+            using var cmd = new SqliteCommand(SQL_SELECT_RUNS, MainConnection.Connection, MainConnection.Transaction);
             cmd.Parameters.AddWithValue("@type", type);
             using (var reader = cmd.ExecuteReader())
             {
@@ -930,7 +931,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static List<string> GetRuns()
         {
-            return GetRuns("collect");
+            return GetRuns(RUN_TYPE.COLLECT);
         }
 
         public static List<OutputFileMonitorResult> GetMonitorResults(string runId, int offset, int numResults)
