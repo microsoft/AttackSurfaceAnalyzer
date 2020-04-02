@@ -129,28 +129,22 @@ namespace AttackSurfaceAnalyzer.Utils
             int foundEnds = 0;
             for (int i = startingIndex; i < splits.Length; i++)
             {
-                if (splits[i].Contains("("))
-                {
-                    foundStarts++;
-                }
-                else if (splits[i].Contains(")"))
-                {
-                    foundEnds++;
-                }
+                foundStarts += splits[i].Count(x => x.Equals('('));
+                foundEnds += splits[i].Count(x => x.Equals(')'));
 
-                if (foundStarts == foundEnds)
+                if (foundStarts <= foundEnds)
                 {
                     return i;
                 }
             }
 
-            return -1;
+            return splits.Length - 1;
         }
 
         private static bool Evaluate(string[] splits, Dictionary<Clause,bool> ClauseResults)
         {
             bool current = false;
-            var res = ClauseResults.Where(x => x.Key.Label == splits[0]);
+            var res = ClauseResults.Where(x => x.Key.Label == splits[0].Replace("(","").Replace(")",""));
 
             if (!(res.Count() == 1))
             {
@@ -174,12 +168,12 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         //Get the substring closing this paren
                         var matchingParen = FindMatchingParen(splits, i);
-                        current = Operate(Operator, current, Evaluate(splits[i..matchingParen],ClauseResults));
+                        current = Operate(Operator, current, Evaluate(splits[i..(matchingParen+1)],ClauseResults));
                         updated_i = matchingParen;
                     }
                     else
                     {
-                        res = ClauseResults.Where(x => x.Key.Label == splits[i]);
+                        res = ClauseResults.Where(x => x.Key.Label == splits[i].Replace("(", "").Replace(")", ""));
                         if (!(res.Count() == 1))
                         {
                             return false;

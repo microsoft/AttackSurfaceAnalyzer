@@ -389,15 +389,16 @@
         "MODIFIED"
       ],
       "ResultType": "FILE",
+      "Expression": "0 AND 1",
       "Clauses": [
         {
+          "Label": "0",
           "Field": "IsExecutable",
           "Operation": "EQ",
-          "Data": [
-            "True"
-          ]
+          "Data": [ "True" ]
         },
         {
+          "Label": "1",
           "Field": "SignatureStatus.SigningCertificate.Issuer",
           "Operation": "WAS_MODIFIED"
         }
