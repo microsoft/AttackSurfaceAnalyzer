@@ -69,6 +69,71 @@ namespace AttackSurfaceAnalyzer.Utils
             return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
         }
 
+        public bool VerifyRules()
+        {
+            var invalid = false;
+
+            foreach (var rule in config.Rules)
+            {
+                // If clauses have duplicate names
+                var duplicateClauses = rule.Clauses.GroupBy(x => x.Label).Where(x => x.Key != null && x.Count() > 1);
+                foreach(var duplicateClause in duplicateClauses)
+                {
+                    invalid = true;
+                    Log.Warning($"Rule {rule.Name} has clauses with duplicate name {duplicateClause.Key}.");
+                }
+
+                if (rule.Expression is string expression)
+                {
+                    // Are parenthesis balanced
+                    // Are spaces correct
+                    // Are all variables defined by clauses?
+                    // Are variables and operators alternating?
+                    var splits = expression.Split(" ");
+                    int foundStarts = 0;
+                    int foundEnds = 0;
+                    for (int i = 0; i < splits.Length; i++)
+                    {
+                        foundStarts += splits[i].Count(x => x.Equals('('));
+                        foundEnds += splits[i].Count(x => x.Equals(')'));
+                        if (foundEnds > foundStarts)
+                        {
+                            invalid = true;
+                            Log.Warning($"Expression {expression} in rule {rule.Name} has unbalanced parentheses.");
+                        }
+                        // Variable
+                        if (i % 2 == 0)
+                        {
+                            var variable = splits[i].Replace("(", "").Replace(")", "");
+                            if (string.IsNullOrWhiteSpace(variable) || !rule.Clauses.Any(x => x.Label == variable))
+                            {
+                                invalid = true;
+                                Log.Warning($"Expression {expression} in rule {rule.Name}  contains undefined label {splits[i].Replace("(", "").Replace(")", "")}");
+                            }
+                        }
+                        //Operator
+                        else
+                        {
+                            if (!Enum.TryParse(typeof(BOOL_OPERATOR), splits[i], out _))
+                            {
+                                invalid = true;
+                                Log.Warning($"Expression {expression} in rule {rule.Name} contains invalid boolean operator {splits[i]}");
+                            }
+                        }
+                    }
+                }
+            }
+            if (invalid)
+            {
+                Log.Fatal("Invalid Analysis Rules.");
+            }
+            else
+            {
+                Log.Information("Analysis Rules Verified Successfully.");
+            }
+            return !invalid;
+        }
+
         protected ANALYSIS_RESULT_TYPE Apply(Rule rule, CompareResult compareResult)
         {
             if (compareResult != null && rule != null)

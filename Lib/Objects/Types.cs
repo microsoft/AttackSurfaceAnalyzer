@@ -57,7 +57,8 @@ namespace AttackSurfaceAnalyzer.Types
         NO_COLLECTORS,
         MATCHING_SCHEMA,
         FAILED_TO_CREATE_DATABASE,
-        INVALID_ID
+        INVALID_ID,
+        INVALID_RULES
     }
 
 

@@ -46,7 +46,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             Strings.Setup();
 
-            var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions, ConfigCommandOptions, GuiCommandOptions>(args)
+            var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions, ConfigCommandOptions, GuiCommandOptions, VerifyOptions>(args)
                 .MapResult(
                     (CollectCommandOptions opts) => RunCollectCommand(opts),
                     (MonitorCommandOptions opts) => RunMonitorCommand(opts),
@@ -54,10 +54,27 @@ namespace AttackSurfaceAnalyzer.Cli
                     (ExportMonitorCommandOptions opts) => RunExportMonitorCommand(opts),
                     (ConfigCommandOptions opts) => RunConfigCommand(opts),
                     (GuiCommandOptions opts) => RunGuiCommand(opts),
+                    (VerifyOptions opts) => RunVerifyRulesCommand(opts),
                     errs => 1
                 );
 
             Log.CloseAndFlush();
+        }
+
+        private static int RunVerifyRulesCommand(VerifyOptions opts)
+        {
+#if DEBUG
+            Logger.Setup(true, opts.Verbose, opts.Quiet);
+#else
+            Logger.Setup(opts.Debug, opts.Verbose, opts.Quiet);
+#endif
+            var analyzer = new Analyzer(AsaHelpers.GetPlatform(),opts.AnalysisFile);
+            if (analyzer.VerifyRules())
+            {
+                return (int)ASA_ERROR.NONE;
+            }
+
+            return (int)ASA_ERROR.INVALID_RULES;
         }
 
         private static int RunGuiCommand(GuiCommandOptions opts)
@@ -699,6 +716,10 @@ namespace AttackSurfaceAnalyzer.Cli
                 Analyzer analyzer;
 
                 analyzer = new Analyzer(DatabaseManager.RunIdToPlatform(opts.FirstRunId), opts.AnalysesFile);
+                if (!analyzer.VerifyRules())
+                {
+                    return results;
+                }
 
                 if (results.Count > 0)
                 {

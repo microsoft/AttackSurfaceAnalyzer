@@ -194,6 +194,13 @@ namespace AttackSurfaceAnalyzer
         public bool TrimToLatest { get; set; }
     }
 
+    [Verb("verify", HelpText = "Verify your analysis rules")]
+    public class VerifyOptions : CommandOptions
+    {
+        [Option("filename", Required = false, HelpText = "Path to your analysis file")]
+        public string? AnalysisFile { get; set; }
+    }
+
     [Verb("gui", HelpText = "Launch the GUI in a browser")]
     public class GuiCommandOptions : CommandOptions
     {
