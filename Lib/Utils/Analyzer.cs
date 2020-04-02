@@ -87,6 +87,14 @@ namespace AttackSurfaceAnalyzer.Utils
                         return rule.Flag;
                     }
                 }
+                else
+                {
+                    if (Evaluate(rule.Expression.Split(" "), ClauseResults))
+                    {
+                        compareResult.Rules.Add(rule);
+                        return rule.Flag;
+                    }
+                }
 
                 return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
             }
@@ -95,7 +103,96 @@ namespace AttackSurfaceAnalyzer.Utils
                 throw new NullReferenceException();
             }
         }
-        
+
+        private static bool Operate(BOOL_OPERATOR Operator, bool first, bool second)
+        {
+            switch (Operator)
+            {
+                case BOOL_OPERATOR.AND:
+                    return first && second;
+                case BOOL_OPERATOR.OR:
+                    return first || second;
+                case BOOL_OPERATOR.XOR:
+                    return first ^ second;
+                case BOOL_OPERATOR.NAND:
+                    return !(first && second);
+                case BOOL_OPERATOR.NOR:
+                    return !(first || second);
+                default:
+                    return false;
+            }
+        }
+
+        private static int FindMatchingParen(string[] splits, int startingIndex)
+        {
+            int foundStarts = 0;
+            int foundEnds = 0;
+            for (int i = startingIndex; i < splits.Length; i++)
+            {
+                if (splits[i].Contains("("))
+                {
+                    foundStarts++;
+                }
+                else if (splits[i].Contains(")"))
+                {
+                    foundEnds++;
+                }
+
+                if (foundStarts == foundEnds)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        private static bool Evaluate(string[] splits, Dictionary<Clause,bool> ClauseResults)
+        {
+            bool current = false;
+            var res = ClauseResults.Where(x => x.Key.Label == splits[0]);
+
+            if (!(res.Count() == 1))
+            {
+                return false;
+            }
+
+            current = res.First().Value;
+
+            BOOL_OPERATOR Operator = BOOL_OPERATOR.AND;
+
+            var updated_i = 1;
+            for (int i = 1; i < splits.Length; i = updated_i)
+            {
+                if (i % 2 == 1)
+                {
+                    Operator = (BOOL_OPERATOR)Enum.Parse(typeof(BOOL_OPERATOR),splits[i]);
+                }
+                else
+                {
+                    if (splits[i].StartsWith("("))
+                    {
+                        //Get the substring closing this paren
+                        var matchingParen = FindMatchingParen(splits, i);
+                        current = Operate(Operator, current, Evaluate(splits[i..matchingParen],ClauseResults));
+                        updated_i = matchingParen;
+                    }
+                    else
+                    {
+                        res = ClauseResults.Where(x => x.Key.Label == splits[i]);
+                        if (!(res.Count() == 1))
+                        {
+                            return false;
+                        }
+                        current = Operate(Operator, current, res.First().Value);
+                    }
+                }
+                updated_i = updated_i == i ? i + 1 : updated_i;
+            }
+
+            return current;
+        }
+
         private static (List<string>,List<KeyValuePair<string,string>>) ObjectToValues(object? obj)
         {
             var valsToCheck = new List<string>();

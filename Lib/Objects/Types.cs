@@ -142,4 +142,13 @@ namespace AttackSurfaceAnalyzer.Types
         MONITOR,
         COMPARE
     }
+
+    public enum BOOL_OPERATOR
+    {
+        AND,
+        OR,
+        XOR,
+        NAND,
+        NOR
+    }
 }
