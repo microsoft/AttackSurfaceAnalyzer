@@ -73,6 +73,13 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             if (compareResult != null && rule != null)
             {
+                // If we have no clauses we automatically match
+                if (!rule.Clauses.Any())
+                {
+                    compareResult.Rules.Add(rule);
+                    return rule.Flag;
+                }
+
                 var ClauseResults = new Dictionary<Clause, bool>();
                 foreach (Clause clause in rule.Clauses)
                 {

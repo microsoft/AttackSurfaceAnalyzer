@@ -182,7 +182,7 @@
     {
       "Name": "Missing Signed Enforcement",
       "Description": "Flag when executables are signed binaries are created without Force Integrity Flag.",
-      "Flag": "DEBUG",
+      "Flag": "INFORMATION",
       "platforms": [
         "WINDOWS"
       ],
@@ -389,18 +389,165 @@
         "MODIFIED"
       ],
       "ResultType": "FILE",
-      "Expression": "0 AND 1",
       "Clauses": [
         {
-          "Label": "0",
-          "Field": "IsExecutable",
-          "Operation": "EQ",
-          "Data": [ "True" ]
-        },
-        {
-          "Label": "1",
           "Field": "SignatureStatus.SigningCertificate.Issuer",
           "Operation": "WAS_MODIFIED"
+        }
+      ]
+    },
+    {
+      "Name": "Modified Items in Program Files",
+      "Description": "Flag when the a file is modified in Program files.",
+      "Flag": "INFORMATION",
+      "platforms": [
+        "WINDOWS"
+      ],
+      "changeTypes": [
+        "MODIFIED"
+      ],
+      "ResultType": "FILE",
+      "Clauses": [
+        {
+          "Field": "Path",
+          "Operation": "REGEX",
+          "Data": [
+            "[A-Z]:\\Program Files\\",
+            "[A-Z]:\\Program Files \\(x86\\)\\"
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Modified Items in System Files",
+      "Description": "Flag when the a file is modified in System files.",
+      "Flag": "INFORMATION",
+      "platforms": [
+        "WINDOWS"
+      ],
+      "changeTypes": [
+        "MODIFIED"
+      ],
+      "ResultType": "FILE",
+      "Clauses": [
+        {
+          "Field": "Path",
+          "Operation": "REGEX",
+          "Data": [ "[A-Z]:\\Windows\\" ]
+        }
+      ]
+    },
+    {
+      "Name": "Modified Services",
+      "Description": "Flag a startup item is modified.",
+      "Flag": "WARNING",
+      "changeTypes": [
+        "MODIFIED"
+      ],
+      "ResultType": "SERVICE"
+    },
+    {
+      "Name": "Modified Hosts File",
+      "Description": "Flag when the hosts file is modified.",
+      "Flag": "WARNING",
+      "changeTypes": [
+        "MODIFIED"
+      ],
+      "ResultType": "FILE",
+      "Expression": "WINDOWS OR NIX",
+      "Clauses": [
+        {
+          "Label": "WINDOWS",
+          "Field": "Path",
+          "Operation": "REGEX",
+          "Data": [
+            "[A-Z]:\\Windows\\System32\\drivers\\etc\\hosts"
+          ]
+        },
+        {
+          "Label": "NIX",
+          "Field": "Path",
+          "Operation": "EQ",
+          "Data": [
+            "/etc/hosts"
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Signed File was modified",
+      "Description": "A signed file was modified.",
+      "Flag": "WARNING",
+      "platforms": [
+        "WINDOWS"
+      ],
+      "changeTypes": [
+        "MODIFIED"
+      ],
+      "ResultType": "FILE",
+      "Clauses": [
+        {
+          "Field": "SignatureStatus",
+          "Operation": "EQ",
+          "Data": [
+            "Valid"
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Files Frequently Modified by Windows",
+      "Description": "These files are frequently modified by the system itself.",
+      "Flag": "VERBOSE",
+      "platforms": [
+        "WINDOWS"
+      ],
+      "ResultType": "FILE",
+      "Clauses": [
+        {
+          "Field": "Path",
+          "Operation": "REGEX",
+          "Data": [
+            "[A-Z]:\\\\+ProgramData\\\\+Microsoft\\\\+DiagnosticLogCSP\\\\+.*",
+            "[A-Z]:\\\\+ProgramData\\\\+Microsoft\\\\+SmsRouter\\\\+MessageStore\\\\+.*",
+            "[A-Z]:\\\\+ProgramData\\\\+Microsoft\\\\+Windows\\\\+AppRepository\\\\+.*",
+            "[A-Z]:\\\\+ProgramData\\\\+USOShared\\\\+Logs\\\\+System\\\\+.*",
+            "[A-Z]:\\\\+Windows\\\\+appcompat\\\\+Programs\\\\+.*",
+            "[A-Z]:\\\\+Windows\\\\+AppReadiness\\\\+*",
+            "[A-Z]:\\\\+Windows\\\\+Logs\\\\+waasmedia\\\\+.*",
+            "[A-Z]:\\\\+Windows\\\\+ServiceProfiles\\\\+LocalService\\\\+.*",
+            "[A-Z]:\\\\+Windows\\\\+ServiceProfiles\\\\+NetworkService\\\\+.*",
+            "[A-Z]:\\\\+Windows\\\\+System32\\\\+catroot2\\\\+.*",
+            "[A-Z]:\\\\+Windows\\\\+System32\\\\+config\\\\+.*",
+            "[A-Z]:\\\\+Windows\\\\+System32\\\\+LogFiles\\\\+.*",
+            "[A-Z]:\\\\+Windows\\\\+System32\\\\+SleepStudy\\\\+.*",
+            "[A-Z]:\\\\+Windows\\\\+System32\\\\+sru\\\\+.*",
+            "[A-Z]:\\\\+Windows\\\\+System32\\\\+winevt\\\\+.*",
+            "[A-Z]:\\\\+Windows\\\\+(SysWOW64|System32)\\\\+Windows\\.Security\\.Authentication\\.Identity\\.Provider\\.dll",
+            "[A-Z]:\\\\+Users\\\\+[^\\[:;|=,+*?<>\"\\\\]+\\\\+AppData\\\\+Local\\\\+ConnectedDevicesPlatform\\\\+.*",
+            "[A-Z]:\\\\+Users\\\\+[^\\[:;|=,+*?<>\"\\\\]+\\\\+AppData\\\\+Local\\\\+Packages\\\\+Microsoft.Windows.Search_.*",
+            "[A-Z]:\\\\+Users\\\\+[^\\[:;|=,+*?<>\"\\\\]+\\\\+AppData\\\\+Local\\\\+Temp\\\\+StructuredQuery\\.log",
+            "[A-Z]:\\\\+Users\\\\+[^\\[:;|=,+*?<>\"\\\\]+\\\\+AppData\\\\+Roaming\\\\+Microsoft\\\\+Windows\\\\+Recent\\\\+.*",
+            "[A-Z]:\\\\+Users\\\\+[^\\[:;|=,+*?<>\"\\\\]+\\\\+ntuser\\.dat\\..*"
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Registry Keys Frequently Modified by Windows",
+      "Description": "These registry keys are frequently modified by the system itself.",
+      "Flag": "VERBOSE",
+      "platforms": [
+        "WINDOWS"
+      ],
+      "ResultType": "REGISTRY",
+      "Clauses": [
+        {
+          "Field": "Key",
+          "Operation": "REGEX",
+          "Data": [
+            "MrtCache"
+          ]
         }
       ]
     }
@@ -408,7 +555,7 @@
   "DefaultLevels": {
       "PORT": "INFORMATION",
       "FILE": "DEBUG",
-      "SERVICE": "WARNING",
+      "SERVICE": "INFORMATION",
       "CERTIFICATE": "INFORMATION",
       "USER": "INFORMATION",
       "REGISTRY": "DEBUG",
