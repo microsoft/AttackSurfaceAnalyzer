@@ -513,7 +513,7 @@
             "[A-Z]:\\\\+ProgramData\\\\+Microsoft\\\\+Windows\\\\+AppRepository\\\\+.*",
             "[A-Z]:\\\\+ProgramData\\\\+USOShared\\\\+Logs\\\\+System\\\\+.*",
             "[A-Z]:\\\\+Windows\\\\+appcompat\\\\+Programs\\\\+.*",
-            "[A-Z]:\\\\+Windows\\\\+AppReadiness\\\\+*",
+            "[A-Z]:\\\\+Windows\\\\+AppReadiness\\\\+.*",
             "[A-Z]:\\\\+Windows\\\\+Logs\\\\+waasmedia\\\\+.*",
             "[A-Z]:\\\\+Windows\\\\+ServiceProfiles\\\\+LocalService\\\\+.*",
             "[A-Z]:\\\\+Windows\\\\+ServiceProfiles\\\\+NetworkService\\\\+.*",
