@@ -412,8 +412,8 @@
           "Field": "Path",
           "Operation": "REGEX",
           "Data": [
-            "[A-Z]:\\Program Files\\",
-            "[A-Z]:\\Program Files \\(x86\\)\\"
+            "[A-Z]:\\\\Program Files\\\\",
+            "[A-Z]:\\\\Program Files \\(x86\\)\\\\"
           ]
         }
       ]
@@ -433,7 +433,7 @@
         {
           "Field": "Path",
           "Operation": "REGEX",
-          "Data": [ "[A-Z]:\\Windows\\" ]
+          "Data": [ "[A-Z]:\\\\Windows\\\\" ]
         }
       ]
     },
@@ -461,7 +461,7 @@
           "Field": "Path",
           "Operation": "REGEX",
           "Data": [
-            "[A-Z]:\\Windows\\System32\\drivers\\etc\\hosts"
+            "[A-Z]:\\\\Windows\\\\System32\\\\drivers\\\\etc\\\\hosts"
           ]
         },
         {
