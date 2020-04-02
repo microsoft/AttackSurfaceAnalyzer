@@ -1,7 +1,5 @@
-﻿using AttackSurfaceAnalyzer.Objects;
-using AttackSurfaceAnalyzer.Utils;
+﻿using AttackSurfaceAnalyzer.Utils;
 using BenchmarkDotNet.Attributes;
-using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 

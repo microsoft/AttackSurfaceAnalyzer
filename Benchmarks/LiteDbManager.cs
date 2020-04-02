@@ -7,12 +7,10 @@ using Serilog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Utf8Json;
 using JsonSerializer = Utf8Json.JsonSerializer;
 
 namespace AttackSurfaceAnalyzer.Utils
@@ -23,7 +21,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private static bool WriterStarted = false;
 
-        private static ConcurrentBag<ILiteCollection<WriteObject>> WriteObjectCollections = new ConcurrentBag<ILiteCollection<WriteObject>>();
+        private static readonly ConcurrentBag<ILiteCollection<WriteObject>> WriteObjectCollections = new ConcurrentBag<ILiteCollection<WriteObject>>();
 
         private static Settings settings { get; set; } = new Settings() { SchemaVersion = SCHEMA_VERSION, ShardingFactor = 1, TelemetryEnabled = true };
 
@@ -546,9 +544,9 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 File.Delete(Filename);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                Log.Information(e,$"Failed to clean up database located at {Filename}");
+                Log.Information(e, $"Failed to clean up database located at {Filename}");
             }
         }
     }

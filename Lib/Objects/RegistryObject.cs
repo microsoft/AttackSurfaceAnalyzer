@@ -2,10 +2,8 @@
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Types;
 using Microsoft.Win32;
-using Serilog;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 
 namespace AttackSurfaceAnalyzer.Objects

@@ -1,9 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Types;
-using CommandLine;
 using System.Collections.Generic;
-using System.ComponentModel;
 
 namespace AttackSurfaceAnalyzer.Objects
 {

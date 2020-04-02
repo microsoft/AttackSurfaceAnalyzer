@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
-using System.Data.SQLite;
 using Serilog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -669,27 +669,27 @@ namespace AttackSurfaceAnalyzer.Utils
                 cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
                 cmd.Parameters.AddWithValue("@second_run_id", secondRunId);
                 using (var reader = cmd.ExecuteReader())
-                while (reader.Read())
-                {
-                    var runId = reader["run_id"].ToString();
-                    var resultTypeString = reader["result_type"].ToString();
-                    if (runId != null && resultTypeString != null)
+                    while (reader.Read())
                     {
-                        var wo = WriteObject.FromBytes((byte[])reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
-                        if (wo is WriteObject WO)
+                        var runId = reader["run_id"].ToString();
+                        var resultTypeString = reader["result_type"].ToString();
+                        if (runId != null && resultTypeString != null)
                         {
-                            output.Add(WO);
+                            var wo = WriteObject.FromBytes((byte[])reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
+                            if (wo is WriteObject WO)
+                            {
+                                output.Add(WO);
+                            }
                         }
                     }
-                }
             });
 
             return output;
         }
 
-        public static ConcurrentBag<(WriteObject,WriteObject)> GetModified(string firstRunId, string secondRunId)
+        public static ConcurrentBag<(WriteObject, WriteObject)> GetModified(string firstRunId, string secondRunId)
         {
-            var output = new ConcurrentBag<(WriteObject,WriteObject)>();
+            var output = new ConcurrentBag<(WriteObject, WriteObject)>();
 
             Connections.AsParallel().ForAll(cxn =>
             {
@@ -705,8 +705,8 @@ namespace AttackSurfaceAnalyzer.Utils
                         var aResultType = reader["a_result_type"].ToString();
                         var bResultType = reader["b_result_type"].ToString();
 
-                        if (aRunId != null && bRunId != null && aResultType != null && bResultType != null) 
-                        { 
+                        if (aRunId != null && bRunId != null && aResultType != null && bResultType != null)
+                        {
                             var val1 = WriteObject.FromBytes((byte[])reader["a_serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), aResultType), aRunId);
                             var val2 = WriteObject.FromBytes((byte[])reader["b_serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), bResultType), bRunId);
 
@@ -872,7 +872,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 Log.Debug("Failed to GetMonitorResults. MainConnection was null.");
             }
 
-            return results ;
+            return results;
         }
 
         public static int GetNumMonitorResults(string runId)

@@ -1,14 +1,9 @@
 ﻿using AttackSurfaceAnalyzer.Objects;
-using AttackSurfaceAnalyzer.Utils;
 using BenchmarkDotNet.Attributes;
 using Murmur;
 using Serilog;
 using System.Collections.Concurrent;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Security.Policy;
-using System.Threading;
-using System.Threading.Tasks;
 using Utf8Json;
 
 namespace AttackSurfaceAnalyzer.Benchmarks
@@ -27,21 +22,21 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Params(100000)]
         public int N { get; set; }
 
-        static HashAlgorithm murmur128 = MurmurHash.Create128();
-        static HashAlgorithm sha256 = SHA256.Create();
+        static readonly HashAlgorithm murmur128 = MurmurHash.Create128();
+        static readonly HashAlgorithm sha256 = SHA256.Create();
 
-        static HashAlgorithm sha512 = SHA512.Create();
+        static readonly HashAlgorithm sha512 = SHA512.Create();
 
-        private ConcurrentQueue<byte[]> hashObjects = new ConcurrentQueue<byte[]>();
+        private readonly ConcurrentQueue<byte[]> hashObjects = new ConcurrentQueue<byte[]>();
 
 #nullable disable
         public CryptoTests()
 #nullable restore
         {
-            
+
         }
 
-        [Benchmark (Baseline = true)]
+        [Benchmark(Baseline = true)]
         public void Generate_N_SHA256_Hashes()
         {
             for (int i = 0; i < N; i++)

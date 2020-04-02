@@ -51,7 +51,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
 
             ConcurrentBag<WriteObject> differentObjects = DatabaseManager.GetAllMissing(firstRunId, secondRunId);
-            ConcurrentBag<(WriteObject,WriteObject)> modifyObjects = DatabaseManager.GetModified(firstRunId, secondRunId);
+            ConcurrentBag<(WriteObject, WriteObject)> modifyObjects = DatabaseManager.GetModified(firstRunId, secondRunId);
 
             differentObjects.AsParallel().ForAll(different =>
             {

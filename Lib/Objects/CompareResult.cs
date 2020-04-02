@@ -1,13 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Types;
-using Markdig.Helpers;
 using System.Collections.Generic;
 using System.IO;
 
 namespace AttackSurfaceAnalyzer.Objects
 {
-    
+
 
     public class CompareResult
     {

@@ -68,7 +68,7 @@ namespace AttackSurfaceAnalyzer.Cli
 #else
             Logger.Setup(opts.Debug, opts.Verbose, opts.Quiet);
 #endif
-            var analyzer = new Analyzer(AsaHelpers.GetPlatform(),opts.AnalysisFile);
+            var analyzer = new Analyzer(AsaHelpers.GetPlatform(), opts.AnalysisFile);
             if (analyzer.VerifyRules())
             {
                 return (int)ASA_ERROR.NONE;

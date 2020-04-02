@@ -25,7 +25,7 @@ namespace AttackSurfaceAnalyzer.Objects
 
         public static WriteObject? FromBytes(byte[] SerializedIn, RESULT_TYPE ResultTypeIn, string RunIdIn)
         {
-            var wo = new WriteObject(SerializedIn, ResultTypeIn, RunIdIn); 
+            var wo = new WriteObject(SerializedIn, ResultTypeIn, RunIdIn);
             if (wo.ColObj == null)
             {
                 return null;

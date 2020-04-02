@@ -3,7 +3,6 @@
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
-using PeNet.Authenticode;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -30,9 +29,9 @@ namespace AttackSurfaceAnalyzer.Collectors
             catch (Exception e) when (e is NullReferenceException)
             {
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                Log.Debug(e,"Thrown in GetSignatureStatus");
+                Log.Debug(e, "Thrown in GetSignatureStatus");
             }
             return null;
         }

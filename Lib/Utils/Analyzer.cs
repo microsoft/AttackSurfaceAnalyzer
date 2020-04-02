@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using Utf8Json;
 
@@ -77,7 +76,7 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 // If clauses have duplicate names
                 var duplicateClauses = rule.Clauses.GroupBy(x => x.Label).Where(x => x.Key != null && x.Count() > 1);
-                foreach(var duplicateClause in duplicateClauses)
+                foreach (var duplicateClause in duplicateClauses)
                 {
                     invalid = true;
                     Log.Warning($"Rule {rule.Name} has clauses with duplicate name {duplicateClause.Key}.");
@@ -150,7 +149,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     ClauseResults.Add(clause, AnalyzeClause(clause, compareResult));
                 }
-               
+
                 if (rule.Expression == null)
                 {
                     if (ClauseResults.Where(x => x.Value).Count() == ClauseResults.Count)
@@ -213,10 +212,10 @@ namespace AttackSurfaceAnalyzer.Utils
             return splits.Length - 1;
         }
 
-        private static bool Evaluate(string[] splits, Dictionary<Clause,bool> ClauseResults)
+        private static bool Evaluate(string[] splits, Dictionary<Clause, bool> ClauseResults)
         {
             bool current = false;
-            var res = ClauseResults.Where(x => x.Key.Label == splits[0].Replace("(","").Replace(")",""));
+            var res = ClauseResults.Where(x => x.Key.Label == splits[0].Replace("(", "").Replace(")", ""));
 
             if (!(res.Count() == 1))
             {
@@ -232,7 +231,7 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 if (i % 2 == 1)
                 {
-                    Operator = (BOOL_OPERATOR)Enum.Parse(typeof(BOOL_OPERATOR),splits[i]);
+                    Operator = (BOOL_OPERATOR)Enum.Parse(typeof(BOOL_OPERATOR), splits[i]);
                 }
                 else
                 {
@@ -240,7 +239,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         //Get the substring closing this paren
                         var matchingParen = FindMatchingParen(splits, i);
-                        current = Operate(Operator, current, Evaluate(splits[i..(matchingParen+1)],ClauseResults));
+                        current = Operate(Operator, current, Evaluate(splits[i..(matchingParen + 1)], ClauseResults));
                         updated_i = matchingParen;
                     }
                     else
@@ -259,7 +258,7 @@ namespace AttackSurfaceAnalyzer.Utils
             return current;
         }
 
-        private static (List<string>,List<KeyValuePair<string,string>>) ObjectToValues(object? obj)
+        private static (List<string>, List<KeyValuePair<string, string>>) ObjectToValues(object? obj)
         {
             var valsToCheck = new List<string>();
             var dictToCheck = new List<KeyValuePair<string, string>>();
@@ -361,7 +360,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     case OPERATION.EQ:
                         if (clause.Data is List<string> EqualsData)
-                        {   
+                        {
                             if (EqualsData.Intersect(valsToCheck).Any())
                             {
                                 return true;
@@ -457,30 +456,30 @@ namespace AttackSurfaceAnalyzer.Utils
                         }
                         break;
 
-                case OPERATION.DOES_NOT_CONTAIN_ALL:
-                    if (dictToCheck.Any())
-                    {
-                        if (clause.DictData is List<KeyValuePair<string, string>> ContainsData)
+                    case OPERATION.DOES_NOT_CONTAIN_ALL:
+                        if (dictToCheck.Any())
                         {
-                            if (ContainsData.Where(y => dictToCheck.Where((x) => x.Key == y.Key && x.Value == y.Value).Any()).Count() == ContainsData.Count)
+                            if (clause.DictData is List<KeyValuePair<string, string>> ContainsData)
                             {
-                                return true;
+                                if (ContainsData.Where(y => dictToCheck.Where((x) => x.Key == y.Key && x.Value == y.Value).Any()).Count() == ContainsData.Count)
+                                {
+                                    return true;
+                                }
+                                return false;
                             }
-                            return false;
                         }
-                    }
-                    else if (valsToCheck.Any())
-                    {
-                        if (clause.Data is List<string> ContainsDataList)
+                        else if (valsToCheck.Any())
                         {
-                            if (ContainsDataList.Intersect(valsToCheck).Count() == ContainsDataList.Count)
+                            if (clause.Data is List<string> ContainsDataList)
                             {
-                                return true;
+                                if (ContainsDataList.Intersect(valsToCheck).Count() == ContainsDataList.Count)
+                                {
+                                    return true;
+                                }
+                                return false;
                             }
-                            return false;
                         }
-                    }
-                    break;
+                        break;
 
                     // If any of the data values are greater than the first provided data value
                     case OPERATION.GT:
@@ -644,7 +643,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     return;
                 }
             }
-            
+
         }
     }
 }

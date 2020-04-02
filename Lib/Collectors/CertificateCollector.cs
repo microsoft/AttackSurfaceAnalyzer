@@ -133,7 +133,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         StoreName: StoreName.Root.ToString(),
                         Certificate: new SerializableCertificate(certificate),
                         Pkcs7: certificate.Export(X509ContentType.Cert).ToString());
-                    
+
                     DatabaseManager.Write(obj, RunId);
                 }
             }

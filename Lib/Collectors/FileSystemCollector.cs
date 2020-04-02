@@ -180,7 +180,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         if (rule != null)
                         {
                             string name = AsaHelpers.SidToName(rule.IdentityReference);
-                            
+
                             obj.Permissions = new Dictionary<string, string>();
 
                             foreach (var permission in rule.FileSystemRights.ToString().Split(','))

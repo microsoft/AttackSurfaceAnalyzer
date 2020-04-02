@@ -15,7 +15,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class FileSystemMonitor : BaseMonitor, IDisposable
     {
-        private FileSystemWatcher watcher;
+        private readonly FileSystemWatcher watcher;
 
         public static readonly NotifyFilters defaultFilters = NotifyFilters.Attributes
                 | NotifyFilters.CreationTime

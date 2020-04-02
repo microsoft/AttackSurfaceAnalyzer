@@ -12,7 +12,7 @@ namespace AttackSurfaceAnalyzer.Utils
     {
         // These are not intended to be cryptographically secure hashes
         // These are used as a uniqueness check
-        static HashAlgorithm sha512 = SHA512.Create();
+        static readonly HashAlgorithm sha512 = SHA512.Create();
 
         public static string CreateHash(string input)
         {

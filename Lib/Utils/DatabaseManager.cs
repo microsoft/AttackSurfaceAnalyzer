@@ -792,9 +792,9 @@ namespace AttackSurfaceAnalyzer.Utils
             return output;
         }
 
-        public static ConcurrentBag<(WriteObject,WriteObject)> GetModified(string firstRunId, string secondRunId)
+        public static ConcurrentBag<(WriteObject, WriteObject)> GetModified(string firstRunId, string secondRunId)
         {
-            var output = new ConcurrentBag<(WriteObject,WriteObject)>();
+            var output = new ConcurrentBag<(WriteObject, WriteObject)>();
 
             Connections.AsParallel().ForAll(cxn =>
             {
@@ -973,7 +973,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 Log.Debug("Failed to GetMonitorResults. MainConnection was null.");
             }
 
-            return results ;
+            return results;
         }
 
         public static int GetNumMonitorResults(string runId)

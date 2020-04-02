@@ -6,7 +6,6 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Security.AccessControl;
 using System.Security.Principal;
 
@@ -123,7 +122,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             regObj.Permissions.Add(name, new List<string>() { rule.RegistryRights.ToString() });
                         }
                     }
-                    
+
                 }
             }
             catch (ArgumentException)

@@ -1,4 +1,3 @@
-using AttackSurfaceAnalyzer;
 using AttackSurfaceAnalyzer.Collectors;
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
@@ -18,7 +17,7 @@ using WindowsFirewallHelper;
 namespace AttackSurfaceAnalyzer.Tests
 {
     [TestClass]
-    public class AsaLibTests
+    public class CollectorTests
     {
         public void Setup()
         {
@@ -305,7 +304,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 Registry.CurrentUser.DeleteSubKey(name);
 
                 BaseCompare bc = new BaseCompare();
-                
+
                 bc.TryCompare(FirstRunId, SecondRunId);
 
                 Assert.IsTrue(bc.Results.ContainsKey("REGISTRY_CREATED"));
