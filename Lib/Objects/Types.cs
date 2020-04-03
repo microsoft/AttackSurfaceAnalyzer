@@ -123,7 +123,8 @@ namespace AttackSurfaceAnalyzer.Types
         ENDS_WITH,
         STARTS_WITH,
         CONTAINS_ANY,
-        DOES_NOT_CONTAIN_ALL
+        DOES_NOT_CONTAIN_ALL,
+        IS_NULL
     }
 
     /// <summary>
@@ -150,6 +151,7 @@ namespace AttackSurfaceAnalyzer.Types
         OR,
         XOR,
         NAND,
-        NOR
+        NOR,
+        NOT
     }
 }

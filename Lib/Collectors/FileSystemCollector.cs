@@ -298,7 +298,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                             obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, size);
 
-                            if (obj.IsExecutable is bool && (bool)obj.IsExecutable)
+                            if (obj.IsExecutable != null && (bool)obj.IsExecutable)
                             {
                                 obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(path);
                                 obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(path);

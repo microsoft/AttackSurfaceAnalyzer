@@ -97,6 +97,8 @@ namespace AttackSurfaceAnalyzer.Utils
                     var splits = expression.Split(" ");
                     int foundStarts = 0;
                     int foundEnds = 0;
+                    bool expectingOperator = false;
+                    bool previouslyNot = false;
                     for (int i = 0; i < splits.Length; i++)
                     {
                         foundStarts += splits[i].Count(x => x.Equals('('));
@@ -107,13 +109,14 @@ namespace AttackSurfaceAnalyzer.Utils
                             Log.Warning($"Expression {expression} in rule {rule.Name} has unbalanced parentheses.");
                         }
                         // Variable
-                        if (i % 2 == 0)
+                        if (!expectingOperator)
                         {
                             var foundOpens = new Stack<int>();
                             var foundCloses = new Stack<int>();
 
                             for (int j = 0; j < splits[i].Length; j++)
                             {
+                                // Check that the parenthesis are balanced
                                 if (splits[i][j] == '(')
                                 {
                                     if (foundOpens.TryPeek(out int lastOpen))
@@ -163,10 +166,24 @@ namespace AttackSurfaceAnalyzer.Utils
 
                             var variable = splits[i].Replace("(", "").Replace(")", "");
 
-                            if (string.IsNullOrWhiteSpace(variable) || !rule.Clauses.Any(x => x.Label == variable))
+                            if (variable == "NOT")
                             {
-                                invalid = true;
-                                Log.Warning($"Expression {expression} in rule {rule.Name}  contains undefined label {splits[i].Replace("(", "").Replace(")", "")}");
+                                if (previouslyNot)
+                                {
+                                    invalid = true;
+                                    Log.Warning($"Expression {expression} in rule {rule.Name} contains multiple NOTs in a row {splits[i].Replace("(", "").Replace(")", "")}");
+                                }
+                                previouslyNot = true;
+                            }
+                            else
+                            {
+                                previouslyNot = false;
+                                if (string.IsNullOrWhiteSpace(variable) || !rule.Clauses.Any(x => x.Label == variable))
+                                {
+                                    invalid = true;
+                                    Log.Warning($"Expression {expression} in rule {rule.Name}  contains undefined label {splits[i].Replace("(", "").Replace(")", "")}");
+                                }
+                                expectingOperator = true;
                             }
                         }
                         //Operator
@@ -177,6 +194,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                 invalid = true;
                                 Log.Warning($"Expression {expression} in rule {rule.Name} contains invalid boolean operator {splits[i]}");
                             }
+                            expectingOperator = false;
                         }
                     }
                 }
@@ -248,6 +266,8 @@ namespace AttackSurfaceAnalyzer.Utils
                     return !(first && second);
                 case BOOL_OPERATOR.NOR:
                     return !(first || second);
+                case BOOL_OPERATOR.NOT:
+                    return !first;
                 default:
                     return false;
             }
@@ -274,23 +294,40 @@ namespace AttackSurfaceAnalyzer.Utils
         private static bool Evaluate(string[] splits, Dictionary<Clause, bool> ClauseResults)
         {
             bool current = false;
-            var res = ClauseResults.Where(x => x.Key.Label == splits[0].Replace("(", "").Replace(")", ""));
 
+
+            var internalIndex = 0;
+            var hasNotOperator = splits[0].Replace("(", "").Replace(")", "").Equals(BOOL_OPERATOR.NOT.ToString());
+
+            if (hasNotOperator)
+            {
+                internalIndex = 1;
+            }
+
+            var res = ClauseResults.Where(x => x.Key.Label == splits[internalIndex].Replace("(", "").Replace(")", ""));
             if (!(res.Count() == 1))
             {
                 return false;
             }
-
-            current = res.First().Value;
+            if (hasNotOperator)
+            {
+                current = !res.First().Value;
+            }
+            else
+            {
+                current = res.First().Value;
+            }
 
             BOOL_OPERATOR Operator = BOOL_OPERATOR.AND;
 
-            var updated_i = 1;
-            for (int i = 1; i < splits.Length; i = updated_i)
+            var updated_i = internalIndex + 1;
+            var operatorExpected = true;
+            for (int i = updated_i; i < splits.Length; i = updated_i)
             {
-                if (i % 2 == 1)
+                if (operatorExpected)
                 {
                     Operator = (BOOL_OPERATOR)Enum.Parse(typeof(BOOL_OPERATOR), splits[i]);
+                    operatorExpected = false;
                 }
                 else
                 {
@@ -299,17 +336,34 @@ namespace AttackSurfaceAnalyzer.Utils
                         //Get the substring closing this paren
                         var matchingParen = FindMatchingParen(splits, i);
                         current = Operate(Operator, current, Evaluate(splits[i..(matchingParen + 1)], ClauseResults));
-                        updated_i = matchingParen;
+                        updated_i = matchingParen + 1;
                     }
                     else
                     {
-                        res = ClauseResults.Where(x => x.Key.Label == splits[i].Replace("(", "").Replace(")", ""));
+                        internalIndex = i;
+                        hasNotOperator = splits[i].Equals(BOOL_OPERATOR.NOT.ToString());
+
+                        if (hasNotOperator)
+                        {
+                            internalIndex = i + 1;
+                            updated_i = i + 2;
+                        }
+                        
+                        res = ClauseResults.Where(x => x.Key.Label == splits[internalIndex].Replace("(", "").Replace(")", ""));
                         if (!(res.Count() == 1))
                         {
                             return false;
                         }
-                        current = Operate(Operator, current, res.First().Value);
+                        if (hasNotOperator)
+                        {
+                            current = Operate(Operator, current, !res.First().Value);
+                        }
+                        else
+                        {
+                            current = Operate(Operator, current, res.First().Value);
+                        }
                     }
+                    operatorExpected = true;
                 }
                 updated_i = updated_i == i ? i + 1 : updated_i;
             }
@@ -317,9 +371,9 @@ namespace AttackSurfaceAnalyzer.Utils
             return current;
         }
 
-        private static (List<string>, List<KeyValuePair<string, string>>) ObjectToValues(object? obj)
+        private static (List<string?>, List<KeyValuePair<string, string>>) ObjectToValues(object? obj)
         {
-            var valsToCheck = new List<string>();
+            var valsToCheck = new List<string?>();
             var dictToCheck = new List<KeyValuePair<string, string>>();
             if (obj != null)
             {
@@ -358,7 +412,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             else
             {
-                valsToCheck.Add(string.Empty);
+                valsToCheck.Add(null);
             }
 
             return (valsToCheck, dictToCheck);
@@ -602,6 +656,13 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
                                 return true;
                             }
+                        }
+                        return false;
+
+                    case OPERATION.IS_NULL:
+                        if (valsToCheck.Count(x => x is null) == valsToCheck.Count())
+                        {
+                            return true;
                         }
                         return false;
 
