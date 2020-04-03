@@ -343,6 +343,176 @@ namespace AttackSurfaceAnalyzer.Tests
         }
 
         [TestMethod]
+        public void VerifyValidRuleDetection()
+        {
+            Setup();
+
+            var validRule = new Rule("Regular Rule")
+            {
+                Expression = "0 AND 1",
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Path", OPERATION.EQ)
+                    {
+                        Label = "0",
+                        Data = new List<string>()
+                        {
+                            "TestPath2"
+                        }
+                    },
+                    new Clause("IsExecutable", OPERATION.EQ)
+                    {
+                        Label = "1",
+                        Data = new List<string>()
+                        {
+                            "True"
+                        }
+                    }
+                }
+            };
+
+            var file = new RuleFile()
+            {
+                Rules = new List<Rule>()
+                {
+                    validRule
+                }
+            };
+
+            var analyzer = new Analyzer(AsaHelpers.GetPlatform(), file);
+            Assert.IsTrue(analyzer.VerifyRules());
+
+            validRule = new Rule("Extraneous Parenthesis")
+            {
+                Expression = "(0 AND 1)",
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Path", OPERATION.EQ)
+                    {
+                        Label = "0",
+                        Data = new List<string>()
+                        {
+                            "TestPath2"
+                        }
+                    },
+                    new Clause("IsExecutable", OPERATION.EQ)
+                    {
+                        Label = "1",
+                        Data = new List<string>()
+                        {
+                            "True"
+                        }
+                    }
+                }
+            };
+
+            file = new RuleFile()
+            {
+                Rules = new List<Rule>()
+                {
+                    validRule
+                }
+            };
+
+            analyzer = new Analyzer(AsaHelpers.GetPlatform(), file);
+            Assert.IsTrue(analyzer.VerifyRules());
+
+            validRule = new Rule("Deeply Nested Expression")
+            {
+                Expression = "(0 AND 1) OR (2 XOR (3 AND (4 NAND 5)) OR 6)",
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Path", OPERATION.EQ)
+                    {
+                        Label = "0",
+                        Data = new List<string>()
+                        {
+                            "TestPath2"
+                        }
+                    },
+                    new Clause("IsExecutable", OPERATION.EQ)
+                    {
+                        Label = "1",
+                        Data = new List<string>()
+                        {
+                            "True"
+                        }
+                    },
+                    new Clause("IsExecutable", OPERATION.IS_NULL)
+                    {
+                        Label = "2"
+                    },
+                    new Clause("IsExecutable", OPERATION.IS_NULL)
+                    {
+                        Label = "3"
+                    },
+                    new Clause("IsExecutable", OPERATION.IS_NULL)
+                    {
+                        Label = "4"
+                    },
+                    new Clause("IsExecutable", OPERATION.IS_NULL)
+                    {
+                        Label = "5"
+                    },
+                    new Clause("IsExecutable", OPERATION.IS_NULL)
+                    {
+                        Label = "6"
+                    }
+                }
+            };
+
+            file = new RuleFile()
+            {
+                Rules = new List<Rule>()
+                {
+                    validRule
+                }
+            };
+
+            analyzer = new Analyzer(AsaHelpers.GetPlatform(), file);
+            Assert.IsTrue(analyzer.VerifyRules());
+
+            validRule = new Rule("StringsForClauseLabels")
+            {
+                Expression = "FOO AND BAR OR BA$_*",
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("IsExecutable", OPERATION.IS_NULL)
+                    {
+                        Label = "FOO"
+                    },
+                    new Clause("IsExecutable", OPERATION.IS_NULL)
+                    {
+                        Label = "BAR"
+                    },
+                    new Clause("IsExecutable", OPERATION.IS_NULL)
+                    {
+                        Label = "BA$_*"
+                    }
+                }
+            };
+
+            file = new RuleFile()
+            {
+                Rules = new List<Rule>()
+                {
+                    validRule
+                }
+            };
+
+            analyzer = new Analyzer(AsaHelpers.GetPlatform(), file);
+            Assert.IsTrue(analyzer.VerifyRules());
+        }
+
+        [TestMethod]
         public void VerifyInvalidRuleDetection()
         {
             Setup();
@@ -606,6 +776,85 @@ namespace AttackSurfaceAnalyzer.Tests
             analyzer = new Analyzer(AsaHelpers.GetPlatform(), file);
             Assert.IsFalse(analyzer.VerifyRules());
 
+            invalidRule = new Rule("InvalidClauseName")
+            {
+                Expression = "WITH A SPACE",
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Path", OPERATION.IS_NULL)
+                    {
+                        Label = "WITH A SPACE"
+                    }
+                }
+            };
+
+            file = new RuleFile()
+            {
+                Rules = new List<Rule>()
+                {
+                    invalidRule
+                }
+            };
+
+            analyzer = new Analyzer(AsaHelpers.GetPlatform(), file);
+            Assert.IsFalse(analyzer.VerifyRules());
+
+            invalidRule = new Rule("InvalidClauseName2")
+            {
+                Expression = "WITH(PARENTHESIS)",
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Path", OPERATION.IS_NULL)
+                    {
+                        Label = "WITH(PARENTHESIS)"
+                    }
+                }
+            };
+
+            file = new RuleFile()
+            {
+                Rules = new List<Rule>()
+                {
+                    invalidRule
+                }
+            };
+
+            analyzer = new Analyzer(AsaHelpers.GetPlatform(), file);
+            Assert.IsFalse(analyzer.VerifyRules());
+
+            invalidRule = new Rule("ExtraClause")
+            {
+                Expression = "FIRSTCLAUSE",
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Path", OPERATION.IS_NULL)
+                    {
+                        Label = "FIRSTCLAUSE"
+                    },
+                    new Clause("IsExecutable", OPERATION.IS_NULL)
+                    {
+                        Label = "EXTRACLAUSE"
+                    }
+                }
+            };
+
+            file = new RuleFile()
+            {
+                Rules = new List<Rule>()
+                {
+                    invalidRule
+                }
+            };
+
+            analyzer = new Analyzer(AsaHelpers.GetPlatform(), file);
+            Assert.IsFalse(analyzer.VerifyRules());
+            
             TearDown();
         }
     }

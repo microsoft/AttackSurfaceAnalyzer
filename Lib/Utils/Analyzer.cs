@@ -80,13 +80,29 @@ namespace AttackSurfaceAnalyzer.Utils
 
             foreach (var rule in config.Rules)
             {
+                var clauseLabels = rule.Clauses.GroupBy(x => x.Label);
+                
                 // If clauses have duplicate names
-                var duplicateClauses = rule.Clauses.GroupBy(x => x.Label).Where(x => x.Key != null && x.Count() > 1);
+                var duplicateClauses = clauseLabels.Where(x => x.Key != null && x.Count() > 1);
                 foreach (var duplicateClause in duplicateClauses)
                 {
                     invalid = true;
                     Log.Warning($"Rule {rule.Name} has clauses with duplicate name {duplicateClause.Key}.");
                 }
+
+                foreach(var clause in rule.Clauses)
+                {
+                    if (clause.Label is string label)
+                    {
+                        if (label.Contains(" ") || label.Contains("(") || label.Contains(")"))
+                        {
+                            invalid = true;
+                            Log.Warning($"Rule {rule.Name} has clauses invalid name {label}. Names may not contains spaces or parentheses.");
+                        }
+                    }
+                }
+
+                var foundLabels = new List<string>();
 
                 if (rule.Expression is string expression)
                 {
@@ -177,6 +193,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             }
                             else
                             {
+                                foundLabels.Add(variable);
                                 previouslyNot = false;
                                 if (string.IsNullOrWhiteSpace(variable) || !rule.Clauses.Any(x => x.Label == variable))
                                 {
@@ -198,7 +215,31 @@ namespace AttackSurfaceAnalyzer.Utils
                         }
                     }
                 }
+                var groupedFoundLabels = foundLabels.GroupBy(x => x);
+
+                // Were all the labels declared in clauses used?
+                foreach(var label in rule.Clauses.Select(x => x.Label))
+                {
+                    if (label is string)
+                    {
+                        if (!foundLabels.Contains(label))
+                        {
+                            invalid = true;
+                            Log.Warning($"Clause {label} is declared but never used in rule {rule.Name}. ");
+                        }
+                    }
+                }
+
+                var justTheLabels = clauseLabels.Select(x => x.Key);
+                // If any clause has a label they all must have labels
+                if (justTheLabels.Any(x => x is string) && justTheLabels.Any(x => x is null))
+                {
+                    invalid = true;
+                    Log.Warning($"In rule {rule.Name} if any clause has labels they all must have labels.");
+                }
             }
+
+
             if (invalid)
             {
                 Log.Fatal("Invalid Analysis Rules.");
