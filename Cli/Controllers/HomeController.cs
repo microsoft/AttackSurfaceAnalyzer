@@ -143,7 +143,6 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             opts.EnableEventLogCollector = Log;
 
             opts.DatabaseFilename = DatabaseManager.SqliteFilename;
-            opts.FilterLocation = "Use embedded filters.";
 
             foreach (BaseCollector c in AttackSurfaceAnalyzerClient.GetCollectors())
             {
@@ -199,7 +198,6 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                     RunId = RunId,
                     EnableFileSystemMonitor = true,
                     MonitoredDirectories = Directory,
-                    FilterLocation = "filters.json"
                 };
                 AttackSurfaceAnalyzerClient.ClearMonitors();
                 return Json((int)AttackSurfaceAnalyzerClient.RunGuiMonitorCommand(opts));
