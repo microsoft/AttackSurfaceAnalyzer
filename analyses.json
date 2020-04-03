@@ -398,11 +398,32 @@
         "MODIFIED"
       ],
       "ResultType": "FILE",
+      "Expression": "0 AND NOT 1",
       "Clauses": [
         {
+          "Label": "0",
           "Field": "Path",
           "Operation": "REGEX",
           "Data": [ "[A-Z]:\\\\Windows\\\\" ]
+        },
+        {
+          "Label": "1",
+          "Field": "PATH",
+          "Operation": "REGEX",
+          "Data": [
+            "[A-Z]:\\\\+Windows\\\\+appcompat\\\\+Programs\\\\+.*",
+            "[A-Z]:\\\\+Windows\\\\+AppReadiness\\\\+.*",
+            "[A-Z]:\\\\+Windows\\\\+Logs\\\\+waasmedia\\\\+.*",
+            "[A-Z]:\\\\+Windows\\\\+ServiceProfiles\\\\+LocalService\\\\+.*",
+            "[A-Z]:\\\\+Windows\\\\+ServiceProfiles\\\\+NetworkService\\\\+.*",
+            "[A-Z]:\\\\+Windows\\\\+System32\\\\+catroot2\\\\+.*",
+            "[A-Z]:\\\\+Windows\\\\+System32\\\\+config\\\\+.*",
+            "[A-Z]:\\\\+Windows\\\\+System32\\\\+LogFiles\\\\+.*",
+            "[A-Z]:\\\\+Windows\\\\+System32\\\\+SleepStudy\\\\+.*",
+            "[A-Z]:\\\\+Windows\\\\+System32\\\\+sru\\\\+.*",
+            "[A-Z]:\\\\+Windows\\\\+System32\\\\+winevt\\\\+.*",
+            "[A-Z]:\\\\+Windows\\\\+(SysWOW64|System32)\\\\+Windows\\.Security\\.Authentication\\.Identity\\.Provider\\.dll"
+          ]
         }
       ]
     },
@@ -539,6 +560,26 @@
             "^/.Spotlight-V100"
           ]
         }
+      ]
+    },
+    {
+      "Name": "LOLBAS List",
+      "Description": "This is the LOLBAS items which are not included in the other system file rules.",
+      "Flag": "WARNING",
+      "platforms": [
+        "WINDOWS"
+      ],
+      "ResultType": "FILE",
+      "Operation": "CONTAINS",
+      "Data": [
+        "Bginfo.exe",
+        "dnx.exe ",
+        "msxsl.exe",
+        "rcsi.exe",
+        "Microsoft\\Teams\\current\\Squirrel.exe",
+        "te.exe",
+        "Tracker.exe",
+        "Microsoft\\Teams\\update.exe"
       ]
     }
   ],
