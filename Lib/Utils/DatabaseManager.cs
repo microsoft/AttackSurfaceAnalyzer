@@ -399,7 +399,14 @@ namespace AttackSurfaceAnalyzer.Utils
             if (MainConnection != null)
             {
                 var Run = GetRun(runid);
-                return Run.Platform;
+                if (Run != null)
+                {
+                    return Run.Platform;
+                }
+                else
+                {
+                    Log.Debug("Failed to get RunIdToPlatform. RunId was not found in database.");
+                }
             }
             else
             {

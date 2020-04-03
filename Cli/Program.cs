@@ -494,11 +494,6 @@ namespace AttackSurfaceAnalyzer.Cli
 
             CheckFirstRun();
 
-            if (opts.FilterLocation is string)
-            {
-                Filter.LoadFilters(opts.FilterLocation);
-            }
-
             if (opts.RunId is string)
             {
                 opts.RunId = opts.RunId.Trim();
@@ -1003,18 +998,6 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 Log.Warning(Strings.Get("Err_NoCollectors"));
                 return (int)ASA_ERROR.NO_COLLECTORS;
-            }
-
-            if (!opts.NoFilters)
-            {
-                if (opts.FilterLocation is string Loc)
-                {
-                    Filter.LoadFilters(Loc);
-                }
-                else
-                {
-                    Filter.LoadEmbeddedFilters();
-                }
             }
 
             if (opts.Overwrite)

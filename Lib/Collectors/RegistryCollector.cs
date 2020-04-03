@@ -64,11 +64,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             foreach (var hive in Hives)
             {
                 Log.Debug("Starting " + hive.ToString());
-                if (!Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "Registry", "Hive", "Include", hive.ToString()) && Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "Registry", "Hive", "Exclude", hive.ToString(), out Regex? Capturer))
-                {
-                    Log.Debug("{0} '{1}' {2} '{3}'.", Strings.Get("ExcludingHive"), hive.ToString(), Strings.Get("DueToFilter"), Capturer?.ToString());
-                    return;
-                }
 
                 Action<RegistryKey, RegistryView> IterateOn = (registryKey, registryView) =>
                 {
@@ -86,8 +81,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                         Log.Debug(e, JsonSerializer.Serialize(registryKey) + " invalid op exept");
                     }
                 };
-
-                Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "Registry", "Key", "Exclude", hive.ToString());
 
                 var x86_Enumerable = RegistryWalker.WalkHive(hive, RegistryView.Registry32);
                 var x64_Enumerable = RegistryWalker.WalkHive(hive, RegistryView.Registry64);

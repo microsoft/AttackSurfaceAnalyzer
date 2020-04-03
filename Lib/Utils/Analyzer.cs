@@ -52,6 +52,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public Analyzer(PLATFORM platform, RuleFile filters)
         {
+            OsName = platform;
             config = filters;
         }
 
@@ -639,12 +640,30 @@ namespace AttackSurfaceAnalyzer.Utils
 
                     // If any of the data values are greater than the first provided data value
                     case OPERATION.GT:
-                        if (valsToCheck.Where(val => (int.Parse(val, CultureInfo.InvariantCulture) > int.Parse(clause.Data?[0] ?? $"{int.MinValue}", CultureInfo.InvariantCulture))).Any()) { return true; }
+                        foreach(var val in valsToCheck)
+                        {
+                            if (int.TryParse(val, out int valToCheck))
+                            {
+                                if (valToCheck > int.Parse(clause.Data?[0] ?? $"{int.MaxValue}", CultureInfo.InvariantCulture))
+                                {
+                                    return true;
+                                }
+                            }
+                        }
                         return false;
 
                     // If any of the data values are less than the first provided data value
                     case OPERATION.LT:
-                        if (valsToCheck.Where(val => (int.Parse(val, CultureInfo.InvariantCulture) < int.Parse(clause.Data?[0] ?? $"{int.MaxValue}", CultureInfo.InvariantCulture))).Any()) { return true; }
+                        foreach (var val in valsToCheck)
+                        {
+                            if (int.TryParse(val, out int valToCheck))
+                            {
+                                if (valToCheck < int.Parse(clause.Data?[0] ?? $"{int.MaxValue}", CultureInfo.InvariantCulture))
+                                {
+                                    return true;
+                                }
+                            }
+                        }
                         return false;
 
                     // If any of the regexes match any of the values
@@ -692,7 +711,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     case OPERATION.ENDS_WITH:
                         if (clause.Data is List<string> EndsWithData)
                         {
-                            if (valsToCheck.Where(x => EndsWithData.Where(y => x.EndsWith(y, StringComparison.CurrentCulture)).Any()).Any())
+                            if (valsToCheck.Where(x => EndsWithData.Where(y => x is string && x.EndsWith(y, StringComparison.CurrentCulture)).Any()).Any())
                             {
                                 return true;
                             }
@@ -703,7 +722,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     case OPERATION.STARTS_WITH:
                         if (clause.Data is List<string> StartsWithData)
                         {
-                            if (valsToCheck.Where(x => StartsWithData.Where(y => x.StartsWith(y, StringComparison.CurrentCulture)).Any()).Any())
+                            if (valsToCheck.Where(x => StartsWithData.Where(y => x is string && x.StartsWith(y, StringComparison.CurrentCulture)).Any()).Any())
                             {
                                 return true;
                             }

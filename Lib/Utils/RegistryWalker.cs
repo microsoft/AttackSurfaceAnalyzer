@@ -48,10 +48,6 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     continue;
                 }
-                if (Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "Registry", "Key", currentKey.Name))
-                {
-                    continue;
-                }
 
                 // First push all the new subkeys onto our stack.
                 foreach (string key in currentKey.GetSubKeyNames())

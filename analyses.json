@@ -497,7 +497,10 @@
             "[A-Z]:\\\\+Users\\\\+[^\\[:;|=,+*?<>\"\\\\]+\\\\+AppData\\\\+Local\\\\+Packages\\\\+Microsoft.Windows.Search_.*",
             "[A-Z]:\\\\+Users\\\\+[^\\[:;|=,+*?<>\"\\\\]+\\\\+AppData\\\\+Local\\\\+Temp\\\\+StructuredQuery\\.log",
             "[A-Z]:\\\\+Users\\\\+[^\\[:;|=,+*?<>\"\\\\]+\\\\+AppData\\\\+Roaming\\\\+Microsoft\\\\+Windows\\\\+Recent\\\\+.*",
-            "[A-Z]:\\\\+Users\\\\+[^\\[:;|=,+*?<>\"\\\\]+\\\\+ntuser\\.dat\\..*"
+            "[A-Z]:\\\\+Users\\\\+[^\\[:;|=,+*?<>\"\\\\]+\\\\+ntuser\\.dat\\..*",
+            "^[A-Z]:\\\\pagefile.sys$",
+            "^[A-Z]:\\\\hiberfil.sys$",
+            "^[A-Z]:\\\\swapfile.sys$"
           ]
         }
       ]
@@ -516,6 +519,24 @@
           "Operation": "REGEX",
           "Data": [
             "MrtCache"
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Files Frequently Modified by Macos",
+      "Description": "These files are frequently modified by the system itself.",
+      "Flag": "VERBOSE",
+      "platforms": [
+        "MACOS"
+      ],
+      "ResultType": "REGISTRY",
+      "Clauses": [
+        {
+          "Field": "Key",
+          "Operation": "REGEX",
+          "Data": [
+            "^/.Spotlight-V100"
           ]
         }
       ]
