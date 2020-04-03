@@ -13,7 +13,6 @@ namespace AttackSurfaceAnalyzer.Tests
     {
         private const string TestPathOne = "TestPath1";
         private const string TestPathTwo = "TestPath2";
-        private const string TestPathThree = "TestPath3";
 
         private readonly CompareResult testPathOneObject = new CompareResult()
         {
@@ -22,15 +21,19 @@ namespace AttackSurfaceAnalyzer.Tests
         private readonly CompareResult testPathTwoObject = new CompareResult()
         {
             Base = new FileSystemObject(TestPathTwo)
+        };
+        private readonly CompareResult testPathTwoExecutableObject = new CompareResult()
+        {
+            Base = new FileSystemObject(TestPathTwo)
             {
                 IsExecutable = true
             }
         };
-        private readonly CompareResult testPathThreeObject = new CompareResult()
+        private readonly CompareResult testPathOneExecutableObject = new CompareResult()
         {
-            Base = new FileSystemObject(TestPathThree)
+            Base = new FileSystemObject(TestPathOne)
             {
-                IsDirectory = true
+                IsExecutable = true
             }
         };
 
@@ -78,12 +81,12 @@ namespace AttackSurfaceAnalyzer.Tests
                             "TestPath1"
                         }
                     },
-                    new Clause("Path", OPERATION.EQ)
+                    new Clause("IsExecutable", OPERATION.EQ)
                     {
                         Label = "1",
                         Data = new List<string>()
                         {
-                            "TestPath2"
+                            "True"
                         }
                     }
                 }
@@ -100,8 +103,9 @@ namespace AttackSurfaceAnalyzer.Tests
             var analyzer = new Analyzer(AsaHelpers.GetPlatform(),file);
 
             Assert.IsTrue(analyzer.Analyze(testPathOneObject) == ANALYSIS_RESULT_TYPE.FATAL);
-            Assert.IsTrue(analyzer.Analyze(testPathTwoObject) == ANALYSIS_RESULT_TYPE.FATAL);
-            Assert.IsTrue(analyzer.Analyze(testPathThreeObject) == file.DefaultLevels[RESULT_TYPE.FILE]);
+            Assert.IsTrue(analyzer.Analyze(testPathTwoObject) == file.DefaultLevels[RESULT_TYPE.FILE]);
+            Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject) == ANALYSIS_RESULT_TYPE.FATAL);
+            Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject) == ANALYSIS_RESULT_TYPE.FATAL);
 
             TearDown();
         }
@@ -123,7 +127,7 @@ namespace AttackSurfaceAnalyzer.Tests
                         Label = "0",
                         Data = new List<string>()
                         {
-                            "TestPath2"
+                            "TestPath1"
                         }
                     },
                     new Clause("IsExecutable", OPERATION.EQ)
@@ -148,8 +152,9 @@ namespace AttackSurfaceAnalyzer.Tests
             var analyzer = new Analyzer(AsaHelpers.GetPlatform(), file);
 
             Assert.IsTrue(analyzer.Analyze(testPathOneObject) == file.DefaultLevels[RESULT_TYPE.FILE]);
-            Assert.IsTrue(analyzer.Analyze(testPathTwoObject) == ANALYSIS_RESULT_TYPE.FATAL);
-            Assert.IsTrue(analyzer.Analyze(testPathThreeObject) == file.DefaultLevels[RESULT_TYPE.FILE]);
+            Assert.IsTrue(analyzer.Analyze(testPathTwoObject) == file.DefaultLevels[RESULT_TYPE.FILE]);
+            Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject) == ANALYSIS_RESULT_TYPE.FATAL);
+            Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject) == file.DefaultLevels[RESULT_TYPE.FILE]);
 
             TearDown();
         }
@@ -193,7 +198,8 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsTrue(analyzer.Analyze(testPathOneObject) == file.DefaultLevels[RESULT_TYPE.FILE]);
             Assert.IsTrue(analyzer.Analyze(testPathTwoObject) == ANALYSIS_RESULT_TYPE.FATAL);
-            Assert.IsTrue(analyzer.Analyze(testPathThreeObject) == ANALYSIS_RESULT_TYPE.FATAL);
+            Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject) == ANALYSIS_RESULT_TYPE.FATAL);
+            Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject) == ANALYSIS_RESULT_TYPE.FATAL);
 
             TearDown();
         }
@@ -218,9 +224,13 @@ namespace AttackSurfaceAnalyzer.Tests
                             TestPathOne
                         }
                     },
-                    new Clause("IsExecutable", OPERATION.IS_NULL)
+                    new Clause("IsExecutable", OPERATION.EQ)
                     {
-                        Label = "1"
+                        Label = "1",
+                        Data = new List<string>()
+                        {
+                            "True"
+                        }
                     }
                 }
             };
@@ -235,9 +245,11 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var analyzer = new Analyzer(AsaHelpers.GetPlatform(), file);
 
-            Assert.IsTrue(analyzer.Analyze(testPathOneObject) == file.DefaultLevels[RESULT_TYPE.FILE]);
+            Assert.IsTrue(analyzer.Analyze(testPathOneObject) == ANALYSIS_RESULT_TYPE.FATAL);
             Assert.IsTrue(analyzer.Analyze(testPathTwoObject) == file.DefaultLevels[RESULT_TYPE.FILE]);
-            Assert.IsTrue(analyzer.Analyze(testPathThreeObject) == ANALYSIS_RESULT_TYPE.FATAL);
+            Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject) == file.DefaultLevels[RESULT_TYPE.FILE]);
+            Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject) == ANALYSIS_RESULT_TYPE.FATAL);
+
 
             TearDown();
         }
@@ -277,7 +289,6 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsTrue(analyzer.Analyze(testPathOneObject) == file.DefaultLevels[RESULT_TYPE.FILE]);
             Assert.IsTrue(analyzer.Analyze(testPathTwoObject) == ANALYSIS_RESULT_TYPE.FATAL);
-            Assert.IsTrue(analyzer.Analyze(testPathThreeObject) == ANALYSIS_RESULT_TYPE.FATAL);
 
             TearDown();
         }
@@ -324,8 +335,9 @@ namespace AttackSurfaceAnalyzer.Tests
             var analyzer = new Analyzer(AsaHelpers.GetPlatform(), file);
 
             Assert.IsTrue(analyzer.Analyze(testPathOneObject) == file.DefaultLevels[RESULT_TYPE.FILE]);
-            Assert.IsTrue(analyzer.Analyze(testPathTwoObject) == file.DefaultLevels[RESULT_TYPE.FILE]);
-            Assert.IsTrue(analyzer.Analyze(testPathThreeObject) == ANALYSIS_RESULT_TYPE.FATAL);
+            Assert.IsTrue(analyzer.Analyze(testPathTwoObject) == ANALYSIS_RESULT_TYPE.FATAL);
+            Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject) == file.DefaultLevels[RESULT_TYPE.FILE]);
+            Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject) == file.DefaultLevels[RESULT_TYPE.FILE]);
 
             TearDown();
         }
