@@ -217,7 +217,15 @@ namespace AttackSurfaceAnalyzer.Utils
                             expectingOperator = false;
                         }
                     }
+
+                    // We should always end on expecting an operator (having gotten a variable)
+                    if (!expectingOperator)
+                    {
+                        invalid = true;
+                        Log.Warning($"Expression {expression} in rule {rule.Name} ends with an operator.");
+                    }
                 }
+
                 var groupedFoundLabels = foundLabels.GroupBy(x => x);
 
                 // Were all the labels declared in clauses used?
