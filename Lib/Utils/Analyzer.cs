@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using Utf8Json;
 
@@ -684,19 +685,28 @@ namespace AttackSurfaceAnalyzer.Utils
                     case OPERATION.REGEX:
                         if (clause.Data is List<string> RegexList)
                         {
-
-                            var regexList = new List<Regex>();
-                            foreach (var rgx in RegexList)
+                            if (RegexList.Count > 0)
                             {
-                                if (!RegexCache.ContainsKey(rgx))
+                                var sb = new StringBuilder();
+                                sb.Append("(");
+                                foreach (var rgx in RegexList)
                                 {
-                                    RegexCache.Add(rgx, new Regex(rgx, RegexOptions.Compiled));
+                                    sb.Append(rgx);
+                                    sb.Append('|');
                                 }
-                            }
+                                sb.Append(")");
 
-                            if (valsToCheck.Any(x => RegexCache.Any(y => y.Value.IsMatch(x))))
-                            {
-                                return true;
+                                var built = sb.ToString();
+
+                                if (!RegexCache.ContainsKey(built))
+                                {
+                                    RegexCache.Add(built, new Regex(built, RegexOptions.Compiled));
+                                }
+
+                                if (valsToCheck.Any(x => RegexCache[built].IsMatch(x)))
+                                {
+                                    return true;
+                                }
                             }
                         }
                         return false;
