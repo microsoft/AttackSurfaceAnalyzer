@@ -88,18 +88,10 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var file = new RuleFile()
-            {
-                Rules = new List<Rule>()
-                {
-                    orRule
-                }
-            };
-
-            var analyzer = new Analyzer(AsaHelpers.GetPlatform(),file);
+            var analyzer = GetAnalyzerForRule(orRule);
 
             Assert.IsTrue(analyzer.Analyze(testPathOneObject) == ANALYSIS_RESULT_TYPE.FATAL);
-            Assert.IsTrue(analyzer.Analyze(testPathTwoObject) == file.DefaultLevels[RESULT_TYPE.FILE]);
+            Assert.IsTrue(analyzer.Analyze(testPathTwoObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
             Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject) == ANALYSIS_RESULT_TYPE.FATAL);
             Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject) == ANALYSIS_RESULT_TYPE.FATAL);
 
@@ -133,20 +125,12 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var file = new RuleFile()
-            {
-                Rules = new List<Rule>()
-                {
-                    andRule
-                }
-            };
+            var analyzer = GetAnalyzerForRule(andRule);
 
-            var analyzer = new Analyzer(AsaHelpers.GetPlatform(), file);
-
-            Assert.IsTrue(analyzer.Analyze(testPathOneObject) == file.DefaultLevels[RESULT_TYPE.FILE]);
-            Assert.IsTrue(analyzer.Analyze(testPathTwoObject) == file.DefaultLevels[RESULT_TYPE.FILE]);
+            Assert.IsTrue(analyzer.Analyze(testPathOneObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
+            Assert.IsTrue(analyzer.Analyze(testPathTwoObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
             Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject) == ANALYSIS_RESULT_TYPE.FATAL);
-            Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject) == file.DefaultLevels[RESULT_TYPE.FILE]);
+            Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
 
             TearDown();
         }
@@ -178,17 +162,9 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var file = new RuleFile()
-            {
-                Rules = new List<Rule>()
-                {
-                    nandRule
-                }
-            };
+            var analyzer = GetAnalyzerForRule(nandRule);
 
-            var analyzer = new Analyzer(AsaHelpers.GetPlatform(), file);
-
-            Assert.IsTrue(analyzer.Analyze(testPathOneObject) == file.DefaultLevels[RESULT_TYPE.FILE]);
+            Assert.IsTrue(analyzer.Analyze(testPathOneObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
             Assert.IsTrue(analyzer.Analyze(testPathTwoObject) == ANALYSIS_RESULT_TYPE.FATAL);
             Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject) == ANALYSIS_RESULT_TYPE.FATAL);
             Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject) == ANALYSIS_RESULT_TYPE.FATAL);
@@ -223,21 +199,12 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var file = new RuleFile()
-            {
-                Rules = new List<Rule>()
-                {
-                    xorRule
-                }
-            };
-
-            var analyzer = new Analyzer(AsaHelpers.GetPlatform(), file);
+            var analyzer = GetAnalyzerForRule(xorRule);
 
             Assert.IsTrue(analyzer.Analyze(testPathOneObject) == ANALYSIS_RESULT_TYPE.FATAL);
-            Assert.IsTrue(analyzer.Analyze(testPathTwoObject) == file.DefaultLevels[RESULT_TYPE.FILE]);
-            Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject) == file.DefaultLevels[RESULT_TYPE.FILE]);
+            Assert.IsTrue(analyzer.Analyze(testPathTwoObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
+            Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
             Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject) == ANALYSIS_RESULT_TYPE.FATAL);
-
 
             TearDown();
         }
@@ -265,17 +232,9 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var file = new RuleFile()
-            {
-                Rules = new List<Rule>()
-                {
-                    notRule
-                }
-            };
+            var analyzer = GetAnalyzerForRule(notRule);
 
-            var analyzer = new Analyzer(AsaHelpers.GetPlatform(), file);
-
-            Assert.IsTrue(analyzer.Analyze(testPathOneObject) == file.DefaultLevels[RESULT_TYPE.FILE]);
+            Assert.IsTrue(analyzer.Analyze(testPathOneObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
             Assert.IsTrue(analyzer.Analyze(testPathTwoObject) == ANALYSIS_RESULT_TYPE.FATAL);
 
             TearDown();
@@ -312,20 +271,12 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var file = new RuleFile()
-            {
-                Rules = new List<Rule>()
-                {
-                    norRule
-                }
-            };
+            var analyzer = GetAnalyzerForRule(norRule);
 
-            var analyzer = new Analyzer(AsaHelpers.GetPlatform(), file);
-
-            Assert.IsTrue(analyzer.Analyze(testPathOneObject) == file.DefaultLevels[RESULT_TYPE.FILE]);
+            Assert.IsTrue(analyzer.Analyze(testPathOneObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
             Assert.IsTrue(analyzer.Analyze(testPathTwoObject) == ANALYSIS_RESULT_TYPE.FATAL);
-            Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject) == file.DefaultLevels[RESULT_TYPE.FILE]);
-            Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject) == file.DefaultLevels[RESULT_TYPE.FILE]);
+            Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
+            Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
 
             TearDown();
         }
@@ -361,16 +312,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var file = new RuleFile()
-            {
-                Rules = new List<Rule>()
-                {
-                    validRule
-                }
-            };
-
-            var analyzer = new Analyzer(AsaHelpers.GetPlatform(), file);
-            Assert.IsTrue(analyzer.VerifyRules());
+            Assert.IsTrue(VerifyRule(validRule));
 
             validRule = new Rule("Extraneous Parenthesis")
             {
@@ -398,16 +340,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            file = new RuleFile()
-            {
-                Rules = new List<Rule>()
-                {
-                    validRule
-                }
-            };
-
-            analyzer = new Analyzer(AsaHelpers.GetPlatform(), file);
-            Assert.IsTrue(analyzer.VerifyRules());
+            Assert.IsTrue(VerifyRule(validRule));
 
             validRule = new Rule("Deeply Nested Expression")
             {
@@ -455,16 +388,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            file = new RuleFile()
-            {
-                Rules = new List<Rule>()
-                {
-                    validRule
-                }
-            };
-
-            analyzer = new Analyzer(AsaHelpers.GetPlatform(), file);
-            Assert.IsTrue(analyzer.VerifyRules());
+            Assert.IsTrue(VerifyRule(validRule));
 
             validRule = new Rule("StringsForClauseLabels")
             {
@@ -488,16 +412,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            file = new RuleFile()
-            {
-                Rules = new List<Rule>()
-                {
-                    validRule
-                }
-            };
-
-            analyzer = new Analyzer(AsaHelpers.GetPlatform(), file);
-            Assert.IsTrue(analyzer.VerifyRules());
+            Assert.IsTrue(VerifyRule(validRule));
         }
 
         [TestMethod]
@@ -531,16 +446,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var file = new RuleFile()
-            {
-                Rules = new List<Rule>()
-                {
-                    invalidRule
-                }
-            };
-
-            var analyzer = new Analyzer(AsaHelpers.GetPlatform(), file);
-            Assert.IsFalse(analyzer.VerifyRules());
+            Assert.IsFalse(VerifyRule(invalidRule));
 
             invalidRule = new Rule("InvalidRule2")
             {
@@ -568,16 +474,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            file = new RuleFile()
-            {
-                Rules = new List<Rule>()
-                {
-                    invalidRule
-                }
-            };
-
-            analyzer = new Analyzer(AsaHelpers.GetPlatform(), file);
-            Assert.IsFalse(analyzer.VerifyRules());
+            Assert.IsFalse(VerifyRule(invalidRule));
 
             invalidRule = new Rule("InvalidRule3")
             {
@@ -605,16 +502,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            file = new RuleFile()
-            {
-                Rules = new List<Rule>()
-                {
-                    invalidRule
-                }
-            };
-
-            analyzer = new Analyzer(AsaHelpers.GetPlatform(), file);
-            Assert.IsFalse(analyzer.VerifyRules());
+            Assert.IsFalse(VerifyRule(invalidRule));
 
             invalidRule = new Rule("InvalidRule4")
             {
@@ -642,16 +530,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            file = new RuleFile()
-            {
-                Rules = new List<Rule>()
-                {
-                    invalidRule
-                }
-            };
-
-            analyzer = new Analyzer(AsaHelpers.GetPlatform(), file);
-            Assert.IsFalse(analyzer.VerifyRules());
+            Assert.IsFalse(VerifyRule(invalidRule));
 
             invalidRule = new Rule("InvalidRule5")
             {
@@ -679,16 +558,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            file = new RuleFile()
-            {
-                Rules = new List<Rule>()
-                {
-                    invalidRule
-                }
-            };
-
-            analyzer = new Analyzer(AsaHelpers.GetPlatform(), file);
-            Assert.IsFalse(analyzer.VerifyRules());
+            Assert.IsFalse(VerifyRule(invalidRule));
 
             invalidRule = new Rule("InvalidRule6")
             {
@@ -716,16 +586,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            file = new RuleFile()
-            {
-                Rules = new List<Rule>()
-                {
-                    invalidRule
-                }
-            };
-
-            analyzer = new Analyzer(AsaHelpers.GetPlatform(), file);
-            Assert.IsFalse(analyzer.VerifyRules());
+            Assert.IsFalse(VerifyRule(invalidRule));
 
             invalidRule = new Rule("InvalidRule7")
             {
@@ -753,16 +614,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            file = new RuleFile()
-            {
-                Rules = new List<Rule>()
-                {
-                    invalidRule
-                }
-            };
-
-            analyzer = new Analyzer(AsaHelpers.GetPlatform(), file);
-            Assert.IsFalse(analyzer.VerifyRules());
+            Assert.IsFalse(VerifyRule(invalidRule));
 
             invalidRule = new Rule("InvalidClauseName")
             {
@@ -778,16 +630,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            file = new RuleFile()
-            {
-                Rules = new List<Rule>()
-                {
-                    invalidRule
-                }
-            };
-
-            analyzer = new Analyzer(AsaHelpers.GetPlatform(), file);
-            Assert.IsFalse(analyzer.VerifyRules());
+            Assert.IsFalse(VerifyRule(invalidRule));
 
             invalidRule = new Rule("InvalidClauseName2")
             {
@@ -803,16 +646,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            file = new RuleFile()
-            {
-                Rules = new List<Rule>()
-                {
-                    invalidRule
-                }
-            };
-
-            analyzer = new Analyzer(AsaHelpers.GetPlatform(), file);
-            Assert.IsFalse(analyzer.VerifyRules());
+            Assert.IsFalse(VerifyRule(invalidRule));
 
             invalidRule = new Rule("ExtraClause")
             {
@@ -832,18 +666,80 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            file = new RuleFile()
+            Assert.IsFalse(VerifyRule(invalidRule));
+
+            invalidRule = new Rule("Incomplete Expression")
             {
-                Rules = new List<Rule>()
+                Expression = "0 OR",
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
                 {
-                    invalidRule
+                    new Clause("Path", OPERATION.IS_NULL)
+                    {
+                        Label = "0"
+                    }
                 }
             };
 
-            analyzer = new Analyzer(AsaHelpers.GetPlatform(), file);
-            Assert.IsFalse(analyzer.VerifyRules());
-            
+            Assert.IsFalse(VerifyRule(invalidRule));
+
+            invalidRule = new Rule("Trailing Not")
+            {
+                Expression = "0 OR NOT",
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Path", OPERATION.IS_NULL)
+                    {
+                        Label = "0"
+                    }
+                }
+            };
+
+            Assert.IsFalse(VerifyRule(invalidRule));
+
+            invalidRule = new Rule("Incomplete Subexpression")
+            {
+                Expression = "0 OR (1 OR) 0",
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Path", OPERATION.IS_NULL)
+                    {
+                        Label = "0"
+                    },
+                    new Clause("Path", OPERATION.IS_NULL)
+                    {
+                        Label = "1"
+                    }
+                }
+            };
+
+            Assert.IsFalse(VerifyRule(invalidRule));
+
             TearDown();
+        }
+
+        private bool VerifyRule(Rule rule)
+        {
+            var analyzer = GetAnalyzerForRule(rule);
+            return analyzer.VerifyRules();
+        }
+
+        private Analyzer GetAnalyzerForRule(Rule rule)
+        {
+            var file = new RuleFile()
+            {
+                Rules = new List<Rule>()
+                {
+                    rule
+                }
+            };
+
+            return new Analyzer(AsaHelpers.GetPlatform(), file);
         }
     }
 }

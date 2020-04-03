@@ -16,21 +16,10 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public class Analyzer
     {
-        private readonly Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DEFAULT_RESULT_TYPE_MAP = new Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>()
-        {
-            { RESULT_TYPE.CERTIFICATE, ANALYSIS_RESULT_TYPE.INFORMATION },
-            { RESULT_TYPE.FILE, ANALYSIS_RESULT_TYPE.INFORMATION },
-            { RESULT_TYPE.PORT, ANALYSIS_RESULT_TYPE.INFORMATION },
-            { RESULT_TYPE.REGISTRY, ANALYSIS_RESULT_TYPE.INFORMATION },
-            { RESULT_TYPE.SERVICE, ANALYSIS_RESULT_TYPE.INFORMATION },
-            { RESULT_TYPE.USER, ANALYSIS_RESULT_TYPE.INFORMATION },
-            { RESULT_TYPE.UNKNOWN, ANALYSIS_RESULT_TYPE.INFORMATION },
-            { RESULT_TYPE.GROUP, ANALYSIS_RESULT_TYPE.INFORMATION },
-            { RESULT_TYPE.COM, ANALYSIS_RESULT_TYPE.INFORMATION },
-            { RESULT_TYPE.LOG, ANALYSIS_RESULT_TYPE.INFORMATION },
-        };
         private readonly PLATFORM OsName;
         private RuleFile config;
+
+        public Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DefaultLevels { get { return config.DefaultLevels; } }
 
         private static readonly Dictionary<string, Regex> RegexCache = new Dictionary<string, Regex>();
 
@@ -46,7 +35,6 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 LoadFilters(filterLocation);
             }
-
             OsName = platform;
         }
 
@@ -58,7 +46,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public ANALYSIS_RESULT_TYPE Analyze(CompareResult compareResult)
         {
-            if (compareResult == null) { return DEFAULT_RESULT_TYPE_MAP[RESULT_TYPE.UNKNOWN]; }
+            if (compareResult == null) { return config.DefaultLevels[RESULT_TYPE.UNKNOWN]; }
             var results = new List<ANALYSIS_RESULT_TYPE>();
             var curFilters = config.Rules.Where((rule) => (rule.ChangeTypes == null || rule.ChangeTypes.Contains(compareResult.ChangeType))
                                                      && (rule.Platforms == null || rule.Platforms.Contains(OsName))
@@ -74,7 +62,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 return results.Max();
             }
             //If there are no filters for a result type
-            return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+            return config.DefaultLevels[compareResult.ResultType];
         }
 
         public bool VerifyRules()
@@ -296,7 +284,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     }
                 }
 
-                return DEFAULT_RESULT_TYPE_MAP[compareResult.ResultType];
+                return config.DefaultLevels[compareResult.ResultType];
             }
             else
             {
