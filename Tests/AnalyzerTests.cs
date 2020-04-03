@@ -301,13 +301,9 @@ namespace AttackSurfaceAnalyzer.Tests
                             "TestPath1"
                         }
                     },
-                    new Clause("IsExecutable", OPERATION.EQ)
+                    new Clause("IsExecutable", OPERATION.IS_TRUE)
                     {
-                        Label = "1",
-                        Data = new List<string>()
-                        {
-                            "True"
-                        }
+                        Label = "1"
                     }
                 }
             };
