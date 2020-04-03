@@ -282,6 +282,47 @@ namespace AttackSurfaceAnalyzer.Tests
         }
 
         [TestMethod]
+        public void TestCompoundExpressions()
+        {
+            Setup();
+
+            var norRule = new Rule("XOR from NANDS")
+            {
+                Expression = "(0 NAND (0 NAND 1)) NAND (1 NAND (0 NAND 1)",
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Path", OPERATION.EQ)
+                    {
+                        Label = "0",
+                        Data = new List<string>()
+                        {
+                            "TestPath1"
+                        }
+                    },
+                    new Clause("IsExecutable", OPERATION.EQ)
+                    {
+                        Label = "1",
+                        Data = new List<string>()
+                        {
+                            "True"
+                        }
+                    }
+                }
+            };
+
+            var analyzer = GetAnalyzerForRule(norRule);
+
+            Assert.IsTrue(analyzer.Analyze(testPathOneObject) == ANALYSIS_RESULT_TYPE.FATAL);
+            Assert.IsTrue(analyzer.Analyze(testPathTwoObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
+            Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
+            Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject) == ANALYSIS_RESULT_TYPE.FATAL);
+
+            TearDown();
+        }
+
+        [TestMethod]
         public void VerifyValidRuleDetection()
         {
             Setup();
