@@ -720,6 +720,22 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsFalse(VerifyRule(invalidRule));
 
+            invalidRule = new Rule("Case Sensitivity")
+            {
+                Expression = "Variable",
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Path", OPERATION.IS_NULL)
+                    {
+                        Label = "VARIABLE"
+                    }
+                }
+            };
+
+            Assert.IsFalse(VerifyRule(invalidRule));
+
             TearDown();
         }
 
