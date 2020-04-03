@@ -120,12 +120,6 @@ namespace AttackSurfaceAnalyzer
         [Option("match-run-id", Required = false, HelpText = "Match the collectors used on another run id")]
         public string? MatchedCollectorId { get; set; }
 
-        [Option("filter", Required = false, HelpText = "Provide a JSON filter file.")]
-        public string? FilterLocation { get; set; }
-
-        [Option("no-filters", HelpText = "Disables the embedded filters.")]
-        public bool NoFilters { get; set; }
-
         [Option('h', "gather-hashes", Required = false, HelpText = "Hashes every file when using the File Collector.  May dramatically increase run time of the scan.")]
         public bool GatherHashes { get; set; }
 
@@ -161,9 +155,6 @@ namespace AttackSurfaceAnalyzer
 
         [Option('i', "interrogate-file-changes", Required = false, HelpText = "On a file create or change gather the post-change file size and security attributes (Linux/Mac only)")]
         public bool InterrogateChanges { get; set; }
-
-        [Option("filter", Required = false, HelpText = "Provide a JSON filter file.", Default = "filters.json")]
-        public string? FilterLocation { get; set; }
 
         //[Option('r', "registry", Required = false, HelpText = "Monitor the registry for changes. (Windows Only)")]
         //public bool EnableRegistryMonitor { get; set; }
