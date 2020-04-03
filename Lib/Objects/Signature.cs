@@ -1,5 +1,6 @@
-﻿using PeNet.Authenticode;
+﻿using PeNet.Header.Authenticode;
 using System;
+using System.Security.Cryptography.X509Certificates;
 
 namespace AttackSurfaceAnalyzer.Objects
 {
@@ -10,9 +11,15 @@ namespace AttackSurfaceAnalyzer.Objects
             if (authenticodeInfo != null)
             {
                 IsAuthenticodeValid = authenticodeInfo.IsAuthenticodeValid;
-                SignedHash = Convert.ToBase64String(authenticodeInfo.SignedHash);
+                if (authenticodeInfo.SignedHash is byte[] hash)
+                {
+                    SignedHash = Convert.ToBase64String(hash);
+                }
                 SignerSerialNumber = authenticodeInfo.SignerSerialNumber;
-                SigningCertificate = new SerializableCertificate(authenticodeInfo.SigningCertificate);
+                if (authenticodeInfo.SigningCertificate is X509Certificate2 cert)
+                {
+                    SigningCertificate = new SerializableCertificate(cert);
+                }
             }
             else
             {
