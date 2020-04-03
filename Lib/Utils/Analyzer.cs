@@ -32,6 +32,8 @@ namespace AttackSurfaceAnalyzer.Utils
         private readonly PLATFORM OsName;
         private RuleFile config;
 
+        private static readonly Dictionary<string, Regex> RegexCache = new Dictionary<string, Regex>();
+
         public Analyzer(PLATFORM platform, string? filterLocation = null)
         {
             config = new RuleFile();
@@ -649,9 +651,17 @@ namespace AttackSurfaceAnalyzer.Utils
                     case OPERATION.REGEX:
                         if (clause.Data is List<string> RegexList)
                         {
-                            var regexList = RegexList.Select(x => new Regex(x));
 
-                            if (valsToCheck.Where(x => regexList.Where(y => y.IsMatch(x)).Any()).Any())
+                            var regexList = new List<Regex>();
+                            foreach(var rgx in RegexList)
+                            {
+                                if (!RegexCache.ContainsKey(rgx))
+                                {
+                                    RegexCache.Add(rgx, new Regex(rgx, RegexOptions.Compiled));
+                                }
+                            }
+
+                            if (valsToCheck.Any(x => RegexCache.Any(y => y.Value.IsMatch(x))))
                             {
                                 return true;
                             }
