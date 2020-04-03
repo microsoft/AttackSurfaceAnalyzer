@@ -501,4 +501,58 @@
   <data name="MainConnection" xml:space="preserve">
     <value>MainConnection</value>
   </data>
+  <data name="Err_ClauseDuplicateName" xml:space="preserve">
+    <value>"Rule {0} has clauses with duplicate name {1}.")</value>
+  </data>
+  <data name="Err_ClauseInvalidLabel" xml:space="preserve">
+    <value>"Rule {0} has clauses invalid name {1}. Names may not contains spaces or parentheses."</value>
+  </data>
+  <data name="Err_ClauseUnbalancedParentheses" xml:space="preserve">
+    <value>"Expression {0} in rule {1} has unbalanced parentheses."</value>
+  </data>
+  <data name="Err_ClauseParenthesisInLabel" xml:space="preserve">
+    <value>"Expression {0} in rule {1} contains invalid parenthesis in label {2}"</value>
+  </data>
+  <data name="Err_ClauseCharactersBetweenOpenParentheses" xml:space="preserve">
+    <value>"Expression {0} in rule {1} contains invalid characters between open parentheses in label {2}"</value>
+  </data>    
+  <data name="Err_ClauseCharactersBeforeOpenParentheses" xml:space="preserve">
+    <value>"Expression {0} in rule {1} contains invalid characters before open parenthesis in label {2}"</value>
+  </data>  
+  <data name="Err_ClauseCharactersBetweenClosedParentheses" xml:space="preserve">
+    <value>"Expression {0} in rule {1} contains invalid characters between close parentheses in label {2}"</value>
+  </data>
+  <data name="Err_ClauseCharactersAfterClosedParentheses" xml:space="preserve">
+    <value>"Expression {0} in rule {1} contains invalid characters after a close parenthesis {2}"</value>
+  </data>   
+  <data name="Err_ClauseMultipleConsecutiveNots" xml:space="preserve">
+    <value>"Expression {0} in rule {1} contains multiple NOTs in a row."</value>
+  </data>     
+  <data name="Err_ClauseCloseParenthesesInNot" xml:space="preserve">
+    <value>"Expression {0} in rule {1} contains close parenthesis in NOT operator {2}"</value>
+  </data>    
+  <data name="Err_ClauseUndefinedLabel" xml:space="preserve">
+    <value>"Expression {0} in rule {1} contains undefined label {2}"</value>
+  </data>
+  <data name="Err_ClauseInvalidOperator" xml:space="preserve">
+    <value>"Expression {0} in rule {1} contains invalid boolean operator {2}"</value>
+  </data>    
+  <data name="Err_ClauseEndsWithOperator" xml:space="preserve">
+    <value>"Expression {0} in rule {1} ends with an operator."</value>
+  </data>   
+  <data name="Err_ClauseUnusedLabel" xml:space="preserve">
+    <value>"Clause {0} is declared but never used in rule {1}."</value>
+  </data>    
+  <data name="Err_ClauseMissingLabels" xml:space="preserve">
+    <value>"In rule {0} if any clause has labels they all must have labels."</value>
+  </data>    
+  <data name="Err_ClauseExpressionButMissingLabels" xml:space="preserve">
+    <value>"In rule {0} expression is not null but some clauses have no label."</value>
+  </data>     
+  <data name="Err_RulesInvalid" xml:space="preserve">
+    <value>"Invalid Analysis Rules."</value>
+  </data>
+  <data name="RulesVerified" xml:space="preserve">
+    <value>"Analysis Rules Verified Successfully."</value>
+  </data>
 </root>

@@ -429,7 +429,7 @@
     },
     {
       "Name": "Modified Services",
-      "Description": "Flag a startup item is modified.",
+      "Description": "Flag when a startup item is modified.",
       "Flag": "WARNING",
       "ChangeTypes": [
         "MODIFIED"

@@ -78,7 +78,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 foreach (var duplicateClause in duplicateClauses)
                 {
                     invalid = true;
-                    Log.Warning($"Rule {rule.Name} has clauses with duplicate name {duplicateClause.Key}.");
+                    Log.Warning(Strings.Get("Err_ClauseDuplicateName"),rule.Name,duplicateClause.Key);
                 }
 
                 // If clause label contains illegal characters
@@ -89,7 +89,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         if (label.Contains(" ") || label.Contains("(") || label.Contains(")"))
                         {
                             invalid = true;
-                            Log.Warning($"Rule {rule.Name} has clauses invalid name {label}. Names may not contains spaces or parentheses.");
+                            Log.Warning(Strings.Get("Err_ClauseInvalidLabel"),rule.Name,label);
                         }
                     }
                 }
@@ -114,7 +114,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         if (foundEnds > foundStarts)
                         {
                             invalid = true;
-                            Log.Warning($"Expression {expression} in rule {rule.Name} has unbalanced parentheses.");
+                            Log.Warning(Strings.Get("Err_ClauseUnbalancedParentheses"),expression,rule.Name);
                         }
                         // Variable
                         if (!expectingOperator)
@@ -131,19 +131,19 @@ namespace AttackSurfaceAnalyzer.Utils
                                     if (lastClose != -1)
                                     {
                                         invalid = true;
-                                        Log.Warning($"Expression {expression} in rule {rule.Name} contains invalid parenthesis in label {splits[i]}");
+                                        Log.Warning(Strings.Get("Err_ClauseParenthesisInLabel"),expression,rule.Name,splits[i]);
                                     }
                                     // If there were any characters between open parenthesis
                                     if (j - lastOpen != 1)
                                     {
                                         invalid = true;
-                                        Log.Warning($"Expression {expression} in rule {rule.Name} contains invalid characters between open parenthesis in label {splits[i]}");
+                                        Log.Warning(Strings.Get("Err_ClauseCharactersBetweenOpenParentheses"),expression,rule.Name,splits[i]);
                                     }
                                     // If there was a random parenthesis not starting the variable
                                     else if (j > 0)
                                     {
                                         invalid = true;
-                                        Log.Warning($"Expression {expression} in rule {rule.Name} contains invalid characters before open parenthesis in label {splits[i]}");
+                                        Log.Warning(Strings.Get("Err_ClauseCharactersBeforeOpenParentheses"),expression,rule.Name,splits[i]);
                                     }
                                     lastOpen = j;
                                 }
@@ -153,7 +153,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                     if (lastClose != -1 && j - lastClose != 1)
                                     {
                                         invalid = true;
-                                        Log.Warning($"Expression {expression} in rule {rule.Name} contains invalid characters between close parenthesis in label {splits[i]}");
+                                        Log.Warning(Strings.Get("Err_ClauseCharactersBetweenClosedParentheses"),expression,rule.Name,splits[i]);
                                     }
                                     lastClose = j;
                                 }
@@ -163,7 +163,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                     if (lastClose != -1)
                                     {
                                         invalid = true;
-                                        Log.Warning($"Expression {expression} in rule {rule.Name} contains invalid characters after a close parenthesis {splits[i]}");
+                                        Log.Warning(Strings.Get("Err_ClauseCharactersAfterClosedParentheses"),expression,rule.Name,splits[i]);
                                     }
                                 }
                             }
@@ -175,12 +175,12 @@ namespace AttackSurfaceAnalyzer.Utils
                                 if (previouslyNot)
                                 {
                                     invalid = true;
-                                    Log.Warning($"Expression {expression} in rule {rule.Name} contains multiple NOTs in a row {splits[i]}");
+                                    Log.Warning(Strings.Get("Err_ClauseMultipleConsecutiveNots"),expression,rule.Name);
                                 }
-                                else if (splits[i].Contains("(") || splits[i].Contains(")"))
+                                else if (splits[i].Contains(")"))
                                 {
                                     invalid = true;
-                                    Log.Warning($"Expression {expression} in rule {rule.Name} contains parenthesis in NOT operator{splits[i]}");
+                                    Log.Warning(Strings.Get("Err_ClauseCloseParenthesesInNot"),expression,rule.Name,splits[i]);
                                 }
                                 previouslyNot = true;
                             }
@@ -191,7 +191,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                 if (string.IsNullOrWhiteSpace(variable) || !rule.Clauses.Any(x => x.Label == variable))
                                 {
                                     invalid = true;
-                                    Log.Warning($"Expression {expression} in rule {rule.Name}  contains undefined label {splits[i].Replace("(", "").Replace(")", "")}");
+                                    Log.Warning(Strings.Get("Err_ClauseUndefinedLabel"),expression,rule.Name,splits[i].Replace("(", "").Replace(")", ""));
                                 }
                                 expectingOperator = true;
                             }
@@ -202,7 +202,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             if (!Enum.TryParse(typeof(BOOL_OPERATOR), splits[i], out _))
                             {
                                 invalid = true;
-                                Log.Warning($"Expression {expression} in rule {rule.Name} contains invalid boolean operator {splits[i]}");
+                                Log.Warning(Strings.Get("Err_ClauseInvalidOperator"),expression,rule.Name,splits[i]);
                             }
                             expectingOperator = false;
                         }
@@ -212,7 +212,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     if (!expectingOperator)
                     {
                         invalid = true;
-                        Log.Warning($"Expression {expression} in rule {rule.Name} ends with an operator.");
+                        Log.Warning(Strings.Get("Err_ClauseEndsWithOperator"),expression,rule.Name);
                     }
                 }
 
@@ -226,7 +226,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         if (!foundLabels.Contains(label))
                         {
                             invalid = true;
-                            Log.Warning($"Clause {label} is declared but never used in rule {rule.Name}. ");
+                            Log.Warning(Strings.Get("Err_ClauseUnusedLabel"),label,rule.Name);
                         }
                     }
                 }
@@ -236,18 +236,23 @@ namespace AttackSurfaceAnalyzer.Utils
                 if (justTheLabels.Any(x => x is string) && justTheLabels.Any(x => x is null))
                 {
                     invalid = true;
-                    Log.Warning($"In rule {rule.Name} if any clause has labels they all must have labels.");
+                    Log.Warning(Strings.Get("Err_ClauseMissingLabels"),rule.Name);
+                }
+                if (rule.Expression != null && justTheLabels.Any(x => x is null))
+                {
+                    invalid = true;
+                    Log.Warning(Strings.Get("Err_ClauseExpressionButMissingLabels"), rule.Name);
                 }
             }
 
 
             if (invalid)
             {
-                Log.Fatal("Invalid Analysis Rules.");
+                Log.Fatal(Strings.Get("Err_RulesInvalid"));
             }
             else
             {
-                Log.Information("Analysis Rules Verified Successfully.");
+                Log.Information(Strings.Get("RulesVerified"));
             }
             return !invalid;
         }
