@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
+using Microsoft.CodeAnalysis;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -45,6 +46,11 @@ namespace AttackSurfaceAnalyzer.Utils
             }
 
             OsName = platform;
+        }
+
+        public Analyzer(PLATFORM platform, RuleFile filters)
+        {
+            config = filters;
         }
 
         public ANALYSIS_RESULT_TYPE Analyze(CompareResult compareResult)
@@ -103,7 +109,60 @@ namespace AttackSurfaceAnalyzer.Utils
                         // Variable
                         if (i % 2 == 0)
                         {
+                            var foundOpens = new Stack<int>();
+                            var foundCloses = new Stack<int>();
+
+                            for (int j = 0; j < splits[i].Length; j++)
+                            {
+                                if (splits[i][j] == '(')
+                                {
+                                    if (foundOpens.TryPeek(out int lastOpen))
+                                    {
+                                        if (j - lastOpen != 1)
+                                        {
+                                            invalid = true;
+                                            Log.Warning($"Expression {expression} in rule {rule.Name} contains invalid spacing between open parenthesis in label {splits[i]}");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (j > 0)
+                                        {
+                                            invalid = true;
+                                            Log.Warning($"Expression {expression} in rule {rule.Name} contains invalid characters before open parenthesis in label {splits[i]}");
+                                        }
+                                    }
+                                }
+                                else if (splits[i][j] == ')')
+                                {
+                                    if (foundCloses.TryPeek(out int lastClose))
+                                    {
+                                        if (j - lastClose != 1)
+                                        {
+                                            invalid = true;
+                                            Log.Warning($"Expression {expression} in rule {rule.Name} contains invalid spacing between close parenthesis in label {splits[i]}");
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    if (foundCloses.TryPeek(out int lastClose))
+                                    {
+                                        invalid = true;
+                                        Log.Warning($"Expression {expression} in rule {rule.Name} contains invalid characters after a close parenthesis {splits[i]}");
+                                    }
+                                }
+                            }
+
+                            // Any ) parenthesis after ( in this token?
+                            if (foundCloses.Any(x => foundOpens.Any(y => y > x)))
+                            {
+                                invalid = true;
+                                Log.Warning($"Expression {expression} in rule {rule.Name} contains invalid parenthesis in label {splits[i]}");
+                            }
+
                             var variable = splits[i].Replace("(", "").Replace(")", "");
+
                             if (string.IsNullOrWhiteSpace(variable) || !rule.Clauses.Any(x => x.Label == variable))
                             {
                                 invalid = true;

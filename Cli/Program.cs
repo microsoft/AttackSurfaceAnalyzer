@@ -444,7 +444,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             AsaTelemetry.TrackEvent("Begin Export Monitor", StartEvent);
 
-            WriteMonitorJson(opts.RunId, (int)RESULT_TYPE.FILE, opts.OutputPath);
+            WriteMonitorJson(opts.RunId, (int)RESULT_TYPE.FILE, opts.OutputPath ?? "monitor.json");
 
             return 0;
         }
