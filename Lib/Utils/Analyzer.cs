@@ -72,24 +72,24 @@ namespace AttackSurfaceAnalyzer.Utils
             foreach (var rule in config.Rules)
             {
                 var clauseLabels = rule.Clauses.GroupBy(x => x.Label);
-                
+
                 // If clauses have duplicate names
                 var duplicateClauses = clauseLabels.Where(x => x.Key != null && x.Count() > 1);
                 foreach (var duplicateClause in duplicateClauses)
                 {
                     invalid = true;
-                    Log.Warning(Strings.Get("Err_ClauseDuplicateName"),rule.Name,duplicateClause.Key);
+                    Log.Warning(Strings.Get("Err_ClauseDuplicateName"), rule.Name, duplicateClause.Key);
                 }
 
                 // If clause label contains illegal characters
-                foreach(var clause in rule.Clauses)
+                foreach (var clause in rule.Clauses)
                 {
                     if (clause.Label is string label)
                     {
                         if (label.Contains(" ") || label.Contains("(") || label.Contains(")"))
                         {
                             invalid = true;
-                            Log.Warning(Strings.Get("Err_ClauseInvalidLabel"),rule.Name,label);
+                            Log.Warning(Strings.Get("Err_ClauseInvalidLabel"), rule.Name, label);
                         }
                     }
                 }
@@ -114,7 +114,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         if (foundEnds > foundStarts)
                         {
                             invalid = true;
-                            Log.Warning(Strings.Get("Err_ClauseUnbalancedParentheses"),expression,rule.Name);
+                            Log.Warning(Strings.Get("Err_ClauseUnbalancedParentheses"), expression, rule.Name);
                         }
                         // Variable
                         if (!expectingOperator)
@@ -131,19 +131,19 @@ namespace AttackSurfaceAnalyzer.Utils
                                     if (lastClose != -1)
                                     {
                                         invalid = true;
-                                        Log.Warning(Strings.Get("Err_ClauseParenthesisInLabel"),expression,rule.Name,splits[i]);
+                                        Log.Warning(Strings.Get("Err_ClauseParenthesisInLabel"), expression, rule.Name, splits[i]);
                                     }
                                     // If there were any characters between open parenthesis
                                     if (j - lastOpen != 1)
                                     {
                                         invalid = true;
-                                        Log.Warning(Strings.Get("Err_ClauseCharactersBetweenOpenParentheses"),expression,rule.Name,splits[i]);
+                                        Log.Warning(Strings.Get("Err_ClauseCharactersBetweenOpenParentheses"), expression, rule.Name, splits[i]);
                                     }
                                     // If there was a random parenthesis not starting the variable
                                     else if (j > 0)
                                     {
                                         invalid = true;
-                                        Log.Warning(Strings.Get("Err_ClauseCharactersBeforeOpenParentheses"),expression,rule.Name,splits[i]);
+                                        Log.Warning(Strings.Get("Err_ClauseCharactersBeforeOpenParentheses"), expression, rule.Name, splits[i]);
                                     }
                                     lastOpen = j;
                                 }
@@ -153,7 +153,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                     if (lastClose != -1 && j - lastClose != 1)
                                     {
                                         invalid = true;
-                                        Log.Warning(Strings.Get("Err_ClauseCharactersBetweenClosedParentheses"),expression,rule.Name,splits[i]);
+                                        Log.Warning(Strings.Get("Err_ClauseCharactersBetweenClosedParentheses"), expression, rule.Name, splits[i]);
                                     }
                                     lastClose = j;
                                 }
@@ -163,7 +163,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                     if (lastClose != -1)
                                     {
                                         invalid = true;
-                                        Log.Warning(Strings.Get("Err_ClauseCharactersAfterClosedParentheses"),expression,rule.Name,splits[i]);
+                                        Log.Warning(Strings.Get("Err_ClauseCharactersAfterClosedParentheses"), expression, rule.Name, splits[i]);
                                     }
                                 }
                             }
@@ -175,12 +175,12 @@ namespace AttackSurfaceAnalyzer.Utils
                                 if (previouslyNot)
                                 {
                                     invalid = true;
-                                    Log.Warning(Strings.Get("Err_ClauseMultipleConsecutiveNots"),expression,rule.Name);
+                                    Log.Warning(Strings.Get("Err_ClauseMultipleConsecutiveNots"), expression, rule.Name);
                                 }
                                 else if (splits[i].Contains(")"))
                                 {
                                     invalid = true;
-                                    Log.Warning(Strings.Get("Err_ClauseCloseParenthesesInNot"),expression,rule.Name,splits[i]);
+                                    Log.Warning(Strings.Get("Err_ClauseCloseParenthesesInNot"), expression, rule.Name, splits[i]);
                                 }
                                 previouslyNot = true;
                             }
@@ -191,7 +191,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                 if (string.IsNullOrWhiteSpace(variable) || !rule.Clauses.Any(x => x.Label == variable))
                                 {
                                     invalid = true;
-                                    Log.Warning(Strings.Get("Err_ClauseUndefinedLabel"),expression,rule.Name,splits[i].Replace("(", "").Replace(")", ""));
+                                    Log.Warning(Strings.Get("Err_ClauseUndefinedLabel"), expression, rule.Name, splits[i].Replace("(", "").Replace(")", ""));
                                 }
                                 expectingOperator = true;
                             }
@@ -203,12 +203,13 @@ namespace AttackSurfaceAnalyzer.Utils
                             if (!Enum.TryParse(typeof(BOOL_OPERATOR), splits[i], out object? op))
                             {
                                 invalid = true;
-                                Log.Warning(Strings.Get("Err_ClauseInvalidOperator"),expression,rule.Name,splits[i]);
+                                Log.Warning(Strings.Get("Err_ClauseInvalidOperator"), expression, rule.Name, splits[i]);
                             }
                             // We don't allow NOT operators to modify other Operators, so we can't allow NOT here
                             else
                             {
-                                if (op is BOOL_OPERATOR boolOp && boolOp == BOOL_OPERATOR.NOT) {
+                                if (op is BOOL_OPERATOR boolOp && boolOp == BOOL_OPERATOR.NOT)
+                                {
                                     invalid = true;
                                     Log.Warning(Strings.Get("Err_ClauseInvalidNotOperator"), expression, rule.Name);
                                 }
@@ -221,21 +222,21 @@ namespace AttackSurfaceAnalyzer.Utils
                     if (!expectingOperator)
                     {
                         invalid = true;
-                        Log.Warning(Strings.Get("Err_ClauseEndsWithOperator"),expression,rule.Name);
+                        Log.Warning(Strings.Get("Err_ClauseEndsWithOperator"), expression, rule.Name);
                     }
                 }
 
                 var groupedFoundLabels = foundLabels.GroupBy(x => x);
 
                 // Were all the labels declared in clauses used?
-                foreach(var label in rule.Clauses.Select(x => x.Label))
+                foreach (var label in rule.Clauses.Select(x => x.Label))
                 {
                     if (label is string)
                     {
                         if (!foundLabels.Contains(label))
                         {
                             invalid = true;
-                            Log.Warning(Strings.Get("Err_ClauseUnusedLabel"),label,rule.Name);
+                            Log.Warning(Strings.Get("Err_ClauseUnusedLabel"), label, rule.Name);
                         }
                     }
                 }
@@ -245,7 +246,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 if (justTheLabels.Any(x => x is string) && justTheLabels.Any(x => x is null))
                 {
                     invalid = true;
-                    Log.Warning(Strings.Get("Err_ClauseMissingLabels"),rule.Name);
+                    Log.Warning(Strings.Get("Err_ClauseMissingLabels"), rule.Name);
                 }
                 // If the clause has an expression it may not have any null labels
                 if (rule.Expression != null && justTheLabels.Any(x => x is null))
@@ -405,7 +406,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             internalIndex = i + 1;
                             updated_i = i + 2;
                         }
-                        
+
                         res = ClauseResults.Where(x => x.Key.Label == splits[internalIndex].Replace("(", "").Replace(")", ""));
                         if (!(res.Count() == 1))
                         {
@@ -653,7 +654,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
                     // If any of the data values are greater than the first provided data value
                     case OPERATION.GT:
-                        foreach(var val in valsToCheck)
+                        foreach (var val in valsToCheck)
                         {
                             if (int.TryParse(val, out int valToCheck))
                             {
@@ -685,7 +686,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         {
 
                             var regexList = new List<Regex>();
-                            foreach(var rgx in RegexList)
+                            foreach (var rgx in RegexList)
                             {
                                 if (!RegexCache.ContainsKey(rgx))
                                 {
@@ -750,7 +751,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         return false;
 
                     case OPERATION.IS_TRUE:
-                        foreach(var valToCheck in valsToCheck)
+                        foreach (var valToCheck in valsToCheck)
                         {
                             if (bool.TryParse(valToCheck, out bool result))
                             {

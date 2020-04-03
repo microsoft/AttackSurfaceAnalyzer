@@ -10,8 +10,10 @@ namespace AttackSurfaceAnalyzer.Objects
 
     public class CompareResult
     {
-        public string Identity { 
-            get {
+        public string Identity
+        {
+            get
+            {
                 if (Base is CollectObject colObj)
                 {
                     return colObj.Identity;
@@ -26,7 +28,8 @@ namespace AttackSurfaceAnalyzer.Objects
                 }
             }
         }
-        public CHANGE_TYPE ChangeType {
+        public CHANGE_TYPE ChangeType
+        {
             get
             {
                 if (Base != null)
@@ -53,8 +56,9 @@ namespace AttackSurfaceAnalyzer.Objects
                 }
             }
         }
-        public RESULT_TYPE ResultType { 
-            get 
+        public RESULT_TYPE ResultType
+        {
+            get
             {
                 if (Base is CollectObject colObj)
                 {

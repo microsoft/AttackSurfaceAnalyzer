@@ -1,7 +1,6 @@
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
-using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.IO;
@@ -282,6 +281,43 @@ namespace AttackSurfaceAnalyzer.Tests
         }
 
         [TestMethod]
+        public void TestCompoundExpressions()
+        {
+            Setup();
+
+            var norRule = new Rule("XOR from NANDS")
+            {
+                Expression = "(0 NAND (0 NAND 1)) NAND (1 NAND (0 NAND 1)",
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Path", OPERATION.EQ)
+                    {
+                        Label = "0",
+                        Data = new List<string>()
+                        {
+                            "TestPath1"
+                        }
+                    },
+                    new Clause("IsExecutable", OPERATION.IS_TRUE)
+                    {
+                        Label = "1"
+                    }
+                }
+            };
+
+            var analyzer = GetAnalyzerForRule(norRule);
+
+            Assert.IsTrue(analyzer.Analyze(testPathOneObject) == ANALYSIS_RESULT_TYPE.FATAL);
+            Assert.IsTrue(analyzer.Analyze(testPathTwoObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
+            Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
+            Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject) == ANALYSIS_RESULT_TYPE.FATAL);
+
+            TearDown();
+        }
+
+        [TestMethod]
         public void VerifyValidRuleDetection()
         {
             Setup();
@@ -420,7 +456,7 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             Setup();
 
-            var invalidRule = new Rule("InvalidRule1")
+            var invalidRule = new Rule("Unbalanced Parentheses")
             {
                 Expression = "( 0 AND 1",
                 ResultType = RESULT_TYPE.FILE,
@@ -448,63 +484,257 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsFalse(VerifyRule(invalidRule));
 
-            invalidRule = new Rule("InvalidRule2")
+            invalidRule = new Rule("ClauseInParenthesesLabel")
+            {
+                Expression = "WITH(PARENTHESIS)",
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Path", OPERATION.IS_NULL)
+                    {
+                        Label = "WITH(PARENTHESIS)"
+                    }
+                }
+            };
+
+            Assert.IsFalse(VerifyRule(invalidRule));
+
+            invalidRule = new Rule("CharactersBetweenParentheses")
+            {
+                Expression = "(W(I",
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Path", OPERATION.IS_NULL)
+                    {
+                        Label = "W(I"
+                    }
+                }
+            };
+
+            Assert.IsFalse(VerifyRule(invalidRule));
+
+            invalidRule = new Rule("CharactersBeforeOpenParentheses")
+            {
+                Expression = "W(I",
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Path", OPERATION.IS_NULL)
+                    {
+                        Label = "W(I"
+                    }
+                }
+            };
+
+            Assert.IsFalse(VerifyRule(invalidRule));
+
+            invalidRule = new Rule("CharactersBetweenClosedParentheses")
+            {
+                Expression = "(0 AND W)I)",
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Path", OPERATION.IS_NULL)
+                    {
+                        Label = "W)I"
+                    },
+                    new Clause("Path", OPERATION.IS_NULL)
+                    {
+                        Label = "0"
+                    }
+                }
+            };
+
+            Assert.IsFalse(VerifyRule(invalidRule));
+
+            invalidRule = new Rule("CharactersAfterClosedParentheses")
+            {
+                Expression = "0 AND W)I",
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Path", OPERATION.IS_NULL)
+                    {
+                        Label = "W)I"
+                    },
+                    new Clause("Path", OPERATION.IS_NULL)
+                    {
+                        Label = "0"
+                    }
+                }
+            };
+
+            Assert.IsFalse(VerifyRule(invalidRule));
+
+            invalidRule = new Rule("MultipleConsecutiveNots")
+            {
+                Expression = "0 AND NOT NOT 1",
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Path", OPERATION.IS_NULL)
+                    {
+                        Label = "1"
+                    },
+                    new Clause("Path", OPERATION.IS_NULL)
+                    {
+                        Label = "0"
+                    }
+                }
+            };
+
+            Assert.IsFalse(VerifyRule(invalidRule));
+
+            invalidRule = new Rule("CloseParenthesesWithNot")
+            {
+                Expression = "(0 AND NOT) 1",
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Path", OPERATION.IS_NULL)
+                    {
+                        Label = "1"
+                    },
+                    new Clause("Path", OPERATION.IS_NULL)
+                    {
+                        Label = "0"
+                    }
+                }
+            };
+
+            Assert.IsFalse(VerifyRule(invalidRule));
+
+            invalidRule = new Rule("WhiteSpaceLabel")
+            {
+                Expression = "0 AND   ",
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Path", OPERATION.IS_NULL)
+                    {
+                        Label = "0"
+                    }
+                }
+            };
+
+            Assert.IsFalse(VerifyRule(invalidRule));
+
+            invalidRule = new Rule("InvalidOperator")
             {
                 Expression = "0 XAND 1",
                 ResultType = RESULT_TYPE.FILE,
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
-                    new Clause("Path", OPERATION.EQ)
+                    new Clause("Path", OPERATION.IS_NULL)
                     {
-                        Label = "0",
-                        Data = new List<string>()
-                        {
-                            "TestPath2"
-                        }
+                        Label = "1"
                     },
-                    new Clause("IsExecutable", OPERATION.EQ)
+                    new Clause("Path", OPERATION.IS_NULL)
                     {
-                        Label = "1",
-                        Data = new List<string>()
-                        {
-                            "True"
-                        }
+                        Label = "0"
                     }
                 }
             };
 
             Assert.IsFalse(VerifyRule(invalidRule));
 
-            invalidRule = new Rule("InvalidRule3")
+            invalidRule = new Rule("InvalidNotOperator")
             {
-                Expression = "0( OR 1)",
+                Expression = "0 NOT AND 1",
                 ResultType = RESULT_TYPE.FILE,
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
-                    new Clause("Path", OPERATION.EQ)
+                    new Clause("Path", OPERATION.IS_NULL)
                     {
-                        Label = "0",
-                        Data = new List<string>()
-                        {
-                            "TestPath2"
-                        }
+                        Label = "1"
                     },
-                    new Clause("IsExecutable", OPERATION.EQ)
+                    new Clause("Path", OPERATION.IS_NULL)
                     {
-                        Label = "1",
-                        Data = new List<string>()
-                        {
-                            "True"
-                        }
+                        Label = "0"
                     }
                 }
             };
 
             Assert.IsFalse(VerifyRule(invalidRule));
 
-            invalidRule = new Rule("InvalidRule4")
+            invalidRule = new Rule("EndsWithOperator")
+            {
+                Expression = "0 AND",
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Path", OPERATION.IS_NULL)
+                    {
+                        Label = "0"
+                    }
+                }
+            };
+
+            Assert.IsFalse(VerifyRule(invalidRule));
+
+            invalidRule = new Rule("UnusedLabel")
+            {
+                Expression = "0",
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Path", OPERATION.IS_NULL)
+                    {
+                        Label = "1"
+                    },
+                    new Clause("Path", OPERATION.IS_NULL)
+                    {
+                        Label = "0"
+                    }
+                }
+            };
+
+            Assert.IsFalse(VerifyRule(invalidRule));
+
+            invalidRule = new Rule("MissingLabel")
+            {
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Path", OPERATION.IS_NULL)
+                    {
+                        Label = "0"
+                    },
+                    new Clause("Path", OPERATION.IS_NULL)
+                }
+            };
+
+            Assert.IsFalse(VerifyRule(invalidRule));
+
+            invalidRule = new Rule("ExpressionRequiresLabels")
+            {
+                Expression = "0 AND 1",
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Path", OPERATION.IS_NULL),
+                    new Clause("Path", OPERATION.IS_NULL)
+                }
+            };
+
+            Assert.IsFalse(VerifyRule(invalidRule));
+
+            invalidRule = new Rule("OutOfOrder")
             {
                 Expression = "0 1 AND",
                 ResultType = RESULT_TYPE.FILE,
@@ -519,20 +749,16 @@ namespace AttackSurfaceAnalyzer.Tests
                             "TestPath2"
                         }
                     },
-                    new Clause("IsExecutable", OPERATION.EQ)
+                    new Clause("IsExecutable", OPERATION.IS_TRUE)
                     {
-                        Label = "1",
-                        Data = new List<string>()
-                        {
-                            "True"
-                        }
+                        Label = "1"
                     }
                 }
             };
 
             Assert.IsFalse(VerifyRule(invalidRule));
 
-            invalidRule = new Rule("InvalidRule5")
+            invalidRule = new Rule("StartWithOperator")
             {
                 Expression = "OR 0 1",
                 ResultType = RESULT_TYPE.FILE,
@@ -554,166 +780,6 @@ namespace AttackSurfaceAnalyzer.Tests
                         {
                             "True"
                         }
-                    }
-                }
-            };
-
-            Assert.IsFalse(VerifyRule(invalidRule));
-
-            invalidRule = new Rule("InvalidRule6")
-            {
-                Expression = "1 NOT AND 0",
-                ResultType = RESULT_TYPE.FILE,
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
-                {
-                    new Clause("Path", OPERATION.EQ)
-                    {
-                        Label = "0",
-                        Data = new List<string>()
-                        {
-                            "TestPath2"
-                        }
-                    },
-                    new Clause("IsExecutable", OPERATION.EQ)
-                    {
-                        Label = "1",
-                        Data = new List<string>()
-                        {
-                            "True"
-                        }
-                    }
-                }
-            };
-
-            Assert.IsFalse(VerifyRule(invalidRule));
-
-            invalidRule = new Rule("InvalidRule7")
-            {
-                Expression = "1 AND NOT NOT 0",
-                ResultType = RESULT_TYPE.FILE,
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
-                {
-                    new Clause("Path", OPERATION.EQ)
-                    {
-                        Label = "0",
-                        Data = new List<string>()
-                        {
-                            "TestPath2"
-                        }
-                    },
-                    new Clause("IsExecutable", OPERATION.EQ)
-                    {
-                        Label = "1",
-                        Data = new List<string>()
-                        {
-                            "True"
-                        }
-                    }
-                }
-            };
-
-            Assert.IsFalse(VerifyRule(invalidRule));
-
-            invalidRule = new Rule("InvalidClauseName")
-            {
-                Expression = "WITH A SPACE",
-                ResultType = RESULT_TYPE.FILE,
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
-                {
-                    new Clause("Path", OPERATION.IS_NULL)
-                    {
-                        Label = "WITH A SPACE"
-                    }
-                }
-            };
-
-            Assert.IsFalse(VerifyRule(invalidRule));
-
-            invalidRule = new Rule("InvalidClauseName2")
-            {
-                Expression = "WITH(PARENTHESIS)",
-                ResultType = RESULT_TYPE.FILE,
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
-                {
-                    new Clause("Path", OPERATION.IS_NULL)
-                    {
-                        Label = "WITH(PARENTHESIS)"
-                    }
-                }
-            };
-
-            Assert.IsFalse(VerifyRule(invalidRule));
-
-            invalidRule = new Rule("ExtraClause")
-            {
-                Expression = "FIRSTCLAUSE",
-                ResultType = RESULT_TYPE.FILE,
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
-                {
-                    new Clause("Path", OPERATION.IS_NULL)
-                    {
-                        Label = "FIRSTCLAUSE"
-                    },
-                    new Clause("IsExecutable", OPERATION.IS_NULL)
-                    {
-                        Label = "EXTRACLAUSE"
-                    }
-                }
-            };
-
-            Assert.IsFalse(VerifyRule(invalidRule));
-
-            invalidRule = new Rule("Incomplete Expression")
-            {
-                Expression = "0 OR",
-                ResultType = RESULT_TYPE.FILE,
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
-                {
-                    new Clause("Path", OPERATION.IS_NULL)
-                    {
-                        Label = "0"
-                    }
-                }
-            };
-
-            Assert.IsFalse(VerifyRule(invalidRule));
-
-            invalidRule = new Rule("Trailing Not")
-            {
-                Expression = "0 OR NOT",
-                ResultType = RESULT_TYPE.FILE,
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
-                {
-                    new Clause("Path", OPERATION.IS_NULL)
-                    {
-                        Label = "0"
-                    }
-                }
-            };
-
-            Assert.IsFalse(VerifyRule(invalidRule));
-
-            invalidRule = new Rule("Incomplete Subexpression")
-            {
-                Expression = "0 OR (1 OR) 0",
-                ResultType = RESULT_TYPE.FILE,
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
-                {
-                    new Clause("Path", OPERATION.IS_NULL)
-                    {
-                        Label = "0"
-                    },
-                    new Clause("Path", OPERATION.IS_NULL)
-                    {
-                        Label = "1"
                     }
                 }
             };
