@@ -536,6 +536,9 @@
   </data>
   <data name="Err_ClauseInvalidOperator" xml:space="preserve">
     <value>"Expression {0} in rule {1} contains invalid boolean operator {2}"</value>
+  </data>
+  <data name="Err_ClauseInvalidNotOperator" xml:space="preserve">
+    <value>"Expression {0} in rule {1} contains NOT where a non-NOT operator was expected."</value>
   </data>    
   <data name="Err_ClauseEndsWithOperator" xml:space="preserve">
     <value>"Expression {0} in rule {1} ends with an operator."</value>

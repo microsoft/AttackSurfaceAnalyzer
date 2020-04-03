@@ -199,10 +199,19 @@ namespace AttackSurfaceAnalyzer.Utils
                         //Operator
                         else
                         {
-                            if (!Enum.TryParse(typeof(BOOL_OPERATOR), splits[i], out _))
+                            // If we can't enum parse the operator
+                            if (!Enum.TryParse(typeof(BOOL_OPERATOR), splits[i], out object? op))
                             {
                                 invalid = true;
                                 Log.Warning(Strings.Get("Err_ClauseInvalidOperator"),expression,rule.Name,splits[i]);
+                            }
+                            // We don't allow NOT operators to modify other Operators, so we can't allow NOT here
+                            else
+                            {
+                                if (op is BOOL_OPERATOR boolOp && boolOp == BOOL_OPERATOR.NOT) {
+                                    invalid = true;
+                                    Log.Warning(Strings.Get("Err_ClauseInvalidNotOperator"), expression, rule.Name);
+                                }
                             }
                             expectingOperator = false;
                         }
@@ -238,6 +247,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     invalid = true;
                     Log.Warning(Strings.Get("Err_ClauseMissingLabels"),rule.Name);
                 }
+                // If the clause has an expression it may not have any null labels
                 if (rule.Expression != null && justTheLabels.Any(x => x is null))
                 {
                     invalid = true;
