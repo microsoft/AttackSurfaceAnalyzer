@@ -23,10 +23,7 @@
       "Clauses": [
         {
           "Field": "Privileged",
-          "Operation": "EQ",
-          "Data": [
-            "True"
-          ]
+          "Operation": "IS_TRUE"
         }
       ]
     },
@@ -38,10 +35,7 @@
       "Clauses": [
         {
           "Field": "Hidden",
-          "Operation": "EQ",
-          "Data": [
-            "True"
-          ]
+          "Operation": "IS_TRUE"
         }
       ]
     },
@@ -60,10 +54,7 @@
       "Clauses": [
         {
           "Field": "IsExecutable",
-          "Operation": "EQ",
-          "Data": [
-            "True"
-          ]
+          "Operation": "IS_TRUE"
         },
         {
           "Field": "SignatureStatus",
@@ -90,10 +81,7 @@
       "Clauses": [
         {
           "Field": "SetUid",
-          "Operation": "EQ",
-          "Data": [
-            "True"
-          ]
+          "Operation": "IS_TRUE"
         }
       ]
     },
@@ -113,10 +101,7 @@
       "Clauses": [
         {
           "Field": "SetGid",
-          "Operation": "EQ",
-          "Data": [
-            "True"
-          ]
+          "Operation": "IS_TRUE"
         }
       ]
     },
@@ -135,10 +120,7 @@
       "Clauses": [
         {
           "Field": "IsExecutable",
-          "Operation": "EQ",
-          "Data": [
-            "True"
-          ]
+          "Operation": "IS_TRUE"
         },
         {
           "Field": "Characteristics",
@@ -165,10 +147,7 @@
       "Clauses": [
         {
           "Field": "IsExecutable",
-          "Operation": "EQ",
-          "Data": [
-            "True"
-          ]
+          "Operation": "IS_TRUE"
         },
         {
           "Field": "Characteristics",
@@ -194,17 +173,11 @@
       "Clauses": [
         {
           "Field": "IsExecutable",
-          "Operation": "EQ",
-          "Data": [
-            "True"
-          ]
+          "Operation": "IS_TRUE"
         },
         {
           "Field": "SignatureStatus",
-          "Operation": "EQ",
-          "Data": [
-            "Valid"
-          ]
+          "Operation": "IS_TRUE"
         },
         {
           "Field": "Characteristics",
@@ -310,13 +283,11 @@
       "Clauses": [
         {
           "Field": "IsExecutable",
-          "Operation": "EQ",
-          "Data": [ "True" ]
+          "Operation": "IS_TRUE"
         },
         {
           "Field": "SetUid",
-          "Operation": "EQ",
-          "Data": [ "True" ]
+          "Operation": "IS_TRUE"
         },
         {
           "Field": "Permissions",
@@ -342,13 +313,11 @@
       "Clauses": [
         {
           "Field": "IsExecutable",
-          "Operation": "EQ",
-          "Data": [ "True" ]
+          "Operation": "IS_TRUE"
         },
         {
           "Field": "SetGid",
-          "Operation": "EQ",
-          "Data": [ "True" ]
+          "Operation": "IS_TRUE"
         },
         {
           "Field": "Permissions",

@@ -124,7 +124,8 @@ namespace AttackSurfaceAnalyzer.Types
         STARTS_WITH,
         CONTAINS_ANY,
         DOES_NOT_CONTAIN_ALL,
-        IS_NULL
+        IS_NULL,
+        IS_TRUE
     }
 
     /// <summary>

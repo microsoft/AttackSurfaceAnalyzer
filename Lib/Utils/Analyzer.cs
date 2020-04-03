@@ -707,6 +707,19 @@ namespace AttackSurfaceAnalyzer.Utils
                         }
                         return false;
 
+                    case OPERATION.IS_TRUE:
+                        foreach(var valToCheck in valsToCheck)
+                        {
+                            if (bool.TryParse(valToCheck, out bool result))
+                            {
+                                if (result)
+                                {
+                                    return true;
+                                }
+                            }
+                        }
+                        return false;
+
                     default:
                         Log.Debug("Unimplemented operation {0}", clause.Operation);
                         return false;

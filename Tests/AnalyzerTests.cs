@@ -81,13 +81,9 @@ namespace AttackSurfaceAnalyzer.Tests
                             "TestPath1"
                         }
                     },
-                    new Clause("IsExecutable", OPERATION.EQ)
+                    new Clause("IsExecutable", OPERATION.IS_TRUE)
                     {
-                        Label = "1",
-                        Data = new List<string>()
-                        {
-                            "True"
-                        }
+                        Label = "1"
                     }
                 }
             };
@@ -130,13 +126,9 @@ namespace AttackSurfaceAnalyzer.Tests
                             "TestPath1"
                         }
                     },
-                    new Clause("IsExecutable", OPERATION.EQ)
+                    new Clause("IsExecutable", OPERATION.IS_TRUE)
                     {
-                        Label = "1",
-                        Data = new List<string>()
-                        {
-                            "True"
-                        }
+                        Label = "1"
                     }
                 }
             };
@@ -224,13 +216,9 @@ namespace AttackSurfaceAnalyzer.Tests
                             TestPathOne
                         }
                     },
-                    new Clause("IsExecutable", OPERATION.EQ)
+                    new Clause("IsExecutable", OPERATION.IS_TRUE)
                     {
-                        Label = "1",
-                        Data = new List<string>()
-                        {
-                            "True"
-                        }
+                        Label = "1"
                     }
                 }
             };
