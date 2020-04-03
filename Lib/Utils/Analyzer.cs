@@ -145,20 +145,17 @@ namespace AttackSurfaceAnalyzer.Utils
                                         invalid = true;
                                         Log.Warning($"Expression {expression} in rule {rule.Name} contains invalid characters before open parenthesis in label {splits[i]}");
                                     }
+                                    lastOpen = j;
                                 }
                                 else if (splits[i][j] == ')')
                                 {
                                     // If we've seen a close before update last
-                                    if (lastClose == -1)
-                                    {
-                                        lastClose = j;
-                                    }
-                                    // Otherwise we must be within 1
-                                    else if (j - lastClose != 1)
+                                    if (lastClose != -1 && j - lastClose != 1)
                                     {
                                         invalid = true;
                                         Log.Warning($"Expression {expression} in rule {rule.Name} contains invalid characters between close parenthesis in label {splits[i]}");
-                                    }   
+                                    }
+                                    lastClose = j;
                                 }
                                 else
                                 {
@@ -178,12 +175,12 @@ namespace AttackSurfaceAnalyzer.Utils
                                 if (previouslyNot)
                                 {
                                     invalid = true;
-                                    Log.Warning($"Expression {expression} in rule {rule.Name} contains multiple NOTs in a row {splits[i]});
+                                    Log.Warning($"Expression {expression} in rule {rule.Name} contains multiple NOTs in a row {splits[i]}");
                                 }
                                 else if (splits[i].Contains("(") || splits[i].Contains(")"))
                                 {
                                     invalid = true;
-                                    Log.Warning($"Expression {expression} in rule {rule.Name} contains parenthesis in NOT operator{splits[i]});
+                                    Log.Warning($"Expression {expression} in rule {rule.Name} contains parenthesis in NOT operator{splits[i]}");
                                 }
                                 previouslyNot = true;
                             }
