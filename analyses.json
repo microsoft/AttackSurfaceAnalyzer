@@ -780,7 +780,6 @@
       "ResultType": "FILE",
       "Clauses": [
         {
-          "Label": "FILENAME",
           "Field": "Path",
           "Operation": "REGEX",
           "Data": [
@@ -795,7 +794,6 @@
           ]
         },
         {
-          "Label": "IS_EXECUTABLE",
           "Operation": "IS_TRUE",
           "Field": "IsExecutable"
         }
