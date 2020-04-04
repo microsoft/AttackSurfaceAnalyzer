@@ -14,28 +14,10 @@ namespace AttackSurfaceAnalyzer.Tests
         private const string TestPathOne = "TestPath1";
         private const string TestPathTwo = "TestPath2";
 
-        private readonly CompareResult testPathOneObject = new CompareResult()
-        {
-            Base = new FileSystemObject(TestPathOne)
-        };
-        private readonly CompareResult testPathTwoObject = new CompareResult()
-        {
-            Base = new FileSystemObject(TestPathTwo)
-        };
-        private readonly CompareResult testPathTwoExecutableObject = new CompareResult()
-        {
-            Base = new FileSystemObject(TestPathTwo)
-            {
-                IsExecutable = true
-            }
-        };
-        private readonly CompareResult testPathOneExecutableObject = new CompareResult()
-        {
-            Base = new FileSystemObject(TestPathOne)
-            {
-                IsExecutable = true
-            }
-        };
+        private CompareResult testPathOneObject;
+        private CompareResult testPathTwoObject;
+        private CompareResult testPathOneExecutableObject;
+        private CompareResult testPathTwoExecutableObject;
 
         public void Setup()
         {
@@ -43,6 +25,33 @@ namespace AttackSurfaceAnalyzer.Tests
             Strings.Setup();
             AsaTelemetry.Setup(test: true);
             DatabaseManager.Setup(Path.GetTempFileName());
+            ResetObjects();
+        }
+
+        public void ResetObjects()
+        {
+            testPathOneObject = new CompareResult()
+            {
+                Base = new FileSystemObject(TestPathOne)
+            };
+            testPathTwoObject = new CompareResult()
+            {
+                Base = new FileSystemObject(TestPathTwo)
+            };
+            testPathOneExecutableObject = new CompareResult()
+            {
+                Base = new FileSystemObject(TestPathOne)
+                {
+                    IsExecutable = true
+                }
+            };
+            testPathTwoExecutableObject = new CompareResult()
+            {
+                Base = new FileSystemObject(TestPathTwo)
+                {
+                    IsExecutable = true
+                }
+            };
         }
 
         public void TearDown()
@@ -316,7 +325,7 @@ namespace AttackSurfaceAnalyzer.Tests
         }
 
         [TestMethod]
-        public void TestCompoundExpressions()
+        public void TestXorFromNand()
         {
             Setup();
 
