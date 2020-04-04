@@ -48,6 +48,8 @@ namespace AttackSurfaceAnalyzer.Utils
         public ANALYSIS_RESULT_TYPE Analyze(CompareResult compareResult)
         {
             if (compareResult == null) { return config.DefaultLevels[RESULT_TYPE.UNKNOWN]; }
+            compareResult.Analysis = ANALYSIS_RESULT_TYPE.NONE;
+            compareResult.Rules = new List<Rule>();
             var results = new List<ANALYSIS_RESULT_TYPE>();
             var curFilters = config.Rules.Where((rule) => (rule.ChangeTypes == null || rule.ChangeTypes.Contains(compareResult.ChangeType))
                                                      && (rule.Platforms == null || rule.Platforms.Contains(OsName))
