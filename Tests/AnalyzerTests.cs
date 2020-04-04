@@ -100,15 +100,10 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var analyzer = GetAnalyzerForRule(orRule);
 
-            Assert.IsTrue(analyzer.Analyze(testPathOneObject) == ANALYSIS_RESULT_TYPE.FATAL);
-            Assert.IsTrue(analyzer.Analyze(testPathTwoObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
-            Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject) == ANALYSIS_RESULT_TYPE.FATAL);
-            Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject) == ANALYSIS_RESULT_TYPE.FATAL);
-
-            Assert.IsTrue(testPathOneObject.Rules.Any(x => x.Name == RuleName));
-            Assert.IsTrue(!testPathTwoObject.Rules.Any(x => x.Name == RuleName));
-            Assert.IsTrue(testPathOneExecutableObject.Rules.Any(x => x.Name == RuleName));
-            Assert.IsTrue(testPathTwoExecutableObject.Rules.Any(x => x.Name == RuleName));
+            Assert.IsTrue(analyzer.Analyze(testPathOneObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(!analyzer.Analyze(testPathTwoObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject).Any(x => x.Name == RuleName));
 
             TearDown();
         }
@@ -143,15 +138,10 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var analyzer = GetAnalyzerForRule(andRule);
 
-            Assert.IsTrue(analyzer.Analyze(testPathOneObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
-            Assert.IsTrue(analyzer.Analyze(testPathTwoObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
-            Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject) == ANALYSIS_RESULT_TYPE.FATAL);
-            Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
-
-            Assert.IsTrue(!testPathOneObject.Rules.Any(x => x.Name == RuleName));
-            Assert.IsTrue(!testPathTwoObject.Rules.Any(x => x.Name == RuleName));
-            Assert.IsTrue(testPathOneExecutableObject.Rules.Any(x => x.Name == RuleName));
-            Assert.IsTrue(!testPathTwoExecutableObject.Rules.Any(x => x.Name == RuleName));
+            Assert.IsTrue(!analyzer.Analyze(testPathOneObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(!analyzer.Analyze(testPathTwoObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(!analyzer.Analyze(testPathTwoExecutableObject).Any(x => x.Name == RuleName));
 
             TearDown();
         }
@@ -186,15 +176,10 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var analyzer = GetAnalyzerForRule(nandRule);
 
-            Assert.IsTrue(analyzer.Analyze(testPathOneObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
-            Assert.IsTrue(analyzer.Analyze(testPathTwoObject) == ANALYSIS_RESULT_TYPE.FATAL);
-            Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject) == ANALYSIS_RESULT_TYPE.FATAL);
-            Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject) == ANALYSIS_RESULT_TYPE.FATAL);
-
-            Assert.IsTrue(!testPathOneObject.Rules.Any(x => x.Name == RuleName));
-            Assert.IsTrue(testPathTwoObject.Rules.Any(x => x.Name == RuleName));
-            Assert.IsTrue(testPathOneExecutableObject.Rules.Any(x => x.Name == RuleName));
-            Assert.IsTrue(testPathTwoExecutableObject.Rules.Any(x => x.Name == RuleName));
+            Assert.IsTrue(!analyzer.Analyze(testPathOneObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(analyzer.Analyze(testPathTwoObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject).Any(x => x.Name == RuleName));
 
             TearDown();
         }
@@ -229,15 +214,10 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var analyzer = GetAnalyzerForRule(xorRule);
 
-            Assert.IsTrue(analyzer.Analyze(testPathOneObject) == ANALYSIS_RESULT_TYPE.FATAL);
-            Assert.IsTrue(analyzer.Analyze(testPathTwoObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
-            Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
-            Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject) == ANALYSIS_RESULT_TYPE.FATAL);
-
-            Assert.IsTrue(testPathOneObject.Rules.Any(x => x.Name == RuleName));
-            Assert.IsTrue(!testPathTwoObject.Rules.Any(x => x.Name == RuleName));
-            Assert.IsTrue(!testPathOneExecutableObject.Rules.Any(x => x.Name == RuleName));
-            Assert.IsTrue(testPathTwoExecutableObject.Rules.Any(x => x.Name == RuleName));
+            Assert.IsTrue(analyzer.Analyze(testPathOneObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(!analyzer.Analyze(testPathTwoObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(!analyzer.Analyze(testPathOneExecutableObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject).Any(x => x.Name == RuleName));
 
             TearDown();
         }
@@ -268,11 +248,8 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var analyzer = GetAnalyzerForRule(notRule);
 
-            Assert.IsTrue(analyzer.Analyze(testPathOneObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
-            Assert.IsTrue(analyzer.Analyze(testPathTwoObject) == ANALYSIS_RESULT_TYPE.FATAL);
-
-            Assert.IsTrue(!testPathOneObject.Rules.Any(x => x.Name == RuleName));
-            Assert.IsTrue(testPathTwoObject.Rules.Any(x => x.Name == RuleName));
+            Assert.IsTrue(!analyzer.Analyze(testPathOneObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(analyzer.Analyze(testPathTwoObject).Any(x => x.Name == RuleName));
 
             TearDown();
         }
@@ -311,15 +288,10 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var analyzer = GetAnalyzerForRule(norRule);
 
-            Assert.IsTrue(analyzer.Analyze(testPathOneObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
-            Assert.IsTrue(analyzer.Analyze(testPathTwoObject) == ANALYSIS_RESULT_TYPE.FATAL);
-            Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
-            Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
-
-            Assert.IsTrue(!testPathOneObject.Rules.Any(x => x.Name == RuleName));
-            Assert.IsTrue(testPathTwoObject.Rules.Any(x => x.Name == RuleName));
-            Assert.IsTrue(!testPathOneExecutableObject.Rules.Any(x => x.Name == RuleName));
-            Assert.IsTrue(!testPathTwoExecutableObject.Rules.Any(x => x.Name == RuleName));
+            Assert.IsTrue(!analyzer.Analyze(testPathOneObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(analyzer.Analyze(testPathTwoObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(!analyzer.Analyze(testPathOneExecutableObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(!analyzer.Analyze(testPathTwoExecutableObject).Any(x => x.Name == RuleName));
 
             TearDown();
         }
@@ -354,15 +326,10 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var analyzer = GetAnalyzerForRule(norRule);
 
-            Assert.IsTrue(analyzer.Analyze(testPathOneObject) == ANALYSIS_RESULT_TYPE.FATAL);
-            Assert.IsTrue(analyzer.Analyze(testPathTwoObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
-            Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
-            Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject) == ANALYSIS_RESULT_TYPE.FATAL);
-
-            Assert.IsTrue(testPathOneObject.Rules.Any(x => x.Name == RuleName));
-            Assert.IsTrue(!testPathTwoObject.Rules.Any(x => x.Name == RuleName));
-            Assert.IsTrue(!testPathOneExecutableObject.Rules.Any(x => x.Name == RuleName));
-            Assert.IsTrue(testPathTwoExecutableObject.Rules.Any(x => x.Name == RuleName));
+            Assert.IsTrue(analyzer.Analyze(testPathOneObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(!analyzer.Analyze(testPathTwoObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(!analyzer.Analyze(testPathOneExecutableObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject).Any(x => x.Name == RuleName));
 
             TearDown();
         }

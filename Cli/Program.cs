@@ -708,9 +708,7 @@ namespace AttackSurfaceAnalyzer.Cli
             if (opts.Analyze)
             {
                 watch = System.Diagnostics.Stopwatch.StartNew();
-                Analyzer analyzer;
-
-                analyzer = new Analyzer(DatabaseManager.RunIdToPlatform(opts.FirstRunId), opts.AnalysesFile);
+                Analyzer analyzer = new Analyzer(DatabaseManager.RunIdToPlatform(opts.FirstRunId), opts.AnalysesFile);
                 if (!analyzer.VerifyRules())
                 {
                     return results;
@@ -722,9 +720,10 @@ namespace AttackSurfaceAnalyzer.Cli
                     {
                         try
                         {
-                            Parallel.ForEach(results[key] as ConcurrentQueue<CompareResult>, (result) =>
+                            Parallel.ForEach(results[key] as ConcurrentQueue<CompareResult>, (res) =>
                             {
-                                result.Analysis = analyzer.Analyze(result);
+                                res.Rules = analyzer.Analyze(res);
+                                res.Analysis = res.Rules.Max(x => x.Flag);
                             });
                         }
                         catch (ArgumentNullException)
