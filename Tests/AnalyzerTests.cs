@@ -4,6 +4,7 @@ using AttackSurfaceAnalyzer.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace AttackSurfaceAnalyzer.Tests
 {
@@ -65,7 +66,8 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             Setup();
 
-            var orRule = new Rule("OrRule")
+            var RuleName = "OrRule";
+            var orRule = new Rule(RuleName)
             {
                 Expression = "0 OR 1",
                 ResultType = RESULT_TYPE.FILE,
@@ -94,6 +96,11 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject) == ANALYSIS_RESULT_TYPE.FATAL);
             Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject) == ANALYSIS_RESULT_TYPE.FATAL);
 
+            Assert.IsTrue(testPathOneObject.Rules.Any(x => x.Name == RuleName));
+            Assert.IsTrue(!testPathTwoObject.Rules.Any(x => x.Name == RuleName));
+            Assert.IsTrue(testPathOneExecutableObject.Rules.Any(x => x.Name == RuleName));
+            Assert.IsTrue(testPathTwoExecutableObject.Rules.Any(x => x.Name == RuleName));
+
             TearDown();
         }
 
@@ -102,7 +109,8 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             Setup();
 
-            var andRule = new Rule("AndRule")
+            var RuleName = "AndRule";
+            var andRule = new Rule(RuleName)
             {
                 Expression = "0 AND 1",
                 ResultType = RESULT_TYPE.FILE,
@@ -131,6 +139,11 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject) == ANALYSIS_RESULT_TYPE.FATAL);
             Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
 
+            Assert.IsTrue(!testPathOneObject.Rules.Any(x => x.Name == RuleName));
+            Assert.IsTrue(!testPathTwoObject.Rules.Any(x => x.Name == RuleName));
+            Assert.IsTrue(testPathOneExecutableObject.Rules.Any(x => x.Name == RuleName));
+            Assert.IsTrue(!testPathTwoExecutableObject.Rules.Any(x => x.Name == RuleName));
+
             TearDown();
         }
 
@@ -139,7 +152,8 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             Setup();
 
-            var nandRule = new Rule("NandRule")
+            var RuleName = "NandRule";
+            var nandRule = new Rule(RuleName)
             {
                 Expression = "0 NAND 1",
                 ResultType = RESULT_TYPE.FILE,
@@ -168,6 +182,11 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject) == ANALYSIS_RESULT_TYPE.FATAL);
             Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject) == ANALYSIS_RESULT_TYPE.FATAL);
 
+            Assert.IsTrue(!testPathOneObject.Rules.Any(x => x.Name == RuleName));
+            Assert.IsTrue(testPathTwoObject.Rules.Any(x => x.Name == RuleName));
+            Assert.IsTrue(testPathOneExecutableObject.Rules.Any(x => x.Name == RuleName));
+            Assert.IsTrue(testPathTwoExecutableObject.Rules.Any(x => x.Name == RuleName));
+
             TearDown();
         }
 
@@ -176,7 +195,8 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             Setup();
 
-            var xorRule = new Rule("XorRule")
+            var RuleName = "XorRule";
+            var xorRule = new Rule(RuleName)
             {
                 Expression = "0 XOR 1",
                 ResultType = RESULT_TYPE.FILE,
@@ -205,6 +225,11 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
             Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject) == ANALYSIS_RESULT_TYPE.FATAL);
 
+            Assert.IsTrue(testPathOneObject.Rules.Any(x => x.Name == RuleName));
+            Assert.IsTrue(!testPathTwoObject.Rules.Any(x => x.Name == RuleName));
+            Assert.IsTrue(!testPathOneExecutableObject.Rules.Any(x => x.Name == RuleName));
+            Assert.IsTrue(testPathTwoExecutableObject.Rules.Any(x => x.Name == RuleName));
+
             TearDown();
         }
 
@@ -213,7 +238,8 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             Setup();
 
-            var notRule = new Rule("NotRule")
+            var RuleName = "NotRule";
+            var notRule = new Rule(RuleName)
             {
                 Expression = "NOT 0",
                 ResultType = RESULT_TYPE.FILE,
@@ -236,6 +262,9 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(analyzer.Analyze(testPathOneObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
             Assert.IsTrue(analyzer.Analyze(testPathTwoObject) == ANALYSIS_RESULT_TYPE.FATAL);
 
+            Assert.IsTrue(!testPathOneObject.Rules.Any(x => x.Name == RuleName));
+            Assert.IsTrue(testPathTwoObject.Rules.Any(x => x.Name == RuleName));
+
             TearDown();
         }
 
@@ -244,7 +273,8 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             Setup();
 
-            var norRule = new Rule("NorRule")
+            var RuleName = "NorRule";
+            var norRule = new Rule(RuleName)
             {
                 Expression = "0 NOR 1",
                 ResultType = RESULT_TYPE.FILE,
@@ -277,6 +307,11 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
             Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
 
+            Assert.IsTrue(!testPathOneObject.Rules.Any(x => x.Name == RuleName));
+            Assert.IsTrue(testPathTwoObject.Rules.Any(x => x.Name == RuleName));
+            Assert.IsTrue(!testPathOneExecutableObject.Rules.Any(x => x.Name == RuleName));
+            Assert.IsTrue(!testPathTwoExecutableObject.Rules.Any(x => x.Name == RuleName));
+
             TearDown();
         }
 
@@ -285,7 +320,8 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             Setup();
 
-            var norRule = new Rule("XOR from NANDS")
+            var RuleName = "XOR from NAND";
+            var norRule = new Rule(RuleName)
             {
                 Expression = "(0 NAND (0 NAND 1)) NAND (1 NAND (0 NAND 1)",
                 ResultType = RESULT_TYPE.FILE,
@@ -313,6 +349,11 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(analyzer.Analyze(testPathTwoObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
             Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject) == analyzer.DefaultLevels[RESULT_TYPE.FILE]);
             Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject) == ANALYSIS_RESULT_TYPE.FATAL);
+
+            Assert.IsTrue(testPathOneObject.Rules.Any(x => x.Name == RuleName));
+            Assert.IsTrue(!testPathTwoObject.Rules.Any(x => x.Name == RuleName));
+            Assert.IsTrue(!testPathOneExecutableObject.Rules.Any(x => x.Name == RuleName));
+            Assert.IsTrue(testPathTwoExecutableObject.Rules.Any(x => x.Name == RuleName));
 
             TearDown();
         }
