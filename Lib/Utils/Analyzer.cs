@@ -817,7 +817,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         {
                             if (DateTime.TryParse(valToCheck, out DateTime result))
                             {
-                                if (valDateTimes.Any(x => x.CompareTo(DateTime.Now) < 0))
+                                if (result.CompareTo(DateTime.Now) < 0)
                                 {
                                     return true;
                                 }
