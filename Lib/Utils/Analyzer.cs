@@ -772,7 +772,58 @@ namespace AttackSurfaceAnalyzer.Utils
                             }
                         }
                         return false;
-
+                    case OPERATION.IS_BEFORE:
+                        var valDateTimes = new List<DateTime>();
+                        foreach (var valToCheck in valsToCheck)
+                        {
+                            if (DateTime.TryParse(valToCheck, out DateTime result))
+                            {
+                                valDateTimes.Add(result);
+                            }
+                        }
+                        foreach(var data in clause.Data ?? new List<string>())
+                        {
+                            if (DateTime.TryParse(data, out DateTime result))
+                            {
+                                if (valDateTimes.Any(x => x.CompareTo(result) < 0))
+                                {
+                                    return true;
+                                }
+                            }
+                        }
+                        return false;
+                    case OPERATION.IS_AFTER:
+                        valDateTimes = new List<DateTime>();
+                        foreach (var valToCheck in valsToCheck)
+                        {
+                            if (DateTime.TryParse(valToCheck, out DateTime result))
+                            {
+                                valDateTimes.Add(result);
+                            }
+                        }
+                        foreach (var data in clause.Data ?? new List<string>())
+                        {
+                            if (DateTime.TryParse(data, out DateTime result))
+                            {
+                                if (valDateTimes.Any(x => x.CompareTo(result) > 0))
+                                {
+                                    return true;
+                                }
+                            }
+                        }
+                        return false;
+                    case OPERATION.IS_EXPIRED:
+                        foreach (var valToCheck in valsToCheck)
+                        {
+                            if (DateTime.TryParse(valToCheck, out DateTime result))
+                            {
+                                if (valDateTimes.Any(x => x.CompareTo(DateTime.Now) < 0))
+                                {
+                                    return true;
+                                }
+                            }
+                        }
+                        return false;
                     default:
                         Log.Debug("Unimplemented operation {0}", clause.Operation);
                         return false;
