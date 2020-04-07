@@ -125,7 +125,10 @@ namespace AttackSurfaceAnalyzer.Types
         CONTAINS_ANY,
         DOES_NOT_CONTAIN_ALL,
         IS_NULL,
-        IS_TRUE
+        IS_TRUE,
+        IS_BEFORE,
+        IS_AFTER,
+        IS_EXPIRED
     }
 
     /// <summary>

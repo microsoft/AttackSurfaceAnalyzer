@@ -778,16 +778,57 @@
         "WINDOWS"
       ],
       "ResultType": "FILE",
-      "Operation": "CONTAINS",
-      "Data": [
-        "Bginfo.exe",
-        "dnx.exe ",
-        "msxsl.exe",
-        "rcsi.exe",
-        "Microsoft\\Teams\\current\\Squirrel.exe",
-        "te.exe",
-        "Tracker.exe",
-        "Microsoft\\Teams\\update.exe"
+      "Clauses": [
+        {
+          "Field": "Path",
+          "Operation": "REGEX",
+          "Data": [
+            "\\Bginfo.exe$",
+            "\\dnx.exe$",
+            "\\msxsl.exe$",
+            "\\rcsi.exe$",
+            "\\Microsoft\\Teams\\current\\Squirrel.exe$",
+            "\\te.exe$",
+            "\\Tracker.exe$",
+            "\\Microsoft\\Teams\\update.exe$"
+          ]
+        },
+        {
+          "Operation": "IS_TRUE",
+          "Field": "IsExecutable"
+        }
+      ]
+    },
+    {
+      "Name": "Expired Certificates",
+      "Description": "These Certificates are expired.",
+      "Flag": "WARNING",
+      "ResultType": "CERTIFICATE",
+      "ChangeTypes": [
+        "MODIFIED",
+        "CREATED"
+      ],
+      "Clauses": [
+        {
+          "Field": "Certificate.NotAfter",
+          "Operation": "IS_EXPIRED"
+        }
+      ]
+    },
+    {
+      "Name": "Binaries with expired signatures",
+      "Description": "These binaries have expired signatures.",
+      "Flag": "WARNING",
+      "ResultType": "FILE",
+      "ChangeTypes": [
+        "MODIFIED",
+        "CREATED"
+      ],
+      "Clauses": [
+        {
+          "Field": "SignatureStatus.SigningCertificate.NotAfter",
+          "Operation": "IS_EXPIRED"
+        }
       ]
     }
   ],

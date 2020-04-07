@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using Utf8Json;
 
@@ -44,10 +45,12 @@ namespace AttackSurfaceAnalyzer.Utils
             config = filters;
         }
 
-        public ANALYSIS_RESULT_TYPE Analyze(CompareResult compareResult)
+        public List<Rule> Analyze(CompareResult compareResult)
         {
-            if (compareResult == null) { return config.DefaultLevels[RESULT_TYPE.UNKNOWN]; }
-            var results = new List<ANALYSIS_RESULT_TYPE>();
+            var results = new List<Rule>();
+            if (compareResult == null) { return results; }
+            compareResult.Analysis = ANALYSIS_RESULT_TYPE.NONE;
+            compareResult.Rules = new List<Rule>();
             var curFilters = config.Rules.Where((rule) => (rule.ChangeTypes == null || rule.ChangeTypes.Contains(compareResult.ChangeType))
                                                      && (rule.Platforms == null || rule.Platforms.Contains(OsName))
                                                      && (rule.ResultType.Equals(compareResult.ResultType)))
@@ -56,13 +59,13 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 foreach (Rule rule in curFilters)
                 {
-                    results.Add(Apply(rule, compareResult));
+                    if (Apply(rule, compareResult))
+                    {
+                        results.Add(rule);
+                    }
                 }
-
-                return results.Max();
             }
-            //If there are no filters for a result type
-            return config.DefaultLevels[compareResult.ResultType];
+            return results;
         }
 
         public bool VerifyRules()
@@ -268,15 +271,14 @@ namespace AttackSurfaceAnalyzer.Utils
             return !invalid;
         }
 
-        protected ANALYSIS_RESULT_TYPE Apply(Rule rule, CompareResult compareResult)
+        public static bool Apply(Rule rule, CompareResult compareResult)
         {
             if (compareResult != null && rule != null)
             {
                 // If we have no clauses we automatically match
                 if (!rule.Clauses.Any())
                 {
-                    compareResult.Rules.Add(rule);
-                    return rule.Flag;
+                    return true;
                 }
 
                 var ClauseResults = new Dictionary<Clause, bool>();
@@ -289,20 +291,18 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     if (ClauseResults.Where(x => x.Value).Count() == ClauseResults.Count)
                     {
-                        compareResult.Rules.Add(rule);
-                        return rule.Flag;
+                        return true;
                     }
                 }
                 else
                 {
                     if (Evaluate(rule.Expression.Split(" "), ClauseResults))
                     {
-                        compareResult.Rules.Add(rule);
-                        return rule.Flag;
+                        return true;
                     }
                 }
 
-                return config.DefaultLevels[compareResult.ResultType];
+                return false;
             }
             else
             {
@@ -684,19 +684,28 @@ namespace AttackSurfaceAnalyzer.Utils
                     case OPERATION.REGEX:
                         if (clause.Data is List<string> RegexList)
                         {
-
-                            var regexList = new List<Regex>();
-                            foreach (var rgx in RegexList)
+                            if (RegexList.Count > 0)
                             {
-                                if (!RegexCache.ContainsKey(rgx))
+                                var sb = new StringBuilder();
+                                sb.Append("(");
+                                foreach (var rgx in RegexList)
                                 {
-                                    RegexCache.Add(rgx, new Regex(rgx, RegexOptions.Compiled));
+                                    sb.Append(rgx);
+                                    sb.Append('|');
                                 }
-                            }
+                                sb.Append(")");
 
-                            if (valsToCheck.Any(x => RegexCache.Any(y => y.Value.IsMatch(x))))
-                            {
-                                return true;
+                                var built = sb.ToString();
+
+                                if (!RegexCache.ContainsKey(built))
+                                {
+                                    RegexCache.Add(built, new Regex(built, RegexOptions.Compiled));
+                                }
+
+                                if (valsToCheck.Any(x => RegexCache[built].IsMatch(x)))
+                                {
+                                    return true;
+                                }
                             }
                         }
                         return false;
@@ -762,7 +771,58 @@ namespace AttackSurfaceAnalyzer.Utils
                             }
                         }
                         return false;
-
+                    case OPERATION.IS_BEFORE:
+                        var valDateTimes = new List<DateTime>();
+                        foreach (var valToCheck in valsToCheck)
+                        {
+                            if (DateTime.TryParse(valToCheck, out DateTime result))
+                            {
+                                valDateTimes.Add(result);
+                            }
+                        }
+                        foreach(var data in clause.Data ?? new List<string>())
+                        {
+                            if (DateTime.TryParse(data, out DateTime result))
+                            {
+                                if (valDateTimes.Any(x => x.CompareTo(result) < 0))
+                                {
+                                    return true;
+                                }
+                            }
+                        }
+                        return false;
+                    case OPERATION.IS_AFTER:
+                        valDateTimes = new List<DateTime>();
+                        foreach (var valToCheck in valsToCheck)
+                        {
+                            if (DateTime.TryParse(valToCheck, out DateTime result))
+                            {
+                                valDateTimes.Add(result);
+                            }
+                        }
+                        foreach (var data in clause.Data ?? new List<string>())
+                        {
+                            if (DateTime.TryParse(data, out DateTime result))
+                            {
+                                if (valDateTimes.Any(x => x.CompareTo(result) > 0))
+                                {
+                                    return true;
+                                }
+                            }
+                        }
+                        return false;
+                    case OPERATION.IS_EXPIRED:
+                        foreach (var valToCheck in valsToCheck)
+                        {
+                            if (DateTime.TryParse(valToCheck, out DateTime result))
+                            {
+                                if (result.CompareTo(DateTime.Now) < 0)
+                                {
+                                    return true;
+                                }
+                            }
+                        }
+                        return false;
                     default:
                         Log.Debug("Unimplemented operation {0}", clause.Operation);
                         return false;
