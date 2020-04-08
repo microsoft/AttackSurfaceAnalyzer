@@ -58,7 +58,8 @@ namespace AttackSurfaceAnalyzer.Types
         MATCHING_SCHEMA,
         FAILED_TO_CREATE_DATABASE,
         INVALID_ID,
-        INVALID_RULES
+        INVALID_RULES,
+        FAILED_TO_ESTABLISH_MAIN_DB_CONNECTION
     }
 
 

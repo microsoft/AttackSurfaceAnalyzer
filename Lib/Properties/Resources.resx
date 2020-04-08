@@ -515,22 +515,22 @@
   </data>
   <data name="Err_ClauseCharactersBetweenOpenParentheses" xml:space="preserve">
     <value>"Expression {0} in rule {1} contains invalid characters between open parentheses in label {2}"</value>
-  </data>    
+  </data>
   <data name="Err_ClauseCharactersBeforeOpenParentheses" xml:space="preserve">
     <value>"Expression {0} in rule {1} contains invalid characters before open parenthesis in label {2}"</value>
-  </data>  
+  </data>
   <data name="Err_ClauseCharactersBetweenClosedParentheses" xml:space="preserve">
     <value>"Expression {0} in rule {1} contains invalid characters between close parentheses in label {2}"</value>
   </data>
   <data name="Err_ClauseCharactersAfterClosedParentheses" xml:space="preserve">
     <value>"Expression {0} in rule {1} contains invalid characters after a close parenthesis {2}"</value>
-  </data>   
+  </data>
   <data name="Err_ClauseMultipleConsecutiveNots" xml:space="preserve">
     <value>"Expression {0} in rule {1} contains multiple NOTs in a row."</value>
-  </data>     
+  </data>
   <data name="Err_ClauseCloseParenthesesInNot" xml:space="preserve">
     <value>"Expression {0} in rule {1} contains close parenthesis in NOT operator {2}"</value>
-  </data>    
+  </data>
   <data name="Err_ClauseUndefinedLabel" xml:space="preserve">
     <value>"Expression {0} in rule {1} contains undefined label {2}"</value>
   </data>
@@ -539,23 +539,29 @@
   </data>
   <data name="Err_ClauseInvalidNotOperator" xml:space="preserve">
     <value>"Expression {0} in rule {1} contains NOT where a non-NOT operator was expected."</value>
-  </data>    
+  </data>
   <data name="Err_ClauseEndsWithOperator" xml:space="preserve">
     <value>"Expression {0} in rule {1} ends with an operator."</value>
-  </data>   
+  </data>
   <data name="Err_ClauseUnusedLabel" xml:space="preserve">
     <value>"Clause {0} is declared but never used in rule {1}."</value>
-  </data>    
+  </data>
   <data name="Err_ClauseMissingLabels" xml:space="preserve">
     <value>"In rule {0} if any clause has labels they all must have labels."</value>
-  </data>    
+  </data>
   <data name="Err_ClauseExpressionButMissingLabels" xml:space="preserve">
     <value>"In rule {0} expression is not null but some clauses have no label."</value>
-  </data>     
+  </data>
   <data name="Err_RulesInvalid" xml:space="preserve">
     <value>"Invalid Analysis Rules."</value>
   </data>
   <data name="RulesVerified" xml:space="preserve">
     <value>"Analysis Rules Verified Successfully."</value>
+  </data>
+  <data name="FailedToEstablishMainConnection" xml:space="preserve">
+    <value>Failed to establish connection with main database specified at {0}.</value>
+  </data>
+  <data name="WrongSchema" xml:space="preserve">
+    <value>Database has schema version {0} but database has schema version {1}.</value>
   </data>
 </root>

@@ -151,29 +151,29 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 if (!EstablishMainConnection())
                 {
-                    Log.Fatal($"Couldn't establish connection with main database specified as {SqliteFilename}.");
-                    Environment.Exit((int)ASA_ERROR.FAILED_TO_CREATE_DATABASE);
+                    Log.Fatal(Strings.Get("FailedToEstablishMainConnection"),SqliteFilename);
+                    Environment.Exit((int)ASA_ERROR.FAILED_TO_ESTABLISH_MAIN_DB_CONNECTION);
                 }
 
-                var settings = GetSettings();
-                if (settings != null)
+                var settingsFromDb = GetSettings();
+                if (settingsFromDb != null)
                 {
+                    dbSettings.ShardingFactor = settingsFromDb.ShardingFactor;
+
                     FirstRun = false;
 
-                    if (SCHEMA_VERSION != settings.SchemaVersion)
+                    if (SCHEMA_VERSION != settingsFromDb.SchemaVersion)
                     {
-                        Log.Fatal("Database has schema version {settings.SchemaVersion} but database has schema version {SCHEMA_VERSION}.");
+                        Log.Fatal(Strings.Get("WrongSchema"),settingsFromDb.SchemaVersion,SCHEMA_VERSION);
                         Environment.Exit((int)ASA_ERROR.MATCHING_SCHEMA);
                     }
 
-                    if (dbSettingsIn != null && settings.ShardingFactor != dbSettingsIn.ShardingFactor)
+                    if (dbSettingsIn != null && settingsFromDb.ShardingFactor != dbSettingsIn.ShardingFactor)
                     {
-                        Log.Information($"Requested sharding level of {dbSettingsIn.ShardingFactor} but database was created with {settings.ShardingFactor}. Ignoring request and using {settings.ShardingFactor}.");
+                        Log.Information(Strings.Get("InvalidShardingRequest"),dbSettingsIn.ShardingFactor,dbSettings.ShardingFactor);
                     }
 
-                    dbSettings.ShardingFactor = settings.ShardingFactor;
-
-                    AsaTelemetry.SetEnabled(settings.TelemetryEnabled);
+                    AsaTelemetry.SetEnabled(settingsFromDb.TelemetryEnabled);
                 }
                 else
                 {
@@ -181,12 +181,6 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
 
                 PopulateConnections();
-
-                if (MainConnection == null)
-                {
-                    Log.Warning("Failed to set up Main Database connection. Cannot set up database.");
-                    return false;
-                }
 
                 if (FirstRun)
                 {
