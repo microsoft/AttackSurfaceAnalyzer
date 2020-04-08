@@ -149,7 +149,11 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 Connections = new List<SqlConnectionHolder>();
 
-                EstablishMainConnection();
+                if (!EstablishMainConnection())
+                {
+                    Log.Fatal($"Couldn't establish connection with main database specified as {SqliteFilename}.");
+                    Environment.Exit((int)ASA_ERROR.FAILED_TO_CREATE_DATABASE);
+                }
 
                 var settings = GetSettings();
                 if (settings != null)
