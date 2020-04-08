@@ -77,9 +77,9 @@ namespace AttackSurfaceAnalyzer.Cli
             return (int)ASA_ERROR.INVALID_RULES;
         }
 
-        private static void SetupOrDie(string path)
+        private static void SetupOrDie(string path, DBSettings? dbSettingsIn = null)
         {
-            var errorCode = DatabaseManager.Setup(path);
+            var errorCode = DatabaseManager.Setup(path, dbSettingsIn);
 
             if (errorCode != ASA_ERROR.NONE)
             {
