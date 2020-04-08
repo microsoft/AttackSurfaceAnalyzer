@@ -126,7 +126,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static bool FirstRun { get; private set; } = true;
 
-        public static bool Setup(string filename, DBSettings? dbSettingsIn = null)
+        public static ASA_ERROR Setup(string filename, DBSettings? dbSettingsIn = null)
         {
             JsonSerializer.SetDefaultResolver(StandardResolver.ExcludeNull);
 
@@ -151,8 +151,8 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 if (!EstablishMainConnection())
                 {
-                    Log.Fatal(Strings.Get("FailedToEstablishMainConnection"),SqliteFilename);
-                    Environment.Exit((int)ASA_ERROR.FAILED_TO_ESTABLISH_MAIN_DB_CONNECTION);
+                    Log.Fatal(Strings.Get("FailedToEstablishMainConnection"), SqliteFilename);
+                    return ASA_ERROR.FAILED_TO_ESTABLISH_MAIN_DB_CONNECTION;
                 }
 
                 var settingsFromDb = GetSettings();
@@ -164,8 +164,8 @@ namespace AttackSurfaceAnalyzer.Utils
 
                     if (SCHEMA_VERSION != settingsFromDb.SchemaVersion)
                     {
-                        Log.Fatal(Strings.Get("WrongSchema"),settingsFromDb.SchemaVersion,SCHEMA_VERSION);
-                        Environment.Exit((int)ASA_ERROR.MATCHING_SCHEMA);
+                        Log.Fatal(Strings.Get("WrongSchema"), settingsFromDb.SchemaVersion, SCHEMA_VERSION);
+                        return ASA_ERROR.MATCHING_SCHEMA;
                     }
 
                     if (dbSettingsIn != null && settingsFromDb.ShardingFactor != dbSettingsIn.ShardingFactor)
@@ -181,6 +181,12 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
 
                 PopulateConnections();
+
+                if (MainConnection == null)
+                {
+                    Log.Fatal(Strings.Get("FailedToEstablishMainConnection"), SqliteFilename);
+                    return ASA_ERROR.FAILED_TO_ESTABLISH_MAIN_DB_CONNECTION;
+                }
 
                 if (FirstRun)
                 {
@@ -243,17 +249,15 @@ namespace AttackSurfaceAnalyzer.Utils
                     catch (SqliteException e)
                     {
                         Log.Debug(e, "Failed to set up fresh database.");
-                        Environment.Exit((int)ASA_ERROR.FAILED_TO_CREATE_DATABASE);
+                        return ASA_ERROR.FAILED_TO_CREATE_DATABASE;
                     }
                     finally
                     {
                         Commit();
                     }
                 }
-
-                return true;
             }
-            return false;
+            return ASA_ERROR.NONE;
         }
 
         private static Settings? GetSettings()

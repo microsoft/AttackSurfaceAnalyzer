@@ -77,6 +77,17 @@ namespace AttackSurfaceAnalyzer.Cli
             return (int)ASA_ERROR.INVALID_RULES;
         }
 
+        private static void SetupOrDie(string path)
+        {
+            var errorCode = DatabaseManager.Setup(path);
+
+            if (errorCode != ASA_ERROR.NONE)
+            {
+                Log.Fatal(Strings.Get("CouldNotSetupDatabase"));
+                Environment.Exit((int)errorCode);
+            }
+        }
+
         private static int RunGuiCommand(GuiCommandOptions opts)
         {
 #if DEBUG
@@ -84,7 +95,8 @@ namespace AttackSurfaceAnalyzer.Cli
 #else
             Logger.Setup(opts.Debug, opts.Verbose, opts.Quiet);
 #endif
-            DatabaseManager.Setup(opts.DatabaseFilename);
+            SetupOrDie(opts.DatabaseFilename);
+
             AsaTelemetry.Setup();
 
             var server = WebHost.CreateDefaultBuilder(Array.Empty<string>())
@@ -114,7 +126,7 @@ namespace AttackSurfaceAnalyzer.Cli
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1305:Specify IFormatProvider", Justification = "<Pending>")]
         private static int RunConfigCommand(ConfigCommandOptions opts)
         {
-            DatabaseManager.Setup(opts.DatabaseFilename);
+            SetupOrDie(opts.DatabaseFilename);
             CheckFirstRun();
             AsaTelemetry.Setup();
 
@@ -219,7 +231,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 return 0;
             }
 
-            DatabaseManager.Setup(opts.DatabaseFilename);
+            SetupOrDie(opts.DatabaseFilename);
             CheckFirstRun();
             AsaTelemetry.Setup();
 
@@ -418,7 +430,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 return 0;
             }
 
-            DatabaseManager.Setup(opts.DatabaseFilename);
+            SetupOrDie(opts.DatabaseFilename);
             CheckFirstRun();
             AsaTelemetry.Setup();
 
@@ -484,7 +496,7 @@ namespace AttackSurfaceAnalyzer.Cli
 #endif
             AdminOrQuit();
 
-            DatabaseManager.Setup(opts.DatabaseFilename);
+            SetupOrDie(opts.DatabaseFilename);
             AsaTelemetry.Setup();
 
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
@@ -884,7 +896,7 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 ShardingFactor = opts.Shards
             };
-            DatabaseManager.Setup(opts.DatabaseFilename, dbSettings);
+            SetupOrDie(opts.DatabaseFilename, dbSettings);
             AsaTelemetry.Setup();
 
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
