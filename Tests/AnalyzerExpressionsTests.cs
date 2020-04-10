@@ -196,7 +196,6 @@ namespace AttackSurfaceAnalyzer.Tests
 
             TearDown();
         }
-
         [TestMethod]
         public void VerifyContainsOperation()
         {
@@ -353,6 +352,376 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(stringDictAnalyzer.Analyze(trueStringDictObject).Any());
             Assert.IsFalse(stringDictAnalyzer.Analyze(falseStringDictObject).Any());
             Assert.IsFalse(stringDictAnalyzer.Analyze(superFalseStringDictObject).Any());
+
+            var trueListDictObject = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsListDictObject", Microsoft.Win32.RegistryView.Registry32)
+                {
+                    Permissions = new Dictionary<string, List<string>>()
+                    {
+                        {
+                            "User", new List<string>()
+                            {
+                                "Read",
+                                "Execute"
+                            }
+                        }
+                    }
+                }
+            };
+
+            var falseListDictObject = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsListDictObject", Microsoft.Win32.RegistryView.Registry32)
+                {
+                    Permissions = new Dictionary<string, List<string>>()
+                    {
+                        {
+                            "User", new List<string>()
+                            {
+                                "Read",
+                            }
+                        }
+                    }
+                }
+            };
+
+            var alsoFalseListDictObject = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsListDictObject", Microsoft.Win32.RegistryView.Registry32)
+                {
+                    Permissions = new Dictionary<string, List<string>>()
+                    {
+                        {
+                            "Taco", new List<string>()
+                            {
+                                "Read",
+                                "Execute"
+                            }
+                        }
+                    }
+                }
+            };
+
+            var listDictContains = new Rule("List Dict Contains Rule")
+            {
+                ResultType = RESULT_TYPE.REGISTRY,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Permissions", OPERATION.CONTAINS)
+                    {
+                        DictData = new List<KeyValuePair<string, string>>()
+                        {
+                            new KeyValuePair<string, string>("User","Execute"),
+                            new KeyValuePair<string, string>("User","Read"),
+                        }
+                    }
+                }
+            };
+
+            var listDictAnalyzer = GetAnalyzerForRule(listDictContains);
+
+            Assert.IsTrue(listDictAnalyzer.Analyze(trueListDictObject).Any());
+            Assert.IsFalse(listDictAnalyzer.Analyze(falseListDictObject).Any());
+            Assert.IsFalse(listDictAnalyzer.Analyze(alsoFalseListDictObject).Any());
+        }
+
+        [TestMethod]
+        public void VerifyContainsAnyOperator()
+        {
+            var trueStringObject = new CompareResult()
+            {
+                Base = new FileSystemObject("ContainsStringObject")
+            };
+
+            var alsoTrueStringObject = new CompareResult()
+            {
+                Base = new FileSystemObject("StringObject")
+            };
+
+            var falseStringObject = new CompareResult()
+            {
+                Base = new FileSystemObject("NothingInCommon")
+            };
+
+            var stringContains = new Rule("String Contains Any Rule")
+            {
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Path", OPERATION.CONTAINS_ANY)
+                    {
+                        Data = new List<string>()
+                        {
+                            "String",
+                        }
+                    }
+                }
+            };
+
+            var stringAnalyzer = GetAnalyzerForRule(stringContains);
+
+            Assert.IsTrue(stringAnalyzer.Analyze(trueStringObject).Any());
+            Assert.IsTrue(stringAnalyzer.Analyze(alsoTrueStringObject).Any());
+            Assert.IsFalse(stringAnalyzer.Analyze(falseStringObject).Any());
+
+            var trueListObject = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsListObject", Microsoft.Win32.RegistryView.Registry32)
+                {
+                    Subkeys = new List<string>()
+                    {
+                        "One",
+                        "Two",
+                        "Three"
+                    }
+                }
+            };
+
+            var alsoTrueListObject = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsListObject", Microsoft.Win32.RegistryView.Registry32)
+                {
+                    Subkeys = new List<string>()
+                    {
+                        "One",
+                        "Two",
+                    }
+                }
+            };
+
+            var falseListObject = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsListObject", Microsoft.Win32.RegistryView.Registry32)
+            };
+
+            var listContains = new Rule("List Contains Any Rule")
+            {
+                ResultType = RESULT_TYPE.REGISTRY,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("SubKeys", OPERATION.CONTAINS_ANY)
+                    {
+                        Data = new List<string>()
+                        {
+                            "One",
+                            "Two",
+                            "Three"
+                        }
+                    }
+                }
+            };
+
+            var listAnalyzer = GetAnalyzerForRule(listContains);
+
+            Assert.IsTrue(listAnalyzer.Analyze(trueListObject).Any());
+            Assert.IsTrue(listAnalyzer.Analyze(alsoTrueListObject).Any());
+            Assert.IsFalse(listAnalyzer.Analyze(falseListObject).Any());
+
+            var trueStringDictObject = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsStringDictObject", Microsoft.Win32.RegistryView.Registry32)
+                {
+                    Values = new Dictionary<string, string>()
+                    {
+                        { "One", "One" },
+                        { "Two", "Two" },
+                        { "Three", "Three" }
+                    }
+                }
+            };
+
+            var alsoTrueStringDict = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsStringDictObject", Microsoft.Win32.RegistryView.Registry32)
+                {
+                    Values = new Dictionary<string, string>()
+                    {
+                        { "One", "One" },
+                        { "Two", "Three" },
+                    }
+                }
+            };
+
+            var superFalseStringDictObject = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsStringDictObject", Microsoft.Win32.RegistryView.Registry32)
+                {
+                    Values = new Dictionary<string, string>()
+                    {
+                        { "One", "Two" },
+                        { "Three", "Four" },
+                    }
+                }
+            };
+
+            var stringDictContains = new Rule("String Dict Contains Any Rule")
+            {
+                ResultType = RESULT_TYPE.REGISTRY,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Values", OPERATION.CONTAINS_ANY)
+                    {
+                        DictData = new List<KeyValuePair<string, string>>()
+                        {
+                            new KeyValuePair<string, string>("One","One"),
+                            new KeyValuePair<string, string>("Two","Two"),
+                            new KeyValuePair<string, string>("Three","Three")
+                        }
+                    }
+                }
+            };
+
+            var stringDictAnalyzer = GetAnalyzerForRule(stringDictContains);
+
+            Assert.IsTrue(stringDictAnalyzer.Analyze(trueStringDictObject).Any());
+            Assert.IsTrue(stringDictAnalyzer.Analyze(alsoTrueStringDict).Any());
+            Assert.IsFalse(stringDictAnalyzer.Analyze(superFalseStringDictObject).Any());
+
+            var trueListDictObject = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsListDictObject", Microsoft.Win32.RegistryView.Registry32)
+                {
+                    Permissions = new Dictionary<string, List<string>>()
+                    {
+                        {
+                            "User", new List<string>()
+                            {
+                                "Read",
+                                "Execute"
+                            }
+                        }
+                    }
+                }
+            };
+
+            var alsoTrueListDictObject = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsListDictObject", Microsoft.Win32.RegistryView.Registry32)
+                {
+                    Permissions = new Dictionary<string, List<string>>()
+                    {
+                        {
+                            "User", new List<string>()
+                            {
+                                "Read",
+                            }
+                        }
+                    }
+                }
+            };
+
+            var falseListDictObject = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsListDictObject", Microsoft.Win32.RegistryView.Registry32)
+                {
+                    Permissions = new Dictionary<string, List<string>>()
+                    {
+                        {
+                            "Taco", new List<string>()
+                            {
+                                "Read",
+                                "Execute"
+                            }
+                        }
+                    }
+                }
+            };
+
+            var listDictContains = new Rule("List Dict Contains Rule")
+            {
+                ResultType = RESULT_TYPE.REGISTRY,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Permissions", OPERATION.CONTAINS)
+                    {
+                        DictData = new List<KeyValuePair<string, string>>()
+                        {
+                            new KeyValuePair<string, string>("User","Execute"),
+                            new KeyValuePair<string, string>("User","Read"),
+                        }
+                    }
+                }
+            };
+
+            var listDictAnalyzer = GetAnalyzerForRule(listDictContains);
+
+            Assert.IsTrue(listDictAnalyzer.Analyze(trueListDictObject).Any());
+            Assert.IsTrue(listDictAnalyzer.Analyze(alsoTrueListDictObject).Any());
+            Assert.IsFalse(listDictAnalyzer.Analyze(falseListDictObject).Any());
+        }
+
+        [TestMethod]
+        public void TestGtOperator()
+        {
+            var trueGtObject = new CompareResult()
+            {
+                Base = new OpenPortObject(1025)
+            };
+            var falseGtObject = new CompareResult()
+            {
+                Base = new OpenPortObject(1023)
+            };
+
+            var gtRule = new Rule("Gt Rule")
+            {
+                ResultType = RESULT_TYPE.PORT,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Port", OPERATION.GT)
+                    {
+                        Data = new List<string>()
+                        {
+                            "1024"
+                        }
+                    }
+                }
+            };
+
+            var gtAnalyzer = GetAnalyzerForRule(gtRule);
+
+            Assert.IsTrue(gtAnalyzer.Analyze(trueGtObject).Any());
+            Assert.IsFalse(gtAnalyzer.Analyze(falseGtObject).Any());
+        }
+
+        [TestMethod]
+        public void TestLtOperator()
+        {
+            var falseLtObject = new CompareResult()
+            {
+                Base = new OpenPortObject(1025)
+            }; 
+            var trueLtObject = new CompareResult()
+            {
+                Base = new OpenPortObject(1023)
+            };
+
+            var ltRule = new Rule("Lt Rule")
+            {
+                ResultType = RESULT_TYPE.PORT,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Port", OPERATION.LT)
+                    {
+                        Data = new List<string>()
+                        {
+                            "1024"
+                        }
+                    }
+                }
+            };
+
+            var ltAnalyzer = GetAnalyzerForRule(ltRule);
+
+            Assert.IsTrue(ltAnalyzer.Analyze(trueLtObject).Any());
+            Assert.IsFalse(ltAnalyzer.Analyze(falseLtObject).Any());
         }
 
         private Analyzer GetAnalyzerForRule(Rule rule)
