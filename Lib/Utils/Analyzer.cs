@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
+using KellermanSoftware.CompareNetObjects;
 using Microsoft.CodeAnalysis;
 using Serilog;
 using System;
@@ -633,7 +634,8 @@ namespace AttackSurfaceAnalyzer.Utils
                         }
                         return false;
 
-                    // If any of the data values are greater than the first provided data value
+                    // If any of the data values are greater than the first provided clause value
+                    // We ignore all other clause values
                     case OPERATION.GT:
                         foreach (var val in valsToCheck)
                         {
@@ -647,7 +649,8 @@ namespace AttackSurfaceAnalyzer.Utils
                         }
                         return false;
 
-                    // If any of the data values are less than the first provided data value
+                    // If any of the data values are less than the first provided clause value
+                    // We ignore all other clause values
                     case OPERATION.LT:
                         foreach (var val in valsToCheck)
                         {
@@ -695,19 +698,11 @@ namespace AttackSurfaceAnalyzer.Utils
                     case OPERATION.WAS_MODIFIED:
                         if (compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
                         {
-                            if (beforeList == null || afterList == null)
-                            {
-                                if (beforeList == null && afterList == null)
-                                {
-                                    return false;
-                                }
-                                return true;
-                            }
+                            CompareLogic compareLogic = new CompareLogic();
+                            ComparisonResult listResult = compareLogic.Compare(beforeList, afterList);
+                            ComparisonResult dictResult = compareLogic.Compare(beforeDict, afterDict);
 
-                            if (beforeList.Count == afterList.Count && beforeList.Intersect(afterList).Count() == beforeList.Count)
-                            {
-                                return false;
-                            }
+                            return !listResult.AreEqual | !dictResult.AreEqual;
                         }
                         return true;
 
