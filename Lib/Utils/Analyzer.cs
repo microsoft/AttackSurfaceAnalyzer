@@ -437,20 +437,27 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 try
                 {
-                    if (obj is List<string>)
+                    if (obj is List<string> stringList)
                     {
-                        foreach (var value in (List<string>)(obj ?? new List<string>()))
+                        valsToCheck.AddRange(stringList);
+                    }
+                    else if (obj is Dictionary<string, string> dictString)
+                    {
+                        dictToCheck = dictString.ToList();
+                    }
+                    else if (obj is Dictionary<string, List<string>> dict){
+                        dictToCheck = new List<KeyValuePair<string, string>>();
+                        foreach(var list in dict.ToList())
                         {
-                            valsToCheck.Add(value);
+                            foreach(var entry in list.Value)
+                            {
+                                dictToCheck.Add(new KeyValuePair<string,string>(list.Key, entry));
+                            }
                         }
                     }
-                    else if (obj is Dictionary<string, string>)
+                    else if (obj is List<KeyValuePair<string, string>> listKvp)
                     {
-                        dictToCheck = ((Dictionary<string, string>)(obj ?? new Dictionary<string, string>())).ToList();
-                    }
-                    else if (obj is List<KeyValuePair<string, string>>)
-                    {
-                        dictToCheck = (List<KeyValuePair<string, string>>)(obj ?? new List<KeyValuePair<string, string>>());
+                        dictToCheck = listKvp;
                     }
                     else
                     {
@@ -521,6 +528,8 @@ namespace AttackSurfaceAnalyzer.Utils
                     }
                 }
 
+                var typeHolder = before is null ? after : before;
+
                 (var beforeList, var beforeDict) = ObjectToValues(before);
                 (var afterList, var afterDict) = ObjectToValues(after);
 
@@ -567,7 +576,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             if (clause.Data is List<string> ContainsDataList)
                             {
                                 // If we are dealing with an array on the object side
-                                if (before is List<string>)
+                                if (typeHolder is List<string>)
                                 {
                                     if (ContainsDataList.Intersect(valsToCheck).Count() == ContainsDataList.Count)
                                     {
@@ -575,7 +584,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                     }
                                 }
                                 // If we are dealing with a single string we do a .Contains instead
-                                else if (before is string)
+                                else if (typeHolder is string)
                                 {
                                     if (clause.Data.All(x => valsToCheck.First()?.Contains(x) ?? false))
                                     {
@@ -605,7 +614,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         {
                             if (clause.Data is List<string> ContainsDataList)
                             {
-                                if (before is List<string>)
+                                if (typeHolder is List<string>)
                                 {
                                     if (ContainsDataList.Intersect(valsToCheck).Any())
                                     {
@@ -613,7 +622,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                     }
                                 }
                                 // If we are dealing with a single string we do a .Contains instead
-                                else if (before is string)
+                                else if (typeHolder is string)
                                 {
                                     if (clause.Data.Any(x => valsToCheck.First()?.Contains(x) ?? false))
                                     {
@@ -634,22 +643,31 @@ namespace AttackSurfaceAnalyzer.Utils
                                 {
                                     return true;
                                 }
-                                return false;
                             }
                         }
                         else if (valsToCheck.Any())
                         {
                             if (clause.Data is List<string> ContainsDataList)
                             {
-                                if (ContainsDataList.Intersect(valsToCheck).Any())
+                                if (typeHolder is List<string>)
                                 {
-                                    return true;
+                                    if (ContainsDataList.Intersect(valsToCheck).Any())
+                                    {
+                                        return true;
+                                    }
                                 }
-                                return false;
+                                else if (typeHolder is string)
+                                {
+                                    if (clause.Data.Any(x => !valsToCheck.First()?.Contains(x) ?? false))
+                                    {
+                                        return true;
+                                    }
+                                }
                             }
                         }
-                        break;
+                        return false;
 
+                    // If all of the clauses are not contained
                     case OPERATION.DOES_NOT_CONTAIN_ALL:
                         if (dictToCheck.Any())
                         {
@@ -659,7 +677,6 @@ namespace AttackSurfaceAnalyzer.Utils
                                 {
                                     return true;
                                 }
-                                return false;
                             }
                         }
                         else if (valsToCheck.Any())
@@ -670,10 +687,23 @@ namespace AttackSurfaceAnalyzer.Utils
                                 {
                                     return true;
                                 }
-                                return false;
+                                if (typeHolder is List<string>)
+                                {
+                                    if (!ContainsDataList.Intersect(valsToCheck).Any())
+                                    {
+                                        return true;
+                                    }
+                                }
+                                else if (typeHolder is string)
+                                {
+                                    if (clause.Data.All(x => !valsToCheck.First()?.Contains(x) ?? false))
+                                    {
+                                        return true;
+                                    }
+                                }
                             }
                         }
-                        break;
+                        return false;
 
                     // If any of the data values are greater than the first provided data value
                     case OPERATION.GT:
