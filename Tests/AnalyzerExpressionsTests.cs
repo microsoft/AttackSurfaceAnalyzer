@@ -767,6 +767,7 @@ namespace AttackSurfaceAnalyzer.Tests
             {
                 Base = new FileSystemObject("TestPathHere")
             };
+
             var alsoFalseModifiedObject = new CompareResult()
             {
                 Base = new FileSystemObject("TestPathHere"),
@@ -775,6 +776,7 @@ namespace AttackSurfaceAnalyzer.Tests
                     IsDirectory = true
                 }
             };
+
             var trueModifiedObject = new CompareResult()
             {
                 Base = new FileSystemObject("Directory/File")

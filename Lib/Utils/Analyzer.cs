@@ -671,13 +671,13 @@ namespace AttackSurfaceAnalyzer.Utils
                             if (RegexList.Count > 0)
                             {
                                 var sb = new StringBuilder();
-                                sb.Append("(");
+                                sb.Append('(');
                                 foreach (var rgx in RegexList)
                                 {
                                     sb.Append(rgx);
                                     sb.Append('|');
                                 }
-                                sb.Append(")");
+                                sb.Append(')');
 
                                 var built = sb.ToString();
 
@@ -704,7 +704,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
                             return !listResult.AreEqual | !dictResult.AreEqual;
                         }
-                        return true;
+                        return false;
 
                     // Ends with any of the provided data
                     case OPERATION.ENDS_WITH:
@@ -747,6 +747,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             }
                         }
                         return false;
+
                     case OPERATION.IS_BEFORE:
                         var valDateTimes = new List<DateTime>();
                         foreach (var valToCheck in valsToCheck)
@@ -767,6 +768,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             }
                         }
                         return false;
+
                     case OPERATION.IS_AFTER:
                         valDateTimes = new List<DateTime>();
                         foreach (var valToCheck in valsToCheck)
@@ -787,6 +789,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             }
                         }
                         return false;
+
                     case OPERATION.IS_EXPIRED:
                         foreach (var valToCheck in valsToCheck)
                         {
@@ -799,6 +802,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             }
                         }
                         return false;
+
                     default:
                         Log.Debug("Unimplemented operation {0}", clause.Operation);
                         return false;
