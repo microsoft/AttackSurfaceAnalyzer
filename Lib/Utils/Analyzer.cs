@@ -565,7 +565,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         {
                             if (clause.DictData is List<KeyValuePair<string, string>> ContainsData)
                             {
-                                if (ContainsData.Where(y => dictToCheck.Where((x) => x.Key == y.Key && x.Value == y.Value).Any()).Count() == ContainsData.Count)
+                                if (ContainsData.All(y => dictToCheck.Where((x) => x.Key == y.Key && x.Value == y.Value).Any()))
                                 {
                                     return true;
                                 }
@@ -603,7 +603,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
                                 foreach (KeyValuePair<string, string> value in ContainsData)
                                 {
-                                    if (dictToCheck.Where((x) => x.Key == value.Key && x.Value == value.Value).Any())
+                                    if (dictToCheck.Any((x) => x.Key == value.Key && x.Value == value.Value))
                                     {
                                         return true;
                                     }
