@@ -671,14 +671,12 @@ namespace AttackSurfaceAnalyzer.Utils
                             if (RegexList.Count > 0)
                             {
                                 var sb = new StringBuilder();
-                                sb.Append('(');
                                 foreach (var rgx in RegexList)
                                 {
                                     sb.Append(rgx);
                                     sb.Append('|');
                                 }
                                 sb.Remove(sb.Length - 1, 1);
-                                sb.Append(')');
 
                                 var built = sb.ToString();
 
