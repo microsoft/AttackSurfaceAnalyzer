@@ -604,7 +604,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
                                 foreach (KeyValuePair<string, string> value in ContainsData)
                                 {
-                                    if (dictToCheck.Any((x) => x.Key == value.Key && x.Value == value.Value))
+                                    if (dictToCheck.Any(x => x.Key == value.Key && x.Value == value.Value))
                                     {
                                         return true;
                                     }
@@ -698,10 +698,9 @@ namespace AttackSurfaceAnalyzer.Utils
                         if (compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
                         {
                             CompareLogic compareLogic = new CompareLogic();
-                            ComparisonResult listResult = compareLogic.Compare(beforeList, afterList);
-                            ComparisonResult dictResult = compareLogic.Compare(beforeDict, afterDict);
+                            ComparisonResult result = compareLogic.Compare(before, after);
 
-                            return !listResult.AreEqual | !dictResult.AreEqual;
+                            return !result.AreEqual;
                         }
                         return false;
 
