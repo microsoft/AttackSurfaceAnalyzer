@@ -33,6 +33,10 @@
     <ApplicationURL>http://localhost:5000</ApplicationURL>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Verify Rules' ">
+    <StartAction>Project</StartAction>
+    <LaunchBrowser></LaunchBrowser>
+  </PropertyGroup>
   <ItemGroup>
     <Content Include="..\LICENSE.txt" Link="LICENSE.txt" />
     <Content Include="..\NOTICE.txt" Link="NOTICE.txt" />

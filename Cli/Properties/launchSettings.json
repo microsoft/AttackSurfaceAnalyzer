@@ -17,6 +17,11 @@
       },
       "applicationUrl": "http://localhost:5002"
     },
+    "Verify Rules": {
+      "commandName": "Project",
+      "commandLineArgs": "verify",
+      "environmentVariables": {}
+    },
     "Export-Collect": {
       "commandName": "Project",
       "commandLineArgs": "export-collect",
@@ -34,10 +39,6 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "http://localhost:5000"
-    },
-    "Verify Rules": {
-      "commandName": "Project",
-      "commandLineArgs": "verify"
     }
   }
 }
