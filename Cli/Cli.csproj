@@ -14,6 +14,7 @@
     <Authors>Microsoft</Authors>
     <Description>Microsoft Attack Surface Analyzer is an open source security tool that analyzes the attack surface of a target system and reports on potential security vulnerabilities introduced during the installation of software or system misconfiguration. This is a Dotnet Tool package. For the library package, see Microsoft.CST.AttackSurfaceAnalyzer.</Description>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <IsPackable>true</IsPackable>
     <PackAsTool>true</PackAsTool>
     <PackageId>Microsoft.CST.AttackSurfaceAnalyzer.CLI</PackageId>
     <PackageVersion>0.0.0</PackageVersion>
@@ -30,7 +31,7 @@
   </ItemGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PublishTrimmed>true</PublishTrimmed>
+    <PublishTrimmed>false</PublishTrimmed>
   </PropertyGroup>
   <ItemGroup>
     <RuntimeHostConfigurationOption Include="System.Globalization.Invariant" Value="true" />
