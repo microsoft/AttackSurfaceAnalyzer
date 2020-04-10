@@ -200,7 +200,159 @@ namespace AttackSurfaceAnalyzer.Tests
         [TestMethod]
         public void VerifyContainsOperation()
         {
+            var trueStringObject = new CompareResult()
+            {
+                Base = new FileSystemObject("ContainsStringObject")
+            };
 
+            var falseStringObject = new CompareResult()
+            {
+                Base = new FileSystemObject("StringObject")
+            };
+
+            var superFalseStringObject = new CompareResult()
+            {
+                Base = new FileSystemObject("NothingInCommon")
+            };
+
+            var stringContains = new Rule("String Contains Rule")
+            {
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Path", OPERATION.CONTAINS)
+                    {
+                        Data = new List<string>()
+                        {
+                            "Contains",
+                            "String",
+                            "Object"
+                        }
+                    }
+                }
+            };
+
+            var stringAnalyzer = GetAnalyzerForRule(stringContains);
+
+            Assert.IsTrue(stringAnalyzer.Analyze(trueStringObject).Any());
+            Assert.IsFalse(stringAnalyzer.Analyze(falseStringObject).Any());
+            Assert.IsFalse(stringAnalyzer.Analyze(superFalseStringObject).Any());
+
+            var trueListObject = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsListObject", Microsoft.Win32.RegistryView.Registry32)
+                {
+                    Subkeys = new List<string>()
+                    {
+                        "One",
+                        "Two",
+                        "Three"
+                    }
+                }
+            };
+
+            var falseListObject = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsListObject", Microsoft.Win32.RegistryView.Registry32)
+                {
+                    Subkeys = new List<string>()
+                    {
+                        "One",
+                        "Two",
+                    }
+                }
+            };
+
+            var superFalseListObject = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsListObject", Microsoft.Win32.RegistryView.Registry32)
+            };
+
+            var listContains = new Rule("List Contains Rule")
+            {
+                ResultType = RESULT_TYPE.REGISTRY,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("SubKeys", OPERATION.CONTAINS)
+                    {
+                        Data = new List<string>()
+                        {
+                            "One",
+                            "Two",
+                            "Three"
+                        }
+                    }
+                }
+            };
+
+            var listAnalyzer = GetAnalyzerForRule(listContains);
+
+            Assert.IsTrue(listAnalyzer.Analyze(trueListObject).Any());
+            Assert.IsFalse(listAnalyzer.Analyze(falseListObject).Any());
+            Assert.IsFalse(listAnalyzer.Analyze(superFalseListObject).Any());
+
+            var trueStringDictObject = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsStringDictObject", Microsoft.Win32.RegistryView.Registry32)
+                {
+                    Values = new Dictionary<string, string>()
+                    {
+                        { "One", "One" },
+                        { "Two", "Two" },
+                        { "Three", "Three" }
+                    }
+                }
+            };
+
+            var falseStringDictObject = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsStringDictObject", Microsoft.Win32.RegistryView.Registry32)
+                {
+                    Values = new Dictionary<string, string>()
+                    {
+                        { "One", "One" },
+                        { "Two", "Three" },
+                    }
+                }
+            };
+
+            var superFalseStringDictObject = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsStringDictObject", Microsoft.Win32.RegistryView.Registry32)
+                {
+                    Values = new Dictionary<string, string>()
+                    {
+                        { "One", "Two" },
+                        { "Three", "Four" },
+                    }
+                }
+            };
+
+            var stringDictContains = new Rule("String Dict Contains Rule")
+            {
+                ResultType = RESULT_TYPE.REGISTRY,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Values", OPERATION.CONTAINS)
+                    {
+                        DictData = new List<KeyValuePair<string, string>>()
+                        {
+                            new KeyValuePair<string, string>("One","One"),
+                            new KeyValuePair<string, string>("Two","Two"),
+                            new KeyValuePair<string, string>("Three","Three")
+                        }
+                    }
+                }
+            };
+
+            var stringDictAnalyzer = GetAnalyzerForRule(stringDictContains);
+
+            Assert.IsTrue(stringDictAnalyzer.Analyze(trueStringDictObject).Any());
+            Assert.IsFalse(stringDictAnalyzer.Analyze(falseStringDictObject).Any());
+            Assert.IsFalse(stringDictAnalyzer.Analyze(superFalseStringDictObject).Any());
         }
 
         private Analyzer GetAnalyzerForRule(Rule rule)
