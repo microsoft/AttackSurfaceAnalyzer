@@ -715,7 +715,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     case OPERATION.ENDS_WITH:
                         if (clause.Data is List<string> EndsWithData)
                         {
-                            if (valsToCheck.Where(x => EndsWithData.Where(y => x is string && x.EndsWith(y, StringComparison.CurrentCulture)).Any()).Any())
+                            if (valsToCheck.Any(x => EndsWithData.Any(y => x is string && x.EndsWith(y, StringComparison.CurrentCulture))))
                             {
                                 return true;
                             }
@@ -726,7 +726,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     case OPERATION.STARTS_WITH:
                         if (clause.Data is List<string> StartsWithData)
                         {
-                            if (valsToCheck.Where(x => StartsWithData.Where(y => x is string && x.StartsWith(y, StringComparison.CurrentCulture)).Any()).Any())
+                            if (valsToCheck.Any(x => StartsWithData.Any(y => x is string && x.StartsWith(y, StringComparison.CurrentCulture))))
                             {
                                 return true;
                             }
