@@ -677,6 +677,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                     sb.Append(rgx);
                                     sb.Append('|');
                                 }
+                                sb.Remove(sb.Length - 1, 1);
                                 sb.Append(')');
 
                                 var built = sb.ToString();
