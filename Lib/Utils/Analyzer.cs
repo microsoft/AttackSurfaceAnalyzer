@@ -578,7 +578,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                 // If we are dealing with an array on the object side
                                 if (typeHolder is List<string>)
                                 {
-                                    if (ContainsDataList.Intersect(valsToCheck).Count() == ContainsDataList.Count)
+                                    if (ContainsDataList.All(x => valsToCheck.Contains(x)))
                                     {
                                         return true;
                                     }
@@ -616,7 +616,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
                                 if (typeHolder is List<string>)
                                 {
-                                    if (ContainsDataList.Intersect(valsToCheck).Any())
+                                    if (ContainsDataList.Any(x => valsToCheck.Contains(x)))
                                     {
                                         return true;
                                     }
