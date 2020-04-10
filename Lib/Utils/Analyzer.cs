@@ -670,15 +670,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         {
                             if (RegexList.Count > 0)
                             {
-                                var sb = new StringBuilder();
-                                foreach (var rgx in RegexList)
-                                {
-                                    sb.Append(rgx);
-                                    sb.Append('|');
-                                }
-                                sb.Remove(sb.Length - 1, 1);
-
-                                var built = sb.ToString();
+                                var built = string.Join('|', RegexList);
 
                                 if (!RegexCache.ContainsKey(built))
                                 {
