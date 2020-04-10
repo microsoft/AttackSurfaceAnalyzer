@@ -9,12 +9,13 @@ namespace AttackSurfaceAnalyzer.Objects
         public string? Address { get; set; }
         public string? Family { get; set; }
         public string? Type { get; set; }
-        public string? Port { get; set; }
+        public int Port { get; set; }
         public string? ProcessName { get; set; }
 
-        public OpenPortObject()
+        public OpenPortObject(int Port)
         {
             ResultType = RESULT_TYPE.PORT;
+            this.Port = Port;
         }
 
         public override string Identity
