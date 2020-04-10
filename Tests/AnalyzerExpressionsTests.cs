@@ -634,18 +634,18 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var listDictContains = new Rule("List Dict Contains Rule")
+            var listDictContains = new Rule("List Dict Contains Any Rule")
             {
                 ResultType = RESULT_TYPE.REGISTRY,
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
-                    new Clause("Permissions", OPERATION.CONTAINS)
+                    new Clause("Permissions", OPERATION.CONTAINS_ANY)
                     {
                         DictData = new List<KeyValuePair<string, string>>()
                         {
                             new KeyValuePair<string, string>("User","Execute"),
-                            new KeyValuePair<string, string>("User","Read"),
+                            new KeyValuePair<string, string>("User","Read")
                         }
                     }
                 }
@@ -659,7 +659,7 @@ namespace AttackSurfaceAnalyzer.Tests
         }
 
         [TestMethod]
-        public void TestGtOperator()
+        public void VerifyGtOperator()
         {
             var trueGtObject = new CompareResult()
             {
@@ -693,7 +693,7 @@ namespace AttackSurfaceAnalyzer.Tests
         }
 
         [TestMethod]
-        public void TestLtOperator()
+        public void VerifyLtOperator()
         {
             var falseLtObject = new CompareResult()
             {
