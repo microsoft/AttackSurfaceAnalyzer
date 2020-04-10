@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace AttackSurfaceAnalyzer.Tests
 {
@@ -18,7 +17,7 @@ namespace AttackSurfaceAnalyzer.Tests
         public void Setup()
         {
             Logger.Setup(false, true);
-            Strings.Setup();
+            Utils.Strings.Setup();
             AsaTelemetry.Setup(test: true);
             DatabaseManager.Setup(Path.GetTempFileName());
         }
