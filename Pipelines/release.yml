@@ -79,9 +79,9 @@ stages:
         FileDirPath: '$(Build.binariesdirectory)'
         EnableServices: true
         SupportLogOnError: false
-        TreatSignatureUpdateFailureAs: 'Standard'
+        TreatSignatureUpdateFailureAs: 'Warning'
         SignatureFreshness: 'UpToDate'
-        TreatStaleSignatureAs: 'Error'
+        TreatStaleSignatureAs: 'Warning'
 
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Interim Build Artifacts'
