@@ -43,11 +43,6 @@ namespace AttackSurfaceAnalyzer.Objects
             Subkeys.AddRange(subkeysIn);
         }
 
-        public static List<string> GetSubkeys(RegistryKey? key)
-        {
-            return key?.GetSubKeyNames().ToList() ?? new List<string>();
-        }
-
         public static Dictionary<string, string> GetValues(RegistryKey key)
         {
             if (key is null)
