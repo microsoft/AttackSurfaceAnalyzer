@@ -89,6 +89,20 @@ stages:
           arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/macos -r osx-x64'
           zipAfterPublish: true
 
+    - task: DotNetCoreCLI@2
+      displayName: Pack Nupkg (Lib)
+      inputs:
+        command: 'custom'
+        custom: 'pack'
+        arguments: 'Lib -c $(BuildConfiguration) -o $(build.artifactstagingdirectory)/nuget_lib'
+
+    - task: DotNetCoreCLI@2
+      displayName: Pack Nupkg (Cli)
+      inputs:
+        command: 'custom'
+        custom: 'pack'
+        arguments: 'Cli -c $(BuildConfiguration) -o $(build.artifactstagingdirectory)/nuget_cli'
+
     - task: AntiMalware@3
       inputs:
         InputType: 'Basic'
