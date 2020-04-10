@@ -276,7 +276,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
-                    new Clause("SubKeys", OPERATION.CONTAINS)
+                    new Clause("Subkeys", OPERATION.CONTAINS)
                     {
                         Data = new List<string>()
                         {

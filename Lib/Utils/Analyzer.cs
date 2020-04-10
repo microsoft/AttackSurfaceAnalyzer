@@ -290,7 +290,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 if (rule.Expression == null)
                 {
-                    if (ClauseResults.Where(x => x.Value).Count() == ClauseResults.Count)
+                    if (ClauseResults.All(x => x.Value))
                     {
                         return true;
                     }
