@@ -19,6 +19,7 @@ namespace AttackSurfaceAnalyzer.Tests
     [TestClass]
     public class CollectorTests
     {
+        [TestInitialize]
         public void Setup()
         {
             Logger.Setup(false, true);
@@ -27,6 +28,7 @@ namespace AttackSurfaceAnalyzer.Tests
             DatabaseManager.Setup(Path.GetTempFileName());
         }
 
+        [TestCleanup]
         public void TearDown()
         {
             DatabaseManager.Destroy();
@@ -35,8 +37,6 @@ namespace AttackSurfaceAnalyzer.Tests
         [TestMethod]
         public void TestFileCollector()
         {
-            Setup();
-
             var FirstRunId = "TestFileCollector-1";
             var SecondRunId = "TestFileCollector-2";
 
@@ -86,8 +86,6 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(results.ContainsKey("FILE_CREATED"));
             Assert.IsTrue(results["FILE_CREATED"].Any(x => x.Identity.Contains("AsaLibTesterMZ") && ((FileSystemObject)x.Compare).IsExecutable == true));
             Assert.IsTrue(results["FILE_CREATED"].Any(x => x.Identity.Contains("AsaLibTesterJavaClass") && ((FileSystemObject)x.Compare).IsExecutable == true));
-
-            TearDown();
         }
 
         /// <summary>
@@ -96,8 +94,6 @@ namespace AttackSurfaceAnalyzer.Tests
         [TestMethod]
         public void TestEventCollectorWindows()
         {
-            Setup();
-
             var FirstRunId = "TestEventCollector-1";
             var SecondRunId = "TestEventCollector-2";
 
@@ -122,8 +118,6 @@ namespace AttackSurfaceAnalyzer.Tests
             var results = bc.Results;
 
             Assert.IsTrue(results["LOG_CREATED"].Where(x => ((EventLogObject)x.Compare).Level == "Warning" && ((EventLogObject)x.Compare).Source == "Attack Surface Analyzer Tests").Count() == 1);
-
-            TearDown();
         }
 
         /// <summary>
@@ -132,8 +126,6 @@ namespace AttackSurfaceAnalyzer.Tests
         [TestMethod]
         public void TestCertificateCollectorWindows()
         {
-            Setup();
-
             var FirstRunId = "TestCertificateCollector-1";
 
             var fsc = new CertificateCollector(FirstRunId);
@@ -142,8 +134,6 @@ namespace AttackSurfaceAnalyzer.Tests
             var results = DatabaseManager.GetResultsByRunid(FirstRunId);
 
             Assert.IsTrue(results.Where(x => x.ColObj.ResultType == RESULT_TYPE.CERTIFICATE).Count() > 0);
-
-            TearDown();
         }
 
         /// <summary>
@@ -152,8 +142,6 @@ namespace AttackSurfaceAnalyzer.Tests
         [TestMethod]
         public void TestPortCollectorWindows()
         {
-            Setup();
-
             var FirstRunId = "TestPortCollector-1";
             var SecondRunId = "TestPortCollector-2";
 
@@ -193,8 +181,6 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsTrue(results.ContainsKey("PORT_CREATED"));
             Assert.IsTrue(results["PORT_CREATED"].Where(x => x.Identity.Contains("13000")).Count() > 0);
-
-            TearDown();
         }
 
         /// <summary>
@@ -205,7 +191,6 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                Setup();
                 var FirstRunId = "TestFirewallCollector-1";
                 var SecondRunId = "TestFirewallCollector-2";
 
@@ -229,8 +214,6 @@ namespace AttackSurfaceAnalyzer.Tests
 
                 Assert.IsTrue(results.ContainsKey("FIREWALL_CREATED"));
                 Assert.IsTrue(results["FIREWALL_CREATED"].Where(x => x.Identity.Contains("/bin/bash")).Count() > 0);
-
-                TearDown();
             }
         }
 
@@ -242,7 +225,6 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                Setup();
                 var FirstRunId = "TestFirewallCollector-1";
                 var SecondRunId = "TestFirewallCollector-2";
 
@@ -266,8 +248,6 @@ namespace AttackSurfaceAnalyzer.Tests
 
                 Assert.IsTrue(results.ContainsKey("FIREWALL_CREATED"));
                 Assert.IsTrue(results["FIREWALL_CREATED"].Where(x => x.Identity.Contains("9999")).Count() > 0);
-
-                TearDown();
             }
         }
 
@@ -279,8 +259,6 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                Setup();
-
                 var FirstRunId = "TestRegistryCollector-1";
                 var SecondRunId = "TestRegistryCollector-2";
 
@@ -309,8 +287,6 @@ namespace AttackSurfaceAnalyzer.Tests
 
                 Assert.IsTrue(bc.Results.ContainsKey("REGISTRY_CREATED"));
                 Assert.IsTrue(bc.Results["REGISTRY_CREATED"].Where(x => x.Identity.Contains(name)).Count() > 0);
-
-                TearDown();
             }
         }
 
@@ -322,8 +298,6 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                Setup();
-
                 var FirstRunId = "TestServiceCollector-1";
                 var SecondRunId = "TestServiceCollector-2";
 
@@ -353,8 +327,6 @@ namespace AttackSurfaceAnalyzer.Tests
 
                 Assert.IsTrue(results.ContainsKey("SERVICE_CREATED"));
                 Assert.IsTrue(results["SERVICE_CREATED"].Where(x => x.Identity.Contains("AsaDemoService")).Count() > 0);
-
-                TearDown();
             }
         }
 
@@ -366,8 +338,6 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                Setup();
-
                 var FirstRunId = "TestComObjectCollector-1";
 
                 var coc = new ComObjectCollector(FirstRunId);
@@ -383,8 +353,6 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
 
                 Assert.IsTrue(comObjects.Where(x => x.x86_Binary != null).Count() > 0);
-
-                TearDown();
             }
         }
 
@@ -397,8 +365,6 @@ namespace AttackSurfaceAnalyzer.Tests
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 Assert.IsTrue(AsaHelpers.IsAdmin());
-                Setup();
-
                 var FirstRunId = "TestUserCollector-1";
                 var SecondRunId = "TestUserCollector-2";
 
@@ -427,8 +393,6 @@ namespace AttackSurfaceAnalyzer.Tests
                 var results = bc.Results;
                 Assert.IsTrue(results.ContainsKey("USER_CREATED"));
                 Assert.IsTrue(results["USER_CREATED"].Where(x => x.Identity.Contains(user)).Count() > 0);
-
-                TearDown();
             }
         }
 
@@ -438,7 +402,6 @@ namespace AttackSurfaceAnalyzer.Tests
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 Assert.IsTrue(AsaHelpers.IsAdmin());
-                Setup();
                 var FirstRunId = "TestFirewallCollector-1";
                 var SecondRunId = "TestFirewallCollector-2";
 
@@ -487,8 +450,6 @@ namespace AttackSurfaceAnalyzer.Tests
                 Assert.IsTrue(results.ContainsKey("FIREWALL_CREATED"));
                 Assert.IsTrue(results["FIREWALL_CREATED"].Where(x => ((FirewallObject)x.Compare).LocalPorts.Contains("9999")).Count() > 0);
                 Assert.IsTrue(results["FIREWALL_CREATED"].Where(x => x.Identity.Contains("MyApp.exe")).Count() > 0);
-
-                TearDown();
             }
         }
     }

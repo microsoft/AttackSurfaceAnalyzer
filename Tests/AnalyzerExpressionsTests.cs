@@ -13,7 +13,7 @@ namespace AttackSurfaceAnalyzer.Tests
     [TestClass]
     public class AnalyzerOperationsTests
     {
-
+        [TestInitialize]
         public void Setup()
         {
             Logger.Setup(false, true);
@@ -22,6 +22,7 @@ namespace AttackSurfaceAnalyzer.Tests
             DatabaseManager.Setup(Path.GetTempFileName());
         }
 
+        [TestCleanup]
         public void TearDown()
         {
             DatabaseManager.Destroy();
@@ -30,8 +31,6 @@ namespace AttackSurfaceAnalyzer.Tests
         [TestMethod]
         public void VerifyEqOperator()
         {
-            Setup();
-
             var assertTrueObject = new CompareResult()
             {
                 Base = new FileSystemObject("TestPath")
@@ -109,15 +108,11 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsFalse(boolAnalyzer.Analyze(assertFalseObject).Any(x => x.Name == "Bool Equals Rule"));
             Assert.IsFalse(intAnalyzer.Analyze(assertFalseObject).Any(x => x.Name == "Int Equals Rule"));
             Assert.IsFalse(stringAnalyzer.Analyze(assertFalseObject).Any(x => x.Name == "String Equals Rule"));
-
-            TearDown();
         }
 
         [TestMethod]
         public void VerifyNeqOperator()
         {
-            Setup();
-
             var assertTrueObject = new CompareResult()
             {
                 Base = new FileSystemObject("TestPath")
@@ -195,8 +190,6 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(boolAnalyzer.Analyze(assertFalseObject).Any(x => x.Name == "Bool Equals Rule"));
             Assert.IsTrue(intAnalyzer.Analyze(assertFalseObject).Any(x => x.Name == "Int Equals Rule"));
             Assert.IsTrue(stringAnalyzer.Analyze(assertFalseObject).Any(x => x.Name == "String Equals Rule"));
-
-            TearDown();
         }
         [TestMethod]
         public void VerifyContainsOperator()

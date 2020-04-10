@@ -19,6 +19,7 @@ namespace AttackSurfaceAnalyzer.Tests
         private CompareResult testPathOneExecutableObject;
         private CompareResult testPathTwoExecutableObject;
 
+        [TestInitialize]
         public void Setup()
         {
             Logger.Setup(false, true);
@@ -54,6 +55,7 @@ namespace AttackSurfaceAnalyzer.Tests
             };
         }
 
+        [TestCleanup]
         public void TearDown()
         {
             DatabaseManager.Destroy();
@@ -62,19 +64,13 @@ namespace AttackSurfaceAnalyzer.Tests
         [TestMethod]
         public void VerifyEmbeddedRulesAreValid()
         {
-            Setup();
-
             var analyzer = new Analyzer(AsaHelpers.GetPlatform());
             Assert.IsTrue(analyzer.VerifyRules());
-
-            TearDown();
         }
 
         [TestMethod]
         public void VerifyOr()
         {
-            Setup();
-
             var RuleName = "OrRule";
             var orRule = new Rule(RuleName)
             {
@@ -104,15 +100,11 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(!analyzer.Analyze(testPathTwoObject).Any(x => x.Name == RuleName));
             Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject).Any(x => x.Name == RuleName));
             Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject).Any(x => x.Name == RuleName));
-
-            TearDown();
         }
 
         [TestMethod]
         public void VerifyAnd()
         {
-            Setup();
-
             var RuleName = "AndRule";
             var andRule = new Rule(RuleName)
             {
@@ -142,15 +134,11 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(!analyzer.Analyze(testPathTwoObject).Any(x => x.Name == RuleName));
             Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject).Any(x => x.Name == RuleName));
             Assert.IsTrue(!analyzer.Analyze(testPathTwoExecutableObject).Any(x => x.Name == RuleName));
-
-            TearDown();
         }
 
         [TestMethod]
         public void VerifyNand()
         {
-            Setup();
-
             var RuleName = "NandRule";
             var nandRule = new Rule(RuleName)
             {
@@ -180,15 +168,11 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(analyzer.Analyze(testPathTwoObject).Any(x => x.Name == RuleName));
             Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject).Any(x => x.Name == RuleName));
             Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject).Any(x => x.Name == RuleName));
-
-            TearDown();
         }
 
         [TestMethod]
         public void VerifyXor()
         {
-            Setup();
-
             var RuleName = "XorRule";
             var xorRule = new Rule(RuleName)
             {
@@ -218,15 +202,11 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(!analyzer.Analyze(testPathTwoObject).Any(x => x.Name == RuleName));
             Assert.IsTrue(!analyzer.Analyze(testPathOneExecutableObject).Any(x => x.Name == RuleName));
             Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject).Any(x => x.Name == RuleName));
-
-            TearDown();
         }
 
         [TestMethod]
         public void VerifyNot()
         {
-            Setup();
-
             var RuleName = "NotRule";
             var notRule = new Rule(RuleName)
             {
@@ -250,15 +230,11 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsTrue(!analyzer.Analyze(testPathOneObject).Any(x => x.Name == RuleName));
             Assert.IsTrue(analyzer.Analyze(testPathTwoObject).Any(x => x.Name == RuleName));
-
-            TearDown();
         }
 
         [TestMethod]
         public void VerifyNor()
         {
-            Setup();
-
             var RuleName = "NorRule";
             var norRule = new Rule(RuleName)
             {
@@ -292,15 +268,11 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(analyzer.Analyze(testPathTwoObject).Any(x => x.Name == RuleName));
             Assert.IsTrue(!analyzer.Analyze(testPathOneExecutableObject).Any(x => x.Name == RuleName));
             Assert.IsTrue(!analyzer.Analyze(testPathTwoExecutableObject).Any(x => x.Name == RuleName));
-
-            TearDown();
         }
 
         [TestMethod]
         public void TestXorFromNand()
         {
-            Setup();
-
             var RuleName = "XOR from NAND";
             var norRule = new Rule(RuleName)
             {
@@ -330,15 +302,11 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(!analyzer.Analyze(testPathTwoObject).Any(x => x.Name == RuleName));
             Assert.IsTrue(!analyzer.Analyze(testPathOneExecutableObject).Any(x => x.Name == RuleName));
             Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject).Any(x => x.Name == RuleName));
-
-            TearDown();
         }
 
         [TestMethod]
         public void VerifyValidRuleDetection()
         {
-            Setup();
-
             var validRule = new Rule("Regular Rule")
             {
                 Expression = "0 AND 1",
@@ -471,8 +439,6 @@ namespace AttackSurfaceAnalyzer.Tests
         [TestMethod]
         public void VerifyInvalidRuleDetection()
         {
-            Setup();
-
             var invalidRule = new Rule("Unbalanced Parentheses")
             {
                 Expression = "( 0 AND 1",
@@ -818,8 +784,6 @@ namespace AttackSurfaceAnalyzer.Tests
             };
 
             Assert.IsFalse(VerifyRule(invalidRule));
-
-            TearDown();
         }
 
         private bool VerifyRule(Rule rule)
