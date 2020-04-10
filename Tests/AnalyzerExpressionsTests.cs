@@ -276,7 +276,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
-                    new Clause("SubKeys", OPERATION.CONTAINS)
+                    new Clause("Subkeys", OPERATION.CONTAINS)
                     {
                         Data = new List<string>()
                         {
@@ -505,7 +505,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
-                    new Clause("SubKeys", OPERATION.CONTAINS_ANY)
+                    new Clause("Subkeys", OPERATION.CONTAINS_ANY)
                     {
                         Data = new List<string>()
                         {
@@ -767,6 +767,7 @@ namespace AttackSurfaceAnalyzer.Tests
             {
                 Base = new FileSystemObject("TestPathHere")
             };
+
             var alsoFalseModifiedObject = new CompareResult()
             {
                 Base = new FileSystemObject("TestPathHere"),
@@ -775,6 +776,7 @@ namespace AttackSurfaceAnalyzer.Tests
                     IsDirectory = true
                 }
             };
+
             var trueModifiedObject = new CompareResult()
             {
                 Base = new FileSystemObject("Directory/File")
