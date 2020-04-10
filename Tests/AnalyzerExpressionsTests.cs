@@ -388,7 +388,7 @@ namespace AttackSurfaceAnalyzer.Tests
                     Permissions = new Dictionary<string, List<string>>()
                     {
                         {
-                            "Taco", new List<string>()
+                            "Contoso", new List<string>()
                             {
                                 "Read",
                                 "Execute"
@@ -679,10 +679,31 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
+            var badGtRule = new Rule("Bad Gt Rule")
+            {
+                ResultType = RESULT_TYPE.PORT,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Port", OPERATION.GT)
+                    {
+                        Data = new List<string>()
+                        {
+                            "CONTOSO"
+                        }
+                    }
+                }
+            };
+
             var gtAnalyzer = GetAnalyzerForRule(gtRule);
 
             Assert.IsTrue(gtAnalyzer.Analyze(trueGtObject).Any());
             Assert.IsFalse(gtAnalyzer.Analyze(falseGtObject).Any());
+
+            var badGtAnalyzer = GetAnalyzerForRule(badGtRule);
+
+            Assert.IsFalse(badGtAnalyzer.Analyze(trueGtObject).Any());
+            Assert.IsFalse(badGtAnalyzer.Analyze(falseGtObject).Any());
         }
 
         [TestMethod]
@@ -717,6 +738,27 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsTrue(ltAnalyzer.Analyze(trueLtObject).Any());
             Assert.IsFalse(ltAnalyzer.Analyze(falseLtObject).Any());
+
+            var badLtRule = new Rule("Bad Lt Rule")
+            {
+                ResultType = RESULT_TYPE.PORT,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Port", OPERATION.GT)
+                    {
+                        Data = new List<string>()
+                        {
+                            "CONTOSO"
+                        }
+                    }
+                }
+            };
+
+            var badLtAnalyzer = GetAnalyzerForRule(badLtRule);
+
+            Assert.IsFalse(badLtAnalyzer.Analyze(trueLtObject).Any());
+            Assert.IsFalse(badLtAnalyzer.Analyze(falseLtObject).Any());
         }
 
         [TestMethod]
@@ -971,6 +1013,27 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsTrue(isBeforeAnalyzer.Analyze(trueIsBeforeObject).Any());
             Assert.IsFalse(isBeforeAnalyzer.Analyze(falseIsBeforeObject).Any());
+
+            var isBeforeShortRule = new Rule("Is Before Short Rule")
+            {
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("SignatureStatus.SigningCertificate.NotAfter", OPERATION.IS_BEFORE)
+                    {
+                        Data = new List<string>()
+                        {
+                            DateTime.Now.AddDays(1).ToShortDateString()
+                        }
+                    }
+                }
+            };
+
+            var isBeforeShortAnalyzer = GetAnalyzerForRule(isBeforeShortRule);
+
+            Assert.IsTrue(isBeforeShortAnalyzer.Analyze(trueIsBeforeObject).Any());
+            Assert.IsFalse(isBeforeShortAnalyzer.Analyze(falseIsBeforeObject).Any());
         }
 
         [TestMethod]
@@ -1018,6 +1081,27 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsTrue(isAfterAnalyzer.Analyze(trueIsAfterObject).Any());
             Assert.IsFalse(isAfterAnalyzer.Analyze(falseIsAfterObject).Any());
+
+            var isAfterRuleShortDate = new Rule("Is After Short Rule")
+            {
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("SignatureStatus.SigningCertificate.NotAfter", OPERATION.IS_AFTER)
+                    {
+                        Data = new List<string>()
+                        {
+                            DateTime.Now.AddDays(1).ToShortDateString()
+                        }
+                    }
+                }
+            };
+
+            var isAfterShortAnalyzer = GetAnalyzerForRule(isAfterRuleShortDate);
+
+            Assert.IsTrue(isAfterShortAnalyzer.Analyze(trueIsAfterObject).Any());
+            Assert.IsFalse(isAfterShortAnalyzer.Analyze(falseIsAfterObject).Any());
         }
 
         [TestMethod]
