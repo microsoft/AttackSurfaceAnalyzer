@@ -748,7 +748,7 @@ namespace AttackSurfaceAnalyzer.Tests
                     {
                         Data = new List<string>()
                         {
-                            ".*/.*"
+                            ".+\\/.+"
                         }
                     }
                 }
