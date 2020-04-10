@@ -1,10 +1,13 @@
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
+using Microsoft.VisualBasic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace AttackSurfaceAnalyzer.Tests
 {
@@ -26,7 +29,7 @@ namespace AttackSurfaceAnalyzer.Tests
         }
 
         [TestMethod]
-        public void VerifyEqOperation()
+        public void VerifyEqOperator()
         {
             Setup();
 
@@ -112,7 +115,7 @@ namespace AttackSurfaceAnalyzer.Tests
         }
 
         [TestMethod]
-        public void VerifyNeqOperation()
+        public void VerifyNeqOperator()
         {
             Setup();
 
@@ -197,7 +200,7 @@ namespace AttackSurfaceAnalyzer.Tests
             TearDown();
         }
         [TestMethod]
-        public void VerifyContainsOperation()
+        public void VerifyContainsOperator()
         {
             var trueStringObject = new CompareResult()
             {
@@ -722,6 +725,346 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsTrue(ltAnalyzer.Analyze(trueLtObject).Any());
             Assert.IsFalse(ltAnalyzer.Analyze(falseLtObject).Any());
+        }
+
+        [TestMethod]
+        public void VerifyRegexOperator()
+        {
+            var falseRegexObject = new CompareResult()
+            {
+                Base = new FileSystemObject("TestPathHere")
+            };
+            var trueRegexObject = new CompareResult()
+            {
+                Base = new FileSystemObject("Directory/File")
+            };
+
+            var regexRule = new Rule("Regex Rule")
+            {
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Path", OPERATION.REGEX)
+                    {
+                        Data = new List<string>()
+                        {
+                            ".*/.*"
+                        }
+                    }
+                }
+            };
+
+            var regexAnalyzer = GetAnalyzerForRule(regexRule);
+
+            Assert.IsTrue(regexAnalyzer.Analyze(trueRegexObject).Any());
+            Assert.IsFalse(regexAnalyzer.Analyze(falseRegexObject).Any());
+        }
+
+        [TestMethod]
+        public void VerifyWasModifiedOperator()
+        {
+            var falseModifiedObject = new CompareResult()
+            {
+                Base = new FileSystemObject("TestPathHere")
+            };
+            var alsoFalseModifiedObject = new CompareResult()
+            {
+                Base = new FileSystemObject("TestPathHere"),
+                Compare = new FileSystemObject("TestPathHere")
+                {
+                    IsDirectory = true
+                }
+            };
+            var trueModifiedObject = new CompareResult()
+            {
+                Base = new FileSystemObject("Directory/File")
+                {
+                    IsExecutable = true
+                },
+                Compare = new FileSystemObject("Directory/File")
+            };
+
+            var wasModifiedRule = new Rule("Was Modified Rule")
+            {
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("IsExecutable", OPERATION.WAS_MODIFIED)
+                }
+            };
+
+            var regexAnalyzer = GetAnalyzerForRule(wasModifiedRule);
+
+            Assert.IsTrue(regexAnalyzer.Analyze(trueModifiedObject).Any());
+            Assert.IsFalse(regexAnalyzer.Analyze(falseModifiedObject).Any());
+            Assert.IsFalse(regexAnalyzer.Analyze(alsoFalseModifiedObject).Any());
+        }
+
+        [TestMethod]
+        public void VerifyEndsWithOperator()
+        {
+            var trueEndsWithObject = new CompareResult()
+            {
+                Base = new FileSystemObject("App.exe")
+            };
+            var falseEndsWithObject = new CompareResult()
+            {
+                Base = new FileSystemObject("App.pdf")
+            };
+
+            var endsWithRule = new Rule("Ends With Rule")
+            {
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Path", OPERATION.ENDS_WITH)
+                    {
+                        Data = new List<string>()
+                        {
+                            ".exe"
+                        }
+                    }
+                }
+            };
+
+            var endsWithAnalyzer = GetAnalyzerForRule(endsWithRule);
+
+            Assert.IsTrue(endsWithAnalyzer.Analyze(trueEndsWithObject).Any());
+            Assert.IsFalse(endsWithAnalyzer.Analyze(falseEndsWithObject).Any());
+        }
+
+        [TestMethod]
+        public void VerifyStartsWithOperator()
+        {
+            var trueEndsWithObject = new CompareResult()
+            {
+                Base = new FileSystemObject("App.exe")
+            };
+            var falseEndsWithObject = new CompareResult()
+            {
+                Base = new FileSystemObject("NotAnApp.pdf")
+            };
+
+            var endsWithRule = new Rule("Ends With Rule")
+            {
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Path", OPERATION.STARTS_WITH)
+                    {
+                        Data = new List<string>()
+                        {
+                            "App"
+                        }
+                    }
+                }
+            };
+
+            var endsWithAnalyzer = GetAnalyzerForRule(endsWithRule);
+
+            Assert.IsTrue(endsWithAnalyzer.Analyze(trueEndsWithObject).Any());
+            Assert.IsFalse(endsWithAnalyzer.Analyze(falseEndsWithObject).Any());
+        }
+
+        [TestMethod]
+        public void VerifyIsNullOperator()
+        {
+            var falseIsNullObject = new CompareResult()
+            {
+                Base = new FileSystemObject("App.exe")
+                {
+                    ContentHash = "HASH"
+                }
+            };
+            var trueIsNullObject = new CompareResult()
+            {
+                Base = new FileSystemObject("NotAnApp.pdf")
+            };
+
+            var isNullRule = new Rule("Is Null Rule")
+            {
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("ContentHash", OPERATION.IS_NULL)
+                }
+            };
+
+            var isNullAnalyzer = GetAnalyzerForRule(isNullRule);
+
+            Assert.IsTrue(isNullAnalyzer.Analyze(trueIsNullObject).Any());
+            Assert.IsFalse(isNullAnalyzer.Analyze(falseIsNullObject).Any());
+        }
+
+        [TestMethod]
+        public void VerifyIsTrueOperator()
+        {
+            var trueIsTrueObject = new CompareResult()
+            {
+                Base = new FileSystemObject("App.exe")
+                {
+                    IsExecutable = true
+                }
+            };
+            var falseIsTrueObject = new CompareResult()
+            {
+                Base = new FileSystemObject("NotAnApp.pdf")
+            };
+
+            var isTrueRule = new Rule("Is True Rule")
+            {
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("IsExecutable", OPERATION.IS_TRUE)
+                }
+            };
+
+            var isTrueAnalyzer = GetAnalyzerForRule(isTrueRule);
+
+            Assert.IsTrue(isTrueAnalyzer.Analyze(trueIsTrueObject).Any());
+            Assert.IsFalse(isTrueAnalyzer.Analyze(falseIsTrueObject).Any());
+        }
+
+        [TestMethod]
+        public void VerifyIsBeforeOperator()
+        {
+            var trueIsBeforeObject = new CompareResult()
+            {
+                Base = new FileSystemObject("App.exe")
+                {
+                    SignatureStatus = new Signature(true)
+                    {
+                        SigningCertificate = new SerializableCertificate(Thumbprint: string.Empty, Subject: string.Empty, PublicKey: string.Empty, NotAfter: DateTime.Now, NotBefore: DateTime.Now, Issuer: string.Empty, SerialNumber: string.Empty, CertHashString: string.Empty)
+                    }
+                }
+            };
+
+            var falseIsBeforeObject = new CompareResult()
+            {
+                Base = new FileSystemObject("App.exe")
+                {
+                    SignatureStatus = new Signature(true)
+                    {
+                        SigningCertificate = new SerializableCertificate(Thumbprint: string.Empty, Subject: string.Empty, PublicKey: string.Empty, NotAfter: DateTime.Now.AddYears(1), NotBefore: DateTime.Now, Issuer: string.Empty, SerialNumber: string.Empty, CertHashString: string.Empty)
+                    }
+                }
+            };
+
+            var isBeforeRule = new Rule("Is Before Rule")
+            {
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("SignatureStatus.SigningCertificate.NotAfter", OPERATION.IS_BEFORE)
+                    {
+                        Data = new List<string>()
+                        {
+                            DateTime.Now.AddDays(1).ToString()
+                        }
+                    }
+                }
+            };
+
+            var isBeforeAnalyzer = GetAnalyzerForRule(isBeforeRule);
+
+            Assert.IsTrue(isBeforeAnalyzer.Analyze(trueIsBeforeObject).Any());
+            Assert.IsFalse(isBeforeAnalyzer.Analyze(falseIsBeforeObject).Any());
+        }
+
+        [TestMethod]
+        public void VerifyIsAfterOperator()
+        {
+            var falseIsAfterObject = new CompareResult()
+            {
+                Base = new FileSystemObject("App.exe")
+                {
+                    SignatureStatus = new Signature(true)
+                    {
+                        SigningCertificate = new SerializableCertificate(Thumbprint: string.Empty, Subject: string.Empty, PublicKey: string.Empty, NotAfter: DateTime.Now, NotBefore: DateTime.Now, Issuer: string.Empty, SerialNumber: string.Empty, CertHashString: string.Empty)
+                    }
+                }
+            };
+
+            var trueIsAfterObject = new CompareResult()
+            {
+                Base = new FileSystemObject("App.exe")
+                {
+                    SignatureStatus = new Signature(true)
+                    {
+                        SigningCertificate = new SerializableCertificate(Thumbprint: string.Empty, Subject: string.Empty, PublicKey: string.Empty, NotAfter: DateTime.Now.AddYears(1), NotBefore: DateTime.Now, Issuer: string.Empty, SerialNumber: string.Empty, CertHashString: string.Empty)
+                    }
+                }
+            };
+
+            var isAfterRule = new Rule("Is After Rule")
+            {
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("SignatureStatus.SigningCertificate.NotAfter", OPERATION.IS_AFTER)
+                    {
+                        Data = new List<string>()
+                        {
+                            DateTime.Now.AddDays(1).ToString()
+                        }
+                    }
+                }
+            };
+
+            var isAfterAnalyzer = GetAnalyzerForRule(isAfterRule);
+
+            Assert.IsTrue(isAfterAnalyzer.Analyze(trueIsAfterObject).Any());
+            Assert.IsFalse(isAfterAnalyzer.Analyze(falseIsAfterObject).Any());
+        }
+
+        [TestMethod]
+        public void VerifyIsExpiredOperator()
+        {
+            var trueIsExpiredObject = new CompareResult()
+            {
+                Base = new FileSystemObject("App.exe")
+                {
+                    SignatureStatus = new Signature(true)
+                    {
+                        SigningCertificate = new SerializableCertificate(Thumbprint: string.Empty, Subject: string.Empty, PublicKey: string.Empty, NotAfter: DateTime.MinValue, NotBefore: DateTime.Now, Issuer: string.Empty, SerialNumber: string.Empty, CertHashString: string.Empty)
+                    }
+                }
+            };
+
+            var falseIsExpiredObject = new CompareResult()
+            {
+                Base = new FileSystemObject("App.exe")
+                {
+                    SignatureStatus = new Signature(true)
+                    {
+                        SigningCertificate = new SerializableCertificate(Thumbprint: string.Empty, Subject: string.Empty, PublicKey: string.Empty, NotAfter: DateTime.MaxValue, NotBefore: DateTime.Now, Issuer: string.Empty, SerialNumber: string.Empty, CertHashString: string.Empty)
+                    }
+                }
+            };
+
+            var isExpiredRule = new Rule("Is Expired Rule")
+            {
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("SignatureStatus.SigningCertificate.NotAfter", OPERATION.IS_EXPIRED)
+                }
+            };
+
+            var isExpiredAnalyzer = GetAnalyzerForRule(isExpiredRule);
+
+            Assert.IsTrue(isExpiredAnalyzer.Analyze(trueIsExpiredObject).Any());
+            Assert.IsFalse(isExpiredAnalyzer.Analyze(falseIsExpiredObject).Any());
         }
 
         private Analyzer GetAnalyzerForRule(Rule rule)
