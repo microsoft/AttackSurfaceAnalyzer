@@ -566,9 +566,21 @@ namespace AttackSurfaceAnalyzer.Utils
                         {
                             if (clause.Data is List<string> ContainsDataList)
                             {
-                                if (ContainsDataList.Intersect(valsToCheck).Count() == ContainsDataList.Count)
+                                // If we are dealing with an array on the object side
+                                if (before is List<string>)
                                 {
-                                    return true;
+                                    if (ContainsDataList.Intersect(valsToCheck).Count() == ContainsDataList.Count)
+                                    {
+                                        return true;
+                                    }
+                                }
+                                // If we are dealing with a single string we do a .Contains instead
+                                else if (before is string)
+                                {
+                                    if (clause.Data.All(x => valsToCheck.First()?.Contains(x) ?? false))
+                                    {
+                                        return true;
+                                    }
                                 }
                             }
                         }
@@ -593,9 +605,20 @@ namespace AttackSurfaceAnalyzer.Utils
                         {
                             if (clause.Data is List<string> ContainsDataList)
                             {
-                                if (clause.Data.Intersect(valsToCheck).Any())
+                                if (before is List<string>)
                                 {
-                                    return true;
+                                    if (ContainsDataList.Intersect(valsToCheck).Any())
+                                    {
+                                        return true;
+                                    }
+                                }
+                                // If we are dealing with a single string we do a .Contains instead
+                                else if (before is string)
+                                {
+                                    if (clause.Data.Any(x => valsToCheck.First()?.Contains(x) ?? false))
+                                    {
+                                        return true;
+                                    }
                                 }
                             }
                         }
