@@ -1,8 +1,8 @@
 ﻿using AttackSurfaceAnalyzer.Utils;
-using System.Data.SQLite;
 using Serilog;
 using System;
 using System.Collections.Concurrent;
+using System.Data.SQLite;
 using System.Globalization;
 using System.IO;
 using System.Threading;

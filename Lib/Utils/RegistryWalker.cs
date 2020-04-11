@@ -6,7 +6,6 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Security.AccessControl;
 using System.Security.Principal;
 
@@ -17,8 +16,6 @@ namespace AttackSurfaceAnalyzer.Utils
         public static IEnumerable<RegistryKey> WalkHive(RegistryHive Hive, RegistryView View, string startingKey = "")
         {
             Stack<RegistryKey> keys = new Stack<RegistryKey>();
-
-
 
             RegistryKey? BaseKey = null;
             try
@@ -51,10 +48,6 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     continue;
                 }
-                if (Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "Registry", "Key", currentKey.Name))
-                {
-                    continue;
-                }
 
                 // First push all the new subkeys onto our stack.
                 foreach (string key in currentKey.GetSubKeyNames())
@@ -64,6 +57,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         var next = currentKey.OpenSubKey(name: key, writable: false);
                         keys.Push(next);
                     }
+                    // TODO: Capture that these keys exist but we couldn't access them in the results
                     // These are expected as we are running as administrator, not System.
                     catch (System.Security.SecurityException)
                     {
@@ -124,7 +118,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             regObj.Permissions.Add(name, new List<string>() { rule.RegistryRights.ToString() });
                         }
                     }
-                    
+
                 }
             }
             catch (ArgumentException)

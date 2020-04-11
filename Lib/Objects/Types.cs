@@ -57,7 +57,9 @@ namespace AttackSurfaceAnalyzer.Types
         NO_COLLECTORS,
         MATCHING_SCHEMA,
         FAILED_TO_CREATE_DATABASE,
-        INVALID_ID
+        INVALID_ID,
+        INVALID_RULES,
+        FAILED_TO_ESTABLISH_MAIN_DB_CONNECTION
     }
 
 
@@ -122,7 +124,12 @@ namespace AttackSurfaceAnalyzer.Types
         ENDS_WITH,
         STARTS_WITH,
         CONTAINS_ANY,
-        DOES_NOT_CONTAIN_ALL
+        DOES_NOT_CONTAIN_ALL,
+        IS_NULL,
+        IS_TRUE,
+        IS_BEFORE,
+        IS_AFTER,
+        IS_EXPIRED
     }
 
     /// <summary>
@@ -141,5 +148,15 @@ namespace AttackSurfaceAnalyzer.Types
         COLLECT,
         MONITOR,
         COMPARE
+    }
+
+    public enum BOOL_OPERATOR
+    {
+        AND,
+        OR,
+        XOR,
+        NAND,
+        NOR,
+        NOT
     }
 }

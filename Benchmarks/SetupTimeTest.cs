@@ -1,7 +1,5 @@
-﻿using AttackSurfaceAnalyzer.Objects;
-using AttackSurfaceAnalyzer.Utils;
+﻿using AttackSurfaceAnalyzer.Utils;
 using BenchmarkDotNet.Attributes;
-using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,7 +11,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     {
         // The number of records to populate the database with before the benchmark
         //[Params(0,100000,200000,400000,800000,1600000,3200000)]
-        [Params(0,10000000)]
+        [Params(0, 10000000)]
         public int StartingSize { get; set; }
 
         // The amount of padding to add to the object in bytes

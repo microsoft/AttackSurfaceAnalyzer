@@ -7,6 +7,7 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -15,7 +16,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class FileSystemMonitor : BaseMonitor, IDisposable
     {
-        private FileSystemWatcher watcher;
+        private readonly FileSystemWatcher watcher;
 
         public static readonly NotifyFilters defaultFilters = NotifyFilters.Attributes
                 | NotifyFilters.CreationTime
@@ -176,7 +177,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         private void OnChanged(object source, FileSystemEventArgs e)
         {
-            if (Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Monitor", "File", "Path", e.FullPath))
+            if (InvalidFile(e.FullPath))
             {
                 return;
             }
@@ -202,9 +203,16 @@ namespace AttackSurfaceAnalyzer.Collectors
             customChangeHandler?.Invoke(e);
         }
 
+        // These files cause loops on MAC OS as they get changed whenever text is pasted to the console
+        private readonly Regex uuidText = new Regex("/private/var/db/uuidtext", RegexOptions.Compiled);
+        private bool InvalidFile(string Path)
+        {
+            return uuidText.IsMatch(Path);
+        }
+
         private void OnRenamed(object source, RenamedEventArgs e)
         {
-            if (Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Monitor", "File", "Path", e.FullPath))
+            if (InvalidFile(e.FullPath))
             {
                 return;
             }

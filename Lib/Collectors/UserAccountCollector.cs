@@ -46,7 +46,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
-        
+
 
         /// <summary>
         /// Executes the UserAccountCollector on Windows. Uses WMI to gather local users.

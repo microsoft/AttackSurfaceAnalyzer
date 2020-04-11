@@ -2,10 +2,9 @@
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Types;
 using Microsoft.Win32;
-using Serilog;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
+using System.Linq;
 
 namespace AttackSurfaceAnalyzer.Objects
 {
@@ -44,15 +43,6 @@ namespace AttackSurfaceAnalyzer.Objects
             Subkeys.AddRange(subkeysIn);
         }
 
-        public static List<string> GetSubkeys(RegistryKey key)
-        {
-            if (key is null)
-            {
-                return new List<string>();
-            }
-            return new List<string>(key.GetSubKeyNames());
-        }
-
         public static Dictionary<string, string> GetValues(RegistryKey key)
         {
             if (key is null)
@@ -64,7 +54,7 @@ namespace AttackSurfaceAnalyzer.Objects
             foreach (var value in key.GetValueNames())
             {
                 RegistryValueKind rvk = key.GetValueKind(value);
-                string str = "";
+                string str;
 
                 switch (rvk)
                 {

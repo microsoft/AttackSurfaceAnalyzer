@@ -1,0 +1,7 @@
+extraction:
+  csharp:
+    index:
+      solution: "Cli/Cli.csproj"
+      dotnet:
+        arguments: "-c release"
+        version: "3.1.201"

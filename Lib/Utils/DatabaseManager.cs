@@ -59,10 +59,9 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private const string SQL_TRUNCATE_RUN = "delete from runs where run_id=@run_id";
 
-        private const string SQL_SELECT_LATEST_N_RUNS = "select run_id from runs where type = @type order by timestamp desc limit 0,@limit;";
+        private const string SQL_SELECT_LATEST_N_RUNS = "select run_id from runs where type = @type order by ROWID desc limit 0,@limit;";
 
         private const string SQL_GET_NUM_RESULTS = "select count(*) as the_count from collect where run_id = @run_id and result_type = @result_type";
-        private const string SQL_GET_PLATFORM_FROM_RUNID = "select platform from runs where run_id = @run_id";
 
         private const string SQL_INSERT_FINDINGS_RESULT = "insert into findings (first_run_id, second_run_id, result_type, level, identity, serialized) values (@first_run_id, @second_run_id, @result_type, @level, @identity, @serialized)";
 
@@ -90,7 +89,7 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string GET_COMPARISON_RESULTS = "select * from findings where comparison_id = @comparison_id and result_type=@result_type order by level des;";
         private const string GET_SERIALIZED_RESULTS = "select change_type, Serialized from file_system_monitored where run_id = @run_id";
 
-        private const string GET_RUNS = "select run_id from runs order by timestamp desc;";
+        private const string GET_RUNS = "select run_id from runs order by ROWID desc;";
 
         private const string SQL_QUERY_ANALYZED = "select * from results where status = @status"; //lgtm [cs/literal-as-local]
 
@@ -103,6 +102,8 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string GET_RESULT_COUNT = "select count(*) from findings where comparison_id=@comparison_id and result_type=@result_type"; //lgtm [cs/literal-as-local]
 
         private const string SQL_DELETE_RUN = "delete from collect where run_id=@run_id"; //lgtm [cs/literal-as-local]
+
+        private const string SQL_SELECT_RUNS = "select distinct run_id from runs where type=@type order by ROWID asc;";
 
         private const string SQL_VACUUM = "VACUUM";
 
@@ -125,7 +126,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static bool FirstRun { get; private set; } = true;
 
-        public static bool Setup(string filename, DBSettings? dbSettingsIn = null)
+        public static ASA_ERROR Setup(string filename, DBSettings? dbSettingsIn = null)
         {
             JsonSerializer.SetDefaultResolver(StandardResolver.ExcludeNull);
 
@@ -148,27 +149,31 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 Connections = new List<SqlConnectionHolder>();
 
-                PopulateConnections();
-
-                var settings = GetSettings();
-                if (settings != null)
+                if (!EstablishMainConnection())
                 {
+                    Log.Fatal(Strings.Get("FailedToEstablishMainConnection"), SqliteFilename);
+                    return ASA_ERROR.FAILED_TO_ESTABLISH_MAIN_DB_CONNECTION;
+                }
+
+                var settingsFromDb = GetSettings();
+                if (settingsFromDb != null)
+                {
+                    dbSettings.ShardingFactor = settingsFromDb.ShardingFactor;
+
                     FirstRun = false;
 
-                    if (SCHEMA_VERSION != settings.SchemaVersion)
+                    if (SCHEMA_VERSION != settingsFromDb.SchemaVersion)
                     {
-                        Log.Fatal("Database has schema version {settings.SchemaVersion} but database has schema version {SCHEMA_VERSION}.");
-                        Environment.Exit((int)ASA_ERROR.MATCHING_SCHEMA);
+                        Log.Fatal(Strings.Get("WrongSchema"), settingsFromDb.SchemaVersion, SCHEMA_VERSION);
+                        return ASA_ERROR.MATCHING_SCHEMA;
                     }
 
-                    if (dbSettingsIn != null && settings.ShardingFactor != dbSettingsIn.ShardingFactor)
+                    if (dbSettingsIn != null && settingsFromDb.ShardingFactor != dbSettingsIn.ShardingFactor)
                     {
-                        Log.Information($"Requested sharding level of {dbSettingsIn.ShardingFactor} but database was created with {settings.ShardingFactor}. Ignoring request and using {settings.ShardingFactor}.");
+                        Log.Information(Strings.Get("InvalidShardingRequest"),dbSettingsIn.ShardingFactor,dbSettings.ShardingFactor);
                     }
 
-                    dbSettings.ShardingFactor = settings.ShardingFactor;
-
-                    AsaTelemetry.SetEnabled(settings.TelemetryEnabled);
+                    AsaTelemetry.SetEnabled(settingsFromDb.TelemetryEnabled);
                 }
                 else
                 {
@@ -179,8 +184,8 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 if (MainConnection == null)
                 {
-                    Log.Warning("Failed to set up Main Database connection. Cannot set up database.");
-                    return false;
+                    Log.Fatal(Strings.Get("FailedToEstablishMainConnection"), SqliteFilename);
+                    return ASA_ERROR.FAILED_TO_ESTABLISH_MAIN_DB_CONNECTION;
                 }
 
                 if (FirstRun)
@@ -244,17 +249,15 @@ namespace AttackSurfaceAnalyzer.Utils
                     catch (SqliteException e)
                     {
                         Log.Debug(e, "Failed to set up fresh database.");
-                        Environment.Exit((int)ASA_ERROR.FAILED_TO_CREATE_DATABASE);
+                        return ASA_ERROR.FAILED_TO_CREATE_DATABASE;
                     }
                     finally
                     {
                         Commit();
                     }
                 }
-
-                return true;
             }
-            return false;
+            return ASA_ERROR.NONE;
         }
 
         private static Settings? GetSettings()
@@ -294,6 +297,19 @@ namespace AttackSurfaceAnalyzer.Utils
             catch (SqliteException) { }
             // Main Connection is probably null
             catch (NullReferenceException) { }
+        }
+
+        public static bool EstablishMainConnection()
+        {
+            if (Connections.Count > 0)
+            {
+                return false;
+            }
+            else
+            {
+                Connections.Add(GenerateSqlConnection(0));
+                return true;
+            }
         }
 
         public static int PopulateConnections()
@@ -384,18 +400,14 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             if (MainConnection != null)
             {
-                using (var cmd = new SqliteCommand(SQL_GET_PLATFORM_FROM_RUNID, MainConnection.Connection, MainConnection.Transaction))
+                var Run = GetRun(runid);
+                if (Run != null)
                 {
-                    cmd.Parameters.AddWithValue("@run_id", runid);
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        reader.Read();
-                        var platform = reader["platform"].ToString();
-                        if (platform != null)
-                        {
-                            return (PLATFORM)Enum.Parse(typeof(PLATFORM), platform);
-                        }
-                    }
+                    return Run.Platform;
+                }
+                else
+                {
+                    Log.Debug("Failed to get RunIdToPlatform. RunId was not found in database.");
                 }
             }
             else
@@ -452,7 +464,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        public static List<string> GetLatestRunIds(int numberOfIds, string type)
+        public static List<string> GetLatestRunIds(int numberOfIds, RUN_TYPE type)
         {
             List<string> output = new List<string>();
             if (MainConnection != null)
@@ -789,9 +801,9 @@ namespace AttackSurfaceAnalyzer.Utils
             return output;
         }
 
-        public static ConcurrentBag<(WriteObject,WriteObject)> GetModified(string firstRunId, string secondRunId)
+        public static ConcurrentBag<(WriteObject, WriteObject)> GetModified(string firstRunId, string secondRunId)
         {
-            var output = new ConcurrentBag<(WriteObject,WriteObject)>();
+            var output = new ConcurrentBag<(WriteObject, WriteObject)>();
 
             Connections.AsParallel().ForAll(cxn =>
             {
@@ -896,7 +908,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     while (reader.Read())
                     {
-                        return JsonSerializer.Deserialize<AsaRun>(reader["serialized"].ToString());
+                        return JsonSerializer.Deserialize<AsaRun>((byte[])reader["serialized"]);
                     }
                 }
             }
@@ -905,18 +917,16 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static List<string> GetMonitorRuns()
         {
-            return GetRuns("monitor");
+            return GetRuns(RUN_TYPE.MONITOR);
         }
 
-        public static List<string> GetRuns(string type)
+        public static List<string> GetRuns(RUN_TYPE type)
         {
             _ = MainConnection ?? throw new NullReferenceException(Strings.Get("MainConnection"));
 
-            string Select_Runs = "select distinct run_id from runs where type=@type order by timestamp asc;";
-
             List<string> Runs = new List<string>();
 
-            using var cmd = new SqliteCommand(Select_Runs, MainConnection.Connection, MainConnection.Transaction);
+            using var cmd = new SqliteCommand(SQL_SELECT_RUNS, MainConnection.Connection, MainConnection.Transaction);
             cmd.Parameters.AddWithValue("@type", type);
             using (var reader = cmd.ExecuteReader())
             {
@@ -930,7 +940,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static List<string> GetRuns()
         {
-            return GetRuns("collect");
+            return GetRuns(RUN_TYPE.COLLECT);
         }
 
         public static List<OutputFileMonitorResult> GetMonitorResults(string runId, int offset, int numResults)
@@ -972,7 +982,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 Log.Debug("Failed to GetMonitorResults. MainConnection was null.");
             }
 
-            return results ;
+            return results;
         }
 
         public static int GetNumMonitorResults(string runId)

@@ -18,7 +18,7 @@ namespace AttackSurfaceAnalyzer.Utils
             // Master list of all directories seen, to prevent loops from Hard Links.
             HashSet<string> dirsSet = new HashSet<string>();
 
-            if (System.IO.Directory.Exists(root))
+            if (Directory.Exists(root))
             {
                 dirs.Push(root);
                 dirsSet.Add(root);
@@ -27,33 +27,27 @@ namespace AttackSurfaceAnalyzer.Utils
             while (dirs.Count > 0)
             {
                 string currentDir = dirs.Pop();
-                if (Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "File", "Path", currentDir))
+
+                yield return currentDir;
+
+                try
                 {
-                    continue;
+                    var fileInfo = new DirectoryInfo(currentDir);
+                    // Skip symlinks to avoid loops
+                    if (fileInfo.Attributes.HasFlag(FileAttributes.ReparsePoint))
+                    {
+                        Log.Verbose($"Skipping symlink at {currentDir}");
+                        continue;
+                    }
                 }
-                else
+                catch (Exception e) when (
+                    e is UnauthorizedAccessException)
                 {
-                    yield return currentDir;
 
-                    try
-                    {
-                        var fileInfo = new DirectoryInfo(currentDir);
-                        // Skip symlinks to avoid loops
-                        if (fileInfo.Attributes.HasFlag(FileAttributes.ReparsePoint))
-                        {
-                            Log.Verbose($"Skipping symlink at {currentDir}");
-                            continue;
-                        }
-                    }
-                    catch (Exception e) when (
-                        e is UnauthorizedAccessException)
-                    {
-
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Debug("Should be catching {0} in DirectoryWalker.", e.GetType().ToString());
-                    }
+                }
+                catch (Exception e)
+                {
+                    Log.Debug("Should be catching {0} in DirectoryWalker.", e.GetType().ToString());
                 }
 
                 string[] subDirs;
@@ -93,15 +87,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 foreach (string file in files)
                 {
-                    if (Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "File", "Path", file))
-                    {
-                        continue;
-                    }
-
                     yield return file;
-                    //FileInfo fileInfo = null;
-
-
                 }
 
                 // Push the subdirectories onto the stack for traversal.

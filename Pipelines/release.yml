@@ -66,12 +66,6 @@ stages:
         arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)\windows\ -r win-x64'
         zipAfterPublish: false
 
-    - task: DotNetCoreCLI@2
-      displayName: 'Build LIB NuPkg'
-      inputs:
-        projects: 'Lib/Lib.csproj'
-        arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)\lib\'
-
     - task: AntiMalware@3
       inputs:
         InputType: 'Basic'
@@ -79,9 +73,9 @@ stages:
         FileDirPath: '$(Build.binariesdirectory)'
         EnableServices: true
         SupportLogOnError: false
-        TreatSignatureUpdateFailureAs: 'Standard'
+        TreatSignatureUpdateFailureAs: 'Warning'
         SignatureFreshness: 'UpToDate'
-        TreatStaleSignatureAs: 'Error'
+        TreatStaleSignatureAs: 'Warning'
 
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Interim Build Artifacts'
@@ -89,17 +83,11 @@ stages:
         PathtoPublish: '$(build.binariesdirectory)\windows'
         ArtifactName: 'WindowsBuild'
 
-    - task: PublishBuildArtifacts@1
-      displayName: 'Publish Interim Build Artifacts'
-      inputs:
-        PathtoPublish: '$(build.binariesdirectory)\lib'
-        ArtifactName: 'LibraryBuild'
-
     # Signing task requires .NET Core 2.X
     - task: UseDotNet@2
       inputs:
         packageType: 'runtime'
-        version: '2.2.7'
+        version: '2.2.x'
 
     - task: EsrpCodeSigning@1
       inputs:
@@ -142,33 +130,6 @@ stages:
         MaxConcurrency: '50'
         MaxRetryAttempts: '5'
 
-    - task: EsrpCodeSigning@1
-      inputs:
-        ConnectedServiceName: 'CodeSignforATSAN'
-        FolderPath: '$(build.binariesdirectory)\Lib'
-        Pattern: '*.nupkg'
-        signConfigType: 'inlineSignParams'
-        inlineOperation: |
-          [ 
-              {
-                  "keyCode": "CP-401405",
-                  "operationSetCode": "NuGetSign",
-                  "parameters": [ ],
-                  "toolName": "sign",
-                  "toolVersion": "1.0"
-              },
-              {
-                  "keyCode": "CP-401405",
-                  "operationSetCode": "NuGetVerify",
-                  "parameters": [ ],
-                  "toolName": "sign",
-                  "toolVersion": "1.0"
-              }
-          ]
-        SessionTimeout: '60'
-        MaxConcurrency: '50'
-        MaxRetryAttempts: '5'
-
     - task: PowerShell@2
       displayName: Compile CodeSign Summaries for Publication
       inputs:
@@ -188,8 +149,6 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          Move-Item -Path "$(build.binariesdirectory)\lib\*.nupkg" -Destination "$(build.artifactstagingdirectory)"
-
           $longVersion = (nbgv get-version -v AssemblyInformationalVersion)
           $version = $longVersion.split('+')[0]
           $asaFolder = "$(build.binariesdirectory)\Asa-win-$version"
@@ -365,6 +324,119 @@ stages:
         isDraft: false
         isPreRelease: false
         changeLogCompareToRelease: lastNonDraftRelease
+
+  - job: Nuget
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'sdk'
+        version: '3.1.x'
+
+    - script: 'dotnet tool install -g nbgv'
+      displayName: 'Install GitVersioning'
+
+    - task: DotNetCoreCLI@2
+      displayName: Nupkg (Lib)
+      inputs:
+        command: 'custom'
+        custom: 'pack'
+        arguments: 'Lib -c $(BuildConfiguration) -o $(build.binariesdirectory)\nuget'
+
+    - task: DotNetCoreCLI@2
+      displayName: Nupkg (Cli)
+      inputs:
+        command: 'custom'
+        custom: 'pack'
+        arguments: 'Cli -c $(BuildConfiguration) -o $(build.binariesdirectory)\nuget'
+
+    - task: AntiMalware@3
+      inputs:
+        InputType: 'Basic'
+        ScanType: 'CustomScan'
+        FileDirPath: '$(Build.binariesdirectory)'
+        EnableServices: true
+        SupportLogOnError: false
+        TreatSignatureUpdateFailureAs: 'Warning'
+        SignatureFreshness: 'UpToDate'
+        TreatStaleSignatureAs: 'Warning'
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Interim Build Artifacts'
+      inputs:
+        PathtoPublish: '$(build.binariesdirectory)\nuget'
+        ArtifactName: 'NugetBuilds'
+
+    # Signing task requires .NET Core 2.X
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'runtime'
+        version: '2.2.x'
+
+    - task: EsrpCodeSigning@1
+      inputs:
+        ConnectedServiceName: 'CodeSignforATSAN'
+        FolderPath: '$(build.binariesdirectory)\nuget'
+        Pattern: '*.nupkg'
+        signConfigType: 'inlineSignParams'
+        inlineOperation: |
+          [ 
+              {
+                  "keyCode": "CP-401405",
+                  "operationSetCode": "NuGetSign",
+                  "parameters": [ ],
+                  "toolName": "sign",
+                  "toolVersion": "1.0"
+              },
+              {
+                  "keyCode": "CP-401405",
+                  "operationSetCode": "NuGetVerify",
+                  "parameters": [ ],
+                  "toolName": "sign",
+                  "toolVersion": "1.0"
+              }
+          ]
+        SessionTimeout: '60'
+        MaxConcurrency: '50'
+        MaxRetryAttempts: '5'
+
+    - task: PowerShell@2
+      displayName: Compile CodeSign Summaries for Publication
+      inputs:
+        targetType: 'inline'
+        script: |
+          mkdir $(build.binariesdirectory)\CodeSign
+          Get-ChildItem -Path $(build.binariesdirectory) -Recurse -Filter CodeSign* | foreach { Copy-Item -Path $_.FullName -Destination $(build.binariesdirectory)\CodeSign\$_.Name }
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish CodeSign Summaries'
+      inputs:
+        PathtoPublish: '$(build.binariesdirectory)\CodeSign'
+        ArtifactName: 'CodeSign_Nuget'
+
+    - task: PowerShell@2
+      displayName: Prepare Artifacts
+      inputs:
+        targetType: 'inline'
+        script: |
+          Move-Item -Path "$(build.binariesdirectory)\nuget\*.nupkg" -Destination "$(build.artifactstagingdirectory)"
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact'
+      inputs:
+        PathtoPublish: '$(build.artifactstagingdirectory)'
+        ArtifactName: 'BINARIES'
+
+    - task: NuGetCommand@2
+      displayName: Deploy Nuget Release
+      enabled: false
+      inputs:
+        command: 'push'
+        packagesToPush: '$(build.artifactstagingdirectory)/*.nupkg'
+        nuGetFeedType: 'external'
+        publishFeedCredentials: 'CST-E Nuget CI'
+        verbosityPush: 'Normal'
 
 - stage: Hashes
   jobs:

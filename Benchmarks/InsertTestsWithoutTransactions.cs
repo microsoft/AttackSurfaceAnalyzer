@@ -1,7 +1,5 @@
-﻿using AttackSurfaceAnalyzer.Objects;
-using AttackSurfaceAnalyzer.Utils;
+﻿using AttackSurfaceAnalyzer.Utils;
 using BenchmarkDotNet.Attributes;
-using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,7 +22,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         // The amount of padding to add to the object in bytes
         // Default size is approx 530 bytes serialized
         // Does not include SQL overhead
-        [Params(0,4500)]
+        [Params(0, 4500)]
         public int ObjectPadding { get; set; }
 
         // The number of Shards/Threads to use for Database operations

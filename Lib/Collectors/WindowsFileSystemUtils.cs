@@ -3,7 +3,8 @@
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
-using PeNet.Authenticode;
+using PeNet.Header.Authenticode;
+using PeNet.Header.Pe;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -23,13 +24,16 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
             try
             {
-                var peHeader = new PeNet.PeFile(Path);
-                var authenticodeInfo = new AuthenticodeInfo(peHeader);
-                var sig = new Signature(authenticodeInfo);
-                return sig;
+                using var peHeader = new PeNet.PeFile(Path);
+                if (peHeader.Authenticode is AuthenticodeInfo ai)
+                {
+                    var sig = new Signature(ai);
+                    return sig;
+                }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Log.Debug(e, "Thrown in GetSignatureStatus");
             }
             return null;
         }
@@ -108,18 +112,23 @@ namespace AttackSurfaceAnalyzer.Collectors
                 try
                 {
                     // This line throws the exceptions below.
-                    var peHeader1 = new PeNet.PeFile(Path);
-                    ushort characteristics = peHeader1.ImageNtHeaders.OptionalHeader.DllCharacteristics;
-                    foreach (var characteristic in Enum.GetValues(typeof(DLLCHARACTERISTICS)))
+                    using var peHeader1 = new PeNet.PeFile(Path);
+                    var dllCharacteristics = peHeader1.ImageNtHeaders?.OptionalHeader.DllCharacteristics;
+                    if (dllCharacteristics is DllCharacteristicsType chars)
                     {
-                        if (characteristic is DLLCHARACTERISTICS c)
+                        ushort characteristics = (ushort)chars;
+                        foreach (DLLCHARACTERISTICS? characteristic in Enum.GetValues(typeof(DLLCHARACTERISTICS)))
                         {
-                            if (((ushort)c & characteristics) == (ushort)characteristic)
+                            if (characteristic is DLLCHARACTERISTICS c)
                             {
-                                output.Add(c.ToString());
+                                if (((ushort)c & characteristics) == (ushort)c)
+                                {
+                                    output.Add(c.ToString());
+                                }
                             }
                         }
                     }
+                    
                 }
                 catch (Exception e) when (
                     e is IndexOutOfRangeException

@@ -10,7 +10,7 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public class FileWatcher : IDisposable
     {
-        private FileSystemWatcher watcher;
+        private readonly FileSystemWatcher watcher;
 
         public List<EventArgs> EventList { get; }
 

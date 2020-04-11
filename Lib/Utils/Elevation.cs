@@ -242,7 +242,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     throw new NullReferenceException(nameof(elevation));
                 }
 
-               
+
             }
             finally
             {

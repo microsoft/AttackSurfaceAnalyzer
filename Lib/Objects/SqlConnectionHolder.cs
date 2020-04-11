@@ -22,7 +22,7 @@ namespace AttackSurfaceAnalyzer.Objects
         private int RecordCount { get; set; }
         public bool IsWriting { get; private set; }
 
-        private DBSettings settings;
+        private readonly DBSettings settings;
 
         private const string PRAGMAS = "PRAGMA auto_vacuum = 0; PRAGMA synchronous = {0}; PRAGMA journal_mode = {1}; PRAGMA page_size = {2}; PRAGMA locking_mode = {3};";
 

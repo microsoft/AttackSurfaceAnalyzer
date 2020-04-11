@@ -187,23 +187,33 @@ namespace AttackSurfaceAnalyzer.Utils
                    o.GetType().GetGenericTypeDefinition().IsAssignableFrom(typeof(Dictionary<,>));
         }
 
-        public static string SidToName(IdentityReference sid)
+        private static readonly Dictionary<string, string> SidMap = new Dictionary<string, string>();
+
+        public static string SidToName(IdentityReference SID)
         {
-            string output = sid.Value;
+            string sid = SID?.Value ?? string.Empty;
+            string identity = sid;
+
+            if (SidMap.ContainsKey(sid))
+            {
+                return SidMap[sid];
+            }
 
             // Only map NTAccounts, https://en.wikipedia.org/wiki/Security_Identifier
-            if (output.StartsWith("S-1-5"))
+            if (sid.StartsWith("S-1-5"))
             {
                 try
                 {
-                    output = sid.Translate(typeof(NTAccount))?.Value ?? output;
+                    identity = SID?.Translate(typeof(NTAccount))?.Value ?? sid;
                 }
                 catch (IdentityNotMappedException)
                 {
                 }
             }
 
-            return output;
+            SidMap[sid] = identity;
+
+            return sid;
         }
     }
 }

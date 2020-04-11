@@ -51,34 +51,30 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
 
             ConcurrentBag<WriteObject> differentObjects = DatabaseManager.GetAllMissing(firstRunId, secondRunId);
-            ConcurrentBag<(WriteObject,WriteObject)> modifyObjects = DatabaseManager.GetModified(firstRunId, secondRunId);
+            ConcurrentBag<(WriteObject, WriteObject)> modifyObjects = DatabaseManager.GetModified(firstRunId, secondRunId);
 
             differentObjects.AsParallel().ForAll(different =>
             {
                 if (different.RunId.Equals(firstRunId))
                 {
-                    var obj = new CompareResult(different.Identity)
+                    var obj = new CompareResult()
                     {
                         Base = different.ColObj,
                         BaseRunId = firstRunId,
                         CompareRunId = secondRunId,
                         BaseRowKey = different.InstanceHash,
-                        ChangeType = CHANGE_TYPE.DELETED,
-                        ResultType = different.ColObj?.ResultType ?? RESULT_TYPE.UNKNOWN
                     };
 
                     Results[$"{different.ColObj?.ResultType}_{CHANGE_TYPE.DELETED}"].Enqueue(obj);
                 }
                 else if (different.RunId.Equals(secondRunId))
                 {
-                    var obj = new CompareResult(different.Identity)
+                    var obj = new CompareResult()
                     {
                         Compare = different.ColObj,
                         BaseRunId = firstRunId,
                         CompareRunId = secondRunId,
                         CompareRowKey = different.InstanceHash,
-                        ChangeType = CHANGE_TYPE.CREATED,
-                        ResultType = different.ColObj?.ResultType ?? RESULT_TYPE.UNKNOWN
                     };
                     Results[$"{different.ColObj?.ResultType}_{CHANGE_TYPE.CREATED}"].Enqueue(obj);
                 }
@@ -90,7 +86,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 compareLogic.Config.IgnoreCollectionOrder = true;
                 var first = modified.Item1.ColObj;
                 var second = modified.Item2.ColObj;
-                var obj = new CompareResult(modified.Item1.Identity)
+                var obj = new CompareResult()
                 {
                     Base = first,
                     Compare = second,
@@ -98,8 +94,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                     CompareRunId = secondRunId,
                     BaseRowKey = modified.Item1.InstanceHash,
                     CompareRowKey = modified.Item2.InstanceHash,
-                    ChangeType = CHANGE_TYPE.MODIFIED,
-                    ResultType = modified.Item1.ColObj?.ResultType ?? RESULT_TYPE.UNKNOWN
                 };
 
                 var properties = first?.GetType().GetProperties();

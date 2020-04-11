@@ -74,11 +74,10 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             foreach (var endpoint in properties.GetActiveTcpListeners())
             {
-                var obj = new OpenPortObject()
+                var obj = new OpenPortObject(endpoint.Port)
                 {
                     Family = endpoint.AddressFamily.ToString(),
                     Address = endpoint.Address.ToString(),
-                    Port = endpoint.Port.ToString(CultureInfo.InvariantCulture),
                     Type = "tcp"
                 };
                 foreach (ProcessPort p in Win32ProcessPorts.ProcessPortMap.FindAll(x => x.PortNumber == endpoint.Port))
@@ -91,11 +90,10 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             foreach (var endpoint in properties.GetActiveUdpListeners())
             {
-                var obj = new OpenPortObject()
+                var obj = new OpenPortObject(endpoint.Port)
                 {
                     Family = endpoint.AddressFamily.ToString(),
                     Address = endpoint.Address.ToString(),
-                    Port = endpoint.Port.ToString(CultureInfo.InvariantCulture),
                     Type = "udp"
                 };
                 foreach (ProcessPort p in Win32ProcessPorts.ProcessPortMap.FindAll(x => x.PortNumber == endpoint.Port))
@@ -136,15 +134,17 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         var address = addressMatches.Groups[1].ToString();
                         var port = addressMatches.Groups[2].ToString();
-
-                        var obj = new OpenPortObject()
+                        if (int.TryParse(port, out int portInt))
                         {
-                            Family = parts[0],//@TODO: Determine IPV4 vs IPv6 via looking at the address
-                            Address = address,
-                            Port = port,
-                            Type = parts[0]
-                        };
-                        DatabaseManager.Write(obj, RunId);
+                            var obj = new OpenPortObject(portInt)
+                            {
+                                Family = parts[0],//@TODO: Determine IPV4 vs IPv6 via looking at the address
+                                Address = address,
+                                Type = parts[0]
+                            };
+                            DatabaseManager.Write(obj, RunId);
+                        }
+
                     }
                 }
             }
@@ -177,7 +177,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     var parts = Regex.Split(line, @"\s+");
                     if (parts.Length <= 9)
                     {
-                        continue;       // Not long enough
+                        continue; // Not long enough
                     }
 
                     var addressMatches = Regex.Match(parts[8], @"^(.*):(\d+)$");
@@ -185,18 +185,19 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         var address = addressMatches.Groups[1].ToString();
                         var port = addressMatches.Groups[2].ToString();
-
-                        var obj = new OpenPortObject()
+                        if (int.TryParse(port, out int portInt))
                         {
-                            // Assuming family means IPv6 vs IPv4
-                            Family = parts[4],
-                            Address = address,
-                            Port = port,
-                            Type = parts[7],
-                            ProcessName = parts[0]
-                        };
+                            var obj = new OpenPortObject(portInt)
+                            {
+                                // Assuming family means IPv6 vs IPv4
+                                Family = parts[4],
+                                Address = address,
+                                Type = parts[7],
+                                ProcessName = parts[0]
+                            };
 
-                        DatabaseManager.Write(obj, RunId);
+                            DatabaseManager.Write(obj, RunId);
+                        }
                     }
                 }
             }

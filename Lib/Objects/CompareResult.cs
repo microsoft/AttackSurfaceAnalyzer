@@ -1,19 +1,79 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Types;
-using Markdig.Helpers;
 using System.Collections.Generic;
 using System.IO;
 
 namespace AttackSurfaceAnalyzer.Objects
 {
-    
+
 
     public class CompareResult
     {
-        public string Identity { get; set; }
-        public CHANGE_TYPE ChangeType { get; set; }
-        public RESULT_TYPE ResultType { get; set; }
+        public string Identity
+        {
+            get
+            {
+                if (Base is CollectObject colObj)
+                {
+                    return colObj.Identity;
+                }
+                else if (Compare is CollectObject colObj2)
+                {
+                    return colObj2.Identity;
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            }
+        }
+        public CHANGE_TYPE ChangeType
+        {
+            get
+            {
+                if (Base != null)
+                {
+                    if (Compare != null)
+                    {
+                        return CHANGE_TYPE.MODIFIED;
+                    }
+                    else
+                    {
+                        return CHANGE_TYPE.DELETED;
+                    }
+                }
+                else
+                {
+                    if (Compare != null)
+                    {
+                        return CHANGE_TYPE.CREATED;
+                    }
+                    else
+                    {
+                        return CHANGE_TYPE.INVALID;
+                    }
+                }
+            }
+        }
+        public RESULT_TYPE ResultType
+        {
+            get
+            {
+                if (Base is CollectObject colObj)
+                {
+                    return colObj.ResultType;
+                }
+                else if (Compare is CollectObject colObj2)
+                {
+                    return colObj2.ResultType;
+                }
+                else
+                {
+                    return RESULT_TYPE.UNKNOWN;
+                }
+            }
+        }
         public ANALYSIS_RESULT_TYPE Analysis { get; set; }
         public List<Rule> Rules { get; set; } = new List<Rule>();
         public List<Diff> Diffs { get; set; } = new List<Diff>();
@@ -34,9 +94,8 @@ namespace AttackSurfaceAnalyzer.Objects
             return Rules?.Count > 0;
         }
 
-        public CompareResult(string IdentityIn)
+        public CompareResult()
         {
-            Identity = IdentityIn;
         }
     }
 
@@ -56,14 +115,6 @@ namespace AttackSurfaceAnalyzer.Objects
         }
     }
 
-    public class OutputCompareResult : CompareResult
-    {
-        public string? SerializedBase { get; set; }
-        public string? SerializedCompare { get; set; }
-
-        public OutputCompareResult(string IdentityIn) : base(IdentityIn) { }
-    }
-
     public class FileSystemMonitorResult
     {
         public FileSystemEventArgs evt { get; set; }
@@ -72,54 +123,6 @@ namespace AttackSurfaceAnalyzer.Objects
         public FileSystemMonitorResult(FileSystemEventArgs evtIn)
         {
             evt = evtIn;
-        }
-    }
-
-    public class FileSystemResult : CompareResult
-    {
-        public FileSystemResult(string IdentityIn) : base(IdentityIn)
-        {
-            ResultType = RESULT_TYPE.FILE;
-        }
-    }
-
-    public class OpenPortResult : CompareResult
-    {
-        public OpenPortResult(string IdentityIn) : base(IdentityIn)
-        {
-            ResultType = RESULT_TYPE.PORT;
-        }
-    }
-
-    public class RegistryResult : CompareResult
-    {
-        public RegistryResult(string IdentityIn) : base(IdentityIn)
-        {
-            ResultType = RESULT_TYPE.REGISTRY;
-        }
-    }
-
-    public class ServiceResult : CompareResult
-    {
-        public ServiceResult(string IdentityIn) : base(IdentityIn)
-        {
-            ResultType = RESULT_TYPE.SERVICE;
-        }
-    }
-
-    public class UserAccountResult : CompareResult
-    {
-        public UserAccountResult(string IdentityIn) : base(IdentityIn)
-        {
-            ResultType = RESULT_TYPE.USER;
-        }
-    }
-
-    public class CertificateResult : CompareResult
-    {
-        public CertificateResult(string IdentityIn) : base(IdentityIn)
-        {
-            ResultType = RESULT_TYPE.CERTIFICATE;
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using AttackSurfaceAnalyzer.Objects;
-using AttackSurfaceAnalyzer.Utils;
+﻿using AttackSurfaceAnalyzer.Utils;
 using BenchmarkDotNet.Attributes;
 using System.Collections.Concurrent;
 using System.Linq;
@@ -31,11 +30,11 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         public int RunTwoSize { get; set; }
 
         // Percent of identities which should match between the two runs (% of the smaller run)
-        [Params(0,.25,.5,.75,1)]
+        [Params(0, .25, .5, .75, 1)]
         public double IdentityMatches { get; set; }
 
         // Percent of those identities which match which should match in rowkey
-        [Params(0,.25,.5,.75,1)]
+        [Params(0, .25, .5, .75, 1)]
         public double RowKeyMatches { get; set; }
 
         // The number of Shards/Threads to use for Database operations
@@ -97,7 +96,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             {
                 var obj = GetRandomObject(ObjectPadding);
 
-                
+
 
                 if (BagOfIdentities.TryTake(out (string, string) Id))
                 {
@@ -136,7 +135,8 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             InsertFirstRun();
             InsertSecondRun();
 
-            while(LiteDbManager.HasElements()){
+            while (LiteDbManager.HasElements())
+            {
                 Thread.Sleep(1);
             }
 

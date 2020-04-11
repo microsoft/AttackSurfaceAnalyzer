@@ -43,7 +43,8 @@ namespace AttackSurfaceAnalyzer.Collectors
             ParseView(RegistryView.Registry64);
         }
 
-        public void ParseView(RegistryView view) {
+        public void ParseView(RegistryView view)
+        {
             try
             {
                 // Parse system Com Objects

@@ -106,15 +106,15 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         try
                         {
-                            var certificate = X509Certificate.CreateFromCertFile(Path);
+                            var certificate = new X509Certificate2();
+                            certificate.Import(Path);
+
                             var certObj = new CertificateObject(
-                                StoreLocation: Path,
-                                StoreName: "Disk",
-                                CertificateHashString: certificate.GetCertHashString())
-                            {
-                                Subject = certificate.Subject,
-                                Pkcs7 = certificate.Export(X509ContentType.Cert).ToString()
-                            };
+                                StoreLocation: StoreLocation.LocalMachine.ToString(),
+                                StoreName: StoreName.Root.ToString(),
+                                Certificate: new SerializableCertificate(certificate),
+                                Pkcs7: certificate.Export(X509ContentType.Cert).ToString());
+
                             DatabaseManager.Write(certObj, RunId);
                         }
                         catch (Exception e) when (
@@ -180,7 +180,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         if (rule != null)
                         {
                             string name = AsaHelpers.SidToName(rule.IdentityReference);
-                            
+
                             obj.Permissions = new Dictionary<string, string>();
 
                             foreach (var permission in rule.FileSystemRights.ToString().Split(','))
@@ -298,7 +298,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                             obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, size);
 
-                            if (obj.IsExecutable is bool && (bool)obj.IsExecutable)
+                            if (obj.IsExecutable != null && (bool)obj.IsExecutable)
                             {
                                 obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(path);
                                 obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(path);

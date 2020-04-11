@@ -1,9 +1,6 @@
 ﻿using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
-using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AttackSurfaceAnalyzer.Benchmarks
 {

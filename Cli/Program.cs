@@ -46,7 +46,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             Strings.Setup();
 
-            var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions, ConfigCommandOptions, GuiCommandOptions>(args)
+            var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions, ConfigCommandOptions, GuiCommandOptions, VerifyOptions>(args)
                 .MapResult(
                     (CollectCommandOptions opts) => RunCollectCommand(opts),
                     (MonitorCommandOptions opts) => RunMonitorCommand(opts),
@@ -54,10 +54,38 @@ namespace AttackSurfaceAnalyzer.Cli
                     (ExportMonitorCommandOptions opts) => RunExportMonitorCommand(opts),
                     (ConfigCommandOptions opts) => RunConfigCommand(opts),
                     (GuiCommandOptions opts) => RunGuiCommand(opts),
+                    (VerifyOptions opts) => RunVerifyRulesCommand(opts),
                     errs => 1
                 );
 
             Log.CloseAndFlush();
+        }
+
+        private static int RunVerifyRulesCommand(VerifyOptions opts)
+        {
+#if DEBUG
+            Logger.Setup(true, opts.Verbose, opts.Quiet);
+#else
+            Logger.Setup(opts.Debug, opts.Verbose, opts.Quiet);
+#endif
+            var analyzer = new Analyzer(AsaHelpers.GetPlatform(), opts.AnalysisFile);
+            if (analyzer.VerifyRules())
+            {
+                return (int)ASA_ERROR.NONE;
+            }
+
+            return (int)ASA_ERROR.INVALID_RULES;
+        }
+
+        private static void SetupOrDie(string path, DBSettings? dbSettingsIn = null)
+        {
+            var errorCode = DatabaseManager.Setup(path, dbSettingsIn);
+
+            if (errorCode != ASA_ERROR.NONE)
+            {
+                Log.Fatal(Strings.Get("CouldNotSetupDatabase"));
+                Environment.Exit((int)errorCode);
+            }
         }
 
         private static int RunGuiCommand(GuiCommandOptions opts)
@@ -67,7 +95,8 @@ namespace AttackSurfaceAnalyzer.Cli
 #else
             Logger.Setup(opts.Debug, opts.Verbose, opts.Quiet);
 #endif
-            DatabaseManager.Setup(opts.DatabaseFilename);
+            SetupOrDie(opts.DatabaseFilename);
+
             AsaTelemetry.Setup();
 
             var server = WebHost.CreateDefaultBuilder(Array.Empty<string>())
@@ -97,7 +126,7 @@ namespace AttackSurfaceAnalyzer.Cli
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1305:Specify IFormatProvider", Justification = "<Pending>")]
         private static int RunConfigCommand(ConfigCommandOptions opts)
         {
-            DatabaseManager.Setup(opts.DatabaseFilename);
+            SetupOrDie(opts.DatabaseFilename);
             CheckFirstRun();
             AsaTelemetry.Setup();
 
@@ -118,7 +147,7 @@ namespace AttackSurfaceAnalyzer.Cli
                     else
                     {
                         Log.Information(Strings.Get("DumpingDataFromDatabase"), opts.DatabaseFilename);
-                        List<string> CollectRuns = DatabaseManager.GetRuns("collect");
+                        List<string> CollectRuns = DatabaseManager.GetRuns(RUN_TYPE.COLLECT);
                         if (CollectRuns.Count > 0)
                         {
                             Log.Information(Strings.Get("Begin"), Strings.Get("EnumeratingCollectRunIds"));
@@ -147,7 +176,7 @@ namespace AttackSurfaceAnalyzer.Cli
                             Log.Information(Strings.Get("NoCollectRuns"));
                         }
 
-                        List<string> MonitorRuns = DatabaseManager.GetRuns("monitor");
+                        List<string> MonitorRuns = DatabaseManager.GetRuns(RUN_TYPE.MONITOR);
                         if (MonitorRuns.Count > 0)
                         {
                             Log.Information(Strings.Get("Begin"), Strings.Get("EnumeratingMonitorRunIds"));
@@ -202,14 +231,14 @@ namespace AttackSurfaceAnalyzer.Cli
                 return 0;
             }
 
-            DatabaseManager.Setup(opts.DatabaseFilename);
+            SetupOrDie(opts.DatabaseFilename);
             CheckFirstRun();
             AsaTelemetry.Setup();
 
             if (opts.FirstRunId is null || opts.SecondRunId is null)
             {
                 Log.Information("Provided null run Ids using latest two runs.");
-                List<string> runIds = DatabaseManager.GetLatestRunIds(2, "collect");
+                List<string> runIds = DatabaseManager.GetLatestRunIds(2, RUN_TYPE.COLLECT);
 
                 if (runIds.Count < 2)
                 {
@@ -401,13 +430,13 @@ namespace AttackSurfaceAnalyzer.Cli
                 return 0;
             }
 
-            DatabaseManager.Setup(opts.DatabaseFilename);
+            SetupOrDie(opts.DatabaseFilename);
             CheckFirstRun();
             AsaTelemetry.Setup();
 
             if (opts.RunId is null)
             {
-                List<string> runIds = DatabaseManager.GetLatestRunIds(1, "monitor");
+                List<string> runIds = DatabaseManager.GetLatestRunIds(1, RUN_TYPE.MONITOR);
 
                 if (runIds.Count < 1)
                 {
@@ -427,7 +456,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             AsaTelemetry.TrackEvent("Begin Export Monitor", StartEvent);
 
-            WriteMonitorJson(opts.RunId, (int)RESULT_TYPE.FILE, opts.OutputPath);
+            WriteMonitorJson(opts.RunId, (int)RESULT_TYPE.FILE, opts.OutputPath ?? "monitor.json");
 
             return 0;
         }
@@ -467,7 +496,7 @@ namespace AttackSurfaceAnalyzer.Cli
 #endif
             AdminOrQuit();
 
-            DatabaseManager.Setup(opts.DatabaseFilename);
+            SetupOrDie(opts.DatabaseFilename);
             AsaTelemetry.Setup();
 
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
@@ -476,11 +505,6 @@ namespace AttackSurfaceAnalyzer.Cli
             AsaTelemetry.TrackEvent("Begin monitoring", StartEvent);
 
             CheckFirstRun();
-
-            if (opts.FilterLocation is string)
-            {
-                Filter.LoadFilters(opts.FilterLocation);
-            }
 
             if (opts.RunId is string)
             {
@@ -696,9 +720,11 @@ namespace AttackSurfaceAnalyzer.Cli
             if (opts.Analyze)
             {
                 watch = System.Diagnostics.Stopwatch.StartNew();
-                Analyzer analyzer;
-
-                analyzer = new Analyzer(DatabaseManager.RunIdToPlatform(opts.FirstRunId), opts.AnalysesFile);
+                Analyzer analyzer = new Analyzer(DatabaseManager.RunIdToPlatform(opts.FirstRunId), opts.AnalysesFile);
+                if (!analyzer.VerifyRules())
+                {
+                    return results;
+                }
 
                 if (results.Count > 0)
                 {
@@ -706,9 +732,10 @@ namespace AttackSurfaceAnalyzer.Cli
                     {
                         try
                         {
-                            Parallel.ForEach(results[key] as ConcurrentQueue<CompareResult>, (result) =>
+                            Parallel.ForEach(results[key] as ConcurrentQueue<CompareResult>, (res) =>
                             {
-                                result.Analysis = analyzer.Analyze(result);
+                                res.Rules = analyzer.Analyze(res);
+                                res.Analysis = res.Rules.Max(x => x.Flag);
                             });
                         }
                         catch (ArgumentNullException)
@@ -869,7 +896,7 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 ShardingFactor = opts.Shards
             };
-            DatabaseManager.Setup(opts.DatabaseFilename, dbSettings);
+            SetupOrDie(opts.DatabaseFilename, dbSettings);
             AsaTelemetry.Setup();
 
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
@@ -982,18 +1009,6 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 Log.Warning(Strings.Get("Err_NoCollectors"));
                 return (int)ASA_ERROR.NO_COLLECTORS;
-            }
-
-            if (!opts.NoFilters)
-            {
-                if (opts.FilterLocation is string Loc)
-                {
-                    Filter.LoadFilters(Loc);
-                }
-                else
-                {
-                    Filter.LoadEmbeddedFilters();
-                }
             }
 
             if (opts.Overwrite)
