@@ -87,7 +87,7 @@ stages:
     - task: UseDotNet@2
       inputs:
         packageType: 'runtime'
-        version: '2.2.7'
+        version: '2.2.x'
 
     - task: EsrpCodeSigning@1
       inputs:
@@ -372,7 +372,7 @@ stages:
     - task: UseDotNet@2
       inputs:
         packageType: 'runtime'
-        version: '2.2.7'
+        version: '2.2.x'
 
     - task: EsrpCodeSigning@1
       inputs:
