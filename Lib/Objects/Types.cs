@@ -3,21 +3,57 @@
 namespace AttackSurfaceAnalyzer.Types
 {
     /// <summary>
-    /// The data type of a Collect object.
+    /// Specifies the child class type for a CollectObject
     /// </summary>
     public enum RESULT_TYPE
     {
+        /// <summary>
+        /// Indicates an Invalid CollectObject
+        /// </summary>
         UNKNOWN,
+        /// <summary>
+        /// See FileSystemObject
+        /// </summary>
         FILE,
+        /// <summary>
+        /// See OpenPortObject
+        /// </summary>
         PORT,
+        /// <summary>
+        /// See RegistryObject
+        /// </summary>
         REGISTRY,
+        /// <summary>
+        /// See CertificateObject
+        /// </summary>
         CERTIFICATE,
+        /// <summary>
+        /// See ServiceObject
+        /// </summary>
         SERVICE,
+        /// <summary>
+        /// See UserAccountObject
+        /// </summary>
         USER,
+        /// <summary>
+        /// See UserGroupObject
+        /// </summary>
         GROUP,
+        /// <summary>
+        /// See FirewallObject
+        /// </summary>
         FIREWALL,
+        /// <summary>
+        /// See ComObject
+        /// </summary>
         COM,
+        /// <summary>
+        /// See EventLogObject
+        /// </summary>
         LOG,
+        /// <summary>
+        /// See FileMonitorObject
+        /// </summary>
         FILEMONITOR
     };
 
@@ -70,27 +106,49 @@ namespace AttackSurfaceAnalyzer.Types
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1717:Only FlagsAttribute enums should have plural names", Justification = "This is the official name for the enum.")]
     public enum DLLCHARACTERISTICS
     {
-        // 64 Bit ASLR
+        /// <summary>
+        /// 64 Bit ASLR
+        /// </summary>
         IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA = 0x0020,
-        // ASLR
+        /// <summary>
+        /// ASLR
+        /// </summary>
         IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE = 0x0040,
-        // Don't run unless properly signed
+        /// <summary>
+        /// Don't run unless properly signed
+        /// </summary>
         IMAGE_DLLCHARACTERISTICS_FORCE_INTEGRITY = 0x0080,
-        // DEP
+        /// <summary>
+        /// DEP
+        /// </summary>
         IMAGE_DLLCHARACTERISTICS_NX_COMPAT = 0x0100,
-        // No Isolation
+        /// <summary>
+        /// No Isolation
+        /// </summary>
         IMAGE_DLLCHARACTERISTICS_NO_ISOLATION = 0x0200,
-        // No Exceptions
+        /// <summary>
+        /// No Exceptions
+        /// </summary>
         IMAGE_DLLCHARACTERISTICS_NO_SEH = 0x0400,
-        // Do not bind the image
+        /// <summary>
+        /// Do not bind the image
+        /// </summary>
         IMAGE_DLLCHARACTERISTICS_NO_BIND = 0x0800,
-        // Must execute in an app container
+        /// <summary>
+        /// Must execute in an app container
+        /// </summary>
         IMAGE_DLLCHARACTERISTICS_APPCONTAINER = 0x1000,
-        // Image is a WDM driver
+        /// <summary>
+        /// Image is a WDM driver
+        /// </summary>
         IMAGE_DLLCHARACTERISTICS_WDM_DRIVER = 0x2000,
-        // Supports Control Flow Guard
+        /// <summary>
+        /// Supports Control Flow Guard
+        /// </summary>
         IMAGE_DLLCHARACTERISTICS_GUARD_CF = 0x4000,
-        // Image is terminal server aware
+        /// <summary>
+        /// Image is terminal server aware
+        /// </summary>
         IMAGE_DLLCHARACTERISTICS_TERMINAL_SERVER_AWARE = 0x8000
     }
 
@@ -99,12 +157,33 @@ namespace AttackSurfaceAnalyzer.Types
     /// </summary>
     public enum ANALYSIS_RESULT_TYPE
     {
+        /// <summary>
+        /// Lowest Level - 0
+        /// </summary>
         NONE,
+        /// <summary>
+        /// 1
+        /// </summary>
         VERBOSE,
+        /// <summary>
+        /// 2
+        /// </summary>
         DEBUG,
+        /// <summary>
+        /// 3
+        /// </summary>
         INFORMATION,
+        /// <summary>
+        /// 4
+        /// </summary>
         WARNING,
+        /// <summary>
+        /// 5
+        /// </summary>
         ERROR,
+        /// <summary>
+        /// 6 - Highest level
+        /// </summary>
         FATAL
     }
 
@@ -113,22 +192,73 @@ namespace AttackSurfaceAnalyzer.Types
     /// </summary>
     public enum OPERATION
     {
+        /// <summary>
+        /// Generates regular expressions from the Data list provided and tests them against the specified field.  If any match it is a success.
+        /// </summary>
         REGEX,
+        /// <summary>
+        /// Checks that any value in the Data list or DictData dictionary have a match in the specified field's object as appropriate.
+        /// </summary>
         EQ,
+        /// <summary>
+        /// Checks that any value in the Data list or DictData dictionary does not have a match in the specified field's object as appropriate.
+        /// </summary>
         NEQ,
+        /// <summary>
+        /// Checks whether the specified fields value when parsed as an int is less than first value in the Data list as Parsed as an Int
+        /// </summary>
         LT,
+        /// <summary>
+        /// Checks whether the specified fields value when parsed as an int is greater than first value in the Data list as Parsed as an Int
+        /// </summary>
         GT,
+        /// <summary>
+        /// Checks if the specified fields values contain all of the data in the Data list or DictData dictionary as appropriate for the field.
+        /// </summary>
         CONTAINS,
+        /// <summary>
+        /// Checks if the specified fields values does not contain any of the data in the Data list or DictData dictionary as appropriate for the field.
+        /// </summary>
         DOES_NOT_CONTAIN,
+        /// <summary>
+        /// Checks if the specified field was modified between the two runs.
+        /// </summary>
         WAS_MODIFIED,
+        /// <summary>
+        /// Checks if the specified field ends with any of the strings in the Data list.
+        /// </summary>
         ENDS_WITH,
+        /// <summary>
+        /// Checks if the specified field starts with any of the strings in the Data list.
+        /// </summary>
         STARTS_WITH,
+        /// <summary>
+        /// Checks if the specified fields values contain any of the data in the Data list or DictData dictionary as appropriate for the field.
+        /// </summary>
         CONTAINS_ANY,
+        /// <summary>
+        /// Checks if the specified fields values does not contain all of the data in the Data list or DictData dictionary as appropriate for the field.
+        /// </summary>
         DOES_NOT_CONTAIN_ALL,
+        /// <summary>
+        /// Checks if the specified field is null in both runs.
+        /// </summary>
         IS_NULL,
+        /// <summary>
+        /// Checks if the specified field is true in either run.
+        /// </summary>
         IS_TRUE,
+        /// <summary>
+        /// Checks if the specified field, as parsed as time, is before the time specified in the first entry of the Data list
+        /// </summary>
         IS_BEFORE,
+        /// <summary>
+        /// Checks if the specified field, as parsed as time, is after the time specified in the first entry of the Data list
+        /// </summary>
         IS_AFTER,
+        /// <summary>
+        /// Checks if the specified field, as parsed as time, is before DateTime.Now.
+        /// </summary>
         IS_EXPIRED
     }
 
