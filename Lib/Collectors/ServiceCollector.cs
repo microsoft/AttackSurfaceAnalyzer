@@ -128,7 +128,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             foreach(var file in DirectoryWalker.WalkDirectory("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"))
             {
-                var name = file.Split(Path.DirectorySeparatorChar)[^0];
+                var name = file.Split(Path.DirectorySeparatorChar)[^1];
                 var fso = FileSystemCollector.FilePathToFileSystemObject(file);
                 var obj = new ServiceObject(file)
                 {
