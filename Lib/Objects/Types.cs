@@ -296,4 +296,44 @@ namespace AttackSurfaceAnalyzer.Types
         TCP,
         UDP
     }
+
+    /// <summary>
+    /// From https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.addressfamily?view=netcore-3.1
+    /// </summary>
+    public enum ADDRESS_FAMILY
+    {
+        AppleTalk = 16,
+        Atm = 22,
+        Banyan = 21,
+        Ccitt = 10,
+        Chaos = 5,
+        Cluster = 24,
+        ControllerAreaNetwork = 65537,
+        DataKits = 9,
+        DataLink = 13,
+        DecNet = 12,
+        Ecma = 8,
+        FireFox = 19,
+        HyperChannel = 15,
+        Ieee12844 = 25,
+        ImpLink = 3,
+        InterNetwork = 2,
+        InterNetworkV6 = 23,
+        Ipx = 6,
+        Irda = 26,
+        Iso = 7,
+        Lat = 14,
+        Max = 29,
+        NetBios = 17,
+        NetworkDesigners = 28,
+        NS = 6,
+        Osi = 7,
+        Packet = 65536,
+        Pup = 4,
+        Sna = 11,
+        Unix = 1,
+        Unknown = -1,
+        Unspecified = 0,
+        VoiceView = 18
+    }
 }

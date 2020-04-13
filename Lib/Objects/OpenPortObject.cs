@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using System.Net.Sockets;
 using AttackSurfaceAnalyzer.Types;
 
 namespace AttackSurfaceAnalyzer.Objects
@@ -11,8 +10,9 @@ namespace AttackSurfaceAnalyzer.Objects
         /// <summary>
         /// InterNetwork is IPv4
         /// InterNetworkV6 is IPv6
+        /// https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.addressfamily?view=netcore-3.1
         /// </summary>
-        public AddressFamily Family { get; set; }
+        public ADDRESS_FAMILY Family { get; set; }
         /// <summary>
         /// TCP or UDP
         /// </summary>
@@ -23,11 +23,14 @@ namespace AttackSurfaceAnalyzer.Objects
         public int Port { get; set; }
         public string? ProcessName { get; set; }
 
-        public OpenPortObject(int Port, TRANSPORT Type)
+        public OpenPortObject(int Port, TRANSPORT Type) : this(Port, Type, ADDRESS_FAMILY.Unspecified) { }
+
+        public OpenPortObject(int Port, TRANSPORT Type, ADDRESS_FAMILY Family)
         {
             ResultType = RESULT_TYPE.PORT;
             this.Port = Port;
             this.Type = Type;
+            this.Family = Family;
         }
 
         /// <summary>

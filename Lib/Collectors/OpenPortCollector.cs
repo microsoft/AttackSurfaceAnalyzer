@@ -76,9 +76,8 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             foreach (var endpoint in properties.GetActiveTcpListeners())
             {
-                var obj = new OpenPortObject(endpoint.Port, TRANSPORT.TCP)
+                var obj = new OpenPortObject(endpoint.Port, TRANSPORT.TCP, (ADDRESS_FAMILY)endpoint.AddressFamily)
                 {
-                    Family = endpoint.AddressFamily,
                     Address = endpoint.Address.ToString(),
                 };
                 foreach (ProcessPort p in Win32ProcessPorts.ProcessPortMap.FindAll(x => x.PortNumber == endpoint.Port))
@@ -91,9 +90,8 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             foreach (var endpoint in properties.GetActiveUdpListeners())
             {
-                var obj = new OpenPortObject(endpoint.Port, TRANSPORT.UDP)
+                var obj = new OpenPortObject(endpoint.Port, TRANSPORT.UDP, (ADDRESS_FAMILY)endpoint.AddressFamily)
                 {
-                    Family = endpoint.AddressFamily,
                     Address = endpoint.Address.ToString()
                 };
                 foreach (ProcessPort p in Win32ProcessPorts.ProcessPortMap.FindAll(x => x.PortNumber == endpoint.Port))
@@ -136,10 +134,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                         var port = addressMatches.Groups[2].ToString();
                         if (int.TryParse(port, out int portInt))
                         {
-                            var family = parts[0].ToUpperInvariant().Equals("TCP") ? TRANSPORT.TCP : TRANSPORT.UDP;
-                            var obj = new OpenPortObject(portInt, family)
+                            var transport = parts[0].ToUpperInvariant().Equals("TCP") ? TRANSPORT.TCP : TRANSPORT.UDP;
+                            var family = address.Contains('.') ? ADDRESS_FAMILY.InterNetwork : address.Contains(':') ? ADDRESS_FAMILY.InterNetworkV6 : ADDRESS_FAMILY.Unknown;
+                            var obj = new OpenPortObject(portInt, transport, family)
                             {
-                                Family = address.Contains('.')?AddressFamily.InterNetwork:address.Contains(':')?AddressFamily.InterNetworkV6:AddressFamily.Unknown,//@TODO: Determine IPV4 vs IPv6 via looking at the address
                                 Address = address
                             };
                             DatabaseManager.Write(obj, RunId);
@@ -186,25 +184,27 @@ namespace AttackSurfaceAnalyzer.Collectors
                         var port = addressMatches.Groups[2].ToString();
                         if (int.TryParse(port, out int portInt))
                         {
-                            var family = parts[7].ToUpperInvariant().Equals("TCP") ? TRANSPORT.TCP : parts[7].ToUpperInvariant().Equals("TCP") ? TRANSPORT.UDP : TRANSPORT.UNKNOWN;
-                            var obj = new OpenPortObject(portInt, family)
-                            {
-                                Address = address,
-                                ProcessName = parts[0]
-                            };
+                            var transport = parts[7].ToUpperInvariant().Equals("TCP") ? TRANSPORT.TCP : parts[7].ToUpperInvariant().Equals("TCP") ? TRANSPORT.UDP : TRANSPORT.UNKNOWN;
+                            var family = ADDRESS_FAMILY.Unknown;
 
                             switch (parts[4])
                             {
                                 case "IPv4":
-                                    obj.Family = AddressFamily.InterNetwork;
+                                    family = ADDRESS_FAMILY.InterNetwork;
                                     break;
                                 case "IPv6":
-                                    obj.Family = AddressFamily.InterNetworkV6;
+                                    family = ADDRESS_FAMILY.InterNetworkV6;
                                     break;
                                 default:
-                                    obj.Family = AddressFamily.Unknown;
+                                    family = ADDRESS_FAMILY.Unknown;
                                     break;
                             }
+
+                            var obj = new OpenPortObject(portInt, transport, family)
+                            {
+                                Address = address,
+                                ProcessName = parts[0]
+                            };
 
                             DatabaseManager.Write(obj, RunId);
                         }
