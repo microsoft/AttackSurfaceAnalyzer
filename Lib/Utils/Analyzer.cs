@@ -389,8 +389,9 @@ namespace AttackSurfaceAnalyzer.Utils
                         else
                         {
                             // Recursively evaluate the contents of the parentheses
-                            splits[i] = splits[i].Replace("(", "").Replace(")", "");
-                            splits[matchingParen] = splits[matchingParen].Replace("(", "").Replace(")", "");
+
+                            splits[i] = splits[i][1..];
+                            splits[matchingParen] = splits[matchingParen][0..^1];
                             var next = Evaluate(splits[i..(matchingParen + 1)], Clauses, compareResult);
                             next = invertNextStatement ? !next : next;
                             current = Operate(Operator, current, next);
@@ -438,8 +439,8 @@ namespace AttackSurfaceAnalyzer.Utils
                             }
                             operatorExpected = true;
                         }
+                        updated_i = i + 1;
                     }
-                    updated_i = i + 1;
                 }
             }
             return current;
@@ -656,9 +657,12 @@ namespace AttackSurfaceAnalyzer.Utils
                         {
                             if (int.TryParse(val, out int valToCheck))
                             {
-                                if (valToCheck > int.Parse(clause.Data?[0] ?? $"{int.MaxValue}", CultureInfo.InvariantCulture))
+                                if (int.TryParse(clause.Data?[0], out int dataValue))
                                 {
-                                    return true;
+                                    if (valToCheck > dataValue)
+                                    {
+                                        return true;
+                                    }
                                 }
                             }
                         }
@@ -671,9 +675,12 @@ namespace AttackSurfaceAnalyzer.Utils
                         {
                             if (int.TryParse(val, out int valToCheck))
                             {
-                                if (valToCheck < int.Parse(clause.Data?[0] ?? $"{int.MaxValue}", CultureInfo.InvariantCulture))
+                                if (int.TryParse(clause.Data?[0], out int dataValue))
                                 {
-                                    return true;
+                                    if (valToCheck < dataValue)
+                                    {
+                                        return true;
+                                    }
                                 }
                             }
                         }

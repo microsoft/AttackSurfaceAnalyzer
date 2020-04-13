@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AttackSurfaceAnalyzer.Types;
+using System;
 namespace AttackSurfaceAnalyzer.Objects
 {
     public class OutputFileMonitorResult
