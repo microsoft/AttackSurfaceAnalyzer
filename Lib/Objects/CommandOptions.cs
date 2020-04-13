@@ -194,6 +194,4 @@ namespace AttackSurfaceAnalyzer
 
     [Verb("gui", HelpText = "Launch the GUI in a browser")]
     public class GuiCommandOptions : CommandOptions
-    {
-    }
 }
