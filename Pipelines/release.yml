@@ -422,6 +422,7 @@ stages:
         targetType: 'inline'
         script: |
           Move-Item -Path "$(build.binariesdirectory)\nuget\*.nupkg" -Destination "$(build.artifactstagingdirectory)"
+          Move-Item -Path "$(build.binariesdirectory)\nuget\*.snupkg" -Destination "$(build.artifactstagingdirectory)"
 
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact'
