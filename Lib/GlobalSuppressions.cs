@@ -9,4 +9,3 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Naming", "CA1707:Identifiers should not contain underscores", Justification = "Preferred format.", Scope = "namespace", Target = "AttackSurfaceAnalyzer")]
-[assembly: SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "False warning. We check if dbSettings is null before using it, and in fact this reference is to settings not to dbSettings", Scope = "member", Target = "~M:AttackSurfaceAnalyzer.Objects.SqlConnectionHolder.#ctor(System.String,AttackSurfaceAnalyzer.Utils.DBSettings,System.Int32)")]
