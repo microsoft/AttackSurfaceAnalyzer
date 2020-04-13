@@ -10,9 +10,8 @@ namespace AttackSurfaceAnalyzer.Objects
         /// <summary>
         /// InterNetwork is IPv4
         /// InterNetworkV6 is IPv6
-        /// https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.addressfamily?view=netcore-3.1
         /// </summary>
-        public ADDRESS_FAMILY Family { get; set; }
+        public ADDRESS_FAMILY AddressFamily { get; set; }
         /// <summary>
         /// TCP or UDP
         /// </summary>
@@ -25,12 +24,12 @@ namespace AttackSurfaceAnalyzer.Objects
 
         public OpenPortObject(int Port, TRANSPORT Type) : this(Port, Type, ADDRESS_FAMILY.Unspecified) { }
 
-        public OpenPortObject(int Port, TRANSPORT Type, ADDRESS_FAMILY Family)
+        public OpenPortObject(int Port, TRANSPORT Type, ADDRESS_FAMILY AddressFamily)
         {
             ResultType = RESULT_TYPE.PORT;
             this.Port = Port;
             this.Type = Type;
-            this.Family = Family;
+            this.AddressFamily = AddressFamily;
         }
 
         /// <summary>
@@ -40,7 +39,7 @@ namespace AttackSurfaceAnalyzer.Objects
         {
             get
             {
-                return $"{Address}:{Family}:{Type}:{Port}:{ProcessName}";
+                return $"{Address}:{AddressFamily}:{Type}:{Port}:{ProcessName}";
             }
         }
     }
