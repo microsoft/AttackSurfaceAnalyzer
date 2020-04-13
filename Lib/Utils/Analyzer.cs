@@ -344,7 +344,7 @@ namespace AttackSurfaceAnalyzer.Utils
             return splits.Length - 1;
         }
 
-        private static bool Evaluate(string[] splits, List<Clause> ClauseResults, CompareResult compareResult)
+        private static bool Evaluate(string[] splits, List<Clause> Clauses, CompareResult compareResult)
         {
             bool current = false;
 
@@ -356,7 +356,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 internalIndex = 1;
             }
 
-            var res = ClauseResults.Where(x => x.Label == splits[internalIndex].Replace("(", "").Replace(")", ""));
+            var res = Clauses.Where(x => x.Label == splits[internalIndex].Replace("(", "").Replace(")", ""));
             if (!(res.Count() == 1))
             {
                 return false;
@@ -374,12 +374,15 @@ namespace AttackSurfaceAnalyzer.Utils
 
             var updated_i = internalIndex + 1;
             var operatorExpected = true;
+            var invertNextStatement = false;
+
             for (int i = updated_i; i < splits.Length; i = updated_i)
             {
                 if (operatorExpected)
                 {
                     Operator = (BOOL_OPERATOR)Enum.Parse(typeof(BOOL_OPERATOR), splits[i]);
                     operatorExpected = false;
+                    updated_i = i + 1;
                 }
                 else
                 {
@@ -387,78 +390,77 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         //Get the substring closing this paren
                         var matchingParen = FindMatchingParen(splits, i);
-                        if (Operator == BOOL_OPERATOR.AND && current == false)
+                        // If either argument of an AND statement is false,
+                        // or either argument of a NOR statement is true,
+                        // the result is always false and we can optimize away evaluation of next
+                        if ((Operator == BOOL_OPERATOR.AND && current == false) ||
+                             (Operator == BOOL_OPERATOR.NOR && current == true))
                         {
                             current = false;
                         }
-                        else if (Operator == BOOL_OPERATOR.OR && current == true)
+                        // If either argument of an NAND statement is false,
+                        // or either argument of an OR statement is true,
+                        // the result is always true and we can optimize away evaluation of next
+                        else if ((Operator == BOOL_OPERATOR.OR && current == true) ||
+                                   (Operator == BOOL_OPERATOR.NAND && current == false))
                         {
                             current = true;
                         }
-                        else if (Operator == BOOL_OPERATOR.NAND && current == false)
-                        {
-                            current = true;
-                        }
-                        else if (Operator == BOOL_OPERATOR.NOR && current == true)
-                        {
-                            current = false;
-                        }
+                        // If we can't shortcut, do the actual evaluation
                         else
                         {
-                            current = Operate(Operator, current, Evaluate(splits[i..(matchingParen + 1)], ClauseResults, compareResult));
+                            // Recursively evaluate the contents of the parentheses
+                            var next = Evaluate(splits[i..(matchingParen + 1)], Clauses, compareResult);
+                            next = invertNextStatement ? !next : next;
+                            current = Operate(Operator, current, next);
                         }
                         updated_i = matchingParen + 1;
+                        invertNextStatement = false;
+                        operatorExpected = true;
                     }
                     else
                     {
-                        internalIndex = i;
-                        hasNotOperator = splits[i].Equals(BOOL_OPERATOR.NOT.ToString());
-
-                        if (hasNotOperator)
+                        if (splits[i].Equals(BOOL_OPERATOR.NOT.ToString()))
                         {
-                            internalIndex = i + 1;
-                            updated_i = i + 2;
-                        }
-
-                        res = ClauseResults.Where(x => x.Label == splits[internalIndex].Replace("(", "").Replace(")", ""));
-                        if (!(res.Count() == 1))
-                        {
-                            return false;
-                        }
-
-                        if (Operator == BOOL_OPERATOR.AND && current == false)
-                        {
-                            current = false;
-                        }
-                        else if (Operator == BOOL_OPERATOR.OR && current == true)
-                        {
-                            current = true;
-                        }
-                        else if (Operator == BOOL_OPERATOR.NAND && current == false)
-                        {
-                            current = true;
-                        }
-                        else if (Operator == BOOL_OPERATOR.NOR && current == true)
-                        {
-                            current = false;
+                            invertNextStatement = true;
+                            operatorExpected = false;
                         }
                         else
                         {
-                            if (hasNotOperator)
+                            // Ensure we have exactly 1 matching clause defined
+                            res = Clauses.Where(x => x.Label == splits[i].Replace("(", "").Replace(")", ""));
+                            if (!(res.Count() == 1))
                             {
-                                current = Operate(Operator, current, !AnalyzeClause(res.First(), compareResult));
+                                return false;
                             }
+                            // If either argument of an AND statement is false,
+                            // or either argument of a NOR statement is true,
+                            // the result is always false and we can optimize away evaluation of next
+                            if ((Operator == BOOL_OPERATOR.AND && current == false) ||
+                                 (Operator == BOOL_OPERATOR.NOR && current == true))
+                            {
+                                current = false;
+                            }
+                            // If either argument of an NAND statement is false,
+                            // or either argument of an OR statement is true,
+                            // the result is always true and we can optimize away evaluation of next
+                            else if ((Operator == BOOL_OPERATOR.OR && current == true) ||
+                                       (Operator == BOOL_OPERATOR.NAND && current == false))
+                            {
+                                current = true;
+                            }
+                            // If we can't shortcut, do the actual evaluation
                             else
                             {
-                                current = Operate(Operator, current, AnalyzeClause(res.First(), compareResult));
+                                var next = invertNextStatement ? !AnalyzeClause(res.First(), compareResult) : AnalyzeClause(res.First(), compareResult);
+                                current = Operate(Operator, current, next);
                             }
+                            operatorExpected = true;
                         }
                     }
-                    operatorExpected = true;
+                    updated_i = i + 1;
                 }
-                updated_i = updated_i == i ? i + 1 : updated_i;
             }
-
             return current;
         }
 
