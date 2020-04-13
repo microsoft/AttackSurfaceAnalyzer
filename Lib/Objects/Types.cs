@@ -289,4 +289,11 @@ namespace AttackSurfaceAnalyzer.Types
         NOR,
         NOT
     }
+
+    public enum TRANSPORT
+    {
+        UNKNOWN,
+        TCP,
+        UDP
+    }
 }

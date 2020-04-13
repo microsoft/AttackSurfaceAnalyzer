@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
+using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Serilog;
 using System;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
@@ -74,11 +76,10 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             foreach (var endpoint in properties.GetActiveTcpListeners())
             {
-                var obj = new OpenPortObject(endpoint.Port)
+                var obj = new OpenPortObject(endpoint.Port, TRANSPORT.TCP)
                 {
-                    Family = endpoint.AddressFamily.ToString(),
+                    Family = endpoint.AddressFamily,
                     Address = endpoint.Address.ToString(),
-                    Type = "tcp"
                 };
                 foreach (ProcessPort p in Win32ProcessPorts.ProcessPortMap.FindAll(x => x.PortNumber == endpoint.Port))
                 {
@@ -90,11 +91,10 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             foreach (var endpoint in properties.GetActiveUdpListeners())
             {
-                var obj = new OpenPortObject(endpoint.Port)
+                var obj = new OpenPortObject(endpoint.Port, TRANSPORT.UDP)
                 {
-                    Family = endpoint.AddressFamily.ToString(),
-                    Address = endpoint.Address.ToString(),
-                    Type = "udp"
+                    Family = endpoint.AddressFamily,
+                    Address = endpoint.Address.ToString()
                 };
                 foreach (ProcessPort p in Win32ProcessPorts.ProcessPortMap.FindAll(x => x.PortNumber == endpoint.Port))
                 {
@@ -136,11 +136,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                         var port = addressMatches.Groups[2].ToString();
                         if (int.TryParse(port, out int portInt))
                         {
-                            var obj = new OpenPortObject(portInt)
+                            var obj = new OpenPortObject(portInt, parts[0].ToUpperInvariant().Equals("TCP") ? TRANSPORT.TCP : TRANSPORT.UDP)
                             {
-                                Family = parts[0],//@TODO: Determine IPV4 vs IPv6 via looking at the address
-                                Address = address,
-                                Type = parts[0]
+                                Family = address.Contains('.')?AddressFamily.InterNetwork:address.Contains(':')?AddressFamily.InterNetworkV6:AddressFamily.Unknown,//@TODO: Determine IPV4 vs IPv6 via looking at the address
+                                Address = address
                             };
                             DatabaseManager.Write(obj, RunId);
                         }
@@ -187,14 +186,25 @@ namespace AttackSurfaceAnalyzer.Collectors
                         var port = addressMatches.Groups[2].ToString();
                         if (int.TryParse(port, out int portInt))
                         {
-                            var obj = new OpenPortObject(portInt)
+                            var obj = new OpenPortObject(portInt, parts[7].ToUpperInvariant().Equals("TCP")?TRANSPORT.TCP: parts[7].ToUpperInvariant().Equals("TCP")?TRANSPORT.UDP:TRANSPORT.UNKNOWN)
                             {
                                 // Assuming family means IPv6 vs IPv4
-                                Family = parts[4],
                                 Address = address,
-                                Type = parts[7],
                                 ProcessName = parts[0]
                             };
+
+                            switch (parts[4])
+                            {
+                                case "IPv4":
+                                    obj.Family = AddressFamily.InterNetwork;
+                                    break;
+                                case "IPv6":
+                                    obj.Family = AddressFamily.InterNetworkV6;
+                                    break;
+                                default:
+                                    obj.Family = AddressFamily.Unknown;
+                                    break;
+                            }
 
                             DatabaseManager.Write(obj, RunId);
                         }
