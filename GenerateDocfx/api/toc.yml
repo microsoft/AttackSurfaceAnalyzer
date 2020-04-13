@@ -18,6 +18,8 @@
     name: GuiCommandOptions
   - uid: AttackSurfaceAnalyzer.MonitorCommandOptions
     name: MonitorCommandOptions
+  - uid: AttackSurfaceAnalyzer.VerifyOptions
+    name: VerifyOptions
 - uid: AttackSurfaceAnalyzer.Collectors
   name: AttackSurfaceAnalyzer.Collectors
   items:
@@ -58,10 +60,10 @@
 - uid: AttackSurfaceAnalyzer.Objects
   name: AttackSurfaceAnalyzer.Objects
   items:
+  - uid: AttackSurfaceAnalyzer.Objects.AsaRun
+    name: AsaRun
   - uid: AttackSurfaceAnalyzer.Objects.CertificateObject
     name: CertificateObject
-  - uid: AttackSurfaceAnalyzer.Objects.CertificateResult
-    name: CertificateResult
   - uid: AttackSurfaceAnalyzer.Objects.Clause
     name: Clause
   - uid: AttackSurfaceAnalyzer.Objects.CollectObject
@@ -70,8 +72,6 @@
     name: ComObject
   - uid: AttackSurfaceAnalyzer.Objects.CompareResult
     name: CompareResult
-  - uid: AttackSurfaceAnalyzer.Objects.DataResultModel
-    name: DataResultModel
   - uid: AttackSurfaceAnalyzer.Objects.DataRunListModel
     name: DataRunListModel
   - uid: AttackSurfaceAnalyzer.Objects.DataRunModel
@@ -88,44 +88,32 @@
     name: FileSystemMonitorResult
   - uid: AttackSurfaceAnalyzer.Objects.FileSystemObject
     name: FileSystemObject
-  - uid: AttackSurfaceAnalyzer.Objects.FileSystemResult
-    name: FileSystemResult
   - uid: AttackSurfaceAnalyzer.Objects.FirewallObject
     name: FirewallObject
   - uid: AttackSurfaceAnalyzer.Objects.GroupAccountObject
     name: GroupAccountObject
   - uid: AttackSurfaceAnalyzer.Objects.OpenPortObject
     name: OpenPortObject
-  - uid: AttackSurfaceAnalyzer.Objects.OpenPortResult
-    name: OpenPortResult
-  - uid: AttackSurfaceAnalyzer.Objects.OutputCompareResult
-    name: OutputCompareResult
   - uid: AttackSurfaceAnalyzer.Objects.OutputFileMonitorResult
     name: OutputFileMonitorResult
-  - uid: AttackSurfaceAnalyzer.Objects.RawCollectResult
-    name: RawCollectResult
-  - uid: AttackSurfaceAnalyzer.Objects.RawModifiedResult
-    name: RawModifiedResult
   - uid: AttackSurfaceAnalyzer.Objects.RegistryObject
     name: RegistryObject
-  - uid: AttackSurfaceAnalyzer.Objects.RegistryResult
-    name: RegistryResult
   - uid: AttackSurfaceAnalyzer.Objects.Rule
     name: Rule
-  - uid: AttackSurfaceAnalyzer.Objects.Run
-    name: Run
+  - uid: AttackSurfaceAnalyzer.Objects.RuleFile
+    name: RuleFile
   - uid: AttackSurfaceAnalyzer.Objects.SerializableCertificate
     name: SerializableCertificate
   - uid: AttackSurfaceAnalyzer.Objects.ServiceObject
     name: ServiceObject
-  - uid: AttackSurfaceAnalyzer.Objects.ServiceResult
-    name: ServiceResult
+  - uid: AttackSurfaceAnalyzer.Objects.Settings
+    name: Settings
   - uid: AttackSurfaceAnalyzer.Objects.Signature
     name: Signature
+  - uid: AttackSurfaceAnalyzer.Objects.SqlConnectionHolder
+    name: SqlConnectionHolder
   - uid: AttackSurfaceAnalyzer.Objects.UserAccountObject
     name: UserAccountObject
-  - uid: AttackSurfaceAnalyzer.Objects.UserAccountResult
-    name: UserAccountResult
   - uid: AttackSurfaceAnalyzer.Objects.WriteObject
     name: WriteObject
 - uid: AttackSurfaceAnalyzer.Properties
@@ -138,12 +126,14 @@
   items:
   - uid: AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE
     name: ANALYSIS_RESULT_TYPE
+  - uid: AttackSurfaceAnalyzer.Types.ASA_ERROR
+    name: ASA_ERROR
+  - uid: AttackSurfaceAnalyzer.Types.BOOL_OPERATOR
+    name: BOOL_OPERATOR
   - uid: AttackSurfaceAnalyzer.Types.CHANGE_TYPE
     name: CHANGE_TYPE
   - uid: AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS
     name: DLLCHARACTERISTICS
-  - uid: AttackSurfaceAnalyzer.Types.GUI_ERROR
-    name: GUI_ERROR
   - uid: AttackSurfaceAnalyzer.Types.OPERATION
     name: OPERATION
   - uid: AttackSurfaceAnalyzer.Types.PLATFORM
@@ -154,6 +144,8 @@
     name: RUN_STATUS
   - uid: AttackSurfaceAnalyzer.Types.RUN_TYPE
     name: RUN_TYPE
+  - uid: AttackSurfaceAnalyzer.Types.TRANSPORT
+    name: TRANSPORT
 - uid: AttackSurfaceAnalyzer.Utils
   name: AttackSurfaceAnalyzer.Utils
   items:
@@ -167,6 +159,8 @@
     name: CryptoHelpers
   - uid: AttackSurfaceAnalyzer.Utils.DatabaseManager
     name: DatabaseManager
+  - uid: AttackSurfaceAnalyzer.Utils.DBSettings
+    name: DBSettings
   - uid: AttackSurfaceAnalyzer.Utils.DirectoryWalker
     name: DirectoryWalker
   - uid: AttackSurfaceAnalyzer.Utils.Elevation
@@ -175,8 +169,6 @@
     name: ExternalCommandRunner
   - uid: AttackSurfaceAnalyzer.Utils.FileWatcher
     name: FileWatcher
-  - uid: AttackSurfaceAnalyzer.Utils.Filter
-    name: Filter
   - uid: AttackSurfaceAnalyzer.Utils.JsonUtils
     name: JsonUtils
   - uid: AttackSurfaceAnalyzer.Utils.Logger

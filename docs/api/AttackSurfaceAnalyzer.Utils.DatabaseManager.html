@@ -114,18 +114,18 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_Connection.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.Connection%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_Connections.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.Connections%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L105">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L125">View Source</a>
   </span>
-  <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_Connection_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.Connection*"></a>
-  <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_Connection" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.Connection">Connection</h4>
+  <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_Connections_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.Connections*"></a>
+  <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_Connections" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.Connections">Connections</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static SqliteConnection Connection { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public static List&lt;SqlConnectionHolder&gt; Connections { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -137,17 +137,17 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Microsoft.Data.Sqlite.SqliteConnection</span></td>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="AttackSurfaceAnalyzer.Objects.SqlConnectionHolder.html">SqlConnectionHolder</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_FirstRun.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.FirstRun%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_FirstRun.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.FirstRun%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L109">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L127">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_FirstRun_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.FirstRun*"></a>
   <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_FirstRun" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.FirstRun">FirstRun</h4>
@@ -174,10 +174,40 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_SqliteFilename.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.SqliteFilename%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_MainConnection.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.MainConnection%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L548">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L115">View Source</a>
+  </span>
+  <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_MainConnection_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.MainConnection*"></a>
+  <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_MainConnection" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.MainConnection">MainConnection</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static SqlConnectionHolder MainConnection { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="AttackSurfaceAnalyzer.Objects.SqlConnectionHolder.html">SqlConnectionHolder</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_SqliteFilename.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.SqliteFilename%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L647">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_SqliteFilename_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.SqliteFilename*"></a>
   <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_SqliteFilename" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.SqliteFilename">SqliteFilename</h4>
@@ -202,74 +232,14 @@
       </tr>
     </tbody>
   </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_Transaction.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.Transaction%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L476">View Source</a>
-  </span>
-  <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_Transaction_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.Transaction*"></a>
-  <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_Transaction" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.Transaction">Transaction</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static SqliteTransaction Transaction { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">Microsoft.Data.Sqlite.SqliteTransaction</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_WriteQueue.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.WriteQueue%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L107">View Source</a>
-  </span>
-  <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_WriteQueue_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.WriteQueue*"></a>
-  <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_WriteQueue" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.WriteQueue">WriteQueue</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static ConcurrentQueue&lt;WriteObject&gt; WriteQueue { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Collections.Concurrent.ConcurrentQueue</span>&lt;<a class="xref" href="AttackSurfaceAnalyzer.Objects.WriteObject.html">WriteObject</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
   <h3 id="methods">Methods
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_BeginTransaction.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.BeginTransaction%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_BeginTransaction.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.BeginTransaction%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L469">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L607">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_BeginTransaction_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.BeginTransaction*"></a>
   <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_BeginTransaction" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.BeginTransaction">BeginTransaction()</h4>
@@ -281,10 +251,10 @@
   </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_CloseDatabase.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.CloseDatabase%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_CloseDatabase.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.CloseDatabase%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L556">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L658">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_CloseDatabase_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.CloseDatabase*"></a>
   <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_CloseDatabase" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.CloseDatabase">CloseDatabase()</h4>
@@ -296,10 +266,10 @@
   </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_Commit.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.Commit%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_Commit.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.Commit%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L514">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L642">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_Commit_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.Commit*"></a>
   <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_Commit" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.Commit">Commit()</h4>
@@ -311,10 +281,10 @@
   </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_DeleteRun_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.DeleteRun(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_DeleteRun_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.DeleteRun(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L685">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L849">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_DeleteRun_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.DeleteRun*"></a>
   <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_DeleteRun_System_String_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.DeleteRun(System.String)">DeleteRun(String)</h4>
@@ -343,10 +313,211 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetCommonResultTypes_System_String_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetCommonResultTypes(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_Destroy.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.Destroy%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L915">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L338">View Source</a>
+  </span>
+  <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_Destroy_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.Destroy*"></a>
+  <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_Destroy" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.Destroy">Destroy()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void Destroy()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_EstablishMainConnection.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.EstablishMainConnection%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L302">View Source</a>
+  </span>
+  <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_EstablishMainConnection_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.EstablishMainConnection*"></a>
+  <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_EstablishMainConnection" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.EstablishMainConnection">EstablishMainConnection()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool EstablishMainConnection()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetAllMissing_System_String_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetAllMissing(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L719">View Source</a>
+  </span>
+  <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetAllMissing_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetAllMissing*"></a>
+  <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetAllMissing_System_String_System_String_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetAllMissing(System.String,System.String)">GetAllMissing(String, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static ConcurrentBag&lt;WriteObject&gt; GetAllMissing(string firstRunId, string secondRunId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">firstRunId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">secondRunId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Concurrent.ConcurrentBag</span>&lt;<a class="xref" href="AttackSurfaceAnalyzer.Objects.WriteObject.html">WriteObject</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetAllMissing2_System_String_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetAllMissing2(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L775">View Source</a>
+  </span>
+  <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetAllMissing2_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetAllMissing2*"></a>
+  <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetAllMissing2_System_String_System_String_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetAllMissing2(System.String,System.String)">GetAllMissing2(String, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static ConcurrentBag&lt;WriteObject&gt; GetAllMissing2(string firstRunId, string secondRunId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">firstRunId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">secondRunId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Concurrent.ConcurrentBag</span>&lt;<a class="xref" href="AttackSurfaceAnalyzer.Objects.WriteObject.html">WriteObject</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetAllMissingExplicit_System_String_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetAllMissingExplicit(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L747">View Source</a>
+  </span>
+  <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetAllMissingExplicit_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetAllMissingExplicit*"></a>
+  <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetAllMissingExplicit_System_String_System_String_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetAllMissingExplicit(System.String,System.String)">GetAllMissingExplicit(String, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static ConcurrentBag&lt;WriteObject&gt; GetAllMissingExplicit(string firstRunId, string secondRunId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">firstRunId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">secondRunId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Concurrent.ConcurrentBag</span>&lt;<a class="xref" href="AttackSurfaceAnalyzer.Objects.WriteObject.html">WriteObject</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetCommonResultTypes_System_String_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetCommonResultTypes(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L1071">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetCommonResultTypes_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetCommonResultTypes*"></a>
   <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetCommonResultTypes_System_String_System_String_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetCommonResultTypes(System.String,System.String)">GetCommonResultTypes(String, String)</h4>
@@ -354,7 +525,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static object GetCommonResultTypes(string baseId, string compareId)</code></pre>
+    <pre><code class="lang-csharp hljs">public static List&lt;RESULT_TYPE&gt; GetCommonResultTypes(string baseId, string compareId)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -388,17 +559,17 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Object</span></td>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="AttackSurfaceAnalyzer.Types.RESULT_TYPE.html">RESULT_TYPE</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonCompleted_System_String_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonCompleted(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonCompleted_System_String_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonCompleted(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L1001">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L1079">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonCompleted_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonCompleted*"></a>
   <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonCompleted_System_String_System_String_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonCompleted(System.String,System.String)">GetComparisonCompleted(String, String)</h4>
@@ -447,10 +618,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonResults_System_String_AttackSurfaceAnalyzer_Types_RESULT_TYPE_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResults(System.String%2CAttackSurfaceAnalyzer.Types.RESULT_TYPE)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonResults_System_String_AttackSurfaceAnalyzer_Types_RESULT_TYPE_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResults(System.String%2CAttackSurfaceAnalyzer.Types.RESULT_TYPE)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L374">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L501">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonResults_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResults*"></a>
   <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonResults_System_String_AttackSurfaceAnalyzer_Types_RESULT_TYPE_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResults(System.String,AttackSurfaceAnalyzer.Types.RESULT_TYPE)">GetComparisonResults(String, RESULT_TYPE)</h4>
@@ -499,10 +670,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonResults_System_String_System_Int32_System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResults(System.String%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonResults_System_String_System_Int32_System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResults(System.String%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L875">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L1028">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonResults_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResults*"></a>
   <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonResults_System_String_System_Int32_System_Int32_System_Int32_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResults(System.String,System.Int32,System.Int32,System.Int32)">GetComparisonResults(String, Int32, Int32, Int32)</h4>
@@ -561,10 +732,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonResultsCount_System_String_System_Int32_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResultsCount(System.String%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonResultsCount_System_String_System_Int32_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResultsCount(System.String%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L897">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L1051">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonResultsCount_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResultsCount*"></a>
   <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonResultsCount_System_String_System_Int32_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResultsCount(System.String,System.Int32)">GetComparisonResultsCount(String, Int32)</h4>
@@ -613,18 +784,18 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetLatestRunIds_System_Int32_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetLatestRunIds(System.Int32%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetLatestRunIds_System_Int32_AttackSurfaceAnalyzer_Types_RUN_TYPE_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetLatestRunIds(System.Int32%2CAttackSurfaceAnalyzer.Types.RUN_TYPE)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L349">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L467">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetLatestRunIds_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetLatestRunIds*"></a>
-  <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetLatestRunIds_System_Int32_System_String_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetLatestRunIds(System.Int32,System.String)">GetLatestRunIds(Int32, String)</h4>
+  <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetLatestRunIds_System_Int32_AttackSurfaceAnalyzer_Types_RUN_TYPE_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetLatestRunIds(System.Int32,AttackSurfaceAnalyzer.Types.RUN_TYPE)">GetLatestRunIds(Int32, RUN_TYPE)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static List&lt;string&gt; GetLatestRunIds(int numberOfIds, string type)</code></pre>
+    <pre><code class="lang-csharp hljs">public static List&lt;string&gt; GetLatestRunIds(int numberOfIds, RUN_TYPE type)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -642,7 +813,7 @@
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="AttackSurfaceAnalyzer.Types.RUN_TYPE.html">RUN_TYPE</a></td>
         <td><span class="parametername">type</span></td>
         <td></td>
       </tr>
@@ -665,10 +836,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetMissingFromFirst_System_String_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetMissingFromFirst(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetMissingFromFirst_System_String_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetMissingFromFirst(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L612">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L691">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetMissingFromFirst_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetMissingFromFirst*"></a>
   <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetMissingFromFirst_System_String_System_String_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetMissingFromFirst(System.String,System.String)">GetMissingFromFirst(String, String)</h4>
@@ -676,7 +847,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static List&lt;RawCollectResult&gt; GetMissingFromFirst(string firstRunId, string secondRunId)</code></pre>
+    <pre><code class="lang-csharp hljs">public static ConcurrentBag&lt;WriteObject&gt; GetMissingFromFirst(string firstRunId, string secondRunId)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -710,17 +881,17 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="AttackSurfaceAnalyzer.Objects.RawCollectResult.html">RawCollectResult</a>&gt;</td>
+        <td><span class="xref">System.Collections.Concurrent.ConcurrentBag</span>&lt;<a class="xref" href="AttackSurfaceAnalyzer.Objects.WriteObject.html">WriteObject</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetModified_System_String_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetModified(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetModified_System_String_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetModified(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L637">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L804">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetModified_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetModified*"></a>
   <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetModified_System_String_System_String_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetModified(System.String,System.String)">GetModified(String, String)</h4>
@@ -728,7 +899,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static List&lt;RawModifiedResult&gt; GetModified(string firstRunId, string secondRunId)</code></pre>
+    <pre><code class="lang-csharp hljs">public static ConcurrentBag&lt;(WriteObject, WriteObject)&gt; GetModified(string firstRunId, string secondRunId)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -762,17 +933,17 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="AttackSurfaceAnalyzer.Objects.RawModifiedResult.html">RawModifiedResult</a>&gt;</td>
+        <td><span class="xref">System.Collections.Concurrent.ConcurrentBag</span>&lt;<span class="xref">System.ValueTuple</span>&lt;<a class="xref" href="AttackSurfaceAnalyzer.Objects.WriteObject.html">WriteObject</a>, <a class="xref" href="AttackSurfaceAnalyzer.Objects.WriteObject.html">WriteObject</a>&gt;&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetMonitorResults_System_String_System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetMonitorResults(System.String%2CSystem.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetMonitorResults_System_String_System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetMonitorResults(System.String%2CSystem.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L827">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L946">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetMonitorResults_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetMonitorResults*"></a>
   <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetMonitorResults_System_String_System_Int32_System_Int32_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetMonitorResults(System.String,System.Int32,System.Int32)">GetMonitorResults(String, Int32, Int32)</h4>
@@ -826,10 +997,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetMonitorRuns.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetMonitorRuns%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetMonitorRuns.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetMonitorRuns%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L799">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L918">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetMonitorRuns_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetMonitorRuns*"></a>
   <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetMonitorRuns" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetMonitorRuns">GetMonitorRuns()</h4>
@@ -856,10 +1027,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetNumMonitorResults_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetNumMonitorResults(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetNumMonitorResults_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetNumMonitorResults(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L858">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L988">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetNumMonitorResults_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetNumMonitorResults*"></a>
   <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetNumMonitorResults_System_String_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetNumMonitorResults(System.String)">GetNumMonitorResults(String)</h4>
@@ -903,10 +1074,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetNumResults_AttackSurfaceAnalyzer_Types_RESULT_TYPE_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetNumResults(AttackSurfaceAnalyzer.Types.RESULT_TYPE%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetNumResults_AttackSurfaceAnalyzer_Types_RESULT_TYPE_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetNumResults(AttackSurfaceAnalyzer.Types.RESULT_TYPE%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L420">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L553">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetNumResults_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetNumResults*"></a>
   <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetNumResults_AttackSurfaceAnalyzer_Types_RESULT_TYPE_System_String_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetNumResults(AttackSurfaceAnalyzer.Types.RESULT_TYPE,System.String)">GetNumResults(RESULT_TYPE, String)</h4>
@@ -955,40 +1126,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetOptOut.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetOptOut%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetResultModels_AttackSurfaceAnalyzer_Types_RUN_STATUS_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultModels(AttackSurfaceAnalyzer.Types.RUN_STATUS)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L734">View Source</a>
-  </span>
-  <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetOptOut_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetOptOut*"></a>
-  <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetOptOut" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetOptOut">GetOptOut()</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static bool GetOptOut()</code></pre>
-  </div>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Boolean</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetResultModels_AttackSurfaceAnalyzer_Types_RUN_STATUS_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultModels(AttackSurfaceAnalyzer.Types.RUN_STATUS)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L219">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L344">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetResultModels_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultModels*"></a>
   <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetResultModels_AttackSurfaceAnalyzer_Types_RUN_STATUS_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultModels(AttackSurfaceAnalyzer.Types.RUN_STATUS)">GetResultModels(RUN_STATUS)</h4>
@@ -1032,10 +1173,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetResultsByRunid_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultsByRunid(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetResultsByRunid_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultsByRunid(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L288">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L420">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetResultsByRunid_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultsByRunid*"></a>
   <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetResultsByRunid_System_String_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultsByRunid(System.String)">GetResultsByRunid(String)</h4>
@@ -1043,7 +1184,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static List&lt;RawCollectResult&gt; GetResultsByRunid(string runid)</code></pre>
+    <pre><code class="lang-csharp hljs">public static IEnumerable&lt;WriteObject&gt; GetResultsByRunid(string runid)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -1072,64 +1213,17 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="AttackSurfaceAnalyzer.Objects.RawCollectResult.html">RawCollectResult</a>&gt;</td>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="AttackSurfaceAnalyzer.Objects.WriteObject.html">WriteObject</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetResultTypes_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultTypes(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetResultTypesAndCounts_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultTypesAndCounts(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L522">View Source</a>
-  </span>
-  <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetResultTypes_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultTypes*"></a>
-  <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetResultTypes_System_String_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultTypes(System.String)">GetResultTypes(String)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Dictionary&lt;RESULT_TYPE, bool&gt; GetResultTypes(string runId)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.String</span></td>
-        <td><span class="parametername">runId</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<a class="xref" href="AttackSurfaceAnalyzer.Types.RESULT_TYPE.html">RESULT_TYPE</a>, <span class="xref">System.Boolean</span>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetResultTypesAndCounts_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultTypesAndCounts(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L392">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L522">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetResultTypesAndCounts_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultTypesAndCounts*"></a>
   <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetResultTypesAndCounts_System_String_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetResultTypesAndCounts(System.String)">GetResultTypesAndCounts(String)</h4>
@@ -1173,10 +1267,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetRun_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetRun(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetRun_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetRun(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L775">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L900">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetRun_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetRun*"></a>
   <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetRun_System_String_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetRun(System.String)">GetRun(String)</h4>
@@ -1184,7 +1278,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Run GetRun(string RunId)</code></pre>
+    <pre><code class="lang-csharp hljs">public static AsaRun GetRun(string RunId)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -1213,17 +1307,17 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="AttackSurfaceAnalyzer.Objects.Run.html">Run</a></td>
+        <td><a class="xref" href="AttackSurfaceAnalyzer.Objects.AsaRun.html">AsaRun</a></td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetRuns.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetRuns%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetRuns.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetRuns%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L822">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L941">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetRuns_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetRuns*"></a>
   <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetRuns" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetRuns">GetRuns()</h4>
@@ -1250,18 +1344,18 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetRuns_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetRuns(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetRuns_AttackSurfaceAnalyzer_Types_RUN_TYPE_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetRuns(AttackSurfaceAnalyzer.Types.RUN_TYPE)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L804">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L923">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetRuns_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetRuns*"></a>
-  <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetRuns_System_String_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetRuns(System.String)">GetRuns(String)</h4>
+  <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetRuns_AttackSurfaceAnalyzer_Types_RUN_TYPE_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetRuns(AttackSurfaceAnalyzer.Types.RUN_TYPE)">GetRuns(RUN_TYPE)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static List&lt;string&gt; GetRuns(string type)</code></pre>
+    <pre><code class="lang-csharp hljs">public static List&lt;string&gt; GetRuns(RUN_TYPE type)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -1274,7 +1368,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><a class="xref" href="AttackSurfaceAnalyzer.Types.RUN_TYPE.html">RUN_TYPE</a></td>
         <td><span class="parametername">type</span></td>
         <td></td>
       </tr>
@@ -1297,10 +1391,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetSerializedMonitorResults_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetSerializedMonitorResults(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetSerializedMonitorResults_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetSerializedMonitorResults(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L445">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L581">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetSerializedMonitorResults_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetSerializedMonitorResults*"></a>
   <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetSerializedMonitorResults_System_String_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetSerializedMonitorResults(System.String)">GetSerializedMonitorResults(String)</h4>
@@ -1344,10 +1438,40 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_HasElements.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.HasElements%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_GetTelemetryEnabled.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.GetTelemetryEnabled%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L254">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L864">View Source</a>
+  </span>
+  <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetTelemetryEnabled_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetTelemetryEnabled*"></a>
+  <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_GetTelemetryEnabled" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.GetTelemetryEnabled">GetTelemetryEnabled()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool GetTelemetryEnabled()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_HasElements.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.HasElements%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L394">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_HasElements_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.HasElements*"></a>
   <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_HasElements" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.HasElements">HasElements()</h4>
@@ -1374,10 +1498,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_InsertAnalyzed_AttackSurfaceAnalyzer_Objects_CompareResult_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertAnalyzed(AttackSurfaceAnalyzer.Objects.CompareResult)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_InsertAnalyzed_AttackSurfaceAnalyzer_Objects_CompareResult_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertAnalyzed(AttackSurfaceAnalyzer.Objects.CompareResult)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L319">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L446">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_InsertAnalyzed_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertAnalyzed*"></a>
   <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_InsertAnalyzed_AttackSurfaceAnalyzer_Objects_CompareResult_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertAnalyzed(AttackSurfaceAnalyzer.Objects.CompareResult)">InsertAnalyzed(CompareResult)</h4>
@@ -1406,10 +1530,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_InsertCompareRun_System_String_System_String_AttackSurfaceAnalyzer_Types_RUN_STATUS_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertCompareRun(System.String%2CSystem.String%2CAttackSurfaceAnalyzer.Types.RUN_STATUS)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_InsertCompareRun_System_String_System_String_AttackSurfaceAnalyzer_Types_RUN_STATUS_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertCompareRun(System.String%2CSystem.String%2CAttackSurfaceAnalyzer.Types.RUN_STATUS)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L578">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L677">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_InsertCompareRun_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertCompareRun*"></a>
   <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_InsertCompareRun_System_String_System_String_AttackSurfaceAnalyzer_Types_RUN_STATUS_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertCompareRun(System.String,System.String,AttackSurfaceAnalyzer.Types.RUN_STATUS)">InsertCompareRun(String, String, RUN_STATUS)</h4>
@@ -1448,18 +1572,50 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_InsertRun_System_String_System_Collections_Generic_Dictionary_AttackSurfaceAnalyzer_Types_RESULT_TYPE_System_Boolean__.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertRun(System.String%2CSystem.Collections.Generic.Dictionary%7BAttackSurfaceAnalyzer.Types.RESULT_TYPE%2CSystem.Boolean%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_InsertRun_AttackSurfaceAnalyzer_Objects_AsaRun_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertRun(AttackSurfaceAnalyzer.Objects.AsaRun)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L478">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L612">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_InsertRun_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertRun*"></a>
-  <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_InsertRun_System_String_System_Collections_Generic_Dictionary_AttackSurfaceAnalyzer_Types_RESULT_TYPE_System_Boolean__" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertRun(System.String,System.Collections.Generic.Dictionary{AttackSurfaceAnalyzer.Types.RESULT_TYPE,System.Boolean})">InsertRun(String, Dictionary&lt;RESULT_TYPE, Boolean&gt;)</h4>
+  <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_InsertRun_AttackSurfaceAnalyzer_Objects_AsaRun_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertRun(AttackSurfaceAnalyzer.Objects.AsaRun)">InsertRun(AsaRun)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static void InsertRun(string runId, Dictionary&lt;RESULT_TYPE, bool&gt; dictionary)</code></pre>
+    <pre><code class="lang-csharp hljs">public static void InsertRun(AsaRun run)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="AttackSurfaceAnalyzer.Objects.AsaRun.html">AsaRun</a></td>
+        <td><span class="parametername">run</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_ModuloString_System_String_System_Int32_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.ModuloString(System.String%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L689">View Source</a>
+  </span>
+  <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_ModuloString_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.ModuloString*"></a>
+  <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_ModuloString_System_String_System_Int32_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.ModuloString(System.String,System.Int32)">ModuloString(String, Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int ModuloString(string identity, int shardingFactor)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -1473,37 +1629,82 @@
     <tbody>
       <tr>
         <td><span class="xref">System.String</span></td>
-        <td><span class="parametername">runId</span></td>
+        <td><span class="parametername">identity</span></td>
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<a class="xref" href="AttackSurfaceAnalyzer.Types.RESULT_TYPE.html">RESULT_TYPE</a>, <span class="xref">System.Boolean</span>&gt;</td>
-        <td><span class="parametername">dictionary</span></td>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">shardingFactor</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_KeepSleepAndFlushQueue.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.KeepSleepAndFlushQueue%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_PopulateConnections.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.PopulateConnections%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L259">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L315">View Source</a>
   </span>
-  <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_KeepSleepAndFlushQueue_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.KeepSleepAndFlushQueue*"></a>
-  <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_KeepSleepAndFlushQueue" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.KeepSleepAndFlushQueue">KeepSleepAndFlushQueue()</h4>
+  <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_PopulateConnections_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.PopulateConnections*"></a>
+  <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_PopulateConnections" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.PopulateConnections">PopulateConnections()</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static void KeepSleepAndFlushQueue()</code></pre>
+    <pre><code class="lang-csharp hljs">public static int PopulateConnections()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_RollBack.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.RollBack%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L1008">View Source</a>
+  </span>
+  <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_RollBack_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.RollBack*"></a>
+  <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_RollBack" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.RollBack">RollBack()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void RollBack()</code></pre>
   </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_RunIdToPlatform_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.RunIdToPlatform(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_RunIdToPlatform_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.RunIdToPlatform(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L275">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L399">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_RunIdToPlatform_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.RunIdToPlatform*"></a>
   <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_RunIdToPlatform_System_String_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.RunIdToPlatform(System.String)">RunIdToPlatform(String)</h4>
@@ -1547,18 +1748,18 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_SetOptOut_System_Boolean_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.SetOptOut(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_SetTelemetryEnabled_System_Boolean_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.SetTelemetryEnabled(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L750">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L874">View Source</a>
   </span>
-  <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_SetOptOut_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.SetOptOut*"></a>
-  <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_SetOptOut_System_Boolean_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.SetOptOut(System.Boolean)">SetOptOut(Boolean)</h4>
+  <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_SetTelemetryEnabled_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.SetTelemetryEnabled*"></a>
+  <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_SetTelemetryEnabled_System_Boolean_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.SetTelemetryEnabled(System.Boolean)">SetTelemetryEnabled(Boolean)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static void SetOptOut(bool OptOut)</code></pre>
+    <pre><code class="lang-csharp hljs">public static void SetTelemetryEnabled(bool Enabled)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -1572,25 +1773,25 @@
     <tbody>
       <tr>
         <td><span class="xref">System.Boolean</span></td>
-        <td><span class="parametername">OptOut</span></td>
+        <td><span class="parametername">Enabled</span></td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_Setup_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.Setup(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_Setup_System_String_AttackSurfaceAnalyzer_Utils_DBSettings_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.Setup(System.String%2CAttackSurfaceAnalyzer.Utils.DBSettings)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L111">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L129">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_Setup_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.Setup*"></a>
-  <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_Setup_System_String_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.Setup(System.String)">Setup(String)</h4>
+  <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_Setup_System_String_AttackSurfaceAnalyzer_Utils_DBSettings_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.Setup(System.String,AttackSurfaceAnalyzer.Utils.DBSettings)">Setup(String, DBSettings)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static bool Setup(string filename = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public static ASA_ERROR Setup(string filename, DBSettings dbSettingsIn = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -1607,6 +1808,11 @@
         <td><span class="parametername">filename</span></td>
         <td></td>
       </tr>
+      <tr>
+        <td><a class="xref" href="AttackSurfaceAnalyzer.Utils.DBSettings.html">DBSettings</a></td>
+        <td><span class="parametername">dbSettingsIn</span></td>
+        <td></td>
+      </tr>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
@@ -1619,32 +1825,17 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Boolean</span></td>
+        <td><a class="xref" href="AttackSurfaceAnalyzer.Types.ASA_ERROR.html">ASA_ERROR</a></td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_SleepAndFlushQueue.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.SleepAndFlushQueue%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_TrimToLatest.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.TrimToLatest%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L266">View Source</a>
-  </span>
-  <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_SleepAndFlushQueue_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.SleepAndFlushQueue*"></a>
-  <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_SleepAndFlushQueue" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.SleepAndFlushQueue">SleepAndFlushQueue()</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static void SleepAndFlushQueue()</code></pre>
-  </div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_TrimToLatest.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.TrimToLatest%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L238">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L371">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_TrimToLatest_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.TrimToLatest*"></a>
   <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_TrimToLatest" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.TrimToLatest">TrimToLatest()</h4>
@@ -1656,10 +1847,10 @@
   </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_UpdateCompareRun_System_String_System_String_AttackSurfaceAnalyzer_Types_RUN_STATUS_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.UpdateCompareRun(System.String%2CSystem.String%2CAttackSurfaceAnalyzer.Types.RUN_STATUS)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_UpdateCompareRun_System_String_System_String_AttackSurfaceAnalyzer_Types_RUN_STATUS_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.UpdateCompareRun(System.String%2CSystem.String%2CAttackSurfaceAnalyzer.Types.RUN_STATUS)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L674">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L837">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_UpdateCompareRun_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.UpdateCompareRun*"></a>
   <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_UpdateCompareRun_System_String_System_String_AttackSurfaceAnalyzer_Types_RUN_STATUS_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.UpdateCompareRun(System.String,System.String,AttackSurfaceAnalyzer.Types.RUN_STATUS)">UpdateCompareRun(String, String, RUN_STATUS)</h4>
@@ -1698,25 +1889,25 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_VerifySchemaVersion.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.VerifySchemaVersion%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_Vacuum.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.Vacuum%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L335">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L649">View Source</a>
   </span>
-  <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_VerifySchemaVersion_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.VerifySchemaVersion*"></a>
-  <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_VerifySchemaVersion" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.VerifySchemaVersion">VerifySchemaVersion()</h4>
+  <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_Vacuum_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.Vacuum*"></a>
+  <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_Vacuum" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.Vacuum">Vacuum()</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static void VerifySchemaVersion()</code></pre>
+    <pre><code class="lang-csharp hljs">public static void Vacuum()</code></pre>
   </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_Write_AttackSurfaceAnalyzer_Objects_CollectObject_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.Write(AttackSurfaceAnalyzer.Objects.CollectObject%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_Write_AttackSurfaceAnalyzer_Objects_CollectObject_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.Write(AttackSurfaceAnalyzer.Objects.CollectObject%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L570">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L668">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_Write_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.Write*"></a>
   <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_Write_AttackSurfaceAnalyzer_Objects_CollectObject_System_String_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.Write(AttackSurfaceAnalyzer.Objects.CollectObject,System.String)">Write(CollectObject, String)</h4>
@@ -1724,7 +1915,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static void Write(CollectObject objIn, string runId)</code></pre>
+    <pre><code class="lang-csharp hljs">public static void Write(CollectObject colObj, string runId)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -1738,7 +1929,7 @@
     <tbody>
       <tr>
         <td><a class="xref" href="AttackSurfaceAnalyzer.Objects.CollectObject.html">CollectObject</a></td>
-        <td><span class="parametername">objIn</span></td>
+        <td><span class="parametername">colObj</span></td>
         <td></td>
       </tr>
       <tr>
@@ -1750,10 +1941,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_WriteFileMonitor_AttackSurfaceAnalyzer_Objects_FileMonitorObject_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.WriteFileMonitor(AttackSurfaceAnalyzer.Objects.FileMonitorObject%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_WriteFileMonitor_AttackSurfaceAnalyzer_Objects_FileMonitorObject_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.WriteFileMonitor(AttackSurfaceAnalyzer.Objects.FileMonitorObject%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L760">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L884">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_WriteFileMonitor_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.WriteFileMonitor*"></a>
   <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_WriteFileMonitor_AttackSurfaceAnalyzer_Objects_FileMonitorObject_System_String_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.WriteFileMonitor(AttackSurfaceAnalyzer.Objects.FileMonitorObject,System.String)">WriteFileMonitor(FileMonitorObject, String)</h4>
@@ -1785,21 +1976,6 @@
       </tr>
     </tbody>
   </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager_WriteNext.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager.WriteNext%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L589">View Source</a>
-  </span>
-  <a id="AttackSurfaceAnalyzer_Utils_DatabaseManager_WriteNext_" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.WriteNext*"></a>
-  <h4 id="AttackSurfaceAnalyzer_Utils_DatabaseManager_WriteNext" data-uid="AttackSurfaceAnalyzer.Utils.DatabaseManager.WriteNext">WriteNext()</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static void WriteNext()</code></pre>
-  </div>
 </article>
           </div>
           
@@ -1808,10 +1984,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_DatabaseManager.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.DatabaseManager%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/DatabaseManager.cs/#L21" class="contribution-link">View Source</a>
+                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/DatabaseManager.cs/#L29" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class RunManager
+    <title>Class VerifyOptions
    </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class RunManager
+    <meta name="title" content="Class VerifyOptions
    ">
     <meta name="generator" content="docfx 2.51.0.0">
     
@@ -68,20 +68,33 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="AttackSurfaceAnalyzer.Utils.RunManager">
+            <article class="content wrap" id="_content" data-uid="AttackSurfaceAnalyzer.VerifyOptions">
   
   
-  <h1 id="AttackSurfaceAnalyzer_Utils_RunManager" data-uid="AttackSurfaceAnalyzer.Utils.RunManager" class="text-break">Class RunManager
+  <h1 id="AttackSurfaceAnalyzer_VerifyOptions" data-uid="AttackSurfaceAnalyzer.VerifyOptions" class="text-break">Class VerifyOptions
   </h1>
   <div class="markdown level0 summary"></div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><span class="xref">System.Object</span></div>
-    <div class="level1"><span class="xref">RunManager</span></div>
+    <div class="level1"><a class="xref" href="AttackSurfaceAnalyzer.CommandOptions.html">CommandOptions</a></div>
+    <div class="level2"><span class="xref">VerifyOptions</span></div>
   </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="AttackSurfaceAnalyzer.CommandOptions.html#AttackSurfaceAnalyzer_CommandOptions_DatabaseFilename">CommandOptions.DatabaseFilename</a>
+    </div>
+    <div>
+      <a class="xref" href="AttackSurfaceAnalyzer.CommandOptions.html#AttackSurfaceAnalyzer_CommandOptions_Debug">CommandOptions.Debug</a>
+    </div>
+    <div>
+      <a class="xref" href="AttackSurfaceAnalyzer.CommandOptions.html#AttackSurfaceAnalyzer_CommandOptions_Verbose">CommandOptions.Verbose</a>
+    </div>
+    <div>
+      <a class="xref" href="AttackSurfaceAnalyzer.CommandOptions.html#AttackSurfaceAnalyzer_CommandOptions_Quiet">CommandOptions.Quiet</a>
+    </div>
     <div>
       <span class="xref">System.Object.Equals(System.Object)</span>
     </div>
@@ -104,29 +117,46 @@
       <span class="xref">System.Object.ToString()</span>
     </div>
   </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="AttackSurfaceAnalyzer.Utils.html">AttackSurfaceAnalyzer.Utils</a></h6>
+  <h6><strong>Namespace</strong>: <a class="xref" href="AttackSurfaceAnalyzer.html">AttackSurfaceAnalyzer</a></h6>
   <h6><strong>Assembly</strong>: AsaLib.dll</h6>
-  <h5 id="AttackSurfaceAnalyzer_Utils_RunManager_syntax">Syntax</h5>
+  <h5 id="AttackSurfaceAnalyzer_VerifyOptions_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class RunManager</code></pre>
+    <pre><code class="lang-csharp hljs">[Verb(&quot;verify&quot;, HelpText = &quot;Verify your analysis rules&quot;)]
+public class VerifyOptions : CommandOptions</code></pre>
   </div>
-  <h3 id="constructors">Constructors
+  <h3 id="properties">Properties
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_RunManager__ctor.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.RunManager.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_VerifyOptions_AnalysisFile.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.VerifyOptions.AnalysisFile%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/RunManager.cs/#L7">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/CommandOptions.cs/#L188">View Source</a>
   </span>
-  <a id="AttackSurfaceAnalyzer_Utils_RunManager__ctor_" data-uid="AttackSurfaceAnalyzer.Utils.RunManager.#ctor*"></a>
-  <h4 id="AttackSurfaceAnalyzer_Utils_RunManager__ctor" data-uid="AttackSurfaceAnalyzer.Utils.RunManager.#ctor">RunManager()</h4>
+  <a id="AttackSurfaceAnalyzer_VerifyOptions_AnalysisFile_" data-uid="AttackSurfaceAnalyzer.VerifyOptions.AnalysisFile*"></a>
+  <h4 id="AttackSurfaceAnalyzer_VerifyOptions_AnalysisFile" data-uid="AttackSurfaceAnalyzer.VerifyOptions.AnalysisFile">AnalysisFile</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public RunManager()</code></pre>
+    <pre><code class="lang-csharp hljs">[Option(&quot;filename&quot;, Required = false, HelpText = &quot;Path to your analysis file&quot;)]
+public string AnalysisFile { get; set; }</code></pre>
   </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
 </article>
           </div>
           
@@ -135,10 +165,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_RunManager.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.RunManager%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_VerifyOptions.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.VerifyOptions%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/RunManager.cs/#L5" class="contribution-link">View Source</a>
+                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/CommandOptions.cs/#L185" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
