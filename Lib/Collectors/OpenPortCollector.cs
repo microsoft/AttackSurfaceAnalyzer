@@ -136,7 +136,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         var port = addressMatches.Groups[2].ToString();
                         if (int.TryParse(port, out int portInt))
                         {
-                            var family = parts[0].ToUpperInvariant().Equals("TCP") ? TRANSPORT.TCP : TRANSPORT.UDP
+                            var family = parts[0].ToUpperInvariant().Equals("TCP") ? TRANSPORT.TCP : TRANSPORT.UDP;
                             var obj = new OpenPortObject(portInt, family)
                             {
                                 Family = address.Contains('.')?AddressFamily.InterNetwork:address.Contains(':')?AddressFamily.InterNetworkV6:AddressFamily.Unknown,//@TODO: Determine IPV4 vs IPv6 via looking at the address

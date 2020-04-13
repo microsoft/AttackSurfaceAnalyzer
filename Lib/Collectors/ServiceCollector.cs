@@ -81,7 +81,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         if (!string.IsNullOrEmpty(val))
                             obj.ExitCode = uint.Parse(val, CultureInfo.InvariantCulture);
 
-                        if (DateTime.TryParse(service.GetPropertyValue("InstallDate")?.ToString(), out DateTime dateTime){
+                        if (DateTime.TryParse(service.GetPropertyValue("InstallDate")?.ToString(), out DateTime dateTime)){
                             obj.InstallDate = dateTime;
                         }
                         obj.PathName = service.GetPropertyValue("PathName")?.ToString();
