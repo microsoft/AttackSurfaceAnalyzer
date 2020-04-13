@@ -349,9 +349,12 @@ namespace AttackSurfaceAnalyzer.Utils
             bool current = false;
 
             var internalIndex = 0;
-            var hasNotOperator = splits[0].Replace("(", "").Replace(")", "").Equals(BOOL_OPERATOR.NOT.ToString());
+            var invertNextStatement = false;
+            var operatorExpected = false;
 
-            if (hasNotOperator)
+            invertNextStatement = splits[0].Replace("(", "").Replace(")", "").Equals(BOOL_OPERATOR.NOT.ToString());
+
+            if (invertNextStatement)
             {
                 internalIndex = 1;
             }
@@ -361,20 +364,12 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 return false;
             }
-            if (hasNotOperator)
-            {
-                current = !AnalyzeClause(res.First(), compareResult);
-            }
-            else
-            {
-                current = AnalyzeClause(res.First(), compareResult);
-            }
+
+            current = invertNextStatement ? !AnalyzeClause(res.First(), compareResult) : AnalyzeClause(res.First(), compareResult);
 
             BOOL_OPERATOR Operator = BOOL_OPERATOR.AND;
 
             var updated_i = internalIndex + 1;
-            var operatorExpected = true;
-            var invertNextStatement = false;
 
             for (int i = updated_i; i < splits.Length; i = updated_i)
             {
@@ -410,6 +405,8 @@ namespace AttackSurfaceAnalyzer.Utils
                         else
                         {
                             // Recursively evaluate the contents of the parentheses
+                            splits[i] = splits[i].Replace("(", "").Replace(")", "");
+                            splits[matchingParen] = splits[matchingParen].Replace("(", "").Replace(")", "");
                             var next = Evaluate(splits[i..(matchingParen + 1)], Clauses, compareResult);
                             next = invertNextStatement ? !next : next;
                             current = Operate(Operator, current, next);
