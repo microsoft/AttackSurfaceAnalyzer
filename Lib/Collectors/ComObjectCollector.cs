@@ -83,6 +83,11 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
+        /// <summary>
+        /// Parse all the Subkeys of the given SearchKey into ComObjects and writes them to the database
+        /// </summary>
+        /// <param name="SearchKey">The Registry Key to search</param>
+        /// <param name="View">The View of the registry to use</param>
         public void ParseComObjects(RegistryKey SearchKey, RegistryView View)
         {
             if (SearchKey == null) { return; }

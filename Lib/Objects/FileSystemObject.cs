@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Types;
+using AttackSurfaceAnalyzer.Utils;
+using System;
 using System.Collections.Generic;
 
 namespace AttackSurfaceAnalyzer.Objects
@@ -73,7 +75,6 @@ namespace AttackSurfaceAnalyzer.Objects
         /// If this is windows executable what DLL Characteristics are set
         /// </summary>
         public List<DLLCHARACTERISTICS>? Characteristics { get; set; }
-
         /// <summary>
         /// If this is a link where does it point to.
         /// </summary>
@@ -82,6 +83,14 @@ namespace AttackSurfaceAnalyzer.Objects
         /// What are the permissions of this file.
         /// </summary>
         public Dictionary<string, string>? Permissions { get; set; }
+        /// <summary>
+        /// When was the file last modified in UTC
+        /// </summary>
+        public DateTime LastModified { get; set; }
+        /// <summary>
+        /// When was the file created in UTC
+        /// </summary>
+        public DateTime Created { get; set; }
 
         public bool ShouldSerializeCharacteristics()
         {

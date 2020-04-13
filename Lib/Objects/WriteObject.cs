@@ -20,7 +20,7 @@ namespace AttackSurfaceAnalyzer.Objects
             RunId = RunIdIn;
 
             _serialized = JsonUtils.Dehydrate(ColObjIn);
-            _rowKey = CryptoHelpers.CreateHash(_serialized);
+            _rowKey = ColObj?.GetRowKey() ?? throw new ArgumentNullException(nameof(ColObjIn)); ;
         }
 
         public static WriteObject? FromBytes(byte[] SerializedIn, RESULT_TYPE ResultTypeIn, string RunIdIn)
@@ -36,9 +36,9 @@ namespace AttackSurfaceAnalyzer.Objects
         private WriteObject(byte[] SerializedIn, RESULT_TYPE ResultTypeIn, string RunIdIn)
         {
             _serialized = SerializedIn;
-            _rowKey = CryptoHelpers.CreateHash(_serialized);
-            RunId = RunIdIn;
-            ColObj = JsonUtils.Hydrate(SerializedIn, ResultTypeIn)!;
+            RunId = RunIdIn;            
+            ColObj = JsonUtils.Hydrate(SerializedIn, ResultTypeIn) ?? throw new NullReferenceException(nameof(ColObj));
+            _rowKey = ColObj.GetRowKey();
         }
 
         public override int GetHashCode()

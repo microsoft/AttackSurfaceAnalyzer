@@ -17,7 +17,7 @@ namespace AttackSurfaceAnalyzer.Objects
         public string? DisplayName { get; set; }
         public string? ErrorControl { get; set; }
         public uint? ExitCode { get; set; }
-        public string? InstallDate { get; set; }
+        public DateTime InstallDate { get; set; }
         public string Name { get; set; }
         public string? PathName { get; set; }
         public uint? ProcessId { get; set; }

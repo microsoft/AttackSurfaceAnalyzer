@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Types;
+using AttackSurfaceAnalyzer.Utils;
 
 namespace AttackSurfaceAnalyzer.Objects
 {
@@ -11,5 +12,23 @@ namespace AttackSurfaceAnalyzer.Objects
     {
         public RESULT_TYPE ResultType { get; set; }
         public abstract string Identity { get; }
+
+        private byte[] RowKey
+        {
+            get
+            {
+                return CryptoHelpers.CreateHash(JsonUtils.Dehydrate(this));
+            }
+        }
+
+        public byte[] GetRowKey()
+        {
+            return RowKey;
+        }
+
+        public static bool ShouldSerializeRowKey()
+        {
+            return false;
+        }
     }
 }

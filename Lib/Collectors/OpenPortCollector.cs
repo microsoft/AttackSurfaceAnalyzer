@@ -136,7 +136,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                         var port = addressMatches.Groups[2].ToString();
                         if (int.TryParse(port, out int portInt))
                         {
-                            var obj = new OpenPortObject(portInt, parts[0].ToUpperInvariant().Equals("TCP") ? TRANSPORT.TCP : TRANSPORT.UDP)
+                            var family = parts[0].ToUpperInvariant().Equals("TCP") ? TRANSPORT.TCP : TRANSPORT.UDP
+                            var obj = new OpenPortObject(portInt, family)
                             {
                                 Family = address.Contains('.')?AddressFamily.InterNetwork:address.Contains(':')?AddressFamily.InterNetworkV6:AddressFamily.Unknown,//@TODO: Determine IPV4 vs IPv6 via looking at the address
                                 Address = address
@@ -158,7 +159,6 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <summary>
         /// Executes the OpenPortCollector on OS X. Calls out to the `lsof`
         /// command and parses the output, sending the output to the database.
-        /// The 'ss' command used on Linux isn't available on OS X.
         /// </summary>
         private void ExecuteOsX()
         {
@@ -186,9 +186,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                         var port = addressMatches.Groups[2].ToString();
                         if (int.TryParse(port, out int portInt))
                         {
-                            var obj = new OpenPortObject(portInt, parts[7].ToUpperInvariant().Equals("TCP")?TRANSPORT.TCP: parts[7].ToUpperInvariant().Equals("TCP")?TRANSPORT.UDP:TRANSPORT.UNKNOWN)
+                            var family = parts[7].ToUpperInvariant().Equals("TCP") ? TRANSPORT.TCP : parts[7].ToUpperInvariant().Equals("TCP") ? TRANSPORT.UDP : TRANSPORT.UNKNOWN;
+                            var obj = new OpenPortObject(portInt, family)
                             {
-                                // Assuming family means IPv6 vs IPv4
                                 Address = address,
                                 ProcessName = parts[0]
                             };
