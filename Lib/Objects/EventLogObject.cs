@@ -7,11 +7,29 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class EventLogObject : CollectObject
     {
+        /// <summary>
+        /// The recorded Timestamp in the log file
+        /// </summary>
         public DateTime? Timestamp { get; set; }
+        /// <summary>
+        /// The severity level of the event message (availability platform dependent)
+        /// </summary>
         public string? Level { get; set; }
+        /// <summary>
+        /// A summary description of the event message (availability platform dependent)
+        /// </summary>
         public string? Summary { get; set; }
+        /// <summary>
+        /// The process that the event log is from.
+        /// </summary>
         public string? Process { get; set; }
+        /// <summary>
+        /// The Event Log source
+        /// </summary>
         public string? Source { get; set; }
+        /// <summary>
+        /// Additional associated data
+        /// </summary>
         public List<string>? Data { get; set; }
         /// <summary>
         /// The raw event text
