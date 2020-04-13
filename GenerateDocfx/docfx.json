@@ -5,7 +5,7 @@
         {
           "cwd": "../",
           "files": [
-            "Lib/AsaLib.csproj"
+            "Lib/Lib.csproj"
           ]
         }
       ],
