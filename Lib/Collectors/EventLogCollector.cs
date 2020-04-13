@@ -77,7 +77,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     Level = entry.EntryType.ToString(),
                                     Summary = sentences[0],
                                     Source = string.IsNullOrEmpty(entry.Source) ? null : entry.Source,
-                                    Timestamp = entry.TimeGenerated.ToString("o", CultureInfo.InvariantCulture),
+                                    Timestamp = entry.TimeGenerated,
                                     Data = new List<string>() { entry.Message }
                                 };
                                 DatabaseManager.Write(obj, RunId);
@@ -115,10 +115,14 @@ namespace AttackSurfaceAnalyzer.Collectors
                             var obj = new EventLogObject(entry)
                             {
                                 Summary = LogHeader.Matches(entry).Single().Groups[3].Captures[0].Value,
-                                Timestamp = LogHeader.Matches(entry).Single().Groups[1].Captures[0].Value,
                                 Source = path,
                                 Process = LogHeader.Matches(entry).Single().Groups[2].Captures[0].Value,
                             };
+                            if (DateTime.TryParse(LogHeader.Matches(entry).Single().Groups[1].Captures[0].Value, out DateTime Timestamp))
+                            {
+                                obj.Timestamp = Timestamp;
+                            }
+
                             DatabaseManager.Write(obj, RunId);
                         }
                     }
@@ -186,9 +190,12 @@ namespace AttackSurfaceAnalyzer.Collectors
                         {
                             Level = MacLogHeader.Matches(evt).Single().Groups[2].Value,
                             Summary = $"{MacLogHeader.Matches(evt).Single().Groups[4].Captures[0].Value}:{MacLogHeader.Matches(evt).Single().Groups[5].Captures[0].Value}",
-                            Timestamp = MacLogHeader.Matches(evt).Single().Groups[1].Captures[0].Value,
                             Source = MacLogHeader.Matches(evt).Single().Groups[4].Captures[0].Value,
                         };
+                        if (DateTime.TryParse(MacLogHeader.Matches(evt).Single().Groups[1].Captures[0].Value, out DateTime Timestamp))
+                        {
+                            curObject.Timestamp = Timestamp;
+                        }
                     }
                     else
                     {
