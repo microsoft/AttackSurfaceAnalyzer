@@ -1,7 +1,6 @@
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
-using Microsoft.VisualBasic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -656,11 +655,11 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             var trueGtObject = new CompareResult()
             {
-                Base = new OpenPortObject(1025, TRANSPORT.TCP)
+                Base = new OpenPortObject(1025, TRANSPORT.TCP, ADDRESS_FAMILY.InterNetwork)
             };
             var falseGtObject = new CompareResult()
             {
-                Base = new OpenPortObject(1023, TRANSPORT.TCP)
+                Base = new OpenPortObject(1023, TRANSPORT.TCP , ADDRESS_FAMILY.InterNetwork)
             };
 
             var gtRule = new Rule("Gt Rule")
@@ -711,11 +710,11 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             var falseLtObject = new CompareResult()
             {
-                Base = new OpenPortObject(1025, TRANSPORT.TCP)
+                Base = new OpenPortObject(1025, TRANSPORT.TCP, ADDRESS_FAMILY.InterNetwork)
             }; 
             var trueLtObject = new CompareResult()
             {
-                Base = new OpenPortObject(1023, TRANSPORT.TCP)
+                Base = new OpenPortObject(1023, TRANSPORT.TCP, ADDRESS_FAMILY.InterNetwork)
             };
 
             var ltRule = new Rule("Lt Rule")
