@@ -25,10 +25,5 @@ namespace AttackSurfaceAnalyzer.Objects
         {
             return RowKey;
         }
-
-        public static bool ShouldSerializeRowKey()
-        {
-            return false;
-        }
     }
 }
