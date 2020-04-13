@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+
 namespace AttackSurfaceAnalyzer.Objects
 {
     public class FileSystemMonitorResult

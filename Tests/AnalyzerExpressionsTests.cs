@@ -656,11 +656,11 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             var trueGtObject = new CompareResult()
             {
-                Base = new OpenPortObject(1025)
+                Base = new OpenPortObject(1025, TRANSPORT.TCP)
             };
             var falseGtObject = new CompareResult()
             {
-                Base = new OpenPortObject(1023)
+                Base = new OpenPortObject(1023, TRANSPORT.TCP)
             };
 
             var gtRule = new Rule("Gt Rule")
@@ -711,11 +711,11 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             var falseLtObject = new CompareResult()
             {
-                Base = new OpenPortObject(1025)
+                Base = new OpenPortObject(1025, TRANSPORT.TCP)
             }; 
             var trueLtObject = new CompareResult()
             {
-                Base = new OpenPortObject(1023)
+                Base = new OpenPortObject(1023, TRANSPORT.TCP)
             };
 
             var ltRule = new Rule("Lt Rule")

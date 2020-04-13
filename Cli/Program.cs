@@ -200,11 +200,9 @@ namespace AttackSurfaceAnalyzer.Cli
                     }
                 }
 
-                if (opts.TelemetryOptOut != null)
-                {
-                    AsaTelemetry.SetEnabled(!bool.Parse(opts.TelemetryOptOut));
-                    Log.Information(Strings.Get("TelemetryOptOut"), (bool.Parse(opts.TelemetryOptOut)) ? "Opted out" : "Opted in");
-                }
+                AsaTelemetry.SetEnabled(opts.TelemetryOptOut);
+                Log.Information(Strings.Get("TelemetryOptOut"), opts.TelemetryOptOut ? "Opted out" : "Opted in");
+                
                 if (opts.DeleteRunId != null)
                 {
                     DatabaseManager.DeleteRun(opts.DeleteRunId);
