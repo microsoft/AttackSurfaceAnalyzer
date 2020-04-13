@@ -25,16 +25,13 @@ namespace AttackSurfaceAnalyzer
         [Option(HelpText = "Second run (post-install) identifier")]
         public string SecondRunId { get; set; }
 
-        [Option(HelpText = "Base name of output file", Default = "output")]
-        public string? OutputBaseFilename { get; set; }
-
-        [Option(HelpText = "Set Enable/Disable Analysis.", Default = true)]
-        public bool Analyze { get; set; }
+        [Option(HelpText = "Set Enable/Disable Analysis.")]
+        public bool Analyze { get; set; } = true;
 
         [Option(HelpText = "Custom analysis rules file.")]
         public string? AnalysesFile { get; set; }
 
-        [Option(HelpText = "Save to internal database for review in GUI", Default = false)]
+        [Option(HelpText = "Save to internal database for review in GUI")]
         public bool SaveToDatabase { get; set; }
 
         public CompareCommandOptions(string FirstRunId, string SecondRunId)
@@ -52,16 +49,16 @@ namespace AttackSurfaceAnalyzer
         [Option(HelpText = "Second run (post-install) identifier")]
         public string? SecondRunId { get; set; }
 
-        [Option(HelpText = "Directory to output to", Default = ".")]
+        [Option(HelpText = "Directory to output to")]
         public string? OutputPath { get; set; }
 
         [Option(HelpText = "Exploded output")]
         public bool ExplodedOutput { get; set; }
 
-        [Option(HelpText = "Set Enable/Disable Analysis.", Default = true)]
-        public bool Analyze { get; set; }
+        [Option(HelpText = "Set Enable/Disable Analysis.")]
+        public bool Analyze { get; set; } = true;
 
-        [Option(HelpText = "Save to internal database for review in GUI", Default = false)]
+        [Option(HelpText = "Save to internal database for review in GUI")]
         public bool SaveToDatabase { get; set; }
 
         [Option(HelpText = "Custom analysis rules file.")]
@@ -129,17 +126,17 @@ namespace AttackSurfaceAnalyzer
         [Option("certificate-files", Default = false, HelpText = "When used with Certificate Collector, also scan the entire filesystem for certificates.")]
         public bool CertificatesFromFiles { get; set; }
 
-        [Option(HelpText = "Download files from thin Cloud Folders (like OneDrive) to check them.", Default = false)]
+        [Option(HelpText = "Download files from thin Cloud Folders (like OneDrive) to check them.")]
         public bool DownloadCloud { get; set; }
 
         [Option(HelpText = "If the specified runid already exists delete all data from that run before proceeding.")]
         public bool Overwrite { get; set; }
 
-        [Option(HelpText = "Run parallelized collectors when available.", Default = true)]
-        public bool Parallelization { get; set; }
+        [Option(HelpText = "Run parallelized collectors when available.")]
+        public bool Parallelization { get; set; } = true;
 
-        [Option(HelpText = "Number of Database Shards to use.", Default = 10)]
-        public int Shards { get; set; }
+        [Option(HelpText = "Number of Database Shards to use.")]
+        public int Shards { get; set; } = 7;
     }
     [Verb("monitor", HelpText = "Continue running and monitor activity")]
     public class MonitorCommandOptions : CommandOptions
@@ -175,8 +172,8 @@ namespace AttackSurfaceAnalyzer
         [Option("reset-database", Required = false, HelpText = "Delete the output database")]
         public bool ResetDatabase { get; set; }
 
-        [Option("telemetry-opt-out", Required = false, HelpText = "Change your telemetry opt out setting [True | False]")]
-        public string? TelemetryOptOut { get; set; }
+        [Option("telemetry-opt-out", Required = false, HelpText = "Change your telemetry opt out setting")]
+        public bool TelemetryOptOut { get; set; }
 
         [Option("delete-run", Required = false, HelpText = "Delete a specific run from the database")]
         public string? DeleteRunId { get; set; }
@@ -194,4 +191,5 @@ namespace AttackSurfaceAnalyzer
 
     [Verb("gui", HelpText = "Launch the GUI in a browser")]
     public class GuiCommandOptions : CommandOptions
+    { }
 }
