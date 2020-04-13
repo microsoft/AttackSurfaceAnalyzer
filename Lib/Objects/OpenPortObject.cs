@@ -8,8 +8,18 @@ namespace AttackSurfaceAnalyzer.Objects
     public class OpenPortObject : CollectObject
     {
         public string? Address { get; set; }
+        /// <summary>
+        /// InterNetwork is IPv4
+        /// InterNetworkV6 is IPv6
+        /// </summary>
         public AddressFamily Family { get; set; }
+        /// <summary>
+        /// TCP or UDP
+        /// </summary>
         public TRANSPORT Type { get; set; }
+        /// <summary>
+        /// The port number
+        /// </summary>
         public int Port { get; set; }
         public string? ProcessName { get; set; }
 
@@ -20,6 +30,9 @@ namespace AttackSurfaceAnalyzer.Objects
             this.Type = Type;
         }
 
+        /// <summary>
+        /// $"{Address}:{Family}:{Type}:{Port}:{ProcessName}"
+        /// </summary>
         public override string Identity
         {
             get
