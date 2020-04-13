@@ -282,22 +282,16 @@ namespace AttackSurfaceAnalyzer.Utils
                     return true;
                 }
 
-                var ClauseResults = new Dictionary<Clause, bool>();
-                foreach (Clause clause in rule.Clauses)
-                {
-                    ClauseResults.Add(clause, AnalyzeClause(clause, compareResult));
-                }
-
                 if (rule.Expression == null)
                 {
-                    if (ClauseResults.All(x => x.Value))
+                    if (rule.Clauses.All(x => AnalyzeClause(x, compareResult)))
                     {
                         return true;
                     }
                 }
                 else
                 {
-                    if (Evaluate(rule.Expression.Split(" "), ClauseResults))
+                    if (Evaluate(rule.Expression.Split(" "), rule.Clauses, compareResult))
                     {
                         return true;
                     }
@@ -350,10 +344,9 @@ namespace AttackSurfaceAnalyzer.Utils
             return splits.Length - 1;
         }
 
-        private static bool Evaluate(string[] splits, Dictionary<Clause, bool> ClauseResults)
+        private static bool Evaluate(string[] splits, List<Clause> ClauseResults, CompareResult compareResult)
         {
             bool current = false;
-
 
             var internalIndex = 0;
             var hasNotOperator = splits[0].Replace("(", "").Replace(")", "").Equals(BOOL_OPERATOR.NOT.ToString());
@@ -363,18 +356,18 @@ namespace AttackSurfaceAnalyzer.Utils
                 internalIndex = 1;
             }
 
-            var res = ClauseResults.Where(x => x.Key.Label == splits[internalIndex].Replace("(", "").Replace(")", ""));
+            var res = ClauseResults.Where(x => x.Label == splits[internalIndex].Replace("(", "").Replace(")", ""));
             if (!(res.Count() == 1))
             {
                 return false;
             }
             if (hasNotOperator)
             {
-                current = !res.First().Value;
+                current = !AnalyzeClause(res.First(), compareResult);
             }
             else
             {
-                current = res.First().Value;
+                current = AnalyzeClause(res.First(), compareResult);
             }
 
             BOOL_OPERATOR Operator = BOOL_OPERATOR.AND;
@@ -394,7 +387,26 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         //Get the substring closing this paren
                         var matchingParen = FindMatchingParen(splits, i);
-                        current = Operate(Operator, current, Evaluate(splits[i..(matchingParen + 1)], ClauseResults));
+                        if (Operator == BOOL_OPERATOR.AND && current == false)
+                        {
+                            current = false;
+                        }
+                        else if (Operator == BOOL_OPERATOR.OR && current == true)
+                        {
+                            current = true;
+                        }
+                        else if (Operator == BOOL_OPERATOR.NAND && current == false)
+                        {
+                            current = true;
+                        }
+                        else if (Operator == BOOL_OPERATOR.NOR && current == true)
+                        {
+                            current = false;
+                        }
+                        else
+                        {
+                            current = Operate(Operator, current, Evaluate(splits[i..(matchingParen + 1)], ClauseResults, compareResult));
+                        }
                         updated_i = matchingParen + 1;
                     }
                     else
@@ -408,18 +420,38 @@ namespace AttackSurfaceAnalyzer.Utils
                             updated_i = i + 2;
                         }
 
-                        res = ClauseResults.Where(x => x.Key.Label == splits[internalIndex].Replace("(", "").Replace(")", ""));
+                        res = ClauseResults.Where(x => x.Label == splits[internalIndex].Replace("(", "").Replace(")", ""));
                         if (!(res.Count() == 1))
                         {
                             return false;
                         }
-                        if (hasNotOperator)
+
+                        if (Operator == BOOL_OPERATOR.AND && current == false)
                         {
-                            current = Operate(Operator, current, !res.First().Value);
+                            current = false;
+                        }
+                        else if (Operator == BOOL_OPERATOR.OR && current == true)
+                        {
+                            current = true;
+                        }
+                        else if (Operator == BOOL_OPERATOR.NAND && current == false)
+                        {
+                            current = true;
+                        }
+                        else if (Operator == BOOL_OPERATOR.NOR && current == true)
+                        {
+                            current = false;
                         }
                         else
                         {
-                            current = Operate(Operator, current, res.First().Value);
+                            if (hasNotOperator)
+                            {
+                                current = Operate(Operator, current, !AnalyzeClause(res.First(), compareResult));
+                            }
+                            else
+                            {
+                                current = Operate(Operator, current, AnalyzeClause(res.First(), compareResult));
+                            }
                         }
                     }
                     operatorExpected = true;
