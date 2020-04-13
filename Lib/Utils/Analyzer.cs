@@ -348,30 +348,14 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             bool current = false;
 
-            var internalIndex = 0;
             var invertNextStatement = false;
             var operatorExpected = false;
 
-            invertNextStatement = splits[0].Replace("(", "").Replace(")", "").Equals(BOOL_OPERATOR.NOT.ToString());
+            BOOL_OPERATOR Operator = BOOL_OPERATOR.OR;
 
-            if (invertNextStatement)
-            {
-                internalIndex = 1;
-            }
+            var updated_i = 0;
 
-            var res = Clauses.Where(x => x.Label == splits[internalIndex].Replace("(", "").Replace(")", ""));
-            if (!(res.Count() == 1))
-            {
-                return false;
-            }
-
-            current = invertNextStatement ? !AnalyzeClause(res.First(), compareResult) : AnalyzeClause(res.First(), compareResult);
-
-            BOOL_OPERATOR Operator = BOOL_OPERATOR.AND;
-
-            var updated_i = internalIndex + 1;
-
-            for (int i = updated_i; i < splits.Length; i = updated_i)
+            for (int i = 0; i < splits.Length; i = updated_i)
             {
                 if (operatorExpected)
                 {
@@ -425,7 +409,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         else
                         {
                             // Ensure we have exactly 1 matching clause defined
-                            res = Clauses.Where(x => x.Label == splits[i].Replace("(", "").Replace(")", ""));
+                            var res = Clauses.Where(x => x.Label == splits[i].Replace("(", "").Replace(")", ""));
                             if (!(res.Count() == 1))
                             {
                                 return false;
