@@ -4,6 +4,9 @@ using AttackSurfaceAnalyzer.Types;
 
 namespace AttackSurfaceAnalyzer.Objects
 {
+    /// <summary>
+    /// Abstract parent class that all Collected data inherits from.
+    /// </summary>
     public abstract class CollectObject
     {
         public RESULT_TYPE ResultType { get; set; }
