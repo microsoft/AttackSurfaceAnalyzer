@@ -20,13 +20,9 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class OpenPortCollector : BaseCollector
     {
-
-        private readonly HashSet<string> processedObjects;
-
         public OpenPortCollector(string runId)
         {
             RunId = runId;
-            processedObjects = new HashSet<string>();
         }
 
         public override bool CanRunOnPlatform()
