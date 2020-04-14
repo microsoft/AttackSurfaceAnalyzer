@@ -21,6 +21,7 @@ namespace AttackSurfaceAnalyzer.Utils
         private readonly PLATFORM OsName;
         private RuleFile config;
 
+        private Dictionary<(CompareResult,Clause), bool> ClauseCache = new Dictionary<(CompareResult, Clause), bool>();
         public Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DefaultLevels { get { return config.DefaultLevels; } }
 
         private static readonly Dictionary<string, Regex> RegexCache = new Dictionary<string, Regex>();
@@ -65,6 +66,10 @@ namespace AttackSurfaceAnalyzer.Utils
                         results.Add(rule);
                     }
                 }
+            }
+            foreach(var item in ClauseCache.Where(x => x.Key.Item1 == compareResult))
+            {
+                ClauseCache.Remove(item.Key);
             }
             return results;
         }
@@ -272,7 +277,7 @@ namespace AttackSurfaceAnalyzer.Utils
             return !invalid;
         }
 
-        public static bool Apply(Rule rule, CompareResult compareResult)
+        public bool Apply(Rule rule, CompareResult compareResult)
         {
             if (compareResult != null && rule != null)
             {
@@ -344,7 +349,7 @@ namespace AttackSurfaceAnalyzer.Utils
             return splits.Length - 1;
         }
 
-        private static bool Evaluate(string[] splits, List<Clause> Clauses, CompareResult compareResult)
+        private bool Evaluate(string[] splits, List<Clause> Clauses, CompareResult compareResult)
         {
             bool current = false;
 
@@ -434,7 +439,19 @@ namespace AttackSurfaceAnalyzer.Utils
                             // If we can't shortcut, do the actual evaluation
                             else
                             {
-                                var next = invertNextStatement ? !AnalyzeClause(res.First(), compareResult) : AnalyzeClause(res.First(), compareResult);
+                                var clause = res.First();
+                                bool next;
+                                if (ClauseCache.TryGetValue((compareResult, clause), out bool cachedValue))
+                                {
+                                     next = cachedValue;
+                                }
+                                else
+                                {
+                                    next = AnalyzeClause(res.First(), compareResult);
+                                    ClauseCache.Add((compareResult, clause), next);
+                                }
+
+                                next = invertNextStatement ? !next : next;
                                 current = Operate(Operator, current, next);
                             }
                             operatorExpected = true;

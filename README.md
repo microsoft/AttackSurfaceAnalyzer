@@ -1,5 +1,5 @@
 # Attack Surface Analyzer 
-[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/microsoft/AttackSurfaceAnalyzer.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/microsoft/AttackSurfaceAnalyzer/context:javascript)
+[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/microsoft/AttackSurfaceAnalyzer.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/microsoft/AttackSurfaceAnalyzer/context:javascript)[![Total alerts](https://img.shields.io/lgtm/alerts/g/microsoft/AttackSurfaceAnalyzer.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/microsoft/AttackSurfaceAnalyzer/alerts/)
 ## Getting Attack Surface Analyzer
 Attack Surface Analyzer is distributed via our GitHub [releases](https://github.com/Microsoft/AttackSurfaceAnalyzer/releases/latest) page.
 
