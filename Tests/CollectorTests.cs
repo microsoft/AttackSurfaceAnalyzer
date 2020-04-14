@@ -372,7 +372,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 fwc.Execute();
 
                 var user = System.Guid.NewGuid().ToString().Substring(0, 10);
-                var password = CryptoHelpers.GetRandomString(20);
+                var password = CryptoHelpers.GetRandomString(14);
 
                 var cmd = string.Format("user /add {0} {1}", user, password);
                 ExternalCommandRunner.RunExternalCommand("net", cmd);
