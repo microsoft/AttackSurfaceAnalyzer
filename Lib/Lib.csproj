@@ -21,6 +21,7 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <licenseUrl>https://github.com/microsoft/AttackSurfaceAnalyzer/blob/master/LICENSE.txt</licenseUrl>
   </PropertyGroup>
 
   <ItemGroup>

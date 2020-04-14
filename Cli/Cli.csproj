@@ -23,6 +23,7 @@
     <ToolCommandName>asa</ToolCommandName>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageIcon>icon-128.png</PackageIcon>
+    <licenseUrl>https://github.com/microsoft/AttackSurfaceAnalyzer/blob/master/LICENSE.txt</licenseUrl>
   </PropertyGroup>
 
   <ItemGroup>
