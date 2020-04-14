@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Types;
+using Newtonsoft.Json;
 
 namespace AttackSurfaceAnalyzer.Objects
 {
@@ -22,6 +23,7 @@ namespace AttackSurfaceAnalyzer.Objects
         public int Port { get; set; }
         public string? ProcessName { get; set; }
 
+        [JsonConstructor]
         public OpenPortObject(int Port, TRANSPORT Type) : this(Port, Type, ADDRESS_FAMILY.Unspecified) { }
 
         public OpenPortObject(int Port, TRANSPORT Type, ADDRESS_FAMILY AddressFamily)

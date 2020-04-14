@@ -20,5 +20,10 @@ namespace AttackSurfaceAnalyzer.Objects
                 return CryptoHelpers.CreateHash(JsonUtils.Dehydrate(this));
             }
         }
+
+        public static bool ShouldSerializeRowKey()
+        {
+            return false;
+        }
     }
 }
