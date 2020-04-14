@@ -23,6 +23,7 @@
     <ToolCommandName>asa</ToolCommandName>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageIcon>icon-128.png</PackageIcon>
+    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
   </PropertyGroup>
 
   <ItemGroup>

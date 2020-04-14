@@ -21,6 +21,7 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
   </PropertyGroup>
 
   <ItemGroup>
