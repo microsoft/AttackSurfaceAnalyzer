@@ -1,4 +1,4 @@
-name: ASA 2.1 Release
+name: ASA Release
 
 trigger:
   batch: true
@@ -9,6 +9,7 @@ trigger:
   branches:
     include:
     - release/v2.1
+    - release/v2.2
 
 variables:
   solution: '**/*.sln'
@@ -421,6 +422,7 @@ stages:
         targetType: 'inline'
         script: |
           Move-Item -Path "$(build.binariesdirectory)\nuget\*.nupkg" -Destination "$(build.artifactstagingdirectory)"
+          Move-Item -Path "$(build.binariesdirectory)\nuget\*.snupkg" -Destination "$(build.artifactstagingdirectory)"
 
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact'
@@ -430,7 +432,7 @@ stages:
 
     - task: NuGetCommand@2
       displayName: Deploy Nuget Release
-      enabled: false
+      enabled: true
       inputs:
         command: 'push'
         packagesToPush: '$(build.artifactstagingdirectory)/*.nupkg'
