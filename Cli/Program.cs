@@ -59,6 +59,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 );
 
             Log.CloseAndFlush();
+            Environment.Exit(argsResult);
         }
 
         private static int RunVerifyRulesCommand(VerifyOptions opts)
@@ -379,7 +380,7 @@ namespace AttackSurfaceAnalyzer.Cli
                     var o = new Dictionary<string, Object>();
                     o["results"] = records;
                     o["metadata"] = AsaHelpers.GenerateMetadata();
-                    using (StreamWriter sw = new StreamWriter(Path.Combine(OutputPath, AsaHelpers.MakeValidFileName(BaseId + "_vs_" + CompareId + "_" + ExportType.ToString() + ".json.txt")))) //lgtm[SM00414]
+                    using (StreamWriter sw = new StreamWriter(Path.Combine(OutputPath, AsaHelpers.MakeValidFileName(BaseId + "_vs_" + CompareId + "_" + ExportType.ToString() + ".json.txt")))) //lgtm [cs/path-injection]
                     {
                         using (JsonWriter writer = new JsonTextWriter(sw))
                         {
@@ -393,7 +394,7 @@ namespace AttackSurfaceAnalyzer.Cli
             var output = new Dictionary<string, Object>();
             output["results"] = actualExported;
             output["metadata"] = AsaHelpers.GenerateMetadata();
-            using (StreamWriter sw = new StreamWriter(Path.Combine(OutputPath, AsaHelpers.MakeValidFileName(BaseId + "_vs_" + CompareId + "_summary.json.txt")))) //lgtm[SM00414]
+            using (StreamWriter sw = new StreamWriter(Path.Combine(OutputPath, AsaHelpers.MakeValidFileName(BaseId + "_vs_" + CompareId + "_summary.json.txt")))) //lgtm [cs/path-injection]
             {
                 using (JsonWriter writer = new JsonTextWriter(sw))
                 {
@@ -475,7 +476,7 @@ namespace AttackSurfaceAnalyzer.Cli
             output["metadata"] = AsaHelpers.GenerateMetadata();
             string path = Path.Combine(OutputPath, AsaHelpers.MakeValidFileName(RunId + "_Monitoring_" + ((RESULT_TYPE)ResultType).ToString() + ".json.txt"));
 
-            using (StreamWriter sw = new StreamWriter(path)) //lgtm[SM00414]
+            using (StreamWriter sw = new StreamWriter(path)) //lgtm [cs/path-injection]
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
                 serializer.Serialize(writer, output);
@@ -603,7 +604,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 Log.Information("{0} {1} {2}.", Strings.Get("MonitorStartedFor"), opts.Duration, Strings.Get("Minutes"));
                 using var aTimer = new System.Timers.Timer
                 {
-                    Interval = opts.Duration * 60 * 1000,
+                    Interval = opts.Duration * 60 * 1000, //lgtm [cs/loss-of-precision]
                     AutoReset = false,
                 };
                 aTimer.Elapsed += (source, e) => { exitEvent.Set(); };
@@ -760,23 +761,18 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 foreach (var key in results.Keys)
                 {
-                    try
+                    if (results.TryGetValue(key, out object? obj))
                     {
-                        if (results[key] is ConcurrentQueue<CompareResult> queue)
+                        if (obj is ConcurrentQueue<CompareResult> Queue)
                         {
-                            foreach (var result in queue)
+                            foreach (var result in Queue)
                             {
                                 DatabaseManager.InsertAnalyzed(result);
                             }
                         }
                     }
-                    catch (NullReferenceException)
-                    {
-                        Log.Debug(key);
-                    }
                 }
             }
-
 
             watch.Stop();
             t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);

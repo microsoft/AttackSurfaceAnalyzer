@@ -112,8 +112,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                             var certObj = new CertificateObject(
                                 StoreLocation: StoreLocation.LocalMachine.ToString(),
                                 StoreName: StoreName.Root.ToString(),
-                                Certificate: new SerializableCertificate(certificate),
-                                Pkcs7: certificate.Export(X509ContentType.Cert).ToString());
+                                Certificate: new SerializableCertificate(certificate))
+                            {
+                                Pkcs7 = Convert.ToBase64String(certificate.Export(X509ContentType.Cert))
+                            };
 
                             DatabaseManager.Write(certObj, RunId);
                         }

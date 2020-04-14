@@ -47,7 +47,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 StoreName: storeName.ToString(),
                                 Certificate: new SerializableCertificate(certificate))
                             {
-                                Pkcs7 = certificate.Export(X509ContentType.Cert).ToString()
+                                Pkcs7 = Convert.ToBase64String(certificate.Export(X509ContentType.Cert))
                             };
                             DatabaseManager.Write(obj, RunId);
                         }
@@ -82,8 +82,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                         var obj = new CertificateObject(
                             StoreLocation: StoreLocation.LocalMachine.ToString(),
                             StoreName: StoreName.Root.ToString(),
-                            Certificate: new SerializableCertificate(certificate),
-                            Pkcs7: certificate.Export(X509ContentType.Cert).ToString());
+                            Certificate: new SerializableCertificate(certificate))
+                        {
+                            Pkcs7 = Convert.ToBase64String(certificate.Export(X509ContentType.Cert))
+                        };
 
                         DatabaseManager.Write(obj, RunId);
                     }
@@ -119,7 +121,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 _ = ExternalCommandRunner.RunExternalCommand("openssl", new string[] { "pkcs12", "-export", "-nokeys", "-out", pkPath, "-passout pass:pass", "-in", tmpPath });
 
                 X509Certificate2Collection xcert = new X509Certificate2Collection();
-                xcert.Import(pkPath, "pass", X509KeyStorageFlags.DefaultKeySet);
+                xcert.Import(pkPath, "pass", X509KeyStorageFlags.DefaultKeySet); //lgtm [cs/hardcoded-credentials]
 
                 File.Delete(tmpPath);
                 File.Delete(pkPath);
@@ -133,9 +135,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                     var obj = new CertificateObject(
                         StoreLocation: StoreLocation.LocalMachine.ToString(),
                         StoreName: StoreName.Root.ToString(),
-                        Certificate: new SerializableCertificate(certificate),
-                        Pkcs7: certificate.Export(X509ContentType.Cert).ToString());
-
+                        Certificate: new SerializableCertificate(certificate))
+                    {
+                        Pkcs7 = Convert.ToBase64String(certificate.Export(X509ContentType.Cert))
+                    };
                     DatabaseManager.Write(obj, RunId);
                 }
             }

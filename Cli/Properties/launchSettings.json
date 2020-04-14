@@ -20,7 +20,10 @@
     "Verify Rules": {
       "commandName": "Project",
       "commandLineArgs": "verify",
-      "environmentVariables": {}
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "http://localhost:5000/"
     },
     "Export-Collect": {
       "commandName": "Project",
