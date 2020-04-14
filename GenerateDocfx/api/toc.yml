@@ -124,6 +124,8 @@
 - uid: AttackSurfaceAnalyzer.Types
   name: AttackSurfaceAnalyzer.Types
   items:
+  - uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY
+    name: ADDRESS_FAMILY
   - uid: AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE
     name: ANALYSIS_RESULT_TYPE
   - uid: AttackSurfaceAnalyzer.Types.ASA_ERROR

@@ -2421,19 +2421,6 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Objects.CollectObject
   fullName: AttackSurfaceAnalyzer.Objects.CollectObject
   nameWithType: CollectObject
-- uid: AttackSurfaceAnalyzer.Objects.CollectObject.GetRowKey
-  name: GetRowKey()
-  href: api/AttackSurfaceAnalyzer.Objects.CollectObject.html#AttackSurfaceAnalyzer_Objects_CollectObject_GetRowKey
-  commentId: M:AttackSurfaceAnalyzer.Objects.CollectObject.GetRowKey
-  fullName: AttackSurfaceAnalyzer.Objects.CollectObject.GetRowKey()
-  nameWithType: CollectObject.GetRowKey()
-- uid: AttackSurfaceAnalyzer.Objects.CollectObject.GetRowKey*
-  name: GetRowKey
-  href: api/AttackSurfaceAnalyzer.Objects.CollectObject.html#AttackSurfaceAnalyzer_Objects_CollectObject_GetRowKey_
-  commentId: Overload:AttackSurfaceAnalyzer.Objects.CollectObject.GetRowKey
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Objects.CollectObject.GetRowKey
-  nameWithType: CollectObject.GetRowKey
 - uid: AttackSurfaceAnalyzer.Objects.CollectObject.Identity
   name: Identity
   href: api/AttackSurfaceAnalyzer.Objects.CollectObject.html#AttackSurfaceAnalyzer_Objects_CollectObject_Identity
@@ -2460,19 +2447,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Objects.CollectObject.ResultType
   nameWithType: CollectObject.ResultType
-- uid: AttackSurfaceAnalyzer.Objects.CollectObject.ShouldSerializeRowKey
-  name: ShouldSerializeRowKey()
-  href: api/AttackSurfaceAnalyzer.Objects.CollectObject.html#AttackSurfaceAnalyzer_Objects_CollectObject_ShouldSerializeRowKey
-  commentId: M:AttackSurfaceAnalyzer.Objects.CollectObject.ShouldSerializeRowKey
-  fullName: AttackSurfaceAnalyzer.Objects.CollectObject.ShouldSerializeRowKey()
-  nameWithType: CollectObject.ShouldSerializeRowKey()
-- uid: AttackSurfaceAnalyzer.Objects.CollectObject.ShouldSerializeRowKey*
-  name: ShouldSerializeRowKey
-  href: api/AttackSurfaceAnalyzer.Objects.CollectObject.html#AttackSurfaceAnalyzer_Objects_CollectObject_ShouldSerializeRowKey_
-  commentId: Overload:AttackSurfaceAnalyzer.Objects.CollectObject.ShouldSerializeRowKey
+- uid: AttackSurfaceAnalyzer.Objects.CollectObject.RowKey
+  name: RowKey
+  href: api/AttackSurfaceAnalyzer.Objects.CollectObject.html#AttackSurfaceAnalyzer_Objects_CollectObject_RowKey
+  commentId: P:AttackSurfaceAnalyzer.Objects.CollectObject.RowKey
+  fullName: AttackSurfaceAnalyzer.Objects.CollectObject.RowKey
+  nameWithType: CollectObject.RowKey
+- uid: AttackSurfaceAnalyzer.Objects.CollectObject.RowKey*
+  name: RowKey
+  href: api/AttackSurfaceAnalyzer.Objects.CollectObject.html#AttackSurfaceAnalyzer_Objects_CollectObject_RowKey_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.CollectObject.RowKey
   isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Objects.CollectObject.ShouldSerializeRowKey
-  nameWithType: CollectObject.ShouldSerializeRowKey
+  fullName: AttackSurfaceAnalyzer.Objects.CollectObject.RowKey
+  nameWithType: CollectObject.RowKey
 - uid: AttackSurfaceAnalyzer.Objects.ComObject
   name: ComObject
   href: api/AttackSurfaceAnalyzer.Objects.ComObject.html
@@ -3326,11 +3313,11 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult
   fullName: AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult
   nameWithType: FileSystemMonitorResult
-- uid: AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult.#ctor(FileSystemEventArgs)
+- uid: AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult.#ctor(System.IO.FileSystemEventArgs)
   name: FileSystemMonitorResult(FileSystemEventArgs)
-  href: api/AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult.html#AttackSurfaceAnalyzer_Objects_FileSystemMonitorResult__ctor_FileSystemEventArgs_
-  commentId: M:AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult.#ctor(FileSystemEventArgs)
-  fullName: AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult.FileSystemMonitorResult(FileSystemEventArgs)
+  href: api/AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult.html#AttackSurfaceAnalyzer_Objects_FileSystemMonitorResult__ctor_System_IO_FileSystemEventArgs_
+  commentId: M:AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult.#ctor(System.IO.FileSystemEventArgs)
+  fullName: AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult.FileSystemMonitorResult(System.IO.FileSystemEventArgs)
   nameWithType: FileSystemMonitorResult.FileSystemMonitorResult(FileSystemEventArgs)
 - uid: AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult.#ctor*
   name: FileSystemMonitorResult
@@ -4071,6 +4058,12 @@ references:
   commentId: M:AttackSurfaceAnalyzer.Objects.OpenPortObject.#ctor(System.Int32,AttackSurfaceAnalyzer.Types.TRANSPORT)
   fullName: AttackSurfaceAnalyzer.Objects.OpenPortObject.OpenPortObject(System.Int32, AttackSurfaceAnalyzer.Types.TRANSPORT)
   nameWithType: OpenPortObject.OpenPortObject(Int32, TRANSPORT)
+- uid: AttackSurfaceAnalyzer.Objects.OpenPortObject.#ctor(System.Int32,AttackSurfaceAnalyzer.Types.TRANSPORT,AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY)
+  name: OpenPortObject(Int32, TRANSPORT, ADDRESS_FAMILY)
+  href: api/AttackSurfaceAnalyzer.Objects.OpenPortObject.html#AttackSurfaceAnalyzer_Objects_OpenPortObject__ctor_System_Int32_AttackSurfaceAnalyzer_Types_TRANSPORT_AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_
+  commentId: M:AttackSurfaceAnalyzer.Objects.OpenPortObject.#ctor(System.Int32,AttackSurfaceAnalyzer.Types.TRANSPORT,AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY)
+  fullName: AttackSurfaceAnalyzer.Objects.OpenPortObject.OpenPortObject(System.Int32, AttackSurfaceAnalyzer.Types.TRANSPORT, AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY)
+  nameWithType: OpenPortObject.OpenPortObject(Int32, TRANSPORT, ADDRESS_FAMILY)
 - uid: AttackSurfaceAnalyzer.Objects.OpenPortObject.#ctor*
   name: OpenPortObject
   href: api/AttackSurfaceAnalyzer.Objects.OpenPortObject.html#AttackSurfaceAnalyzer_Objects_OpenPortObject__ctor_
@@ -4091,19 +4084,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Objects.OpenPortObject.Address
   nameWithType: OpenPortObject.Address
-- uid: AttackSurfaceAnalyzer.Objects.OpenPortObject.Family
-  name: Family
-  href: api/AttackSurfaceAnalyzer.Objects.OpenPortObject.html#AttackSurfaceAnalyzer_Objects_OpenPortObject_Family
-  commentId: P:AttackSurfaceAnalyzer.Objects.OpenPortObject.Family
-  fullName: AttackSurfaceAnalyzer.Objects.OpenPortObject.Family
-  nameWithType: OpenPortObject.Family
-- uid: AttackSurfaceAnalyzer.Objects.OpenPortObject.Family*
-  name: Family
-  href: api/AttackSurfaceAnalyzer.Objects.OpenPortObject.html#AttackSurfaceAnalyzer_Objects_OpenPortObject_Family_
-  commentId: Overload:AttackSurfaceAnalyzer.Objects.OpenPortObject.Family
+- uid: AttackSurfaceAnalyzer.Objects.OpenPortObject.AddressFamily
+  name: AddressFamily
+  href: api/AttackSurfaceAnalyzer.Objects.OpenPortObject.html#AttackSurfaceAnalyzer_Objects_OpenPortObject_AddressFamily
+  commentId: P:AttackSurfaceAnalyzer.Objects.OpenPortObject.AddressFamily
+  fullName: AttackSurfaceAnalyzer.Objects.OpenPortObject.AddressFamily
+  nameWithType: OpenPortObject.AddressFamily
+- uid: AttackSurfaceAnalyzer.Objects.OpenPortObject.AddressFamily*
+  name: AddressFamily
+  href: api/AttackSurfaceAnalyzer.Objects.OpenPortObject.html#AttackSurfaceAnalyzer_Objects_OpenPortObject_AddressFamily_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.OpenPortObject.AddressFamily
   isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Objects.OpenPortObject.Family
-  nameWithType: OpenPortObject.Family
+  fullName: AttackSurfaceAnalyzer.Objects.OpenPortObject.AddressFamily
+  nameWithType: OpenPortObject.AddressFamily
 - uid: AttackSurfaceAnalyzer.Objects.OpenPortObject.Identity
   name: Identity
   href: api/AttackSurfaceAnalyzer.Objects.OpenPortObject.html#AttackSurfaceAnalyzer_Objects_OpenPortObject_Identity
@@ -5844,22 +5837,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Objects.WriteObject.Equals
   nameWithType: WriteObject.Equals
-- uid: AttackSurfaceAnalyzer.Objects.WriteObject.FromBytes(System.Byte[],AttackSurfaceAnalyzer.Types.RESULT_TYPE,System.String)
-  name: FromBytes(Byte[], RESULT_TYPE, String)
-  href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_FromBytes_System_Byte___AttackSurfaceAnalyzer_Types_RESULT_TYPE_System_String_
-  commentId: M:AttackSurfaceAnalyzer.Objects.WriteObject.FromBytes(System.Byte[],AttackSurfaceAnalyzer.Types.RESULT_TYPE,System.String)
-  name.vb: FromBytes(Byte(), RESULT_TYPE, String)
-  fullName: AttackSurfaceAnalyzer.Objects.WriteObject.FromBytes(System.Byte[], AttackSurfaceAnalyzer.Types.RESULT_TYPE, System.String)
-  fullName.vb: AttackSurfaceAnalyzer.Objects.WriteObject.FromBytes(System.Byte(), AttackSurfaceAnalyzer.Types.RESULT_TYPE, System.String)
-  nameWithType: WriteObject.FromBytes(Byte[], RESULT_TYPE, String)
-  nameWithType.vb: WriteObject.FromBytes(Byte(), RESULT_TYPE, String)
-- uid: AttackSurfaceAnalyzer.Objects.WriteObject.FromBytes*
-  name: FromBytes
-  href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_FromBytes_
-  commentId: Overload:AttackSurfaceAnalyzer.Objects.WriteObject.FromBytes
+- uid: AttackSurfaceAnalyzer.Objects.WriteObject.FromString(System.String,AttackSurfaceAnalyzer.Types.RESULT_TYPE,System.String)
+  name: FromString(String, RESULT_TYPE, String)
+  href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_FromString_System_String_AttackSurfaceAnalyzer_Types_RESULT_TYPE_System_String_
+  commentId: M:AttackSurfaceAnalyzer.Objects.WriteObject.FromString(System.String,AttackSurfaceAnalyzer.Types.RESULT_TYPE,System.String)
+  fullName: AttackSurfaceAnalyzer.Objects.WriteObject.FromString(System.String, AttackSurfaceAnalyzer.Types.RESULT_TYPE, System.String)
+  nameWithType: WriteObject.FromString(String, RESULT_TYPE, String)
+- uid: AttackSurfaceAnalyzer.Objects.WriteObject.FromString*
+  name: FromString
+  href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_FromString_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.WriteObject.FromString
   isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Objects.WriteObject.FromBytes
-  nameWithType: WriteObject.FromBytes
+  fullName: AttackSurfaceAnalyzer.Objects.WriteObject.FromString
+  nameWithType: WriteObject.FromString
 - uid: AttackSurfaceAnalyzer.Objects.WriteObject.GetHashCode
   name: GetHashCode()
   href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_GetHashCode
@@ -5873,32 +5863,6 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Objects.WriteObject.GetHashCode
   nameWithType: WriteObject.GetHashCode
-- uid: AttackSurfaceAnalyzer.Objects.WriteObject.GetRowKey
-  name: GetRowKey()
-  href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_GetRowKey
-  commentId: M:AttackSurfaceAnalyzer.Objects.WriteObject.GetRowKey
-  fullName: AttackSurfaceAnalyzer.Objects.WriteObject.GetRowKey()
-  nameWithType: WriteObject.GetRowKey()
-- uid: AttackSurfaceAnalyzer.Objects.WriteObject.GetRowKey*
-  name: GetRowKey
-  href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_GetRowKey_
-  commentId: Overload:AttackSurfaceAnalyzer.Objects.WriteObject.GetRowKey
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Objects.WriteObject.GetRowKey
-  nameWithType: WriteObject.GetRowKey
-- uid: AttackSurfaceAnalyzer.Objects.WriteObject.GetSerialized
-  name: GetSerialized()
-  href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_GetSerialized
-  commentId: M:AttackSurfaceAnalyzer.Objects.WriteObject.GetSerialized
-  fullName: AttackSurfaceAnalyzer.Objects.WriteObject.GetSerialized()
-  nameWithType: WriteObject.GetSerialized()
-- uid: AttackSurfaceAnalyzer.Objects.WriteObject.GetSerialized*
-  name: GetSerialized
-  href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_GetSerialized_
-  commentId: Overload:AttackSurfaceAnalyzer.Objects.WriteObject.GetSerialized
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Objects.WriteObject.GetSerialized
-  nameWithType: WriteObject.GetSerialized
 - uid: AttackSurfaceAnalyzer.Objects.WriteObject.Identity
   name: Identity
   href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_Identity
@@ -5912,19 +5876,6 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Objects.WriteObject.Identity
   nameWithType: WriteObject.Identity
-- uid: AttackSurfaceAnalyzer.Objects.WriteObject.InstanceHash
-  name: InstanceHash
-  href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_InstanceHash
-  commentId: P:AttackSurfaceAnalyzer.Objects.WriteObject.InstanceHash
-  fullName: AttackSurfaceAnalyzer.Objects.WriteObject.InstanceHash
-  nameWithType: WriteObject.InstanceHash
-- uid: AttackSurfaceAnalyzer.Objects.WriteObject.InstanceHash*
-  name: InstanceHash
-  href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_InstanceHash_
-  commentId: Overload:AttackSurfaceAnalyzer.Objects.WriteObject.InstanceHash
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Objects.WriteObject.InstanceHash
-  nameWithType: WriteObject.InstanceHash
 - uid: AttackSurfaceAnalyzer.Objects.WriteObject.op_Equality(AttackSurfaceAnalyzer.Objects.WriteObject,AttackSurfaceAnalyzer.Objects.WriteObject)
   name: Equality(WriteObject, WriteObject)
   href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_op_Equality_AttackSurfaceAnalyzer_Objects_WriteObject_AttackSurfaceAnalyzer_Objects_WriteObject_
@@ -5951,6 +5902,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Objects.WriteObject.Inequality
   nameWithType: WriteObject.Inequality
+- uid: AttackSurfaceAnalyzer.Objects.WriteObject.RowKey
+  name: RowKey
+  href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_RowKey
+  commentId: P:AttackSurfaceAnalyzer.Objects.WriteObject.RowKey
+  fullName: AttackSurfaceAnalyzer.Objects.WriteObject.RowKey
+  nameWithType: WriteObject.RowKey
+- uid: AttackSurfaceAnalyzer.Objects.WriteObject.RowKey*
+  name: RowKey
+  href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_RowKey_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.WriteObject.RowKey
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.WriteObject.RowKey
+  nameWithType: WriteObject.RowKey
 - uid: AttackSurfaceAnalyzer.Objects.WriteObject.RunId
   name: RunId
   href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_RunId
@@ -5964,6 +5928,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Objects.WriteObject.RunId
   nameWithType: WriteObject.RunId
+- uid: AttackSurfaceAnalyzer.Objects.WriteObject.Serialized
+  name: Serialized
+  href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_Serialized
+  commentId: P:AttackSurfaceAnalyzer.Objects.WriteObject.Serialized
+  fullName: AttackSurfaceAnalyzer.Objects.WriteObject.Serialized
+  nameWithType: WriteObject.Serialized
+- uid: AttackSurfaceAnalyzer.Objects.WriteObject.Serialized*
+  name: Serialized
+  href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_Serialized_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.WriteObject.Serialized
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.WriteObject.Serialized
+  nameWithType: WriteObject.Serialized
 - uid: AttackSurfaceAnalyzer.Properties
   name: AttackSurfaceAnalyzer.Properties
   href: api/AttackSurfaceAnalyzer.Properties.html
@@ -7477,6 +7454,210 @@ references:
   commentId: N:AttackSurfaceAnalyzer.Types
   fullName: AttackSurfaceAnalyzer.Types
   nameWithType: AttackSurfaceAnalyzer.Types
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY
+  name: ADDRESS_FAMILY
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html
+  commentId: T:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY
+  nameWithType: ADDRESS_FAMILY
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.AppleTalk
+  name: AppleTalk
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html#AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_AppleTalk
+  commentId: F:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.AppleTalk
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.AppleTalk
+  nameWithType: ADDRESS_FAMILY.AppleTalk
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Atm
+  name: Atm
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html#AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_Atm
+  commentId: F:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Atm
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Atm
+  nameWithType: ADDRESS_FAMILY.Atm
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Banyan
+  name: Banyan
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html#AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_Banyan
+  commentId: F:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Banyan
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Banyan
+  nameWithType: ADDRESS_FAMILY.Banyan
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Ccitt
+  name: Ccitt
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html#AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_Ccitt
+  commentId: F:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Ccitt
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Ccitt
+  nameWithType: ADDRESS_FAMILY.Ccitt
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Chaos
+  name: Chaos
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html#AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_Chaos
+  commentId: F:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Chaos
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Chaos
+  nameWithType: ADDRESS_FAMILY.Chaos
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Cluster
+  name: Cluster
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html#AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_Cluster
+  commentId: F:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Cluster
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Cluster
+  nameWithType: ADDRESS_FAMILY.Cluster
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.ControllerAreaNetwork
+  name: ControllerAreaNetwork
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html#AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_ControllerAreaNetwork
+  commentId: F:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.ControllerAreaNetwork
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.ControllerAreaNetwork
+  nameWithType: ADDRESS_FAMILY.ControllerAreaNetwork
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.DataKits
+  name: DataKits
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html#AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_DataKits
+  commentId: F:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.DataKits
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.DataKits
+  nameWithType: ADDRESS_FAMILY.DataKits
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.DataLink
+  name: DataLink
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html#AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_DataLink
+  commentId: F:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.DataLink
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.DataLink
+  nameWithType: ADDRESS_FAMILY.DataLink
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.DecNet
+  name: DecNet
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html#AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_DecNet
+  commentId: F:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.DecNet
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.DecNet
+  nameWithType: ADDRESS_FAMILY.DecNet
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Ecma
+  name: Ecma
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html#AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_Ecma
+  commentId: F:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Ecma
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Ecma
+  nameWithType: ADDRESS_FAMILY.Ecma
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.FireFox
+  name: FireFox
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html#AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_FireFox
+  commentId: F:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.FireFox
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.FireFox
+  nameWithType: ADDRESS_FAMILY.FireFox
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.HyperChannel
+  name: HyperChannel
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html#AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_HyperChannel
+  commentId: F:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.HyperChannel
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.HyperChannel
+  nameWithType: ADDRESS_FAMILY.HyperChannel
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Ieee12844
+  name: Ieee12844
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html#AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_Ieee12844
+  commentId: F:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Ieee12844
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Ieee12844
+  nameWithType: ADDRESS_FAMILY.Ieee12844
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.ImpLink
+  name: ImpLink
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html#AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_ImpLink
+  commentId: F:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.ImpLink
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.ImpLink
+  nameWithType: ADDRESS_FAMILY.ImpLink
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.InterNetwork
+  name: InterNetwork
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html#AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_InterNetwork
+  commentId: F:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.InterNetwork
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.InterNetwork
+  nameWithType: ADDRESS_FAMILY.InterNetwork
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.InterNetworkV6
+  name: InterNetworkV6
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html#AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_InterNetworkV6
+  commentId: F:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.InterNetworkV6
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.InterNetworkV6
+  nameWithType: ADDRESS_FAMILY.InterNetworkV6
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Ipx
+  name: Ipx
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html#AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_Ipx
+  commentId: F:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Ipx
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Ipx
+  nameWithType: ADDRESS_FAMILY.Ipx
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Irda
+  name: Irda
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html#AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_Irda
+  commentId: F:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Irda
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Irda
+  nameWithType: ADDRESS_FAMILY.Irda
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Iso
+  name: Iso
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html#AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_Iso
+  commentId: F:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Iso
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Iso
+  nameWithType: ADDRESS_FAMILY.Iso
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Lat
+  name: Lat
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html#AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_Lat
+  commentId: F:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Lat
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Lat
+  nameWithType: ADDRESS_FAMILY.Lat
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Max
+  name: Max
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html#AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_Max
+  commentId: F:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Max
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Max
+  nameWithType: ADDRESS_FAMILY.Max
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.NetBios
+  name: NetBios
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html#AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_NetBios
+  commentId: F:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.NetBios
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.NetBios
+  nameWithType: ADDRESS_FAMILY.NetBios
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.NetworkDesigners
+  name: NetworkDesigners
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html#AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_NetworkDesigners
+  commentId: F:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.NetworkDesigners
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.NetworkDesigners
+  nameWithType: ADDRESS_FAMILY.NetworkDesigners
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.NS
+  name: NS
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html#AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_NS
+  commentId: F:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.NS
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.NS
+  nameWithType: ADDRESS_FAMILY.NS
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Osi
+  name: Osi
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html#AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_Osi
+  commentId: F:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Osi
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Osi
+  nameWithType: ADDRESS_FAMILY.Osi
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Packet
+  name: Packet
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html#AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_Packet
+  commentId: F:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Packet
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Packet
+  nameWithType: ADDRESS_FAMILY.Packet
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Pup
+  name: Pup
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html#AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_Pup
+  commentId: F:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Pup
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Pup
+  nameWithType: ADDRESS_FAMILY.Pup
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Sna
+  name: Sna
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html#AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_Sna
+  commentId: F:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Sna
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Sna
+  nameWithType: ADDRESS_FAMILY.Sna
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Unix
+  name: Unix
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html#AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_Unix
+  commentId: F:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Unix
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Unix
+  nameWithType: ADDRESS_FAMILY.Unix
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Unknown
+  name: Unknown
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html#AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_Unknown
+  commentId: F:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Unknown
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Unknown
+  nameWithType: ADDRESS_FAMILY.Unknown
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Unspecified
+  name: Unspecified
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html#AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_Unspecified
+  commentId: F:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Unspecified
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.Unspecified
+  nameWithType: ADDRESS_FAMILY.Unspecified
+- uid: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.VoiceView
+  name: VoiceView
+  href: api/AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html#AttackSurfaceAnalyzer_Types_ADDRESS_FAMILY_VoiceView
+  commentId: F:AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.VoiceView
+  fullName: AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.VoiceView
+  nameWithType: ADDRESS_FAMILY.VoiceView
 - uid: AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE
   name: ANALYSIS_RESULT_TYPE
   href: api/AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE.html
@@ -9572,15 +9753,12 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.JsonUtils.Dehydrate
   nameWithType: JsonUtils.Dehydrate
-- uid: AttackSurfaceAnalyzer.Utils.JsonUtils.Hydrate(System.Byte[],AttackSurfaceAnalyzer.Types.RESULT_TYPE)
-  name: Hydrate(Byte[], RESULT_TYPE)
-  href: api/AttackSurfaceAnalyzer.Utils.JsonUtils.html#AttackSurfaceAnalyzer_Utils_JsonUtils_Hydrate_System_Byte___AttackSurfaceAnalyzer_Types_RESULT_TYPE_
-  commentId: M:AttackSurfaceAnalyzer.Utils.JsonUtils.Hydrate(System.Byte[],AttackSurfaceAnalyzer.Types.RESULT_TYPE)
-  name.vb: Hydrate(Byte(), RESULT_TYPE)
-  fullName: AttackSurfaceAnalyzer.Utils.JsonUtils.Hydrate(System.Byte[], AttackSurfaceAnalyzer.Types.RESULT_TYPE)
-  fullName.vb: AttackSurfaceAnalyzer.Utils.JsonUtils.Hydrate(System.Byte(), AttackSurfaceAnalyzer.Types.RESULT_TYPE)
-  nameWithType: JsonUtils.Hydrate(Byte[], RESULT_TYPE)
-  nameWithType.vb: JsonUtils.Hydrate(Byte(), RESULT_TYPE)
+- uid: AttackSurfaceAnalyzer.Utils.JsonUtils.Hydrate(System.String,AttackSurfaceAnalyzer.Types.RESULT_TYPE)
+  name: Hydrate(String, RESULT_TYPE)
+  href: api/AttackSurfaceAnalyzer.Utils.JsonUtils.html#AttackSurfaceAnalyzer_Utils_JsonUtils_Hydrate_System_String_AttackSurfaceAnalyzer_Types_RESULT_TYPE_
+  commentId: M:AttackSurfaceAnalyzer.Utils.JsonUtils.Hydrate(System.String,AttackSurfaceAnalyzer.Types.RESULT_TYPE)
+  fullName: AttackSurfaceAnalyzer.Utils.JsonUtils.Hydrate(System.String, AttackSurfaceAnalyzer.Types.RESULT_TYPE)
+  nameWithType: JsonUtils.Hydrate(String, RESULT_TYPE)
 - uid: AttackSurfaceAnalyzer.Utils.JsonUtils.Hydrate*
   name: Hydrate
   href: api/AttackSurfaceAnalyzer.Utils.JsonUtils.html#AttackSurfaceAnalyzer_Utils_JsonUtils_Hydrate_
