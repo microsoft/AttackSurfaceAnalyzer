@@ -43,7 +43,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 catch (Exception e) when (
                     e is UnauthorizedAccessException)
                 {
-
+                    Log.Verbose($"Access denied to {currentDir}");
                 }
                 catch (Exception e)
                 {

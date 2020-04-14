@@ -45,8 +45,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                             var obj = new CertificateObject(
                                 StoreLocation: storeLocation.ToString(),
                                 StoreName: storeName.ToString(),
-                                Certificate: new SerializableCertificate(certificate),
-                                Pkcs7: certificate.Export(X509ContentType.Cert).ToString());
+                                Certificate: new SerializableCertificate(certificate))
+                            {
+                                Pkcs7 = Convert.ToBase64String(certificate.Export(X509ContentType.Cert))
+                            };
                             DatabaseManager.Write(obj, RunId);
                         }
 
@@ -68,28 +70,31 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             try
             {
-                var result = ExternalCommandRunner.RunExternalCommand("ls", new string[] { "/etc/ssl/certs", "-A" });
-
-                foreach (var _line in result.Split('\n'))
+                if (ExternalCommandRunner.RunExternalCommand("ls", "/etc/ssl/certs -A", out string result, out string _) == 0)
                 {
-                    Log.Debug("{0}", _line);
-                    try
+                    foreach (var _line in result.Split('\n'))
                     {
-                        using X509Certificate2 certificate = new X509Certificate2("/etc/ssl/certs/" + _line);
+                        Log.Debug("{0}", _line);
+                        try
+                        {
+                            using X509Certificate2 certificate = new X509Certificate2("/etc/ssl/certs/" + _line);
 
-                        var obj = new CertificateObject(
-                            StoreLocation: StoreLocation.LocalMachine.ToString(),
-                            StoreName: StoreName.Root.ToString(),
-                            Certificate: new SerializableCertificate(certificate),
-                            Pkcs7: certificate.Export(X509ContentType.Cert).ToString());
+                            var obj = new CertificateObject(
+                                StoreLocation: StoreLocation.LocalMachine.ToString(),
+                                StoreName: StoreName.Root.ToString(),
+                                Certificate: new SerializableCertificate(certificate))
+                            {
+                                Pkcs7 = Convert.ToBase64String(certificate.Export(X509ContentType.Cert))
+                            };
 
-                        DatabaseManager.Write(obj, RunId);
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Debug("{0} {1} Issue creating certificate based on /etc/ssl/certs/{2}", e.GetType().ToString(), e.Message, _line);
-                        Log.Debug("{0}", e.StackTrace);
+                            DatabaseManager.Write(obj, RunId);
+                        }
+                        catch (Exception e)
+                        {
+                            Log.Debug("{0} {1} Issue creating certificate based on /etc/ssl/certs/{2}", e.GetType().ToString(), e.Message, _line);
+                            Log.Debug("{0}", e.StackTrace);
 
+                        }
                     }
                 }
             }
@@ -109,33 +114,42 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             try
             {
-                var result = ExternalCommandRunner.RunExternalCommand("security", new string[] { "find-certificate", "-ap", "/System/Library/Keychains/SystemRootCertificates.keychain" });
-                string tmpPath = Path.Combine(Directory.GetCurrentDirectory(), "tmpcert.pem");
-                string pkPath = Path.Combine(Directory.GetCurrentDirectory(), "tmpcert.pk12");
-
-                File.WriteAllText(tmpPath, result);
-                _ = ExternalCommandRunner.RunExternalCommand("openssl", new string[] { "pkcs12", "-export", "-nokeys", "-out", pkPath, "-passout pass:pass", "-in", tmpPath });
-
-                X509Certificate2Collection xcert = new X509Certificate2Collection();
-                xcert.Import(pkPath, "pass", X509KeyStorageFlags.DefaultKeySet);
-
-                File.Delete(tmpPath);
-                File.Delete(pkPath);
-
-                var X509Certificate2Enumerator = xcert.GetEnumerator();
-
-                while (X509Certificate2Enumerator.MoveNext())
+                if (ExternalCommandRunner.RunExternalCommand("security", "find-certificate -ap /System/Library/Keychains/SystemRootCertificates.keychain", out string result, out string _) == 0)
                 {
-                    var certificate = X509Certificate2Enumerator.Current;
+                    string tmpPath = Path.Combine(Directory.GetCurrentDirectory(), "tmpcert.pem");
+                    string pkPath = Path.Combine(Directory.GetCurrentDirectory(), "tmpcert.pk12");
 
-                    var obj = new CertificateObject(
-                        StoreLocation: StoreLocation.LocalMachine.ToString(),
-                        StoreName: StoreName.Root.ToString(),
-                        Certificate: new SerializableCertificate(certificate),
-                        Pkcs7: certificate.Export(X509ContentType.Cert).ToString());
+                    File.WriteAllText(tmpPath, result);
+                    if (ExternalCommandRunner.RunExternalCommand("openssl", $"pkcs12 -export -nokeys -out {pkPath} -passout pass:pass -in {tmpPath}",out string _, out string _) == 0)
+                    {
+                        X509Certificate2Collection xcert = new X509Certificate2Collection();
+                        xcert.Import(pkPath, "pass", X509KeyStorageFlags.DefaultKeySet); //lgtm [cs/hardcoded-credentials]
 
-                    DatabaseManager.Write(obj, RunId);
+                        File.Delete(tmpPath);
+                        File.Delete(pkPath);
+
+                        var X509Certificate2Enumerator = xcert.GetEnumerator();
+
+                        while (X509Certificate2Enumerator.MoveNext())
+                        {
+                            var certificate = X509Certificate2Enumerator.Current;
+
+                            var obj = new CertificateObject(
+                                StoreLocation: StoreLocation.LocalMachine.ToString(),
+                                StoreName: StoreName.Root.ToString(),
+                                Certificate: new SerializableCertificate(certificate))
+                            {
+                                Pkcs7 = Convert.ToBase64String(certificate.Export(X509ContentType.Cert))
+                            };
+                            DatabaseManager.Write(obj, RunId);
+                        }
+                    }
+                    else
+                    {
+                        Log.Debug("Failed to export certificate with OpenSSL.");
+                    }
                 }
+                
             }
             catch (Exception e)
             {

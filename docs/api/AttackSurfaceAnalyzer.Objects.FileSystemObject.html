@@ -87,6 +87,9 @@
       <a class="xref" href="AttackSurfaceAnalyzer.Objects.CollectObject.html#AttackSurfaceAnalyzer_Objects_CollectObject_ResultType">CollectObject.ResultType</a>
     </div>
     <div>
+      <a class="xref" href="AttackSurfaceAnalyzer.Objects.CollectObject.html#AttackSurfaceAnalyzer_Objects_CollectObject_RowKey">CollectObject.RowKey</a>
+    </div>
+    <div>
       <span class="xref">System.Object.Equals(System.Object)</span>
     </div>
     <div>
@@ -118,35 +121,53 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject__ctor.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject__ctor_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.%23ctor(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Objects/FileSystemObject.cs/#L47">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/FileSystemObject.cs/#L105">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Objects_FileSystemObject__ctor_" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.#ctor*"></a>
-  <h4 id="AttackSurfaceAnalyzer_Objects_FileSystemObject__ctor" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.#ctor">FileSystemObject()</h4>
+  <h4 id="AttackSurfaceAnalyzer_Objects_FileSystemObject__ctor_System_String_" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.#ctor(System.String)">FileSystemObject(String)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public FileSystemObject()</code></pre>
+    <pre><code class="lang-csharp hljs">public FileSystemObject(string Path)</code></pre>
   </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">Path</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   <h3 id="properties">Properties
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_Characteristics.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.Characteristics%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_Characteristics.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.Characteristics%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Objects/FileSystemObject.cs/#L30">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/FileSystemObject.cs/#L77">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Objects_FileSystemObject_Characteristics_" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.Characteristics*"></a>
   <h4 id="AttackSurfaceAnalyzer_Objects_FileSystemObject_Characteristics" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.Characteristics">Characteristics</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>If this is windows executable what DLL Characteristics are set</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public List&lt;string&gt; Characteristics { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public List&lt;DLLCHARACTERISTICS&gt; Characteristics { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -158,21 +179,22 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS.html">DLLCHARACTERISTICS</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_ContentHash.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.ContentHash%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_ContentHash.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.ContentHash%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Objects/FileSystemObject.cs/#L20">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/FileSystemObject.cs/#L37">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Objects_FileSystemObject_ContentHash_" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.ContentHash*"></a>
   <h4 id="AttackSurfaceAnalyzer_Objects_FileSystemObject_ContentHash" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.ContentHash">ContentHash</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>A hash of the file (if collected)</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -195,18 +217,50 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_fileType.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.fileType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_Created.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.Created%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Objects/FileSystemObject.cs/#L24">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/FileSystemObject.cs/#L93">View Source</a>
   </span>
-  <a id="AttackSurfaceAnalyzer_Objects_FileSystemObject_fileType_" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.fileType*"></a>
-  <h4 id="AttackSurfaceAnalyzer_Objects_FileSystemObject_fileType" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.fileType">fileType</h4>
-  <div class="markdown level1 summary"></div>
+  <a id="AttackSurfaceAnalyzer_Objects_FileSystemObject_Created_" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.Created*"></a>
+  <h4 id="AttackSurfaceAnalyzer_Objects_FileSystemObject_Created" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.Created">Created</h4>
+  <div class="markdown level1 summary"><p>When was the file created in UTC</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public string fileType { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public DateTime Created { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.DateTime</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_FileType.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.FileType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/FileSystemObject.cs/#L53">View Source</a>
+  </span>
+  <a id="AttackSurfaceAnalyzer_Objects_FileSystemObject_FileType_" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.FileType*"></a>
+  <h4 id="AttackSurfaceAnalyzer_Objects_FileSystemObject_FileType" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.FileType">FileType</h4>
+  <div class="markdown level1 summary"><p>.ToString of Mono FileTypes result. Not available on Windows.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string FileType { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -225,14 +279,15 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_Group.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.Group%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_Group.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.Group%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Objects/FileSystemObject.cs/#L26">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/FileSystemObject.cs/#L61">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Objects_FileSystemObject_Group_" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.Group*"></a>
   <h4 id="AttackSurfaceAnalyzer_Objects_FileSystemObject_Group" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.Group">Group</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>The group of the file.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -255,14 +310,15 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_Identity.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.Identity%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_Identity.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.Identity%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Objects/FileSystemObject.cs/#L10">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/FileSystemObject.cs/#L15">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Objects_FileSystemObject_Identity_" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.Identity*"></a>
   <h4 id="AttackSurfaceAnalyzer_Objects_FileSystemObject_Identity" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.Identity">Identity</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>The File's path</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -287,18 +343,19 @@
   <div><a class="xref" href="AttackSurfaceAnalyzer.Objects.CollectObject.html#AttackSurfaceAnalyzer_Objects_CollectObject_Identity">CollectObject.Identity</a></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_IsDirectory.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.IsDirectory%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_IsDirectory.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.IsDirectory%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Objects/FileSystemObject.cs/#L22">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/FileSystemObject.cs/#L45">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Objects_FileSystemObject_IsDirectory_" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.IsDirectory*"></a>
   <h4 id="AttackSurfaceAnalyzer_Objects_FileSystemObject_IsDirectory" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.IsDirectory">IsDirectory</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>If the file is a directory</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public bool IsDirectory { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public bool? IsDirectory { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -310,25 +367,26 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Boolean</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_IsExecutable.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.IsExecutable%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_IsExecutable.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.IsExecutable%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Objects/FileSystemObject.cs/#L21">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/FileSystemObject.cs/#L41">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Objects_FileSystemObject_IsExecutable_" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.IsExecutable*"></a>
   <h4 id="AttackSurfaceAnalyzer_Objects_FileSystemObject_IsExecutable" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.IsExecutable">IsExecutable</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>If the file is an executable</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public bool IsExecutable { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public bool? IsExecutable { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -340,25 +398,26 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Boolean</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_IsLink.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.IsLink%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_IsLink.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.IsLink%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Objects/FileSystemObject.cs/#L23">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/FileSystemObject.cs/#L49">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Objects_FileSystemObject_IsLink_" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.IsLink*"></a>
   <h4 id="AttackSurfaceAnalyzer_Objects_FileSystemObject_IsLink" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.IsLink">IsLink</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>If the file is a link</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public bool IsLink { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public bool? IsLink { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -370,21 +429,53 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Boolean</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_Owner.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.Owner%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_LastModified.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.LastModified%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Objects/FileSystemObject.cs/#L25">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/FileSystemObject.cs/#L89">View Source</a>
+  </span>
+  <a id="AttackSurfaceAnalyzer_Objects_FileSystemObject_LastModified_" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.LastModified*"></a>
+  <h4 id="AttackSurfaceAnalyzer_Objects_FileSystemObject_LastModified" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.LastModified">LastModified</h4>
+  <div class="markdown level1 summary"><p>When was the file last modified in UTC</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DateTime LastModified { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.DateTime</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_Owner.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.Owner%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/FileSystemObject.cs/#L57">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Objects_FileSystemObject_Owner_" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.Owner*"></a>
   <h4 id="AttackSurfaceAnalyzer_Objects_FileSystemObject_Owner" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.Owner">Owner</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>The owner of the file.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -407,14 +498,15 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_Path.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.Path%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_Path.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.Path%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Objects/FileSystemObject.cs/#L17">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/FileSystemObject.cs/#L25">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Objects_FileSystemObject_Path_" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.Path*"></a>
   <h4 id="AttackSurfaceAnalyzer_Objects_FileSystemObject_Path" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.Path">Path</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>The location on disk of the file</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -437,14 +529,15 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_Permissions.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.Permissions%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_Permissions.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.Permissions%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Objects/FileSystemObject.cs/#L35">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/FileSystemObject.cs/#L85">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Objects_FileSystemObject_Permissions_" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.Permissions*"></a>
   <h4 id="AttackSurfaceAnalyzer_Objects_FileSystemObject_Permissions" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.Permissions">Permissions</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>What are the permissions of this file.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -467,14 +560,15 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_PermissionsString.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.PermissionsString%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_PermissionsString.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.PermissionsString%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Objects/FileSystemObject.cs/#L29">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/FileSystemObject.cs/#L73">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Objects_FileSystemObject_PermissionsString_" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.PermissionsString*"></a>
   <h4 id="AttackSurfaceAnalyzer_Objects_FileSystemObject_PermissionsString" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.PermissionsString">PermissionsString</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>A string representation of the permissions</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -497,18 +591,19 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_SetGid.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.SetGid%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_SetGid.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.SetGid%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Objects/FileSystemObject.cs/#L27">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/FileSystemObject.cs/#L65">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Objects_FileSystemObject_SetGid_" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.SetGid*"></a>
   <h4 id="AttackSurfaceAnalyzer_Objects_FileSystemObject_SetGid" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.SetGid">SetGid</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>If the SetGid bit is set</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public bool SetGid { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public bool? SetGid { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -520,25 +615,26 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Boolean</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_SetUid.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.SetUid%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_SetUid.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.SetUid%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Objects/FileSystemObject.cs/#L28">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/FileSystemObject.cs/#L69">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Objects_FileSystemObject_SetUid_" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.SetUid*"></a>
   <h4 id="AttackSurfaceAnalyzer_Objects_FileSystemObject_SetUid" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.SetUid">SetUid</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>If the SetUid bit is set</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public bool SetUid { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public bool? SetUid { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -550,21 +646,22 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Boolean</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_SignatureStatus.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.SignatureStatus%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_SignatureStatus.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.SignatureStatus%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Objects/FileSystemObject.cs/#L19">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/FileSystemObject.cs/#L33">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Objects_FileSystemObject_SignatureStatus_" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.SignatureStatus*"></a>
   <h4 id="AttackSurfaceAnalyzer_Objects_FileSystemObject_SignatureStatus" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.SignatureStatus">SignatureStatus</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Signature information (for signed binaries)</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -587,18 +684,19 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_Size.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.Size%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_Size.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.Size%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Objects/FileSystemObject.cs/#L18">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/FileSystemObject.cs/#L29">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Objects_FileSystemObject_Size_" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.Size*"></a>
   <h4 id="AttackSurfaceAnalyzer_Objects_FileSystemObject_Size" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.Size">Size</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>File size in bytes</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ulong Size { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public ulong? Size { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -610,21 +708,22 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.UInt64</span></td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.UInt64</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_Target.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.Target%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_Target.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.Target%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Objects/FileSystemObject.cs/#L33">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/FileSystemObject.cs/#L81">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Objects_FileSystemObject_Target_" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.Target*"></a>
   <h4 id="AttackSurfaceAnalyzer_Objects_FileSystemObject_Target" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.Target">Target</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>If this is a link where does it point to.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -649,10 +748,10 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_ShouldSerializeCharacteristics.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.ShouldSerializeCharacteristics%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_ShouldSerializeCharacteristics.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.ShouldSerializeCharacteristics%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Objects/FileSystemObject.cs/#L37">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/FileSystemObject.cs/#L95">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Objects_FileSystemObject_ShouldSerializeCharacteristics_" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.ShouldSerializeCharacteristics*"></a>
   <h4 id="AttackSurfaceAnalyzer_Objects_FileSystemObject_ShouldSerializeCharacteristics" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.ShouldSerializeCharacteristics">ShouldSerializeCharacteristics()</h4>
@@ -679,10 +778,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_ShouldSerializePermissions.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.ShouldSerializePermissions%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject_ShouldSerializePermissions.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject.ShouldSerializePermissions%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Objects/FileSystemObject.cs/#L42">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/FileSystemObject.cs/#L100">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Objects_FileSystemObject_ShouldSerializePermissions_" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.ShouldSerializePermissions*"></a>
   <h4 id="AttackSurfaceAnalyzer_Objects_FileSystemObject_ShouldSerializePermissions" data-uid="AttackSurfaceAnalyzer.Objects.FileSystemObject.ShouldSerializePermissions">ShouldSerializePermissions()</h4>
@@ -715,10 +814,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_FileSystemObject.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.FileSystemObject%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Objects/FileSystemObject.cs/#L8" class="contribution-link">View Source</a>
+                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/FileSystemObject.cs/#L10" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

@@ -9,21 +9,19 @@ namespace AttackSurfaceAnalyzer.Objects
     {
         public readonly CollectObject ColObj { get; }
         public readonly string RunId { get; }
-        private readonly byte[] _rowKey;
-        private readonly byte[] _serialized;
-        public byte[] GetRowKey() { return _rowKey; }
-        public byte[] GetSerialized() { return _serialized; }
+        public readonly string RowKey { get; }
+        public readonly string Serialized { get; }
 
         public WriteObject(CollectObject ColObjIn, string RunIdIn)
         {
             ColObj = ColObjIn;
             RunId = RunIdIn;
 
-            _serialized = JsonUtils.Dehydrate(ColObjIn);
-            _rowKey = CryptoHelpers.CreateHash(_serialized);
+            Serialized = JsonUtils.Dehydrate(ColObjIn);
+            RowKey = ColObj?.RowKey ?? throw new ArgumentNullException(nameof(ColObjIn)); ;
         }
 
-        public static WriteObject? FromBytes(byte[] SerializedIn, RESULT_TYPE ResultTypeIn, string RunIdIn)
+        public static WriteObject? FromString(string SerializedIn, RESULT_TYPE ResultTypeIn, string RunIdIn)
         {
             var wo = new WriteObject(SerializedIn, ResultTypeIn, RunIdIn);
             if (wo.ColObj == null)
@@ -33,12 +31,12 @@ namespace AttackSurfaceAnalyzer.Objects
             return wo;
         }
 
-        private WriteObject(byte[] SerializedIn, RESULT_TYPE ResultTypeIn, string RunIdIn)
+        private WriteObject(string SerializedIn, RESULT_TYPE ResultTypeIn, string RunIdIn)
         {
-            _serialized = SerializedIn;
-            _rowKey = CryptoHelpers.CreateHash(_serialized);
-            RunId = RunIdIn;
-            ColObj = JsonUtils.Hydrate(SerializedIn, ResultTypeIn)!;
+            Serialized = SerializedIn;
+            RunId = RunIdIn;            
+            ColObj = JsonUtils.Hydrate(SerializedIn, ResultTypeIn) ?? throw new NullReferenceException(nameof(ColObj));
+            RowKey = ColObj.RowKey;
         }
 
         public override int GetHashCode()
@@ -46,7 +44,7 @@ namespace AttackSurfaceAnalyzer.Objects
             unchecked
             {
                 var result = 0;
-                foreach (byte b in _rowKey)
+                foreach (byte b in RowKey)
                     result = (result * 31) ^ b;
                 return result;
             }
@@ -55,13 +53,13 @@ namespace AttackSurfaceAnalyzer.Objects
         public override bool Equals(object? obj)
         {
             if (obj is WriteObject wo)
-                return _rowKey.SequenceEqual(wo.GetRowKey());
+                return RowKey.SequenceEqual(wo.RowKey);
             return false;
         }
 
         public bool Equals(WriteObject other)
         {
-            return _rowKey.SequenceEqual(other.GetRowKey());
+            return RowKey.SequenceEqual(other.RowKey);
         }
 
         public static bool operator ==(WriteObject left, WriteObject right)
@@ -79,14 +77,6 @@ namespace AttackSurfaceAnalyzer.Objects
             get
             {
                 return ColObj?.Identity ?? string.Empty;
-            }
-        }
-
-        public string InstanceHash
-        {
-            get
-            {
-                return Convert.ToBase64String(_rowKey);
             }
         }
     }

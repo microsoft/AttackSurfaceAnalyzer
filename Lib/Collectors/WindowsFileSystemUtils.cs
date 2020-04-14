@@ -103,9 +103,9 @@ namespace AttackSurfaceAnalyzer.Collectors
             return false;
         }
 
-        public static List<string> GetDllCharacteristics(string Path)
+        public static List<DLLCHARACTERISTICS> GetDllCharacteristics(string Path)
         {
-            List<string> output = new List<string>();
+            List<DLLCHARACTERISTICS> output = new List<DLLCHARACTERISTICS>();
 
             if (NeedsSignature(Path))
             {
@@ -123,7 +123,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             {
                                 if (((ushort)c & characteristics) == (ushort)c)
                                 {
-                                    output.Add(c.ToString());
+                                    output.Add(c);
                                 }
                             }
                         }

@@ -20,10 +20,13 @@ namespace AttackSurfaceAnalyzer.Objects
             { RESULT_TYPE.LOG, ANALYSIS_RESULT_TYPE.INFORMATION },
         };
 
-        public RuleFile(Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DefaultLevels, List<Rule> Rules)
+        public RuleFile(Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>? DefaultLevels = null, List<Rule>? Rules = null)
         {
-            this.DefaultLevels = DefaultLevels;
-            this.Rules = Rules;
+            if (DefaultLevels != null)
+            {
+                this.DefaultLevels = DefaultLevels;
+            }
+            this.Rules = Rules ?? new List<Rule>();
         }
 
         public RuleFile()

@@ -1,10 +1,13 @@
 # Attack Surface Analyzer 
-[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/microsoft/AttackSurfaceAnalyzer.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/microsoft/AttackSurfaceAnalyzer/context:javascript)
+[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/microsoft/AttackSurfaceAnalyzer.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/microsoft/AttackSurfaceAnalyzer/context:javascript)[![Total alerts](https://img.shields.io/lgtm/alerts/g/microsoft/AttackSurfaceAnalyzer.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/microsoft/AttackSurfaceAnalyzer/alerts/)
 ## Getting Attack Surface Analyzer
-Attack Surface Analyzer is distributed via our GitHub [releases](https://github.com/Microsoft/AttackSurfaceAnalyzer/releases/latest) page.
+
+If you have .NET Core 3.1 installed you can install Attack Surface Analyzer with `dotnet tool install -g Microsoft.CST.AttackSurfaceAnalyzer.CLI`.
+
+Platform specific binaries for Attack Surface Analyzer are distributed via our GitHub [releases](https://github.com/Microsoft/AttackSurfaceAnalyzer/releases/latest) page.
 
 ## Note on Version
-The latest released version of Attack Surface Analyzer is 2.1 (see [Release\v2.1](https://github.com/Microsoft/AttackSurfaceAnalyzer/tree/release/v2.1)).
+The latest stable released version of Attack Surface Analyzer is 2.1 (see [Release\v2.1](https://github.com/Microsoft/AttackSurfaceAnalyzer/tree/release/v2.1)).  2.2 is available in Beta.
 
 ## Overview
 
@@ -12,7 +15,7 @@ Attack Surface Analyzer is a Microsoft-developed open source security tool that 
 surface of a target system and reports on potential security vulnerabilities introduced during
 the installation of software or system misconfiguration. 
 
-Attack Surface Analyzer 2.1 replaces the original [Attack Surface Analyzer](https://www.microsoft.com/en-us/download/details.aspx?id=24487) tool, released publicly in 2012.
+Attack Surface Analyzer 2 replaces the original [Attack Surface Analyzer](https://www.microsoft.com/en-us/download/details.aspx?id=24487) tool, released publicly in 2012.
 
 Potential users of Attack Surface Analyzer include:
 
@@ -21,9 +24,7 @@ Potential users of Attack Surface Analyzer include:
 
 ## Core Features
 
-The core feature of Attack Surface Analyzer is the ability to "diff" an operating system's security configuration, 
-before and after a software component is installed. This is important because most installation processes require
-elevated privileges, and once granted, can lead to unintended system configuration changes.
+The core feature of Attack Surface Analyzer is the ability to "diff" an operating system's security configuration, before and after a software component is installed and to run arbitrary complex rules on the results to surface interesting findings. This is important because most installation processes require elevated privileges, and once granted, can lead to unintended system configuration changes.
 
 Attack Surface Analyzer currently reports on changes to the following operating system components:
 
@@ -33,40 +34,28 @@ Attack Surface Analyzer currently reports on changes to the following operating 
 - Network Ports
 - Certificates
 - Registry
-- COM Objects (New!)
-- Event Logs (New!)
-- Firewall Settings (New!)
+- COM Objects
+- Event Logs
+- Firewall Settings
 
-All data collected is stored in a local SQLite database called `asa.sqlite`.
+All data collected is stored in a set of local SQLite databases.
 
 ## How to Use Attack Surface Analyzer
 
-Run the following commands in an Administrator Shell (or as root).  Replace ```asa.exe``` with ```asa``` as appropriate for your platform.
+Run the following commands in an Administrator Shell (or as root).  Replace ```asa``` with ```asa.exe``` as appropriate for your platform.
 
 ### CLI Mode
-To start a default all collectors run: ```asa.exe collect```
+To start a default all collectors run: ```asa collect```
 
-To compare the last two collection runs: ```asa.exe export-collect```
+To compare the last two collection runs: ```asa export-collect```
 
-For other commands run: ```asa.exe --help```
+For other commands run: ```asa --help```
 
 ### GUI Mode
-For the GUI interface run: ```asa.exe gui``` and a browser window should open directed at ```http://localhost:5000``` with the web based interface.
+For the GUI interface run: ```asa gui``` and a browser window should open directed at ```http://localhost:5000``` with the web based interface.
 
 Detailed information on how to use Attack Surface Analyzer can be found on our
 [wiki](https://github.com/Microsoft/AttackSurfaceAnalyzer/wiki).
-
-## Future Plans (tentative)
-
-We plan on adding additional features to Attack Surface Analyzer, including those from the list below: 
-
-- Extended Driver details
-- Network traffic (live monitoring)
-- Registry (live monitoring)
-- Requested features which existed in the original Attack Surface Analyzer.
-
-If you have feedback on these or other features, please
-[open an issue](https://github.com/Microsoft/AttackSurfaceAnalyzer/issues).
 
 ## Installation
 
@@ -107,7 +96,5 @@ the [Security TechCenter](https://technet.microsoft.com/en-us/security/default).
 
 ## License
 
-Attack Surface Analyzer 2.1 is licensed under the
+Attack Surface Analyzer 2.x is licensed under the
 [MIT license](https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/LICENSE).
-
-

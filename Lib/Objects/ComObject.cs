@@ -7,36 +7,32 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class ComObject : CollectObject
     {
-        // From Registry
+        /// <summary>
+        /// The Registry Key which specifies this COM object
+        /// </summary>
         public RegistryObject Key { get; set; }
-        public List<RegistryObject> Subkeys { get; set; }
-        // From filesystem
+        /// <summary>
+        /// The associated binary found (if any) in the x86 view of the registry
+        /// </summary>
         public FileSystemObject? x86_Binary { get; set; }
+        /// <summary>
+        /// The associated binary found (if any) in the x64 view of the registry
+        /// </summary>
         public FileSystemObject? x64_Binary { get; set; }
-        public string? x86_BinaryName { get; set; }
-        public string? x64_BinaryName { get; set; }
 
         /// <summary>
         /// This is the correct constructor to use to create a ComObject.
         /// </summary>
-        /// <param name="Key"></param>
+        /// <param name="Key">The RegistryObject this ComObject is based on.</param>
         public ComObject(RegistryObject Key) : base()
         {
             this.Key = Key;
-            Subkeys = new List<RegistryObject>();
             ResultType = RESULT_TYPE.COM;
         }
 
-        public void AddSubKeys(List<RegistryObject> subkeysIn)
-        {
-            Subkeys.AddRange(subkeysIn);
-        }
-
-        public void AddSubKey(RegistryObject subkeysIn)
-        {
-            Subkeys.Add(subkeysIn);
-        }
-
+        /// <summary>
+        /// A COM Object's identity is the same as the Registry Key which specifies it
+        /// </summary>
         public override string Identity
         {
             get

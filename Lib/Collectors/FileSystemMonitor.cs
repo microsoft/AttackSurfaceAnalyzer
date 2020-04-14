@@ -7,6 +7,7 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Security.AccessControl;
 using System.Text.RegularExpressions;
 
 namespace AttackSurfaceAnalyzer.Collectors
@@ -159,8 +160,6 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             if (objIn == null) { return; }
 
-            string timestamp = DateTime.Now.ToString("O", CultureInfo.InvariantCulture);
-
             var ToWrite = new FileMonitorObject(objIn.FullPath)
             {
                 ResultType = RESULT_TYPE.FILEMONITOR,
@@ -193,11 +192,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     WriteChange(e, result);
                     return;
                 }
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                {
-                    // Found this example but it isn't working on osx
-                    //FileSecurity fSecurity = File.GetAccessControl(e.FullPath);
-                }
+                // @TODO: Fix Windows and MacOS Inspection
             }
             WriteChange(e);
             customChangeHandler?.Invoke(e);

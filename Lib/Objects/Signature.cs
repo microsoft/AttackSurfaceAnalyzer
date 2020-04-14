@@ -1,4 +1,5 @@
-﻿using PeNet.Header.Authenticode;
+﻿using Newtonsoft.Json;
+using PeNet.Header.Authenticode;
 using System;
 using System.Security.Cryptography.X509Certificates;
 
@@ -31,6 +32,7 @@ namespace AttackSurfaceAnalyzer.Objects
         /// This constructor is for deserialization.
         /// </summary>
         /// <param name="IsAuthenticodeValid"></param>
+        [JsonConstructor]
         public Signature(bool IsAuthenticodeValid)
         {
             this.IsAuthenticodeValid = IsAuthenticodeValid;

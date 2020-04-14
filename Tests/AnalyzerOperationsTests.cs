@@ -276,7 +276,7 @@ namespace AttackSurfaceAnalyzer.Tests
             var RuleName = "XOR from NAND";
             var norRule = new Rule(RuleName)
             {
-                Expression = "(0 NAND (0 NAND 1)) NAND (1 NAND (0 NAND 1)",
+                Expression = "(0 NAND (0 NAND 1)) NAND (1 NAND (0 NAND 1))",
                 ResultType = RESULT_TYPE.FILE,
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()

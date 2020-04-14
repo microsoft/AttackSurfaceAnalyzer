@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
+using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Serilog;
 using System;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
@@ -74,11 +76,9 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             foreach (var endpoint in properties.GetActiveTcpListeners())
             {
-                var obj = new OpenPortObject(endpoint.Port)
+                var obj = new OpenPortObject(endpoint.Port, TRANSPORT.TCP, (ADDRESS_FAMILY)endpoint.AddressFamily)
                 {
-                    Family = endpoint.AddressFamily.ToString(),
                     Address = endpoint.Address.ToString(),
-                    Type = "tcp"
                 };
                 foreach (ProcessPort p in Win32ProcessPorts.ProcessPortMap.FindAll(x => x.PortNumber == endpoint.Port))
                 {
@@ -90,11 +90,9 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             foreach (var endpoint in properties.GetActiveUdpListeners())
             {
-                var obj = new OpenPortObject(endpoint.Port)
+                var obj = new OpenPortObject(endpoint.Port, TRANSPORT.UDP, (ADDRESS_FAMILY)endpoint.AddressFamily)
                 {
-                    Family = endpoint.AddressFamily.ToString(),
-                    Address = endpoint.Address.ToString(),
-                    Type = "udp"
+                    Address = endpoint.Address.ToString()
                 };
                 foreach (ProcessPort p in Win32ProcessPorts.ProcessPortMap.FindAll(x => x.PortNumber == endpoint.Port))
                 {
@@ -136,11 +134,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                         var port = addressMatches.Groups[2].ToString();
                         if (int.TryParse(port, out int portInt))
                         {
-                            var obj = new OpenPortObject(portInt)
+                            var transport = parts[0].ToUpperInvariant().Equals("TCP") ? TRANSPORT.TCP : TRANSPORT.UDP;
+                            var family = address.Contains('.') ? ADDRESS_FAMILY.InterNetwork : address.Contains(':') ? ADDRESS_FAMILY.InterNetworkV6 : ADDRESS_FAMILY.Unknown;
+                            var obj = new OpenPortObject(portInt, transport, family)
                             {
-                                Family = parts[0],//@TODO: Determine IPV4 vs IPv6 via looking at the address
-                                Address = address,
-                                Type = parts[0]
+                                Address = address
                             };
                             DatabaseManager.Write(obj, RunId);
                         }
@@ -159,7 +157,6 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <summary>
         /// Executes the OpenPortCollector on OS X. Calls out to the `lsof`
         /// command and parses the output, sending the output to the database.
-        /// The 'ss' command used on Linux isn't available on OS X.
         /// </summary>
         private void ExecuteOsX()
         {
@@ -187,12 +184,25 @@ namespace AttackSurfaceAnalyzer.Collectors
                         var port = addressMatches.Groups[2].ToString();
                         if (int.TryParse(port, out int portInt))
                         {
-                            var obj = new OpenPortObject(portInt)
+                            var transport = parts[7].ToUpperInvariant().Equals("TCP") ? TRANSPORT.TCP : parts[7].ToUpperInvariant().Equals("TCP") ? TRANSPORT.UDP : TRANSPORT.UNKNOWN;
+                            var family = ADDRESS_FAMILY.Unknown;
+
+                            switch (parts[4])
                             {
-                                // Assuming family means IPv6 vs IPv4
-                                Family = parts[4],
+                                case "IPv4":
+                                    family = ADDRESS_FAMILY.InterNetwork;
+                                    break;
+                                case "IPv6":
+                                    family = ADDRESS_FAMILY.InterNetworkV6;
+                                    break;
+                                default:
+                                    family = ADDRESS_FAMILY.Unknown;
+                                    break;
+                            }
+
+                            var obj = new OpenPortObject(portInt, transport, family)
+                            {
                                 Address = address,
-                                Type = parts[7],
                                 ProcessName = parts[0]
                             };
 

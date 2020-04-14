@@ -33,10 +33,6 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PublishTrimmed>false</PublishTrimmed>
   </PropertyGroup>
-  <ItemGroup>
-    <RuntimeHostConfigurationOption Include="System.Globalization.Invariant" Value="true" />
-  </ItemGroup>
-
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Collect' ">
     <StartAction>Project</StartAction>
     <ExternalConsole>true</ExternalConsole>
@@ -54,6 +50,7 @@
 
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Verify Rules' ">
     <StartAction>Project</StartAction>
+    <ExternalConsole>true</ExternalConsole>
     <LaunchBrowser></LaunchBrowser>
   </PropertyGroup>
   <ItemGroup>
@@ -64,7 +61,7 @@
 
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.7.82" />
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.12.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.13.1" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -74,7 +71,7 @@
 
 
   <ItemGroup>
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.0.50">
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.1.74">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

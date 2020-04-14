@@ -106,14 +106,16 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         try
                         {
-                            var certificate = new X509Certificate2();
+                            using var certificate = new X509Certificate2();
                             certificate.Import(Path);
 
                             var certObj = new CertificateObject(
                                 StoreLocation: StoreLocation.LocalMachine.ToString(),
                                 StoreName: StoreName.Root.ToString(),
-                                Certificate: new SerializableCertificate(certificate),
-                                Pkcs7: certificate.Export(X509ContentType.Cert).ToString());
+                                Certificate: new SerializableCertificate(certificate))
+                            {
+                                Pkcs7 = Convert.ToBase64String(certificate.Export(X509ContentType.Cert))
+                            };
 
                             DatabaseManager.Write(certObj, RunId);
                         }
@@ -350,6 +352,10 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 Log.Debug("Should be caught in DirectoryWalker {0}", e.GetType().ToString());
             }
+
+            obj.LastModified = File.GetLastWriteTimeUtc(path);
+            obj.Created = File.GetCreationTimeUtc(path);
+
             return obj;
         }
     }

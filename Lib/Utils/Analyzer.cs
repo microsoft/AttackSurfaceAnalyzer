@@ -12,7 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using Utf8Json;
+using Newtonsoft.Json;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -21,6 +21,7 @@ namespace AttackSurfaceAnalyzer.Utils
         private readonly PLATFORM OsName;
         private RuleFile config;
 
+        private Dictionary<(CompareResult,Clause), bool> ClauseCache = new Dictionary<(CompareResult, Clause), bool>();
         public Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DefaultLevels { get { return config.DefaultLevels; } }
 
         private static readonly Dictionary<string, Regex> RegexCache = new Dictionary<string, Regex>();
@@ -65,6 +66,10 @@ namespace AttackSurfaceAnalyzer.Utils
                         results.Add(rule);
                     }
                 }
+            }
+            foreach(var item in ClauseCache.Where(x => x.Key.Item1 == compareResult))
+            {
+                ClauseCache.Remove(item.Key);
             }
             return results;
         }
@@ -230,8 +235,6 @@ namespace AttackSurfaceAnalyzer.Utils
                     }
                 }
 
-                var groupedFoundLabels = foundLabels.GroupBy(x => x);
-
                 // Were all the labels declared in clauses used?
                 foreach (var label in rule.Clauses.Select(x => x.Label))
                 {
@@ -272,7 +275,7 @@ namespace AttackSurfaceAnalyzer.Utils
             return !invalid;
         }
 
-        public static bool Apply(Rule rule, CompareResult compareResult)
+        public bool Apply(Rule rule, CompareResult compareResult)
         {
             if (compareResult != null && rule != null)
             {
@@ -282,22 +285,16 @@ namespace AttackSurfaceAnalyzer.Utils
                     return true;
                 }
 
-                var ClauseResults = new Dictionary<Clause, bool>();
-                foreach (Clause clause in rule.Clauses)
-                {
-                    ClauseResults.Add(clause, AnalyzeClause(clause, compareResult));
-                }
-
                 if (rule.Expression == null)
                 {
-                    if (ClauseResults.All(x => x.Value))
+                    if (rule.Clauses.All(x => AnalyzeClause(x, compareResult)))
                     {
                         return true;
                     }
                 }
                 else
                 {
-                    if (Evaluate(rule.Expression.Split(" "), ClauseResults))
+                    if (Evaluate(rule.Expression.Split(" "), rule.Clauses, compareResult))
                     {
                         return true;
                     }
@@ -350,43 +347,24 @@ namespace AttackSurfaceAnalyzer.Utils
             return splits.Length - 1;
         }
 
-        private static bool Evaluate(string[] splits, Dictionary<Clause, bool> ClauseResults)
+        private bool Evaluate(string[] splits, List<Clause> Clauses, CompareResult compareResult)
         {
             bool current = false;
 
+            var invertNextStatement = false;
+            var operatorExpected = false;
 
-            var internalIndex = 0;
-            var hasNotOperator = splits[0].Replace("(", "").Replace(")", "").Equals(BOOL_OPERATOR.NOT.ToString());
+            BOOL_OPERATOR Operator = BOOL_OPERATOR.OR;
 
-            if (hasNotOperator)
-            {
-                internalIndex = 1;
-            }
+            var updated_i = 0;
 
-            var res = ClauseResults.Where(x => x.Key.Label == splits[internalIndex].Replace("(", "").Replace(")", ""));
-            if (!(res.Count() == 1))
-            {
-                return false;
-            }
-            if (hasNotOperator)
-            {
-                current = !res.First().Value;
-            }
-            else
-            {
-                current = res.First().Value;
-            }
-
-            BOOL_OPERATOR Operator = BOOL_OPERATOR.AND;
-
-            var updated_i = internalIndex + 1;
-            var operatorExpected = true;
-            for (int i = updated_i; i < splits.Length; i = updated_i)
+            for (int i = 0; i < splits.Length; i = updated_i)
             {
                 if (operatorExpected)
                 {
                     Operator = (BOOL_OPERATOR)Enum.Parse(typeof(BOOL_OPERATOR), splits[i]);
                     operatorExpected = false;
+                    updated_i = i + 1;
                 }
                 else
                 {
@@ -394,39 +372,92 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         //Get the substring closing this paren
                         var matchingParen = FindMatchingParen(splits, i);
-                        current = Operate(Operator, current, Evaluate(splits[i..(matchingParen + 1)], ClauseResults));
+                        // If either argument of an AND statement is false,
+                        // or either argument of a NOR statement is true,
+                        // the result is always false and we can optimize away evaluation of next
+                        if ((Operator == BOOL_OPERATOR.AND && current == false) ||
+                             (Operator == BOOL_OPERATOR.NOR && current == true))
+                        {
+                            current = false;
+                        }
+                        // If either argument of an NAND statement is false,
+                        // or either argument of an OR statement is true,
+                        // the result is always true and we can optimize away evaluation of next
+                        else if ((Operator == BOOL_OPERATOR.OR && current == true) ||
+                                   (Operator == BOOL_OPERATOR.NAND && current == false))
+                        {
+                            current = true;
+                        }
+                        // If we can't shortcut, do the actual evaluation
+                        else
+                        {
+                            // Recursively evaluate the contents of the parentheses
+
+                            splits[i] = splits[i][1..];
+                            splits[matchingParen] = splits[matchingParen][0..^1];
+                            var next = Evaluate(splits[i..(matchingParen + 1)], Clauses, compareResult);
+                            next = invertNextStatement ? !next : next;
+                            current = Operate(Operator, current, next);
+                        }
                         updated_i = matchingParen + 1;
+                        invertNextStatement = false;
+                        operatorExpected = true;
                     }
                     else
                     {
-                        internalIndex = i;
-                        hasNotOperator = splits[i].Equals(BOOL_OPERATOR.NOT.ToString());
-
-                        if (hasNotOperator)
+                        if (splits[i].Equals(BOOL_OPERATOR.NOT.ToString()))
                         {
-                            internalIndex = i + 1;
-                            updated_i = i + 2;
-                        }
-
-                        res = ClauseResults.Where(x => x.Key.Label == splits[internalIndex].Replace("(", "").Replace(")", ""));
-                        if (!(res.Count() == 1))
-                        {
-                            return false;
-                        }
-                        if (hasNotOperator)
-                        {
-                            current = Operate(Operator, current, !res.First().Value);
+                            invertNextStatement = true;
+                            operatorExpected = false;
                         }
                         else
                         {
-                            current = Operate(Operator, current, res.First().Value);
-                        }
-                    }
-                    operatorExpected = true;
-                }
-                updated_i = updated_i == i ? i + 1 : updated_i;
-            }
+                            // Ensure we have exactly 1 matching clause defined
+                            var res = Clauses.Where(x => x.Label == splits[i].Replace("(", "").Replace(")", ""));
+                            if (!(res.Count() == 1))
+                            {
+                                return false;
+                            }
+                            // If either argument of an AND statement is false,
+                            // or either argument of a NOR statement is true,
+                            // the result is always false and we can optimize away evaluation of next
+                            if ((Operator == BOOL_OPERATOR.AND && current == false) ||
+                                 (Operator == BOOL_OPERATOR.NOR && current == true))
+                            {
+                                current = false;
+                            }
+                            // If either argument of an NAND statement is false,
+                            // or either argument of an OR statement is true,
+                            // the result is always true and we can optimize away evaluation of next
+                            else if ((Operator == BOOL_OPERATOR.OR && current == true) ||
+                                       (Operator == BOOL_OPERATOR.NAND && current == false))
+                            {
+                                current = true;
+                            }
+                            // If we can't shortcut, do the actual evaluation
+                            else
+                            {
+                                var clause = res.First();
+                                bool next;
+                                if (ClauseCache.TryGetValue((compareResult, clause), out bool cachedValue))
+                                {
+                                     next = cachedValue;
+                                }
+                                else
+                                {
+                                    next = AnalyzeClause(res.First(), compareResult);
+                                    ClauseCache.Add((compareResult, clause), next);
+                                }
 
+                                next = invertNextStatement ? !next : next;
+                                current = Operate(Operator, current, next);
+                            }
+                            operatorExpected = true;
+                        }
+                        updated_i = i + 1;
+                    }
+                }
+            }
             return current;
         }
 
@@ -641,9 +672,12 @@ namespace AttackSurfaceAnalyzer.Utils
                         {
                             if (int.TryParse(val, out int valToCheck))
                             {
-                                if (valToCheck > int.Parse(clause.Data?[0] ?? $"{int.MaxValue}", CultureInfo.InvariantCulture))
+                                if (int.TryParse(clause.Data?[0], out int dataValue))
                                 {
-                                    return true;
+                                    if (valToCheck > dataValue)
+                                    {
+                                        return true;
+                                    }
                                 }
                             }
                         }
@@ -656,9 +690,12 @@ namespace AttackSurfaceAnalyzer.Utils
                         {
                             if (int.TryParse(val, out int valToCheck))
                             {
-                                if (valToCheck < int.Parse(clause.Data?[0] ?? $"{int.MaxValue}", CultureInfo.InvariantCulture))
+                                if (int.TryParse(clause.Data?[0], out int dataValue))
                                 {
-                                    return true;
+                                    if (valToCheck < dataValue)
+                                    {
+                                        return true;
+                                    }
                                 }
                             }
                         }
@@ -800,7 +837,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             catch (Exception e)
             {
-                Log.Debug(e, $"Hit while parsing {JsonSerializer.Serialize(clause)} onto {JsonSerializer.Serialize(compareResult)}");
+                Log.Debug(e, $"Hit while parsing {JsonConvert.SerializeObject(clause)} onto {JsonConvert.SerializeObject(compareResult)}");
                 Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
                 ExceptionEvent.Add("Exception Type", e.GetType().ToString());
                 AsaTelemetry.TrackEvent("ApplyOverallException", ExceptionEvent);
@@ -815,7 +852,7 @@ namespace AttackSurfaceAnalyzer.Utils
         public void DumpFilters()
         {
             Log.Verbose("Filter dump:");
-            Log.Verbose(JsonSerializer.ToJsonString(config));
+            Log.Verbose(JsonConvert.SerializeObject(config));
         }
 
         public void LoadEmbeddedFilters()
@@ -827,7 +864,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 using (Stream stream = assembly.GetManifestResourceStream(resourceName) ?? new MemoryStream())
                 using (StreamReader reader = new StreamReader(stream))
                 {
-                    config = JsonSerializer.Deserialize<RuleFile>(reader.ReadToEnd());
+                    config = JsonConvert.DeserializeObject<RuleFile>(reader.ReadToEnd());
                     Log.Information(Strings.Get("LoadedAnalyses"), "Embedded");
                 }
                 if (config == null)
@@ -864,7 +901,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     using (StreamReader file = System.IO.File.OpenText(filterLoc))
                     {
-                        config = JsonSerializer.Deserialize<RuleFile>(file.ReadToEnd());
+                        config = JsonConvert.DeserializeObject<RuleFile>(file.ReadToEnd());
                         Log.Information(Strings.Get("LoadedAnalyses"), filterLoc);
                     }
                     if (config == null)
