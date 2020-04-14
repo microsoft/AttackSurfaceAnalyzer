@@ -47,13 +47,6 @@ stages:
         testAssemblyVer2: AsaTests.dll
         searchFolder: '$(build.binariesdirectory)\Tests'
 
-    - task: PublishTestResults@2
-      condition: succeededOrFailed()
-      inputs:
-        testResultsFormat: 'VSTest'
-        testResultsFiles: '**/TEST-*.xml'
-        failTaskOnFailedTests: true
-
 - stage: Build
   jobs:
   - job: All

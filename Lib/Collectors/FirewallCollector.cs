@@ -82,71 +82,72 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// </summary>
         public void ExecuteLinux()
         {
-            var result = ExternalCommandRunner.RunExternalCommand("iptables", "-S");
-
-            var lines = new List<string>(result.Split('\n'));
-
-            Dictionary<string, FirewallAction> defaultPolicies = new Dictionary<string, FirewallAction>();
-
-            foreach (var line in lines)
+            if (ExternalCommandRunner.RunExternalCommand("iptables", "-S", out string result, out string _) == 0)
             {
-                if (line.StartsWith("-P"))
+                var lines = new List<string>(result.Split('\n'));
+
+                Dictionary<string, FirewallAction> defaultPolicies = new Dictionary<string, FirewallAction>();
+
+                foreach (var line in lines)
                 {
-                    var chainName = line.Split(' ')[1];
-                    defaultPolicies.Add(chainName, line.Contains("ACCEPT") ? FirewallAction.Allow : FirewallAction.Block);
-                    var obj = new FirewallObject($"Default {chainName} policy")
+                    if (line.StartsWith("-P"))
                     {
-                        Action = defaultPolicies[chainName],
-                        FriendlyName = $"Default {chainName} policy",
-                        Scope = FirewallScope.All
-                    };
-                    if (!chainName.Equals("FORWARD"))
-                    {
-                        obj.Direction = chainName.Equals("INPUT") ? FirewallDirection.Inbound : FirewallDirection.Outbound;
+                        var chainName = line.Split(' ')[1];
+                        defaultPolicies.Add(chainName, line.Contains("ACCEPT") ? FirewallAction.Allow : FirewallAction.Block);
+                        var obj = new FirewallObject($"Default {chainName} policy")
+                        {
+                            Action = defaultPolicies[chainName],
+                            FriendlyName = $"Default {chainName} policy",
+                            Scope = FirewallScope.All
+                        };
+                        if (!chainName.Equals("FORWARD"))
+                        {
+                            obj.Direction = chainName.Equals("INPUT") ? FirewallDirection.Inbound : FirewallDirection.Outbound;
+                        }
+
+                        DatabaseManager.Write(obj, RunId);
                     }
-
-                    DatabaseManager.Write(obj, RunId);
-                }
-                else if (line.StartsWith("-A"))
-                {
-                    var splits = line.Split(' ');
-                    var chainName = splits[1];
-
-
-                    var obj = new FirewallObject(line)
+                    else if (line.StartsWith("-A"))
                     {
-                        Action = (splits[Array.IndexOf(splits, "-j") + 1] == "ACCEPT") ? FirewallAction.Allow : FirewallAction.Block,
-                        FriendlyName = line,
-                        Scope = FirewallScope.All,
-                        Protocol = splits[Array.IndexOf(splits, "-p") + 1]
-                    };
+                        var splits = line.Split(' ');
+                        var chainName = splits[1];
 
-                    if (Array.IndexOf(splits, "--dport") > 0)
-                    {
-                        obj.RemotePorts = splits[Array.IndexOf(splits, "--dport") + 1].OfType<string>().ToList();
+
+                        var obj = new FirewallObject(line)
+                        {
+                            Action = (splits[Array.IndexOf(splits, "-j") + 1] == "ACCEPT") ? FirewallAction.Allow : FirewallAction.Block,
+                            FriendlyName = line,
+                            Scope = FirewallScope.All,
+                            Protocol = splits[Array.IndexOf(splits, "-p") + 1]
+                        };
+
+                        if (Array.IndexOf(splits, "--dport") > 0)
+                        {
+                            obj.RemotePorts = splits[Array.IndexOf(splits, "--dport") + 1].OfType<string>().ToList();
+                        }
+
+                        if (Array.IndexOf(splits, "-d") > 0)
+                        {
+                            obj.RemoteAddresses = splits[Array.IndexOf(splits, "-d") + 1].OfType<string>().ToList();
+                        }
+
+                        if (Array.IndexOf(splits, "-s") > 0)
+                        {
+                            obj.LocalAddresses = splits[Array.IndexOf(splits, "-s") + 1].OfType<string>().ToList();
+                        }
+
+                        if (Array.IndexOf(splits, "--sport") > 0)
+                        {
+                            obj.LocalPorts = splits[Array.IndexOf(splits, "--sport") + 1].OfType<string>().ToList();
+                        }
+
+                        if (!chainName.Equals("FORWARD"))
+                        {
+                            obj.Direction = chainName.Equals("INPUT") ? FirewallDirection.Inbound : FirewallDirection.Outbound;
+                        }
+
+                        DatabaseManager.Write(obj, RunId);
                     }
-
-                    if (Array.IndexOf(splits, "-d") > 0)
-                    {
-                        obj.RemoteAddresses = splits[Array.IndexOf(splits, "-d") + 1].OfType<string>().ToList();
-                    }
-
-                    if (Array.IndexOf(splits, "-s") > 0)
-                    {
-                        obj.LocalAddresses = splits[Array.IndexOf(splits, "-s") + 1].OfType<string>().ToList();
-                    }
-
-                    if (Array.IndexOf(splits, "--sport") > 0)
-                    {
-                        obj.LocalPorts = splits[Array.IndexOf(splits, "--sport") + 1].OfType<string>().ToList();
-                    }
-
-                    if (!chainName.Equals("FORWARD"))
-                    {
-                        obj.Direction = chainName.Equals("INPUT") ? FirewallDirection.Inbound : FirewallDirection.Outbound;
-                    }
-
-                    DatabaseManager.Write(obj, RunId);
                 }
             }
         }

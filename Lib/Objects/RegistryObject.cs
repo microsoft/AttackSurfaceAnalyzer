@@ -10,6 +10,9 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class RegistryObject : CollectObject
     {
+        /// <summary>
+        /// The Full Path to the Key in the Registry
+        /// </summary>
         public string Key { get; set; }
         public Dictionary<string, string>? Values { get; set; }
         public List<string>? Subkeys { get; set; }

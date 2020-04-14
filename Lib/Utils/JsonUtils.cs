@@ -1,47 +1,28 @@
 ﻿using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using System;
-using Utf8Json;
+using Newtonsoft.Json;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
     public static class JsonUtils
     {
-        public static byte[] Dehydrate(CollectObject colObj)
+        /// <summary>
+        /// Serialize an object with messagepack
+        /// </summary>
+        /// <param name="colObj">The object to serialize</param>
+        /// <returns>The bytes of the serialized object</returns>
+        public static string Dehydrate(CollectObject colObj)
         {
-            switch (colObj)
-            {
-                case CertificateObject certificateObject:
-                    return JsonSerializer.Serialize(certificateObject);
-                case FileSystemObject fileSystemObject:
-                    return JsonSerializer.Serialize(fileSystemObject);
-                case OpenPortObject openPortObject:
-                    return JsonSerializer.Serialize(openPortObject);
-                case RegistryObject registryObject:
-                    return JsonSerializer.Serialize(registryObject);
-                case ServiceObject serviceObject:
-                    return JsonSerializer.Serialize(serviceObject);
-                case UserAccountObject userAccountObject:
-                    return JsonSerializer.Serialize(userAccountObject);
-                case GroupAccountObject groupAccountObject:
-                    return JsonSerializer.Serialize(groupAccountObject);
-                case FirewallObject firewallObject:
-                    return JsonSerializer.Serialize(firewallObject);
-                case ComObject comObject:
-                    return JsonSerializer.Serialize(comObject);
-                case EventLogObject eventLogObject:
-                    return JsonSerializer.Serialize(eventLogObject);
-                default:
-                    return JsonSerializer.Serialize(colObj);
-            }
+            return JsonConvert.SerializeObject(colObj);
         }
 
         /// <summary>
         /// Deserialize a Collect object from a RawCollectResult
         /// </summary>
-        /// <param name="res">The RawCollectResult containing the JsonSerialized object to hydrate.</param>
+        /// <param name="res">The RawCollectResult containing the msgpack serialized object to hydrate.</param>
         /// <returns>An appropriately typed collect object based on the collect result passed in, or null if the RESULT_TYPE is unknown.</returns>
-        public static CollectObject? Hydrate(byte[] bytes, RESULT_TYPE type)
+        public static CollectObject? Hydrate(string bytes, RESULT_TYPE type)
         {
             if (bytes == null)
             {
@@ -50,25 +31,25 @@ namespace AttackSurfaceAnalyzer.Utils
             switch (type)
             {
                 case RESULT_TYPE.CERTIFICATE:
-                    return JsonSerializer.Deserialize<CertificateObject>(bytes);
+                    return JsonConvert.DeserializeObject<CertificateObject>(bytes);
                 case RESULT_TYPE.FILE:
-                    return JsonSerializer.Deserialize<FileSystemObject>(bytes);
+                    return JsonConvert.DeserializeObject<FileSystemObject>(bytes);
                 case RESULT_TYPE.PORT:
-                    return JsonSerializer.Deserialize<OpenPortObject>(bytes);
+                    return JsonConvert.DeserializeObject<OpenPortObject>(bytes);
                 case RESULT_TYPE.REGISTRY:
-                    return JsonSerializer.Deserialize<RegistryObject>(bytes);
+                    return JsonConvert.DeserializeObject<RegistryObject>(bytes);
                 case RESULT_TYPE.SERVICE:
-                    return JsonSerializer.Deserialize<ServiceObject>(bytes);
+                    return JsonConvert.DeserializeObject<ServiceObject>(bytes);
                 case RESULT_TYPE.USER:
-                    return JsonSerializer.Deserialize<UserAccountObject>(bytes);
+                    return JsonConvert.DeserializeObject<UserAccountObject>(bytes);
                 case RESULT_TYPE.GROUP:
-                    return JsonSerializer.Deserialize<GroupAccountObject>(bytes);
+                    return JsonConvert.DeserializeObject<GroupAccountObject>(bytes);
                 case RESULT_TYPE.FIREWALL:
-                    return JsonSerializer.Deserialize<FirewallObject>(bytes);
+                    return JsonConvert.DeserializeObject<FirewallObject>(bytes);
                 case RESULT_TYPE.COM:
-                    return JsonSerializer.Deserialize<ComObject>(bytes);
+                    return JsonConvert.DeserializeObject<ComObject>(bytes);
                 case RESULT_TYPE.LOG:
-                    return JsonSerializer.Deserialize<EventLogObject>(bytes);
+                    return JsonConvert.DeserializeObject<EventLogObject>(bytes);
                 default:
                     return null;
             }

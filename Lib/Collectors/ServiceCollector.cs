@@ -6,6 +6,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
@@ -36,7 +37,6 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// </summary>
         public void ExecuteWindows()
         {
-
             System.Management.SelectQuery sQuery = new System.Management.SelectQuery("select * from Win32_Service"); // where name = '{0}'", "MCShield.exe"));
             using System.Management.ManagementObjectSearcher mgmtSearcher = new System.Management.ManagementObjectSearcher(sQuery);
             foreach (System.Management.ManagementObject service in mgmtSearcher.Get())
@@ -81,7 +81,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                         if (!string.IsNullOrEmpty(val))
                             obj.ExitCode = uint.Parse(val, CultureInfo.InvariantCulture);
 
-                        obj.InstallDate = service.GetPropertyValue("InstallDate")?.ToString();
+                        if (DateTime.TryParse(service.GetPropertyValue("InstallDate")?.ToString(), out DateTime dateTime)){
+                            obj.InstallDate = dateTime;
+                        }
                         obj.PathName = service.GetPropertyValue("PathName")?.ToString();
 
                         val = service.GetPropertyValue("ProcessId")?.ToString();
@@ -122,6 +124,21 @@ namespace AttackSurfaceAnalyzer.Collectors
                 {
                     Log.Warning(Strings.Get("CollectorNotSupportedOnPlatform"), GetType().ToString());
                 }
+            }
+
+            foreach(var file in DirectoryWalker.WalkDirectory("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"))
+            {
+                var name = file.Split(Path.DirectorySeparatorChar)[^1];
+                var fso = FileSystemCollector.FilePathToFileSystemObject(file);
+                var obj = new ServiceObject(file)
+                {
+                    DisplayName = name,
+                    Name = name,
+                    PathName = file,
+                    InstallDate = fso.Created
+                };
+
+                DatabaseManager.Write(obj,RunId);
             }
         }
 
@@ -183,8 +200,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 Log.Error("Error executing {0}", "ls /etc/init.d/ -l");
             }
-
-
             // CentOS
             // chkconfig --list
 

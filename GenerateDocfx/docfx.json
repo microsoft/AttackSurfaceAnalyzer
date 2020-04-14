@@ -5,7 +5,7 @@
         {
           "cwd": "../",
           "files": [
-            "Lib/AsaLib.csproj"
+            "Lib/Lib.csproj"
           ]
         }
       ],
@@ -19,11 +19,7 @@
       {
         "files": [
           "api/**.yml",
-          "api/index.md"
-        ]
-      },
-      {
-        "files": [
+          "api/index.md",
           "articles/**.md",
           "articles/**/toc.yml",
           "toc.yml",

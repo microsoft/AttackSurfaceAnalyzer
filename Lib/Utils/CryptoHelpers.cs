@@ -53,7 +53,7 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             var bytes = new byte[8];
             crypto.GetBytes(bytes);
-            return (BitConverter.ToUInt64(bytes, 0) >> 11) / ulong.MaxValue * max;
+            return (BitConverter.ToUInt64(bytes, 0) >> 11) / (double)ulong.MaxValue * max;
         }
 
     }

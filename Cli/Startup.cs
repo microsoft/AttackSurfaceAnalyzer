@@ -65,7 +65,7 @@ namespace AttackSurfaceAnalyzer.Cli
             string? codeBase = Assembly.GetExecutingAssembly().CodeBase;
             if (codeBase is string Location)
             {
-                UriBuilder uri = new UriBuilder(codeBase);
+                UriBuilder uri = new UriBuilder(Location);
                 string path = Path.Combine(Path.GetDirectoryName(Uri.UnescapeDataString(uri.Path)) ?? string.Empty, "wwwroot");
 
                 try

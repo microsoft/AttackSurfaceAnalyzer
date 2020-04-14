@@ -1,17 +1,39 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+using System;
 using System.Collections.Generic;
 
 namespace AttackSurfaceAnalyzer.Objects
 {
     public class EventLogObject : CollectObject
     {
-        public string? Timestamp { get; set; }
+        /// <summary>
+        /// The recorded Timestamp in the log file
+        /// </summary>
+        public DateTime? Timestamp { get; set; }
+        /// <summary>
+        /// The severity level of the event message (availability platform dependent)
+        /// </summary>
         public string? Level { get; set; }
+        /// <summary>
+        /// A summary description of the event message (availability platform dependent)
+        /// </summary>
         public string? Summary { get; set; }
+        /// <summary>
+        /// The process that the event log is from.
+        /// </summary>
         public string? Process { get; set; }
+        /// <summary>
+        /// The Event Log source
+        /// </summary>
         public string? Source { get; set; }
+        /// <summary>
+        /// Additional associated data
+        /// </summary>
         public List<string>? Data { get; set; }
+        /// <summary>
+        /// The raw event text
+        /// </summary>
         public string Event { get; set; }
 
         public EventLogObject(string Event)
@@ -21,7 +43,9 @@ namespace AttackSurfaceAnalyzer.Objects
             Data = new List<string>();
         }
 
-
+        /// <summary>
+        /// The raw event text
+        /// </summary>
         public override string Identity
         {
             get

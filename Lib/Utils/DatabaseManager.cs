@@ -10,8 +10,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using Utf8Json;
-using Utf8Json.Resolvers;
+using Newtonsoft.Json;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -128,8 +127,6 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static ASA_ERROR Setup(string filename, DBSettings? dbSettingsIn = null)
         {
-            JsonSerializer.SetDefaultResolver(StandardResolver.ExcludeNull);
-
             dbSettings = (dbSettingsIn == null) ? new DBSettings() : dbSettingsIn;
 
             if (filename != null)
@@ -273,12 +270,16 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     while (reader.Read())
                     {
-                        return JsonSerializer.Deserialize<Settings>((byte[])reader["serialized"]);
+                        if (reader["serialized"].ToString() is string settings)
+                        {
+                            return JsonConvert.DeserializeObject<Settings>(settings);
+                        }
                     }
                 }
             }
             catch (Exception e) when (e is SqliteException || e is ArgumentNullException || e is NullReferenceException)
             {
+                Log.Debug("Didn't find any settings in the database.");
                 //Expected when the table doesn't exist (first run)
             }
 
@@ -287,16 +288,24 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private static void SetSettings(Settings settings)
         {
-            try
+            if (MainConnection != null && MainConnection.Connection != null)
             {
-                using var cmd = new SqliteCommand(SQL_UPSERT_PERSISTED_SETTINGS, MainConnection?.Connection, MainConnection?.Transaction);
-                cmd.Parameters.AddWithValue("@serialized", JsonSerializer.Serialize(settings));
-                cmd.Parameters.AddWithValue("@id", "Persisted");
-                cmd.ExecuteNonQuery();
+                try
+                {
+                    using var cmd = new SqliteCommand(SQL_UPSERT_PERSISTED_SETTINGS, MainConnection?.Connection, MainConnection?.Transaction);
+                    cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(settings));
+                    cmd.Parameters.AddWithValue("@id", "Persisted");
+                    cmd.ExecuteNonQuery();
+                }
+                catch (SqliteException)
+                {
+                    Log.Warning("Failed to save settings to database.");
+                }
             }
-            catch (SqliteException) { }
-            // Main Connection is probably null
-            catch (NullReferenceException) { }
+            else
+            {
+                Log.Warning("Failed to save settings to database.");
+            }
         }
 
         public static bool EstablishMainConnection()
@@ -372,7 +381,6 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             if (MainConnection != null)
             {
-                List<string> Runs = new List<string>();
                 using var cmd = new SqliteCommand(GET_RUNS, MainConnection.Connection, MainConnection.Transaction);
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -432,7 +440,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         var resultTypeString = reader["result_type"].ToString();
                         if (runId != null && resultTypeString != null)
                         {
-                            var wo = WriteObject.FromBytes((byte[])reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
+                            var wo = WriteObject.FromString((string)reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
                             if (wo is WriteObject WO)
                             {
                                 yield return WO;
@@ -454,7 +462,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     cmd.Parameters.AddWithValue("@result_type", objIn.ResultType);
                     cmd.Parameters.AddWithValue("@level", objIn.Analysis);
                     cmd.Parameters.AddWithValue("@identity", objIn.Identity);
-                    cmd.Parameters.AddWithValue("@serialized", JsonSerializer.Serialize(objIn));
+                    cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(objIn));
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -511,7 +519,8 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         while (reader.Read())
                         {
-                            records.Add(JsonSerializer.Deserialize<CompareResult>(reader["serialized"].ToString()));
+                            if (reader["serialized"].ToString() is string serialized)
+                            records.Add(JsonConvert.DeserializeObject<CompareResult>(serialized));
                         }
                     }
                 }
@@ -593,9 +602,12 @@ namespace AttackSurfaceAnalyzer.Utils
 
                         while (reader.Read())
                         {
-                            obj = JsonSerializer.Deserialize<FileMonitorEvent>(reader["serialized"].ToString());
-                            obj.ChangeType = (CHANGE_TYPE)int.Parse(reader["change_type"].ToString() ?? "0", CultureInfo.InvariantCulture);
-                            records.Add(obj);
+                            if (reader["serialized"].ToString() is string serialized)
+                            {
+                                obj = JsonConvert.DeserializeObject<FileMonitorEvent>(serialized);
+                                obj.ChangeType = (CHANGE_TYPE)int.Parse(reader["change_type"].ToString() ?? "0", CultureInfo.InvariantCulture);
+                                records.Add(obj);
+                            }
                         }
                     }
                 }
@@ -620,7 +632,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 using var cmd = new SqliteCommand(SQL_INSERT_RUN, MainConnection.Connection, MainConnection.Transaction);
                 cmd.Parameters.AddWithValue("@run_id", run.RunId);
                 cmd.Parameters.AddWithValue("@type", run.Type);
-                cmd.Parameters.AddWithValue("@serialized", JsonSerializer.Serialize(run));
+                cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(run));
 
                 try
                 {
@@ -705,7 +717,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         var resultTypeString = reader["result_type"].ToString();
                         if (runId != null && resultTypeString != null)
                         {
-                            var wo = WriteObject.FromBytes((byte[])reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
+                            var wo = WriteObject.FromString((string)reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
                             if (wo is WriteObject WO)
                                 output.Add(WO);
                         }
@@ -733,7 +745,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         var resultTypeString = reader["result_type"].ToString();
                         if (runId != null && resultTypeString != null)
                         {
-                            var wo = WriteObject.FromBytes((byte[])reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
+                            var wo = WriteObject.FromString((string)reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
                             if (wo is WriteObject WO)
                                 output.Add(WO);
                         }
@@ -761,7 +773,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         var resultTypeString = reader["result_type"].ToString();
                         if (runId != null && resultTypeString != null)
                         {
-                            var wo = WriteObject.FromBytes((byte[])reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
+                            var wo = WriteObject.FromString((string)reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
                             if (wo is WriteObject WO)
                                 output.Add(WO);
                         }
@@ -790,7 +802,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         var resultTypeString = reader["result_type"].ToString();
                         if (runId != null && resultTypeString != null)
                         {
-                            var wo = WriteObject.FromBytes((byte[])reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
+                            var wo = WriteObject.FromString((string)reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
                             if (wo is WriteObject WO)
                                 output.Add(WO);
                         }
@@ -820,8 +832,8 @@ namespace AttackSurfaceAnalyzer.Utils
 
                     if (aRunId != null && bRunId != null && aResultType != null && bResultType != null)
                     {
-                        var val1 = WriteObject.FromBytes((byte[])reader["a_serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), aResultType), aRunId);
-                        var val2 = WriteObject.FromBytes((byte[])reader["b_serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), bResultType), bRunId);
+                        var val1 = WriteObject.FromString((string)reader["a_serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), aResultType), aRunId);
+                        var val2 = WriteObject.FromString((string)reader["b_serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), bResultType), bRunId);
 
                         if (val1 is WriteObject V1 && val2 is WriteObject V2)
                         {
@@ -892,7 +904,7 @@ namespace AttackSurfaceAnalyzer.Utils
             cmd.Parameters.AddWithValue("@run_id", RunId);
             cmd.Parameters.AddWithValue("@path", fmo.Path);
             cmd.Parameters.AddWithValue("@timestamp", fmo.Timestamp);
-            cmd.Parameters.AddWithValue("@serialized", JsonSerializer.Serialize(fmo));
+            cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(fmo));
 
             cmd.ExecuteNonQuery();
         }
@@ -908,7 +920,8 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     while (reader.Read())
                     {
-                        return JsonSerializer.Deserialize<AsaRun>((byte[])reader["serialized"]);
+                        if (reader["serialized"].ToString() is string serialized)
+                            return JsonConvert.DeserializeObject<AsaRun>(serialized);
                     }
                 }
             }
@@ -1011,16 +1024,8 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 Connections.AsParallel().ForAll(cxn =>
                 {
-                    try
-                    {
-                        cxn.Transaction?.Rollback();
-                    }
-                    catch (NullReferenceException)
-                    { }
-                    finally
-                    {
-                        cxn.Transaction = null;
-                    }
+                    cxn.Transaction?.Rollback();
+                    cxn.Transaction = null;
                 });
             }
         }
@@ -1039,8 +1044,11 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     while (reader.Read())
                     {
-                        var obj = JsonSerializer.Deserialize<CompareResult>(reader["serialized"].ToString());
-                        results.Add(obj);
+                        if (reader["serialized"].ToString() is string serialized)
+                        {
+                            var obj = JsonConvert.DeserializeObject<CompareResult>(serialized);
+                            results.Add(obj);
+                        }
                     }
                 }
             }

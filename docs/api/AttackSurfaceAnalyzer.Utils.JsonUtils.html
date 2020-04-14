@@ -114,18 +114,19 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_JsonUtils_Dehydrate_AttackSurfaceAnalyzer_Objects_CollectObject_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.JsonUtils.Dehydrate(AttackSurfaceAnalyzer.Objects.CollectObject)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_JsonUtils_Dehydrate_AttackSurfaceAnalyzer_Objects_CollectObject_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.JsonUtils.Dehydrate(AttackSurfaceAnalyzer.Objects.CollectObject)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/JsonUtils.cs/#L8">View Source</a>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/JsonUtils.cs/#L15">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Utils_JsonUtils_Dehydrate_" data-uid="AttackSurfaceAnalyzer.Utils.JsonUtils.Dehydrate*"></a>
   <h4 id="AttackSurfaceAnalyzer_Utils_JsonUtils_Dehydrate_AttackSurfaceAnalyzer_Objects_CollectObject_" data-uid="AttackSurfaceAnalyzer.Utils.JsonUtils.Dehydrate(AttackSurfaceAnalyzer.Objects.CollectObject)">Dehydrate(CollectObject)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Serialize an object with messagepack</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static byte[] Dehydrate(CollectObject colObj)</code></pre>
+    <pre><code class="lang-csharp hljs">public static string Dehydrate(CollectObject colObj)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -140,6 +141,61 @@
       <tr>
         <td><a class="xref" href="AttackSurfaceAnalyzer.Objects.CollectObject.html">CollectObject</a></td>
         <td><span class="parametername">colObj</span></td>
+        <td><p>The object to serialize</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>The bytes of the serialized object</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_JsonUtils_Hydrate_System_String_AttackSurfaceAnalyzer_Types_RESULT_TYPE_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.JsonUtils.Hydrate(System.String%2CAttackSurfaceAnalyzer.Types.RESULT_TYPE)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/JsonUtils.cs/#L25">View Source</a>
+  </span>
+  <a id="AttackSurfaceAnalyzer_Utils_JsonUtils_Hydrate_" data-uid="AttackSurfaceAnalyzer.Utils.JsonUtils.Hydrate*"></a>
+  <h4 id="AttackSurfaceAnalyzer_Utils_JsonUtils_Hydrate_System_String_AttackSurfaceAnalyzer_Types_RESULT_TYPE_" data-uid="AttackSurfaceAnalyzer.Utils.JsonUtils.Hydrate(System.String,AttackSurfaceAnalyzer.Types.RESULT_TYPE)">Hydrate(String, RESULT_TYPE)</h4>
+  <div class="markdown level1 summary"><p>Deserialize a Collect object from a RawCollectResult</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static CollectObject Hydrate(string bytes, RESULT_TYPE type)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">bytes</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="AttackSurfaceAnalyzer.Types.RESULT_TYPE.html">RESULT_TYPE</a></td>
+        <td><span class="parametername">type</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -154,8 +210,9 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Byte</span>[]</td>
-        <td></td>
+        <td><a class="xref" href="AttackSurfaceAnalyzer.Objects.CollectObject.html">CollectObject</a></td>
+        <td><p>An appropriately typed collect object based on the collect result passed in, or null if the RESULT_TYPE is unknown.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -167,10 +224,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/Utf8Json/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_JsonUtils.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.JsonUtils%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Utils_JsonUtils.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Utils.JsonUtils%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/Utf8Json/Lib/Utils/JsonUtils.cs/#L6" class="contribution-link">View Source</a>
+                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Utils/JsonUtils.cs/#L8" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

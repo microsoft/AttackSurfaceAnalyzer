@@ -133,11 +133,14 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                return System.Environment.OSVersion.VersionString;
+                return Environment.OSVersion.VersionString;
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                return ExternalCommandRunner.RunExternalCommand("uname", "-r");
+                if (ExternalCommandRunner.RunExternalCommand("uname", "-r", out string StdOut, out string _) == 0)
+                {
+                    return StdOut;
+                }
             }
             return "";
         }
@@ -150,7 +153,10 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                return ExternalCommandRunner.RunExternalCommand("uname", "-s");
+                if (ExternalCommandRunner.RunExternalCommand("uname", "-s", out string StdOut, out string _) == 0)
+                {
+                    return StdOut;
+                }
             }
             return "";
         }
@@ -206,7 +212,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     identity = SID?.Translate(typeof(NTAccount))?.Value ?? sid;
                 }
-                catch (IdentityNotMappedException)
+                catch (IdentityNotMappedException) //lgtm [cs/empty-catch-block]
                 {
                 }
             }

@@ -4,13 +4,13 @@ using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using KellermanSoftware.CompareNetObjects;
+using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Utf8Json;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -62,7 +62,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         Base = different.ColObj,
                         BaseRunId = firstRunId,
                         CompareRunId = secondRunId,
-                        BaseRowKey = different.InstanceHash,
+                        BaseRowKey = different.RowKey,
                     };
 
                     Results[$"{different.ColObj?.ResultType}_{CHANGE_TYPE.DELETED}"].Enqueue(obj);
@@ -74,7 +74,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         Compare = different.ColObj,
                         BaseRunId = firstRunId,
                         CompareRunId = secondRunId,
-                        CompareRowKey = different.InstanceHash,
+                        CompareRowKey = different.RowKey,
                     };
                     Results[$"{different.ColObj?.ResultType}_{CHANGE_TYPE.CREATED}"].Enqueue(obj);
                 }
@@ -92,8 +92,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                     Compare = second,
                     BaseRunId = firstRunId,
                     CompareRunId = secondRunId,
-                    BaseRowKey = modified.Item1.InstanceHash,
-                    CompareRowKey = modified.Item2.InstanceHash,
+                    BaseRowKey = modified.Item1.RowKey,
+                    CompareRowKey = modified.Item2.RowKey,
                 };
 
                 var properties = first?.GetType().GetProperties();
@@ -104,7 +104,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         try
                         {
-                            var propName = prop.Name;
                             List<Diff> diffs;
                             object? added = null;
                             object? removed = null;
@@ -196,7 +195,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         }
                         catch (InvalidCastException e)
                         {
-                            Log.Debug(e, $"Failed to cast {JsonSerializer.Serialize(prop)}");
+                            Log.Debug(e, $"Failed to cast {JsonConvert.SerializeObject(prop)}");
                         }
                         catch (Exception e)
                         {

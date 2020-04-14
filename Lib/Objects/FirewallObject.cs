@@ -75,6 +75,9 @@ namespace AttackSurfaceAnalyzer.Objects
             this.Name = Name;
         }
 
+        /// <summary>
+        /// $"{FriendlyName} - {Direction} - {Protocol} - {ApplicationName} - {Profiles} - {Name}
+        /// </summary>
         public override string Identity
         {
             get

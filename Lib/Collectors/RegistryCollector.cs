@@ -3,12 +3,12 @@
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Win32;
+using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using Utf8Json;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -77,7 +77,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                     catch (InvalidOperationException e)
                     {
-                        Log.Debug(e, JsonSerializer.Serialize(registryKey) + " invalid op exept");
+                        Log.Debug(e, JsonConvert.SerializeObject(registryKey) + " invalid op exept");
                     }
                 };
 

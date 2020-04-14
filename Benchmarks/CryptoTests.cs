@@ -1,10 +1,11 @@
 ﻿using AttackSurfaceAnalyzer.Objects;
 using BenchmarkDotNet.Attributes;
 using Murmur;
+using Newtonsoft.Json;
 using Serilog;
 using System.Collections.Concurrent;
 using System.Security.Cryptography;
-using Utf8Json;
+using System.Text;
 
 namespace AttackSurfaceAnalyzer.Benchmarks
 {
@@ -27,7 +28,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
 
         static readonly HashAlgorithm sha512 = SHA512.Create();
 
-        private readonly ConcurrentQueue<byte[]> hashObjects = new ConcurrentQueue<byte[]>();
+        private readonly ConcurrentQueue<string> hashObjects = new ConcurrentQueue<string>();
 
 #nullable disable
         public CryptoTests()
@@ -41,10 +42,10 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         {
             for (int i = 0; i < N; i++)
             {
-                hashObjects.TryDequeue(out byte[]? result);
-                if (result is byte[])
+                hashObjects.TryDequeue(out string? result);
+                if (result is string)
                 {
-                    _ = sha256.ComputeHash(result);
+                    _ = sha256.ComputeHash(Encoding.UTF8.GetBytes(result));
                     hashObjects.Enqueue(result);
                 }
                 else
@@ -59,10 +60,10 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         {
             for (int i = 0; i < N; i++)
             {
-                hashObjects.TryDequeue(out byte[]? result);
-                if (result is byte[])
+                hashObjects.TryDequeue(out string? result);
+                if (result is string)
                 {
-                    _ = sha512.ComputeHash(result);
+                    _ = sha512.ComputeHash(Encoding.UTF8.GetBytes(result));
                     hashObjects.Enqueue(result);
                 }
                 else
@@ -77,10 +78,10 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         {
             for (int i = 0; i < N; i++)
             {
-                hashObjects.TryDequeue(out byte[]? result);
-                if (result is byte[])
+                hashObjects.TryDequeue(out string? result);
+                if (result is string)
                 {
-                    _ = murmur128.ComputeHash(result);
+                    _ = murmur128.ComputeHash(Encoding.UTF8.GetBytes(result));
                     hashObjects.Enqueue(result);
                 }
                 else
@@ -96,7 +97,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         {
             while (hashObjects.Count < N)
             {
-                hashObjects.Enqueue(JsonSerializer.Serialize<FileSystemObject>(GetRandomObject(ObjectPadding)));
+                hashObjects.Enqueue(JsonConvert.SerializeObject(GetRandomObject(ObjectPadding)));
             }
         }
     }

@@ -6,8 +6,6 @@ using System.IO;
 
 namespace AttackSurfaceAnalyzer.Objects
 {
-
-
     public class CompareResult
     {
         public string Identity
@@ -28,6 +26,7 @@ namespace AttackSurfaceAnalyzer.Objects
                 }
             }
         }
+
         public CHANGE_TYPE ChangeType
         {
             get
@@ -56,6 +55,7 @@ namespace AttackSurfaceAnalyzer.Objects
                 }
             }
         }
+
         public RESULT_TYPE ResultType
         {
             get
@@ -74,6 +74,7 @@ namespace AttackSurfaceAnalyzer.Objects
                 }
             }
         }
+
         public ANALYSIS_RESULT_TYPE Analysis { get; set; }
         public List<Rule> Rules { get; set; } = new List<Rule>();
         public List<Diff> Diffs { get; set; } = new List<Diff>();
@@ -96,33 +97,6 @@ namespace AttackSurfaceAnalyzer.Objects
 
         public CompareResult()
         {
-        }
-    }
-
-    public class OutputFileMonitorResult
-    {
-        public string? RowKey { get; set; }
-        public string? Timestamp { get; set; }
-        public string? OldPath { get; set; }
-        public string Path { get; set; }
-        public string? OldName { get; set; }
-        public string? Name { get; set; }
-        public CHANGE_TYPE ChangeType { get; set; }
-
-        public OutputFileMonitorResult(string PathIn)
-        {
-            Path = PathIn;
-        }
-    }
-
-    public class FileSystemMonitorResult
-    {
-        public FileSystemEventArgs evt { get; set; }
-        public NotifyFilters filter { get; set; }
-
-        public FileSystemMonitorResult(FileSystemEventArgs evtIn)
-        {
-            evt = evtIn;
         }
     }
 }

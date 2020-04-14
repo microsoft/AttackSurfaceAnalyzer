@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Security.Cryptography.X509Certificates;
 
 namespace AttackSurfaceAnalyzer.Objects
@@ -17,6 +18,7 @@ namespace AttackSurfaceAnalyzer.Objects
             CertHashString = certificate.GetCertHashString();
         }
 
+        [JsonConstructor]
         public SerializableCertificate(string Thumbprint, string Subject, string PublicKey, DateTime NotAfter, DateTime NotBefore, string Issuer, string SerialNumber, string CertHashString)
         {
             this.Thumbprint = Thumbprint;

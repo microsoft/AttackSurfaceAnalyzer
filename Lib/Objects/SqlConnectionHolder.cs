@@ -148,9 +148,9 @@ namespace AttackSurfaceAnalyzer.Objects
             for (int i = 0; i < innerQueue.Count; i++)
             {
                 cmd.Parameters.AddWithValue($"@run_id_{i}", innerQueue[i].RunId);
-                cmd.Parameters.AddWithValue($"@row_key_{i}", innerQueue[i].GetRowKey());
+                cmd.Parameters.AddWithValue($"@row_key_{i}", innerQueue[i].RowKey);
                 cmd.Parameters.AddWithValue($"@identity_{i}", innerQueue[i].ColObj?.Identity);
-                cmd.Parameters.AddWithValue($"@serialized_{i}", innerQueue[i].GetSerialized());
+                cmd.Parameters.AddWithValue($"@serialized_{i}", innerQueue[i].Serialized);
                 cmd.Parameters.AddWithValue($"@result_type_{i}", innerQueue[i].ColObj?.ResultType);
             }
 
