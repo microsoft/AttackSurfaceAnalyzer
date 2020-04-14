@@ -23,13 +23,7 @@
     <ToolCommandName>asa</ToolCommandName>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageIcon>icon-128.png</PackageIcon>
-    <LicenseUrl>https://github.com/microsoft/AttackSurfaceAnalyzer/blob/master/LICENSE.txt</LicenseUrl>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="..\LICENSE.txt" Pack="true" PackagePath="" />
-    <None Include="..\icon-128.png" Pack="true" PackagePath="" />
-  </ItemGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PublishTrimmed>false</PublishTrimmed>
@@ -54,11 +48,6 @@
     <ExternalConsole>true</ExternalConsole>
     <LaunchBrowser></LaunchBrowser>
   </PropertyGroup>
-  <ItemGroup>
-    <Content Include="..\LICENSE.txt" Link="LICENSE.txt" />
-    <Content Include="..\NOTICE.txt" Link="NOTICE.txt" />
-  </ItemGroup>
-
 
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.7.82" />
@@ -69,7 +58,6 @@
     </PackageReference>
     <PackageReference Include="Utf8Json" Version="1.3.7" />
   </ItemGroup>
-
 
   <ItemGroup>
     <PackageReference Include="Nerdbank.GitVersioning" Version="3.1.74">
@@ -82,5 +70,10 @@
     <ProjectReference Include="..\Lib\Lib.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="..\LICENSE.txt" Pack="true" PackagePath="" />
+    <None Include="..\icon-128.png" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>
