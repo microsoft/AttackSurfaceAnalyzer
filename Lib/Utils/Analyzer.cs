@@ -12,7 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using Utf8Json;
+using Newtonsoft.Json;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -822,7 +822,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             catch (Exception e)
             {
-                Log.Debug(e, $"Hit while parsing {JsonSerializer.Serialize(clause)} onto {JsonSerializer.Serialize(compareResult)}");
+                Log.Debug(e, $"Hit while parsing {JsonConvert.SerializeObject(clause)} onto {JsonConvert.SerializeObject(compareResult)}");
                 Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
                 ExceptionEvent.Add("Exception Type", e.GetType().ToString());
                 AsaTelemetry.TrackEvent("ApplyOverallException", ExceptionEvent);
@@ -837,7 +837,7 @@ namespace AttackSurfaceAnalyzer.Utils
         public void DumpFilters()
         {
             Log.Verbose("Filter dump:");
-            Log.Verbose(JsonSerializer.ToJsonString(config));
+            Log.Verbose(JsonConvert.SerializeObject(config));
         }
 
         public void LoadEmbeddedFilters()
@@ -849,7 +849,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 using (Stream stream = assembly.GetManifestResourceStream(resourceName) ?? new MemoryStream())
                 using (StreamReader reader = new StreamReader(stream))
                 {
-                    config = JsonSerializer.Deserialize<RuleFile>(reader.ReadToEnd());
+                    config = JsonConvert.DeserializeObject<RuleFile>(reader.ReadToEnd());
                     Log.Information(Strings.Get("LoadedAnalyses"), "Embedded");
                 }
                 if (config == null)
@@ -886,7 +886,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     using (StreamReader file = System.IO.File.OpenText(filterLoc))
                     {
-                        config = JsonSerializer.Deserialize<RuleFile>(file.ReadToEnd());
+                        config = JsonConvert.DeserializeObject<RuleFile>(file.ReadToEnd());
                         Log.Information(Strings.Get("LoadedAnalyses"), filterLoc);
                     }
                     if (config == null)

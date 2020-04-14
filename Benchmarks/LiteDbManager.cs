@@ -3,6 +3,7 @@
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using LiteDB;
+using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.Collections.Concurrent;
@@ -11,7 +12,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using JsonSerializer = Utf8Json.JsonSerializer;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -54,7 +54,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 var col = db.GetCollection<WriteObject>("WriteObjects");
 
                 col.EnsureIndex(x => x.ColObj.Identity);
-                col.EnsureIndex(x => x.InstanceHash);
+                col.EnsureIndex(x => x.RowKey);
                 col.EnsureIndex(x => x.ColObj.ResultType);
                 col.EnsureIndex(x => x.RunId);
 
@@ -371,7 +371,7 @@ namespace AttackSurfaceAnalyzer.Utils
             //wos.AsParallel().ForAll(wo =>
             foreach (var wo in wos)
             {
-                Log.Information($"{firstRunId},{JsonSerializer.ToJsonString(wo)}");
+                Log.Information($"{firstRunId},{JsonConvert.SerializeObject(wo)}");
                 if (col?.Exists(x => x.Identity == firstRunId && x.RunId == wo.Identity) == true)
                 {
                     list.Add(wo);
@@ -399,8 +399,8 @@ namespace AttackSurfaceAnalyzer.Utils
             //GetWriteObjects(firstRunId).AsParallel().ForAll(WO =>
             foreach (var WO in GetWriteObjects(firstRunId))
             {
-                Log.Information(JsonSerializer.ToJsonString(WO));
-                var secondItem = col?.FindOne(Query.And(Query.EQ("RunId", secondRunId), Query.EQ("IdentityHash", WO.Identity), Query.Not("InstanceHash", WO.InstanceHash)));
+                Log.Information(JsonConvert.SerializeObject(WO));
+                var secondItem = col?.FindOne(Query.And(Query.EQ("RunId", secondRunId), Query.EQ("IdentityHash", WO.Identity), Query.Not("InstanceHash", WO.RowKey)));
                 if (secondItem is WriteObject WO2)
                 {
                     list.Add((WO, WO2));

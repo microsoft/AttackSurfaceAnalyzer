@@ -13,17 +13,12 @@ namespace AttackSurfaceAnalyzer.Objects
         public RESULT_TYPE ResultType { get; set; }
         public abstract string Identity { get; }
 
-        private byte[] RowKey
+        public string RowKey
         {
             get
             {
                 return CryptoHelpers.CreateHash(JsonUtils.Dehydrate(this));
             }
-        }
-
-        public byte[] GetRowKey()
-        {
-            return RowKey;
         }
     }
 }
