@@ -24,6 +24,15 @@
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageIcon>icon-128.png</PackageIcon>
   </PropertyGroup>
+  
+  <Target Name="CopyLicenseNotice" AfterTargets="AfterBuild">
+    <Copy SourceFiles="..\LICENSE.txt" DestinationFolder="$(OutDir)" />
+    <Copy SourceFiles="..\NOTICE.txt" DestinationFolder="$(OutDir)" />
+  </Target>
+  <Target Name="CopyLicenseNoticeOnPublish" AfterTargets="Publish">
+    <Copy SourceFiles="..\LICENSE.txt" DestinationFolder="$(PublishDir)" />
+    <Copy SourceFiles="..\NOTICE.txt" DestinationFolder="$(PublishDir)" />
+  </Target>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PublishTrimmed>false</PublishTrimmed>
