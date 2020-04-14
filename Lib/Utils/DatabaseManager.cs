@@ -127,6 +127,9 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static ASA_ERROR Setup(string filename, DBSettings? dbSettingsIn = null)
         {
+            // Clean up if we were already open.
+            CloseDatabase();
+
             dbSettings = (dbSettingsIn == null) ? new DBSettings() : dbSettingsIn;
 
             if (filename != null)
@@ -137,121 +140,111 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
             }
 
-            if (Connections.Count > 0)
+            if (!EstablishMainConnection())
             {
-                CloseDatabase();
+                Log.Fatal(Strings.Get("FailedToEstablishMainConnection"), SqliteFilename);
+                return ASA_ERROR.FAILED_TO_ESTABLISH_MAIN_DB_CONNECTION;
             }
 
-            if (Connections == null || Connections.Count == 0)
+            var settingsFromDb = GetSettings();
+            if (settingsFromDb != null)
             {
-                Connections = new List<SqlConnectionHolder>();
+                dbSettings.ShardingFactor = settingsFromDb.ShardingFactor;
 
-                if (!EstablishMainConnection())
+                FirstRun = false;
+
+                if (SCHEMA_VERSION != settingsFromDb.SchemaVersion)
                 {
-                    Log.Fatal(Strings.Get("FailedToEstablishMainConnection"), SqliteFilename);
-                    return ASA_ERROR.FAILED_TO_ESTABLISH_MAIN_DB_CONNECTION;
+                    Log.Fatal(Strings.Get("WrongSchema"), settingsFromDb.SchemaVersion, SCHEMA_VERSION);
+                    return ASA_ERROR.MATCHING_SCHEMA;
                 }
 
-                var settingsFromDb = GetSettings();
-                if (settingsFromDb != null)
+                if (dbSettingsIn != null && settingsFromDb.ShardingFactor != dbSettingsIn.ShardingFactor)
                 {
-                    dbSettings.ShardingFactor = settingsFromDb.ShardingFactor;
+                    Log.Information(Strings.Get("InvalidShardingRequest"),dbSettingsIn.ShardingFactor,dbSettings.ShardingFactor);
+                }
 
-                    FirstRun = false;
+                AsaTelemetry.SetEnabled(settingsFromDb.TelemetryEnabled);
+            }
+            else
+            {
+                FirstRun = true;
+            }
 
-                    if (SCHEMA_VERSION != settingsFromDb.SchemaVersion)
+            PopulateConnections();
+
+            if (MainConnection == null)
+            {
+                Log.Fatal(Strings.Get("FailedToEstablishMainConnection"), SqliteFilename);
+                return ASA_ERROR.FAILED_TO_ESTABLISH_MAIN_DB_CONNECTION;
+            }
+
+            if (FirstRun)
+            {
+                try
+                {
+                    BeginTransaction();
+
+                    using var cmd2 = new SqliteCommand(SQL_CREATE_RUNS, MainConnection.Connection, MainConnection.Transaction);
+                    cmd2.ExecuteNonQuery();
+
+                    cmd2.CommandText = SQL_CREATE_RESULTS;
+                    cmd2.ExecuteNonQuery();
+
+                    cmd2.CommandText = SQL_CREATE_FINDINGS_RESULTS;
+                    cmd2.ExecuteNonQuery();
+
+                    cmd2.CommandText = SQL_CREATE_FINDINGS_LEVEL_INDEX;
+                    cmd2.ExecuteNonQuery();
+
+                    cmd2.CommandText = SQL_CREATE_FINDINGS_RESULT_TYPE_INDEX;
+                    cmd2.ExecuteNonQuery();
+
+                    cmd2.CommandText = SQL_CREATE_FINDINGS_IDENTITY_INDEX;
+                    cmd2.ExecuteNonQuery();
+
+                    cmd2.CommandText = SQL_CREATE_FINDINGS_LEVEL_RESULT_TYPE_INDEX;
+                    cmd2.ExecuteNonQuery();
+
+                    cmd2.CommandText = SQL_CREATE_FILE_MONITORED;
+                    cmd2.ExecuteNonQuery();
+
+                    cmd2.CommandText = SQL_CREATE_PERSISTED_SETTINGS;
+                    cmd2.ExecuteNonQuery();
+
+                    SetSettings(new Settings()
                     {
-                        Log.Fatal(Strings.Get("WrongSchema"), settingsFromDb.SchemaVersion, SCHEMA_VERSION);
-                        return ASA_ERROR.MATCHING_SCHEMA;
-                    }
+                        SchemaVersion = SCHEMA_VERSION,
+                        ShardingFactor = dbSettings.ShardingFactor,
+                        TelemetryEnabled = true
+                    });
 
-                    if (dbSettingsIn != null && settingsFromDb.ShardingFactor != dbSettingsIn.ShardingFactor)
+                    Connections.AsParallel().ForAll(cxn =>
                     {
-                        Log.Information(Strings.Get("InvalidShardingRequest"),dbSettingsIn.ShardingFactor,dbSettings.ShardingFactor);
-                    }
-
-                    AsaTelemetry.SetEnabled(settingsFromDb.TelemetryEnabled);
-                }
-                else
-                {
-                    FirstRun = true;
-                }
-
-                PopulateConnections();
-
-                if (MainConnection == null)
-                {
-                    Log.Fatal(Strings.Get("FailedToEstablishMainConnection"), SqliteFilename);
-                    return ASA_ERROR.FAILED_TO_ESTABLISH_MAIN_DB_CONNECTION;
-                }
-
-                if (FirstRun)
-                {
-                    try
-                    {
-                        BeginTransaction();
-
-                        using var cmd2 = new SqliteCommand(SQL_CREATE_RUNS, MainConnection.Connection, MainConnection.Transaction);
-                        cmd2.ExecuteNonQuery();
-
-                        cmd2.CommandText = SQL_CREATE_RESULTS;
-                        cmd2.ExecuteNonQuery();
-
-                        cmd2.CommandText = SQL_CREATE_FINDINGS_RESULTS;
-                        cmd2.ExecuteNonQuery();
-
-                        cmd2.CommandText = SQL_CREATE_FINDINGS_LEVEL_INDEX;
-                        cmd2.ExecuteNonQuery();
-
-                        cmd2.CommandText = SQL_CREATE_FINDINGS_RESULT_TYPE_INDEX;
-                        cmd2.ExecuteNonQuery();
-
-                        cmd2.CommandText = SQL_CREATE_FINDINGS_IDENTITY_INDEX;
-                        cmd2.ExecuteNonQuery();
-
-                        cmd2.CommandText = SQL_CREATE_FINDINGS_LEVEL_RESULT_TYPE_INDEX;
-                        cmd2.ExecuteNonQuery();
-
-                        cmd2.CommandText = SQL_CREATE_FILE_MONITORED;
-                        cmd2.ExecuteNonQuery();
-
-                        cmd2.CommandText = SQL_CREATE_PERSISTED_SETTINGS;
-                        cmd2.ExecuteNonQuery();
-
-                        SetSettings(new Settings()
+                        using (var innerCmd = new SqliteCommand(SQL_CREATE_COLLECT_RESULTS, cxn.Connection, cxn.Transaction))
                         {
-                            SchemaVersion = SCHEMA_VERSION,
-                            ShardingFactor = dbSettings.ShardingFactor,
-                            TelemetryEnabled = true
-                        });
+                            innerCmd.ExecuteNonQuery();
 
-                        Connections.AsParallel().ForAll(cxn =>
-                        {
-                            using (var innerCmd = new SqliteCommand(SQL_CREATE_COLLECT_RESULTS, cxn.Connection, cxn.Transaction))
-                            {
-                                innerCmd.ExecuteNonQuery();
+                            innerCmd.CommandText = SQL_CREATE_COLLECT_RUN_ID_INDEX;
+                            innerCmd.ExecuteNonQuery();
 
-                                innerCmd.CommandText = SQL_CREATE_COLLECT_RUN_ID_INDEX;
-                                innerCmd.ExecuteNonQuery();
+                            innerCmd.CommandText = SQL_CREATE_COLLECT_RUN_KEY_IDENTITY_COMBINED_INDEX;
+                            innerCmd.ExecuteNonQuery();
 
-                                innerCmd.CommandText = SQL_CREATE_COLLECT_RUN_KEY_IDENTITY_COMBINED_INDEX;
-                                innerCmd.ExecuteNonQuery();
+                            innerCmd.CommandText = SQL_CREATE_COLLECT_RUN_ID_IDENTITY_INDEX;
+                            innerCmd.ExecuteNonQuery();
+                        }
+                    });
 
-                                innerCmd.CommandText = SQL_CREATE_COLLECT_RUN_ID_IDENTITY_INDEX;
-                                innerCmd.ExecuteNonQuery();
-                            }
-                        });
-
-                    }
-                    catch (SqliteException e)
-                    {
-                        Log.Debug(e, "Failed to set up fresh database.");
-                        return ASA_ERROR.FAILED_TO_CREATE_DATABASE;
-                    }
-                    finally
-                    {
-                        Commit();
-                    }
+                }
+                catch (SqliteException e)
+                {
+                    Log.Debug(e, "Failed to set up fresh database.");
+                    return ASA_ERROR.FAILED_TO_CREATE_DATABASE;
+                }
+                finally
+                {
+                    Commit();
                 }
             }
             return ASA_ERROR.NONE;

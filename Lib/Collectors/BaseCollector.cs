@@ -27,7 +27,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             if (!CanRunOnPlatform())
             {
-                Log.Warning(string.Format(CultureInfo.InvariantCulture, Strings.Get("Err_PlatIncompat"), GetType().ToString()));
+                Log.Warning(Strings.Get("Err_PlatIncompat"), GetType().ToString());
                 return;
             }
             Start();
