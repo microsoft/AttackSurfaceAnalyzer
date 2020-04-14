@@ -155,7 +155,7 @@ stages:
           $asaFolder = "$(build.binariesdirectory)\Asa-win-$version"
           mkdir $asaFolder
 
-          Move-Item -Path "$(build.binariesdirectory)\windows\asa" -Destination $asaFolder
+          Move-Item -Path "$(build.binariesdirectory)\windows" -Destination $asaFolder
 
           7z a "$(build.artifactstagingdirectory)\Asa-win-$version.zip" $asaFolder
 
