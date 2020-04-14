@@ -729,17 +729,13 @@ namespace AttackSurfaceAnalyzer.Cli
                 {
                     foreach (var key in results.Keys)
                     {
-                        try
+                        if (results[key] is ConcurrentQueue<CompareResult> queue)
                         {
-                            Parallel.ForEach(results[key] as ConcurrentQueue<CompareResult>, (res) =>
+                            Parallel.ForEach(queue, (res) =>
                             {
                                 res.Rules = analyzer.Analyze(res);
                                 res.Analysis = res.Rules.Max(x => x.Flag);
                             });
-                        }
-                        catch (ArgumentNullException)
-                        {
-
                         }
                     }
                 }

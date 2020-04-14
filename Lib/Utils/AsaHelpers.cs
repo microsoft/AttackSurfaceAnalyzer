@@ -206,7 +206,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     identity = SID?.Translate(typeof(NTAccount))?.Value ?? sid;
                 }
-                catch (IdentityNotMappedException)
+                catch (IdentityNotMappedException) //lgtm [cs/empty-catch-block]
                 {
                 }
             }

@@ -123,22 +123,18 @@ namespace AttackSurfaceAnalyzer.Utils
                 if (hToken != null)
                 {
                     hToken.Close();
-                    hToken = null;
                 }
                 if (hTokenToCheck != null)
                 {
                     hTokenToCheck.Close();
-                    hTokenToCheck = null;
                 }
                 if (pElevationType != IntPtr.Zero)
                 {
                     Marshal.FreeHGlobal(pElevationType);
-                    pElevationType = IntPtr.Zero;
                 }
                 if (pLinkedToken != IntPtr.Zero)
                 {
                     Marshal.FreeHGlobal(pLinkedToken);
-                    pLinkedToken = IntPtr.Zero;
                 }
             }
 
@@ -250,13 +246,10 @@ namespace AttackSurfaceAnalyzer.Utils
                 if (hToken != null)
                 {
                     hToken.Close();
-                    hToken = null;
                 }
                 if (pTokenElevation != IntPtr.Zero)
                 {
                     Marshal.FreeHGlobal(pTokenElevation);
-                    pTokenElevation = IntPtr.Zero;
-                    cbTokenElevation = 0;
                 }
             }
 
@@ -375,13 +368,10 @@ namespace AttackSurfaceAnalyzer.Utils
                 if (hToken != null)
                 {
                     hToken.Close();
-                    hToken = null;
                 }
                 if (pTokenIL != IntPtr.Zero)
                 {
                     Marshal.FreeHGlobal(pTokenIL);
-                    pTokenIL = IntPtr.Zero;
-                    cbTokenIL = 0;
                 }
             }
 
@@ -393,10 +383,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static bool QueryElevation()
         {
-            int IL = GetProcessIntegrityLevel();
-
             return IsRunAsAdmin();
-
         }
 
         public static bool IsRunningAsRoot()

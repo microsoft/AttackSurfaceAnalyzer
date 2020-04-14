@@ -235,8 +235,6 @@ namespace AttackSurfaceAnalyzer.Utils
                     }
                 }
 
-                var groupedFoundLabels = foundLabels.GroupBy(x => x);
-
                 // Were all the labels declared in clauses used?
                 foreach (var label in rule.Clauses.Select(x => x.Label))
                 {

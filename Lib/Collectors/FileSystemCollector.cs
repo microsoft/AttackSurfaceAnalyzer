@@ -106,7 +106,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         try
                         {
-                            var certificate = new X509Certificate2();
+                            using var certificate = new X509Certificate2();
                             certificate.Import(Path);
 
                             var certObj = new CertificateObject(

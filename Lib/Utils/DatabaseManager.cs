@@ -279,6 +279,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             catch (Exception e) when (e is SqliteException || e is ArgumentNullException || e is NullReferenceException)
             {
+                Log.Debug("Didn't find any settings in the database.");
                 //Expected when the table doesn't exist (first run)
             }
 
@@ -287,16 +288,24 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private static void SetSettings(Settings settings)
         {
-            try
+            if (MainConnection != null && MainConnection.Connection != null)
             {
-                using var cmd = new SqliteCommand(SQL_UPSERT_PERSISTED_SETTINGS, MainConnection?.Connection, MainConnection?.Transaction);
-                cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(settings));
-                cmd.Parameters.AddWithValue("@id", "Persisted");
-                cmd.ExecuteNonQuery();
+                try
+                {
+                    using var cmd = new SqliteCommand(SQL_UPSERT_PERSISTED_SETTINGS, MainConnection?.Connection, MainConnection?.Transaction);
+                    cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(settings));
+                    cmd.Parameters.AddWithValue("@id", "Persisted");
+                    cmd.ExecuteNonQuery();
+                }
+                catch (SqliteException)
+                {
+                    Log.Warning("Failed to save settings to database.");
+                }
             }
-            catch (SqliteException) { }
-            // Main Connection is probably null
-            catch (NullReferenceException) { }
+            else
+            {
+                Log.Warning("Failed to save settings to database.");
+            }
         }
 
         public static bool EstablishMainConnection()
@@ -372,7 +381,6 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             if (MainConnection != null)
             {
-                List<string> Runs = new List<string>();
                 using var cmd = new SqliteCommand(GET_RUNS, MainConnection.Connection, MainConnection.Transaction);
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -1016,16 +1024,8 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 Connections.AsParallel().ForAll(cxn =>
                 {
-                    try
-                    {
-                        cxn.Transaction?.Rollback();
-                    }
-                    catch (NullReferenceException)
-                    { }
-                    finally
-                    {
-                        cxn.Transaction = null;
-                    }
+                    cxn.Transaction?.Rollback();
+                    cxn.Transaction = null;
                 });
             }
         }

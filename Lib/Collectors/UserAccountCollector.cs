@@ -224,7 +224,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                 }
             }
-            catch (Exception e) when (
+            catch (Exception e) when (//lgtm [cs/empty-catch-block]
                 e is IOException ||
                 e is ArgumentException ||
                 e is UnauthorizedAccessException ||
@@ -395,14 +395,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 // Admin user details
                 string groupsRaw = string.Empty;
 
-                try
-                {
-                    groupsRaw = ExternalCommandRunner.RunExternalCommand("groups", username);
-                }
-                catch (Exception)
-                {
-
-                }
+                groupsRaw = ExternalCommandRunner.RunExternalCommand("groups", username);
 
                 var groups = groupsRaw.Split(' ');
                 foreach (var group in groups)

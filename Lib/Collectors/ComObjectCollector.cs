@@ -52,7 +52,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 var CLDIDs = SearchKey.OpenSubKey("SOFTWARE\\Classes\\CLSID");
                 ParseComObjects(CLDIDs, view);
             }
-            catch (Exception e) when (
+            catch (Exception e) when (//lgtm [cs/empty-catch-block]
                 e is ArgumentException
                 || e is UnauthorizedAccessException
                 || e is System.Security.SecurityException)
@@ -74,7 +74,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                 }
             }
-            catch (Exception e) when (
+            catch (Exception e) when (//lgtm [cs/empty-catch-block]
                 e is ArgumentException
                 || e is UnauthorizedAccessException
                 || e is System.Security.SecurityException)
