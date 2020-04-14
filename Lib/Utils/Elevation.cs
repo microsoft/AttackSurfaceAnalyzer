@@ -388,16 +388,11 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static bool IsRunningAsRoot()
         {
-            var username = "notroot";
-            try
+            if (ExternalCommandRunner.RunExternalCommand("whoami", string.Empty,out string username, out string _) == 0)
             {
-                username = ExternalCommandRunner.RunExternalCommand("whoami");
+                return username.Trim().Equals("root");
             }
-            catch (Exception)
-            {
-                Log.Fatal("Couldn't run 'whoami' to determine root.");
-            }
-            return username != null ? username.Trim().Equals("root") : false;
+            return false;
         }
 
         public static bool IsAdministrator()

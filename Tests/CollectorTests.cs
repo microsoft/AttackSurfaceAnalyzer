@@ -197,12 +197,12 @@ namespace AttackSurfaceAnalyzer.Tests
                 var fwc = new FirewallCollector(FirstRunId);
                 fwc.Execute();
 
-                _ = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--add", "/bin/bash");
+                _ = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--add /bin/bash");
 
                 fwc = new FirewallCollector(SecondRunId);
                 fwc.Execute();
 
-                _ = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--remove", "/bin/bash");
+                _ = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--remove /bin/bash");
 
                 BaseCompare bc = new BaseCompare();
                 if (!bc.TryCompare(FirstRunId, SecondRunId))

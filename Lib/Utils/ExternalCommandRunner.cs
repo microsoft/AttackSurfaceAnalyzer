@@ -9,7 +9,42 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public static class ExternalCommandRunner
     {
-        public static string RunExternalCommand(string command, params string[] args) => RunExternalCommand(command, string.Join(' ', args), true);
+        public static int RunExternalCommand(string command, string arguments, out string StdOut, out string StdErr)
+        {
+            using var process = new Process()
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = command,
+                    Arguments = string.IsNullOrEmpty(arguments) ? string.Empty : arguments,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    WindowStyle = ProcessWindowStyle.Hidden
+                }
+            };
+
+            var stdOutput = new StringBuilder();
+            var stdError = new StringBuilder();
+            process.OutputDataReceived += (sender, args) => stdOutput.AppendLine(args.Data); // Use AppendLine rather than Append since args.Data is one line of output, not including the newline character.
+            process.ErrorDataReceived += (sender, args) => stdError.AppendLine(args.Data);
+            try
+            {
+                process.Start();
+                process.BeginOutputReadLine();
+                process.WaitForExit();
+            }
+            catch (Exception e)
+            {
+                throw new ExternalException("OS error while executing " + Format(command, arguments) + ": " + e.Message, e);
+            }
+
+            StdOut = stdOutput.ToString();
+            StdErr = stdError.ToString();
+
+            return process.ExitCode;
+        }
 
         public static string RunExternalCommand(string filename, string arguments = "", bool Redirect = true)
         {

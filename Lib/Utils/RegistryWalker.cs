@@ -28,7 +28,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 e is UnauthorizedAccessException ||
                 e is System.Security.SecurityException)
             {
-
+                Log.Debug($"Failed to open Hive {Hive} for walking.");
             }
 
             if (BaseKey != null)

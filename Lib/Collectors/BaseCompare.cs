@@ -104,7 +104,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         try
                         {
-                            var propName = prop.Name;
                             List<Diff> diffs;
                             object? added = null;
                             object? removed = null;
