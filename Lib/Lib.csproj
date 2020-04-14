@@ -23,6 +23,15 @@
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
   </PropertyGroup>
 
+  <Target Name="CopyLicenseNotice" AfterTargets="AfterBuild">
+    <Copy SourceFiles="..\LICENSE.txt" DestinationFolder="$(OutDir)" />
+    <Copy SourceFiles="..\NOTICE.txt" DestinationFolder="$(OutDir)" />
+  </Target>
+  <Target Name="CopyLicenseNoticeOnPublish" AfterTargets="Publish">
+    <Copy SourceFiles="..\LICENSE.txt" DestinationFolder="$(PublishDir)" />
+    <Copy SourceFiles="..\NOTICE.txt" DestinationFolder="$(PublishDir)" />
+  </Target>
+  
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
     <PackageReference Include="CompareNETObjects" Version="4.66.0" />
@@ -47,10 +56,6 @@
     <PackageReference Include="System.Runtime" Version="4.3.1" />
     <PackageReference Include="System.Security.AccessControl" Version="4.7.0" />
     <PackageReference Include="System.Threading.AccessControl" Version="4.7.0" />
-    <PackageReference Include="NuGet.Build.Packaging" Version="0.2.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="System.Net.Security" Version="4.3.2" />
     <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
     <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="3.1.0" />
@@ -64,8 +69,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\analyses.json" Link="analyses.json" />
-    <Content Include="..\LICENSE.txt" Link="LICENSE.txt" CopyToOutputDirectory="Always" CopyToPublishDirectory="Always"  Pack="false" />
-    <Content Include="..\NOTICE.txt" Link="NOTICE.txt" CopyToOutputDirectory="Always" CopyToPublishDirectory="Always" Pack="false" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\AttackSurfaceAnalyzer.sln.licenseheader" Link="AttackSurfaceAnalyzer.sln.licenseheader" />
