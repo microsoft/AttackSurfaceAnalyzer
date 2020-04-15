@@ -77,6 +77,9 @@ namespace AttackSurfaceAnalyzer.Tests
             fsc = new FileSystemCollector(opts);
             fsc.Execute();
 
+            Assert.IsTrue(fsc.Results.Any(x => x is FileSystemObject FSO && FSO.Path.EndsWith("AsaLibTesterMZ")));
+            Assert.IsTrue(fsc.Results.Any(x => x is FileSystemObject FSO && FSO.Path.EndsWith("AsaLibTesterJavaClass")));
+
             fsc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, SecondRunId));
 
             BaseCompare bc = new BaseCompare();
@@ -114,6 +117,9 @@ namespace AttackSurfaceAnalyzer.Tests
 
             fsc = new EventLogCollector(SecondRunId);
             fsc.Execute();
+
+            Assert.IsTrue(fsc.Results.Any(x => x is EventLogObject ELO && ELO.Source == "Attack Surface Analyzer Tests"));
+
             fsc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, SecondRunId));
 
             BaseCompare bc = new BaseCompare();
@@ -124,7 +130,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var results = bc.Results;
 
-            Assert.IsTrue(results[(RESULT_TYPE.LOG, CHANGE_TYPE.CREATED)].Where(x => ((EventLogObject)x.Compare).Level == "Warning" && ((EventLogObject)x.Compare).Source == "Attack Surface Analyzer Tests").Count() == 1);
+            Assert.IsTrue(results[(RESULT_TYPE.LOG, CHANGE_TYPE.CREATED)].Any(x => x.Compare is EventLogObject ELO && ELO.Level == "Warning" && ELO.Source == "Attack Surface Analyzer Tests"));
         }
 
         /// <summary>
@@ -176,6 +182,8 @@ namespace AttackSurfaceAnalyzer.Tests
             fsc = new OpenPortCollector(SecondRunId);
             fsc.Execute();
 
+            Assert.IsTrue(fsc.Results.Any(x => x is OpenPortObject OPO && OPO.Port == 13000));
+
             server.Stop();
 
             fsc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, SecondRunId));
@@ -211,6 +219,9 @@ namespace AttackSurfaceAnalyzer.Tests
 
                 fwc = new FirewallCollector(SecondRunId);
                 fwc.Execute();
+
+                Assert.IsTrue(fwc.Results.Any(x => x is FirewallObject FWO && FWO.ApplicationName == "/bin/bash"));
+
                 fwc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, SecondRunId));
 
                 _ = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--remove /bin/bash");
@@ -291,6 +302,10 @@ namespace AttackSurfaceAnalyzer.Tests
 
                 rc = new RegistryCollector(SecondRunId, new List<RegistryHive>() { RegistryHive.CurrentUser }, true);
                 rc.Execute();
+
+                Assert.IsTrue(rc.Results.Any(x => x is RegistryObject RO && RO.Key.EndsWith(name)));
+                Assert.IsTrue(rc.Results.Any(x => x is RegistryObject RO && RO.Key.EndsWith(name) && RO.Values.ContainsKey(value) && RO.Values[value] == value2));
+
                 rc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, SecondRunId));
 
                 // Clean up
@@ -301,7 +316,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 bc.TryCompare(FirstRunId, SecondRunId);
 
                 Assert.IsTrue(bc.Results.ContainsKey((RESULT_TYPE.REGISTRY,CHANGE_TYPE.CREATED)));
-                Assert.IsTrue(bc.Results[(RESULT_TYPE.REGISTRY, CHANGE_TYPE.CREATED)].Where(x => x.Identity.Contains(name)).Count() > 0);
+                Assert.IsTrue(bc.Results[(RESULT_TYPE.REGISTRY, CHANGE_TYPE.CREATED)].Any(x => x.Compare is RegistryObject RO && RO.Key.EndsWith(name)));
             }
         }
 
