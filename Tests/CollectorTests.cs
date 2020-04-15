@@ -74,8 +74,6 @@ namespace AttackSurfaceAnalyzer.Tests
         [TestMethod]
         public void TestEventCollectorWindows()
         {
-            var FirstRunId = "TestEventCollector-1";
-
             var source = "AsaTests";
             var logname = "AsaTestLogs";
 
