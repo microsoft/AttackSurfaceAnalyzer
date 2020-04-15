@@ -90,10 +90,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                 {
                     Address = endpoint.Address.ToString()
                 };
-                foreach (ProcessPort p in Win32ProcessPorts.ProcessPortMap.FindAll(x => x.PortNumber == endpoint.Port))
-                {
-                    obj.ProcessName = p.ProcessName;
-                }
+
+                obj.ProcessName = Win32ProcessPorts.ProcessPortMap.Find(x => x.PortNumber == endpoint.Port)?.ProcessName;
 
                 Results.Enqueue(obj);
             }
