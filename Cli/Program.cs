@@ -39,10 +39,11 @@ namespace AttackSurfaceAnalyzer.Cli
 #else
             Logger.Setup(false, false);
 #endif
-            string version = (Assembly
-                        .GetEntryAssembly()
-                        .GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false)
-                        as AssemblyInformationalVersionAttribute[])[0].InformationalVersion;
+            var version = (Assembly
+                        .GetEntryAssembly()?
+                        .GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false) as AssemblyInformationalVersionAttribute[])?
+                        [0].InformationalVersion ?? "Unknown";
+
             Log.Information("AttackSurfaceAnalyzer v.{0}", version);
 
             Strings.Setup();
