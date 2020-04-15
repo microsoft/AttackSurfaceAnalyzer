@@ -35,14 +35,11 @@ namespace AttackSurfaceAnalyzer.Tests
         [TestMethod]
         public void TestFileCollector()
         {
-            var FirstRunId = "TestFileCollector-1";
-
             var testFolder = AsaHelpers.GetTempFolder();
             Directory.CreateDirectory(testFolder);
 
             var opts = new CollectCommandOptions()
             {
-                RunId = FirstRunId,
                 EnableFileSystemCollector = true,
                 GatherHashes = true,
                 SelectedDirectories = testFolder,
