@@ -22,9 +22,8 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
 
         private readonly bool GatherVerboseLogs;
-        public EventLogCollector(string runId, bool GatherVerboseLogs = false)
+        public EventLogCollector(bool GatherVerboseLogs = false)
         {
-            RunId = runId;
             this.GatherVerboseLogs = GatherVerboseLogs;
         }
 
@@ -80,7 +79,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     Timestamp = entry.TimeGenerated,
                                     Data = new List<string>() { entry.Message }
                                 };
-                                DatabaseManager.Write(obj, RunId);
+                                Results.Enqueue(obj);
                             }
                         }
                     }
@@ -122,8 +121,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             {
                                 obj.Timestamp = Timestamp;
                             }
-
-                            DatabaseManager.Write(obj, RunId);
+                            Results.Enqueue(obj);
                         }
                     }
                 }
@@ -184,7 +182,10 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                     if (evt != null && MacLogHeader.IsMatch(evt))
                     {
-                        DatabaseManager.Write(curObject, RunId);
+                        if (curObject != null)
+                        {
+                            Results.Enqueue(curObject);
+                        }
 
                         curObject = new EventLogObject(evt)
                         {
@@ -210,7 +211,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                 }
                 process.WaitForExit();
-                DatabaseManager.Write(curObject, RunId);
+                if (curObject != null)
+                {
+                    Results.Enqueue(curObject);
+                }
             }
             catch (Exception e)
             {

@@ -20,13 +20,8 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class OpenPortCollector : BaseCollector
     {
-
-        private readonly HashSet<string> processedObjects;
-
-        public OpenPortCollector(string runId)
+        public OpenPortCollector()
         {
-            RunId = runId;
-            processedObjects = new HashSet<string>();
         }
 
         public override bool CanRunOnPlatform()
@@ -85,7 +80,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     obj.ProcessName = p.ProcessName;
                 }
 
-                DatabaseManager.Write(obj, RunId);
+                Results.Enqueue(obj);
             }
 
             foreach (var endpoint in properties.GetActiveUdpListeners())
@@ -94,12 +89,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                 {
                     Address = endpoint.Address.ToString()
                 };
-                foreach (ProcessPort p in Win32ProcessPorts.ProcessPortMap.FindAll(x => x.PortNumber == endpoint.Port))
-                {
-                    obj.ProcessName = p.ProcessName;
-                }
 
-                DatabaseManager.Write(obj, RunId);
+                obj.ProcessName = Win32ProcessPorts.ProcessPortMap.Find(x => x.PortNumber == endpoint.Port)?.ProcessName;
+
+                Results.Enqueue(obj);
             }
         }
 
@@ -140,7 +133,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             {
                                 Address = address
                             };
-                            DatabaseManager.Write(obj, RunId);
+                            Results.Enqueue(obj);
                         }
 
                     }
@@ -206,7 +199,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 ProcessName = parts[0]
                             };
 
-                            DatabaseManager.Write(obj, RunId);
+                            Results.Enqueue(obj);
                         }
                     }
                 }

@@ -19,16 +19,19 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class BaseCompare
     {
-        public ConcurrentDictionary<string, ConcurrentQueue<CompareResult>> Results { get; }
+        public ConcurrentDictionary<(RESULT_TYPE,CHANGE_TYPE), ConcurrentQueue<CompareResult>> Results { get; }
 
         public BaseCompare()
         {
-            Results = new ConcurrentDictionary<string, ConcurrentQueue<CompareResult>>();
+            Results = new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), ConcurrentQueue<CompareResult>>();
             foreach (RESULT_TYPE? result_type in Enum.GetValues(typeof(RESULT_TYPE)))
             {
                 foreach (CHANGE_TYPE? change_type in Enum.GetValues(typeof(CHANGE_TYPE)))
                 {
-                    Results[$"{result_type.ToString()}_{change_type.ToString()}"] = new ConcurrentQueue<CompareResult>();
+                    if (result_type is RESULT_TYPE r && change_type is CHANGE_TYPE c)
+                    {
+                        Results[(r, c)] = new ConcurrentQueue<CompareResult>();
+                    }
                 }
             }
         }
@@ -55,28 +58,23 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             differentObjects.AsParallel().ForAll(different =>
             {
+                var colObj = different.ColObj;
+                var obj = new CompareResult()
+                {
+                    BaseRunId = firstRunId,
+                    CompareRunId = secondRunId,
+                    BaseRowKey = different.RowKey,
+                };
+
                 if (different.RunId.Equals(firstRunId))
                 {
-                    var obj = new CompareResult()
-                    {
-                        Base = different.ColObj,
-                        BaseRunId = firstRunId,
-                        CompareRunId = secondRunId,
-                        BaseRowKey = different.RowKey,
-                    };
-
-                    Results[$"{different.ColObj?.ResultType}_{CHANGE_TYPE.DELETED}"].Enqueue(obj);
+                    obj.Base = colObj;
+                    Results[(colObj.ResultType, CHANGE_TYPE.DELETED)].Enqueue(obj);
                 }
                 else if (different.RunId.Equals(secondRunId))
                 {
-                    var obj = new CompareResult()
-                    {
-                        Compare = different.ColObj,
-                        BaseRunId = firstRunId,
-                        CompareRunId = secondRunId,
-                        CompareRowKey = different.RowKey,
-                    };
-                    Results[$"{different.ColObj?.ResultType}_{CHANGE_TYPE.CREATED}"].Enqueue(obj);
+                    obj.Compare = colObj;
+                    Results[(colObj.ResultType, CHANGE_TYPE.CREATED)].Enqueue(obj);
                 }
             });
 
@@ -207,7 +205,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                 }
 
-                Results[$"{modified.Item1.ColObj?.ResultType.ToString()}_{CHANGE_TYPE.MODIFIED}"].Enqueue(obj);
+                Results[(first.ResultType,CHANGE_TYPE.MODIFIED)].Enqueue(obj);
             });
 
             foreach (var empty in Results.Where(x => x.Value.Count == 0))

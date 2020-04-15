@@ -80,13 +80,13 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
         public ActionResult GetCollectors()
         {
             Dictionary<string, RUN_STATUS> dict = new Dictionary<string, RUN_STATUS>();
-            string RunId = AttackSurfaceAnalyzerClient.GetLatestRunId();
+            string RunId = DatabaseManager.GetLatestRunIds(1, RUN_TYPE.COLLECT)[0];
 
             foreach (BaseCollector c in AttackSurfaceAnalyzerClient.GetCollectors())
             {
                 var fullString = c.GetType().ToString();
                 var splits = fullString.Split('.');
-                dict.Add(splits[splits.Length - 1], c.IsRunning());
+                dict.Add(splits[splits.Length - 1], c.RunStatus);
             }
             Dictionary<string, object> output = new Dictionary<string, object>();
             output.Add("RunId", RunId);
@@ -96,7 +96,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         public ActionResult GetLatestRunId()
         {
-            return Json(HttpUtility.UrlEncode(AttackSurfaceAnalyzerClient.GetLatestRunId()));
+            return Json(HttpUtility.UrlEncode(DatabaseManager.GetLatestRunIds(1,RUN_TYPE.COLLECT)[0]));
         }
 
         public ActionResult GetMonitorStatus()
@@ -148,7 +148,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             {
                 // The GUI *should* prevent us from getting here. But this is extra protection.
                 // We won't start new collections while existing ones are ongoing.
-                if (c.IsRunning() == RUN_STATUS.RUNNING)
+                if (c.RunStatus == RUN_STATUS.RUNNING)
                 {
                     return Json(ASA_ERROR.ALREADY_RUNNING);
                 }

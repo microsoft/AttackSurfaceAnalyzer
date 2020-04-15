@@ -18,9 +18,6 @@ namespace AttackSurfaceAnalyzer.Collectors
     public class RegistryCollector : BaseCollector
     {
         private readonly List<RegistryHive> Hives;
-        private readonly HashSet<string> roots;
-        private readonly HashSet<RegistryKey> _keys;
-        private readonly HashSet<RegistryObject> _values;
         private readonly bool Parallelize;
 
         private static readonly List<RegistryHive> DefaultHives = new List<RegistryHive>()
@@ -30,27 +27,13 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         private readonly Action<RegistryObject>? customCrawlHandler;
 
-        public RegistryCollector(string RunId, bool Parallelize) : this(RunId, DefaultHives, Parallelize, null) { }
+        public RegistryCollector(bool Parallelize) : this(DefaultHives, Parallelize, null) { }
 
-        public RegistryCollector(string RunId, List<RegistryHive> Hives, bool Parallelize, Action<RegistryObject>? customHandler = null)
+        public RegistryCollector(List<RegistryHive> Hives, bool Parallelize, Action<RegistryObject>? customHandler = null)
         {
-            this.RunId = RunId;
             this.Hives = Hives;
-            roots = new HashSet<string>();
-            _keys = new HashSet<RegistryKey>();
-            _values = new HashSet<RegistryObject>();
             customCrawlHandler = customHandler;
             this.Parallelize = Parallelize;
-        }
-
-        public void AddRoot(string root)
-        {
-            roots.Add(root);
-        }
-
-        public void ClearRoots()
-        {
-            roots.Clear();
         }
 
         public override bool CanRunOnPlatform()
@@ -72,7 +55,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                         if (regObj != null)
                         {
-                            DatabaseManager.Write(regObj, RunId);
+                            Results.Enqueue(regObj);
                         }
                     }
                     catch (InvalidOperationException e)

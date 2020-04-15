@@ -18,9 +18,8 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class ServiceCollector : BaseCollector
     {
-        public ServiceCollector(string runId)
+        public ServiceCollector()
         {
-            RunId = runId;
         }
 
         /// <summary>
@@ -115,7 +114,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         if (!string.IsNullOrEmpty(val))
                             obj.WaitHint = uint.Parse(val, CultureInfo.InvariantCulture);
 
-                        DatabaseManager.Write(obj, RunId);
+                        Results.Enqueue(obj);
                     }
                 }
                 catch (Exception e) when (
@@ -138,7 +137,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     InstallDate = fso.Created
                 };
 
-                DatabaseManager.Write(obj,RunId);
+                Results.Enqueue(obj);
             }
         }
 
@@ -166,7 +165,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             State = _fields[3],
                         };
 
-                        DatabaseManager.Write(obj, RunId);
+                        Results.Enqueue(obj);
                     }
                 }
             }
@@ -193,7 +192,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         DisplayName = serviceName,
                     };
 
-                    DatabaseManager.Write(obj, RunId);
+                    Results.Enqueue(obj);
                 }
             }
             catch (ExternalException)
@@ -239,7 +238,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     };
                     if (!outDict.ContainsKey(obj.Identity))
                     {
-                        DatabaseManager.Write(obj, RunId);
+                        Results.Enqueue(obj);
                         outDict.Add(obj.Identity, obj);
                     }
                 }
