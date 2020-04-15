@@ -28,19 +28,19 @@ namespace AttackSurfaceAnalyzer.Collectors
             this.GatherVerboseLogs = GatherVerboseLogs;
         }
 
-        public override IEnumerable<CollectObject> ExecuteInternal()
+        public override void ExecuteInternal()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                return ExecuteWindows();
+                ExecuteWindows();
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                return ExecuteLinux();
+                ExecuteLinux();
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                return ExecuteMacOs();
+                ExecuteMacOs();
             }
         }
 
@@ -49,7 +49,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// Collect event logs on Windows using System.Diagnostics.EventLog
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Official documentation for this functionality does not specify what exceptions it throws. https://docs.microsoft.com/en-us/dotnet/api/system.diagnostics.eventlogentrycollection?view=netcore-3.0")]
-        public IEnumerable<CollectObject> ExecuteWindows()
+        public void ExecuteWindows()
         {
             EventLog[] logs = EventLog.GetEventLogs();
             foreach (var log in logs)
@@ -80,7 +80,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     Timestamp = entry.TimeGenerated,
                                     Data = new List<string>() { entry.Message }
                                 };
-                                DatabaseManager.Write(obj, RunId);
+                                Results.Enqueue(obj);
                             }
                         }
                     }
@@ -97,7 +97,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <summary>
         /// Parses /var/log/auth.log and /var/log/syslog (no way to distinguish severity)
         /// </summary>
-        public IEnumerable<CollectObject> ExecuteLinux()
+        public void ExecuteLinux()
         {
             Regex LogHeader = new Regex("^([A-Z][a-z][a-z][0-9:\\s]*)?[\\s].*?[\\s](.*?): (.*)", RegexOptions.Compiled);
 
@@ -122,8 +122,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             {
                                 obj.Timestamp = Timestamp;
                             }
-
-                            DatabaseManager.Write(obj, RunId);
+                            Results.Enqueue(obj);
                         }
                     }
                 }
