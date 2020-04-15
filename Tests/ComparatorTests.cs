@@ -99,7 +99,7 @@ namespace AttackSurfaceAnalyzer.Tests
         /// Requires Admin
         /// </summary>
         [TestMethod]
-        public void TestEventCollectorWindows()
+        public void TestEventCompareWindows()
         {
             var FirstRunId = "TestEventCollector-1";
             var SecondRunId = "TestEventCollector-2";
@@ -151,7 +151,7 @@ namespace AttackSurfaceAnalyzer.Tests
         /// Does not require Admin.
         /// </summary>
         [TestMethod]
-        public void TestPortCollectorWindows()
+        public void TestPortCompareWindows()
         {
             var FirstRunId = "TestPortCollector-1";
             var SecondRunId = "TestPortCollector-2";
@@ -204,7 +204,7 @@ namespace AttackSurfaceAnalyzer.Tests
         /// Requires root.
         /// </summary>
         [TestMethod]
-        public void TestFirewallCollectorOSX()
+        public void TestFirewallCompareOSX()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
@@ -243,7 +243,7 @@ namespace AttackSurfaceAnalyzer.Tests
         /// Requires root.
         /// </summary>
         [TestMethod]
-        public void TestFirewallCollectorLinux()
+        public void TestFirewallCompareLinux()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
@@ -279,7 +279,7 @@ namespace AttackSurfaceAnalyzer.Tests
         /// Does not require administrator.
         /// </summary>
         [TestMethod]
-        public void TestRegistryCollectorWindows()
+        public void TestRegistryCompareWindows()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
@@ -324,7 +324,7 @@ namespace AttackSurfaceAnalyzer.Tests
         /// Requires Administrator Priviledges.
         /// </summary>
         [TestMethod]
-        public void TestServiceCollectorWindows()
+        public void TestServiceCompareWindows()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
@@ -362,28 +362,13 @@ namespace AttackSurfaceAnalyzer.Tests
             }
         }
 
-        /// <summary>
-        /// Requires admin.
-        /// </summary>
-        [TestMethod]
-        public void TestComObjectCollector()
-        {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                var FirstRunId = "TestComObjectCollector-1";
-
-                var coc = new ComObjectCollector(FirstRunId);
-                coc.Execute();
-
-                Assert.IsTrue(coc.Results.Where(x => x is ComObject y && y.x86_Binary != null).Count() > 0);
-            }
-        }
+        // @TODO ComObject Compare
 
         /// <summary>
         /// Requires Administrator Priviledges.
         /// </summary>
         [TestMethod]
-        public void TestUserCollectorWindows()
+        public void TestUserCompareWindows()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
@@ -423,7 +408,7 @@ namespace AttackSurfaceAnalyzer.Tests
         }
 
         [TestMethod]
-        public void TestFirewallCollectorWindows()
+        public void TestFirewallCompareWindows()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
