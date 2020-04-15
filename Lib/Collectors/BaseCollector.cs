@@ -36,7 +36,9 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
             else
             {
+                Start();
                 ExecuteInternal();
+                Stop();
             }
         }
 
@@ -46,9 +48,12 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         private Stopwatch? watch;
 
-        public RUN_STATUS IsRunning()
+        public RUN_STATUS RunStatus
         {
-            return _running;
+            get
+            {
+                return _running;
+            }
         }
 
         public void Start()
