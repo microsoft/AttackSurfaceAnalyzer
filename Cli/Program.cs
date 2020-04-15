@@ -271,8 +271,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 SaveToDatabase = opts.SaveToDatabase
             };
 
-            Dictionary<string, object> results = CompareRuns(options);
-
+            var results = CompareRuns(options).Select(x => new KeyValuePair<string, object>($"{x.Key.Item1}_{x.Key.Item2}", x.Value)).ToDictionary(x => x.Key, x => x.Value);
             JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings()
             {
                 Formatting = Formatting.Indented,
@@ -308,7 +307,7 @@ namespace AttackSurfaceAnalyzer.Cli
             else
             {
                 string path = Path.Combine(outputPath, AsaHelpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId + "_summary.json.txt"));
-                var output = new Dictionary<string, Object>();
+                var output = new Dictionary<string, object>();
                 output["results"] = results;
                 output["metadata"] = AsaHelpers.GenerateMetadata();
                 using (StreamWriter sw = new StreamWriter(path)) //lgtm[cs/path-injection]
@@ -681,7 +680,7 @@ namespace AttackSurfaceAnalyzer.Cli
             return comparators;
         }
 
-        public static Dictionary<string, object> CompareRuns(CompareCommandOptions opts)
+        public static ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), ConcurrentQueue<CompareResult>> CompareRuns(CompareCommandOptions opts)
         {
             if (opts is null)
             {
@@ -693,8 +692,6 @@ namespace AttackSurfaceAnalyzer.Cli
                 DatabaseManager.InsertCompareRun(opts.FirstRunId, opts.SecondRunId, RUN_STATUS.RUNNING);
             }
 
-            var results = new Dictionary<string, object>();
-
             comparators = new List<BaseCompare>();
 
             Dictionary<string, string> EndEvent = new Dictionary<string, string>();
@@ -704,8 +701,6 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 Log.Warning(Strings.Get("Err_Comparing") + " : {0}", c.GetType().Name);
             }
-
-            c.Results.ToList().ForEach(x => results.Add(x.Key, x.Value));
 
             watch.Stop();
             TimeSpan t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
@@ -719,18 +714,18 @@ namespace AttackSurfaceAnalyzer.Cli
 
             if (opts.Analyze)
             {
-                watch = System.Diagnostics.Stopwatch.StartNew();
+                watch = Stopwatch.StartNew();
                 Analyzer analyzer = new Analyzer(DatabaseManager.RunIdToPlatform(opts.FirstRunId), opts.AnalysesFile);
                 if (!analyzer.VerifyRules())
                 {
-                    return results;
+                    return c.Results;
                 }
 
-                if (results.Count > 0)
+                if (c.Results.Count > 0)
                 {
-                    foreach (var key in results.Keys)
+                    foreach (var key in c.Results.Keys)
                     {
-                        if (results[key] is ConcurrentQueue<CompareResult> queue)
+                        if (c.Results[key] is ConcurrentQueue<CompareResult> queue)
                         {
                             Parallel.ForEach(queue, (res) =>
                             {
@@ -751,14 +746,14 @@ namespace AttackSurfaceAnalyzer.Cli
                 Log.Information(Strings.Get("Completed"), "Analysis", answer);
             }
 
-            watch = System.Diagnostics.Stopwatch.StartNew();
+            watch = Stopwatch.StartNew();
 
 
             if (opts.SaveToDatabase)
             {
-                foreach (var key in results.Keys)
+                foreach (var key in c.Results.Keys)
                 {
-                    if (results.TryGetValue(key, out object? obj))
+                    if (c.Results.TryGetValue(key, out ConcurrentQueue<CompareResult>? obj))
                     {
                         if (obj is ConcurrentQueue<CompareResult> Queue)
                         {
@@ -787,7 +782,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             DatabaseManager.Commit();
             AsaTelemetry.TrackEvent("End Command", EndEvent);
-            return results;
+            return c.Results;
         }
 
         public static ASA_ERROR RunGuiMonitorCommand(MonitorCommandOptions opts)
