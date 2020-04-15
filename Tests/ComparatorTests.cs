@@ -108,17 +108,30 @@ namespace AttackSurfaceAnalyzer.Tests
             fsc.Execute();
             fsc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, FirstRunId));
 
+            var source = "AsaTests";
+            var logname = "AsaTestLogs";
 
-            using (EventLog eventLog = new EventLog("Application"))
+            if (EventLog.SourceExists(source))
             {
-                eventLog.Source = "Attack Surface Analyzer Tests";
-                eventLog.WriteEntry("This Log Entry was created for testing the Attack Surface Analyzer library.", EventLogEntryType.Warning, 101, 1);
+                // Delete the source and the log.
+                EventLog.DeleteEventSource(source);
+                EventLog.Delete(logname);
             }
+
+            // Create the event source to make next try successful.
+            EventLog.CreateEventSource(source, logname);
+
+            using EventLog eventLog = new EventLog("Application");
+            eventLog.Source = "Attack Surface Analyzer Tests";
+            eventLog.WriteEntry("This Log Entry was created for testing the Attack Surface Analyzer library.", EventLogEntryType.Warning, 101, 1);
 
             fsc = new EventLogCollector(SecondRunId);
             fsc.Execute();
 
-            Assert.IsTrue(fsc.Results.Any(x => x is EventLogObject ELO && ELO.Source == "Attack Surface Analyzer Tests"));
+            EventLog.DeleteEventSource(source);
+            EventLog.Delete(logname);
+
+            Assert.IsTrue(fsc.Results.Any(x => x is EventLogObject ELO && ELO.Source == "Attack Surface Analyzer Tests" && ELO.Timestamp is DateTime DT && DT.AddMinutes(1).CompareTo(DateTime.Now) > 0));
 
             fsc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, SecondRunId));
 
@@ -131,20 +144,6 @@ namespace AttackSurfaceAnalyzer.Tests
             var results = bc.Results;
 
             Assert.IsTrue(results[(RESULT_TYPE.LOG, CHANGE_TYPE.CREATED)].Any(x => x.Compare is EventLogObject ELO && ELO.Level == "Warning" && ELO.Source == "Attack Surface Analyzer Tests"));
-        }
-
-        /// <summary>
-        /// Does not require admin.
-        /// </summary>
-        [TestMethod]
-        public void TestCertificateCollectorWindows()
-        {
-            var FirstRunId = "TestCertificateCollector-1";
-
-            var fsc = new CertificateCollector(FirstRunId);
-            fsc.Execute();
-
-            Assert.IsTrue(fsc.Results.Where(x => x.ResultType == RESULT_TYPE.CERTIFICATE).Count() > 0);
         }
 
         /// <summary>
