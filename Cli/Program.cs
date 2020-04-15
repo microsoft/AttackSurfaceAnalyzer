@@ -14,6 +14,7 @@ using Serilog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -38,10 +39,11 @@ namespace AttackSurfaceAnalyzer.Cli
 #else
             Logger.Setup(false, false);
 #endif
-            string version = (Assembly
-                        .GetEntryAssembly()
-                        .GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false)
-                        as AssemblyInformationalVersionAttribute[])[0].InformationalVersion;
+            var version = (Assembly
+                        .GetEntryAssembly()?
+                        .GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false) as AssemblyInformationalVersionAttribute[])?
+                        [0].InformationalVersion ?? "Unknown";
+
             Log.Information("AttackSurfaceAnalyzer v.{0}", version);
 
             Strings.Setup();
@@ -270,8 +272,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 SaveToDatabase = opts.SaveToDatabase
             };
 
-            Dictionary<string, object> results = CompareRuns(options);
-
+            var results = CompareRuns(options).Select(x => new KeyValuePair<string, object>($"{x.Key.Item1}_{x.Key.Item2}", x.Value)).ToDictionary(x => x.Key, x => x.Value);
             JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings()
             {
                 Formatting = Formatting.Indented,
@@ -307,7 +308,7 @@ namespace AttackSurfaceAnalyzer.Cli
             else
             {
                 string path = Path.Combine(outputPath, AsaHelpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId + "_summary.json.txt"));
-                var output = new Dictionary<string, Object>();
+                var output = new Dictionary<string, object>();
                 output["results"] = results;
                 output["metadata"] = AsaHelpers.GenerateMetadata();
                 using (StreamWriter sw = new StreamWriter(path)) //lgtm[cs/path-injection]
@@ -680,7 +681,7 @@ namespace AttackSurfaceAnalyzer.Cli
             return comparators;
         }
 
-        public static Dictionary<string, object> CompareRuns(CompareCommandOptions opts)
+        public static ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), ConcurrentQueue<CompareResult>> CompareRuns(CompareCommandOptions opts)
         {
             if (opts is null)
             {
@@ -692,8 +693,6 @@ namespace AttackSurfaceAnalyzer.Cli
                 DatabaseManager.InsertCompareRun(opts.FirstRunId, opts.SecondRunId, RUN_STATUS.RUNNING);
             }
 
-            var results = new Dictionary<string, object>();
-
             comparators = new List<BaseCompare>();
 
             Dictionary<string, string> EndEvent = new Dictionary<string, string>();
@@ -703,8 +702,6 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 Log.Warning(Strings.Get("Err_Comparing") + " : {0}", c.GetType().Name);
             }
-
-            c.Results.ToList().ForEach(x => results.Add(x.Key, x.Value));
 
             watch.Stop();
             TimeSpan t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
@@ -718,18 +715,18 @@ namespace AttackSurfaceAnalyzer.Cli
 
             if (opts.Analyze)
             {
-                watch = System.Diagnostics.Stopwatch.StartNew();
+                watch = Stopwatch.StartNew();
                 Analyzer analyzer = new Analyzer(DatabaseManager.RunIdToPlatform(opts.FirstRunId), opts.AnalysesFile);
                 if (!analyzer.VerifyRules())
                 {
-                    return results;
+                    return c.Results;
                 }
 
-                if (results.Count > 0)
+                if (c.Results.Count > 0)
                 {
-                    foreach (var key in results.Keys)
+                    foreach (var key in c.Results.Keys)
                     {
-                        if (results[key] is ConcurrentQueue<CompareResult> queue)
+                        if (c.Results[key] is ConcurrentQueue<CompareResult> queue)
                         {
                             Parallel.ForEach(queue, (res) =>
                             {
@@ -750,14 +747,14 @@ namespace AttackSurfaceAnalyzer.Cli
                 Log.Information(Strings.Get("Completed"), "Analysis", answer);
             }
 
-            watch = System.Diagnostics.Stopwatch.StartNew();
+            watch = Stopwatch.StartNew();
 
 
             if (opts.SaveToDatabase)
             {
-                foreach (var key in results.Keys)
+                foreach (var key in c.Results.Keys)
                 {
-                    if (results.TryGetValue(key, out object? obj))
+                    if (c.Results.TryGetValue(key, out ConcurrentQueue<CompareResult>? obj))
                     {
                         if (obj is ConcurrentQueue<CompareResult> Queue)
                         {
@@ -786,7 +783,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             DatabaseManager.Commit();
             AsaTelemetry.TrackEvent("End Command", EndEvent);
-            return results;
+            return c.Results;
         }
 
         public static ASA_ERROR RunGuiMonitorCommand(MonitorCommandOptions opts)
@@ -956,42 +953,42 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             if (opts.EnableNetworkPortCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new OpenPortCollector(opts.RunId));
+                collectors.Add(new OpenPortCollector());
                 dict.Add(RESULT_TYPE.PORT);
             }
             if (opts.EnableServiceCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new ServiceCollector(opts.RunId));
+                collectors.Add(new ServiceCollector());
                 dict.Add(RESULT_TYPE.SERVICE);
             }
             if (opts.EnableUserCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new UserAccountCollector(opts.RunId));
+                collectors.Add(new UserAccountCollector());
                 dict.Add(RESULT_TYPE.USER);
             }
             if (opts.EnableRegistryCollector || (opts.EnableAllCollectors && RuntimeInformation.IsOSPlatform(OSPlatform.Windows)))
             {
-                collectors.Add(new RegistryCollector(opts.RunId, opts.Parallelization));
+                collectors.Add(new RegistryCollector(opts.Parallelization));
                 dict.Add(RESULT_TYPE.REGISTRY);
             }
             if (opts.EnableCertificateCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new CertificateCollector(opts.RunId));
+                collectors.Add(new CertificateCollector());
                 dict.Add(RESULT_TYPE.CERTIFICATE);
             }
             if (opts.EnableFirewallCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new FirewallCollector(opts.RunId));
+                collectors.Add(new FirewallCollector());
                 dict.Add(RESULT_TYPE.FIREWALL);
             }
             if (opts.EnableComObjectCollector || (opts.EnableAllCollectors && RuntimeInformation.IsOSPlatform(OSPlatform.Windows)))
             {
-                collectors.Add(new ComObjectCollector(opts.RunId));
+                collectors.Add(new ComObjectCollector());
                 dict.Add(RESULT_TYPE.COM);
             }
             if (opts.EnableEventLogCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new EventLogCollector(opts.RunId, opts.GatherVerboseLogs));
+                collectors.Add(new EventLogCollector(opts.GatherVerboseLogs));
                 dict.Add(RESULT_TYPE.LOG);
             }
 
@@ -1033,8 +1030,85 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 try
                 {
-                    c.Execute();
-                    EndEvent.Add(c.GetType().ToString(), c.NumCollected().ToString(CultureInfo.InvariantCulture));
+                    DatabaseManager.BeginTransaction();
+
+                    var StopWatch = Stopwatch.StartNew();
+
+                    Task.Run(() => c.Execute());
+
+                    Thread.Sleep(1);
+
+                    while(c.RunStatus == RUN_STATUS.RUNNING)
+                    {
+                        if (c.Results.TryDequeue(out CollectObject? res)){
+                            DatabaseManager.Write(res,opts.RunId);
+                        }
+                        else
+                        {
+                            Thread.Sleep(1);
+                        }
+                    }
+
+                    StopWatch.Stop();
+                    TimeSpan t = TimeSpan.FromMilliseconds(StopWatch.ElapsedMilliseconds);
+                    string answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+                                            t.Hours,
+                                            t.Minutes,
+                                            t.Seconds,
+                                            t.Milliseconds);
+                    Log.Debug(Strings.Get("Completed"), c.GetType().Name, answer);
+
+                    c.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, opts.RunId));
+
+                    var prevFlush = DatabaseManager.Connections.Select(x => x.WriteQueue.Count).Sum();
+                    var totFlush = prevFlush;
+
+                    var printInterval = 10;
+                    var currentInterval = 0;
+
+                    StopWatch = Stopwatch.StartNew();
+
+                    while (DatabaseManager.HasElements)
+                    {
+                        Thread.Sleep(1000);
+
+                        if (currentInterval++ % printInterval == 0)
+                        {
+                            var actualDuration = (currentInterval < printInterval) ? currentInterval : printInterval;
+                            var sample = DatabaseManager.Connections.Select(x => x.WriteQueue.Count).Sum();
+                            var curRate = prevFlush - sample;
+                            var totRate = (double)(totFlush - sample) / StopWatch.ElapsedMilliseconds;
+                            try
+                            {
+                                t = (curRate > 0) ? TimeSpan.FromMilliseconds(sample / ((double)curRate / (actualDuration * 1000))) : TimeSpan.FromMilliseconds(99999999); //lgtm[cs/loss-of-precision]
+                                answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+                                                        t.Hours,
+                                                        t.Minutes,
+                                                        t.Seconds,
+                                                        t.Milliseconds);
+                                Log.Debug("Flushing {0} results. ({1}/{4}s {2:0.00}/s overall {3} ETA)", sample, curRate, totRate * 1000, answer, actualDuration);
+                            }
+                            catch (Exception e) when (
+                                e is OverflowException)
+                            {
+                                Log.Debug($"Overflowed: {curRate} {totRate} {sample} {t} {answer}");
+                                Log.Debug("Flushing {0} results. ({1}/s {2:0.00}/s)", sample, curRate, totRate * 1000);
+                            }
+                            prevFlush = sample;
+                        }
+
+                    }
+
+                    StopWatch.Stop();
+                    t = TimeSpan.FromMilliseconds(StopWatch.ElapsedMilliseconds);
+                    answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+                                            t.Hours,
+                                            t.Minutes,
+                                            t.Seconds,
+                                            t.Milliseconds);
+                    Log.Debug("Completed flushing in {0}", answer);
+
+                    DatabaseManager.Commit();
                 }
                 catch (Exception e)
                 {
@@ -1091,15 +1165,6 @@ namespace AttackSurfaceAnalyzer.Cli
                     }
                 }
             }
-        }
-
-        public static string GetLatestRunId()
-        {
-            if (collectors.Count > 0)
-            {
-                return collectors[0].RunId;
-            }
-            return "No run id";
         }
     }
 }

@@ -61,7 +61,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
                 BagOfObjects.Add(obj);
             });
 
-            while (SystemSQLiteDatabaseManager.HasElements())
+            while (SystemSQLiteDatabaseManager.HasElements)
             {
                 Thread.Sleep(1);
             }

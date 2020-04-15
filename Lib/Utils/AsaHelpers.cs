@@ -217,7 +217,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
             }
 
-            SidMap[sid] = identity;
+            SidMap.Add(sid,identity);
 
             return sid;
         }

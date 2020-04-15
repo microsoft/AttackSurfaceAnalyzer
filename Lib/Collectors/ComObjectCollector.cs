@@ -19,9 +19,8 @@ namespace AttackSurfaceAnalyzer.Collectors
     public class ComObjectCollector : BaseCollector
     {
 
-        public ComObjectCollector(string RunId)
+        public ComObjectCollector()
         {
-            this.RunId = RunId;
         }
 
         /// <summary>
@@ -39,8 +38,8 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// </summary>
         public override void ExecuteInternal()
         {
-            ParseView(RegistryView.Registry32);
             ParseView(RegistryView.Registry64);
+            ParseView(RegistryView.Registry32);
         }
 
         public void ParseView(RegistryView view)
@@ -50,7 +49,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                 // Parse system Com Objects
                 using var SearchKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, view);
                 var CLDIDs = SearchKey.OpenSubKey("SOFTWARE\\Classes\\CLSID");
-                ParseComObjects(CLDIDs, view);
+                foreach(var comObj in ParseComObjects(CLDIDs, view))
+                {
+                    Results.Enqueue(comObj);
+                }
             }
             catch (Exception e) when (//lgtm [cs/empty-catch-block]
                 e is ArgumentException
@@ -70,7 +72,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                     if (subkeyName.EndsWith("Classes"))
                     {
                         using var ComKey = SearchKey.OpenSubKey(subkeyName).OpenSubKey("CLSID");
-                        ParseComObjects(ComKey, view);
+                        foreach(var comObj in ParseComObjects(ComKey, view))
+                        {
+                            Results.Enqueue(comObj);
+                        }
                     }
                 }
             }
@@ -84,13 +89,13 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Parse all the Subkeys of the given SearchKey into ComObjects and writes them to the database
+        /// Parse all the Subkeys of the given SearchKey into ComObjects and returns a list of them
         /// </summary>
         /// <param name="SearchKey">The Registry Key to search</param>
         /// <param name="View">The View of the registry to use</param>
-        public void ParseComObjects(RegistryKey SearchKey, RegistryView View)
+        public static IEnumerable<CollectObject> ParseComObjects(RegistryKey SearchKey, RegistryView View)
         {
-            if (SearchKey == null) { return; }
+            if (SearchKey == null) { return new List<CollectObject>(); }
             List<ComObject> comObjects = new List<ComObject>();
             try
             {
@@ -187,10 +192,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 Log.Debug($"Failing parsing com objects {SearchKey.Name} {e.GetType().ToString()} {e.Message}");
             }
 
-            foreach (var comObject in comObjects)
-            {
-                DatabaseManager.Write(comObject, RunId);
-            }
+            return comObjects;
         }
     }
 }

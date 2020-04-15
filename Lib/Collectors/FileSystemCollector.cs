@@ -32,11 +32,10 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public FileSystemCollector(CollectCommandOptions opts)
         {
-            if (opts is null || opts.RunId is null)
+            if (opts is null)
             {
                 throw new ArgumentNullException(nameof(opts));
             }
-            RunId = opts.RunId;
             downloadCloud = opts.DownloadCloud;
             examineCertificates = opts.CertificatesFromFiles;
             parallel = opts.Parallelization;
@@ -98,7 +97,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 FileSystemObject obj = FilePathToFileSystemObject(Path, downloadCloud, INCLUDE_CONTENT_HASH);
                 if (obj != null)
                 {
-                    DatabaseManager.Write(obj, RunId);
+                    Results.Enqueue(obj);
                     if (examineCertificates &&
                         Path.EndsWith(".cer", StringComparison.CurrentCulture) ||
                         Path.EndsWith(".der", StringComparison.CurrentCulture) ||
@@ -117,7 +116,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 Pkcs7 = Convert.ToBase64String(certificate.Export(X509ContentType.Cert))
                             };
 
-                            DatabaseManager.Write(certObj, RunId);
+                            Results.Enqueue(certObj);
                         }
                         catch (Exception e) when (
                             e is System.Security.Cryptography.CryptographicException

@@ -20,11 +20,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class UserAccountCollector : BaseCollector
     {
-        public UserAccountCollector(string runId)
-        {
-            RunId = runId;
-        }
-
+        public UserAccountCollector() { }
         public override bool CanRunOnPlatform()
         {
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
@@ -200,12 +196,12 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             foreach (var user in users)
             {
-                DatabaseManager.Write(user.Value, RunId);
+                Results.Enqueue(user.Value);
             }
 
             foreach (var group in groups)
             {
-                DatabaseManager.Write(group.Value, RunId);
+                Results.Enqueue(group.Value);
             }
         }
 
@@ -313,11 +309,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                         Groups[group].Users.Add(username);
                     }
                 }
-                DatabaseManager.Write(accountDetails[username], RunId);
+                Results.Enqueue(accountDetails[username]);
             }
             foreach (var group in Groups)
             {
-                DatabaseManager.Write(group.Value, RunId);
+                Results.Enqueue(group.Value);
             }
         }
 
@@ -412,11 +408,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                 }
                 accountDetails[username].Groups.AddRange(groups);
-                DatabaseManager.Write(accountDetails[username], RunId);
+                Results.Enqueue(accountDetails[username]);
             }
             foreach (var group in Groups)
             {
-                DatabaseManager.Write(group.Value, RunId);
+                Results.Enqueue(group.Value);
             }
         }
     }

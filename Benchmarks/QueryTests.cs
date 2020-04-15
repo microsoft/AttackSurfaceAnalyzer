@@ -83,7 +83,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
                 }
             });
 
-            while (DatabaseManager.HasElements())
+            while (DatabaseManager.HasElements)
             {
                 Thread.Sleep(1);
             }
@@ -157,7 +157,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             InsertFirstRun();
             InsertSecondRun();
 
-            while (DatabaseManager.HasElements())
+            while (DatabaseManager.HasElements)
             {
                 Thread.Sleep(1);
             }

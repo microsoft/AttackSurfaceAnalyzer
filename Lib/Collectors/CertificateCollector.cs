@@ -4,10 +4,13 @@ using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using Serilog;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -16,9 +19,8 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class CertificateCollector : BaseCollector
     {
-        public CertificateCollector(string runId)
+        public CertificateCollector()
         {
-            RunId = runId;
         }
 
         public override bool CanRunOnPlatform()
@@ -49,9 +51,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                             {
                                 Pkcs7 = Convert.ToBase64String(certificate.Export(X509ContentType.Cert))
                             };
-                            DatabaseManager.Write(obj, RunId);
+                            Results.Enqueue(obj);
                         }
-
                         store.Close();
                     }
                     catch (CryptographicException e)
@@ -86,8 +87,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             {
                                 Pkcs7 = Convert.ToBase64String(certificate.Export(X509ContentType.Cert))
                             };
-
-                            DatabaseManager.Write(obj, RunId);
+                            Results.Enqueue(obj);
                         }
                         catch (Exception e)
                         {
@@ -141,12 +141,12 @@ namespace AttackSurfaceAnalyzer.Collectors
                             {
                                 Pkcs7 = Convert.ToBase64String(certificate.Export(X509ContentType.Cert))
                             };
-                            DatabaseManager.Write(obj, RunId);
+                            Results.Enqueue(obj);
                         }
                     }
                     else
                     {
-                        Log.Debug("Failed to export certificate with OpenSSL.");
+                        Log.Debug("Failed to export certificate with OpenSSL."); //DevSkim: ignore DS440000
                     }
                 }
                 
