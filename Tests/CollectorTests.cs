@@ -88,7 +88,6 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var fsc = new EventLogCollector(FirstRunId);
             fsc.Execute();
-            fsc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, FirstRunId));
 
             Assert.IsTrue(fsc.Results.Any(x => x is EventLogObject ELO && ELO.Source == "Attack Surface Analyzer Tests"));
         }
@@ -204,7 +203,6 @@ namespace AttackSurfaceAnalyzer.Tests
                 );
                 rule.Direction = FirewallDirection.Outbound;
                 FirewallManager.Instance.Rules.Add(rule);
-
 
                 var fwc = new FirewallCollector(FirstRunId);
                 fwc.Execute();
