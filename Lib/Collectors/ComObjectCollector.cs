@@ -52,7 +52,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 var CLDIDs = SearchKey.OpenSubKey("SOFTWARE\\Classes\\CLSID");
                 foreach(var comObj in ParseComObjects(CLDIDs, view))
                 {
-                    Results.Add(comObj);
+                    Results.Enqueue(comObj);
                 }
             }
             catch (Exception e) when (//lgtm [cs/empty-catch-block]
@@ -75,7 +75,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         using var ComKey = SearchKey.OpenSubKey(subkeyName).OpenSubKey("CLSID");
                         foreach(var comObj in ParseComObjects(ComKey, view))
                         {
-                            Results.Add(comObj);
+                            Results.Enqueue(comObj);
                         }
                     }
                 }

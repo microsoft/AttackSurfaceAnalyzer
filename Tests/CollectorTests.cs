@@ -148,6 +148,8 @@ namespace AttackSurfaceAnalyzer.Tests
             var fsc = new OpenPortCollector(FirstRunId);
             fsc.Execute();
 
+            fsc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, FirstRunId));
+
             TcpListener server = null;
             try
             {
@@ -170,6 +172,8 @@ namespace AttackSurfaceAnalyzer.Tests
             fsc.Execute();
 
             server.Stop();
+
+            fsc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, SecondRunId));
 
             BaseCompare bc = new BaseCompare();
             if (!bc.TryCompare(FirstRunId, SecondRunId))

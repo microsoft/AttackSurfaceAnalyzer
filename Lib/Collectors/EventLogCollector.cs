@@ -186,7 +186,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         if (curObject != null)
                         {
-                            Results.Add(curObject);
+                            Results.Enqueue(curObject);
                         }
 
                         curObject = new EventLogObject(evt)
@@ -215,7 +215,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 process.WaitForExit();
                 if (curObject != null)
                 {
-                    Results.Add(curObject);
+                    Results.Enqueue(curObject);
                 }
             }
             catch (Exception e)
