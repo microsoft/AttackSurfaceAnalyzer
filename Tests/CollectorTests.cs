@@ -87,9 +87,9 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var results = bc.Results;
 
-            Assert.IsTrue(results.ContainsKey("FILE_CREATED"));
-            Assert.IsTrue(results["FILE_CREATED"].Any(x => x.Identity.Contains("AsaLibTesterMZ") && ((FileSystemObject)x.Compare).IsExecutable == true));
-            Assert.IsTrue(results["FILE_CREATED"].Any(x => x.Identity.Contains("AsaLibTesterJavaClass") && ((FileSystemObject)x.Compare).IsExecutable == true));
+            Assert.IsTrue(results.ContainsKey((RESULT_TYPE.FILE, CHANGE_TYPE.CREATED)));
+            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.CREATED)].Any(x => x.Identity.Contains("AsaLibTesterMZ") && ((FileSystemObject)x.Compare).IsExecutable == true));
+            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.CREATED)].Any(x => x.Identity.Contains("AsaLibTesterJavaClass") && ((FileSystemObject)x.Compare).IsExecutable == true));
         }
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var results = bc.Results;
 
-            Assert.IsTrue(results["LOG_CREATED"].Where(x => ((EventLogObject)x.Compare).Level == "Warning" && ((EventLogObject)x.Compare).Source == "Attack Surface Analyzer Tests").Count() == 1);
+            Assert.IsTrue(results[(RESULT_TYPE.LOG, CHANGE_TYPE.CREATED)].Where(x => ((EventLogObject)x.Compare).Level == "Warning" && ((EventLogObject)x.Compare).Source == "Attack Surface Analyzer Tests").Count() == 1);
         }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace AttackSurfaceAnalyzer.Tests
             try
             {
                 // Set the TcpListener on port 13000.
-                Int32 port = 13000;
+                int port = 13000;
                 IPAddress localAddr = IPAddress.Parse("127.0.0.1");
 
                 // TcpListener server = new TcpListener(port);
@@ -188,8 +188,8 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var results = bc.Results;
 
-            Assert.IsTrue(results.ContainsKey("PORT_CREATED"));
-            Assert.IsTrue(results["PORT_CREATED"].Where(x => x.Identity.Contains("13000")).Count() > 0);
+            Assert.IsTrue(results.ContainsKey((RESULT_TYPE.PORT, CHANGE_TYPE.CREATED)));
+            Assert.IsTrue(results[(RESULT_TYPE.PORT, CHANGE_TYPE.CREATED)].Any(x => x.Identity.Contains("13000")));
         }
 
         /// <summary>
@@ -223,8 +223,8 @@ namespace AttackSurfaceAnalyzer.Tests
 
                 var results = bc.Results;
 
-                Assert.IsTrue(results.ContainsKey("FIREWALL_CREATED"));
-                Assert.IsTrue(results["FIREWALL_CREATED"].Where(x => x.Identity.Contains("/bin/bash")).Count() > 0);
+                Assert.IsTrue(results.ContainsKey((RESULT_TYPE.FIREWALL, CHANGE_TYPE.CREATED)));
+                Assert.IsTrue(results[(RESULT_TYPE.FIREWALL, CHANGE_TYPE.CREATED)].Where(x => x.Identity.Contains("/bin/bash")).Count() > 0);
             }
         }
 
@@ -259,8 +259,8 @@ namespace AttackSurfaceAnalyzer.Tests
 
                 var results = bc.Results;
 
-                Assert.IsTrue(results.ContainsKey("FIREWALL_CREATED"));
-                Assert.IsTrue(results["FIREWALL_CREATED"].Where(x => x.Identity.Contains("9999")).Count() > 0);
+                Assert.IsTrue(results.ContainsKey((RESULT_TYPE.FIREWALL,CHANGE_TYPE.CREATED)));
+                Assert.IsTrue(results[(RESULT_TYPE.FIREWALL, CHANGE_TYPE.CREATED)].Where(x => x.Identity.Contains("9999")).Count() > 0);
             }
         }
 
@@ -300,8 +300,8 @@ namespace AttackSurfaceAnalyzer.Tests
 
                 bc.TryCompare(FirstRunId, SecondRunId);
 
-                Assert.IsTrue(bc.Results.ContainsKey("REGISTRY_CREATED"));
-                Assert.IsTrue(bc.Results["REGISTRY_CREATED"].Where(x => x.Identity.Contains(name)).Count() > 0);
+                Assert.IsTrue(bc.Results.ContainsKey((RESULT_TYPE.REGISTRY,CHANGE_TYPE.CREATED)));
+                Assert.IsTrue(bc.Results[(RESULT_TYPE.REGISTRY, CHANGE_TYPE.CREATED)].Where(x => x.Identity.Contains(name)).Count() > 0);
             }
         }
 
@@ -342,8 +342,8 @@ namespace AttackSurfaceAnalyzer.Tests
 
                 var results = bc.Results;
 
-                Assert.IsTrue(results.ContainsKey("SERVICE_CREATED"));
-                Assert.IsTrue(results["SERVICE_CREATED"].Where(x => x.Identity.Contains("AsaDemoService")).Count() > 0);
+                Assert.IsTrue(results.ContainsKey((RESULT_TYPE.SERVICE,CHANGE_TYPE.CREATED)));
+                Assert.IsTrue(results[(RESULT_TYPE.SERVICE, CHANGE_TYPE.CREATED)].Where(x => x.Identity.Contains("AsaDemoService")).Count() > 0);
             }
         }
 
@@ -402,8 +402,8 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
 
                 var results = bc.Results;
-                Assert.IsTrue(results.ContainsKey("USER_CREATED"));
-                Assert.IsTrue(results["USER_CREATED"].Where(x => x.Identity.Contains(user)).Count() > 0);
+                Assert.IsTrue(results.ContainsKey((RESULT_TYPE.USER,CHANGE_TYPE.CREATED)));
+                Assert.IsTrue(results[(RESULT_TYPE.USER, CHANGE_TYPE.CREATED)].Where(x => x.Identity.Contains(user)).Count() > 0);
             }
         }
 
@@ -460,9 +460,9 @@ namespace AttackSurfaceAnalyzer.Tests
 
                 var results = bc.Results;
 
-                Assert.IsTrue(results.ContainsKey("FIREWALL_CREATED"));
-                Assert.IsTrue(results["FIREWALL_CREATED"].Where(x => ((FirewallObject)x.Compare).LocalPorts.Contains("9999")).Count() > 0);
-                Assert.IsTrue(results["FIREWALL_CREATED"].Where(x => x.Identity.Contains("MyApp.exe")).Count() > 0);
+                Assert.IsTrue(results.ContainsKey((RESULT_TYPE.FIREWALL,CHANGE_TYPE.CREATED)));
+                Assert.IsTrue(results[(RESULT_TYPE.FIREWALL, CHANGE_TYPE.CREATED)].Where(x => ((FirewallObject)x.Compare).LocalPorts.Contains("9999")).Count() > 0);
+                Assert.IsTrue(results[(RESULT_TYPE.FIREWALL, CHANGE_TYPE.CREATED)].Where(x => x.Identity.Contains("MyApp.exe")).Count() > 0);
             }
         }
     }
