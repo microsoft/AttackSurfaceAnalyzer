@@ -1108,7 +1108,6 @@ namespace AttackSurfaceAnalyzer.Cli
                     Log.Debug("Completed flushing in {0}", answer);
 
                     DatabaseManager.Commit();
-                    EndEvent.Add(c.GetType().ToString(), c.NumCollected().ToString(CultureInfo.InvariantCulture));
                 }
                 catch (Exception e)
                 {
