@@ -159,7 +159,7 @@ namespace AttackSurfaceAnalyzer.Tests
             try
             {
                 // Set the TcpListener on port 13000.
-                Int32 port = 13000;
+                int port = 13000;
                 IPAddress localAddr = IPAddress.Parse("127.0.0.1");
 
                 // TcpListener server = new TcpListener(port);
