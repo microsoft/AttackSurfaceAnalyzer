@@ -28,7 +28,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         }
 
-
         /// <summary>
         /// Uses a library to access the Windows Firewall.
         /// </summary>
@@ -58,7 +57,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         obj.LocalPorts = rule.LocalPorts.ToList().ConvertAll(port => port.ToString(CultureInfo.InvariantCulture));
                         obj.RemoteAddresses = rule.RemoteAddresses.ToList().ConvertAll(address => address.ToString());
                         obj.RemotePorts = rule.RemotePorts.ToList().ConvertAll(port => port.ToString(CultureInfo.InvariantCulture));
-                        DatabaseManager.Write(obj, RunId);
+                        Results.Enqueue(obj);
                     }
                     catch (Exception e)
                     {
@@ -105,7 +104,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             obj.Direction = chainName.Equals("INPUT") ? FirewallDirection.Inbound : FirewallDirection.Outbound;
                         }
 
-                        DatabaseManager.Write(obj, RunId);
+                        Results.Enqueue(obj);
                     }
                     else if (line.StartsWith("-A"))
                     {
@@ -146,7 +145,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             obj.Direction = chainName.Equals("INPUT") ? FirewallDirection.Inbound : FirewallDirection.Outbound;
                         }
 
-                        DatabaseManager.Write(obj, RunId);
+                        Results.Enqueue(obj);
                     }
                 }
             }
@@ -168,7 +167,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 FriendlyName = "Firewall Enabled",
                 Scope = FirewallScope.All
             };
-            DatabaseManager.Write(obj, RunId);
+            Results.Enqueue(obj);
 
             // Example output: "Stealth mode disabled"
             result = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--getglobalstate");
@@ -180,7 +179,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 FriendlyName = "Stealth Mode",
                 Scope = FirewallScope.All
             };
-            DatabaseManager.Write(obj, RunId);
+            Results.Enqueue(obj);
 
             /* Example Output:
              * Automatically allow signed built-in software ENABLED
@@ -194,7 +193,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 FriendlyName = "Allow signed built-in software",
                 Scope = FirewallScope.All
             };
-            DatabaseManager.Write(obj, RunId);
+            Results.Enqueue(obj);
 
             obj = new FirewallObject("Allow downloaded signed software")
             {
@@ -204,7 +203,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 FriendlyName = "Allow downloaded signed software",
                 Scope = FirewallScope.All
             };
-            DatabaseManager.Write(obj, RunId);
+            Results.Enqueue(obj);
 
             /* Example Output:
 ALF: total number of apps = 2 
@@ -236,7 +235,7 @@ ALF: total number of apps = 2
                             FriendlyName = appName,
                             Scope = FirewallScope.All
                         };
-                        DatabaseManager.Write(obj, RunId);
+                        Results.Enqueue(obj);
                     }
                 }
             }
