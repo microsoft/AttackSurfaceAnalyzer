@@ -25,20 +25,17 @@ namespace AttackSurfaceAnalyzer.Tests
             Logger.Setup(false, true);
             Strings.Setup();
             AsaTelemetry.Setup(test: true);
-            DatabaseManager.Setup(Path.GetTempFileName());
         }
 
         [TestCleanup]
         public void TearDown()
         {
-            DatabaseManager.Destroy();
         }
 
         [TestMethod]
         public void TestFileCollector()
         {
             var FirstRunId = "TestFileCollector-1";
-            var SecondRunId = "TestFileCollector-2";
 
             var testFolder = AsaHelpers.GetTempFolder();
             Directory.CreateDirectory(testFolder);
@@ -52,11 +49,6 @@ namespace AttackSurfaceAnalyzer.Tests
                 DownloadCloud = false,
                 CertificatesFromFiles = false
             };
-
-            var fsc = new FileSystemCollector(opts);
-            fsc.Execute();
-
-            fsc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, FirstRunId));
 
             using (var file = File.Open(Path.Combine(testFolder, "AsaLibTesterMZ"), FileMode.OpenOrCreate))
             {
@@ -72,27 +64,11 @@ namespace AttackSurfaceAnalyzer.Tests
                 file.Close();
             }
 
-            opts.RunId = SecondRunId;
-
-            fsc = new FileSystemCollector(opts);
+            var fsc = new FileSystemCollector(opts);
             fsc.Execute();
 
-            Assert.IsTrue(fsc.Results.Any(x => x is FileSystemObject FSO && FSO.Path.EndsWith("AsaLibTesterMZ")));
-            Assert.IsTrue(fsc.Results.Any(x => x is FileSystemObject FSO && FSO.Path.EndsWith("AsaLibTesterJavaClass")));
-
-            fsc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, SecondRunId));
-
-            BaseCompare bc = new BaseCompare();
-            if (!bc.TryCompare(FirstRunId, SecondRunId))
-            {
-                Assert.Fail();
-            }
-
-            var results = bc.Results;
-
-            Assert.IsTrue(results.ContainsKey((RESULT_TYPE.FILE, CHANGE_TYPE.CREATED)));
-            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.CREATED)].Any(x => x.Identity.Contains("AsaLibTesterMZ") && ((FileSystemObject)x.Compare).IsExecutable == true));
-            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.CREATED)].Any(x => x.Identity.Contains("AsaLibTesterJavaClass") && ((FileSystemObject)x.Compare).IsExecutable == true));
+            Assert.IsTrue(fsc.Results.Any(x => x is FileSystemObject FSO && FSO.Path.EndsWith("AsaLibTesterJavaClass") && FSO.IsExecutable == true));
+            Assert.IsTrue(fsc.Results.Any(x => x is FileSystemObject FSO && FSO.Path.EndsWith("AsaLibTesterMZ") && FSO.IsExecutable == true));
         }
 
         /// <summary>
@@ -102,11 +78,6 @@ namespace AttackSurfaceAnalyzer.Tests
         public void TestEventCollectorWindows()
         {
             var FirstRunId = "TestEventCollector-1";
-            var SecondRunId = "TestEventCollector-2";
-
-            var fsc = new EventLogCollector(FirstRunId);
-            fsc.Execute();
-            fsc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, FirstRunId));
 
 
             using (EventLog eventLog = new EventLog("Application"))
@@ -115,22 +86,11 @@ namespace AttackSurfaceAnalyzer.Tests
                 eventLog.WriteEntry("This Log Entry was created for testing the Attack Surface Analyzer library.", EventLogEntryType.Warning, 101, 1);
             }
 
-            fsc = new EventLogCollector(SecondRunId);
+            var fsc = new EventLogCollector(FirstRunId);
             fsc.Execute();
+            fsc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, FirstRunId));
 
             Assert.IsTrue(fsc.Results.Any(x => x is EventLogObject ELO && ELO.Source == "Attack Surface Analyzer Tests"));
-
-            fsc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, SecondRunId));
-
-            BaseCompare bc = new BaseCompare();
-            if (!bc.TryCompare(FirstRunId, SecondRunId))
-            {
-                Assert.Fail();
-            }
-
-            var results = bc.Results;
-
-            Assert.IsTrue(results[(RESULT_TYPE.LOG, CHANGE_TYPE.CREATED)].Any(x => x.Compare is EventLogObject ELO && ELO.Level == "Warning" && ELO.Source == "Attack Surface Analyzer Tests"));
         }
 
         /// <summary>
@@ -156,11 +116,6 @@ namespace AttackSurfaceAnalyzer.Tests
             var FirstRunId = "TestPortCollector-1";
             var SecondRunId = "TestPortCollector-2";
 
-            var fsc = new OpenPortCollector(FirstRunId);
-            fsc.Execute();
-
-            fsc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, FirstRunId));
-
             TcpListener server = null;
             try
             {
@@ -178,26 +133,11 @@ namespace AttackSurfaceAnalyzer.Tests
             {
                 Console.WriteLine("Failed to open port.");
             }
-
-            fsc = new OpenPortCollector(SecondRunId);
+            var fsc = new OpenPortCollector(FirstRunId);
             fsc.Execute();
-
-            Assert.IsTrue(fsc.Results.Any(x => x is OpenPortObject OPO && OPO.Port == 13000));
-
             server.Stop();
 
-            fsc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, SecondRunId));
-
-            BaseCompare bc = new BaseCompare();
-            if (!bc.TryCompare(FirstRunId, SecondRunId))
-            {
-                Assert.Fail();
-            }
-
-            var results = bc.Results;
-
-            Assert.IsTrue(results.ContainsKey((RESULT_TYPE.PORT, CHANGE_TYPE.CREATED)));
-            Assert.IsTrue(results[(RESULT_TYPE.PORT, CHANGE_TYPE.CREATED)].Any(x => x.Identity.Contains("13000")));
+            Assert.IsTrue(fsc.Results.Any(x => x is OpenPortObject OPO && OPO.Port == 13000));
         }
 
         /// <summary>
@@ -210,32 +150,12 @@ namespace AttackSurfaceAnalyzer.Tests
             {
                 var FirstRunId = "TestFirewallCollector-1";
                 var SecondRunId = "TestFirewallCollector-2";
+                _ = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--add /bin/bash");
 
                 var fwc = new FirewallCollector(FirstRunId);
                 fwc.Execute();
-                fwc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, FirstRunId));
-
-                _ = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--add /bin/bash");
-
-                fwc = new FirewallCollector(SecondRunId);
-                fwc.Execute();
-
-                Assert.IsTrue(fwc.Results.Any(x => x is FirewallObject FWO && FWO.ApplicationName == "/bin/bash"));
-
-                fwc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, SecondRunId));
-
                 _ = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--remove /bin/bash");
-
-                BaseCompare bc = new BaseCompare();
-                if (!bc.TryCompare(FirstRunId, SecondRunId))
-                {
-                    Assert.Fail();
-                }
-
-                var results = bc.Results;
-
-                Assert.IsTrue(results.ContainsKey((RESULT_TYPE.FIREWALL, CHANGE_TYPE.CREATED)));
-                Assert.IsTrue(results[(RESULT_TYPE.FIREWALL, CHANGE_TYPE.CREATED)].Where(x => x.Identity.Contains("/bin/bash")).Count() > 0);
+                Assert.IsTrue(fwc.Results.Any(x => x is FirewallObject FWO && FWO.ApplicationName == "/bin/bash"));
             }
         }
 
@@ -249,178 +169,17 @@ namespace AttackSurfaceAnalyzer.Tests
             {
                 var FirstRunId = "TestFirewallCollector-1";
                 var SecondRunId = "TestFirewallCollector-2";
+                var result = ExternalCommandRunner.RunExternalCommand("iptables", "-A INPUT -p tcp --dport 19999 -j DROP");
 
                 var fwc = new FirewallCollector(FirstRunId);
                 fwc.Execute();
-                fwc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, FirstRunId));
 
-                var result = ExternalCommandRunner.RunExternalCommand("iptables", "-A INPUT -p tcp --dport 19999 -j DROP");
-
-                fwc = new FirewallCollector(SecondRunId);
-                fwc.Execute();
-                fwc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, SecondRunId));
+                Assert.IsTrue(fwc.Results.Any(x => x is FirewallObject FWO && FWO.LocalPorts.Contains("19999")));
 
                 result = ExternalCommandRunner.RunExternalCommand("iptables", "-D INPUT -p tcp --dport 19999 -j DROP");
-
-                BaseCompare bc = new BaseCompare();
-                if (!bc.TryCompare(FirstRunId, SecondRunId))
-                {
-                    Assert.Fail();
-                }
-
-                var results = bc.Results;
-
-                Assert.IsTrue(results.ContainsKey((RESULT_TYPE.FIREWALL,CHANGE_TYPE.CREATED)));
-                Assert.IsTrue(results[(RESULT_TYPE.FIREWALL, CHANGE_TYPE.CREATED)].Where(x => x.Identity.Contains("9999")).Count() > 0);
             }
         }
 
-        /// <summary>
-        /// Does not require administrator.
-        /// </summary>
-        [TestMethod]
-        public void TestRegistryCollectorWindows()
-        {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                var FirstRunId = "TestRegistryCollector-1";
-                var SecondRunId = "TestRegistryCollector-2";
-
-                var rc = new RegistryCollector(FirstRunId, new List<RegistryHive>() { RegistryHive.CurrentUser }, true);
-                rc.Execute();
-                rc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, FirstRunId));
-
-                // Create a registry key
-                var name = Guid.NewGuid().ToString();
-                var value = Guid.NewGuid().ToString();
-                var value2 = Guid.NewGuid().ToString();
-
-                RegistryKey key;
-                key = Registry.CurrentUser.CreateSubKey(name);
-                key.SetValue(value, value2);
-                key.Close();
-
-                rc = new RegistryCollector(SecondRunId, new List<RegistryHive>() { RegistryHive.CurrentUser }, true);
-                rc.Execute();
-
-                Assert.IsTrue(rc.Results.Any(x => x is RegistryObject RO && RO.Key.EndsWith(name)));
-                Assert.IsTrue(rc.Results.Any(x => x is RegistryObject RO && RO.Key.EndsWith(name) && RO.Values.ContainsKey(value) && RO.Values[value] == value2));
-
-                rc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, SecondRunId));
-
-                // Clean up
-                Registry.CurrentUser.DeleteSubKey(name);
-
-                BaseCompare bc = new BaseCompare();
-
-                bc.TryCompare(FirstRunId, SecondRunId);
-
-                Assert.IsTrue(bc.Results.ContainsKey((RESULT_TYPE.REGISTRY,CHANGE_TYPE.CREATED)));
-                Assert.IsTrue(bc.Results[(RESULT_TYPE.REGISTRY, CHANGE_TYPE.CREATED)].Any(x => x.Compare is RegistryObject RO && RO.Key.EndsWith(name)));
-            }
-        }
-
-        /// <summary>
-        /// Requires Administrator Priviledges.
-        /// </summary>
-        [TestMethod]
-        public void TestServiceCollectorWindows()
-        {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                var FirstRunId = "TestServiceCollector-1";
-                var SecondRunId = "TestServiceCollector-2";
-
-                var fwc = new ServiceCollector(FirstRunId);
-                fwc.Execute();
-                fwc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, FirstRunId));
-
-                // Create a service - This won't throw an exception, but it won't work if you are not an Admin.
-                var serviceName = "AsaDemoService";
-                var exeName = "AsaDemoService.exe";
-                var cmd = string.Format("create {0} binPath=\"{1}\"", serviceName, exeName);
-                ExternalCommandRunner.RunExternalCommand("sc.exe", cmd);
-
-                fwc = new ServiceCollector(SecondRunId);
-                fwc.Execute();
-                fwc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, SecondRunId));
-
-                // Clean up
-                cmd = string.Format("delete {0}", serviceName);
-                ExternalCommandRunner.RunExternalCommand("sc.exe", cmd);
-
-                BaseCompare bc = new BaseCompare();
-                if (!bc.TryCompare(FirstRunId, SecondRunId))
-                {
-                    Assert.Fail();
-                }
-
-                var results = bc.Results;
-
-                Assert.IsTrue(results.ContainsKey((RESULT_TYPE.SERVICE,CHANGE_TYPE.CREATED)));
-                Assert.IsTrue(results[(RESULT_TYPE.SERVICE, CHANGE_TYPE.CREATED)].Where(x => x.Identity.Contains("AsaDemoService")).Count() > 0);
-            }
-        }
-
-        /// <summary>
-        /// Requires admin.
-        /// </summary>
-        [TestMethod]
-        public void TestComObjectCollector()
-        {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                var FirstRunId = "TestComObjectCollector-1";
-
-                var coc = new ComObjectCollector(FirstRunId);
-                coc.Execute();
-
-                Assert.IsTrue(coc.Results.Where(x => x is ComObject y && y.x86_Binary != null).Count() > 0);
-            }
-        }
-
-        /// <summary>
-        /// Requires Administrator Priviledges.
-        /// </summary>
-        [TestMethod]
-        public void TestUserCollectorWindows()
-        {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                Assert.IsTrue(AsaHelpers.IsAdmin());
-                var FirstRunId = "TestUserCollector-1";
-                var SecondRunId = "TestUserCollector-2";
-
-                var fwc = new UserAccountCollector(FirstRunId);
-                fwc.Execute();
-                fwc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, FirstRunId));
-
-                var user = System.Guid.NewGuid().ToString().Substring(0, 10);
-                var password = "$"+CryptoHelpers.GetRandomString(13);
-
-                var cmd = string.Format("user /add {0} {1}", user, password);
-                ExternalCommandRunner.RunExternalCommand("net", cmd);
-
-                var serviceName = System.Guid.NewGuid();
-
-                fwc = new UserAccountCollector(SecondRunId);
-                fwc.Execute();
-                fwc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, SecondRunId));
-
-                cmd = string.Format("user /delete {0}", user);
-                ExternalCommandRunner.RunExternalCommand("net", cmd);
-
-                BaseCompare bc = new BaseCompare();
-                if (!bc.TryCompare(FirstRunId, SecondRunId))
-                {
-                    Assert.Fail();
-                }
-
-                var results = bc.Results;
-                Assert.IsTrue(results.ContainsKey((RESULT_TYPE.USER,CHANGE_TYPE.CREATED)));
-                Assert.IsTrue(results[(RESULT_TYPE.USER, CHANGE_TYPE.CREATED)].Where(x => x.Identity.Contains(user)).Count() > 0);
-            }
-        }
 
         [TestMethod]
         public void TestFirewallCollectorWindows()
@@ -429,11 +188,6 @@ namespace AttackSurfaceAnalyzer.Tests
             {
                 Assert.IsTrue(AsaHelpers.IsAdmin());
                 var FirstRunId = "TestFirewallCollector-1";
-                var SecondRunId = "TestFirewallCollector-2";
-
-                var fwc = new FirewallCollector(FirstRunId);
-                fwc.Execute();
-                fwc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, FirstRunId));
 
                 var rule = FirewallManager.Instance.CreatePortRule(
                     @"TestFirewallPortRule",
@@ -451,9 +205,13 @@ namespace AttackSurfaceAnalyzer.Tests
                 rule.Direction = FirewallDirection.Outbound;
                 FirewallManager.Instance.Rules.Add(rule);
 
-                fwc = new FirewallCollector(SecondRunId);
+
+                var fwc = new FirewallCollector(FirstRunId);
                 fwc.Execute();
-                fwc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, SecondRunId));
+
+                Assert.IsTrue(fwc.Results.Any(x => x is FirewallObject FWO && FWO.LocalPorts.Equals("9999")));
+                Assert.IsTrue(fwc.Results.Any(x => x is FirewallObject FWO && FWO.ApplicationName.Equals("MyApp.exe")));
+
 
                 var rules = FirewallManager.Instance.Rules.Where(r => r.Name == "TestFirewallPortRule");
                 foreach (var ruleIn in rules)
@@ -466,18 +224,108 @@ namespace AttackSurfaceAnalyzer.Tests
                 {
                     FirewallManager.Instance.Rules.Remove(ruleIn);
                 }
+            }
+        }
 
-                BaseCompare bc = new BaseCompare();
-                if (!bc.TryCompare(FirstRunId, SecondRunId))
-                {
-                    Assert.Fail();
-                }
+        /// <summary>
+        /// Does not require administrator.
+        /// </summary>
+        [TestMethod]
+        public void TestRegistryCollectorWindows()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                var FirstRunId = "TestRegistryCollector-1";
 
-                var results = bc.Results;
+                // Create a registry key
+                var name = Guid.NewGuid().ToString();
+                var value = Guid.NewGuid().ToString();
+                var value2 = Guid.NewGuid().ToString();
 
-                Assert.IsTrue(results.ContainsKey((RESULT_TYPE.FIREWALL,CHANGE_TYPE.CREATED)));
-                Assert.IsTrue(results[(RESULT_TYPE.FIREWALL, CHANGE_TYPE.CREATED)].Where(x => ((FirewallObject)x.Compare).LocalPorts.Contains("9999")).Count() > 0);
-                Assert.IsTrue(results[(RESULT_TYPE.FIREWALL, CHANGE_TYPE.CREATED)].Where(x => x.Identity.Contains("MyApp.exe")).Count() > 0);
+                RegistryKey key;
+                key = Registry.CurrentUser.CreateSubKey(name);
+                key.SetValue(value, value2);
+                key.Close();
+
+                var rc = new RegistryCollector(FirstRunId, new List<RegistryHive>() { RegistryHive.CurrentUser }, true);
+                rc.Execute();
+
+                Registry.CurrentUser.DeleteSubKey(name);
+
+                Assert.IsTrue(rc.Results.Any(x => x is RegistryObject RO && RO.Key.EndsWith(name)));
+                Assert.IsTrue(rc.Results.Any(x => x is RegistryObject RO && RO.Key.EndsWith(name) && RO.Values.ContainsKey(value) && RO.Values[value] == value2));
+            }
+        }
+
+        /// <summary>
+        /// Requires Administrator Priviledges.
+        /// </summary>
+        [TestMethod]
+        public void TestServiceCollectorWindows()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                var FirstRunId = "TestServiceCollector-1";
+                var SecondRunId = "TestServiceCollector-2";
+
+                // Create a service - This won't throw an exception, but it won't work if you are not an Admin.
+                var serviceName = "AsaDemoService";
+                var exeName = "AsaDemoService.exe";
+                var cmd = string.Format("create {0} binPath=\"{1}\"", serviceName, exeName);
+                ExternalCommandRunner.RunExternalCommand("sc.exe", cmd);
+
+                var sc = new ServiceCollector(FirstRunId);
+                sc.Execute();
+
+                Assert.IsTrue(sc.Results.Any(x => x is ServiceObject RO && RO.Name.Equals(serviceName)));
+
+                // Clean up
+                cmd = string.Format("delete {0}", serviceName);
+                ExternalCommandRunner.RunExternalCommand("sc.exe", cmd);
+            }
+        }
+
+        /// <summary>
+        /// Requires admin.
+        /// </summary>
+        [TestMethod]
+        public void TestComObjectCollector()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                var FirstRunId = "TestComObjectCollector-1";
+
+                var coc = new ComObjectCollector(FirstRunId);
+                coc.Execute();
+
+                Assert.IsTrue(coc.Results.Any(x => x is ComObject y && y.x86_Binary != null));
+            }
+        }
+
+        /// <summary>
+        /// Requires Administrator Priviledges.
+        /// </summary>
+        [TestMethod]
+        public void TestUserCollectorWindows()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                Assert.IsTrue(AsaHelpers.IsAdmin());
+                var FirstRunId = "TestUserCollector-1";
+
+                var user = System.Guid.NewGuid().ToString().Substring(0, 10);
+                var password = "$" + CryptoHelpers.GetRandomString(13);
+
+                var cmd = string.Format("user /add {0} {1}", user, password);
+                ExternalCommandRunner.RunExternalCommand("net", cmd);
+
+                var uac = new UserAccountCollector(FirstRunId);
+                uac.Execute();
+
+                Assert.IsTrue(uac.Results.Any(x => x is UserAccountObject y && y.Name.Equals(user)));
+
+                cmd = string.Format("user /delete {0}", user);
+                ExternalCommandRunner.RunExternalCommand("net", cmd);
             }
         }
     }
