@@ -69,13 +69,14 @@ namespace AttackSurfaceAnalyzer.Collectors
                 if (different.RunId.Equals(firstRunId))
                 {
                     obj.Base = colObj;
+                    Results[(colObj.ResultType, CHANGE_TYPE.DELETED)].Enqueue(obj);
                 }
                 else if (different.RunId.Equals(secondRunId))
                 {
                     obj.Compare = colObj;
+                    Results[(colObj.ResultType, CHANGE_TYPE.CREATED)].Enqueue(obj);
                 }
 
-                Results[(colObj.ResultType, CHANGE_TYPE.CREATED)].Enqueue(obj);
             });
 
             modifyObjects.AsParallel().ForAll(modified =>
