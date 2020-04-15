@@ -38,7 +38,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 foreach (StoreName storeName in (StoreName[])Enum.GetValues(typeof(StoreName)))
                 {
-                    var objList = new List<CollectObject>();
                     try
                     {
                         using X509Store store = new X509Store(storeName, storeLocation);
@@ -114,7 +113,6 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// </summary>
         public void ExecuteMacOs()
         {
-            var objList = new List<CollectObject>();
             try
             {
                 if (ExternalCommandRunner.RunExternalCommand("security", "find-certificate -ap /System/Library/Keychains/SystemRootCertificates.keychain", out string result, out string _) == 0)
