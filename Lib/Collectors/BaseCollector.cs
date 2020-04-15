@@ -22,10 +22,6 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         public string RunId { get; set; } = "";
 
-        private RUN_STATUS _running = RUN_STATUS.NOT_STARTED;
-
-        private readonly int _numCollected = 0;
-
         public ConcurrentQueue<CollectObject> Results { get; } = new ConcurrentQueue<CollectObject>();
 
         public void Execute()
@@ -50,22 +46,19 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public RUN_STATUS RunStatus
         {
-            get
-            {
-                return _running;
-            }
+            get; private set;
         }
 
         public void Start()
         {
-            _running = RUN_STATUS.RUNNING;
+            RunStatus = RUN_STATUS.RUNNING;
             watch = System.Diagnostics.Stopwatch.StartNew();
             Log.Information(Strings.Get("Starting"), GetType().Name);
         }
 
         public void Stop()
         {
-            _running = RUN_STATUS.COMPLETED;
+            RunStatus = RUN_STATUS.COMPLETED;
             watch?.Stop();
             TimeSpan t = TimeSpan.FromMilliseconds(watch?.ElapsedMilliseconds ?? 0);
             string answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
@@ -77,13 +70,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             var EndEvent = new Dictionary<string, string>();
             EndEvent.Add("Scanner", GetType().Name);
             EndEvent.Add("Duration", watch?.ElapsedMilliseconds.ToString(CultureInfo.InvariantCulture) ?? "");
-            EndEvent.Add("NumResults", _numCollected.ToString(CultureInfo.InvariantCulture));
             AsaTelemetry.TrackEvent("EndScanFunction", EndEvent);
-        }
-
-        public int NumCollected()
-        {
-            return _numCollected;
         }
     }
 }
