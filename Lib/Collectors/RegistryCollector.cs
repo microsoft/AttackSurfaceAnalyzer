@@ -56,7 +56,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                         if (regObj != null)
                         {
-                            DatabaseManager.Write(regObj, RunId);
+                            Results.Add(regObj);
                         }
                     }
                     catch (InvalidOperationException e)

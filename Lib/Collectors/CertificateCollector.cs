@@ -4,10 +4,13 @@ using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using Serilog;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -35,6 +38,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 foreach (StoreName storeName in (StoreName[])Enum.GetValues(typeof(StoreName)))
                 {
+                    var objList = new List<CollectObject>();
                     try
                     {
                         using X509Store store = new X509Store(storeName, storeLocation);
@@ -49,9 +53,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                             {
                                 Pkcs7 = Convert.ToBase64String(certificate.Export(X509ContentType.Cert))
                             };
-                            DatabaseManager.Write(obj, RunId);
+                            Results.Add(obj);
                         }
-
                         store.Close();
                     }
                     catch (CryptographicException e)
@@ -86,8 +89,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             {
                                 Pkcs7 = Convert.ToBase64String(certificate.Export(X509ContentType.Cert))
                             };
-
-                            DatabaseManager.Write(obj, RunId);
+                            Results.Add(obj);
                         }
                         catch (Exception e)
                         {
@@ -112,6 +114,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// </summary>
         public void ExecuteMacOs()
         {
+            var objList = new List<CollectObject>();
             try
             {
                 if (ExternalCommandRunner.RunExternalCommand("security", "find-certificate -ap /System/Library/Keychains/SystemRootCertificates.keychain", out string result, out string _) == 0)
@@ -141,7 +144,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             {
                                 Pkcs7 = Convert.ToBase64String(certificate.Export(X509ContentType.Cert))
                             };
-                            DatabaseManager.Write(obj, RunId);
+                            Results.Add(obj);
                         }
                     }
                     else

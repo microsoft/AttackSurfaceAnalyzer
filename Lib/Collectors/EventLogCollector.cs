@@ -28,19 +28,19 @@ namespace AttackSurfaceAnalyzer.Collectors
             this.GatherVerboseLogs = GatherVerboseLogs;
         }
 
-        public override void ExecuteInternal()
+        public override IEnumerable<CollectObject> ExecuteInternal()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                ExecuteWindows();
+                return ExecuteWindows();
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                ExecuteLinux();
+                return ExecuteLinux();
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                ExecuteMacOs();
+                return ExecuteMacOs();
             }
         }
 
@@ -49,7 +49,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// Collect event logs on Windows using System.Diagnostics.EventLog
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Official documentation for this functionality does not specify what exceptions it throws. https://docs.microsoft.com/en-us/dotnet/api/system.diagnostics.eventlogentrycollection?view=netcore-3.0")]
-        public void ExecuteWindows()
+        public IEnumerable<CollectObject> ExecuteWindows()
         {
             EventLog[] logs = EventLog.GetEventLogs();
             foreach (var log in logs)
@@ -97,7 +97,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <summary>
         /// Parses /var/log/auth.log and /var/log/syslog (no way to distinguish severity)
         /// </summary>
-        public void ExecuteLinux()
+        public IEnumerable<CollectObject> ExecuteLinux()
         {
             Regex LogHeader = new Regex("^([A-Z][a-z][a-z][0-9:\\s]*)?[\\s].*?[\\s](.*?): (.*)", RegexOptions.Compiled);
 
@@ -184,7 +184,10 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                     if (evt != null && MacLogHeader.IsMatch(evt))
                     {
-                        DatabaseManager.Write(curObject, RunId);
+                        if (curObject != null)
+                        {
+                            Results.Add(curObject);
+                        }
 
                         curObject = new EventLogObject(evt)
                         {
@@ -210,7 +213,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                 }
                 process.WaitForExit();
-                DatabaseManager.Write(curObject, RunId);
+                if (curObject != null)
+                {
+                    Results.Add(curObject);
+                }
             }
             catch (Exception e)
             {

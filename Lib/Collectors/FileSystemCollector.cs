@@ -98,7 +98,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 FileSystemObject obj = FilePathToFileSystemObject(Path, downloadCloud, INCLUDE_CONTENT_HASH);
                 if (obj != null)
                 {
-                    DatabaseManager.Write(obj, RunId);
+                    Results.Add(obj);
                     if (examineCertificates &&
                         Path.EndsWith(".cer", StringComparison.CurrentCulture) ||
                         Path.EndsWith(".der", StringComparison.CurrentCulture) ||
@@ -117,7 +117,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 Pkcs7 = Convert.ToBase64String(certificate.Export(X509ContentType.Cert))
                             };
 
-                            DatabaseManager.Write(certObj, RunId);
+                            Results.Add(certObj);
                         }
                         catch (Exception e) when (
                             e is System.Security.Cryptography.CryptographicException

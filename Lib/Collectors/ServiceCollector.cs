@@ -115,7 +115,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         if (!string.IsNullOrEmpty(val))
                             obj.WaitHint = uint.Parse(val, CultureInfo.InvariantCulture);
 
-                        DatabaseManager.Write(obj, RunId);
+                        Results.Add(obj);
                     }
                 }
                 catch (Exception e) when (
@@ -138,7 +138,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     InstallDate = fso.Created
                 };
 
-                DatabaseManager.Write(obj,RunId);
+                Results.Add(obj);
             }
         }
 
@@ -166,7 +166,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             State = _fields[3],
                         };
 
-                        DatabaseManager.Write(obj, RunId);
+                        Results.Add(obj);
                     }
                 }
             }
@@ -193,7 +193,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         DisplayName = serviceName,
                     };
 
-                    DatabaseManager.Write(obj, RunId);
+                    Results.Add(obj);
                 }
             }
             catch (ExternalException)
@@ -239,7 +239,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     };
                     if (!outDict.ContainsKey(obj.Identity))
                     {
-                        DatabaseManager.Write(obj, RunId);
+                        Results.Add(obj);
                         outDict.Add(obj.Identity, obj);
                     }
                 }

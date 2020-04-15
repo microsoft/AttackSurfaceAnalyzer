@@ -200,12 +200,12 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             foreach (var user in users)
             {
-                DatabaseManager.Write(user.Value, RunId);
+                Results.Add(user.Value);
             }
 
             foreach (var group in groups)
             {
-                DatabaseManager.Write(group.Value, RunId);
+                Results.Add(group.Value);
             }
         }
 
@@ -313,11 +313,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                         Groups[group].Users.Add(username);
                     }
                 }
-                DatabaseManager.Write(accountDetails[username], RunId);
+                Results.Add(accountDetails[username]);
             }
             foreach (var group in Groups)
             {
-                DatabaseManager.Write(group.Value, RunId);
+                Results.Add(group.Value);
             }
         }
 
@@ -412,11 +412,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                 }
                 accountDetails[username].Groups.AddRange(groups);
-                DatabaseManager.Write(accountDetails[username], RunId);
+                Results.Add(accountDetails[username]);
             }
             foreach (var group in Groups)
             {
-                DatabaseManager.Write(group.Value, RunId);
+                Results.Add(group.Value);
             }
         }
     }

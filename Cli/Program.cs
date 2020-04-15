@@ -14,6 +14,7 @@ using Serilog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -1033,7 +1034,83 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 try
                 {
-                    c.Execute();
+                    DatabaseManager.BeginTransaction();
+
+                    var StopWatch = Stopwatch.StartNew();
+
+                    Task.Run(() => c.Execute());
+
+                    while(c.IsRunning() == RUN_STATUS.RUNNING)
+                    {
+                        if (c.Results.TryDequeue(out CollectObject res)){
+                            DatabaseManager.Write(res,opts.RunId);
+                        }
+                        else
+                        {
+                            Thread.Sleep(1);
+                        }
+                    }
+
+                    StopWatch.Stop();
+                    TimeSpan t = TimeSpan.FromMilliseconds(StopWatch.ElapsedMilliseconds);
+                    string answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+                                            t.Hours,
+                                            t.Minutes,
+                                            t.Seconds,
+                                            t.Milliseconds);
+                    Log.Debug(Strings.Get("Completed"), c.GetType().Name, answer);
+
+                    c.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, opts.RunId));
+
+                    var prevFlush = DatabaseManager.Connections.Select(x => x.WriteQueue.Count).Sum();
+                    var totFlush = prevFlush;
+
+                    var printInterval = 10;
+                    var currentInterval = 0;
+
+                    StopWatch = Stopwatch.StartNew();
+
+                    while (DatabaseManager.HasElements())
+                    {
+                        Thread.Sleep(1000);
+
+                        if (currentInterval++ % printInterval == 0)
+                        {
+                            var actualDuration = (currentInterval < printInterval) ? currentInterval : printInterval;
+                            var sample = DatabaseManager.Connections.Select(x => x.WriteQueue.Count).Sum();
+                            var curRate = prevFlush - sample;
+                            var totRate = (double)(totFlush - sample) / StopWatch.ElapsedMilliseconds;
+                            try
+                            {
+                                t = (curRate > 0) ? TimeSpan.FromMilliseconds(sample / ((double)curRate / (actualDuration * 1000))) : TimeSpan.FromMilliseconds(99999999); //lgtm[cs/loss-of-precision]
+                                answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+                                                        t.Hours,
+                                                        t.Minutes,
+                                                        t.Seconds,
+                                                        t.Milliseconds);
+                                Log.Debug("Flushing {0} results. ({1}/{4}s {2:0.00}/s overall {3} ETA)", sample, curRate, totRate * 1000, answer, actualDuration);
+                            }
+                            catch (Exception e) when (
+                                e is OverflowException)
+                            {
+                                Log.Debug($"Overflowed: {curRate} {totRate} {sample} {t} {answer}");
+                                Log.Debug("Flushing {0} results. ({1}/s {2:0.00}/s)", sample, curRate, totRate * 1000);
+                            }
+                            prevFlush = sample;
+                        }
+
+                    }
+
+                    StopWatch.Stop();
+                    t = TimeSpan.FromMilliseconds(StopWatch.ElapsedMilliseconds);
+                    answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+                                            t.Hours,
+                                            t.Minutes,
+                                            t.Seconds,
+                                            t.Milliseconds);
+                    Log.Debug("Completed flushing in {0}", answer);
+
+                    DatabaseManager.Commit();
                     EndEvent.Add(c.GetType().ToString(), c.NumCollected().ToString(CultureInfo.InvariantCulture));
                 }
                 catch (Exception e)

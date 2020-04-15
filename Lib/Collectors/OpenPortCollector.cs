@@ -81,7 +81,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     obj.ProcessName = p.ProcessName;
                 }
 
-                DatabaseManager.Write(obj, RunId);
+                Results.Add(obj);
             }
 
             foreach (var endpoint in properties.GetActiveUdpListeners())
@@ -95,7 +95,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     obj.ProcessName = p.ProcessName;
                 }
 
-                DatabaseManager.Write(obj, RunId);
+                Results.Add(obj);
             }
         }
 
@@ -136,7 +136,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             {
                                 Address = address
                             };
-                            DatabaseManager.Write(obj, RunId);
+                            Results.Add(obj);
                         }
 
                     }
@@ -202,7 +202,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 ProcessName = parts[0]
                             };
 
-                            DatabaseManager.Write(obj, RunId);
+                            Results.Add(obj);
                         }
                     }
                 }
