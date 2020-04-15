@@ -65,7 +65,7 @@ namespace AttackSurfaceAnalyzer.Tests
         public void VerifyEmbeddedRulesAreValid()
         {
             var analyzer = new Analyzer(AsaHelpers.GetPlatform());
-            Assert.IsTrue(analyzer.VerifyRules());
+            Assert.IsTrue(!analyzer.VerifyRules().Any());
         }
 
         [TestMethod]
@@ -789,7 +789,7 @@ namespace AttackSurfaceAnalyzer.Tests
         private bool VerifyRule(Rule rule)
         {
             var analyzer = GetAnalyzerForRule(rule);
-            return analyzer.VerifyRules();
+            return !analyzer.VerifyRules().Any();
         }
 
         private Analyzer GetAnalyzerForRule(Rule rule)

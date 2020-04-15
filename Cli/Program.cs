@@ -72,12 +72,18 @@ namespace AttackSurfaceAnalyzer.Cli
             Logger.Setup(opts.Debug, opts.Verbose, opts.Quiet);
 #endif
             var analyzer = new Analyzer(AsaHelpers.GetPlatform(), opts.AnalysisFile);
-            if (analyzer.VerifyRules())
-            {
-                return (int)ASA_ERROR.NONE;
-            }
+            var violations = analyzer.VerifyRules();
 
-            return (int)ASA_ERROR.INVALID_RULES;
+            if (violations.Any())
+            {
+                foreach (var violation in violations)
+                {
+                    Log.Warning(violation);
+                }
+                Log.Error("Encountered {0} issues with rule at {1}", violations.Count, opts.AnalysisFile ?? "Embedded");
+                return (int)ASA_ERROR.INVALID_RULES;
+            }
+            return (int)ASA_ERROR.NONE;
         }
 
         private static void SetupOrDie(string path, DBSettings? dbSettingsIn = null)
@@ -717,23 +723,31 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 watch = Stopwatch.StartNew();
                 Analyzer analyzer = new Analyzer(DatabaseManager.RunIdToPlatform(opts.FirstRunId), opts.AnalysesFile);
-                if (!analyzer.VerifyRules())
-                {
-                    Log.Warning("Rules could not be verified. Skipping analysis.");
-                    return c.Results;
-                }
 
-                if (c.Results.Count > 0)
+                var violations = analyzer.VerifyRules();
+
+                if (violations.Any())
                 {
-                    foreach (var key in c.Results.Keys)
+                    foreach (var violation in violations)
                     {
-                        if (c.Results[key] is ConcurrentQueue<CompareResult> queue)
+                        Log.Warning(violation);
+                    }
+                    Log.Error("Encountered {0} issues with rules in {1}. Skipping analysis.", violations.Count, opts.AnalysisFile ?? "Embedded");
+                }
+                else
+                {
+                    if (c.Results.Count > 0)
+                    {
+                        foreach (var key in c.Results.Keys)
                         {
-                            Parallel.ForEach(queue, (res) =>
+                            if (c.Results[key] is ConcurrentQueue<CompareResult> queue)
                             {
-                                res.Rules = analyzer.Analyze(res);
-                                res.Analysis = res.Rules.Max(x => x.Flag);
-                            });
+                                Parallel.ForEach(queue, (res) =>
+                                {
+                                    res.Rules = analyzer.Analyze(res);
+                                    res.Analysis = res.Rules.Max(x => x.Flag);
+                                });
+                            }
                         }
                     }
                 }
@@ -746,10 +760,10 @@ namespace AttackSurfaceAnalyzer.Cli
                                         t.Seconds,
                                         t.Milliseconds);
                 Log.Information(Strings.Get("Completed"), "Analysis", answer);
+
             }
 
             watch = Stopwatch.StartNew();
-
 
             if (opts.SaveToDatabase)
             {
