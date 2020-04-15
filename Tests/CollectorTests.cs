@@ -113,7 +113,6 @@ namespace AttackSurfaceAnalyzer.Tests
         public void TestPortCollectorWindows()
         {
             var FirstRunId = "TestPortCollector-1";
-            var SecondRunId = "TestPortCollector-2";
 
             TcpListener server = null;
             try
@@ -148,7 +147,7 @@ namespace AttackSurfaceAnalyzer.Tests
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
                 var FirstRunId = "TestFirewallCollector-1";
-                var SecondRunId = "TestFirewallCollector-2";
+
                 _ = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--add /bin/bash");
 
                 var fwc = new FirewallCollector(FirstRunId);
@@ -167,7 +166,7 @@ namespace AttackSurfaceAnalyzer.Tests
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
                 var FirstRunId = "TestFirewallCollector-1";
-                var SecondRunId = "TestFirewallCollector-2";
+
                 var result = ExternalCommandRunner.RunExternalCommand("iptables", "-A INPUT -p tcp --dport 19999 -j DROP");
 
                 var fwc = new FirewallCollector(FirstRunId);
@@ -207,8 +206,8 @@ namespace AttackSurfaceAnalyzer.Tests
                 var fwc = new FirewallCollector(FirstRunId);
                 fwc.Execute();
 
-                Assert.IsTrue(fwc.Results.Any(x => x is FirewallObject FWO && FWO.LocalPorts.Equals("9999")));
-                Assert.IsTrue(fwc.Results.Any(x => x is FirewallObject FWO && FWO.ApplicationName.Equals("MyApp.exe")));
+                Assert.IsTrue(fwc.Results.Any(x => x is FirewallObject FWO && FWO.LocalPorts.Contains("9999")));
+                Assert.IsTrue(fwc.Results.Any(x => x is FirewallObject FWO && FWO.ApplicationName is string && FWO.ApplicationName.Equals(@"C:\MyApp.exe")));
 
 
                 var rules = FirewallManager.Instance.Rules.Where(r => r.Name == "TestFirewallPortRule");
@@ -264,7 +263,6 @@ namespace AttackSurfaceAnalyzer.Tests
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 var FirstRunId = "TestServiceCollector-1";
-                var SecondRunId = "TestServiceCollector-2";
 
                 // Create a service - This won't throw an exception, but it won't work if you are not an Admin.
                 var serviceName = "AsaDemoService";

@@ -76,7 +76,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                     obj.Compare = colObj;
                     Results[(colObj.ResultType, CHANGE_TYPE.CREATED)].Enqueue(obj);
                 }
-
             });
 
             modifyObjects.AsParallel().ForAll(modified =>
