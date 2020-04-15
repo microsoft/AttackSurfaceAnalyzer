@@ -32,7 +32,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public FileSystemCollector(CollectCommandOptions opts)
         {
-            if (opts is null || opts.RunId is null)
+            if (opts is null)
             {
                 throw new ArgumentNullException(nameof(opts));
             }
