@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Types;
 using System.Collections.Generic;
-using System.IO;
 
 namespace AttackSurfaceAnalyzer.Objects
 {

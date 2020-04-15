@@ -211,7 +211,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
                 AsaTelemetry.SetEnabled(opts.TelemetryOptOut);
                 Log.Information(Strings.Get("TelemetryOptOut"), opts.TelemetryOptOut ? "Opted out" : "Opted in");
-                
+
                 if (opts.DeleteRunId != null)
                 {
                     DatabaseManager.DeleteRun(opts.DeleteRunId);
@@ -1053,10 +1053,11 @@ namespace AttackSurfaceAnalyzer.Cli
 
                     Thread.Sleep(1);
 
-                    while(c.RunStatus == RUN_STATUS.RUNNING)
+                    while (c.RunStatus == RUN_STATUS.RUNNING)
                     {
-                        if (c.Results.TryDequeue(out CollectObject? res)){
-                            DatabaseManager.Write(res,opts.RunId);
+                        if (c.Results.TryDequeue(out CollectObject? res))
+                        {
+                            DatabaseManager.Write(res, opts.RunId);
                         }
                         else
                         {

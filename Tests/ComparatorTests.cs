@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Collectors;
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
@@ -295,7 +297,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
                 var results = bc.Results;
 
-                Assert.IsTrue(results.ContainsKey((RESULT_TYPE.FIREWALL,CHANGE_TYPE.CREATED)));
+                Assert.IsTrue(results.ContainsKey((RESULT_TYPE.FIREWALL, CHANGE_TYPE.CREATED)));
                 Assert.IsTrue(results[(RESULT_TYPE.FIREWALL, CHANGE_TYPE.CREATED)].Where(x => x.Identity.Contains("9999")).Count() > 0);
             }
         }
@@ -345,7 +347,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
                 bc.TryCompare(FirstRunId, SecondRunId);
 
-                Assert.IsTrue(bc.Results.ContainsKey((RESULT_TYPE.REGISTRY,CHANGE_TYPE.CREATED)));
+                Assert.IsTrue(bc.Results.ContainsKey((RESULT_TYPE.REGISTRY, CHANGE_TYPE.CREATED)));
                 Assert.IsTrue(bc.Results[(RESULT_TYPE.REGISTRY, CHANGE_TYPE.CREATED)].Any(x => x.Compare is RegistryObject RO && RO.Key.EndsWith(name)));
             }
         }
@@ -392,7 +394,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
                 var results = bc.Results;
 
-                Assert.IsTrue(results.ContainsKey((RESULT_TYPE.SERVICE,CHANGE_TYPE.CREATED)));
+                Assert.IsTrue(results.ContainsKey((RESULT_TYPE.SERVICE, CHANGE_TYPE.CREATED)));
                 Assert.IsTrue(results[(RESULT_TYPE.SERVICE, CHANGE_TYPE.CREATED)].Where(x => x.Identity.Contains("AsaDemoService")).Count() > 0);
             }
         }
@@ -416,7 +418,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 fwc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, FirstRunId));
 
                 var user = System.Guid.NewGuid().ToString().Substring(0, 10);
-                var password = "$"+CryptoHelpers.GetRandomString(13);
+                var password = "$" + CryptoHelpers.GetRandomString(13);
 
                 var cmd = string.Format("user /add {0} {1}", user, password);
                 ExternalCommandRunner.RunExternalCommand("net", cmd);
@@ -442,7 +444,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
 
                 var results = bc.Results;
-                Assert.IsTrue(results.ContainsKey((RESULT_TYPE.USER,CHANGE_TYPE.CREATED)));
+                Assert.IsTrue(results.ContainsKey((RESULT_TYPE.USER, CHANGE_TYPE.CREATED)));
                 Assert.IsTrue(results[(RESULT_TYPE.USER, CHANGE_TYPE.CREATED)].Where(x => x.Identity.Contains(user)).Count() > 0);
             }
         }
@@ -505,7 +507,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
                 var results = bc.Results;
 
-                Assert.IsTrue(results.ContainsKey((RESULT_TYPE.FIREWALL,CHANGE_TYPE.CREATED)));
+                Assert.IsTrue(results.ContainsKey((RESULT_TYPE.FIREWALL, CHANGE_TYPE.CREATED)));
                 Assert.IsTrue(results[(RESULT_TYPE.FIREWALL, CHANGE_TYPE.CREATED)].Where(x => ((FirewallObject)x.Compare).LocalPorts.Contains("9999")).Count() > 0);
                 Assert.IsTrue(results[(RESULT_TYPE.FIREWALL, CHANGE_TYPE.CREATED)].Where(x => x.Identity.Contains("MyApp.exe")).Count() > 0);
             }

@@ -2,18 +2,16 @@
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
-using AttackSurfaceAnalyzer.Utils;
 using KellermanSoftware.CompareNetObjects;
 using Microsoft.CodeAnalysis;
+using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -22,7 +20,7 @@ namespace AttackSurfaceAnalyzer.Utils
         private readonly PLATFORM OsName;
         private RuleFile config;
 
-        private Dictionary<(CompareResult,Clause), bool> ClauseCache = new Dictionary<(CompareResult, Clause), bool>();
+        private readonly Dictionary<(CompareResult, Clause), bool> ClauseCache = new Dictionary<(CompareResult, Clause), bool>();
         public Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DefaultLevels { get { return config.DefaultLevels; } }
 
         private static readonly Dictionary<string, Regex> RegexCache = new Dictionary<string, Regex>();
@@ -68,7 +66,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     }
                 }
             }
-            foreach(var item in ClauseCache.Where(x => x.Key.Item1 == compareResult))
+            foreach (var item in ClauseCache.Where(x => x.Key.Item1 == compareResult))
             {
                 ClauseCache.Remove(item.Key);
             }
@@ -135,8 +133,9 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
                                 violations.Add(string.Format(CultureInfo.InvariantCulture, "Clause {0} does not contain any Data and will always return false.", clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)));
                             }
-                            else if (clause.Data is List<string> regexList){
-                                foreach(var regex in regexList)
+                            else if (clause.Data is List<string> regexList)
+                            {
+                                foreach (var regex in regexList)
                                 {
                                     if (!AsaHelpers.IsValidRegex(regex))
                                     {
@@ -485,7 +484,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                 bool next;
                                 if (ClauseCache.TryGetValue((compareResult, clause), out bool cachedValue))
                                 {
-                                     next = cachedValue;
+                                    next = cachedValue;
                                 }
                                 else
                                 {
@@ -521,13 +520,14 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         dictToCheck = dictString.ToList();
                     }
-                    else if (obj is Dictionary<string, List<string>> dict){
+                    else if (obj is Dictionary<string, List<string>> dict)
+                    {
                         dictToCheck = new List<KeyValuePair<string, string>>();
-                        foreach(var list in dict.ToList())
+                        foreach (var list in dict.ToList())
                         {
-                            foreach(var entry in list.Value)
+                            foreach (var entry in list.Value)
                             {
-                                dictToCheck.Add(new KeyValuePair<string,string>(list.Key, entry));
+                                dictToCheck.Add(new KeyValuePair<string, string>(list.Key, entry));
                             }
                         }
                     }
@@ -759,8 +759,9 @@ namespace AttackSurfaceAnalyzer.Utils
                                     {
                                         RegexCache.Add(built, new Regex(built, RegexOptions.Compiled));
                                     }
-                                    catch (ArgumentException) {
-                                        Log.Warning("InvalidArgumentException when analyzing clause {0}. Regex {1} is invalid and will be skipped.",clause.Label, built);
+                                    catch (ArgumentException)
+                                    {
+                                        Log.Warning("InvalidArgumentException when analyzing clause {0}. Regex {1} is invalid and will be skipped.", clause.Label, built);
                                         RegexCache.Add(built, new Regex("", RegexOptions.Compiled));
                                     }
                                 }
@@ -835,7 +836,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                 valDateTimes.Add(result);
                             }
                         }
-                        foreach(var data in clause.Data ?? new List<string>())
+                        foreach (var data in clause.Data ?? new List<string>())
                         {
                             if (DateTime.TryParse(data, out DateTime result))
                             {

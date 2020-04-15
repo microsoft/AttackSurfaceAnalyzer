@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using Serilog;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -388,7 +387,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static bool IsRunningAsRoot()
         {
-            if (ExternalCommandRunner.RunExternalCommand("whoami", string.Empty,out string username, out string _) == 0)
+            if (ExternalCommandRunner.RunExternalCommand("whoami", string.Empty, out string username, out string _) == 0)
             {
                 return username.Trim().Equals("root");
             }

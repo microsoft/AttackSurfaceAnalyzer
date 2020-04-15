@@ -19,7 +19,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class BaseCompare
     {
-        public ConcurrentDictionary<(RESULT_TYPE,CHANGE_TYPE), ConcurrentQueue<CompareResult>> Results { get; }
+        public ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), ConcurrentQueue<CompareResult>> Results { get; }
 
         public BaseCompare()
         {
@@ -205,7 +205,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                 }
 
-                Results[(first.ResultType,CHANGE_TYPE.MODIFIED)].Enqueue(obj);
+                Results[(first.ResultType, CHANGE_TYPE.MODIFIED)].Enqueue(obj);
             });
 
             foreach (var empty in Results.Where(x => x.Value.Count == 0))

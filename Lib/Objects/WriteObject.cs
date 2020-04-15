@@ -1,4 +1,6 @@
-﻿using AttackSurfaceAnalyzer.Types;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using System;
 using System.Linq;
@@ -34,7 +36,7 @@ namespace AttackSurfaceAnalyzer.Objects
         private WriteObject(string SerializedIn, RESULT_TYPE ResultTypeIn, string RunIdIn)
         {
             Serialized = SerializedIn;
-            RunId = RunIdIn;            
+            RunId = RunIdIn;
             ColObj = JsonUtils.Hydrate(SerializedIn, ResultTypeIn) ?? throw new NullReferenceException(nameof(ColObj));
             RowKey = ColObj.RowKey;
         }

@@ -96,7 +96,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         public ActionResult GetLatestRunId()
         {
-            return Json(HttpUtility.UrlEncode(DatabaseManager.GetLatestRunIds(1,RUN_TYPE.COLLECT)[0]));
+            return Json(HttpUtility.UrlEncode(DatabaseManager.GetLatestRunIds(1, RUN_TYPE.COLLECT)[0]));
         }
 
         public ActionResult GetMonitorStatus()

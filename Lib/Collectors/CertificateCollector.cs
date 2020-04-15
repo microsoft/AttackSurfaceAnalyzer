@@ -4,13 +4,10 @@ using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using Serilog;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -120,7 +117,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     string pkPath = Path.Combine(Directory.GetCurrentDirectory(), "tmpcert.pk12");
 
                     File.WriteAllText(tmpPath, result);
-                    if (ExternalCommandRunner.RunExternalCommand("openssl", $"pkcs12 -export -nokeys -out {pkPath} -passout pass:pass -in {tmpPath}",out string _, out string _) == 0)
+                    if (ExternalCommandRunner.RunExternalCommand("openssl", $"pkcs12 -export -nokeys -out {pkPath} -passout pass:pass -in {tmpPath}", out string _, out string _) == 0)
                     {
                         X509Certificate2Collection xcert = new X509Certificate2Collection();
                         xcert.Import(pkPath, "pass", X509KeyStorageFlags.DefaultKeySet); //lgtm [cs/hardcoded-credentials]
@@ -149,7 +146,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         Log.Debug("Failed to export certificate with OpenSSL."); //DevSkim: ignore DS440000
                     }
                 }
-                
+
             }
             catch (Exception e)
             {
