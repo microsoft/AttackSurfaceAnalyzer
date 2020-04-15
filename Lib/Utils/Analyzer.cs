@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
+using AttackSurfaceAnalyzer.Utils;
 using KellermanSoftware.CompareNetObjects;
 using Microsoft.CodeAnalysis;
 using Serilog;
@@ -100,6 +101,76 @@ namespace AttackSurfaceAnalyzer.Utils
                             invalid = true;
                             Log.Warning(Strings.Get("Err_ClauseInvalidLabel"), rule.Name, label);
                         }
+                    }
+                    switch (clause.Operation)
+                    {
+                        case OPERATION.EQ:
+                        case OPERATION.NEQ:
+                            if ((clause.Data?.Count == null || clause.Data?.Count == 0))
+                            {
+                                Log.Warning("Clause {0} does not contain any Data and will always return false.", clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture));
+                            }
+                            break;
+                        case OPERATION.CONTAINS:
+                        case OPERATION.CONTAINS_ANY:
+                            if ((clause.Data?.Count == null || clause.Data?.Count == 0) && (clause.DictData?.Count == null || clause.DictData?.Count == 0))
+                            {
+                                Log.Warning("Clause {0} does not contain any Data or DictData and will always return false.",clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture));
+                            }
+                            break;
+                        case OPERATION.ENDS_WITH:
+                        case OPERATION.STARTS_WITH:
+                            if (clause.Data?.Count == null || clause.Data?.Count == 0)
+                            {
+                                Log.Warning("Clause {0} does not contain any Data and will always return false.", clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture));
+                            }
+                            break;
+                        case OPERATION.GT:
+                        case OPERATION.LT:
+                            if (clause.Data?.Count == null || clause.Data is List<string> clauseList && (clauseList.Count != 1 || !int.TryParse(clause.Data.First(), out int _)))
+                            {
+                                Log.Warning("Clause {0} does not contain exactly one integer in its Data field.", clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture));
+                            }
+                            break;
+                        case OPERATION.REGEX:
+                            if (clause.Data?.Count == null || clause.Data?.Count == 0)
+                            {
+                                Log.Warning("Clause {0} does not contain any Data and will always return false.", clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture));
+                            }
+                            else if (clause.Data is List<string> regexList){
+                                foreach(var regex in regexList)
+                                {
+                                    if (!AsaHelpers.IsValidRegex(regex))
+                                    {
+                                        Log.Warning("Clause {0} contains invalid Regex {1} which won't be matched.", clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), datum);
+                                    }
+                                }
+                            }
+                            break;
+                        case OPERATION.IS_NULL:
+                        case OPERATION.IS_TRUE:
+                        case OPERATION.IS_EXPIRED:
+                            if (!(clause.Data?.Count == null || clause.Data?.Count == 0))
+                            {
+                                Log.Warning("Clause {0} contains redundant Data field which will be ignored.", clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture));
+                            }
+                            else if (!(clause.DictData?.Count == null || clause.DictData?.Count == 0))
+                            {
+                                Log.Warning("Clause {0} contains redundant DictData field which will be ignored.", clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture));
+                            }
+                            break;
+                        case OPERATION.IS_BEFORE:
+                        case OPERATION.IS_AFTER:
+                            if (clause.Data?.Count == null || clause.Data is List<string> clauseList2 && (clauseList2.Count != 1 || !DateTime.TryParse(clause.Data.First(), out DateTime _)))
+                            {
+                                Log.Warning("Clause {0} does not contain exactly one integer in its Data field.", clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture));
+                            }
+                            break;
+                        case OPERATION.DOES_NOT_CONTAIN:
+                        case OPERATION.DOES_NOT_CONTAIN_ALL:
+                        default:
+                            Log.Warning("Clause {0} uses unsupported Operator {1}.", clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation );
+                            break;
                     }
                 }
 
@@ -711,7 +782,14 @@ namespace AttackSurfaceAnalyzer.Utils
 
                                 if (!RegexCache.ContainsKey(built))
                                 {
-                                    RegexCache.Add(built, new Regex(built, RegexOptions.Compiled));
+                                    try
+                                    {
+                                        RegexCache.Add(built, new Regex(built, RegexOptions.Compiled));
+                                    }
+                                    catch (ArgumentException) {
+                                        Log.Warning("InvalidArgumentException when analyzing clause {0}. Regex {1} is invalid and will be skipped.",clause.Label, built);
+                                        RegexCache.Add(built, new Regex("", RegexOptions.Compiled));
+                                    }
                                 }
 
                                 if (valsToCheck.Any(x => RegexCache[built].IsMatch(x)))

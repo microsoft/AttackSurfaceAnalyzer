@@ -719,6 +719,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 Analyzer analyzer = new Analyzer(DatabaseManager.RunIdToPlatform(opts.FirstRunId), opts.AnalysesFile);
                 if (!analyzer.VerifyRules())
                 {
+                    Log.Warning("Rules could not be verified. Skipping analysis.");
                     return c.Results;
                 }
 
