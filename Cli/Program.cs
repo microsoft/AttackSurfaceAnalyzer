@@ -1042,7 +1042,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
                     while(c.IsRunning() == RUN_STATUS.RUNNING)
                     {
-                        if (c.Results.TryDequeue(out CollectObject res)){
+                        if (c.Results.TryDequeue(out CollectObject? res)){
                             DatabaseManager.Write(res,opts.RunId);
                         }
                         else
