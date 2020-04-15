@@ -22,9 +22,8 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
 
         private readonly bool GatherVerboseLogs;
-        public EventLogCollector(string runId, bool GatherVerboseLogs = false)
+        public EventLogCollector(bool GatherVerboseLogs = false)
         {
-            RunId = runId;
             this.GatherVerboseLogs = GatherVerboseLogs;
         }
 

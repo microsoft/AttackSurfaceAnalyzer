@@ -18,9 +18,8 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class ServiceCollector : BaseCollector
     {
-        public ServiceCollector(string runId)
+        public ServiceCollector()
         {
-            RunId = runId;
         }
 
         /// <summary>

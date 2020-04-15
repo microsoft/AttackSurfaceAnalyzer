@@ -20,11 +20,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class UserAccountCollector : BaseCollector
     {
-        public UserAccountCollector(string runId)
-        {
-            RunId = runId;
-        }
-
+        public UserAccountCollector() { }
         public override bool CanRunOnPlatform()
         {
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);

@@ -19,9 +19,8 @@ namespace AttackSurfaceAnalyzer.Collectors
     public class ComObjectCollector : BaseCollector
     {
 
-        public ComObjectCollector(string RunId)
+        public ComObjectCollector()
         {
-            this.RunId = RunId;
         }
 
         /// <summary>

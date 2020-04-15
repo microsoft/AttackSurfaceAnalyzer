@@ -36,7 +36,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 throw new ArgumentNullException(nameof(opts));
             }
-            RunId = opts.RunId;
             downloadCloud = opts.DownloadCloud;
             examineCertificates = opts.CertificatesFromFiles;
             parallel = opts.Parallelization;

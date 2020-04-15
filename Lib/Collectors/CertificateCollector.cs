@@ -19,9 +19,8 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class CertificateCollector : BaseCollector
     {
-        public CertificateCollector(string runId)
+        public CertificateCollector()
         {
-            RunId = runId;
         }
 
         public override bool CanRunOnPlatform()
@@ -147,7 +146,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                     else
                     {
-                        Log.Debug("Failed to export certificate with OpenSSL.");
+                        Log.Debug("Failed to export certificate with OpenSSL."); //DevSkim: ignore DS440000
                     }
                 }
                 

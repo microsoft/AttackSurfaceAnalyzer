@@ -80,7 +80,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
         public ActionResult GetCollectors()
         {
             Dictionary<string, RUN_STATUS> dict = new Dictionary<string, RUN_STATUS>();
-            string RunId = AttackSurfaceAnalyzerClient.GetLatestRunId();
+            string RunId = DatabaseManager.GetLatestRunIds(1, RUN_TYPE.COLLECT)[0];
 
             foreach (BaseCollector c in AttackSurfaceAnalyzerClient.GetCollectors())
             {
@@ -96,7 +96,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         public ActionResult GetLatestRunId()
         {
-            return Json(HttpUtility.UrlEncode(AttackSurfaceAnalyzerClient.GetLatestRunId()));
+            return Json(HttpUtility.UrlEncode(DatabaseManager.GetLatestRunIds(1,RUN_TYPE.COLLECT)[0]));
         }
 
         public ActionResult GetMonitorStatus()

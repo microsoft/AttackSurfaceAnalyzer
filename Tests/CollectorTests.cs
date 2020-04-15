@@ -96,7 +96,7 @@ namespace AttackSurfaceAnalyzer.Tests
             eventLog.Source = "Attack Surface Analyzer Tests";
             eventLog.WriteEntry("This Log Entry was created for testing the Attack Surface Analyzer library.", EventLogEntryType.Warning, 101, 1);
 
-            var fsc = new EventLogCollector(first);
+            var fsc = new EventLogCollector();
             fsc.Execute();
 
             EventLog.DeleteEventSource(source);
@@ -111,9 +111,7 @@ namespace AttackSurfaceAnalyzer.Tests
         [TestMethod]
         public void TestCertificateCollectorWindows()
         {
-            var FirstRunId = "TestCertificateCollector-1";
-
-            var fsc = new CertificateCollector(FirstRunId);
+            var fsc = new CertificateCollector();
             fsc.Execute();
 
             Assert.IsTrue(fsc.Results.Where(x => x.ResultType == RESULT_TYPE.CERTIFICATE).Count() > 0);
@@ -125,8 +123,6 @@ namespace AttackSurfaceAnalyzer.Tests
         [TestMethod]
         public void TestPortCollectorWindows()
         {
-            var FirstRunId = "TestPortCollector-1";
-
             TcpListener server = null;
             try
             {
@@ -144,7 +140,7 @@ namespace AttackSurfaceAnalyzer.Tests
             {
                 Console.WriteLine("Failed to open port.");
             }
-            var fsc = new OpenPortCollector(FirstRunId);
+            var fsc = new OpenPortCollector();
             fsc.Execute();
             server.Stop();
 
@@ -159,11 +155,9 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                var FirstRunId = "TestFirewallCollector-1";
-
                 _ = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--add /bin/bash");
 
-                var fwc = new FirewallCollector(FirstRunId);
+                var fwc = new FirewallCollector();
                 fwc.Execute();
                 _ = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--remove /bin/bash");
                 Assert.IsTrue(fwc.Results.Any(x => x is FirewallObject FWO && FWO.ApplicationName == "/bin/bash"));
@@ -178,11 +172,9 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                var FirstRunId = "TestFirewallCollector-1";
-
                 var result = ExternalCommandRunner.RunExternalCommand("iptables", "-A INPUT -p tcp --dport 19999 -j DROP");
 
-                var fwc = new FirewallCollector(FirstRunId);
+                var fwc = new FirewallCollector();
                 fwc.Execute();
 
                 Assert.IsTrue(fwc.Results.Any(x => x is FirewallObject FWO && FWO.LocalPorts.Contains("19999")));
@@ -198,7 +190,6 @@ namespace AttackSurfaceAnalyzer.Tests
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 Assert.IsTrue(AsaHelpers.IsAdmin());
-                var FirstRunId = "TestFirewallCollector-1";
 
                 var rule = FirewallManager.Instance.CreatePortRule(
                     @"TestFirewallPortRule",
@@ -216,7 +207,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 rule.Direction = FirewallDirection.Outbound;
                 FirewallManager.Instance.Rules.Add(rule);
 
-                var fwc = new FirewallCollector(FirstRunId);
+                var fwc = new FirewallCollector();
                 fwc.Execute();
 
                 Assert.IsTrue(fwc.Results.Any(x => x is FirewallObject FWO && FWO.LocalPorts.Contains("9999")));
@@ -245,8 +236,6 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                var FirstRunId = "TestRegistryCollector-1";
-
                 // Create a registry key
                 var name = Guid.NewGuid().ToString();
                 var value = Guid.NewGuid().ToString();
@@ -257,7 +246,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 key.SetValue(value, value2);
                 key.Close();
 
-                var rc = new RegistryCollector(FirstRunId, new List<RegistryHive>() { RegistryHive.CurrentUser }, true);
+                var rc = new RegistryCollector(new List<RegistryHive>() { RegistryHive.CurrentUser }, true);
                 rc.Execute();
 
                 Registry.CurrentUser.DeleteSubKey(name);
@@ -275,15 +264,13 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                var FirstRunId = "TestServiceCollector-1";
-
                 // Create a service - This won't throw an exception, but it won't work if you are not an Admin.
                 var serviceName = "AsaDemoService";
                 var exeName = "AsaDemoService.exe";
                 var cmd = string.Format("create {0} binPath=\"{1}\"", serviceName, exeName);
                 ExternalCommandRunner.RunExternalCommand("sc.exe", cmd);
 
-                var sc = new ServiceCollector(FirstRunId);
+                var sc = new ServiceCollector();
                 sc.Execute();
 
                 Assert.IsTrue(sc.Results.Any(x => x is ServiceObject RO && RO.Name.Equals(serviceName)));
@@ -302,9 +289,7 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                var FirstRunId = "TestComObjectCollector-1";
-
-                var coc = new ComObjectCollector(FirstRunId);
+                var coc = new ComObjectCollector();
                 coc.Execute();
 
                 Assert.IsTrue(coc.Results.Any(x => x is ComObject y && y.x86_Binary != null));
@@ -320,15 +305,13 @@ namespace AttackSurfaceAnalyzer.Tests
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 Assert.IsTrue(AsaHelpers.IsAdmin());
-                var FirstRunId = "TestUserCollector-1";
-
                 var user = System.Guid.NewGuid().ToString().Substring(0, 10);
                 var password = "$" + CryptoHelpers.GetRandomString(13);
 
                 var cmd = string.Format("user /add {0} {1}", user, password);
                 ExternalCommandRunner.RunExternalCommand("net", cmd);
 
-                var uac = new UserAccountCollector(FirstRunId);
+                var uac = new UserAccountCollector();
                 uac.Execute();
 
                 Assert.IsTrue(uac.Results.Any(x => x is UserAccountObject y && y.Name.Equals(user)));

@@ -18,9 +18,8 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class FirewallCollector : BaseCollector
     {
-        public FirewallCollector(string runId)
+        public FirewallCollector()
         {
-            RunId = runId;
         }
 
         public override bool CanRunOnPlatform()

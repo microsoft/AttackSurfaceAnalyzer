@@ -20,9 +20,8 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class OpenPortCollector : BaseCollector
     {
-        public OpenPortCollector(string runId)
+        public OpenPortCollector()
         {
-            RunId = runId;
         }
 
         public override bool CanRunOnPlatform()

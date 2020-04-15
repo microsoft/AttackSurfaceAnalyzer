@@ -27,11 +27,10 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         private readonly Action<RegistryObject>? customCrawlHandler;
 
-        public RegistryCollector(string RunId, bool Parallelize) : this(RunId, DefaultHives, Parallelize, null) { }
+        public RegistryCollector(bool Parallelize) : this(DefaultHives, Parallelize, null) { }
 
-        public RegistryCollector(string RunId, List<RegistryHive> Hives, bool Parallelize, Action<RegistryObject>? customHandler = null)
+        public RegistryCollector(List<RegistryHive> Hives, bool Parallelize, Action<RegistryObject>? customHandler = null)
         {
-            this.RunId = RunId;
             this.Hives = Hives;
             customCrawlHandler = customHandler;
             this.Parallelize = Parallelize;

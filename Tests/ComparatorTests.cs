@@ -12,6 +12,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
+using System.Threading;
 using WindowsFirewallHelper;
 
 namespace AttackSurfaceAnalyzer.Tests
@@ -82,6 +83,11 @@ namespace AttackSurfaceAnalyzer.Tests
 
             fsc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, SecondRunId));
 
+            while (DatabaseManager.HasElements)
+            {
+                Thread.Sleep(1);
+            }
+
             BaseCompare bc = new BaseCompare();
             if (!bc.TryCompare(FirstRunId, SecondRunId))
             {
@@ -104,7 +110,7 @@ namespace AttackSurfaceAnalyzer.Tests
             var FirstRunId = "TestEventCollector-1";
             var SecondRunId = "TestEventCollector-2";
 
-            var fsc = new EventLogCollector(FirstRunId);
+            var fsc = new EventLogCollector();
             fsc.Execute();
             fsc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, FirstRunId));
 
@@ -125,7 +131,7 @@ namespace AttackSurfaceAnalyzer.Tests
             eventLog.Source = "Attack Surface Analyzer Tests";
             eventLog.WriteEntry("This Log Entry was created for testing the Attack Surface Analyzer library.", EventLogEntryType.Warning, 101, 1);
 
-            fsc = new EventLogCollector(SecondRunId);
+            fsc = new EventLogCollector();
             fsc.Execute();
 
             EventLog.DeleteEventSource(source);
@@ -134,6 +140,11 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(fsc.Results.Any(x => x is EventLogObject ELO && ELO.Source == "Attack Surface Analyzer Tests" && ELO.Timestamp is DateTime DT && DT.AddMinutes(1).CompareTo(DateTime.Now) > 0));
 
             fsc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, SecondRunId));
+
+            while (DatabaseManager.HasElements)
+            {
+                Thread.Sleep(1);
+            }
 
             BaseCompare bc = new BaseCompare();
             if (!bc.TryCompare(FirstRunId, SecondRunId))
@@ -155,7 +166,7 @@ namespace AttackSurfaceAnalyzer.Tests
             var FirstRunId = "TestPortCollector-1";
             var SecondRunId = "TestPortCollector-2";
 
-            var fsc = new OpenPortCollector(FirstRunId);
+            var fsc = new OpenPortCollector();
             fsc.Execute();
 
             fsc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, FirstRunId));
@@ -178,7 +189,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 Console.WriteLine("Failed to open port.");
             }
 
-            fsc = new OpenPortCollector(SecondRunId);
+            fsc = new OpenPortCollector();
             fsc.Execute();
 
             server.Stop();
@@ -186,6 +197,11 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(fsc.Results.Any(x => x is OpenPortObject OPO && OPO.Port == 13000));
 
             fsc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, SecondRunId));
+
+            while (DatabaseManager.HasElements)
+            {
+                Thread.Sleep(1);
+            }
 
             BaseCompare bc = new BaseCompare();
             if (!bc.TryCompare(FirstRunId, SecondRunId))
@@ -210,13 +226,13 @@ namespace AttackSurfaceAnalyzer.Tests
                 var FirstRunId = "TestFirewallCollector-1";
                 var SecondRunId = "TestFirewallCollector-2";
 
-                var fwc = new FirewallCollector(FirstRunId);
+                var fwc = new FirewallCollector();
                 fwc.Execute();
                 fwc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, FirstRunId));
 
                 _ = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--add /bin/bash");
 
-                fwc = new FirewallCollector(SecondRunId);
+                fwc = new FirewallCollector();
                 fwc.Execute();
 
                 Assert.IsTrue(fwc.Results.Any(x => x is FirewallObject FWO && FWO.ApplicationName == "/bin/bash"));
@@ -224,6 +240,11 @@ namespace AttackSurfaceAnalyzer.Tests
                 fwc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, SecondRunId));
 
                 _ = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--remove /bin/bash");
+
+                while (DatabaseManager.HasElements)
+                {
+                    Thread.Sleep(1);
+                }
 
                 BaseCompare bc = new BaseCompare();
                 if (!bc.TryCompare(FirstRunId, SecondRunId))
@@ -249,17 +270,22 @@ namespace AttackSurfaceAnalyzer.Tests
                 var FirstRunId = "TestFirewallCollector-1";
                 var SecondRunId = "TestFirewallCollector-2";
 
-                var fwc = new FirewallCollector(FirstRunId);
+                var fwc = new FirewallCollector();
                 fwc.Execute();
                 fwc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, FirstRunId));
 
                 var result = ExternalCommandRunner.RunExternalCommand("iptables", "-A INPUT -p tcp --dport 19999 -j DROP");
 
-                fwc = new FirewallCollector(SecondRunId);
+                fwc = new FirewallCollector();
                 fwc.Execute();
                 fwc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, SecondRunId));
 
                 result = ExternalCommandRunner.RunExternalCommand("iptables", "-D INPUT -p tcp --dport 19999 -j DROP");
+
+                while (DatabaseManager.HasElements)
+                {
+                    Thread.Sleep(1);
+                }
 
                 BaseCompare bc = new BaseCompare();
                 if (!bc.TryCompare(FirstRunId, SecondRunId))
@@ -285,7 +311,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 var FirstRunId = "TestRegistryCollector-1";
                 var SecondRunId = "TestRegistryCollector-2";
 
-                var rc = new RegistryCollector(FirstRunId, new List<RegistryHive>() { RegistryHive.CurrentUser }, true);
+                var rc = new RegistryCollector(new List<RegistryHive>() { RegistryHive.CurrentUser }, true);
                 rc.Execute();
                 rc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, FirstRunId));
 
@@ -299,7 +325,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 key.SetValue(value, value2);
                 key.Close();
 
-                rc = new RegistryCollector(SecondRunId, new List<RegistryHive>() { RegistryHive.CurrentUser }, true);
+                rc = new RegistryCollector(new List<RegistryHive>() { RegistryHive.CurrentUser }, true);
                 rc.Execute();
 
                 Assert.IsTrue(rc.Results.Any(x => x is RegistryObject RO && RO.Key.EndsWith(name)));
@@ -309,6 +335,11 @@ namespace AttackSurfaceAnalyzer.Tests
 
                 // Clean up
                 Registry.CurrentUser.DeleteSubKey(name);
+
+                while (DatabaseManager.HasElements)
+                {
+                    Thread.Sleep(1);
+                }
 
                 BaseCompare bc = new BaseCompare();
 
@@ -330,7 +361,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 var FirstRunId = "TestServiceCollector-1";
                 var SecondRunId = "TestServiceCollector-2";
 
-                var fwc = new ServiceCollector(FirstRunId);
+                var fwc = new ServiceCollector();
                 fwc.Execute();
                 fwc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, FirstRunId));
 
@@ -340,13 +371,18 @@ namespace AttackSurfaceAnalyzer.Tests
                 var cmd = string.Format("create {0} binPath=\"{1}\"", serviceName, exeName);
                 ExternalCommandRunner.RunExternalCommand("sc.exe", cmd);
 
-                fwc = new ServiceCollector(SecondRunId);
+                fwc = new ServiceCollector();
                 fwc.Execute();
                 fwc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, SecondRunId));
 
                 // Clean up
                 cmd = string.Format("delete {0}", serviceName);
                 ExternalCommandRunner.RunExternalCommand("sc.exe", cmd);
+
+                while (DatabaseManager.HasElements)
+                {
+                    Thread.Sleep(1);
+                }
 
                 BaseCompare bc = new BaseCompare();
                 if (!bc.TryCompare(FirstRunId, SecondRunId))
@@ -375,7 +411,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 var FirstRunId = "TestUserCollector-1";
                 var SecondRunId = "TestUserCollector-2";
 
-                var fwc = new UserAccountCollector(FirstRunId);
+                var fwc = new UserAccountCollector();
                 fwc.Execute();
                 fwc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, FirstRunId));
 
@@ -387,12 +423,17 @@ namespace AttackSurfaceAnalyzer.Tests
 
                 var serviceName = System.Guid.NewGuid();
 
-                fwc = new UserAccountCollector(SecondRunId);
+                fwc = new UserAccountCollector();
                 fwc.Execute();
                 fwc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, SecondRunId));
 
                 cmd = string.Format("user /delete {0}", user);
                 ExternalCommandRunner.RunExternalCommand("net", cmd);
+
+                while (DatabaseManager.HasElements)
+                {
+                    Thread.Sleep(1);
+                }
 
                 BaseCompare bc = new BaseCompare();
                 if (!bc.TryCompare(FirstRunId, SecondRunId))
@@ -415,7 +456,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 var FirstRunId = "TestFirewallCollector-1";
                 var SecondRunId = "TestFirewallCollector-2";
 
-                var fwc = new FirewallCollector(FirstRunId);
+                var fwc = new FirewallCollector();
                 fwc.Execute();
                 fwc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, FirstRunId));
 
@@ -435,7 +476,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 rule.Direction = FirewallDirection.Outbound;
                 FirewallManager.Instance.Rules.Add(rule);
 
-                fwc = new FirewallCollector(SecondRunId);
+                fwc = new FirewallCollector();
                 fwc.Execute();
                 fwc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, SecondRunId));
 
@@ -449,6 +490,11 @@ namespace AttackSurfaceAnalyzer.Tests
                 foreach (var ruleIn in rules)
                 {
                     FirewallManager.Instance.Rules.Remove(ruleIn);
+                }
+
+                while (DatabaseManager.HasElements)
+                {
+                    Thread.Sleep(1);
                 }
 
                 BaseCompare bc = new BaseCompare();

@@ -952,42 +952,42 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             if (opts.EnableNetworkPortCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new OpenPortCollector(opts.RunId));
+                collectors.Add(new OpenPortCollector());
                 dict.Add(RESULT_TYPE.PORT);
             }
             if (opts.EnableServiceCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new ServiceCollector(opts.RunId));
+                collectors.Add(new ServiceCollector());
                 dict.Add(RESULT_TYPE.SERVICE);
             }
             if (opts.EnableUserCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new UserAccountCollector(opts.RunId));
+                collectors.Add(new UserAccountCollector());
                 dict.Add(RESULT_TYPE.USER);
             }
             if (opts.EnableRegistryCollector || (opts.EnableAllCollectors && RuntimeInformation.IsOSPlatform(OSPlatform.Windows)))
             {
-                collectors.Add(new RegistryCollector(opts.RunId, opts.Parallelization));
+                collectors.Add(new RegistryCollector(opts.Parallelization));
                 dict.Add(RESULT_TYPE.REGISTRY);
             }
             if (opts.EnableCertificateCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new CertificateCollector(opts.RunId));
+                collectors.Add(new CertificateCollector());
                 dict.Add(RESULT_TYPE.CERTIFICATE);
             }
             if (opts.EnableFirewallCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new FirewallCollector(opts.RunId));
+                collectors.Add(new FirewallCollector());
                 dict.Add(RESULT_TYPE.FIREWALL);
             }
             if (opts.EnableComObjectCollector || (opts.EnableAllCollectors && RuntimeInformation.IsOSPlatform(OSPlatform.Windows)))
             {
-                collectors.Add(new ComObjectCollector(opts.RunId));
+                collectors.Add(new ComObjectCollector());
                 dict.Add(RESULT_TYPE.COM);
             }
             if (opts.EnableEventLogCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new EventLogCollector(opts.RunId, opts.GatherVerboseLogs));
+                collectors.Add(new EventLogCollector(opts.GatherVerboseLogs));
                 dict.Add(RESULT_TYPE.LOG);
             }
 
@@ -1067,7 +1067,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
                     StopWatch = Stopwatch.StartNew();
 
-                    while (DatabaseManager.HasElements())
+                    while (DatabaseManager.HasElements)
                     {
                         Thread.Sleep(1000);
 
@@ -1164,15 +1164,6 @@ namespace AttackSurfaceAnalyzer.Cli
                     }
                 }
             }
-        }
-
-        public static string GetLatestRunId()
-        {
-            if (collectors.Count > 0)
-            {
-                return collectors[0].RunId;
-            }
-            return "No run id";
         }
     }
 }
