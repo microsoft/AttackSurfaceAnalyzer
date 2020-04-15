@@ -79,17 +79,30 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             var FirstRunId = "TestEventCollector-1";
 
+            var source = "AsaTests";
+            var logname = "AsaTestLogs";
 
-            using (EventLog eventLog = new EventLog("Application"))
+            if (EventLog.SourceExists(source))
             {
-                eventLog.Source = "Attack Surface Analyzer Tests";
-                eventLog.WriteEntry("This Log Entry was created for testing the Attack Surface Analyzer library.", EventLogEntryType.Warning, 101, 1);
+                // Delete the source and the log.
+                EventLog.DeleteEventSource(source);
+                EventLog.Delete(logname);
             }
 
-            var fsc = new EventLogCollector(FirstRunId);
+            // Create the event source to make next try successful.
+            EventLog.CreateEventSource(source, logname);
+
+            using EventLog eventLog = new EventLog("Application");
+            eventLog.Source = "Attack Surface Analyzer Tests";
+            eventLog.WriteEntry("This Log Entry was created for testing the Attack Surface Analyzer library.", EventLogEntryType.Warning, 101, 1);
+
+            var fsc = new EventLogCollector(first);
             fsc.Execute();
 
-            Assert.IsTrue(fsc.Results.Any(x => x is EventLogObject ELO && ELO.Source == "Attack Surface Analyzer Tests"));
+            EventLog.DeleteEventSource(source);
+            EventLog.Delete(logname);
+
+            Assert.IsTrue(fsc.Results.Any(x => x is EventLogObject ELO && ELO.Source == "Attack Surface Analyzer Tests" && ELO.Timestamp is DateTime DT && DT.AddMinutes(1).CompareTo(DateTime.Now) > 0));
         }
 
         /// <summary>
