@@ -732,7 +732,7 @@ namespace AttackSurfaceAnalyzer.Cli
                     {
                         Log.Warning(violation);
                     }
-                    Log.Error("Encountered {0} issues with rules in {1}. Skipping analysis.", violations.Count, opts.AnalysisFile ?? "Embedded");
+                    Log.Error("Encountered {0} issues with rules in {1}. Skipping analysis.", violations.Count, opts.AnalysesFile ?? "Embedded");
                 }
                 else
                 {

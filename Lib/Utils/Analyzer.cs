@@ -77,7 +77,7 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             var violations = new List<string>();
 
-            foreach (var rule in config.Rules)
+            foreach (Rule rule in config.Rules)
             {
                 var clauseLabels = rule.Clauses.GroupBy(x => x.Label);
 
@@ -104,34 +104,34 @@ namespace AttackSurfaceAnalyzer.Utils
                         case OPERATION.NEQ:
                             if ((clause.Data?.Count == null || clause.Data?.Count == 0))
                             {
-                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Clause {0} does not contain any Data and will always return false.", clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)));
+                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} does not contain any Data and will always return false.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)));
                             }
                             break;
                         case OPERATION.CONTAINS:
                         case OPERATION.CONTAINS_ANY:
                             if ((clause.Data?.Count == null || clause.Data?.Count == 0) && (clause.DictData?.Count == null || clause.DictData?.Count == 0))
                             {
-                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Clause {0} does not contain any Data or DictData and will always return false.", clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)));
+                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} does not contain any Data or DictData and will always return false.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)));
                             }
                             break;
                         case OPERATION.ENDS_WITH:
                         case OPERATION.STARTS_WITH:
                             if (clause.Data?.Count == null || clause.Data?.Count == 0)
                             {
-                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Clause {0} does not contain any Data and will always return false.", clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)));
+                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} does not contain any Data and will always return false.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)));
                             }
                             break;
                         case OPERATION.GT:
                         case OPERATION.LT:
                             if (clause.Data?.Count == null || clause.Data is List<string> clauseList && (clauseList.Count != 1 || !int.TryParse(clause.Data.First(), out int _)))
                             {
-                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Clause {0} does not contain exactly one integer in its Data field.", clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)));
+                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} does not contain exactly one integer in its Data field.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)));
                             }
                             break;
                         case OPERATION.REGEX:
                             if (clause.Data?.Count == null || clause.Data?.Count == 0)
                             {
-                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Clause {0} does not contain any Data and will always return false.", clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)));
+                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} does not contain any Data and will always return false.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)));
                             }
                             else if (clause.Data is List<string> regexList)
                             {
@@ -139,7 +139,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                 {
                                     if (!AsaHelpers.IsValidRegex(regex))
                                     {
-                                        violations.Add(string.Format(CultureInfo.InvariantCulture, "Clause {0} contains invalid Regex {1} which won't be matched.", clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), regex));
+                                        violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} contains invalid Regex {2} which won't be matched.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), regex));
                                     }
                                 }
                             }
@@ -147,26 +147,27 @@ namespace AttackSurfaceAnalyzer.Utils
                         case OPERATION.IS_NULL:
                         case OPERATION.IS_TRUE:
                         case OPERATION.IS_EXPIRED:
+                        case OPERATION.WAS_MODIFIED:
                             if (!(clause.Data?.Count == null || clause.Data?.Count == 0))
                             {
-                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Clause {0} contains redundant Data field which will be ignored.", clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)));
+                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} contains redundant Data field which will be ignored.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)));
                             }
                             else if (!(clause.DictData?.Count == null || clause.DictData?.Count == 0))
                             {
-                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Clause {0} contains redundant DictData field which will be ignored.", clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)));
+                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} contains redundant DictData field which will be ignored.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)));
                             }
                             break;
                         case OPERATION.IS_BEFORE:
                         case OPERATION.IS_AFTER:
                             if (clause.Data?.Count == null || clause.Data is List<string> clauseList2 && (clauseList2.Count != 1 || !DateTime.TryParse(clause.Data.First(), out DateTime _)))
                             {
-                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Clause {0} does not contain exactly one integer in its Data field.", clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)));
+                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} does not contain exactly one integer in its Data field.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)));
                             }
                             break;
                         case OPERATION.DOES_NOT_CONTAIN:
                         case OPERATION.DOES_NOT_CONTAIN_ALL:
                         default:
-                            violations.Add(string.Format(CultureInfo.InvariantCulture, "Clause {0} uses unsupported Operator {1}.", clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation));
+                            violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} uses unsupported Operator {2}.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation));
                             break;
                     }
                 }
