@@ -10,8 +10,6 @@ schedules:
     include:
     - master
     - releases/*
-    exclude:
-    - releases/2.0
 
 pool:
   vmImage: 'windows-latest'
@@ -35,27 +33,6 @@ steps:
   inputs:
     toolMajorVersion: 'V2'
     outputFormat: 'sarif'
-- task: Semmle@0
-  displayName: Semmle C#
-  inputs:
-    sourceCodeDirectory: '$(Build.SourcesDirectory)'
-    language: 'csharp'
-    cleanupBuildCommands: 'dotnet clean'
-    buildCommands: 'dotnet build'
-    querySuite: 'Recommended'
-    timeout: '1800'
-    ram: '16384'
-    addProjectDirToScanningExclusionList: true
-- task: Semmle@0
-  displayName: Semmle JS
-  inputs:
-    sourceCodeDirectory: '$(Build.SourcesDirectory)\Cli\wwwroot'
-    language: 'javascript'
-    includeNodeModules: false
-    querySuite: 'Recommended'
-    timeout: '1800'
-    ram: '16384'
-    addProjectDirToScanningExclusionList: true
 
 - task: SdtReport@1
   inputs:
@@ -101,12 +78,6 @@ steps:
   inputs:
     targetPath: '$(Pipeline.Workspace)\_sdt\logs\CredentialScanner\CredentialScanner-matches.sarif'
     artifact: 'CredScan.sarif'
-
-- task: PublishPipelineArtifact@1
-  displayName: Publish C# Semmle Result
-  inputs:
-    targetPath: '$(Pipeline.Workspace)\_sdt\logs\Semmle\csharp\microsoft.AttackSurfaceAnalyzer-csharp-1.sarif'
-    artifact: 'SemmleCS.sarif'
 
 - task: PublishPipelineArtifact@1
   displayName: Publish JS Semmle Result
