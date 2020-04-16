@@ -50,7 +50,7 @@ steps:
     PoliCheck: false
     RoslynAnalyzers: false
     SDLNativeRules: false
-    Semmle: true
+    Semmle: false
     SemmleBreakOn: 'Error'
     TSLint: false
     ToolLogsNotFoundAction: 'Standard'
