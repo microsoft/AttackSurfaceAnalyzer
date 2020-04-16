@@ -106,6 +106,10 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
                                 violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} does not contain any Data and will always return false.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)));
                             }
+                            if (clause.DictData != null || clause.DictData?.Count > 0)
+                            {
+                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} does not contains DictData which is innapropriate for operation {2}.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture),clause.Operation));
+                            }
                             break;
                         case OPERATION.CONTAINS:
                         case OPERATION.CONTAINS_ANY:
@@ -120,12 +124,20 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
                                 violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} does not contain any Data and will always return false.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)));
                             }
+                            if (clause.DictData != null || clause.DictData?.Count > 0)
+                            {
+                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} does not contains DictData which is innapropriate for operation {2}.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation));
+                            }
                             break;
                         case OPERATION.GT:
                         case OPERATION.LT:
                             if (clause.Data?.Count == null || clause.Data is List<string> clauseList && (clauseList.Count != 1 || !int.TryParse(clause.Data.First(), out int _)))
                             {
                                 violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} does not contain exactly one integer in its Data field.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)));
+                            }
+                            if (clause.DictData != null || clause.DictData?.Count > 0)
+                            {
+                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} does not contains DictData which is innapropriate for operation {2}.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation));
                             }
                             break;
                         case OPERATION.REGEX:
@@ -142,6 +154,10 @@ namespace AttackSurfaceAnalyzer.Utils
                                         violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} contains invalid Regex {2} which won't be matched.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), regex));
                                     }
                                 }
+                            }
+                            if (clause.DictData != null || clause.DictData?.Count > 0)
+                            {
+                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} does not contains DictData which is innapropriate for operation {2}.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation));
                             }
                             break;
                         case OPERATION.IS_NULL:
@@ -162,6 +178,10 @@ namespace AttackSurfaceAnalyzer.Utils
                             if (clause.Data?.Count == null || clause.Data is List<string> clauseList2 && (clauseList2.Count != 1 || !DateTime.TryParse(clause.Data.First(), out DateTime _)))
                             {
                                 violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} does not contain exactly one integer in its Data field.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)));
+                            }
+                            if (clause.DictData != null || clause.DictData?.Count > 0)
+                            {
+                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} does not contains DictData which is innapropriate for operation {2}.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation));
                             }
                             break;
                         case OPERATION.DOES_NOT_CONTAIN:
