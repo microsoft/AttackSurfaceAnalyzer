@@ -108,7 +108,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             }
                             if (clause.DictData != null || clause.DictData?.Count > 0)
                             {
-                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} does not contains DictData which is innapropriate for operation {2}.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture),clause.Operation));
+                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} contains DictData which is innapropriate for operation {2}.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture),clause.Operation));
                             }
                             break;
                         case OPERATION.CONTAINS:
@@ -116,6 +116,10 @@ namespace AttackSurfaceAnalyzer.Utils
                             if ((clause.Data?.Count == null || clause.Data?.Count == 0) && (clause.DictData?.Count == null || clause.DictData?.Count == 0))
                             {
                                 violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} does not contain any Data or DictData and will always return false.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)));
+                            }
+                            if ((clause.Data is List<string> list && list.Count > 0) && (clause.DictData is List<KeyValuePair<string, string>> dictList && dictList.Count > 0))
+                            {
+                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} contains both Data and DictData which is not allowed.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)));
                             }
                             break;
                         case OPERATION.ENDS_WITH:
@@ -126,7 +130,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             }
                             if (clause.DictData != null || clause.DictData?.Count > 0)
                             {
-                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} does not contains DictData which is innapropriate for operation {2}.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation));
+                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} contains DictData which is innapropriate for operation {2}.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation));
                             }
                             break;
                         case OPERATION.GT:
@@ -137,7 +141,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             }
                             if (clause.DictData != null || clause.DictData?.Count > 0)
                             {
-                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} does not contains DictData which is innapropriate for operation {2}.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation));
+                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} contains DictData which is innapropriate for operation {2}.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation));
                             }
                             break;
                         case OPERATION.REGEX:
@@ -157,7 +161,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             }
                             if (clause.DictData != null || clause.DictData?.Count > 0)
                             {
-                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} does not contains DictData which is innapropriate for operation {2}.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation));
+                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} contains DictData which is innapropriate for operation {2}.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation));
                             }
                             break;
                         case OPERATION.IS_NULL:
@@ -181,7 +185,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             }
                             if (clause.DictData != null || clause.DictData?.Count > 0)
                             {
-                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} does not contains DictData which is innapropriate for operation {2}.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation));
+                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} contains DictData which is innapropriate for operation {2}.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation));
                             }
                             break;
                         case OPERATION.DOES_NOT_CONTAIN:
