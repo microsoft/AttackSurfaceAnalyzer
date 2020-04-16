@@ -80,7 +80,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                         if (!string.IsNullOrEmpty(val))
                             obj.ExitCode = uint.Parse(val, CultureInfo.InvariantCulture);
 
-                        if (DateTime.TryParse(service.GetPropertyValue("InstallDate")?.ToString(), out DateTime dateTime)){
+                        if (DateTime.TryParse(service.GetPropertyValue("InstallDate")?.ToString(), out DateTime dateTime))
+                        {
                             obj.InstallDate = dateTime;
                         }
                         obj.PathName = service.GetPropertyValue("PathName")?.ToString();
@@ -125,7 +126,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
             }
 
-            foreach(var file in DirectoryWalker.WalkDirectory("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"))
+            foreach (var file in DirectoryWalker.WalkDirectory("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"))
             {
                 var name = file.Split(Path.DirectorySeparatorChar)[^1];
                 var fso = FileSystemCollector.FilePathToFileSystemObject(file);

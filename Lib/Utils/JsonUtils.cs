@@ -1,7 +1,9 @@
-﻿using AttackSurfaceAnalyzer.Objects;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
-using System;
 using Newtonsoft.Json;
+using System;
 
 namespace AttackSurfaceAnalyzer.Utils
 {

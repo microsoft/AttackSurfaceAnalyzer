@@ -11,6 +11,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
+using System.Text.RegularExpressions;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -217,9 +218,25 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
             }
 
-            SidMap.Add(sid,identity);
+            SidMap.Add(sid, identity);
 
             return sid;
+        }
+
+        public static bool IsValidRegex(string pattern)
+        {
+            if (string.IsNullOrEmpty(pattern)) return false;
+
+            try
+            {
+                Regex.Match("", pattern);
+            }
+            catch (ArgumentException)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

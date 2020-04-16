@@ -4,15 +4,14 @@ using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using KellermanSoftware.CompareNetObjects;
 using Microsoft.CodeAnalysis;
+using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -21,7 +20,7 @@ namespace AttackSurfaceAnalyzer.Utils
         private readonly PLATFORM OsName;
         private RuleFile config;
 
-        private Dictionary<(CompareResult,Clause), bool> ClauseCache = new Dictionary<(CompareResult, Clause), bool>();
+        private readonly Dictionary<(CompareResult, Clause), bool> ClauseCache = new Dictionary<(CompareResult, Clause), bool>();
         public Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DefaultLevels { get { return config.DefaultLevels; } }
 
         private static readonly Dictionary<string, Regex> RegexCache = new Dictionary<string, Regex>();
@@ -67,18 +66,18 @@ namespace AttackSurfaceAnalyzer.Utils
                     }
                 }
             }
-            foreach(var item in ClauseCache.Where(x => x.Key.Item1 == compareResult))
+            foreach (var item in ClauseCache.Where(x => x.Key.Item1 == compareResult))
             {
                 ClauseCache.Remove(item.Key);
             }
             return results;
         }
 
-        public bool VerifyRules()
+        public List<string> VerifyRules()
         {
-            var invalid = false;
+            var violations = new List<string>();
 
-            foreach (var rule in config.Rules)
+            foreach (Rule rule in config.Rules)
             {
                 var clauseLabels = rule.Clauses.GroupBy(x => x.Label);
 
@@ -86,8 +85,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 var duplicateClauses = clauseLabels.Where(x => x.Key != null && x.Count() > 1);
                 foreach (var duplicateClause in duplicateClauses)
                 {
-                    invalid = true;
-                    Log.Warning(Strings.Get("Err_ClauseDuplicateName"), rule.Name, duplicateClause.Key);
+                    violations.Add(string.Format(CultureInfo.InvariantCulture, Strings.Get("Err_ClauseDuplicateName"), rule.Name, duplicateClause.Key));
                 }
 
                 // If clause label contains illegal characters
@@ -97,9 +95,80 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         if (label.Contains(" ") || label.Contains("(") || label.Contains(")"))
                         {
-                            invalid = true;
-                            Log.Warning(Strings.Get("Err_ClauseInvalidLabel"), rule.Name, label);
+                            violations.Add(string.Format(CultureInfo.InvariantCulture, Strings.Get("Err_ClauseInvalidLabel"), rule.Name, label));
                         }
+                    }
+                    switch (clause.Operation)
+                    {
+                        case OPERATION.EQ:
+                        case OPERATION.NEQ:
+                            if ((clause.Data?.Count == null || clause.Data?.Count == 0))
+                            {
+                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} does not contain any Data and will always return false.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)));
+                            }
+                            break;
+                        case OPERATION.CONTAINS:
+                        case OPERATION.CONTAINS_ANY:
+                            if ((clause.Data?.Count == null || clause.Data?.Count == 0) && (clause.DictData?.Count == null || clause.DictData?.Count == 0))
+                            {
+                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} does not contain any Data or DictData and will always return false.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)));
+                            }
+                            break;
+                        case OPERATION.ENDS_WITH:
+                        case OPERATION.STARTS_WITH:
+                            if (clause.Data?.Count == null || clause.Data?.Count == 0)
+                            {
+                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} does not contain any Data and will always return false.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)));
+                            }
+                            break;
+                        case OPERATION.GT:
+                        case OPERATION.LT:
+                            if (clause.Data?.Count == null || clause.Data is List<string> clauseList && (clauseList.Count != 1 || !int.TryParse(clause.Data.First(), out int _)))
+                            {
+                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} does not contain exactly one integer in its Data field.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)));
+                            }
+                            break;
+                        case OPERATION.REGEX:
+                            if (clause.Data?.Count == null || clause.Data?.Count == 0)
+                            {
+                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} does not contain any Data and will always return false.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)));
+                            }
+                            else if (clause.Data is List<string> regexList)
+                            {
+                                foreach (var regex in regexList)
+                                {
+                                    if (!AsaHelpers.IsValidRegex(regex))
+                                    {
+                                        violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} contains invalid Regex {2} which won't be matched.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), regex));
+                                    }
+                                }
+                            }
+                            break;
+                        case OPERATION.IS_NULL:
+                        case OPERATION.IS_TRUE:
+                        case OPERATION.IS_EXPIRED:
+                        case OPERATION.WAS_MODIFIED:
+                            if (!(clause.Data?.Count == null || clause.Data?.Count == 0))
+                            {
+                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} contains redundant Data field which will be ignored.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)));
+                            }
+                            else if (!(clause.DictData?.Count == null || clause.DictData?.Count == 0))
+                            {
+                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} contains redundant DictData field which will be ignored.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)));
+                            }
+                            break;
+                        case OPERATION.IS_BEFORE:
+                        case OPERATION.IS_AFTER:
+                            if (clause.Data?.Count == null || clause.Data is List<string> clauseList2 && (clauseList2.Count != 1 || !DateTime.TryParse(clause.Data.First(), out DateTime _)))
+                            {
+                                violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} does not contain exactly one integer in its Data field.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)));
+                            }
+                            break;
+                        case OPERATION.DOES_NOT_CONTAIN:
+                        case OPERATION.DOES_NOT_CONTAIN_ALL:
+                        default:
+                            violations.Add(string.Format(CultureInfo.InvariantCulture, "Rule {0} Clause {1} uses unsupported Operator {2}.", rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation));
+                            break;
                     }
                 }
 
@@ -122,8 +191,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         foundEnds += splits[i].Count(x => x.Equals(')'));
                         if (foundEnds > foundStarts)
                         {
-                            invalid = true;
-                            Log.Warning(Strings.Get("Err_ClauseUnbalancedParentheses"), expression, rule.Name);
+                            violations.Add(string.Format(CultureInfo.InvariantCulture, Strings.Get("Err_ClauseUnbalancedParentheses"), expression, rule.Name));
                         }
                         // Variable
                         if (!expectingOperator)
@@ -139,20 +207,17 @@ namespace AttackSurfaceAnalyzer.Utils
                                     // If we've seen a ) this is now invalid
                                     if (lastClose != -1)
                                     {
-                                        invalid = true;
-                                        Log.Warning(Strings.Get("Err_ClauseParenthesisInLabel"), expression, rule.Name, splits[i]);
+                                        violations.Add(string.Format(CultureInfo.InvariantCulture, Strings.Get("Err_ClauseParenthesisInLabel"), expression, rule.Name, splits[i]));
                                     }
                                     // If there were any characters between open parenthesis
                                     if (j - lastOpen != 1)
                                     {
-                                        invalid = true;
-                                        Log.Warning(Strings.Get("Err_ClauseCharactersBetweenOpenParentheses"), expression, rule.Name, splits[i]);
+                                        violations.Add(string.Format(CultureInfo.InvariantCulture, Strings.Get("Err_ClauseCharactersBetweenOpenParentheses"), expression, rule.Name, splits[i]));
                                     }
                                     // If there was a random parenthesis not starting the variable
                                     else if (j > 0)
                                     {
-                                        invalid = true;
-                                        Log.Warning(Strings.Get("Err_ClauseCharactersBeforeOpenParentheses"), expression, rule.Name, splits[i]);
+                                        violations.Add(string.Format(CultureInfo.InvariantCulture, Strings.Get("Err_ClauseCharactersBeforeOpenParentheses"), expression, rule.Name, splits[i]));
                                     }
                                     lastOpen = j;
                                 }
@@ -161,8 +226,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                     // If we've seen a close before update last
                                     if (lastClose != -1 && j - lastClose != 1)
                                     {
-                                        invalid = true;
-                                        Log.Warning(Strings.Get("Err_ClauseCharactersBetweenClosedParentheses"), expression, rule.Name, splits[i]);
+                                        violations.Add(string.Format(CultureInfo.InvariantCulture, Strings.Get("Err_ClauseCharactersBetweenClosedParentheses"), expression, rule.Name, splits[i]));
                                     }
                                     lastClose = j;
                                 }
@@ -171,8 +235,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                     // If we've set a close this is invalid because we can't have other characters after it
                                     if (lastClose != -1)
                                     {
-                                        invalid = true;
-                                        Log.Warning(Strings.Get("Err_ClauseCharactersAfterClosedParentheses"), expression, rule.Name, splits[i]);
+                                        violations.Add(string.Format(CultureInfo.InvariantCulture, Strings.Get("Err_ClauseCharactersAfterClosedParentheses"), expression, rule.Name, splits[i]));
                                     }
                                 }
                             }
@@ -183,13 +246,11 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
                                 if (previouslyNot)
                                 {
-                                    invalid = true;
-                                    Log.Warning(Strings.Get("Err_ClauseMultipleConsecutiveNots"), expression, rule.Name);
+                                    violations.Add(string.Format(CultureInfo.InvariantCulture, Strings.Get("Err_ClauseMultipleConsecutiveNots"), expression, rule.Name));
                                 }
                                 else if (splits[i].Contains(")"))
                                 {
-                                    invalid = true;
-                                    Log.Warning(Strings.Get("Err_ClauseCloseParenthesesInNot"), expression, rule.Name, splits[i]);
+                                    violations.Add(string.Format(CultureInfo.InvariantCulture, Strings.Get("Err_ClauseCloseParenthesesInNot"), expression, rule.Name, splits[i]));
                                 }
                                 previouslyNot = true;
                             }
@@ -199,8 +260,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                 previouslyNot = false;
                                 if (string.IsNullOrWhiteSpace(variable) || !rule.Clauses.Any(x => x.Label == variable))
                                 {
-                                    invalid = true;
-                                    Log.Warning(Strings.Get("Err_ClauseUndefinedLabel"), expression, rule.Name, splits[i].Replace("(", "").Replace(")", ""));
+                                    violations.Add(string.Format(CultureInfo.InvariantCulture, Strings.Get("Err_ClauseUndefinedLabel"), expression, rule.Name, splits[i].Replace("(", "").Replace(")", "")));
                                 }
                                 expectingOperator = true;
                             }
@@ -211,16 +271,14 @@ namespace AttackSurfaceAnalyzer.Utils
                             // If we can't enum parse the operator
                             if (!Enum.TryParse(typeof(BOOL_OPERATOR), splits[i], out object? op))
                             {
-                                invalid = true;
-                                Log.Warning(Strings.Get("Err_ClauseInvalidOperator"), expression, rule.Name, splits[i]);
+                                violations.Add(string.Format(CultureInfo.InvariantCulture, Strings.Get("Err_ClauseInvalidOperator"), expression, rule.Name, splits[i]));
                             }
                             // We don't allow NOT operators to modify other Operators, so we can't allow NOT here
                             else
                             {
                                 if (op is BOOL_OPERATOR boolOp && boolOp == BOOL_OPERATOR.NOT)
                                 {
-                                    invalid = true;
-                                    Log.Warning(Strings.Get("Err_ClauseInvalidNotOperator"), expression, rule.Name);
+                                    violations.Add(string.Format(CultureInfo.InvariantCulture, Strings.Get("Err_ClauseInvalidNotOperator"), expression, rule.Name));
                                 }
                             }
                             expectingOperator = false;
@@ -230,8 +288,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     // We should always end on expecting an operator (having gotten a variable)
                     if (!expectingOperator)
                     {
-                        invalid = true;
-                        Log.Warning(Strings.Get("Err_ClauseEndsWithOperator"), expression, rule.Name);
+                        violations.Add(string.Format(CultureInfo.InvariantCulture, Strings.Get("Err_ClauseEndsWithOperator"), expression, rule.Name));
                     }
                 }
 
@@ -242,8 +299,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         if (!foundLabels.Contains(label))
                         {
-                            invalid = true;
-                            Log.Warning(Strings.Get("Err_ClauseUnusedLabel"), label, rule.Name);
+                            violations.Add(string.Format(CultureInfo.InvariantCulture, Strings.Get("Err_ClauseUnusedLabel"), label, rule.Name));
                         }
                     }
                 }
@@ -252,27 +308,15 @@ namespace AttackSurfaceAnalyzer.Utils
                 // If any clause has a label they all must have labels
                 if (justTheLabels.Any(x => x is string) && justTheLabels.Any(x => x is null))
                 {
-                    invalid = true;
-                    Log.Warning(Strings.Get("Err_ClauseMissingLabels"), rule.Name);
+                    violations.Add(string.Format(CultureInfo.InvariantCulture, Strings.Get("Err_ClauseMissingLabels"), rule.Name));
                 }
                 // If the clause has an expression it may not have any null labels
                 if (rule.Expression != null && justTheLabels.Any(x => x is null))
                 {
-                    invalid = true;
-                    Log.Warning(Strings.Get("Err_ClauseExpressionButMissingLabels"), rule.Name);
+                    violations.Add(string.Format(CultureInfo.InvariantCulture, Strings.Get("Err_ClauseExpressionButMissingLabels"), rule.Name));
                 }
             }
-
-
-            if (invalid)
-            {
-                Log.Fatal(Strings.Get("Err_RulesInvalid"));
-            }
-            else
-            {
-                Log.Information(Strings.Get("RulesVerified"));
-            }
-            return !invalid;
+            return violations;
         }
 
         public bool Apply(Rule rule, CompareResult compareResult)
@@ -441,7 +485,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                 bool next;
                                 if (ClauseCache.TryGetValue((compareResult, clause), out bool cachedValue))
                                 {
-                                     next = cachedValue;
+                                    next = cachedValue;
                                 }
                                 else
                                 {
@@ -477,13 +521,14 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         dictToCheck = dictString.ToList();
                     }
-                    else if (obj is Dictionary<string, List<string>> dict){
+                    else if (obj is Dictionary<string, List<string>> dict)
+                    {
                         dictToCheck = new List<KeyValuePair<string, string>>();
-                        foreach(var list in dict.ToList())
+                        foreach (var list in dict.ToList())
                         {
-                            foreach(var entry in list.Value)
+                            foreach (var entry in list.Value)
                             {
-                                dictToCheck.Add(new KeyValuePair<string,string>(list.Key, entry));
+                                dictToCheck.Add(new KeyValuePair<string, string>(list.Key, entry));
                             }
                         }
                     }
@@ -711,7 +756,15 @@ namespace AttackSurfaceAnalyzer.Utils
 
                                 if (!RegexCache.ContainsKey(built))
                                 {
-                                    RegexCache.Add(built, new Regex(built, RegexOptions.Compiled));
+                                    try
+                                    {
+                                        RegexCache.Add(built, new Regex(built, RegexOptions.Compiled));
+                                    }
+                                    catch (ArgumentException)
+                                    {
+                                        Log.Warning("InvalidArgumentException when analyzing clause {0}. Regex {1} is invalid and will be skipped.", clause.Label, built);
+                                        RegexCache.Add(built, new Regex("", RegexOptions.Compiled));
+                                    }
                                 }
 
                                 if (valsToCheck.Any(x => RegexCache[built].IsMatch(x)))
@@ -784,7 +837,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                 valDateTimes.Add(result);
                             }
                         }
-                        foreach(var data in clause.Data ?? new List<string>())
+                        foreach (var data in clause.Data ?? new List<string>())
                         {
                             if (DateTime.TryParse(data, out DateTime result))
                             {

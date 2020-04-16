@@ -8,8 +8,9 @@ trigger:
     - Lib
   branches:
     include:
-    - release/v2.1
-    - release/v2.2
+    - release/v2.*
+    exclude:
+    - release/v2.0
 
 variables:
   solution: '**/*.sln'

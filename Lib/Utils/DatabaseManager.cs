@@ -3,6 +3,7 @@
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using Microsoft.Data.Sqlite;
+using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.Collections.Concurrent;
@@ -10,7 +11,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using Newtonsoft.Json;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -161,7 +161,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 if (dbSettingsIn != null && settingsFromDb.ShardingFactor != dbSettingsIn.ShardingFactor)
                 {
-                    Log.Information(Strings.Get("InvalidShardingRequest"),dbSettingsIn.ShardingFactor,dbSettings.ShardingFactor);
+                    Log.Information(Strings.Get("InvalidShardingRequest"), dbSettingsIn.ShardingFactor, dbSettings.ShardingFactor);
                 }
 
                 AsaTelemetry.SetEnabled(settingsFromDb.TelemetryEnabled);
@@ -518,7 +518,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         while (reader.Read())
                         {
                             if (reader["serialized"].ToString() is string serialized)
-                            records.Add(JsonConvert.DeserializeObject<CompareResult>(serialized));
+                                records.Add(JsonConvert.DeserializeObject<CompareResult>(serialized));
                         }
                     }
                 }

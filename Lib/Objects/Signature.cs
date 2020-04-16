@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+using Newtonsoft.Json;
 using PeNet.Header.Authenticode;
 using System;
 using System.Security.Cryptography.X509Certificates;

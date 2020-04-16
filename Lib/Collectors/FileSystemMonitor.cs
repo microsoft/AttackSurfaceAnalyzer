@@ -7,7 +7,6 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Security.AccessControl;
 using System.Text.RegularExpressions;
 
 namespace AttackSurfaceAnalyzer.Collectors

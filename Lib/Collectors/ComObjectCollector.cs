@@ -7,7 +7,6 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
@@ -49,7 +48,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 // Parse system Com Objects
                 using var SearchKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, view);
                 var CLDIDs = SearchKey.OpenSubKey("SOFTWARE\\Classes\\CLSID");
-                foreach(var comObj in ParseComObjects(CLDIDs, view))
+                foreach (var comObj in ParseComObjects(CLDIDs, view))
                 {
                     Results.Enqueue(comObj);
                 }
@@ -72,7 +71,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     if (subkeyName.EndsWith("Classes"))
                     {
                         using var ComKey = SearchKey.OpenSubKey(subkeyName).OpenSubKey("CLSID");
-                        foreach(var comObj in ParseComObjects(ComKey, view))
+                        foreach (var comObj in ParseComObjects(ComKey, view))
                         {
                             Results.Enqueue(comObj);
                         }
