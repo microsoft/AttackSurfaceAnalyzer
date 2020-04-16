@@ -214,18 +214,9 @@ stages:
         script: |
           VERSION="$(nbgv get-version -v AssemblyInformationalVersion | cut -d'+' -f 1)"
 
-          mkdir $BIN_DIR/Asa-linux-$VERSION
-          mv $BIN_DIR/linux/Asa $BIN_DIR/Asa-linux-$VERSION/res/
-
-          cp $SRC_DIR/Asa/AsaLaunch.sh $BIN_DIR/Asa-linux-$VERSION/AsaLaunch.sh
-          cp $SRC_DIR/Asa/AsaLaunchGui.sh $BIN_DIR/Asa-linux-$VERSION/AsaLaunchGui.sh
-
-          chmod +x $BIN_DIR/Asa-linux-$VERSION/AsaLaunch.sh
-          chmod +x $BIN_DIR/Asa-linux-$VERSION/AsaLaunchGui.sh
-          chmod +x $BIN_DIR/Asa-linux-$VERSION/res/Asa
-
-          cd $BIN_DIR
-          tar -czvf $ART_DIR/Asa-linux-$VERSION.tar.gz Asa-linux-$VERSION
+          mv $BIN_DIR/linux $BIN_DIR/Asa-linux-$VERSION
+          
+          tar -czvf $ART_DIR/Asa-linux-$VERSION.tar.gz $BIN_DIR/Asa-linux-$VERSION
 
           sha256sum $ART_DIR/Asa-linux-$VERSION.tar.gz | awk ' { n=split($2, a, "/"); $2 = a[n]; print; } ' OFS='\t' >> $BIN_DIR/HASHES_LINUX.txt
       displayName: 'Prepare Artifacts'
@@ -277,23 +268,15 @@ stages:
           projects: 'Cli/Cli.csproj'
           arguments: '--configuration $(BuildConfiguration) --output $(build.binariesdirectory)/macos -r osx-x64'
           zipAfterPublish: false
+
     - task: CmdLine@2
       inputs:
         script: |
           VERSION="$(nbgv get-version -v AssemblyInformationalVersion | cut -d'+' -f 1)"
 
-          mkdir $BIN_DIR/Asa-macos-$VERSION
-          mv $BIN_DIR/macos/Asa $BIN_DIR/Asa-macos-$VERSION/res/
-
-          cp $SRC_DIR/Asa/AsaLaunch.sh $BIN_DIR/Asa-macos-$VERSION/AsaLaunch.sh
-          cp $SRC_DIR/Asa/AsaLaunchGui.sh $BIN_DIR/Asa-macos-$VERSION/AsaLaunchGui.sh
-
-          chmod +x $BIN_DIR/Asa-macos-$VERSION/AsaLaunch.sh
-          chmod +x $BIN_DIR/Asa-macos-$VERSION/AsaLaunchGui.sh
-          chmod +x $BIN_DIR/Asa-macos-$VERSION/res/Asa
-
-          cd $BIN_DIR
-          tar -czvf $ART_DIR/Asa-macos-$VERSION.tar.gz Asa-macos-$VERSION
+          mv $BIN_DIR/macos $BIN_DIR/Asa-macos-$VERSION
+          
+          tar -czvf $ART_DIR/Asa-macos-$VERSION.tar.gz $BIN_DIR/Asa-macos-$VERSION
 
           sha256sum $ART_DIR/Asa-macos-$VERSION.tar.gz | awk ' { n=split($2, a, "/"); $2 = a[n]; print; } ' OFS='\t' >> $BIN_DIR/HASHES_MAC.txt
       displayName: 'Prepare Artifacts'
