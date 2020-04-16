@@ -15,6 +15,7 @@ pr:
     - Lib
     - Tests
     - Benchmarks
+    - Pipelines
 
 variables:
   solution: '**/*.sln'

@@ -5,3 +5,27 @@ extraction:
       dotnet:
         arguments: "-c release"
         version: "3.1.201"
+
+extraction:
+  csharp:
+    index:
+      solution: "Tests/Tests.csproj"
+      dotnet:
+        arguments: "-c release"
+        version: "3.1.201"
+
+extraction:
+  csharp:
+    index:
+      solution: "Benchmarks/Benchmarks.csproj"
+      dotnet:
+        arguments: "-c release"
+        version: "3.1.201"
+
+extraction:
+  csharp:
+    index:
+      solution: "Lib/Lib.csproj"
+      dotnet:
+        arguments: "-c release"
+        version: "3.1.201"
