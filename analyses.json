@@ -117,14 +117,17 @@
         "MODIFIED"
       ],
       "ResultType": "FILE",
+      "Expression": "EXE AND NOT ASLR",
       "Clauses": [
         {
+          "Label": "EXE",
           "Field": "IsExecutable",
           "Operation": "IS_TRUE"
         },
         {
+          "Label": "ASLR",
           "Field": "Characteristics",
-          "Operation": "DOES_NOT_CONTAIN",
+          "Operation": "CONTAINS",
           "Data": [
             "IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE",
             "IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA"
@@ -144,14 +147,17 @@
         "MODIFIED"
       ],
       "ResultType": "FILE",
+      "Expression": "EXE AND NOT DEP",
       "Clauses": [
         {
+          "Label": "EXE",
           "Field": "IsExecutable",
           "Operation": "IS_TRUE"
         },
         {
+          "Label": "DEP",
           "Field": "Characteristics",
-          "Operation": "DOES_NOT_CONTAIN",
+          "Operation": "CONTAINS",
           "Data": [
             "IMAGE_DLLCHARACTERISTICS_NX_COMPAT"
           ]
@@ -170,18 +176,22 @@
         "MODIFIED"
       ],
       "ResultType": "FILE",
+      "Expression": "EXE AND SIGNED AND NOT INTEGRITYFLAG",
       "Clauses": [
         {
+          "Label": "EXE",
           "Field": "IsExecutable",
           "Operation": "IS_TRUE"
         },
         {
+          "Label": "SIGNED",
           "Field": "SignatureStatus",
           "Operation": "IS_TRUE"
         },
         {
+          "Label": "INTEGRITYFLAG",
           "Field": "Characteristics",
-          "Operation": "DOES_NOT_CONTAIN",
+          "Operation": "CONTAINS",
           "Data": [
             "IMAGE_DLLCHARACTERISTICS_FORCE_INTEGRITY"
           ]
@@ -781,16 +791,16 @@
       "Clauses": [
         {
           "Field": "Path",
-          "Operation": "REGEX",
+          "Operation": "ENDS_WITH",
           "Data": [
-            "\\Bginfo.exe$",
-            "\\dnx.exe$",
-            "\\msxsl.exe$",
-            "\\rcsi.exe$",
-            "\\Microsoft\\Teams\\current\\Squirrel.exe$",
-            "\\te.exe$",
-            "\\Tracker.exe$",
-            "\\Microsoft\\Teams\\update.exe$"
+            "\\Bginfo.exe",
+            "\\dnx.exe",
+            "\\msxsl.exe",
+            "\\rcsi.exe",
+            "\\Microsoft\\Teams\\current\\Squirrel.exe",
+            "\\te.exe",
+            "\\Tracker.exe",
+            "\\Microsoft\\Teams\\update.exe"
           ]
         },
         {

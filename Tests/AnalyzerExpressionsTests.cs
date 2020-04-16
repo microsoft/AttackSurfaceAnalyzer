@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
@@ -659,7 +661,7 @@ namespace AttackSurfaceAnalyzer.Tests
             };
             var falseGtObject = new CompareResult()
             {
-                Base = new OpenPortObject(1023, TRANSPORT.TCP , ADDRESS_FAMILY.InterNetwork)
+                Base = new OpenPortObject(1023, TRANSPORT.TCP, ADDRESS_FAMILY.InterNetwork)
             };
 
             var gtRule = new Rule("Gt Rule")
@@ -711,7 +713,7 @@ namespace AttackSurfaceAnalyzer.Tests
             var falseLtObject = new CompareResult()
             {
                 Base = new OpenPortObject(1025, TRANSPORT.TCP, ADDRESS_FAMILY.InterNetwork)
-            }; 
+            };
             var trueLtObject = new CompareResult()
             {
                 Base = new OpenPortObject(1023, TRANSPORT.TCP, ADDRESS_FAMILY.InterNetwork)

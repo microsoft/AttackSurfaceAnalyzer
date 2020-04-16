@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Collectors;
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;

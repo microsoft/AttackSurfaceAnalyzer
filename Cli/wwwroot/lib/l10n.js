@@ -1,11 +1,5 @@
-/*
- * l10n.js
- * 2016-05-17
- * 
- * By Eli Grey, http://eligrey.com
- * Licensed under the MIT License
- *   See https://github.com/eligrey/l10n.js/blob/master/LICENSE.md
- */
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 /*global XMLHttpRequest, setTimeout, document, navigator, ActiveXObject*/
 

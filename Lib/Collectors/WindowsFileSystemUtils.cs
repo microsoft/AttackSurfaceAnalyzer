@@ -128,7 +128,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             }
                         }
                     }
-                    
+
                 }
                 catch (Exception e) when (
                     e is IndexOutOfRangeException
