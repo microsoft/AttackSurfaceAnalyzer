@@ -1,11 +1,13 @@
 name: ASA Release
 
+pr: none
 trigger:
   batch: true
   paths:
     include:
     - Cli
     - Lib
+    - Pipelines
   branches:
     include:
     - release/v2.*
