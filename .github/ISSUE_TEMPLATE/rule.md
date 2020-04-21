@@ -2,7 +2,7 @@
 name: Filter Request or Submission
 about: Request a filter be added to the default ruleset
 title: 
-labels: filter
+labels: filters
 assignees: ''
 
 ---
