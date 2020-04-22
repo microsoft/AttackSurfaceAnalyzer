@@ -16,6 +16,7 @@ pr:
     - Tests
     - Benchmarks
     - Pipelines
+    - analyses.json
 
 variables:
   solution: '**/*.sln'

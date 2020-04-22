@@ -8,6 +8,7 @@ trigger:
     - Cli
     - Lib
     - Pipelines
+    - analyses.json
   branches:
     include:
     - release/v2.*
