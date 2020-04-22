@@ -54,7 +54,16 @@ namespace AttackSurfaceAnalyzer.Types
         /// <summary>
         /// See FileMonitorObject
         /// </summary>
-        FILEMONITOR
+        FILEMONITOR,
+        /// <summary>
+        /// A TPM Device
+        /// </summary>
+        TPM,
+        /// <summary>
+        /// A cryptographic key
+        /// </summary>
+        KEY
+
     };
 
     /// <summary>
