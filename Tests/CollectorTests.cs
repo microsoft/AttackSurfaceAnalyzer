@@ -102,6 +102,21 @@ namespace AttackSurfaceAnalyzer.Tests
         }
 
         /// <summary>
+        /// Requires Admin
+        /// </summary>
+        [TestMethod]
+        public void TestTpmCollector()
+        {
+            var tpmc = new TpmCollector(TestMode: true);
+
+            // Write to NV
+            // Persist a key
+            // Measure to a PCR
+
+            tpmc.Execute();
+        }
+
+        /// <summary>
         /// Does not require admin.
         /// </summary>
         [TestMethod]
