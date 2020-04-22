@@ -24,7 +24,7 @@ namespace AttackSurfaceAnalyzer.Utils
         private readonly ConcurrentDictionary<(CompareResult, Clause), bool> ClauseCache = new ConcurrentDictionary<(CompareResult, Clause), bool>();
         public Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DefaultLevels { get { return config.DefaultLevels; } }
 
-        private static readonly Dictionary<string, Regex> RegexCache = new Dictionary<string, Regex>();
+        private static readonly ConcurrentDictionary<string, Regex> RegexCache = new ConcurrentDictionary<string, Regex>();
 
         public Analyzer(PLATFORM platform, string? filterLocation = null)
         {
@@ -786,16 +786,16 @@ namespace AttackSurfaceAnalyzer.Utils
                                 {
                                     try
                                     {
-                                        RegexCache.Add(built, new Regex(built, RegexOptions.Compiled));
+                                        RegexCache.TryAdd(built, new Regex(built, RegexOptions.Compiled));
                                     }
                                     catch (ArgumentException)
                                     {
                                         Log.Warning("InvalidArgumentException when analyzing clause {0}. Regex {1} is invalid and will be skipped.", clause.Label, built);
-                                        RegexCache.Add(built, new Regex("", RegexOptions.Compiled));
+                                        RegexCache.TryAdd(built, new Regex("", RegexOptions.Compiled));
                                     }
                                 }
 
-                                if (valsToCheck.Any(x => RegexCache[built].IsMatch(x)))
+                                if (valsToCheck.Any(x => x != null && RegexCache[built].IsMatch(x)))
                                 {
                                     return true;
                                 }
