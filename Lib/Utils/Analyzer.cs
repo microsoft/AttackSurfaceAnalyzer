@@ -7,6 +7,7 @@ using Microsoft.CodeAnalysis;
 using Newtonsoft.Json;
 using Serilog;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -20,10 +21,10 @@ namespace AttackSurfaceAnalyzer.Utils
         private readonly PLATFORM OsName;
         private RuleFile config;
 
-        private readonly Dictionary<(CompareResult, Clause), bool> ClauseCache = new Dictionary<(CompareResult, Clause), bool>();
+        private readonly ConcurrentDictionary<(CompareResult, Clause), bool> ClauseCache = new ConcurrentDictionary<(CompareResult, Clause), bool>();
         public Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DefaultLevels { get { return config.DefaultLevels; } }
 
-        private static readonly Dictionary<string, Regex> RegexCache = new Dictionary<string, Regex>();
+        private static readonly ConcurrentDictionary<string, Regex> RegexCache = new ConcurrentDictionary<string, Regex>();
 
         public Analyzer(PLATFORM platform, string? filterLocation = null)
         {
@@ -56,6 +57,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                                      && (rule.Platforms == null || rule.Platforms.Contains(OsName))
                                                      && (rule.ResultType.Equals(compareResult.ResultType)))
                                                     .ToList();
+
             if (curFilters.Count > 0)
             {
                 foreach (Rule rule in curFilters)
@@ -66,10 +68,12 @@ namespace AttackSurfaceAnalyzer.Utils
                     }
                 }
             }
-            foreach (var item in ClauseCache.Where(x => x.Key.Item1 == compareResult))
+
+            foreach (var item in ClauseCache.Where(x => x.Key.Item1 == compareResult).ToList())
             {
-                ClauseCache.Remove(item.Key);
+                ClauseCache.Remove(item.Key, out bool _);
             }
+
             return results;
         }
 
@@ -514,7 +518,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                 else
                                 {
                                     next = AnalyzeClause(res.First(), compareResult);
-                                    ClauseCache.Add((compareResult, clause), next);
+                                    ClauseCache.TryAdd((compareResult, clause), next);
                                 }
 
                                 next = invertNextStatement ? !next : next;
@@ -782,16 +786,16 @@ namespace AttackSurfaceAnalyzer.Utils
                                 {
                                     try
                                     {
-                                        RegexCache.Add(built, new Regex(built, RegexOptions.Compiled));
+                                        RegexCache.TryAdd(built, new Regex(built, RegexOptions.Compiled));
                                     }
                                     catch (ArgumentException)
                                     {
                                         Log.Warning("InvalidArgumentException when analyzing clause {0}. Regex {1} is invalid and will be skipped.", clause.Label, built);
-                                        RegexCache.Add(built, new Regex("", RegexOptions.Compiled));
+                                        RegexCache.TryAdd(built, new Regex("", RegexOptions.Compiled));
                                     }
                                 }
 
-                                if (valsToCheck.Any(x => RegexCache[built].IsMatch(x)))
+                                if (valsToCheck.Any(x => x != null && RegexCache[built].IsMatch(x)))
                                 {
                                     return true;
                                 }

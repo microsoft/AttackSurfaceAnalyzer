@@ -39,11 +39,13 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Collect' ">
     <StartAction>Project</StartAction>
+    <StartArguments>collect -f --directories .</StartArguments>
     <ExternalConsole>true</ExternalConsole>
     <ApplicationURL>http://localhost:5002</ApplicationURL>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Export-Collect' ">
     <StartAction>Project</StartAction>
+    <StartArguments>export-collect</StartArguments>
     <ExternalConsole>true</ExternalConsole>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Asa' ">
