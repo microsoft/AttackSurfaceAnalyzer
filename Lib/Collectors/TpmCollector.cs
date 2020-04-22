@@ -1,8 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+using AttackSurfaceAnalyzer.Objects;
+using AttackSurfaceAnalyzer.Utils;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 using Tpm2Lib;
 
@@ -10,8 +11,14 @@ namespace AttackSurfaceAnalyzer.Collectors
 {
     public class TpmCollector : BaseCollector
     {
-        public TpmCollector()
+        public bool TestMode { get; }
+
+        private const string DefaultSimulatorName = "127.0.0.1";
+        private const int DefaultSimulatorPort = 2321;
+
+        public TpmCollector(bool TestMode)
         {
+            this.TestMode = TestMode;
         }
 
         public override bool CanRunOnPlatform()
@@ -23,13 +30,20 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             Tpm2Device? tpmDevice = null;
 
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            if (TestMode)
             {
-                tpmDevice = new TbsDevice();
+                tpmDevice = new TcpTpmDevice(DefaultSimulatorName, DefaultSimulatorPort);
             }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            else
             {
-                tpmDevice = new LinuxTpmDevice();
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    tpmDevice = new TbsDevice();
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                {
+                    tpmDevice = new LinuxTpmDevice();
+                }
             }
 
             if (tpmDevice is Tpm2Device)
@@ -51,9 +65,9 @@ namespace AttackSurfaceAnalyzer.Collectors
             tpmDevice?.Dispose();
         }
 
-        public static Dictionary<(TpmAlgId,int),byte[]> DumpPCRs(Tpm2 tpm)
+        public static Dictionary<(TpmAlgId,uint),byte[]> DumpPCRs(Tpm2 tpm)
         {
-            var output = new Dictionary<(TpmAlgId, int), byte[]>();
+            var output = new Dictionary<(TpmAlgId, uint), byte[]>();
             if (tpm == null)
             {
                 return output;
@@ -86,35 +100,29 @@ namespace AttackSurfaceAnalyzer.Collectors
             return output;
         }
 
-        public static Dictionary<(TpmAlgId, int), byte[]> DumpPCRs(Tpm2 tpm, TpmAlgId tpmAlgId, uint[] pcrs)
+        public static Dictionary<(TpmAlgId, uint), byte[]> DumpPCRs(Tpm2 tpm, TpmAlgId tpmAlgId, uint[] pcrs)
         {
-            var output = new Dictionary<(TpmAlgId, int), byte[]>();
-            if (tpm == null)
+            var output = new Dictionary<(TpmAlgId, uint), byte[]>();
+            if (tpm == null || pcrs == null)
             {
                 return output;
             }
 
-            var valuesToRead = new PcrSelection[]
+            foreach(var pcr in pcrs)
             {
-                new PcrSelection(tpmAlgId, pcrs)
-            };
-
-            PcrSelection[] valsRead;
-            Tpm2bDigest[] values;
-
-            tpm.PcrRead(valuesToRead, out valsRead, out values);
-
-            //
-            // Check that what we read is what we asked for (the TPM does not 
-            // guarantee this)
-            // 
-            if (valsRead[0] == valuesToRead[0])
-            {
-                for (int i = 0; i < 24; i++)
+                var valuesToRead = new PcrSelection[]
                 {
-                    var pcr1 = new TpmHash(TpmAlgId.Sha1, values[i].buffer);
-                    output.Add((TpmAlgId.Sha1, i), pcr1);
-                }
+                    new PcrSelection(tpmAlgId, pcr)
+                };
+
+                PcrSelection[] valsRead;
+                Tpm2bDigest[] values;
+
+                tpm.PcrRead(valuesToRead, out valsRead, out values);
+
+                var pcr1 = new TpmHash(TpmAlgId.Sha1, values[0].buffer);
+
+                output.Add((TpmAlgId.Sha1, pcr), pcr1);
             }
 
             return output;
@@ -139,7 +147,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                 HandleArray handles = (HandleArray)cap;
                 foreach (TpmHandle hh in handles.handle)
                 {
-                    output.Add(hh.GetName(), hh.GetTpmRepresentation());
+                    NvPublic nvPub = tpm.NvReadPublic(hh, out byte[] nvName);
+                    byte[] value = tpm.NvRead(hh, hh, nvPub.dataSize, 0);
+                    output.Add(nvName, value);
                 }
             } while (moreData == 1);
 

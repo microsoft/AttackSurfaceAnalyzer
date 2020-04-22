@@ -10,8 +10,8 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class TpmObject : CollectObject
     {
-        public Dictionary<byte[], object> NV { get; set; } = new Dictionary<string, object>();
-        public Dictionary<(TpmAlgId, int), byte[]> PCRs { get; set; } = new Dictionary<(TpmAlgId, int), byte[]>();
+        public Dictionary<byte[], object> NV { get; set; } = new Dictionary<byte[], object>();
+        public Dictionary<(TpmAlgId, uint), byte[]> PCRs { get; set; } = new Dictionary<(TpmAlgId, uint), byte[]>();
         public string? Manufacturer { get; set; }
         public DateTime TpmSpecDate { get; set; }
         public uint[] Version { get; }
