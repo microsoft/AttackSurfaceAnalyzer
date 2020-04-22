@@ -36,6 +36,27 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
+        public void Compare(IEnumerable<CollectObject> FirstRunObjects, IEnumerable<CollectObject> SecondRunObjects, string firstRunId, string secondRunId)
+        {
+            if (firstRunId == null)
+            {
+                throw new ArgumentNullException(nameof(firstRunId));
+            }
+            if (secondRunId == null)
+            {
+                throw new ArgumentNullException(nameof(secondRunId));
+            }
+
+            var differentObjectsAdded = FirstRunObjects.Where(x => !SecondRunObjects.Any(y => x.Identity == y.Identity && x.ResultType == y.ResultType)).Select(y => (y, firstRunId));
+            var differentObjectsRemoved = SecondRunObjects.Where(x => !FirstRunObjects.Any(y => x.Identity == y.Identity && x.ResultType == y.ResultType)).Select(y => (y, secondRunId));
+            var differentObjects = differentObjectsAdded.Union(differentObjectsRemoved);
+
+            var modifiedObjects = FirstRunObjects.SelectMany(x => SecondRunObjects.Where(y => x.Identity == y.Identity && x.ResultType == y.ResultType && x.RowKey != y.RowKey).
+                                    Select(z => (x, z)));
+
+            Compare(differentObjects, modifiedObjects, firstRunId, secondRunId);
+        }
+
         /// <summary>
         /// Compares all the common collectors between two runs.
         /// </summary>
@@ -53,37 +74,51 @@ namespace AttackSurfaceAnalyzer.Collectors
                 throw new ArgumentNullException(nameof(secondRunId));
             }
 
-            ConcurrentBag<WriteObject> differentObjects = DatabaseManager.GetAllMissing(firstRunId, secondRunId);
-            ConcurrentBag<(WriteObject, WriteObject)> modifyObjects = DatabaseManager.GetModified(firstRunId, secondRunId);
+            var differentObjects = DatabaseManager.GetAllMissing(firstRunId, secondRunId).Select(y => (y.ColObj,y.RunId));
+            var modifyObjects = DatabaseManager.GetModified(firstRunId, secondRunId).Select(y => (y.Item1.ColObj,y.Item2.ColObj));
+
+            Compare(differentObjects, modifyObjects, firstRunId, secondRunId);
+        }
+
+        public void Compare(IEnumerable<(CollectObject,string)> differentObjects, IEnumerable<(CollectObject, CollectObject)> modifiedObjects, string firstRunId, string secondRunId)
+        {
+            if (firstRunId == null)
+            {
+                throw new ArgumentNullException(nameof(firstRunId));
+            }
+            if (secondRunId == null)
+            {
+                throw new ArgumentNullException(nameof(secondRunId));
+            }
 
             differentObjects.AsParallel().ForAll(different =>
             {
-                var colObj = different.ColObj;
+                var colObj = different.Item1;
                 var obj = new CompareResult()
                 {
                     BaseRunId = firstRunId,
                     CompareRunId = secondRunId,
-                    BaseRowKey = different.RowKey,
+                    BaseRowKey = colObj.RowKey,
                 };
 
-                if (different.RunId.Equals(firstRunId))
+                if (different.Item2.Equals(firstRunId))
                 {
                     obj.Base = colObj;
                     Results[(colObj.ResultType, CHANGE_TYPE.DELETED)].Enqueue(obj);
                 }
-                else if (different.RunId.Equals(secondRunId))
+                else if (different.Item2.Equals(secondRunId))
                 {
                     obj.Compare = colObj;
                     Results[(colObj.ResultType, CHANGE_TYPE.CREATED)].Enqueue(obj);
                 }
             });
 
-            modifyObjects.AsParallel().ForAll(modified =>
+            modifiedObjects.AsParallel().ForAll(modified =>
             {
                 var compareLogic = new CompareLogic();
                 compareLogic.Config.IgnoreCollectionOrder = true;
-                var first = modified.Item1.ColObj;
-                var second = modified.Item2.ColObj;
+                var first = modified.Item1;
+                var second = modified.Item2;
                 var obj = new CompareResult()
                 {
                     Base = first,
