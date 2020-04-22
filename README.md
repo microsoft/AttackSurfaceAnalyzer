@@ -2,9 +2,13 @@
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/microsoft/AttackSurfaceAnalyzer.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/microsoft/AttackSurfaceAnalyzer/context:javascript) [![Total alerts](https://img.shields.io/lgtm/alerts/g/microsoft/AttackSurfaceAnalyzer.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/microsoft/AttackSurfaceAnalyzer/alerts/)
 ## Getting Attack Surface Analyzer
 
-If you have .NET Core 3.1 installed you can install Attack Surface Analyzer with `dotnet tool install -g Microsoft.CST.AttackSurfaceAnalyzer.CLI`.  While 2.2 is in Beta you may receive a message that you need to specify a version.  That message should include the latest version flag to use.
+If you have .NET Core 3.1 installed you can install Attack Surface Analyzer with `dotnet tool install -g Microsoft.CST.AttackSurfaceAnalyzer.CLI` from [NuGet](https://www.nuget.org/packages/Microsoft.CST.AttackSurfaceAnalyzer.CLI/)
+
+While 2.2 is in Beta you may receive a message that you need to specify a version.  That message should include the latest version flag to use.
 
 Platform specific binaries for Attack Surface Analyzer are distributed via our GitHub [releases](https://github.com/Microsoft/AttackSurfaceAnalyzer/releases/latest) page.
+
+The library is available on [NuGet](https://www.nuget.org/packages/Microsoft.CST.AttackSurfaceAnalyzer/)
 
 ## Note on Version
 The latest stable version of Attack Surface Analyzer is 2.1 (see [Release\v2.1](https://github.com/Microsoft/AttackSurfaceAnalyzer/tree/release/v2.1)).  2.2 is available in Beta.
