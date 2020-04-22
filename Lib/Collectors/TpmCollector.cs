@@ -8,9 +8,6 @@ using Tpm2Lib;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
-    /// <summary>
-    /// Collects metadata from the local certificate stores.
-    /// </summary>
     public class TpmCollector : BaseCollector
     {
         public TpmCollector()
@@ -22,9 +19,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         }
 
-        /// <summary>
-        /// Execute the certificate collector.
-        /// </summary>
         public override void ExecuteInternal()
         {
             Tpm2Device? tpmDevice = null;

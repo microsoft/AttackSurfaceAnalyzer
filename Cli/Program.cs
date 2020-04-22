@@ -911,6 +911,8 @@ namespace AttackSurfaceAnalyzer.Cli
             StartEvent.Add("Firewall", opts.EnableFirewallCollector.ToString(CultureInfo.InvariantCulture));
             StartEvent.Add("ComObject", opts.EnableComObjectCollector.ToString(CultureInfo.InvariantCulture));
             StartEvent.Add("EventLog", opts.EnableEventLogCollector.ToString(CultureInfo.InvariantCulture));
+            StartEvent.Add("Tpm", opts.EnableEventLogCollector.ToString(CultureInfo.InvariantCulture));
+            StartEvent.Add("Keys", opts.EnableKeyCollector.ToString(CultureInfo.InvariantCulture));
             StartEvent.Add("Admin", AsaHelpers.IsAdmin().ToString(CultureInfo.InvariantCulture));
             AsaTelemetry.TrackEvent("Run Command", StartEvent);
 
@@ -953,6 +955,12 @@ namespace AttackSurfaceAnalyzer.Cli
                                 break;
                             case RESULT_TYPE.USER:
                                 opts.EnableUserCollector = true;
+                                break;
+                            case RESULT_TYPE.KEY:
+                                opts.EnableKeyCollector = true;
+                                break;
+                            case RESULT_TYPE.TPM:
+                                opts.EnableTpmCollector = true;
                                 break;
                         }
                     }
@@ -1005,6 +1013,16 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 collectors.Add(new EventLogCollector(opts.GatherVerboseLogs));
                 dict.Add(RESULT_TYPE.LOG);
+            }
+            if (opts.EnableTpmCollector || opts.EnableAllCollectors)
+            {
+                collectors.Add(new TpmCollector());
+                dict.Add(RESULT_TYPE.TPM);
+            }
+            if (opts.EnableKeyCollector || opts.EnableAllCollectors)
+            {
+                collectors.Add(new CryptographicKeyCollector());
+                dict.Add(RESULT_TYPE.KEY);
             }
 
             if (collectors.Count == 0)
