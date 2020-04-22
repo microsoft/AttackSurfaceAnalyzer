@@ -69,7 +69,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         private static TpmHandle[] GetLoadedEntities(Tpm2 tpm, Ht rangeToQuery)
         {
-            uint maxHandles = UInt32.MaxValue;
+            uint maxHandles = uint.MaxValue;
             byte moreData = tpm.GetCapability(Cap.Handles, ((uint)rangeToQuery) << 24,
                                               maxHandles, out ICapabilitiesUnion h);
 
@@ -90,6 +90,10 @@ namespace AttackSurfaceAnalyzer.Collectors
         public static List<CryptographicKeyObject> DumpPersistentKeys(Tpm2 tpm)
         {
             var listOut = new List<CryptographicKeyObject>();
+            if (tpm is null)
+            {
+                return listOut;
+            }
             TpmHandle[] handles = GetLoadedEntities(tpm, Ht.Persistent);
             foreach (TpmHandle h in handles)
             {
