@@ -745,7 +745,7 @@ namespace AttackSurfaceAnalyzer.Cli
                                 Parallel.ForEach(queue, (res) =>
                                 {
                                     res.Rules = analyzer.Analyze(res);
-                                    res.Analysis = res.Rules.Max(x => x.Flag);
+                                    res.Analysis = res.Rules.Count > 0 ? res.Rules.Max(x => x.Flag) : analyzer.DefaultLevels[res.ResultType];
                                 });
                             }
                         }
