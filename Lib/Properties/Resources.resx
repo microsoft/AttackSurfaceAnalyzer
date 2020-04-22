@@ -564,9 +564,6 @@
   <data name="WrongSchema" xml:space="preserve">
     <value>Database has schema version {0} but database has schema version {1}.</value>
   </data>
-  <data name="Err_ClauseNoData" xml:space="preserve">
-    <value>Rule {0} Clause {1} does not contain any Data and will always return false.</value>
-  </data>
   <data name="Err_ClauseDictDataUnexpected" xml:space="preserve">
     <value>Rule {0} Clause {1} contains DictData which is innapropriate for operation {2}.</value>
   </data>    
