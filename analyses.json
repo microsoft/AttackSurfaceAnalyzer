@@ -840,6 +840,24 @@
           "Operation": "IS_EXPIRED"
         }
       ]
+    },
+    {
+      "Name": "TPM Keys",
+      "Description": "These TPM Keys have been changed.",
+      "Flag": "WARNING",
+      "ResultType": "FILE",
+      "Platforms": [
+        "WINDOWS"
+      ],
+      "Clauses": [
+        {
+          "Field": "Path",
+          "Operation": "ENDS_WITH",
+          "Data": [
+            ".PCPKEY"
+          ]
+        }
+      ]
     }
   ],
   "DefaultLevels": {
