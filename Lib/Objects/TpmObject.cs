@@ -12,6 +12,7 @@ namespace AttackSurfaceAnalyzer.Objects
     {
         public Dictionary<byte[], object> NV { get; set; } = new Dictionary<byte[], object>();
         public Dictionary<(TpmAlgId, uint), byte[]> PCRs { get; set; } = new Dictionary<(TpmAlgId, uint), byte[]>();
+        public List<CryptographicKeyObject> PersistedKeys { get; set; } = new List<CryptographicKeyObject>();
         public string? Manufacturer { get; set; }
         public DateTime TpmSpecDate { get; set; }
         public uint[] Version { get; }

@@ -16,7 +16,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         private const string DefaultSimulatorName = "127.0.0.1";
         private const int DefaultSimulatorPort = 2321;
 
-        public TpmCollector(bool TestMode)
+        public TpmCollector(bool TestMode = false)
         {
             this.TestMode = TestMode;
         }
@@ -50,7 +50,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             {   
                 using var tpm = new Tpm2(tpmDevice);
 
-                // TODO: Put Device/ACPI location here
+                // TODO: Put Device/ACPI location here instead of PlatformString
                 var obj = new TpmObject(tpm.GetFirmwareVersionEx(), AsaHelpers.GetPlatformString());
 
                 Tpm2.GetTpmInfo(tpm, out string manufacturer, out uint specYear, out uint specDay);
@@ -60,9 +60,43 @@ namespace AttackSurfaceAnalyzer.Collectors
                 obj.NV = DumpNV(tpm);
 
                 obj.PCRs = DumpPCRs(tpm);
+
+                obj.PersistentKeys = DumpPersistentKeys(tpm);
             }
 
             tpmDevice?.Dispose();
+        }
+
+        private static TpmHandle[] GetLoadedEntities(Tpm2 tpm, Ht rangeToQuery)
+        {
+            uint maxHandles = UInt32.MaxValue;
+            byte moreData = tpm.GetCapability(Cap.Handles, ((uint)rangeToQuery) << 24,
+                                              maxHandles, out ICapabilitiesUnion h);
+
+            // TODO: Handle these errors without throwing
+            if (moreData != 0)
+            {
+                throw new NotImplementedException(
+                                        "GetLoadedEntities: Too much data returned");
+            }
+            if (h.GetType() != typeof(HandleArray))
+            {
+                throw new Exception(
+                            "GetLoadedEntities: Incorrect capability type requested");
+            }
+            return (h as HandleArray).handle;
+        }
+
+        public static List<CryptographicKeyObject> DumpPersistentKeys(Tpm2 tpm)
+        {
+            var listOut = new List<CryptographicKeyObject>();
+            TpmHandle[] handles = GetLoadedEntities(tpm, Ht.Persistent);
+            foreach (TpmHandle h in handles)
+            {
+                var tpmPublic = tpm.ReadPublic(h, out byte[] name, out byte[] qualifiedName);
+               // TODO: Gather the details
+            }
+            return listOut;
         }
 
         public static Dictionary<(TpmAlgId,uint),byte[]> DumpPCRs(Tpm2 tpm)
