@@ -178,10 +178,9 @@ namespace AttackSurfaceAnalyzer.Collectors
             byte moreData;
             do
             {
-                ICapabilitiesUnion cap;
-                uint maxHandles = UInt16.MaxValue;
+                uint maxHandles = ushort.MaxValue;
                 moreData = tpm.GetCapability(Cap.Handles, ((uint)Ht.NvIndex) << 24,
-                                             maxHandles, out cap);
+                                             maxHandles, out ICapabilitiesUnion cap);
                 HandleArray handles = (HandleArray)cap;
                 foreach (TpmHandle hh in handles.handle)
                 {
