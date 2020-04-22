@@ -110,11 +110,17 @@ namespace AttackSurfaceAnalyzer
         [Option('l', "logs", Required = false, HelpText = "Enable the Log collector")]
         public bool EnableEventLogCollector { get; set; }
 
-        [Option(HelpText = "Gather all levels in the Log collector. (Default: Only gather Error and Warning when possible.)")]
-        public bool GatherVerboseLogs { get; set; }
+        [Option('t', "tpm", Required = false, HelpText = "Gather information about the TPM")]
+        public bool EnableTpmCollector { get; set; }
+
+        [Option('k', "keys", Required = false, HelpText = "Gather information about the cryptographic keys on the system.")]
+        public bool EnableKeyCollector { get; set; }
 
         [Option('a', "all", Required = false, HelpText = "Enable all collectors")]
         public bool EnableAllCollectors { get; set; }
+
+        [Option(HelpText = "Gather all levels in the Log collector. (Default: Only gather Error and Warning when possible.)")]
+        public bool GatherVerboseLogs { get; set; }
 
         [Option("match-run-id", Required = false, HelpText = "Match the collectors used on another run id")]
         public string? MatchedCollectorId { get; set; }
