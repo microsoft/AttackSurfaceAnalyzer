@@ -47,8 +47,16 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
 
             if (tpmDevice is Tpm2Device)
-            {   
+            {
+                tpmDevice.Connect();
+
                 using var tpm = new Tpm2(tpmDevice);
+
+                if (tpmDevice is TcpTpmDevice)
+                {
+                    tpmDevice.PowerCycle();
+                    tpm.Startup(Su.Clear);
+                }
 
                 // TODO: Put Device/ACPI location here instead of PlatformString
                 var obj = new TpmObject(tpm.GetFirmwareVersionEx(), AsaHelpers.GetPlatformString());
@@ -62,6 +70,12 @@ namespace AttackSurfaceAnalyzer.Collectors
                 obj.PCRs = DumpPCRs(tpm);
 
                 obj.PersistentKeys = DumpPersistentKeys(tpm);
+
+                GenerateRandomRsa(tpm, TpmAlgId.Sha256, 2048);
+                // Turn that key into a CryptoGraphicKeyObject
+                // obj.RandomKeys.Add();
+
+                // TODO: GenerateRandomEcc
             }
 
             tpmDevice?.Dispose();
@@ -191,6 +205,45 @@ namespace AttackSurfaceAnalyzer.Collectors
             } while (moreData == 1);
 
             return output;
+        }
+
+        public static TpmHandle? GenerateRandomRsa(Tpm2 tpm, TpmAlgId hashAlg, int bits)
+        {
+            if (tpm is null)
+            {
+                return null;
+            }
+            var ownerAuth = new AuthValue();
+
+            // 
+            // The TPM needs a template that describes the parameters of the key
+            // or other object to be created.  The template below instructs the TPM 
+            // to create a new 2048-bit non-migratable signing key.
+            // 
+            var keyTemplate = new TpmPublic(hashAlg,      // Name algorithm
+                                            ObjectAttr.Sign,     // Signing key
+                                            null,               // No policy
+                                            new RsaParms(new SymDefObject(),
+                                                         new SchemeRsassa(hashAlg), 2048, 0),
+                                            new Tpm2bPublicKeyRsa());
+            TpmPublic keyPublic;
+            CreationData creationData;
+            TkCreation creationTicket;
+            byte[] creationHash;
+
+            // 
+            // Ask the TPM to create a new primary RSA signing key.
+            // 
+            TpmHandle keyHandle = tpm[ownerAuth].CreatePrimary(
+                TpmRh.Owner,                            // In the owner-hierarchy
+                null,     // With this auth-value
+                keyTemplate,                            // Describes key
+                null,                                   // Extra data for creation ticket
+                Array.Empty<PcrSelection>(),                    // Non-PCR-bound
+                out keyPublic,                          // PubKey and attributes
+                out creationData, out creationHash, out creationTicket);    // Not used here
+
+            return keyHandle;
         }
     }
 }
