@@ -162,7 +162,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             TpmHandle[] handles = GetLoadedEntities(tpm, Ht.Persistent);
             foreach (TpmHandle h in handles)
             {
-                var tpmPublic = tpm.ReadPublic(h, out byte[] name, out byte[] qualifiedName);
+               var tpmPublic = tpm.ReadPublic(h, out byte[] name, out byte[] qualifiedName);
                // TODO: Gather the details
             }
             return listOut;

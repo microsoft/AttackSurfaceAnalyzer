@@ -16,6 +16,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public void StartSimulator()
         {
+            // TODO: Don't return until the server is ready to accept connections.
             t = Task.Run(() => StartTcpServer(Port));
         }
 
