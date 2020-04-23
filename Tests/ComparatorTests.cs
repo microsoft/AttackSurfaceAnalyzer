@@ -9,6 +9,10 @@ using Microsoft.Win32;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
+using System.Runtime.InteropServices;
+using WindowsFirewallHelper;
 
 namespace AttackSurfaceAnalyzer.Tests
 {
@@ -21,13 +25,6 @@ namespace AttackSurfaceAnalyzer.Tests
             Logger.Setup(false, true);
             Strings.Setup();
             AsaTelemetry.Setup(test: true);
-            DatabaseManager.Setup(Path.GetTempFileName());
-        }
-
-        [TestCleanup]
-        public void TearDown()
-        {
-            DatabaseManager.Destroy();
         }
 
         [TestMethod]
