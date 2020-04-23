@@ -266,7 +266,6 @@ __pycache__/
 
 Application Insights/
 *.sqlite-journal
-Tools/
 asa.sqlite
 *asa.log.txt
 *.sqlite
