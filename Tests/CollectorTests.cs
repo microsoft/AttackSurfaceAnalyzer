@@ -14,6 +14,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
+using System.Threading;
 using WindowsFirewallHelper;
 
 namespace AttackSurfaceAnalyzer.Tests
@@ -107,16 +108,36 @@ namespace AttackSurfaceAnalyzer.Tests
         [TestMethod]
         public void TestTpmCollector()
         {
-            var tpmSim = new TpmSim();
-            tpmSim.StartSimulator();
-            var tpmc = new TpmCollector(TestMode: true);
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                //var tpmSim = new TpmSim();
+                //tpmSim.StartSimulator();
 
-            // Write to NV
-            // Persist a key
-            // Measure to a PCR
+                using var process = new Process()
+                {
+                    StartInfo = new ProcessStartInfo
+                    {
+                        FileName = "Simulator.exe",
+                        RedirectStandardOutput = false,
+                        RedirectStandardError = false,
+                        UseShellExecute = false,
+                        CreateNoWindow = true,
+                        WindowStyle = ProcessWindowStyle.Hidden
+                    }
+                };
 
-            tpmc.Execute();
-            tpmSim.StopSimulator();
+                process.Start();
+
+                var tpmc = new TpmCollector(TestMode: true);
+
+                // Write to NV
+                // Persist a key
+                // Measure to a PCR
+
+                tpmc.Execute();
+                process.Kill();
+                //tpmSim.StopSimulator();
+            }
         }
 
         /// <summary>
