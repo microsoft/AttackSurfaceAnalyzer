@@ -142,6 +142,31 @@ namespace AttackSurfaceAnalyzer.Tests
         }
 
         /// <summary>
+        /// Requires Admin
+        /// </summary>
+        [TestMethod]
+        public void TestTpmCollectorInProc()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                var simulator = new TpmSim();
+
+                simulator.StartSimulator();
+
+                var tpmc = new TpmCollector(TestMode: true);
+
+                // Write to NV
+                // Persist a key
+                // Measure to a PCR
+
+                tpmc.Execute();
+
+                // TODO: This doesn't work yet.
+                simulator.StopSimulator();
+            }
+        }
+
+        /// <summary>
         /// Does not require admin.
         /// </summary>
         [TestMethod]

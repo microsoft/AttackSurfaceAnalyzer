@@ -8,7 +8,8 @@ namespace AttackSurfaceAnalyzer.Utils
         [DllImport("Tpm")]
         public static extern int StartTcpServer(int port);
 
-        Task task;
+        private Task task;
+        public int Port { get; }
 
         public void StartSimulator(int port = 2321)
         {
@@ -18,6 +19,11 @@ namespace AttackSurfaceAnalyzer.Utils
         public void StopSimulator()
         {
             // TODO: Send "TPM_STOP" to the TPM Simulator
+        }
+
+        public TpmSim(int Port = 2321)
+        {
+            this.Port = Port;
         }
 
     }
