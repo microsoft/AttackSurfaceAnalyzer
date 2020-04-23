@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Tpm2Lib;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -10,18 +11,23 @@ namespace AttackSurfaceAnalyzer.Utils
         [DllImport("Tpm")]
         public static extern int StartTcpServer(int port);
 
-        private Thread t;
+        private Task? t;
         public int Port { get; }
 
-        public void StartSimulator(int port = 2321)
+        public void StartSimulator()
         {
-            t = new Thread(() => StartTcpServer(Port));
+            t = Task.Run(() => StartTcpServer(Port));
         }
 
         public void StopSimulator()
         {
-            t.Abort();
-            // TODO: Send "TPM_STOP" to the TPM Simulator?
+            TcpTpmDevice? tpmDevice = new TcpTpmDevice("127.0.0.1", Port);
+
+            if (tpmDevice is TcpTpmDevice)
+            {
+                tpmDevice.Connect();
+                tpmDevice.Close();
+            }
         }
 
         public TpmSim(int Port = 2321)
