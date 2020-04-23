@@ -1,4 +1,6 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer.Utils
@@ -8,17 +10,18 @@ namespace AttackSurfaceAnalyzer.Utils
         [DllImport("Tpm")]
         public static extern int StartTcpServer(int port);
 
-        private Task task;
+        private Thread t;
         public int Port { get; }
 
         public void StartSimulator(int port = 2321)
         {
-            task = Task.Run(() => StartTcpServer(port));
+            t = new Thread(() => StartTcpServer(Port));
         }
 
         public void StopSimulator()
         {
-            // TODO: Send "TPM_STOP" to the TPM Simulator
+            t.Abort();
+            // TODO: Send "TPM_STOP" to the TPM Simulator?
         }
 
         public TpmSim(int Port = 2321)
