@@ -207,14 +207,13 @@ namespace AttackSurfaceAnalyzer.Collectors
                     new PcrSelection(tpmAlgId, pcr)
                 };
 
-                PcrSelection[] valsRead;
-                Tpm2bDigest[] values;
+                tpm.PcrRead(valuesToRead, out PcrSelection[] valsRead, out Tpm2bDigest[] values);
 
-                tpm.PcrRead(valuesToRead, out valsRead, out values);
-
-                var pcr1 = new TpmHash(tpmAlgId, values[0].buffer);
-
-                output.Add((tpmAlgId, pcr), pcr1);
+                if (valsRead.Length > 0)
+                {
+                    var pcr1 = new TpmHash(tpmAlgId, values[0].buffer);
+                    output.Add((tpmAlgId, pcr), pcr1);
+                }
             }
 
             return output;
