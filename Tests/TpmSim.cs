@@ -14,5 +14,11 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             task = Task.Run(() => StartTcpServer(port));
         }
+
+        public void StopSimulator()
+        {
+            // TODO: Send "TPM_STOP" to the TPM Simulator
+        }
+
     }
 }
