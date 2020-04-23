@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
+using Newtonsoft.Json;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -209,11 +211,14 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 tpm.PcrRead(valuesToRead, out PcrSelection[] valsRead, out Tpm2bDigest[] values);
 
-                if (valsRead.Length > 0)
+                if (valsRead.Length > 0 && values.Length > 0)
                 {
                     var pcr1 = new TpmHash(tpmAlgId, values[0].buffer);
                     output.Add((tpmAlgId, pcr), pcr1);
                 }
+                Log.Debug(JsonConvert.SerializeObject(valuesToRead));
+                Log.Debug(JsonConvert.SerializeObject(valsRead));
+                Log.Debug(JsonConvert.SerializeObject(values));
             }
 
             return output;
