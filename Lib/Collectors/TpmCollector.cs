@@ -166,7 +166,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
 
             // Spec defines 24 PCRs
-            var allPcrs = new uint[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24 };
+            var allPcrs = new uint[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
 
             foreach(var pcrVal in DumpPCRs(tpm, TpmAlgId.Sha1, allPcrs))
             {
