@@ -13,7 +13,6 @@ namespace AttackSurfaceAnalyzer.Utils
         public void StartSimulator(int port = 2321)
         {
             task = Task.Run(() => StartTcpServer(port));
-            task.Start();
         }
 
         public void StopSimulator()
