@@ -117,7 +117,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 {
                     StartInfo = new ProcessStartInfo
                     {
-                        FileName = "Simulator.exe",
+                        FileName = "TpmSim\\Simulator.exe",
                         RedirectStandardOutput = true,
                         RedirectStandardError = true,
                         UseShellExecute = false,
