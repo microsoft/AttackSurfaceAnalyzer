@@ -174,31 +174,19 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 return output;
             }
-
-            // Spec defines 24 PCRs
-            var allPcrs = new uint[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
-
+            
             var algorithms = new TpmAlgId[] { TpmAlgId.Sha1, TpmAlgId.Sha256, TpmAlgId.Sha384, TpmAlgId.Sha512, TpmAlgId.Sm2 };
 
             foreach(var algorithm in algorithms)
             {
-                foreach(var pcrVal in DumpAlgorithmPCRs(tpm,algorithm))
+                // Spec defines 24 PCRs
+                foreach(var pcrVal in DumpPCRs(tpm, algorithm, new PcrSelection[] { PcrSelection.FullPcrBank(algorithm, 24) }))
                 {
                     output.Add(pcrVal.Key, pcrVal.Value);
                 }
             }
 
             return output;
-        }
-
-        public static Dictionary<(TpmAlgId, uint), byte[]> DumpAlgorithmPCRs(Tpm2 tpm, TpmAlgId algorithm)
-        {
-            var pcrs = new PcrSelection(algorithm);
-            for(uint i = 0; i < 24; i++)
-            {
-                pcrs.SelectPcr(i);
-            }
-            return DumpPCRs(tpm, algorithm, new PcrSelection[] { pcrs });
         }
 
         public static Dictionary<(TpmAlgId, uint), byte[]> DumpPCRs(Tpm2 tpm, TpmAlgId tpmAlgId, PcrSelection[] pcrs)
