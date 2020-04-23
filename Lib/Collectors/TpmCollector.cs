@@ -4,7 +4,9 @@ using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Runtime.InteropServices;
+using System.Text;
 using Tpm2Lib;
 
 namespace AttackSurfaceAnalyzer.Collectors
@@ -59,11 +61,15 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
 
                 // TODO: Put Device/ACPI location here instead of PlatformString
-                var obj = new TpmObject(tpm.GetFirmwareVersionEx(), AsaHelpers.GetPlatformString());
+                var obj = new TpmObject(AsaHelpers.GetPlatformString());
 
                 Tpm2.GetTpmInfo(tpm, out string manufacturer, out uint specYear, out uint specDay);
+
                 obj.TpmSpecDate = new DateTime((int)specYear, 1, 1).AddDays(specDay - 1);
+
                 obj.Manufacturer = manufacturer;
+
+                obj.Version = GetVersionString(tpm,manufacturer);
 
                 obj.NV = DumpNV(tpm);
 
@@ -72,13 +78,47 @@ namespace AttackSurfaceAnalyzer.Collectors
                 obj.PersistentKeys = DumpPersistentKeys(tpm);
 
                 GenerateRandomRsa(tpm, TpmAlgId.Sha256, 2048);
-                // Turn that key into a CryptoGraphicKeyObject
+                // Turn that key into a CryptographicKeyObject
                 // obj.RandomKeys.Add();
 
                 // TODO: GenerateRandomEcc
             }
 
             tpmDevice?.Dispose();
+        }
+
+        public static string GetVersionString(Tpm2 tpm,string manufacturer)
+        {
+            var sb = new StringBuilder();
+
+            if (tpm != null)
+            {
+                uint[] version = tpm.GetFirmwareVersionEx();
+                if (version.Length > 0)
+                {
+                    sb.Append(version[0] >> 16);
+                    sb.Append('.');
+                    sb.Append(version[0] & 0x0000FFFF);
+                    sb.Append('.');
+
+                    if (version.Length > 1)
+                    {
+                        if (manufacturer is string && manufacturer.Equals("IFX"))
+                        {
+                            sb.Append((version[1] >> 8) & 0x0000FFFF);
+                            sb.Append('.');
+                            sb.Append(version[1] & 0x000000FF);
+                        }
+                        else
+                        {
+                            sb.Append(version[1] >> 16);
+                            sb.Append('.');
+                            sb.Append(version[1] & 0x0000FFFF);
+                        }
+                    }
+                }
+            }
+            return sb.ToString();
         }
 
         private static TpmHandle[] GetLoadedEntities(Tpm2 tpm, Ht rangeToQuery)

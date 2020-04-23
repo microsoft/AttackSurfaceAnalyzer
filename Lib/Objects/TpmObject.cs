@@ -16,16 +16,14 @@ namespace AttackSurfaceAnalyzer.Objects
         public List<CryptographicKeyObject> RandomKeys { get; set; } = new List<CryptographicKeyObject>();
         public string? Manufacturer { get; set; }
         public DateTime TpmSpecDate { get; set; }
-        public uint[] Version { get; }
-        public string Location { get; set; }
+        public string? Version { get; set;  }
+        public string Location { get; }
 
 
-        public TpmObject(uint[] Version, string Location)
+        public TpmObject(string Location)
         {
             ResultType = Types.RESULT_TYPE.TPM;
-            this.Version = Version;
             this.Location = Location;
-            // TODO: Transform the version into a readable string
         }
 
         public override string Identity
