@@ -172,9 +172,9 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 tpm.PcrRead(valuesToRead, out valsRead, out values);
 
-                var pcr1 = new TpmHash(TpmAlgId.Sha1, values[0].buffer);
+                var pcr1 = new TpmHash(tpmAlgId, values[0].buffer);
 
-                output.Add((TpmAlgId.Sha1, pcr), pcr1);
+                output.Add((tpmAlgId, pcr), pcr1);
             }
 
             return output;
