@@ -248,9 +248,16 @@ namespace AttackSurfaceAnalyzer.Tests
             bc.Compare(OldItems, NewItems, FirstRunId, SecondRunId);
             var results = bc.Results;
 
+<<<<<<< HEAD
             Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("ChangingEntry") && x.Base is FileSystemObject FSO && x.Compare is FileSystemObject FSO2 && FSO.Size == 501 && FSO2.Size == 701));
             Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Diffs.Any(y => y.Field == "Size") && x.Identity.Contains("ChangingEntry")));
             Assert.IsFalse(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("UnchangedEntry")));
+=======
+                Assert.IsTrue(results.ContainsKey((RESULT_TYPE.FIREWALL, CHANGE_TYPE.CREATED)));
+                Assert.IsTrue(results[(RESULT_TYPE.FIREWALL, CHANGE_TYPE.CREATED)].Any(x => x.Compare is FirewallObject FWO && FWO.LocalPorts is List<string> ports && ports.Contains("9999")));
+                Assert.IsTrue(results[(RESULT_TYPE.FIREWALL, CHANGE_TYPE.CREATED)].Any(x => x.Identity.Contains("MyApp.exe")));
+            }
+>>>>>>> Nullable cleanup
         }
     }
 }

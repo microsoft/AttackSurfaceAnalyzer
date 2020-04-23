@@ -188,7 +188,7 @@ namespace AttackSurfaceAnalyzer.Tests
         [TestMethod]
         public void TestPortCollectorWindows()
         {
-            TcpListener server = null;
+            TcpListener? server = null;
             try
             {
                 // Set the TcpListener on port 13000.
@@ -207,7 +207,7 @@ namespace AttackSurfaceAnalyzer.Tests
             }
             var fsc = new OpenPortCollector();
             fsc.Execute();
-            server.Stop();
+            server?.Stop();
 
             Assert.IsTrue(fsc.Results.Any(x => x is OpenPortObject OPO && OPO.Port == 13000));
         }
@@ -242,7 +242,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 var fwc = new FirewallCollector();
                 fwc.Execute();
 
-                Assert.IsTrue(fwc.Results.Any(x => x is FirewallObject FWO && FWO.LocalPorts.Contains("19999")));
+                Assert.IsTrue(fwc.Results.Any(x => x is FirewallObject FWO && FWO.LocalPorts != null && FWO.LocalPorts.Contains("19999")));
 
                 result = ExternalCommandRunner.RunExternalCommand("iptables", "-D INPUT -p tcp --dport 19999 -j DROP");
             }
@@ -275,7 +275,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 var fwc = new FirewallCollector();
                 fwc.Execute();
 
-                Assert.IsTrue(fwc.Results.Any(x => x is FirewallObject FWO && FWO.LocalPorts.Contains("9999")));
+                Assert.IsTrue(fwc.Results.Any(x => x is FirewallObject FWO && FWO.LocalPorts != null && FWO.LocalPorts.Contains("9999")));
                 Assert.IsTrue(fwc.Results.Any(x => x is FirewallObject FWO && FWO.ApplicationName is string && FWO.ApplicationName.Equals(@"C:\MyApp.exe")));
 
 
@@ -317,7 +317,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 Registry.CurrentUser.DeleteSubKey(name);
 
                 Assert.IsTrue(rc.Results.Any(x => x is RegistryObject RO && RO.Key.EndsWith(name)));
-                Assert.IsTrue(rc.Results.Any(x => x is RegistryObject RO && RO.Key.EndsWith(name) && RO.Values.ContainsKey(value) && RO.Values[value] == value2));
+                Assert.IsTrue(rc.Results.Any(x => x is RegistryObject RO && RO.Key.EndsWith(name) && RO.Values != null && RO.Values.ContainsKey(value) && RO.Values[value] == value2));
             }
         }
 
