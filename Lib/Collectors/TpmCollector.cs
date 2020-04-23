@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
+using Markdig.Parsers;
 using Newtonsoft.Json;
 using Serilog;
 using System;
@@ -79,7 +80,14 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 obj.PersistentKeys = DumpPersistentKeys(tpm);
 
-                GenerateRandomRsa(tpm, TpmAlgId.Sha256, 2048);
+                try
+                {
+                    GenerateRandomRsa(tpm, TpmAlgId.Sha256, 2048);
+                }
+                catch(Exception e)
+                {
+                    Log.Debug(e, "Failed to generate RSA Key");
+                }
                 // Turn that key into a CryptographicKeyObject
                 // obj.RandomKeys.Add();
 
@@ -140,7 +148,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 throw new Exception(
                             "GetLoadedEntities: Incorrect capability type requested");
             }
-            return (h as HandleArray).handle;
+            return (h as HandleArray)?.handle ?? Array.Empty<TpmHandle>();
         }
 
         public static List<CryptographicKeyObject> DumpPersistentKeys(Tpm2 tpm)
@@ -170,31 +178,30 @@ namespace AttackSurfaceAnalyzer.Collectors
             // Spec defines 24 PCRs
             var allPcrs = new uint[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
 
-            foreach(var pcrVal in DumpPCRs(tpm, TpmAlgId.Sha1, allPcrs))
+            var algorithms = new TpmAlgId[] { TpmAlgId.Sha1, TpmAlgId.Sha256, TpmAlgId.Sha384, TpmAlgId.Sha512, TpmAlgId.Sm2 };
+
+            foreach(var algorithm in algorithms)
             {
-                output.Add(pcrVal.Key, pcrVal.Value);
-            }
-            foreach (var pcrVal in DumpPCRs(tpm, TpmAlgId.Sha256, allPcrs))
-            {
-                output.Add(pcrVal.Key, pcrVal.Value);
-            }
-            foreach (var pcrVal in DumpPCRs(tpm, TpmAlgId.Sha384, allPcrs))
-            {
-                output.Add(pcrVal.Key, pcrVal.Value);
-            }
-            foreach (var pcrVal in DumpPCRs(tpm, TpmAlgId.Sha512, allPcrs))
-            {
-                output.Add(pcrVal.Key, pcrVal.Value);
-            }
-            foreach (var pcrVal in DumpPCRs(tpm, TpmAlgId.Sm2, allPcrs))
-            {
-                output.Add(pcrVal.Key, pcrVal.Value);
+                foreach(var pcrVal in DumpAlgorithmPCRs(tpm,algorithm))
+                {
+                    output.Add(pcrVal.Key, pcrVal.Value);
+                }
             }
 
             return output;
         }
 
-        public static Dictionary<(TpmAlgId, uint), byte[]> DumpPCRs(Tpm2 tpm, TpmAlgId tpmAlgId, uint[] pcrs)
+        public static Dictionary<(TpmAlgId, uint), byte[]> DumpAlgorithmPCRs(Tpm2 tpm, TpmAlgId algorithm)
+        {
+            var pcrs = new PcrSelection(algorithm);
+            for(uint i = 0; i < 24; i++)
+            {
+                pcrs.SelectPcr(i);
+            }
+            return DumpPCRs(tpm, algorithm, new PcrSelection[] { pcrs });
+        }
+
+        public static Dictionary<(TpmAlgId, uint), byte[]> DumpPCRs(Tpm2 tpm, TpmAlgId tpmAlgId, PcrSelection[] pcrs)
         {
             var output = new Dictionary<(TpmAlgId, uint), byte[]>();
             if (tpm == null || pcrs == null)
@@ -202,23 +209,20 @@ namespace AttackSurfaceAnalyzer.Collectors
                 return output;
             }
 
-            foreach(var pcr in pcrs)
+            Log.Debug(JsonConvert.SerializeObject(pcrs));
+            Log.Debug(tpmAlgId.ToString());
+
+            try
             {
-                var valuesToRead = new PcrSelection[]
-                {
-                    new PcrSelection(tpmAlgId, pcr)
-                };
+                tpm.PcrRead(pcrs, out PcrSelection[] valsRead, out Tpm2bDigest[] values);
 
-                tpm.PcrRead(valuesToRead, out PcrSelection[] valsRead, out Tpm2bDigest[] values);
-
-                if (valsRead.Length > 0 && values.Length > 0)
-                {
-                    var pcr1 = new TpmHash(tpmAlgId, values[0].buffer);
-                    output.Add((tpmAlgId, pcr), pcr1);
-                }
-                Log.Debug(JsonConvert.SerializeObject(valuesToRead));
                 Log.Debug(JsonConvert.SerializeObject(valsRead));
                 Log.Debug(JsonConvert.SerializeObject(values));
+            }
+            catch(Exception e)
+            {
+                // TODO: Don't hit this exception by checking which PCRs are available first with Get_Capability
+                Log.Debug(e,"Failed to read PCRs for algorithm {0}.",tpmAlgId);
             }
 
             return output;
@@ -251,24 +255,26 @@ namespace AttackSurfaceAnalyzer.Collectors
             return output;
         }
 
-        public static TpmHandle? GenerateRandomRsa(Tpm2 tpm, TpmAlgId hashAlg, int bits)
+        public static TpmHandle? GenerateRandomRsa(Tpm2 tpm, TpmAlgId hashAlg, ushort bits)
         {
+            TpmHandle? keyHandle = null;
             if (tpm is null)
             {
-                return null;
+                return keyHandle;
             }
+
             var ownerAuth = new AuthValue();
 
             // 
             // The TPM needs a template that describes the parameters of the key
             // or other object to be created.  The template below instructs the TPM 
-            // to create a new 2048-bit non-migratable signing key.
+            // to create a new 2048-bit migrateable signing key.
             // 
             var keyTemplate = new TpmPublic(hashAlg,      // Name algorithm
                                             ObjectAttr.Sign,     // Signing key
                                             null,               // No policy
                                             new RsaParms(new SymDefObject(),
-                                                         new SchemeRsassa(hashAlg), 2048, 0),
+                                                         new SchemeRsassa(hashAlg), bits, 0),
                                             new Tpm2bPublicKeyRsa());
             TpmPublic keyPublic;
             CreationData creationData;
@@ -278,14 +284,21 @@ namespace AttackSurfaceAnalyzer.Collectors
             // 
             // Ask the TPM to create a new primary RSA signing key.
             // 
-            TpmHandle keyHandle = tpm[ownerAuth].CreatePrimary(
-                TpmRh.Owner,                            // In the owner-hierarchy
-                null,     // With this auth-value
-                keyTemplate,                            // Describes key
-                null,                                   // Extra data for creation ticket
-                Array.Empty<PcrSelection>(),                    // Non-PCR-bound
-                out keyPublic,                          // PubKey and attributes
-                out creationData, out creationHash, out creationTicket);    // Not used here
+            try
+            {
+                keyHandle = tpm[ownerAuth].CreatePrimary(
+                    TpmRh.Owner,                            // In the owner-hierarchy
+                    null,     // With this auth-value
+                    keyTemplate,                            // Describes key
+                    null,                                   // Extra data for creation ticket
+                    Array.Empty<PcrSelection>(),                    // Non-PCR-bound
+                    out keyPublic,                          // PubKey and attributes
+                    out creationData, out creationHash, out creationTicket);    // Not used here
+            }
+            catch(Exception e)
+            {
+                Log.Debug(e, "Failed to create RSA Key with algorithm {0} and size {1}", hashAlg, bits);
+            }
 
             return keyHandle;
         }
