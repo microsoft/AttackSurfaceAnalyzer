@@ -8,6 +8,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using Tpm2Lib;
@@ -202,14 +203,41 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             try
             {
-                tpm.PcrRead(pcrs, out PcrSelection[] valsRead, out Tpm2bDigest[] values);
+                // TODO: Check which PCRs are available first
+                // This throws on unsupported algorithms.
+                do
+                {
+                    tpm.PcrRead(pcrs, out PcrSelection[] valsRead, out Tpm2bDigest[] values);
 
-                Log.Debug(JsonConvert.SerializeObject(valsRead));
-                Log.Debug(JsonConvert.SerializeObject(values));
+                    var pcr = pcrs[0];
+                    var valRead = valsRead[0];
+
+                    if (values.Length == 0)
+                    {
+                        break;
+                    }
+                    var pcrsRead = valRead.GetSelectedPcrs();
+
+                    var newPcrs = pcr.GetSelectedPcrs().Except(pcrsRead);
+
+                    for (int i = 0; i < values.Length; i++)
+                    {
+                        output.Add((tpmAlgId, pcrsRead[i]), values[i].buffer);
+                    }
+
+                    pcrs[0] = new PcrSelection(tpmAlgId, 24);
+
+                    foreach(var newPcr in newPcrs)
+                    {
+                        pcrs[0].SelectPcr(newPcr);
+                    }
+
+                    Log.Debug(JsonConvert.SerializeObject(valsRead));
+                    Log.Debug(JsonConvert.SerializeObject(values));
+                } while (pcrs[0].GetSelectedPcrs().Length > 0);
             }
             catch(Exception e)
             {
-                // TODO: Don't hit this exception by checking which PCRs are available first with Get_Capability
                 Log.Debug(e,"Failed to read PCRs for algorithm {0}.",tpmAlgId);
             }
 
