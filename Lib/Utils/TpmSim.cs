@@ -4,7 +4,7 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public static class TpmSim
     {
-        [DllImport("Tpm.Dll")]
+        [DllImport("Tpm")]
         static extern int StartTcpServer(int port);
     }
 }

@@ -77,5 +77,10 @@
     <None Include="..\README.md" Link="README.md" />
 	<None Include="..\icon-128.png" Pack="true" PackagePath="" />
 	<None Include="..\LICENSE.txt" Pack="true" PackagePath="" />
+	<None Include="..\tpm.dll">
+	  <Link>tpm.dll</Link>
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <IncludeInPackage>true</IncludeInPackage>
+	</None>
   </ItemGroup>
 </Project>
