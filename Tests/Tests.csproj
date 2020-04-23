@@ -18,6 +18,40 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\Tools\TpmSim\concrt140d.dll">
+      <Link>TpmSim\concrt140d.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Tools\TpmSim\msvcp140_1d.dll">
+      <Link>TpmSim\msvcp140_1d.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Tools\TpmSim\msvcp140_2d.dll">
+      <Link>TpmSim\msvcp140_2d.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Tools\TpmSim\msvcp140d.dll">
+      <Link>TpmSim\msvcp140d.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Tools\TpmSim\Simulator.exe">
+      <Link>TpmSim\Simulator.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Tools\TpmSim\tpm.dll">
+      <Link>TpmSim\tpm.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Tools\TpmSim\vccorlib140d.dll">
+      <Link>TpmSim\vccorlib140d.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Tools\TpmSim\vcruntime140d.dll">
+      <Link>TpmSim\vcruntime140d.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <None Update="ComRegistration.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -32,5 +66,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Lib\Lib.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="TpmSim\" />
   </ItemGroup>
 </Project>

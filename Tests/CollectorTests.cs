@@ -107,6 +107,8 @@ namespace AttackSurfaceAnalyzer.Tests
         [TestMethod]
         public void TestTpmCollector()
         {
+            var tpmSim = new TpmSim();
+            tpmSim.StartSimulator();
             var tpmc = new TpmCollector(TestMode: true);
 
             // Write to NV
@@ -114,6 +116,7 @@ namespace AttackSurfaceAnalyzer.Tests
             // Measure to a PCR
 
             tpmc.Execute();
+            tpmSim.StopSimulator();
         }
 
         /// <summary>
