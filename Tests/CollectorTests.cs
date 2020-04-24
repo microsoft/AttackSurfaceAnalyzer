@@ -128,9 +128,6 @@ namespace AttackSurfaceAnalyzer.Tests
 
                 process.Start();
 
-                // Let the simulator get started.
-                Thread.Sleep(10);
-
                 var tpmc = new TpmCollector(TestMode: true);
 
                 // Write to NV
@@ -154,9 +151,6 @@ namespace AttackSurfaceAnalyzer.Tests
                 var simulator = new TpmSim();
 
                 simulator.StartSimulator();
-
-                // Let the simulator get started.
-                Thread.Sleep(50);
 
                 var tpmc = new TpmCollector(TestMode: true);
 
