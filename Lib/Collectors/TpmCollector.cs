@@ -58,9 +58,9 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 using var tpm = new Tpm2(tpmDevice);
 
-                if (tpmDevice is TcpTpmDevice)
+                if (tpmDevice is TcpTpmDevice tcpTpmDevice)
                 {
-                    tpmDevice.PowerCycle();
+                    tcpTpmDevice.PowerCycle();
                     tpm.Startup(Su.Clear);
                 }
 
@@ -91,6 +91,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                 // TODO: GenerateRandomEcc
 
                 Results.Enqueue(obj);
+
+                tpmDevice.Close();
             }
 
             tpmDevice?.Dispose();
