@@ -14,6 +14,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
+using System.Security;
 using System.Threading;
 using Tpm2Lib;
 using WindowsFirewallHelper;
@@ -75,11 +76,18 @@ namespace AttackSurfaceAnalyzer.Tests
             var source = "AsaTests";
             var logname = "AsaTestLogs";
 
-            if (EventLog.SourceExists(source))
+            try
             {
-                // Delete the source and the log.
-                EventLog.DeleteEventSource(source);
-                EventLog.Delete(logname);
+                if (EventLog.SourceExists(source))
+                {
+                    // Delete the source and the log.
+                    EventLog.DeleteEventSource(source);
+                    EventLog.Delete(logname);
+                }
+            }
+            catch (SecurityException)
+            {
+                // This happens if you don't run as admin and it can't search all the logs
             }
 
             // Create the event source to make next try successful.
@@ -124,9 +132,13 @@ namespace AttackSurfaceAnalyzer.Tests
 
                 process.Start();
 
-                var tpmc = new TpmCollector(TestMode: true);
+
                 var nvData = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7 };
                 uint nvIndex = 3001;
+
+                var tpmc = new TpmCollector(TestMode: true);
+                // Prepare to write to NV 3001
+                TpmHandle nvHandle = TpmHandle.NV(nvIndex);
 
                 Tpm2Device? tpmDevice = new TcpTpmDevice("127.0.0.1", 2321);
                 if (tpmDevice is TcpTpmDevice)
@@ -137,19 +149,17 @@ namespace AttackSurfaceAnalyzer.Tests
                     tpmDevice.PowerCycle();
                     tpm.Startup(Su.Clear);
 
-                    // Prepare to write to NV 3001
-                    var ownerAuth = new AuthValue();
-                    TpmHandle nvHandle = TpmHandle.NV(nvIndex);
+                    tpm._AllowErrors()
+                        .NvUndefineSpace(TpmRh.Owner, nvHandle);
 
-                    AuthValue nvAuth = AuthValue.FromRandom(8);
-                    tpm.NvDefineSpace(TpmRh.Owner, nvAuth,
-                                      new NvPublic(nvHandle, TpmAlgId.Sha1,
-                                                   NvAttr.Authread | NvAttr.Authwrite,
-                                                   null, 32));
+                    tpm.NvDefineSpace(TpmRh.Owner, null,
+                                        new NvPublic(nvHandle, TpmAlgId.Sha1,
+                                                    NvAttr.Authread | NvAttr.Authwrite,
+                                                    null, 32));
 
                     // Write to NV 3001
                     tpm.NvWrite(nvHandle, nvHandle, nvData, 0);
-                    
+
                     // Measure to PCR 16
                     tpm.PcrEvent(TpmHandle.Pcr(16), nvData);
 
@@ -172,30 +182,6 @@ namespace AttackSurfaceAnalyzer.Tests
                 {
                     Assert.Fail();
                 }
-            }
-        }
-
-        /// <summary>
-        /// Requires Admin
-        /// </summary>
-        [TestMethod]
-        public void TestTpmCollectorInProc()
-        {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                var simulator = new TpmSim();
-
-                simulator.Start();
-
-                var tpmc = new TpmCollector(TestMode: true);
-
-                // Write to NV
-                // Persist a key
-                // Measure to a PCR
-
-                tpmc.Execute();
-
-                simulator.Stop();
             }
         }
 
