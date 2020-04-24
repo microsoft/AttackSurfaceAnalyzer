@@ -86,7 +86,7 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             var ro = new RegistryObject("Test Key", Microsoft.Win32.RegistryView.Default);
 
-            Assert.IsTrue(opo.RowKey.Equals(JsonUtils.Hydrate(JsonUtils.Dehydrate(opo), RESULT_TYPE.REGISTRY)?.RowKey));
+            Assert.IsTrue(ro.RowKey.Equals(JsonUtils.Hydrate(JsonUtils.Dehydrate(ro), RESULT_TYPE.REGISTRY)?.RowKey));
         }
 
         [TestMethod]
