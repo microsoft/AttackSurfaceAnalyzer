@@ -48,18 +48,19 @@
     <StartArguments>export-collect</StartArguments>
     <ExternalConsole>true</ExternalConsole>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Asa' ">
-    <StartAction>Project</StartAction>
-    <ExternalConsole>true</ExternalConsole>
-    <ApplicationURL>http://localhost:5000</ApplicationURL>
-  </PropertyGroup>
-
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Verify Rules' ">
     <StartAction>Project</StartAction>
+    <StartArguments>verify-rules</StartArguments>
     <ExternalConsole>true</ExternalConsole>
     <LaunchBrowser></LaunchBrowser>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'GUI' ">
+    <StartAction>Project</StartAction>
+    <StartArguments>gui</StartArguments>
+    <ExternalConsole>true</ExternalConsole>
+    <ApplicationURL>http://localhost:9838</ApplicationURL>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.8.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.14.0" />
