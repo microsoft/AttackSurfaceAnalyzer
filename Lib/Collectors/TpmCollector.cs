@@ -263,10 +263,18 @@ namespace AttackSurfaceAnalyzer.Collectors
                 foreach (TpmHandle hh in handles.handle)
                 {
                     NvPublic nvPub = tpm.NvReadPublic(hh, out byte[] nvName);
-                    
-                    byte[] value = tpm.NvRead(hh, hh, nvPub.dataSize, 0);
 
-                    output.Add(nvPub.nvIndex.GetOffset(), value);
+                    try
+                    {
+                        byte[] value = tpm.NvRead(hh, hh, nvPub.dataSize, 0);
+
+                        output.Add(nvPub.nvIndex.GetOffset(), value);
+                    }
+                    catch(TpmException)
+                    {
+                        Log.Debug($"Dumping NV {hh.handle & 0x00FFFFFF} failed");
+                        // TODO: 
+                    }
                 }
             } while (moreData == 1);
 
