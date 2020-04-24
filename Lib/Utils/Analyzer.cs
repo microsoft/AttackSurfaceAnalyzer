@@ -652,9 +652,9 @@ namespace AttackSurfaceAnalyzer.Utils
                         before = GetValueByPropertyName(compareResult.Base, splits[0]);
                         for (int i = 1; i < splits.Length; i++)
                         {
-                            if (before is Dictionary<object, object> dict)
+                            if (before is Dictionary<string, string> dict)
                             {
-                                if (dict.TryGetValue(splits[i], out object? value))
+                                if (dict.TryGetValue(splits[i], out string? value))
                                 {
                                     before = value;
                                 }
@@ -663,7 +663,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                     before = null;
                                 }
                             }
-                            else if (before is List<object> list)
+                            else if (before is List<string> list)
                             {
                                 if (int.TryParse(splits[i], out int res))
                                 {

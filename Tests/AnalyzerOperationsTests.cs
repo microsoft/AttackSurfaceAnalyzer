@@ -76,6 +76,42 @@ namespace AttackSurfaceAnalyzer.Tests
         }
 
         [TestMethod]
+        public void VerifyAccessSubproperties()
+        {
+            var regObj = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsListObject", Microsoft.Win32.RegistryView.Registry32)
+                {
+                    Values = new Dictionary<string, string>()
+                    {
+                        { "One", "Two"}
+                    }
+                }
+            };
+
+            var RuleName = "ContainsRule";
+            var containsRule = new Rule(RuleName)
+            {
+                ResultType = RESULT_TYPE.REGISTRY,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Values.One", OPERATION.EQ)
+                    {
+                        Label = "0",
+                        Data = new List<string>()
+                        {
+                            "Two"
+                        }
+                    }
+                }
+            };
+
+            var analyzer = GetAnalyzerForRule(containsRule);
+            Assert.IsTrue(analyzer.Analyze(regObj).Any(x => x.Name == RuleName));
+        }
+
+        [TestMethod]
         public void VerifyOr()
         {
             var RuleName = "OrRule";
