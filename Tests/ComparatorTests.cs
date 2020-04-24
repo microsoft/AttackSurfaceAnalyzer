@@ -21,7 +21,7 @@ namespace AttackSurfaceAnalyzer.Tests
     public class ComparatorTests
     {
         [ClassInitialize]
-        public static void ClassSetup()
+        public static void ClassSetup(TestContext _)
         {
             Logger.Setup(false, true);
             Strings.Setup();

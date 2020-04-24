@@ -16,7 +16,7 @@ namespace AttackSurfaceAnalyzer.Tests
     public class AnalyzerOperationsTests
     {
         [ClassInitialize]
-        public void Setup()
+        public static void ClassSetup(TestContext _)
         {
             Logger.Setup(false, true);
             Strings.Setup();
