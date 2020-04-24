@@ -16,7 +16,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
-using Utf8Json;
 
 namespace AttackSurfaceAnalyzer.Gui.Controllers
 {
