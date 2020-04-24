@@ -8,25 +8,19 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace AttackSurfaceAnalyzer.Tests
 {
     [TestClass]
     public class AnalyzerOperationsTests
     {
-        [TestInitialize]
+        [ClassInitialize]
         public void Setup()
         {
             Logger.Setup(false, true);
-            Utils.Strings.Setup();
+            Strings.Setup();
             AsaTelemetry.Setup(test: true);
-            DatabaseManager.Setup(Path.GetTempFileName());
-        }
-
-        [TestCleanup]
-        public void TearDown()
-        {
-            DatabaseManager.Destroy();
         }
 
         [TestMethod]

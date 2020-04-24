@@ -23,17 +23,12 @@ namespace AttackSurfaceAnalyzer.Tests
     [TestClass]
     public class CollectorTests
     {
-        [TestInitialize]
-        public void Setup()
+        [ClassInitialize]
+        public void ClassSetup()
         {
             Logger.Setup(false, true);
             Strings.Setup();
             AsaTelemetry.Setup(test: true);
-        }
-
-        [TestCleanup]
-        public void TearDown()
-        {
         }
 
         [TestMethod]
@@ -171,7 +166,7 @@ namespace AttackSurfaceAnalyzer.Tests
                     Assert.IsTrue(tpmObject.NV[nvIndex] is byte[] bytes && bytes.SequenceEqual(nvData));
 
                     // We should also be able to confirm that the PCR bank we measured into has changed (is different than others we did not change)
-                    Assert.IsTrue(!tpmObject.PCRs[(TpmAlgId.Sha1, 16)].SequenceEqual(tpmObject.PCRs[(TpmAlgId.Sha1, 15)]));
+                    Assert.IsFalse(tpmObject.PCRs[(TpmAlgId.Sha1, 16)].SequenceEqual(tpmObject.PCRs[(TpmAlgId.Sha1, 15)]));
                 }
                 else
                 {

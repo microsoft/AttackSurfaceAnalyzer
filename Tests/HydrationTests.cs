@@ -13,7 +13,7 @@ namespace Tests
         public void ClassSetup()
         {
             Logger.Setup(false, true);
-            Utils.Strings.Setup();
+            Strings.Setup();
             AsaTelemetry.Setup(test: true);
         }
 

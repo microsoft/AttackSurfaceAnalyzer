@@ -30,7 +30,7 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             if (serialized == null)
             {
-                throw new NullReferenceException();
+                return null;
             }
             switch (type)
             {

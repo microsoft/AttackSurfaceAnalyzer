@@ -24,11 +24,16 @@ namespace AttackSurfaceAnalyzer.Tests
         [TestInitialize]
         public void Setup()
         {
+            DatabaseManager.Setup(Path.GetTempFileName());
+            ResetObjects();
+        }
+
+        [ClassInitialize]
+        public void ClassSetup()
+        {
             Logger.Setup(false, true);
             Strings.Setup();
             AsaTelemetry.Setup(test: true);
-            DatabaseManager.Setup(Path.GetTempFileName());
-            ResetObjects();
         }
 
         public void ResetObjects()
