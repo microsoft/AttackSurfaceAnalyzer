@@ -244,9 +244,9 @@ namespace AttackSurfaceAnalyzer.Collectors
             return output;
         }
 
-        public static Dictionary<byte[],object> DumpNV(Tpm2 tpm)
+        public static Dictionary<uint,object> DumpNV(Tpm2 tpm)
         {
-            var output = new Dictionary<byte[], object>();
+            var output = new Dictionary<uint, object>();
 
             if (tpm == null)
             {
@@ -263,8 +263,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                 foreach (TpmHandle hh in handles.handle)
                 {
                     NvPublic nvPub = tpm.NvReadPublic(hh, out byte[] nvName);
+                    
                     byte[] value = tpm.NvRead(hh, hh, nvPub.dataSize, 0);
-                    output.Add(nvName, value);
+
+                    output.Add(nvPub.nvIndex.GetOffset(), value);
                 }
             } while (moreData == 1);
 

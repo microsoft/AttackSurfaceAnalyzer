@@ -10,7 +10,7 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class TpmObject : CollectObject
     {
-        public Dictionary<byte[], object> NV { get; set; } = new Dictionary<byte[], object>();
+        public Dictionary<uint, object> NV { get; set; } = new Dictionary<uint, object>();
         public Dictionary<(TpmAlgId, uint), byte[]> PCRs { get; set; } = new Dictionary<(TpmAlgId, uint), byte[]>();
         public List<CryptographicKeyObject> PersistentKeys { get; set; } = new List<CryptographicKeyObject>();
         public List<CryptographicKeyObject> RandomKeys { get; set; } = new List<CryptographicKeyObject>();

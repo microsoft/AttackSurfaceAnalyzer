@@ -15,6 +15,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Threading;
+using Tpm2Lib;
 using WindowsFirewallHelper;
 
 namespace AttackSurfaceAnalyzer.Tests
@@ -129,14 +130,53 @@ namespace AttackSurfaceAnalyzer.Tests
                 process.Start();
 
                 var tpmc = new TpmCollector(TestMode: true);
+                var nvData = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7 };
+                uint nvIndex = 3001;
 
-                // Write to NV
-                // Persist a key
-                // Measure to a PCR
+                Tpm2Device? tpmDevice = new TcpTpmDevice("127.0.0.1", 2321);
+                if (tpmDevice is TcpTpmDevice)
+                {
+                    tpmDevice.Connect();
 
-                tpmc.Execute();
+                    using var tpm = new Tpm2(tpmDevice);
+                    tpmDevice.PowerCycle();
+                    tpm.Startup(Su.Clear);
 
+                    // Prepare to write to NV 3001
+                    var ownerAuth = new AuthValue();
+                    TpmHandle nvHandle = TpmHandle.NV(nvIndex);
+
+                    AuthValue nvAuth = AuthValue.FromRandom(8);
+                    tpm.NvDefineSpace(TpmRh.Owner, nvAuth,
+                                      new NvPublic(nvHandle, TpmAlgId.Sha1,
+                                                   NvAttr.Authread | NvAttr.Authwrite,
+                                                   null, 32));
+
+                    // Write to NV 3001
+                    tpm.NvWrite(nvHandle, nvHandle, nvData, 0);
+                    
+                    // Measure to PCR 16
+                    tpm.PcrEvent(TpmHandle.Pcr(16), nvData);
+
+                    // Execute the collector
+                    tpmc.Execute();
+                }
                 process.Kill();
+
+                tpmc.Results.TryDequeue(out CollectObject? collectObject);
+
+                if (collectObject is TpmObject tpmObject)
+                {
+                    // We should be able to confirm the NV Data we wrote
+                    Assert.IsTrue(tpmObject.NV[nvIndex] is byte[] bytes && bytes.SequenceEqual(nvData));
+
+                    // We should also be able to confirm that the PCR bank we measured into has changed (is different than others we did not change)
+                    Assert.IsTrue(!tpmObject.PCRs[(TpmAlgId.Sha1, 16)].SequenceEqual(tpmObject.PCRs[(TpmAlgId.Sha1, 15)]));
+                }
+                else
+                {
+                    Assert.Fail();
+                }
             }
         }
 
@@ -150,7 +190,7 @@ namespace AttackSurfaceAnalyzer.Tests
             {
                 var simulator = new TpmSim();
 
-                simulator.StartSimulator();
+                simulator.Start();
 
                 var tpmc = new TpmCollector(TestMode: true);
 
@@ -160,7 +200,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
                 tpmc.Execute();
 
-                simulator.StopSimulator();
+                simulator.Stop();
             }
         }
 

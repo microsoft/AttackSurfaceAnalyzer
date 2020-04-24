@@ -1,6 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using System.Threading;
+﻿using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Tpm2Lib;
 
@@ -11,16 +9,14 @@ namespace AttackSurfaceAnalyzer.Utils
         [DllImport("Tpm")]
         public static extern int StartTcpServer(int port);
 
-        private Task? t;
         public int Port { get; }
 
-        public void StartSimulator()
+        public void Start()
         {
-            // TODO: Don't return until the server is ready to accept connections.
-            t = Task.Run(() => StartTcpServer(Port));
+            Task.Run(() => StartTcpServer(Port));
         }
 
-        public void StopSimulator()
+        public void Stop()
         {
             TcpTpmDevice? tpmDevice = new TcpTpmDevice("127.0.0.1", Port);
 
