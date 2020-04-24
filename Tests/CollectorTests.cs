@@ -25,7 +25,7 @@ namespace AttackSurfaceAnalyzer.Tests
     public class CollectorTests
     {
         [ClassInitialize]
-        public void ClassSetup()
+        public static void ClassSetup()
         {
             Logger.Setup(false, true);
             Strings.Setup();
