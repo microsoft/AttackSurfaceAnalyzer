@@ -102,6 +102,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 //tpmSim.StartSimulator();
 
                 var process = TpmSim.GetTpmSimulator();
+                process.Start();
 
                 var nvData = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7 };
                 uint nvIndex = 3001;
@@ -153,6 +154,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 process.Kill();
 
                 process = TpmSim.GetTpmSimulator();
+                process.Start();
 
                 // Execute the collector
                 tpmc.Execute();
