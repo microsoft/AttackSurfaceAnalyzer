@@ -341,6 +341,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                             break;
                     }
                 }
+
+                obj.LastModified = File.GetLastWriteTimeUtc(path);
+                obj.Created = File.GetCreationTimeUtc(path);
             }
             catch (Exception e) when (
                 e is ArgumentNullException ||
