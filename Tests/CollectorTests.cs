@@ -156,7 +156,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 simulator.StartSimulator();
 
                 // Let the simulator get started.
-                Thread.Sleep(10);
+                Thread.Sleep(50);
 
                 var tpmc = new TpmCollector(TestMode: true);
 
