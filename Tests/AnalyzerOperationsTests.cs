@@ -16,17 +16,28 @@ namespace AttackSurfaceAnalyzer.Tests
         private const string TestPathOne = "TestPath1";
         private const string TestPathTwo = "TestPath2";
 
-        private CompareResult testPathOneObject;
-        private CompareResult testPathTwoObject;
-        private CompareResult testPathOneExecutableObject;
-        private CompareResult testPathTwoExecutableObject;
-
-        [TestInitialize]
-        public void Setup()
+        private CompareResult testPathOneObject = new CompareResult()
         {
-            DatabaseManager.Setup(Path.GetTempFileName());
-            ResetObjects();
-        }
+            Base = new FileSystemObject(TestPathOne)
+        };
+        private CompareResult testPathTwoObject = new CompareResult()
+        {
+            Base = new FileSystemObject(TestPathTwo)
+        };
+        private CompareResult testPathOneExecutableObject = new CompareResult()
+        {
+            Base = new FileSystemObject(TestPathOne)
+            {
+                IsExecutable = true
+            }
+        };
+        private CompareResult testPathTwoExecutableObject = new CompareResult()
+        {
+            Base = new FileSystemObject(TestPathTwo)
+            {
+                IsExecutable = true
+            }
+        };
 
         [ClassInitialize]
         public void ClassSetup()
@@ -34,38 +45,6 @@ namespace AttackSurfaceAnalyzer.Tests
             Logger.Setup(false, true);
             Strings.Setup();
             AsaTelemetry.Setup(test: true);
-        }
-
-        public void ResetObjects()
-        {
-            testPathOneObject = new CompareResult()
-            {
-                Base = new FileSystemObject(TestPathOne)
-            };
-            testPathTwoObject = new CompareResult()
-            {
-                Base = new FileSystemObject(TestPathTwo)
-            };
-            testPathOneExecutableObject = new CompareResult()
-            {
-                Base = new FileSystemObject(TestPathOne)
-                {
-                    IsExecutable = true
-                }
-            };
-            testPathTwoExecutableObject = new CompareResult()
-            {
-                Base = new FileSystemObject(TestPathTwo)
-                {
-                    IsExecutable = true
-                }
-            };
-        }
-
-        [TestCleanup]
-        public void TearDown()
-        {
-            DatabaseManager.Destroy();
         }
 
         [TestMethod]
