@@ -608,7 +608,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         after = GetValueByPropertyName(compareResult.Compare, splits[0]);
                         for (int i = 1; i < splits.Length; i++)
                         {
-                            if (after is Dictionary<object,object> dict)
+                            if (after is Dictionary<object, object> dict)
                             {
                                 if (dict.TryGetValue(splits[i], out object? value))
                                 {
@@ -621,7 +621,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             }
                             else if (after is List<object> list)
                             {
-                                if (int.TryParse(splits[i],out int res))
+                                if (int.TryParse(splits[i], out int res))
                                 {
                                     if (list.Count > res)
                                     {

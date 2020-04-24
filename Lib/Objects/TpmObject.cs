@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Newtonsoft.Json;
 using Tpm2Lib;
 
 namespace AttackSurfaceAnalyzer.Objects
@@ -16,7 +14,7 @@ namespace AttackSurfaceAnalyzer.Objects
         public List<CryptographicKeyObject> RandomKeys { get; set; } = new List<CryptographicKeyObject>();
         public string? Manufacturer { get; set; }
         public DateTime TpmSpecDate { get; set; }
-        public string? Version { get; set;  }
+        public string? Version { get; set; }
         public string Location { get; }
 
 

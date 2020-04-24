@@ -2,12 +2,10 @@
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
-using Markdig.Parsers;
 using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -73,7 +71,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 obj.Manufacturer = manufacturer;
 
-                obj.Version = GetVersionString(tpm,manufacturer);
+                obj.Version = GetVersionString(tpm, manufacturer);
 
                 obj.NV = DumpNV(tpm);
 
@@ -98,7 +96,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             tpmDevice?.Dispose();
         }
 
-        public static string GetVersionString(Tpm2 tpm,string manufacturer)
+        public static string GetVersionString(Tpm2 tpm, string manufacturer)
         {
             var sb = new StringBuilder();
 
@@ -162,26 +160,26 @@ namespace AttackSurfaceAnalyzer.Collectors
             TpmHandle[] handles = GetLoadedEntities(tpm, Ht.Persistent);
             foreach (TpmHandle h in handles)
             {
-               var tpmPublic = tpm.ReadPublic(h, out byte[] name, out byte[] qualifiedName);
-               // TODO: Gather the details
+                var tpmPublic = tpm.ReadPublic(h, out byte[] name, out byte[] qualifiedName);
+                // TODO: Gather the details
             }
             return listOut;
         }
 
-        public static Dictionary<(TpmAlgId,uint),byte[]> DumpPCRs(Tpm2 tpm)
+        public static Dictionary<(TpmAlgId, uint), byte[]> DumpPCRs(Tpm2 tpm)
         {
             var output = new Dictionary<(TpmAlgId, uint), byte[]>();
             if (tpm == null)
             {
                 return output;
             }
-            
+
             var algorithms = new TpmAlgId[] { TpmAlgId.Sha1, TpmAlgId.Sha256, TpmAlgId.Sha384, TpmAlgId.Sha512, TpmAlgId.Sm2 };
 
-            foreach(var algorithm in algorithms)
+            foreach (var algorithm in algorithms)
             {
                 // Spec defines 24 PCRs
-                foreach(var pcrVal in DumpPCRs(tpm, algorithm, new PcrSelection[] { PcrSelection.FullPcrBank(algorithm, 24) }))
+                foreach (var pcrVal in DumpPCRs(tpm, algorithm, new PcrSelection[] { PcrSelection.FullPcrBank(algorithm, 24) }))
                 {
                     output.Add(pcrVal.Key, pcrVal.Value);
                 }
@@ -227,7 +225,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                     pcrs[0] = new PcrSelection(tpmAlgId, 24);
 
-                    foreach(var newPcr in newPcrs)
+                    foreach (var newPcr in newPcrs)
                     {
                         pcrs[0].SelectPcr(newPcr);
                     }
@@ -236,15 +234,15 @@ namespace AttackSurfaceAnalyzer.Collectors
                     Log.Debug(JsonConvert.SerializeObject(values));
                 } while (pcrs[0].GetSelectedPcrs().Length > 0);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                Log.Debug(e,"Failed to read PCRs for algorithm {0}.",tpmAlgId);
+                Log.Debug(e, "Failed to read PCRs for algorithm {0}.", tpmAlgId);
             }
 
             return output;
         }
 
-        public static Dictionary<uint,object> DumpNV(Tpm2 tpm)
+        public static Dictionary<uint, object> DumpNV(Tpm2 tpm)
         {
             var output = new Dictionary<uint, object>();
 
@@ -270,7 +268,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                         output.Add(nvPub.nvIndex.GetOffset(), value);
                     }
-                    catch(TpmException)
+                    catch (TpmException)
                     {
                         Log.Debug($"Dumping NV {hh.handle & 0x00FFFFFF} failed");
                         // TODO: 
@@ -323,7 +321,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     out keyPublic,                          // PubKey and attributes
                     out creationData, out creationHash, out creationTicket);    // Not used here
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Log.Debug(e, "Failed to create RSA Key with algorithm {0} and size {1}", hashAlg, bits);
             }

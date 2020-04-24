@@ -4,7 +4,6 @@ using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using Newtonsoft.Json;
 using Serilog;
-using System;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
