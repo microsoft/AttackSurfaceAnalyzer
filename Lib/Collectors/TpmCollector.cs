@@ -93,6 +93,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 // obj.RandomKeys.Add();
 
                 // TODO: GenerateRandomEcc
+                Results.Enqueue(obj);
             }
 
             tpmDevice?.Dispose();
@@ -289,16 +290,18 @@ namespace AttackSurfaceAnalyzer.Collectors
             // to create a new 2048-bit migrateable signing key.
             // 
             var keyTemplate = new TpmPublic(hashAlg,      // Name algorithm
-                                            ObjectAttr.Sign,     // Signing key
+                                            ObjectAttr.Decrypt,     // Encryption key
                                             null,               // No policy
-                                            new RsaParms(new SymDefObject(),
-                                                         new SchemeRsassa(hashAlg), bits, 0),
-                                            new Tpm2bPublicKeyRsa());
+                                            new RsaParms(new SymDefObject(TpmAlgId.Aes, 128, TpmAlgId.Cfb),
+                                                         null, bits, 0),
+                                            new Tpm2bPublicKeyRsa()); ;
             TpmPublic keyPublic;
             CreationData creationData;
             TkCreation creationTicket;
             byte[] creationHash;
 
+            var sensCreate = new SensitiveCreate(null,      // Auth-data provided by the caller
+                                                 null);     // No private key bits for asymmetric keys
             // 
             // Ask the TPM to create a new primary RSA signing key.
             // 
@@ -306,7 +309,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 keyHandle = tpm[ownerAuth].CreatePrimary(
                     TpmRh.Owner,                            // In the owner-hierarchy
-                    null,     // With this auth-value
+                    sensCreate,                                   // With this auth-value
                     keyTemplate,                            // Describes key
                     null,                                   // Extra data for creation ticket
                     Array.Empty<PcrSelection>(),                    // Non-PCR-bound
