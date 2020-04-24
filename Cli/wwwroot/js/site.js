@@ -24,7 +24,9 @@ var RESULT_TYPE = {
     GROUP: 7,
     FIREWALL: 8,
     COM: 9,
-    LOG: 10
+    LOG: 10,
+    TPM: 11,
+    KEY: 12
 };
 var CHANGE_TYPE = {
     INVALID: 0,
