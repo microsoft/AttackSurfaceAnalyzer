@@ -6,7 +6,6 @@ using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using WindowsFirewallHelper.COMInterop;
 
 namespace AttackSurfaceAnalyzer.Tests
 {

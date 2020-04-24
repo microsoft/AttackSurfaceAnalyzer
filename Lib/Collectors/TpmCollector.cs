@@ -81,6 +81,9 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 obj.PersistentKeys = DumpPersistentKeys(tpm);
 
+                // TODO:
+                // obj.Algorithms = GetSupportedAlgorithms(tpm);
+
                 try
                 {
                     GenerateRandomRsa(tpm, TpmAlgId.Sha256, 2048);
