@@ -25,6 +25,14 @@
       },
       "applicationUrl": "http://localhost:5000/"
     },
+    "GUI": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "http://localhost:9838"
+    },
     "Export-Collect": {
       "commandName": "Project",
       "commandLineArgs": "export-collect",
@@ -33,15 +41,6 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "http://localhost:5000/"
-    },
-    "Asa": {
-      "commandName": "Project",
-      "commandLineArgs": "gui",
-      "launchBrowser": true,
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "http://localhost:5000"
     }
   }
 }
