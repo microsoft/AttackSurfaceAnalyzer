@@ -6,6 +6,7 @@ using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Win32;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -114,7 +115,6 @@ namespace AttackSurfaceAnalyzer.Tests
 
                 process.Start();
 
-
                 var nvData = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7 };
                 uint nvIndex = 3001;
 
@@ -131,24 +131,44 @@ namespace AttackSurfaceAnalyzer.Tests
                     tpmDevice.PowerCycle();
                     tpm.Startup(Su.Clear);
 
-                    tpm._AllowErrors()
-                        .NvUndefineSpace(TpmRh.Owner, nvHandle);
+                    try
+                    {
+                        tpm._AllowErrors()
+                            .NvUndefineSpace(TpmRh.Owner, nvHandle);
 
-                    tpm.NvDefineSpace(TpmRh.Owner, null,
-                                        new NvPublic(nvHandle, TpmAlgId.Sha1,
-                                                    NvAttr.Authread | NvAttr.Authwrite,
-                                                    null, 32));
+                        tpm.NvDefineSpace(TpmRh.Owner, null,
+                                            new NvPublic(nvHandle, TpmAlgId.Sha1,
+                                                        NvAttr.None,
+                                                        null, 32));
 
-                    // Write to NV 3001
-                    tpm.NvWrite(nvHandle, nvHandle, nvData, 0);
+                        // Write to NV 3001
+                        tpm.NvWrite(nvHandle, nvHandle, nvData, 0);
+                    }
+                    catch(TpmException e)
+                    {
+                        Log.Debug(e, "Failed to Write to NV.");
+                    }
 
-                    // Measure to PCR 16
-                    tpm.PcrEvent(TpmHandle.Pcr(16), nvData);
+                    try
+                    {
+                        // Measure to PCR 16
+                        tpm.PcrEvent(TpmHandle.Pcr(16), nvData);
+                    }
+                    catch (TpmException e)
+                    {
+                        Log.Debug(e, "Failed to Write PCR.");
+                    }
+
+                    tpm.Dispose();
+                    tpmDevice.Dispose();
 
                     // Execute the collector
                     tpmc.Execute();
                 }
+
                 process.Kill();
+                // Clean up after simulator
+                File.Delete("NVChip");
 
                 tpmc.Results.TryDequeue(out CollectObject? collectObject);
 
