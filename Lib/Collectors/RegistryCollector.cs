@@ -24,14 +24,12 @@ namespace AttackSurfaceAnalyzer.Collectors
             (RegistryHive.ClassesRoot,string.Empty), (RegistryHive.CurrentConfig,string.Empty), (RegistryHive.CurrentUser,string.Empty), (RegistryHive.LocalMachine,string.Empty), (RegistryHive.Users,string.Empty)
         };
 
-        private readonly Action<RegistryObject>? customCrawlHandler;
 
-        public RegistryCollector(CollectCommandOptions opts) : this(DefaultHives, opts, null) { }
+        public RegistryCollector(CollectCommandOptions opts) : this(DefaultHives, opts) { }
 
-        public RegistryCollector(List<(RegistryHive, string)> Hives, CollectCommandOptions opts, Action<RegistryObject>? customHandler = null)
+        public RegistryCollector(List<(RegistryHive, string)> Hives, CollectCommandOptions opts)
         {
             this.Hives = Hives;
-            customCrawlHandler = customHandler;
             if (opts != null)
             {
                 Parallelize = !opts.SingleThread;
@@ -90,8 +88,6 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 var x86_Enumerable = RegistryWalker.WalkHive(hive.Item1, RegistryView.Registry32, hive.Item2);
                 var x64_Enumerable = RegistryWalker.WalkHive(hive.Item1, RegistryView.Registry64, hive.Item2);
-
-                var list = x86_Enumerable.ToList();
 
                 if (Parallelize)
                 {
