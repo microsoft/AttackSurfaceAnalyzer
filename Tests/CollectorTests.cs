@@ -12,12 +12,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Management.Automation;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
-using System.Security;
-using System.Threading;
 using Tpm2Lib;
 using WindowsFirewallHelper;
 
@@ -123,21 +120,27 @@ namespace AttackSurfaceAnalyzer.Tests
                     tpm._AllowErrors()
                         .NvUndefineSpace(TpmRh.Owner, nvHandle);
 
-                    tpm.NvDefineSpace(TpmRh.Owner, null,
-                                        new NvPublic(nvHandle, TpmAlgId.Sha1,
-                                                    NvAttr.None,
-                                                    null, 32));
+                    AuthValue nvAuth = AuthValue.FromRandom(8);
+                    tpm.NvDefineSpace(TpmRh.Owner, nvAuth,
+                                      new NvPublic(nvHandle, TpmAlgId.Sha1,
+                                                   NvAttr.Authread | NvAttr.Authwrite,
+                                                   null, 32));
+
 
                     // Write to NV 3001
                     tpm.NvWrite(nvHandle, nvHandle, nvData, 0);
 
-                    var nvOut = tpm.NvRead(nvHandle, nvHandle, 8, 0);
+                    var nvOut = tpm.NvRead(nvHandle, nvHandle, (ushort)nvData.Length, 0);
                     Assert.IsTrue(nvOut.SequenceEqual(nvData));
                 }
-                catch(TpmException e)
+                catch (TpmException e)
                 {
                     Log.Debug(e, "Failed to Write to NV.");
                 }
+
+                // We haven't written anything to the PCRs yet so they should be the same.
+                var pcrs = TpmCollector.DumpPCRs(tpm, TpmAlgId.Sha256, new PcrSelection[] { new PcrSelection(TpmAlgId.Sha256, new uint[] { 15, 16 }, 24) });
+                Assert.IsTrue(pcrs[(TpmAlgId.Sha256, 15)].SequenceEqual(pcrs[(TpmAlgId.Sha256, 16)]));
 
                 try
                 {
@@ -168,9 +171,12 @@ namespace AttackSurfaceAnalyzer.Tests
                 if (collectObject is TpmObject tpmObject)
                 {
                     // We should be able to confirm the NV Data we wrote
+                    Assert.IsTrue(tpmObject.NV.ContainsKey(nvIndex));
                     Assert.IsTrue(tpmObject.NV[nvIndex] is byte[] bytes && bytes.SequenceEqual(nvData));
 
-                    // We should also be able to confirm that the PCR bank we measured into has changed (is different than others we did not change)
+                    // We should also be able to confirm that the PCR bank we measured into has changed and that other's haven't
+                    Assert.IsTrue(tpmObject.PCRs[(TpmAlgId.Sha1, 16)].SequenceEqual(pcrs[(TpmAlgId.Sha256, 16)]));
+                    Assert.IsFalse(tpmObject.PCRs[(TpmAlgId.Sha1, 16)].SequenceEqual(pcrs[(TpmAlgId.Sha256, 16)]));
                     Assert.IsFalse(tpmObject.PCRs[(TpmAlgId.Sha1, 16)].SequenceEqual(tpmObject.PCRs[(TpmAlgId.Sha1, 15)]));
                 }
                 else

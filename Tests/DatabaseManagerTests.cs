@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using AttackSurfaceAnalyzer.Objects;
+﻿using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 
 namespace AttackSurfaceAnalyzer.Tests
 {
@@ -34,6 +34,11 @@ namespace AttackSurfaceAnalyzer.Tests
             var runId = "TestRun";
             var numberOfObjects = 100;
             DatabaseManager.Write(co, runId);
+
+            while (DatabaseManager.HasElements)
+            {
+                Thread.Sleep(1);
+            }
 
             Assert.IsTrue(DatabaseManager.GetResultsByRunid(runId).Any(x => x.ColObj is CertificateObject co && co.StoreLocation == "StoreLocation"));
 
@@ -89,9 +94,9 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             DatabaseManager.Setup("asa.sqlite");
             var run1 = new AsaRun("Run1", DateTime.Now, "Version", AsaHelpers.GetPlatform(), new List<RESULT_TYPE>() { RESULT_TYPE.CERTIFICATE }, RUN_TYPE.COLLECT);
-            
+
             DatabaseManager.InsertRun(run1);
-            
+
 
             var platform = DatabaseManager.RunIdToPlatform("Run1");
 

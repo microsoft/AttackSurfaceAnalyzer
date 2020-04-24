@@ -1,8 +1,8 @@
-﻿using System;
-using AttackSurfaceAnalyzer.Objects;
+﻿using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace AttackSurfaceAnalyzer.Tests
 {
@@ -76,7 +76,7 @@ namespace AttackSurfaceAnalyzer.Tests
         [TestMethod]
         public void TestSerializeAndDeserializeOpenPortObject()
         {
-            var opo = new OpenPortObject(1024,TRANSPORT.TCP);
+            var opo = new OpenPortObject(1024, TRANSPORT.TCP);
 
             Assert.IsTrue(opo.RowKey.Equals(JsonUtils.Hydrate(JsonUtils.Dehydrate(opo), RESULT_TYPE.PORT)?.RowKey));
         }
@@ -102,7 +102,7 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             var tpmo = new TpmObject("TestLocation");
 
-            Assert.IsTrue(tpmo.RowKey.Equals(JsonUtils.Hydrate(JsonUtils.Dehydrate(tpmo), RESULT_TYPE.FILE)?.RowKey));
+            Assert.IsTrue(tpmo.RowKey.Equals(JsonUtils.Hydrate(JsonUtils.Dehydrate(tpmo), RESULT_TYPE.TPM)?.RowKey));
         }
 
         [TestMethod]
@@ -110,7 +110,7 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             var uao = new UserAccountObject("TestUser");
 
-            Assert.IsTrue(uao.RowKey.Equals(JsonUtils.Hydrate(JsonUtils.Dehydrate(uao), RESULT_TYPE.FILE)?.RowKey));
+            Assert.IsTrue(uao.RowKey.Equals(JsonUtils.Hydrate(JsonUtils.Dehydrate(uao), RESULT_TYPE.USER)?.RowKey));
         }
 
         [TestMethod]
@@ -118,7 +118,7 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             var ugo = new GroupAccountObject("TestGroup");
 
-            Assert.IsTrue(ugo.RowKey.Equals(JsonUtils.Hydrate(JsonUtils.Dehydrate(ugo), RESULT_TYPE.FILE)?.RowKey));
+            Assert.IsTrue(ugo.RowKey.Equals(JsonUtils.Hydrate(JsonUtils.Dehydrate(ugo), RESULT_TYPE.GROUP)?.RowKey));
         }
     }
 }

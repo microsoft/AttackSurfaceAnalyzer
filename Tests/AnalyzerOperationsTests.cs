@@ -5,7 +5,6 @@ using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace AttackSurfaceAnalyzer.Tests
@@ -16,22 +15,22 @@ namespace AttackSurfaceAnalyzer.Tests
         private const string TestPathOne = "TestPath1";
         private const string TestPathTwo = "TestPath2";
 
-        private CompareResult testPathOneObject = new CompareResult()
+        private readonly CompareResult testPathOneObject = new CompareResult()
         {
             Base = new FileSystemObject(TestPathOne)
         };
-        private CompareResult testPathTwoObject = new CompareResult()
+        private readonly CompareResult testPathTwoObject = new CompareResult()
         {
             Base = new FileSystemObject(TestPathTwo)
         };
-        private CompareResult testPathOneExecutableObject = new CompareResult()
+        private readonly CompareResult testPathOneExecutableObject = new CompareResult()
         {
             Base = new FileSystemObject(TestPathOne)
             {
                 IsExecutable = true
             }
         };
-        private CompareResult testPathTwoExecutableObject = new CompareResult()
+        private readonly CompareResult testPathTwoExecutableObject = new CompareResult()
         {
             Base = new FileSystemObject(TestPathTwo)
             {
