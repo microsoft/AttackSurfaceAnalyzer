@@ -4,7 +4,7 @@ using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Tests
+namespace AttackSurfaceAnalyzer.Tests
 {
     [TestClass]
     public class HydrationTests
