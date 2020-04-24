@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Management.Automation;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
@@ -143,6 +144,9 @@ namespace AttackSurfaceAnalyzer.Tests
 
                         // Write to NV 3001
                         tpm.NvWrite(nvHandle, nvHandle, nvData, 0);
+
+                        var nvOut = tpm.NvRead(nvHandle, nvHandle, 8, 0);
+                        Assert.IsTrue(nvOut.SequenceEqual(nvData));
                     }
                     catch(TpmException e)
                     {
