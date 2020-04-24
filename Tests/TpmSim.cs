@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Tpm2Lib;
 
@@ -32,5 +33,20 @@ namespace AttackSurfaceAnalyzer.Utils
             this.Port = Port;
         }
 
+        public static Process GetTpmSimulator()
+        {
+            return new Process()
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = "TpmSim\\Simulator.exe",
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    WindowStyle = ProcessWindowStyle.Hidden
+                }
+            };
+        }
     }
 }

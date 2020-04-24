@@ -101,20 +101,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 //var tpmSim = new TpmSim();
                 //tpmSim.StartSimulator();
 
-                using var process = new Process()
-                {
-                    StartInfo = new ProcessStartInfo
-                    {
-                        FileName = "TpmSim\\Simulator.exe",
-                        RedirectStandardOutput = true,
-                        RedirectStandardError = true,
-                        UseShellExecute = false,
-                        CreateNoWindow = true,
-                        WindowStyle = ProcessWindowStyle.Hidden
-                    }
-                };
-
-                process.Start();
+                var process = TpmSim.GetTpmSimulator();
 
                 var nvData = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7 };
                 uint nvIndex = 3001;
@@ -123,52 +110,52 @@ namespace AttackSurfaceAnalyzer.Tests
                 // Prepare to write to NV 3001
                 TpmHandle nvHandle = TpmHandle.NV(nvIndex);
 
-                Tpm2Device? tpmDevice = new TcpTpmDevice("127.0.0.1", 2321);
-                if (tpmDevice is TcpTpmDevice)
+                TcpTpmDevice tcpTpmDevice = new TcpTpmDevice("127.0.0.1", 2321);
+                tcpTpmDevice.Connect();
+
+                using var tpm = new Tpm2(tcpTpmDevice);
+                tcpTpmDevice.PowerCycle();
+                tpm.Startup(Su.Clear);
+
+                try
                 {
-                    tpmDevice.Connect();
+                    tpm._AllowErrors()
+                        .NvUndefineSpace(TpmRh.Owner, nvHandle);
 
-                    using var tpm = new Tpm2(tpmDevice);
-                    tpmDevice.PowerCycle();
-                    tpm.Startup(Su.Clear);
+                    tpm.NvDefineSpace(TpmRh.Owner, null,
+                                        new NvPublic(nvHandle, TpmAlgId.Sha1,
+                                                    NvAttr.None,
+                                                    null, 32));
 
-                    try
-                    {
-                        tpm._AllowErrors()
-                            .NvUndefineSpace(TpmRh.Owner, nvHandle);
+                    // Write to NV 3001
+                    tpm.NvWrite(nvHandle, nvHandle, nvData, 0);
 
-                        tpm.NvDefineSpace(TpmRh.Owner, null,
-                                            new NvPublic(nvHandle, TpmAlgId.Sha1,
-                                                        NvAttr.None,
-                                                        null, 32));
-
-                        // Write to NV 3001
-                        tpm.NvWrite(nvHandle, nvHandle, nvData, 0);
-
-                        var nvOut = tpm.NvRead(nvHandle, nvHandle, 8, 0);
-                        Assert.IsTrue(nvOut.SequenceEqual(nvData));
-                    }
-                    catch(TpmException e)
-                    {
-                        Log.Debug(e, "Failed to Write to NV.");
-                    }
-
-                    try
-                    {
-                        // Measure to PCR 16
-                        tpm.PcrEvent(TpmHandle.Pcr(16), nvData);
-                    }
-                    catch (TpmException e)
-                    {
-                        Log.Debug(e, "Failed to Write PCR.");
-                    }
-
-                    tpm.Dispose();
-                    tpmDevice.Dispose();
-
-                    // Execute the collector
-                    tpmc.Execute();
+                    var nvOut = tpm.NvRead(nvHandle, nvHandle, 8, 0);
+                    Assert.IsTrue(nvOut.SequenceEqual(nvData));
                 }
+                catch(TpmException e)
+                {
+                    Log.Debug(e, "Failed to Write to NV.");
+                }
+
+                try
+                {
+                    // Measure to PCR 16
+                    tpm.PcrEvent(TpmHandle.Pcr(16), nvData);
+                }
+                catch (TpmException e)
+                {
+                    Log.Debug(e, "Failed to Write PCR.");
+                }
+
+                tcpTpmDevice.Close();
+
+                process.Kill();
+
+                process = TpmSim.GetTpmSimulator();
+
+                // Execute the collector
+                tpmc.Execute();
 
                 process.Kill();
                 // Clean up after simulator

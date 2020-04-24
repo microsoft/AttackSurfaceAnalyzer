@@ -84,18 +84,12 @@ namespace AttackSurfaceAnalyzer.Collectors
                 // TODO:
                 // obj.Algorithms = GetSupportedAlgorithms(tpm);
 
-                try
-                {
-                    GenerateRandomRsa(tpm, TpmAlgId.Sha256, 2048);
-                }
-                catch(Exception e)
-                {
-                    Log.Debug(e, "Failed to generate RSA Key");
-                }
+                GenerateRandomRsa(tpm, TpmAlgId.Sha256, 2048);
                 // Turn that key into a CryptographicKeyObject
                 // obj.RandomKeys.Add();
 
                 // TODO: GenerateRandomEcc
+
                 Results.Enqueue(obj);
             }
 
