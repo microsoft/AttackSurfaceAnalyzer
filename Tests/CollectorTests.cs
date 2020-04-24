@@ -73,37 +73,19 @@ namespace AttackSurfaceAnalyzer.Tests
         [TestMethod]
         public void TestEventCollectorWindows()
         {
-            var source = "AsaTests";
-            var logname = "AsaTestLogs";
-
-            try
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (EventLog.SourceExists(source))
-                {
-                    // Delete the source and the log.
-                    EventLog.DeleteEventSource(source);
-                    EventLog.Delete(logname);
-                }
+                Assert.IsTrue(AsaHelpers.IsAdmin());
+
+                using EventLog eventLog = new EventLog("Application");
+                eventLog.Source = "Attack Surface Analyzer Tests";
+                eventLog.WriteEntry("This Log Entry was created for testing the Attack Surface Analyzer library.", EventLogEntryType.Warning, 101, 1);
+
+                var fsc = new EventLogCollector();
+                fsc.Execute();
+
+                Assert.IsTrue(fsc.Results.Any(x => x is EventLogObject ELO && ELO.Source == "Attack Surface Analyzer Tests" && ELO.Timestamp is DateTime DT && DT.AddMinutes(1).CompareTo(DateTime.Now) > 0));
             }
-            catch (SecurityException)
-            {
-                // This happens if you don't run as admin and it can't search all the logs
-            }
-
-            // Create the event source to make next try successful.
-            EventLog.CreateEventSource(source, logname);
-
-            using EventLog eventLog = new EventLog("Application");
-            eventLog.Source = "Attack Surface Analyzer Tests";
-            eventLog.WriteEntry("This Log Entry was created for testing the Attack Surface Analyzer library.", EventLogEntryType.Warning, 101, 1);
-
-            var fsc = new EventLogCollector();
-            fsc.Execute();
-
-            EventLog.DeleteEventSource(source);
-            EventLog.Delete(logname);
-
-            Assert.IsTrue(fsc.Results.Any(x => x is EventLogObject ELO && ELO.Source == "Attack Surface Analyzer Tests" && ELO.Timestamp is DateTime DT && DT.AddMinutes(1).CompareTo(DateTime.Now) > 0));
         }
 
         /// <summary>
@@ -344,6 +326,7 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
+                Assert.IsTrue(AsaHelpers.IsAdmin());
                 // Create a service - This won't throw an exception, but it won't work if you are not an Admin.
                 var serviceName = "AsaDemoService";
                 var exeName = "AsaDemoService.exe";

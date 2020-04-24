@@ -556,12 +556,9 @@ namespace AttackSurfaceAnalyzer.Utils
                     cmd.Parameters.AddWithValue("@run_id", runId);
                     using (var reader = cmd.ExecuteReader())
                     {
-
-                        FileMonitorEvent obj;
-
                         while (reader.Read())
                         {
-                            obj = JsonConvert.DeserializeObject<FileMonitorEvent>(reader["serialized"].ToString());
+                            var obj = JsonConvert.DeserializeObject<FileMonitorEvent>(reader["serialized"].ToString());
                             obj.ChangeType = (CHANGE_TYPE)int.Parse(reader["change_type"].ToString() ?? "0", CultureInfo.InvariantCulture);
                             records.Add(obj);
                         }
