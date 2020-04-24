@@ -11,7 +11,11 @@ Platform specific binaries for Attack Surface Analyzer are distributed via our G
 The library is available on [NuGet](https://www.nuget.org/packages/Microsoft.CST.AttackSurfaceAnalyzer/)
 
 ## Note on Version
-The latest stable version of Attack Surface Analyzer is 2.1 (see [Release\v2.1](https://github.com/Microsoft/AttackSurfaceAnalyzer/tree/release/v2.1)).  2.2 is available in Beta.
+The latest stable version of Attack Surface Analyzer is 2.1 (see [Release\v2.1](https://github.com/Microsoft/AttackSurfaceAnalyzer/tree/release/v2.1)).  
+
+2.2 is available in Beta. 
+
+2.3 is now in development.  You can see the features coming [here](https://github.com/microsoft/attacksurfaceanalyzer/issues?q=is%3Aissue+milestone%3Av2.3+).
 
 ## New Features in 2.2
 
