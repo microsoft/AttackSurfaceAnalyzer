@@ -18,7 +18,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void TestSerializeObjects()
+        public void TestSerializeAndDeserializeObjects()
         {
             var co = new CertificateObject("StoreLocation", "StoreName", new SerializableCertificate("Thumbprint", "Subject", "PublicKey", DateTime.Now.AddYears(1), DateTime.Now, "Issuer", "SerialNumber", "CertHashString"));
 

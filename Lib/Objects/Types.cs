@@ -63,7 +63,6 @@ namespace AttackSurfaceAnalyzer.Types
         /// A cryptographic key
         /// </summary>
         KEY
-
     };
 
     /// <summary>
