@@ -264,16 +264,16 @@ namespace AttackSurfaceAnalyzer.Collectors
                 {
                     NvPublic nvPub = tpm.NvReadPublic(hh, out byte[] nvName);
 
+                    // TODO: Skip if policy would prevent us from accessing it
                     try
                     {
                         byte[] value = tpm.NvRead(hh, hh, nvPub.dataSize, 0);
 
-                        output.Add(nvPub.nvIndex.GetOffset(), value);
+                        output.Add(nvPub.nvIndex.GetOffset(), new AsaNvIndex() { Index = hh.handle & 0x00FFFFFF, value = value });
                     }
                     catch (TpmException)
                     {
                         Log.Debug($"Dumping NV {hh.handle & 0x00FFFFFF} failed");
-                        // TODO: 
                     }
                 }
             } while (moreData == 1);
@@ -294,6 +294,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                  new SchemeRsassa(hashAlg),
                                  bits, 0),
                     new Tpm2bPublicKeyRsa());
+
             var Substrate = TestSubstrate.Create(Array.Empty<string>(), new Tpm2Tests());
 
             TpmHandle hKey = Substrate.CreateAndLoad(tpm, inPub, out TpmPublic pub);
