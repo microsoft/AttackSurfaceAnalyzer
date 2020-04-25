@@ -36,12 +36,12 @@ namespace AttackSurfaceAnalyzer.Objects
     public class RSAPublicInformation
     {
         public BigInteger modulus { get; set; }
-        public BigInteger p { get; set; }
-        public BigInteger q { get; set; }
+        public BigInteger d { get; set; }
     }
 
     public class RSAPrivateInformation
     {
-        public BigInteger d { get; set; }
+        public BigInteger p { get; set; }
+        public BigInteger q { get; set; }
     }
 }
