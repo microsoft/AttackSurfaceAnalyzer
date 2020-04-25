@@ -7,9 +7,11 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Text;
 using Tpm2Lib;
+using Tpm2Tester;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -279,54 +281,43 @@ namespace AttackSurfaceAnalyzer.Collectors
             return output;
         }
 
-        public static TpmHandle? GenerateRandomRsa(Tpm2 tpm, TpmAlgId hashAlg, ushort bits)
+        public static CryptographicKeyObject GenerateRandomRsa(Tpm2 tpm, TpmAlgId hashAlg, ushort bits)
         {
-            TpmHandle? keyHandle = null;
-            if (tpm is null)
+            TpmAlgId nameAlg = hashAlg;
+            var policy = new PolicyTree(nameAlg);
+            policy.SetPolicyRoot(new TpmPolicyCommand(TpmCc.Duplicate));
+
+            var inPub = new TpmPublic(nameAlg,
+                    ObjectAttr.Sign | ObjectAttr.AdminWithPolicy | ObjectAttr.SensitiveDataOrigin,
+                    policy.GetPolicyDigest(),
+                    new RsaParms(new SymDefObject(),
+                                 new SchemeRsassa(hashAlg),
+                                 bits, 0),
+                    new Tpm2bPublicKeyRsa());
+            var Substrate = TestSubstrate.Create(Array.Empty<string>(), new Tpm2Tests());
+
+            TpmHandle hKey = Substrate.CreateAndLoad(tpm, inPub, out TpmPublic pub);
+
+            // Duplicate
+            TpmPrivate priv = TpmHelper.GetPlaintextPrivate(tpm, hKey, policy);
+
+            // Third argument is public key portion.
+            var cko = new CryptographicKeyObject("GenerateRandomRsa", TpmAlgId.Rsa, new RSAPublicInformation())
             {
-                return keyHandle;
-            }
+                Private = new BigInteger(priv.buffer)
+            };
 
-            var ownerAuth = new AuthValue();
+            tpm?.FlushContext(hKey);
 
-            // 
-            // The TPM needs a template that describes the parameters of the key
-            // or other object to be created.  The template below instructs the TPM 
-            // to create a new 2048-bit migrateable signing key.
-            // 
-            var keyTemplate = new TpmPublic(hashAlg,      // Name algorithm
-                                            ObjectAttr.Decrypt,     // Encryption key
-                                            null,               // No policy
-                                            new RsaParms(new SymDefObject(TpmAlgId.Aes, 128, TpmAlgId.Cfb),
-                                                         null, bits, 0),
-                                            new Tpm2bPublicKeyRsa()); ;
-            TpmPublic keyPublic;
-            CreationData creationData;
-            TkCreation creationTicket;
-            byte[] creationHash;
-
-            var sensCreate = new SensitiveCreate(null,      // Auth-data provided by the caller
-                                                 null);     // No private key bits for asymmetric keys
-            // 
-            // Ask the TPM to create a new primary RSA signing key.
-            // 
-            try
-            {
-                keyHandle = tpm[ownerAuth].CreatePrimary(
-                    TpmRh.Owner,                            // In the owner-hierarchy
-                    sensCreate,                                   // With this auth-value
-                    keyTemplate,                            // Describes key
-                    null,                                   // Extra data for creation ticket
-                    Array.Empty<PcrSelection>(),                    // Non-PCR-bound
-                    out keyPublic,                          // PubKey and attributes
-                    out creationData, out creationHash, out creationTicket);    // Not used here
-            }
-            catch (Exception e)
-            {
-                Log.Debug(e, "Failed to create RSA Key with algorithm {0} and size {1}", hashAlg, bits);
-            }
-
-            return keyHandle;
+            return cko;
         }
-    }
+
+        partial class Tpm2Tests
+        {
+            // A test case method must be marked with 
+            [Test(Profile.TPM20, Privileges.StandardUser, Category.Misc, Special.None)]
+            void TestCertifyX509_1(Tpm2 tpm, TestContext testCtx)
+            {
+            }
+        }
 }
