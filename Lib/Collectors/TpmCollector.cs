@@ -281,7 +281,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             return output;
         }
 
-        public static CryptographicKeyObject GenerateRandomRsa(Tpm2 tpm, TpmAlgId hashAlg, ushort bits)
+        public static RSAKeyObject GenerateRandomRsa(Tpm2 tpm, TpmAlgId hashAlg, ushort bits)
         {
             TpmAlgId nameAlg = hashAlg;
             var policy = new PolicyTree(nameAlg);
@@ -302,18 +302,16 @@ namespace AttackSurfaceAnalyzer.Collectors
             // Duplicate
             TpmPrivate priv = TpmHelper.GetPlaintextPrivate(tpm, hKey, policy);
 
-            // Third argument is public key portion.
-            var cko = new CryptographicKeyObject("GenerateRandomRsa", TpmAlgId.Rsa, new RSAPublicInformation())
-            {
-                Private = new BigInteger(priv.buffer)
-            };
+            // TODO: Break down private and public into the components
+            // var cko = new RSAKeyObject("GenerateRandomRsa", modulus, d, p, q);
 
             tpm?.FlushContext(hKey);
 
-            return cko;
+            //            return cko;
+            return new RSAKeyObject("Test");
         }
 
-        partial class Tpm2Tests
+        class Tpm2Tests
         {
             // A test case method must be marked with 
             [Test(Profile.TPM20, Privileges.StandardUser, Category.Misc, Special.None)]
@@ -321,4 +319,5 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
             }
         }
+    }
 }
