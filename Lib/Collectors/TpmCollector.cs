@@ -192,19 +192,16 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public static Dictionary<(TpmAlgId, uint), byte[]> DumpPCRs(Tpm2 tpm, TpmAlgId tpmAlgId, PcrSelection[] pcrs)
         {
+            // TODO: Check which PCRs are available first
+
             var output = new Dictionary<(TpmAlgId, uint), byte[]>();
             if (tpm == null || pcrs == null)
             {
                 return output;
             }
 
-            Log.Debug(JsonConvert.SerializeObject(pcrs));
-            Log.Debug(tpmAlgId.ToString());
-
             try
             {
-                // TODO: Check which PCRs are available first
-                // This throws on unsupported algorithms.
                 do
                 {
                     tpm.PcrRead(pcrs, out PcrSelection[] valsRead, out Tpm2bDigest[] values);
