@@ -264,17 +264,23 @@ namespace AttackSurfaceAnalyzer.Collectors
                 {
                     NvPublic nvPub = tpm.NvReadPublic(hh, out byte[] nvName);
 
+                    bool policyAllowsRead = false;
+                    var index = new AsaNvIndex() { Index = hh.handle & 0x00FFFFFF };
                     // TODO: Skip if policy would prevent us from accessing it
-                    try
+                    if (policyAllowsRead)
                     {
-                        byte[] value = tpm.NvRead(hh, hh, nvPub.dataSize, 0);
+                        try
+                        {
+                            byte[] value = tpm.NvRead(hh, hh, nvPub.dataSize, 0);
+                            index.value = value;
+                        }
+                        catch (TpmException)
+                        {
+                            Log.Debug($"Dumping NV {hh.handle & 0x00FFFFFF} failed");
+                        }
+                    }
+                    output.Add(nvPub.nvIndex.GetOffset(), index);
 
-                        output.Add(nvPub.nvIndex.GetOffset(), new AsaNvIndex() { Index = hh.handle & 0x00FFFFFF, value = value });
-                    }
-                    catch (TpmException)
-                    {
-                        Log.Debug($"Dumping NV {hh.handle & 0x00FFFFFF} failed");
-                    }
                 }
             } while (moreData == 1);
 
