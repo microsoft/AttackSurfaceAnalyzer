@@ -228,9 +228,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         pcrs[0].SelectPcr(newPcr);
                     }
-
-                    Log.Debug(JsonConvert.SerializeObject(valsRead));
-                    Log.Debug(JsonConvert.SerializeObject(values));
                 } while (pcrs[0].GetSelectedPcrs().Length > 0);
             }
             catch (Exception e)
@@ -302,7 +299,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             TpmHandle hKey = Substrate.CreateAndLoad(tpm, inPub, out TpmPublic pub);
 
-            // Duplicate
+            // Extract the private portion
             TpmPrivate priv = TpmHelper.GetPlaintextPrivate(tpm, hKey, policy);
 
             // TODO: Break down private and public into the components
@@ -314,11 +311,11 @@ namespace AttackSurfaceAnalyzer.Collectors
             return new RSAKeyObject("Test");
         }
 
+        // An empty class to instantiate TestSubtrate with.
         class Tpm2Tests
         {
-            // A test case method must be marked with 
             [Test(Profile.TPM20, Privileges.StandardUser, Category.Misc, Special.None)]
-            void TestCertifyX509_1(Tpm2 tpm, TestContext testCtx)
+            void TestCertifyX509_1()
             {
             }
         }
