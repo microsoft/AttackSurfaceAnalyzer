@@ -52,7 +52,7 @@
     <StartAction>Project</StartAction>
     <StartArguments>verify-rules</StartArguments>
     <ExternalConsole>true</ExternalConsole>
-    <LaunchBrowser></LaunchBrowser>
+    <LaunchBrowser>false</LaunchBrowser>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'GUI' ">
