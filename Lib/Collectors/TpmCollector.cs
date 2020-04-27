@@ -258,23 +258,27 @@ namespace AttackSurfaceAnalyzer.Collectors
                 {
                     NvPublic nvPub = tpm.NvReadPublic(hh, out byte[] nvName);
 
-                    bool policyAllowsRead = false;
-                    var index = new AsaNvIndex() { Index = hh.handle & 0x00FFFFFF };
-                    // TODO: Skip if policy would prevent us from accessing it
-                    if (policyAllowsRead)
+                    var index = new AsaNvIndex() { Index = hh.handle & 0x00FFFFFF, Attributes = nvPub.attributes };
+                    
+                    try
                     {
-                        try
+                        // We can read with just the owner auth
+                        if (nvPub.attributes.HasFlag(NvAttr.Ownerread))
                         {
-                            byte[] value = tpm.NvRead(hh, hh, nvPub.dataSize, 0);
-                            index.value = value;
+                            index.value = tpm.NvRead(TpmRh.Owner, hh, nvPub.dataSize, 0);
                         }
-                        catch (TpmException)
+                        // We can try without triggering Dictionary Attack mitigations/Lockout
+                        else if (nvPub.attributes.HasFlag(NvAttr.NoDa))
                         {
-                            Log.Debug($"Dumping NV {hh.handle & 0x00FFFFFF} failed");
+                            // Try with empty Auth Value
+                            index.value = tpm.NvRead(hh, hh, nvPub.dataSize, 0);
                         }
                     }
-                    output.Add(nvPub.nvIndex.GetOffset(), index);
-
+                    catch (TpmException)
+                    {
+                        Log.Debug($"Dumping NV {hh.handle & 0x00FFFFFF} failed");
+                    }
+                    output.Add(index.Index, index);
                 }
             } while (moreData == 1);
 
