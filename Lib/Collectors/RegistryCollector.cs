@@ -74,7 +74,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         IterateOn(registryKey, RegistryView.Registry32);
                     }));
-                    Parallel.ForEach(x86_Enumerable,
+                    Parallel.ForEach(x64_Enumerable,
                     (registryKey =>
                     {
                         IterateOn(registryKey, RegistryView.Registry64);
