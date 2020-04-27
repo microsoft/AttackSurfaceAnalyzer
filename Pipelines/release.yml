@@ -55,6 +55,11 @@ stages:
       vmImage: 'windows-latest'
 
     steps:
+    - task: ComponentGovernanceComponentDetection@0
+      inputs:
+        scanType: 'Register'
+        verbosity: 'Normal'
+        alertWarningLevel: 'High'
     - task: UseDotNet@2
       inputs:
         packageType: 'sdk'
