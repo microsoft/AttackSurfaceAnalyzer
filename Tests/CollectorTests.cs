@@ -120,10 +120,10 @@ namespace AttackSurfaceAnalyzer.Tests
                     tpm._AllowErrors()
                         .NvUndefineSpace(TpmRh.Owner, nvHandle);
 
-                    AuthValue nvAuth = AuthValue.FromRandom(8);
+                    AuthValue nvAuth = new AuthValue();
                     tpm.NvDefineSpace(TpmRh.Owner, nvAuth,
                                       new NvPublic(nvHandle, TpmAlgId.Sha1,
-                                                   NvAttr.Authread | NvAttr.Authwrite,
+                                                   NvAttr.NoDa | NvAttr.Ownerread | NvAttr.Ownerwrite,
                                                    null, 32));
 
 
