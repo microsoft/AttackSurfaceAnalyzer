@@ -110,7 +110,6 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private static DBSettings dbSettings = new DBSettings();
 
-
         public static SqlConnectionHolder? MainConnection
         {
             get

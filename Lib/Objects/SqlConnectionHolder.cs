@@ -51,15 +51,7 @@ namespace AttackSurfaceAnalyzer.Objects
                 settings.BatchSize = 1;
             }
 
-            StartWriter();
-        }
-
-        internal void StartWriter()
-        {
-            ((Action)(async () =>
-            {
-                await Task.Run(() => KeepFlushQueue()).ConfigureAwait(false);
-            }))();
+            _ = Task.Factory.StartNew(() => KeepFlushQueue());
         }
 
         public void Destroy()
@@ -124,7 +116,7 @@ namespace AttackSurfaceAnalyzer.Objects
         public void WriteNext()
         {
             IsWriting = true;
-            string SQL_INSERT_COLLECT_RESULT = "insert into collect (run_id, result_type, row_key, identity, serialized) values (@run_id_0, @result_type_0, @row_key_0, @identity_0, @serialized_0)";
+            string SQL_INSERT_COLLECT_RESULT = "insert into collect (run_id, result_type, row_key, identity, serialized) values ";
 
             if (settings.BatchSize > 199)
             {
@@ -141,16 +133,17 @@ namespace AttackSurfaceAnalyzer.Objects
                 stringBuilder.Append(SQL_INSERT_COLLECT_RESULT);
                 using var cmd = new SqliteCommand(stringBuilder.ToString(), Connection, Transaction);
 
-                for (int i = 0; i < innerQueue.Count; i++)
+                for (int i = 0; i < count; i++)
                 {
-                    stringBuilder.Append($",(@run_id_{i}, @result_type_{i}, @row_key_{i}, @identity_{i}, @serialized_{i})");
+                    stringBuilder.Append($"(@run_id_{i}, @result_type_{i}, @row_key_{i}, @identity_{i}, @serialized_{i}),");
                     cmd.Parameters.AddWithValue($"@run_id_{i}", innerQueue[i].RunId);
                     cmd.Parameters.AddWithValue($"@row_key_{i}", innerQueue[i].RowKey);
                     cmd.Parameters.AddWithValue($"@identity_{i}", innerQueue[i].ColObj?.Identity);
                     cmd.Parameters.AddWithValue($"@serialized_{i}", innerQueue[i].Serialized);
                     cmd.Parameters.AddWithValue($"@result_type_{i}", innerQueue[i].ColObj?.ResultType);
                 }
-
+                // remove trailing comma
+                stringBuilder.Remove(stringBuilder.Length - 1, 1);
                 cmd.CommandText = stringBuilder.ToString();
 
                 try
@@ -162,6 +155,8 @@ namespace AttackSurfaceAnalyzer.Objects
                     Log.Warning(exception: e, $"Error writing to database.");
                 }
             }
+
+            WriteQueue.RemoveRange(0, count);
 
             IsWriting = false;
         }
