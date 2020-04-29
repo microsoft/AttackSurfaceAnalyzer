@@ -135,29 +135,32 @@ namespace AttackSurfaceAnalyzer.Objects
             var count = Math.Min(settings.BatchSize, WriteQueue.Count);
             var innerQueue = WriteQueue.Take(count).ToList();
 
-            var stringBuilder = new StringBuilder();
-            stringBuilder.Append(SQL_INSERT_COLLECT_RESULT);
-            using var cmd = new SqliteCommand(stringBuilder.ToString(), Connection, Transaction);
-
-            for (int i = 0; i < innerQueue.Count; i++)
+            if (count > 0)
             {
-                stringBuilder.Append($",(@run_id_{i}, @result_type_{i}, @row_key_{i}, @identity_{i}, @serialized_{i})");
-                cmd.Parameters.AddWithValue($"@run_id_{i}", innerQueue[i].RunId);
-                cmd.Parameters.AddWithValue($"@row_key_{i}", innerQueue[i].RowKey);
-                cmd.Parameters.AddWithValue($"@identity_{i}", innerQueue[i].ColObj?.Identity);
-                cmd.Parameters.AddWithValue($"@serialized_{i}", innerQueue[i].Serialized);
-                cmd.Parameters.AddWithValue($"@result_type_{i}", innerQueue[i].ColObj?.ResultType);
-            }
+                var stringBuilder = new StringBuilder();
+                stringBuilder.Append(SQL_INSERT_COLLECT_RESULT);
+                using var cmd = new SqliteCommand(stringBuilder.ToString(), Connection, Transaction);
 
-            cmd.CommandText = stringBuilder.ToString();
+                for (int i = 0; i < innerQueue.Count; i++)
+                {
+                    stringBuilder.Append($",(@run_id_{i}, @result_type_{i}, @row_key_{i}, @identity_{i}, @serialized_{i})");
+                    cmd.Parameters.AddWithValue($"@run_id_{i}", innerQueue[i].RunId);
+                    cmd.Parameters.AddWithValue($"@row_key_{i}", innerQueue[i].RowKey);
+                    cmd.Parameters.AddWithValue($"@identity_{i}", innerQueue[i].ColObj?.Identity);
+                    cmd.Parameters.AddWithValue($"@serialized_{i}", innerQueue[i].Serialized);
+                    cmd.Parameters.AddWithValue($"@result_type_{i}", innerQueue[i].ColObj?.ResultType);
+                }
 
-            try
-            {
-                cmd.ExecuteNonQuery();
-            }
-            catch (SqliteException e)
-            {
-                Log.Warning(exception: e, $"Error writing to database.");
+                cmd.CommandText = stringBuilder.ToString();
+
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                catch (SqliteException e)
+                {
+                    Log.Warning(exception: e, $"Error writing to database.");
+                }
             }
 
             IsWriting = false;
