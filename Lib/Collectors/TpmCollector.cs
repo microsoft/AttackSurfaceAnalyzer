@@ -90,7 +90,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 // TODO: GenerateRandomEcc
 
-                Results.Enqueue(obj);
+                Results.Push(obj);
 
                 tpmDevice.Close();
             }
