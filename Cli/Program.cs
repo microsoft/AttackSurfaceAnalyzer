@@ -1073,14 +1073,14 @@ namespace AttackSurfaceAnalyzer.Cli
 
                     while (c.RunStatus == RUN_STATUS.RUNNING)
                     {
-                        if (c.Results.TryDequeue(out CollectObject? res))
+                        while (c.Results.Count > 0)
                         {
-                            DatabaseManager.Write(res, opts.RunId);
+                            Parallel.ForEach(c.Results.Take(Math.Min(1000, c.Results.Count)), result =>
+                             {
+                                 DatabaseManager.Write(result, opts.RunId);
+                             });
                         }
-                        else
-                        {
-                            Thread.Sleep(1);
-                        }
+                        Thread.Sleep(1);
                     }
 
                     StopWatch.Stop();

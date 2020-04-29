@@ -48,7 +48,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             {
                                 Pkcs7 = Convert.ToBase64String(certificate.Export(X509ContentType.Cert))
                             };
-                            Results.Enqueue(obj);
+                            Results.Add(obj);
                         }
                         store.Close();
                     }
@@ -84,7 +84,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             {
                                 Pkcs7 = Convert.ToBase64String(certificate.Export(X509ContentType.Cert))
                             };
-                            Results.Enqueue(obj);
+                            Results.Add(obj);
                         }
                         catch (Exception e)
                         {
@@ -138,7 +138,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             {
                                 Pkcs7 = Convert.ToBase64String(certificate.Export(X509ContentType.Cert))
                             };
-                            Results.Enqueue(obj);
+                            Results.Add(obj);
                         }
                     }
                     else

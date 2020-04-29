@@ -55,7 +55,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                         if (regObj != null)
                         {
-                            Results.Enqueue(regObj);
+                            Results.Add(regObj);
                         }
                     }
                     catch (InvalidOperationException e)
