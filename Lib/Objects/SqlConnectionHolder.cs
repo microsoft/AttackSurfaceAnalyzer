@@ -139,7 +139,7 @@ namespace AttackSurfaceAnalyzer.Objects
             stringBuilder.Append(SQL_INSERT_COLLECT_RESULT);
             using var cmd = new SqliteCommand(stringBuilder.ToString(), Connection, Transaction);
 
-            for (int i = 1; i < innerQueue.Count; i++)
+            for (int i = 0; i < innerQueue.Count; i++)
             {
                 stringBuilder.Append($",(@run_id_{i}, @result_type_{i}, @row_key_{i}, @identity_{i}, @serialized_{i})");
                 cmd.Parameters.AddWithValue($"@run_id_{i}", innerQueue[i].RunId);
