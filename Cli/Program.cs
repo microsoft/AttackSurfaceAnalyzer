@@ -1075,10 +1075,14 @@ namespace AttackSurfaceAnalyzer.Cli
                     {
                         while (c.Results.Count > 0)
                         {
-                            Parallel.ForEach(c.Results.Take(Math.Min(1000, c.Results.Count)), result =>
+                            var count = Math.Min(1000, c.Results.Count);
+                            // Take doesn't actually remove, it returns an thin IEnumerable
+                            c.Results.Take(count).AsParallel().ForAll(result =>
                              {
                                  DatabaseManager.Write(result, opts.RunId);
                              });
+                            // After we've walked the IEnumerable we can remove the items we walked
+                            c.Results.RemoveRange(0, count);
                         }
                         Thread.Sleep(1);
                     }
