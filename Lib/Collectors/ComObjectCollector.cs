@@ -7,6 +7,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
@@ -50,7 +51,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 var CLDIDs = SearchKey.OpenSubKey("SOFTWARE\\Classes\\CLSID");
                 foreach (var comObj in ParseComObjects(CLDIDs, view))
                 {
-                    Results.Enqueue(comObj);
+                    Results.Add(comObj);
                 }
             }
             catch (Exception e) when (//lgtm [cs/empty-catch-block]
@@ -73,7 +74,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         using var ComKey = SearchKey.OpenSubKey(subkeyName).OpenSubKey("CLSID");
                         foreach (var comObj in ParseComObjects(ComKey, view))
                         {
-                            Results.Enqueue(comObj);
+                            Results.Add(comObj);
                         }
                     }
                 }
@@ -98,7 +99,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             List<ComObject> comObjects = new List<ComObject>();
             try
             {
-                Parallel.ForEach(SearchKey.GetSubKeyNames(), (SubKeyName) =>
+                SearchKey.GetSubKeyNames().AsParallel().ForAll(SubKeyName =>
                 {
                     try
                     {

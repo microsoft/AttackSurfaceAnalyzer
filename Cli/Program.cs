@@ -687,7 +687,7 @@ namespace AttackSurfaceAnalyzer.Cli
             return comparators;
         }
 
-        public static ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), ConcurrentQueue<CompareResult>> CompareRuns(CompareCommandOptions opts)
+        public static ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> CompareRuns(CompareCommandOptions opts)
         {
             if (opts is null)
             {
@@ -740,9 +740,9 @@ namespace AttackSurfaceAnalyzer.Cli
                     {
                         foreach (var key in c.Results.Keys)
                         {
-                            if (c.Results[key] is ConcurrentQueue<CompareResult> queue)
+                            if (c.Results[key] is List<CompareResult> queue)
                             {
-                                Parallel.ForEach(queue, (res) =>
+                                queue.AsParallel().ForAll(res =>
                                 {
                                     res.Rules = analyzer.Analyze(res);
                                     res.Analysis = res.Rules.Count > 0 ? res.Rules.Max(x => x.Flag) : analyzer.DefaultLevels[res.ResultType];
@@ -769,9 +769,9 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 foreach (var key in c.Results.Keys)
                 {
-                    if (c.Results.TryGetValue(key, out ConcurrentQueue<CompareResult>? obj))
+                    if (c.Results.TryGetValue(key, out List<CompareResult>? obj))
                     {
-                        if (obj is ConcurrentQueue<CompareResult> Queue)
+                        if (obj is List<CompareResult> Queue)
                         {
                             foreach (var result in Queue)
                             {
@@ -1055,14 +1055,18 @@ namespace AttackSurfaceAnalyzer.Cli
 
                     while (c.RunStatus == RUN_STATUS.RUNNING)
                     {
-                        if (c.Results.TryDequeue(out CollectObject? res))
+                        while (c.Results.Count > 0)
                         {
-                            DatabaseManager.Write(res, opts.RunId);
+                            var count = Math.Min(1000, c.Results.Count);
+                            // Take doesn't actually remove, it returns an thin IEnumerable
+                            c.Results.Take(count).AsParallel().ForAll(result =>
+                             {
+                                 DatabaseManager.Write(result, opts.RunId);
+                             });
+                            // After we've walked the IEnumerable we can remove the items we walked
+                            c.Results.RemoveRange(0, count);
                         }
-                        else
-                        {
-                            Thread.Sleep(1);
-                        }
+                        Thread.Sleep(1);
                     }
 
                     StopWatch.Stop();

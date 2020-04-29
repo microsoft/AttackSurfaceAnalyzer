@@ -77,7 +77,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     obj.ProcessName = p.ProcessName;
                 }
 
-                Results.Enqueue(obj);
+                Results.Add(obj);
             }
 
             foreach (var endpoint in properties.GetActiveUdpListeners())
@@ -89,7 +89,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 obj.ProcessName = Win32ProcessPorts.ProcessPortMap.Find(x => x.PortNumber == endpoint.Port)?.ProcessName;
 
-                Results.Enqueue(obj);
+                Results.Add(obj);
             }
         }
 
@@ -130,7 +130,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             {
                                 Address = address
                             };
-                            Results.Enqueue(obj);
+                            Results.Add(obj);
                         }
 
                     }
@@ -196,7 +196,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 ProcessName = parts[0]
                             };
 
-                            Results.Enqueue(obj);
+                            Results.Add(obj);
                         }
                     }
                 }
