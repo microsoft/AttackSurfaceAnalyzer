@@ -136,11 +136,10 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 if (parallel)
                 {
-                    Parallel.ForEach(filePathEnumerable,
-                                    (filePath =>
-                                    {
-                                        IterateOn(filePath);
-                                    }));
+                    filePathEnumerable.AsParallel().ForAll(filePath =>
+                    {
+                        IterateOn(filePath);
+                    });
                 }
                 else
                 {
