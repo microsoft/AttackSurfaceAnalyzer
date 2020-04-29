@@ -742,7 +742,7 @@ namespace AttackSurfaceAnalyzer.Cli
                         {
                             if (c.Results[key] is List<CompareResult> queue)
                             {
-                                Parallel.ForEach(queue, (res) =>
+                                queue.AsParallel().ForAll(res =>
                                 {
                                     res.Rules = analyzer.Analyze(res);
                                     res.Analysis = res.Rules.Count > 0 ? res.Rules.Max(x => x.Flag) : analyzer.DefaultLevels[res.ResultType];

@@ -7,6 +7,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
@@ -98,7 +99,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             List<ComObject> comObjects = new List<ComObject>();
             try
             {
-                Parallel.ForEach(SearchKey.GetSubKeyNames(), (SubKeyName) =>
+                SearchKey.GetSubKeyNames().AsParallel().ForAll(SubKeyName =>
                 {
                     try
                     {

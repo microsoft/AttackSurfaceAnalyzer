@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
@@ -69,16 +70,17 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 if (Parallelize)
                 {
-                    Parallel.ForEach(x86_Enumerable,
-                    (registryKey =>
+
+                    x86_Enumerable.AsParallel().ForAll(
+                    registryKey =>
                     {
                         IterateOn(registryKey, RegistryView.Registry32);
-                    }));
-                    Parallel.ForEach(x64_Enumerable,
-                    (registryKey =>
+                    });
+                    x64_Enumerable.AsParallel().ForAll(
+                    registryKey =>
                     {
                         IterateOn(registryKey, RegistryView.Registry64);
-                    }));
+                    });
                 }
                 else
                 {
