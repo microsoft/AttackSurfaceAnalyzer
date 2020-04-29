@@ -116,7 +116,7 @@ namespace AttackSurfaceAnalyzer.Objects
         public void WriteNext()
         {
             IsWriting = true;
-            string SQL_INSERT_COLLECT_RESULT = "insert into collect (run_id, result_type, row_key, identity, serialized) values ";
+            string SQL_INSERT_COLLECT_RESULT = "insert or ignore into collect (run_id, result_type, row_key, identity, serialized) values ";
 
             if (settings.BatchSize > 199)
             {
