@@ -78,7 +78,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     Timestamp = entry.TimeGenerated,
                                     Data = new List<string>() { entry.Message }
                                 };
-                                Results.Enqueue(obj);
+                                Results.Add(obj);
                             }
                         }
                     }
@@ -120,7 +120,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             {
                                 obj.Timestamp = Timestamp;
                             }
-                            Results.Enqueue(obj);
+                            Results.Add(obj);
                         }
                     }
                 }
@@ -183,7 +183,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         if (curObject != null)
                         {
-                            Results.Enqueue(curObject);
+                            Results.Add(curObject);
                         }
 
                         curObject = new EventLogObject(evt)
@@ -212,7 +212,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 process.WaitForExit();
                 if (curObject != null)
                 {
-                    Results.Enqueue(curObject);
+                    Results.Add(curObject);
                 }
             }
             catch (Exception e)

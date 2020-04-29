@@ -17,7 +17,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public abstract class BaseCollector : IPlatformRunnable
     {
-        public ConcurrentQueue<CollectObject> Results { get; } = new ConcurrentQueue<CollectObject>();
+        public List<CollectObject> Results { get; } = new List<CollectObject>();
 
         public void Execute()
         {

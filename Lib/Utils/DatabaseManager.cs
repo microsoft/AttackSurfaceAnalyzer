@@ -30,7 +30,7 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string SQL_CREATE_RUNS = "create table if not exists runs (run_id text, type string, serialized blob, unique(run_id))";
         private const string SQL_CREATE_FILE_MONITORED = "create table if not exists file_system_monitored (run_id text, row_key text, timestamp text, change_type int, path text, old_path text, name text, old_name text, extended_results text, notify_filters text, serialized text)";
 
-        private const string SQL_CREATE_COLLECT_RESULTS = "create table if not exists collect (run_id text, result_type text, identity text, row_key blob, serialized blob)";
+        private const string SQL_CREATE_COLLECT_RESULTS = "create table if not exists collect (run_id text, result_type text, identity text, row_key blob, serialized blob, UNIQUE(run_id, identity))";
 
         private const string SQL_CREATE_COLLECT_RUN_ID_INDEX = "create index if not exists i_collect_collect_run_id on collect(run_id)";
 
@@ -109,7 +109,6 @@ namespace AttackSurfaceAnalyzer.Utils
         private const int SCHEMA_VERSION = 8;
 
         private static DBSettings dbSettings = new DBSettings();
-
 
         public static SqlConnectionHolder? MainConnection
         {
@@ -397,7 +396,7 @@ namespace AttackSurfaceAnalyzer.Utils
             get
             {
                 {
-                    return Connections.Any(x => !x.WriteQueue.IsEmpty || x.IsWriting);
+                    return Connections.Any(x => x.WriteQueue.Count > 0 || x.IsWriting);
                 }
             }
         }
@@ -680,7 +679,7 @@ namespace AttackSurfaceAnalyzer.Utils
             if (colObj != null && runId != null)
             {
                 var objIn = new WriteObject(colObj, runId);
-                Connections[ModuloString(objIn.Identity, shardingFactor: dbSettings.ShardingFactor)].WriteQueue.Enqueue(objIn);
+                Connections[ModuloString(objIn.Identity, shardingFactor: dbSettings.ShardingFactor)].WriteQueue.Add(objIn);
             }
         }
 
@@ -698,9 +697,9 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static int ModuloString(string identity, int shardingFactor) => identity.Sum(x => x) % shardingFactor;
 
-        public static ConcurrentBag<WriteObject> GetMissingFromFirst(string firstRunId, string secondRunId)
+        public static List<WriteObject> GetMissingFromFirst(string firstRunId, string secondRunId)
         {
-            var output = new ConcurrentBag<WriteObject>();
+            var output = new List<WriteObject>();
 
             Connections.AsParallel().ForAll(cxn =>
             {
@@ -726,9 +725,9 @@ namespace AttackSurfaceAnalyzer.Utils
             return output;
         }
 
-        public static ConcurrentBag<WriteObject> GetAllMissing(string firstRunId, string secondRunId)
+        public static List<WriteObject> GetAllMissing(string firstRunId, string secondRunId)
         {
-            var output = new ConcurrentBag<WriteObject>();
+            var output = new List<WriteObject>();
 
             Connections.AsParallel().ForAll(cxn =>
             {
@@ -754,9 +753,9 @@ namespace AttackSurfaceAnalyzer.Utils
             return output;
         }
 
-        public static ConcurrentBag<WriteObject> GetAllMissingExplicit(string firstRunId, string secondRunId)
+        public static List<WriteObject> GetAllMissingExplicit(string firstRunId, string secondRunId)
         {
-            var output = new ConcurrentBag<WriteObject>();
+            var output = new List<WriteObject>();
 
             Connections.AsParallel().ForAll(cxn =>
             {
@@ -782,10 +781,10 @@ namespace AttackSurfaceAnalyzer.Utils
             return output;
         }
 
-        public static ConcurrentBag<WriteObject> GetAllMissing2(string firstRunId, string secondRunId)
+        public static List<WriteObject> GetAllMissing2(string firstRunId, string secondRunId)
         {
             string SQL_GROUPED = "SELECT run_id, result_type, serialized FROM collect WHERE run_id = @first_run_id OR run_id = @second_run_id AND identity in (SELECT identity FROM collect WHERE run_id = @first_run_id OR run_id = @second_run_id GROUP BY identity HAVING COUNT(*) == 1);";
-            var output = new ConcurrentBag<WriteObject>();
+            var output = new List<WriteObject>();
 
             Connections.AsParallel().ForAll(cxn =>
             {
@@ -811,9 +810,9 @@ namespace AttackSurfaceAnalyzer.Utils
             return output;
         }
 
-        public static ConcurrentBag<(WriteObject, WriteObject)> GetModified(string firstRunId, string secondRunId)
+        public static List<(WriteObject, WriteObject)> GetModified(string firstRunId, string secondRunId)
         {
-            var output = new ConcurrentBag<(WriteObject, WriteObject)>();
+            var output = new List<(WriteObject, WriteObject)>();
 
             Connections.AsParallel().ForAll(cxn =>
             {
