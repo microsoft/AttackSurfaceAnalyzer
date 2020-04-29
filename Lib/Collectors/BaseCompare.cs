@@ -19,18 +19,18 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class BaseCompare
     {
-        public ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), ConcurrentQueue<CompareResult>> Results { get; }
+        public ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> Results { get; }
 
         public BaseCompare()
         {
-            Results = new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), ConcurrentQueue<CompareResult>>();
+            Results = new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>>();
             foreach (RESULT_TYPE? result_type in Enum.GetValues(typeof(RESULT_TYPE)))
             {
                 foreach (CHANGE_TYPE? change_type in Enum.GetValues(typeof(CHANGE_TYPE)))
                 {
                     if (result_type is RESULT_TYPE r && change_type is CHANGE_TYPE c)
                     {
-                        Results[(r, c)] = new ConcurrentQueue<CompareResult>();
+                        Results[(r, c)] = new List<CompareResult>();
                     }
                 }
             }
@@ -104,12 +104,12 @@ namespace AttackSurfaceAnalyzer.Collectors
                 if (different.Item2.Equals(firstRunId))
                 {
                     obj.Base = colObj;
-                    Results[(colObj.ResultType, CHANGE_TYPE.DELETED)].Enqueue(obj);
+                    Results[(colObj.ResultType, CHANGE_TYPE.DELETED)].Add(obj);
                 }
                 else if (different.Item2.Equals(secondRunId))
                 {
                     obj.Compare = colObj;
-                    Results[(colObj.ResultType, CHANGE_TYPE.CREATED)].Enqueue(obj);
+                    Results[(colObj.ResultType, CHANGE_TYPE.CREATED)].Add(obj);
                 }
             });
 
@@ -243,7 +243,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         }
                     }
 
-                    Results[(first.ResultType, CHANGE_TYPE.MODIFIED)].Enqueue(obj);
+                    Results[(first.ResultType, CHANGE_TYPE.MODIFIED)].Add(obj);
                 }
             });
 

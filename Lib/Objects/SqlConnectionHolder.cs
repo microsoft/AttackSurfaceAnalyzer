@@ -8,6 +8,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace AttackSurfaceAnalyzer.Objects
     {
         public SqliteTransaction? Transaction { get; set; }
         public SqliteConnection Connection { get; set; }
-        public ConcurrentQueue<WriteObject> WriteQueue { get; private set; } = new ConcurrentQueue<WriteObject>();
+        public List<WriteObject> WriteQueue { get; private set; } = new List<WriteObject>();
         public bool KeepRunning { get; set; }
         public string Source { get; set; }
         private int RecordCount { get; set; }
@@ -80,7 +81,7 @@ namespace AttackSurfaceAnalyzer.Objects
             KeepRunning = true;
             while (KeepRunning)
             {
-                while (!WriteQueue.IsEmpty)
+                while (WriteQueue.Count > 0)
                 {
                     if (settings.FlushCount > 0)
                     {
@@ -127,34 +128,28 @@ namespace AttackSurfaceAnalyzer.Objects
 
             if (settings.BatchSize > 199)
             {
-                Log.Warning("Maximum batch size is 199. Settings Batch size to 199");
+                Log.Warning("Maximum batch size is 199. Setting Batch size to 199");
                 settings.BatchSize = 199;
             }
 
-            var innerQueue = new List<WriteObject>();
-            while (innerQueue.Count < settings.BatchSize && WriteQueue.TryDequeue(out WriteObject objIn))
-            {
-                innerQueue.Add(objIn);
-            }
+            var count = Math.Min(settings.BatchSize, WriteQueue.Count);
+            var innerQueue = WriteQueue.Take(count).ToList();
 
             var stringBuilder = new StringBuilder();
             stringBuilder.Append(SQL_INSERT_COLLECT_RESULT);
+            using var cmd = new SqliteCommand(stringBuilder.ToString(), Connection, Transaction);
 
             for (int i = 1; i < innerQueue.Count; i++)
             {
                 stringBuilder.Append($",(@run_id_{i}, @result_type_{i}, @row_key_{i}, @identity_{i}, @serialized_{i})");
-            }
-
-            using var cmd = new SqliteCommand(stringBuilder.ToString(), Connection, Transaction);
-
-            for (int i = 0; i < innerQueue.Count; i++)
-            {
                 cmd.Parameters.AddWithValue($"@run_id_{i}", innerQueue[i].RunId);
                 cmd.Parameters.AddWithValue($"@row_key_{i}", innerQueue[i].RowKey);
                 cmd.Parameters.AddWithValue($"@identity_{i}", innerQueue[i].ColObj?.Identity);
                 cmd.Parameters.AddWithValue($"@serialized_{i}", innerQueue[i].Serialized);
                 cmd.Parameters.AddWithValue($"@result_type_{i}", innerQueue[i].ColObj?.ResultType);
             }
+
+            cmd.CommandText = stringBuilder.ToString();
 
             try
             {

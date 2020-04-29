@@ -397,7 +397,7 @@ namespace AttackSurfaceAnalyzer.Utils
             get
             {
                 {
-                    return Connections.Any(x => !x.WriteQueue.IsEmpty || x.IsWriting);
+                    return Connections.Any(x => x.WriteQueue.Count > 0 || x.IsWriting);
                 }
             }
         }
@@ -680,7 +680,7 @@ namespace AttackSurfaceAnalyzer.Utils
             if (colObj != null && runId != null)
             {
                 var objIn = new WriteObject(colObj, runId);
-                Connections[ModuloString(objIn.Identity, shardingFactor: dbSettings.ShardingFactor)].WriteQueue.Enqueue(objIn);
+                Connections[ModuloString(objIn.Identity, shardingFactor: dbSettings.ShardingFactor)].WriteQueue.Add(objIn);
             }
         }
 

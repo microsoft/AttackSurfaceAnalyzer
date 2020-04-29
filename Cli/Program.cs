@@ -687,7 +687,7 @@ namespace AttackSurfaceAnalyzer.Cli
             return comparators;
         }
 
-        public static ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), ConcurrentQueue<CompareResult>> CompareRuns(CompareCommandOptions opts)
+        public static ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> CompareRuns(CompareCommandOptions opts)
         {
             if (opts is null)
             {
@@ -740,7 +740,7 @@ namespace AttackSurfaceAnalyzer.Cli
                     {
                         foreach (var key in c.Results.Keys)
                         {
-                            if (c.Results[key] is ConcurrentQueue<CompareResult> queue)
+                            if (c.Results[key] is List<CompareResult> queue)
                             {
                                 Parallel.ForEach(queue, (res) =>
                                 {
@@ -769,9 +769,9 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 foreach (var key in c.Results.Keys)
                 {
-                    if (c.Results.TryGetValue(key, out ConcurrentQueue<CompareResult>? obj))
+                    if (c.Results.TryGetValue(key, out List<CompareResult>? obj))
                     {
-                        if (obj is ConcurrentQueue<CompareResult> Queue)
+                        if (obj is List<CompareResult> Queue)
                         {
                             foreach (var result in Queue)
                             {
