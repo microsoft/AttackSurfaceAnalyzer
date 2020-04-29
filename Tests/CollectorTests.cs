@@ -95,9 +95,6 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                //var tpmSim = new TpmSim();
-                //tpmSim.StartSimulator();
-
                 var process = TpmSim.GetTpmSimulator();
                 process.Start();
 
@@ -166,7 +163,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 // Clean up after simulator
                 File.Delete("NVChip");
 
-                tpmc.Results.TryDequeue(out CollectObject? collectObject);
+                var collectObject = tpmc.Results[0];
 
                 if (collectObject is TpmObject tpmObject)
                 {
