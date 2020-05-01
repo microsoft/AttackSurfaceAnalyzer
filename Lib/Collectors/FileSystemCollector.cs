@@ -326,11 +326,14 @@ namespace AttackSurfaceAnalyzer.Collectors
                             obj.IsDirectory = true;
                             break;
                         case FileTypes.RegularFile:
-                            if (includeContentHash)
+                            if (i.HasContents)
                             {
-                                obj.ContentHash = FileSystemUtils.GetFileHash(path);
+                                if (includeContentHash)
+                                {
+                                    obj.ContentHash = FileSystemUtils.GetFileHash(path);
+                                }
+                                obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, obj.Size);
                             }
-                            obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, obj.Size);
                             break;
                     }
                 }
@@ -351,8 +354,12 @@ namespace AttackSurfaceAnalyzer.Collectors
                 Log.Debug("Should be caught in DirectoryWalker {0}", e.GetType().ToString());
             }
 
-            obj.LastModified = File.GetLastWriteTimeUtc(path);
-            obj.Created = File.GetCreationTimeUtc(path);
+            try
+            {
+                obj.LastModified = File.GetLastWriteTimeUtc(path);
+                obj.Created = File.GetCreationTimeUtc(path);
+            }
+            catch (UnauthorizedAccessException) { }
 
             return obj;
         }
