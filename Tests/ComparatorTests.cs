@@ -78,8 +78,8 @@ namespace AttackSurfaceAnalyzer.Tests
             var fsc2 = new FileSystemCollector(opts);
             fsc2.Execute();
 
-            Assert.IsTrue(fsc2.Results.Any(x => x is FileSystemObject FSO && FSO.Path.EndsWith("AsaLibTesterMZ")));
-            Assert.IsTrue(fsc2.Results.Any(x => x is FileSystemObject FSO && FSO.Path.EndsWith("AsaLibTesterJavaClass")));
+            Assert.IsTrue(fsc2.Results.Any(x => x is FileSystemObject FSO && FSO.Path.EndsWith("AsaLibTesterMZ") && FSO.IsExecutable == true));
+            Assert.IsTrue(fsc2.Results.Any(x => x is FileSystemObject FSO && FSO.Path.EndsWith("AsaLibTesterJavaClass") && FSO.IsExecutable == true));
 
             BaseCompare bc = new BaseCompare();
             bc.Compare(fsc.Results, fsc2.Results, FirstRunId, SecondRunId);
