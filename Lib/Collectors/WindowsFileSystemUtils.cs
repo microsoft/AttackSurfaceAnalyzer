@@ -27,8 +27,8 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 if (PeFile.IsPeFile(Path))
                 {
-                    using var fileStream = File.OpenRead(Path);
-                    using var peHeader = new PeFile(fileStream);
+                    using var mmf = new PeNet.FileParser.MMFile(Path);
+                    var peHeader = new PeFile(mmf);
                     if (peHeader.Authenticode is AuthenticodeInfo ai)
                     {
                         var sig = new Signature(ai);
@@ -91,8 +91,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                 {
                     if (PeFile.IsPeFile(Path))
                     {
-                        using var fileStream = File.OpenRead(Path);
-                        using var peHeader = new PeFile(fileStream);
+                        using var mmf = new PeNet.FileParser.MMFile(Path);
+                        var peHeader = new PeFile(mmf);
                         var dllCharacteristics = peHeader.ImageNtHeaders?.OptionalHeader.DllCharacteristics;
                         if (dllCharacteristics is DllCharacteristicsType chars)
                         {
