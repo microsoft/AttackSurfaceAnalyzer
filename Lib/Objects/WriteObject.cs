@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
+using Serilog;
 using System;
 using System.Linq;
 
@@ -16,29 +17,26 @@ namespace AttackSurfaceAnalyzer.Objects
 
         public WriteObject(CollectObject ColObjIn, string RunIdIn)
         {
-            ColObj = ColObjIn;
+            ColObj = ColObjIn ?? throw new ArgumentNullException(nameof(ColObjIn));
             RunId = RunIdIn;
 
             Serialized = JsonUtils.Dehydrate(ColObjIn);
-            RowKey = ColObj?.RowKey ?? throw new ArgumentNullException(nameof(ColObjIn)); ;
+            RowKey = ColObj.RowKey;
         }
 
         public static WriteObject? FromString(string SerializedIn, RESULT_TYPE ResultTypeIn, string RunIdIn)
         {
-            var wo = new WriteObject(SerializedIn, ResultTypeIn, RunIdIn);
-            if (wo.ColObj == null)
+            var deserialized = JsonUtils.Hydrate(SerializedIn, ResultTypeIn);
+
+            if (deserialized is CollectObject)
             {
+                return new WriteObject(deserialized, RunIdIn);
+            }
+            else
+            {
+                Log.Debug($"Couldn't hydrate {SerializedIn} Failed to make a WriteObject.");
                 return null;
             }
-            return wo;
-        }
-
-        private WriteObject(string SerializedIn, RESULT_TYPE ResultTypeIn, string RunIdIn)
-        {
-            Serialized = SerializedIn;
-            RunId = RunIdIn;
-            ColObj = JsonUtils.Hydrate(SerializedIn, ResultTypeIn) ?? throw new NullReferenceException(nameof(ColObj));
-            RowKey = ColObj.RowKey;
         }
 
         public override int GetHashCode()

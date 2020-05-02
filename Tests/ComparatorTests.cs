@@ -59,8 +59,6 @@ namespace AttackSurfaceAnalyzer.Tests
             var fsc = new FileSystemCollector(opts);
             fsc.Execute();
 
-            fsc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, FirstRunId));
-
             using (var file = File.Open(Path.Combine(testFolder, "AsaLibTesterMZ"), FileMode.OpenOrCreate))
             {
                 file.Write(FileSystemUtils.WindowsMagicNumber, 0, 2);
@@ -77,25 +75,14 @@ namespace AttackSurfaceAnalyzer.Tests
 
             opts.RunId = SecondRunId;
 
-            fsc = new FileSystemCollector(opts);
-            fsc.Execute();
+            var fsc2 = new FileSystemCollector(opts);
+            fsc2.Execute();
 
-            Assert.IsTrue(fsc.Results.Any(x => x is FileSystemObject FSO && FSO.Path.EndsWith("AsaLibTesterMZ")));
-            Assert.IsTrue(fsc.Results.Any(x => x is FileSystemObject FSO && FSO.Path.EndsWith("AsaLibTesterJavaClass")));
-
-            fsc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, SecondRunId));
-
-            while (DatabaseManager.HasElements)
-            {
-                Thread.Sleep(1);
-            }
+            Assert.IsTrue(fsc2.Results.Any(x => x is FileSystemObject FSO && FSO.Path.EndsWith("AsaLibTesterMZ") && FSO.IsExecutable == true));
+            Assert.IsTrue(fsc2.Results.Any(x => x is FileSystemObject FSO && FSO.Path.EndsWith("AsaLibTesterJavaClass") && FSO.IsExecutable == true));
 
             BaseCompare bc = new BaseCompare();
-            if (!bc.TryCompare(FirstRunId, SecondRunId))
-            {
-                Assert.Fail();
-            }
-
+            bc.Compare(fsc.Results, fsc2.Results, FirstRunId, SecondRunId);
             var results = bc.Results;
 
             Assert.IsTrue(results.ContainsKey((RESULT_TYPE.FILE, CHANGE_TYPE.CREATED)));

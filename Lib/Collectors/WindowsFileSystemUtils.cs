@@ -3,6 +3,7 @@
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
+using PeNet;
 using PeNet.Header.Authenticode;
 using PeNet.Header.Pe;
 using Serilog;
@@ -18,36 +19,40 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         public static Signature? GetSignatureStatus(string Path)
         {
-            if (!NeedsSignature(Path))
+            if (Path is null || !NeedsSignature(Path))
             {
                 return null;
             }
             try
             {
-                using var peHeader = new PeNet.PeFile(Path);
-                if (peHeader.Authenticode is AuthenticodeInfo ai)
+                if (PeFile.IsPeFile(Path))
                 {
-                    var sig = new Signature(ai);
-                    return sig;
+                    using var mmf = new PeNet.FileParser.MMFile(Path);
+                    var peHeader = new PeFile(mmf);
+                    if (peHeader.Authenticode is AuthenticodeInfo ai)
+                    {
+                        var sig = new Signature(ai);
+                        return sig;
+                    }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Log.Debug(e, "Thrown in GetSignatureStatus");
+                Log.Debug("Failed to get signature for {0}.",Path);
             }
             return null;
         }
 
         public static bool NeedsSignature(string Path)
         {
-            if (Path is null)
+            if (Path is null || !RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 return false;
             }
-            FileInfo file;
             try
             {
-                file = new FileInfo(Path);
+                FileInfo file = new FileInfo(Path);
+                return FileSystemUtils.IsWindowsExecutable(Path, (ulong)file.Length);
             }
             catch (Exception e) when (
                 e is FileNotFoundException ||
@@ -61,33 +66,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 return false;
             }
-            return NeedsSignature(Path, (ulong)file.Length);
-        }
-
-        public static bool NeedsSignature(string Path, ulong Size)
-        {
-            if (Path is null)
-            {
-                return false;
-            }
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                return FileSystemUtils.IsWindowsExecutable(Path, Size);
-            }
-            return false;
-        }
-
-        public static bool NeedsSignature(FileSystemObject file)
-        {
-            if (file is null)
-            {
-                return false;
-            }
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                return FileSystemUtils.IsExecutable(file.Path, file.Size) ?? false;
-            }
-            return false;
         }
 
         public static bool IsLocal(string path)
@@ -111,24 +89,26 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 try
                 {
-                    // This line throws the exceptions below.
-                    using var peHeader1 = new PeNet.PeFile(Path);
-                    var dllCharacteristics = peHeader1.ImageNtHeaders?.OptionalHeader.DllCharacteristics;
-                    if (dllCharacteristics is DllCharacteristicsType chars)
+                    if (PeFile.IsPeFile(Path))
                     {
-                        ushort characteristics = (ushort)chars;
-                        foreach (DLLCHARACTERISTICS? characteristic in Enum.GetValues(typeof(DLLCHARACTERISTICS)))
+                        using var mmf = new PeNet.FileParser.MMFile(Path);
+                        var peHeader = new PeFile(mmf);
+                        var dllCharacteristics = peHeader.ImageNtHeaders?.OptionalHeader.DllCharacteristics;
+                        if (dllCharacteristics is DllCharacteristicsType chars)
                         {
-                            if (characteristic is DLLCHARACTERISTICS c)
+                            ushort characteristics = (ushort)chars;
+                            foreach (DLLCHARACTERISTICS? characteristic in Enum.GetValues(typeof(DLLCHARACTERISTICS)))
                             {
-                                if (((ushort)c & characteristics) == (ushort)c)
+                                if (characteristic is DLLCHARACTERISTICS c)
                                 {
-                                    output.Add(c);
+                                    if (((ushort)c & characteristics) == (ushort)c)
+                                    {
+                                        output.Add(c);
+                                    }
                                 }
                             }
                         }
                     }
-
                 }
                 catch (Exception e) when (
                     e is IndexOutOfRangeException
