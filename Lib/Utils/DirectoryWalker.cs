@@ -96,14 +96,6 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     try
                     {
-                        DirectoryInfo directoryInfo = new DirectoryInfo(dir);
-
-                        // Skip symlinks to avoid loops
-                        // Future improvement: log it as a symlink in the data
-                        if (directoryInfo.Attributes.HasFlag(FileAttributes.ReparsePoint))
-                        {
-                            continue;
-                        }
                         if (!dirsSet.Contains(dir))
                         {
                             dirs.Push(dir);
