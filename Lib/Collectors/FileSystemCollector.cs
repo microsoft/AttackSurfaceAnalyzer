@@ -100,9 +100,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                 if (obj != null)
                 {
                     Results.Add(obj);
-                    // TODO: This is disabled because certificate.Import below can hang.
-                    // See https://github.com/dotnet/core/issues/4649
-                    if (false &&
+                    // TODO: Also try parse .DER as a key
+                    if (true &&
                         (Path.EndsWith(".cer", StringComparison.CurrentCulture) ||
                         Path.EndsWith(".der", StringComparison.CurrentCulture) ||
                         Path.EndsWith(".p7b", StringComparison.CurrentCulture) ||
@@ -110,8 +109,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         try
                         {
-                            using var certificate = new X509Certificate2();
-                            certificate.Import(Path);
+                            using var certificate = new X509Certificate2(Path);
 
                             var certObj = new CertificateObject(
                                 StoreLocation: StoreLocation.LocalMachine.ToString(),
@@ -119,13 +117,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 Certificate: new SerializableCertificate(certificate));
 
                             Results.Add(certObj);
-
                         }
-                        catch (Exception e) when (
-                            e is System.Security.Cryptography.CryptographicException
-                            || e is ArgumentException)
+                        catch (Exception e)
                         {
-                            Log.Verbose($"Could not parse certificate from file: {Path}");
+                            Log.Verbose($"Could not parse certificate from file: {Path}, {e.GetType().ToString()}");
                         }
                     }
                 }
