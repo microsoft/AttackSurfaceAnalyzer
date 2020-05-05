@@ -110,6 +110,8 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private static DBSettings dbSettings = new DBSettings();
 
+        public static int QueueSize { get { return Connections.Select(x => x.WriteQueue.Count).Sum(); } }
+
         public static SqlConnectionHolder? MainConnection
         {
             get
@@ -697,9 +699,9 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static int ModuloString(string identity, int shardingFactor) => identity.Sum(x => x) % shardingFactor;
 
-        public static List<WriteObject> GetMissingFromFirst(string firstRunId, string secondRunId)
+        public static IEnumerable<WriteObject> GetMissingFromFirst(string firstRunId, string secondRunId)
         {
-            var output = new List<WriteObject>();
+            var output = new ConcurrentQueue<WriteObject>();
 
             Connections.AsParallel().ForAll(cxn =>
             {
@@ -716,7 +718,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         {
                             var wo = WriteObject.FromString((string)reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
                             if (wo is WriteObject WO)
-                                output.Add(WO);
+                                output.Enqueue(WO);
                         }
                     }
                 }
@@ -725,9 +727,9 @@ namespace AttackSurfaceAnalyzer.Utils
             return output;
         }
 
-        public static List<WriteObject> GetAllMissing(string firstRunId, string secondRunId)
+        public static IEnumerable<WriteObject> GetAllMissing(string firstRunId, string secondRunId)
         {
-            var output = new List<WriteObject>();
+            var output = new ConcurrentQueue<WriteObject>();
 
             Connections.AsParallel().ForAll(cxn =>
             {
@@ -744,7 +746,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         {
                             var wo = WriteObject.FromString((string)reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
                             if (wo is WriteObject WO)
-                                output.Add(WO);
+                                output.Enqueue(WO);
                         }
                     }
                 }
@@ -753,9 +755,9 @@ namespace AttackSurfaceAnalyzer.Utils
             return output;
         }
 
-        public static List<WriteObject> GetAllMissingExplicit(string firstRunId, string secondRunId)
+        public static IEnumerable<WriteObject> GetAllMissingExplicit(string firstRunId, string secondRunId)
         {
-            var output = new List<WriteObject>();
+            var output = new ConcurrentQueue<WriteObject>();
 
             Connections.AsParallel().ForAll(cxn =>
             {
@@ -772,7 +774,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         {
                             var wo = WriteObject.FromString((string)reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
                             if (wo is WriteObject WO)
-                                output.Add(WO);
+                                output.Enqueue(WO);
                         }
                     }
                 }
@@ -781,10 +783,10 @@ namespace AttackSurfaceAnalyzer.Utils
             return output;
         }
 
-        public static List<WriteObject> GetAllMissing2(string firstRunId, string secondRunId)
+        public static IEnumerable<WriteObject> GetAllMissing2(string firstRunId, string secondRunId)
         {
             string SQL_GROUPED = "SELECT run_id, result_type, serialized FROM collect WHERE run_id = @first_run_id OR run_id = @second_run_id AND identity in (SELECT identity FROM collect WHERE run_id = @first_run_id OR run_id = @second_run_id GROUP BY identity HAVING COUNT(*) == 1);";
-            var output = new List<WriteObject>();
+            var output = new ConcurrentQueue<WriteObject>();
 
             Connections.AsParallel().ForAll(cxn =>
             {
@@ -801,7 +803,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         {
                             var wo = WriteObject.FromString((string)reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
                             if (wo is WriteObject WO)
-                                output.Add(WO);
+                                output.Enqueue(WO);
                         }
                     }
                 }
@@ -810,9 +812,9 @@ namespace AttackSurfaceAnalyzer.Utils
             return output;
         }
 
-        public static List<(WriteObject, WriteObject)> GetModified(string firstRunId, string secondRunId)
+        public static IEnumerable<(WriteObject, WriteObject)> GetModified(string firstRunId, string secondRunId)
         {
-            var output = new List<(WriteObject, WriteObject)>();
+            var output = new ConcurrentQueue<(WriteObject, WriteObject)>();
 
             Connections.AsParallel().ForAll(cxn =>
             {
@@ -834,7 +836,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
                         if (val1 is WriteObject V1 && val2 is WriteObject V2)
                         {
-                            output.Add((V1, V2));
+                            output.Enqueue((V1, V2));
                         }
                     }
                 }
