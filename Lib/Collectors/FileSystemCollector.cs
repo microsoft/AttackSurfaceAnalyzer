@@ -28,7 +28,6 @@ namespace AttackSurfaceAnalyzer.Collectors
         private readonly bool INCLUDE_CONTENT_HASH = false;
 
         private readonly bool downloadCloud;
-        private readonly bool examineCertificates;
         private readonly bool parallel;
 
         public FileSystemCollector(CollectCommandOptions opts)
@@ -38,7 +37,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                 throw new ArgumentNullException(nameof(opts));
             }
             downloadCloud = opts.DownloadCloud;
-            examineCertificates = opts.CertificatesFromFiles;
             parallel = !opts.SingleThread;
             Log.Information($"{parallel} is Parallel");
 
@@ -102,10 +100,13 @@ namespace AttackSurfaceAnalyzer.Collectors
                 if (obj != null)
                 {
                     Results.Add(obj);
-                    if (examineCertificates &&
-                        Path.EndsWith(".cer", StringComparison.CurrentCulture) ||
+                    // TODO: This is disabled because certificate.Import below can hang.
+                    // See https://github.com/dotnet/core/issues/4649
+                    if (false &&
+                        (Path.EndsWith(".cer", StringComparison.CurrentCulture) ||
                         Path.EndsWith(".der", StringComparison.CurrentCulture) ||
-                        Path.EndsWith(".p7b", StringComparison.CurrentCulture))
+                        Path.EndsWith(".p7b", StringComparison.CurrentCulture) ||
+                        Path.EndsWith(".pfx", StringComparison.CurrentCulture)))
                     {
                         try
                         {
@@ -115,12 +116,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                             var certObj = new CertificateObject(
                                 StoreLocation: StoreLocation.LocalMachine.ToString(),
                                 StoreName: StoreName.Root.ToString(),
-                                Certificate: new SerializableCertificate(certificate))
-                            {
-                                Pkcs7 = Convert.ToBase64String(certificate.Export(X509ContentType.Cert))
-                            };
+                                Certificate: new SerializableCertificate(certificate));
 
                             Results.Add(certObj);
+
                         }
                         catch (Exception e) when (
                             e is System.Security.Cryptography.CryptographicException
