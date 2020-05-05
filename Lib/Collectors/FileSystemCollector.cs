@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
+using Microsoft.CodeAnalysis;
 using Mono.Unix;
 using Serilog;
 using System;
@@ -38,7 +39,8 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
             downloadCloud = opts.DownloadCloud;
             examineCertificates = opts.CertificatesFromFiles;
-            parallel = opts.Parallelization;
+            parallel = !opts.SingleThread;
+            Log.Information($"{parallel} is Parallel");
 
             roots = new HashSet<string>();
             INCLUDE_CONTENT_HASH = opts.GatherHashes;
@@ -90,6 +92,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                     roots.Add("/");
                 }
             }
+
+            Log.Information($"{parallel} is parallel");
 
             Action<string> IterateOn = Path =>
             {

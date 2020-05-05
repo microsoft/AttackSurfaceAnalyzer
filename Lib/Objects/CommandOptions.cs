@@ -141,7 +141,7 @@ namespace AttackSurfaceAnalyzer
         public bool Overwrite { get; set; }
 
         [Option(HelpText = "Run parallelized collectors when available.")]
-        public bool Parallelization { get; set; } = true;
+        public bool SingleThread { get; set; }
 
         [Option(HelpText = "Number of Database Shards to use.")]
         public int Shards { get; set; } = 7;

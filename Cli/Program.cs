@@ -991,7 +991,7 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             if (opts.EnableRegistryCollector || (opts.EnableAllCollectors && RuntimeInformation.IsOSPlatform(OSPlatform.Windows)))
             {
-                collectors.Add(new RegistryCollector(opts.Parallelization));
+                collectors.Add(new RegistryCollector(!opts.SingleThread));
                 dict.Add(RESULT_TYPE.REGISTRY);
             }
             if (opts.EnableCertificateCollector || opts.EnableAllCollectors)
