@@ -25,8 +25,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         private readonly HashSet<string> roots;
 
-        private readonly bool INCLUDE_CONTENT_HASH = false;
-
+        private readonly bool INCLUDE_CONTENT_HASH;
         private readonly bool downloadCloud;
         private readonly bool parallel;
 
@@ -38,7 +37,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
             downloadCloud = opts.DownloadCloud;
             parallel = !opts.SingleThread;
-            Log.Information($"{parallel} is Parallel");
 
             roots = new HashSet<string>();
             INCLUDE_CONTENT_HASH = opts.GatherHashes;
@@ -91,8 +89,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
             }
 
-            Log.Information($"{parallel} is parallel");
-
             Action<string> IterateOn = Path =>
             {
                 Log.Verbose("Started parsing {0}", Path);
@@ -123,6 +119,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             Log.Verbose($"Could not parse certificate from file: {Path}, {e.GetType().ToString()}");
                         }
                     }
+                }
                 Log.Verbose("Finished parsing {0}", Path);
             };
 
