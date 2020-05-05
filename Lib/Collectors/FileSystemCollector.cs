@@ -355,7 +355,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 obj.LastModified = File.GetLastWriteTimeUtc(path);
                 obj.Created = File.GetCreationTimeUtc(path);
             }
-            catch (UnauthorizedAccessException) { }
+            catch (Exception) { }
 
             return obj;
         }
