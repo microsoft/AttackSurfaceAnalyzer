@@ -100,12 +100,12 @@ namespace AttackSurfaceAnalyzer.Collectors
                 if (obj != null)
                 {
                     Results.Add(obj);
+
                     // TODO: Also try parse .DER as a key
-                    if (true &&
-                        (Path.EndsWith(".cer", StringComparison.CurrentCulture) ||
+                    if (Path.EndsWith(".cer", StringComparison.CurrentCulture) ||
                         Path.EndsWith(".der", StringComparison.CurrentCulture) ||
                         Path.EndsWith(".p7b", StringComparison.CurrentCulture) ||
-                        Path.EndsWith(".pfx", StringComparison.CurrentCulture)))
+                        Path.EndsWith(".pfx", StringComparison.CurrentCulture))
                     {
                         try
                         {
@@ -123,7 +123,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                             Log.Verbose($"Could not parse certificate from file: {Path}, {e.GetType().ToString()}");
                         }
                     }
-                }
                 Log.Verbose("Finished parsing {0}", Path);
             };
 
