@@ -18,10 +18,11 @@ namespace AttackSurfaceAnalyzer.Objects
             Issuer = certificate.Issuer;
             SerialNumber = certificate.SerialNumber;
             CertHashString = certificate.GetCertHashString();
+            Pkcs7 = Convert.ToBase64String(certificate.Export(X509ContentType.Cert));
         }
 
         [JsonConstructor]
-        public SerializableCertificate(string Thumbprint, string Subject, string PublicKey, DateTime NotAfter, DateTime NotBefore, string Issuer, string SerialNumber, string CertHashString)
+        public SerializableCertificate(string Thumbprint, string Subject, string PublicKey, DateTime NotAfter, DateTime NotBefore, string Issuer, string SerialNumber, string CertHashString, string Pkcs7)
         {
             this.Thumbprint = Thumbprint;
             this.Subject = Subject;
@@ -31,6 +32,7 @@ namespace AttackSurfaceAnalyzer.Objects
             this.Issuer = Issuer;
             this.SerialNumber = SerialNumber;
             this.CertHashString = CertHashString;
+            this.Pkcs7 = Pkcs7;
         }
 
         public string Thumbprint { get; set; }
@@ -41,5 +43,6 @@ namespace AttackSurfaceAnalyzer.Objects
         public string Issuer { get; set; }
         public string SerialNumber { get; set; }
         public string CertHashString { get; set; }
+        public string Pkcs7 { get; set; }
     }
 }

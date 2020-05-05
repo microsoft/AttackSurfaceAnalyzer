@@ -44,10 +44,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             var obj = new CertificateObject(
                                 StoreLocation: storeLocation.ToString(),
                                 StoreName: storeName.ToString(),
-                                Certificate: new SerializableCertificate(certificate))
-                            {
-                                Pkcs7 = Convert.ToBase64String(certificate.Export(X509ContentType.Cert))
-                            };
+                                Certificate: new SerializableCertificate(certificate));
                             Results.Add(obj);
                         }
                         store.Close();
@@ -80,10 +77,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             var obj = new CertificateObject(
                                 StoreLocation: StoreLocation.LocalMachine.ToString(),
                                 StoreName: StoreName.Root.ToString(),
-                                Certificate: new SerializableCertificate(certificate))
-                            {
-                                Pkcs7 = Convert.ToBase64String(certificate.Export(X509ContentType.Cert))
-                            };
+                                Certificate: new SerializableCertificate(certificate));
                             Results.Add(obj);
                         }
                         catch (Exception e)
@@ -134,10 +128,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             var obj = new CertificateObject(
                                 StoreLocation: StoreLocation.LocalMachine.ToString(),
                                 StoreName: StoreName.Root.ToString(),
-                                Certificate: new SerializableCertificate(certificate))
-                            {
-                                Pkcs7 = Convert.ToBase64String(certificate.Export(X509ContentType.Cert))
-                            };
+                                Certificate: new SerializableCertificate(certificate));
                             Results.Add(obj);
                         }
                     }
