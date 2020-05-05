@@ -53,7 +53,6 @@ namespace AttackSurfaceAnalyzer.Tests
                 GatherHashes = true,
                 SelectedDirectories = testFolder,
                 DownloadCloud = false,
-                CertificatesFromFiles = false
             };
 
             var fsc = new FileSystemCollector(opts);
