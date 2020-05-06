@@ -1065,8 +1065,6 @@ namespace AttackSurfaceAnalyzer.Cli
                 {
                     DatabaseManager.BeginTransaction();
 
-                    var StopWatch = Stopwatch.StartNew();
-
                     Task.Run(() => c.Execute());
 
                     Thread.Sleep(1);
@@ -1087,15 +1085,6 @@ namespace AttackSurfaceAnalyzer.Cli
                         Thread.Sleep(1);
                     }
 
-                    StopWatch.Stop();
-                    TimeSpan t = TimeSpan.FromMilliseconds(StopWatch.ElapsedMilliseconds);
-                    string answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
-                                            t.Hours,
-                                            t.Minutes,
-                                            t.Seconds,
-                                            t.Milliseconds);
-                    Log.Debug(Strings.Get("Completed"), c.GetType().Name, answer);
-
                     c.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, opts.RunId));
 
                     var prevFlush = DatabaseManager.QueueSize;
@@ -1104,7 +1093,9 @@ namespace AttackSurfaceAnalyzer.Cli
                     var printInterval = 10;
                     var currentInterval = 0;
 
-                    StopWatch = Stopwatch.StartNew();
+                    var StopWatch = Stopwatch.StartNew();
+                    TimeSpan t = new TimeSpan();
+                    string answer = string.Empty;
 
                     while (DatabaseManager.HasElements)
                     {
