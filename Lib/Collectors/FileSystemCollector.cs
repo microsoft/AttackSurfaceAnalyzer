@@ -287,8 +287,6 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                             if (obj.IsExecutable != null && (bool)obj.IsExecutable)
                             {
-                                // TODO: This can be optimized into fewer touches, GetSignatureStatus also runs IsExecutable checks against the first 4 bytes
-
                                 obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(path);
                                 obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(path);
                             }
@@ -322,6 +320,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     obj.ContentHash = FileSystemUtils.GetFileHash(path);
                                 }
                                 obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, obj.Size);
+                                if (obj.IsExecutable != null && (bool)obj.IsExecutable)
+                                {
+                                    obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(path);
+                                    obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(path);
+                                }
                             }
                             break;
                     }
