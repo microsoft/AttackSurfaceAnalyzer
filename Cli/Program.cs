@@ -1098,7 +1098,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
                     c.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, opts.RunId));
 
-                    var prevFlush = DatabaseManager.Connections.Select(x => x.WriteQueue.Count).Sum();
+                    var prevFlush = DatabaseManager.QueueSize;
                     var totFlush = prevFlush;
 
                     var printInterval = 10;
@@ -1113,7 +1113,7 @@ namespace AttackSurfaceAnalyzer.Cli
                         if (currentInterval++ % printInterval == 0)
                         {
                             var actualDuration = (currentInterval < printInterval) ? currentInterval : printInterval;
-                            var sample = DatabaseManager.Connections.Select(x => x.WriteQueue.Count).Sum();
+                            var sample = DatabaseManager.QueueSize;
                             var curRate = prevFlush - sample;
                             var totRate = (double)(totFlush - sample) / StopWatch.ElapsedMilliseconds;
                             try
