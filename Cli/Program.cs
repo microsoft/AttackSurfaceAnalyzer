@@ -415,7 +415,7 @@ namespace AttackSurfaceAnalyzer.Cli
         {
             if (DatabaseManager.FirstRun)
             {
-                string exeStr = $"config --telemetry-opt-out true";
+                string exeStr = $"config --telemetry-opt-out";
                 Log.Information(Strings.Get("ApplicationHasTelemetry"));
                 Log.Information(Strings.Get("ApplicationHasTelemetry2"), "https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/PRIVACY.md");
                 Log.Information(Strings.Get("ApplicationHasTelemetry3"), exeStr);
@@ -1098,6 +1098,7 @@ namespace AttackSurfaceAnalyzer.Cli
                     var StopWatch = Stopwatch.StartNew();
                     TimeSpan t = new TimeSpan();
                     string answer = string.Empty;
+                    bool warnedToIncreaseShards = false;
 
                     while (DatabaseManager.HasElements)
                     {
@@ -1106,6 +1107,11 @@ namespace AttackSurfaceAnalyzer.Cli
                         {
                             break;
                         }
+                        if (!warnedToIncreaseShards && StopWatch.ElapsedMilliseconds > 10000 && dbSettings.ShardingFactor < 7)
+                        {
+                            Log.Information("It is taking a while to flush results to the database.  Try increasing the sharding level to improve performance.");
+                            warnedToIncreaseShards = true;
+                        }
                         now = DateTime.Now;
                         if (now - then > printInterval)
                         {
@@ -1113,8 +1119,6 @@ namespace AttackSurfaceAnalyzer.Cli
                             var sample = DatabaseManager.QueueSize;
                             var curRate = prevFlush - sample;
                             var totRate = (double)(totFlush - sample) / StopWatch.ElapsedMilliseconds;
-
-                            then = now;
 
                             try
                             {
@@ -1132,6 +1136,8 @@ namespace AttackSurfaceAnalyzer.Cli
                                 Log.Debug($"Overflowed: {curRate} {totRate} {sample} {t} {answer}");
                                 Log.Debug("Flushing {0} results. ({1}/s {2:0.00}/s)", sample, curRate, totRate * 1000);
                             }
+
+                            then = now;
                             prevFlush = sample;
                         }
                     }
