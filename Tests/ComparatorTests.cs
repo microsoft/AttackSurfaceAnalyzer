@@ -39,6 +39,8 @@ namespace AttackSurfaceAnalyzer.Tests
             DatabaseManager.Destroy();
         }
 
+        // TODO: Rewrite the other tests like TestFileCompare
+
         [TestMethod]
         public void TestFileCompare()
         {
@@ -101,62 +103,6 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("TestPath4") && x.Compare is FileSystemObject FSO && x.Base is FileSystemObject FSO2 && FSO.IsExecutable == false && FSO2.IsExecutable == true));
             Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Diffs.Any(y => y.Field == "IsExecutable") && x.Identity.Contains("TestPath4")));
             Assert.IsFalse(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("TestPath2")));
-        }
-
-        /// <summary>
-        /// Requires Admin
-        /// </summary>
-        [TestMethod]
-        public void TestEventCompareWindows()
-        {
-            var FirstRunId = "TestEventCollector-1";
-            var SecondRunId = "TestEventCollector-2";
-
-            var fsc = new EventLogCollector();
-            fsc.Execute();
-            fsc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, FirstRunId));
-
-            var source = "AsaTests";
-            var logname = "AsaTestLogs";
-
-            if (EventLog.SourceExists(source))
-            {
-                // Delete the source and the log.
-                EventLog.DeleteEventSource(source);
-                EventLog.Delete(logname);
-            }
-
-            // Create the event source to make next try successful.
-            EventLog.CreateEventSource(source, logname);
-
-            using EventLog eventLog = new EventLog("Application");
-            eventLog.Source = "Attack Surface Analyzer Tests";
-            eventLog.WriteEntry("This Log Entry was created for testing the Attack Surface Analyzer library.", EventLogEntryType.Warning, 101, 1);
-
-            fsc = new EventLogCollector();
-            fsc.Execute();
-
-            EventLog.DeleteEventSource(source);
-            EventLog.Delete(logname);
-
-            Assert.IsTrue(fsc.Results.Any(x => x is EventLogObject ELO && ELO.Source == "Attack Surface Analyzer Tests" && ELO.Timestamp is DateTime DT && DT.AddMinutes(1).CompareTo(DateTime.Now) > 0));
-
-            fsc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, SecondRunId));
-
-            while (DatabaseManager.HasElements)
-            {
-                Thread.Sleep(1);
-            }
-
-            BaseCompare bc = new BaseCompare();
-            if (!bc.TryCompare(FirstRunId, SecondRunId))
-            {
-                Assert.Fail();
-            }
-
-            var results = bc.Results;
-
-            Assert.IsTrue(results[(RESULT_TYPE.LOG, CHANGE_TYPE.CREATED)].Any(x => x.Compare is EventLogObject ELO && ELO.Level == "Warning" && ELO.Source == "Attack Surface Analyzer Tests"));
         }
 
         /// <summary>
@@ -301,105 +247,6 @@ namespace AttackSurfaceAnalyzer.Tests
                 Assert.IsTrue(results[(RESULT_TYPE.FIREWALL, CHANGE_TYPE.CREATED)].Where(x => x.Identity.Contains("9999")).Count() > 0);
             }
         }
-
-        /// <summary>
-        /// Does not require administrator.
-        /// </summary>
-        [TestMethod]
-        public void TestRegistryCompareWindows()
-        {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                var FirstRunId = "TestRegistryCollector-1";
-                var SecondRunId = "TestRegistryCollector-2";
-
-                var rc = new RegistryCollector(new List<RegistryHive>() { RegistryHive.CurrentUser }, true);
-                rc.Execute();
-                rc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, FirstRunId));
-
-                // Create a registry key
-                var name = Guid.NewGuid().ToString();
-                var value = Guid.NewGuid().ToString();
-                var value2 = Guid.NewGuid().ToString();
-
-                RegistryKey key;
-                key = Registry.CurrentUser.CreateSubKey(name);
-                key.SetValue(value, value2);
-                key.Close();
-
-                rc = new RegistryCollector(new List<RegistryHive>() { RegistryHive.CurrentUser }, true);
-                rc.Execute();
-
-                Assert.IsTrue(rc.Results.Any(x => x is RegistryObject RO && RO.Key.EndsWith(name)));
-                Assert.IsTrue(rc.Results.Any(x => x is RegistryObject RO && RO.Key.EndsWith(name) && RO.Values.ContainsKey(value) && RO.Values[value] == value2));
-
-                rc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, SecondRunId));
-
-                // Clean up
-                Registry.CurrentUser.DeleteSubKey(name);
-
-                while (DatabaseManager.HasElements)
-                {
-                    Thread.Sleep(1);
-                }
-
-                BaseCompare bc = new BaseCompare();
-
-                bc.TryCompare(FirstRunId, SecondRunId);
-
-                Assert.IsTrue(bc.Results.ContainsKey((RESULT_TYPE.REGISTRY, CHANGE_TYPE.CREATED)));
-                Assert.IsTrue(bc.Results[(RESULT_TYPE.REGISTRY, CHANGE_TYPE.CREATED)].Any(x => x.Compare is RegistryObject RO && RO.Key.EndsWith(name)));
-            }
-        }
-
-        /// <summary>
-        /// Requires Administrator Priviledges.
-        /// </summary>
-        [TestMethod]
-        public void TestServiceCompareWindows()
-        {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                var FirstRunId = "TestServiceCollector-1";
-                var SecondRunId = "TestServiceCollector-2";
-
-                var fwc = new ServiceCollector();
-                fwc.Execute();
-                fwc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, FirstRunId));
-
-                // Create a service - This won't throw an exception, but it won't work if you are not an Admin.
-                var serviceName = "AsaDemoService";
-                var exeName = "AsaDemoService.exe";
-                var cmd = string.Format("create {0} binPath=\"{1}\"", serviceName, exeName);
-                ExternalCommandRunner.RunExternalCommand("sc.exe", cmd);
-
-                fwc = new ServiceCollector();
-                fwc.Execute();
-                fwc.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, SecondRunId));
-
-                // Clean up
-                cmd = string.Format("delete {0}", serviceName);
-                ExternalCommandRunner.RunExternalCommand("sc.exe", cmd);
-
-                while (DatabaseManager.HasElements)
-                {
-                    Thread.Sleep(1);
-                }
-
-                BaseCompare bc = new BaseCompare();
-                if (!bc.TryCompare(FirstRunId, SecondRunId))
-                {
-                    Assert.Fail();
-                }
-
-                var results = bc.Results;
-
-                Assert.IsTrue(results.ContainsKey((RESULT_TYPE.SERVICE, CHANGE_TYPE.CREATED)));
-                Assert.IsTrue(results[(RESULT_TYPE.SERVICE, CHANGE_TYPE.CREATED)].Where(x => x.Identity.Contains("AsaDemoService")).Count() > 0);
-            }
-        }
-
-        // @TODO ComObject Compare
 
         /// <summary>
         /// Requires Administrator Priviledges.
