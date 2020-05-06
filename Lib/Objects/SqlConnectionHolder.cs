@@ -19,11 +19,12 @@ namespace AttackSurfaceAnalyzer.Objects
     {
         public SqliteTransaction? Transaction { get; set; }
         public SqliteConnection Connection { get; set; }
-        public List<WriteObject> WriteQueue { get; private set; } = new List<WriteObject>();
+        public ConcurrentStack<WriteObject> WriteQueue { get; private set; } = new ConcurrentStack<WriteObject>();
         public bool KeepRunning { get; set; }
         public string Source { get; set; }
         private int RecordCount { get; set; }
         public bool IsWriting { get; private set; }
+        private WriteObject[] innerQueue;
 
         private readonly DBSettings settings;
 
@@ -50,6 +51,15 @@ namespace AttackSurfaceAnalyzer.Objects
             {
                 settings.BatchSize = 1;
             }
+
+            // Max number of variables determined by sqlite library at compile time
+            if (settings.BatchSize > 199)
+            {
+                Log.Warning("Maximum batch size is 199. Setting Batch size to 199");
+                settings.BatchSize = 199;
+            }
+
+            innerQueue = new WriteObject[settings.BatchSize];
 
             _ = Task.Factory.StartNew(() => KeepFlushQueue());
         }
@@ -113,30 +123,21 @@ namespace AttackSurfaceAnalyzer.Objects
             }
         }
 
-        public void WriteNext()
+        private void WriteNext()
         {
             IsWriting = true;
             string SQL_INSERT_COLLECT_RESULT = "insert or ignore into collect (run_id, result_type, row_key, identity, serialized) values ";
 
-            // Max number of variables determined by sqlite library at compile time
-            if (settings.BatchSize > 199)
-            {
-                Log.Warning("Maximum batch size is 199. Setting Batch size to 199");
-                settings.BatchSize = 199;
-            }
-
             var count = Math.Min(settings.BatchSize, WriteQueue.Count);
-            // Ignore any nulls or improperly constructed WriteObjects
-            var innerQueue = WriteQueue.Take(count).Where(x => x is WriteObject wo && wo.ColObj != null).ToList();
-            WriteQueue.RemoveRange(0, count);
+            var actual = WriteQueue.TryPopRange(innerQueue,0,count);
 
-            if (innerQueue.Count > 0)
+            if (actual > 0)
             {
                 var stringBuilder = new StringBuilder();
                 stringBuilder.Append(SQL_INSERT_COLLECT_RESULT);
                 using var cmd = new SqliteCommand(string.Empty, Connection, Transaction);
 
-                for (int i = 0; i < innerQueue.Count; i++)
+                for (int i = 0; i < actual; i++)
                 {
                     stringBuilder.Append($"(@run_id_{i}, @result_type_{i}, @row_key_{i}, @identity_{i}, @serialized_{i}),");
                     cmd.Parameters.AddWithValue($"@run_id_{i}", innerQueue[i].RunId);

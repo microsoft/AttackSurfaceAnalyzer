@@ -681,7 +681,7 @@ namespace AttackSurfaceAnalyzer.Utils
             if (colObj != null && runId != null)
             {
                 var objIn = new WriteObject(colObj, runId);
-                Connections[ModuloString(objIn.Identity, shardingFactor: dbSettings.ShardingFactor)].WriteQueue.Add(objIn);
+                Connections[ModuloString(objIn.Identity, shardingFactor: dbSettings.ShardingFactor)].WriteQueue.Push(objIn);
             }
         }
 
