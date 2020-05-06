@@ -66,7 +66,7 @@
     <PackageReference Include="CommandLineParser" Version="2.8.0" />
     <PackageReference Include="sqlite" Version="3.13.0" />
     <PackageReference Include="Microsoft.TSS" Version="2.1.1" />
-    <PackageReference Include="PeNet" Version="2.2.3" />
+    <PackageReference Include="PeNet" Version="2.2.4" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\analyses.json" Link="analyses.json" />
