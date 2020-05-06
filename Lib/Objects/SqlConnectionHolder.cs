@@ -118,6 +118,7 @@ namespace AttackSurfaceAnalyzer.Objects
             IsWriting = true;
             string SQL_INSERT_COLLECT_RESULT = "insert or ignore into collect (run_id, result_type, row_key, identity, serialized) values ";
 
+            // Max number of variables determined by sqlite library at compile time
             if (settings.BatchSize > 199)
             {
                 Log.Warning("Maximum batch size is 199. Setting Batch size to 199");
@@ -125,22 +126,24 @@ namespace AttackSurfaceAnalyzer.Objects
             }
 
             var count = Math.Min(settings.BatchSize, WriteQueue.Count);
-            var innerQueue = WriteQueue.Take(count).ToList();
+            // Ignore any nulls or improperly constructed WriteObjects
+            var innerQueue = WriteQueue.Take(count).Where(x => x is WriteObject wo && wo.ColObj != null).ToList();
+            WriteQueue.RemoveRange(0, count);
 
-            if (count > 0)
+            if (innerQueue.Count > 0)
             {
                 var stringBuilder = new StringBuilder();
                 stringBuilder.Append(SQL_INSERT_COLLECT_RESULT);
-                using var cmd = new SqliteCommand(stringBuilder.ToString(), Connection, Transaction);
+                using var cmd = new SqliteCommand(string.Empty, Connection, Transaction);
 
-                for (int i = 0; i < count; i++)
+                for (int i = 0; i < innerQueue.Count; i++)
                 {
                     stringBuilder.Append($"(@run_id_{i}, @result_type_{i}, @row_key_{i}, @identity_{i}, @serialized_{i}),");
                     cmd.Parameters.AddWithValue($"@run_id_{i}", innerQueue[i].RunId);
+                    cmd.Parameters.AddWithValue($"@result_type_{i}", innerQueue[i].ColObj.ResultType);
                     cmd.Parameters.AddWithValue($"@row_key_{i}", innerQueue[i].RowKey);
-                    cmd.Parameters.AddWithValue($"@identity_{i}", innerQueue[i].ColObj?.Identity);
+                    cmd.Parameters.AddWithValue($"@identity_{i}", innerQueue[i].ColObj.Identity);
                     cmd.Parameters.AddWithValue($"@serialized_{i}", innerQueue[i].Serialized);
-                    cmd.Parameters.AddWithValue($"@result_type_{i}", innerQueue[i].ColObj?.ResultType);
                 }
                 // remove trailing comma
                 stringBuilder.Remove(stringBuilder.Length - 1, 1);
@@ -150,13 +153,11 @@ namespace AttackSurfaceAnalyzer.Objects
                 {
                     cmd.ExecuteNonQuery();
                 }
-                catch (SqliteException e)
+                catch (Exception e)
                 {
-                    Log.Warning(exception: e, $"Error writing to database.");
+                    Log.Warning(e, $"Error writing to database.");
                 }
             }
-
-            WriteQueue.RemoveRange(0, count);
 
             IsWriting = false;
         }
