@@ -57,39 +57,49 @@ namespace AttackSurfaceAnalyzer.Tests
                 DownloadCloud = false,
             };
 
-            var fsc = new FileSystemCollector(opts);
-            fsc.Execute();
-
-            using (var file = File.Open(Path.Combine(testFolder, "AsaLibTesterMZ"), FileMode.OpenOrCreate))
-            {
-                file.Write(FileSystemUtils.WindowsMagicNumber, 0, 2);
-                file.Write(FileSystemUtils.WindowsMagicNumber, 0, 2);
-
-                file.Close();
-            }
-
-            using (var file = File.Open(Path.Combine(testFolder, "AsaLibTesterJavaClass"), FileMode.OpenOrCreate))
-            {
-                file.Write(FileSystemUtils.JavaMagicNumber, 0, 4);
-                file.Close();
-            }
-
-            opts.RunId = SecondRunId;
-
-            var fsc2 = new FileSystemCollector(opts);
-            fsc2.Execute();
-
-            Assert.IsTrue(fsc2.Results.Any(x => x is FileSystemObject FSO && FSO.Path.EndsWith("AsaLibTesterMZ") && FSO.IsExecutable == true));
-            Assert.IsTrue(fsc2.Results.Any(x => x is FileSystemObject FSO && FSO.Path.EndsWith("AsaLibTesterJavaClass") && FSO.IsExecutable == true));
+            var NewItems = new List<CollectObject>(){
+                new FileSystemObject("TestPath2")
+                {
+                    IsExecutable = true,
+                    Size = 701
+                },
+                new FileSystemObject("TestPath3")
+                {
+                    IsExecutable = false,
+                    Size = 701
+                },
+                new FileSystemObject("TestPath4")
+                {
+                    IsExecutable = false,
+                    Size = 701
+                }
+            };
+            var OldItems = new List<CollectObject>(){
+                new FileSystemObject("TestPath2")
+                {
+                    IsExecutable = true,
+                    Size = 701
+                },
+                new FileSystemObject("TestPath")
+                {
+                    IsExecutable = false,
+                    Size = 701
+                },
+                new FileSystemObject("TestPath4")
+                {
+                    IsExecutable = true,
+                    Size = 701
+                }
+            };
 
             BaseCompare bc = new BaseCompare();
-            bc.Compare(fsc.Results, fsc2.Results, FirstRunId, SecondRunId);
+            bc.Compare(OldItems, NewItems, FirstRunId, SecondRunId);
             var results = bc.Results;
 
-            Assert.IsTrue(results.ContainsKey((RESULT_TYPE.FILE, CHANGE_TYPE.CREATED)));
-            Log.Debug(JsonConvert.SerializeObject(results));
-            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.CREATED)].Any(x => x.Compare is FileSystemObject FSO && FSO.Identity.Contains("AsaLibTesterMZ") && FSO.IsExecutable == true));
-            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.CREATED)].Any(x => x.Compare is FileSystemObject FSO && FSO.Identity.Contains("AsaLibTesterJavaClass") && FSO.IsExecutable == true));
+            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.CREATED)].Any(x => x.Compare is FileSystemObject FSO && FSO.Identity.Contains("TestPath3") && FSO.Size == 701));
+            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.DELETED)].Any(x => x.Compare is FileSystemObject FSO && FSO.Identity.Contains("TestPath") && FSO.Size == 701));
+            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Compare is FileSystemObject FSO && x.Base is FileSystemObject FSO2 && FSO.Identity.Contains("TestPath4") && FSO.IsExecutable == true && FSO2.IsExecutable == false));
+            Assert.IsFalse(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("TestPath2")));
         }
 
         /// <summary>
