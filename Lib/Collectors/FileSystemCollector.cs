@@ -15,7 +15,6 @@ using System.Security;
 using System.Security.AccessControl;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
-using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -286,10 +285,14 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                             obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, size);
 
-                            if (obj.IsExecutable != null && (bool)obj.IsExecutable)
+                            if (FileSystemUtils.IsWindowsExecutable(obj.Path, obj.Size))
                             {
                                 obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(path);
                                 obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(path);
+                            }
+                            else if (FileSystemUtils.IsMacExecutable(obj.Path, obj.Size))
+                            {
+                                obj.MacSignatureStatus = FileSystemUtils.GetMacSignature(path);
                             }
                         }
                     }
@@ -321,10 +324,14 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     obj.ContentHash = FileSystemUtils.GetFileHash(path);
                                 }
                                 obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, obj.Size);
-                                if (obj.IsExecutable != null && (bool)obj.IsExecutable)
+                                if (FileSystemUtils.IsWindowsExecutable(obj.Path,obj.Size))
                                 {
                                     obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(path);
                                     obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(path);
+                                }
+                                else if (FileSystemUtils.IsMacExecutable(obj.Path, obj.Size))
+                                {
+                                    obj.MacSignatureStatus = FileSystemUtils.GetMacSignature(path);
                                 }
                             }
                             break;

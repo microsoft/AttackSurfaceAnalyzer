@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using Mono.Unix;
 using Serilog;
@@ -119,6 +120,67 @@ namespace AttackSurfaceAnalyzer.Collectors
             return string.Empty;
         }
 
+        public static MacSignature? GetMacSignature(string? Path)
+        {
+            if (ExternalCommandRunner.RunExternalCommand("codesign", $"-dv --verbose=4 {Path}", out string stdOut, out string stdErr) == 0)
+            {
+                var splits = stdOut.Split('\n');
+
+                if (splits[0].EndsWith("code object is not signed at all"))
+                {
+                    return null;
+                }
+
+                var signature = new MacSignature(splits[0].Split(':')[1].TrimStart());
+                
+                foreach (var split in splits)
+                {
+                    var innerSplit = split.Split('=');
+
+                    switch (innerSplit[0])
+                    {
+                        case "Hash Type":
+                            signature.HashType = innerSplit[1].Split(' ')[0];
+                            break;
+                        case "Hash Choices":
+                            signature.HashChoices = innerSplit[1];
+                            break;
+                        case "CMSDigest":
+                            signature.CMSDigest = innerSplit[1];
+                            break;
+                        case "Authority":
+                            if (signature.Authorities is null)
+                            {
+                                signature.Authorities = new List<string>();
+                            }
+                            signature.Authorities.Add(innerSplit[1]);
+                            break;
+                        case "Timestamp":
+                            if (DateTime.TryParse(innerSplit[1], out DateTime result))
+                            {
+                                signature.Timestamp = result;
+                            }
+                            break;
+                        case "TeamIdentifier":
+                            signature.TeamIdentifier = innerSplit[1];
+                            break;
+                        default:
+                            if (innerSplit[0].StartsWith("CandidateCDHashFull"))
+                            {
+                                signature.CandidateCDHashFull = innerSplit[1];
+                            }
+                            break;
+                    }
+                }
+
+                return signature;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public static bool? IsExecutable(string? Path, ulong? Size)
         {
             if (Path is null || Size is null) { return null; }
@@ -156,7 +218,46 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             return fourBytes.SequenceEqual(ElfMagicNumber) || fourBytes.SequenceEqual(JavaMagicNumber) || MacMagicNumbers.Contains(fourBytes) || fourBytes[0..2].SequenceEqual(WindowsMagicNumber);
         }
-        public static bool IsWindowsExecutable(string Path, ulong Size)
+
+        public static bool IsMacExecutable(string? Path, ulong? Size)
+        {
+            if (Path is null) { return false; }
+            if (Size < 4) { return false; }
+
+            // Shortcut to help with system files we can't read directly
+            if (Path.EndsWith(".app"))
+            {
+                return true;
+            }
+
+            byte[] fourBytes = new byte[4];
+            try
+            {
+                using (var fileStream = File.Open(Path, FileMode.Open))
+                {
+                    fileStream.Read(fourBytes, 0, 4);
+                }
+            }
+            catch (Exception e) when (
+                e is ArgumentException
+                || e is ArgumentNullException
+                || e is PathTooLongException
+                || e is DirectoryNotFoundException
+                || e is IOException
+                || e is UnauthorizedAccessException
+                || e is ArgumentOutOfRangeException
+                || e is FileNotFoundException
+                || e is NotSupportedException
+                || e is ObjectDisposedException)
+            {
+                Log.Verbose("Couldn't chomp 4 bytes of {0} ({1})", Path, e.GetType().ToString());
+                return false;
+            }
+
+            return MacMagicNumbers.Contains(fourBytes);
+        }
+
+        public static bool IsWindowsExecutable(string? Path, ulong? Size)
         {
             if (Path is null) { return false; }
             if (Size < 4) { return false; }

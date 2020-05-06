@@ -27,9 +27,13 @@ namespace AttackSurfaceAnalyzer.Objects
         /// </summary>
         public ulong? Size { get; set; }
         /// <summary>
-        /// Signature information (for signed binaries)
+        /// Signature information for signed Windows binaries.
         /// </summary>
         public Signature? SignatureStatus { get; set; }
+        /// <summary>
+        /// Signature information for signed Mac binaries.
+        /// </summary>
+        public MacSignature? MacSignatureStatus { get; set; }
         /// <summary>
         /// A hash of the file (if collected)
         /// </summary>
