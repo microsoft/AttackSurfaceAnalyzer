@@ -133,8 +133,8 @@ namespace AttackSurfaceAnalyzer
         [Option(HelpText = "If the specified runid already exists delete all data from that run before proceeding.")]
         public bool Overwrite { get; set; }
 
-        [Option(HelpText = "Run parallelized collectors when available.", Default = true)]
-        public bool Parallelization { set; get; }
+        [Option(HelpText = "Disable parallelized collectors.")]
+        public bool SingleThread { set; get; }
     }
     [Verb("monitor", HelpText = "Continue running and monitor activity")]
     public class MonitorCommandOptions : CommandOptions

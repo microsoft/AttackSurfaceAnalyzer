@@ -925,7 +925,7 @@ namespace AttackSurfaceAnalyzer
 
             if (opts.EnableFileSystemCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new FileSystemCollector(opts.RunId, enableHashing: opts.GatherHashes, directories: opts.SelectedDirectories, downloadCloud: opts.DownloadCloud, examineCertificates: opts.CertificatesFromFiles, parallel: opts.Parallelization));
+                collectors.Add(new FileSystemCollector(opts.RunId, enableHashing: opts.GatherHashes, directories: opts.SelectedDirectories, downloadCloud: opts.DownloadCloud, parallel: !opts.SingleThread));
                 dict.Add(RESULT_TYPE.FILE, true);
             }
             if (opts.EnableNetworkPortCollector || opts.EnableAllCollectors)
@@ -945,7 +945,7 @@ namespace AttackSurfaceAnalyzer
             }
             if (opts.EnableRegistryCollector || (opts.EnableAllCollectors && RuntimeInformation.IsOSPlatform(OSPlatform.Windows)))
             {
-                collectors.Add(new RegistryCollector(opts.RunId, opts.Parallelization));
+                collectors.Add(new RegistryCollector(opts.RunId, !opts.SingleThread));
                 dict.Add(RESULT_TYPE.REGISTRY, true);
             }
             if (opts.EnableCertificateCollector || opts.EnableAllCollectors)
