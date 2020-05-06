@@ -122,63 +122,65 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public static MacSignature? GetMacSignature(string? Path)
         {
-            if (ExternalCommandRunner.RunExternalCommand("codesign", $"-dv --verbose=4 {Path}", out string stdOut, out string stdErr) == 0)
+            try
             {
-                var splits = stdOut.Split('\n');
-
-                if (splits[0].EndsWith("code object is not signed at all"))
+                if (ExternalCommandRunner.RunExternalCommand("codesign", $"-dv --verbose=4 \"{Path}\"", out string stdOut, out string stdErr) == 0)
                 {
-                    return null;
-                }
+                    // The output from codesign goes to stdErr
+                    var splits = stdErr.Split('\n');
 
-                var signature = new MacSignature(splits[0].Split(':')[1].TrimStart());
-                
-                foreach (var split in splits)
-                {
-                    var innerSplit = split.Split('=');
-
-                    switch (innerSplit[0])
+                    if (splits[0].EndsWith("code object is not signed at all"))
                     {
-                        case "Hash Type":
-                            signature.HashType = innerSplit[1].Split(' ')[0];
-                            break;
-                        case "Hash Choices":
-                            signature.HashChoices = innerSplit[1];
-                            break;
-                        case "CMSDigest":
-                            signature.CMSDigest = innerSplit[1];
-                            break;
-                        case "Authority":
-                            if (signature.Authorities is null)
-                            {
-                                signature.Authorities = new List<string>();
-                            }
-                            signature.Authorities.Add(innerSplit[1]);
-                            break;
-                        case "Timestamp":
-                            if (DateTime.TryParse(innerSplit[1], out DateTime result))
-                            {
-                                signature.Timestamp = result;
-                            }
-                            break;
-                        case "TeamIdentifier":
-                            signature.TeamIdentifier = innerSplit[1];
-                            break;
-                        default:
-                            if (innerSplit[0].StartsWith("CandidateCDHashFull"))
-                            {
-                                signature.CandidateCDHashFull = innerSplit[1];
-                            }
-                            break;
+                        return null;
                     }
-                }
 
-                return signature;
+                    var signature = new MacSignature();
+
+                    foreach (var split in splits)
+                    {
+                        var innerSplit = split.Split('=');
+
+                        switch (innerSplit[0])
+                        {
+                            case "Hash Type":
+                                signature.HashType = innerSplit[1].Split(' ')[0];
+                                break;
+                            case "Hash Choices":
+                                signature.HashChoices = innerSplit[1];
+                                break;
+                            case "CMSDigest":
+                                signature.CMSDigest = innerSplit[1];
+                                break;
+                            case "Authority":
+                                if (signature.Authorities is null)
+                                {
+                                    signature.Authorities = new List<string>();
+                                }
+                                signature.Authorities.Add(innerSplit[1]);
+                                break;
+                            case "Timestamp":
+                                if (DateTime.TryParse(innerSplit[1], out DateTime result))
+                                {
+                                    signature.Timestamp = result;
+                                }
+                                break;
+                            case "TeamIdentifier":
+                                signature.TeamIdentifier = innerSplit[1];
+                                break;
+                            default:
+                                if (innerSplit[0].StartsWith("CandidateCDHashFull"))
+                                {
+                                    signature.CandidateCDHashFull = innerSplit[1];
+                                }
+                                break;
+                        }
+                    }
+
+                    return signature;
+                }
             }
-            else
-            {
-                return null;
-            }
+            catch (Exception) { }
+            return null;
         }
 
         public static bool? IsExecutable(string? Path, ulong? Size)

@@ -33,12 +33,6 @@ namespace AttackSurfaceAnalyzer.Objects
         //Sealed Resources version=2 rules=13 files=2909
         //Internal requirements count=1 size=220
 
-        public MacSignature(string Status)
-        {
-            this.Status = Status;
-        }
-
-        public string Status { get; set; }
         public string? HashType { get; set; }
         public string? CandidateCDHashFull { get; set; }
         public string? HashChoices { get; set; }

@@ -315,6 +315,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                         case FileTypes.CharacterDevice:
                         case FileTypes.Directory:
                             obj.IsDirectory = true;
+                            if (path?.EndsWith(".app", StringComparison.InvariantCultureIgnoreCase) ?? false)
+                            {
+                                obj.MacSignatureStatus = FileSystemUtils.GetMacSignature(path);
+                            }
                             break;
                         case FileTypes.RegularFile:
                             if (i.HasContents)
