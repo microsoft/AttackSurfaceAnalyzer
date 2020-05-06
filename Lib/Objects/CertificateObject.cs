@@ -25,19 +25,18 @@ namespace AttackSurfaceAnalyzer.Objects
         /// <summary>
         /// The exported Pkcs7 of the certificate. Not guaranteed to be non-null.
         /// </summary>
-        public string? Pkcs7 { get; set; }
+        public string? Pkcs7 { get { return Certificate.Pkcs7; } }
         /// <summary>
         /// A serializable representation of the Certificate.
         /// </summary>
         public SerializableCertificate Certificate { get; set; }
 
-        public CertificateObject(string StoreLocation, string StoreName, SerializableCertificate Certificate, string? Pkcs7 = null)
+        public CertificateObject(string StoreLocation, string StoreName, SerializableCertificate Certificate)
         {
             this.StoreLocation = StoreLocation;
             this.StoreName = StoreName;
             this.Certificate = Certificate;
             ResultType = RESULT_TYPE.CERTIFICATE;
-            this.Pkcs7 = Pkcs7;
         }
 
         /// <summary>

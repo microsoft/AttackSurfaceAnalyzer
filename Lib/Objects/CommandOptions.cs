@@ -125,9 +125,6 @@ namespace AttackSurfaceAnalyzer
         [Option("directories", Required = false, HelpText = "Comma separated list of paths to scan with FileSystemCollector")]
         public string? SelectedDirectories { get; set; }
 
-        [Option("certificate-files", Default = false, HelpText = "When used with Certificate Collector, also scan the entire filesystem for certificates.")]
-        public bool CertificatesFromFiles { get; set; }
-
         [Option(HelpText = "Download files from thin Cloud Folders (like OneDrive) to check them.")]
         public bool DownloadCloud { get; set; }
 
@@ -135,7 +132,7 @@ namespace AttackSurfaceAnalyzer
         public bool Overwrite { get; set; }
 
         [Option(HelpText = "Run parallelized collectors when available.")]
-        public bool Parallelization { get; set; } = true;
+        public bool SingleThread { get; set; }
 
         [Option(HelpText = "Number of Database Shards to use.")]
         public int Shards { get; set; } = 7;

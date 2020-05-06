@@ -4,6 +4,7 @@ using AttackSurfaceAnalyzer.Types;
 using Serilog;
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -194,16 +195,23 @@ namespace AttackSurfaceAnalyzer.Utils
                    o.GetType().GetGenericTypeDefinition().IsAssignableFrom(typeof(Dictionary<,>));
         }
 
-        private static readonly Dictionary<string, string> SidMap = new Dictionary<string, string>();
+        private static readonly ConcurrentDictionary<string, string> SidMap = new ConcurrentDictionary<string, string>();
 
         public static string SidToName(IdentityReference SID)
         {
             string sid = SID?.Value ?? string.Empty;
             string identity = sid;
 
-            if (SidMap.ContainsKey(sid))
+            if (SidMap.TryGetValue(sid, out string? mappedIdentity))
             {
-                return SidMap[sid];
+                if (mappedIdentity != null)
+                {
+                    return mappedIdentity;
+                }
+                else
+                {
+                    SidMap.TryRemove(sid, out _);
+                }
             }
 
             // Only map NTAccounts, https://en.wikipedia.org/wiki/Security_Identifier
@@ -218,7 +226,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
             }
 
-            SidMap.Add(sid, identity);
+            SidMap.TryAdd(sid, identity);
 
             return sid;
         }
