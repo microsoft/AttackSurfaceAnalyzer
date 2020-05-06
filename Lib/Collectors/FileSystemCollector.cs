@@ -27,14 +27,12 @@ namespace AttackSurfaceAnalyzer.Collectors
         private bool INCLUDE_CONTENT_HASH = false;
 
         private bool downloadCloud;
-        private bool examineCertificates;
         private bool parallel;
 
-        public FileSystemCollector(string runId, bool enableHashing = false, string directories = "", bool downloadCloud = false, bool examineCertificates = false, bool parallel = true)
+        public FileSystemCollector(string runId, bool enableHashing = false, string directories = "", bool downloadCloud = false, bool parallel = true)
         {
-            this.RunId = runId;
+            RunId = runId;
             this.downloadCloud = downloadCloud;
-            this.examineCertificates = examineCertificates;
             this.parallel = parallel;
 
             roots = new HashSet<string>();
@@ -95,8 +93,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 if (obj != null)
                 {
                     DatabaseManager.Write(obj, RunId);
-                    if (examineCertificates &&
-                        Path.EndsWith(".cer", StringComparison.CurrentCulture) ||
+                    if (Path.EndsWith(".cer", StringComparison.CurrentCulture) ||
                         Path.EndsWith(".der", StringComparison.CurrentCulture) ||
                         Path.EndsWith(".p7b", StringComparison.CurrentCulture))
                     {
@@ -113,11 +110,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                             };
                             DatabaseManager.Write(certObj, RunId);
                         }
-                        catch (Exception e) when (
-                            e is System.Security.Cryptography.CryptographicException
-                            || e is ArgumentException)
+                        catch (Exception e)
                         {
-                            Log.Verbose($"Could not parse certificate from file: {Path}");
+                            Log.Verbose($"Could not parse certificate from file: {Path} {e.GetType()}");
                         }
                     }
                 }
