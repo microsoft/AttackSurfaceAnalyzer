@@ -50,6 +50,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 Action<RegistryKey, RegistryView> IterateOn = (registryKey, registryView) =>
                 {
+                    Log.Verbose($"Beginning to parse {registryKey.Name} in view {registryView}");
                     try
                     {
                         var regObj = RegistryWalker.RegistryKeyToRegistryObject(registryKey, registryView);
@@ -63,6 +64,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         Log.Debug(e, JsonConvert.SerializeObject(registryKey) + " invalid op exept");
                     }
+                    Log.Verbose($"Finished parsing {registryKey.Name} in view {registryView}");
                 };
 
                 var x86_Enumerable = RegistryWalker.WalkHive(hive, RegistryView.Registry32);
