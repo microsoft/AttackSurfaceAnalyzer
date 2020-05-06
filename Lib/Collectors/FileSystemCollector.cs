@@ -95,7 +95,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 FileSystemObject obj = FilePathToFileSystemObject(Path, downloadCloud, INCLUDE_CONTENT_HASH);
                 if (obj != null)
                 {
-                    Results.Add(obj);
+                    Results.Push(obj);
 
                     // TODO: Also try parse .DER as a key
                     if (Path.EndsWith(".cer", StringComparison.CurrentCulture) ||
@@ -112,7 +112,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 StoreName: StoreName.Root.ToString(),
                                 Certificate: new SerializableCertificate(certificate));
 
-                            Results.Add(certObj);
+                            Results.Push(certObj);
                         }
                         catch (Exception e)
                         {

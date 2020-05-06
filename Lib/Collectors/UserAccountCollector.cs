@@ -196,12 +196,12 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             foreach (var user in users)
             {
-                Results.Add(user.Value);
+                Results.Push(user.Value);
             }
 
             foreach (var group in groups)
             {
-                Results.Add(group.Value);
+                Results.Push(group.Value);
             }
         }
 
@@ -309,11 +309,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                         Groups[group].Users.Add(username);
                     }
                 }
-                Results.Add(accountDetails[username]);
+                Results.Push(accountDetails[username]);
             }
             foreach (var group in Groups)
             {
-                Results.Add(group.Value);
+                Results.Push(group.Value);
             }
         }
 
@@ -408,11 +408,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                 }
                 accountDetails[username].Groups.AddRange(groups);
-                Results.Add(accountDetails[username]);
+                Results.Push(accountDetails[username]);
             }
             foreach (var group in Groups)
             {
-                Results.Add(group.Value);
+                Results.Push(group.Value);
             }
         }
     }
