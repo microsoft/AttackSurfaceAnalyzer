@@ -161,21 +161,28 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 try
                 {
-                    var fileSecurity = new FileSecurity(path, AccessControlSections.All);
+                    var fileSecurity = new FileSecurity(path, AccessControlSections.Owner);
                     IdentityReference oid = fileSecurity.GetOwner(typeof(SecurityIdentifier));
-                    IdentityReference gid = fileSecurity.GetGroup(typeof(SecurityIdentifier));
-
                     obj.Owner = AsaHelpers.SidToName(oid);
+                }
+                catch (Exception) { }
+                try
+                {
+                    var fileSecurity = new FileSecurity(path, AccessControlSections.Group);
+                    IdentityReference gid = fileSecurity.GetGroup(typeof(SecurityIdentifier));
                     obj.Group = AsaHelpers.SidToName(gid);
-
+                }
+                catch (Exception) { }
+                try
+                {
+                    var fileSecurity = new FileSecurity(path, AccessControlSections.Access);
                     var rules = fileSecurity.GetAccessRules(true, true, typeof(SecurityIdentifier));
+                    obj.Permissions = new Dictionary<string, string>();
                     foreach (FileSystemAccessRule? rule in rules)
                     {
                         if (rule != null)
                         {
                             string name = AsaHelpers.SidToName(rule.IdentityReference);
-
-                            obj.Permissions = new Dictionary<string, string>();
 
                             foreach (var permission in rule.FileSystemRights.ToString().Split(','))
                             {
@@ -191,21 +198,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         }
                     }
                 }
-                catch (Exception e) when (
-                    e is ArgumentException
-                    || e is ArgumentNullException
-                    || e is DirectoryNotFoundException
-                    || e is FileNotFoundException
-                    || e is IOException
-                    || e is NotSupportedException
-                    || e is PlatformNotSupportedException
-                    || e is PathTooLongException
-                    || e is PrivilegeNotHeldException
-                    || e is SystemException
-                    || e is UnauthorizedAccessException)
-                {
-                    Log.Verbose($"Error instantiating FileSecurity object {obj.Path} {e.GetType().ToString()}");
-                }
+                catch (Exception) { }
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
