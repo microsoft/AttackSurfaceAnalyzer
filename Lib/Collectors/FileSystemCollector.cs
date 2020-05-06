@@ -7,6 +7,7 @@ using Mono.Unix;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -337,13 +338,15 @@ namespace AttackSurfaceAnalyzer.Collectors
                 e is UnauthorizedAccessException ||
                 e is PathTooLongException ||
                 e is NotSupportedException ||
-                e is InvalidOperationException)
+                e is InvalidOperationException ||
+                e is FileNotFoundException ||
+                e is Win32Exception)
             {
                 Log.Verbose("Failed to create FileInfo from File at {0} {1}", path, e.GetType().ToString());
             }
             catch (Exception e)
             {
-                Log.Debug("Should be caught in DirectoryWalker {0}", e.GetType().ToString());
+                Log.Debug("Should be caught in DirectoryWalker {0} {1}", e.GetType().ToString(), path);
             }
 
             try
