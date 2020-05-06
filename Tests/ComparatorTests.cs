@@ -6,6 +6,8 @@ using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Win32;
+using Newtonsoft.Json;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -85,8 +87,9 @@ namespace AttackSurfaceAnalyzer.Tests
             var results = bc.Results;
 
             Assert.IsTrue(results.ContainsKey((RESULT_TYPE.FILE, CHANGE_TYPE.CREATED)));
-            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.CREATED)].Any(x => x.Identity.Contains("AsaLibTesterMZ") && ((FileSystemObject)x.Compare).IsExecutable == true));
-            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.CREATED)].Any(x => x.Identity.Contains("AsaLibTesterJavaClass") && ((FileSystemObject)x.Compare).IsExecutable == true));
+            Log.Debug(JsonConvert.SerializeObject(results));
+            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.CREATED)].Any(x => x.Compare is FileSystemObject FSO && FSO.Identity.Contains("AsaLibTesterMZ") && FSO.IsExecutable == true));
+            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.CREATED)].Any(x => x.Compare is FileSystemObject FSO && FSO.Identity.Contains("AsaLibTesterJavaClass") && FSO.IsExecutable == true));
         }
 
         /// <summary>
