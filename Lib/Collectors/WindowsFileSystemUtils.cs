@@ -36,9 +36,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Log.Debug("Failed to get signature for {0}.",Path);
+                Log.Verbose(e,"Failed to get signature for {0}.",Path);
             }
             return null;
         }

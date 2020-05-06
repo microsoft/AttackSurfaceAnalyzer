@@ -978,7 +978,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 {
                     SignatureStatus = new Signature(true)
                     {
-                        SigningCertificate = new SerializableCertificate(Thumbprint: string.Empty, Subject: string.Empty, PublicKey: string.Empty, NotAfter: DateTime.Now, NotBefore: DateTime.Now, Issuer: string.Empty, SerialNumber: string.Empty, CertHashString: string.Empty)
+                        SigningCertificate = new SerializableCertificate(Thumbprint: string.Empty, Subject: string.Empty, PublicKey: string.Empty, NotAfter: DateTime.Now, NotBefore: DateTime.Now, Issuer: string.Empty, SerialNumber: string.Empty, CertHashString: string.Empty, Pkcs7: string.Empty)
                     }
                 }
             };
@@ -989,7 +989,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 {
                     SignatureStatus = new Signature(true)
                     {
-                        SigningCertificate = new SerializableCertificate(Thumbprint: string.Empty, Subject: string.Empty, PublicKey: string.Empty, NotAfter: DateTime.Now.AddYears(1), NotBefore: DateTime.Now, Issuer: string.Empty, SerialNumber: string.Empty, CertHashString: string.Empty)
+                        SigningCertificate = new SerializableCertificate(Thumbprint: string.Empty, Subject: string.Empty, PublicKey: string.Empty, NotAfter: DateTime.Now.AddYears(1), NotBefore: DateTime.Now, Issuer: string.Empty, SerialNumber: string.Empty, CertHashString: string.Empty, Pkcs7: string.Empty)
                     }
                 }
             };
@@ -1046,7 +1046,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 {
                     SignatureStatus = new Signature(true)
                     {
-                        SigningCertificate = new SerializableCertificate(Thumbprint: string.Empty, Subject: string.Empty, PublicKey: string.Empty, NotAfter: DateTime.Now, NotBefore: DateTime.Now, Issuer: string.Empty, SerialNumber: string.Empty, CertHashString: string.Empty)
+                        SigningCertificate = new SerializableCertificate(Thumbprint: string.Empty, Subject: string.Empty, PublicKey: string.Empty, NotAfter: DateTime.Now, NotBefore: DateTime.Now, Issuer: string.Empty, SerialNumber: string.Empty, CertHashString: string.Empty, Pkcs7: string.Empty)
                     }
                 }
             };
@@ -1057,7 +1057,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 {
                     SignatureStatus = new Signature(true)
                     {
-                        SigningCertificate = new SerializableCertificate(Thumbprint: string.Empty, Subject: string.Empty, PublicKey: string.Empty, NotAfter: DateTime.Now.AddYears(1), NotBefore: DateTime.Now, Issuer: string.Empty, SerialNumber: string.Empty, CertHashString: string.Empty)
+                        SigningCertificate = new SerializableCertificate(Thumbprint: string.Empty, Subject: string.Empty, PublicKey: string.Empty, NotAfter: DateTime.Now.AddYears(1), NotBefore: DateTime.Now, Issuer: string.Empty, SerialNumber: string.Empty, CertHashString: string.Empty, Pkcs7: string.Empty)
                     }
                 }
             };
@@ -1114,7 +1114,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 {
                     SignatureStatus = new Signature(true)
                     {
-                        SigningCertificate = new SerializableCertificate(Thumbprint: string.Empty, Subject: string.Empty, PublicKey: string.Empty, NotAfter: DateTime.MinValue, NotBefore: DateTime.Now, Issuer: string.Empty, SerialNumber: string.Empty, CertHashString: string.Empty)
+                        SigningCertificate = new SerializableCertificate(Thumbprint: string.Empty, Subject: string.Empty, PublicKey: string.Empty, NotAfter: DateTime.MinValue, NotBefore: DateTime.Now, Issuer: string.Empty, SerialNumber: string.Empty, CertHashString: string.Empty, Pkcs7: string.Empty)
                     }
                 }
             };
@@ -1125,7 +1125,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 {
                     SignatureStatus = new Signature(true)
                     {
-                        SigningCertificate = new SerializableCertificate(Thumbprint: string.Empty, Subject: string.Empty, PublicKey: string.Empty, NotAfter: DateTime.MaxValue, NotBefore: DateTime.Now, Issuer: string.Empty, SerialNumber: string.Empty, CertHashString: string.Empty)
+                        SigningCertificate = new SerializableCertificate(Thumbprint: string.Empty, Subject: string.Empty, PublicKey: string.Empty, NotAfter: DateTime.MaxValue, NotBefore: DateTime.Now, Issuer: string.Empty, SerialNumber: string.Empty, CertHashString: string.Empty, Pkcs7: string.Empty)
                     }
                 }
             };
