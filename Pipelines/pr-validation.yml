@@ -6,7 +6,7 @@ pr:
   branches:    
     include:
     - master
-    - releases/*
+    - release/*
     exclude:
     - azure_pipelines
   paths:
