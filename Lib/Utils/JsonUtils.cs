@@ -12,7 +12,7 @@ namespace AttackSurfaceAnalyzer.Utils
         private static JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate, DateFormatHandling = DateFormatHandling.IsoDateFormat };
 
         /// <summary>
-        /// Serialize an object with messagepack
+        /// Serialize an object with Newtonsoft.Json
         /// </summary>
         /// <param name="colObj">The object to serialize</param>
         /// <returns>The bytes of the serialized object</returns>
