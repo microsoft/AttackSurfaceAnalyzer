@@ -97,8 +97,8 @@ namespace AttackSurfaceAnalyzer.Tests
             var results = bc.Results;
 
             Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.CREATED)].Any(x => x.Compare is FileSystemObject FSO && FSO.Identity.Contains("TestPath3") && FSO.Size == 701));
-            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.DELETED)].Any(x => x.Compare is FileSystemObject FSO && FSO.Identity.Contains("TestPath") && FSO.Size == 701));
-            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Compare is FileSystemObject FSO && x.Base is FileSystemObject FSO2 && FSO.Identity.Contains("TestPath4") && FSO.IsExecutable == true && FSO2.IsExecutable == false));
+            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.DELETED)].Any(x => x.Base is FileSystemObject FSO && FSO.Identity.Contains("TestPath") && FSO.Size == 701));
+            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("TestPath4") && x.Compare is FileSystemObject FSO && x.Base is FileSystemObject FSO2 && FSO.IsExecutable == false && FSO2.IsExecutable == true));
             Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Diffs.Any(y => y.Field == "IsExecutable") && x.Identity.Contains("TestPath4")));
             Assert.IsFalse(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("TestPath2")));
         }
