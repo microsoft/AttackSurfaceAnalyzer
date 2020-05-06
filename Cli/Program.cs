@@ -991,7 +991,7 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             if (opts.EnableRegistryCollector || (opts.EnableAllCollectors && RuntimeInformation.IsOSPlatform(OSPlatform.Windows)))
             {
-                collectors.Add(new RegistryCollector(opts.Parallelization));
+                collectors.Add(new RegistryCollector(!opts.SingleThread));
                 dict.Add(RESULT_TYPE.REGISTRY);
             }
             if (opts.EnableCertificateCollector || opts.EnableAllCollectors)
@@ -1054,7 +1054,7 @@ namespace AttackSurfaceAnalyzer.Cli
             Console.CancelKeyPress += delegate
             {
                 Log.Information("Cancelling collection. Rolling back transaction. Please wait to avoid corrupting database.");
-                DatabaseManager.RollBack();
+                DatabaseManager.CloseDatabase();
                 Environment.Exit(-1);
             };
 
@@ -1098,7 +1098,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
                     c.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, opts.RunId));
 
-                    var prevFlush = DatabaseManager.Connections.Select(x => x.WriteQueue.Count).Sum();
+                    var prevFlush = DatabaseManager.QueueSize;
                     var totFlush = prevFlush;
 
                     var printInterval = 10;
@@ -1113,7 +1113,7 @@ namespace AttackSurfaceAnalyzer.Cli
                         if (currentInterval++ % printInterval == 0)
                         {
                             var actualDuration = (currentInterval < printInterval) ? currentInterval : printInterval;
-                            var sample = DatabaseManager.Connections.Select(x => x.WriteQueue.Count).Sum();
+                            var sample = DatabaseManager.QueueSize;
                             var curRate = prevFlush - sample;
                             var totRate = (double)(totFlush - sample) / StopWatch.ElapsedMilliseconds;
                             try

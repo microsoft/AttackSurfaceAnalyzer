@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
+using Microsoft.CodeAnalysis;
 using Mono.Unix;
 using Serilog;
 using System;
@@ -24,10 +25,8 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         private readonly HashSet<string> roots;
 
-        private readonly bool INCLUDE_CONTENT_HASH = false;
-
+        private readonly bool INCLUDE_CONTENT_HASH;
         private readonly bool downloadCloud;
-        private readonly bool examineCertificates;
         private readonly bool parallel;
 
         public FileSystemCollector(CollectCommandOptions opts)
@@ -37,8 +36,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 throw new ArgumentNullException(nameof(opts));
             }
             downloadCloud = opts.DownloadCloud;
-            examineCertificates = opts.CertificatesFromFiles;
-            parallel = opts.Parallelization;
+            parallel = !opts.SingleThread;
 
             roots = new HashSet<string>();
             INCLUDE_CONTENT_HASH = opts.GatherHashes;
@@ -98,31 +96,27 @@ namespace AttackSurfaceAnalyzer.Collectors
                 if (obj != null)
                 {
                     Results.Add(obj);
-                    if (examineCertificates &&
-                        Path.EndsWith(".cer", StringComparison.CurrentCulture) ||
+
+                    // TODO: Also try parse .DER as a key
+                    if (Path.EndsWith(".cer", StringComparison.CurrentCulture) ||
                         Path.EndsWith(".der", StringComparison.CurrentCulture) ||
-                        Path.EndsWith(".p7b", StringComparison.CurrentCulture))
+                        Path.EndsWith(".p7b", StringComparison.CurrentCulture) ||
+                        Path.EndsWith(".pfx", StringComparison.CurrentCulture))
                     {
                         try
                         {
-                            using var certificate = new X509Certificate2();
-                            certificate.Import(Path);
+                            using var certificate = new X509Certificate2(Path);
 
                             var certObj = new CertificateObject(
                                 StoreLocation: StoreLocation.LocalMachine.ToString(),
                                 StoreName: StoreName.Root.ToString(),
-                                Certificate: new SerializableCertificate(certificate))
-                            {
-                                Pkcs7 = Convert.ToBase64String(certificate.Export(X509ContentType.Cert))
-                            };
+                                Certificate: new SerializableCertificate(certificate));
 
                             Results.Add(certObj);
                         }
-                        catch (Exception e) when (
-                            e is System.Security.Cryptography.CryptographicException
-                            || e is ArgumentException)
+                        catch (Exception e)
                         {
-                            Log.Verbose($"Could not parse certificate from file: {Path}");
+                            Log.Verbose($"Could not parse certificate from file: {Path}, {e.GetType().ToString()}");
                         }
                     }
                 }
@@ -361,7 +355,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 obj.LastModified = File.GetLastWriteTimeUtc(path);
                 obj.Created = File.GetCreationTimeUtc(path);
             }
-            catch (UnauthorizedAccessException) { }
+            catch (Exception) { }
 
             return obj;
         }

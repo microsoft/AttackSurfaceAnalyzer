@@ -46,7 +46,6 @@ namespace AttackSurfaceAnalyzer.Tests
                 GatherHashes = true,
                 SelectedDirectories = testFolder,
                 DownloadCloud = false,
-                CertificatesFromFiles = false
             };
 
             using (var file = File.Open(Path.Combine(testFolder, "AsaLibTesterMZ"), FileMode.OpenOrCreate))
