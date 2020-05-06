@@ -16,7 +16,7 @@ namespace AttackSurfaceAnalyzer.Utils
         /// <returns>The bytes of the serialized object</returns>
         public static string Dehydrate(CollectObject colObj)
         {
-            return JsonConvert.SerializeObject(colObj);
+            return JsonConvert.SerializeObject(colObj, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore, DateFormatHandling = DateFormatHandling.IsoDateFormat } ;
         }
 
         /// <summary>
