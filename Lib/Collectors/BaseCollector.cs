@@ -47,7 +47,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         public void Start()
         {
             RunStatus = RUN_STATUS.RUNNING;
-            watch = System.Diagnostics.Stopwatch.StartNew();
+            watch = Stopwatch.StartNew();
             Log.Information(Strings.Get("Starting"), GetType().Name);
         }
 
