@@ -52,7 +52,7 @@ namespace AsaTests
             var testFolder = AsaHelpers.GetTempFolder();
             Directory.CreateDirectory(testFolder);
 
-            var fsc = new FileSystemCollector(FirstRunId, enableHashing: true, directories: testFolder, downloadCloud: false, examineCertificates: true);
+            var fsc = new FileSystemCollector(FirstRunId, enableHashing: true, directories: testFolder, downloadCloud: false);
             fsc.Execute();
 
             using (var file = File.Open(Path.Combine(testFolder, "AsaLibTesterMZ"), FileMode.OpenOrCreate))
@@ -69,7 +69,7 @@ namespace AsaTests
                 file.Close();
             }
 
-            fsc = new FileSystemCollector(SecondRunId, enableHashing: true, directories: testFolder, downloadCloud: false, examineCertificates: true);
+            fsc = new FileSystemCollector(SecondRunId, enableHashing: true, directories: testFolder, downloadCloud: false);
             fsc.Execute();
 
             BaseCompare bc = new BaseCompare();
