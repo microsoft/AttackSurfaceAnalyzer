@@ -1118,7 +1118,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
                             try
                             {
-                                t = (curRate > 0) ? TimeSpan.FromMilliseconds(sample / (curRate / (double)actualDuration.Milliseconds)) : TimeSpan.FromMilliseconds(99999999); //lgtm[cs/loss-of-precision]
+                                t = (curRate > 0) ? TimeSpan.FromMilliseconds(actualDuration.TotalMilliseconds * sample / curRate) : TimeSpan.FromMilliseconds(99999999); //lgtm[cs/loss-of-precision]
                                 answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
                                                         t.Hours,
                                                         t.Minutes,
