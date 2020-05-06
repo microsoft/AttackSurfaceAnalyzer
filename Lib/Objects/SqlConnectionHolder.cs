@@ -22,7 +22,6 @@ namespace AttackSurfaceAnalyzer.Objects
         public ConcurrentStack<WriteObject> WriteQueue { get; private set; } = new ConcurrentStack<WriteObject>();
         public bool KeepRunning { get; set; }
         public string Source { get; set; }
-        private int RecordCount { get; set; }
         public bool IsWriting { get; private set; }
         private WriteObject[] innerQueue;
 
@@ -85,14 +84,6 @@ namespace AttackSurfaceAnalyzer.Objects
             {
                 while (WriteQueue.Count > 0)
                 {
-                    if (settings.FlushCount > 0)
-                    {
-                        if (RecordCount % settings.FlushCount == settings.FlushCount - 1)
-                        {
-                            Commit();
-                            BeginTransaction();
-                        }
-                    }
                     WriteNext();
                 }
                 Thread.Sleep(1);
