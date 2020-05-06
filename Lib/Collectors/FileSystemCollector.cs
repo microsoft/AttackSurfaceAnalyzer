@@ -249,7 +249,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     || e is ArgumentException
                     || e is InvalidOperationException)
                 {
-                    Log.Debug($"Failed to get permissions for {path} {e.GetType().ToString()}");
+                    Log.Verbose("Failed to get permissions for {0} {1}", path,e.GetType().ToString());
                 }
             }
 
