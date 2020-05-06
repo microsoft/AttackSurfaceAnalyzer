@@ -102,6 +102,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 Action<RegistryKey> IterateOn = registryKey =>
                 {
+                    Log.Verbose($"Beginning to parse {registryKey.Name} in view {registryView}");
                     try
                     {
                         var regObj = RegistryWalker.RegistryKeyToRegistryObject(registryKey);
@@ -115,6 +116,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         Log.Debug(e, JsonConvert.SerializeObject(registryKey) + " invalid op exept");
                     }
+                    Log.Verbose($"Finished parsing {registryKey.Name} in view {registryView}");
                 };
 
                 Filter.IsFiltered(AsaHelpers.GetPlatformString(), "Scan", "Registry", "Key", "Exclude", hive.ToString());
