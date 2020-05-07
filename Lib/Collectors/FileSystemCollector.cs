@@ -249,7 +249,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     || e is ArgumentException
                     || e is InvalidOperationException)
                 {
-                    Log.Verbose("Failed to get permissions for {0} {1}", path,e.GetType().ToString());
+                    Log.Verbose("Failed to get permissions for {0} {1}", path, e.GetType().ToString());
                 }
             }
 
@@ -328,7 +328,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     obj.ContentHash = FileSystemUtils.GetFileHash(path);
                                 }
                                 obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, obj.Size);
-                                if (FileSystemUtils.IsWindowsExecutable(obj.Path,obj.Size))
+                                if (FileSystemUtils.IsWindowsExecutable(obj.Path, obj.Size))
                                 {
                                     obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(path);
                                     obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(path);

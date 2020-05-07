@@ -242,7 +242,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 key.SetValue(value, value2);
                 key.Close();
 
-                var rc = new RegistryCollector(new List<(RegistryHive,string)>() { (RegistryHive.CurrentUser,name) }, new CollectCommandOptions() { SingleThread = true });
+                var rc = new RegistryCollector(new List<(RegistryHive, string)>() { (RegistryHive.CurrentUser, name) }, new CollectCommandOptions() { SingleThread = true });
                 rc.Execute();
 
                 Registry.CurrentUser.DeleteSubKey(name);

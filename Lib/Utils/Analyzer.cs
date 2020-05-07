@@ -112,7 +112,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             }
                             if (clause.DictData != null || clause.DictData?.Count > 0)
                             {
-                                violations.Add(string.Format(CultureInfo.InvariantCulture, Strings.Get("Err_ClauseDictDataUnexpected"), rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture),clause.Operation)); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                violations.Add(string.Format(CultureInfo.InvariantCulture, Strings.Get("Err_ClauseDictDataUnexpected"), rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation)); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                             }
                             break;
                         case OPERATION.CONTAINS:

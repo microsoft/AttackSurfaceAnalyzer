@@ -9,7 +9,7 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public static class JsonUtils
     {
-        private static JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate, DateFormatHandling = DateFormatHandling.IsoDateFormat };
+        private static readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate, DateFormatHandling = DateFormatHandling.IsoDateFormat };
 
         /// <summary>
         /// Serialize an object with Newtonsoft.Json

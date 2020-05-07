@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -18,7 +17,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class ComObjectCollector : BaseCollector
     {
-        CollectCommandOptions opts;
+        readonly CollectCommandOptions opts;
 
         public ComObjectCollector(CollectCommandOptions opts)
         {
@@ -124,15 +123,15 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 {
                                     if (successful && BinaryPath32 != null)
                                     {
-                                            // Clean up cases where some extra spaces are thrown into the start (breaks our permission checker)
-                                            BinaryPath32 = BinaryPath32.Trim();
-                                            // Clean up cases where the binary is quoted (also breaks permission checker)
-                                            if (BinaryPath32.StartsWith("\"") && BinaryPath32.EndsWith("\""))
+                                        // Clean up cases where some extra spaces are thrown into the start (breaks our permission checker)
+                                        BinaryPath32 = BinaryPath32.Trim();
+                                        // Clean up cases where the binary is quoted (also breaks permission checker)
+                                        if (BinaryPath32.StartsWith("\"") && BinaryPath32.EndsWith("\""))
                                         {
                                             BinaryPath32 = BinaryPath32.AsSpan().Slice(1, BinaryPath32.Length - 2).ToString();
                                         }
-                                            // Unqualified binary name probably comes from Windows\System32
-                                            if (!BinaryPath32.Contains("\\") && !BinaryPath32.Contains("%"))
+                                        // Unqualified binary name probably comes from Windows\System32
+                                        if (!BinaryPath32.Contains("\\") && !BinaryPath32.Contains("%"))
                                         {
                                             BinaryPath32 = Path.Combine(Environment.SystemDirectory, BinaryPath32.Trim());
                                         }
@@ -151,15 +150,15 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 {
                                     if (successful && BinaryPath64 != null)
                                     {
-                                            // Clean up cases where some extra spaces are thrown into the start (breaks our permission checker)
-                                            BinaryPath64 = BinaryPath64.Trim();
-                                            // Clean up cases where the binary is quoted (also breaks permission checker)
-                                            if (BinaryPath64.StartsWith("\"") && BinaryPath64.EndsWith("\""))
+                                        // Clean up cases where some extra spaces are thrown into the start (breaks our permission checker)
+                                        BinaryPath64 = BinaryPath64.Trim();
+                                        // Clean up cases where the binary is quoted (also breaks permission checker)
+                                        if (BinaryPath64.StartsWith("\"") && BinaryPath64.EndsWith("\""))
                                         {
                                             BinaryPath64 = BinaryPath64.AsSpan().Slice(1, BinaryPath64.Length - 2).ToString();
                                         }
-                                            // Unqualified binary name probably comes from Windows\System32
-                                            if (!BinaryPath64.Contains("\\") && !BinaryPath64.Contains("%"))
+                                        // Unqualified binary name probably comes from Windows\System32
+                                        if (!BinaryPath64.Contains("\\") && !BinaryPath64.Contains("%"))
                                         {
                                             BinaryPath64 = Path.Combine(Environment.SystemDirectory, BinaryPath64.Trim());
                                         }
@@ -187,7 +186,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 if (SingleThreaded)
                 {
-                    foreach(var subKey in SearchKey.GetSubKeyNames())
+                    foreach (var subKey in SearchKey.GetSubKeyNames())
                     {
                         ParseComObjectsIn(subKey);
                     }

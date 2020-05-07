@@ -4,7 +4,6 @@ using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Serilog;
 using System;
-using System.Linq;
 
 namespace AttackSurfaceAnalyzer.Objects
 {

@@ -1058,7 +1058,7 @@ namespace AttackSurfaceAnalyzer.Cli
                         {
                             var count = Math.Min(1000, c.Results.Count);
                             // Take doesn't actually remove, it returns an thin IEnumerable
-                            
+
                             var actual = c.Results.TryPopRange(items);
                             items.Take(actual).AsParallel().ForAll(result =>
                             {
@@ -1073,7 +1073,7 @@ namespace AttackSurfaceAnalyzer.Cli
                     var prevFlush = DatabaseManager.QueueSize;
                     var totFlush = prevFlush;
 
-                    var printInterval = new TimeSpan(0,0,10);
+                    var printInterval = new TimeSpan(0, 0, 10);
                     var now = DateTime.Now;
                     var then = DateTime.Now;
 
