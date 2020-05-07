@@ -50,14 +50,14 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 Action<RegistryHive, string, RegistryView> IterateOn = (registryHive, keyPath, registryView) =>
                 {
-                    Log.Verbose($"Beginning to parse {registryHive}\\{keyPath} in view {registryView}");
+                    Log.Verbose("Beginning to parse {0}\\{1} in {2}", registryHive, keyPath, registryView);
                     var regObj = RegistryWalker.RegistryKeyToRegistryObject(registryHive, keyPath, registryView);
 
                     if (regObj != null)
                     {
                         Results.Push(regObj);
                     }
-                    Log.Verbose($"Finished parsing {keyPath} in view {registryView}");
+                    Log.Verbose("Finished parsing {0}\\{1} in {1}", registryHive, keyPath, registryView);
                 };
 
                 var x86_Enumerable = RegistryWalker.WalkHive(hive.Item1, RegistryView.Registry32, hive.Item2);
