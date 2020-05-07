@@ -20,7 +20,7 @@ namespace AttackSurfaceAnalyzer.Tests
         [TestMethod]
         public void TestSerializeAndDeserializeCertificateObject()
         {
-            var co = new CertificateObject("StoreLocation", "StoreName", new SerializableCertificate("Thumbprint", "Subject", "PublicKey", DateTime.Now.AddYears(1), DateTime.Now, "Issuer", "SerialNumber", "CertHashString"));
+            var co = new CertificateObject("StoreLocation", "StoreName", new SerializableCertificate("Thumbprint", "Subject", "PublicKey", DateTime.Now.AddYears(1), DateTime.Now, "Issuer", "SerialNumber", "CertHashString", "Pkcs7"));
 
             if (JsonUtils.Hydrate(JsonUtils.Dehydrate(co), RESULT_TYPE.CERTIFICATE) is CertificateObject co2)
             {
@@ -44,7 +44,7 @@ namespace AttackSurfaceAnalyzer.Tests
         [TestMethod]
         public void TestSerializeAndDeserializeCryptographicKeyObject()
         {
-            var cko = new CryptographicKeyObject("Disk");
+            var cko = new RSAKeyObject("Disk");
 
             Assert.IsTrue(cko.RowKey.Equals(JsonUtils.Hydrate(JsonUtils.Dehydrate(cko), RESULT_TYPE.KEY)?.RowKey));
         }

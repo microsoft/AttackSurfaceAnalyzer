@@ -62,9 +62,4 @@
   <ItemGroup>
     <Folder Include="TpmSim\" />
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="TSS.Net">
-      <HintPath>..\Lib\TSS.Net.dll</HintPath>
-    </Reference>
-  </ItemGroup>
 </Project>

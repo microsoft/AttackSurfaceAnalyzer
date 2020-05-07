@@ -83,7 +83,6 @@
     <Reference Include="Tpm2TesterFramework">
       <HintPath>..\Tests\Tpm2TesterFramework.dll</HintPath>
     </Reference>
-    <Reference Include="TSS.Net, Version=2.1.1.0, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="TSS.Net">
       <HintPath>TSS.Net.dll</HintPath>
     </Reference>

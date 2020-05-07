@@ -30,7 +30,7 @@ namespace AttackSurfaceAnalyzer.Tests
         public void TestInsertAndReadBack()
         {
             DatabaseManager.Setup("asa.sqlite", new DBSettings() { ShardingFactor = 1 });
-            var co = new CertificateObject("StoreLocation", "StoreName", new SerializableCertificate("Thumbprint", "Subject", "PublicKey", DateTime.Now.AddYears(1), DateTime.Now, "Issuer", "SerialNumber", "CertHashString"));
+            var co = new CertificateObject("StoreLocation", "StoreName", new SerializableCertificate("Thumbprint", "Subject", "PublicKey", DateTime.Now.AddYears(1), DateTime.Now, "Issuer", "SerialNumber", "CertHashString", "Pkcs7"));
             var runId = "TestRun";
             var numberOfObjects = 100;
             DatabaseManager.Write(co, runId);

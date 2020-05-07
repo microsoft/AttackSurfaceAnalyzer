@@ -163,22 +163,23 @@ namespace AttackSurfaceAnalyzer.Tests
                 // Clean up after simulator
                 File.Delete("NVChip");
 
-                var collectObject = tpmc.Results[0];
-
-                if (collectObject is TpmObject tpmObject)
+                if (tpmc.Results.TryPop(out CollectObject? collectObject))
                 {
-                    // We should be able to confirm the NV Data we wrote
-                    Assert.IsTrue(tpmObject.NV.ContainsKey(nvIndex));
-                    Assert.IsTrue(tpmObject.NV[nvIndex] is byte[] bytes && bytes.SequenceEqual(nvData));
+                    if (collectObject is TpmObject tpmObject)
+                    {
+                        // We should be able to confirm the NV Data we wrote
+                        Assert.IsTrue(tpmObject.NV.ContainsKey(nvIndex));
+                        Assert.IsTrue(tpmObject.NV[nvIndex] is byte[] bytes && bytes.SequenceEqual(nvData));
 
-                    // We should also be able to confirm that the PCR bank we measured into has changed and that other's haven't
-                    Assert.IsTrue(tpmObject.PCRs[(TpmAlgId.Sha1, 16)].SequenceEqual(pcrs[(TpmAlgId.Sha256, 16)]));
-                    Assert.IsFalse(tpmObject.PCRs[(TpmAlgId.Sha1, 16)].SequenceEqual(pcrs[(TpmAlgId.Sha256, 16)]));
-                    Assert.IsFalse(tpmObject.PCRs[(TpmAlgId.Sha1, 16)].SequenceEqual(tpmObject.PCRs[(TpmAlgId.Sha1, 15)]));
-                }
-                else
-                {
-                    Assert.Fail();
+                        // We should also be able to confirm that the PCR bank we measured into has changed and that other's haven't
+                        Assert.IsTrue(tpmObject.PCRs[(TpmAlgId.Sha1, 16)].SequenceEqual(pcrs[(TpmAlgId.Sha256, 16)]));
+                        Assert.IsFalse(tpmObject.PCRs[(TpmAlgId.Sha1, 16)].SequenceEqual(pcrs[(TpmAlgId.Sha256, 16)]));
+                        Assert.IsFalse(tpmObject.PCRs[(TpmAlgId.Sha1, 16)].SequenceEqual(tpmObject.PCRs[(TpmAlgId.Sha1, 15)]));
+                    }
+                    else
+                    {
+                        Assert.Fail();
+                    }
                 }
             }
         }

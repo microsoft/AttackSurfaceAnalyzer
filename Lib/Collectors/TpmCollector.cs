@@ -287,41 +287,33 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public static RSAKeyObject GenerateRandomRsa(Tpm2 tpm, TpmAlgId hashAlg, ushort bits)
         {
-            TpmAlgId nameAlg = hashAlg;
-            var policy = new PolicyTree(nameAlg);
-            policy.SetPolicyRoot(new TpmPolicyCommand(TpmCc.Duplicate));
+            //TpmAlgId nameAlg = hashAlg;
+            //var policy = new PolicyTree(nameAlg);
+            //policy.SetPolicyRoot(new TpmPolicyCommand(TpmCc.Duplicate));
 
-            var inPub = new TpmPublic(nameAlg,
-                    ObjectAttr.Sign | ObjectAttr.AdminWithPolicy | ObjectAttr.SensitiveDataOrigin,
-                    policy.GetPolicyDigest(),
-                    new RsaParms(new SymDefObject(),
-                                 new SchemeRsassa(hashAlg),
-                                 bits, 0),
-                    new Tpm2bPublicKeyRsa());
+            //var inPub = new TpmPublic(nameAlg,
+            //        ObjectAttr.Sign | ObjectAttr.AdminWithPolicy | ObjectAttr.SensitiveDataOrigin,
+            //        policy.GetPolicyDigest(),
+            //        new RsaParms(new SymDefObject(),
+            //                     new SchemeRsassa(hashAlg),
+            //                     bits, 0),
+            //        new Tpm2bPublicKeyRsa());
 
-            var Substrate = TestSubstrate.Create(Array.Empty<string>(), new Tpm2Tests());
+            // TODO: Rewrite this without relying on TPM2Tester
+            //var Substrate = TestSubstrate.Create(Array.Empty<string>(), new Tpm2Tests());
 
-            TpmHandle hKey = Substrate.CreateAndLoad(tpm, inPub, out TpmPublic pub);
+            //TpmHandle hKey = Substrate.CreateAndLoad(tpm, inPub, out TpmPublic pub);
 
-            // Extract the private portion
-            TpmPrivate priv = TpmHelper.GetPlaintextPrivate(tpm, hKey, policy);
+            //// Extract the private portion
+            //TpmPrivate priv = TpmHelper.GetPlaintextPrivate(tpm, hKey, policy);
 
-            // TODO: Break down private and public into the components
-            // var cko = new RSAKeyObject("GenerateRandomRsa", modulus, d, p, q);
+            //// TODO: Break down private and public into the components
+            //// var cko = new RSAKeyObject("GenerateRandomRsa", modulus, d, p, q);
 
-            tpm?.FlushContext(hKey);
+            //tpm?.FlushContext(hKey);
 
             //            return cko;
             return new RSAKeyObject("Test");
-        }
-
-        // An empty class to instantiate TestSubtrate with.
-        class Tpm2Tests
-        {
-            [Test(Profile.TPM20, Privileges.StandardUser, Category.Misc, Special.None)]
-            void TestCertifyX509_1()
-            {
-            }
         }
     }
 }
