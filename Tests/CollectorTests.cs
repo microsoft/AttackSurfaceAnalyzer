@@ -242,7 +242,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 key.SetValue(value, value2);
                 key.Close();
 
-                var rc = new RegistryCollector(new List<(RegistryHive,string)>() { (RegistryHive.CurrentUser,name) }, true);
+                var rc = new RegistryCollector(new List<(RegistryHive,string)>() { (RegistryHive.CurrentUser,name) }, new CollectCommandOptions() { SingleThread = true });
                 rc.Execute();
 
                 Registry.CurrentUser.DeleteSubKey(name);
@@ -285,7 +285,7 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                var coc = new ComObjectCollector();
+                var coc = new ComObjectCollector(new CollectCommandOptions());
                 coc.Execute();
 
                 Assert.IsTrue(coc.Results.Any(x => x is ComObject y && y.x86_Binary != null));
