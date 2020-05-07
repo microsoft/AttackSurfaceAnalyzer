@@ -991,7 +991,7 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             if (opts.EnableRegistryCollector || (opts.EnableAllCollectors && RuntimeInformation.IsOSPlatform(OSPlatform.Windows)))
             {
-                collectors.Add(new RegistryCollector(!opts.SingleThread));
+                collectors.Add(new RegistryCollector(opts));
                 dict.Add(RESULT_TYPE.REGISTRY);
             }
             if (opts.EnableCertificateCollector || opts.EnableAllCollectors)
@@ -1006,7 +1006,7 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             if (opts.EnableComObjectCollector || (opts.EnableAllCollectors && RuntimeInformation.IsOSPlatform(OSPlatform.Windows)))
             {
-                collectors.Add(new ComObjectCollector());
+                collectors.Add(new ComObjectCollector(opts));
                 dict.Add(RESULT_TYPE.COM);
             }
             if (opts.EnableEventLogCollector || opts.EnableAllCollectors)
