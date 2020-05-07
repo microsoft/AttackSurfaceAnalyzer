@@ -105,7 +105,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 // Prepare to write to NV 3001
                 TpmHandle nvHandle = TpmHandle.NV(nvIndex);
 
-                TcpTpmDevice tcpTpmDevice = new TcpTpmDevice("127.0.0.1", 2321);
+                TcpTpmDevice tcpTpmDevice = new TcpTpmDevice("127.0.0.1", 2321, stopTpm: false);
                 tcpTpmDevice.Connect();
 
                 using var tpm = new Tpm2(tcpTpmDevice);
@@ -148,6 +148,8 @@ namespace AttackSurfaceAnalyzer.Tests
                 {
                     Log.Debug(e, "Failed to Write PCR.");
                 }
+
+                tcpTpmDevice.Close();
                 // Execute the collector
                 tpmc.Execute();
 

@@ -37,7 +37,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             if (TestMode)
             {
-                tpmDevice = new TcpTpmDevice(DefaultSimulatorName, DefaultSimulatorPort);
+                tpmDevice = new TcpTpmDevice(DefaultSimulatorName, DefaultSimulatorPort, stopTpm: false);
             }
             else
             {
