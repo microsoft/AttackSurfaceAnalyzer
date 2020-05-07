@@ -131,8 +131,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
                     var info = new FileInfo(root);
-                    using var searcher = new ManagementObjectSearcher("select BlockSize,NumberOfBlocks from Win32_Volume WHERE DriveLetter = '" + info.Directory.Root.FullName.TrimEnd('\\') + "'");
-                    ClusterSizes[info.Directory.Root.FullName] = (uint)((ManagementObject)searcher.Get().GetEnumerator().Current)["BlockSize"];
+                    GetDiskFreeSpace(info.Directory.Root.FullName, out uint lpSectorsPerCluster, out uint lpBytesPerSector, out _, out _);
+                    ClusterSizes[info.Directory.Root.FullName] = lpSectorsPerCluster * lpBytesPerSector;
                 }
                 Log.Information("{0} root {1}", Strings.Get("Scanning"), root);
                 var filePathEnumerable = DirectoryWalker.WalkDirectory(root);
@@ -402,6 +402,13 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
             }
         }
+
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        static extern bool GetDiskFreeSpace([In, MarshalAs(UnmanagedType.LPWStr)] string lpRootPathName,
+           out uint lpSectorsPerCluster,
+           out uint lpBytesPerSector,
+           out uint lpNumberOfFreeClusters,
+           out uint lpTotalNumberOfClusters);
 
         [DllImport("kernel32.dll")]
         static extern uint GetCompressedFileSizeW(
