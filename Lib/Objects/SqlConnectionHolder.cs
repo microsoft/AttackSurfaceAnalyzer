@@ -19,11 +19,11 @@ namespace AttackSurfaceAnalyzer.Objects
     {
         public SqliteTransaction? Transaction { get; set; }
         public SqliteConnection Connection { get; set; }
-        public List<WriteObject> WriteQueue { get; private set; } = new List<WriteObject>();
+        public ConcurrentStack<WriteObject> WriteQueue { get; private set; } = new ConcurrentStack<WriteObject>();
         public bool KeepRunning { get; set; }
         public string Source { get; set; }
-        private int RecordCount { get; set; }
         public bool IsWriting { get; private set; }
+        private WriteObject[] innerQueue;
 
         private readonly DBSettings settings;
 
@@ -51,6 +51,15 @@ namespace AttackSurfaceAnalyzer.Objects
                 settings.BatchSize = 1;
             }
 
+            // Max number of variables determined by sqlite library at compile time
+            if (settings.BatchSize > 199)
+            {
+                Log.Warning("Maximum batch size is 199. Setting Batch size to 199");
+                settings.BatchSize = 199;
+            }
+
+            innerQueue = new WriteObject[settings.BatchSize];
+
             _ = Task.Factory.StartNew(() => KeepFlushQueue());
         }
 
@@ -75,14 +84,6 @@ namespace AttackSurfaceAnalyzer.Objects
             {
                 while (WriteQueue.Count > 0)
                 {
-                    if (settings.FlushCount > 0)
-                    {
-                        if (RecordCount % settings.FlushCount == settings.FlushCount - 1)
-                        {
-                            Commit();
-                            BeginTransaction();
-                        }
-                    }
                     WriteNext();
                 }
                 Thread.Sleep(1);
@@ -113,34 +114,28 @@ namespace AttackSurfaceAnalyzer.Objects
             }
         }
 
-        public void WriteNext()
+        private void WriteNext()
         {
             IsWriting = true;
             string SQL_INSERT_COLLECT_RESULT = "insert or ignore into collect (run_id, result_type, row_key, identity, serialized) values ";
 
-            if (settings.BatchSize > 199)
-            {
-                Log.Warning("Maximum batch size is 199. Setting Batch size to 199");
-                settings.BatchSize = 199;
-            }
-
             var count = Math.Min(settings.BatchSize, WriteQueue.Count);
-            var innerQueue = WriteQueue.Take(count).ToList();
+            var actual = WriteQueue.TryPopRange(innerQueue,0,count);
 
-            if (count > 0)
+            if (actual > 0)
             {
                 var stringBuilder = new StringBuilder();
                 stringBuilder.Append(SQL_INSERT_COLLECT_RESULT);
-                using var cmd = new SqliteCommand(stringBuilder.ToString(), Connection, Transaction);
+                using var cmd = new SqliteCommand(string.Empty, Connection, Transaction);
 
-                for (int i = 0; i < count; i++)
+                for (int i = 0; i < actual; i++)
                 {
                     stringBuilder.Append($"(@run_id_{i}, @result_type_{i}, @row_key_{i}, @identity_{i}, @serialized_{i}),");
                     cmd.Parameters.AddWithValue($"@run_id_{i}", innerQueue[i].RunId);
+                    cmd.Parameters.AddWithValue($"@result_type_{i}", innerQueue[i].ColObj.ResultType);
                     cmd.Parameters.AddWithValue($"@row_key_{i}", innerQueue[i].RowKey);
-                    cmd.Parameters.AddWithValue($"@identity_{i}", innerQueue[i].ColObj?.Identity);
+                    cmd.Parameters.AddWithValue($"@identity_{i}", innerQueue[i].ColObj.Identity);
                     cmd.Parameters.AddWithValue($"@serialized_{i}", innerQueue[i].Serialized);
-                    cmd.Parameters.AddWithValue($"@result_type_{i}", innerQueue[i].ColObj?.ResultType);
                 }
                 // remove trailing comma
                 stringBuilder.Remove(stringBuilder.Length - 1, 1);
@@ -150,13 +145,11 @@ namespace AttackSurfaceAnalyzer.Objects
                 {
                     cmd.ExecuteNonQuery();
                 }
-                catch (SqliteException e)
+                catch (Exception e)
                 {
-                    Log.Warning(exception: e, $"Error writing to database.");
+                    Log.Warning(e, $"Error writing to database.");
                 }
             }
-
-            WriteQueue.RemoveRange(0, count);
 
             IsWriting = false;
         }

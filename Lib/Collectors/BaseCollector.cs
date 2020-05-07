@@ -17,7 +17,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public abstract class BaseCollector : IPlatformRunnable
     {
-        public List<CollectObject> Results { get; } = new List<CollectObject>();
+        public ConcurrentStack<CollectObject> Results { get; } = new ConcurrentStack<CollectObject>();
 
         public void Execute()
         {
@@ -47,7 +47,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         public void Start()
         {
             RunStatus = RUN_STATUS.RUNNING;
-            watch = System.Diagnostics.Stopwatch.StartNew();
+            watch = Stopwatch.StartNew();
             Log.Information(Strings.Get("Starting"), GetType().Name);
         }
 

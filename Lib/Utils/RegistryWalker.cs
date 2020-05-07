@@ -13,9 +13,9 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public static class RegistryWalker
     {
-        public static IEnumerable<RegistryKey> WalkHive(RegistryHive Hive, RegistryView View, string startingKey = "")
+        public static IEnumerable<string> WalkHive(RegistryHive Hive, RegistryView View, string startingKey = "")
         {
-            Stack<RegistryKey> keys = new Stack<RegistryKey>();
+            Stack<string> keys = new Stack<string>();
 
             RegistryKey? BaseKey = null;
             try
@@ -33,77 +33,57 @@ namespace AttackSurfaceAnalyzer.Utils
 
             if (BaseKey != null)
             {
-                if (startingKey != null)
-                {
-                    BaseKey = BaseKey.OpenSubKey(startingKey, writable: false);
-                }
-                keys.Push(BaseKey);
-            }
+                keys.Push(startingKey);
 
-            while (keys.Count > 0)
-            {
-                RegistryKey currentKey = keys.Pop();
-
-                if (currentKey == null)
+                while (keys.Count > 0)
                 {
-                    continue;
-                }
-
-                // First push all the new subkeys onto our stack.
-                foreach (string key in currentKey.GetSubKeyNames())
-                {
+                    var key = keys.Pop();
                     try
                     {
-                        var next = currentKey.OpenSubKey(name: key, writable: false);
-                        keys.Push(next);
-                    }
-                    // TODO: Capture that these keys exist but we couldn't access them in the results
-                    // These are expected as we are running as administrator, not System.
-                    catch (System.Security.SecurityException)
-                    {
-                        Log.Debug("Permission Denied Opening Subkey: {0}\\{1}", currentKey.Name, key);
-                    }
-                    // There seem to be some keys which are listed as existing by the APIs but don't actually exist.
-                    // Unclear if these are just super transient keys or what the other cause might be.
-                    // Since this isn't user actionable, also just supress these to the verbose stream.
-                    catch (System.IO.IOException)
-                    {
-                        Log.Debug("IOError Reading: {0}\\{1}", currentKey.Name, key);
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Information(e, "Unexpected error when parsing {0}\\{1}", currentKey.Name, key);
-                        AsaTelemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
-                    }
-                }
+                        RegistryKey currentKey = BaseKey.OpenSubKey(key, writable: false);
 
-                yield return currentKey;
+                        if (currentKey == null)
+                        {
+                            continue;
+                        }
+
+                        foreach (string subkey in currentKey.GetSubKeyNames())
+                        {
+                            keys.Push(subkey);
+                        }
+                    }
+                    catch (Exception) { }
+
+                    yield return key;
+                }
             }
 
             BaseKey?.Dispose();
         }
 
-        public static RegistryObject? RegistryKeyToRegistryObject(RegistryKey registryKey, RegistryView registryView)
+        public static RegistryObject? RegistryKeyToRegistryObject(RegistryKey key, RegistryView registryView)
         {
-            if (registryKey == null) { return null; }
-
-            RegistryObject regObj = new RegistryObject(registryKey.Name, registryView);
+            if (key == null)
+            {
+                return null;
+            }
+            RegistryObject regObj = new RegistryObject(key.Name, registryView);
             try
             {
-                regObj.AddSubKeys(registryKey.GetSubKeyNames());
+                regObj.AddSubKeys(key.GetSubKeyNames());
             }
             catch (System.ArgumentException)
             {
-                Log.Debug("Invalid Handle (ArgumentException) {0}", registryKey.Name);
+                Log.Debug("Invalid Handle (ArgumentException) {0}", key.Name);
             }
             catch (Exception e)
             {
-                Log.Debug(e, "Couldn't process reg key {0}", registryKey.Name);
+                Log.Debug(e, "Couldn't process reg key {0}", key.Name);
             }
 
             try
             {
-                foreach (RegistryAccessRule? rule in registryKey.GetAccessControl().GetAccessRules(true, true, typeof(SecurityIdentifier)))
+                foreach (RegistryAccessRule? rule in key.GetAccessControl().GetAccessRules(true, true, typeof(SecurityIdentifier)))
                 {
                     if (rule != null)
                     {
@@ -130,9 +110,30 @@ namespace AttackSurfaceAnalyzer.Utils
                 Log.Debug(e, "Failed to get permissions for {0}", regObj.Key);
             }
 
-            regObj.Values = RegistryObject.GetValues(registryKey);
+            regObj.Values = RegistryObject.GetValues(key);
 
             return regObj;
+        }
+
+        public static RegistryObject? RegistryKeyToRegistryObject(RegistryHive hive, string registryKey, RegistryView registryView)
+        {
+            if (registryKey == null) { return null; }
+
+            try
+            {
+                using var BaseKey = RegistryKey.OpenBaseKey(hive, registryView);
+                var ourKey = BaseKey.OpenSubKey(registryKey, false);
+                return RegistryKeyToRegistryObject(ourKey, registryView);
+            }
+            catch (Exception e) when (
+                e is IOException ||
+                e is ArgumentException ||
+                e is UnauthorizedAccessException ||
+                e is System.Security.SecurityException)
+            {
+                Log.Debug($"Failed to open Key {hive}\\{registryKey} for walking.");
+            }
+            return null;
         }
     }
 }

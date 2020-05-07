@@ -25,14 +25,9 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
             };
 
-            var stdOutput = new StringBuilder();
-            var stdError = new StringBuilder();
-            process.OutputDataReceived += (sender, args) => stdOutput.AppendLine(args.Data); // Use AppendLine rather than Append since args.Data is one line of output, not including the newline character.
-            process.ErrorDataReceived += (sender, args) => stdError.AppendLine(args.Data);
             try
             {
                 process.Start();
-                process.BeginOutputReadLine();
                 process.WaitForExit();
             }
             catch (Exception e)
@@ -40,8 +35,8 @@ namespace AttackSurfaceAnalyzer.Utils
                 throw new ExternalException("OS error while executing " + Format(command, arguments) + ": " + e.Message, e);
             }
 
-            StdOut = stdOutput.ToString();
-            StdErr = stdError.ToString();
+            StdOut = process.StandardOutput.ReadToEnd();
+            StdErr = process.StandardError.ReadToEnd();
 
             return process.ExitCode;
         }
