@@ -28,7 +28,7 @@ namespace AttackSurfaceAnalyzer.Utils
     public static class DatabaseManager
     {
         private const string SQL_CREATE_RUNS = "create table if not exists runs (run_id text, type string, serialized blob, unique(run_id))";
-        private const string SQL_CREATE_FILE_MONITORED = "create table if not exists file_system_monitored (run_id text, row_key text, timestamp text, change_type int, path text, old_path text, name text, old_name text, extended_results text, notify_filters text, serialized text)";
+        private const string SQL_CREATE_FILE_MONITORED = "create table if not exists file_system_monitored (run_id text, path text, timestamp text, serialized text)";
 
         private const string SQL_CREATE_COLLECT_RESULTS = "create table if not exists collect (run_id text, result_type text, identity text, row_key blob, serialized blob, UNIQUE(run_id, identity))";
 
@@ -80,7 +80,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private const string SQL_GET_RESULTS_BY_RUN_ID = "select * from collect where run_id = @run_id";
 
-        private const string SQL_INSERT = "insert into file_system_monitored (run_id, row_key, timestamp, change_type, path, old_path, name, old_name, extended_results, notify_filters, serialized) values (@run_id, @row_key, @timestamp, @change_type, @path, @old_path, @name, @old_name, @extended_results, @notify_filters, @serialized)";
+        private const string SQL_INSERT = "insert into file_system_monitored (run_id, path, timestamp, serialized) values (@run_id, @path, @timestamp, @serialized)";
 
         private const string INSERT_RUN_INTO_RESULT_TABLE_SQL = "insert into results (base_run_id, compare_run_id, status) values (@base_run_id, @compare_run_id, @status);";
         private const string UPDATE_RUN_IN_RESULT_TABLE = "update results set status = @status where (base_run_id = @base_run_id and compare_run_id = @compare_run_id)";
@@ -106,7 +106,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private const string SQL_VACUUM = "VACUUM";
 
-        private const int SCHEMA_VERSION = 8;
+        private const int SCHEMA_VERSION = 9;
 
         private static DBSettings dbSettings = new DBSettings();
 
@@ -955,9 +955,9 @@ namespace AttackSurfaceAnalyzer.Utils
             return GetRuns(RUN_TYPE.COLLECT);
         }
 
-        public static List<OutputFileMonitorResult> GetMonitorResults(string runId, int offset, int numResults)
+        public static List<FileMonitorObject> GetMonitorResults(string runId, int offset, int numResults)
         {
-            var results = new List<OutputFileMonitorResult>();
+            var results = new List<FileMonitorObject>();
             if (MainConnection != null)
             {
                 using (var cmd = new SqliteCommand(GET_MONITOR_RESULTS, MainConnection.Connection, MainConnection.Transaction))
@@ -969,22 +969,11 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         while (reader.Read())
                         {
-                            var path = reader["path"].ToString();
-                            if (!string.IsNullOrEmpty(path))
+                            if (reader["serialized"] is string serialized)
                             {
-                                var obj = new OutputFileMonitorResult(path)
-                                {
-                                    RowKey = reader["row_key"].ToString(),
-                                    Timestamp = reader["timestamp"].ToString(),
-                                    OldPath = reader["old_path"].ToString(),
-                                    Name = reader["path"].ToString(),
-                                    OldName = reader["old_path"].ToString(),
-                                    ChangeType = (CHANGE_TYPE)int.Parse(reader["change_type"].ToString() ?? "Invalid", CultureInfo.InvariantCulture),
-                                };
+                                var obj = JsonConvert.DeserializeObject<FileMonitorObject>(serialized);
                                 results.Add(obj);
                             }
-
-
                         }
                     }
                 }
