@@ -19,7 +19,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         public static Signature? GetSignatureStatus(string Path)
         {
-            if (Path is null || !NeedsSignature(Path))
+            if (Path is null)
             {
                 return null;
             }
@@ -38,7 +38,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
             catch (Exception e)
             {
-                Log.Verbose(e,"Failed to get signature for {0}.",Path);
+                Log.Verbose("Failed to get signature for {0} ({1}).",Path,e.GetType().ToString());
             }
             return null;
         }

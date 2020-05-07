@@ -7,6 +7,7 @@ using Mono.Unix;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -14,7 +15,6 @@ using System.Security;
 using System.Security.AccessControl;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
-using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -95,7 +95,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 FileSystemObject obj = FilePathToFileSystemObject(Path, downloadCloud, INCLUDE_CONTENT_HASH);
                 if (obj != null)
                 {
-                    Results.Add(obj);
+                    Results.Push(obj);
 
                     // TODO: Also try parse .DER as a key
                     if (Path.EndsWith(".cer", StringComparison.CurrentCulture) ||
@@ -112,7 +112,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 StoreName: StoreName.Root.ToString(),
                                 Certificate: new SerializableCertificate(certificate));
 
-                            Results.Add(certObj);
+                            Results.Push(certObj);
                         }
                         catch (Exception e)
                         {
@@ -161,21 +161,28 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 try
                 {
-                    var fileSecurity = new FileSecurity(path, AccessControlSections.All);
+                    var fileSecurity = new FileSecurity(path, AccessControlSections.Owner);
                     IdentityReference oid = fileSecurity.GetOwner(typeof(SecurityIdentifier));
-                    IdentityReference gid = fileSecurity.GetGroup(typeof(SecurityIdentifier));
-
                     obj.Owner = AsaHelpers.SidToName(oid);
+                }
+                catch (Exception) { }
+                try
+                {
+                    var fileSecurity = new FileSecurity(path, AccessControlSections.Group);
+                    IdentityReference gid = fileSecurity.GetGroup(typeof(SecurityIdentifier));
                     obj.Group = AsaHelpers.SidToName(gid);
-
+                }
+                catch (Exception) { }
+                try
+                {
+                    var fileSecurity = new FileSecurity(path, AccessControlSections.Access);
                     var rules = fileSecurity.GetAccessRules(true, true, typeof(SecurityIdentifier));
+                    obj.Permissions = new Dictionary<string, string>();
                     foreach (FileSystemAccessRule? rule in rules)
                     {
                         if (rule != null)
                         {
                             string name = AsaHelpers.SidToName(rule.IdentityReference);
-
-                            obj.Permissions = new Dictionary<string, string>();
 
                             foreach (var permission in rule.FileSystemRights.ToString().Split(','))
                             {
@@ -191,21 +198,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         }
                     }
                 }
-                catch (Exception e) when (
-                    e is ArgumentException
-                    || e is ArgumentNullException
-                    || e is DirectoryNotFoundException
-                    || e is FileNotFoundException
-                    || e is IOException
-                    || e is NotSupportedException
-                    || e is PlatformNotSupportedException
-                    || e is PathTooLongException
-                    || e is PrivilegeNotHeldException
-                    || e is SystemException
-                    || e is UnauthorizedAccessException)
-                {
-                    Log.Verbose($"Error instantiating FileSecurity object {obj.Path} {e.GetType().ToString()}");
-                }
+                catch (Exception) { }
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
@@ -256,7 +249,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     || e is ArgumentException
                     || e is InvalidOperationException)
                 {
-                    Log.Debug($"Failed to get permissions for {path} {e.GetType().ToString()}");
+                    Log.Verbose("Failed to get permissions for {0} {1}", path,e.GetType().ToString());
                 }
             }
 
@@ -292,12 +285,14 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                             obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, size);
 
-                            if (obj.IsExecutable != null && (bool)obj.IsExecutable)
+                            if (FileSystemUtils.IsWindowsExecutable(obj.Path, obj.Size))
                             {
-                                // TODO: This can be optimized into fewer touches, GetSignatureStatus also runs IsExecutable checks against the first 4 bytes
-
                                 obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(path);
                                 obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(path);
+                            }
+                            else if (FileSystemUtils.IsMacExecutable(obj.Path, obj.Size))
+                            {
+                                obj.MacSignatureStatus = FileSystemUtils.GetMacSignature(path);
                             }
                         }
                     }
@@ -320,6 +315,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                         case FileTypes.CharacterDevice:
                         case FileTypes.Directory:
                             obj.IsDirectory = true;
+                            if (path?.EndsWith(".app", StringComparison.InvariantCultureIgnoreCase) ?? false)
+                            {
+                                obj.MacSignatureStatus = FileSystemUtils.GetMacSignature(path);
+                            }
                             break;
                         case FileTypes.RegularFile:
                             if (i.HasContents)
@@ -329,6 +328,15 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     obj.ContentHash = FileSystemUtils.GetFileHash(path);
                                 }
                                 obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, obj.Size);
+                                if (FileSystemUtils.IsWindowsExecutable(obj.Path,obj.Size))
+                                {
+                                    obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(path);
+                                    obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(path);
+                                }
+                                else if (FileSystemUtils.IsMacExecutable(obj.Path, obj.Size))
+                                {
+                                    obj.MacSignatureStatus = FileSystemUtils.GetMacSignature(path);
+                                }
                             }
                             break;
                     }
@@ -341,13 +349,15 @@ namespace AttackSurfaceAnalyzer.Collectors
                 e is UnauthorizedAccessException ||
                 e is PathTooLongException ||
                 e is NotSupportedException ||
-                e is InvalidOperationException)
+                e is InvalidOperationException ||
+                e is FileNotFoundException ||
+                e is Win32Exception)
             {
                 Log.Verbose("Failed to create FileInfo from File at {0} {1}", path, e.GetType().ToString());
             }
             catch (Exception e)
             {
-                Log.Debug("Should be caught in DirectoryWalker {0}", e.GetType().ToString());
+                Log.Debug("Should be caught in DirectoryWalker {0} {1}", e.GetType().ToString(), path);
             }
 
             try

@@ -45,7 +45,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 StoreLocation: storeLocation.ToString(),
                                 StoreName: storeName.ToString(),
                                 Certificate: new SerializableCertificate(certificate));
-                            Results.Add(obj);
+                            Results.Push(obj);
                         }
                         store.Close();
                     }
@@ -78,7 +78,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 StoreLocation: StoreLocation.LocalMachine.ToString(),
                                 StoreName: StoreName.Root.ToString(),
                                 Certificate: new SerializableCertificate(certificate));
-                            Results.Add(obj);
+                            Results.Push(obj);
                         }
                         catch (Exception e)
                         {
@@ -129,7 +129,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 StoreLocation: StoreLocation.LocalMachine.ToString(),
                                 StoreName: StoreName.Root.ToString(),
                                 Certificate: new SerializableCertificate(certificate));
-                            Results.Add(obj);
+                            Results.Push(obj);
                         }
                     }
                     else

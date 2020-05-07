@@ -415,7 +415,7 @@ namespace AttackSurfaceAnalyzer.Cli
         {
             if (DatabaseManager.FirstRun)
             {
-                string exeStr = $"config --telemetry-opt-out true";
+                string exeStr = $"config --telemetry-opt-out";
                 Log.Information(Strings.Get("ApplicationHasTelemetry"));
                 Log.Information(Strings.Get("ApplicationHasTelemetry2"), "https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/PRIVACY.md");
                 Log.Information(Strings.Get("ApplicationHasTelemetry3"), exeStr);
@@ -1014,12 +1014,12 @@ namespace AttackSurfaceAnalyzer.Cli
                 collectors.Add(new EventLogCollector(opts.GatherVerboseLogs));
                 dict.Add(RESULT_TYPE.LOG);
             }
-            if (opts.EnableTpmCollector || opts.EnableAllCollectors)
+            if (opts.EnableTpmCollector || (opts.EnableAllCollectors && (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux))))
             {
                 collectors.Add(new TpmCollector());
                 dict.Add(RESULT_TYPE.TPM);
             }
-            if (opts.EnableKeyCollector || opts.EnableAllCollectors)
+            if (opts.EnableKeyCollector || opts.EnableAllCollectors && (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)))
             {
                 collectors.Add(new CryptographicKeyCollector());
                 dict.Add(RESULT_TYPE.KEY);
@@ -1065,60 +1065,64 @@ namespace AttackSurfaceAnalyzer.Cli
                 {
                     DatabaseManager.BeginTransaction();
 
-                    var StopWatch = Stopwatch.StartNew();
-
                     Task.Run(() => c.Execute());
 
                     Thread.Sleep(1);
 
                     while (c.RunStatus == RUN_STATUS.RUNNING)
                     {
+                        var items = new CollectObject[1000];
                         while (c.Results.Count > 0)
                         {
                             var count = Math.Min(1000, c.Results.Count);
                             // Take doesn't actually remove, it returns an thin IEnumerable
-                            c.Results.Take(count).AsParallel().ForAll(result =>
-                             {
-                                 DatabaseManager.Write(result, opts.RunId);
-                             });
-                            // After we've walked the IEnumerable we can remove the items we walked
-                            c.Results.RemoveRange(0, count);
+                            
+                            var actual = c.Results.TryPopRange(items);
+                            items.Take(actual).AsParallel().ForAll(result =>
+                            {
+                                DatabaseManager.Write(result, opts.RunId);
+                            });
                         }
                         Thread.Sleep(1);
                     }
-
-                    StopWatch.Stop();
-                    TimeSpan t = TimeSpan.FromMilliseconds(StopWatch.ElapsedMilliseconds);
-                    string answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
-                                            t.Hours,
-                                            t.Minutes,
-                                            t.Seconds,
-                                            t.Milliseconds);
-                    Log.Debug(Strings.Get("Completed"), c.GetType().Name, answer);
 
                     c.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, opts.RunId));
 
                     var prevFlush = DatabaseManager.QueueSize;
                     var totFlush = prevFlush;
 
-                    var printInterval = 10;
-                    var currentInterval = 0;
+                    var printInterval = new TimeSpan(0,0,10);
+                    var now = DateTime.Now;
+                    var then = DateTime.Now;
 
-                    StopWatch = Stopwatch.StartNew();
+                    var StopWatch = Stopwatch.StartNew();
+                    TimeSpan t = new TimeSpan();
+                    string answer = string.Empty;
+                    bool warnedToIncreaseShards = false;
 
                     while (DatabaseManager.HasElements)
                     {
-                        Thread.Sleep(1000);
-
-                        if (currentInterval++ % printInterval == 0)
+                        Thread.Sleep(100);
+                        if (!DatabaseManager.HasElements)
                         {
-                            var actualDuration = (currentInterval < printInterval) ? currentInterval : printInterval;
+                            break;
+                        }
+                        if (!warnedToIncreaseShards && StopWatch.ElapsedMilliseconds > 10000 && dbSettings.ShardingFactor < 7)
+                        {
+                            Log.Information("It is taking a while to flush results to the database.  Try increasing the sharding level to improve performance.");
+                            warnedToIncreaseShards = true;
+                        }
+                        now = DateTime.Now;
+                        if (now - then > printInterval)
+                        {
+                            var actualDuration = now - then;
                             var sample = DatabaseManager.QueueSize;
                             var curRate = prevFlush - sample;
                             var totRate = (double)(totFlush - sample) / StopWatch.ElapsedMilliseconds;
+
                             try
                             {
-                                t = (curRate > 0) ? TimeSpan.FromMilliseconds(sample / ((double)curRate / (actualDuration * 1000))) : TimeSpan.FromMilliseconds(99999999); //lgtm[cs/loss-of-precision]
+                                t = (curRate > 0) ? TimeSpan.FromMilliseconds(actualDuration.TotalMilliseconds * sample / curRate) : TimeSpan.FromMilliseconds(99999999); //lgtm[cs/loss-of-precision]
                                 answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
                                                         t.Hours,
                                                         t.Minutes,
@@ -1132,9 +1136,10 @@ namespace AttackSurfaceAnalyzer.Cli
                                 Log.Debug($"Overflowed: {curRate} {totRate} {sample} {t} {answer}");
                                 Log.Debug("Flushing {0} results. ({1}/s {2:0.00}/s)", sample, curRate, totRate * 1000);
                             }
+
+                            then = now;
                             prevFlush = sample;
                         }
-
                     }
 
                     StopWatch.Stop();

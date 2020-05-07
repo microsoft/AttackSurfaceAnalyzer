@@ -18,19 +18,19 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class RegistryCollector : BaseCollector
     {
-        private readonly List<RegistryHive> Hives;
+        private readonly List<(RegistryHive, string)> Hives;
         private readonly bool Parallelize;
 
-        private static readonly List<RegistryHive> DefaultHives = new List<RegistryHive>()
+        private static readonly List<(RegistryHive,string)> DefaultHives = new List<(RegistryHive,string)>()
         {
-            RegistryHive.ClassesRoot, RegistryHive.CurrentConfig, RegistryHive.CurrentUser, RegistryHive.LocalMachine, RegistryHive.Users
+            (RegistryHive.ClassesRoot,string.Empty), (RegistryHive.CurrentConfig,string.Empty), (RegistryHive.CurrentUser,string.Empty), (RegistryHive.LocalMachine,string.Empty), (RegistryHive.Users,string.Empty)
         };
 
         private readonly Action<RegistryObject>? customCrawlHandler;
 
         public RegistryCollector(bool Parallelize) : this(DefaultHives, Parallelize, null) { }
 
-        public RegistryCollector(List<RegistryHive> Hives, bool Parallelize, Action<RegistryObject>? customHandler = null)
+        public RegistryCollector(List<(RegistryHive, string)> Hives, bool Parallelize, Action<RegistryObject>? customHandler = null)
         {
             this.Hives = Hives;
             customCrawlHandler = customHandler;
@@ -48,27 +48,20 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 Log.Debug("Starting " + hive.ToString());
 
-                Action<RegistryKey, RegistryView> IterateOn = (registryKey, registryView) =>
+                Action<RegistryHive, string, RegistryView> IterateOn = (registryHive, keyPath, registryView) =>
                 {
-                    Log.Verbose($"Beginning to parse {registryKey.Name} in view {registryView}");
-                    try
-                    {
-                        var regObj = RegistryWalker.RegistryKeyToRegistryObject(registryKey, registryView);
+                    Log.Verbose($"Beginning to parse {registryHive}\\{keyPath} in view {registryView}");
+                    var regObj = RegistryWalker.RegistryKeyToRegistryObject(registryHive, keyPath, registryView);
 
-                        if (regObj != null)
-                        {
-                            Results.Add(regObj);
-                        }
-                    }
-                    catch (InvalidOperationException e)
+                    if (regObj != null)
                     {
-                        Log.Debug(e, JsonConvert.SerializeObject(registryKey) + " invalid op exept");
+                        Results.Push(regObj);
                     }
-                    Log.Verbose($"Finished parsing {registryKey.Name} in view {registryView}");
+                    Log.Verbose($"Finished parsing {keyPath} in view {registryView}");
                 };
 
-                var x86_Enumerable = RegistryWalker.WalkHive(hive, RegistryView.Registry32);
-                var x64_Enumerable = RegistryWalker.WalkHive(hive, RegistryView.Registry64);
+                var x86_Enumerable = RegistryWalker.WalkHive(hive.Item1, RegistryView.Registry32, hive.Item2);
+                var x64_Enumerable = RegistryWalker.WalkHive(hive.Item1, RegistryView.Registry64, hive.Item2);
 
                 if (Parallelize)
                 {
@@ -76,23 +69,23 @@ namespace AttackSurfaceAnalyzer.Collectors
                     x86_Enumerable.AsParallel().ForAll(
                     registryKey =>
                     {
-                        IterateOn(registryKey, RegistryView.Registry32);
+                        IterateOn(hive.Item1, registryKey, RegistryView.Registry32);
                     });
                     x64_Enumerable.AsParallel().ForAll(
                     registryKey =>
                     {
-                        IterateOn(registryKey, RegistryView.Registry64);
+                        IterateOn(hive.Item1, registryKey, RegistryView.Registry64);
                     });
                 }
                 else
                 {
                     foreach (var registryKey in x86_Enumerable)
                     {
-                        IterateOn(registryKey, RegistryView.Registry32);
+                        IterateOn(hive.Item1, registryKey, RegistryView.Registry32);
                     }
                     foreach (var registryKey in x64_Enumerable)
                     {
-                        IterateOn(registryKey, RegistryView.Registry64);
+                        IterateOn(hive.Item1, registryKey, RegistryView.Registry64);
                     }
                 }
                 Log.Debug("Finished " + hive.ToString());
