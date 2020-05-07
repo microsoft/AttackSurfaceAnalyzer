@@ -65,7 +65,7 @@
     <PackageReference Include="WindowsFirewallHelper" Version="2.0.2.29-beta1" />
     <PackageReference Include="CommandLineParser" Version="2.8.0" />
     <PackageReference Include="sqlite" Version="3.13.0" />
-    <PackageReference Include="PeNet" Version="2.2.5" />
+    <PackageReference Include="PeNet" Version="2.2.6" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\analyses.json" Link="analyses.json" />
