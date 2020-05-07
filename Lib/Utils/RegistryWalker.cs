@@ -40,16 +40,14 @@ namespace AttackSurfaceAnalyzer.Utils
                     var key = keys.Pop();
                     try
                     {
-                        RegistryKey currentKey = BaseKey.OpenSubKey(key, writable: false);
+                        RegistryKey currentKey = BaseKey.OpenSubKey(key);
 
-                        if (currentKey == null)
+                        if (currentKey != null)
                         {
-                            continue;
-                        }
-
-                        foreach (string subkey in currentKey.GetSubKeyNames())
-                        {
-                            keys.Push(subkey);
+                            foreach (string subkey in currentKey.GetSubKeyNames())
+                            {
+                                keys.Push(subkey);
+                            }
                         }
                     }
                     catch (Exception) { }
@@ -113,27 +111,6 @@ namespace AttackSurfaceAnalyzer.Utils
             regObj.Values = RegistryObject.GetValues(key);
 
             return regObj;
-        }
-
-        public static RegistryObject? RegistryKeyToRegistryObject(RegistryHive hive, string registryKey, RegistryView registryView)
-        {
-            if (registryKey == null) { return null; }
-
-            try
-            {
-                using var BaseKey = RegistryKey.OpenBaseKey(hive, registryView);
-                var ourKey = BaseKey.OpenSubKey(registryKey, false);
-                return RegistryKeyToRegistryObject(ourKey, registryView);
-            }
-            catch (Exception e) when (
-                e is IOException ||
-                e is ArgumentException ||
-                e is UnauthorizedAccessException ||
-                e is System.Security.SecurityException)
-            {
-                Log.Debug($"Failed to open Key {hive}\\{registryKey} for walking.");
-            }
-            return null;
         }
     }
 }

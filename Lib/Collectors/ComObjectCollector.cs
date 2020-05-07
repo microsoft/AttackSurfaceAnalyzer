@@ -18,9 +18,11 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class ComObjectCollector : BaseCollector
     {
+        CollectCommandOptions opts;
 
-        public ComObjectCollector()
+        public ComObjectCollector(CollectCommandOptions opts)
         {
+            this.opts = opts;
         }
 
         /// <summary>
@@ -49,7 +51,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 // Parse system Com Objects
                 using var SearchKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, view);
                 var CLDIDs = SearchKey.OpenSubKey("SOFTWARE\\Classes\\CLSID");
-                foreach (var comObj in ParseComObjects(CLDIDs, view))
+                foreach (var comObj in ParseComObjects(CLDIDs, view, opts.SingleThread))
                 {
                     Results.Push(comObj);
                 }
@@ -72,7 +74,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     if (subkeyName.EndsWith("Classes"))
                     {
                         using var ComKey = SearchKey.OpenSubKey(subkeyName).OpenSubKey("CLSID");
-                        foreach (var comObj in ParseComObjects(ComKey, view))
+                        foreach (var comObj in ParseComObjects(ComKey, view, opts.SingleThread))
                         {
                             Results.Push(comObj);
                         }
@@ -93,103 +95,111 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// </summary>
         /// <param name="SearchKey">The Registry Key to search</param>
         /// <param name="View">The View of the registry to use</param>
-        public static IEnumerable<CollectObject> ParseComObjects(RegistryKey SearchKey, RegistryView View)
+        public static IEnumerable<CollectObject> ParseComObjects(RegistryKey SearchKey, RegistryView View, bool SingleThreaded = false)
         {
             if (SearchKey == null) { return new List<CollectObject>(); }
             List<ComObject> comObjects = new List<ComObject>();
-            try
+
+            Action<string> ParseComObjectsIn = SubKeyName =>
             {
-                SearchKey.GetSubKeyNames().AsParallel().ForAll(SubKeyName =>
+                try
                 {
-                    try
+                    RegistryKey CurrentKey = SearchKey.OpenSubKey(SubKeyName);
+
+                    var RegObj = RegistryWalker.RegistryKeyToRegistryObject(CurrentKey, View);
+
+                    if (RegObj != null)
                     {
-                        RegistryKey CurrentKey = SearchKey.OpenSubKey(SubKeyName);
+                        ComObject comObject = new ComObject(RegObj);
 
-                        var RegObj = RegistryWalker.RegistryKeyToRegistryObject(CurrentKey, View);
-
-                        if (RegObj != null)
+                        foreach (string ComDetails in CurrentKey.GetSubKeyNames())
                         {
-                            ComObject comObject = new ComObject(RegObj);
-
-                            foreach (string ComDetails in CurrentKey.GetSubKeyNames())
+                            if (ComDetails.Contains("InprocServer32"))
                             {
-                                if (ComDetails.Contains("InprocServer32"))
-                                {
-                                    var ComKey = CurrentKey.OpenSubKey(ComDetails);
-                                    var obj = RegistryWalker.RegistryKeyToRegistryObject(ComKey, View);
-                                    string? BinaryPath32 = null;
+                                var ComKey = CurrentKey.OpenSubKey(ComDetails);
+                                var obj = RegistryWalker.RegistryKeyToRegistryObject(ComKey, View);
+                                string? BinaryPath32 = null;
 
-                                    if (obj != null && obj.Values?.TryGetValue("", out BinaryPath32) is bool successful)
+                                if (obj != null && obj.Values?.TryGetValue("", out BinaryPath32) is bool successful)
+                                {
+                                    if (successful && BinaryPath32 != null)
                                     {
-                                        if (successful && BinaryPath32 != null)
-                                        {
                                             // Clean up cases where some extra spaces are thrown into the start (breaks our permission checker)
                                             BinaryPath32 = BinaryPath32.Trim();
                                             // Clean up cases where the binary is quoted (also breaks permission checker)
                                             if (BinaryPath32.StartsWith("\"") && BinaryPath32.EndsWith("\""))
-                                            {
-                                                BinaryPath32 = BinaryPath32.AsSpan().Slice(1, BinaryPath32.Length - 2).ToString();
-                                            }
+                                        {
+                                            BinaryPath32 = BinaryPath32.AsSpan().Slice(1, BinaryPath32.Length - 2).ToString();
+                                        }
                                             // Unqualified binary name probably comes from Windows\System32
                                             if (!BinaryPath32.Contains("\\") && !BinaryPath32.Contains("%"))
-                                            {
-                                                BinaryPath32 = Path.Combine(Environment.SystemDirectory, BinaryPath32.Trim());
-                                            }
-
-                                            comObject.x86_Binary = FileSystemCollector.FilePathToFileSystemObject(BinaryPath32.Trim(), true);
+                                        {
+                                            BinaryPath32 = Path.Combine(Environment.SystemDirectory, BinaryPath32.Trim());
                                         }
+
+                                        comObject.x86_Binary = FileSystemCollector.FilePathToFileSystemObject(BinaryPath32.Trim(), true);
                                     }
                                 }
-                                if (ComDetails.Contains("InprocServer64"))
-                                {
-                                    var ComKey = CurrentKey.OpenSubKey(ComDetails);
-                                    var obj = RegistryWalker.RegistryKeyToRegistryObject(ComKey, View);
-                                    string? BinaryPath64 = null;
+                            }
+                            if (ComDetails.Contains("InprocServer64"))
+                            {
+                                var ComKey = CurrentKey.OpenSubKey(ComDetails);
+                                var obj = RegistryWalker.RegistryKeyToRegistryObject(ComKey, View);
+                                string? BinaryPath64 = null;
 
-                                    if (obj != null && obj.Values?.TryGetValue("", out BinaryPath64) is bool successful)
+                                if (obj != null && obj.Values?.TryGetValue("", out BinaryPath64) is bool successful)
+                                {
+                                    if (successful && BinaryPath64 != null)
                                     {
-                                        if (successful && BinaryPath64 != null)
-                                        {
                                             // Clean up cases where some extra spaces are thrown into the start (breaks our permission checker)
                                             BinaryPath64 = BinaryPath64.Trim();
                                             // Clean up cases where the binary is quoted (also breaks permission checker)
                                             if (BinaryPath64.StartsWith("\"") && BinaryPath64.EndsWith("\""))
-                                            {
-                                                BinaryPath64 = BinaryPath64.AsSpan().Slice(1, BinaryPath64.Length - 2).ToString();
-                                            }
+                                        {
+                                            BinaryPath64 = BinaryPath64.AsSpan().Slice(1, BinaryPath64.Length - 2).ToString();
+                                        }
                                             // Unqualified binary name probably comes from Windows\System32
                                             if (!BinaryPath64.Contains("\\") && !BinaryPath64.Contains("%"))
-                                            {
-                                                BinaryPath64 = Path.Combine(Environment.SystemDirectory, BinaryPath64.Trim());
-                                            }
-
-                                            comObject.x64_Binary = FileSystemCollector.FilePathToFileSystemObject(BinaryPath64.Trim(), true);
+                                        {
+                                            BinaryPath64 = Path.Combine(Environment.SystemDirectory, BinaryPath64.Trim());
                                         }
+
+                                        comObject.x64_Binary = FileSystemCollector.FilePathToFileSystemObject(BinaryPath64.Trim(), true);
                                     }
                                 }
                             }
-
-                            comObjects.Add(comObject);
                         }
-                    }
-                    catch (Exception e) when (
-                        e is System.Security.SecurityException
-                        || e is ObjectDisposedException
-                        || e is UnauthorizedAccessException
-                        || e is IOException)
-                    {
-                        Log.Debug($"Couldn't parse {SubKeyName}");
-                    }
 
-                });
-            }
-            catch (Exception e) when (
-                e is System.Security.SecurityException
-                || e is ObjectDisposedException
-                || e is UnauthorizedAccessException
-                || e is IOException)
+                        comObjects.Add(comObject);
+                    }
+                }
+                catch (Exception e) when (
+                    e is System.Security.SecurityException
+                    || e is ObjectDisposedException
+                    || e is UnauthorizedAccessException
+                    || e is IOException)
+                {
+                    Log.Debug($"Couldn't parse {SubKeyName}");
+                }
+            };
+
+            try
             {
-                Log.Debug($"Failing parsing com objects {SearchKey.Name} {e.GetType().ToString()} {e.Message}");
+                if (SingleThreaded)
+                {
+                    foreach(var subKey in SearchKey.GetSubKeyNames())
+                    {
+                        ParseComObjectsIn(subKey);
+                    }
+                }
+                else
+                {
+                    SearchKey.GetSubKeyNames().AsParallel().ForAll(subKey => ParseComObjectsIn(subKey));
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Debug("Failing parsing com objects {0} {1}", SearchKey.Name, e.GetType());
             }
 
             return comObjects;
