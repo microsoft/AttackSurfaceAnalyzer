@@ -145,6 +145,9 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             opts.EnableComObjectCollector = Com;
             opts.EnableFirewallCollector = Firewall;
             opts.EnableEventLogCollector = Log;
+            opts.Verbose = Logger.Verbose;
+            opts.Debug = Logger.Debug;
+            opts.Quiet = Logger.Quiet;
 
             opts.DatabaseFilename = DatabaseManager.SqliteFilename;
 
@@ -202,6 +205,9 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                     RunId = RunId,
                     EnableFileSystemMonitor = true,
                     MonitoredDirectories = Directory,
+                    Verbose = Logger.Verbose,
+                    Debug = Logger.Debug,
+                    Quiet = Logger.Quiet
                 };
                 AttackSurfaceAnalyzerClient.ClearMonitors();
                 return Json((int)AttackSurfaceAnalyzerClient.RunGuiMonitorCommand(opts));

@@ -8,6 +8,10 @@ namespace AttackSurfaceAnalyzer.Utils
     public static class Logger
     {
 
+        public static bool Verbose { get; set; }
+        public static bool Debug { get; set; }
+        public static bool Quiet { get; set; }
+
         public static void Setup()
         {
             Setup(false, false);
@@ -20,6 +24,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static void Setup(bool debug, bool verbose, bool quiet)
         {
+            (Verbose, Debug, Quiet) = (verbose, debug, quiet);
             if (quiet)
             {
                 Log.Logger = new LoggerConfiguration()
