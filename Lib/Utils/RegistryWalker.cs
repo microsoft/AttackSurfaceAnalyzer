@@ -40,16 +40,14 @@ namespace AttackSurfaceAnalyzer.Utils
                     var key = keys.Pop();
                     try
                     {
-                        RegistryKey currentKey = BaseKey.OpenSubKey(key, writable: false);
+                        RegistryKey currentKey = BaseKey.OpenSubKey(key);
 
-                        if (currentKey == null)
+                        if (currentKey != null)
                         {
-                            continue;
-                        }
-
-                        foreach (string subkey in currentKey.GetSubKeyNames())
-                        {
-                            keys.Push(subkey);
+                            foreach (string subkey in currentKey.GetSubKeyNames())
+                            {
+                                keys.Push(subkey);
+                            }
                         }
                     }
                     catch (Exception) { }

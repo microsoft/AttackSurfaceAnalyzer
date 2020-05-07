@@ -65,7 +65,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             foreach (var hive in Hives)
             {
-                Log.Debug("Starting " + hive.ToString());
+                Log.Debug("Starting {0}\\{1}", hive.Item1, hive.Item2);
                 using var BaseKey32 = RegistryKey.OpenBaseKey(hive.Item1, RegistryView.Registry32);
                 using var BaseKey64 = RegistryKey.OpenBaseKey(hive.Item1, RegistryView.Registry64);
 
@@ -93,6 +93,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                 var x86_Enumerable = RegistryWalker.WalkHive(hive.Item1, RegistryView.Registry32, hive.Item2);
                 var x64_Enumerable = RegistryWalker.WalkHive(hive.Item1, RegistryView.Registry64, hive.Item2);
 
+                var list = x86_Enumerable.ToList();
+
                 if (Parallelize)
                 {
 
@@ -118,7 +120,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         IterateOn(hive.Item1, registryKey, RegistryView.Registry64);
                     }
                 }
-                Log.Debug("Finished " + hive.ToString());
+                Log.Debug("Finished {0}\\{1}",hive.Item1,hive.Item2);
             }
         }
     }
