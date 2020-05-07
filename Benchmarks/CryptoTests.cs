@@ -1,5 +1,4 @@
-﻿using AttackSurfaceAnalyzer.Objects;
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
 using Murmur;
 using Newtonsoft.Json;
 using Serilog;

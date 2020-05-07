@@ -74,13 +74,13 @@ namespace AttackSurfaceAnalyzer.Collectors
                 throw new ArgumentNullException(nameof(secondRunId));
             }
 
-            var differentObjects = DatabaseManager.GetAllMissing(firstRunId, secondRunId).Select(y => (y.ColObj,y.RunId));
-            var modifyObjects = DatabaseManager.GetModified(firstRunId, secondRunId).Select(y => (y.Item1.ColObj,y.Item2.ColObj));
+            var differentObjects = DatabaseManager.GetAllMissing(firstRunId, secondRunId).Select(y => (y.ColObj, y.RunId));
+            var modifyObjects = DatabaseManager.GetModified(firstRunId, secondRunId).Select(y => (y.Item1.ColObj, y.Item2.ColObj));
 
             Compare(differentObjects, modifyObjects, firstRunId, secondRunId);
         }
 
-        public void Compare(IEnumerable<(CollectObject,string)> differentObjects, IEnumerable<(CollectObject, CollectObject)> modifiedObjects, string firstRunId, string secondRunId)
+        public void Compare(IEnumerable<(CollectObject, string)> differentObjects, IEnumerable<(CollectObject, CollectObject)> modifiedObjects, string firstRunId, string secondRunId)
         {
             if (firstRunId == null)
             {

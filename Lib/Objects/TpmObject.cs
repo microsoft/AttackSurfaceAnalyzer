@@ -1,14 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace AttackSurfaceAnalyzer.Objects
 {
     public class TpmObject : CollectObject
     {
-        public Dictionary<string,byte[]> NV { get; set; }     
+        public Dictionary<string, byte[]> NV { get; set; }
 
         public TpmObject()
         {

@@ -3,13 +3,11 @@
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Win32;
-using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -21,7 +19,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         private readonly List<(RegistryHive, string)> Hives;
         private readonly bool Parallelize;
 
-        private static readonly List<(RegistryHive,string)> DefaultHives = new List<(RegistryHive,string)>()
+        private static readonly List<(RegistryHive, string)> DefaultHives = new List<(RegistryHive, string)>()
         {
             (RegistryHive.ClassesRoot,string.Empty), (RegistryHive.CurrentConfig,string.Empty), (RegistryHive.CurrentUser,string.Empty), (RegistryHive.LocalMachine,string.Empty), (RegistryHive.Users,string.Empty)
         };
@@ -41,14 +39,14 @@ namespace AttackSurfaceAnalyzer.Collectors
                 {
                     this.Hives = new List<(RegistryHive, string)>();
                     var splits = hiveString.Split(',');
-                    foreach(var split in splits)
+                    foreach (var split in splits)
                     {
                         var innerSplit = split.Split('\\');
-                        if (Enum.TryParse(typeof(RegistryHive),innerSplit[0],out object? result))
+                        if (Enum.TryParse(typeof(RegistryHive), innerSplit[0], out object? result))
                         {
                             if (result is RegistryHive selectedHive)
                             {
-                                this.Hives.Add((selectedHive, innerSplit.Length>1?string.Join('\\',innerSplit[1..]):string.Empty));
+                                this.Hives.Add((selectedHive, innerSplit.Length > 1 ? string.Join('\\', innerSplit[1..]) : string.Empty));
                             }
                         }
                     }
@@ -120,7 +118,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         IterateOn(hive.Item1, registryKey, RegistryView.Registry64);
                     }
                 }
-                Log.Debug("Finished {0}\\{1}",hive.Item1,hive.Item2);
+                Log.Debug("Finished {0}\\{1}", hive.Item1, hive.Item2);
             }
         }
     }

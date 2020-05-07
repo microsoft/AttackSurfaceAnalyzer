@@ -5,10 +5,8 @@ using Microsoft.Data.Sqlite;
 using Serilog;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,7 +21,7 @@ namespace AttackSurfaceAnalyzer.Objects
         public bool KeepRunning { get; set; }
         public string Source { get; set; }
         public bool IsWriting { get; private set; }
-        private WriteObject[] innerQueue;
+        private readonly WriteObject[] innerQueue;
 
         private readonly DBSettings settings;
 
@@ -120,7 +118,7 @@ namespace AttackSurfaceAnalyzer.Objects
             string SQL_INSERT_COLLECT_RESULT = "insert or ignore into collect (run_id, result_type, row_key, identity, serialized) values ";
 
             var count = Math.Min(settings.BatchSize, WriteQueue.Count);
-            var actual = WriteQueue.TryPopRange(innerQueue,0,count);
+            var actual = WriteQueue.TryPopRange(innerQueue, 0, count);
 
             if (actual > 0)
             {
