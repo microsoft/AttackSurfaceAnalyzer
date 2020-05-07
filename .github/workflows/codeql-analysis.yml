@@ -38,7 +38,7 @@ jobs:
     #    uses a compiled language
 
     - run: |
-       dotnet tool install -g Nerdbank.Gitversioning
+       dotnet tool install -g nbgv
        dotnet build Lib
        dotnet build Cli
 
