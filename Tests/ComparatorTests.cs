@@ -39,58 +39,42 @@ namespace AttackSurfaceAnalyzer.Tests
             DatabaseManager.Destroy();
         }
 
-        // TODO: Write more tests for better coverage
-
         [TestMethod]
-        public void TestFileCompare()
+        public void TestListOfStringsCompare()
         {
             var FirstRunId = "TestFileCollector-1";
             var SecondRunId = "TestFileCollector-2";
 
-            var testFolder = AsaHelpers.GetTempFolder();
-            Directory.CreateDirectory(testFolder);
-
-            var opts = new CollectCommandOptions()
-            {
-                RunId = FirstRunId,
-                EnableFileSystemCollector = true,
-                GatherHashes = true,
-                SelectedDirectories = testFolder,
-                DownloadCloud = false,
-            };
-
             var NewItems = new List<CollectObject>(){
-                new FileSystemObject("TestPath2")
+                new RegistryObject("UnchangedEntry", RegistryView.Default)
                 {
-                    IsExecutable = true,
-                    Size = 701
+                    Subkeys = new List<string>()
+                    {
+                        "UnchangedKey"
+                    }
                 },
-                new FileSystemObject("TestPath3")
+                new RegistryObject("ChangingEntry", RegistryView.Default)
                 {
-                    IsExecutable = false,
-                    Size = 701
-                },
-                new FileSystemObject("TestPath4")
-                {
-                    IsExecutable = false,
-                    Size = 701
+                    Subkeys = new List<string>()
+                    {
+                        "KeyTwo"
+                    }
                 }
             };
             var OldItems = new List<CollectObject>(){
-                new FileSystemObject("TestPath2")
+                new RegistryObject("UnchangedEntry", RegistryView.Default)
                 {
-                    IsExecutable = true,
-                    Size = 701
+                    Subkeys = new List<string>()
+                    {
+                        "UnchangedKey"
+                    }
                 },
-                new FileSystemObject("TestPath")
+                new RegistryObject("ChangingEntry", RegistryView.Default)
                 {
-                    IsExecutable = false,
-                    Size = 701
-                },
-                new FileSystemObject("TestPath4")
-                {
-                    IsExecutable = true,
-                    Size = 701
+                    Subkeys = new List<string>()
+                    {
+                        "KeyOne"
+                    }
                 }
             };
 
@@ -98,11 +82,187 @@ namespace AttackSurfaceAnalyzer.Tests
             bc.Compare(OldItems, NewItems, FirstRunId, SecondRunId);
             var results = bc.Results;
 
-            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.CREATED)].Any(x => x.Compare is FileSystemObject FSO && FSO.Identity.Contains("TestPath3") && FSO.Size == 701));
-            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.DELETED)].Any(x => x.Base is FileSystemObject FSO && FSO.Identity.Contains("TestPath") && FSO.Size == 701));
-            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("TestPath4") && x.Compare is FileSystemObject FSO && x.Base is FileSystemObject FSO2 && FSO.IsExecutable == false && FSO2.IsExecutable == true));
-            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Diffs.Any(y => y.Field == "IsExecutable") && x.Identity.Contains("TestPath4")));
-            Assert.IsFalse(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("TestPath2")));
+            Assert.IsTrue(results[(RESULT_TYPE.REGISTRY, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("ChangingEntry") && x.Base is RegistryObject FSO && x.Compare is RegistryObject FSO2 && FSO.Subkeys.Contains("KeyOne") && FSO2.Subkeys.Contains("KeyTwo")));
+            Assert.IsTrue(results[(RESULT_TYPE.REGISTRY, CHANGE_TYPE.MODIFIED)].Any(x => x.Diffs.Any(y => y.Field == "Subkeys") && x.Identity.Contains("ChangingEntry")));
+            Assert.IsFalse(results[(RESULT_TYPE.REGISTRY, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("UnchangedEntry")));
+        }
+
+        [TestMethod]
+        public void TestDictionaryOfStringsCompare()
+        {
+            var FirstRunId = "TestFileCollector-1";
+            var SecondRunId = "TestFileCollector-2";
+
+            var NewItems = new List<CollectObject>(){
+                new FileSystemObject("UnchangedEntry")
+                {
+                    Permissions = new Dictionary<string, string>()
+                    {
+                        { "User","Read" }
+                    }
+                },
+                new FileSystemObject("ChangingEntry")
+                {
+                    Permissions = new Dictionary<string, string>()
+                    {
+                        { "User","ReadWrite" }
+                    }                
+                }
+            };
+            var OldItems = new List<CollectObject>(){
+                new FileSystemObject("UnchangedEntry")
+                {
+                    Permissions = new Dictionary<string, string>()
+                    {
+                        { "User","Read" }
+                    }
+                },
+                new FileSystemObject("ChangingEntry")
+                {
+                    Permissions = new Dictionary<string, string>()
+                    {
+                        { "User","Read" }
+                    }
+                }
+            };
+
+            BaseCompare bc = new BaseCompare();
+            bc.Compare(OldItems, NewItems, FirstRunId, SecondRunId);
+            var results = bc.Results;
+
+            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Equals("ChangingEntry") && x.Base is FileSystemObject FSO && x.Compare is FileSystemObject FSO2 && FSO.Permissions.ContainsValue("Read") && FSO2.Permissions.ContainsValue("ReadWrite")));
+            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Diffs.Any(y => y.Field == "Permissions") && x.Identity.Equals("ChangingEntry")));
+            Assert.IsFalse(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Equals("UnchangedEntry")));
+        }
+
+        [TestMethod]
+        public void TestStringCompare()
+        {
+            var FirstRunId = "TestFileCollector-1";
+            var SecondRunId = "TestFileCollector-2";
+
+            var NewItems = new List<CollectObject>(){
+                new FileSystemObject("ChangingEntry")
+                {
+                    PermissionsString = "Unchanged"
+                },
+                new FileSystemObject("UnchangedEntry")
+                {
+                    PermissionsString = "After"
+                }
+            };
+            var OldItems = new List<CollectObject>(){
+                new FileSystemObject("ChangingEntry")
+                {
+                    PermissionsString = "Unchanged"
+                },
+                new FileSystemObject("UnchangedEntry")
+                {
+                    PermissionsString = "Before"
+                }
+            };
+
+            BaseCompare bc = new BaseCompare();
+            bc.Compare(OldItems, NewItems, FirstRunId, SecondRunId);
+            var results = bc.Results;
+
+            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("UnchangedEntry") && x.Base is FileSystemObject FSO && x.Compare is FileSystemObject FSO2 && FSO.PermissionsString == "Before" && FSO2.PermissionsString == "After"));
+            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Diffs.Any(y => y.Field == "PermissionsString") && x.Identity.Contains("UnchangedEntry")));
+            Assert.IsFalse(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("ChangingEntry")));
+        }
+
+        [TestMethod]
+        public void TestBoolCompare()
+        {
+            var FirstRunId = "TestFileCollector-1";
+            var SecondRunId = "TestFileCollector-2";
+
+            var NewItems = new List<CollectObject>(){
+                new FileSystemObject("ChangingEntry")
+                {
+                    IsExecutable = true,
+                },
+                new FileSystemObject("UnchangedEntry")
+                {
+                    IsExecutable = false,
+                }
+            };
+            var OldItems = new List<CollectObject>(){
+                new FileSystemObject("ChangingEntry")
+                {
+                    IsExecutable = true,
+                },
+                new FileSystemObject("UnchangedEntry")
+                {
+                    IsExecutable = true,
+                }
+            };
+
+            BaseCompare bc = new BaseCompare();
+            bc.Compare(OldItems, NewItems, FirstRunId, SecondRunId);
+            var results = bc.Results;
+
+            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("UnchangedEntry") && x.Base is FileSystemObject FSO && x.Compare is FileSystemObject FSO2 && FSO.IsExecutable == true && FSO2.IsExecutable == false));
+            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Diffs.Any(y => y.Field == "IsExecutable") && x.Identity.Contains("UnchangedEntry")));
+            Assert.IsFalse(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("ChangingEntry")));
+        }
+
+        [TestMethod]
+        public void TestAddedDeleted()
+        {
+            var FirstRunId = "TestFileCollector-1";
+            var SecondRunId = "TestFileCollector-2";
+
+            var NewItems = new List<CollectObject>(){
+                new FileSystemObject("SecondEntry")
+                {
+                    IsExecutable = true,
+                }
+            };
+            var OldItems = new List<CollectObject>(){
+                new FileSystemObject("FirstEntry")
+                {
+                    IsExecutable = true,
+                }
+            };
+
+            BaseCompare bc = new BaseCompare();
+            bc.Compare(OldItems, NewItems, FirstRunId, SecondRunId);
+            var results = bc.Results;
+            
+            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.CREATED)].Any(x => x.Compare is FileSystemObject FSO && FSO.Identity.Contains("SecondEntry") && FSO.IsExecutable == true));
+            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.DELETED)].Any(x => x.Base is FileSystemObject FSO && FSO.Identity.Contains("FirstEntry") && FSO.IsExecutable == true));
+        }
+
+
+        [TestMethod]
+        public void TestIntCompare()
+        {
+            var FirstRunId = "TestFileCollector-1";
+            var SecondRunId = "TestFileCollector-2";
+
+            var NewItems = new List<CollectObject>(){
+                new FileSystemObject("UnchangedEntry"),
+                new FileSystemObject("ChangingEntry")
+                {
+                    Size = 701
+                }
+            };
+            var OldItems = new List<CollectObject>(){
+                new FileSystemObject("UnchangedEntry"),
+                new FileSystemObject("ChangingEntry")
+                {
+                    Size = 501
+                }
+            };
+
+            BaseCompare bc = new BaseCompare();
+            bc.Compare(OldItems, NewItems, FirstRunId, SecondRunId);
+            var results = bc.Results;
+
+            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("ChangingEntry") && x.Base is FileSystemObject FSO && x.Compare is FileSystemObject FSO2 && FSO.Size == 501 && FSO2.Size == 701));
+            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Diffs.Any(y => y.Field == "Size") && x.Identity.Contains("ChangingEntry"))) ;
+            Assert.IsFalse(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("UnchangedEntry")));
         }
     }
 }
