@@ -125,13 +125,9 @@ namespace AttackSurfaceAnalyzer.Utils
                 var ourKey = BaseKey.OpenSubKey(registryKey, false);
                 return RegistryKeyToRegistryObject(ourKey, registryView);
             }
-            catch (Exception e) when (
-                e is IOException ||
-                e is ArgumentException ||
-                e is UnauthorizedAccessException ||
-                e is System.Security.SecurityException)
+            catch (Exception e)
             {
-                Log.Debug($"Failed to open Key {hive}\\{registryKey} for walking.");
+                Log.Debug($"Failed to open Key {hive}\\{registryKey} for walking. {e.GetType()}");
             }
             return null;
         }
