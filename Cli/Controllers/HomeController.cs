@@ -41,7 +41,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         public ActionResult GetMonitorResults(string RunId, int Offset, int NumResults)
         {
-            List<OutputFileMonitorResult> results = DatabaseManager.GetMonitorResults(RunId, Offset, NumResults);
+            List<FileMonitorObject> results = DatabaseManager.GetMonitorResults(RunId, Offset, NumResults);
 
             Dictionary<string, object> output = new Dictionary<string, object>();
 
@@ -80,17 +80,21 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
         public ActionResult GetCollectors()
         {
             Dictionary<string, RUN_STATUS> dict = new Dictionary<string, RUN_STATUS>();
-            string RunId = DatabaseManager.GetLatestRunIds(1, RUN_TYPE.COLLECT)[0];
-
-            foreach (BaseCollector c in AttackSurfaceAnalyzerClient.GetCollectors())
-            {
-                var fullString = c.GetType().ToString();
-                var splits = fullString.Split('.');
-                dict.Add(splits[splits.Length - 1], c.RunStatus);
-            }
             Dictionary<string, object> output = new Dictionary<string, object>();
-            output.Add("RunId", RunId);
-            output.Add("Runs", dict);
+
+            var RunId = DatabaseManager.GetLatestRunIds(1, RUN_TYPE.COLLECT);
+
+            if (RunId.Count > 0)
+            {
+                foreach (BaseCollector c in AttackSurfaceAnalyzerClient.GetCollectors())
+                {
+                    var fullString = c.GetType().ToString();
+                    var splits = fullString.Split('.');
+                    dict.Add(splits[splits.Length - 1], c.RunStatus);
+                }
+                output.Add("RunId", RunId[0]);
+                output.Add("Runs", dict);
+            }
             return Json(JsonConvert.SerializeObject(output));
         }
 
