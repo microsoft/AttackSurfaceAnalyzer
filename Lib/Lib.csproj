@@ -79,12 +79,4 @@
 	<None Include="..\icon-128.png" Pack="true" PackagePath="" />
 	<None Include="..\LICENSE.txt" Pack="true" PackagePath="" />
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Tpm2TesterFramework">
-      <HintPath>..\Tests\Tpm2TesterFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="TSS.Net">
-      <HintPath>TSS.Net.dll</HintPath>
-    </Reference>
-  </ItemGroup>
 </Project>

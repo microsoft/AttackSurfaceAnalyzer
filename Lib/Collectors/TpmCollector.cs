@@ -11,7 +11,6 @@ using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Text;
 using Tpm2Lib;
-using Tpm2Tester;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {

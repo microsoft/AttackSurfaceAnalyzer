@@ -148,14 +148,6 @@ namespace AttackSurfaceAnalyzer.Tests
                 {
                     Log.Debug(e, "Failed to Write PCR.");
                 }
-
-                tcpTpmDevice.Close();
-
-                process.Kill();
-
-                process = TpmSim.GetTpmSimulator();
-                process.Start();
-
                 // Execute the collector
                 tpmc.Execute();
 
@@ -167,14 +159,14 @@ namespace AttackSurfaceAnalyzer.Tests
                 {
                     if (collectObject is TpmObject tpmObject)
                     {
+                        // We should be able to confirm that the PCR bank we measured into has changed and that other's haven't
+                        Assert.IsTrue(tpmObject.PCRs[(TpmAlgId.Sha256, 16)].SequenceEqual(pcrs[(TpmAlgId.Sha256, 16)]));
+                        Assert.IsFalse(tpmObject.PCRs[(TpmAlgId.Sha256, 16)].SequenceEqual(pcrs[(TpmAlgId.Sha256, 16)]));
+                        Assert.IsFalse(tpmObject.PCRs[(TpmAlgId.Sha256, 16)].SequenceEqual(tpmObject.PCRs[(TpmAlgId.Sha256, 15)]));
+
                         // We should be able to confirm the NV Data we wrote
                         Assert.IsTrue(tpmObject.NV.ContainsKey(nvIndex));
-                        Assert.IsTrue(tpmObject.NV[nvIndex] is byte[] bytes && bytes.SequenceEqual(nvData));
-
-                        // We should also be able to confirm that the PCR bank we measured into has changed and that other's haven't
-                        Assert.IsTrue(tpmObject.PCRs[(TpmAlgId.Sha1, 16)].SequenceEqual(pcrs[(TpmAlgId.Sha256, 16)]));
-                        Assert.IsFalse(tpmObject.PCRs[(TpmAlgId.Sha1, 16)].SequenceEqual(pcrs[(TpmAlgId.Sha256, 16)]));
-                        Assert.IsFalse(tpmObject.PCRs[(TpmAlgId.Sha1, 16)].SequenceEqual(tpmObject.PCRs[(TpmAlgId.Sha1, 15)]));
+                        Assert.IsTrue(tpmObject.NV[nvIndex] is AsaNvIndex nvi && nvi.value is byte[] && nvi.value.SequenceEqual(nvData));
                     }
                     else
                     {
