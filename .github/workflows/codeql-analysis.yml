@@ -12,15 +12,17 @@ jobs:
       fail-fast: false
 
     # CodeQL runs on ubuntu-latest and windows-latest
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
+
     - name: Setup .NET Core SDK
       uses: actions/setup-dotnet@v1.4.0
       with:
         dotnet-version: 3.1.201
+
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v1
