@@ -890,10 +890,11 @@ namespace AttackSurfaceAnalyzer.Cli
         {
             if (opts == null) { return -1; }
 #if DEBUG
-            Logger.Setup(true, opts.Verbose, opts.Quiet);
+                Logger.Setup(true, opts.Verbose, opts.Quiet);
 #else
-            Logger.Setup(opts.Debug, opts.Verbose, opts.Quiet);
+                Logger.Setup(opts.Debug, opts.Verbose, opts.Quiet);
 #endif
+
             var dbSettings = new DBSettings()
             {
                 ShardingFactor = opts.Shards
