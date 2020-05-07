@@ -28,13 +28,32 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         private readonly Action<RegistryObject>? customCrawlHandler;
 
-        public RegistryCollector(bool Parallelize) : this(DefaultHives, Parallelize, null) { }
+        public RegistryCollector(CollectCommandOptions opts) : this(DefaultHives, opts, null) { }
 
-        public RegistryCollector(List<(RegistryHive, string)> Hives, bool Parallelize, Action<RegistryObject>? customHandler = null)
+        public RegistryCollector(List<(RegistryHive, string)> Hives, CollectCommandOptions opts, Action<RegistryObject>? customHandler = null)
         {
             this.Hives = Hives;
             customCrawlHandler = customHandler;
-            this.Parallelize = Parallelize;
+            if (opts != null)
+            {
+                Parallelize = !opts.SingleThread;
+                if (opts.SelectedHives is string hiveString)
+                {
+                    this.Hives = new List<(RegistryHive, string)>();
+                    var splits = hiveString.Split(',');
+                    foreach(var split in splits)
+                    {
+                        var innerSplit = split.Split('\\');
+                        if (Enum.TryParse(typeof(RegistryHive),innerSplit[0],out object? result))
+                        {
+                            if (result is RegistryHive selectedHive)
+                            {
+                                this.Hives.Add((selectedHive, innerSplit.Length>1?string.Join('\\',innerSplit[1..]):string.Empty));
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         public override bool CanRunOnPlatform()
@@ -47,11 +66,22 @@ namespace AttackSurfaceAnalyzer.Collectors
             foreach (var hive in Hives)
             {
                 Log.Debug("Starting " + hive.ToString());
+                using var BaseKey32 = RegistryKey.OpenBaseKey(hive.Item1, RegistryView.Registry32);
+                using var BaseKey64 = RegistryKey.OpenBaseKey(hive.Item1, RegistryView.Registry64);
 
                 Action<RegistryHive, string, RegistryView> IterateOn = (registryHive, keyPath, registryView) =>
                 {
                     Log.Verbose("Beginning to parse {0}\\{1} in {2}", registryHive, keyPath, registryView);
-                    var regObj = RegistryWalker.RegistryKeyToRegistryObject(registryHive, keyPath, registryView);
+                    RegistryObject? regObj = null;
+                    try
+                    {
+                        var ourKey = registryView == RegistryView.Registry32 ? BaseKey32.OpenSubKey(keyPath) : BaseKey64.OpenSubKey(keyPath);
+                        regObj = RegistryWalker.RegistryKeyToRegistryObject(ourKey, registryView);
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Debug($"Failed to open Key {hive}\\{keyPath} for walking. {e.GetType()}");
+                    }
 
                     if (regObj != null)
                     {

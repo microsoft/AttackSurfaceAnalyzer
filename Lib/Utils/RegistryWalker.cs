@@ -114,22 +114,5 @@ namespace AttackSurfaceAnalyzer.Utils
 
             return regObj;
         }
-
-        public static RegistryObject? RegistryKeyToRegistryObject(RegistryHive hive, string registryKey, RegistryView registryView)
-        {
-            if (registryKey == null) { return null; }
-
-            try
-            {
-                using var BaseKey = RegistryKey.OpenBaseKey(hive, registryView);
-                var ourKey = BaseKey.OpenSubKey(registryKey, false);
-                return RegistryKeyToRegistryObject(ourKey, registryView);
-            }
-            catch (Exception e)
-            {
-                Log.Debug($"Failed to open Key {hive}\\{registryKey} for walking. {e.GetType()}");
-            }
-            return null;
-        }
     }
 }

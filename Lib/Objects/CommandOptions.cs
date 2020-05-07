@@ -131,6 +131,9 @@ namespace AttackSurfaceAnalyzer
         [Option("directories", Required = false, HelpText = "Comma separated list of paths to scan with FileSystemCollector")]
         public string? SelectedDirectories { get; set; }
 
+        [Option("hives", Required = false, HelpText = "Comma separated list of hives and subkeys to search.")]
+        public string? SelectedHives { get; set; }
+
         [Option(HelpText = "Download files from thin Cloud Folders (like OneDrive) to check them.")]
         public bool DownloadCloud { get; set; }
 
