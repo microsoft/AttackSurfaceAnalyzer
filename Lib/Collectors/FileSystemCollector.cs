@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Management;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Security.AccessControl;
@@ -28,6 +29,8 @@ namespace AttackSurfaceAnalyzer.Collectors
         private readonly bool INCLUDE_CONTENT_HASH;
         private readonly bool downloadCloud;
         private readonly bool parallel;
+
+        public static Dictionary<string, uint> ClusterSizes { get; set; } = new Dictionary<string, uint>();
 
         public FileSystemCollector(CollectCommandOptions opts)
         {
@@ -125,6 +128,12 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             foreach (var root in roots)
             {
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    var info = new FileInfo(root);
+                    using var searcher = new ManagementObjectSearcher("select BlockSize,NumberOfBlocks from Win32_Volume WHERE DriveLetter = '" + info.Directory.Root.FullName.TrimEnd('\\') + "'");
+                    ClusterSizes[info.Directory.Root.FullName] = (uint)((ManagementObject)searcher.Get().GetEnumerator().Current)["BlockSize"];
+                }
                 Log.Information("{0} root {1}", Strings.Get("Scanning"), root);
                 var filePathEnumerable = DirectoryWalker.WalkDirectory(root);
 
@@ -276,7 +285,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         var fileInfo = new FileInfo(path);
                         var size = (ulong)fileInfo.Length;
                         obj.Size = size;
-                        if (WindowsFileSystemUtils.IsLocal(obj.Path) || downloadCloud)
+                        if (downloadCloud || WindowsFileSystemUtils.IsLocal(obj.Path) || SizeOnDisk(path) > 0)
                         {
                             if (includeContentHash)
                             {
@@ -321,7 +330,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             }
                             break;
                         case FileTypes.RegularFile:
-                            if (i.HasContents)
+                            if (downloadCloud || SizeOnDisk(path) > 0)
                             {
                                 if (includeContentHash)
                                 {
@@ -369,5 +378,34 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             return obj;
         }
+
+        private static long SizeOnDisk(string path)
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                FileInfo info = new FileInfo(path);
+                uint clusterSize = ClusterSizes[info.Directory.Root.FullName];
+                uint lowSize = GetCompressedFileSizeW(path, out uint highSize);
+                long size = (long)highSize << 32 | lowSize;
+                return ((size + clusterSize - 1) / clusterSize) * clusterSize;
+            }
+            else
+            {
+                var exitCode = ExternalCommandRunner.RunExternalCommand("du", path, out string StdOut, out string StdErr);
+                if (exitCode == 0 && long.TryParse(StdOut.Split('\t')[0], out long result))
+                {
+                    return result;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+
+        [DllImport("kernel32.dll")]
+        static extern uint GetCompressedFileSizeW(
+            [In, MarshalAs(UnmanagedType.LPWStr)] string lpFileName,
+            [Out, MarshalAs(UnmanagedType.U4)] out uint lpFileSizeHigh);
     }
 }
