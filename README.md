@@ -2,25 +2,23 @@
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/microsoft/AttackSurfaceAnalyzer.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/microsoft/AttackSurfaceAnalyzer/context:javascript) [![Total alerts](https://img.shields.io/lgtm/alerts/g/microsoft/AttackSurfaceAnalyzer.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/microsoft/AttackSurfaceAnalyzer/alerts/)
 ## Getting Attack Surface Analyzer
 
-If you have .NET Core 3.1 installed you can install Attack Surface Analyzer with `dotnet tool install -g Microsoft.CST.AttackSurfaceAnalyzer.CLI` from [NuGet](https://www.nuget.org/packages/Microsoft.CST.AttackSurfaceAnalyzer.CLI/)
-
-While 2.2 is in Beta you may receive a message that you need to specify a version.  That message should include the latest version flag to use.
+If you have .NET Core 3.1 installed you can install Attack Surface Analyzer with `dotnet tool install -g Microsoft.CST.AttackSurfaceAnalyzer.CLI`.
 
 Platform specific binaries for Attack Surface Analyzer are distributed via our GitHub [releases](https://github.com/Microsoft/AttackSurfaceAnalyzer/releases/latest) page.
 
-The library is available on [NuGet](https://www.nuget.org/packages/Microsoft.CST.AttackSurfaceAnalyzer/)
-
 ## Note on Version
-The latest stable version of Attack Surface Analyzer is 2.1 (see [Release\v2.1](https://github.com/Microsoft/AttackSurfaceAnalyzer/tree/release/v2.1)).  
+The latest stable version of Attack Surface Analyzer is 2.2 (see [Release\v2.2](https://github.com/Microsoft/AttackSurfaceAnalyzer/tree/release/v2.2)).  
 
-2.2 is available in Beta. 
-
-2.3 is now in development.  You can see the features coming [here](https://github.com/microsoft/attacksurfaceanalyzer/issues?q=is%3Aissue+milestone%3Av2.3+).
+2.3 is now in development on the master branch.  You can see the features coming [here](https://github.com/microsoft/attacksurfaceanalyzer/issues?q=is%3Aissue+milestone%3Av2.3+).
 
 ## New Features in 2.2
 
 - Expanded analysis engine allowing users to define arbitrary boolean expressions across clauses and access sub properties of objects. See https://github.com/microsoft/AttackSurfaceAnalyzer/wiki/Analysis-Ruleset for more information on creating rules.
-- Improved collection and analysis performance.
+- Significantly improved collection and analysis performance.
+- MacOS binary signature checking
+- Support for C# 8 [nullable reference types](https://docs.microsoft.com/en-us/dotnet/csharp/nullable-references)
+- Improved database independent API
+- Updated [API documentation](https://microsoft.github.io/AttackSurfaceAnalyzer/api/index.html) and [Developer guide](https://github.com/microsoft/AttackSurfaceAnalyzer/wiki/Using-AsaLib)
 
 ## Overview
 
@@ -109,5 +107,5 @@ the [Security TechCenter](https://technet.microsoft.com/en-us/security/default).
 
 ## License
 
-Attack Surface Analyzer 2.x is licensed under the
+Attack Surface Analyzer 2 is licensed under the
 [MIT license](https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/LICENSE).
