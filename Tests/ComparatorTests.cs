@@ -311,9 +311,9 @@ namespace AttackSurfaceAnalyzer.Tests
 
             results = bc2.Results;
 
-            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("UnchangedEntry") && x.Base is FileSystemObject FSO && x.Compare is FileSystemObject FSO2 && FSO.IsExecutable == true && FSO2.IsExecutable == false));
-            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Diffs.Any(y => y.Field == "IsExecutable") && x.Identity.Contains("UnchangedEntry")));
-            Assert.IsFalse(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("ChangingEntry")));
+
+            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.CREATED)].Any(x => x.Compare is FileSystemObject FSO && FSO.Identity.Contains("SecondEntry") && FSO.IsExecutable == true));
+            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.DELETED)].Any(x => x.Base is FileSystemObject FSO && FSO.Identity.Contains("FirstEntry") && FSO.IsExecutable == true));
         }
 
 

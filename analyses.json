@@ -804,6 +804,10 @@
       "ResultType": "FILE",
       "Clauses": [
         {
+          "Operation": "IS_TRUE",
+          "Field": "IsExecutable"
+        },
+        {
           "Field": "Path",
           "Operation": "ENDS_WITH",
           "Data": [
@@ -816,10 +820,6 @@
             "\\Tracker.exe",
             "\\Microsoft\\Teams\\update.exe"
           ]
-        },
-        {
-          "Operation": "IS_TRUE",
-          "Field": "IsExecutable"
         }
       ]
     },
