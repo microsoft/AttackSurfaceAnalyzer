@@ -48,7 +48,7 @@
         "MODIFIED"
       ],
       "ResultType": "FILE",
-      "Expression": "is_exe AND NOT valid_windows_signature AND null_mac_signature)",
+      "Expression": "is_exe AND NOT valid_windows_signature AND null_mac_signature",
       "Clauses": [
         {
           "Label": "is_exe",
