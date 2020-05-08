@@ -306,9 +306,11 @@ namespace AttackSurfaceAnalyzer.Types
         UDP
     }
 
+
     /// <summary>
     /// From https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.addressfamily?view=netcore-3.1
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1069:Enums values should not be duplicated", Justification = "See documentation in comment.")]
     public enum ADDRESS_FAMILY
     {
         AppleTalk = 16,
