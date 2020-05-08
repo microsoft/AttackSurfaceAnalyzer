@@ -8,7 +8,7 @@ using System.Security.Principal;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
-    public class Elevation
+    public static class Elevation
     {
         #region Helper Functions for Admin Privileges and Elevation Status
 
@@ -26,7 +26,7 @@ namespace AttackSurfaceAnalyzer.Utils
         /// When any native Windows API call fails, the function throws a Win32Exception 
         /// with the last error code.
         /// </exception>
-        internal bool IsUserInAdminGroup()
+        internal static bool IsUserInAdminGroup()
         {
             bool fInAdminGroup = false;
             SafeTokenHandle? hToken = null;
@@ -184,7 +184,7 @@ namespace AttackSurfaceAnalyzer.Utils
         /// Level == High). In other words, it is not safe to say if the process is 
         /// elevated based on elevation type. Instead, we should use TokenElevation. 
         /// </remarks>
-        internal bool IsProcessElevated()
+        internal static bool IsProcessElevated()
         {
             bool fIsElevated = false;
             SafeTokenHandle? hToken = null;
@@ -234,10 +234,10 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
                 else
                 {
+#pragma warning disable CA1303 // Do not pass literals as localized parameters
                     throw new NullReferenceException(nameof(elevation));
+#pragma warning restore CA1303 // Do not pass literals as localized parameters
                 }
-
-
             }
             finally
             {
@@ -254,7 +254,6 @@ namespace AttackSurfaceAnalyzer.Utils
 
             return fIsElevated;
         }
-
 
         /// <summary>
         /// The function gets the integrity level of the current process. Integrity 
@@ -358,7 +357,9 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
                 else
                 {
+#pragma warning disable CA1303 // Do not pass literals as localized parameters
                     throw new NullReferenceException(nameof(tokenMandatoryLabel));
+#pragma warning restore CA1303 // Do not pass literals as localized parameters
                 }
             }
             finally
@@ -378,7 +379,6 @@ namespace AttackSurfaceAnalyzer.Utils
         }
 
         #endregion
-
 
         public static bool QueryElevation()
         {

@@ -304,7 +304,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             return runModels;
         }
 
-        private IEnumerable<DataRunModel> GetResultModels()
+        private static IEnumerable<DataRunModel> GetResultModels()
         {
             List<DataRunModel> DataModels = DatabaseManager.GetResultModels(RUN_STATUS.COMPLETED);
 

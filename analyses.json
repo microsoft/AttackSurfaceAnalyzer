@@ -43,25 +43,30 @@
       "Name": "Unsigned binaries",
       "Description": "Flag when unsigned/incorrectly signed binaries are added.",
       "Flag": "WARNING",
-      "Platforms": [
-        "WINDOWS"
-      ],
       "ChangeTypes": [
         "CREATED",
         "MODIFIED"
       ],
       "ResultType": "FILE",
+      "Expression": "is_exe AND NOT valid_windows_signature AND null_mac_signature",
       "Clauses": [
         {
+          "Label": "is_exe",
           "Field": "IsExecutable",
           "Operation": "IS_TRUE"
         },
         {
+          "Label": "valid_windows_signature",
           "Field": "SignatureStatus",
           "Operation": "NEQ",
           "Data": [
             "Valid"
           ]
+        },
+        {
+          "Label": "null_mac_signature",
+          "Field": "MacSignatureStatus",
+          "Operation": "IS_NULL"
         }
       ]
     },
@@ -686,20 +691,29 @@
       "Name": "Signed File was modified",
       "Description": "A signed file was modified.",
       "Flag": "WARNING",
-      "Platforms": [
-        "WINDOWS"
-      ],
       "ChangeTypes": [
         "MODIFIED"
       ],
       "ResultType": "FILE",
+      "Expression": "is_exe AND (windows OR NOT macos_null)",
       "Clauses": [
         {
+          "Label": "is_exe",
+          "Field": "IsExecutable",
+          "Operation": "IS_TRUE"
+        },
+        {
+          "Label": "windows",
           "Field": "SignatureStatus",
           "Operation": "EQ",
           "Data": [
             "Valid"
           ]
+        },
+        {
+          "Label": "macos_null",
+          "Field": "MacSignatureStatus",
+          "Operation": "IS_NULL"
         }
       ]
     },
@@ -790,6 +804,10 @@
       "ResultType": "FILE",
       "Clauses": [
         {
+          "Operation": "IS_TRUE",
+          "Field": "IsExecutable"
+        },
+        {
           "Field": "Path",
           "Operation": "ENDS_WITH",
           "Data": [
@@ -802,10 +820,6 @@
             "\\Tracker.exe",
             "\\Microsoft\\Teams\\update.exe"
           ]
-        },
-        {
-          "Operation": "IS_TRUE",
-          "Field": "IsExecutable"
         }
       ]
     },

@@ -73,16 +73,13 @@ namespace AttackSurfaceAnalyzer.Cli
 #endif
             var analyzer = new Analyzer(AsaHelpers.GetPlatform(), opts.AnalysisFile);
             var violations = analyzer.VerifyRules();
-
+            Analyzer.PrintViolations(violations);
             if (violations.Any())
             {
-                foreach (var violation in violations)
-                {
-                    Log.Warning(violation);
-                }
-                Log.Error("Encountered {0} issues with rule at {1}", violations.Count, opts.AnalysisFile ?? "Embedded");
+                Log.Error("Encountered {0} issues with rules at {1}", violations.Count, opts.AnalysisFile ?? "Embedded");
                 return (int)ASA_ERROR.INVALID_RULES;
             }
+            Log.Information("Rules successfully verified. ✅");
             return (int)ASA_ERROR.NONE;
         }
 
@@ -725,13 +722,9 @@ namespace AttackSurfaceAnalyzer.Cli
                 Analyzer analyzer = new Analyzer(DatabaseManager.RunIdToPlatform(opts.FirstRunId), opts.AnalysesFile);
 
                 var violations = analyzer.VerifyRules();
-
+                Analyzer.PrintViolations(violations);
                 if (violations.Any())
                 {
-                    foreach (var violation in violations)
-                    {
-                        Log.Warning(violation);
-                    }
                     Log.Error("Encountered {0} issues with rules in {1}. Skipping analysis.", violations.Count, opts.AnalysesFile ?? "Embedded");
                 }
                 else
