@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -1095,6 +1096,17 @@ namespace AttackSurfaceAnalyzer.Utils
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Used for testing.
+        /// </summary>
+        public static void WaitUntilFlushed()
+        {
+            while (HasElements)
+            {
+                Thread.Sleep(1);
+            }
         }
     }
 }
