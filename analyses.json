@@ -701,7 +701,7 @@
           "Label": "is_exe",
           "Field": "IsExecutable",
           "Operation": "IS_TRUE"
-        }
+        },
         {
           "Label": "windows",
           "Field": "SignatureStatus",
