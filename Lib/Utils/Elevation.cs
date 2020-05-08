@@ -8,7 +8,7 @@ using System.Security.Principal;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
-    public class Elevation
+    public static class Elevation
     {
         #region Helper Functions for Admin Privileges and Elevation Status
 
