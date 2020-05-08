@@ -335,14 +335,14 @@ stages:
       inputs:
         command: 'custom'
         custom: 'pack'
-        arguments: 'Lib -c $(BuildConfiguration) -o $(build.binariesdirectory)\nuget'
+        arguments: 'Lib -c $(BuildConfiguration) -o $(build.binariesdirectory)\nuget /p:PublicRelease=true'
 
     - task: DotNetCoreCLI@2
       displayName: Nupkg (Cli)
       inputs:
         command: 'custom'
         custom: 'pack'
-        arguments: 'Cli -c $(BuildConfiguration) -o $(build.binariesdirectory)\nuget'
+        arguments: 'Cli -c $(BuildConfiguration) -o $(build.binariesdirectory)\nuget /p:PublicRelease=true'
 
     - task: AntiMalware@3
       inputs:
