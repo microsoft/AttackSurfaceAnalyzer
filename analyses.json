@@ -704,6 +704,26 @@
       ]
     },
     {
+      "Name": "Signed File was modified",
+      "Description": "A signed file was modified.",
+      "Flag": "WARNING",
+      "Platforms": [
+        "MACOS"
+      ],
+      "ChangeTypes": [
+        "MODIFIED"
+      ],
+      "ResultType": "FILE",
+      "Expression": "NOT NULL_SIGNATURE",
+      "Clauses": [
+        {
+          "Label": "NULL_SIGNATURE",
+          "Field": "MacSignatureStatus",
+          "Operation": "IS_NULL"
+        }
+      ]
+    },
+    {
       "Name": "Files Frequently Modified by Windows",
       "Description": "These files are frequently modified by the system itself.",
       "Flag": "VERBOSE",
