@@ -4,6 +4,7 @@ using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Serilog;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -67,7 +68,9 @@ namespace AttackSurfaceAnalyzer.Tests
         public void VerifyEmbeddedRulesAreValid()
         {
             var analyzer = new Analyzer(AsaHelpers.GetPlatform());
-            Assert.IsTrue(!analyzer.VerifyRules().Any());
+            var violations = analyzer.VerifyRules();
+            Analyzer.PrintViolations(violations);
+            Assert.IsFalse(violations.Any());
         }
 
         [TestMethod]

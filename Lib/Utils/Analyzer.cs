@@ -77,6 +77,40 @@ namespace AttackSurfaceAnalyzer.Utils
             return results;
         }
 
+        public static void PrintViolations(List<(string, string[])> violations)
+        {
+            if (violations == null) return;
+            foreach (var violation in violations)
+            {
+                // We expect between 1-3 arguments for these strings.  We do this instead of constructing the strings ahead of time so that the logger gives them pretty formatting.
+                switch (violation.Item2.Length)
+                {
+                    case 0:
+                        Log.Warning(violation.Item1);
+                        break;
+                    case 1:
+                        Log.Warning(violation.Item1, violation.Item2[0]);
+                        break;
+                    case 2:
+                        Log.Warning(violation.Item1, violation.Item2[0], violation.Item2[1]);
+                        break;
+                    case 3:
+                        Log.Warning(violation.Item1, violation.Item2[0], violation.Item2[1], violation.Item2[2]);
+                        break;
+                    case 4:
+                        Log.Warning(violation.Item1, violation.Item2[0], violation.Item2[1], violation.Item2[2], violation.Item2[3]);
+                        break;
+                    case 5:
+                        Log.Warning(violation.Item1, violation.Item2[0], violation.Item2[1], violation.Item2[2], violation.Item2[3], violation.Item2[4]);
+                        break;
+                    default:
+                        Log.Debug("Unexpected number of arguments");
+                        Log.Warning(violation.Item1, violation.Item2);
+                        break;
+                }
+            }
+        }
+
         public List<(string, string[])> VerifyRules()
         {
             var violations = new List<(string, string[])>();
