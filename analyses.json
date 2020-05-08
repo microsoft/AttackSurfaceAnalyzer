@@ -44,24 +44,33 @@
       "Description": "Flag when unsigned/incorrectly signed binaries are added.",
       "Flag": "WARNING",
       "Platforms": [
-        "WINDOWS"
+        "WINDOWS",
+        "MACOS"
       ],
       "ChangeTypes": [
         "CREATED",
         "MODIFIED"
       ],
       "ResultType": "FILE",
+      "Expression": "is_exe AND (valid_windows_signature OR NOT null_mac_signature)",
       "Clauses": [
         {
+          "Label": "is_exe",
           "Field": "IsExecutable",
           "Operation": "IS_TRUE"
         },
         {
+          "Label": "valid_windows_signature",
           "Field": "SignatureStatus",
           "Operation": "NEQ",
           "Data": [
             "Valid"
           ]
+        },
+        {
+          "Label": "null_mac_signature",
+          "Field": "MacSignatureStatus",
+          "Operation": "IS_NULL"
         }
       ]
     },
