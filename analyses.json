@@ -43,16 +43,12 @@
       "Name": "Unsigned binaries",
       "Description": "Flag when unsigned/incorrectly signed binaries are added.",
       "Flag": "WARNING",
-      "Platforms": [
-        "WINDOWS",
-        "MACOS"
-      ],
       "ChangeTypes": [
         "CREATED",
         "MODIFIED"
       ],
       "ResultType": "FILE",
-      "Expression": "is_exe AND (valid_windows_signature OR NOT null_mac_signature)",
+      "Expression": "is_exe AND NOT valid_windows_signature AND null_mac_signature)",
       "Clauses": [
         {
           "Label": "is_exe",
@@ -695,38 +691,27 @@
       "Name": "Signed File was modified",
       "Description": "A signed file was modified.",
       "Flag": "WARNING",
-      "Platforms": [
-        "WINDOWS"
-      ],
       "ChangeTypes": [
         "MODIFIED"
       ],
       "ResultType": "FILE",
+      "Expression": "is_exe AND (windows OR NOT macos_null)",
       "Clauses": [
         {
+          "Label": "is_exe",
+          "Field": "IsExecutable",
+          "Operation": "IS_TRUE"
+        }
+        {
+          "Label": "windows",
           "Field": "SignatureStatus",
           "Operation": "EQ",
           "Data": [
             "Valid"
           ]
-        }
-      ]
-    },
-    {
-      "Name": "Signed File was modified",
-      "Description": "A signed file was modified.",
-      "Flag": "WARNING",
-      "Platforms": [
-        "MACOS"
-      ],
-      "ChangeTypes": [
-        "MODIFIED"
-      ],
-      "ResultType": "FILE",
-      "Expression": "NOT NULL_SIGNATURE",
-      "Clauses": [
+        },
         {
-          "Label": "NULL_SIGNATURE",
+          "Label": "macos_null",
           "Field": "MacSignatureStatus",
           "Operation": "IS_NULL"
         }
