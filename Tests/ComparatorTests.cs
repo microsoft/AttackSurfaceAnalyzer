@@ -76,6 +76,25 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(results[(RESULT_TYPE.REGISTRY, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("ChangingEntry") && x.Base is RegistryObject FSO && x.Compare is RegistryObject FSO2 && FSO.Subkeys.Contains("KeyOne") && FSO2.Subkeys.Contains("KeyTwo")));
             Assert.IsTrue(results[(RESULT_TYPE.REGISTRY, CHANGE_TYPE.MODIFIED)].Any(x => x.Diffs.Any(y => y.Field == "Subkeys") && x.Identity.Contains("ChangingEntry")));
             Assert.IsFalse(results[(RESULT_TYPE.REGISTRY, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("UnchangedEntry")));
+
+            foreach(var item in OldItems)
+            {
+                DatabaseManager.Write(item, FirstRunId);
+            }
+            foreach (var item in NewItems)
+            {
+                DatabaseManager.Write(item, SecondRunId);
+            }
+
+            BaseCompare bc2 = new BaseCompare();
+            bc2.Compare(FirstRunId, SecondRunId);
+
+            results = bc2.Results;
+
+            Assert.IsTrue(results[(RESULT_TYPE.REGISTRY, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("ChangingEntry") && x.Base is RegistryObject FSO && x.Compare is RegistryObject FSO2 && FSO.Subkeys.Contains("KeyOne") && FSO2.Subkeys.Contains("KeyTwo")));
+            Assert.IsTrue(results[(RESULT_TYPE.REGISTRY, CHANGE_TYPE.MODIFIED)].Any(x => x.Diffs.Any(y => y.Field == "Subkeys") && x.Identity.Contains("ChangingEntry")));
+            Assert.IsFalse(results[(RESULT_TYPE.REGISTRY, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("UnchangedEntry")));
+
         }
 
         [TestMethod]
@@ -124,6 +143,24 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Equals("ChangingEntry") && x.Base is FileSystemObject FSO && x.Compare is FileSystemObject FSO2 && FSO.Permissions.ContainsValue("Read") && FSO2.Permissions.ContainsValue("ReadWrite")));
             Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Diffs.Any(y => y.Field == "Permissions") && x.Identity.Equals("ChangingEntry")));
             Assert.IsFalse(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Equals("UnchangedEntry")));
+
+            foreach (var item in OldItems)
+            {
+                DatabaseManager.Write(item, FirstRunId);
+            }
+            foreach (var item in NewItems)
+            {
+                DatabaseManager.Write(item, SecondRunId);
+            }
+
+            BaseCompare bc2 = new BaseCompare();
+            bc2.Compare(FirstRunId, SecondRunId);
+
+            results = bc2.Results;
+
+            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Equals("ChangingEntry") && x.Base is FileSystemObject FSO && x.Compare is FileSystemObject FSO2 && FSO.Permissions.ContainsValue("Read") && FSO2.Permissions.ContainsValue("ReadWrite")));
+            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Diffs.Any(y => y.Field == "Permissions") && x.Identity.Equals("ChangingEntry")));
+            Assert.IsFalse(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Equals("UnchangedEntry")));
         }
 
         [TestMethod]
@@ -156,6 +193,24 @@ namespace AttackSurfaceAnalyzer.Tests
             BaseCompare bc = new BaseCompare();
             bc.Compare(OldItems, NewItems, FirstRunId, SecondRunId);
             var results = bc.Results;
+
+            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("UnchangedEntry") && x.Base is FileSystemObject FSO && x.Compare is FileSystemObject FSO2 && FSO.PermissionsString == "Before" && FSO2.PermissionsString == "After"));
+            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Diffs.Any(y => y.Field == "PermissionsString") && x.Identity.Contains("UnchangedEntry")));
+            Assert.IsFalse(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("ChangingEntry")));
+
+            foreach (var item in OldItems)
+            {
+                DatabaseManager.Write(item, FirstRunId);
+            }
+            foreach (var item in NewItems)
+            {
+                DatabaseManager.Write(item, SecondRunId);
+            }
+
+            BaseCompare bc2 = new BaseCompare();
+            bc2.Compare(FirstRunId, SecondRunId);
+
+            results = bc2.Results;
 
             Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("UnchangedEntry") && x.Base is FileSystemObject FSO && x.Compare is FileSystemObject FSO2 && FSO.PermissionsString == "Before" && FSO2.PermissionsString == "After"));
             Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Diffs.Any(y => y.Field == "PermissionsString") && x.Identity.Contains("UnchangedEntry")));
@@ -196,6 +251,24 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("UnchangedEntry") && x.Base is FileSystemObject FSO && x.Compare is FileSystemObject FSO2 && FSO.IsExecutable == true && FSO2.IsExecutable == false));
             Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Diffs.Any(y => y.Field == "IsExecutable") && x.Identity.Contains("UnchangedEntry")));
             Assert.IsFalse(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("ChangingEntry")));
+
+            foreach (var item in OldItems)
+            {
+                DatabaseManager.Write(item, FirstRunId);
+            }
+            foreach (var item in NewItems)
+            {
+                DatabaseManager.Write(item, SecondRunId);
+            }
+
+            BaseCompare bc2 = new BaseCompare();
+            bc2.Compare(FirstRunId, SecondRunId);
+
+            results = bc2.Results;
+
+            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("UnchangedEntry") && x.Base is FileSystemObject FSO && x.Compare is FileSystemObject FSO2 && FSO.IsExecutable == true && FSO2.IsExecutable == false));
+            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Diffs.Any(y => y.Field == "IsExecutable") && x.Identity.Contains("UnchangedEntry")));
+            Assert.IsFalse(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("ChangingEntry")));
         }
 
         [TestMethod]
@@ -223,6 +296,24 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.CREATED)].Any(x => x.Compare is FileSystemObject FSO && FSO.Identity.Contains("SecondEntry") && FSO.IsExecutable == true));
             Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.DELETED)].Any(x => x.Base is FileSystemObject FSO && FSO.Identity.Contains("FirstEntry") && FSO.IsExecutable == true));
+
+            foreach (var item in OldItems)
+            {
+                DatabaseManager.Write(item, FirstRunId);
+            }
+            foreach (var item in NewItems)
+            {
+                DatabaseManager.Write(item, SecondRunId);
+            }
+
+            BaseCompare bc2 = new BaseCompare();
+            bc2.Compare(FirstRunId, SecondRunId);
+
+            results = bc2.Results;
+
+            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("UnchangedEntry") && x.Base is FileSystemObject FSO && x.Compare is FileSystemObject FSO2 && FSO.IsExecutable == true && FSO2.IsExecutable == false));
+            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Diffs.Any(y => y.Field == "IsExecutable") && x.Identity.Contains("UnchangedEntry")));
+            Assert.IsFalse(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("ChangingEntry")));
         }
 
 
@@ -254,6 +345,24 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("ChangingEntry") && x.Base is FileSystemObject FSO && x.Compare is FileSystemObject FSO2 && FSO.Size == 501 && FSO2.Size == 701));
             Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Diffs.Any(y => y.Field == "Size") && x.Identity.Contains("ChangingEntry")));
             Assert.IsFalse(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("UnchangedEntry")));
+
+            foreach (var item in OldItems)
+            {
+                DatabaseManager.Write(item, FirstRunId);
+            }
+            foreach (var item in NewItems)
+            {
+                DatabaseManager.Write(item, SecondRunId);
+            }
+
+            BaseCompare bc2 = new BaseCompare();
+            bc2.Compare(FirstRunId, SecondRunId);
+
+            results = bc2.Results;
+
+            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("UnchangedEntry") && x.Base is FileSystemObject FSO && x.Compare is FileSystemObject FSO2 && FSO.IsExecutable == true && FSO2.IsExecutable == false));
+            Assert.IsTrue(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Diffs.Any(y => y.Field == "IsExecutable") && x.Identity.Contains("UnchangedEntry")));
+            Assert.IsFalse(results[(RESULT_TYPE.FILE, CHANGE_TYPE.MODIFIED)].Any(x => x.Identity.Contains("ChangingEntry")));
         }
     }
 }
