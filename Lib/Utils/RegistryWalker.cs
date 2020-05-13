@@ -50,7 +50,9 @@ namespace AttackSurfaceAnalyzer.Utils
                             }
                         }
                     }
-                    catch (Exception) { }
+                    catch (Exception e) {
+                        Log.Verbose("Failed to open SubKey {0} ({1})", key, e.GetType());
+                    }
 
                     yield return key;
                 }

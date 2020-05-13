@@ -239,7 +239,26 @@ namespace AttackSurfaceAnalyzer.Cli
             CheckFirstRun();
             AsaTelemetry.Setup();
 
-            if (opts.FirstRunId is null || opts.SecondRunId is null)
+            if (opts.ExportSingleRun)
+            {
+                if (opts.SecondRunId is null)
+                {
+                    Log.Information("Provided null run id using latest run.");
+                    List<string> runIds = DatabaseManager.GetLatestRunIds(1, RUN_TYPE.COLLECT);
+                    if (runIds.Count < 1)
+                    {
+                        Log.Fatal(Strings.Get("Err_CouldntDetermineTwoRun"));
+                        System.Environment.Exit(-1);
+                    }
+                    else
+                    {
+                        // If you ask for single run everything is "Created"
+                        opts.SecondRunId = runIds.First();
+                        opts.FirstRunId = null;
+                    }
+                }
+            }
+            else if (opts.FirstRunId is null || opts.SecondRunId is null)
             {
                 Log.Information("Provided null run Ids using latest two runs.");
                 List<string> runIds = DatabaseManager.GetLatestRunIds(2, RUN_TYPE.COLLECT);
@@ -256,10 +275,6 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
             }
 
-            if (opts.FirstRunId is null || opts.SecondRunId is null)
-            {
-                return (int)ASA_ERROR.INVALID_ID;
-            }
             Log.Information(Strings.Get("Comparing"), opts.FirstRunId, opts.SecondRunId);
 
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
@@ -719,7 +734,7 @@ namespace AttackSurfaceAnalyzer.Cli
             if (opts.Analyze)
             {
                 watch = Stopwatch.StartNew();
-                Analyzer analyzer = new Analyzer(DatabaseManager.RunIdToPlatform(opts.FirstRunId), opts.AnalysesFile);
+                Analyzer analyzer = new Analyzer(DatabaseManager.RunIdToPlatform(opts.SecondRunId), opts.AnalysesFile);
 
                 var violations = analyzer.VerifyRules();
                 Analyzer.PrintViolations(violations);

@@ -286,9 +286,10 @@ namespace AttackSurfaceAnalyzer.Utils
 
             for (int i = 0; i < Math.Min(1000, WriteQueue.Count); i++)
             {
-                WriteObject ColObj;
-                WriteQueue.TryDequeue(out ColObj);
-                list.Add(ColObj);
+                if (WriteQueue.TryDequeue(out WriteObject? ColObj) && ColObj is WriteObject WO)
+                {
+                    list.Add(WO);
+                }
             }
 
             var col = db?.GetCollection<WriteObject>("WriteObjects");

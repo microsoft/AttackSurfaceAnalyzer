@@ -22,7 +22,7 @@ namespace AttackSurfaceAnalyzer
     public class CompareCommandOptions : CommandOptions
     {
         [Option(HelpText = "First run (pre-install) identifier")]
-        public string FirstRunId { get; set; }
+        public string? FirstRunId { get; set; }
 
         [Option(HelpText = "Second run (post-install) identifier")]
         public string SecondRunId { get; set; }
@@ -36,7 +36,7 @@ namespace AttackSurfaceAnalyzer
         [Option(HelpText = "Save to internal database for review in GUI")]
         public bool SaveToDatabase { get; set; }
 
-        public CompareCommandOptions(string FirstRunId, string SecondRunId)
+        public CompareCommandOptions(string? FirstRunId, string SecondRunId)
         {
             this.FirstRunId = FirstRunId;
             this.SecondRunId = SecondRunId;
@@ -62,6 +62,9 @@ namespace AttackSurfaceAnalyzer
 
         [Option(HelpText = "Save to internal database for review in GUI")]
         public bool SaveToDatabase { get; set; }
+
+        [Option(HelpText = "Export single run")]
+        public bool ExportSingleRun { get; set; }
 
         [Option(HelpText = "Custom analysis rules file.")]
         public string? AnalysesFile { get; set; }

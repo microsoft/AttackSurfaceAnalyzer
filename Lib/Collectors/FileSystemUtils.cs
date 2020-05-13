@@ -179,7 +179,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                     return signature;
                 }
             }
-            catch (Exception) { }
+            catch (Exception e) {
+                Log.Verbose("Failed to get Mac CodeSign information for {0} ({1})", Path, e.GetType());
+            }
             return null;
         }
 

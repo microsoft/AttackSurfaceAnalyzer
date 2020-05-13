@@ -174,14 +174,18 @@ namespace AttackSurfaceAnalyzer.Collectors
                     IdentityReference oid = fileSecurity.GetOwner(typeof(SecurityIdentifier));
                     obj.Owner = AsaHelpers.SidToName(oid);
                 }
-                catch (Exception) { }
+                catch (Exception e) {
+                    Log.Verbose("Failed to get owner for {0} {1}", path, e.GetType());
+                }
                 try
                 {
                     var fileSecurity = new FileSecurity(path, AccessControlSections.Group);
                     IdentityReference gid = fileSecurity.GetGroup(typeof(SecurityIdentifier));
                     obj.Group = AsaHelpers.SidToName(gid);
                 }
-                catch (Exception) { }
+                catch (Exception e) {
+                    Log.Verbose("Failed to get group for {0} {1}", path, e.GetType());
+                }
                 try
                 {
                     var fileSecurity = new FileSecurity(path, AccessControlSections.Access);
@@ -207,7 +211,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                         }
                     }
                 }
-                catch (Exception) { }
+                catch (Exception e) {
+                    Log.Verbose("Failed to get FileSecurity for  {1}", path, e.GetType());
+                }
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
@@ -374,7 +380,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                 obj.LastModified = File.GetLastWriteTimeUtc(path);
                 obj.Created = File.GetCreationTimeUtc(path);
             }
-            catch (Exception) { }
+            catch (Exception e) {
+                Log.Verbose("Failed to get last modified for {0} {1}", path, e.GetType());
+            }
 
             return obj;
         }
