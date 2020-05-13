@@ -73,7 +73,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
             }
 
-            IEnumerable<(CollectObject, string)> differentObjects = new List<(CollectObject,string)>();
+            IEnumerable<(CollectObject, string)> differentObjects;
             IEnumerable<(CollectObject, CollectObject)> modifyObjects = new List<(CollectObject, CollectObject)>();
             // Single run export mode
             if (firstRunId == null)
