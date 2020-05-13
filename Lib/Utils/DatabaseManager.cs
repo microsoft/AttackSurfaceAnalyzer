@@ -686,7 +686,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        public static void InsertCompareRun(string firstRunId, string secondRunId, RUN_STATUS runStatus)
+        public static void InsertCompareRun(string? firstRunId, string secondRunId, RUN_STATUS runStatus)
         {
             _ = MainConnection ?? throw new NullReferenceException(Strings.Get("MainConnection"));
             using (var cmd = new SqliteCommand(INSERT_RUN_INTO_RESULT_TABLE_SQL, MainConnection.Connection, MainConnection.Transaction))
@@ -846,7 +846,7 @@ namespace AttackSurfaceAnalyzer.Utils
             return output;
         }
 
-        public static void UpdateCompareRun(string firstRunId, string secondRunId, RUN_STATUS runStatus)
+        public static void UpdateCompareRun(string? firstRunId, string secondRunId, RUN_STATUS runStatus)
         {
             _ = MainConnection ?? throw new NullReferenceException(Strings.Get("MainConnection"));
             using (var cmd = new SqliteCommand(UPDATE_RUN_IN_RESULT_TABLE, MainConnection.Connection, MainConnection.Transaction))
@@ -1073,7 +1073,7 @@ namespace AttackSurfaceAnalyzer.Utils
             return runOne?.ResultTypes.Intersect(runTwo?.ResultTypes).ToList() ?? new List<RESULT_TYPE>();
         }
 
-        public static bool GetComparisonCompleted(string firstRunId, string secondRunId)
+        public static bool GetComparisonCompleted(string? firstRunId, string secondRunId)
         {
             if (MainConnection != null)
             {

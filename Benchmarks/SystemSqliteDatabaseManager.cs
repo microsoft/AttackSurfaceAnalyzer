@@ -479,7 +479,17 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         while (reader.Read())
                         {
-                            records.Add(JsonConvert.DeserializeObject<CompareResult>(reader["serialized"].ToString()));
+                            if (reader["serialized"].ToString() is string serialized)
+                            {
+                                try
+                                {
+                                    records.Add(JsonConvert.DeserializeObject<CompareResult>(serialized));
+                                }
+                                catch(Exception e)
+                                {
+                                    Log.Debug(e, "Couldn't deserialized into a CompareResult {0}", serialized);
+                                }
+                            }
                         }
                     }
                 }
@@ -561,9 +571,19 @@ namespace AttackSurfaceAnalyzer.Utils
 
                         while (reader.Read())
                         {
-                            obj = JsonConvert.DeserializeObject<FileMonitorEvent>(reader["serialized"].ToString());
-                            obj.ChangeType = (CHANGE_TYPE)int.Parse(reader["change_type"].ToString() ?? "0", CultureInfo.InvariantCulture);
-                            records.Add(obj);
+                            if (reader["serialized"].ToString() is string serialized)
+                            {
+                                try
+                                {
+                                    obj = JsonConvert.DeserializeObject<FileMonitorEvent>(serialized);
+                                    obj.ChangeType = (CHANGE_TYPE)int.Parse(reader["change_type"].ToString() ?? "0", CultureInfo.InvariantCulture);
+                                    records.Add(obj);
+                                }
+                                catch (Exception e)
+                                {
+                                    Log.Debug(e, "Couldn't deserialized into a CompareResult {0}", serialized);
+                                }
+                            }
                         }
                     }
                 }
@@ -929,8 +949,19 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     while (reader.Read())
                     {
-                        var obj = JsonConvert.DeserializeObject<CompareResult>(reader["serialized"].ToString());
-                        results.Add(obj);
+                        try
+                        {
+                            var thing = reader["serialized"];
+                            if (thing is string result)
+                            {
+                                var obj = JsonConvert.DeserializeObject<CompareResult>(result);
+                                results.Add(obj);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Log.Debug(e,"Error deserializing {0}", reader["serialized"]);
+                        }
                     }
                 }
             }

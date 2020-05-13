@@ -78,7 +78,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                     catch (Exception e)
                     {
-                        Log.Debug($"Failed to open Key {hive}\\{keyPath} for walking. {e.GetType()}");
+                        Log.Debug($"Failed to open Key {registryHive}\\{keyPath} for walking. {e.GetType()}");
                     }
 
                     if (regObj != null)
@@ -90,8 +90,6 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 var x86_Enumerable = RegistryWalker.WalkHive(hive.Item1, RegistryView.Registry32, hive.Item2);
                 var x64_Enumerable = RegistryWalker.WalkHive(hive.Item1, RegistryView.Registry64, hive.Item2);
-
-                var list = x86_Enumerable.ToList();
 
                 if (Parallelize)
                 {
