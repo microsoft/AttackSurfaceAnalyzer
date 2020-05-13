@@ -243,11 +243,11 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 if (opts.SecondRunId is null)
                 {
-                    Log.Information("Provided null run id using latest run.");
+                    Log.Information("Provided null second run id using latest run.");
                     List<string> runIds = DatabaseManager.GetLatestRunIds(1, RUN_TYPE.COLLECT);
                     if (runIds.Count < 1)
                     {
-                        Log.Fatal(Strings.Get("Err_CouldntDetermineTwoRun"));
+                        Log.Fatal(Strings.Get("Err_CouldntDetermineOneRun"));
                         System.Environment.Exit(-1);
                     }
                     else
