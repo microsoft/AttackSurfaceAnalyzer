@@ -113,24 +113,25 @@ namespace AttackSurfaceAnalyzer.Objects
         {
             string SQL_INSERT_COLLECT_RESULT = "insert into collect (run_id, result_type, row_key, identity, serialized) values (@run_id, @result_type, @row_key, @identity, @serialized)";
 
-            WriteQueue.TryDequeue(out WriteObject objIn);
-
-            try
+            if (WriteQueue.TryDequeue(out WriteObject? objIn))
             {
-                using var cmd = new SQLiteCommand(SQL_INSERT_COLLECT_RESULT, Connection, Transaction);
-                cmd.Parameters.AddWithValue("@run_id", objIn.RunId);
-                cmd.Parameters.AddWithValue("@row_key", objIn.RowKey);
-                cmd.Parameters.AddWithValue("@identity", objIn.ColObj?.Identity);
-                cmd.Parameters.AddWithValue("@serialized", objIn.Serialized);
-                cmd.Parameters.AddWithValue("@result_type", objIn.ColObj?.ResultType);
-                cmd.ExecuteNonQuery();
-            }
-            catch (SQLiteException e)
-            {
-                Log.Debug(exception: e, $"Error writing {objIn.ColObj?.Identity} to database.");
-            }
-            catch (NullReferenceException)
-            {
+                try
+                {
+                    using var cmd = new SQLiteCommand(SQL_INSERT_COLLECT_RESULT, Connection, Transaction);
+                    cmd.Parameters.AddWithValue("@run_id", objIn.RunId);
+                    cmd.Parameters.AddWithValue("@row_key", objIn.RowKey);
+                    cmd.Parameters.AddWithValue("@identity", objIn.ColObj?.Identity);
+                    cmd.Parameters.AddWithValue("@serialized", objIn.Serialized);
+                    cmd.Parameters.AddWithValue("@result_type", objIn.ColObj?.ResultType);
+                    cmd.ExecuteNonQuery();
+                }
+                catch (SQLiteException e)
+                {
+                    Log.Debug(exception: e, $"Error writing {objIn.ColObj?.Identity} to database.");
+                }
+                catch (NullReferenceException)
+                {
+                }
             }
         }
 

@@ -36,7 +36,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
-        public void Compare(IEnumerable<CollectObject> FirstRunObjects, IEnumerable<CollectObject> SecondRunObjects, string firstRunId, string secondRunId)
+        public void Compare(IEnumerable<CollectObject> FirstRunObjects, IEnumerable<CollectObject> SecondRunObjects, string? firstRunId, string secondRunId)
         {
             if (firstRunId == null)
             {
@@ -63,34 +63,34 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <param name="firstRunId">The Base run id.</param>
         /// <param name="secondRunId">The Compare run id.</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Collecting telemetry on exceptions.")]
-        public void Compare(string firstRunId, string secondRunId)
+        public void Compare(string? firstRunId, string secondRunId)
         {
             if (firstRunId == null)
             {
-                throw new ArgumentNullException(nameof(firstRunId));
+                if (secondRunId == null)
+                {
+                    throw new ArgumentNullException(nameof(firstRunId));
+                }
             }
-            if (secondRunId == null)
+
+            IEnumerable<(CollectObject, string)> differentObjects = new List<(CollectObject,string)>();
+            IEnumerable<(CollectObject, CollectObject)> modifyObjects = new List<(CollectObject, CollectObject)>();
+            // Single run export mode
+            if (firstRunId == null)
             {
-                throw new ArgumentNullException(nameof(secondRunId));
+                differentObjects = DatabaseManager.GetResultsByRunid(secondRunId).Select(x => (x.ColObj, x.RunId));
             }
-
-            var differentObjects = DatabaseManager.GetAllMissing(firstRunId, secondRunId).Select(y => (y.ColObj, y.RunId));
-            var modifyObjects = DatabaseManager.GetModified(firstRunId, secondRunId).Select(y => (y.Item1.ColObj, y.Item2.ColObj));
-
+            else
+            {
+                differentObjects = DatabaseManager.GetAllMissing(firstRunId, secondRunId).Select(y => (y.ColObj, y.RunId));
+                modifyObjects = DatabaseManager.GetModified(firstRunId, secondRunId).Select(y => (y.Item1.ColObj, y.Item2.ColObj));
+            }
+            
             Compare(differentObjects, modifyObjects, firstRunId, secondRunId);
         }
 
-        public void Compare(IEnumerable<(CollectObject, string)> differentObjects, IEnumerable<(CollectObject, CollectObject)> modifiedObjects, string firstRunId, string secondRunId)
+        public void Compare(IEnumerable<(CollectObject, string)> differentObjects, IEnumerable<(CollectObject, CollectObject)> modifiedObjects, string? firstRunId, string secondRunId)
         {
-            if (firstRunId == null)
-            {
-                throw new ArgumentNullException(nameof(firstRunId));
-            }
-            if (secondRunId == null)
-            {
-                throw new ArgumentNullException(nameof(secondRunId));
-            }
-
             differentObjects.AsParallel().ForAll(different =>
             {
                 var colObj = different.Item1;
@@ -275,12 +275,12 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Compare but with a Try/Catch block for exceptions.
+        /// Compare but with Start/Stop automatic
         /// </summary>
         /// <param name="firstRunId">The Base run id.</param>
         /// <param name="secondRunId">The Compare run id.</param>
         /// <returns></returns>
-        public bool TryCompare(string firstRunId, string secondRunId)
+        public bool TryCompare(string? firstRunId, string secondRunId)
         {
             Start();
             Compare(firstRunId, secondRunId);
