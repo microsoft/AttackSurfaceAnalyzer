@@ -21,9 +21,10 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
 
         private readonly bool GatherVerboseLogs;
-        public EventLogCollector(bool GatherVerboseLogs = false)
+        public EventLogCollector(CollectCommandOptions opts)
         {
-            this.GatherVerboseLogs = GatherVerboseLogs;
+            this.opts = opts;
+            GatherVerboseLogs = opts?.GatherVerboseLogs ?? false;
         }
 
         public override void ExecuteInternal()
@@ -78,6 +79,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     Timestamp = entry.TimeGenerated,
                                     Data = new List<string>() { entry.Message }
                                 };
+                                StallIfHighMemoryUsageAndLowMemoryModeEnabled();
                                 Results.Push(obj);
                             }
                         }
@@ -120,6 +122,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             {
                                 obj.Timestamp = Timestamp;
                             }
+                            StallIfHighMemoryUsageAndLowMemoryModeEnabled();
                             Results.Push(obj);
                         }
                     }
@@ -183,6 +186,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         if (curObject != null)
                         {
+                            StallIfHighMemoryUsageAndLowMemoryModeEnabled();
                             Results.Push(curObject);
                         }
 
@@ -212,6 +216,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 process.WaitForExit();
                 if (curObject != null)
                 {
+                    StallIfHighMemoryUsageAndLowMemoryModeEnabled();
                     Results.Push(curObject);
                 }
             }

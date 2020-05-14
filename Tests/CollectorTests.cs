@@ -92,7 +92,7 @@ namespace AttackSurfaceAnalyzer.Tests
             eventLog.Source = "Attack Surface Analyzer Tests";
             eventLog.WriteEntry("This Log Entry was created for testing the Attack Surface Analyzer library.", EventLogEntryType.Warning, 101, 1);
 
-            var fsc = new EventLogCollector();
+            var fsc = new EventLogCollector(new CollectCommandOptions());
             fsc.Execute();
 
             EventLog.DeleteEventSource(source);
