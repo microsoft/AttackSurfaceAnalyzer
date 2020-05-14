@@ -9,6 +9,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.Threading;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -18,7 +19,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     public abstract class BaseCollector : IPlatformRunnable
     {
         public ConcurrentStack<CollectObject> Results { get; } = new ConcurrentStack<CollectObject>();
-
+        internal CollectCommandOptions? opts;
         public void Execute()
         {
             if (!CanRunOnPlatform())
@@ -30,6 +31,25 @@ namespace AttackSurfaceAnalyzer.Collectors
                 Start();
                 ExecuteInternal();
                 Stop();
+            }
+        }
+
+        // Max number of elements to keep in Results if LowMemoryUsage mode is enabled.
+        public const int LOW_MEMORY_CUTOFF = 1000;
+
+        public void StallIfHighMemoryUsageAndLowMemoryModeEnabled()
+        {
+            if (opts?.LowMemoryUsage ?? false)
+            {
+                int stallCount = 0;
+                while (Results.Count > LOW_MEMORY_CUTOFF)
+                {
+                    if (stallCount++ % 1000 == 0)
+                    {
+                        Log.Verbose("Stalling Collector with {0} results for Memory Usage", Results.Count);
+                    }
+                    Thread.Sleep(1);
+                }
             }
         }
 

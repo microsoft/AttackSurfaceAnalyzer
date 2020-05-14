@@ -137,11 +137,14 @@ namespace AttackSurfaceAnalyzer
         [Option(HelpText = "If the specified runid already exists delete all data from that run before proceeding.")]
         public bool Overwrite { get; set; }
 
-        [Option(HelpText = "Run parallelized collectors when available.")]
+        [Option(HelpText = "Force singlethreaded collectors.")]
         public bool SingleThread { get; set; }
 
         [Option(HelpText = "Number of Database Shards to use.")]
         public int Shards { get; set; } = 7;
+
+        [Option(HelpText = "Lower memory usage in collectors. (To prevent OutOfMemory errors on low power devices. Will reduce performance. Recommended to use with --singlethread.)")]
+        public bool LowMemoryUsage { get; set; }
     }
     [Verb("monitor", HelpText = "Continue running and monitor activity")]
     public class MonitorCommandOptions : CommandOptions

@@ -16,6 +16,7 @@ using System.Security;
 using System.Security.AccessControl;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
+using System.Threading;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -29,11 +30,13 @@ namespace AttackSurfaceAnalyzer.Collectors
         private readonly bool INCLUDE_CONTENT_HASH;
         private readonly bool downloadCloud;
         private readonly bool parallel;
+        private readonly CollectCommandOptions opts;
 
         public static Dictionary<string, uint> ClusterSizes { get; set; } = new Dictionary<string, uint>();
 
         public FileSystemCollector(CollectCommandOptions opts)
         {
+            this.opts = opts;
             if (opts is null)
             {
                 throw new ArgumentNullException(nameof(opts));
@@ -94,6 +97,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             Action<string> IterateOn = Path =>
             {
+                StallIfHighMemoryUsageAndLowMemoryModeEnabled();
                 Log.Verbose("Started parsing {0}", Path);
                 FileSystemObject obj = FilePathToFileSystemObject(Path, downloadCloud, INCLUDE_CONTENT_HASH);
                 if (obj != null)

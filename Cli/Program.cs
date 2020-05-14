@@ -1012,7 +1012,7 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             if (opts.EnableEventLogCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new EventLogCollector(opts.GatherVerboseLogs));
+                collectors.Add(new EventLogCollector(opts));
                 dict.Add(RESULT_TYPE.LOG);
             }
 
