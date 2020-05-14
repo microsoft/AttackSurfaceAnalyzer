@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -18,20 +19,19 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         private readonly List<(RegistryHive, string)> Hives;
         private readonly bool Parallelize;
+        private readonly CollectCommandOptions opts;
 
         private static readonly List<(RegistryHive, string)> DefaultHives = new List<(RegistryHive, string)>()
         {
             (RegistryHive.ClassesRoot,string.Empty), (RegistryHive.CurrentConfig,string.Empty), (RegistryHive.CurrentUser,string.Empty), (RegistryHive.LocalMachine,string.Empty), (RegistryHive.Users,string.Empty)
         };
 
-        private readonly Action<RegistryObject>? customCrawlHandler;
+        public RegistryCollector(CollectCommandOptions opts) : this(DefaultHives, opts) { }
 
-        public RegistryCollector(CollectCommandOptions opts) : this(DefaultHives, opts, null) { }
-
-        public RegistryCollector(List<(RegistryHive, string)> Hives, CollectCommandOptions opts, Action<RegistryObject>? customHandler = null)
+        public RegistryCollector(List<(RegistryHive, string)> Hives, CollectCommandOptions opts)
         {
+            this.opts = opts;
             this.Hives = Hives;
-            customCrawlHandler = customHandler;
             if (opts != null)
             {
                 Parallelize = !opts.SingleThread;
@@ -69,6 +69,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 Action<RegistryHive, string, RegistryView> IterateOn = (registryHive, keyPath, registryView) =>
                 {
+                    StallIfHighMemoryUsageAndLowMemoryModeEnabled();
                     Log.Verbose("Beginning to parse {0}\\{1} in {2}", registryHive, keyPath, registryView);
                     RegistryObject? regObj = null;
                     try

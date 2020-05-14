@@ -1020,7 +1020,7 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             if (opts.EnableEventLogCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new EventLogCollector(opts.GatherVerboseLogs));
+                collectors.Add(new EventLogCollector(opts));
                 dict.Add(RESULT_TYPE.LOG);
             }
             if (opts.EnableTpmCollector || (opts.EnableAllCollectors && (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux))))
