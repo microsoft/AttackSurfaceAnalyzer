@@ -1066,9 +1066,19 @@ namespace AttackSurfaceAnalyzer.Cli
                         while (c.Results.Count > 0)
                         {
                             var count = Math.Min(1000, c.Results.Count);
-                            // Take doesn't actually remove, it returns an thin IEnumerable
-
                             var actual = c.Results.TryPopRange(items);
+                            if (opts.LowMemoryUsage)
+                            {
+                                int stallCount = 0;
+                                while (DatabaseManager.QueueSize > BaseCollector.LOW_MEMORY_CUTOFF)
+                                {
+                                    if (stallCount++ % 1000 == 0)
+                                    {
+                                        Log.Verbose("Stalling Collector with {0} results for Memory Usage", DatabaseManager.QueueSize);
+                                    }
+                                    Thread.Sleep(1);
+                                }
+                            }
                             items.Take(actual).AsParallel().ForAll(result =>
                             {
                                 DatabaseManager.Write(result, opts.RunId);
@@ -1078,6 +1088,7 @@ namespace AttackSurfaceAnalyzer.Cli
                     }
 
                     c.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, opts.RunId));
+                    c.Results.Clear();
 
                     var prevFlush = DatabaseManager.QueueSize;
                     var totFlush = prevFlush;
