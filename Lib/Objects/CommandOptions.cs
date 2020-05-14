@@ -63,7 +63,7 @@ namespace AttackSurfaceAnalyzer
         [Option(HelpText = "Save to internal database for review in GUI")]
         public bool SaveToDatabase { get; set; }
 
-        [Option(HelpText = "Export single run")]
+        [Option(HelpText = "Export single run. (Specify runid with SecondRunId.)")]
         public bool ExportSingleRun { get; set; }
 
         [Option(HelpText = "Custom analysis rules file.")]
