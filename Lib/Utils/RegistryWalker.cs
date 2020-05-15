@@ -46,7 +46,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         {
                             foreach (string subkey in currentKey.GetSubKeyNames())
                             {
-                                keys.Push(subkey);
+                                keys.Push($"{key}\\{subkey}");
                             }
                         }
                     }
