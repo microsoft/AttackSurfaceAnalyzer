@@ -126,7 +126,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
             }
 
-            foreach (var file in DirectoryWalker.WalkDirectory("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"))
+            foreach (var file in Directory.EnumerateFiles("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"))
             {
                 var name = file.Split(Path.DirectorySeparatorChar)[^1];
                 var fso = FileSystemCollector.FilePathToFileSystemObject(file);

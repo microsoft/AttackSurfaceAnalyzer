@@ -18,6 +18,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Security.Permissions;
 using System.Security.Principal;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -95,58 +96,77 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
             }
 
-            Action<string> IterateOn = Path =>
+            Action<string> IterateOnDirectory = Path =>
             {
-                StallIfHighMemoryUsageAndLowMemoryModeEnabled();
                 Log.Verbose("Started parsing {0}", Path);
-                FileSystemObject obj = FilePathToFileSystemObject(Path, downloadCloud, INCLUDE_CONTENT_HASH);
-                if (obj != null)
+                var files = Directory.EnumerateFiles(Path, "*", new System.IO.EnumerationOptions()
                 {
-                    Results.Push(obj);
-
-                    // TODO: Also try parse .DER as a key
-                    if (Path.EndsWith(".cer", StringComparison.CurrentCulture) ||
-                        Path.EndsWith(".der", StringComparison.CurrentCulture) ||
-                        Path.EndsWith(".p7b", StringComparison.CurrentCulture) ||
-                        Path.EndsWith(".pfx", StringComparison.CurrentCulture))
+                    IgnoreInaccessible = true
+                });
+                foreach (var file in files)
+                {
+                    StallIfHighMemoryUsageAndLowMemoryModeEnabled();
+                    Log.Verbose("Started parsing {0}", file);
+                    FileSystemObject obj = FilePathToFileSystemObject(file, downloadCloud, INCLUDE_CONTENT_HASH);
+                    if (obj != null)
                     {
-                        try
-                        {
-                            using var certificate = new X509Certificate2(Path);
+                        Results.Push(obj);
 
-                            var certObj = new CertificateObject(
-                                StoreLocation: StoreLocation.LocalMachine.ToString(),
-                                StoreName: StoreName.Root.ToString(),
-                                Certificate: new SerializableCertificate(certificate));
-
-                            Results.Push(certObj);
-                        }
-                        catch (Exception e)
+                        // TODO: Also try parse .DER as a key
+                        if (Path.EndsWith(".cer", StringComparison.CurrentCulture) ||
+                            Path.EndsWith(".der", StringComparison.CurrentCulture) ||
+                            Path.EndsWith(".p7b", StringComparison.CurrentCulture) ||
+                            Path.EndsWith(".pfx", StringComparison.CurrentCulture))
                         {
-                            Log.Verbose($"Could not parse certificate from file: {Path}, {e.GetType().ToString()}");
+                            try
+                            {
+                                using var certificate = new X509Certificate2(Path);
+
+                                var certObj = new CertificateObject(
+                                    StoreLocation: StoreLocation.LocalMachine.ToString(),
+                                    StoreName: StoreName.Root.ToString(),
+                                    Certificate: new SerializableCertificate(certificate));
+
+                                Results.Push(certObj);
+                            }
+                            catch (Exception e)
+                            {
+                                Log.Verbose($"Could not parse certificate from file: {file}, {e.GetType().ToString()}");
+                            }
                         }
                     }
+                    Log.Verbose("Finished parsing {0}", file);
                 }
+
                 Log.Verbose("Finished parsing {0}", Path);
             };
 
             foreach (var root in roots)
             {
                 Log.Information("{0} root {1}", Strings.Get("Scanning"), root);
-                var filePathEnumerable = DirectoryWalker.WalkDirectory(root);
+
+                var directories = Directory.GetDirectories(root, "*", new System.IO.EnumerationOptions()
+                {
+                    ReturnSpecialDirectories = false,
+                    IgnoreInaccessible = true,
+                    RecurseSubdirectories = true
+                }).ToList();
+                directories.Add(root);
+
+                Log.Debug("Crawling {0} directories.", directories.Count);
 
                 if (parallel)
                 {
-                    filePathEnumerable.AsParallel().ForAll(filePath =>
+                    Parallel.ForEach(directories, filePath =>
                     {
-                        IterateOn(filePath);
+                        IterateOnDirectory(filePath);
                     });
                 }
                 else
                 {
-                    foreach (var filePath in filePathEnumerable)
+                    foreach (var filePath in directories)
                     {
-                        IterateOn(filePath);
+                        IterateOnDirectory(filePath);
                     }
                 }
             }
