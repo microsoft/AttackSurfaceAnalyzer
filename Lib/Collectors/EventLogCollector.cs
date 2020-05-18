@@ -24,7 +24,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         public EventLogCollector(CollectCommandOptions opts)
         {
             this.opts = opts;
-            GatherVerboseLogs = opts?.GatherVerboseLogs ?? false;
+            GatherVerboseLogs = opts.GatherVerboseLogs ?? false;
         }
 
         public override void ExecuteInternal()

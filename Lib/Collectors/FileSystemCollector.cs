@@ -90,10 +90,32 @@ namespace AttackSurfaceAnalyzer.Collectors
                     roots.Add("/");
                 }
             }
-
-            Action<string> IterateOnDirectory = Path =>
+            Action<string>? IterateOnDirectory = null;
+            IterateOnDirectory = Path =>
             {
                 Log.Verbose("Started parsing {0}", Path);
+
+                var directories = Directory.EnumerateDirectories(Path, "*", new System.IO.EnumerationOptions()
+                {
+                    ReturnSpecialDirectories = false,
+                    IgnoreInaccessible = true,
+                    RecurseSubdirectories = true
+                });
+
+                if (!opts.SingleThread == true)
+                {
+                    Parallel.ForEach(directories, filePath =>
+                    {
+                        IterateOnDirectory?.Invoke(filePath);
+                    });
+                }
+                else
+                {
+                    foreach (var filePath in directories)
+                    {
+                        IterateOnDirectory?.Invoke(filePath);
+                    }
+                }
 
                 // To optimize calls to du on non-windows platforms we run du on the whole directory ahead of time
                 if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -158,30 +180,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 Log.Information("{0} root {1}", Strings.Get("Scanning"), root);
 
-                var directories = Directory.GetDirectories(root, "*", new System.IO.EnumerationOptions()
-                {
-                    ReturnSpecialDirectories = false,
-                    IgnoreInaccessible = true,
-                    RecurseSubdirectories = true
-                }).ToList();
-                directories.Add(root);
-
-                Log.Debug("Crawling {0} directories.", directories.Count);
-
-                if (!opts.SingleThread)
-                {
-                    Parallel.ForEach(directories, filePath =>
-                    {
-                        IterateOnDirectory(filePath);
-                    });
-                }
-                else
-                {
-                    foreach (var filePath in directories)
-                    {
-                        IterateOnDirectory(filePath);
-                    }
-                }
+                IterateOnDirectory(root);
             }
         }
 
@@ -326,7 +325,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                         // This check is to try to prevent reading of cloud based files (like a dropbox folder)
                         //   and subsequently causing a download, unless the user specifically requests it with DownloadCloud.
-                        if (opts?.DownloadCloud == true || WindowsFileSystemUtils.IsLocal(obj.Path) || SizeOnDisk(fileInfo) > 0)
+                        if (opts.DownloadCloud == true || WindowsFileSystemUtils.IsLocal(obj.Path) || SizeOnDisk(fileInfo) > 0)
                         {
                             FileIOPermission fiop = new FileIOPermission(FileIOPermissionAccess.Read, path);
                             fiop.Demand();
@@ -334,7 +333,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             obj.LastModified = File.GetLastWriteTimeUtc(path);
                             obj.Created = File.GetCreationTimeUtc(path);
                             
-                            if (opts?.GatherHashes == true)
+                            if (opts.GatherHashes == true)
                             {
                                 obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
                             }
@@ -380,7 +379,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             var fileInfo = new FileInfo(path);
                             obj.SizeOnDisk = SizeOnDisk(fileInfo);
 
-                            if (downloadCloud || obj.SizeOnDisk > 0)
+                            if (opts.DownloadCloud || obj.SizeOnDisk > 0)
                             {
                                 FileIOPermission fiop = new FileIOPermission(FileIOPermissionAccess.Read, path);
                                 fiop.Demand();
@@ -388,7 +387,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 obj.LastModified = File.GetLastWriteTimeUtc(path);
                                 obj.Created = File.GetCreationTimeUtc(path);
 
-                                if (includeContentHash)
+                                if (opts.GatherHashes)
                                 {
                                     obj.ContentHash = FileSystemUtils.GetFileHash(path);
                                 }

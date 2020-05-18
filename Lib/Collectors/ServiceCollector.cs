@@ -36,6 +36,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// </summary>
         public void ExecuteWindows()
         {
+            var fsc = new FileSystemCollector(new CollectCommandOptions() { SingleThread = opts.SingleThread });
             System.Management.SelectQuery sQuery = new System.Management.SelectQuery("select * from Win32_Service"); // where name = '{0}'", "MCShield.exe"));
             using System.Management.ManagementObjectSearcher mgmtSearcher = new System.Management.ManagementObjectSearcher(sQuery);
             foreach (System.Management.ManagementObject service in mgmtSearcher.Get())
@@ -129,7 +130,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             foreach (var file in Directory.EnumerateFiles("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"))
             {
                 var name = file.Split(Path.DirectorySeparatorChar)[^1];
-                var fso = FileSystemCollector.FilePathToFileSystemObject(file);
+                var fso = fsc.FilePathToFileSystemObject(file);
                 var obj = new ServiceObject(file)
                 {
                     DisplayName = name,
