@@ -132,12 +132,6 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             foreach (var root in roots)
             {
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                {
-                    var info = new FileInfo(root);
-                    GetDiskFreeSpace(info.Directory.Root.FullName, out uint lpSectorsPerCluster, out uint lpBytesPerSector, out _, out _);
-                    ClusterSizes[info.Directory.Root.FullName] = lpSectorsPerCluster * lpBytesPerSector;
-                }
                 Log.Information("{0} root {1}", Strings.Get("Scanning"), root);
                 var filePathEnumerable = DirectoryWalker.WalkDirectory(root);
 
@@ -396,6 +390,8 @@ namespace AttackSurfaceAnalyzer.Collectors
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 FileInfo info = new FileInfo(path);
+                GetDiskFreeSpace(info.FullName, out uint lpSectorsPerCluster, out uint lpBytesPerSector, out _, out _);
+
                 uint clusterSize = ClusterSizes[info.Directory.Root.FullName];
                 uint lowSize = GetCompressedFileSizeW(path, out uint highSize);
                 long size = (long)highSize << 32 | lowSize;
