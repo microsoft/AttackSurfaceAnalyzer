@@ -289,7 +289,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         var fileInfo = new FileInfo(path);
                         var size = (ulong)fileInfo.Length;
                         obj.Size = size;
-                        if (downloadCloud || WindowsFileSystemUtils.IsLocal(obj.Path) || SizeOnDisk(path) > 0)
+                        if (downloadCloud || WindowsFileSystemUtils.IsLocal(obj.Path) || SizeOnDisk(fileInfo) > 0)
                         {
                             if (includeContentHash)
                             {
@@ -334,7 +334,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                             }
                             break;
                         case FileTypes.RegularFile:
-                            if (downloadCloud || SizeOnDisk(path) > 0)
+                            var FI = new FileInfo(path);
+                            if (downloadCloud || SizeOnDisk(FI) > 0)
                             {
                                 if (includeContentHash)
                                 {
@@ -385,28 +386,35 @@ namespace AttackSurfaceAnalyzer.Collectors
             return obj;
         }
 
-        private static long SizeOnDisk(string path)
+        private static long SizeOnDisk(FileInfo path)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                FileInfo info = new FileInfo(path);
-                GetDiskFreeSpace(info.FullName, out uint lpSectorsPerCluster, out uint lpBytesPerSector, out _, out _);
+                try
+                {
+                    GetDiskFreeSpace(path.FullName, out uint lpSectorsPerCluster, out uint lpBytesPerSector, out _, out _);
 
-                uint clusterSize = ClusterSizes[info.Directory.Root.FullName];
-                uint lowSize = GetCompressedFileSizeW(path, out uint highSize);
-                long size = (long)highSize << 32 | lowSize;
-                return ((size + clusterSize - 1) / clusterSize) * clusterSize;
+                    uint clusterSize = lpSectorsPerCluster * lpBytesPerSector;
+                    uint lowSize = GetCompressedFileSizeW(path.FullName, out uint highSize);
+                    long size = (long)highSize << 32 | lowSize;
+                    return ((size + clusterSize - 1) / clusterSize) * clusterSize;
+                }
+                catch(Exception e)
+                {
+                    Log.Debug("Failed to GetDiskFreeSpace for {0} ({1}:{2})", e.GetType(), e.Message);
+                }
+                return -1;
             }
             else
             {
-                var exitCode = ExternalCommandRunner.RunExternalCommand("du", path, out string StdOut, out string StdErr);
+                var exitCode = ExternalCommandRunner.RunExternalCommand("du", path.FullName, out string StdOut, out string StdErr);
                 if (exitCode == 0 && long.TryParse(StdOut.Split('\t')[0], out long result))
                 {
                     return result;
                 }
                 else
                 {
-                    return 0;
+                    return -1;
                 }
             }
         }
