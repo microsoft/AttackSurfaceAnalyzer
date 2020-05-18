@@ -39,7 +39,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public void StallIfHighMemoryUsageAndLowMemoryModeEnabled()
         {
-            if (opts.LowMemoryUsage ?? false)
+            if (opts.LowMemoryUsage)
             {
                 int stallCount = 0;
                 while (Results.Count > LOW_MEMORY_CUTOFF)
