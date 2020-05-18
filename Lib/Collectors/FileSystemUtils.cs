@@ -237,10 +237,8 @@ namespace AttackSurfaceAnalyzer.Collectors
             byte[] fourBytes = new byte[4];
             try
             {
-                using (var fileStream = File.Open(Path, FileMode.Open))
-                {
-                    fileStream.Read(fourBytes, 0, 4);
-                }
+                using var fileStream = File.Open(Path, FileMode.Open);
+                fileStream.Read(fourBytes, 0, 4);
             }
             catch (Exception e) when (
                 e is ArgumentException
@@ -258,7 +256,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 return false;
             }
 
-            return MacMagicNumbers.Contains(fourBytes);
+            return MacMagicNumbers.Any(x => x.SequenceEqual(fourBytes));
         }
 
         public static bool IsWindowsExecutable(string? Path, ulong? Size)

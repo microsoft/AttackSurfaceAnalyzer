@@ -15,6 +15,7 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Security.AccessControl;
 using System.Security.Cryptography.X509Certificates;
+using System.Security.Permissions;
 using System.Security.Principal;
 using System.Threading;
 
@@ -289,8 +290,14 @@ namespace AttackSurfaceAnalyzer.Collectors
                         var fileInfo = new FileInfo(path);
                         var size = (ulong)fileInfo.Length;
                         obj.Size = size;
+                        
+                        // This check is to try to prevent reading of cloud based files (like a dropbox folder)
+                        //   and subsequently causing a download, unless the user specifically requests it with DownloadCloud.
                         if (downloadCloud || WindowsFileSystemUtils.IsLocal(obj.Path) || SizeOnDisk(fileInfo) > 0)
                         {
+                            FileIOPermission fiop = new FileIOPermission(FileIOPermissionAccess.Read, path);
+                            fiop.Demand();
+
                             if (includeContentHash)
                             {
                                 obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
@@ -337,6 +344,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                             var FI = new FileInfo(path);
                             if (downloadCloud || SizeOnDisk(FI) > 0)
                             {
+                                FileIOPermission fiop = new FileIOPermission(FileIOPermissionAccess.Read, path);
+                                fiop.Demand();
+
                                 if (includeContentHash)
                                 {
                                     obj.ContentHash = FileSystemUtils.GetFileHash(path);
