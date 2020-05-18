@@ -15,6 +15,7 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Security.AccessControl;
 using System.Security.Cryptography.X509Certificates;
+using System.Security.Permissions;
 using System.Security.Principal;
 using System.Threading;
 
@@ -30,7 +31,6 @@ namespace AttackSurfaceAnalyzer.Collectors
         private readonly bool INCLUDE_CONTENT_HASH;
         private readonly bool downloadCloud;
         private readonly bool parallel;
-        private readonly CollectCommandOptions opts;
 
         public static Dictionary<string, uint> ClusterSizes { get; set; } = new Dictionary<string, uint>();
 
@@ -289,8 +289,18 @@ namespace AttackSurfaceAnalyzer.Collectors
                         var fileInfo = new FileInfo(path);
                         var size = (ulong)fileInfo.Length;
                         obj.Size = size;
+                        obj.SizeOnDisk = SizeOnDisk(fileInfo);
+
+                        // This check is to try to prevent reading of cloud based files (like a dropbox folder)
+                        //   and subsequently causing a download, unless the user specifically requests it with DownloadCloud.
                         if (downloadCloud || WindowsFileSystemUtils.IsLocal(obj.Path) || SizeOnDisk(fileInfo) > 0)
                         {
+                            FileIOPermission fiop = new FileIOPermission(FileIOPermissionAccess.Read, path);
+                            fiop.Demand();
+
+                            obj.LastModified = File.GetLastWriteTimeUtc(path);
+                            obj.Created = File.GetCreationTimeUtc(path);
+                            
                             if (includeContentHash)
                             {
                                 obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
@@ -334,9 +344,17 @@ namespace AttackSurfaceAnalyzer.Collectors
                             }
                             break;
                         case FileTypes.RegularFile:
-                            var FI = new FileInfo(path);
-                            if (downloadCloud || SizeOnDisk(FI) > 0)
+                            var fileInfo = new FileInfo(path);
+                            obj.SizeOnDisk = SizeOnDisk(fileInfo);
+
+                            if (downloadCloud || obj.SizeOnDisk > 0)
                             {
+                                FileIOPermission fiop = new FileIOPermission(FileIOPermissionAccess.Read, path);
+                                fiop.Demand();
+                                
+                                obj.LastModified = File.GetLastWriteTimeUtc(path);
+                                obj.Created = File.GetCreationTimeUtc(path);
+
                                 if (includeContentHash)
                                 {
                                     obj.ContentHash = FileSystemUtils.GetFileHash(path);
@@ -374,15 +392,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                 Log.Debug("Should be caught in DirectoryWalker {0} {1}", e.GetType().ToString(), path);
             }
 
-            try
-            {
-                obj.LastModified = File.GetLastWriteTimeUtc(path);
-                obj.Created = File.GetCreationTimeUtc(path);
-            }
-            catch (Exception e) {
-                Log.Verbose("Failed to get last modified for {0} {1}", path, e.GetType());
-            }
-
             return obj;
         }
 
@@ -392,10 +401,10 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 try
                 {
-                    GetDiskFreeSpace(path.FullName, out uint lpSectorsPerCluster, out uint lpBytesPerSector, out _, out _);
+                    NativeMethods.GetDiskFreeSpace(path.FullName, out uint lpSectorsPerCluster, out uint lpBytesPerSector, out _, out _);
 
                     uint clusterSize = lpSectorsPerCluster * lpBytesPerSector;
-                    uint lowSize = GetCompressedFileSizeW(path.FullName, out uint highSize);
+                    uint lowSize = NativeMethods.GetCompressedFileSizeW(path.FullName, out uint highSize);
                     long size = (long)highSize << 32 | lowSize;
                     return ((size + clusterSize - 1) / clusterSize) * clusterSize;
                 }
@@ -418,17 +427,5 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
             }
         }
-
-        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        static extern bool GetDiskFreeSpace([In, MarshalAs(UnmanagedType.LPWStr)] string lpRootPathName,
-           out uint lpSectorsPerCluster,
-           out uint lpBytesPerSector,
-           out uint lpNumberOfFreeClusters,
-           out uint lpTotalNumberOfClusters);
-
-        [DllImport("kernel32.dll")]
-        static extern uint GetCompressedFileSizeW(
-            [In, MarshalAs(UnmanagedType.LPWStr)] string lpFileName,
-            [Out, MarshalAs(UnmanagedType.U4)] out uint lpFileSizeHigh);
     }
 }

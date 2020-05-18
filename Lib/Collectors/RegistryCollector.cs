@@ -19,7 +19,6 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         private readonly List<(RegistryHive, string)> Hives;
         private readonly bool Parallelize;
-        private readonly CollectCommandOptions opts;
 
         private static readonly List<(RegistryHive, string)> DefaultHives = new List<(RegistryHive, string)>()
         {
