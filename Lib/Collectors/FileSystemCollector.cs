@@ -290,7 +290,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                         var fileInfo = new FileInfo(path);
                         var size = (ulong)fileInfo.Length;
                         obj.Size = size;
-                        
+                        obj.SizeOnDisk = SizeOnDisk(fileInfo);
+
                         // This check is to try to prevent reading of cloud based files (like a dropbox folder)
                         //   and subsequently causing a download, unless the user specifically requests it with DownloadCloud.
                         if (downloadCloud || WindowsFileSystemUtils.IsLocal(obj.Path) || SizeOnDisk(fileInfo) > 0)
@@ -298,6 +299,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                             FileIOPermission fiop = new FileIOPermission(FileIOPermissionAccess.Read, path);
                             fiop.Demand();
 
+                            obj.LastModified = File.GetLastWriteTimeUtc(path);
+                            obj.Created = File.GetCreationTimeUtc(path);
+                            
                             if (includeContentHash)
                             {
                                 obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
@@ -341,11 +345,16 @@ namespace AttackSurfaceAnalyzer.Collectors
                             }
                             break;
                         case FileTypes.RegularFile:
-                            var FI = new FileInfo(path);
-                            if (downloadCloud || SizeOnDisk(FI) > 0)
+                            var fileInfo = new FileInfo(path);
+                            obj.SizeOnDisk = SizeOnDisk(fileInfo);
+
+                            if (downloadCloud || obj.SizeOnDisk > 0)
                             {
                                 FileIOPermission fiop = new FileIOPermission(FileIOPermissionAccess.Read, path);
                                 fiop.Demand();
+                                
+                                obj.LastModified = File.GetLastWriteTimeUtc(path);
+                                obj.Created = File.GetCreationTimeUtc(path);
 
                                 if (includeContentHash)
                                 {
@@ -382,15 +391,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             catch (Exception e)
             {
                 Log.Debug("Should be caught in DirectoryWalker {0} {1}", e.GetType().ToString(), path);
-            }
-
-            try
-            {
-                obj.LastModified = File.GetLastWriteTimeUtc(path);
-                obj.Created = File.GetCreationTimeUtc(path);
-            }
-            catch (Exception e) {
-                Log.Verbose("Failed to get last modified for {0} {1}", path, e.GetType());
             }
 
             return obj;
