@@ -29,9 +29,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         private readonly HashSet<string> roots;
 
-        private readonly bool INCLUDE_CONTENT_HASH;
-        private readonly bool downloadCloud;
-        private readonly bool parallel;
+        private Dictionary<string, long> sizesOnDisk = new Dictionary<string, long>();
 
         public static Dictionary<string, uint> ClusterSizes { get; set; } = new Dictionary<string, uint>();
 
@@ -42,11 +40,8 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 throw new ArgumentNullException(nameof(opts));
             }
-            downloadCloud = opts.DownloadCloud;
-            parallel = !opts.SingleThread;
 
             roots = new HashSet<string>();
-            INCLUDE_CONTENT_HASH = opts.GatherHashes;
 
             if (!string.IsNullOrEmpty(opts.SelectedDirectories))
             {
@@ -99,6 +94,24 @@ namespace AttackSurfaceAnalyzer.Collectors
             Action<string> IterateOnDirectory = Path =>
             {
                 Log.Verbose("Started parsing {0}", Path);
+
+                // To optimize calls to du on non-windows platforms we run du on the whole directory ahead of time
+                if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    var exitCode = ExternalCommandRunner.RunExternalCommand("du", Path, out string StdOut, out string StdErr);
+                    if (exitCode == 0)
+                    {
+                        foreach (var line in StdOut.Split(Environment.NewLine))
+                        {
+                            var fields = line.Split('\t');
+                            if (long.TryParse(fields[0], out long result))
+                            {
+                                sizesOnDisk[fields[1]] = result;
+                            }
+                        }
+                    }
+                }
+                
                 var files = Directory.EnumerateFiles(Path, "*", new System.IO.EnumerationOptions()
                 {
                     IgnoreInaccessible = true
@@ -107,7 +120,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 {
                     StallIfHighMemoryUsageAndLowMemoryModeEnabled();
                     Log.Verbose("Started parsing {0}", file);
-                    FileSystemObject obj = FilePathToFileSystemObject(file, downloadCloud, INCLUDE_CONTENT_HASH);
+                    FileSystemObject obj = FilePathToFileSystemObject(file);
                     if (obj != null)
                     {
                         Results.Push(obj);
@@ -155,7 +168,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 Log.Debug("Crawling {0} directories.", directories.Count);
 
-                if (parallel)
+                if (!opts.SingleThread)
                 {
                     Parallel.ForEach(directories, filePath =>
                     {
@@ -179,7 +192,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <param name="downloadCloud">If the file is hosted in the cloud, the user has the option to include cloud files or not.</param>
         /// <param name="includeContentHash">If we should generate a hash of the file.</param>
         /// <returns></returns>
-        public static FileSystemObject FilePathToFileSystemObject(string path, bool downloadCloud = false, bool includeContentHash = false)
+        public FileSystemObject FilePathToFileSystemObject(string path)
         {
             FileSystemObject obj = new FileSystemObject(path);
 
@@ -313,7 +326,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                         // This check is to try to prevent reading of cloud based files (like a dropbox folder)
                         //   and subsequently causing a download, unless the user specifically requests it with DownloadCloud.
-                        if (downloadCloud || WindowsFileSystemUtils.IsLocal(obj.Path) || SizeOnDisk(fileInfo) > 0)
+                        if (opts?.DownloadCloud == true || WindowsFileSystemUtils.IsLocal(obj.Path) || SizeOnDisk(fileInfo) > 0)
                         {
                             FileIOPermission fiop = new FileIOPermission(FileIOPermissionAccess.Read, path);
                             fiop.Demand();
@@ -321,7 +334,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             obj.LastModified = File.GetLastWriteTimeUtc(path);
                             obj.Created = File.GetCreationTimeUtc(path);
                             
-                            if (includeContentHash)
+                            if (opts?.GatherHashes == true)
                             {
                                 obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
                             }
@@ -415,7 +428,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             return obj;
         }
 
-        private static long SizeOnDisk(FileInfo path)
+        private long SizeOnDisk(FileInfo path)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
@@ -436,6 +449,10 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
             else
             {
+                if (sizesOnDisk.ContainsKey(path.FullName))
+                {
+                    return sizesOnDisk[path.FullName];
+                }
                 var exitCode = ExternalCommandRunner.RunExternalCommand("du", path.FullName, out string StdOut, out string StdErr);
                 if (exitCode == 0 && long.TryParse(StdOut.Split('\t')[0], out long result))
                 {
