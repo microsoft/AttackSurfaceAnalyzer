@@ -101,13 +101,9 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 }
             }
-            catch (ArgumentException)
-            {
-                Log.Debug("Failed to get permissions (handle is invalid) for {0}", regObj.Key);
-            }
             catch (Exception e)
             {
-                Log.Debug(e, "Failed to get permissions for {0}", regObj.Key);
+                Log.Debug(e, "Failed to get permissions for {0} ({1}:{2})", regObj.Key, e.GetType(), e.Message);
             }
 
             regObj.Values = RegistryObject.GetValues(key);

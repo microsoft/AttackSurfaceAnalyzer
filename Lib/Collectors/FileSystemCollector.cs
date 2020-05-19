@@ -205,7 +205,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     obj.Owner = AsaHelpers.SidToName(oid);
                 }
                 catch (Exception e) {
-                    Log.Verbose("Failed to get owner for {0} {1}", path, e.GetType());
+                    Log.Verbose("Failed to get owner for {0} ({1}:{2})", path, e.GetType(), e.Message);
                 }
                 try
                 {
@@ -214,7 +214,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     obj.Group = AsaHelpers.SidToName(gid);
                 }
                 catch (Exception e) {
-                    Log.Verbose("Failed to get group for {0} {1}", path, e.GetType());
+                    Log.Verbose("Failed to get group for {0} ({1}:{2})", path, e.GetType(), e.Message);
                 }
                 try
                 {
@@ -242,7 +242,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                 }
                 catch (Exception e) {
-                    Log.Verbose("Failed to get FileSecurity for  {1}", path, e.GetType());
+                    Log.Verbose("Failed to get FileSecurity for {0} ({1}:{2})", path, e.GetType(), e.Message);
                 }
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
@@ -294,7 +294,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     || e is ArgumentException
                     || e is InvalidOperationException)
                 {
-                    Log.Verbose("Failed to get permissions for {0} {1}", path, e.GetType().ToString());
+                    Log.Verbose("Failed to get permissions for {0} ({1}:{2})", path, e.GetType(), e.Message);
                 }
             }
 
@@ -418,6 +418,15 @@ namespace AttackSurfaceAnalyzer.Collectors
             catch (Exception e)
             {
                 Log.Debug("Should be caught in DirectoryWalker {0} {1}", e.GetType().ToString(), path);
+            }
+
+            try
+            {
+                obj.LastModified = File.GetLastWriteTimeUtc(path);
+                obj.Created = File.GetCreationTimeUtc(path);
+            }
+            catch (Exception e) {
+                Log.Verbose("Failed to get last modified for {0} ({1}:{2})", path, e.GetType(), e.Message);
             }
 
             return obj;
