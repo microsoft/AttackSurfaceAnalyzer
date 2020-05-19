@@ -433,7 +433,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 try
                 {
-                    NativeMethods.GetDiskFreeSpace(path.FullName, out uint lpSectorsPerCluster, out uint lpBytesPerSector, out _, out _);
+                    NativeMethods.GetDiskFreeSpace(path.DirectoryName, out uint lpSectorsPerCluster, out uint lpBytesPerSector, out _, out _);
 
                     uint clusterSize = lpSectorsPerCluster * lpBytesPerSector;
                     uint lowSize = NativeMethods.GetCompressedFileSizeW(path.FullName, out uint highSize);
