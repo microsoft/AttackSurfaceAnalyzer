@@ -38,7 +38,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
             catch (Exception e)
             {
-                Log.Verbose("Failed to get signature for {0} ({1}).", Path, e.GetType().ToString());
+                Log.Verbose("Failed to get signature for {0} ({1}:{2})", Path, e.GetType(), e.Message);
             }
             return null;
         }
@@ -118,11 +118,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                     || e is UnauthorizedAccessException
                     || e is NullReferenceException)
                 {
-                    Log.Verbose($"Failed to get PE Headers for {Path} {e.GetType().ToString()}");
+                    Log.Verbose("Failed to get PE Headers for {0} ({1}:{2})",Path, e.GetType(), e.Message);
                 }
                 catch (Exception e)
                 {
-                    Log.Debug(e, $"Failed to get PE Headers for {Path}");
+                    Log.Debug(e, "Failed to get PE Headers for {0} ({1}:{2})", Path, e.GetType(), e.Message);
                 }
             }
 
