@@ -19,7 +19,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     public abstract class BaseCollector : IPlatformRunnable
     {
         public ConcurrentStack<CollectObject> Results { get; } = new ConcurrentStack<CollectObject>();
-        internal CollectCommandOptions? opts;
+        internal CollectCommandOptions opts = new CollectCommandOptions();
         public void Execute()
         {
             if (!CanRunOnPlatform())
@@ -39,7 +39,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public void StallIfHighMemoryUsageAndLowMemoryModeEnabled()
         {
-            if (opts?.LowMemoryUsage ?? false)
+            if (opts.LowMemoryUsage)
             {
                 int stallCount = 0;
                 while (Results.Count > LOW_MEMORY_CUTOFF)

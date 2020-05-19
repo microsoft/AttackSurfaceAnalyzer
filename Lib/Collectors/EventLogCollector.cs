@@ -19,12 +19,12 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class EventLogCollector : BaseCollector
     {
-
-        private readonly bool GatherVerboseLogs;
         public EventLogCollector(CollectCommandOptions opts)
         {
-            this.opts = opts;
-            GatherVerboseLogs = opts?.GatherVerboseLogs ?? false;
+            if (opts != null)
+            {
+                this.opts = opts;
+            }
         }
 
         public override void ExecuteInternal()
@@ -61,7 +61,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         if (entry != null)
                         {
-                            if (GatherVerboseLogs || entry.EntryType.ToString() == "Warning" || entry.EntryType.ToString() == "Error")
+                            if (opts.GatherVerboseLogs || entry.EntryType.ToString() == "Warning" || entry.EntryType.ToString() == "Error")
                             {
                                 var sentences = entry.Message.Split('.');
 
@@ -161,7 +161,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = "log",
-                    Arguments = (GatherVerboseLogs) ? "show" : "show --predicate \"messageType == 16 || messageType == 17\"",
+                    Arguments = opts.GatherVerboseLogs ? "show" : "show --predicate \"messageType == 16 || messageType == 17\"",
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
                     UseShellExecute = false,

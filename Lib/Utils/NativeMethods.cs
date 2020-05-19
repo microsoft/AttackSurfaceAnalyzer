@@ -191,6 +191,17 @@ namespace AttackSurfaceAnalyzer.Utils
 
     internal class NativeMethods
     {
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        internal static extern bool GetDiskFreeSpace([In, MarshalAs(UnmanagedType.LPWStr)] string lpRootPathName,
+           out uint lpSectorsPerCluster,
+           out uint lpBytesPerSector,
+           out uint lpNumberOfFreeClusters,
+           out uint lpTotalNumberOfClusters);
+
+        [DllImport("kernel32.dll")]
+        internal static extern uint GetCompressedFileSizeW(
+            [In, MarshalAs(UnmanagedType.LPWStr)] string lpFileName,
+            [Out, MarshalAs(UnmanagedType.U4)] out uint lpFileSizeHigh);
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         internal static extern bool CloseHandle(IntPtr handle);
