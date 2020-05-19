@@ -18,6 +18,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Security.Permissions;
 using System.Security.Principal;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -28,9 +29,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         private readonly HashSet<string> roots;
 
-        private readonly bool INCLUDE_CONTENT_HASH;
-        private readonly bool downloadCloud;
-        private readonly bool parallel;
+        private Dictionary<string, long> sizesOnDisk = new Dictionary<string, long>();
 
         public static Dictionary<string, uint> ClusterSizes { get; set; } = new Dictionary<string, uint>();
 
@@ -41,11 +40,8 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 throw new ArgumentNullException(nameof(opts));
             }
-            downloadCloud = opts.DownloadCloud;
-            parallel = !opts.SingleThread;
 
             roots = new HashSet<string>();
-            INCLUDE_CONTENT_HASH = opts.GatherHashes;
 
             if (!string.IsNullOrEmpty(opts.SelectedDirectories))
             {
@@ -94,61 +90,97 @@ namespace AttackSurfaceAnalyzer.Collectors
                     roots.Add("/");
                 }
             }
-
-            Action<string> IterateOn = Path =>
+            Action<string>? IterateOnDirectory = null;
+            IterateOnDirectory = Path =>
             {
-                StallIfHighMemoryUsageAndLowMemoryModeEnabled();
                 Log.Verbose("Started parsing {0}", Path);
-                FileSystemObject obj = FilePathToFileSystemObject(Path, downloadCloud, INCLUDE_CONTENT_HASH);
-                if (obj != null)
+
+                var directories = Directory.EnumerateDirectories(Path, "*", new System.IO.EnumerationOptions()
                 {
-                    Results.Push(obj);
+                    ReturnSpecialDirectories = false,
+                    IgnoreInaccessible = true,
+                    RecurseSubdirectories = true
+                });
 
-                    // TODO: Also try parse .DER as a key
-                    if (Path.EndsWith(".cer", StringComparison.CurrentCulture) ||
-                        Path.EndsWith(".der", StringComparison.CurrentCulture) ||
-                        Path.EndsWith(".p7b", StringComparison.CurrentCulture) ||
-                        Path.EndsWith(".pfx", StringComparison.CurrentCulture))
+                if (!opts.SingleThread == true)
+                {
+                    Parallel.ForEach(directories, filePath =>
                     {
-                        try
-                        {
-                            using var certificate = new X509Certificate2(Path);
+                        IterateOnDirectory?.Invoke(filePath);
+                    });
+                }
+                else
+                {
+                    foreach (var filePath in directories)
+                    {
+                        IterateOnDirectory?.Invoke(filePath);
+                    }
+                }
 
-                            var certObj = new CertificateObject(
-                                StoreLocation: StoreLocation.LocalMachine.ToString(),
-                                StoreName: StoreName.Root.ToString(),
-                                Certificate: new SerializableCertificate(certificate));
-
-                            Results.Push(certObj);
-                        }
-                        catch (Exception e)
+                // To optimize calls to du on non-windows platforms we run du on the whole directory ahead of time
+                if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    var exitCode = ExternalCommandRunner.RunExternalCommand("du", Path, out string StdOut, out string StdErr);
+                    if (exitCode == 0)
+                    {
+                        foreach (var line in StdOut.Split(Environment.NewLine))
                         {
-                            Log.Verbose($"Could not parse certificate from file: {Path}, {e.GetType().ToString()}");
+                            var fields = line.Split('\t');
+                            if (long.TryParse(fields[0], out long result))
+                            {
+                                sizesOnDisk[fields[1]] = result;
+                            }
                         }
                     }
                 }
+                
+                var files = Directory.EnumerateFiles(Path, "*", new System.IO.EnumerationOptions()
+                {
+                    IgnoreInaccessible = true
+                });
+                foreach (var file in files)
+                {
+                    StallIfHighMemoryUsageAndLowMemoryModeEnabled();
+                    Log.Verbose("Started parsing {0}", file);
+                    FileSystemObject obj = FilePathToFileSystemObject(file);
+                    if (obj != null)
+                    {
+                        Results.Push(obj);
+
+                        // TODO: Also try parse .DER as a key
+                        if (Path.EndsWith(".cer", StringComparison.CurrentCulture) ||
+                            Path.EndsWith(".der", StringComparison.CurrentCulture) ||
+                            Path.EndsWith(".p7b", StringComparison.CurrentCulture) ||
+                            Path.EndsWith(".pfx", StringComparison.CurrentCulture))
+                        {
+                            try
+                            {
+                                using var certificate = new X509Certificate2(Path);
+
+                                var certObj = new CertificateObject(
+                                    StoreLocation: StoreLocation.LocalMachine.ToString(),
+                                    StoreName: StoreName.Root.ToString(),
+                                    Certificate: new SerializableCertificate(certificate));
+
+                                Results.Push(certObj);
+                            }
+                            catch (Exception e)
+                            {
+                                Log.Verbose($"Could not parse certificate from file: {file}, {e.GetType().ToString()}");
+                            }
+                        }
+                    }
+                    Log.Verbose("Finished parsing {0}", file);
+                }
+
                 Log.Verbose("Finished parsing {0}", Path);
             };
 
             foreach (var root in roots)
             {
                 Log.Information("{0} root {1}", Strings.Get("Scanning"), root);
-                var filePathEnumerable = DirectoryWalker.WalkDirectory(root);
 
-                if (parallel)
-                {
-                    filePathEnumerable.AsParallel().ForAll(filePath =>
-                    {
-                        IterateOn(filePath);
-                    });
-                }
-                else
-                {
-                    foreach (var filePath in filePathEnumerable)
-                    {
-                        IterateOn(filePath);
-                    }
-                }
+                IterateOnDirectory(root);
             }
         }
 
@@ -159,7 +191,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <param name="downloadCloud">If the file is hosted in the cloud, the user has the option to include cloud files or not.</param>
         /// <param name="includeContentHash">If we should generate a hash of the file.</param>
         /// <returns></returns>
-        public static FileSystemObject FilePathToFileSystemObject(string path, bool downloadCloud = false, bool includeContentHash = false)
+        public FileSystemObject FilePathToFileSystemObject(string path)
         {
             FileSystemObject obj = new FileSystemObject(path);
 
@@ -293,7 +325,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                         // This check is to try to prevent reading of cloud based files (like a dropbox folder)
                         //   and subsequently causing a download, unless the user specifically requests it with DownloadCloud.
-                        if (downloadCloud || WindowsFileSystemUtils.IsLocal(obj.Path) || SizeOnDisk(fileInfo) > 0)
+                        if (opts.DownloadCloud == true || WindowsFileSystemUtils.IsLocal(obj.Path) || SizeOnDisk(fileInfo) > 0)
                         {
                             FileIOPermission fiop = new FileIOPermission(FileIOPermissionAccess.Read, path);
                             fiop.Demand();
@@ -301,7 +333,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             obj.LastModified = File.GetLastWriteTimeUtc(path);
                             obj.Created = File.GetCreationTimeUtc(path);
                             
-                            if (includeContentHash)
+                            if (opts.GatherHashes == true)
                             {
                                 obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
                             }
@@ -347,7 +379,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             var fileInfo = new FileInfo(path);
                             obj.SizeOnDisk = SizeOnDisk(fileInfo);
 
-                            if (downloadCloud || obj.SizeOnDisk > 0)
+                            if (opts.DownloadCloud || obj.SizeOnDisk > 0)
                             {
                                 FileIOPermission fiop = new FileIOPermission(FileIOPermissionAccess.Read, path);
                                 fiop.Demand();
@@ -355,7 +387,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 obj.LastModified = File.GetLastWriteTimeUtc(path);
                                 obj.Created = File.GetCreationTimeUtc(path);
 
-                                if (includeContentHash)
+                                if (opts.GatherHashes)
                                 {
                                     obj.ContentHash = FileSystemUtils.GetFileHash(path);
                                 }
@@ -395,7 +427,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             return obj;
         }
 
-        private static long SizeOnDisk(FileInfo path)
+        private long SizeOnDisk(FileInfo path)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
@@ -416,6 +448,10 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
             else
             {
+                if (sizesOnDisk.ContainsKey(path.FullName))
+                {
+                    return sizesOnDisk[path.FullName];
+                }
                 var exitCode = ExternalCommandRunner.RunExternalCommand("du", path.FullName, out string StdOut, out string StdErr);
                 if (exitCode == 0 && long.TryParse(StdOut.Split('\t')[0], out long result))
                 {

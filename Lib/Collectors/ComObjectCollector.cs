@@ -17,8 +17,6 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class ComObjectCollector : BaseCollector
     {
-        readonly CollectCommandOptions opts;
-
         public ComObjectCollector(CollectCommandOptions opts)
         {
             this.opts = opts;
@@ -98,7 +96,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             if (SearchKey == null) { return new List<CollectObject>(); }
             List<ComObject> comObjects = new List<ComObject>();
-
+            var fsc = new FileSystemCollector(new CollectCommandOptions() { SingleThread = SingleThreaded });
             Action<string> ParseComObjectsIn = SubKeyName =>
             {
                 try
@@ -136,7 +134,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                             BinaryPath32 = Path.Combine(Environment.SystemDirectory, BinaryPath32.Trim());
                                         }
 
-                                        comObject.x86_Binary = FileSystemCollector.FilePathToFileSystemObject(BinaryPath32.Trim(), true);
+                                        comObject.x86_Binary = fsc.FilePathToFileSystemObject(BinaryPath32.Trim());
                                     }
                                 }
                             }
@@ -163,7 +161,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                             BinaryPath64 = Path.Combine(Environment.SystemDirectory, BinaryPath64.Trim());
                                         }
 
-                                        comObject.x64_Binary = FileSystemCollector.FilePathToFileSystemObject(BinaryPath64.Trim(), true);
+                                        comObject.x64_Binary = fsc.FilePathToFileSystemObject(BinaryPath64.Trim());
                                     }
                                 }
                             }
