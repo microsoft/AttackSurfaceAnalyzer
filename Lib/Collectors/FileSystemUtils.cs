@@ -180,7 +180,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
             }
             catch (Exception e) {
-                Log.Verbose("Failed to get Mac CodeSign information for {0} ({1})", Path, e.GetType());
+                Log.Verbose("Failed to get Mac CodeSign information for {0} ({1}:{2})", Path, e.GetType(), e.Message);
             }
             return null;
         }
@@ -199,7 +199,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             byte[] fourBytes = new byte[4];
             try
             {
-                using (var fileStream = File.Open(Path, FileMode.Open))
+                using (var fileStream = File.OpenRead(Path))
                 {
                     fileStream.Read(fourBytes, 0, 4);
                 }
@@ -216,7 +216,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 || e is NotSupportedException
                 || e is ObjectDisposedException)
             {
-                Log.Verbose("Couldn't chomp 4 bytes of {0} ({1})", Path, e.GetType().ToString());
+                Log.Verbose("Couldn't chomp 4 bytes of {0} ({1}:{2})", Path, e.GetType().ToString(), e.Message);
                 return false;
             }
 
@@ -254,7 +254,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 || e is NotSupportedException
                 || e is ObjectDisposedException)
             {
-                Log.Verbose("Couldn't chomp 4 bytes of {0} ({1})", Path, e.GetType().ToString());
+                Log.Verbose("Couldn't chomp 4 bytes of {0} ({1}:{2})", Path, e.GetType().ToString(), e.Message);
                 return false;
             }
 
@@ -275,7 +275,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             byte[] fourBytes = new byte[4];
             try
             {
-                using (var fileStream = File.Open(Path, FileMode.Open))
+                using (var fileStream = File.OpenRead(Path))
                 {
                     fileStream.Read(fourBytes, 0, 4);
                 }
@@ -292,7 +292,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 || e is NotSupportedException
                 || e is ObjectDisposedException)
             {
-                Log.Verbose("Couldn't chomp 4 bytes of {0} ({1})", Path, e.GetType().ToString());
+                Log.Verbose("Couldn't chomp 4 bytes of {0} ({1}:{2})", Path, e.GetType().ToString(), e.Message);
                 return false;
             }
 
@@ -320,7 +320,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 string? hashValue = null;
                 try
                 {
-                    using (var stream = new FileStream(fileInfo.FullName, FileMode.Open, FileAccess.Read))
+                    using (var stream = File.OpenRead(fileInfo.FullName))
                     {
                         hashValue = CryptoHelpers.CreateHash(stream);
                     }
