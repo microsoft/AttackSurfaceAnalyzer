@@ -442,7 +442,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
                 catch(Exception e)
                 {
-                    Log.Debug("Failed to GetDiskFreeSpace for {0} ({1}:{2})", e.GetType(), e.Message);
+                    Log.Debug("Failed to GetDiskFreeSpace for {0} ({1}:{2})", path.FullName, e.GetType(), e.Message);
                 }
                 return -1;
             }
