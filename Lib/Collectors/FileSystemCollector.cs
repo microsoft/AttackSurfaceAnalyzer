@@ -442,10 +442,10 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 try
                 {
-                    GetDiskFreeSpace(path.FullName, out uint lpSectorsPerCluster, out uint lpBytesPerSector, out _, out _);
+                    NativeMethods.GetDiskFreeSpace(path.DirectoryName, out uint lpSectorsPerCluster, out uint lpBytesPerSector, out _, out _);
 
                     uint clusterSize = lpSectorsPerCluster * lpBytesPerSector;
-                    uint lowSize = GetCompressedFileSizeW(path.FullName, out uint highSize);
+                    uint lowSize = NativeMethods.GetCompressedFileSizeW(path.FullName, out uint highSize);
                     long size = (long)highSize << 32 | lowSize;
                     return ((size + clusterSize - 1) / clusterSize) * clusterSize;
                 }
@@ -472,17 +472,5 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
             }
         }
-
-        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        static extern bool GetDiskFreeSpace([In, MarshalAs(UnmanagedType.LPWStr)] string lpRootPathName,
-           out uint lpSectorsPerCluster,
-           out uint lpBytesPerSector,
-           out uint lpNumberOfFreeClusters,
-           out uint lpTotalNumberOfClusters);
-
-        [DllImport("kernel32.dll")]
-        static extern uint GetCompressedFileSizeW(
-            [In, MarshalAs(UnmanagedType.LPWStr)] string lpFileName,
-            [Out, MarshalAs(UnmanagedType.U4)] out uint lpFileSizeHigh);
     }
 }
