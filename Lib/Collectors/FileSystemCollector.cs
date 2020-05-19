@@ -301,6 +301,8 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             try
             {
+                FileIOPermission fiop = new FileIOPermission(FileIOPermissionAccess.Read, path);
+                fiop.Demand();
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
                     if (Directory.Exists(path))
@@ -325,11 +327,8 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                         // This check is to try to prevent reading of cloud based files (like a dropbox folder)
                         //   and subsequently causing a download, unless the user specifically requests it with DownloadCloud.
-                        if (opts.DownloadCloud == true || WindowsFileSystemUtils.IsLocal(obj.Path) || SizeOnDisk(fileInfo) > 0)
+                        if (opts.DownloadCloud || obj.SizeOnDisk > 0 || WindowsFileSystemUtils.IsLocal(obj.Path))
                         {
-                            FileIOPermission fiop = new FileIOPermission(FileIOPermissionAccess.Read, path);
-                            fiop.Demand();
-
                             obj.LastModified = File.GetLastWriteTimeUtc(path);
                             obj.Created = File.GetCreationTimeUtc(path);
                             
@@ -380,10 +379,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             obj.SizeOnDisk = SizeOnDisk(fileInfo);
 
                             if (opts.DownloadCloud || obj.SizeOnDisk > 0)
-                            {
-                                FileIOPermission fiop = new FileIOPermission(FileIOPermissionAccess.Read, path);
-                                fiop.Demand();
-                                
+                            {   
                                 obj.LastModified = File.GetLastWriteTimeUtc(path);
                                 obj.Created = File.GetCreationTimeUtc(path);
 
