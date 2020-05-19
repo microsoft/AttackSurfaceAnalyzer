@@ -95,28 +95,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 Log.Verbose("Started parsing {0}", Path);
 
-                var directories = Directory.EnumerateDirectories(Path, "*", new System.IO.EnumerationOptions()
-                {
-                    ReturnSpecialDirectories = false,
-                    IgnoreInaccessible = true,
-                    RecurseSubdirectories = true
-                });
-
-                if (!opts.SingleThread == true)
-                {
-                    Parallel.ForEach(directories, filePath =>
-                    {
-                        IterateOnDirectory?.Invoke(filePath);
-                    });
-                }
-                else
-                {
-                    foreach (var filePath in directories)
-                    {
-                        IterateOnDirectory?.Invoke(filePath);
-                    }
-                }
-
                 // To optimize calls to du on non-windows platforms we run du on the whole directory ahead of time
                 if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
@@ -179,8 +157,30 @@ namespace AttackSurfaceAnalyzer.Collectors
             foreach (var root in roots)
             {
                 Log.Information("{0} root {1}", Strings.Get("Scanning"), root);
+                var directories = Directory.EnumerateDirectories(root, "*", new System.IO.EnumerationOptions()
+                {
+                    ReturnSpecialDirectories = false,
+                    IgnoreInaccessible = true,
+                    RecurseSubdirectories = true
+                });
 
-                IterateOnDirectory(root);
+                //First do root
+                IterateOnDirectory?.Invoke(root);
+
+                if (!opts.SingleThread == true)
+                {
+                    Parallel.ForEach(directories, filePath =>
+                    {
+                        IterateOnDirectory?.Invoke(filePath);
+                    });
+                }
+                else
+                {
+                    foreach (var filePath in directories)
+                    {
+                        IterateOnDirectory?.Invoke(filePath);
+                    }
+                }
             }
         }
 
@@ -433,12 +433,22 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 try
                 {
-                    NativeMethods.GetDiskFreeSpace(path.DirectoryName, out uint lpSectorsPerCluster, out uint lpBytesPerSector, out _, out _);
+                    uint clusterSize = 0;
+                    var root = path.Directory.Root.FullName;
+                    if (!ClusterSizes.ContainsKey(root))
+                    {
+                        ClusterSizes[root] = 0;
+                        NativeMethods.GetDiskFreeSpace(root, out uint lpSectorsPerCluster, out uint lpBytesPerSector, out _, out _);
+                        ClusterSizes[root] = lpSectorsPerCluster * lpBytesPerSector;
+                    }
+                    clusterSize = ClusterSizes[root];
 
-                    uint clusterSize = lpSectorsPerCluster * lpBytesPerSector;
-                    uint lowSize = NativeMethods.GetCompressedFileSizeW(path.FullName, out uint highSize);
-                    long size = (long)highSize << 32 | lowSize;
-                    return ((size + clusterSize - 1) / clusterSize) * clusterSize;
+                    if (clusterSize > 0)
+                    {
+                        uint lowSize = NativeMethods.GetCompressedFileSizeW(path.FullName, out uint highSize);
+                        long size = (long)highSize << 32 | lowSize;
+                        return ((size + clusterSize - 1) / clusterSize) * clusterSize;
+                    }
                 }
                 catch(Exception e)
                 {
