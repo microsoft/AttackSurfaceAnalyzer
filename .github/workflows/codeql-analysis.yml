@@ -27,7 +27,7 @@ jobs:
     - name: Build ASA
       run: |
          dotnet restore
-         dotnet build Cli -c Release
+         dotnet build Cli.csproj -c Release
       working-directory: ./Cli
 
     - name: Perform CodeQL Analysis
