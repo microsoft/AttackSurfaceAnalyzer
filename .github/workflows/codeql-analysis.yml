@@ -24,8 +24,11 @@ jobs:
       with:
          languages: javascript, csharp
 
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v1
+    - name: Build ASA
+      run: |
+         dotnet restore
+         dotnet build Cli -c Release
+      working-directory: ./Cli
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
