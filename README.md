@@ -56,7 +56,7 @@ All data collected is stored in a set of local SQLite databases.
 Run the following commands in an Administrator Shell (or as root).  Replace ```asa``` with ```asa.exe``` as appropriate for your platform.
 
 ### CLI Mode
-To start a default all collectors run: ```asa collect```
+To start a default all collectors run: ```asa collect -a```
 
 To compare the last two collection runs: ```asa export-collect```
 
