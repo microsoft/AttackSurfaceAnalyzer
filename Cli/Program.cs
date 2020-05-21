@@ -1056,7 +1056,10 @@ namespace AttackSurfaceAnalyzer.Cli
                 {
                     DatabaseManager.BeginTransaction();
 
-                    Task.Run(() => c.Execute());
+                    Task.Run(() =>
+                    {
+                        c.TryExecute();
+                    });
 
                     Thread.Sleep(1);
 
