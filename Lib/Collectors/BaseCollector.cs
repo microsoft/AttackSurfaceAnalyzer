@@ -20,7 +20,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         public ConcurrentStack<CollectObject> Results { get; } = new ConcurrentStack<CollectObject>();
         internal CollectCommandOptions opts = new CollectCommandOptions();
-        public void Execute()
+        public void TryExecute()
         {
             if (!CanRunOnPlatform())
             {
@@ -29,7 +29,14 @@ namespace AttackSurfaceAnalyzer.Collectors
             else
             {
                 Start();
-                ExecuteInternal();
+                try
+                {
+                    ExecuteInternal();
+                }
+                catch(Exception e)
+                {
+                    Log.Debug("Failed to run {0} ({1}:{2})", GetType(), e.GetType(), e.Message);
+                }
                 Stop();
             }
         }
