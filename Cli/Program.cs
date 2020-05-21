@@ -1076,7 +1076,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
                     Task.Run(() =>
                     {
-                        try { c.Execute(); } catch (Exception e) { Log.Warning(e,"Error running {c}", c.GetType()); }
+                        c.TryExecute();
                     });
 
                     Thread.Sleep(1);
