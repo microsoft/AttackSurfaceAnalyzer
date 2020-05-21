@@ -63,7 +63,7 @@ namespace AttackSurfaceAnalyzer.Tests
             }
 
             var fsc = new FileSystemCollector(opts);
-            fsc.Execute();
+            fsc.TryExecute();
 
             Assert.IsTrue(fsc.Results.Any(x => x is FileSystemObject FSO && FSO.Path.EndsWith("AsaLibTesterJavaClass") && FSO.IsExecutable == true));
             Assert.IsTrue(fsc.Results.Any(x => x is FileSystemObject FSO && FSO.Path.EndsWith("AsaLibTesterMZ") && FSO.IsExecutable == true));
@@ -93,7 +93,7 @@ namespace AttackSurfaceAnalyzer.Tests
             eventLog.WriteEntry("This Log Entry was created for testing the Attack Surface Analyzer library.", EventLogEntryType.Warning, 101, 1);
 
             var fsc = new EventLogCollector(new CollectCommandOptions());
-            fsc.Execute();
+            fsc.TryExecute();
 
             EventLog.DeleteEventSource(source);
             EventLog.Delete(logname);
@@ -108,7 +108,7 @@ namespace AttackSurfaceAnalyzer.Tests
         public void TestCertificateCollectorWindows()
         {
             var fsc = new CertificateCollector();
-            fsc.Execute();
+            fsc.TryExecute();
 
             Assert.IsTrue(fsc.Results.Where(x => x.ResultType == RESULT_TYPE.CERTIFICATE).Count() > 0);
         }
@@ -137,7 +137,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 Console.WriteLine("Failed to open port.");
             }
             var fsc = new OpenPortCollector();
-            fsc.Execute();
+            fsc.TryExecute();
             server.Stop();
 
             Assert.IsTrue(fsc.Results.Any(x => x is OpenPortObject OPO && OPO.Port == 13000));
@@ -154,7 +154,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 _ = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--add /bin/bash");
 
                 var fwc = new FirewallCollector();
-                fwc.Execute();
+                fwc.TryExecute();
                 _ = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--remove /bin/bash");
                 Assert.IsTrue(fwc.Results.Any(x => x is FirewallObject FWO && FWO.ApplicationName == "/bin/bash"));
             }
@@ -171,7 +171,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 var result = ExternalCommandRunner.RunExternalCommand("iptables", "-A INPUT -p tcp --dport 19999 -j DROP");
 
                 var fwc = new FirewallCollector();
-                fwc.Execute();
+                fwc.TryExecute();
 
                 Assert.IsTrue(fwc.Results.Any(x => x is FirewallObject FWO && FWO.LocalPorts.Contains("19999")));
 
@@ -204,7 +204,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 FirewallManager.Instance.Rules.Add(rule);
 
                 var fwc = new FirewallCollector();
-                fwc.Execute();
+                fwc.TryExecute();
 
                 Assert.IsTrue(fwc.Results.Any(x => x is FirewallObject FWO && FWO.LocalPorts.Contains("9999")));
                 Assert.IsTrue(fwc.Results.Any(x => x is FirewallObject FWO && FWO.ApplicationName is string && FWO.ApplicationName.Equals(@"C:\MyApp.exe")));
@@ -243,7 +243,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 key.Close();
 
                 var rc = new RegistryCollector(new List<(RegistryHive, string)>() { (RegistryHive.CurrentUser, name) }, new CollectCommandOptions() { SingleThread = true });
-                rc.Execute();
+                rc.TryExecute();
 
                 Registry.CurrentUser.DeleteSubKey(name);
 
@@ -267,7 +267,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 ExternalCommandRunner.RunExternalCommand("sc.exe", cmd);
 
                 var sc = new ServiceCollector();
-                sc.Execute();
+                sc.TryExecute();
 
                 Assert.IsTrue(sc.Results.Any(x => x is ServiceObject RO && RO.Name.Equals(serviceName)));
 
@@ -286,7 +286,7 @@ namespace AttackSurfaceAnalyzer.Tests
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 var coc = new ComObjectCollector(new CollectCommandOptions());
-                coc.Execute();
+                coc.TryExecute();
 
                 Assert.IsTrue(coc.Results.Any(x => x is ComObject y && y.x86_Binary != null));
             }
@@ -308,7 +308,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 ExternalCommandRunner.RunExternalCommand("net", cmd);
 
                 var uac = new UserAccountCollector();
-                uac.Execute();
+                uac.TryExecute();
 
                 Assert.IsTrue(uac.Results.Any(x => x is UserAccountObject y && y.Name.Equals(user)));
 
