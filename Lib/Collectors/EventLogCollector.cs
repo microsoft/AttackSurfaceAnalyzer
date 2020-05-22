@@ -19,13 +19,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class EventLogCollector : BaseCollector
     {
-        public EventLogCollector(CollectCommandOptions opts)
-        {
-            if (opts != null)
-            {
-                this.opts = opts;
-            }
-        }
+        public EventLogCollector(CollectCommandOptions? opts = null) => this.opts = opts ?? this.opts;
 
         public override void ExecuteInternal()
         {

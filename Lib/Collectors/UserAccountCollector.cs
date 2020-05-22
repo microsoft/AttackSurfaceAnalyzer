@@ -21,6 +21,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     public class UserAccountCollector : BaseCollector
     {
         public UserAccountCollector(CollectCommandOptions? opts = null) => this.opts = opts ?? this.opts;
+
         public override bool CanRunOnPlatform()
         {
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
