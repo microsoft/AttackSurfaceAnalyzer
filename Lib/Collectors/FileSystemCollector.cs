@@ -27,40 +27,13 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class FileSystemCollector : BaseCollector
     {
-        private readonly HashSet<string> roots;
+        private readonly HashSet<string> roots = new HashSet<string>();
 
         private Dictionary<string, long> sizesOnDisk = new Dictionary<string, long>();
 
         public static Dictionary<string, uint> ClusterSizes { get; set; } = new Dictionary<string, uint>();
 
-        public FileSystemCollector(CollectCommandOptions opts)
-        {
-            this.opts = opts;
-            if (opts is null)
-            {
-                throw new ArgumentNullException(nameof(opts));
-            }
-
-            roots = new HashSet<string>();
-
-            if (!string.IsNullOrEmpty(opts.SelectedDirectories))
-            {
-                foreach (string path in opts.SelectedDirectories.Split(','))
-                {
-                    AddRoot(path);
-                }
-            }
-
-        }
-
-        /// <summary>
-        /// Add a root to be collected
-        /// </summary>
-        /// <param name="root">The path to scan</param>
-        public void AddRoot(string root)
-        {
-            roots.Add(root);
-        }
+        public FileSystemCollector(CollectCommandOptions? opts = null) => this.opts = opts ?? this.opts;
 
         public override bool CanRunOnPlatform()
         {
@@ -69,6 +42,14 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public override void ExecuteInternal()
         {
+            if (!string.IsNullOrEmpty(opts.SelectedDirectories))
+            {
+                foreach (string path in opts.SelectedDirectories.Split(','))
+                {
+                    roots.Add(path);
+                }
+            }
+
             if (!roots.Any())
             {
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
