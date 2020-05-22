@@ -20,7 +20,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class ServiceCollector : BaseCollector
     {
-        public ServiceCollector(CollectCommandOptions opts) => this.opts = opts;
+        public ServiceCollector(CollectCommandOptions? opts = null) => this.opts = opts ?? this.opts;
 
         /// <summary>
         /// Determines whether the ServiceCollector can run or not.

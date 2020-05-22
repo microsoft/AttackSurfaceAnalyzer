@@ -18,9 +18,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class FirewallCollector : BaseCollector
     {
-        public FirewallCollector()
-        {
-        }
+        public FirewallCollector(CollectCommandOptions? opts = null) => this.opts = opts ?? this.opts;
 
         public override bool CanRunOnPlatform()
         {

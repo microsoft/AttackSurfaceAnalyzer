@@ -17,8 +17,9 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class OpenPortCollector : BaseCollector
     {
-        public OpenPortCollector()
+        public OpenPortCollector(CollectCommandOptions? opts = null)
         {
+            this.opts = opts ?? this.opts;
         }
 
         public override bool CanRunOnPlatform()
