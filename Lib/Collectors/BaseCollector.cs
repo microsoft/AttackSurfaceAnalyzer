@@ -22,13 +22,13 @@ namespace AttackSurfaceAnalyzer.Collectors
         internal CollectCommandOptions opts = new CollectCommandOptions();
         public void TryExecute()
         {
+            Start();
             if (!CanRunOnPlatform())
             {
                 Log.Warning(Strings.Get("Err_PlatIncompat"), GetType().ToString());
             }
             else
             {
-                Start();
                 try
                 {
                     ExecuteInternal();
@@ -37,8 +37,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                 {
                     Log.Debug("Failed to run {0} ({1}:{2})", GetType(), e.GetType(), e.Message);
                 }
-                Stop();
             }
+            Stop();
         }
 
         // Max number of elements to keep in Results if LowMemoryUsage mode is enabled.

@@ -17,10 +17,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class ComObjectCollector : BaseCollector
     {
-        public ComObjectCollector(CollectCommandOptions opts)
-        {
-            this.opts = opts;
-        }
+        public ComObjectCollector(CollectCommandOptions? opts = null) => this.opts = opts ?? this.opts;
 
         /// <summary>
         /// Com Objects only exist on Windows.

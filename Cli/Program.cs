@@ -977,17 +977,17 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             if (opts.EnableNetworkPortCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new OpenPortCollector());
+                collectors.Add(new OpenPortCollector(opts));
                 dict.Add(RESULT_TYPE.PORT);
             }
             if (opts.EnableServiceCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new ServiceCollector());
+                collectors.Add(new ServiceCollector(opts));
                 dict.Add(RESULT_TYPE.SERVICE);
             }
             if (opts.EnableUserCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new UserAccountCollector());
+                collectors.Add(new UserAccountCollector(opts));
                 dict.Add(RESULT_TYPE.USER);
             }
             if (opts.EnableRegistryCollector || (opts.EnableAllCollectors && RuntimeInformation.IsOSPlatform(OSPlatform.Windows)))
@@ -997,12 +997,12 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             if (opts.EnableCertificateCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new CertificateCollector());
+                collectors.Add(new CertificateCollector(opts));
                 dict.Add(RESULT_TYPE.CERTIFICATE);
             }
             if (opts.EnableFirewallCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new FirewallCollector());
+                collectors.Add(new FirewallCollector(opts));
                 dict.Add(RESULT_TYPE.FIREWALL);
             }
             if (opts.EnableComObjectCollector || (opts.EnableAllCollectors && RuntimeInformation.IsOSPlatform(OSPlatform.Windows)))
@@ -1061,7 +1061,7 @@ namespace AttackSurfaceAnalyzer.Cli
                         c.TryExecute();
                     });
 
-                    Thread.Sleep(1);
+                    Thread.Sleep(5);
 
                     while (c.RunStatus == RUN_STATUS.RUNNING)
                     {

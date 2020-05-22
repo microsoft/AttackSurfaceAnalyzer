@@ -16,9 +16,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class CertificateCollector : BaseCollector
     {
-        public CertificateCollector()
-        {
-        }
+        public CertificateCollector(CollectCommandOptions? opts = null) => this.opts = opts ?? this.opts;
 
         public override bool CanRunOnPlatform()
         {

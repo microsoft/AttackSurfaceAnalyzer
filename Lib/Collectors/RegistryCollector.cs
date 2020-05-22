@@ -18,6 +18,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     public class RegistryCollector : BaseCollector
     {
         private readonly List<(RegistryHive, string)> Hives;
+
         private readonly bool Parallelize;
 
         private static readonly List<(RegistryHive, string)> DefaultHives = new List<(RegistryHive, string)>()
@@ -25,18 +26,16 @@ namespace AttackSurfaceAnalyzer.Collectors
             (RegistryHive.ClassesRoot,string.Empty), (RegistryHive.CurrentConfig,string.Empty), (RegistryHive.CurrentUser,string.Empty), (RegistryHive.LocalMachine,string.Empty), (RegistryHive.Users,string.Empty)
         };
 
-        public RegistryCollector(CollectCommandOptions opts) : this(DefaultHives, opts) { }
-
-        public RegistryCollector(List<(RegistryHive, string)> Hives, CollectCommandOptions opts)
+        public RegistryCollector(CollectCommandOptions? opts = null)
         {
-            this.opts = opts;
-            this.Hives = Hives;
+            this.opts = opts ?? this.opts;
+            Hives = DefaultHives;
             if (opts != null)
             {
                 Parallelize = !opts.SingleThread;
                 if (opts.SelectedHives is string hiveString)
                 {
-                    this.Hives = new List<(RegistryHive, string)>();
+                    Hives = new List<(RegistryHive, string)>();
                     var splits = hiveString.Split(',');
                     foreach (var split in splits)
                     {
@@ -45,7 +44,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         {
                             if (result is RegistryHive selectedHive)
                             {
-                                this.Hives.Add((selectedHive, innerSplit.Length > 1 ? string.Join('\\', innerSplit[1..]) : string.Empty));
+                                Hives.Add((selectedHive, innerSplit.Length > 1 ? string.Join('\\', innerSplit[1..]) : string.Empty));
                             }
                         }
                     }
