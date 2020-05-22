@@ -11,6 +11,7 @@ using System.Linq;
 using System.Management;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -19,9 +20,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class ServiceCollector : BaseCollector
     {
-        public ServiceCollector()
-        {
-        }
+        public ServiceCollector(CollectCommandOptions opts) => this.opts = opts;
 
         /// <summary>
         /// Determines whether the ServiceCollector can run or not.
@@ -43,6 +42,98 @@ namespace AttackSurfaceAnalyzer.Collectors
             return val;
         }
 
+        private void ProcessManagementObject(ManagementObject service)
+        {
+            try
+            {
+                var val = TryGetPropertyValue(service, "Name");
+                if (val != null)
+                {
+                    var obj = new ServiceObject(val);
+
+                    val = TryGetPropertyValue(service, "AcceptPause");
+                    if (!string.IsNullOrEmpty(val))
+                        obj.AcceptPause = bool.Parse(val);
+
+                    val = TryGetPropertyValue(service, "AcceptStop");
+                    if (!string.IsNullOrEmpty(val))
+                        obj.AcceptStop = bool.Parse(val);
+
+                    obj.Caption = TryGetPropertyValue(service, "Caption");
+
+                    val = TryGetPropertyValue(service, "CheckPoint");
+                    if (!string.IsNullOrEmpty(val))
+                        obj.CheckPoint = uint.Parse(val, CultureInfo.InvariantCulture);
+
+                    obj.CreationClassName = TryGetPropertyValue(service, "CreationClassName");
+
+                    val = TryGetPropertyValue(service, "DelayedAutoStart");
+                    if (!string.IsNullOrEmpty(val))
+                        obj.DelayedAutoStart = bool.Parse(val);
+
+                    obj.Description = TryGetPropertyValue(service, "Description");
+
+                    val = TryGetPropertyValue(service, "DesktopInteract");
+                    if (!string.IsNullOrEmpty(val))
+                        obj.DesktopInteract = bool.Parse(val);
+
+                    obj.DisplayName = TryGetPropertyValue(service, "DisplayName");
+                    obj.ErrorControl = TryGetPropertyValue(service, "ErrorControl");
+
+                    val = TryGetPropertyValue(service, "ExitCode");
+                    if (!string.IsNullOrEmpty(val))
+                        obj.ExitCode = uint.Parse(val, CultureInfo.InvariantCulture);
+
+                    if (DateTime.TryParse(service.GetPropertyValue("InstallDate")?.ToString(), out DateTime dateTime))
+                    {
+                        obj.InstallDate = dateTime;
+                    }
+                    obj.PathName = TryGetPropertyValue(service, "PathName");
+
+                    val = TryGetPropertyValue(service, "ProcessId");
+                    if (!string.IsNullOrEmpty(val))
+                        obj.ProcessId = uint.Parse(val, CultureInfo.InvariantCulture);
+
+                    val = TryGetPropertyValue(service, "ServiceSpecificExitCode");
+                    if (!string.IsNullOrEmpty(val))
+                        obj.ServiceSpecificExitCode = uint.Parse(val, CultureInfo.InvariantCulture);
+
+                    obj.ServiceType = TryGetPropertyValue(service, "ServiceType");
+
+                    val = TryGetPropertyValue(service, "Started");
+                    if (!string.IsNullOrEmpty(val))
+                        obj.Started = bool.Parse(val);
+
+                    obj.StartMode = TryGetPropertyValue(service, "StartMode");
+                    obj.StartName = TryGetPropertyValue(service, "StartName");
+                    obj.State = TryGetPropertyValue(service, "State");
+                    obj.Status = TryGetPropertyValue(service, "Status");
+                    obj.SystemCreationClassName = TryGetPropertyValue(service, "SystemCreationClassName");
+                    obj.SystemName = TryGetPropertyValue(service, "SystemName");
+
+                    val = TryGetPropertyValue(service, "TagId");
+                    if (!string.IsNullOrEmpty(val))
+                        obj.TagId = uint.Parse(val, CultureInfo.InvariantCulture);
+
+                    val = TryGetPropertyValue(service, "WaitHint");
+                    if (!string.IsNullOrEmpty(val))
+                        obj.WaitHint = uint.Parse(val, CultureInfo.InvariantCulture);
+
+                    Results.Push(obj);
+                }
+            }
+            catch (Exception e) when (
+                e is TypeInitializationException ||
+                e is PlatformNotSupportedException)
+            {
+                Log.Warning(Strings.Get("CollectorNotSupportedOnPlatform"), GetType().ToString());
+            }
+            catch (Exception e)
+            {
+                Log.Warning(e, "Failed to grok Service Collector object at {0}.", service.Path);
+            }
+        }
+
         /// <summary>
         /// Uses ServiceController.
         /// </summary>
@@ -50,99 +141,30 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             try
             {
-                System.Management.SelectQuery sQuery = new System.Management.SelectQuery("select * from Win32_Service"); // where name = '{0}'", "MCShield.exe"));
-                using System.Management.ManagementObjectSearcher mgmtSearcher = new System.Management.ManagementObjectSearcher(sQuery);
-                foreach (System.Management.ManagementObject service in mgmtSearcher.Get())
+                SelectQuery sQuery = new SelectQuery("select * from Win32_Service"); // where name = '{0}'", "MCShield.exe"));
+                using ManagementObjectSearcher mgmtSearcher = new ManagementObjectSearcher(sQuery);
+
+                
+                if (opts.SingleThread)
                 {
-                    try
+                    foreach (ManagementObject service in mgmtSearcher.Get())
                     {
-                        var val = TryGetPropertyValue(service, "Name");
-                        if (val != null)
-                        {
-                            var obj = new ServiceObject(val);
-
-                            val = TryGetPropertyValue(service, "AcceptPause");
-                            if (!string.IsNullOrEmpty(val))
-                                obj.AcceptPause = bool.Parse(val);
-
-                            val = TryGetPropertyValue(service, "AcceptStop");
-                            if (!string.IsNullOrEmpty(val))
-                                obj.AcceptStop = bool.Parse(val);
-
-                            obj.Caption = TryGetPropertyValue(service, "Caption");
-
-                            val = TryGetPropertyValue(service, "CheckPoint");
-                            if (!string.IsNullOrEmpty(val))
-                                obj.CheckPoint = uint.Parse(val, CultureInfo.InvariantCulture);
-
-                            obj.CreationClassName = TryGetPropertyValue(service, "CreationClassName");
-
-                            val = TryGetPropertyValue(service, "DelayedAutoStart");
-                            if (!string.IsNullOrEmpty(val))
-                                obj.DelayedAutoStart = bool.Parse(val);
-
-                            obj.Description = TryGetPropertyValue(service, "Description");
-
-                            val = TryGetPropertyValue(service, "DesktopInteract");
-                            if (!string.IsNullOrEmpty(val))
-                                obj.DesktopInteract = bool.Parse(val);
-
-                            obj.DisplayName = TryGetPropertyValue(service, "DisplayName");
-                            obj.ErrorControl = TryGetPropertyValue(service, "ErrorControl");
-
-                            val = TryGetPropertyValue(service, "ExitCode");
-                            if (!string.IsNullOrEmpty(val))
-                                obj.ExitCode = uint.Parse(val, CultureInfo.InvariantCulture);
-
-                            if (DateTime.TryParse(service.GetPropertyValue("InstallDate")?.ToString(), out DateTime dateTime))
-                            {
-                                obj.InstallDate = dateTime;
-                            }
-                            obj.PathName = TryGetPropertyValue(service, "PathName");
-
-                            val = TryGetPropertyValue(service, "ProcessId");
-                            if (!string.IsNullOrEmpty(val))
-                                obj.ProcessId = uint.Parse(val, CultureInfo.InvariantCulture);
-
-                            val = TryGetPropertyValue(service, "ServiceSpecificExitCode");
-                            if (!string.IsNullOrEmpty(val))
-                                obj.ServiceSpecificExitCode = uint.Parse(val, CultureInfo.InvariantCulture);
-
-                            obj.ServiceType = TryGetPropertyValue(service, "ServiceType");
-
-                            val = TryGetPropertyValue(service, "Started");
-                            if (!string.IsNullOrEmpty(val))
-                                obj.Started = bool.Parse(val);
-
-                            obj.StartMode = TryGetPropertyValue(service, "StartMode");
-                            obj.StartName = TryGetPropertyValue(service, "StartName");
-                            obj.State = TryGetPropertyValue(service, "State");
-                            obj.Status = TryGetPropertyValue(service, "Status");
-                            obj.SystemCreationClassName = TryGetPropertyValue(service, "SystemCreationClassName");
-                            obj.SystemName = TryGetPropertyValue(service, "SystemName");
-
-                            val = TryGetPropertyValue(service, "TagId");
-                            if (!string.IsNullOrEmpty(val))
-                                obj.TagId = uint.Parse(val, CultureInfo.InvariantCulture);
-
-                            val = TryGetPropertyValue(service, "WaitHint");
-                            if (!string.IsNullOrEmpty(val))
-                                obj.WaitHint = uint.Parse(val, CultureInfo.InvariantCulture);
-
-                            Results.Push(obj);
-                        }
-                    }
-                    catch (Exception e) when (
-                        e is TypeInitializationException ||
-                        e is PlatformNotSupportedException)
-                    {
-                        Log.Warning(Strings.Get("CollectorNotSupportedOnPlatform"), GetType().ToString());
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Warning(e, "Failed to grok Service Collector object at {0}.",service.Path);
+                        ProcessManagementObject(service);
                     }
                 }
+                else
+                {
+                    var list = new List<ManagementObject>();
+
+                    foreach (ManagementObject service in mgmtSearcher.Get())
+                    {
+                        list.Add(service);
+                    }
+
+                    Parallel.ForEach(list, x => ProcessManagementObject(x));
+                }
+
+                
             }
             catch (Exception e)
             {

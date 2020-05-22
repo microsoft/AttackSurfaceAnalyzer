@@ -1079,7 +1079,7 @@ namespace AttackSurfaceAnalyzer.Cli
                         c.TryExecute();
                     });
 
-                    Thread.Sleep(1);
+                    Thread.Sleep(5);
 
                     while (c.RunStatus == RUN_STATUS.RUNNING)
                     {
