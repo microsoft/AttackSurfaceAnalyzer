@@ -990,7 +990,7 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             if (opts.EnableServiceCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new ServiceCollector());
+                collectors.Add(new ServiceCollector(opts));
                 dict.Add(RESULT_TYPE.SERVICE);
             }
             if (opts.EnableUserCollector || opts.EnableAllCollectors)

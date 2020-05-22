@@ -266,7 +266,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 var cmd = string.Format("create {0} binPath=\"{1}\"", serviceName, exeName);
                 ExternalCommandRunner.RunExternalCommand("sc.exe", cmd);
 
-                var sc = new ServiceCollector();
+                var sc = new ServiceCollector(new CollectCommandOptions());
                 sc.TryExecute();
 
                 Assert.IsTrue(sc.Results.Any(x => x is ServiceObject RO && RO.Name.Equals(serviceName)));
