@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Management;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
@@ -31,6 +32,17 @@ namespace AttackSurfaceAnalyzer.Collectors
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         }
 
+        private static string? TryGetPropertyValue(ManagementObject mo, string propertyName)
+        {
+            string? val = null;
+            try
+            {
+                val = mo.GetPropertyValue(propertyName)?.ToString();
+            }
+            catch(Exception e) { Log.Verbose("Failed to fetch {0} from {1} ({2}:{3})",propertyName,mo.Path, e.GetType(), e.Message); }
+            return val;
+        }
+
         /// <summary>
         /// Uses ServiceController.
         /// </summary>
@@ -44,41 +56,41 @@ namespace AttackSurfaceAnalyzer.Collectors
                 {
                     try
                     {
-                        var val = service.GetPropertyValue("Name").ToString();
+                        var val = TryGetPropertyValue(service, "Name");
                         if (val != null)
                         {
                             var obj = new ServiceObject(val);
 
-                            val = service.GetPropertyValue("AcceptPause")?.ToString();
+                            val = TryGetPropertyValue(service, "AcceptPause");
                             if (!string.IsNullOrEmpty(val))
                                 obj.AcceptPause = bool.Parse(val);
 
-                            val = service.GetPropertyValue("AcceptStop")?.ToString();
+                            val = TryGetPropertyValue(service, "AcceptStop");
                             if (!string.IsNullOrEmpty(val))
                                 obj.AcceptStop = bool.Parse(val);
 
-                            obj.Caption = service.GetPropertyValue("Caption")?.ToString();
+                            obj.Caption = TryGetPropertyValue(service, "Caption");
 
-                            val = service.GetPropertyValue("CheckPoint")?.ToString();
+                            val = TryGetPropertyValue(service, "CheckPoint");
                             if (!string.IsNullOrEmpty(val))
                                 obj.CheckPoint = uint.Parse(val, CultureInfo.InvariantCulture);
 
-                            obj.CreationClassName = service.GetPropertyValue("CreationClassName")?.ToString();
+                            obj.CreationClassName = TryGetPropertyValue(service, "CreationClassName");
 
-                            val = service.GetPropertyValue("DelayedAutoStart")?.ToString();
+                            val = TryGetPropertyValue(service, "DelayedAutoStart");
                             if (!string.IsNullOrEmpty(val))
                                 obj.DelayedAutoStart = bool.Parse(val);
 
-                            obj.Description = service.GetPropertyValue("Description")?.ToString();
+                            obj.Description = TryGetPropertyValue(service, "Description");
 
-                            val = service.GetPropertyValue("DesktopInteract")?.ToString();
+                            val = TryGetPropertyValue(service, "DesktopInteract");
                             if (!string.IsNullOrEmpty(val))
                                 obj.DesktopInteract = bool.Parse(val);
 
-                            obj.DisplayName = service.GetPropertyValue("DisplayName")?.ToString();
-                            obj.ErrorControl = service.GetPropertyValue("ErrorControl")?.ToString();
+                            obj.DisplayName = TryGetPropertyValue(service, "DisplayName");
+                            obj.ErrorControl = TryGetPropertyValue(service, "ErrorControl");
 
-                            val = service.GetPropertyValue("ExitCode")?.ToString();
+                            val = TryGetPropertyValue(service, "ExitCode");
                             if (!string.IsNullOrEmpty(val))
                                 obj.ExitCode = uint.Parse(val, CultureInfo.InvariantCulture);
 
@@ -86,34 +98,34 @@ namespace AttackSurfaceAnalyzer.Collectors
                             {
                                 obj.InstallDate = dateTime;
                             }
-                            obj.PathName = service.GetPropertyValue("PathName")?.ToString();
+                            obj.PathName = TryGetPropertyValue(service, "PathName");
 
-                            val = service.GetPropertyValue("ProcessId")?.ToString();
+                            val = TryGetPropertyValue(service, "ProcessId");
                             if (!string.IsNullOrEmpty(val))
                                 obj.ProcessId = uint.Parse(val, CultureInfo.InvariantCulture);
 
-                            val = service.GetPropertyValue("ServiceSpecificExitCode")?.ToString();
+                            val = TryGetPropertyValue(service, "ServiceSpecificExitCode");
                             if (!string.IsNullOrEmpty(val))
                                 obj.ServiceSpecificExitCode = uint.Parse(val, CultureInfo.InvariantCulture);
 
-                            obj.ServiceType = service.GetPropertyValue("ServiceType")?.ToString();
+                            obj.ServiceType = TryGetPropertyValue(service, "ServiceType");
 
-                            val = service.GetPropertyValue("Started").ToString();
+                            val = TryGetPropertyValue(service, "Started");
                             if (!string.IsNullOrEmpty(val))
                                 obj.Started = bool.Parse(val);
 
-                            obj.StartMode = service.GetPropertyValue("StartMode")?.ToString();
-                            obj.StartName = service.GetPropertyValue("StartName")?.ToString();
-                            obj.State = service.GetPropertyValue("State")?.ToString();
-                            obj.Status = service.GetPropertyValue("Status")?.ToString();
-                            obj.SystemCreationClassName = service.GetPropertyValue("SystemCreationClassName")?.ToString();
-                            obj.SystemName = service.GetPropertyValue("SystemName")?.ToString();
+                            obj.StartMode = TryGetPropertyValue(service, "StartMode");
+                            obj.StartName = TryGetPropertyValue(service, "StartName");
+                            obj.State = TryGetPropertyValue(service, "State");
+                            obj.Status = TryGetPropertyValue(service, "Status");
+                            obj.SystemCreationClassName = TryGetPropertyValue(service, "SystemCreationClassName");
+                            obj.SystemName = TryGetPropertyValue(service, "SystemName");
 
-                            val = service.GetPropertyValue("TagId")?.ToString();
+                            val = TryGetPropertyValue(service, "TagId");
                             if (!string.IsNullOrEmpty(val))
                                 obj.TagId = uint.Parse(val, CultureInfo.InvariantCulture);
 
-                            val = service.GetPropertyValue("WaitHint")?.ToString();
+                            val = TryGetPropertyValue(service, "WaitHint");
                             if (!string.IsNullOrEmpty(val))
                                 obj.WaitHint = uint.Parse(val, CultureInfo.InvariantCulture);
 
