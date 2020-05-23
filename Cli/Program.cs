@@ -372,7 +372,9 @@ namespace AttackSurfaceAnalyzer.Cli
 
         public static void WriteScanJson(int ResultType, string BaseId, string CompareId, bool ExportAll, string OutputPath)
         {
-            List<RESULT_TYPE> ToExport = new List<RESULT_TYPE> { (RESULT_TYPE)ResultType };
+            var invalidFileNameChars = Path.GetInvalidPathChars().ToList();
+            OutputPath = new string(OutputPath.Select(ch => invalidFileNameChars.Contains(ch) ? Convert.ToChar(invalidFileNameChars.IndexOf(ch) + 65) : ch).ToArray());
+            List <RESULT_TYPE> ToExport = new List<RESULT_TYPE> { (RESULT_TYPE)ResultType };
             Dictionary<RESULT_TYPE, int> actualExported = new Dictionary<RESULT_TYPE, int>();
             JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings()
             {
@@ -481,6 +483,9 @@ namespace AttackSurfaceAnalyzer.Cli
 
         public static void WriteMonitorJson(string RunId, int ResultType, string OutputPath)
         {
+            var invalidFileNameChars = Path.GetInvalidPathChars().ToList();
+            OutputPath = new string(OutputPath.Select(ch => invalidFileNameChars.Contains(ch) ? Convert.ToChar(invalidFileNameChars.IndexOf(ch) + 65) : ch).ToArray());
+
             List<FileMonitorEvent> records = DatabaseManager.GetSerializedMonitorResults(RunId);
 
             JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings()
