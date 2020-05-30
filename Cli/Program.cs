@@ -777,7 +777,7 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             if (opts.EnableFileSystemMonitor)
             {
-                monitors.Add(new FileSystemMonitor(opts, x => DatabaseManager.Write(x,opts.RunId));
+                monitors.Add(new FileSystemMonitor(opts, x => DatabaseManager.Write(x,opts.RunId)));
             }
 
             if (monitors.Count == 0)
