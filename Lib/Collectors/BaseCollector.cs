@@ -62,7 +62,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
             else
             {
-                HandleChange(collectObject);
+                Results.Push(collectObject);
             }
         }
 
