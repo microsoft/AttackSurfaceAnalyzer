@@ -7,6 +7,7 @@ using AttackSurfaceAnalyzer.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Win32;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -67,6 +68,30 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsTrue(fsc.Results.Any(x => x is FileSystemObject FSO && FSO.Path.EndsWith("AsaLibTesterJavaClass") && FSO.IsExecutable == true));
             Assert.IsTrue(fsc.Results.Any(x => x is FileSystemObject FSO && FSO.Path.EndsWith("AsaLibTesterMZ") && FSO.IsExecutable == true));
+        }
+
+        /// <summary>
+        /// Does not require admin
+        /// </summary>
+        [TestMethod]
+        public void TestFileMonitor()
+        {
+            var stack = new ConcurrentStack<FileMonitorObject>();
+            var monitor = new FileSystemMonitor(new MonitorCommandOptions() { MonitoredDirectories = Path.GetTempPath() }, x => stack.Push(x));
+            monitor.StartRun();
+
+            var created = Path.GetTempFileName(); // Create a file
+            var renamed = $"{created.Split(Path.DirectorySeparatorChar).Last()}-renamed";
+            File.WriteAllText(created, "Test"); // Change the size
+            File.Move(created, renamed); // Rename it
+            File.Delete(renamed); //Delete it
+
+            monitor.StopRun();
+
+            Assert.IsTrue(stack.Any(x => x.NotifyFilters == NotifyFilters.CreationTime && x.Path == created));
+            Assert.IsTrue(stack.Any(x => x.NotifyFilters == NotifyFilters.Size && x.Path == created));
+            Assert.IsTrue(stack.Any(x => x.ChangeType == CHANGE_TYPE.RENAMED && x.NotifyFilters == NotifyFilters.FileName && x.Path == renamed));
+            Assert.IsTrue(stack.Any(x => x.ChangeType == CHANGE_TYPE.DELETED && x.Path == renamed));
         }
 
         /// <summary>
