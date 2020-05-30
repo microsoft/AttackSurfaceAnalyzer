@@ -15,6 +15,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
+using System.Threading;
 using WindowsFirewallHelper;
 
 namespace AttackSurfaceAnalyzer.Tests
@@ -70,7 +71,7 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(fsc.Results.Any(x => x is FileSystemObject FSO && FSO.Path.EndsWith("AsaLibTesterMZ") && FSO.IsExecutable == true));
 
             ConcurrentStack<CollectObject> results = new ConcurrentStack<CollectObject>();
-            fsc = new FileSystemCollector(new CollectCommandOptions(), x => results.Push(x));
+            fsc = new FileSystemCollector(opts, x => results.Push(x));
             fsc.TryExecute();
 
             Assert.IsTrue(results.Any(x => x is FileSystemObject FSO && FSO.Path.EndsWith("AsaLibTesterJavaClass") && FSO.IsExecutable == true));
@@ -88,14 +89,17 @@ namespace AttackSurfaceAnalyzer.Tests
             monitor.StartRun();
 
             var created = Path.GetTempFileName(); // Create a file
-            var renamed = $"{created.Split(Path.DirectorySeparatorChar).Last()}-renamed";
+            var renamed = $"{created}-renamed";
             File.WriteAllText(created, "Test"); // Change the size
+
             File.Move(created, renamed); // Rename it
             File.Delete(renamed); //Delete it
 
+            Thread.Sleep(1000);
+
             monitor.StopRun();
 
-            Assert.IsTrue(stack.Any(x => x.NotifyFilters == NotifyFilters.CreationTime && x.Path == created));
+            Assert.IsTrue(stack.Any(x => x.NotifyFilters == NotifyFilters.FileName && x.Path == created));
             Assert.IsTrue(stack.Any(x => x.NotifyFilters == NotifyFilters.Size && x.Path == created));
             Assert.IsTrue(stack.Any(x => x.ChangeType == CHANGE_TYPE.RENAMED && x.NotifyFilters == NotifyFilters.FileName && x.Path == renamed));
             Assert.IsTrue(stack.Any(x => x.ChangeType == CHANGE_TYPE.DELETED && x.Path == renamed));
@@ -182,16 +186,16 @@ namespace AttackSurfaceAnalyzer.Tests
             }
             var pc = new OpenPortCollector();
             pc.TryExecute();
-
-            Assert.IsTrue(pc.Results.Any(x => x is OpenPortObject OPO && OPO.Port == 13000));
+            var results1 = pc.Results;
 
             ConcurrentStack<CollectObject> results = new ConcurrentStack<CollectObject>();
             pc = new OpenPortCollector(changeHandler: x => results.Push(x));
             pc.TryExecute();
 
-            Assert.IsTrue(pc.Results.Any(x => x is OpenPortObject OPO && OPO.Port == 13000));
-
             server.Stop();
+
+            Assert.IsTrue(results1.Any(x => x is OpenPortObject OPO && OPO.Port == 13000));
+            Assert.IsTrue(results.Any(x => x is OpenPortObject OPO && OPO.Port == 13000));
 
         }
 

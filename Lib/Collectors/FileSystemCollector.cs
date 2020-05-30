@@ -6,6 +6,7 @@ using Microsoft.CodeAnalysis;
 using Mono.Unix;
 using Serilog;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -31,7 +32,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         private readonly Dictionary<string, long> sizesOnDisk = new Dictionary<string, long>();
 
-        public static Dictionary<string, uint> ClusterSizes { get; set; } = new Dictionary<string, uint>();
+        public static ConcurrentDictionary<string, uint> ClusterSizes { get; set; } = new ConcurrentDictionary<string, uint>();
 
         public FileSystemCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler) { }
 
@@ -422,7 +423,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                     var root = path.Directory.Root.FullName;
                     if (!ClusterSizes.ContainsKey(root))
                     {
-                        ClusterSizes[root] = 0;
                         NativeMethods.GetDiskFreeSpace(root, out uint lpSectorsPerCluster, out uint lpBytesPerSector, out _, out _);
                         ClusterSizes[root] = lpSectorsPerCluster * lpBytesPerSector;
                     }

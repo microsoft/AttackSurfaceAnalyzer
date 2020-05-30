@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
-using AttackSurfaceAnalyzer.Utils;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -10,8 +9,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
-using System.Threading;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -20,19 +17,9 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class FileSystemMonitor : BaseMonitor, IDisposable
     {
-        private List<FileSystemWatcher> watchers = new List<FileSystemWatcher>();
+        private readonly List<FileSystemWatcher> watchers = new List<FileSystemWatcher>();
 
-        private ConcurrentDictionary<string, FileSystemEventArgs> filesAccessed = new ConcurrentDictionary<string, FileSystemEventArgs>();
-
-        public static readonly NotifyFilters defaultFilters = NotifyFilters.Attributes
-                | NotifyFilters.CreationTime
-                | NotifyFilters.DirectoryName
-                | NotifyFilters.FileName
-                | NotifyFilters.LastWrite
-                | NotifyFilters.Security
-                | NotifyFilters.Size;
-
-        public static readonly NotifyFilters defaultFiltersWithAccessTime = defaultFilters | NotifyFilters.LastAccess;
+        private readonly ConcurrentDictionary<string, FileSystemEventArgs> filesAccessed = new ConcurrentDictionary<string, FileSystemEventArgs>();
 
         private readonly Action<FileMonitorObject> changeHandler;
 
@@ -72,7 +59,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                     ChangeType = ChangeTypeStringToChangeType(e.Value.ChangeType.ToString()),
                     Name = e.Value.Name,
                     Timestamp = DateTime.Now.ToString("O", CultureInfo.InvariantCulture),
-                    FileSystemObject = fsc.FilePathToFileSystemObject(e.Value.FullPath)
+                    FileSystemObject = fsc.FilePathToFileSystemObject(e.Value.FullPath),
+                    NotifyFilters = NotifyFilters.LastAccess
                 };
                 changeHandler(ToWrite);
             }
@@ -123,7 +111,6 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                     watchers.Add(watcher);
                 }
-                
             }
         }
 
@@ -230,6 +217,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         FileSystemObject = fso,
                         NotifyFilters = filters
                     };
+
                     changeHandler(ToWrite);
                 }
             }
