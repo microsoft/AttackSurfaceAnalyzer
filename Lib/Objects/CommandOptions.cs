@@ -164,8 +164,8 @@ namespace AttackSurfaceAnalyzer
         [Option('d', "directories", Required = false, HelpText = "Comma-separated list of directories to monitor.")]
         public string? MonitoredDirectories { get; set; }
 
-        [Option('i', "interrogate-file-changes", Required = false, HelpText = "Gather information about each file that is modified or created.")]
-        public bool InterrogateChanges { get; set; }
+        [Option('a', "File names only", Required = false, HelpText = "Don't gather extended information. Overrides any argument to include additional data.")]
+        public bool FileNamesOnly { get; set; }
 
         [Option('h', "gather-hashes", Required = false, HelpText = "Gather a hash of each file that is modified or created.")]
         public bool GatherHashes { get; set; }

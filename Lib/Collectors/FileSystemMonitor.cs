@@ -56,6 +56,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             RunStatus = RUN_STATUS.RUNNING;
 
         }
+
         public override void StopRun()
         {
             watchers.ForEach(x => x.EnableRaisingEvents = false);
@@ -69,6 +70,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     ChangeType = ChangeTypeStringToChangeType(e.Value.ChangeType.ToString()),
                     Name = e.Value.Name,
                     Timestamp = DateTime.Now.ToString("O", CultureInfo.InvariantCulture),
+                    FileSystemObject = fsc.FilePathToFileSystemObject(e.Value.FullPath)
                 };
 
                 DatabaseManager.WriteFileMonitor(ToWrite, RunId);
@@ -201,17 +203,30 @@ namespace AttackSurfaceAnalyzer.Collectors
                     return;
                 }
 
-                var ToWrite = new FileMonitorObject(objIn.FullPath)
+                // If we are gathering extended details LastAccess times aren't meaningful since we will trigger them
+                // Instead we note they are gathered and clean up in StopRun
+                if (!options.FileNamesOnly && filters.HasFlag(NotifyFilters.LastAccess))
                 {
-                    ResultType = RESULT_TYPE.FILEMONITOR,
-                    ChangeType = ChangeTypeStringToChangeType(objIn.ChangeType.ToString()),
-                    Name = objIn.Name,
-                    Timestamp = DateTime.Now.ToString("O", CultureInfo.InvariantCulture),
-                    FileSystemObject = (filters.HasFlag(NotifyFilters.LastAccess) || objIn.ChangeType == WatcherChangeTypes.Deleted || !options.InterrogateChanges) ? null : fsc.FilePathToFileSystemObject(objIn.FullPath),
-                    NotifyFilters = filters
-                };
+                    filesAccessed.TryAdd(objIn.FullPath, objIn);
+                }
+                else
+                {
+                    // We skip gathering extended information when
+                    // The File was Deleted
+                    // We are set to gather names only
+                    var fso = (objIn.ChangeType == WatcherChangeTypes.Deleted || options.FileNamesOnly) ? null : fsc.FilePathToFileSystemObject(objIn.FullPath);
+                    var ToWrite = new FileMonitorObject(objIn.FullPath)
+                    {
+                        ResultType = RESULT_TYPE.FILEMONITOR,
+                        ChangeType = ChangeTypeStringToChangeType(objIn.ChangeType.ToString()),
+                        Name = objIn.Name,
+                        Timestamp = DateTime.Now.ToString("O", CultureInfo.InvariantCulture),
+                        FileSystemObject = fso,
+                        NotifyFilters = filters
+                    };
 
-                DatabaseManager.WriteFileMonitor(ToWrite, RunId);
+                    DatabaseManager.WriteFileMonitor(ToWrite, RunId);
+                }
             }
         }
 
