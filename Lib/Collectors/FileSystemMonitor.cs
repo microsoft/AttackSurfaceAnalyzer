@@ -4,10 +4,13 @@ using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -16,7 +19,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class FileSystemMonitor : BaseMonitor, IDisposable
     {
-        private readonly FileSystemWatcher watcher;
+        private List<FileSystemWatcher> watchers = new List<FileSystemWatcher>();
 
         public static readonly NotifyFilters defaultFilters = NotifyFilters.Attributes
                 | NotifyFilters.CreationTime
@@ -28,19 +31,19 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public static readonly NotifyFilters defaultFiltersWithAccessTime = defaultFilters | NotifyFilters.LastAccess;
 
-        private Action<EventArgs>? customChangeHandler = null;
+        private readonly MonitorCommandOptions options;
 
-        private readonly bool getFileDetails = true;
+        private readonly FileSystemCollector fsc;
 
         public override void StartRun()
         {
-            watcher.EnableRaisingEvents = true;
+            watchers.ForEach(x => x.EnableRaisingEvents = true);
             RunStatus = RUN_STATUS.RUNNING;
 
         }
         public override void StopRun()
         {
-            watcher.EnableRaisingEvents = false;
+            watchers.ForEach(x => x.EnableRaisingEvents = false);
             RunStatus = RUN_STATUS.COMPLETED;
         }
 
@@ -49,39 +52,42 @@ namespace AttackSurfaceAnalyzer.Collectors
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
         }
 
-        /// <summary>
-        /// This initializer ensures that the access time filter isn't used with InterrogateChanges, which causes a loop.
-        /// </summary>
-        public FileSystemMonitor(string runId, string dir, bool interrogateChanges) : this(runId, dir, interrogateChanges, interrogateChanges ? defaultFilters : defaultFiltersWithAccessTime) { }
-
-        // @TODO: Add ability to filter file name/type
-        // @TODO: Initialize database if not done yet, was previously factored out
-        // This constructor allows you to specify the NotifyFilters which were used
-        public FileSystemMonitor(string runId, string dir, bool interrogateChanges, NotifyFilters filters)
+        public FileSystemMonitor(MonitorCommandOptions opts)
         {
-            RunId = runId;
-            getFileDetails = interrogateChanges;
+            options = opts ?? new MonitorCommandOptions();
+            RunId = options.RunId;
 
-            watcher = new FileSystemWatcher();
+            fsc = new FileSystemCollector(new CollectCommandOptions()
+            {
+                DownloadCloud = false,
+                GatherHashes = options.GatherHashes,
+            });
 
-            watcher.Path = dir;
+            foreach(var dir in options.MonitoredDirectories?.Split(',') ?? fsc.Roots.ToArray())
+            {
+                var watcher = new FileSystemWatcher();
 
-            watcher.NotifyFilter = filters;
+                watcher.Path = dir;
 
-            watcher.IncludeSubdirectories = true;
+                watcher.NotifyFilter = options.InterrogateChanges ? defaultFilters : defaultFiltersWithAccessTime;
 
-            // Changed, Created and Deleted can share a handler, because they throw the same type of event
-            watcher.Changed += OnChanged;
-            watcher.Created += OnChanged;
-            watcher.Deleted += OnChanged;
+                watcher.IncludeSubdirectories = true;
 
-            // Renamed needs a different handler because it throws a different kind of event
-            watcher.Renamed += OnRenamed;
+                // Changed, Created and Deleted can share a handler, because they throw the same type of event
+                watcher.Changed += OnChanged;
+                watcher.Created += OnChanged;
+                watcher.Deleted += OnChanged;
+
+                // Renamed needs a different handler because it throws a different kind of event
+                watcher.Renamed += OnRenamed;
+
+                watchers.Add(watcher);
+            }
         }
 
         public bool IsRunning()
         {
-            return watcher.EnableRaisingEvents;
+            return watchers.Any(x => x.EnableRaisingEvents);
         }
 
         public void WriteChange(FileSystemEventArgs objIn)
@@ -93,7 +99,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                     ResultType = RESULT_TYPE.FILEMONITOR,
                     ChangeType = ChangeTypeStringToChangeType(objIn.ChangeType.ToString()),
                     Name = objIn.Name,
-                    Timestamp = DateTime.Now.ToString("O", CultureInfo.InvariantCulture)
+                    Timestamp = DateTime.Now.ToString("O", CultureInfo.InvariantCulture),
+                    FileSystemObject = (objIn.ChangeType == WatcherChangeTypes.Deleted || !options.InterrogateChanges) ? null : fsc.FilePathToFileSystemObject(objIn.FullPath)
                 };
 
                 DatabaseManager.WriteFileMonitor(ToWrite, RunId);
@@ -138,23 +145,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
-        public void WriteChange(FileSystemEventArgs objIn, string details)
-        {
-            if (objIn != null)
-            {
-                var ToWrite = new FileMonitorObject(objIn.FullPath)
-                {
-                    ResultType = RESULT_TYPE.FILEMONITOR,
-                    ChangeType = ChangeTypeStringToChangeType(objIn.ChangeType.ToString()),
-                    Name = objIn.Name,
-                    ExtendedResults = details,
-                    Timestamp = DateTime.Now.ToString("O", CultureInfo.InvariantCulture)
-                };
-
-                DatabaseManager.WriteFileMonitor(ToWrite, RunId);
-            }
-        }
-
         public void WriteRename(RenamedEventArgs objIn)
         {
             if (objIn == null) { return; }
@@ -180,21 +170,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 return;
             }
 
-            // Inspect the file
-            if (getFileDetails && e.ChangeType != WatcherChangeTypes.Deleted)
-            {
-                // Switch to using Mono here
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                {
-                    var unixFileInfo = new Mono.Unix.UnixFileInfo(e.FullPath);
-                    var result = unixFileInfo.FileAccessPermissions.ToString();
-                    WriteChange(e, result);
-                    return;
-                }
-                // @TODO: Fix Windows and MacOS Inspection
-            }
             WriteChange(e);
-            customChangeHandler?.Invoke(e);
         }
 
         // These files cause loops on MAC OS as they get changed whenever text is pasted to the console
@@ -214,11 +190,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             WriteRename(e);
         }
 
-        public void SetCustomChangeHandler(Action<EventArgs> handler)
-        {
-            customChangeHandler = handler;
-        }
-
         public void Dispose()
         {
             Dispose(true);
@@ -229,7 +200,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             if (disposing)
             {
-                watcher.Dispose();
+                watchers.ForEach(x => x.Dispose());
             }
         }
     }

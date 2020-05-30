@@ -558,54 +558,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             if (opts.EnableFileSystemMonitor)
             {
-                List<String> directories = new List<string>();
-
-                if (opts.MonitoredDirectories != null)
-                {
-                    var parts = opts.MonitoredDirectories.Split(',');
-                    foreach (String part in parts)
-                    {
-                        directories.Add(part);
-                    }
-                }
-                else
-                {
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                    {
-                        directories.Add("/");
-                    }
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                    {
-                        directories.Add("C:\\");
-                    }
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                    {
-                        directories.Add("/");
-                    }
-                }
-
-                List<NotifyFilters> filterOptions = new List<NotifyFilters>
-                {
-                    NotifyFilters.Attributes, NotifyFilters.CreationTime, NotifyFilters.DirectoryName, NotifyFilters.FileName, NotifyFilters.LastAccess, NotifyFilters.LastWrite, NotifyFilters.Security, NotifyFilters.Size
-                };
-
-                foreach (String dir in directories)
-                {
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                    {
-                        var newMon = new FileSystemMonitor(opts.RunId, dir, false);
-                        monitors.Add(newMon);
-                    }
-                    else
-                    {
-                        foreach (NotifyFilters filter in filterOptions)
-                        {
-                            Log.Information("Adding Path {0} Filter Type {1}", dir, filter.ToString());
-                            var newMon = new FileSystemMonitor(opts.RunId, dir, false, filter);
-                            monitors.Add(newMon);
-                        }
-                    }
-                }
+                monitors.Add(new FileSystemMonitor(opts));
             }
 
             //if (opts.EnableRegistryMonitor)
@@ -822,28 +775,7 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             if (opts.EnableFileSystemMonitor)
             {
-                List<string> directories = new List<string>();
-
-                var parts = opts.MonitoredDirectories?.Split(',') ?? Array.Empty<string>();
-
-                foreach (string part in parts)
-                {
-                    directories.Add(part);
-                }
-
-                foreach (string dir in directories)
-                {
-                    try
-                    {
-                        FileSystemMonitor newMon = new FileSystemMonitor(opts.RunId ?? DateTime.Now.ToString("o", CultureInfo.InvariantCulture), dir, opts.InterrogateChanges);
-                        monitors.Add(newMon);
-                    }
-                    catch (ArgumentException)
-                    {
-                        Log.Warning("{1}: {0}", dir, Strings.Get("InvalidPath"));
-                        return ASA_ERROR.INVALID_PATH;
-                    }
-                }
+                monitors.Add(new FileSystemMonitor(opts));
             }
 
             if (monitors.Count == 0)

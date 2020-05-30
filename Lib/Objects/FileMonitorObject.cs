@@ -15,6 +15,7 @@ namespace AttackSurfaceAnalyzer.Objects
         public string? NotifyFilters { get; set; }
         public string? Serialized { get; set; }
         public string? Timestamp { get; set; }
+        public FileSystemObject? FileSystemObject { get; set; }
 
         public override string Identity
         {
