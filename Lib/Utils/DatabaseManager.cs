@@ -24,6 +24,7 @@ namespace AttackSurfaceAnalyzer.Utils
         public int ShardingFactor { get; set; } = 7;
         public int FlushCount { get; set; } = -1;
         public int BatchSize { get; set; } = 100;
+        public bool LowMemoryUsage { get; set; } = false;
     }
 
     public static class DatabaseManager
@@ -111,7 +112,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private static DBSettings dbSettings = new DBSettings();
 
-        public static int QueueSize { get { return Connections.Select(x => x.WriteQueue.Count).Sum(); } }
+        public static int QueueSize { get { return Connections.Sum(x => x.WriteQueue.Count); } }
 
         public static SqlConnectionHolder? MainConnection
         {
@@ -250,6 +251,30 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
             }
             return ASA_ERROR.NONE;
+        }
+
+        // Max number of elements to keep in Queue if LowMemoryUsage mode is enabled.
+        public const int LOW_MEMORY_CUTOFF = 1000;
+
+        public static void StallIfHighMemoryUsageAndLowMemoryModeEnabled()
+        {
+            if (dbSettings.LowMemoryUsage)
+            {
+                int stallCount = 0;
+                while (QueueSize > LOW_MEMORY_CUTOFF)
+                {
+                    if (stallCount++ % 1000 == 0)
+                    {
+                        Log.Verbose("Stalling Collector with {0} results for Memory Usage", QueueSize);
+                    }
+                    Thread.Sleep(1);
+                }
+            }
+        }
+
+        public static DBSettings GetCurrentSettings()
+        {
+            return dbSettings;
         }
 
         private static Settings? GetSettings()
