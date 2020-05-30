@@ -41,30 +41,30 @@ namespace AttackSurfaceAnalyzer.Collectors
             Stop();
         }
 
-        // Max number of elements to keep in Results if LowMemoryUsage mode is enabled.
-        public const int LOW_MEMORY_CUTOFF = 1000;
-
-        public void StallIfHighMemoryUsageAndLowMemoryModeEnabled()
-        {
-            if (opts.LowMemoryUsage)
-            {
-                int stallCount = 0;
-                while (Results.Count > LOW_MEMORY_CUTOFF)
-                {
-                    if (stallCount++ % 1000 == 0)
-                    {
-                        Log.Verbose("Stalling Collector with {0} results for Memory Usage", Results.Count);
-                    }
-                    Thread.Sleep(1);
-                }
-            }
-        }
-
         public abstract bool CanRunOnPlatform();
 
         public abstract void ExecuteInternal();
 
         private Stopwatch? watch;
+        private Action<CollectObject>? changeHandler;
+
+        protected BaseCollector(CollectCommandOptions? opts, Action<CollectObject>? changeHandler)
+        {
+            this.opts = opts ?? new CollectCommandOptions();
+            this.changeHandler = changeHandler;
+        }
+
+        internal void HandleChange(CollectObject collectObject)
+        {
+            if (changeHandler != null)
+            {
+                changeHandler(collectObject);
+            }
+            else
+            {
+                HandleChange(collectObject);
+            }
+        }
 
         public RUN_STATUS RunStatus
         {

@@ -33,7 +33,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public static Dictionary<string, uint> ClusterSizes { get; set; } = new Dictionary<string, uint>();
 
-        public FileSystemCollector(CollectCommandOptions? opts = null) => this.opts = opts ?? this.opts;
+        public FileSystemCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler) { }
 
         public override bool CanRunOnPlatform()
         {
@@ -99,12 +99,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                 });
                 foreach (var file in files)
                 {
-                    StallIfHighMemoryUsageAndLowMemoryModeEnabled();
                     Log.Verbose("Started parsing {0}", file);
                     FileSystemObject obj = FilePathToFileSystemObject(file);
                     if (obj != null)
                     {
-                        Results.Push(obj);
+                        HandleChange(obj);
 
                         // TODO: Also try parse .DER as a key
                         if (Path.EndsWith(".cer", StringComparison.CurrentCulture) ||
@@ -121,7 +120,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     StoreName: StoreName.Root.ToString(),
                                     Certificate: new SerializableCertificate(certificate));
 
-                                Results.Push(certObj);
+                                HandleChange(certObj);
                             }
                             catch (Exception e)
                             {

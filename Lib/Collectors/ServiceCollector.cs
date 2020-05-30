@@ -20,7 +20,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class ServiceCollector : BaseCollector
     {
-        public ServiceCollector(CollectCommandOptions? opts = null) => this.opts = opts ?? this.opts;
+        public ServiceCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler) { }
 
         /// <summary>
         /// Determines whether the ServiceCollector can run or not.
@@ -119,7 +119,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     if (!string.IsNullOrEmpty(val))
                         obj.WaitHint = uint.Parse(val, CultureInfo.InvariantCulture);
 
-                    Results.Push(obj);
+                    HandleChange(obj);
                 }
             }
             catch (Exception e) when (
@@ -185,7 +185,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     InstallDate = fso.Created
                 };
 
-                Results.Push(obj);
+                HandleChange(obj);
             }
         }
 
@@ -213,7 +213,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             State = _fields[3],
                         };
 
-                        Results.Push(obj);
+                        HandleChange(obj);
                     }
                 }
             }
@@ -240,7 +240,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         DisplayName = serviceName,
                     };
 
-                    Results.Push(obj);
+                    HandleChange(obj);
                 }
             }
             catch (ExternalException)
@@ -286,7 +286,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     };
                     if (!outDict.ContainsKey(obj.Identity))
                     {
-                        Results.Push(obj);
+                        HandleChange(obj);
                         outDict.Add(obj.Identity, obj);
                     }
                 }

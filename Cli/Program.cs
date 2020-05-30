@@ -846,7 +846,9 @@ namespace AttackSurfaceAnalyzer.Cli
 
             var dbSettings = new DBSettings()
             {
-                ShardingFactor = opts.Shards
+                ShardingFactor = opts.Shards,
+                LowMemoryUsage = opts.LowMemoryUsage
+                
             };
             SetupOrDie(opts.DatabaseFilename, dbSettings);
             AsaTelemetry.Setup();
@@ -917,61 +919,63 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
             }
 
+            Action<CollectObject> defaultChangeHandler = x => DatabaseManager.Write(x, opts.RunId);
+
             var dict = new List<RESULT_TYPE>();
 
             if (opts.EnableFileSystemCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new FileSystemCollector(opts));
+                collectors.Add(new FileSystemCollector(opts, defaultChangeHandler));
                 dict.Add(RESULT_TYPE.FILE);
             }
             if (opts.EnableNetworkPortCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new OpenPortCollector(opts));
+                collectors.Add(new OpenPortCollector(opts, defaultChangeHandler));
                 dict.Add(RESULT_TYPE.PORT);
             }
             if (opts.EnableServiceCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new ServiceCollector(opts));
+                collectors.Add(new ServiceCollector(opts, defaultChangeHandler));
                 dict.Add(RESULT_TYPE.SERVICE);
             }
             if (opts.EnableUserCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new UserAccountCollector(opts));
+                collectors.Add(new UserAccountCollector(opts, defaultChangeHandler));
                 dict.Add(RESULT_TYPE.USER);
             }
             if (opts.EnableRegistryCollector || (opts.EnableAllCollectors && RuntimeInformation.IsOSPlatform(OSPlatform.Windows)))
             {
-                collectors.Add(new RegistryCollector(opts));
+                collectors.Add(new RegistryCollector(opts, defaultChangeHandler));
                 dict.Add(RESULT_TYPE.REGISTRY);
             }
             if (opts.EnableCertificateCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new CertificateCollector(opts));
+                collectors.Add(new CertificateCollector(opts, defaultChangeHandler));
                 dict.Add(RESULT_TYPE.CERTIFICATE);
             }
             if (opts.EnableFirewallCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new FirewallCollector(opts));
+                collectors.Add(new FirewallCollector(opts, defaultChangeHandler));
                 dict.Add(RESULT_TYPE.FIREWALL);
             }
             if (opts.EnableComObjectCollector || (opts.EnableAllCollectors && RuntimeInformation.IsOSPlatform(OSPlatform.Windows)))
             {
-                collectors.Add(new ComObjectCollector(opts));
+                collectors.Add(new ComObjectCollector(opts, defaultChangeHandler));
                 dict.Add(RESULT_TYPE.COM);
             }
             if (opts.EnableEventLogCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new EventLogCollector(opts));
+                collectors.Add(new EventLogCollector(opts, defaultChangeHandler));
                 dict.Add(RESULT_TYPE.LOG);
             }
             if (opts.EnableTpmCollector || (opts.EnableAllCollectors && (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux))))
             {
-                collectors.Add(new TpmCollector());
+                collectors.Add(new TpmCollector(opts, defaultChangeHandler));
                 dict.Add(RESULT_TYPE.TPM);
             }
             if (opts.EnableKeyCollector || opts.EnableAllCollectors && (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)))
             {
-                collectors.Add(new CryptographicKeyCollector());
+                collectors.Add(new CryptographicKeyCollector(opts, defaultChangeHandler));
                 dict.Add(RESULT_TYPE.KEY);
             }
 
@@ -1019,38 +1023,6 @@ namespace AttackSurfaceAnalyzer.Cli
                     {
                         c.TryExecute();
                     });
-
-                    Thread.Sleep(5);
-
-                    while (c.RunStatus == RUN_STATUS.RUNNING)
-                    {
-                        var items = new CollectObject[1000];
-                        while (c.Results.Count > 0)
-                        {
-                            var count = Math.Min(1000, c.Results.Count);
-                            var actual = c.Results.TryPopRange(items);
-                            if (opts.LowMemoryUsage)
-                            {
-                                int stallCount = 0;
-                                while (DatabaseManager.QueueSize > BaseCollector.LOW_MEMORY_CUTOFF)
-                                {
-                                    if (stallCount++ % 1000 == 0)
-                                    {
-                                        Log.Verbose("Stalling Collector with {0} results for Memory Usage", DatabaseManager.QueueSize);
-                                    }
-                                    Thread.Sleep(1);
-                                }
-                            }
-                            items.Take(actual).AsParallel().ForAll(result =>
-                            {
-                                DatabaseManager.Write(result, opts.RunId);
-                            });
-                        }
-                        Thread.Sleep(1);
-                    }
-
-                    c.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, opts.RunId));
-                    c.Results.Clear();
 
                     FlushResults();
 
