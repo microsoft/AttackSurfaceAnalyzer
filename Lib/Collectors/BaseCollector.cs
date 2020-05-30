@@ -46,7 +46,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         public abstract void ExecuteInternal();
 
         private Stopwatch? watch;
-        private Action<CollectObject>? changeHandler;
+        private readonly Action<CollectObject>? changeHandler;
 
         protected BaseCollector(CollectCommandOptions? opts, Action<CollectObject>? changeHandler)
         {
