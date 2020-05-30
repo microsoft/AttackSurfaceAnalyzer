@@ -252,6 +252,11 @@ namespace AttackSurfaceAnalyzer.Utils
             return ASA_ERROR.NONE;
         }
 
+        public static DBSettings GetCurrentSettings()
+        {
+            return dbSettings;
+        }
+
         private static Settings? GetSettings()
         {
             try

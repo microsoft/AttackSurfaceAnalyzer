@@ -558,7 +558,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             if (opts.EnableFileSystemMonitor)
             {
-                monitors.Add(new FileSystemMonitor(opts));
+                monitors.Add(new FileSystemMonitor(opts, x => DatabaseManager.WriteFileMonitor(x, opts.RunId)));
             }
 
             //if (opts.EnableRegistryMonitor)
@@ -636,6 +636,70 @@ namespace AttackSurfaceAnalyzer.Cli
                     Log.Error(ex, " {0}: {1}", c.GetType().Name, ex.Message, Strings.Get("Err_Stopping"));
                 }
             }
+
+            var prevFlush = DatabaseManager.QueueSize;
+            var totFlush = prevFlush;
+
+            var printInterval = new TimeSpan(0, 0, 10);
+            var now = DateTime.Now;
+            var then = DateTime.Now;
+
+            var StopWatch = Stopwatch.StartNew();
+            TimeSpan t = new TimeSpan();
+            string answer = string.Empty;
+            bool warnedToIncreaseShards = false;
+            var settings = DatabaseManager.GetCurrentSettings();
+
+            while (DatabaseManager.HasElements)
+            {
+                Thread.Sleep(100);
+                if (!DatabaseManager.HasElements)
+                {
+                    break;
+                }
+                if (!warnedToIncreaseShards && StopWatch.ElapsedMilliseconds > 10000 && settings.ShardingFactor < 7)
+                {
+                    Log.Information("It is taking a while to flush results to the database.  Try increasing the sharding level to improve performance.");
+                    warnedToIncreaseShards = true;
+                }
+                now = DateTime.Now;
+                if (now - then > printInterval)
+                {
+                    var actualDuration = now - then;
+                    var sample = DatabaseManager.QueueSize;
+                    var curRate = prevFlush - sample;
+                    var totRate = (double)(totFlush - sample) / StopWatch.ElapsedMilliseconds;
+
+                    try
+                    {
+                        t = (curRate > 0) ? TimeSpan.FromMilliseconds(actualDuration.TotalMilliseconds * sample / curRate) : TimeSpan.FromMilliseconds(99999999); //lgtm[cs/loss-of-precision]
+                        answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+                                                t.Hours,
+                                                t.Minutes,
+                                                t.Seconds,
+                                                t.Milliseconds);
+                        Log.Debug("Flushing {0} results. ({1}/{4}s {2:0.00}/s overall {3} ETA)", sample, curRate, totRate * 1000, answer, actualDuration);
+                    }
+                    catch (Exception e) when (
+                        e is OverflowException)
+                    {
+                        Log.Debug($"Overflowed: {curRate} {totRate} {sample} {t} {answer}");
+                        Log.Debug("Flushing {0} results. ({1}/s {2:0.00}/s)", sample, curRate, totRate * 1000);
+                    }
+
+                    then = now;
+                    prevFlush = sample;
+                }
+            }
+
+            StopWatch.Stop();
+            t = TimeSpan.FromMilliseconds(StopWatch.ElapsedMilliseconds);
+            answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+                                    t.Hours,
+                                    t.Minutes,
+                                    t.Seconds,
+                                    t.Milliseconds);
+            Log.Debug("Completed flushing in {0}", answer);
 
             DatabaseManager.Commit();
 

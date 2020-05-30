@@ -34,6 +34,8 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public static readonly NotifyFilters defaultFiltersWithAccessTime = defaultFilters | NotifyFilters.LastAccess;
 
+        private readonly Action<FileMonitorObject> changeHandler;
+
         public static readonly NotifyFilters[] defaultFiltersList = new NotifyFilters[]
         {
             NotifyFilters.Attributes,
@@ -72,8 +74,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     Timestamp = DateTime.Now.ToString("O", CultureInfo.InvariantCulture),
                     FileSystemObject = fsc.FilePathToFileSystemObject(e.Value.FullPath)
                 };
-
-                DatabaseManager.WriteFileMonitor(ToWrite, RunId);
+                changeHandler(ToWrite);
             }
             
             RunStatus = RUN_STATUS.COMPLETED;
@@ -84,10 +85,15 @@ namespace AttackSurfaceAnalyzer.Collectors
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
         }
 
-        public FileSystemMonitor(MonitorCommandOptions opts)
+        public FileSystemMonitor(MonitorCommandOptions opts, Action<FileMonitorObject> changeHandler)
         {
+            if (changeHandler == null)
+            {
+                throw new NullReferenceException(nameof(changeHandler));
+            }
+
             options = opts ?? new MonitorCommandOptions();
-            RunId = options.RunId;
+            this.changeHandler = changeHandler;
 
             fsc = new FileSystemCollector(new CollectCommandOptions()
             {
@@ -224,8 +230,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         FileSystemObject = fso,
                         NotifyFilters = filters
                     };
-
-                    DatabaseManager.WriteFileMonitor(ToWrite, RunId);
+                    changeHandler(ToWrite);
                 }
             }
         }
@@ -289,7 +294,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 NotifyFilters = filters
             };
 
-            DatabaseManager.WriteFileMonitor(ToWrite, RunId);
+            changeHandler(ToWrite);
         }
         
         private static bool IsInvalidFile(string Path)
