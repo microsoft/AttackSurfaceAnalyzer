@@ -2,12 +2,13 @@
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
-using AttackSurfaceAnalyzer.Utils;
 using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -16,31 +17,54 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class FileSystemMonitor : BaseMonitor, IDisposable
     {
-        private readonly FileSystemWatcher watcher;
+        private readonly List<FileSystemWatcher> watchers = new List<FileSystemWatcher>();
 
-        public static readonly NotifyFilters defaultFilters = NotifyFilters.Attributes
-                | NotifyFilters.CreationTime
-                | NotifyFilters.DirectoryName
-                | NotifyFilters.FileName
-                | NotifyFilters.LastWrite
-                | NotifyFilters.Security
-                | NotifyFilters.Size;
+        private readonly ConcurrentDictionary<string, FileSystemEventArgs> filesAccessed = new ConcurrentDictionary<string, FileSystemEventArgs>();
 
-        public static readonly NotifyFilters defaultFiltersWithAccessTime = defaultFilters | NotifyFilters.LastAccess;
+        private readonly Action<FileMonitorObject> changeHandler;
 
-        private Action<EventArgs>? customChangeHandler = null;
+        public static readonly NotifyFilters[] defaultFiltersList = new NotifyFilters[]
+        {
+            NotifyFilters.Attributes,
+            NotifyFilters.CreationTime,
+            NotifyFilters.DirectoryName,
+            NotifyFilters.FileName,
+            NotifyFilters.LastAccess,
+            NotifyFilters.LastWrite,
+            NotifyFilters.Security,
+            NotifyFilters.Size
+        };
 
-        private readonly bool getFileDetails = true;
+        private readonly MonitorCommandOptions options;
+
+        private readonly FileSystemCollector fsc;
 
         public override void StartRun()
         {
-            watcher.EnableRaisingEvents = true;
+            watchers.ForEach(x => x.EnableRaisingEvents = true);
             RunStatus = RUN_STATUS.RUNNING;
 
         }
+
         public override void StopRun()
         {
-            watcher.EnableRaisingEvents = false;
+            watchers.ForEach(x => x.EnableRaisingEvents = false);
+
+            // Write each accessed file once.
+            foreach(var e in filesAccessed)
+            {
+                var ToWrite = new FileMonitorObject(e.Value.FullPath)
+                {
+                    ResultType = RESULT_TYPE.FILEMONITOR,
+                    ChangeType = ChangeTypeStringToChangeType(e.Value.ChangeType.ToString()),
+                    Name = e.Value.Name,
+                    Timestamp = DateTime.Now.ToString("O", CultureInfo.InvariantCulture),
+                    FileSystemObject = fsc.FilePathToFileSystemObject(e.Value.FullPath),
+                    NotifyFilters = NotifyFilters.LastAccess
+                };
+                changeHandler(ToWrite);
+            }
+            
             RunStatus = RUN_STATUS.COMPLETED;
         }
 
@@ -49,54 +73,153 @@ namespace AttackSurfaceAnalyzer.Collectors
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
         }
 
-        /// <summary>
-        /// This initializer ensures that the access time filter isn't used with InterrogateChanges, which causes a loop.
-        /// </summary>
-        public FileSystemMonitor(string runId, string dir, bool interrogateChanges) : this(runId, dir, interrogateChanges, interrogateChanges ? defaultFilters : defaultFiltersWithAccessTime) { }
-
-        // @TODO: Add ability to filter file name/type
-        // @TODO: Initialize database if not done yet, was previously factored out
-        // This constructor allows you to specify the NotifyFilters which were used
-        public FileSystemMonitor(string runId, string dir, bool interrogateChanges, NotifyFilters filters)
+        public FileSystemMonitor(MonitorCommandOptions opts, Action<FileMonitorObject> changeHandler)
         {
-            RunId = runId;
-            getFileDetails = interrogateChanges;
+            if (changeHandler == null)
+            {
+                throw new NullReferenceException(nameof(changeHandler));
+            }
 
-            watcher = new FileSystemWatcher();
+            options = opts ?? new MonitorCommandOptions();
+            this.changeHandler = changeHandler;
 
-            watcher.Path = dir;
+            fsc = new FileSystemCollector(new CollectCommandOptions()
+            {
+                DownloadCloud = false,
+                GatherHashes = options.GatherHashes,
+            });
 
-            watcher.NotifyFilter = filters;
+            foreach(var dir in options.MonitoredDirectories?.Split(',') ?? fsc.Roots.ToArray())
+            {
+                foreach(var filter in defaultFiltersList)
+                {
+                    var watcher = new FileSystemWatcher();
 
-            watcher.IncludeSubdirectories = true;
+                    watcher.Path = dir;
 
-            // Changed, Created and Deleted can share a handler, because they throw the same type of event
-            watcher.Changed += OnChanged;
-            watcher.Created += OnChanged;
-            watcher.Deleted += OnChanged;
+                    watcher.NotifyFilter = filter;
 
-            // Renamed needs a different handler because it throws a different kind of event
-            watcher.Renamed += OnRenamed;
+                    watcher.IncludeSubdirectories = true;
+
+                    // Changed, Created and Deleted can share a handler, because they throw the same type of event
+                    watcher.Changed += GetFunctionForFilterType(filter);
+                    watcher.Created += GetFunctionForFilterType(filter);
+                    watcher.Deleted += GetFunctionForFilterType(filter);
+
+                    // Renamed needs a different handler because it throws a different kind of event
+                    watcher.Renamed += GetRenamedFunctionForFilterType(filter);
+
+                    watchers.Add(watcher);
+                }
+            }
+        }
+
+        private RenamedEventHandler? GetRenamedFunctionForFilterType(NotifyFilters filter)
+        {
+            switch (filter)
+            {
+                case NotifyFilters.Attributes:
+                    return WriteAttributesRename;
+                case NotifyFilters.CreationTime:
+                    return WriteCreationTimeRename;
+                case NotifyFilters.DirectoryName:
+                    return WriteDirectoryNameRename;
+                case NotifyFilters.FileName:
+                    return WriteFileNameRename;
+                case NotifyFilters.LastAccess:
+                    return WriteLastAccessRename;
+                case NotifyFilters.LastWrite:
+                    return WriteLastWriteRename;
+                case NotifyFilters.Security:
+                    return WriteSecurityRename;
+                case NotifyFilters.Size:
+                    return WriteSizeRename;
+                default:
+                    return null;
+            }
+        }
+
+        private FileSystemEventHandler? GetFunctionForFilterType(NotifyFilters filter)
+        {
+            switch (filter)
+            {
+                case NotifyFilters.Attributes:
+                    return WriteAttributesChange;
+                case NotifyFilters.CreationTime:
+                    return WriteCreationTimeChange;
+                case NotifyFilters.DirectoryName:
+                    return WriteDirectoryNameChange;
+                case NotifyFilters.FileName:
+                    return WriteFileNameChange;
+                case NotifyFilters.LastAccess:
+                    return WriteLastAccessChange;
+                case NotifyFilters.LastWrite:
+                    return WriteLastWriteChange;
+                case NotifyFilters.Security:
+                    return WriteSecurityChange;
+                case NotifyFilters.Size:
+                    return WriteSizeChange;
+                default:
+                    return null;
+            }
         }
 
         public bool IsRunning()
         {
-            return watcher.EnableRaisingEvents;
+            return watchers.Any(x => x.EnableRaisingEvents);
         }
 
-        public void WriteChange(FileSystemEventArgs objIn)
+        private void WriteAttributesChange(object source, FileSystemEventArgs e) { WriteChange(e, NotifyFilters.Attributes); }
+        private void WriteCreationTimeChange(object source, FileSystemEventArgs e) { WriteChange(e, NotifyFilters.CreationTime); }
+        private void WriteDirectoryNameChange(object source, FileSystemEventArgs e) { WriteChange(e, NotifyFilters.DirectoryName); }
+        private void WriteFileNameChange(object source, FileSystemEventArgs e) { WriteChange(e, NotifyFilters.FileName); }
+        private void WriteLastAccessChange(object source, FileSystemEventArgs e) { WriteChange(e, NotifyFilters.LastAccess); }
+        private void WriteLastWriteChange(object source, FileSystemEventArgs e) { WriteChange(e, NotifyFilters.LastWrite); }
+        private void WriteSecurityChange(object source, FileSystemEventArgs e) { WriteChange(e, NotifyFilters.Security); }
+        private void WriteSizeChange(object source, FileSystemEventArgs e) { WriteChange(e, NotifyFilters.Size); }
+
+        private void WriteAttributesRename(object source, RenamedEventArgs e) { WriteRename(e, NotifyFilters.Attributes); }
+        private void WriteCreationTimeRename(object source, RenamedEventArgs e) { WriteRename(e, NotifyFilters.CreationTime); }
+        private void WriteDirectoryNameRename(object source, RenamedEventArgs e) { WriteRename(e, NotifyFilters.DirectoryName); }
+        private void WriteFileNameRename(object source, RenamedEventArgs e) { WriteRename(e, NotifyFilters.FileName); }
+        private void WriteLastAccessRename(object source, RenamedEventArgs e) { WriteRename(e, NotifyFilters.LastAccess); }
+        private void WriteLastWriteRename(object source, RenamedEventArgs e) { WriteRename(e, NotifyFilters.LastWrite); }
+        private void WriteSecurityRename(object source, RenamedEventArgs e) { WriteRename(e, NotifyFilters.Security); }
+        private void WriteSizeRename(object source, RenamedEventArgs e) { WriteRename(e, NotifyFilters.Size); }
+
+        private void WriteChange(FileSystemEventArgs objIn, NotifyFilters filters)
         {
             if (objIn != null)
             {
-                var ToWrite = new FileMonitorObject(objIn.FullPath)
+                if (IsInvalidFile(objIn.FullPath))
                 {
-                    ResultType = RESULT_TYPE.FILEMONITOR,
-                    ChangeType = ChangeTypeStringToChangeType(objIn.ChangeType.ToString()),
-                    Name = objIn.Name,
-                    Timestamp = DateTime.Now.ToString("O", CultureInfo.InvariantCulture)
-                };
+                    return;
+                }
 
-                DatabaseManager.WriteFileMonitor(ToWrite, RunId);
+                // If we are gathering extended details LastAccess times aren't meaningful since we will trigger them
+                // Instead we note they are gathered and clean up in StopRun
+                if (!options.FileNamesOnly && filters.HasFlag(NotifyFilters.LastAccess))
+                {
+                    filesAccessed.TryAdd(objIn.FullPath, objIn);
+                }
+                else
+                {
+                    // We skip gathering extended information when
+                    // The File was Deleted
+                    // We are set to gather names only
+                    var fso = (objIn.ChangeType == WatcherChangeTypes.Deleted || options.FileNamesOnly) ? null : fsc.FilePathToFileSystemObject(objIn.FullPath);
+                    var ToWrite = new FileMonitorObject(objIn.FullPath)
+                    {
+                        ResultType = RESULT_TYPE.FILEMONITOR,
+                        ChangeType = ChangeTypeStringToChangeType(objIn.ChangeType.ToString()),
+                        Name = objIn.Name,
+                        Timestamp = DateTime.Now.ToString("O", CultureInfo.InvariantCulture),
+                        FileSystemObject = fso,
+                        NotifyFilters = filters
+                    };
+
+                    changeHandler(ToWrite);
+                }
             }
         }
 
@@ -138,26 +261,14 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
-        public void WriteChange(FileSystemEventArgs objIn, string details)
-        {
-            if (objIn != null)
-            {
-                var ToWrite = new FileMonitorObject(objIn.FullPath)
-                {
-                    ResultType = RESULT_TYPE.FILEMONITOR,
-                    ChangeType = ChangeTypeStringToChangeType(objIn.ChangeType.ToString()),
-                    Name = objIn.Name,
-                    ExtendedResults = details,
-                    Timestamp = DateTime.Now.ToString("O", CultureInfo.InvariantCulture)
-                };
-
-                DatabaseManager.WriteFileMonitor(ToWrite, RunId);
-            }
-        }
-
-        public void WriteRename(RenamedEventArgs objIn)
+        public void WriteRename(RenamedEventArgs objIn, NotifyFilters filters)
         {
             if (objIn == null) { return; }
+
+            if (IsInvalidFile(objIn.FullPath))
+            {
+                return;
+            }
 
             var ToWrite = new FileMonitorObject(objIn.FullPath)
             {
@@ -166,57 +277,17 @@ namespace AttackSurfaceAnalyzer.Collectors
                 OldPath = objIn.OldFullPath,
                 Name = objIn.Name,
                 OldName = objIn.OldName,
-                Timestamp = DateTime.Now.ToString("O", CultureInfo.InvariantCulture)
+                Timestamp = DateTime.Now.ToString("O", CultureInfo.InvariantCulture),
+                FileSystemObject = fsc.FilePathToFileSystemObject(objIn.FullPath),
+                NotifyFilters = filters
             };
 
-            DatabaseManager.WriteFileMonitor(ToWrite, RunId);
+            changeHandler(ToWrite);
         }
-
-
-        private void OnChanged(object source, FileSystemEventArgs e)
+        
+        private static bool IsInvalidFile(string Path)
         {
-            if (InvalidFile(e.FullPath))
-            {
-                return;
-            }
-
-            // Inspect the file
-            if (getFileDetails && e.ChangeType != WatcherChangeTypes.Deleted)
-            {
-                // Switch to using Mono here
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                {
-                    var unixFileInfo = new Mono.Unix.UnixFileInfo(e.FullPath);
-                    var result = unixFileInfo.FileAccessPermissions.ToString();
-                    WriteChange(e, result);
-                    return;
-                }
-                // @TODO: Fix Windows and MacOS Inspection
-            }
-            WriteChange(e);
-            customChangeHandler?.Invoke(e);
-        }
-
-        // These files cause loops on MAC OS as they get changed whenever text is pasted to the console
-        private readonly Regex uuidText = new Regex("/private/var/db/uuidtext", RegexOptions.Compiled);
-        private bool InvalidFile(string Path)
-        {
-            return uuidText.IsMatch(Path);
-        }
-
-        private void OnRenamed(object source, RenamedEventArgs e)
-        {
-            if (InvalidFile(e.FullPath))
-            {
-                return;
-            }
-
-            WriteRename(e);
-        }
-
-        public void SetCustomChangeHandler(Action<EventArgs> handler)
-        {
-            customChangeHandler = handler;
+            return Path.StartsWith("/private/var/db/uuidtext");
         }
 
         public void Dispose()
@@ -229,7 +300,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             if (disposing)
             {
-                watcher.Dispose();
+                watchers.ForEach(x => x.Dispose());
             }
         }
     }

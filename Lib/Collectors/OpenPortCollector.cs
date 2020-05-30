@@ -17,7 +17,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class OpenPortCollector : BaseCollector
     {
-        public OpenPortCollector(CollectCommandOptions? opts = null) => this.opts = opts ?? this.opts;
+        public OpenPortCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler) { }
 
         public override bool CanRunOnPlatform()
         {
@@ -75,7 +75,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     obj.ProcessName = p.ProcessName;
                 }
 
-                Results.Push(obj);
+                HandleChange(obj);
             }
 
             foreach (var endpoint in properties.GetActiveUdpListeners())
@@ -87,7 +87,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 obj.ProcessName = Win32ProcessPorts.ProcessPortMap.Find(x => x.PortNumber == endpoint.Port)?.ProcessName;
 
-                Results.Push(obj);
+                HandleChange(obj);
             }
         }
 
@@ -128,7 +128,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             {
                                 Address = address
                             };
-                            Results.Push(obj);
+                            HandleChange(obj);
                         }
 
                     }
@@ -194,7 +194,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 ProcessName = parts[0]
                             };
 
-                            Results.Push(obj);
+                            HandleChange(obj);
                         }
                     }
                 }

@@ -20,7 +20,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class UserAccountCollector : BaseCollector
     {
-        public UserAccountCollector(CollectCommandOptions? opts = null) => this.opts = opts ?? this.opts;
+        public UserAccountCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler) { }
 
         public override bool CanRunOnPlatform()
         {
@@ -197,12 +197,12 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             foreach (var user in users)
             {
-                Results.Push(user.Value);
+                HandleChange(user.Value);
             }
 
             foreach (var group in groups)
             {
-                Results.Push(group.Value);
+                HandleChange(group.Value);
             }
         }
 
@@ -310,11 +310,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                         Groups[group].Users.Add(username);
                     }
                 }
-                Results.Push(accountDetails[username]);
+                HandleChange(accountDetails[username]);
             }
             foreach (var group in Groups)
             {
-                Results.Push(group.Value);
+                HandleChange(group.Value);
             }
         }
 
@@ -409,11 +409,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                 }
                 accountDetails[username].Groups.AddRange(groups);
-                Results.Push(accountDetails[username]);
+                HandleChange(accountDetails[username]);
             }
             foreach (var group in Groups)
             {
-                Results.Push(group.Value);
+                HandleChange(group.Value);
             }
         }
     }

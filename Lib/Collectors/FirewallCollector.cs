@@ -18,7 +18,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class FirewallCollector : BaseCollector
     {
-        public FirewallCollector(CollectCommandOptions? opts = null) => this.opts = opts ?? this.opts;
+        public FirewallCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler) { }
 
         public override bool CanRunOnPlatform()
         {
@@ -54,7 +54,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         obj.LocalPorts = rule.LocalPorts.ToList().ConvertAll(port => port.ToString(CultureInfo.InvariantCulture));
                         obj.RemoteAddresses = rule.RemoteAddresses.ToList().ConvertAll(address => address.ToString());
                         obj.RemotePorts = rule.RemotePorts.ToList().ConvertAll(port => port.ToString(CultureInfo.InvariantCulture));
-                        Results.Push(obj);
+                        HandleChange(obj);
                     }
                     catch (Exception e)
                     {
@@ -101,7 +101,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             obj.Direction = chainName.Equals("INPUT") ? FirewallDirection.Inbound : FirewallDirection.Outbound;
                         }
 
-                        Results.Push(obj);
+                        HandleChange(obj);
                     }
                     else if (line.StartsWith("-A"))
                     {
@@ -142,7 +142,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             obj.Direction = chainName.Equals("INPUT") ? FirewallDirection.Inbound : FirewallDirection.Outbound;
                         }
 
-                        Results.Push(obj);
+                        HandleChange(obj);
                     }
                 }
             }
@@ -164,7 +164,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 FriendlyName = "Firewall Enabled",
                 Scope = FirewallScope.All
             };
-            Results.Push(obj);
+            HandleChange(obj);
 
             // Example output: "Stealth mode disabled"
             result = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--getglobalstate");
@@ -176,7 +176,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 FriendlyName = "Stealth Mode",
                 Scope = FirewallScope.All
             };
-            Results.Push(obj);
+            HandleChange(obj);
 
             /* Example Output:
              * Automatically allow signed built-in software ENABLED
@@ -190,7 +190,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 FriendlyName = "Allow signed built-in software",
                 Scope = FirewallScope.All
             };
-            Results.Push(obj);
+            HandleChange(obj);
 
             obj = new FirewallObject("Allow downloaded signed software")
             {
@@ -200,7 +200,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 FriendlyName = "Allow downloaded signed software",
                 Scope = FirewallScope.All
             };
-            Results.Push(obj);
+            HandleChange(obj);
 
             /* Example Output:
 ALF: total number of apps = 2 
@@ -232,7 +232,7 @@ ALF: total number of apps = 2
                             FriendlyName = appName,
                             Scope = FirewallScope.All
                         };
-                        Results.Push(obj);
+                        HandleChange(obj);
                     }
                 }
             }

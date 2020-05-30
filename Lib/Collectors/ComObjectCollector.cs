@@ -17,7 +17,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class ComObjectCollector : BaseCollector
     {
-        public ComObjectCollector(CollectCommandOptions? opts = null) => this.opts = opts ?? this.opts;
+        public ComObjectCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler) { }
 
         /// <summary>
         /// Com Objects only exist on Windows.
@@ -47,7 +47,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 var CLDIDs = SearchKey.OpenSubKey("SOFTWARE\\Classes\\CLSID");
                 foreach (var comObj in ParseComObjects(CLDIDs, view, opts.SingleThread))
                 {
-                    Results.Push(comObj);
+                    HandleChange(comObj);
                 }
             }
             catch (Exception e) when (//lgtm [cs/empty-catch-block]
@@ -70,7 +70,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         using var ComKey = SearchKey.OpenSubKey(subkeyName).OpenSubKey("CLSID");
                         foreach (var comObj in ParseComObjects(ComKey, view, opts.SingleThread))
                         {
-                            Results.Push(comObj);
+                            HandleChange(comObj);
                         }
                     }
                 }

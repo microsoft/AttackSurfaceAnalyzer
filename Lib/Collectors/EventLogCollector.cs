@@ -19,7 +19,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class EventLogCollector : BaseCollector
     {
-        public EventLogCollector(CollectCommandOptions? opts = null) => this.opts = opts ?? this.opts;
+        public EventLogCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler) { }
 
         public override void ExecuteInternal()
         {
@@ -73,8 +73,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     Timestamp = entry.TimeGenerated,
                                     Data = new List<string>() { entry.Message }
                                 };
-                                StallIfHighMemoryUsageAndLowMemoryModeEnabled();
-                                Results.Push(obj);
+                                HandleChange(obj);
                             }
                         }
                     }
@@ -116,8 +115,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             {
                                 obj.Timestamp = Timestamp;
                             }
-                            StallIfHighMemoryUsageAndLowMemoryModeEnabled();
-                            Results.Push(obj);
+                            HandleChange(obj);
                         }
                     }
                 }
@@ -180,8 +178,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         if (curObject != null)
                         {
-                            StallIfHighMemoryUsageAndLowMemoryModeEnabled();
-                            Results.Push(curObject);
+                            HandleChange(curObject);
                         }
 
                         curObject = new EventLogObject(evt)
@@ -210,8 +207,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 process.WaitForExit();
                 if (curObject != null)
                 {
-                    StallIfHighMemoryUsageAndLowMemoryModeEnabled();
-                    Results.Push(curObject);
+                    HandleChange(curObject);
                 }
             }
             catch (Exception e)

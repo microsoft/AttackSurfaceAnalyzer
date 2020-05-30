@@ -26,7 +26,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             (RegistryHive.ClassesRoot,string.Empty), (RegistryHive.CurrentConfig,string.Empty), (RegistryHive.CurrentUser,string.Empty), (RegistryHive.LocalMachine,string.Empty), (RegistryHive.Users,string.Empty)
         };
 
-        public RegistryCollector(CollectCommandOptions? opts = null)
+        public RegistryCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
         {
             this.opts = opts ?? this.opts;
             Hives = DefaultHives;
@@ -67,7 +67,6 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 Action<RegistryHive, string, RegistryView> IterateOn = (registryHive, keyPath, registryView) =>
                 {
-                    StallIfHighMemoryUsageAndLowMemoryModeEnabled();
                     Log.Verbose("Beginning to parse {0}\\{1} in {2}", registryHive, keyPath, registryView);
                     RegistryObject? regObj = null;
                     try
@@ -82,7 +81,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                     if (regObj != null)
                     {
-                        Results.Push(regObj);
+                        HandleChange(regObj);
                     }
                     Log.Verbose("Finished parsing {0}\\{1} in {1}", registryHive, keyPath, registryView);
                 };
