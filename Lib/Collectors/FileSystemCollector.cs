@@ -6,6 +6,7 @@ using Microsoft.CodeAnalysis;
 using Mono.Unix;
 using Serilog;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -27,13 +28,13 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class FileSystemCollector : BaseCollector
     {
-        private readonly HashSet<string> roots = new HashSet<string>();
+        public HashSet<string> Roots { get; } = new HashSet<string>();
 
-        private Dictionary<string, long> sizesOnDisk = new Dictionary<string, long>();
+        private readonly Dictionary<string, long> sizesOnDisk = new Dictionary<string, long>();
 
-        public static Dictionary<string, uint> ClusterSizes { get; set; } = new Dictionary<string, uint>();
+        public static ConcurrentDictionary<string, uint> ClusterSizes { get; set; } = new ConcurrentDictionary<string, uint>();
 
-        public FileSystemCollector(CollectCommandOptions? opts = null) => this.opts = opts ?? this.opts;
+        public FileSystemCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler) { }
 
         public override bool CanRunOnPlatform()
         {
@@ -46,11 +47,11 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 foreach (string path in opts.SelectedDirectories.Split(','))
                 {
-                    roots.Add(path);
+                    Roots.Add(path);
                 }
             }
 
-            if (!roots.Any())
+            if (!Roots.Any())
             {
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
@@ -58,17 +59,17 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         if (driveInfo.IsReady && driveInfo.DriveType == DriveType.Fixed)
                         {
-                            roots.Add(driveInfo.Name);
+                            Roots.Add(driveInfo.Name);
                         }
                     }
                 }
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                 {
-                    roots.Add("/");
+                    Roots.Add("/");
                 }
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 {
-                    roots.Add("/");
+                    Roots.Add("/");
                 }
             }
             Action<string>? IterateOnDirectory = null;
@@ -99,12 +100,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                 });
                 foreach (var file in files)
                 {
-                    StallIfHighMemoryUsageAndLowMemoryModeEnabled();
                     Log.Verbose("Started parsing {0}", file);
                     FileSystemObject obj = FilePathToFileSystemObject(file);
                     if (obj != null)
                     {
-                        Results.Push(obj);
+                        HandleChange(obj);
 
                         // TODO: Also try parse .DER as a key
                         if (Path.EndsWith(".cer", StringComparison.CurrentCulture) ||
@@ -121,7 +121,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     StoreName: StoreName.Root.ToString(),
                                     Certificate: new SerializableCertificate(certificate));
 
-                                Results.Push(certObj);
+                                HandleChange(certObj);
                             }
                             catch (Exception e)
                             {
@@ -135,7 +135,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 Log.Verbose("Finished parsing {0}", Path);
             };
 
-            foreach (var root in roots)
+            foreach (var root in Roots)
             {
                 Log.Information("{0} root {1}", Strings.Get("Scanning"), root);
                 var directories = Directory.EnumerateDirectories(root, "*", new System.IO.EnumerationOptions()
@@ -423,7 +423,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                     var root = path.Directory.Root.FullName;
                     if (!ClusterSizes.ContainsKey(root))
                     {
-                        ClusterSizes[root] = 0;
                         NativeMethods.GetDiskFreeSpace(root, out uint lpSectorsPerCluster, out uint lpBytesPerSector, out _, out _);
                         ClusterSizes[root] = lpSectorsPerCluster * lpBytesPerSector;
                     }

@@ -7,6 +7,7 @@ using AttackSurfaceAnalyzer.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Win32;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -14,6 +15,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
+using System.Threading;
 using WindowsFirewallHelper;
 
 namespace AttackSurfaceAnalyzer.Tests
@@ -67,6 +69,40 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsTrue(fsc.Results.Any(x => x is FileSystemObject FSO && FSO.Path.EndsWith("AsaLibTesterJavaClass") && FSO.IsExecutable == true));
             Assert.IsTrue(fsc.Results.Any(x => x is FileSystemObject FSO && FSO.Path.EndsWith("AsaLibTesterMZ") && FSO.IsExecutable == true));
+
+            ConcurrentStack<CollectObject> results = new ConcurrentStack<CollectObject>();
+            fsc = new FileSystemCollector(opts, x => results.Push(x));
+            fsc.TryExecute();
+
+            Assert.IsTrue(results.Any(x => x is FileSystemObject FSO && FSO.Path.EndsWith("AsaLibTesterJavaClass") && FSO.IsExecutable == true));
+            Assert.IsTrue(results.Any(x => x is FileSystemObject FSO && FSO.Path.EndsWith("AsaLibTesterMZ") && FSO.IsExecutable == true));
+        }
+
+        /// <summary>
+        /// Does not require admin
+        /// </summary>
+        [TestMethod]
+        public void TestFileMonitor()
+        {
+            var stack = new ConcurrentStack<FileMonitorObject>();
+            var monitor = new FileSystemMonitor(new MonitorCommandOptions() { MonitoredDirectories = Path.GetTempPath() }, x => stack.Push(x));
+            monitor.StartRun();
+
+            var created = Path.GetTempFileName(); // Create a file
+            var renamed = $"{created}-renamed";
+            File.WriteAllText(created, "Test"); // Change the size
+
+            File.Move(created, renamed); // Rename it
+            File.Delete(renamed); //Delete it
+
+            Thread.Sleep(1000);
+
+            monitor.StopRun();
+
+            Assert.IsTrue(stack.Any(x => x.NotifyFilters == NotifyFilters.FileName && x.Path == created));
+            Assert.IsTrue(stack.Any(x => x.NotifyFilters == NotifyFilters.Size && x.Path == created));
+            Assert.IsTrue(stack.Any(x => x.ChangeType == CHANGE_TYPE.RENAMED && x.NotifyFilters == NotifyFilters.FileName && x.Path == renamed));
+            Assert.IsTrue(stack.Any(x => x.ChangeType == CHANGE_TYPE.DELETED && x.Path == renamed));
         }
 
         /// <summary>
@@ -92,13 +128,19 @@ namespace AttackSurfaceAnalyzer.Tests
             eventLog.Source = "Attack Surface Analyzer Tests";
             eventLog.WriteEntry("This Log Entry was created for testing the Attack Surface Analyzer library.", EventLogEntryType.Warning, 101, 1);
 
-            var fsc = new EventLogCollector(new CollectCommandOptions());
-            fsc.TryExecute();
+            var elc = new EventLogCollector(new CollectCommandOptions());
+            elc.TryExecute();
+
+            Assert.IsTrue(elc.Results.Any(x => x is EventLogObject ELO && ELO.Source == "Attack Surface Analyzer Tests" && ELO.Timestamp is DateTime DT && DT.AddMinutes(1).CompareTo(DateTime.Now) > 0));
+
+            ConcurrentStack<CollectObject> results = new ConcurrentStack<CollectObject>();
+            elc = new EventLogCollector(new CollectCommandOptions(),x => results.Push(x));
+            elc.TryExecute();
+
+            Assert.IsTrue(results.Any(x => x is EventLogObject ELO && ELO.Source == "Attack Surface Analyzer Tests" && ELO.Timestamp is DateTime DT && DT.AddMinutes(1).CompareTo(DateTime.Now) > 0));
 
             EventLog.DeleteEventSource(source);
             EventLog.Delete(logname);
-
-            Assert.IsTrue(fsc.Results.Any(x => x is EventLogObject ELO && ELO.Source == "Attack Surface Analyzer Tests" && ELO.Timestamp is DateTime DT && DT.AddMinutes(1).CompareTo(DateTime.Now) > 0));
         }
 
         /// <summary>
@@ -107,10 +149,16 @@ namespace AttackSurfaceAnalyzer.Tests
         [TestMethod]
         public void TestCertificateCollectorWindows()
         {
-            var fsc = new CertificateCollector();
-            fsc.TryExecute();
+            var cc = new CertificateCollector();
+            cc.TryExecute();
 
-            Assert.IsTrue(fsc.Results.Where(x => x.ResultType == RESULT_TYPE.CERTIFICATE).Count() > 0);
+            Assert.IsTrue(cc.Results.Where(x => x.ResultType == RESULT_TYPE.CERTIFICATE).Count() > 0);
+
+            ConcurrentStack<CollectObject> results = new ConcurrentStack<CollectObject>();
+            cc = new CertificateCollector(changeHandler: x => results.Push(x));
+            cc.TryExecute();
+
+            Assert.IsTrue(results.Where(x => x.ResultType == RESULT_TYPE.CERTIFICATE).Count() > 0);
         }
 
         /// <summary>
@@ -136,11 +184,19 @@ namespace AttackSurfaceAnalyzer.Tests
             {
                 Console.WriteLine("Failed to open port.");
             }
-            var fsc = new OpenPortCollector();
-            fsc.TryExecute();
+            var pc = new OpenPortCollector();
+            pc.TryExecute();
+            var results1 = pc.Results;
+
+            ConcurrentStack<CollectObject> results = new ConcurrentStack<CollectObject>();
+            pc = new OpenPortCollector(changeHandler: x => results.Push(x));
+            pc.TryExecute();
+
             server.Stop();
 
-            Assert.IsTrue(fsc.Results.Any(x => x is OpenPortObject OPO && OPO.Port == 13000));
+            Assert.IsTrue(results1.Any(x => x is OpenPortObject OPO && OPO.Port == 13000));
+            Assert.IsTrue(results.Any(x => x is OpenPortObject OPO && OPO.Port == 13000));
+
         }
 
         /// <summary>
@@ -209,6 +265,12 @@ namespace AttackSurfaceAnalyzer.Tests
                 Assert.IsTrue(fwc.Results.Any(x => x is FirewallObject FWO && FWO.LocalPorts.Contains("9999")));
                 Assert.IsTrue(fwc.Results.Any(x => x is FirewallObject FWO && FWO.ApplicationName is string && FWO.ApplicationName.Equals(@"C:\MyApp.exe")));
 
+                ConcurrentStack<CollectObject> results = new ConcurrentStack<CollectObject>();
+                fwc = new FirewallCollector(changeHandler: x => results.Push(x));
+                fwc.TryExecute();
+
+                Assert.IsTrue(results.Any(x => x is FirewallObject FWO && FWO.LocalPorts.Contains("9999")));
+                Assert.IsTrue(results.Any(x => x is FirewallObject FWO && FWO.ApplicationName is string && FWO.ApplicationName.Equals(@"C:\MyApp.exe")));
 
                 var rules = FirewallManager.Instance.Rules.Where(r => r.Name == "TestFirewallPortRule");
                 foreach (var ruleIn in rules)
@@ -245,10 +307,17 @@ namespace AttackSurfaceAnalyzer.Tests
                 var rc = new RegistryCollector(new CollectCommandOptions() { SingleThread = true, SelectedHives = $"CurrentUser\\{name}" });
                 rc.TryExecute();
 
-                Registry.CurrentUser.DeleteSubKey(name);
-
                 Assert.IsTrue(rc.Results.Any(x => x is RegistryObject RO && RO.Key.EndsWith(name)));
                 Assert.IsTrue(rc.Results.Any(x => x is RegistryObject RO && RO.Key.EndsWith(name) && RO.Values.ContainsKey(value) && RO.Values[value] == value2));
+
+                ConcurrentStack<CollectObject> results = new ConcurrentStack<CollectObject>();
+                rc = new RegistryCollector(new CollectCommandOptions() { SingleThread = true, SelectedHives = $"CurrentUser\\{name}" }, x => results.Push(x));
+                rc.TryExecute();
+
+                Assert.IsTrue(results.Any(x => x is RegistryObject RO && RO.Key.EndsWith(name)));
+                Assert.IsTrue(results.Any(x => x is RegistryObject RO && RO.Key.EndsWith(name) && RO.Values.ContainsKey(value) && RO.Values[value] == value2));
+
+                Registry.CurrentUser.DeleteSubKey(name);
             }
         }
 
@@ -271,6 +340,12 @@ namespace AttackSurfaceAnalyzer.Tests
 
                 Assert.IsTrue(sc.Results.Any(x => x is ServiceObject RO && RO.Name.Equals(serviceName)));
 
+                ConcurrentStack<CollectObject> results = new ConcurrentStack<CollectObject>();
+                sc = new ServiceCollector(changeHandler: x => results.Push(x));
+                sc.TryExecute();
+
+                Assert.IsTrue(results.Any(x => x is ServiceObject RO && RO.Name.Equals(serviceName)));
+
                 // Clean up
                 cmd = string.Format("delete {0}", serviceName);
                 ExternalCommandRunner.RunExternalCommand("sc.exe", cmd);
@@ -289,6 +364,12 @@ namespace AttackSurfaceAnalyzer.Tests
                 coc.TryExecute();
 
                 Assert.IsTrue(coc.Results.Any(x => x is ComObject y && y.x86_Binary != null));
+
+                ConcurrentStack<CollectObject> results = new ConcurrentStack<CollectObject>();
+                coc = new ComObjectCollector(changeHandler: x => results.Push(x));
+                coc.TryExecute();
+
+                Assert.IsTrue(results.Any(x => x is ComObject y && y.x86_Binary != null));
             }
         }
 
@@ -311,6 +392,12 @@ namespace AttackSurfaceAnalyzer.Tests
                 uac.TryExecute();
 
                 Assert.IsTrue(uac.Results.Any(x => x is UserAccountObject y && y.Name.Equals(user)));
+
+                ConcurrentStack<CollectObject> results = new ConcurrentStack<CollectObject>();
+                uac = new UserAccountCollector(changeHandler: x => results.Push(x));
+                uac.TryExecute();
+
+                Assert.IsTrue(results.Any(x => x is UserAccountObject y && y.Name.Equals(user)));
 
                 cmd = string.Format("user /delete {0}", user);
                 ExternalCommandRunner.RunExternalCommand("net", cmd);

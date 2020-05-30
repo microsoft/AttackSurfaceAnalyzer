@@ -16,7 +16,12 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class CertificateCollector : BaseCollector
     {
-        public CertificateCollector(CollectCommandOptions? opts = null) => this.opts = opts ?? this.opts;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="opts"></param>
+        /// <param name=""></param>
+        public CertificateCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler) { }
 
         public override bool CanRunOnPlatform()
         {
@@ -43,7 +48,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 StoreLocation: storeLocation.ToString(),
                                 StoreName: storeName.ToString(),
                                 Certificate: new SerializableCertificate(certificate));
-                            Results.Push(obj);
+                            HandleChange(obj);
                         }
                         store.Close();
                     }
@@ -76,7 +81,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 StoreLocation: StoreLocation.LocalMachine.ToString(),
                                 StoreName: StoreName.Root.ToString(),
                                 Certificate: new SerializableCertificate(certificate));
-                            Results.Push(obj);
+                            HandleChange(obj);
                         }
                         catch (Exception e)
                         {
@@ -127,7 +132,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 StoreLocation: StoreLocation.LocalMachine.ToString(),
                                 StoreName: StoreName.Root.ToString(),
                                 Certificate: new SerializableCertificate(certificate));
-                            Results.Push(obj);
+                            HandleChange(obj);
                         }
                     }
                     else

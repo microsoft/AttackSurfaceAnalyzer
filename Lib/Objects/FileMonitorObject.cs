@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+using System.IO;
 using AttackSurfaceAnalyzer.Types;
 
 namespace AttackSurfaceAnalyzer.Objects
@@ -12,9 +13,10 @@ namespace AttackSurfaceAnalyzer.Objects
         public string? OldName { get; set; }
         public CHANGE_TYPE? ChangeType { get; set; }
         public string? ExtendedResults { get; set; }
-        public string? NotifyFilters { get; set; }
+        public NotifyFilters? NotifyFilters { get; set; }
         public string? Serialized { get; set; }
         public string? Timestamp { get; set; }
+        public FileSystemObject? FileSystemObject { get; set; }
 
         public override string Identity
         {

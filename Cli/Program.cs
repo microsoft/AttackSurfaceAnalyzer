@@ -553,54 +553,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             if (opts.EnableFileSystemMonitor)
             {
-                List<String> directories = new List<string>();
-
-                if (opts.MonitoredDirectories != null)
-                {
-                    var parts = opts.MonitoredDirectories.Split(',');
-                    foreach (String part in parts)
-                    {
-                        directories.Add(part);
-                    }
-                }
-                else
-                {
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                    {
-                        directories.Add("/");
-                    }
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                    {
-                        directories.Add("C:\\");
-                    }
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                    {
-                        directories.Add("/");
-                    }
-                }
-
-                List<NotifyFilters> filterOptions = new List<NotifyFilters>
-                {
-                    NotifyFilters.Attributes, NotifyFilters.CreationTime, NotifyFilters.DirectoryName, NotifyFilters.FileName, NotifyFilters.LastAccess, NotifyFilters.LastWrite, NotifyFilters.Security, NotifyFilters.Size
-                };
-
-                foreach (String dir in directories)
-                {
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                    {
-                        var newMon = new FileSystemMonitor(opts.RunId, dir, false);
-                        monitors.Add(newMon);
-                    }
-                    else
-                    {
-                        foreach (NotifyFilters filter in filterOptions)
-                        {
-                            Log.Information("Adding Path {0} Filter Type {1}", dir, filter.ToString());
-                            var newMon = new FileSystemMonitor(opts.RunId, dir, false, filter);
-                            monitors.Add(newMon);
-                        }
-                    }
-                }
+                monitors.Add(new FileSystemMonitor(opts, x => DatabaseManager.WriteFileMonitor(x, opts.RunId)));
             }
 
             //if (opts.EnableRegistryMonitor)
@@ -678,6 +631,8 @@ namespace AttackSurfaceAnalyzer.Cli
                     Log.Error(ex, " {0}: {1}", c.GetType().Name, ex.Message, Strings.Get("Err_Stopping"));
                 }
             }
+
+            FlushResults();
 
             DatabaseManager.Commit();
 
@@ -817,28 +772,7 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             if (opts.EnableFileSystemMonitor)
             {
-                List<string> directories = new List<string>();
-
-                var parts = opts.MonitoredDirectories?.Split(',') ?? Array.Empty<string>();
-
-                foreach (string part in parts)
-                {
-                    directories.Add(part);
-                }
-
-                foreach (string dir in directories)
-                {
-                    try
-                    {
-                        FileSystemMonitor newMon = new FileSystemMonitor(opts.RunId ?? DateTime.Now.ToString("o", CultureInfo.InvariantCulture), dir, opts.InterrogateChanges);
-                        monitors.Add(newMon);
-                    }
-                    catch (ArgumentException)
-                    {
-                        Log.Warning("{1}: {0}", dir, Strings.Get("InvalidPath"));
-                        return ASA_ERROR.INVALID_PATH;
-                    }
-                }
+                monitors.Add(new FileSystemMonitor(opts, x => DatabaseManager.Write(x,opts.RunId)));
             }
 
             if (monitors.Count == 0)
@@ -862,6 +796,8 @@ namespace AttackSurfaceAnalyzer.Cli
 
                 c.StopRun();
             }
+
+            FlushResults();
 
             DatabaseManager.Commit();
 
@@ -905,7 +841,9 @@ namespace AttackSurfaceAnalyzer.Cli
 
             var dbSettings = new DBSettings()
             {
-                ShardingFactor = opts.Shards
+                ShardingFactor = opts.Shards,
+                LowMemoryUsage = opts.LowMemoryUsage
+                
             };
             SetupOrDie(opts.DatabaseFilename, dbSettings);
             AsaTelemetry.Setup();
@@ -968,51 +906,53 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
             }
 
+            Action<CollectObject> defaultChangeHandler = x => DatabaseManager.Write(x, opts.RunId);
+
             var dict = new List<RESULT_TYPE>();
 
             if (opts.EnableFileSystemCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new FileSystemCollector(opts));
+                collectors.Add(new FileSystemCollector(opts, defaultChangeHandler));
                 dict.Add(RESULT_TYPE.FILE);
             }
             if (opts.EnableNetworkPortCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new OpenPortCollector(opts));
+                collectors.Add(new OpenPortCollector(opts, defaultChangeHandler));
                 dict.Add(RESULT_TYPE.PORT);
             }
             if (opts.EnableServiceCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new ServiceCollector(opts));
+                collectors.Add(new ServiceCollector(opts, defaultChangeHandler));
                 dict.Add(RESULT_TYPE.SERVICE);
             }
             if (opts.EnableUserCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new UserAccountCollector(opts));
+                collectors.Add(new UserAccountCollector(opts, defaultChangeHandler));
                 dict.Add(RESULT_TYPE.USER);
             }
             if (opts.EnableRegistryCollector || (opts.EnableAllCollectors && RuntimeInformation.IsOSPlatform(OSPlatform.Windows)))
             {
-                collectors.Add(new RegistryCollector(opts));
+                collectors.Add(new RegistryCollector(opts, defaultChangeHandler));
                 dict.Add(RESULT_TYPE.REGISTRY);
             }
             if (opts.EnableCertificateCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new CertificateCollector(opts));
+                collectors.Add(new CertificateCollector(opts, defaultChangeHandler));
                 dict.Add(RESULT_TYPE.CERTIFICATE);
             }
             if (opts.EnableFirewallCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new FirewallCollector(opts));
+                collectors.Add(new FirewallCollector(opts, defaultChangeHandler));
                 dict.Add(RESULT_TYPE.FIREWALL);
             }
             if (opts.EnableComObjectCollector || (opts.EnableAllCollectors && RuntimeInformation.IsOSPlatform(OSPlatform.Windows)))
             {
-                collectors.Add(new ComObjectCollector(opts));
+                collectors.Add(new ComObjectCollector(opts, defaultChangeHandler));
                 dict.Add(RESULT_TYPE.COM);
             }
             if (opts.EnableEventLogCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new EventLogCollector(opts));
+                collectors.Add(new EventLogCollector(opts, defaultChangeHandler));
                 dict.Add(RESULT_TYPE.LOG);
             }
 
@@ -1061,100 +1001,12 @@ namespace AttackSurfaceAnalyzer.Cli
                         c.TryExecute();
                     });
 
-                    Thread.Sleep(5);
-
-                    while (c.RunStatus == RUN_STATUS.RUNNING)
+                    while(c.RunStatus == RUN_STATUS.RUNNING)
                     {
-                        var items = new CollectObject[1000];
-                        while (c.Results.Count > 0)
-                        {
-                            var count = Math.Min(1000, c.Results.Count);
-                            var actual = c.Results.TryPopRange(items);
-                            if (opts.LowMemoryUsage)
-                            {
-                                int stallCount = 0;
-                                while (DatabaseManager.QueueSize > BaseCollector.LOW_MEMORY_CUTOFF)
-                                {
-                                    if (stallCount++ % 1000 == 0)
-                                    {
-                                        Log.Verbose("Stalling Collector with {0} results for Memory Usage", DatabaseManager.QueueSize);
-                                    }
-                                    Thread.Sleep(1);
-                                }
-                            }
-                            items.Take(actual).AsParallel().ForAll(result =>
-                            {
-                                DatabaseManager.Write(result, opts.RunId);
-                            });
-                        }
                         Thread.Sleep(1);
                     }
 
-                    c.Results.AsParallel().ForAll(x => DatabaseManager.Write(x, opts.RunId));
-                    c.Results.Clear();
-
-                    var prevFlush = DatabaseManager.QueueSize;
-                    var totFlush = prevFlush;
-
-                    var printInterval = new TimeSpan(0, 0, 10);
-                    var now = DateTime.Now;
-                    var then = DateTime.Now;
-
-                    var StopWatch = Stopwatch.StartNew();
-                    TimeSpan t = new TimeSpan();
-                    string answer = string.Empty;
-                    bool warnedToIncreaseShards = false;
-
-                    while (DatabaseManager.HasElements)
-                    {
-                        Thread.Sleep(100);
-                        if (!DatabaseManager.HasElements)
-                        {
-                            break;
-                        }
-                        if (!warnedToIncreaseShards && StopWatch.ElapsedMilliseconds > 10000 && dbSettings.ShardingFactor < 7)
-                        {
-                            Log.Information("It is taking a while to flush results to the database.  Try increasing the sharding level to improve performance.");
-                            warnedToIncreaseShards = true;
-                        }
-                        now = DateTime.Now;
-                        if (now - then > printInterval)
-                        {
-                            var actualDuration = now - then;
-                            var sample = DatabaseManager.QueueSize;
-                            var curRate = prevFlush - sample;
-                            var totRate = (double)(totFlush - sample) / StopWatch.ElapsedMilliseconds;
-
-                            try
-                            {
-                                t = (curRate > 0) ? TimeSpan.FromMilliseconds(actualDuration.TotalMilliseconds * sample / curRate) : TimeSpan.FromMilliseconds(99999999); //lgtm[cs/loss-of-precision]
-                                answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
-                                                        t.Hours,
-                                                        t.Minutes,
-                                                        t.Seconds,
-                                                        t.Milliseconds);
-                                Log.Debug("Flushing {0} results. ({1}/{4}s {2:0.00}/s overall {3} ETA)", sample, curRate, totRate * 1000, answer, actualDuration);
-                            }
-                            catch (Exception e) when (
-                                e is OverflowException)
-                            {
-                                Log.Debug($"Overflowed: {curRate} {totRate} {sample} {t} {answer}");
-                                Log.Debug("Flushing {0} results. ({1}/s {2:0.00}/s)", sample, curRate, totRate * 1000);
-                            }
-
-                            then = now;
-                            prevFlush = sample;
-                        }
-                    }
-
-                    StopWatch.Stop();
-                    t = TimeSpan.FromMilliseconds(StopWatch.ElapsedMilliseconds);
-                    answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
-                                            t.Hours,
-                                            t.Minutes,
-                                            t.Seconds,
-                                            t.Milliseconds);
-                    Log.Debug("Completed flushing in {0}", answer);
+                    FlushResults();
 
                     DatabaseManager.Commit();
                 }
@@ -1174,6 +1026,74 @@ namespace AttackSurfaceAnalyzer.Cli
             DatabaseManager.Commit();
             DatabaseManager.CloseDatabase();
             return returnValue;
+        }
+
+        private static void FlushResults()
+        {
+            var prevFlush = DatabaseManager.QueueSize;
+            var totFlush = prevFlush;
+
+            var printInterval = new TimeSpan(0, 0, 10);
+            var now = DateTime.Now;
+            var then = DateTime.Now;
+
+            var StopWatch = Stopwatch.StartNew();
+            TimeSpan t = new TimeSpan();
+            string answer = string.Empty;
+            bool warnedToIncreaseShards = false;
+            var settings = DatabaseManager.GetCurrentSettings();
+
+            while (DatabaseManager.HasElements)
+            {
+                Thread.Sleep(100);
+                if (!DatabaseManager.HasElements)
+                {
+                    break;
+                }
+                if (!warnedToIncreaseShards && StopWatch.ElapsedMilliseconds > 10000 && settings.ShardingFactor < 7)
+                {
+                    Log.Information("It is taking a while to flush results to the database.  Try increasing the sharding level to improve performance.");
+                    warnedToIncreaseShards = true;
+                }
+                now = DateTime.Now;
+                if (now - then > printInterval)
+                {
+                    var actualDuration = now - then;
+                    var sample = DatabaseManager.QueueSize;
+                    var curRate = prevFlush - sample;
+                    var totRate = (double)(totFlush - sample) / StopWatch.ElapsedMilliseconds;
+
+                    try
+                    {
+                        t = (curRate > 0) ? TimeSpan.FromMilliseconds(actualDuration.TotalMilliseconds * sample / curRate) : TimeSpan.FromMilliseconds(99999999); //lgtm[cs/loss-of-precision]
+                        answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+                                                t.Hours,
+                                                t.Minutes,
+                                                t.Seconds,
+                                                t.Milliseconds);
+                        Log.Debug("Flushing {0} results. ({1}/{4}s {2:0.00}/s overall {3} ETA)", sample, curRate, totRate * 1000, answer, actualDuration);
+                    }
+                    catch (Exception e) when (
+                        e is OverflowException)
+                    {
+                        Log.Debug($"Overflowed: {curRate} {totRate} {sample} {t} {answer}");
+                        Log.Debug("Flushing {0} results. ({1}/s {2:0.00}/s)", sample, curRate, totRate * 1000);
+                    }
+
+                    then = now;
+                    prevFlush = sample;
+                }
+            }
+
+            StopWatch.Stop();
+            t = TimeSpan.FromMilliseconds(StopWatch.ElapsedMilliseconds);
+            answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+                                    t.Hours,
+                                    t.Minutes,
+                                    t.Seconds,
+                                    t.Milliseconds);
+            Log.Debug("Completed flushing in {0}", answer);
+
         }
 
         public static void ClearCollectors()
