@@ -207,7 +207,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     ChangeType = ChangeTypeStringToChangeType(objIn.ChangeType.ToString()),
                     Name = objIn.Name,
                     Timestamp = DateTime.Now.ToString("O", CultureInfo.InvariantCulture),
-                    FileSystemObject = (objIn.ChangeType == WatcherChangeTypes.Deleted || !options.InterrogateChanges) ? null : fsc.FilePathToFileSystemObject(objIn.FullPath),
+                    FileSystemObject = (filters.HasFlag(NotifyFilters.LastAccess) || objIn.ChangeType == WatcherChangeTypes.Deleted || !options.InterrogateChanges) ? null : fsc.FilePathToFileSystemObject(objIn.FullPath),
                     NotifyFilters = filters
                 };
 
