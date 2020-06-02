@@ -995,11 +995,8 @@ namespace AttackSurfaceAnalyzer.Cli
                 try
                 {
                     DatabaseManager.BeginTransaction();
-
-                    Task.Run(() =>
-                    {
-                        c.TryExecute();
-                    });
+                    
+                    c.TryExecute();
 
                     while(c.RunStatus == RUN_STATUS.RUNNING)
                     {
