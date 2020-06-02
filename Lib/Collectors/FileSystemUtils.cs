@@ -186,6 +186,12 @@ namespace AttackSurfaceAnalyzer.Collectors
             return null;
         }
 
+        public static EXECUTABLE_TYPE GetExecutableType(string Path)
+        {
+            using var fs = new FileStream(Path, FileMode.Open);
+            return GetExecutableType(Path, fs);
+        }
+
         public static EXECUTABLE_TYPE GetExecutableType(string? Path, Stream input)
         {
             if (input == null) { return EXECUTABLE_TYPE.UNKNOWN; }

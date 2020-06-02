@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
+using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.CodeAnalysis;
 using Mono.Unix;
@@ -18,8 +19,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Security.Permissions;
 using System.Security.Principal;
 using System.Threading.Tasks;
-using Microsoft.CST.OpenSource.MultiExtractor
-using AttackSurfaceAnalyzer.Types;
+using Microsoft.CST.OpenSource.MultiExtractor;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -356,14 +356,19 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
                             }
 
-                            obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, size);
+                            var exeType = FileSystemUtils.GetExecutableType(path);
 
-                            if (FileSystemUtils.IsWindowsExecutable(obj.Path, obj.Size))
+                            if (exeType != EXECUTABLE_TYPE.NONE && exeType != EXECUTABLE_TYPE.UNKNOWN)
+                            {
+                                obj.IsExecutable = true;
+                            }
+
+                            if (exeType == EXECUTABLE_TYPE.WINDOWS)
                             {
                                 obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(path);
                                 obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(path);
                             }
-                            else if (FileSystemUtils.IsMacExecutable(obj.Path, obj.Size))
+                            else if (exeType == EXECUTABLE_TYPE.MACOS)
                             {
                                 obj.MacSignatureStatus = FileSystemUtils.GetMacSignature(path);
                             }
