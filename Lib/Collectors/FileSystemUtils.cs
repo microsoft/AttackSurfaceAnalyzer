@@ -242,11 +242,12 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public static string? GetFileHash(FileSystemInfo fileInfo)
         {
+            string? hashValue = null;
+
             if (fileInfo != null)
             {
                 Log.Debug("{0} {1}", Strings.Get("FileHash"), fileInfo.FullName);
 
-                string? hashValue = null;
                 try
                 {
                     using (var stream = File.OpenRead(fileInfo.FullName))
@@ -258,9 +259,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                 {
                     Log.Verbose("{0}: {1} {2}", Strings.Get("Err_UnableToHash"), fileInfo.FullName, e.GetType().ToString());
                 }
-                return hashValue;
             }
-            return null;
+            return hashValue;
         }
     }
 }
