@@ -72,8 +72,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                     Roots.Add("/");
                 }
             }
-            Action<string>? IterateOnDirectory = null;
-            IterateOnDirectory = Path =>
+
+            void TryIterateOnDirectory(string Path)
             {
                 try
                 {
@@ -149,7 +149,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     Log.Verbose("Error parsing Directory {0} ({1}:{2})", Path, e.GetType(), e.Message);
                 }
                 Log.Verbose("Finished parsing {0}", Path);
-            };
+            }
 
             foreach (var root in Roots)
             {
@@ -162,20 +162,20 @@ namespace AttackSurfaceAnalyzer.Collectors
                 });
 
                 //First do root
-                IterateOnDirectory?.Invoke(root);
+                TryIterateOnDirectory(root);
 
                 if (!opts.SingleThread == true)
                 {
                     Parallel.ForEach(directories, filePath =>
                     {
-                        IterateOnDirectory?.Invoke(filePath);
+                        TryIterateOnDirectory(filePath);
                     });
                 }
                 else
                 {
                     foreach (var filePath in directories)
                     {
-                        IterateOnDirectory?.Invoke(filePath);
+                        TryIterateOnDirectory(filePath);
                     }
                 }
             }
