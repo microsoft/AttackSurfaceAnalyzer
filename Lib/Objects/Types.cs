@@ -70,6 +70,19 @@ namespace AttackSurfaceAnalyzer.Types
     }
 
     /// <summary>
+    /// 
+    /// </summary>
+    public enum EXECUTABLE_TYPE
+    {
+        UNKNOWN,
+        WINDOWS,
+        MACOS,
+        LINUX,
+        NONE,
+        JAVA
+    }
+
+    /// <summary>
     /// The running status of a Comparator or Collector
     /// </summary>
     public enum RUN_STATUS
