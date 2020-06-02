@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
+using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Mono.Unix;
 using Serilog;
@@ -179,124 +180,52 @@ namespace AttackSurfaceAnalyzer.Collectors
                     return signature;
                 }
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 Log.Verbose("Failed to get Mac CodeSign information for {0} ({1}:{2})", Path, e.GetType(), e.Message);
             }
             return null;
         }
 
-        public static bool? IsExecutable(string? Path, ulong? Size)
+        public static EXECUTABLE_TYPE GetExecutableType(string Path)
         {
-            if (Path is null || Size is null) { return null; }
-            if (Size < 4) { return false; }
-
-            // Shortcut to help with system files we can't read directly
-            if (Path.EndsWith(".dll") || Path.EndsWith(".exe"))
-            {
-                return true;
-            }
-
-            byte[] fourBytes = new byte[4];
-            try
-            {
-                using (var fileStream = File.OpenRead(Path))
-                {
-                    fileStream.Read(fourBytes, 0, 4);
-                }
-            }
-            catch (Exception e) when (
-                e is ArgumentException
-                || e is ArgumentNullException
-                || e is PathTooLongException
-                || e is DirectoryNotFoundException
-                || e is IOException
-                || e is UnauthorizedAccessException
-                || e is ArgumentOutOfRangeException
-                || e is FileNotFoundException
-                || e is NotSupportedException
-                || e is ObjectDisposedException)
-            {
-                Log.Verbose("Couldn't chomp 4 bytes of {0} ({1}:{2})", Path, e.GetType().ToString(), e.Message);
-                return false;
-            }
-
-            return fourBytes.SequenceEqual(ElfMagicNumber) || fourBytes.SequenceEqual(JavaMagicNumber) || MacMagicNumbers.Contains(fourBytes) || fourBytes[0..2].SequenceEqual(WindowsMagicNumber);
+            using var fs = new FileStream(Path, FileMode.Open);
+            return GetExecutableType(Path, fs);
         }
 
-        public static bool IsMacExecutable(string? Path, ulong? Size)
+        public static EXECUTABLE_TYPE GetExecutableType(string? Path, Stream input)
         {
-            if (Path is null) { return false; }
-            if (Size < 4) { return false; }
+            if (input == null) { return EXECUTABLE_TYPE.UNKNOWN; }
+            if (input.Length < 4) { return EXECUTABLE_TYPE.NONE; }
 
-            // Shortcut to help with system files we can't read directly
-            if (Path.EndsWith(".app"))
-            {
-                return true;
-            }
+            var fourBytes = new byte[4];
+            var initialPosition = input.Position;
 
-            byte[] fourBytes = new byte[4];
             try
             {
-                using (var fileStream = File.Open(Path, FileMode.Open))
-                {
-                    fileStream.Read(fourBytes, 0, 4);
-                }
+                input.Read(fourBytes);
+                input.Position = initialPosition;
             }
-            catch (Exception e) when (
-                e is ArgumentException
-                || e is ArgumentNullException
-                || e is PathTooLongException
-                || e is DirectoryNotFoundException
-                || e is IOException
-                || e is UnauthorizedAccessException
-                || e is ArgumentOutOfRangeException
-                || e is FileNotFoundException
-                || e is NotSupportedException
-                || e is ObjectDisposedException)
+            catch (Exception e)
             {
                 Log.Verbose("Couldn't chomp 4 bytes of {0} ({1}:{2})", Path, e.GetType().ToString(), e.Message);
-                return false;
+                return EXECUTABLE_TYPE.UNKNOWN;
             }
 
-            return MacMagicNumbers.Contains(fourBytes);
-        }
-
-        public static bool IsWindowsExecutable(string? Path, ulong? Size)
-        {
-            if (Path is null) { return false; }
-            if (Size < 4) { return false; }
-
-            // Shortcut to help with system files we can't read directly
-            if (Path.EndsWith(".dll") || Path.EndsWith(".exe"))
+            switch (fourBytes)
             {
-                return true;
-            }
+                case var span when span.SequenceEqual(ElfMagicNumber):
+                    return EXECUTABLE_TYPE.LINUX;
+                case var span when span.SequenceEqual(JavaMagicNumber):
+                    return EXECUTABLE_TYPE.JAVA;
+                case var span when MacMagicNumbers.Contains(span):
+                    return EXECUTABLE_TYPE.MACOS;
+                case var span when span[0..2].SequenceEqual(WindowsMagicNumber):
+                    return EXECUTABLE_TYPE.WINDOWS;
+                default:
+                    return EXECUTABLE_TYPE.NONE;
 
-            byte[] fourBytes = new byte[4];
-            try
-            {
-                using (var fileStream = File.OpenRead(Path))
-                {
-                    fileStream.Read(fourBytes, 0, 4);
-                }
             }
-            catch (Exception e) when (
-                e is ArgumentException
-                || e is ArgumentNullException
-                || e is PathTooLongException
-                || e is DirectoryNotFoundException
-                || e is IOException
-                || e is UnauthorizedAccessException
-                || e is ArgumentOutOfRangeException
-                || e is FileNotFoundException
-                || e is NotSupportedException
-                || e is ObjectDisposedException)
-            {
-                Log.Verbose("Couldn't chomp 4 bytes of {0} ({1}:{2})", Path, e.GetType().ToString(), e.Message);
-                return false;
-            }
-
-            return fourBytes[0..2].SequenceEqual(WindowsMagicNumber);
         }
 
         public static string GetFileHash(string path)
@@ -313,11 +242,12 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public static string? GetFileHash(FileSystemInfo fileInfo)
         {
+            string? hashValue = null;
+
             if (fileInfo != null)
             {
                 Log.Debug("{0} {1}", Strings.Get("FileHash"), fileInfo.FullName);
 
-                string? hashValue = null;
                 try
                 {
                     using (var stream = File.OpenRead(fileInfo.FullName))
@@ -325,23 +255,12 @@ namespace AttackSurfaceAnalyzer.Collectors
                         hashValue = CryptoHelpers.CreateHash(stream);
                     }
                 }
-                catch (Exception e) when (
-                    e is ArgumentNullException
-                    || e is ArgumentException
-                    || e is NotSupportedException
-                    || e is FileNotFoundException
-                    || e is IOException
-                    || e is System.Security.SecurityException
-                    || e is DirectoryNotFoundException
-                    || e is UnauthorizedAccessException
-                    || e is PathTooLongException
-                    || e is ArgumentOutOfRangeException)
+                catch (Exception e)
                 {
                     Log.Verbose("{0}: {1} {2}", Strings.Get("Err_UnableToHash"), fileInfo.FullName, e.GetType().ToString());
                 }
-                return hashValue;
             }
-            return null;
+            return hashValue;
         }
     }
 }

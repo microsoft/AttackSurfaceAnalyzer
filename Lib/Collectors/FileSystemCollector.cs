@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
+using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.CodeAnalysis;
 using Mono.Unix;
@@ -11,15 +12,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Management;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Security.AccessControl;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Permissions;
 using System.Security.Principal;
-using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.CST.OpenSource.MultiExtractor;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -106,6 +106,16 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         HandleChange(obj);
 
+                        // If we know how to handle this as an archive, and crawling archives is enabled
+                        if (opts.CrawlArchives && MiniMagic.DetectFileType(file) != ArchiveFileType.UNKNOWN)
+                        {
+                            Extractor extractor = new Extractor(new ExtractorOptions() { ExtractSelfOnFail = false });
+                            foreach (var fso in extractor.ExtractFile(file, !opts.SingleThread).Select(fileEntry => FileEntryToFileSystemObject(fileEntry)))
+                            {
+                                HandleChange(fso);
+                            }
+                        }
+
                         // TODO: Also try parse .DER as a key
                         if (Path.EndsWith(".cer", StringComparison.CurrentCulture) ||
                             Path.EndsWith(".der", StringComparison.CurrentCulture) ||
@@ -165,14 +175,42 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
-        /// <summary>
-        /// Converts a FileSystemInfo into a FileSystemObject by reading in data about the file
-        /// </summary>
-        /// <param name="fileInfo">A reference to a file on disk.</param>
-        /// <param name="downloadCloud">If the file is hosted in the cloud, the user has the option to include cloud files or not.</param>
-        /// <param name="includeContentHash">If we should generate a hash of the file.</param>
-        /// <returns></returns>
-        public FileSystemObject FilePathToFileSystemObject(string path)
+        private FileSystemObject FileEntryToFileSystemObject(FileEntry fileEntry)
+        {
+            var fso = new FileSystemObject(Path: fileEntry.FullPath)
+            {
+                Size = (ulong)fileEntry.Content.Length
+            };
+
+            if (opts.GatherHashes == true)
+            {
+                fso.ContentHash = CryptoHelpers.CreateHash(fileEntry.Content);
+            }
+
+            var exeType = FileSystemUtils.GetExecutableType(fileEntry.FullPath, fileEntry.Content);
+
+            if (exeType != EXECUTABLE_TYPE.NONE && exeType != EXECUTABLE_TYPE.UNKNOWN)
+            {
+                fso.IsExecutable = true;
+            }
+
+            if (exeType == EXECUTABLE_TYPE.WINDOWS)
+            {
+                fso.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(fileEntry.FullPath, fileEntry.Content);
+                fso.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(fileEntry.FullPath, fileEntry.Content);
+            }
+
+            return fso;
+        }
+
+            /// <summary>
+            /// Converts a FileSystemInfo into a FileSystemObject by reading in data about the file
+            /// </summary>
+            /// <param name="fileInfo">A reference to a file on disk.</param>
+            /// <param name="downloadCloud">If the file is hosted in the cloud, the user has the option to include cloud files or not.</param>
+            /// <param name="includeContentHash">If we should generate a hash of the file.</param>
+            /// <returns></returns>
+            public FileSystemObject FilePathToFileSystemObject(string path)
         {
             FileSystemObject obj = new FileSystemObject(path);
 
@@ -318,14 +356,19 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
                             }
 
-                            obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, size);
+                            var exeType = FileSystemUtils.GetExecutableType(path);
 
-                            if (FileSystemUtils.IsWindowsExecutable(obj.Path, obj.Size))
+                            if (exeType != EXECUTABLE_TYPE.NONE && exeType != EXECUTABLE_TYPE.UNKNOWN)
+                            {
+                                obj.IsExecutable = true;
+                            }
+
+                            if (exeType == EXECUTABLE_TYPE.WINDOWS)
                             {
                                 obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(path);
                                 obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(path);
                             }
-                            else if (FileSystemUtils.IsMacExecutable(obj.Path, obj.Size))
+                            else if (exeType == EXECUTABLE_TYPE.MACOS)
                             {
                                 obj.MacSignatureStatus = FileSystemUtils.GetMacSignature(path);
                             }
@@ -368,13 +411,20 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 {
                                     obj.ContentHash = FileSystemUtils.GetFileHash(path);
                                 }
-                                obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, obj.Size);
-                                if (FileSystemUtils.IsWindowsExecutable(obj.Path, obj.Size))
+
+                                var exeType = FileSystemUtils.GetExecutableType(path);
+
+                                if (exeType != EXECUTABLE_TYPE.NONE && exeType != EXECUTABLE_TYPE.UNKNOWN)
+                                {
+                                    obj.IsExecutable = true;
+                                }
+
+                                if (exeType == EXECUTABLE_TYPE.WINDOWS)
                                 {
                                     obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(path);
                                     obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(path);
                                 }
-                                else if (FileSystemUtils.IsMacExecutable(obj.Path, obj.Size))
+                                else if (exeType == EXECUTABLE_TYPE.MACOS)
                                 {
                                     obj.MacSignatureStatus = FileSystemUtils.GetMacSignature(path);
                                 }

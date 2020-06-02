@@ -17,6 +17,31 @@ namespace AttackSurfaceAnalyzer.Collectors
 {
     public static class WindowsFileSystemUtils
     {
+        public static Signature? GetSignatureStatus(string Path, Stream stream)
+        {
+            if (stream is null)
+            {
+                return null;
+            }
+            try
+            {
+                if (PeFile.IsPeFile(stream))
+                {
+                    var peHeader = new PeFile(stream);
+                    if (peHeader.Authenticode is AuthenticodeInfo ai)
+                    {
+                        var sig = new Signature(ai);
+                        return sig;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Verbose("Failed to get signature for {0} ({1}:{2})", Path, e.GetType(), e.Message);
+            }
+            return null;
+        }
+
         public static Signature? GetSignatureStatus(string Path)
         {
             if (Path is null)
@@ -52,7 +77,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             try
             {
                 FileInfo file = new FileInfo(Path);
-                return FileSystemUtils.IsWindowsExecutable(Path, (ulong)file.Length);
+                return FileSystemUtils.GetExecutableType(Path) == EXECUTABLE_TYPE.WINDOWS;
             }
             catch (Exception e) when (
                 e is FileNotFoundException ||
@@ -79,6 +104,50 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
 
             return false;
+        }
+
+        public static List<DLLCHARACTERISTICS> GetDllCharacteristics(string Path, Stream input)
+        {
+            List<DLLCHARACTERISTICS> output = new List<DLLCHARACTERISTICS>();
+
+            try
+            {
+                if (PeFile.IsPeFile(input))
+                {
+                    var peHeader = new PeFile(input);
+                    var dllCharacteristics = peHeader.ImageNtHeaders?.OptionalHeader.DllCharacteristics;
+                    if (dllCharacteristics is DllCharacteristicsType chars)
+                    {
+                        ushort characteristics = (ushort)chars;
+                        foreach (DLLCHARACTERISTICS? characteristic in Enum.GetValues(typeof(DLLCHARACTERISTICS)))
+                        {
+                            if (characteristic is DLLCHARACTERISTICS c)
+                            {
+                                if (((ushort)c & characteristics) == (ushort)c)
+                                {
+                                    output.Add(c);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception e) when (
+                e is IndexOutOfRangeException
+                || e is ArgumentNullException
+                || e is System.IO.IOException
+                || e is ArgumentException
+                || e is UnauthorizedAccessException
+                || e is NullReferenceException)
+            {
+                Log.Verbose("Failed to get PE Headers for {0} ({1}:{2})", Path, e.GetType(), e.Message);
+            }
+            catch (Exception e)
+            {
+                Log.Debug(e, "Failed to get PE Headers for {0} ({1}:{2})", Path, e.GetType(), e.Message);
+            }
+
+            return output;
         }
 
         public static List<DLLCHARACTERISTICS> GetDllCharacteristics(string Path)
