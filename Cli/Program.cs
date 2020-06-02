@@ -998,11 +998,6 @@ namespace AttackSurfaceAnalyzer.Cli
                     
                     c.TryExecute();
 
-                    while(c.RunStatus == RUN_STATUS.RUNNING)
-                    {
-                        Thread.Sleep(1);
-                    }
-
                     FlushResults();
 
                     DatabaseManager.Commit();
