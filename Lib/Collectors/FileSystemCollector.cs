@@ -109,7 +109,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         // If we know how to handle this as an archive, and crawling archives is enabled
                         if (opts.CrawlArchives && MiniMagic.DetectFileType(file) != ArchiveFileType.UNKNOWN)
                         {
-                            Extractor extractor = new Extractor();
+                            Extractor extractor = new Extractor(new ExtractorOptions() { ExtractSelfOnFail = false });
                             foreach (var fso in extractor.ExtractFile(file, !opts.SingleThread).Select(fileEntry => FileEntryToFileSystemObject(fileEntry)))
                             {
                                 HandleChange(fso);

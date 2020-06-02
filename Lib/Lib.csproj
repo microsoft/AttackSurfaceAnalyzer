@@ -21,6 +21,7 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <ReleaseVersion>2.1-alpha</ReleaseVersion>
   </PropertyGroup>
 
   <Target Name="CopyLicenseNotice" AfterTargets="AfterBuild">
@@ -67,7 +68,7 @@
     <PackageReference Include="sqlite" Version="3.13.0" />
     <PackageReference Include="Microsoft.TSS" Version="2.1.1" />
     <PackageReference Include="PeNet" Version="2.2.7" />
-    <PackageReference Include="Microsoft.CST.MultiExtractor" Version="0.1.192" />
+    <PackageReference Include="Microsoft.CST.MultiExtractor" Version="0.1.194" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\analyses.json" Link="analyses.json" />
