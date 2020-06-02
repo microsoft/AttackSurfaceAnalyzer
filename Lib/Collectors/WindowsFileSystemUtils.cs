@@ -77,7 +77,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             try
             {
                 FileInfo file = new FileInfo(Path);
-                return FileSystemUtils.IsWindowsExecutable(Path, (ulong)file.Length);
+                return FileSystemUtils.GetExecutableType(Path) == EXECUTABLE_TYPE.WINDOWS;
             }
             catch (Exception e) when (
                 e is FileNotFoundException ||

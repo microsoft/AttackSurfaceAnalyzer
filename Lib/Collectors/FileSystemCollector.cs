@@ -411,13 +411,20 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 {
                                     obj.ContentHash = FileSystemUtils.GetFileHash(path);
                                 }
-                                obj.IsExecutable = FileSystemUtils.IsExecutable(obj.Path, obj.Size);
-                                if (FileSystemUtils.IsWindowsExecutable(obj.Path, obj.Size))
+
+                                var exeType = FileSystemUtils.GetExecutableType(path);
+
+                                if (exeType != EXECUTABLE_TYPE.NONE && exeType != EXECUTABLE_TYPE.UNKNOWN)
+                                {
+                                    obj.IsExecutable = true;
+                                }
+
+                                if (exeType == EXECUTABLE_TYPE.WINDOWS)
                                 {
                                     obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(path);
                                     obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(path);
                                 }
-                                else if (FileSystemUtils.IsMacExecutable(obj.Path, obj.Size))
+                                else if (exeType == EXECUTABLE_TYPE.MACOS)
                                 {
                                     obj.MacSignatureStatus = FileSystemUtils.GetMacSignature(path);
                                 }

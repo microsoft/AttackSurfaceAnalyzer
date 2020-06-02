@@ -21,7 +21,6 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <ReleaseVersion>2.1-alpha</ReleaseVersion>
   </PropertyGroup>
 
   <Target Name="CopyLicenseNotice" AfterTargets="AfterBuild">
