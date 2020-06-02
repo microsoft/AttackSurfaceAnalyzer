@@ -134,10 +134,10 @@ namespace AttackSurfaceAnalyzer
         [Option("crawl-archives", Required = false, HelpText = "Attempts to crawl every archive file encountered when using File Collector.  May dramatically increase run time of the scan.")]
         public bool CrawlArchives { get; set; }
 
-        [Option("directories", Required = false, HelpText = "Comma separated list of paths to scan with FileSystemCollector")]
+        [Option("directories", Required = false, HelpText = "^ separated list of paths to scan with FileSystemCollector")]
         public string? SelectedDirectories { get; set; }
 
-        [Option("hives", Required = false, HelpText = "Comma separated list of hives and subkeys to search.")]
+        [Option("hives", Required = false, HelpText = "^ separated list of hives and subkeys to search.")]
         public string? SelectedHives { get; set; }
 
         [Option(HelpText = "Download files from thin Cloud Folders (like OneDrive) to check them.")]
