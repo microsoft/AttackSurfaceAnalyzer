@@ -20,6 +20,7 @@ using System.Security.Permissions;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using Microsoft.CST.OpenSource.MultiExtractor;
+using Newtonsoft.Json;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -28,7 +29,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class FileSystemCollector : BaseCollector
     {
-        public HashSet<string> Roots { get; } = new HashSet<string>();
+        public List<string> Roots { get; } = new List<string>();
 
         private readonly Dictionary<string, long> sizesOnDisk = new Dictionary<string, long>();
 
@@ -45,10 +46,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             if (!string.IsNullOrEmpty(opts.SelectedDirectories))
             {
-                foreach (string path in opts.SelectedDirectories.Split(','))
-                {
-                    Roots.Add(path);
-                }
+                Roots.AddRange(opts.SelectedDirectories.Split('^'));
             }
 
             if (!Roots.Any())
@@ -151,10 +149,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                 Log.Verbose("Finished parsing {0}", Path);
             }
 
-            foreach (var root in Roots)
+            foreach (var Root in Roots)
             {
-                Log.Information("{0} root {1}", Strings.Get("Scanning"), root);
-                var directories = Directory.EnumerateDirectories(root, "*", new System.IO.EnumerationOptions()
+                Log.Information("{0} root {1}", Strings.Get("Scanning"), Root);
+                var directories = Directory.EnumerateDirectories(Root, "*", new System.IO.EnumerationOptions()
                 {
                     ReturnSpecialDirectories = false,
                     IgnoreInaccessible = true,
@@ -162,7 +160,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 });
 
                 //First do root
-                TryIterateOnDirectory(root);
+                TryIterateOnDirectory(Root);
 
                 if (!opts.SingleThread == true)
                 {
