@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
+using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Mono.Unix;
 using Serilog;
@@ -185,6 +186,63 @@ namespace AttackSurfaceAnalyzer.Collectors
             return null;
         }
 
+        public static EXECUTABLE_TYPE GetExecutableType(string? Path, Stream input)
+        {
+            if (input == null) { return EXECUTABLE_TYPE.UNKNOWN; }
+            if (input.Length < 4) { return EXECUTABLE_TYPE.NONE; }
+
+            var fourBytes = new byte[4];
+            var initialPosition = input.Position;
+
+            try
+            {
+                input.Read(fourBytes);
+                input.Position = initialPosition;
+            }
+            catch (Exception e)
+            {
+                Log.Verbose("Couldn't chomp 4 bytes of {0} ({1}:{2})", Path, e.GetType().ToString(), e.Message);
+                return EXECUTABLE_TYPE.UNKNOWN;
+            }
+
+            switch (fourBytes)
+            {
+                case var span when span.SequenceEqual(ElfMagicNumber):
+                    return EXECUTABLE_TYPE.LINUX;
+                case var span when span.SequenceEqual(JavaMagicNumber):
+                    return EXECUTABLE_TYPE.JAVA;
+                case var span when MacMagicNumbers.Contains(span):
+                    return EXECUTABLE_TYPE.MACOS;
+                case var span when span[0..2].SequenceEqual(WindowsMagicNumber):
+                    return EXECUTABLE_TYPE.WINDOWS;
+                default:
+                    return EXECUTABLE_TYPE.NONE;
+
+            }
+        }
+
+        public static bool? IsExecutable(string? Path, Stream input)
+        {
+            if (input == null) { return null; }
+            if (input.Length < 4) { return false; }
+
+            var fourBytes = new byte[4];
+            var initialPosition = input.Position;
+
+            try
+            {
+                input.Read(fourBytes);
+                input.Position = initialPosition;
+            }
+            catch (Exception e)
+            {
+                Log.Verbose("Couldn't chomp 4 bytes of {0} ({1}:{2})", Path, e.GetType().ToString(), e.Message);
+                return false;
+            }
+
+            return fourBytes.SequenceEqual(ElfMagicNumber) || fourBytes.SequenceEqual(JavaMagicNumber) || MacMagicNumbers.Contains(fourBytes) || fourBytes[0..2].SequenceEqual(WindowsMagicNumber);
+        }
+
         public static bool? IsExecutable(string? Path, ulong? Size)
         {
             if (Path is null || Size is null) { return null; }
@@ -196,31 +254,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                 return true;
             }
 
-            byte[] fourBytes = new byte[4];
-            try
+            using (var fileStream = File.OpenRead(Path))
             {
-                using (var fileStream = File.OpenRead(Path))
-                {
-                    fileStream.Read(fourBytes, 0, 4);
-                }
+                return IsExecutable(Path, fileStream);
             }
-            catch (Exception e) when (
-                e is ArgumentException
-                || e is ArgumentNullException
-                || e is PathTooLongException
-                || e is DirectoryNotFoundException
-                || e is IOException
-                || e is UnauthorizedAccessException
-                || e is ArgumentOutOfRangeException
-                || e is FileNotFoundException
-                || e is NotSupportedException
-                || e is ObjectDisposedException)
-            {
-                Log.Verbose("Couldn't chomp 4 bytes of {0} ({1}:{2})", Path, e.GetType().ToString(), e.Message);
-                return false;
-            }
-
-            return fourBytes.SequenceEqual(ElfMagicNumber) || fourBytes.SequenceEqual(JavaMagicNumber) || MacMagicNumbers.Contains(fourBytes) || fourBytes[0..2].SequenceEqual(WindowsMagicNumber);
         }
 
         public static bool IsMacExecutable(string? Path, ulong? Size)
