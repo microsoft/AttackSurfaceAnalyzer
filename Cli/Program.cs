@@ -1018,11 +1018,8 @@ namespace AttackSurfaceAnalyzer.Cli
                 try
                 {
                     DatabaseManager.BeginTransaction();
-
-                    Task.Run(() =>
-                    {
-                        c.TryExecute();
-                    });
+                    
+                    c.TryExecute();
 
                     FlushResults();
 
