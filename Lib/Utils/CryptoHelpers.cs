@@ -25,7 +25,7 @@ namespace AttackSurfaceAnalyzer.Utils
             return sha512.ComputeHash(input);
         }
 
-        public static string CreateHash(FileStream stream)
+        public static string CreateHash(Stream stream)
         {
             return Convert.ToBase64String(sha512.ComputeHash(stream) ?? Array.Empty<byte>());
         }
