@@ -36,7 +36,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 if (opts.SelectedHives is string hiveString)
                 {
                     Hives = new List<(RegistryHive, string)>();
-                    var splits = hiveString.Split(',');
+                    var splits = hiveString.Split('^');
                     foreach (var split in splits)
                     {
                         var innerSplit = split.Split('\\');
