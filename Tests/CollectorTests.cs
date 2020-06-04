@@ -91,8 +91,9 @@ namespace AttackSurfaceAnalyzer.Tests
             var created = Path.GetTempFileName(); // Create a file
             var renamed = $"{created}-renamed";
             File.WriteAllText(created, "Test"); // Change the size
-
+            Thread.Sleep(25);
             File.Move(created, renamed); // Rename it
+            Thread.Sleep(25);
             File.Delete(renamed); //Delete it
 
             Thread.Sleep(1000);
