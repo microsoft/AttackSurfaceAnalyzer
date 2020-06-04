@@ -95,6 +95,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 output.Add("RunId", RunId[0]);
                 output.Add("Runs", dict);
             }
+
             return Json(JsonConvert.SerializeObject(output));
         }
 
@@ -160,7 +161,6 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                     return Json(ASA_ERROR.ALREADY_RUNNING);
                 }
             }
-            AttackSurfaceAnalyzerClient.ClearCollectors();
 
             if (Id is null)
             {
