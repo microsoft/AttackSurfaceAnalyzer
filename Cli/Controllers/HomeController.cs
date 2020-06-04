@@ -56,12 +56,12 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         public ActionResult GetResults(string BaseId, string CompareId, int ResultType, int Offset, int NumResults)
         {
-            List<CompareResult> results = DatabaseManager.GetComparisonResults(AsaHelpers.RunIdsToCompareId(BaseId, CompareId), ResultType, Offset, NumResults);
+            List<CompareResult> results = DatabaseManager.GetComparisonResults(BaseId, CompareId, ResultType, Offset, NumResults);
 
             Dictionary<string, object> output = new Dictionary<string, object>();
 
             output["Results"] = results;
-            output["TotalCount"] = DatabaseManager.GetComparisonResultsCount(AsaHelpers.RunIdsToCompareId(BaseId, CompareId), ResultType);
+            output["TotalCount"] = DatabaseManager.GetComparisonResultsCount(BaseId, CompareId, ResultType);
             output["Offset"] = Offset;
             output["Requested"] = NumResults;
             output["Actual"] = results.Count;
@@ -95,6 +95,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 output.Add("RunId", RunId[0]);
                 output.Add("Runs", dict);
             }
+
             return Json(JsonConvert.SerializeObject(output));
         }
 
@@ -160,7 +161,6 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                     return Json(ASA_ERROR.ALREADY_RUNNING);
                 }
             }
-            AttackSurfaceAnalyzerClient.ClearCollectors();
 
             if (Id is null)
             {

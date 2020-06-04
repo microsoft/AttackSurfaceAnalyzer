@@ -9,6 +9,12 @@ namespace AttackSurfaceAnalyzer
         [Option(Required = false, HelpText = "Name of output database (default: asa.sqlite)", Default = "asa.sqlite")]
         public string DatabaseFilename { get; set; } = "asa.sqlite";
 
+        [Option(HelpText = "Number of Database Shards to use.")]
+        public int Shards { get; set; } = 7;
+
+        [Option(HelpText = "Lower memory usage in database. (May reduce performance.)")]
+        public bool LowMemoryUsage { get; set; }
+
         [Option(HelpText = "Show debug logging statements.")]
         public bool Debug { get; set; }
 
@@ -142,12 +148,6 @@ namespace AttackSurfaceAnalyzer
 
         [Option(HelpText = "Force singlethreaded collectors.")]
         public bool SingleThread { get; set; }
-
-        [Option(HelpText = "Number of Database Shards to use.")]
-        public int Shards { get; set; } = 7;
-
-        [Option(HelpText = "Lower memory usage in collectors. (To prevent OutOfMemory errors on low power devices. Will reduce performance. Recommended to use with --singlethread.)")]
-        public bool LowMemoryUsage { get; set; }
     }
     [Verb("monitor", HelpText = "Continue running and monitor activity")]
     public class MonitorCommandOptions : CommandOptions
