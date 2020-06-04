@@ -87,7 +87,7 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string INSERT_RUN_INTO_RESULT_TABLE_SQL = "insert into results (base_run_id, compare_run_id, status) values (@base_run_id, @compare_run_id, @status);";
         private const string UPDATE_RUN_IN_RESULT_TABLE = "update results set status = @status where (base_run_id = @base_run_id and compare_run_id = @compare_run_id)";
 
-        private const string GET_COMPARISON_RESULTS = "select * from findings where comparison_id = @comparison_id and result_type=@result_type order by level des;";
+        private const string GET_COMPARISON_RESULTS = "select * from findings where first_run_id = @first_run_id and second_run_id = @second_run_id and result_type=@result_type order by level desc;";
         private const string GET_SERIALIZED_RESULTS = "select change_type, Serialized from file_system_monitored where run_id = @run_id";
 
         private const string GET_RUNS = "select run_id from runs order by ROWID desc;";
@@ -99,8 +99,8 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string GET_MONITOR_RESULTS = "select * from file_system_monitored where run_id=@run_id order by timestamp limit @offset,@limit;"; //lgtm [cs/literal-as-local]
         private const string GET_RESULT_COUNT_MONITORED = "select count(*) from file_system_monitored where run_id=@run_id;"; //lgtm [cs/literal-as-local]
 
-        private const string GET_COMPARISON_RESULTS_LIMIT = "select * from findings where comparison_id=@comparison_id and result_type=@result_type order by level desc limit @offset,@limit;"; //lgtm [cs/literal-as-local]
-        private const string GET_RESULT_COUNT = "select count(*) from findings where comparison_id=@comparison_id and result_type=@result_type"; //lgtm [cs/literal-as-local]
+        private const string GET_COMPARISON_RESULTS_LIMIT = "select * from findings where first_run_id = @first_run_id and second_run_id = @second_run_id and result_type=@result_type order by level desc limit @offset,@limit;"; //lgtm [cs/literal-as-local]
+        private const string GET_RESULT_COUNT = "select count(*) from findings where first_run_id = @first_run_id and second_run_id = @second_run_id and result_type=@result_type"; //lgtm [cs/literal-as-local]
 
         private const string SQL_DELETE_RUN = "delete from collect where run_id=@run_id"; //lgtm [cs/literal-as-local]
 
@@ -531,14 +531,15 @@ namespace AttackSurfaceAnalyzer.Utils
             return output;
         }
 
-        public static List<CompareResult> GetComparisonResults(string compareId, RESULT_TYPE exportType)
+        public static List<CompareResult> GetComparisonResults(string baseId, string compareId, RESULT_TYPE exportType)
         {
             List<CompareResult> records = new List<CompareResult>();
             if (MainConnection != null)
             {
                 using (var cmd = new SqliteCommand(GET_COMPARISON_RESULTS, MainConnection.Connection, MainConnection.Transaction))
                 {
-                    cmd.Parameters.AddWithValue("@comparison_id", compareId);
+                    cmd.Parameters.AddWithValue("@first_run_id", baseId);
+                    cmd.Parameters.AddWithValue("@second_run_id", compareId);
                     cmd.Parameters.AddWithValue("@result_type", exportType);
                     using (var reader = cmd.ExecuteReader())
                     {
@@ -1044,13 +1045,14 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        public static List<CompareResult> GetComparisonResults(string comparisonId, int resultType, int offset, int numResults)
+        public static List<CompareResult> GetComparisonResults(string baseId, string compareId, int resultType, int offset, int numResults)
         {
             _ = MainConnection ?? throw new NullReferenceException(Strings.Get("MainConnection"));
             var results = new List<CompareResult>();
             using (var cmd = new SqliteCommand(GET_COMPARISON_RESULTS_LIMIT, MainConnection.Connection, MainConnection.Transaction))
             {
-                cmd.Parameters.AddWithValue("@comparison_id", comparisonId);
+                cmd.Parameters.AddWithValue("@first_run_id", baseId);
+                cmd.Parameters.AddWithValue("@second_run_id", compareId);
                 cmd.Parameters.AddWithValue("@result_type", resultType);
                 cmd.Parameters.AddWithValue("@offset", offset);
                 cmd.Parameters.AddWithValue("@limit", numResults);
@@ -1070,13 +1072,14 @@ namespace AttackSurfaceAnalyzer.Utils
             return results;
         }
 
-        public static int GetComparisonResultsCount(string comparisonId, int resultType)
+        public static int GetComparisonResultsCount(string baseId, string compareId, int resultType)
         {
             _ = MainConnection ?? throw new NullReferenceException(Strings.Get("MainConnection"));
             var result_count = 0;
             using (var cmd = new SqliteCommand(GET_RESULT_COUNT, MainConnection.Connection, MainConnection.Transaction))
             {
-                cmd.Parameters.AddWithValue("@comparison_id", comparisonId);
+                cmd.Parameters.AddWithValue("@first_run_id", baseId);
+                cmd.Parameters.AddWithValue("@second_run_id", compareId);
                 cmd.Parameters.AddWithValue("@result_type", resultType);
                 using (var reader = cmd.ExecuteReader())
                 {

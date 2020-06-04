@@ -48,6 +48,21 @@ namespace AttackSurfaceAnalyzer.Cli
 
             Strings.Setup();
 
+            _ = Parser.Default.ParseArguments<CommandOptions>(args).MapResult
+            (
+                (CommandOptions opts) =>
+                {
+
+                    var dbSettings = new DBSettings()
+                    {
+                        ShardingFactor = opts.Shards,
+                        LowMemoryUsage = opts.LowMemoryUsage
+                    };
+                    SetupOrDie(opts.DatabaseFilename, dbSettings);
+                    return 0;
+                }, errs => 1
+            );
+
             var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions, ConfigCommandOptions, GuiCommandOptions, VerifyOptions>(args)
                 .MapResult(
                     (CollectCommandOptions opts) => RunCollectCommand(opts),
@@ -59,7 +74,7 @@ namespace AttackSurfaceAnalyzer.Cli
                     (VerifyOptions opts) => RunVerifyRulesCommand(opts),
                     errs => 1
                 );
-
+            DatabaseManager.CloseDatabase();
             Log.CloseAndFlush();
             Environment.Exit(argsResult);
         }
@@ -101,8 +116,6 @@ namespace AttackSurfaceAnalyzer.Cli
 #else
             Logger.Setup(opts.Debug, opts.Verbose, opts.Quiet);
 #endif
-            SetupOrDie(opts.DatabaseFilename);
-
             AsaTelemetry.Setup();
 
             var server = WebHost.CreateDefaultBuilder(Array.Empty<string>())
@@ -132,7 +145,6 @@ namespace AttackSurfaceAnalyzer.Cli
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1305:Specify IFormatProvider", Justification = "<Pending>")]
         private static int RunConfigCommand(ConfigCommandOptions opts)
         {
-            SetupOrDie(opts.DatabaseFilename);
             CheckFirstRun();
             AsaTelemetry.Setup();
 
@@ -235,7 +247,6 @@ namespace AttackSurfaceAnalyzer.Cli
                 return 0;
             }
 
-            SetupOrDie(opts.DatabaseFilename);
             CheckFirstRun();
             AsaTelemetry.Setup();
 
@@ -391,7 +402,7 @@ namespace AttackSurfaceAnalyzer.Cli
             foreach (RESULT_TYPE ExportType in ToExport)
             {
                 Log.Information("Exporting {0}", ExportType);
-                List<CompareResult> records = DatabaseManager.GetComparisonResults(AsaHelpers.RunIdsToCompareId(BaseId, CompareId), ExportType);
+                List<CompareResult> records = DatabaseManager.GetComparisonResults(BaseId, CompareId, ExportType);
 
                 actualExported.Add(ExportType, records.Count);
 
@@ -450,7 +461,6 @@ namespace AttackSurfaceAnalyzer.Cli
                 return 0;
             }
 
-            SetupOrDie(opts.DatabaseFilename);
             CheckFirstRun();
             AsaTelemetry.Setup();
 
@@ -519,7 +529,6 @@ namespace AttackSurfaceAnalyzer.Cli
 #endif
             AdminOrQuit();
 
-            SetupOrDie(opts.DatabaseFilename);
             AsaTelemetry.Setup();
 
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
@@ -844,13 +853,8 @@ namespace AttackSurfaceAnalyzer.Cli
                 Logger.Setup(opts.Debug, opts.Verbose, opts.Quiet);
 #endif
 
-            var dbSettings = new DBSettings()
-            {
-                ShardingFactor = opts.Shards,
-                LowMemoryUsage = opts.LowMemoryUsage
-                
-            };
-            SetupOrDie(opts.DatabaseFilename, dbSettings);
+            collectors.Clear();
+
             AsaTelemetry.Setup();
 
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
@@ -1039,7 +1043,6 @@ namespace AttackSurfaceAnalyzer.Cli
             AsaTelemetry.TrackEvent("End Command", EndEvent);
 
             DatabaseManager.Commit();
-            DatabaseManager.CloseDatabase();
             return returnValue;
         }
 
