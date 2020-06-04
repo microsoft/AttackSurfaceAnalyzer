@@ -56,12 +56,12 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         public ActionResult GetResults(string BaseId, string CompareId, int ResultType, int Offset, int NumResults)
         {
-            List<CompareResult> results = DatabaseManager.GetComparisonResults(AsaHelpers.RunIdsToCompareId(BaseId, CompareId), ResultType, Offset, NumResults);
+            List<CompareResult> results = DatabaseManager.GetComparisonResults(BaseId, CompareId, ResultType, Offset, NumResults);
 
             Dictionary<string, object> output = new Dictionary<string, object>();
 
             output["Results"] = results;
-            output["TotalCount"] = DatabaseManager.GetComparisonResultsCount(AsaHelpers.RunIdsToCompareId(BaseId, CompareId), ResultType);
+            output["TotalCount"] = DatabaseManager.GetComparisonResultsCount(BaseId, CompareId, ResultType);
             output["Offset"] = Offset;
             output["Requested"] = NumResults;
             output["Actual"] = results.Count;

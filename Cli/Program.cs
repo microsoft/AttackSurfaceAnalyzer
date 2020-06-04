@@ -402,7 +402,7 @@ namespace AttackSurfaceAnalyzer.Cli
             foreach (RESULT_TYPE ExportType in ToExport)
             {
                 Log.Information("Exporting {0}", ExportType);
-                List<CompareResult> records = DatabaseManager.GetComparisonResults(AsaHelpers.RunIdsToCompareId(BaseId, CompareId), ExportType);
+                List<CompareResult> records = DatabaseManager.GetComparisonResults(BaseId, CompareId, ExportType);
 
                 actualExported.Add(ExportType, records.Count);
 
