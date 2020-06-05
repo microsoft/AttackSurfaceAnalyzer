@@ -34,6 +34,11 @@
       },
       "applicationUrl": "http://localhost:5000/"
     },
+    "Gui": {
+      "commandName": "Project",
+      "commandLineArgs": "gui",
+      "environmentVariables": {}
+    },
     "Asa": {
       "commandName": "Project",
       "commandLineArgs": "gui",
@@ -42,10 +47,6 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "http://localhost:5000"
-    },
-    "Gui": {
-      "commandName": "Project",
-      "commandLineArgs": "gui"
     }
   }
 }
