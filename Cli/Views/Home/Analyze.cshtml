@@ -124,6 +124,12 @@
                                     </label>
                                 </div>
                                 <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="ResultType" id="GroupRadio" value="@string.Format("{0}",(int)RESULT_TYPE.GROUP)" disabled>
+                                    <label class="form-check-label" for="GroupRadio">
+                                        @Strings.Get("Groups")
+                                    </label>
+                                </div>
+                                <div class="form-check">
                                     <input class="form-check-input" type="radio" name="ResultType" id="FirewallRadio" value="@string.Format("{0}",(int)RESULT_TYPE.FIREWALL)" disabled>
                                     <label class="form-check-label" for="FirewallRadio">
                                         @Strings.Get("Firewall")
