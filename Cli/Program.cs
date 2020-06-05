@@ -81,7 +81,6 @@ namespace AttackSurfaceAnalyzer.Cli
                     },
                     (ConfigCommandOptions opts) =>
                     {
-                        SetupDatabase(opts);
                         return RunConfigCommand(opts);
                     },
                     (GuiCommandOptions opts) =>
@@ -167,17 +166,20 @@ namespace AttackSurfaceAnalyzer.Cli
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1305:Specify IFormatProvider", Justification = "<Pending>")]
         private static int RunConfigCommand(ConfigCommandOptions opts)
         {
-            CheckFirstRun();
             AsaTelemetry.Setup();
 
             if (opts.ResetDatabase)
             {
-                var filename = DatabaseManager.SqliteFilename;
-                DatabaseManager.Destroy();
+                var filename = opts.DatabaseFilename;
+                DatabaseManager.Destroy(opts.DatabaseFilename);
                 Log.Information(Strings.Get("DeletedDatabaseAt"), filename);
             }
             else
             {
+                CheckFirstRun();
+
+                SetupDatabase(opts);
+
                 if (opts.ListRuns)
                 {
                     if (DatabaseManager.FirstRun)

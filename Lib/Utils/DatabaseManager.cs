@@ -9,6 +9,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -42,7 +43,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private const string SQL_CREATE_RESULTS = "create table if not exists results (base_run_id text, compare_run_id text, status text);";
 
-        private const string SQL_CREATE_FINDINGS_RESULTS = "create table if not exists findings (first_run_id text, second_run_id text, level int, result_type int, identity text, first_serialized text, second_serialized text, meta_serizlied)";
+        private const string SQL_CREATE_FINDINGS_RESULTS = "create table if not exists findings (first_run_id text, second_run_id text, level int, result_type int, identity text, first_serialized text, second_serialized text, meta_serialized text)";
 
         private const string SQL_CREATE_FINDINGS_LEVEL_INDEX = "create index if not exists i_findings_level on findings(level)";
 
@@ -370,6 +371,20 @@ namespace AttackSurfaceAnalyzer.Utils
             Connections.RemoveAll(x => true);
         }
 
+        public static void Destroy(string sqliteFilename)
+        {
+            var directory = Path.GetDirectoryName(sqliteFilename);
+            if (string.IsNullOrEmpty(directory))
+            {
+                directory = ".";
+            }
+            var toDelete = Directory.EnumerateFiles(directory, sqliteFilename);
+            foreach(var file in toDelete)
+            {
+                File.Delete(file);
+            }
+        }
+
         public static List<DataRunModel> GetResultModels(RUN_STATUS runStatus)
         {
             var output = new List<DataRunModel>();
@@ -492,7 +507,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     // Remove these because they don't deserialize properly
                     objIn.Base = null;
                     objIn.Compare = null;
-                    cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(objIn));
+                    cmd.Parameters.AddWithValue("@meta_serialized", JsonConvert.SerializeObject(objIn));
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -1076,6 +1091,8 @@ namespace AttackSurfaceAnalyzer.Utils
                     return JsonConvert.DeserializeObject<ServiceObject>(serialized);
                 case RESULT_TYPE.TPM:
                     return JsonConvert.DeserializeObject<TpmObject>(serialized);
+                case RESULT_TYPE.USER:
+                    return JsonConvert.DeserializeObject<UserAccountObject>(serialized);
                 default:
                     return null;
             }
@@ -1096,7 +1113,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     while (reader.Read())
                     {
-                        if (reader["meta_serialized"].ToString() is string meta_serialized)
+                        if (reader["meta_serialized"] is string meta_serialized)
                         {
                             CompareResult obj = JsonConvert.DeserializeObject<CompareResult>(meta_serialized);
 

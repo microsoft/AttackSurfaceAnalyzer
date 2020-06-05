@@ -82,7 +82,6 @@ $('#formId').submit(
         datas.append('SelectedBaseRunId', $('#SelectedBaseRunId').val());
         datas.append('SelectedCompareRunId', $('#SelectedCompareRunId').val());
 
-
         $.ajax({
             url: '/Home/RunAnalysisWithAnalyses',
             type: 'POST',
