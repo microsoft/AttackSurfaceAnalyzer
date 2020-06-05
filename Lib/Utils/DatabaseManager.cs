@@ -1079,8 +1079,6 @@ namespace AttackSurfaceAnalyzer.Utils
                     return JsonConvert.DeserializeObject<FirewallObject>(serialized);
                 case RESULT_TYPE.GROUP:
                     return JsonConvert.DeserializeObject<GroupAccountObject>(serialized);
-                case RESULT_TYPE.KEY:
-                    return JsonConvert.DeserializeObject<CryptographicKeyObject>(serialized);
                 case RESULT_TYPE.LOG:
                     return JsonConvert.DeserializeObject<EventLogObject>(serialized);
                 case RESULT_TYPE.PORT:
@@ -1089,8 +1087,6 @@ namespace AttackSurfaceAnalyzer.Utils
                     return JsonConvert.DeserializeObject<RegistryObject>(serialized);
                 case RESULT_TYPE.SERVICE:
                     return JsonConvert.DeserializeObject<ServiceObject>(serialized);
-                case RESULT_TYPE.TPM:
-                    return JsonConvert.DeserializeObject<TpmObject>(serialized);
                 case RESULT_TYPE.USER:
                     return JsonConvert.DeserializeObject<UserAccountObject>(serialized);
                 default:
