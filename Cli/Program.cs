@@ -32,6 +32,16 @@ namespace AttackSurfaceAnalyzer.Cli
         private static readonly List<BaseMonitor> monitors = new List<BaseMonitor>();
         private static List<BaseCompare> comparators = new List<BaseCompare>();
 
+        private static void SetupDatabase(CommandOptions opts)
+        {
+            var dbSettings = new DBSettings()
+            {
+                ShardingFactor = opts.Shards,
+                LowMemoryUsage = opts.LowMemoryUsage
+            };
+            SetupOrDie(opts.DatabaseFilename, dbSettings);
+        }
+
         private static void Main(string[] args)
         {
 #if DEBUG
@@ -48,30 +58,42 @@ namespace AttackSurfaceAnalyzer.Cli
 
             Strings.Setup();
 
-            _ = Parser.Default.ParseArguments<CommandOptions>(args).MapResult
-            (
-                (CommandOptions opts) =>
-                {
-
-                    var dbSettings = new DBSettings()
-                    {
-                        ShardingFactor = opts.Shards,
-                        LowMemoryUsage = opts.LowMemoryUsage
-                    };
-                    SetupOrDie(opts.DatabaseFilename, dbSettings);
-                    return 0;
-                }, errs => 1
-            );
-
             var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions, ConfigCommandOptions, GuiCommandOptions, VerifyOptions>(args)
                 .MapResult(
-                    (CollectCommandOptions opts) => RunCollectCommand(opts),
-                    (MonitorCommandOptions opts) => RunMonitorCommand(opts),
-                    (ExportCollectCommandOptions opts) => RunExportCollectCommand(opts),
-                    (ExportMonitorCommandOptions opts) => RunExportMonitorCommand(opts),
-                    (ConfigCommandOptions opts) => RunConfigCommand(opts),
-                    (GuiCommandOptions opts) => RunGuiCommand(opts),
-                    (VerifyOptions opts) => RunVerifyRulesCommand(opts),
+                    (CollectCommandOptions opts) => {
+                        SetupDatabase(opts);
+                        return RunCollectCommand(opts);
+                    },
+                    (MonitorCommandOptions opts) =>
+                    {
+                        SetupDatabase(opts);
+                        return RunMonitorCommand(opts);
+                    },
+                    (ExportCollectCommandOptions opts) =>
+                    {
+                        SetupDatabase(opts);
+                        return RunExportCollectCommand(opts);
+                    },
+                    (ExportMonitorCommandOptions opts) =>
+                    {
+                        SetupDatabase(opts);
+                        return RunExportMonitorCommand(opts);
+                    },
+                    (ConfigCommandOptions opts) =>
+                    {
+                        SetupDatabase(opts);
+                        return RunConfigCommand(opts);
+                    },
+                    (GuiCommandOptions opts) =>
+                    {
+                        SetupDatabase(opts);
+                        return RunGuiCommand(opts);
+                    },
+                    (VerifyOptions opts) =>
+                    {
+                        SetupDatabase(opts);
+                        return RunVerifyRulesCommand(opts);
+                    },
                     errs => 1
                 );
             DatabaseManager.CloseDatabase();
