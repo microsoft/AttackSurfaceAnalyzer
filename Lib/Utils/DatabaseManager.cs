@@ -42,7 +42,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private const string SQL_CREATE_RESULTS = "create table if not exists results (base_run_id text, compare_run_id text, status text);";
 
-        private const string SQL_CREATE_FINDINGS_RESULTS = "create table if not exists findings (first_run_id text, second_run_id text, level int, result_type int, identity text, serialized text)";
+        private const string SQL_CREATE_FINDINGS_RESULTS = "create table if not exists findings (first_run_id text, second_run_id text, level int, result_type int, identity text, first_serialized text, second_serialized text, meta_serizlied)";
 
         private const string SQL_CREATE_FINDINGS_LEVEL_INDEX = "create index if not exists i_findings_level on findings(level)";
 
@@ -64,7 +64,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private const string SQL_GET_NUM_RESULTS = "select count(*) as the_count from collect where run_id = @run_id and result_type = @result_type";
 
-        private const string SQL_INSERT_FINDINGS_RESULT = "insert into findings (first_run_id, second_run_id, result_type, level, identity, serialized) values (@first_run_id, @second_run_id, @result_type, @level, @identity, @serialized)";
+        private const string SQL_INSERT_FINDINGS_RESULT = "insert into findings (first_run_id, second_run_id, result_type, level, identity, first_serialized, second_serialized, meta_serialized) values (@first_run_id, @second_run_id, @result_type, @level, @identity, @first_serialized, @second_serialized, @meta_serialized)";
 
         private const string SQL_INSERT_RUN = "insert into runs (run_id, type, serialized) values (@run_id, @type, @serialized)";
 
@@ -108,7 +108,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private const string SQL_VACUUM = "VACUUM";
 
-        private const int SCHEMA_VERSION = 9;
+        private const int SCHEMA_VERSION = 10;
 
         private static DBSettings dbSettings = new DBSettings();
 
@@ -487,6 +487,11 @@ namespace AttackSurfaceAnalyzer.Utils
                     cmd.Parameters.AddWithValue("@result_type", objIn.ResultType);
                     cmd.Parameters.AddWithValue("@level", objIn.Analysis);
                     cmd.Parameters.AddWithValue("@identity", objIn.Identity);
+                    cmd.Parameters.AddWithValue("@first_serialized", JsonConvert.SerializeObject(objIn.Base));
+                    cmd.Parameters.AddWithValue("@second_serialized", JsonConvert.SerializeObject(objIn.Compare));
+                    // Remove these because they don't deserialize properly
+                    objIn.Base = null;
+                    objIn.Compare = null;
                     cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(objIn));
                     cmd.ExecuteNonQuery();
                 }
@@ -1045,6 +1050,37 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
+        private static CollectObject? Deserialize(int resultType, string serialized)
+        {
+            switch ((RESULT_TYPE)resultType)
+            {
+                case RESULT_TYPE.CERTIFICATE:
+                    return JsonConvert.DeserializeObject<CertificateObject>(serialized);
+                case RESULT_TYPE.COM:
+                    return JsonConvert.DeserializeObject<ComObject>(serialized);
+                case RESULT_TYPE.FILE:
+                    return JsonConvert.DeserializeObject<FileSystemObject>(serialized);
+                case RESULT_TYPE.FIREWALL:
+                    return JsonConvert.DeserializeObject<FirewallObject>(serialized);
+                case RESULT_TYPE.GROUP:
+                    return JsonConvert.DeserializeObject<GroupAccountObject>(serialized);
+                case RESULT_TYPE.KEY:
+                    return JsonConvert.DeserializeObject<CryptographicKeyObject>(serialized);
+                case RESULT_TYPE.LOG:
+                    return JsonConvert.DeserializeObject<EventLogObject>(serialized);
+                case RESULT_TYPE.PORT:
+                    return JsonConvert.DeserializeObject<OpenPortObject>(serialized);
+                case RESULT_TYPE.REGISTRY:
+                    return JsonConvert.DeserializeObject<RegistryObject>(serialized);
+                case RESULT_TYPE.SERVICE:
+                    return JsonConvert.DeserializeObject<ServiceObject>(serialized);
+                case RESULT_TYPE.TPM:
+                    return JsonConvert.DeserializeObject<TpmObject>(serialized);
+                default:
+                    return null;
+            }
+        }
+
         public static List<CompareResult> GetComparisonResults(string baseId, string compareId, int resultType, int offset, int numResults)
         {
             _ = MainConnection ?? throw new NullReferenceException(Strings.Get("MainConnection"));
@@ -1060,12 +1096,22 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     while (reader.Read())
                     {
-                        if (reader["serialized"].ToString() is string serialized)
+                        if (reader["meta_serialized"].ToString() is string meta_serialized)
                         {
-                            var obj = JsonConvert.DeserializeObject<CompareResult>(serialized);
+                            CompareResult obj = JsonConvert.DeserializeObject<CompareResult>(meta_serialized);
+
+                            if (reader["first_serialized"] is string first_serialized)
+                            {
+                                obj.Base = Deserialize(resultType, first_serialized);
+                            }
+                            if (reader["second_serialized"] is string second_serialized)
+                            {
+                                obj.Compare = Deserialize(resultType, second_serialized);
+                            }
+
                             results.Add(obj);
                         }
-                    }
+                    }                   
                 }
             }
 
