@@ -85,18 +85,16 @@ namespace AttackSurfaceAnalyzer.Tests
         public void TestFileMonitor()
         {
             var stack = new ConcurrentStack<FileMonitorObject>();
-            var monitor = new FileSystemMonitor(new MonitorCommandOptions() { MonitoredDirectories = Path.GetTempPath() }, x => stack.Push(x));
+            var monitor = new FileSystemMonitor(new MonitorCommandOptions() { MonitoredDirectories = Path.GetTempPath(), FileNamesOnly = true }, x => stack.Push(x));
             monitor.StartRun();
 
             var created = Path.GetTempFileName(); // Create a file
             var renamed = $"{created}-renamed";
             File.WriteAllText(created, "Test"); // Change the size
-            Thread.Sleep(25);
             File.Move(created, renamed); // Rename it
-            Thread.Sleep(25);
             File.Delete(renamed); //Delete it
 
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
 
             monitor.StopRun();
 
