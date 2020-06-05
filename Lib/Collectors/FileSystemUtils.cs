@@ -188,7 +188,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public static EXECUTABLE_TYPE GetExecutableType(string Path)
         {
-            using var fs = new FileStream(Path, FileMode.Open);
+            using var fs = new FileStream(Path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             return GetExecutableType(Path, fs);
         }
 
