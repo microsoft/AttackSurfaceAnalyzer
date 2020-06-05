@@ -1001,7 +1001,7 @@ function GenerateExpandedResultsCard(result) {
         class: 'card card-body'
     });
 
-    if (result.Rules.length > 0) {
+    if (result.hasOwnProperty("Rules") && result.Rules.length > 0) {
         var rulesHeader = $('<div/>', {
             class: 'row bordered header'
         }).append($('<div/>', {
