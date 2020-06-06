@@ -225,6 +225,10 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 while (!process.StandardOutput.EndOfStream)
                 {
+                    if (token is CancellationToken cancelToken && cancelToken.IsCancellationRequested)
+                    {
+                        break;
+                    }
                     var evt = process.StandardOutput.ReadLine();
 
                     if (evt != null && MacLogHeader.IsMatch(evt))
