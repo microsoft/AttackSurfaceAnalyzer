@@ -9,6 +9,7 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Threading;
 using WindowsFirewallHelper;
 
 namespace AttackSurfaceAnalyzer.Collectors
@@ -29,12 +30,14 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// Uses a library to access the Windows Firewall.
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "The specific exceptions thrown by this library are not documented.")]
-        public void ExecuteWindows()
+        internal void ExecuteWindows(CancellationToken cancellationToken)
         {
             try
             {
                 foreach (IFirewallRule rule in FirewallManager.Instance.Rules)
                 {
+                    if (cancellationToken.IsCancellationRequested) { return; }
+
                     try
                     {
                         var obj = new FirewallObject(rule.Name)
@@ -76,7 +79,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <summary>
         /// Dumps from iptables.
         /// </summary>
-        public void ExecuteLinux()
+        internal void ExecuteLinux(CancellationToken cancellationToken)
         {
             if (ExternalCommandRunner.RunExternalCommand("iptables", "-S", out string result, out string _) == 0)
             {
@@ -151,7 +154,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <summary>
         /// Talks to socketfilterfw
         /// </summary>
-        public void ExecuteMacOs()
+        internal void ExecuteMacOs(CancellationToken cancellationToken)
         {
             // Example output: "Firewall is enabled. (State = 1)"
             var result = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--getglobalstate");
@@ -238,19 +241,19 @@ ALF: total number of apps = 2
             }
         }
 
-        public override void ExecuteInternal()
+        internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                ExecuteWindows();
+                ExecuteWindows(cancellationToken);
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                ExecuteMacOs();
+                ExecuteMacOs(cancellationToken);
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                ExecuteLinux();
+                ExecuteLinux(cancellationToken);
             }
         }
     }

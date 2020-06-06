@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 using System;
 using System.Runtime.InteropServices;
+using System.Threading;
 using AttackSurfaceAnalyzer.Objects;
 using Tpm2Lib;
 
@@ -16,7 +17,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         }
 
-        public override void ExecuteInternal()
+        internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
             Tpm2Device? tpmDevice = null;
 

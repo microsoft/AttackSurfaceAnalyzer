@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 using System;
 using System.Runtime.InteropServices;
+using System.Threading;
 using AttackSurfaceAnalyzer.Objects;
 
 namespace AttackSurfaceAnalyzer.Collectors
@@ -15,7 +16,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
         }
 
-        public override void ExecuteInternal()
+        internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {

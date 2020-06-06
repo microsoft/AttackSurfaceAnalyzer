@@ -23,19 +23,19 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         public EventLogCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler) { }
 
-        public override void ExecuteInternal()
+        internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                ExecuteWindows();
+                ExecuteWindows(cancellationToken);
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                ExecuteLinux();
+                ExecuteLinux(cancellationToken);
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                ExecuteMacOs();
+                ExecuteMacOs(cancellationToken);
             }
         }
 
@@ -44,7 +44,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// Collect event logs on Windows using System.Diagnostics.EventLog
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Official documentation for this functionality does not specify what exceptions it throws. https://docs.microsoft.com/en-us/dotnet/api/system.diagnostics.eventlogentrycollection?view=netcore-3.0")]
-        public void ExecuteWindows()
+        public void ExecuteWindows(CancellationToken cancellationToken)
         {
             void ParseWindowsLog(EventLogEntry entry)
             {
@@ -72,7 +72,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             EventLog[] logs = EventLog.GetEventLogs();
             foreach (var log in logs)
             {
-                if (token is CancellationToken cancelToken && cancelToken.IsCancellationRequested)
+                if (cancellationToken.IsCancellationRequested)
                 {
                     break;
                 }
@@ -84,6 +84,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         foreach (EventLogEntry? entry in coll)
                         {
+                            if (cancellationToken.IsCancellationRequested)
+                            {
+                                break;
+                            }
                             if (entry != null)
                             {
                                 ParseWindowsLog(entry);
@@ -94,10 +98,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         List<EventLogEntry> coll2 = new List<EventLogEntry>();
                         ParallelOptions po = new ParallelOptions();
-                        if (token is CancellationToken cancelToken2)
-                        {
-                            po.CancellationToken = cancelToken2;
-                        }
+                        po.CancellationToken = cancellationToken;
                         foreach (EventLogEntry? entry in coll)
                         {
                             if (entry != null)
@@ -120,7 +121,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <summary>
         /// Parses /var/log/auth.log and /var/log/syslog (no way to distinguish severity)
         /// </summary>
-        public void ExecuteLinux()
+        public void ExecuteLinux(CancellationToken cancellationToken)
         {
             Regex LogHeader = new Regex("^([A-Z][a-z][a-z][0-9:\\s]*)?[\\s].*?[\\s](.*?): (.*)", RegexOptions.Compiled);
 
@@ -154,7 +155,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         foreach (var entry in log)
                         {
-                            if (token is CancellationToken cancelToken && cancelToken.IsCancellationRequested)
+                            if (cancellationToken.IsCancellationRequested)
                             {
                                 break;
                             }
@@ -163,11 +164,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                     else
                     {
-                        ParallelOptions po = new ParallelOptions();
-                        if (token is CancellationToken cancelToken)
-                        {
-                            po.CancellationToken = cancelToken;
-                        }
+                        ParallelOptions po = new ParallelOptions() { CancellationToken = cancellationToken };
                         Parallel.ForEach(log, po, entry => HandleLinuxEvent(entry, path));
                     }
                     
@@ -194,7 +191,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <summary>
         /// Collect event logs on macOS using the 'log' utility
         /// </summary>
-        public void ExecuteMacOs()
+        public void ExecuteMacOs(CancellationToken cancellationToken)
         {
             // New log entries start with a timestamp like so:
             // 2019-09-25 20:38:53.784594-0700 0xdbf47    Error       0x0                  0      0    kernel: (Sandbox) Sandbox: mdworker(15726) deny(1) mach-lookup com.apple.security.syspolicy
@@ -225,7 +222,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 while (!process.StandardOutput.EndOfStream)
                 {
-                    if (token is CancellationToken cancelToken && cancelToken.IsCancellationRequested)
+                    if (cancellationToken.IsCancellationRequested)
                     {
                         break;
                     }

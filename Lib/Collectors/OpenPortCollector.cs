@@ -9,6 +9,7 @@ using System.IO;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -39,19 +40,19 @@ namespace AttackSurfaceAnalyzer.Collectors
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
         }
 
-        public override void ExecuteInternal()
+        internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                ExecuteWindows();
+                ExecuteWindows(cancellationToken);
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                ExecuteLinux();
+                ExecuteLinux(cancellationToken);
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                ExecuteOsX();
+                ExecuteOsX(cancellationToken);
             }
         }
 
@@ -60,12 +61,14 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// APIs to gather active TCP and UDP listeners and writes them 
         /// to the database.
         /// </summary>
-        public void ExecuteWindows()
+        internal void ExecuteWindows(CancellationToken cancellationToken)
         {
             var properties = IPGlobalProperties.GetIPGlobalProperties();
 
             foreach (var endpoint in properties.GetActiveTcpListeners())
             {
+                if (cancellationToken.IsCancellationRequested) { return; }
+
                 var obj = new OpenPortObject(endpoint.Port, TRANSPORT.TCP, (ADDRESS_FAMILY)endpoint.AddressFamily)
                 {
                     Address = endpoint.Address.ToString(),
@@ -95,7 +98,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// Executes the OpenPortCollector on Linux. Calls out to the `ss`
         /// command and parses the output, sending the output to the database.
         /// </summary>
-        private void ExecuteLinux()
+        internal void ExecuteLinux(CancellationToken cancellationToken)
         {
             try
             {
@@ -103,6 +106,8 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 foreach (var _line in result.Split('\n'))
                 {
+                    if (cancellationToken.IsCancellationRequested) { return; }
+
                     var line = _line;
                     line = line.ToUpperInvariant();
                     if (!line.Contains("LISTEN"))
@@ -146,7 +151,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// Executes the OpenPortCollector on OS X. Calls out to the `lsof`
         /// command and parses the output, sending the output to the database.
         /// </summary>
-        private void ExecuteOsX()
+        internal void ExecuteOsX(CancellationToken cancellationToken)
         {
             try
             {
@@ -154,6 +159,8 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 foreach (var _line in result.Split('\n'))
                 {
+                    if (cancellationToken.IsCancellationRequested) { return; }
+
                     var line = _line.ToUpperInvariant();
                     if (!line.Contains("LISTEN"))
                     {

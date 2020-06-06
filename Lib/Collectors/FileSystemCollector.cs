@@ -40,7 +40,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
         }
 
-        public override void ExecuteInternal()
+        internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
             if (!string.IsNullOrEmpty(opts.SelectedDirectories))
             {
@@ -69,22 +69,24 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
             }
 
-            void RecursiveIterateOnSubdirectories(string path)
+            foreach (var Root in Roots)
             {
-                if (token is CancellationToken cancelToken && cancelToken.IsCancellationRequested)
-                {
-                    return;
-                }
-                var directories = Directory.EnumerateDirectories(path, "*", new System.IO.EnumerationOptions()
+                Log.Information("{0} root {1}", Strings.Get("Scanning"), Root);
+
+                var directories = Directory.EnumerateDirectories(Root, "*", new System.IO.EnumerationOptions()
                 {
                     ReturnSpecialDirectories = false,
                     IgnoreInaccessible = true,
                     RecurseSubdirectories = true
                 });
 
+                // Process files in the root
+                TryIterateOnDirectory(Root);
+
                 if (!opts.SingleThread == true)
                 {
-                    Parallel.ForEach(directories, filePath =>
+                    ParallelOptions po = new ParallelOptions() { CancellationToken = cancellationToken };
+                    Parallel.ForEach(directories, po, filePath =>
                     {
                         TryIterateOnDirectory(filePath);
                     });
@@ -93,90 +95,88 @@ namespace AttackSurfaceAnalyzer.Collectors
                 {
                     foreach (var filePath in directories)
                     {
+                        if (cancellationToken.IsCancellationRequested)
+                        {
+                            break;
+                        }
                         TryIterateOnDirectory(filePath);
                     }
                 }
             }
+        }
 
-            void ParseFile(string path)
+        private void ParseFile(string path)
+        {
+            Log.Verbose("Started parsing {0}", path);
+            FileSystemObject obj = FilePathToFileSystemObject(path);
+            if (obj != null)
+            {
+                HandleChange(obj);
+
+                // If we know how to handle this as an archive, and crawling archives is enabled
+                if (opts.CrawlArchives && MiniMagic.DetectFileType(path) != ArchiveFileType.UNKNOWN)
+                {
+                    Extractor extractor = new Extractor(new ExtractorOptions() { ExtractSelfOnFail = false });
+                    foreach (var fso in extractor.ExtractFile(path, !opts.SingleThread).Select(fileEntry => FileEntryToFileSystemObject(fileEntry)))
+                    {
+                        HandleChange(fso);
+                    }
+                }
+
+                // TODO: Also try parse .DER as a key
+                if (path.EndsWith(".cer", StringComparison.CurrentCulture) ||
+                    path.EndsWith(".der", StringComparison.CurrentCulture) ||
+                    path.EndsWith(".p7b", StringComparison.CurrentCulture) ||
+                    path.EndsWith(".pfx", StringComparison.CurrentCulture))
+                {
+                    try
+                    {
+                        using var certificate = new X509Certificate2(path);
+
+                        var certObj = new CertificateObject(
+                            StoreLocation: StoreLocation.LocalMachine.ToString(),
+                            StoreName: StoreName.Root.ToString(),
+                            Certificate: new SerializableCertificate(certificate));
+
+                        HandleChange(certObj);
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Verbose("Could not parse certificate from file: {0} ({1}:{2})", path, e.GetType(), e.Message);
+                    }
+                }
+            }
+            Log.Verbose("Finished parsing {0}", path);
+        }
+
+        private void TryIterateOnDirectory(string path)
+        {
+            try
             {
                 Log.Verbose("Started parsing {0}", path);
-                FileSystemObject obj = FilePathToFileSystemObject(path);
-                if (obj != null)
+
+                var files = Directory.EnumerateFiles(path, "*", new System.IO.EnumerationOptions()
                 {
-                    HandleChange(obj);
+                    IgnoreInaccessible = true
+                });
 
-                    // If we know how to handle this as an archive, and crawling archives is enabled
-                    if (opts.CrawlArchives && MiniMagic.DetectFileType(path) != ArchiveFileType.UNKNOWN)
+                if (opts.SingleThread)
+                {
+                    foreach (var file in files)
                     {
-                        Extractor extractor = new Extractor(new ExtractorOptions() { ExtractSelfOnFail = false });
-                        foreach (var fso in extractor.ExtractFile(path, !opts.SingleThread).Select(fileEntry => FileEntryToFileSystemObject(fileEntry)))
-                        {
-                            HandleChange(fso);
-                        }
-                    }
-
-                    // TODO: Also try parse .DER as a key
-                    if (path.EndsWith(".cer", StringComparison.CurrentCulture) ||
-                        path.EndsWith(".der", StringComparison.CurrentCulture) ||
-                        path.EndsWith(".p7b", StringComparison.CurrentCulture) ||
-                        path.EndsWith(".pfx", StringComparison.CurrentCulture))
-                    {
-                        try
-                        {
-                            using var certificate = new X509Certificate2(path);
-
-                            var certObj = new CertificateObject(
-                                StoreLocation: StoreLocation.LocalMachine.ToString(),
-                                StoreName: StoreName.Root.ToString(),
-                                Certificate: new SerializableCertificate(certificate));
-
-                            HandleChange(certObj);
-                        }
-                        catch (Exception e)
-                        {
-                            Log.Verbose("Could not parse certificate from file: {0} ({1}:{2})", path, e.GetType(), e.Message);
-                        }
+                        ParseFile(file);
                     }
                 }
-                Log.Verbose("Finished parsing {0}", path);
+                else
+                {
+                    Parallel.ForEach(files, file => ParseFile(file));
+                }
             }
-
-            void TryIterateOnDirectory(string path)
+            catch (Exception e)
             {
-                try
-                {
-                    Log.Verbose("Started parsing {0}", path);
-
-                    var files = Directory.EnumerateFiles(path, "*", new System.IO.EnumerationOptions()
-                    {
-                        IgnoreInaccessible = true
-                    });
-
-                    if (opts.SingleThread)
-                    {
-                        foreach (var file in files)
-                        {
-                            ParseFile(file);
-                        }
-                    }
-                    else
-                    {
-                        Parallel.ForEach(files, file => ParseFile(file));
-                    }
-                }
-                catch (Exception e)
-                {
-                    Log.Verbose("Error parsing Directory {0} ({1}:{2})", path, e.GetType(), e.Message);
-                }
-                Log.Verbose("Finished parsing {0}", path);
+                Log.Verbose("Error parsing Directory {0} ({1}:{2})", path, e.GetType(), e.Message);
             }
-
-            foreach (var Root in Roots)
-            {
-                Log.Information("{0} root {1}", Strings.Get("Scanning"), Root);
-                RecursiveIterateOnSubdirectories(Root);
-            }
+            Log.Verbose("Finished parsing {0}", path);
         }
 
         private FileSystemObject FileEntryToFileSystemObject(FileEntry fileEntry)

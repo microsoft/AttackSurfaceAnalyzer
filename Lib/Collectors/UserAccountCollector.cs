@@ -12,6 +12,7 @@ using System.Linq;
 using System.Management;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -27,32 +28,31 @@ namespace AttackSurfaceAnalyzer.Collectors
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
         }
 
-        public override void ExecuteInternal()
+        internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                ExecuteWindows();
+                ExecuteWindows(cancellationToken);
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                ExecuteLinux();
+                ExecuteLinux(cancellationToken);
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                ExecuteOsX();
+                ExecuteOsX(cancellationToken);
             }
         }
-
-
 
         /// <summary>
         /// Executes the UserAccountCollector on Windows. Uses WMI to gather local users.
         /// </summary>
-        public void ExecuteWindows()
+        internal void ExecuteWindows(CancellationToken cancellationToken)
         {
 
             Dictionary<string, UserAccountObject> users = new Dictionary<string, UserAccountObject>();
             Dictionary<string, GroupAccountObject> groups = new Dictionary<string, GroupAccountObject>();
+
             GroupAccountObject? GetGroup(string groupName)
             {
                 //Get the group details
@@ -93,6 +93,8 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 foreach (string line in lines)
                 {
+                    if (cancellationToken.IsCancellationRequested) { break; }
+
                     if (line.Contains('*'))
                     {
                         var groupName = line.Substring(1).Trim();
@@ -206,7 +208,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
-        private static bool IsHiddenWindowsUser(string username)
+        internal static bool IsHiddenWindowsUser(string username)
         {
             try
             {
@@ -237,7 +239,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <summary>
         /// Executes the User account collector on Linux. Reads /etc/passwd and /etc/shadow.
         /// </summary>
-        private void ExecuteLinux()
+        internal void ExecuteLinux(CancellationToken cancellationToken)
         {
             var etc_passwd_lines = File.ReadAllLines("/etc/passwd");
             var etc_shadow_lines = File.ReadAllLines("/etc/shadow");
@@ -248,6 +250,8 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             foreach (var _line in etc_passwd_lines)
             {
+                if (cancellationToken.IsCancellationRequested) { break; }
+
                 var parts = _line.Split(':');
 
                 if (!accountDetails.ContainsKey(parts[0]))
@@ -265,6 +269,8 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             foreach (var _line in etc_shadow_lines)
             {
+                if (cancellationToken.IsCancellationRequested) { break; }
+
                 var parts = _line.Split(':');
                 var username = parts[0];
 
@@ -289,6 +295,8 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             foreach (var username in accountDetails.Keys)
             {
+                if (cancellationToken.IsCancellationRequested) { break; }
+
                 // Admin user details
                 var groupsRaw = ExternalCommandRunner.RunExternalCommand("groups", username);
 
@@ -314,6 +322,8 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
             foreach (var group in Groups)
             {
+                if (cancellationToken.IsCancellationRequested) { break; }
+
                 HandleChange(group.Value);
             }
         }
@@ -321,7 +331,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <summary>
         /// Gathers user account details on OS X. Uses dscacheutil.
         /// </summary>
-        private void ExecuteOsX()
+        internal void ExecuteOsX(CancellationToken cancellationToken)
         {
             Dictionary<string, GroupAccountObject> Groups = new Dictionary<string, GroupAccountObject>();
 
@@ -345,6 +355,8 @@ namespace AttackSurfaceAnalyzer.Collectors
             var newUser = new UserAccountObject("");
             foreach (var _line in result.Split('\n'))
             {
+                if (cancellationToken.IsCancellationRequested) { break; }
+
                 var parts = _line.Split(':');
                 if (parts.Length < 2)
                 {
@@ -389,6 +401,8 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
             foreach (var username in accountDetails.Keys)
             {
+                if (cancellationToken.IsCancellationRequested) { break; }
+
                 // Admin user details
                 string groupsRaw = string.Empty;
 
@@ -413,6 +427,8 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
             foreach (var group in Groups)
             {
+                if (cancellationToken.IsCancellationRequested) { break; }
+
                 HandleChange(group.Value);
             }
         }

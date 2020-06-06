@@ -58,7 +58,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
         }
 
-        public override void ExecuteInternal()
+        internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
             foreach (var hive in Hives)
             {
@@ -93,12 +93,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 if (Parallelize)
                 {
 
-                    ParallelOptions po = new ParallelOptions();
-                    if (token is CancellationToken cancelToken)
-                    {
-                        po.CancellationToken = cancelToken;
-                    }
-
+                    ParallelOptions po = new ParallelOptions() { CancellationToken = cancellationToken };
                     Parallel.ForEach(x86_Enumerable, po, registryKey => IterateOn(hive.Item1, registryKey, RegistryView.Registry32));
                     Parallel.ForEach(x64_Enumerable, po, registryKey => IterateOn(hive.Item1, registryKey, RegistryView.Registry64));
                 }
@@ -106,7 +101,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 {
                     foreach (var registryKey in x86_Enumerable)
                     {
-                        if (token is CancellationToken cancelToken && cancelToken.IsCancellationRequested)
+                        if (cancellationToken.IsCancellationRequested)
                         {
                             break;
                         }
@@ -114,7 +109,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                     foreach (var registryKey in x64_Enumerable)
                     {
-                        if (token is CancellationToken cancelToken && cancelToken.IsCancellationRequested)
+                        if (cancellationToken.IsCancellationRequested)
                         {
                             break;
                         }

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -32,13 +33,13 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// Execute the Com Collector.  We collect the list of Com Objects registered in the registry
         /// and then examine each binary on the disk they point to.
         /// </summary>
-        public override void ExecuteInternal()
+        internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
-            ParseView(RegistryView.Registry64);
-            ParseView(RegistryView.Registry32);
+            ParseView(RegistryView.Registry64, cancellationToken);
+            ParseView(RegistryView.Registry32, cancellationToken);
         }
 
-        public void ParseView(RegistryView view)
+        internal void ParseView(RegistryView view, CancellationToken cancellationToken)
         {
             try
             {
@@ -47,6 +48,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 var CLDIDs = SearchKey.OpenSubKey("SOFTWARE\\Classes\\CLSID");
                 foreach (var comObj in ParseComObjects(CLDIDs, view, opts.SingleThread))
                 {
+                    if (cancellationToken.IsCancellationRequested) { return; }
                     HandleChange(comObj);
                 }
             }
@@ -65,6 +67,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                 var subkeyNames = SearchKey.GetSubKeyNames();
                 foreach (string subkeyName in subkeyNames)
                 {
+                    if (cancellationToken.IsCancellationRequested) { return; }
+
                     if (subkeyName.EndsWith("Classes"))
                     {
                         using var ComKey = SearchKey.OpenSubKey(subkeyName).OpenSubKey("CLSID");

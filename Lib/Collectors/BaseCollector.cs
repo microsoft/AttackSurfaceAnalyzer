@@ -19,13 +19,18 @@ namespace AttackSurfaceAnalyzer.Collectors
     public abstract class BaseCollector : IPlatformRunnable
     {
         public ConcurrentStack<CollectObject> Results { get; } = new ConcurrentStack<CollectObject>();
+
         internal CollectCommandOptions opts = new CollectCommandOptions();
 
-        internal CancellationToken? token = null;
+        private CancellationToken GetPlaceholderToken()
+        {
+            using var source = new CancellationTokenSource();
+            return source.Token;
+        }
 
         public void TryExecute(CancellationToken? token = null)
         {
-            this.token = token;
+            var cancellationToken = token is CancellationToken cancelToken ? cancelToken : GetPlaceholderToken();
             Start();
             if (!CanRunOnPlatform())
             {
@@ -35,7 +40,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 try
                 {
-                    ExecuteInternal();
+                    ExecuteInternal(cancellationToken);
                 }
                 catch(Exception e)
                 {
@@ -47,9 +52,10 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public abstract bool CanRunOnPlatform();
 
-        public abstract void ExecuteInternal();
+        internal abstract void ExecuteInternal(CancellationToken cancellationToken);
 
         private Stopwatch? watch;
+
         private readonly Action<CollectObject>? changeHandler;
 
         protected BaseCollector(CollectCommandOptions? opts, Action<CollectObject>? changeHandler)
