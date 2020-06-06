@@ -18,7 +18,9 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Params("OFF", "DELETE", "WAL", "MEMORY")]
         public string JournalMode { get; set; }
 
+#nullable disable
         public CommitTest()
+#nullable enable
         {
             Logger.Setup(true, true);
             Strings.Setup();

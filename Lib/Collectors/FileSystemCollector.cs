@@ -345,7 +345,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         var fileInfo = new FileInfo(path);
                         obj.Size = fileInfo.Length;
-                        obj.SizeOnDisk = SizeOnDisk(fileInfo);
+                        obj.SizeOnDisk = WindowsSizeOnDisk(fileInfo);
 
                         // This check is to try to prevent reading of cloud based files (like a dropbox folder)
                         //   and subsequently causing a download, unless the user specifically requests it with DownloadCloud.
@@ -466,7 +466,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             return obj;
         }
 
-        private long SizeOnDisk(FileInfo path)
+        private static long WindowsSizeOnDisk(FileInfo path)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
@@ -493,22 +493,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                     Log.Debug("Failed to GetDiskFreeSpace for {0} ({1}:{2})", path.FullName, e.GetType(), e.Message);
                 }
             }
-            //else
-            //{
-            //    if (sizesOnDisk.ContainsKey(path.FullName))
-            //    {
-            //        return sizesOnDisk[path.FullName];
-            //    }
-            //    var exitCode = ExternalCommandRunner.RunExternalCommand("du", path.FullName, out string StdOut, out string StdErr);
-            //    if (exitCode == 0 && long.TryParse(StdOut.Split('\t')[0], out long result))
-            //    {
-            //        return result;
-            //    }
-            //    else
-            //    {
-            //        return -1;
-            //    }
-            //}
             return -1;
         }
     }
