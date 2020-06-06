@@ -20,8 +20,12 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         public ConcurrentStack<CollectObject> Results { get; } = new ConcurrentStack<CollectObject>();
         internal CollectCommandOptions opts = new CollectCommandOptions();
-        public void TryExecute()
+
+        internal CancellationToken? token = null;
+
+        public void TryExecute(CancellationToken? token)
         {
+            this.token = token;
             Start();
             if (!CanRunOnPlatform())
             {

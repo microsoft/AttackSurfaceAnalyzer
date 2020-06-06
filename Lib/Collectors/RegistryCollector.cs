@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -92,25 +93,31 @@ namespace AttackSurfaceAnalyzer.Collectors
                 if (Parallelize)
                 {
 
-                    x86_Enumerable.AsParallel().ForAll(
-                    registryKey =>
+                    ParallelOptions po = new ParallelOptions();
+                    if (token is CancellationToken cancelToken)
                     {
-                        IterateOn(hive.Item1, registryKey, RegistryView.Registry32);
-                    });
-                    x64_Enumerable.AsParallel().ForAll(
-                    registryKey =>
-                    {
-                        IterateOn(hive.Item1, registryKey, RegistryView.Registry64);
-                    });
+                        po.CancellationToken = cancelToken;
+                    }
+
+                    Parallel.ForEach(x86_Enumerable, po, registryKey => IterateOn(hive.Item1, registryKey, RegistryView.Registry32));
+                    Parallel.ForEach(x64_Enumerable, po, registryKey => IterateOn(hive.Item1, registryKey, RegistryView.Registry64));
                 }
                 else
                 {
                     foreach (var registryKey in x86_Enumerable)
                     {
+                        if (token is CancellationToken cancelToken && cancelToken.IsCancellationRequested)
+                        {
+                            break;
+                        }
                         IterateOn(hive.Item1, registryKey, RegistryView.Registry32);
                     }
                     foreach (var registryKey in x64_Enumerable)
                     {
+                        if (token is CancellationToken cancelToken && cancelToken.IsCancellationRequested)
+                        {
+                            break;
+                        }
                         IterateOn(hive.Item1, registryKey, RegistryView.Registry64);
                     }
                 }
