@@ -89,6 +89,8 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 foreach (var line in lines)
                 {
+                    if (cancellationToken.IsCancellationRequested) { return; }
+
                     if (line.StartsWith("-P"))
                     {
                         var chainName = line.Split(' ')[1];
@@ -222,6 +224,8 @@ ALF: total number of apps = 2
                 lines = lines.Skip(2).ToList();
                 foreach (var line in lines)
                 {
+                    if (cancellationToken.IsCancellationRequested) { return; }
+
                     if (startsWithNumber.IsMatch(line))
                     {
                         appName = line.Substring(line.IndexOf('/'));

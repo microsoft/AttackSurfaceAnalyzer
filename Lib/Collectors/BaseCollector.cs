@@ -22,7 +22,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         internal CollectCommandOptions opts = new CollectCommandOptions();
 
-        private CancellationToken GetPlaceholderToken()
+        private static CancellationToken GetPlaceholderToken()
         {
             using var source = new CancellationTokenSource();
             return source.Token;

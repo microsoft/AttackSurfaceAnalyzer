@@ -205,6 +205,8 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 foreach (var _line in lines)
                 {
+                    if (cancellationToken.IsCancellationRequested) { return; }
+
                     var _fields = _line.Split('\t');
 
                     if (_fields.Length == 5)
@@ -271,6 +273,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                 var result = ExternalCommandRunner.RunExternalCommand("launchctl", "list");
                 foreach (var _line in result.Split('\n'))
                 {
+                    if (cancellationToken.IsCancellationRequested) { return; }
+
                     // Lines are formatted like this:
                     // PID   Exit  Name
                     //1015    0   com.apple.appstoreagent
