@@ -1059,7 +1059,14 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 Connections.AsParallel().ForAll(cxn =>
                 {
-                    cxn.Transaction?.Rollback();
+                    try
+                    {
+                        cxn.Transaction?.Rollback();
+                    }
+                    catch(Exception e)
+                    {
+                        Log.Verbose("Failed to roll back {0} ({1}:{2})", cxn.Source, e.GetType(), e.Message);
+                    }
                     cxn.Transaction = null;
                 });
             }

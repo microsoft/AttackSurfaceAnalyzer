@@ -30,9 +30,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     public class FileSystemCollector : BaseCollector
     {
         public List<string> Roots { get; } = new List<string>();
-
-        private readonly Dictionary<string, long> sizesOnDisk = new Dictionary<string, long>();
-
+        
         public static ConcurrentDictionary<string, uint> ClusterSizes { get; set; } = new ConcurrentDictionary<string, uint>();
 
         public FileSystemCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler) { }
@@ -71,110 +69,74 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
             }
 
-            void TryIterateOnDirectory(string Path)
+            void ParseFile(string file)
             {
                 try
                 {
-                    Log.Verbose("Started parsing {0}", Path);
+                    Log.Verbose("Started parsing {0}", file);
 
-                    // To optimize calls to du on non-windows platforms we run du on the whole directory ahead of time
-                    if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                    FileSystemObject obj = FilePathToFileSystemObject(file);
+                    if (obj != null)
                     {
-                        var exitCode = ExternalCommandRunner.RunExternalCommand("du", Path, out string StdOut, out string StdErr);
-                        if (exitCode == 0)
+                        HandleChange(obj);
+
+                        // If we know how to handle this as an archive, and crawling archives is enabled
+                        if (opts.CrawlArchives && MiniMagic.DetectFileType(file) != ArchiveFileType.UNKNOWN)
                         {
-                            foreach (var line in StdOut.Split(Environment.NewLine))
+                            Extractor extractor = new Extractor(new ExtractorOptions() { ExtractSelfOnFail = false });
+                            foreach (var fso in extractor.ExtractFile(file, !opts.SingleThread).Select(fileEntry => FileEntryToFileSystemObject(fileEntry)))
                             {
-                                var fields = line.Split('\t');
-                                if (long.TryParse(fields[0], out long result))
-                                {
-                                    sizesOnDisk[fields[1]] = result;
-                                }
+                                HandleChange(fso);
+                            }
+                        }
+
+                        // TODO: Also try parse .DER as a key
+                        if (file.EndsWith(".cer", StringComparison.CurrentCulture) ||
+                            file.EndsWith(".der", StringComparison.CurrentCulture) ||
+                            file.EndsWith(".p7b", StringComparison.CurrentCulture) ||
+                            file.EndsWith(".pfx", StringComparison.CurrentCulture))
+                        {
+                            try
+                            {
+                                using var certificate = new X509Certificate2(file);
+
+                                var certObj = new CertificateObject(
+                                    StoreLocation: StoreLocation.LocalMachine.ToString(),
+                                    StoreName: StoreName.Root.ToString(),
+                                    Certificate: new SerializableCertificate(certificate));
+
+                                HandleChange(certObj);
+                            }
+                            catch (Exception e)
+                            {
+                                Log.Verbose("Could not parse certificate from file: {0} ({1}:{2})", file, e.GetType(), e.Message);
                             }
                         }
                     }
-
-                    var files = Directory.EnumerateFiles(Path, "*", new System.IO.EnumerationOptions()
-                    {
-                        IgnoreInaccessible = true
-                    });
-                    foreach (var file in files)
-                    {
-                        Log.Verbose("Started parsing {0}", file);
-                        FileSystemObject obj = FilePathToFileSystemObject(file);
-                        if (obj != null)
-                        {
-                            HandleChange(obj);
-
-                            // If we know how to handle this as an archive, and crawling archives is enabled
-                            if (opts.CrawlArchives && MiniMagic.DetectFileType(file) != ArchiveFileType.UNKNOWN)
-                            {
-                                Extractor extractor = new Extractor(new ExtractorOptions() { ExtractSelfOnFail = false });
-                                foreach (var fso in extractor.ExtractFile(file, !opts.SingleThread).Select(fileEntry => FileEntryToFileSystemObject(fileEntry)))
-                                {
-                                    HandleChange(fso);
-                                }
-                            }
-
-                            // TODO: Also try parse .DER as a key
-                            if (Path.EndsWith(".cer", StringComparison.CurrentCulture) ||
-                                Path.EndsWith(".der", StringComparison.CurrentCulture) ||
-                                Path.EndsWith(".p7b", StringComparison.CurrentCulture) ||
-                                Path.EndsWith(".pfx", StringComparison.CurrentCulture))
-                            {
-                                try
-                                {
-                                    using var certificate = new X509Certificate2(Path);
-
-                                    var certObj = new CertificateObject(
-                                        StoreLocation: StoreLocation.LocalMachine.ToString(),
-                                        StoreName: StoreName.Root.ToString(),
-                                        Certificate: new SerializableCertificate(certificate));
-
-                                    HandleChange(certObj);
-                                }
-                                catch (Exception e)
-                                {
-                                    Log.Verbose("Could not parse certificate from file: {0} ({1}:{2})", file, e.GetType(), e.Message);
-                                }
-                            }
-                        }
-                        Log.Verbose("Finished parsing {0}", file);
-                    }
+                    Log.Verbose("Finished parsing {0}", file);
+                    
                 }
                 catch (Exception e)
                 {
-                    Log.Verbose("Error parsing Directory {0} ({1}:{2})", Path, e.GetType(), e.Message);
+                    Log.Verbose("Error parsing Directory {0} ({1}:{2})", file, e.GetType(), e.Message);
                 }
-                Log.Verbose("Finished parsing {0}", Path);
+                Log.Verbose("Finished parsing {0}", file);
             }
 
             foreach (var Root in Roots)
             {
                 Log.Information("{0} root {1}", Strings.Get("Scanning"), Root);
-                var directories = Directory.EnumerateDirectories(Root, "*", new System.IO.EnumerationOptions()
-                {
-                    ReturnSpecialDirectories = false,
-                    IgnoreInaccessible = true,
-                    RecurseSubdirectories = true
-                });
 
-                //First do root
-                TryIterateOnDirectory(Root);
-
-                if (!opts.SingleThread == true)
+                if (opts.SingleThread)
                 {
-                    Parallel.ForEach(directories, filePath =>
+                    foreach(var directory in DirectoryWalker.EnumerateDirectories(Root))
                     {
-                        TryIterateOnDirectory(filePath);
-                    });
+                        ParseFile(directory);
+                    }
                 }
                 else
                 {
-                    foreach (var filePath in directories)
-                    {
-                        TryIterateOnDirectory(filePath);
-                    }
+                    Parallel.ForEach(DirectoryWalker.EnumerateDirectories(Root), directory => ParseFile(directory));
                 }
             }
         }
@@ -214,7 +176,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             /// <param name="downloadCloud">If the file is hosted in the cloud, the user has the option to include cloud files or not.</param>
             /// <param name="includeContentHash">If we should generate a hash of the file.</param>
             /// <returns></returns>
-            public FileSystemObject FilePathToFileSystemObject(string path)
+        public FileSystemObject FilePathToFileSystemObject(string path)
         {
             FileSystemObject obj = new FileSystemObject(path);
 
@@ -346,7 +308,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         var fileInfo = new FileInfo(path);
                         var size = (ulong)fileInfo.Length;
                         obj.Size = size;
-                        obj.SizeOnDisk = SizeOnDisk(fileInfo);
+                        obj.SizeOnDisk = WindowsSizeOnDisk(fileInfo);
 
                         // This check is to try to prevent reading of cloud based files (like a dropbox folder)
                         //   and subsequently causing a download, unless the user specifically requests it with DownloadCloud.
@@ -404,8 +366,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                             break;
                         case FileTypes.RegularFile:
                             var fileInfo = new FileInfo(path);
-                            obj.SizeOnDisk = SizeOnDisk(fileInfo);
-
                             if (opts.DownloadCloud || obj.SizeOnDisk > 0)
                             {   
                                 obj.LastModified = File.GetLastWriteTimeUtc(path);
@@ -467,7 +427,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             return obj;
         }
 
-        private long SizeOnDisk(FileInfo path)
+        private static long WindowsSizeOnDisk(FileInfo path)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
@@ -495,22 +455,19 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
                 return -1;
             }
-            else
-            {
-                if (sizesOnDisk.ContainsKey(path.FullName))
-                {
-                    return sizesOnDisk[path.FullName];
-                }
-                var exitCode = ExternalCommandRunner.RunExternalCommand("du", path.FullName, out string StdOut, out string StdErr);
-                if (exitCode == 0 && long.TryParse(StdOut.Split('\t')[0], out long result))
-                {
-                    return result;
-                }
-                else
-                {
-                    return -1;
-                }
-            }
+            //else
+            //{
+            //    var exitCode = ExternalCommandRunner.RunExternalCommand("du", path.FullName, out string StdOut, out string StdErr);
+            //    if (exitCode == 0 && long.TryParse(StdOut.Split('\t')[0], out long result))
+            //    {
+            //        return result;
+            //    }
+            //    else
+            //    {
+            //        return -1;
+            //    }
+            //}
+            return -1;
         }
     }
 }
