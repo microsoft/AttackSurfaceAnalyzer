@@ -23,7 +23,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         internal CancellationToken? token = null;
 
-        public void TryExecute(CancellationToken? token)
+        public void TryExecute(CancellationToken? token = null)
         {
             this.token = token;
             Start();
