@@ -31,8 +31,6 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         public List<string> Roots { get; } = new List<string>();
 
-        private readonly Dictionary<string, long> sizesOnDisk = new Dictionary<string, long>();
-
         public static ConcurrentDictionary<string, uint> ClusterSizes { get; set; } = new ConcurrentDictionary<string, uint>();
 
         public FileSystemCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler) { }
@@ -76,23 +74,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                 try
                 {
                     Log.Verbose("Started parsing {0}", Path);
-
-                    // To optimize calls to du on non-windows platforms we run du on the whole directory ahead of time
-                    if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                    {
-                        var exitCode = ExternalCommandRunner.RunExternalCommand("du", Path, out string StdOut, out string StdErr);
-                        if (exitCode == 0)
-                        {
-                            foreach (var line in StdOut.Split(Environment.NewLine))
-                            {
-                                var fields = line.Split('\t');
-                                if (long.TryParse(fields[0], out long result))
-                                {
-                                    sizesOnDisk[fields[1]] = result;
-                                }
-                            }
-                        }
-                    }
 
                     var files = Directory.EnumerateFiles(Path, "*", new System.IO.EnumerationOptions()
                     {
@@ -346,7 +327,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                         var fileInfo = new FileInfo(path);
                         var size = (ulong)fileInfo.Length;
                         obj.Size = size;
-                        obj.SizeOnDisk = SizeOnDisk(fileInfo);
+                        obj.SizeOnDisk = GetWindowsSizeOnDisk(fileInfo);
 
                         // This check is to try to prevent reading of cloud based files (like a dropbox folder)
                         //   and subsequently causing a download, unless the user specifically requests it with DownloadCloud.
@@ -404,7 +385,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                             break;
                         case FileTypes.RegularFile:
                             var fileInfo = new FileInfo(path);
-                            obj.SizeOnDisk = SizeOnDisk(fileInfo);
+                            obj.SizeOnDisk = i.BlocksAllocated * i.BlockSize;
 
                             if (opts.DownloadCloud || obj.SizeOnDisk > 0)
                             {   
@@ -467,7 +448,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             return obj;
         }
 
-        private long SizeOnDisk(FileInfo path)
+        private static long GetWindowsSizeOnDisk(FileInfo path)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
@@ -493,24 +474,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                 {
                     Log.Debug("Failed to GetDiskFreeSpace for {0} ({1}:{2})", path.FullName, e.GetType(), e.Message);
                 }
-                return -1;
             }
-            else
-            {
-                if (sizesOnDisk.ContainsKey(path.FullName))
-                {
-                    return sizesOnDisk[path.FullName];
-                }
-                var exitCode = ExternalCommandRunner.RunExternalCommand("du", path.FullName, out string StdOut, out string StdErr);
-                if (exitCode == 0 && long.TryParse(StdOut.Split('\t')[0], out long result))
-                {
-                    return result;
-                }
-                else
-                {
-                    return -1;
-                }
-            }
+            return -1;
         }
     }
 }
