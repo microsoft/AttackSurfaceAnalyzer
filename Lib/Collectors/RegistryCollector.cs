@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -57,7 +58,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
         }
 
-        public override void ExecuteInternal()
+        internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
             foreach (var hive in Hives)
             {
@@ -92,25 +93,26 @@ namespace AttackSurfaceAnalyzer.Collectors
                 if (Parallelize)
                 {
 
-                    x86_Enumerable.AsParallel().ForAll(
-                    registryKey =>
-                    {
-                        IterateOn(hive.Item1, registryKey, RegistryView.Registry32);
-                    });
-                    x64_Enumerable.AsParallel().ForAll(
-                    registryKey =>
-                    {
-                        IterateOn(hive.Item1, registryKey, RegistryView.Registry64);
-                    });
+                    ParallelOptions po = new ParallelOptions() { CancellationToken = cancellationToken };
+                    Parallel.ForEach(x86_Enumerable, po, registryKey => IterateOn(hive.Item1, registryKey, RegistryView.Registry32));
+                    Parallel.ForEach(x64_Enumerable, po, registryKey => IterateOn(hive.Item1, registryKey, RegistryView.Registry64));
                 }
                 else
                 {
                     foreach (var registryKey in x86_Enumerable)
                     {
+                        if (cancellationToken.IsCancellationRequested)
+                        {
+                            break;
+                        }
                         IterateOn(hive.Item1, registryKey, RegistryView.Registry32);
                     }
                     foreach (var registryKey in x64_Enumerable)
                     {
+                        if (cancellationToken.IsCancellationRequested)
+                        {
+                            break;
+                        }
                         IterateOn(hive.Item1, registryKey, RegistryView.Registry64);
                     }
                 }

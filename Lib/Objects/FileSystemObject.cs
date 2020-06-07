@@ -25,7 +25,7 @@ namespace AttackSurfaceAnalyzer.Objects
         /// <summary>
         /// File size in bytes
         /// </summary>
-        public ulong? Size { get; set; }
+        public long? Size { get; set; }
         /// <summary>
         /// Signature information for signed Windows binaries.
         /// </summary>
@@ -94,7 +94,8 @@ namespace AttackSurfaceAnalyzer.Objects
         /// When was the file created in UTC
         /// </summary>
         public DateTime Created { get; set; }
-        public long SizeOnDisk { get; internal set; }
+
+        public long? SizeOnDisk { get; internal set; }
 
         public bool ShouldSerializeCharacteristics()
         {

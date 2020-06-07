@@ -75,13 +75,10 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public FileSystemMonitor(MonitorCommandOptions opts, Action<FileMonitorObject> changeHandler)
         {
-            if (changeHandler == null)
-            {
-                throw new NullReferenceException(nameof(changeHandler));
-            }
-
             options = opts ?? new MonitorCommandOptions();
-            this.changeHandler = changeHandler;
+#pragma warning disable CA1303 // Do not pass literals as localized parameters
+            this.changeHandler = changeHandler ?? throw new NullReferenceException(nameof(changeHandler));
+#pragma warning restore CA1303 // This string doesn't need to be localized, it is the name of the variable
 
             fsc = new FileSystemCollector(new CollectCommandOptions()
             {

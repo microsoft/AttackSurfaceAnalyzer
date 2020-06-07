@@ -11,6 +11,8 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -21,19 +23,19 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         public EventLogCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler) { }
 
-        public override void ExecuteInternal()
+        internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                ExecuteWindows();
+                ExecuteWindows(cancellationToken);
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                ExecuteLinux();
+                ExecuteLinux(cancellationToken);
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                ExecuteMacOs();
+                ExecuteMacOs(cancellationToken);
             }
         }
 
@@ -42,40 +44,69 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// Collect event logs on Windows using System.Diagnostics.EventLog
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Official documentation for this functionality does not specify what exceptions it throws. https://docs.microsoft.com/en-us/dotnet/api/system.diagnostics.eventlogentrycollection?view=netcore-3.0")]
-        public void ExecuteWindows()
+        public void ExecuteWindows(CancellationToken cancellationToken)
         {
+            void ParseWindowsLog(EventLogEntry entry)
+            {
+                if (opts.GatherVerboseLogs || entry.EntryType.ToString() == "Warning" || entry.EntryType.ToString() == "Error")
+                {
+                    var sentences = entry.Message.Split('.');
+
+                    //Let's add the periods back.
+                    for (var i = 0; i < sentences.Length; i++)
+                    {
+                        sentences[i] = string.Concat(sentences[i], ".");
+                    }
+
+                    EventLogObject obj = new EventLogObject($"{entry.TimeGenerated.ToString("o", CultureInfo.InvariantCulture)} {entry.EntryType.ToString()} {entry.Message}")
+                    {
+                        Level = entry.EntryType.ToString(),
+                        Summary = sentences[0],
+                        Source = string.IsNullOrEmpty(entry.Source) ? null : entry.Source,
+                        Timestamp = entry.TimeGenerated,
+                        Data = new List<string>() { entry.Message }
+                    };
+                    HandleChange(obj);
+                }
+            }
             EventLog[] logs = EventLog.GetEventLogs();
             foreach (var log in logs)
             {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    break;
+                }
                 try
                 {
                     EventLogEntryCollection coll = log.Entries;
 
-                    foreach (EventLogEntry? entry in coll)
+                    if (opts.SingleThread)
                     {
-                        if (entry != null)
+                        foreach (EventLogEntry? entry in coll)
                         {
-                            if (opts.GatherVerboseLogs || entry.EntryType.ToString() == "Warning" || entry.EntryType.ToString() == "Error")
+                            if (cancellationToken.IsCancellationRequested)
                             {
-                                var sentences = entry.Message.Split('.');
-
-                                //Let's add the periods back.
-                                for (var i = 0; i < sentences.Length; i++)
-                                {
-                                    sentences[i] = string.Concat(sentences[i], ".");
-                                }
-
-                                EventLogObject obj = new EventLogObject($"{entry.TimeGenerated.ToString("o", CultureInfo.InvariantCulture)} {entry.EntryType.ToString()} {entry.Message}")
-                                {
-                                    Level = entry.EntryType.ToString(),
-                                    Summary = sentences[0],
-                                    Source = string.IsNullOrEmpty(entry.Source) ? null : entry.Source,
-                                    Timestamp = entry.TimeGenerated,
-                                    Data = new List<string>() { entry.Message }
-                                };
-                                HandleChange(obj);
+                                break;
+                            }
+                            if (entry != null)
+                            {
+                                ParseWindowsLog(entry);
                             }
                         }
+                    }
+                    else
+                    {
+                        List<EventLogEntry> coll2 = new List<EventLogEntry>();
+                        ParallelOptions po = new ParallelOptions();
+                        po.CancellationToken = cancellationToken;
+                        foreach (EventLogEntry? entry in coll)
+                        {
+                            if (entry != null)
+                            {
+                                coll2.Add(entry);
+                            }
+                        }
+                        Parallel.ForEach(coll2, po, entry => ParseWindowsLog(entry));
                     }
                 }
                 catch (Exception e)
@@ -90,34 +121,53 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <summary>
         /// Parses /var/log/auth.log and /var/log/syslog (no way to distinguish severity)
         /// </summary>
-        public void ExecuteLinux()
+        public void ExecuteLinux(CancellationToken cancellationToken)
         {
             Regex LogHeader = new Regex("^([A-Z][a-z][a-z][0-9:\\s]*)?[\\s].*?[\\s](.*?): (.*)", RegexOptions.Compiled);
+
+            void HandleLinuxEvent(string entry, string path)
+            {
+                // New log entries start with a timestamp like so:
+                // Sep  7 02:16:16 testbed sudo: pam_unix(sudo:session):session opened for user root
+                if (LogHeader.IsMatch(entry))
+                {
+                    var obj = new EventLogObject(entry)
+                    {
+                        Summary = LogHeader.Matches(entry).Single().Groups[3].Captures[0].Value,
+                        Source = path,
+                        Process = LogHeader.Matches(entry).Single().Groups[2].Captures[0].Value,
+                    };
+                    if (DateTime.TryParse(LogHeader.Matches(entry).Single().Groups[1].Captures[0].Value, out DateTime Timestamp))
+                    {
+                        obj.Timestamp = Timestamp;
+                    }
+                    HandleChange(obj);
+                }
+            }
 
             void ParseLinuxLog(string path)
             {
                 try
                 {
                     string[] log = File.ReadAllLines(path);
-                    foreach (var entry in log)
+
+                    if (opts.SingleThread)
                     {
-                        // New log entries start with a timestamp like so:
-                        // Sep  7 02:16:16 testbed sudo: pam_unix(sudo:session):session opened for user root
-                        if (LogHeader.IsMatch(entry))
+                        foreach (var entry in log)
                         {
-                            var obj = new EventLogObject(entry)
+                            if (cancellationToken.IsCancellationRequested)
                             {
-                                Summary = LogHeader.Matches(entry).Single().Groups[3].Captures[0].Value,
-                                Source = path,
-                                Process = LogHeader.Matches(entry).Single().Groups[2].Captures[0].Value,
-                            };
-                            if (DateTime.TryParse(LogHeader.Matches(entry).Single().Groups[1].Captures[0].Value, out DateTime Timestamp))
-                            {
-                                obj.Timestamp = Timestamp;
+                                break;
                             }
-                            HandleChange(obj);
+                            HandleLinuxEvent(entry, path);
                         }
                     }
+                    else
+                    {
+                        ParallelOptions po = new ParallelOptions() { CancellationToken = cancellationToken };
+                        Parallel.ForEach(log, po, entry => HandleLinuxEvent(entry, path));
+                    }
+                    
                 }
                 catch (Exception e) when (
                     e is ArgumentException
@@ -141,7 +191,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <summary>
         /// Collect event logs on macOS using the 'log' utility
         /// </summary>
-        public void ExecuteMacOs()
+        public void ExecuteMacOs(CancellationToken cancellationToken)
         {
             // New log entries start with a timestamp like so:
             // 2019-09-25 20:38:53.784594-0700 0xdbf47    Error       0x0                  0      0    kernel: (Sandbox) Sandbox: mdworker(15726) deny(1) mach-lookup com.apple.security.syspolicy
@@ -172,6 +222,10 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 while (!process.StandardOutput.EndOfStream)
                 {
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        break;
+                    }
                     var evt = process.StandardOutput.ReadLine();
 
                     if (evt != null && MacLogHeader.IsMatch(evt))

@@ -8,6 +8,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -31,7 +32,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <summary>
         /// On Windows we can use the .NET API to iterate through all the stores.
         /// </summary>
-        public void ExecuteWindows()
+        internal void ExecuteWindows(CancellationToken cancellationToken)
         {
             foreach (StoreLocation storeLocation in (StoreLocation[])Enum.GetValues(typeof(StoreLocation)))
             {
@@ -44,6 +45,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                         foreach (X509Certificate2 certificate in store.Certificates)
                         {
+                            if (cancellationToken.IsCancellationRequested) { return; }
                             var obj = new CertificateObject(
                                 StoreLocation: storeLocation.ToString(),
                                 StoreName: storeName.ToString(),
@@ -64,7 +66,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// On linux we check the central trusted root store (a folder), which has symlinks to actual cert locations scattered across the db
         /// We list all the certificates and then create a new X509Certificate2 object for each by filename.
         /// </summary>
-        public void ExecuteLinux()
+        internal void ExecuteLinux(CancellationToken cancellationToken)
         {
             try
             {
@@ -72,6 +74,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 {
                     foreach (var _line in result.Split('\n'))
                     {
+                        if (cancellationToken.IsCancellationRequested) { return; }
                         Log.Debug("{0}", _line);
                         try
                         {
@@ -104,7 +107,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// So first we need pkcs12s instead, we convert using openssl, which requires we set a password
         /// we import the pkcs12 with all our certs, delete the temp files and then iterate over it the certs
         /// </summary>
-        public void ExecuteMacOs()
+        internal void ExecuteMacOs(CancellationToken cancellationToken)
         {
             try
             {
@@ -126,6 +129,8 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                         while (X509Certificate2Enumerator.MoveNext())
                         {
+                            if (cancellationToken.IsCancellationRequested) { return; }
+
                             var certificate = X509Certificate2Enumerator.Current;
 
                             var obj = new CertificateObject(
@@ -152,19 +157,19 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <summary>
         /// Execute the certificate collector.
         /// </summary>
-        public override void ExecuteInternal()
+        internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                ExecuteWindows();
+                ExecuteWindows(cancellationToken);
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                ExecuteLinux();
+                ExecuteLinux(cancellationToken);
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                ExecuteMacOs();
+                ExecuteMacOs(cancellationToken);
             }
         }
     }

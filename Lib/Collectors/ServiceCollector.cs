@@ -11,6 +11,7 @@ using System.Linq;
 using System.Management;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer.Collectors
@@ -137,18 +138,19 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <summary>
         /// Uses ServiceController.
         /// </summary>
-        public void ExecuteWindows()
+        internal void ExecuteWindows(CancellationToken cancellationToken)
         {
             try
             {
                 SelectQuery sQuery = new SelectQuery("select * from Win32_Service"); // where name = '{0}'", "MCShield.exe"));
                 using ManagementObjectSearcher mgmtSearcher = new ManagementObjectSearcher(sQuery);
-
                 
                 if (opts.SingleThread)
                 {
                     foreach (ManagementObject service in mgmtSearcher.Get())
                     {
+                        if (cancellationToken.IsCancellationRequested) { return; }
+
                         ProcessManagementObject(service);
                     }
                 }
@@ -160,8 +162,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         list.Add(service);
                     }
-
-                    Parallel.ForEach(list, x => ProcessManagementObject(x));
+                    ParallelOptions po = new ParallelOptions() { CancellationToken = cancellationToken };
+                    Parallel.ForEach(list, po, x => ProcessManagementObject(x));
                 }
 
                 
@@ -192,7 +194,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <summary>
         /// Uses systemctl (relies on systemd) and also checks /etc/init.d
         /// </summary>
-        public void ExecuteLinux()
+        internal void ExecuteLinux(CancellationToken cancellationToken)
         {
             try
             {
@@ -203,6 +205,8 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 foreach (var _line in lines)
                 {
+                    if (cancellationToken.IsCancellationRequested) { return; }
+
                     var _fields = _line.Split('\t');
 
                     if (_fields.Length == 5)
@@ -258,7 +262,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <summary>
         /// Uses launchctl
         /// </summary>
-        public void ExecuteMacOs()
+        internal void ExecuteMacOs(CancellationToken cancellationToken)
         {
             // Get the user processes
             // run "launchtl dumpstate" for the super detailed view
@@ -269,6 +273,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                 var result = ExternalCommandRunner.RunExternalCommand("launchctl", "list");
                 foreach (var _line in result.Split('\n'))
                 {
+                    if (cancellationToken.IsCancellationRequested) { return; }
+
                     // Lines are formatted like this:
                     // PID   Exit  Name
                     //1015    0   com.apple.appstoreagent
@@ -300,19 +306,19 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <summary>
         /// Executes the ServiceCollector.
         /// </summary>
-        public override void ExecuteInternal()
+        internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                ExecuteWindows();
+                ExecuteWindows(cancellationToken);
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                ExecuteMacOs();
+                ExecuteMacOs(cancellationToken);
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                ExecuteLinux();
+                ExecuteLinux(cancellationToken);
             }
         }
     }

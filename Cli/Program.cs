@@ -1033,9 +1033,13 @@ namespace AttackSurfaceAnalyzer.Cli
 
             Log.Information(Strings.Get("StartingN"), collectors.Count.ToString(CultureInfo.InvariantCulture), Strings.Get("Collectors"));
 
+            using CancellationTokenSource source = new CancellationTokenSource();
+            CancellationToken token = source.Token;
+
             Console.CancelKeyPress += delegate
             {
                 Log.Information("Cancelling collection. Rolling back transaction. Please wait to avoid corrupting database.");
+                source.Cancel();
                 DatabaseManager.CloseDatabase();
                 Environment.Exit(-1);
             };
@@ -1047,7 +1051,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 {
                     DatabaseManager.BeginTransaction();
                     
-                    c.TryExecute();
+                    c.TryExecute(token);
 
                     FlushResults();
 
