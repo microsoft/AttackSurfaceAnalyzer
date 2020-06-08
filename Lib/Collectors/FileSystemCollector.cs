@@ -19,7 +19,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Security.Permissions;
 using System.Security.Principal;
 using System.Threading.Tasks;
-using Microsoft.CST.OpenSource.MultiExtractor;
+using Microsoft.CST.OpenSource.RecursiveExtractor;
 using System.Threading;
 
 namespace AttackSurfaceAnalyzer.Collectors
