@@ -44,9 +44,10 @@ namespace AttackSurfaceAnalyzer.Tests
         [TestMethod]
         public void TestSerializeAndDeserializeCryptographicKeyObject()
         {
-            var cko = new RSAKeyObject("Disk");
+            var cko = new CryptographicKeyObject("Disk", Tpm2Lib.TpmAlgId.Rsa) { RsaDetails = new RsaKeyDetails() };
 
-            Assert.IsTrue(cko.RowKey.Equals(JsonUtils.Hydrate(JsonUtils.Dehydrate(cko), RESULT_TYPE.KEY)?.RowKey));
+            var hydrated = JsonUtils.Hydrate(JsonUtils.Dehydrate(cko), RESULT_TYPE.KEY);
+            Assert.IsTrue(cko.RowKey.Equals(hydrated.RowKey));
         }
 
         [TestMethod]

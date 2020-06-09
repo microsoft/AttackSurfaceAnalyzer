@@ -285,7 +285,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             return output;
         }
 
-        public static RSAKeyObject GenerateRandomRsa(Tpm2 tpm, TpmAlgId hashAlg, ushort bits)
+        public static RsaKeyDetails GenerateRandomRsa(Tpm2 tpm, TpmAlgId hashAlg, ushort bits)
         {
             //TpmAlgId nameAlg = hashAlg;
             //var policy = new PolicyTree(nameAlg);
@@ -313,7 +313,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             //tpm?.FlushContext(hKey);
 
             //            return cko;
-            return new RSAKeyObject("Test");
+            return new RsaKeyDetails();
         }
     }
 }

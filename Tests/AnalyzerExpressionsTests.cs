@@ -15,10 +15,10 @@ namespace AttackSurfaceAnalyzer.Tests
     public class AnalyzerOperationsTests
     {
         [ClassInitialize]
-        public void Setup()
+        public static void ClassSetup(TestContext _)
         {
             Logger.Setup(false, true);
-            Utils.Strings.Setup();
+            Strings.Setup();
             AsaTelemetry.Setup(test: true);
         }
 
