@@ -293,6 +293,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             return output;
         }
 
+        // TODO: Generate and gather this key #491
         public static RsaKeyDetails GenerateRandomRsa(Tpm2 tpm, TpmAlgId hashAlg, ushort bits)
         {
             //TpmAlgId nameAlg = hashAlg;
