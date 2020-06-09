@@ -181,13 +181,11 @@ namespace AttackSurfaceAnalyzer.Collectors
             // TODO: Handle these errors without throwing
             if (moreData != 0)
             {
-                throw new NotImplementedException(
-                                        "GetLoadedEntities: Too much data returned");
+                throw new NotImplementedException("GetLoadedEntities: Too much data returned");
             }
             if (h.GetType() != typeof(HandleArray))
             {
-                throw new Exception(
-                            "GetLoadedEntities: Incorrect capability type requested");
+                throw new Exception("GetLoadedEntities: Incorrect capability type requested");
             }
             return (h as HandleArray)?.handle ?? Array.Empty<TpmHandle>();
         }
@@ -313,20 +311,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                             Log.Verbose("Dumping NV {0} failed ({1}:{2})", hh.handle & 0x00FFFFFF, e.GetType(), e.Message);
                         }
                     }
-                    
-                    // We can try without triggering Dictionary Attack mitigations/Lockout
-                    if (index.value == null && nvPub.attributes.HasFlag(NvAttr.NoDa))
-                    {
-                        try
-                        {
-                            // Try with empty Auth Value
-                            index.value = tpm.NvRead(hh, hh, nvPub.dataSize, 0);
-                        }
-                        catch(TpmException e)
-                        {
-                            Log.Verbose("Dumping NV {0} failed ({1}:{2})", hh.handle & 0x00FFFFFF, e.GetType(), e.Message);
-                        }
-                    }
+
+                    // TODO: Attempt with auth values if DA is disabled
                     
                     output.Add(index.Index, index);
                 }
