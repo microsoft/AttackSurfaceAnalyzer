@@ -211,13 +211,13 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 return output;
             }
+            tpm.GetCapability(Cap.Pcrs, 0, 255, out ICapabilitiesUnion caps);
+            PcrSelection[] pcrs = ((PcrSelectionArray)caps).pcrSelections;
 
-            var algorithms = new TpmAlgId[] { TpmAlgId.Sha1, TpmAlgId.Sha256, TpmAlgId.Sha384, TpmAlgId.Sha512, TpmAlgId.Sm2 };
-
-            foreach (var algorithm in algorithms)
+            foreach (var selection in pcrs)
             {
                 // Spec defines 24 PCRs
-                foreach (var pcrVal in DumpPCRs(tpm, algorithm, new PcrSelection[] { PcrSelection.FullPcrBank(algorithm, 24) }))
+                foreach (var pcrVal in DumpPCRs(tpm, selection.hash, selection.GetSelectedPcrs().Select(x => PcrSelection.SinglePcr(selection.hash, x)).ToArray()))
                 {
                     output.Add(pcrVal.Key, pcrVal.Value);
                 }
