@@ -325,7 +325,7 @@ namespace AttackSurfaceAnalyzer.Tests
                     {
                         // Verify that the NV Data we wrote was collected
                         Assert.IsTrue(tpmObject.NV.ContainsKey(nvIndex));
-                        Assert.IsTrue(tpmObject.NV[nvIndex] is AsaNvIndex nvi && nvi.value is byte[] && nvi.value.SequenceEqual(nvData));
+                        Assert.IsTrue(tpmObject.NV[nvIndex] is AsaNvIndex nvi && nvi.value is byte[] && nvi.value[0..nvData.Length].SequenceEqual(nvData));
                     }
                     else
                     {
