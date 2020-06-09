@@ -2,12 +2,10 @@
 // Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
-using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -276,7 +274,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                     catch (TpmException)
                     {
-                        Log.Debug($"Dumping NV {hh.handle & 0x00FFFFFF} failed");
+                        Log.Verbose($"Dumping NV {hh.handle & 0x00FFFFFF} failed");
                     }
                     output.Add(index.Index, index);
                 }
