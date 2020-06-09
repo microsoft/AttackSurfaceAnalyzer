@@ -237,6 +237,7 @@ namespace AttackSurfaceAnalyzer.Tests
         [TestMethod]
         public void TestTpmCollector()
         {
+            var PcrAlgorithm = TpmAlgId.Sha256;
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 var process = TpmSim.GetTpmSimulator();
@@ -279,13 +280,13 @@ namespace AttackSurfaceAnalyzer.Tests
                     Log.Debug(e, "Failed to Write to NV.");
                 }
 
-                // We haven't written anything to the PCRs yet so they should be the same.
-                var pcrs = TpmCollector.DumpPCRs(tpm, TpmAlgId.Sha256, new PcrSelection[] { new PcrSelection(TpmAlgId.Sha256, new uint[] { 15, 16 }, 24) });
-                Assert.IsTrue(pcrs[(TpmAlgId.Sha256, 15)].SequenceEqual(pcrs[(TpmAlgId.Sha256, 16)]));
+                // Verify that all the PCRs are blank to start with
+                var pcrs = TpmCollector.DumpPCRs(tpm, PcrAlgorithm, new PcrSelection[] { new PcrSelection(PcrAlgorithm, new uint[] { 15, 16 }) });
+                Assert.IsTrue(pcrs.All(x => x.Value.SequenceEqual(new byte[x.Value.Length])));
 
+                // Measure to PCR 16
                 try
                 {
-                    // Measure to PCR 16
                     tpm.PcrExtend(TpmHandle.Pcr(16), tpm.PcrEvent(TpmHandle.Pcr(16), nvData));
                 }
                 catch (TpmException e)
@@ -293,11 +294,20 @@ namespace AttackSurfaceAnalyzer.Tests
                     Log.Debug(e, "Failed to Write PCR.");
                 }
 
+                // Verify that we extended the PCR
+                var pcrs2 = TpmCollector.DumpPCRs(tpm, PcrAlgorithm, new PcrSelection[] { new PcrSelection(PcrAlgorithm, new uint[] { 15, 16 }, 24) });
+                Assert.IsTrue(pcrs2[(PcrAlgorithm, 15)].SequenceEqual(pcrs[(PcrAlgorithm, 15)]));
+                Assert.IsFalse(pcrs2[(PcrAlgorithm, 16)].SequenceEqual(pcrs[(PcrAlgorithm, 16)]));
+
+                // Close the test connection to the device
                 tcpTpmDevice.Close();
+
                 // Execute the collector
                 tpmc.TryExecute();
 
+                // Shut down the simulator
                 process.Kill();
+
                 // Clean up after simulator
                 try
                 {
@@ -312,11 +322,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 {
                     if (collectObject is TpmObject tpmObject)
                     {
-                        // We should be able to confirm that the PCR bank we measured into has changed and that other's haven't
-                        Assert.IsTrue(tpmObject.PCRs[(TpmAlgId.Sha256, 16)].SequenceEqual(pcrs[(TpmAlgId.Sha256, 16)]));
-                        Assert.IsFalse(tpmObject.PCRs[(TpmAlgId.Sha256, 16)].SequenceEqual(tpmObject.PCRs[(TpmAlgId.Sha256, 15)]));
-
-                        // We should be able to confirm the NV Data we wrote
+                        // Verify that the NV Data we wrote was collected
                         Assert.IsTrue(tpmObject.NV.ContainsKey(nvIndex));
                         Assert.IsTrue(tpmObject.NV[nvIndex] is AsaNvIndex nvi && nvi.value is byte[] && nvi.value.SequenceEqual(nvData));
                     }
