@@ -48,6 +48,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                 {
                     tpmDevice = new LinuxTpmDevice();
                 }
+                else
+                {
+                    throw new PlatformNotSupportedException();
+                }
             }
 
             if (tpmDevice is Tpm2Device)
