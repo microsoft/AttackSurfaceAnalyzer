@@ -140,7 +140,14 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 if (SqliteFilename != filename)
                 {
-                    SqliteFilename = filename;
+                    if (Path.IsPathRooted(filename))
+                    {
+                        SqliteFilename = filename;
+                    }
+                    else
+                    {
+                        SqliteFilename = $"{Directory.GetCurrentDirectory()}{Path.DirectorySeparatorChar}{filename}";
+                    }
                 }
             }
 
@@ -278,7 +285,7 @@ namespace AttackSurfaceAnalyzer.Utils
             return dbSettings;
         }
 
-        private static Settings? GetSettings()
+        public static Settings? GetSettings()
         {
             try
             {
@@ -307,7 +314,7 @@ namespace AttackSurfaceAnalyzer.Utils
             return null;
         }
 
-        private static void SetSettings(Settings settings)
+        public static void SetSettings(Settings settings)
         {
             if (MainConnection != null && MainConnection.Connection != null)
             {

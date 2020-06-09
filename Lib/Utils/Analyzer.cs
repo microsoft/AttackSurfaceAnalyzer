@@ -622,7 +622,6 @@ namespace AttackSurfaceAnalyzer.Utils
             return (valsToCheck, dictToCheck);
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Will gather exception information for analysis via telemetry.")]
         protected static bool AnalyzeClause(Clause clause, CompareResult compareResult)
         {
             if (clause == null || compareResult == null)
@@ -642,7 +641,35 @@ namespace AttackSurfaceAnalyzer.Utils
                         after = GetValueByPropertyName(compareResult.Compare, splits[0]);
                         for (int i = 1; i < splits.Length; i++)
                         {
-                            after = GetValueByPropertyName(after, splits[i]);
+                            if (after is Dictionary<object, object> dict)
+                            {
+                                if (dict.TryGetValue(splits[i], out object? value))
+                                {
+                                    after = value;
+                                }
+                                else
+                                {
+                                    after = null;
+                                }
+                            }
+                            else if (after is List<object> list)
+                            {
+                                if (int.TryParse(splits[i], out int res))
+                                {
+                                    if (list.Count > res)
+                                    {
+                                        after = list[res];
+                                    }
+                                    else
+                                    {
+                                        after = null;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                after = GetValueByPropertyName(after, splits[i]);
+                            }
                         }
                     }
                     catch (Exception e)
@@ -658,7 +685,35 @@ namespace AttackSurfaceAnalyzer.Utils
                         before = GetValueByPropertyName(compareResult.Base, splits[0]);
                         for (int i = 1; i < splits.Length; i++)
                         {
-                            before = GetValueByPropertyName(before, splits[i]);
+                            if (before is Dictionary<string, string> dict)
+                            {
+                                if (dict.TryGetValue(splits[i], out string? value))
+                                {
+                                    before = value;
+                                }
+                                else
+                                {
+                                    before = null;
+                                }
+                            }
+                            else if (before is List<string> list)
+                            {
+                                if (int.TryParse(splits[i], out int res))
+                                {
+                                    if (list.Count > res)
+                                    {
+                                        before = list[res];
+                                    }
+                                    else
+                                    {
+                                        before = null;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                before = GetValueByPropertyName(before, splits[i]);
+                            }
                         }
                     }
                     catch (Exception e)

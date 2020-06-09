@@ -4,6 +4,7 @@ using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.CodeAnalysis;
+using Microsoft.CST.OpenSource.MultiExtractor;
 using Mono.Unix;
 using Serilog;
 using System;
@@ -19,7 +20,6 @@ using System.Security.Cryptography.X509Certificates;
 using System.Security.Permissions;
 using System.Security.Principal;
 using System.Threading.Tasks;
-using Microsoft.CST.OpenSource.MultiExtractor;
 using System.Threading;
 
 namespace AttackSurfaceAnalyzer.Collectors
