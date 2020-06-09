@@ -245,7 +245,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 var nvData = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7 };
                 uint nvIndex = 3001;
 
-                var tpmc = new TpmCollector(null, null, TestMode: true);
+                var tpmc = new TpmCollector(new CollectCommandOptions() { Verbose = true }, null, TestMode: true);
                 // Prepare to write to NV 3001
                 TpmHandle nvHandle = TpmHandle.NV(nvIndex);
 
