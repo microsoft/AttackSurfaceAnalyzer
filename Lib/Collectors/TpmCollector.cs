@@ -232,7 +232,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
             catch (Exception e)
             {
-                Log.Debug(e, "Failed to read PCRs for algorithm {0}.", tpmAlgId);
+                Log.Verbose(e, "Failed to read PCRs for algorithm {0}.", tpmAlgId);
             }
 
             return output;
