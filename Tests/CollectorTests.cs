@@ -262,8 +262,7 @@ namespace AttackSurfaceAnalyzer.Tests
                     tpm._AllowErrors()
                         .NvUndefineSpace(TpmRh.Owner, nvHandle);
 
-                    AuthValue nvAuth = new AuthValue();
-                    tpm.NvDefineSpace(TpmRh.Owner, nvAuth,
+                    tpm.NvDefineSpace(TpmRh.Owner, null,
                                       new NvPublic(nvHandle, TpmAlgId.Sha1,
                                                    NvAttr.NoDa | NvAttr.Ownerread | NvAttr.Ownerwrite,
                                                    null, 32));
@@ -272,7 +271,7 @@ namespace AttackSurfaceAnalyzer.Tests
                     // Write to NV 3001
                     tpm.NvWrite(nvHandle, nvHandle, nvData, 0);
 
-                    var nvOut = tpm.NvRead(nvHandle, nvHandle, (ushort)nvData.Length, 0);
+                    var nvOut = tpm.NvRead(TpmRh.Owner, nvHandle, (ushort)nvData.Length, 0);
 
                     Assert.IsTrue(nvOut.SequenceEqual(nvData));
                 }
