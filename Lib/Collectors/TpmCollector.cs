@@ -79,12 +79,11 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 obj.PersistentKeys = DumpPersistentKeys(tpm);
 
-                // TODO:
-                // obj.Algorithms = GetSupportedAlgorithms(tpm);
+                obj.Algorithms = GetSupportedAlgorithms(tpm).ToList();
 
-                GenerateRandomRsa(tpm, TpmAlgId.Sha256, 2048);
-                // Turn that key into a CryptographicKeyObject
-                // obj.RandomKeys.Add();
+                obj.Commands = GetSupportedCommands(tpm).ToList();
+
+                // TODO: GenerateRandomRsa(tpm, TpmAlgId.Sha256, 2048);
 
                 // TODO: GenerateRandomEcc
 
@@ -94,6 +93,36 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
 
             tpmDevice?.Dispose();
+        }
+
+        public static List<AlgProperty> GetSupportedAlgorithms(Tpm2 tpm)
+        {
+            if (tpm == null)
+            {
+                return new List<AlgProperty>();
+            }
+
+            ICapabilitiesUnion caps;
+            tpm.GetCapability(Cap.Algs, 0, 1000, out caps);
+            var algsx = (AlgPropertyArray)caps;
+
+            return algsx.algProperties.ToList();
+        }
+
+        public static List<TpmCc> GetSupportedCommands(Tpm2 tpm)
+        {
+            if (tpm == null)
+            {
+                return new List<TpmCc>();
+            }
+
+            tpm.GetCapability(Cap.TpmProperties, (uint)Pt.TotalCommands, 1, out ICapabilitiesUnion caps);
+            tpm.GetCapability(Cap.Commands, (uint)TpmCc.First, TpmCc.Last - TpmCc.First + 1, out caps);
+
+            var commands = (CcaArray)caps;
+            List<TpmCc> implementedCc = new List<TpmCc>();
+
+            return commands.commandAttributes.Select(attr => (TpmCc)((uint)attr & 0x0000FFFFU)).ToList();
         }
 
         public static string GetVersionString(Tpm2 tpm, string manufacturer)
@@ -291,37 +320,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             } while (moreData == 1);
 
             return output;
-        }
-
-        public static RsaKeyDetails GenerateRandomRsa(Tpm2 tpm, TpmAlgId hashAlg, ushort bits)
-        {
-            //TpmAlgId nameAlg = hashAlg;
-            //var policy = new PolicyTree(nameAlg);
-            //policy.SetPolicyRoot(new TpmPolicyCommand(TpmCc.Duplicate));
-
-            //var inPub = new TpmPublic(nameAlg,
-            //        ObjectAttr.Sign | ObjectAttr.AdminWithPolicy | ObjectAttr.SensitiveDataOrigin,
-            //        policy.GetPolicyDigest(),
-            //        new RsaParms(new SymDefObject(),
-            //                     new SchemeRsassa(hashAlg),
-            //                     bits, 0),
-            //        new Tpm2bPublicKeyRsa());
-
-            // TODO: Rewrite this without relying on TPM2Tester
-            //var Substrate = TestSubstrate.Create(Array.Empty<string>(), new Tpm2Tests());
-
-            //TpmHandle hKey = Substrate.CreateAndLoad(tpm, inPub, out TpmPublic pub);
-
-            //// Extract the private portion
-            //TpmPrivate priv = TpmHelper.GetPlaintextPrivate(tpm, hKey, policy);
-
-            //// TODO: Break down private and public into the components
-            //// var cko = new RSAKeyObject("GenerateRandomRsa", modulus, d, p, q);
-
-            //tpm?.FlushContext(hKey);
-
-            //            return cko;
-            return new RsaKeyDetails();
         }
     }
 }
