@@ -4,9 +4,7 @@ using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Serilog;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace AttackSurfaceAnalyzer.Tests
@@ -17,60 +15,78 @@ namespace AttackSurfaceAnalyzer.Tests
         private const string TestPathOne = "TestPath1";
         private const string TestPathTwo = "TestPath2";
 
-        private CompareResult testPathOneObject;
-        private CompareResult testPathTwoObject;
-        private CompareResult testPathOneExecutableObject;
-        private CompareResult testPathTwoExecutableObject;
+        private readonly CompareResult testPathOneObject = new CompareResult()
+        {
+            Base = new FileSystemObject(TestPathOne)
+        };
+        private readonly CompareResult testPathTwoObject = new CompareResult()
+        {
+            Base = new FileSystemObject(TestPathTwo)
+        };
+        private readonly CompareResult testPathOneExecutableObject = new CompareResult()
+        {
+            Base = new FileSystemObject(TestPathOne)
+            {
+                IsExecutable = true
+            }
+        };
+        private readonly CompareResult testPathTwoExecutableObject = new CompareResult()
+        {
+            Base = new FileSystemObject(TestPathTwo)
+            {
+                IsExecutable = true
+            }
+        };
 
-        [TestInitialize]
-        public void Setup()
+        [ClassInitialize]
+        public static void ClassSetup(TestContext _)
         {
             Logger.Setup(false, true);
             Strings.Setup();
             AsaTelemetry.Setup(test: true);
-            DatabaseManager.Setup(Path.GetTempFileName());
-            ResetObjects();
-        }
-
-        public void ResetObjects()
-        {
-            testPathOneObject = new CompareResult()
-            {
-                Base = new FileSystemObject(TestPathOne)
-            };
-            testPathTwoObject = new CompareResult()
-            {
-                Base = new FileSystemObject(TestPathTwo)
-            };
-            testPathOneExecutableObject = new CompareResult()
-            {
-                Base = new FileSystemObject(TestPathOne)
-                {
-                    IsExecutable = true
-                }
-            };
-            testPathTwoExecutableObject = new CompareResult()
-            {
-                Base = new FileSystemObject(TestPathTwo)
-                {
-                    IsExecutable = true
-                }
-            };
-        }
-
-        [TestCleanup]
-        public void TearDown()
-        {
-            DatabaseManager.Destroy();
         }
 
         [TestMethod]
         public void VerifyEmbeddedRulesAreValid()
         {
             var analyzer = new Analyzer(AsaHelpers.GetPlatform());
-            var violations = analyzer.VerifyRules();
-            Analyzer.PrintViolations(violations);
-            Assert.IsFalse(violations.Any());
+            Assert.IsTrue(!analyzer.VerifyRules().Any());
+        }
+
+        [TestMethod]
+        public void VerifyAccessSubproperties()
+        {
+            var regObj = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsListObject", Microsoft.Win32.RegistryView.Registry32)
+                {
+                    Values = new Dictionary<string, string>()
+                    {
+                        { "One", "Two"}
+                    }
+                }
+            };
+
+            var RuleName = "ContainsRule";
+            var containsRule = new Rule(RuleName)
+            {
+                ResultType = RESULT_TYPE.REGISTRY,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Values.One", OPERATION.EQ)
+                    {
+                        Label = "0",
+                        Data = new List<string>()
+                        {
+                            "Two"
+                        }
+                    }
+                }
+            };
+
+            var analyzer = GetAnalyzerForRule(containsRule);
+            Assert.IsTrue(analyzer.Analyze(regObj).Any(x => x.Name == RuleName));
         }
 
         [TestMethod]

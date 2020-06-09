@@ -14,19 +14,12 @@ namespace AttackSurfaceAnalyzer.Tests
     [TestClass]
     public class AnalyzerOperationsTests
     {
-        [TestInitialize]
+        [ClassInitialize]
         public void Setup()
         {
             Logger.Setup(false, true);
             Utils.Strings.Setup();
             AsaTelemetry.Setup(test: true);
-            DatabaseManager.Setup(Path.GetTempFileName());
-        }
-
-        [TestCleanup]
-        public void TearDown()
-        {
-            DatabaseManager.Destroy();
         }
 
         [TestMethod]

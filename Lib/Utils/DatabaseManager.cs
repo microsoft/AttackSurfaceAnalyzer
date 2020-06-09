@@ -140,7 +140,14 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 if (SqliteFilename != filename)
                 {
-                    SqliteFilename = filename;
+                    if (Path.IsPathRooted(filename))
+                    {
+                        SqliteFilename = filename;
+                    }
+                    else
+                    {
+                        SqliteFilename = $"{Directory.GetCurrentDirectory()}{Path.DirectorySeparatorChar}{filename}";
+                    }
                 }
             }
 

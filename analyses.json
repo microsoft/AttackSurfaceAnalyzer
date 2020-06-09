@@ -872,6 +872,128 @@
           ]
         }
       ]
+    },
+    {
+      "Name": "TPM Auth Values Changed",
+      "Description": "These TPM Auth Values have been changed in the registry.",
+      "Flag": "WARNING",
+      "ResultType": "REGISTRY",
+      "Platforms": [
+        "WINDOWS"
+      ],
+      "Expression": "PATH AND (OWNER_FULL OR OWNER_NEW OR OWNER_STATUS OR STORAGE OR LOCKOUT)",
+      "Clauses": [
+        {
+          "Label": "PATH",
+          "Field": "Path",
+          "Operation": "ENDS_WITH",
+          "Data": [
+            "\\System\\CurrentControlSet\\Services\\TPM\\WMI\\Admin"
+          ]
+        },
+        {
+          "Label": "OWNER_FULL",
+          "Field": "Values.OwnerAuthFull",
+          "Operation": "WAS_MODIFIED"
+        },
+        {
+          "Label": "OWNER_NEW",
+          "Field": "Values.OwnerAuthNew",
+          "Operation": "WAS_MODIFIED"
+        },
+        {
+          "Label": "OWNER_STATUS",
+          "Field": "Values.OwnerAuthStatus",
+          "Operation": "WAS_MODIFIED"
+        },
+        {
+          "Label": "STORAGE",
+          "Field": "Values.StorageOwnerAuth",
+          "Operation": "WAS_MODIFIED"
+        },
+        {
+          "Label": "LOCKOUT",
+          "Field": "Values.LockoutHash",
+          "Operation": "WAS_MODIFIED"
+        }
+      ]
+    },
+    {
+      "Name": "TPM Endorsement Auth Value",
+      "Description": "The TPM Endorsement Auth was changed.",
+      "Flag": "WARNING",
+      "ResultType": "REGISTRY",
+      "Platforms": [
+        "WINDOWS"
+      ],
+      "Clauses": [
+        {
+          "Field": "Path",
+          "Operation": "ENDS_WITH",
+          "Data": [
+            "\\System\\CurrentControlSet\\Services\\TPM\\WMI\\Endorsement"
+          ]
+        },
+        {
+          "Field": "Values.EndorsementAuth",
+          "Operation": "WAS_MODIFIED"
+        }
+      ]
+    },
+    {
+      "Name": "Use Null Derived Owner Auth Changed",
+      "Description": "The UseNullDerivedOwnerAuth setting was changed.",
+      "Flag": "WARNING",
+      "ResultType": "REGISTRY",
+      "Platforms": [
+        "WINDOWS"
+      ],
+      "Expression": "UNDOA AND (PATH_WMI OR PATH_POLICIES)",
+      "Clauses": [
+        {
+          "Label": "PATH_WMI",
+          "Field": "Path",
+          "Operation": "ENDS_WITH",
+          "Data": [
+            "\\System\\CurrentControlSet\\Services\\TPM\\WMI"
+          ]
+        },
+        {
+          "Label": "PATH_POLICIES",
+          "Field": "Path",
+          "Operation": "ENDS_WITH",
+          "Data": [
+            "\\Software\\Policies\\Microsoft\\TPM"
+          ]
+        },
+        {
+          "Label": "UNDOA",
+          "Field": "Values.UseNullDerivedOwnerAuth",
+          "Operation": "WAS_MODIFIED"
+        }
+      ]
+    },
+    {
+      "Name": "OS Managed Auth Level Changed",
+      "Description": "The TPM OS Managed Auth Level was Changed.",
+      "Flag": "WARNING",
+      "ResultType": "REGISTRY",
+      "Platforms": [
+        "WINDOWS"
+      ],
+      "Clauses": [
+        {
+          "Field": "Path",
+          "Operation": "ENDS_WITH",
+          "Data": [
+            "\\Software\\Policies\\Microsoft\\TPM"
+          ]
+        },
+        {
+          "Field": "Values.OSManagedAuthLevel",
+          "Operation": "WAS_MODIFIED"
+        }
+      ]
     }
   ],
   "DefaultLevels": {

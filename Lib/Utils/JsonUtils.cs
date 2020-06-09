@@ -30,8 +30,9 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             if (serialized == null)
             {
-                throw new NullReferenceException();
+                return null;
             }
+
             switch (type)
             {
                 case RESULT_TYPE.CERTIFICATE:
@@ -54,6 +55,10 @@ namespace AttackSurfaceAnalyzer.Utils
                     return JsonConvert.DeserializeObject<ComObject>(serialized, jsonSettings);
                 case RESULT_TYPE.LOG:
                     return JsonConvert.DeserializeObject<EventLogObject>(serialized, jsonSettings);
+                case RESULT_TYPE.TPM:
+                    return JsonConvert.DeserializeObject<TpmObject>(serialized, jsonSettings);
+                case RESULT_TYPE.KEY:
+                    return JsonConvert.DeserializeObject<CryptographicKeyObject>(serialized, jsonSettings);
                 default:
                     return null;
             }

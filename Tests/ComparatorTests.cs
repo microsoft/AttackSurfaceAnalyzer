@@ -15,19 +15,12 @@ namespace AttackSurfaceAnalyzer.Tests
     [TestClass]
     public class ComparatorTests
     {
-        [TestInitialize]
+        [ClassInitialize]
         public void Setup()
         {
             Logger.Setup(false, true);
             Strings.Setup();
             AsaTelemetry.Setup(test: true);
-            DatabaseManager.Setup(Path.GetTempFileName());
-        }
-
-        [TestCleanup]
-        public void TearDown()
-        {
-            DatabaseManager.Destroy();
         }
 
         [TestMethod]

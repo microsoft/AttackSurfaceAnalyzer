@@ -23,17 +23,12 @@ namespace AttackSurfaceAnalyzer.Tests
     [TestClass]
     public class CollectorTests
     {
-        [TestInitialize]
+        [ClassInitialize]
         public void Setup()
         {
             Logger.Setup(false, true);
             Strings.Setup();
             AsaTelemetry.Setup(test: true);
-        }
-
-        [TestCleanup]
-        public void TearDown()
-        {
         }
 
         [TestMethod]
