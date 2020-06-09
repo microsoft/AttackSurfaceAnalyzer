@@ -269,7 +269,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
 
                     // Write to NV 3001
-                    tpm.NvWrite(nvHandle, nvHandle, nvData, 0);
+                    tpm.NvWrite(TpmRh.Owner, nvHandle, nvData, 0);
 
                     var nvOut = tpm.NvRead(TpmRh.Owner, nvHandle, (ushort)nvData.Length, 0);
 
