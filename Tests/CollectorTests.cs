@@ -286,7 +286,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 try
                 {
                     // Measure to PCR 16
-                    tpm.PcrEvent(TpmHandle.Pcr(16), nvData);
+                    tpm.PcrExtend(TpmHandle.Pcr(16), tpm.PcrEvent(TpmHandle.Pcr(16), nvData));
                 }
                 catch (TpmException e)
                 {
