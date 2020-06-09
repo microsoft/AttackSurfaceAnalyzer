@@ -97,32 +97,41 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public static List<AlgProperty> GetSupportedAlgorithms(Tpm2 tpm)
         {
-            if (tpm == null)
+            if (tpm != null)
             {
-                return new List<AlgProperty>();
+                try
+                {
+                    ICapabilitiesUnion caps;
+                    tpm.GetCapability(Cap.Algs, 0, 1000, out caps);
+                    var algsx = (AlgPropertyArray)caps;
+
+                    return algsx.algProperties.ToList();
+                }
+                catch(Exception e)
+                {
+                    Log.Verbose("Error getting supported Algorithms. ({0}:{1})", e.GetType(), e.Message);
+                }
             }
-
-            ICapabilitiesUnion caps;
-            tpm.GetCapability(Cap.Algs, 0, 1000, out caps);
-            var algsx = (AlgPropertyArray)caps;
-
-            return algsx.algProperties.ToList();
+            return new List<AlgProperty>();
         }
 
         public static List<TpmCc> GetSupportedCommands(Tpm2 tpm)
         {
-            if (tpm == null)
+            if (tpm != null)
             {
-                return new List<TpmCc>();
+                try
+                {
+                    tpm.GetCapability(Cap.TpmProperties, (uint)Pt.TotalCommands, 1, out ICapabilitiesUnion caps);
+                    tpm.GetCapability(Cap.Commands, (uint)TpmCc.First, TpmCc.Last - TpmCc.First + 1, out caps);
+
+                    return ((CcaArray)caps).commandAttributes.Select(attr => (TpmCc)((uint)attr & 0x0000FFFFU)).ToList();
+                }
+                catch (Exception e)
+                {
+                    Log.Verbose("Error getting supported commands. ({0}:{1})", e.GetType(), e.Message);
+                }
             }
-
-            tpm.GetCapability(Cap.TpmProperties, (uint)Pt.TotalCommands, 1, out ICapabilitiesUnion caps);
-            tpm.GetCapability(Cap.Commands, (uint)TpmCc.First, TpmCc.Last - TpmCc.First + 1, out caps);
-
-            var commands = (CcaArray)caps;
-            List<TpmCc> implementedCc = new List<TpmCc>();
-
-            return commands.commandAttributes.Select(attr => (TpmCc)((uint)attr & 0x0000FFFFU)).ToList();
+            return new List<TpmCc>();
         }
 
         public static string GetVersionString(Tpm2 tpm, string manufacturer)
