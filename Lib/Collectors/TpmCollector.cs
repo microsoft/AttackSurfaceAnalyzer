@@ -10,6 +10,7 @@ using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using Tpm2Lib;
 
 namespace AttackSurfaceAnalyzer.Collectors
@@ -21,7 +22,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         private const string DefaultSimulatorName = "127.0.0.1";
         private const int DefaultSimulatorPort = 2321;
 
-        public TpmCollector(bool TestMode = false)
+        public TpmCollector(CollectCommandOptions? opts, Action<CollectObject>? changeHandler, bool TestMode = false) : base(opts, changeHandler)
         {
             this.TestMode = TestMode;
         }
@@ -31,7 +32,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         }
 
-        public override void ExecuteInternal()
+        internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
             Tpm2Device? tpmDevice = null;
 
