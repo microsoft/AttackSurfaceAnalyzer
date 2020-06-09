@@ -273,11 +273,13 @@ namespace AttackSurfaceAnalyzer.Tests
                     tpm.NvWrite(nvHandle, nvHandle, nvData, 0);
 
                     var nvOut = tpm.NvRead(nvHandle, nvHandle, (ushort)nvData.Length, 0);
+
                     Assert.IsTrue(nvOut.SequenceEqual(nvData));
                 }
                 catch (TpmException e)
                 {
                     Log.Debug(e, "Failed to Write to NV.");
+                    Assert.Fail();
                 }
 
                 // Verify that all the PCRs are blank to start with

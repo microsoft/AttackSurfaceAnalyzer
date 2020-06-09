@@ -258,24 +258,34 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                     var index = new AsaNvIndex() { Index = hh.handle & 0x00FFFFFF, Attributes = nvPub.attributes };
 
-                    try
+                    
+                    // We can read with just the owner auth
+                    if (nvPub.attributes.HasFlag(NvAttr.Ownerread))
                     {
-                        // We can read with just the owner auth
-                        if (nvPub.attributes.HasFlag(NvAttr.Ownerread))
+                        try
                         {
                             index.value = tpm.NvRead(TpmRh.Owner, hh, nvPub.dataSize, 0);
                         }
-                        // We can try without triggering Dictionary Attack mitigations/Lockout
-                        else if (nvPub.attributes.HasFlag(NvAttr.NoDa))
+                        catch (TpmException e)
+                        {
+                            Log.Verbose("Dumping NV {0} failed ({1}:{2})", hh.handle & 0x00FFFFFF, e.GetType(), e.Message);
+                        }
+                    }
+                    
+                    // We can try without triggering Dictionary Attack mitigations/Lockout
+                    if (index.value == null && nvPub.attributes.HasFlag(NvAttr.NoDa))
+                    {
+                        try
                         {
                             // Try with empty Auth Value
                             index.value = tpm.NvRead(hh, hh, nvPub.dataSize, 0);
                         }
+                        catch(TpmException e)
+                        {
+                            Log.Verbose("Dumping NV {0} failed ({1}:{2})", hh.handle & 0x00FFFFFF, e.GetType(), e.Message);
+                        }
                     }
-                    catch (TpmException)
-                    {
-                        Log.Verbose($"Dumping NV {hh.handle & 0x00FFFFFF} failed");
-                    }
+                    
                     output.Add(index.Index, index);
                 }
             } while (moreData == 1);
