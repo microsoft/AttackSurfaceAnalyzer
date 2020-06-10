@@ -325,8 +325,8 @@ namespace AttackSurfaceAnalyzer.Tests
                     {
                         Assert.IsTrue(tpmObject.PCRs.ContainsKey((TpmAlgId.Sha256, 1)));
                         // Verify that the NV Data we wrote was collected
-                        Assert.IsTrue(tpmObject.NV.ContainsKey(nvIndex));
-                        Assert.IsTrue(tpmObject.NV[nvIndex] is AsaNvIndex nvi && nvi.value is byte[] && nvi.value[0..nvData.Length].SequenceEqual(nvData));
+                        Assert.IsTrue(tpmObject.NV.Any(x => x.Index == nvIndex));
+                        Assert.IsTrue(tpmObject.NV.Where(x => x.Index == nvIndex).First() is AsaNvIndex nvi && nvi.value is byte[] && nvi.value[0..nvData.Length].SequenceEqual(nvData));
                     }
                     else
                     {

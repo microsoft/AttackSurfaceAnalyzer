@@ -20,6 +20,8 @@ namespace AttackSurfaceAnalyzer.Objects
             { RESULT_TYPE.GROUP, ANALYSIS_RESULT_TYPE.INFORMATION },
             { RESULT_TYPE.COM, ANALYSIS_RESULT_TYPE.INFORMATION },
             { RESULT_TYPE.LOG, ANALYSIS_RESULT_TYPE.INFORMATION },
+            { RESULT_TYPE.KEY, ANALYSIS_RESULT_TYPE.INFORMATION },
+            { RESULT_TYPE.TPM, ANALYSIS_RESULT_TYPE.INFORMATION }
         };
 
         public RuleFile(Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>? DefaultLevels = null, List<Rule>? Rules = null)

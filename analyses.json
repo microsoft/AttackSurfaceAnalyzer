@@ -1005,6 +1005,8 @@
       "REGISTRY": "DEBUG",
       "FIREWALL": "INFORMATION",
       "COM": "INFORMATION",
-      "LOG": "DEBUG"
+      "LOG": "DEBUG",
+      "TPM": "INFORMATION",
+      "KEY": "INFORMATION"
   }
 }

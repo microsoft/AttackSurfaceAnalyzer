@@ -276,9 +276,9 @@ namespace AttackSurfaceAnalyzer.Collectors
             return output;
         }
 
-        public static Dictionary<uint, object> DumpNV(Tpm2 tpm)
+        public static List<AsaNvIndex> DumpNV(Tpm2 tpm)
         {
-            var output = new Dictionary<uint, object>();
+            var output = new List<AsaNvIndex>();
 
             if (tpm == null)
             {
@@ -314,7 +314,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                     // TODO: Attempt with auth values if DA is disabled
                     
-                    output.Add(index.Index, index);
+                    output.Add(index);
                 }
             } while (moreData == 1);
 

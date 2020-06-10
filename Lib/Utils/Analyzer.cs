@@ -13,6 +13,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Tpm2Lib;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -635,91 +636,11 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 if (compareResult.ChangeType == CHANGE_TYPE.CREATED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
                 {
-                    try
-                    {
-                        var splits = clause.Field.Split('.');
-                        after = GetValueByPropertyName(compareResult.Compare, splits[0]);
-                        for (int i = 1; i < splits.Length; i++)
-                        {
-                            if (after is Dictionary<object, object> dict)
-                            {
-                                if (dict.TryGetValue(splits[i], out object? value))
-                                {
-                                    after = value;
-                                }
-                                else
-                                {
-                                    after = null;
-                                }
-                            }
-                            else if (after is List<object> list)
-                            {
-                                if (int.TryParse(splits[i], out int res))
-                                {
-                                    if (list.Count > res)
-                                    {
-                                        after = list[res];
-                                    }
-                                    else
-                                    {
-                                        after = null;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                after = GetValueByPropertyName(after, splits[i]);
-                            }
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Information(e, $"Fetching Field {clause.Field} failed from {compareResult.Base?.GetType().ToString() ?? "{null}"}");
-                    }
+                    after = GetValueByPropertyString(compareResult.Compare, clause.Field);
                 }
                 if (compareResult.ChangeType == CHANGE_TYPE.DELETED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
                 {
-                    try
-                    {
-                        var splits = clause.Field.Split('.');
-                        before = GetValueByPropertyName(compareResult.Base, splits[0]);
-                        for (int i = 1; i < splits.Length; i++)
-                        {
-                            if (before is Dictionary<string, string> dict)
-                            {
-                                if (dict.TryGetValue(splits[i], out string? value))
-                                {
-                                    before = value;
-                                }
-                                else
-                                {
-                                    before = null;
-                                }
-                            }
-                            else if (before is List<string> list)
-                            {
-                                if (int.TryParse(splits[i], out int res))
-                                {
-                                    if (list.Count > res)
-                                    {
-                                        before = list[res];
-                                    }
-                                    else
-                                    {
-                                        before = null;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                before = GetValueByPropertyName(before, splits[i]);
-                            }
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Information(e, $"Fetching Field {clause.Field} failed from {compareResult.Base?.GetType().ToString() ?? "{null}"}");
-                    }
+                    before = GetValueByPropertyString(compareResult.Base, clause.Field);
                 }
 
                 var typeHolder = before is null ? after : before;
@@ -1014,6 +935,70 @@ namespace AttackSurfaceAnalyzer.Utils
             }
 
             return false;
+        }
+
+        private static object? GetValueByPropertyString(CollectObject? collectObject, string pathToProperty)
+        {
+            try
+            {
+                var splits = pathToProperty.Split('.');
+                var value = GetValueByPropertyName(collectObject, splits[0]);
+                for (int i = 1; i < splits.Length; i++)
+                {
+                    if (value == null) { break; }
+
+                    switch (value)
+                    {
+                        case Dictionary<(TpmAlgId, uint), byte[]> algDict:
+                            var elements = Convert.ToString(splits[i], CultureInfo.InvariantCulture)?.Trim('(').Trim(')').Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                            if (Enum.TryParse(typeof(TpmAlgId), elements.First(), out object? result) && result is TpmAlgId Algorithm && uint.TryParse(elements.Last(), out uint Index))
+                            {
+                                if (algDict.TryGetValue((Algorithm, Index), out byte[]? byteArray))
+                                {
+                                    value = byteArray;
+                                }
+                                else
+                                {
+                                    value = null;
+                                }
+                            }
+                            else
+                            {
+                                value = null;
+                            }
+                            break;
+                        case Dictionary<string, string> stringDict:
+                            if (stringDict.TryGetValue(splits[i], out string? stringValue))
+                            {
+                                value = stringValue;
+                            }
+                            else
+                            {
+                                value = null;
+                            }
+                            break;
+                        case List<string> stringList:
+                            if (int.TryParse(splits[i], out int ArrayIndex))
+                            {
+                                value = stringList[ArrayIndex];
+                            }
+                            else
+                            {
+                                value = null;
+                            }
+                            break;
+                        default:
+                            value = GetValueByPropertyName(value, splits[i]);
+                            break;
+                    }
+                }
+                return value;
+            }
+            catch (Exception e)
+            {
+                Log.Information(e, $"Fetching Field {pathToProperty} failed from {collectObject?.GetType().ToString() ?? "{null}"}");
+            }
+            return null;
         }
 
         private static object? GetValueByPropertyName(object? obj, string? propertyName) => obj?.GetType().GetProperty(propertyName ?? string.Empty)?.GetValue(obj);

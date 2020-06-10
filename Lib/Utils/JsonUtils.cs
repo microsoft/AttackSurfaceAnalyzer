@@ -4,12 +4,38 @@ using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using Newtonsoft.Json;
 using System;
+using System.ComponentModel;
+using System.Globalization;
+using System.Linq;
+using Tpm2Lib;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
+    public class TpmPcrTupleConverter<T1, T2> : TypeConverter
+    {
+        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+        {
+            return sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
+        }
+
+        public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+        {
+            var elements = Convert.ToString(value, CultureInfo.InvariantCulture)?.Trim('(').Trim(')').Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            if (Enum.TryParse(typeof(TpmAlgId), elements.First(), out object? result) && result is TpmAlgId Algorithm && uint.TryParse(elements.Last(), out uint Index))
+            {
+                return (Algorithm, Index);
+            }
+            return (TpmAlgId.Null, uint.MaxValue);
+        }
+    }
     public static class JsonUtils
     {
         private static readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate, DateFormatHandling = DateFormatHandling.IsoDateFormat };
+        
+        static JsonUtils()
+        {
+            TypeDescriptor.AddAttributes(typeof((TpmAlgId, uint)), new TypeConverterAttribute(typeof(TpmPcrTupleConverter<TpmAlgId, uint>)));
+        }
 
         /// <summary>
         /// Serialize an object with Newtonsoft.Json
