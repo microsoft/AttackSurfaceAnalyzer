@@ -219,7 +219,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             foreach (var selection in pcrs)
             {
                 // Spec defines 24 PCRs
-                foreach (var pcrVal in DumpPCRs(tpm, selection.hash, selection.GetSelectedPcrs().Select(x => PcrSelection.SinglePcr(selection.hash, x)).ToArray()))
+                foreach (var pcrVal in DumpPCRs(tpm, selection.hash, new PcrSelection[] { new PcrSelection(selection.hash, selection.GetSelectedPcrs()) }))
                 {
                     output.Add(pcrVal.Key, pcrVal.Value);
                 }
