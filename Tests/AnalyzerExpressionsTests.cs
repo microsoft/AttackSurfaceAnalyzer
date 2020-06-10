@@ -6,8 +6,9 @@ using AttackSurfaceAnalyzer.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using Tpm2Lib;
+using Signature = AttackSurfaceAnalyzer.Objects.Signature;
 
 namespace AttackSurfaceAnalyzer.Tests
 {
@@ -414,6 +415,53 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(listDictAnalyzer.Analyze(trueListDictObject).Any());
             Assert.IsFalse(listDictAnalyzer.Analyze(falseListDictObject).Any());
             Assert.IsFalse(listDictAnalyzer.Analyze(alsoFalseListDictObject).Any());
+        }
+
+        [TestMethod]
+        public void VerifyContainsKeyOperator()
+        {
+            var trueAlgDict = new CompareResult()
+            {
+                Base = new TpmObject("TestLocal")
+                {
+                    PCRs = new Dictionary<(Tpm2Lib.TpmAlgId, uint), byte[]>()
+                    {
+                        { (TpmAlgId.Sha,1), Array.Empty<byte>() }
+                    }
+                }
+            };
+
+            var falseAlgDict = new CompareResult()
+            {
+                Base = new TpmObject("TestLocal")
+                {
+                    PCRs = new Dictionary<(Tpm2Lib.TpmAlgId, uint), byte[]>()
+                    {
+                        { (TpmAlgId.Sha,15), Array.Empty<byte>() }
+                    }
+                }
+            };
+
+            var algDictContains = new Rule("Alg Dict Changed PCR 1")
+            {
+                ResultType = RESULT_TYPE.TPM,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("PCRs", OPERATION.CONTAINS_KEY)
+                    {
+                        Data = new List<string>()
+                        {
+                            "(Sha, 1)"
+                        }
+                    }
+                }
+            };
+
+            var algDictAnalyzer = GetAnalyzerForRule(algDictContains);
+
+            Assert.IsTrue(algDictAnalyzer.Analyze(trueAlgDict).Any());
+            Assert.IsFalse(algDictAnalyzer.Analyze(falseAlgDict).Any());
         }
 
         [TestMethod]
@@ -830,6 +878,58 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(regexAnalyzer.Analyze(trueModifiedObject).Any());
             Assert.IsFalse(regexAnalyzer.Analyze(falseModifiedObject).Any());
             Assert.IsFalse(regexAnalyzer.Analyze(alsoFalseModifiedObject).Any());
+
+            var trueAlgDict = new CompareResult()
+            {
+                Base = new TpmObject("TestLocal")
+                {
+                    PCRs = new Dictionary<(Tpm2Lib.TpmAlgId, uint), byte[]>()
+                    {
+                        { (TpmAlgId.Sha,1), new byte[5] { 1,2,3,4,5 } }
+                    }
+                },
+                Compare = new TpmObject("TestLocal")
+                {
+                    PCRs = new Dictionary<(Tpm2Lib.TpmAlgId, uint), byte[]>()
+                    {
+                        { (TpmAlgId.Sha,1), new byte[5] { 0,0,0,0,0 } }
+                    }
+                }
+            };
+
+            var falseAlgDict = new CompareResult()
+            {
+                Base = new TpmObject("TestLocal")
+                {
+                    PCRs = new Dictionary<(Tpm2Lib.TpmAlgId, uint), byte[]>()
+                    {
+                        { (TpmAlgId.Sha,1), new byte[5] { 1,2,3,4,5 } }
+                    }
+                },
+                Compare = new TpmObject("TestLocal")
+                {
+                    PCRs = new Dictionary<(Tpm2Lib.TpmAlgId, uint), byte[]>()
+                    {
+                        { (TpmAlgId.Sha,1), new byte[5] { 1, 2, 3, 4, 5 } }
+                    }
+                }
+            };
+
+            var pcrsModified = new Rule("Alg Dict Changed PCR 1")
+            {
+                ResultType = RESULT_TYPE.TPM,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("PCRs.(Sha, 1)", OPERATION.WAS_MODIFIED)
+                }
+            };
+
+            var pcrAnalyzer = GetAnalyzerForRule(pcrsModified);
+
+            Assert.IsTrue(pcrAnalyzer.Analyze(trueAlgDict).Any());
+            Assert.IsFalse(pcrAnalyzer.Analyze(falseAlgDict).Any());
+
         }
 
         [TestMethod]

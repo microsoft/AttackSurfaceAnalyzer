@@ -994,6 +994,301 @@
           "Operation": "WAS_MODIFIED"
         }
       ]
+    },
+    {
+      "Name": "SHA Root of Trust Modified",
+      "Description": "The systems root of trust has been modified.",
+      "Flag": "WARNING",
+      "ResultType": "TPM",
+      "Platforms": [
+        "WINDOWS",
+        "LINUX"
+      ],
+      "Expression": "ANY_SHA AND (SHA_PCR0 OR SHA_PCR1 OR SHA_PCR2 OR SHA_PCR3 OR SHA_PCR4 OR SHA_PCR5 OR SHA_PCR6 OR SHA_PCR7)",
+      "Clauses": [
+        {
+          "Field": "PCRs",
+          "Operation": "CONTAINS_KEY",
+          "Label": "ANY_SHA",
+          "Data": [ "(Sha, 0)" ]
+        },
+        {
+          "Field": "PCRs.(Sha, 0)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA_PCR0"
+        },
+        {
+          "Field": "PCRs.(Sha, 1)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA_PCR1"
+        },
+        {
+          "Field": "PCRs.(Sha, 2)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA_PCR2"
+        },
+        {
+          "Field": "PCRs.(Sha, 3)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA_PCR3"
+        },
+        {
+          "Field": "PCRs.(Sha, 4)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA_PCR4"
+        },
+        {
+          "Field": "PCRs.(Sha, 5)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA_PCR5"
+        },
+        {
+          "Field": "PCRs.(Sha, 6)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA_PCR6"
+        },
+        {
+          "Field": "PCRs.(Sha, 7)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA_PCR7"
+        }
+      ]
+    },
+    {
+      "Name": "SHA256 Root of Trust Modified",
+      "Description": "The systems root of trust has been modified.",
+      "Flag": "WARNING",
+      "ResultType": "TPM",
+      "Platforms": [
+        "WINDOWS",
+        "LINUX"
+      ],
+      "Expression": "ANY_SHA256 AND (SHA256_PCR0 OR SHA256_PCR1 OR SHA256_PCR2 OR SHA256_PCR3 OR SHA256_PCR4 OR SHA256_PCR5 OR SHA256_PCR6 OR SHA256_PCR7)",
+      "Clauses": [
+        {
+          "Field": "PCRs",
+          "Operation": "CONTAINS_KEY",
+          "Label": "ANY_SHA256",
+          "Data": [ "(Sha256, 0)" ]
+        },
+        {
+          "Field": "PCRs.(Sha256, 0)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA256_PCR0"
+        },
+        {
+          "Field": "PCRs.(Sha256, 1)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA256_PCR1"
+        },
+        {
+          "Field": "PCRs.(Sha256, 2)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA256_PCR2"
+        },
+        {
+          "Field": "PCRs.(Sha256, 3)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA256_PCR3"
+        },
+        {
+          "Field": "PCRs.(Sha256, 4)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA256_PCR4"
+        },
+        {
+          "Field": "PCRs.(Sha256, 5)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA256_PCR5"
+        },
+        {
+          "Field": "PCRs.(Sha256, 6)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA256_PCR6"
+        },
+        {
+          "Field": "PCRs.(Sha256, 7)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA256_PCR7"
+        }
+      ]
+    },
+    {
+      "Name": "SHA384 Root of Trust Modified",
+      "Description": "The systems root of trust has been modified.",
+      "Flag": "WARNING",
+      "ResultType": "TPM",
+      "Platforms": [
+        "WINDOWS",
+        "LINUX"
+      ],
+      "Expression": "ANY_SHA384 AND (SHA384_PCR0 OR SHA384_PCR1 OR SHA384_PCR2 OR SHA384_PCR3 OR SHA384_PCR4 OR SHA384_PCR5 OR SHA384_PCR6 OR SHA384_PCR7)",
+      "Clauses": [
+        {
+          "Field": "PCRs",
+          "Operation": "CONTAINS_KEY",
+          "Label": "ANY_SHA384",
+          "Data": [ "(Sha384, 0)" ]
+        },
+        {
+          "Field": "PCRs.(Sha384, 0)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA384_PCR0"
+        },
+        {
+          "Field": "PCRs.(Sha384, 1)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA384_PCR1"
+        },
+        {
+          "Field": "PCRs.(Sha384, 2)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA384_PCR2"
+        },
+        {
+          "Field": "PCRs.(Sha384, 3)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA384_PCR3"
+        },
+        {
+          "Field": "PCRs.(Sha384, 4)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA384_PCR4"
+        },
+        {
+          "Field": "PCRs.(Sha384, 5)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA384_PCR5"
+        },
+        {
+          "Field": "PCRs.(Sha384, 6)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA384_PCR6"
+        },
+        {
+          "Field": "PCRs.(Sha384, 7)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA384_PCR7"
+        }
+      ]
+    },
+    {
+      "Name": "SHA512 Root of Trust Modified",
+      "Description": "The systems root of trust has been modified.",
+      "Flag": "WARNING",
+      "ResultType": "TPM",
+      "Platforms": [
+        "WINDOWS",
+        "LINUX"
+      ],
+      "Expression": "ANY_SHA512 AND (SHA512_PCR0 OR SHA512_PCR1 OR SHA512_PCR2 OR SHA512_PCR3 OR SHA512_PCR4 OR SHA512_PCR5 OR SHA512_PCR6 OR SHA512_PCR7)",
+      "Clauses": [
+        {
+          "Field": "PCRs",
+          "Operation": "CONTAINS_KEY",
+          "Label": "ANY_SHA512",
+          "Data": [ "(Sha512, 0)" ]
+        },
+        {
+          "Field": "PCRs.(Sha512, 0)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA512_PCR0"
+        },
+        {
+          "Field": "PCRs.(Sha512, 1)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA512_PCR1"
+        },
+        {
+          "Field": "PCRs.(Sha512, 2)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA512_PCR2"
+        },
+        {
+          "Field": "PCRs.(Sha512, 3)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA512_PCR3"
+        },
+        {
+          "Field": "PCRs.(Sha512, 4)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA512_PCR4"
+        },
+        {
+          "Field": "PCRs.(Sha512, 5)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA512_PCR5"
+        },
+        {
+          "Field": "PCRs.(Sha512, 6)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA512_PCR6"
+        },
+        {
+          "Field": "PCRs.(Sha512, 7)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA512_PCR7"
+        }
+      ]
+    },
+    {
+      "Name": "SM3_256 Root of Trust Modified",
+      "Description": "The systems root of trust has been modified.",
+      "Flag": "WARNING",
+      "ResultType": "TPM",
+      "Platforms": [
+        "WINDOWS",
+        "LINUX"
+      ],
+      "Expression": "ANY_SM3_256 AND (SM3_256_PCR0 OR SM3_256_PCR1 OR SM3_256_PCR2 OR SM3_256_PCR3 OR SM3_256_PCR4 OR SM3_256_PCR5 OR SM3_256_PCR6 OR SM3_256_PCR7)",
+      "Clauses": [
+        {
+          "Field": "PCRs",
+          "Operation": "CONTAINS_KEY",
+          "Label": "ANY_SM3_256",
+          "Data": [ "(Sm3256, 0)" ]
+        },
+        {
+          "Field": "PCRs.(Sm3256, 0)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SM3_256_PCR0"
+        },
+        {
+          "Field": "PCRs.(Sm3256, 1)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SM3_256_PCR1"
+        },
+        {
+          "Field": "PCRs.(Sm3256, 2)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SM3_256_PCR2"
+        },
+        {
+          "Field": "PCRs.(Sm3256, 3)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SM3_256_PCR3"
+        },
+        {
+          "Field": "PCRs.(Sm3256, 4)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SM3_256_PCR4"
+        },
+        {
+          "Field": "PCRs.(Sm3256, 5)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SM3_256_PCR5"
+        },
+        {
+          "Field": "PCRs.(Sm3256, 6)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SM3_256_PCR6"
+        },
+        {
+          "Field": "PCRs.(Sm3256, 7)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SM3_256_PCR7"
+        }
+      ]
     }
   ],
   "DefaultLevels": {

@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using Tpm2Lib;
 
@@ -225,6 +226,16 @@ namespace AttackSurfaceAnalyzer.Utils
                             if (clause.DictData != null || clause.DictData?.Count > 0)
                             {
                                 violations.Add((Strings.Get("Err_ClauseDictDataUnexpected"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation.ToString() })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                            }
+                            break;
+                        case OPERATION.CONTAINS_KEY:
+                            if (clause.DictData != null)
+                            {
+                                violations.Add((Strings.Get("Err_ClauseUnexpectedDictData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                            }
+                            if (clause.Data == null || clause.Data?.Count == 0)
+                            {
+                                violations.Add((Strings.Get("Err_ClauseMissingListData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                             }
                             break;
                         case OPERATION.DOES_NOT_CONTAIN:
@@ -568,10 +579,10 @@ namespace AttackSurfaceAnalyzer.Utils
             return current;
         }
 
-        private static (List<string?>, List<KeyValuePair<string, string>>) ObjectToValues(object? obj)
+        private static (List<string>, List<KeyValuePair<string, string>>) ObjectToValues(object? obj)
         {
-            var valsToCheck = new List<string?>();
-            var dictToCheck = new List<KeyValuePair<string, string>>();
+            List<string> valsToCheck = new List<string>();
+            List<KeyValuePair<string,string>> dictToCheck = new List<KeyValuePair<string, string>>();
             if (obj != null)
             {
                 try
@@ -599,6 +610,10 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         dictToCheck = listKvp;
                     }
+                    else if (obj is Dictionary<(TpmAlgId,uint),byte[]> algDict)
+                    {
+                        dictToCheck = algDict.ToList().Select(x => new KeyValuePair<string, string>(x.Key.ToString(), Convert.ToBase64String(x.Value))).ToList();
+                    }
                     else
                     {
                         var val = obj?.ToString();
@@ -614,10 +629,6 @@ namespace AttackSurfaceAnalyzer.Utils
                     ExceptionEvent.Add("Exception Type", e.GetType().ToString());
                     AsaTelemetry.TrackEvent("ApplyDeletedModifiedException", ExceptionEvent);
                 }
-            }
-            else
-            {
-                valsToCheck.Add(null);
             }
 
             return (valsToCheck, dictToCheck);
@@ -920,6 +931,9 @@ namespace AttackSurfaceAnalyzer.Utils
                             }
                         }
                         return false;
+
+                    case OPERATION.CONTAINS_KEY:
+                        return dictToCheck.Any(x => clause.Data.Any(y => x.Key == y));
 
                     default:
                         Log.Debug("Unimplemented operation {0}", clause.Operation);

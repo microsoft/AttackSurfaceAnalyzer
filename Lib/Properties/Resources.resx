@@ -569,16 +569,16 @@
   </data>
   <data name="Err_ClauseDictDataUnexpected" xml:space="preserve">
     <value>Rule {0} Clause {1} contains DictData which is innapropriate for operation {2}.</value>
-  </data>    
+  </data>
   <data name="Err_ClauseNoDataOrDictData" xml:space="preserve">
     <value>Rule {0} Clause {1} does not contain any Data or DictData and will always return false.</value>
-  </data>    
+  </data>
   <data name="Err_ClauseBothDataDictData" xml:space="preserve">
     <value>Rule {0} Clause {1} contains both Data and DictData which is not allowed.</value>
   </data>
   <data name="Err_ClauseExpectedInt" xml:space="preserve">
     <value>Rule {0} Clause {1} does not contain exactly one integer in its Data field.</value>
-  </data> 
+  </data>
   <data name="Err_ClauseInvalidRegex" xml:space="preserve">
     <value>Rule {0} Clause {1} contains invalid Regex {2}.</value>
   </data>
@@ -593,5 +593,11 @@
   </data>
   <data name="Err_ClauseUnsuppportedOperator" xml:space="preserve">
     <value>Rule {0} Clause {1} uses unsupported Operator {2}.</value>
+  </data>
+  <data name="Err_ClauseMissingListData" xml:space="preserve">
+    <value>Rule {0} Clause {1} is missing Data List.</value>
+  </data>
+  <data name="Err_ClauseUnexpectedDictData" xml:space="preserve">
+    <value>Rule {0} Clause {1} contains unexpected Dictionary Data.</value>
   </data>
 </root>
