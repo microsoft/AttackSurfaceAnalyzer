@@ -12,6 +12,8 @@ namespace AttackSurfaceAnalyzer.Objects
         public Dictionary<(TpmAlgId, uint), byte[]> PCRs { get; set; } = new Dictionary<(TpmAlgId, uint), byte[]>();
         public List<CryptographicKeyObject> PersistentKeys { get; set; } = new List<CryptographicKeyObject>();
         public List<CryptographicKeyObject> RandomKeys { get; set; } = new List<CryptographicKeyObject>();
+        public List<AlgProperty> Algorithms { get; set; } = new List<AlgProperty>();
+        public List<TpmCc> Commands { get; set; } = new List<TpmCc>();
         public string? Manufacturer { get; set; }
         public DateTime TpmSpecDate { get; set; }
         public string? Version { get; set; }
