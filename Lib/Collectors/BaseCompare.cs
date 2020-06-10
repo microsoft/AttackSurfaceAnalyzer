@@ -11,6 +11,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Tpm2Lib;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
@@ -160,10 +161,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     removed = prop.GetValue(first);
                                     diffs = GetDiffs(prop, null, removed);
                                 }
-                                else if (firstProp != null && secondProp != null && compareLogic.Compare(firstProp, secondProp).AreEqual)
-                                {
-                                    continue;
-                                }
                                 else
                                 {
                                     var firstVal = prop.GetValue(first);
@@ -213,9 +210,30 @@ namespace AttackSurfaceAnalyzer.Collectors
                                             removed = null;
                                         }
                                     }
+                                    else if (firstVal is Dictionary<(TpmAlgId, uint), byte[]> firstTpmAlgDict && secondVal is Dictionary<(TpmAlgId, uint), byte[]> secondTpmAlgDict)
+                                    {
+                                        added = secondTpmAlgDict.Where(x => !firstTpmAlgDict.ContainsKey(x.Key) || !firstTpmAlgDict[x.Key].SequenceEqual(x.Value));
+                                        removed = firstTpmAlgDict.Where(x => !secondTpmAlgDict.ContainsKey(x.Key) || !secondTpmAlgDict[x.Key].SequenceEqual(x.Value));
+
+                                        if (!((IEnumerable<KeyValuePair<(TpmAlgId, uint), byte[]>>)added).Any())
+                                        {
+                                            added = null;
+                                        }
+                                        if (!((IEnumerable<KeyValuePair<(TpmAlgId, uint), byte[]>>)removed).Any())
+                                        {
+                                            removed = null;
+                                        }
+                                    }
                                     else if ((firstVal is string || firstVal is int || firstVal is bool) && (secondVal is string || secondVal is int || secondVal is bool))
                                     {
-                                        obj.Diffs.Add(new Diff(prop.Name, firstVal, secondVal));
+                                        if (!compareLogic.Compare(firstVal, secondVal).AreEqual)
+                                        {
+                                            obj.Diffs.Add(new Diff(prop.Name, firstVal, secondVal));
+                                        }
+                                    }
+                                    else if (firstProp != null && secondProp != null && compareLogic.Compare(firstVal, secondVal).AreEqual)
+                                    {
+                                        continue;
                                     }
                                     else
                                     {
