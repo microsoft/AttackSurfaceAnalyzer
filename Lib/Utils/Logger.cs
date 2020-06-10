@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using Serilog;
 using Serilog.Events;
 
@@ -7,10 +6,15 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public static class Logger
     {
+        #region Public Properties
 
-        public static bool Verbose { get; set; }
         public static bool Debug { get; set; }
         public static bool Quiet { get; set; }
+        public static bool Verbose { get; set; }
+
+        #endregion Public Properties
+
+        #region Public Methods
 
         public static void Setup()
         {
@@ -56,5 +60,7 @@ namespace AttackSurfaceAnalyzer.Utils
                    .CreateLogger();
             }
         }
+
+        #endregion Public Methods
     }
 }

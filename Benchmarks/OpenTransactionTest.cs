@@ -7,18 +7,8 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     [JsonExporterAttribute.Full]
     public class OpenTransactionTest : AsaDatabaseBenchmark
     {
-        // The number of records to populate the database with before the benchmark
-        //[Params(0,100000,200000,400000,800000,1600000,3200000)]
-        [Params(0)]
-        public int StartingSize { get; set; }
+        #region Public Constructors
 
-        // The number of Shards/Threads to use for Database operations
-        [Params(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)]
-        public int Shards { get; set; }
-
-        [Params("OFF", "DELETE", "WAL", "MEMORY")]
-        public string JournalMode { get; set; }
-#nullable disable
         public OpenTransactionTest()
 #nullable restore
         {
@@ -26,19 +16,57 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             Strings.Setup();
         }
 
+        #endregion Public Constructors
+
+        #region Public Properties
+
+        [Params("OFF", "DELETE", "WAL", "MEMORY")]
+        public string JournalMode { get; set; }
+
+        // The number of Shards/Threads to use for Database operations
+        [Params(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)]
+        public int Shards { get; set; }
+
+        // The number of records to populate the database with before the benchmark
+        //[Params(0,100000,200000,400000,800000,1600000,3200000)]
+        [Params(0)]
+        public int StartingSize { get; set; }
+
+        #endregion Public Properties
+
+#nullable disable
+
+        #region Public Methods
+
         [Benchmark]
         public void BeginTransaction()
         {
             DatabaseManager.BeginTransaction();
         }
 
-        public void Setup()
+        [GlobalCleanup]
+        public void GlobalCleanup()
         {
-            DatabaseManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite", new DBSettings()
-            {
-                JournalMode = JournalMode,
-                ShardingFactor = Shards
-            });
+            Setup();
+            DatabaseManager.Destroy();
+        }
+
+        [GlobalSetup]
+        public void GlobalSetup()
+        {
+            PopulateDatabases();
+        }
+
+        [IterationCleanup]
+        public void IterationCleanup()
+        {
+            DatabaseManager.CloseDatabase();
+        }
+
+        [IterationSetup]
+        public void IterationSetup()
+        {
+            Setup();
         }
 
         public void PopulateDatabases()
@@ -52,29 +80,15 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             DatabaseManager.CloseDatabase();
         }
 
-        [GlobalSetup]
-        public void GlobalSetup()
+        public void Setup()
         {
-            PopulateDatabases();
+            DatabaseManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite", new DBSettings()
+            {
+                JournalMode = JournalMode,
+                ShardingFactor = Shards
+            });
         }
 
-        [GlobalCleanup]
-        public void GlobalCleanup()
-        {
-            Setup();
-            DatabaseManager.Destroy();
-        }
-
-        [IterationSetup]
-        public void IterationSetup()
-        {
-            Setup();
-        }
-
-        [IterationCleanup]
-        public void IterationCleanup()
-        {
-            DatabaseManager.CloseDatabase();
-        }
+        #endregion Public Methods
     }
 }

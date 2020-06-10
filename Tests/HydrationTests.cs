@@ -9,6 +9,8 @@ namespace AttackSurfaceAnalyzer.Tests
     [TestClass]
     public class HydrationTests
     {
+        #region Public Methods
+
         [ClassInitialize]
         public static void ClassSetup(TestContext _)
         {
@@ -75,6 +77,14 @@ namespace AttackSurfaceAnalyzer.Tests
         }
 
         [TestMethod]
+        public void TestSerializeAndDeserializeGroupAccountObject()
+        {
+            var ugo = new GroupAccountObject("TestGroup");
+
+            Assert.IsTrue(ugo.RowKey.Equals(JsonUtils.Hydrate(JsonUtils.Dehydrate(ugo), RESULT_TYPE.GROUP)?.RowKey));
+        }
+
+        [TestMethod]
         public void TestSerializeAndDeserializeOpenPortObject()
         {
             var opo = new OpenPortObject(1024, TRANSPORT.TCP);
@@ -114,12 +124,6 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(uao.RowKey.Equals(JsonUtils.Hydrate(JsonUtils.Dehydrate(uao), RESULT_TYPE.USER)?.RowKey));
         }
 
-        [TestMethod]
-        public void TestSerializeAndDeserializeGroupAccountObject()
-        {
-            var ugo = new GroupAccountObject("TestGroup");
-
-            Assert.IsTrue(ugo.RowKey.Equals(JsonUtils.Hydrate(JsonUtils.Dehydrate(ugo), RESULT_TYPE.GROUP)?.RowKey));
-        }
+        #endregion Public Methods
     }
 }

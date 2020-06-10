@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Utils;
 using Serilog;
 using System;
@@ -11,27 +10,34 @@ namespace AttackSurfaceAnalyzer.Collectors
 {
     public class RegistryMonitor : BaseMonitor, IDisposable
     {
-        private readonly string tmpFileName = Path.GetTempFileName();
+        #region Private Fields
 
         // I believe auditpol results will go into the system log
         private readonly EventLog log = new EventLog("System");
 
+        private readonly string tmpFileName = Path.GetTempFileName();
+
+        #endregion Private Fields
+
+        #region Public Constructors
+
         public RegistryMonitor()
         {
+        }
+
+        #endregion Public Constructors
+
+        #region Public Methods
+
+        public override bool CanRunOnPlatform()
+        {
+            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
         }
 
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                log.Dispose();
-            }
         }
 
         public void MyOnEntryWritten(object source, EntryWrittenEventArgs e)
@@ -44,8 +50,6 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public override void StartRun()
         {
-
-
             // backup the current auditpolicy
             ExternalCommandRunner.RunExternalCommand("auditpol", $"/backup /file:{tmpFileName}");
 
@@ -53,17 +57,12 @@ namespace AttackSurfaceAnalyzer.Collectors
             log.EntryWritten += new EntryWrittenEventHandler(MyOnEntryWritten);
             log.EnableRaisingEvents = true;
 
-            // Enable auditing for registry events
-            // GUID for Registry subcategory of audit policy
-            // https://msdn.microsoft.com/en-us/library/dd973928.aspx
+            // Enable auditing for registry events GUID for Registry subcategory of audit policy https://msdn.microsoft.com/en-us/library/dd973928.aspx
             ExternalCommandRunner.RunExternalCommand("auditpol", "/set /subcategory:{0CCE921E-69AE-11D9-BED3-505054503030} /success:enable /failure:enable");
-
         }
 
         public override void StopRun()
         {
-
-
             // restore the old auditpolicy
             ExternalCommandRunner.RunExternalCommand("auditpol", $"/restore /file:{tmpFileName}");
 
@@ -73,9 +72,18 @@ namespace AttackSurfaceAnalyzer.Collectors
             log.EnableRaisingEvents = false;
         }
 
-        public override bool CanRunOnPlatform()
+        #endregion Public Methods
+
+        #region Protected Methods
+
+        protected virtual void Dispose(bool disposing)
         {
-            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+            if (disposing)
+            {
+                log.Dispose();
+            }
         }
+
+        #endregion Protected Methods
     }
 }

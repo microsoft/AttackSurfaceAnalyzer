@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using Serilog;
@@ -17,54 +16,50 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class CertificateCollector : BaseCollector
     {
+        #region Public Constructors
+
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="opts"></param>
         /// <param name=""></param>
         public CertificateCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler) { }
+
+        #endregion Public Constructors
+
+        #region Public Methods
 
         public override bool CanRunOnPlatform()
         {
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
         }
 
-        /// <summary>
-        /// On Windows we can use the .NET API to iterate through all the stores.
-        /// </summary>
-        internal void ExecuteWindows(CancellationToken cancellationToken)
-        {
-            foreach (StoreLocation storeLocation in (StoreLocation[])Enum.GetValues(typeof(StoreLocation)))
-            {
-                foreach (StoreName storeName in (StoreName[])Enum.GetValues(typeof(StoreName)))
-                {
-                    try
-                    {
-                        using X509Store store = new X509Store(storeName, storeLocation);
-                        store.Open(OpenFlags.ReadOnly);
+        #endregion Public Methods
 
-                        foreach (X509Certificate2 certificate in store.Certificates)
-                        {
-                            if (cancellationToken.IsCancellationRequested) { return; }
-                            var obj = new CertificateObject(
-                                StoreLocation: storeLocation.ToString(),
-                                StoreName: storeName.ToString(),
-                                Certificate: new SerializableCertificate(certificate));
-                            HandleChange(obj);
-                        }
-                        store.Close();
-                    }
-                    catch (CryptographicException e)
-                    {
-                        Log.Debug(e, $"Error parsing a certificate in {storeLocation} {storeName}");
-                    }
-                }
+        #region Internal Methods
+
+        /// <summary>
+        /// Execute the certificate collector.
+        /// </summary>
+        internal override void ExecuteInternal(CancellationToken cancellationToken)
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                ExecuteWindows(cancellationToken);
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                ExecuteLinux(cancellationToken);
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                ExecuteMacOs(cancellationToken);
             }
         }
 
         /// <summary>
-        /// On linux we check the central trusted root store (a folder), which has symlinks to actual cert locations scattered across the db
-        /// We list all the certificates and then create a new X509Certificate2 object for each by filename.
+        /// On linux we check the central trusted root store (a folder), which has symlinks to
+        /// actual cert locations scattered across the db We list all the certificates and then
+        /// create a new X509Certificate2 object for each by filename.
         /// </summary>
         internal void ExecuteLinux(CancellationToken cancellationToken)
         {
@@ -90,7 +85,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                         {
                             Log.Debug("{0} {1} Issue creating certificate based on /etc/ssl/certs/{2}", e.GetType().ToString(), e.Message, _line);
                             Log.Debug("{0}", e.StackTrace);
-
                         }
                     }
                 }
@@ -102,10 +96,10 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// On macos we use the keychain and export the certificates as .pem.
-        /// However, on macos Certificate2 doesn't support loading from a pem.
-        /// So first we need pkcs12s instead, we convert using openssl, which requires we set a password
-        /// we import the pkcs12 with all our certs, delete the temp files and then iterate over it the certs
+        /// On macos we use the keychain and export the certificates as .pem. However, on macos
+        /// Certificate2 doesn't support loading from a pem. So first we need pkcs12s instead, we
+        /// convert using openssl, which requires we set a password we import the pkcs12 with all
+        /// our certs, delete the temp files and then iterate over it the certs
         /// </summary>
         internal void ExecuteMacOs(CancellationToken cancellationToken)
         {
@@ -145,7 +139,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                         Log.Debug("Failed to export certificate with OpenSSL."); //DevSkim: ignore DS440000
                     }
                 }
-
             }
             catch (Exception e)
             {
@@ -155,22 +148,38 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Execute the certificate collector.
+        /// On Windows we can use the .NET API to iterate through all the stores.
         /// </summary>
-        internal override void ExecuteInternal(CancellationToken cancellationToken)
+        internal void ExecuteWindows(CancellationToken cancellationToken)
         {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            foreach (StoreLocation storeLocation in (StoreLocation[])Enum.GetValues(typeof(StoreLocation)))
             {
-                ExecuteWindows(cancellationToken);
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                ExecuteLinux(cancellationToken);
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                ExecuteMacOs(cancellationToken);
+                foreach (StoreName storeName in (StoreName[])Enum.GetValues(typeof(StoreName)))
+                {
+                    try
+                    {
+                        using X509Store store = new X509Store(storeName, storeLocation);
+                        store.Open(OpenFlags.ReadOnly);
+
+                        foreach (X509Certificate2 certificate in store.Certificates)
+                        {
+                            if (cancellationToken.IsCancellationRequested) { return; }
+                            var obj = new CertificateObject(
+                                StoreLocation: storeLocation.ToString(),
+                                StoreName: storeName.ToString(),
+                                Certificate: new SerializableCertificate(certificate));
+                            HandleChange(obj);
+                        }
+                        store.Close();
+                    }
+                    catch (CryptographicException e)
+                    {
+                        Log.Debug(e, $"Error parsing a certificate in {storeLocation} {storeName}");
+                    }
+                }
             }
         }
+
+        #endregion Internal Methods
     }
 }

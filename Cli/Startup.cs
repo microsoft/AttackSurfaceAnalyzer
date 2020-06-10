@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -17,38 +16,22 @@ namespace AttackSurfaceAnalyzer.Cli
 {
     public class Startup
     {
+        #region Public Constructors
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
+        #endregion Public Constructors
+
+        #region Public Properties
+
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddLogging(config =>
-            {
-                // clear out default configuration
-                config.ClearProviders();
+        #endregion Public Properties
 
-                config.AddConfiguration(Configuration.GetSection("Logging"));
-                config.AddDebug();
-                config.AddEventSourceLogger();
-
-                // Only console log asp.net in development.
-                if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Microsoft.Extensions.Hosting.Environments.Development)
-                {
-                    config.AddConsole();
-                }
-            });
-
-            services.AddApplicationInsightsTelemetry();
-
-            services.AddControllersWithViews();
-
-
-        }
+        #region Public Methods
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -84,7 +67,6 @@ namespace AttackSurfaceAnalyzer.Cli
                     app.UseStaticFiles();
                 }
 
-
                 app.UseEndpoints(endpoints =>
                 {
                     endpoints.MapControllerRoute(
@@ -93,5 +75,31 @@ namespace AttackSurfaceAnalyzer.Cli
                 });
             }
         }
+
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddLogging(config =>
+            {
+                // clear out default configuration
+                config.ClearProviders();
+
+                config.AddConfiguration(Configuration.GetSection("Logging"));
+                config.AddDebug();
+                config.AddEventSourceLogger();
+
+                // Only console log asp.net in development.
+                if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Microsoft.Extensions.Hosting.Environments.Development)
+                {
+                    config.AddConsole();
+                }
+            });
+
+            services.AddApplicationInsightsTelemetry();
+
+            services.AddControllersWithViews();
+        }
+
+        #endregion Public Methods
     }
 }

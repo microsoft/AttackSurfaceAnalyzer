@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using System;
@@ -43,7 +42,6 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             watchers.ForEach(x => x.EnableRaisingEvents = true);
             RunStatus = RUN_STATUS.RUNNING;
-
         }
 
         public override void StopRun()
@@ -51,7 +49,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             watchers.ForEach(x => x.EnableRaisingEvents = false);
 
             // Write each accessed file once.
-            foreach(var e in filesAccessed)
+            foreach (var e in filesAccessed)
             {
                 var ToWrite = new FileMonitorObject(e.Value.FullPath)
                 {
@@ -64,7 +62,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 };
                 changeHandler(ToWrite);
             }
-            
+
             RunStatus = RUN_STATUS.COMPLETED;
         }
 
@@ -86,9 +84,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                 GatherHashes = options.GatherHashes,
             });
 
-            foreach(var dir in options.MonitoredDirectories?.Split(',') ?? fsc.Roots.ToArray())
+            foreach (var dir in options.MonitoredDirectories?.Split(',') ?? fsc.Roots.ToArray())
             {
-                foreach(var filter in defaultFiltersList)
+                foreach (var filter in defaultFiltersList)
                 {
                     var watcher = new FileSystemWatcher();
 
@@ -98,7 +96,8 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                     watcher.IncludeSubdirectories = true;
 
-                    // Changed, Created and Deleted can share a handler, because they throw the same type of event
+                    // Changed, Created and Deleted can share a handler, because they throw the same
+                    // type of event
                     watcher.Changed += GetFunctionForFilterType(filter);
                     watcher.Created += GetFunctionForFilterType(filter);
                     watcher.Deleted += GetFunctionForFilterType(filter);
@@ -117,20 +116,28 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 case NotifyFilters.Attributes:
                     return WriteAttributesRename;
+
                 case NotifyFilters.CreationTime:
                     return WriteCreationTimeRename;
+
                 case NotifyFilters.DirectoryName:
                     return WriteDirectoryNameRename;
+
                 case NotifyFilters.FileName:
                     return WriteFileNameRename;
+
                 case NotifyFilters.LastAccess:
                     return WriteLastAccessRename;
+
                 case NotifyFilters.LastWrite:
                     return WriteLastWriteRename;
+
                 case NotifyFilters.Security:
                     return WriteSecurityRename;
+
                 case NotifyFilters.Size:
                     return WriteSizeRename;
+
                 default:
                     return null;
             }
@@ -142,20 +149,28 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 case NotifyFilters.Attributes:
                     return WriteAttributesChange;
+
                 case NotifyFilters.CreationTime:
                     return WriteCreationTimeChange;
+
                 case NotifyFilters.DirectoryName:
                     return WriteDirectoryNameChange;
+
                 case NotifyFilters.FileName:
                     return WriteFileNameChange;
+
                 case NotifyFilters.LastAccess:
                     return WriteLastAccessChange;
+
                 case NotifyFilters.LastWrite:
                     return WriteLastWriteChange;
+
                 case NotifyFilters.Security:
                     return WriteSecurityChange;
+
                 case NotifyFilters.Size:
                     return WriteSizeChange;
+
                 default:
                     return null;
             }
@@ -166,23 +181,85 @@ namespace AttackSurfaceAnalyzer.Collectors
             return watchers.Any(x => x.EnableRaisingEvents);
         }
 
-        private void WriteAttributesChange(object source, FileSystemEventArgs e) { WriteChange(e, NotifyFilters.Attributes); }
-        private void WriteCreationTimeChange(object source, FileSystemEventArgs e) { WriteChange(e, NotifyFilters.CreationTime); }
-        private void WriteDirectoryNameChange(object source, FileSystemEventArgs e) { WriteChange(e, NotifyFilters.DirectoryName); }
-        private void WriteFileNameChange(object source, FileSystemEventArgs e) { WriteChange(e, NotifyFilters.FileName); }
-        private void WriteLastAccessChange(object source, FileSystemEventArgs e) { WriteChange(e, NotifyFilters.LastAccess); }
-        private void WriteLastWriteChange(object source, FileSystemEventArgs e) { WriteChange(e, NotifyFilters.LastWrite); }
-        private void WriteSecurityChange(object source, FileSystemEventArgs e) { WriteChange(e, NotifyFilters.Security); }
-        private void WriteSizeChange(object source, FileSystemEventArgs e) { WriteChange(e, NotifyFilters.Size); }
+        private void WriteAttributesChange(object source, FileSystemEventArgs e)
+        {
+            WriteChange(e, NotifyFilters.Attributes);
+        }
 
-        private void WriteAttributesRename(object source, RenamedEventArgs e) { WriteRename(e, NotifyFilters.Attributes); }
-        private void WriteCreationTimeRename(object source, RenamedEventArgs e) { WriteRename(e, NotifyFilters.CreationTime); }
-        private void WriteDirectoryNameRename(object source, RenamedEventArgs e) { WriteRename(e, NotifyFilters.DirectoryName); }
-        private void WriteFileNameRename(object source, RenamedEventArgs e) { WriteRename(e, NotifyFilters.FileName); }
-        private void WriteLastAccessRename(object source, RenamedEventArgs e) { WriteRename(e, NotifyFilters.LastAccess); }
-        private void WriteLastWriteRename(object source, RenamedEventArgs e) { WriteRename(e, NotifyFilters.LastWrite); }
-        private void WriteSecurityRename(object source, RenamedEventArgs e) { WriteRename(e, NotifyFilters.Security); }
-        private void WriteSizeRename(object source, RenamedEventArgs e) { WriteRename(e, NotifyFilters.Size); }
+        private void WriteCreationTimeChange(object source, FileSystemEventArgs e)
+        {
+            WriteChange(e, NotifyFilters.CreationTime);
+        }
+
+        private void WriteDirectoryNameChange(object source, FileSystemEventArgs e)
+        {
+            WriteChange(e, NotifyFilters.DirectoryName);
+        }
+
+        private void WriteFileNameChange(object source, FileSystemEventArgs e)
+        {
+            WriteChange(e, NotifyFilters.FileName);
+        }
+
+        private void WriteLastAccessChange(object source, FileSystemEventArgs e)
+        {
+            WriteChange(e, NotifyFilters.LastAccess);
+        }
+
+        private void WriteLastWriteChange(object source, FileSystemEventArgs e)
+        {
+            WriteChange(e, NotifyFilters.LastWrite);
+        }
+
+        private void WriteSecurityChange(object source, FileSystemEventArgs e)
+        {
+            WriteChange(e, NotifyFilters.Security);
+        }
+
+        private void WriteSizeChange(object source, FileSystemEventArgs e)
+        {
+            WriteChange(e, NotifyFilters.Size);
+        }
+
+        private void WriteAttributesRename(object source, RenamedEventArgs e)
+        {
+            WriteRename(e, NotifyFilters.Attributes);
+        }
+
+        private void WriteCreationTimeRename(object source, RenamedEventArgs e)
+        {
+            WriteRename(e, NotifyFilters.CreationTime);
+        }
+
+        private void WriteDirectoryNameRename(object source, RenamedEventArgs e)
+        {
+            WriteRename(e, NotifyFilters.DirectoryName);
+        }
+
+        private void WriteFileNameRename(object source, RenamedEventArgs e)
+        {
+            WriteRename(e, NotifyFilters.FileName);
+        }
+
+        private void WriteLastAccessRename(object source, RenamedEventArgs e)
+        {
+            WriteRename(e, NotifyFilters.LastAccess);
+        }
+
+        private void WriteLastWriteRename(object source, RenamedEventArgs e)
+        {
+            WriteRename(e, NotifyFilters.LastWrite);
+        }
+
+        private void WriteSecurityRename(object source, RenamedEventArgs e)
+        {
+            WriteRename(e, NotifyFilters.Security);
+        }
+
+        private void WriteSizeRename(object source, RenamedEventArgs e)
+        {
+            WriteRename(e, NotifyFilters.Size);
+        }
 
         private void WriteChange(FileSystemEventArgs objIn, NotifyFilters filters)
         {
@@ -193,17 +270,16 @@ namespace AttackSurfaceAnalyzer.Collectors
                     return;
                 }
 
-                // If we are gathering extended details LastAccess times aren't meaningful since we will trigger them
-                // Instead we note they are gathered and clean up in StopRun
+                // If we are gathering extended details LastAccess times aren't meaningful since we
+                // will trigger them Instead we note they are gathered and clean up in StopRun
                 if (!options.FileNamesOnly && filters.HasFlag(NotifyFilters.LastAccess))
                 {
                     filesAccessed.TryAdd(objIn.FullPath, objIn);
                 }
                 else
                 {
-                    // We skip gathering extended information when
-                    // The File was Deleted
-                    // We are set to gather names only
+                    // We skip gathering extended information when The File was Deleted We are set
+                    // to gather names only
                     var fso = (objIn.ChangeType == WatcherChangeTypes.Deleted || options.FileNamesOnly) ? null : fsc.FilePathToFileSystemObject(objIn.FullPath);
                     var ToWrite = new FileMonitorObject(objIn.FullPath)
                     {
@@ -247,12 +323,16 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 case WatcherChangeTypes.Changed:
                     return CHANGE_TYPE.MODIFIED;
+
                 case WatcherChangeTypes.Created:
                     return CHANGE_TYPE.CREATED;
+
                 case WatcherChangeTypes.Deleted:
                     return CHANGE_TYPE.DELETED;
+
                 case WatcherChangeTypes.Renamed:
                     return CHANGE_TYPE.RENAMED;
+
                 default:
                     return CHANGE_TYPE.INVALID;
             }
@@ -281,7 +361,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             changeHandler(ToWrite);
         }
-        
+
         private static bool IsInvalidFile(string Path)
         {
             return Path.StartsWith("/private/var/db/uuidtext");

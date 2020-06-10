@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Types;
 using Serilog;
 using System;
@@ -18,83 +17,57 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public static class AsaHelpers
     {
-        public static string GetTempFolder()
-        {
-            var length = 10;
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            var path = Path.Combine(Path.GetTempPath(), new string(Enumerable.Repeat(chars, length)
-              .Select(s => s[random.Next(s.Length)]).ToArray()));
-            while (Directory.Exists(path))
-            {
-                path = Path.Combine(Path.GetTempPath(), new string(Enumerable.Repeat(chars, length)
-              .Select(s => s[random.Next(s.Length)]).ToArray()));
-            }
-            return path;
-        }
+        #region Private Fields
 
         private static readonly Random random = new Random();
 
-        public static byte[] HexStringToBytes(string hex)
+        private static readonly ConcurrentDictionary<string, string> SidMap = new ConcurrentDictionary<string, string>();
+
+        #endregion Private Fields
+
+        #region Public Methods
+
+        public static Dictionary<string, string> GenerateMetadata()
         {
-            try
-            {
-                if (hex is null) { throw new ArgumentNullException(nameof(hex)); }
+            var dict = new Dictionary<string, string>();
 
-                var ascii = new byte[hex.Length / 2];
+            dict["compare-version"] = GetVersionString();
+            dict["compare-os"] = GetOsName();
+            dict["compare-osversion"] = GetOsVersion();
 
-                for (int i = 0; i < hex.Length; i += 2)
-                {
-                    var hs = hex.Substring(i, 2);
-                    uint decval = System.Convert.ToUInt32(hs, 16);
-                    char character = System.Convert.ToChar(decval);
-                    ascii[i / 2] = (byte)character;
-                }
-
-                return ascii;
-            }
-            catch (Exception e) when (
-                e is ArgumentException
-                || e is OverflowException
-                || e is NullReferenceException)
-            {
-                Log.Debug("Couldn't convert hex string {0} to ascii", hex);
-            }
-            return Array.Empty<byte>();
+            return dict;
         }
-        public static void OpenBrowser(System.Uri url)
+
+        public static string GetOsName()
         {
-            if (url == null) { return; }
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                Process.Start(new ProcessStartInfo("cmd", $"/c start {url}"));
+                return AsaHelpers.GetPlatformString();
             }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                Process.Start("xdg-open", url.ToString());
+                if (ExternalCommandRunner.RunExternalCommand("uname", "-s", out string StdOut, out string _) == 0)
+                {
+                    return StdOut;
+                }
             }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            return "";
+        }
+
+        public static string GetOsVersion()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                Process.Start("open", url.ToString());
+                return Environment.OSVersion.VersionString;
             }
-        }
-
-        public static bool IsAdmin()
-        {
-            return Elevation.IsAdministrator() || Elevation.IsRunningAsRoot();
-        }
-
-        public static string MakeValidFileName(string name)
-        {
-            string invalidChars = System.Text.RegularExpressions.Regex.Escape(new string(System.IO.Path.GetInvalidFileNameChars()));
-            string invalidRegStr = $"([{invalidChars}]+)";
-            return System.Text.RegularExpressions.Regex.Replace(name, invalidRegStr, "_");
-        }
-
-        public static string GetVersionString()
-        {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
-            return fileVersionInfo.ProductVersion;
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                if (ExternalCommandRunner.RunExternalCommand("uname", "-r", out string StdOut, out string _) == 0)
+                {
+                    return StdOut;
+                }
+            }
+            return "";
         }
 
         public static PLATFORM GetPlatform()
@@ -131,60 +104,58 @@ namespace AttackSurfaceAnalyzer.Utils
             return PLATFORM.UNKNOWN.ToString();
         }
 
-        public static string GetOsVersion()
+        public static string GetTempFolder()
         {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            var length = 10;
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var path = Path.Combine(Path.GetTempPath(), new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray()));
+            while (Directory.Exists(path))
             {
-                return Environment.OSVersion.VersionString;
+                path = Path.Combine(Path.GetTempPath(), new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray()));
             }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            return path;
+        }
+
+        public static string GetVersionString()
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
+            return fileVersionInfo.ProductVersion;
+        }
+
+        public static byte[] HexStringToBytes(string hex)
+        {
+            try
             {
-                if (ExternalCommandRunner.RunExternalCommand("uname", "-r", out string StdOut, out string _) == 0)
+                if (hex is null) { throw new ArgumentNullException(nameof(hex)); }
+
+                var ascii = new byte[hex.Length / 2];
+
+                for (int i = 0; i < hex.Length; i += 2)
                 {
-                    return StdOut;
+                    var hs = hex.Substring(i, 2);
+                    uint decval = System.Convert.ToUInt32(hs, 16);
+                    char character = System.Convert.ToChar(decval);
+                    ascii[i / 2] = (byte)character;
                 }
-            }
-            return "";
-        }
 
-        public static string GetOsName()
-        {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                return ascii;
+            }
+            catch (Exception e) when (
+                e is ArgumentException
+                || e is OverflowException
+                || e is NullReferenceException)
             {
-                return AsaHelpers.GetPlatformString();
+                Log.Debug("Couldn't convert hex string {0} to ascii", hex);
             }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                if (ExternalCommandRunner.RunExternalCommand("uname", "-s", out string StdOut, out string _) == 0)
-                {
-                    return StdOut;
-                }
-            }
-            return "";
+            return Array.Empty<byte>();
         }
 
-        public static Dictionary<string, string> GenerateMetadata()
+        public static bool IsAdmin()
         {
-            var dict = new Dictionary<string, string>();
-
-            dict["compare-version"] = GetVersionString();
-            dict["compare-os"] = GetOsName();
-            dict["compare-osversion"] = GetOsVersion();
-
-            return dict;
-        }
-
-        public static string RunIdsToCompareId(string firstRunId, string secondRunId)
-        {
-            return $"{firstRunId} & {secondRunId}";
-        }
-
-        public static bool IsList(object o)
-        {
-            if (o == null) return false;
-            return o is IList &&
-                   o.GetType().IsGenericType &&
-                   o.GetType().GetGenericTypeDefinition().IsAssignableFrom(typeof(List<>));
+            return Elevation.IsAdministrator() || Elevation.IsRunningAsRoot();
         }
 
         public static bool IsDictionary(object o)
@@ -195,7 +166,58 @@ namespace AttackSurfaceAnalyzer.Utils
                    o.GetType().GetGenericTypeDefinition().IsAssignableFrom(typeof(Dictionary<,>));
         }
 
-        private static readonly ConcurrentDictionary<string, string> SidMap = new ConcurrentDictionary<string, string>();
+        public static bool IsList(object o)
+        {
+            if (o == null) return false;
+            return o is IList &&
+                   o.GetType().IsGenericType &&
+                   o.GetType().GetGenericTypeDefinition().IsAssignableFrom(typeof(List<>));
+        }
+
+        public static bool IsValidRegex(string pattern)
+        {
+            if (string.IsNullOrEmpty(pattern)) return false;
+
+            try
+            {
+                Regex.Match("", pattern);
+            }
+            catch (ArgumentException)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public static string MakeValidFileName(string name)
+        {
+            string invalidChars = System.Text.RegularExpressions.Regex.Escape(new string(System.IO.Path.GetInvalidFileNameChars()));
+            string invalidRegStr = $"([{invalidChars}]+)";
+            return System.Text.RegularExpressions.Regex.Replace(name, invalidRegStr, "_");
+        }
+
+        public static void OpenBrowser(System.Uri url)
+        {
+            if (url == null) { return; }
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                Process.Start(new ProcessStartInfo("cmd", $"/c start {url}"));
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                Process.Start("xdg-open", url.ToString());
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                Process.Start("open", url.ToString());
+            }
+        }
+
+        public static string RunIdsToCompareId(string firstRunId, string secondRunId)
+        {
+            return $"{firstRunId} & {secondRunId}";
+        }
 
         public static string SidToName(IdentityReference SID)
         {
@@ -231,20 +253,6 @@ namespace AttackSurfaceAnalyzer.Utils
             return sid;
         }
 
-        public static bool IsValidRegex(string pattern)
-        {
-            if (string.IsNullOrEmpty(pattern)) return false;
-
-            try
-            {
-                Regex.Match("", pattern);
-            }
-            catch (ArgumentException)
-            {
-                return false;
-            }
-
-            return true;
-        }
+        #endregion Public Methods
     }
 }

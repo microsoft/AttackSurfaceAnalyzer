@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Types;
 using Newtonsoft.Json;
 using System;
@@ -8,6 +7,19 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class ServiceObject : CollectObject
     {
+        #region Public Constructors
+
+        [JsonConstructor]
+        public ServiceObject(string Name)
+        {
+            this.Name = Name;
+            ResultType = RESULT_TYPE.SERVICE;
+        }
+
+        #endregion Public Constructors
+
+        #region Public Properties
+
         public bool? AcceptPause { get; set; }
         public bool? AcceptStop { get; set; }
         public string? Caption { get; set; }
@@ -19,6 +31,15 @@ namespace AttackSurfaceAnalyzer.Objects
         public string? DisplayName { get; set; }
         public string? ErrorControl { get; set; }
         public uint? ExitCode { get; set; }
+
+        public override string Identity
+        {
+            get
+            {
+                return Name;
+            }
+        }
+
         public DateTime InstallDate { get; set; }
         public string Name { get; set; }
         public string? PathName { get; set; }
@@ -35,19 +56,6 @@ namespace AttackSurfaceAnalyzer.Objects
         public uint? TagId { get; set; }
         public uint? WaitHint { get; set; }
 
-        [JsonConstructor]
-        public ServiceObject(string Name)
-        {
-            this.Name = Name;
-            ResultType = RESULT_TYPE.SERVICE;
-        }
-
-        public override string Identity
-        {
-            get
-            {
-                return Name;
-            }
-        }
+        #endregion Public Properties
     }
 }

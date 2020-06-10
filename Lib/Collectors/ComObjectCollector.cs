@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Win32;
@@ -18,75 +17,15 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class ComObjectCollector : BaseCollector
     {
-        public ComObjectCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler) { }
+        #region Public Constructors
 
-        /// <summary>
-        /// Com Objects only exist on Windows.
-        /// </summary>
-        /// <returns></returns>
-        public override bool CanRunOnPlatform()
+        public ComObjectCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
         {
-            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
         }
 
-        /// <summary>
-        /// Execute the Com Collector.  We collect the list of Com Objects registered in the registry
-        /// and then examine each binary on the disk they point to.
-        /// </summary>
-        internal override void ExecuteInternal(CancellationToken cancellationToken)
-        {
-            ParseView(RegistryView.Registry64, cancellationToken);
-            ParseView(RegistryView.Registry32, cancellationToken);
-        }
+        #endregion Public Constructors
 
-        internal void ParseView(RegistryView view, CancellationToken cancellationToken)
-        {
-            try
-            {
-                // Parse system Com Objects
-                using var SearchKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, view);
-                var CLDIDs = SearchKey.OpenSubKey("SOFTWARE\\Classes\\CLSID");
-                foreach (var comObj in ParseComObjects(CLDIDs, view, opts.SingleThread))
-                {
-                    if (cancellationToken.IsCancellationRequested) { return; }
-                    HandleChange(comObj);
-                }
-            }
-            catch (Exception e) when (//lgtm [cs/empty-catch-block]
-                e is ArgumentException
-                || e is UnauthorizedAccessException
-                || e is System.Security.SecurityException)
-            {
-
-            }
-
-            try
-            {
-                // Parse user Com Objects
-                using var SearchKey = RegistryKey.OpenBaseKey(RegistryHive.Users, view);
-                var subkeyNames = SearchKey.GetSubKeyNames();
-                foreach (string subkeyName in subkeyNames)
-                {
-                    if (cancellationToken.IsCancellationRequested) { return; }
-
-                    if (subkeyName.EndsWith("Classes"))
-                    {
-                        using var ComKey = SearchKey.OpenSubKey(subkeyName).OpenSubKey("CLSID");
-                        foreach (var comObj in ParseComObjects(ComKey, view, opts.SingleThread))
-                        {
-                            HandleChange(comObj);
-                        }
-                    }
-                }
-            }
-            catch (Exception e) when (//lgtm [cs/empty-catch-block]
-                e is ArgumentException
-                || e is UnauthorizedAccessException
-                || e is System.Security.SecurityException)
-            {
-
-            }
-        }
+        #region Public Methods
 
         /// <summary>
         /// Parse all the Subkeys of the given SearchKey into ComObjects and returns a list of them
@@ -122,9 +61,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 {
                                     if (successful && BinaryPath32 != null)
                                     {
-                                        // Clean up cases where some extra spaces are thrown into the start (breaks our permission checker)
+                                        // Clean up cases where some extra spaces are thrown into
+                                        // the start (breaks our permission checker)
                                         BinaryPath32 = BinaryPath32.Trim();
-                                        // Clean up cases where the binary is quoted (also breaks permission checker)
+                                        // Clean up cases where the binary is quoted (also breaks
+                                        // permission checker)
                                         if (BinaryPath32.StartsWith("\"") && BinaryPath32.EndsWith("\""))
                                         {
                                             BinaryPath32 = BinaryPath32.AsSpan().Slice(1, BinaryPath32.Length - 2).ToString();
@@ -149,9 +90,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 {
                                     if (successful && BinaryPath64 != null)
                                     {
-                                        // Clean up cases where some extra spaces are thrown into the start (breaks our permission checker)
+                                        // Clean up cases where some extra spaces are thrown into
+                                        // the start (breaks our permission checker)
                                         BinaryPath64 = BinaryPath64.Trim();
-                                        // Clean up cases where the binary is quoted (also breaks permission checker)
+                                        // Clean up cases where the binary is quoted (also breaks
+                                        // permission checker)
                                         if (BinaryPath64.StartsWith("\"") && BinaryPath64.EndsWith("\""))
                                         {
                                             BinaryPath64 = BinaryPath64.AsSpan().Slice(1, BinaryPath64.Length - 2).ToString();
@@ -202,5 +145,77 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             return comObjects;
         }
+
+        /// <summary>
+        /// Com Objects only exist on Windows.
+        /// </summary>
+        /// <returns></returns>
+        public override bool CanRunOnPlatform()
+        {
+            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+        }
+
+        #endregion Public Methods
+
+        #region Internal Methods
+
+        /// <summary>
+        /// Execute the Com Collector. We collect the list of Com Objects registered in the registry
+        /// and then examine each binary on the disk they point to.
+        /// </summary>
+        internal override void ExecuteInternal(CancellationToken cancellationToken)
+        {
+            ParseView(RegistryView.Registry64, cancellationToken);
+            ParseView(RegistryView.Registry32, cancellationToken);
+        }
+
+        internal void ParseView(RegistryView view, CancellationToken cancellationToken)
+        {
+            try
+            {
+                // Parse system Com Objects
+                using var SearchKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, view);
+                var CLDIDs = SearchKey.OpenSubKey("SOFTWARE\\Classes\\CLSID");
+                foreach (var comObj in ParseComObjects(CLDIDs, view, opts.SingleThread))
+                {
+                    if (cancellationToken.IsCancellationRequested) { return; }
+                    HandleChange(comObj);
+                }
+            }
+            catch (Exception e) when (//lgtm [cs/empty-catch-block]
+                e is ArgumentException
+                || e is UnauthorizedAccessException
+                || e is System.Security.SecurityException)
+            {
+            }
+
+            try
+            {
+                // Parse user Com Objects
+                using var SearchKey = RegistryKey.OpenBaseKey(RegistryHive.Users, view);
+                var subkeyNames = SearchKey.GetSubKeyNames();
+                foreach (string subkeyName in subkeyNames)
+                {
+                    if (cancellationToken.IsCancellationRequested) { return; }
+
+                    if (subkeyName.EndsWith("Classes"))
+                    {
+                        using var ComKey = SearchKey.OpenSubKey(subkeyName).OpenSubKey("CLSID");
+                        foreach (var comObj in ParseComObjects(ComKey, view, opts.SingleThread))
+                        {
+                            HandleChange(comObj);
+                        }
+                    }
+                }
+            }
+            catch (Exception e) when (//lgtm [cs/empty-catch-block]
+                e is ArgumentException
+                || e is UnauthorizedAccessException
+                || e is System.Security.SecurityException)
+            {
+            }
+        }
+
+        #endregion Internal Methods
     }
 }

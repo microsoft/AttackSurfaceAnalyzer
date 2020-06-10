@@ -7,6 +7,22 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     [JsonExporterAttribute.Full]
     public class CommitTest
     {
+        #region Public Constructors
+
+        public CommitTest()
+#nullable enable
+        {
+            Logger.Setup(true, true);
+            Strings.Setup();
+        }
+
+        #endregion Public Constructors
+
+        #region Public Properties
+
+        [Params("OFF", "DELETE", "WAL", "MEMORY")]
+        public string JournalMode { get; set; }
+
         //Rows to write in the open transaction before the commit
         [Params(10000, 20000, 40000)]
         public int N { get; set; }
@@ -15,21 +31,30 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Params(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)]
         public int Shards { get; set; }
 
-        [Params("OFF", "DELETE", "WAL", "MEMORY")]
-        public string JournalMode { get; set; }
+        #endregion Public Properties
 
 #nullable disable
-        public CommitTest()
-#nullable enable
-        {
-            Logger.Setup(true, true);
-            Strings.Setup();
-        }
+
+        #region Public Methods
 
         [Benchmark]
         public void CommitTransaction()
         {
             DatabaseManager.Commit();
+        }
+
+        [IterationCleanup]
+        public void IterationCleanup()
+        {
+            DatabaseManager.Destroy();
+        }
+
+        [IterationSetup]
+        public void IterationSetup()
+        {
+            Setup();
+            DatabaseManager.BeginTransaction();
+            InsertTestsWithoutTransactions.Insert_X_Objects(N);
         }
 
         public void Setup()
@@ -41,18 +66,6 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             });
         }
 
-        [IterationSetup]
-        public void IterationSetup()
-        {
-            Setup();
-            DatabaseManager.BeginTransaction();
-            InsertTestsWithoutTransactions.Insert_X_Objects(N);
-        }
-
-        [IterationCleanup]
-        public void IterationCleanup()
-        {
-            DatabaseManager.Destroy();
-        }
+        #endregion Public Methods
     }
 }

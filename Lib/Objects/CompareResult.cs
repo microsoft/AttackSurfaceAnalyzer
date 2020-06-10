@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Types;
 using System.Collections.Generic;
 
@@ -7,24 +6,23 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class CompareResult
     {
-        public string Identity
+        #region Public Constructors
+
+        public CompareResult()
         {
-            get
-            {
-                if (Base is CollectObject colObj)
-                {
-                    return colObj.Identity;
-                }
-                else if (Compare is CollectObject colObj2)
-                {
-                    return colObj2.Identity;
-                }
-                else
-                {
-                    return string.Empty;
-                }
-            }
         }
+
+        #endregion Public Constructors
+
+        #region Public Properties
+
+        public ANALYSIS_RESULT_TYPE Analysis { get; set; }
+
+        public CollectObject? Base { get; set; }
+
+        public string? BaseRowKey { get; set; }
+
+        public string? BaseRunId { get; set; }
 
         public CHANGE_TYPE ChangeType
         {
@@ -55,6 +53,33 @@ namespace AttackSurfaceAnalyzer.Objects
             }
         }
 
+        public CollectObject? Compare { get; set; }
+
+        public string? CompareRowKey { get; set; }
+
+        public string? CompareRunId { get; set; }
+
+        public List<Diff> Diffs { get; set; } = new List<Diff>();
+
+        public string Identity
+        {
+            get
+            {
+                if (Base is CollectObject colObj)
+                {
+                    return colObj.Identity;
+                }
+                else if (Compare is CollectObject colObj2)
+                {
+                    return colObj2.Identity;
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            }
+        }
+
         public RESULT_TYPE ResultType
         {
             get
@@ -74,15 +99,11 @@ namespace AttackSurfaceAnalyzer.Objects
             }
         }
 
-        public ANALYSIS_RESULT_TYPE Analysis { get; set; }
         public List<Rule> Rules { get; set; } = new List<Rule>();
-        public List<Diff> Diffs { get; set; } = new List<Diff>();
-        public string? BaseRowKey { get; set; }
-        public string? CompareRowKey { get; set; }
-        public string? BaseRunId { get; set; }
-        public string? CompareRunId { get; set; }
-        public CollectObject? Base { get; set; }
-        public CollectObject? Compare { get; set; }
+
+        #endregion Public Properties
+
+        #region Public Methods
 
         public bool ShouldSerializeDiffs()
         {
@@ -94,8 +115,6 @@ namespace AttackSurfaceAnalyzer.Objects
             return Rules?.Count > 0;
         }
 
-        public CompareResult()
-        {
-        }
+        #endregion Public Methods
     }
 }

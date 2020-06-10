@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
 using Serilog;
@@ -15,17 +14,15 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class SqlConnectionHolder
     {
-        public SqliteTransaction? Transaction { get; set; }
-        public SqliteConnection Connection { get; set; }
-        public ConcurrentStack<WriteObject> WriteQueue { get; private set; } = new ConcurrentStack<WriteObject>();
-        public bool KeepRunning { get; set; }
-        public string Source { get; set; }
-        public bool IsWriting { get; private set; }
-        private readonly WriteObject[] innerQueue;
-
-        private readonly DBSettings settings;
+        #region Private Fields
 
         private const string PRAGMAS = "PRAGMA auto_vacuum = 0; PRAGMA synchronous = {0}; PRAGMA journal_mode = {1}; PRAGMA page_size = {2}; PRAGMA locking_mode = {3};";
+        private readonly WriteObject[] innerQueue;
+        private readonly DBSettings settings;
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public SqlConnectionHolder(string databaseFilename, DBSettings? dBSettings = null)
         {
@@ -61,6 +58,45 @@ namespace AttackSurfaceAnalyzer.Objects
             _ = Task.Factory.StartNew(() => KeepFlushQueue());
         }
 
+        #endregion Public Constructors
+
+        #region Public Properties
+
+        public SqliteConnection Connection { get; set; }
+        public bool IsWriting { get; private set; }
+        public bool KeepRunning { get; set; }
+        public string Source { get; set; }
+        public SqliteTransaction? Transaction { get; set; }
+        public ConcurrentStack<WriteObject> WriteQueue { get; private set; } = new ConcurrentStack<WriteObject>();
+
+        #endregion Public Properties
+
+        #region Public Methods
+
+        public void BeginTransaction()
+        {
+            if (Transaction == null && Connection != null)
+            {
+                Transaction = Connection.BeginTransaction();
+            }
+        }
+
+        public void Commit()
+        {
+            try
+            {
+                Transaction?.Commit();
+            }
+            catch (Exception e)
+            {
+                Log.Warning(e, $"Failed to commit data to {Source}, {e.StackTrace}");
+            }
+            finally
+            {
+                Transaction = null;
+            }
+        }
+
         public void Destroy()
         {
             ShutDown();
@@ -88,29 +124,21 @@ namespace AttackSurfaceAnalyzer.Objects
             }
         }
 
-        public void BeginTransaction()
+        #endregion Public Methods
+
+        #region Internal Methods
+
+        internal void ShutDown()
         {
-            if (Transaction == null && Connection != null)
-            {
-                Transaction = Connection.BeginTransaction();
-            }
+            KeepRunning = false;
+            Connection.Close();
+            Connection.Dispose();
+            Transaction = null;
         }
 
-        public void Commit()
-        {
-            try
-            {
-                Transaction?.Commit();
-            }
-            catch (Exception e)
-            {
-                Log.Warning(e, $"Failed to commit data to {Source}, {e.StackTrace}");
-            }
-            finally
-            {
-                Transaction = null;
-            }
-        }
+        #endregion Internal Methods
+
+        #region Private Methods
 
         private void WriteNext()
         {
@@ -152,12 +180,6 @@ namespace AttackSurfaceAnalyzer.Objects
             IsWriting = false;
         }
 
-        internal void ShutDown()
-        {
-            KeepRunning = false;
-            Connection.Close();
-            Connection.Dispose();
-            Transaction = null;
-        }
+        #endregion Private Methods
     }
 }

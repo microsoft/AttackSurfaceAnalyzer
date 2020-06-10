@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using Newtonsoft.Json;
 using System;
 using System.Security.Cryptography.X509Certificates;
@@ -8,6 +7,8 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class SerializableCertificate
     {
+        #region Public Constructors
+
         public SerializableCertificate(X509Certificate2 certificate)
         {
             Thumbprint = certificate?.Thumbprint ?? throw new ArgumentNullException(nameof(certificate));
@@ -35,14 +36,20 @@ namespace AttackSurfaceAnalyzer.Objects
             this.Pkcs7 = Pkcs7;
         }
 
-        public string Thumbprint { get; set; }
-        public string Subject { get; set; }
-        public string PublicKey { get; set; }
+        #endregion Public Constructors
+
+        #region Public Properties
+
+        public string CertHashString { get; set; }
+        public string Issuer { get; set; }
         public DateTime NotAfter { get; set; }
         public DateTime NotBefore { get; set; }
-        public string Issuer { get; set; }
-        public string SerialNumber { get; set; }
-        public string CertHashString { get; set; }
         public string Pkcs7 { get; set; }
+        public string PublicKey { get; set; }
+        public string SerialNumber { get; set; }
+        public string Subject { get; set; }
+        public string Thumbprint { get; set; }
+
+        #endregion Public Properties
     }
 }

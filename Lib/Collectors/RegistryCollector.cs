@@ -1,12 +1,10 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Win32;
 using Serilog;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,14 +16,20 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class RegistryCollector : BaseCollector
     {
-        private readonly List<(RegistryHive, string)> Hives;
-
-        private readonly bool Parallelize;
+        #region Private Fields
 
         private static readonly List<(RegistryHive, string)> DefaultHives = new List<(RegistryHive, string)>()
         {
             (RegistryHive.ClassesRoot,string.Empty), (RegistryHive.CurrentConfig,string.Empty), (RegistryHive.CurrentUser,string.Empty), (RegistryHive.LocalMachine,string.Empty), (RegistryHive.Users,string.Empty)
         };
+
+        private readonly List<(RegistryHive, string)> Hives;
+
+        private readonly bool Parallelize;
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public RegistryCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
         {
@@ -53,10 +57,18 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
+        #endregion Public Constructors
+
+        #region Public Methods
+
         public override bool CanRunOnPlatform()
         {
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
         }
+
+        #endregion Public Methods
+
+        #region Internal Methods
 
         internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
@@ -92,7 +104,6 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 if (Parallelize)
                 {
-
                     ParallelOptions po = new ParallelOptions() { CancellationToken = cancellationToken };
                     Parallel.ForEach(x86_Enumerable, po, registryKey => IterateOn(hive.Item1, registryKey, RegistryView.Registry32));
                     Parallel.ForEach(x64_Enumerable, po, registryKey => IterateOn(hive.Item1, registryKey, RegistryView.Registry64));
@@ -119,5 +130,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 Log.Debug("Finished {0}\\{1}", hive.Item1, hive.Item2);
             }
         }
+
+        #endregion Internal Methods
     }
 }

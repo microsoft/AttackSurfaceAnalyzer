@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
@@ -12,99 +11,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 
-
 namespace AttackSurfaceAnalyzer.Collectors
 {
     public static class WindowsFileSystemUtils
     {
-        public static Signature? GetSignatureStatus(string Path, Stream stream)
-        {
-            if (stream is null)
-            {
-                return null;
-            }
-            try
-            {
-                if (PeFile.IsPeFile(stream))
-                {
-                    var peHeader = new PeFile(stream);
-                    if (peHeader.Authenticode is AuthenticodeInfo ai)
-                    {
-                        var sig = new Signature(ai);
-                        return sig;
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Log.Verbose("Failed to get signature for {0} ({1}:{2})", Path, e.GetType(), e.Message);
-            }
-            return null;
-        }
-
-        public static Signature? GetSignatureStatus(string Path)
-        {
-            if (Path is null)
-            {
-                return null;
-            }
-            try
-            {
-                if (PeFile.IsPeFile(Path))
-                {
-                    using var mmf = new PeNet.FileParser.MMFile(Path);
-                    var peHeader = new PeFile(mmf);
-                    if (peHeader.Authenticode is AuthenticodeInfo ai)
-                    {
-                        var sig = new Signature(ai);
-                        return sig;
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Log.Verbose("Failed to get signature for {0} ({1}:{2})", Path, e.GetType(), e.Message);
-            }
-            return null;
-        }
-
-        public static bool NeedsSignature(string Path)
-        {
-            if (Path is null || !RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                return false;
-            }
-            try
-            {
-                FileInfo file = new FileInfo(Path);
-                return FileSystemUtils.GetExecutableType(Path) == EXECUTABLE_TYPE.WINDOWS;
-            }
-            catch (Exception e) when (
-                e is FileNotFoundException ||
-                e is IOException ||
-                e is ArgumentNullException ||
-                e is System.Security.SecurityException ||
-                e is ArgumentException ||
-                e is UnauthorizedAccessException ||
-                e is PathTooLongException ||
-                e is NotSupportedException)
-            {
-                return false;
-            }
-        }
-
-        public static bool IsLocal(string path)
-        {
-            NativeMethods.WIN32_FILE_ATTRIBUTE_DATA fileData;
-            NativeMethods.GetFileAttributesEx(path, NativeMethods.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out fileData);
-
-            if ((fileData.dwFileAttributes & (0x00040000 + 0x00400000)) == 0)
-            {
-                return true;
-            }
-
-            return false;
-        }
+        #region Public Methods
 
         public static List<DLLCHARACTERISTICS> GetDllCharacteristics(string Path, Stream input)
         {
@@ -187,7 +98,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     || e is UnauthorizedAccessException
                     || e is NullReferenceException)
                 {
-                    Log.Verbose("Failed to get PE Headers for {0} ({1}:{2})",Path, e.GetType(), e.Message);
+                    Log.Verbose("Failed to get PE Headers for {0} ({1}:{2})", Path, e.GetType(), e.Message);
                 }
                 catch (Exception e)
                 {
@@ -197,5 +108,96 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             return output;
         }
+
+        public static Signature? GetSignatureStatus(string Path, Stream stream)
+        {
+            if (stream is null)
+            {
+                return null;
+            }
+            try
+            {
+                if (PeFile.IsPeFile(stream))
+                {
+                    var peHeader = new PeFile(stream);
+                    if (peHeader.Authenticode is AuthenticodeInfo ai)
+                    {
+                        var sig = new Signature(ai);
+                        return sig;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Verbose("Failed to get signature for {0} ({1}:{2})", Path, e.GetType(), e.Message);
+            }
+            return null;
+        }
+
+        public static Signature? GetSignatureStatus(string Path)
+        {
+            if (Path is null)
+            {
+                return null;
+            }
+            try
+            {
+                if (PeFile.IsPeFile(Path))
+                {
+                    using var mmf = new PeNet.FileParser.MMFile(Path);
+                    var peHeader = new PeFile(mmf);
+                    if (peHeader.Authenticode is AuthenticodeInfo ai)
+                    {
+                        var sig = new Signature(ai);
+                        return sig;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Verbose("Failed to get signature for {0} ({1}:{2})", Path, e.GetType(), e.Message);
+            }
+            return null;
+        }
+
+        public static bool IsLocal(string path)
+        {
+            NativeMethods.WIN32_FILE_ATTRIBUTE_DATA fileData;
+            NativeMethods.GetFileAttributesEx(path, NativeMethods.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out fileData);
+
+            if ((fileData.dwFileAttributes & (0x00040000 + 0x00400000)) == 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public static bool NeedsSignature(string Path)
+        {
+            if (Path is null || !RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return false;
+            }
+            try
+            {
+                FileInfo file = new FileInfo(Path);
+                return FileSystemUtils.GetExecutableType(Path) == EXECUTABLE_TYPE.WINDOWS;
+            }
+            catch (Exception e) when (
+                e is FileNotFoundException ||
+                e is IOException ||
+                e is ArgumentNullException ||
+                e is System.Security.SecurityException ||
+                e is ArgumentException ||
+                e is UnauthorizedAccessException ||
+                e is PathTooLongException ||
+                e is NotSupportedException)
+            {
+                return false;
+            }
+        }
+
+        #endregion Public Methods
     }
 }

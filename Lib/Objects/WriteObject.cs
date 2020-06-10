@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Serilog;
@@ -9,10 +8,7 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class WriteObject
     {
-        public CollectObject ColObj { get; }
-        public string RunId { get; }
-        public string RowKey { get; }
-        public string Serialized { get; }
+        #region Public Constructors
 
         public WriteObject(CollectObject ColObjIn, string RunIdIn)
         {
@@ -21,6 +17,28 @@ namespace AttackSurfaceAnalyzer.Objects
             Serialized = JsonUtils.Dehydrate(ColObjIn);
             RowKey = ColObj.RowKey;
         }
+
+        #endregion Public Constructors
+
+        #region Public Properties
+
+        public CollectObject ColObj { get; }
+
+        public string Identity
+        {
+            get
+            {
+                return ColObj?.Identity ?? string.Empty;
+            }
+        }
+
+        public string RowKey { get; }
+        public string RunId { get; }
+        public string Serialized { get; }
+
+        #endregion Public Properties
+
+        #region Public Methods
 
         public static WriteObject? FromString(string SerializedIn, RESULT_TYPE ResultTypeIn, string RunIdIn)
         {
@@ -37,12 +55,6 @@ namespace AttackSurfaceAnalyzer.Objects
             }
         }
 
-        public string Identity
-        {
-            get
-            {
-                return ColObj?.Identity ?? string.Empty;
-            }
-        }
+        #endregion Public Methods
     }
 }

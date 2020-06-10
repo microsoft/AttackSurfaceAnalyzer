@@ -10,35 +10,33 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     [JsonExporterAttribute.Full]
     public class QueryTests : AsaDatabaseBenchmark
     {
-        // The number random records to populate the database with before the two compare runs are added
-        [Params(0)]
-        public int StartingSize { get; set; }
+        #region Private Fields
 
-        // The amount of padding to add to the object in bytes
-        // Default size is approx 530 bytes serialized
-        // Does not include SQL overhead
-        [Params(0)]
-        public int ObjectPadding { get; set; }
+        // Bag of reusable identities
+        private static readonly ConcurrentBag<(string, string)> BagOfIdentities = new ConcurrentBag<(string, string)>();
 
-        // The number of records in run one
-        [Params(10000)]
-        public int RunOneSize { get; set; }
+        private readonly string RunOneName = "RunOne";
 
-        // The number of records in run two
-        [Params(10000)]
-        public int RunTwoSize { get; set; }
+        private readonly string RunTwoName = "RunTwo";
+
+        #endregion Private Fields
+
+        #region Public Constructors
+
+        public QueryTests()
+#nullable restore
+        {
+            Logger.Setup(true, true);
+            Strings.Setup();
+        }
+
+        #endregion Public Constructors
+
+        #region Public Properties
 
         // Percent of identities which should match between the two runs (% of the smaller run)
         [Params(0, .25, .5, .75, 1)]
         public double IdentityMatches { get; set; }
-
-        // Percent of those identities which match which should match in rowkey
-        [Params(0, .25, .5, .75, 1)]
-        public double RowKeyMatches { get; set; }
-
-        // The number of Shards/Threads to use for Database operations
-        [Params(1)]
-        public int Shards { get; set; }
 
         //[Params("OFF","DELETE","WAL","MEMORY")]
         [Params("WAL")]
@@ -48,26 +46,86 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Params("NORMAL")]
         public string LockingMode { get; set; }
 
+        // The amount of padding to add to the object in bytes Default size is approx 530 bytes
+        // serialized Does not include SQL overhead
+        [Params(0)]
+        public int ObjectPadding { get; set; }
+
         // Options are powers of 2 between 512 and 65536
         [Params(4096)]
         public int PageSize { get; set; }
+
+        // Percent of those identities which match which should match in rowkey
+        [Params(0, .25, .5, .75, 1)]
+        public double RowKeyMatches { get; set; }
+
+        // The number of records in run one
+        [Params(10000)]
+        public int RunOneSize { get; set; }
+
+        // The number of records in run two
+        [Params(10000)]
+        public int RunTwoSize { get; set; }
+
+        // The number of Shards/Threads to use for Database operations
+        [Params(1)]
+        public int Shards { get; set; }
+
+        // The number random records to populate the database with before the two compare runs are added
+        [Params(0)]
+        public int StartingSize { get; set; }
 
         // Options are OFF, NORMAL, FULL, EXTRA
         [Params("OFF")]
         public string Synchronous { get; set; }
 
-        private readonly string RunOneName = "RunOne";
-        private readonly string RunTwoName = "RunTwo";
-
-        // Bag of reusable identities
-        private static readonly ConcurrentBag<(string, string)> BagOfIdentities = new ConcurrentBag<(string, string)>();
+        #endregion Public Properties
 
 #nullable disable
-        public QueryTests()
-#nullable restore
+
+        #region Public Methods
+
+        [Benchmark]
+        public void GetAllMissing2Test()
         {
-            Logger.Setup(true, true);
-            Strings.Setup();
+            DatabaseManager.GetAllMissing2(RunOneName, RunTwoName);
+        }
+
+        [Benchmark]
+        public void GetAllMissingExplicitIndexing()
+        {
+            DatabaseManager.GetAllMissingExplicit(RunOneName, RunTwoName);
+        }
+
+        [Benchmark(Baseline = true)]
+        public void GetAllMissingTest()
+        {
+            DatabaseManager.GetAllMissing(RunOneName, RunTwoName);
+        }
+
+        //[Benchmark]
+        //public void GetModifiedTest()
+        //{
+        //    DatabaseManager.GetModified(RunOneName, RunTwoName);
+        //}
+        [Benchmark]
+        public void GetMissingFromFirstTwice()
+        {
+            DatabaseManager.GetMissingFromFirst(RunOneName, RunTwoName);
+            DatabaseManager.GetMissingFromFirst(RunTwoName, RunOneName);
+        }
+
+        [GlobalCleanup]
+        public void GlobalCleanup()
+        {
+            Setup();
+            DatabaseManager.Destroy();
+        }
+
+        [GlobalSetup]
+        public void GlobalSetup()
+        {
+            PopulateDatabases();
         }
 
         public void InsertFirstRun()
@@ -112,43 +170,23 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             });
         }
 
+        [IterationCleanup]
+        public void IterationCleanup()
+        {
+            DatabaseManager.CloseDatabase();
+        }
+
+        [IterationSetup]
+        public void IterationSetup()
+        {
+            Setup();
+        }
+
         //[Benchmark]
         //public void GetMissingFromFirstTest()
         //{
         //    DatabaseManager.GetMissingFromFirst(RunOneName, RunTwoName);
         //}
-
-        //[Benchmark]
-        //public void GetModifiedTest()
-        //{
-        //    DatabaseManager.GetModified(RunOneName, RunTwoName);
-        //}
-
-        [Benchmark(Baseline = true)]
-        public void GetAllMissingTest()
-        {
-            DatabaseManager.GetAllMissing(RunOneName, RunTwoName);
-        }
-
-        [Benchmark]
-        public void GetMissingFromFirstTwice()
-        {
-            DatabaseManager.GetMissingFromFirst(RunOneName, RunTwoName);
-            DatabaseManager.GetMissingFromFirst(RunTwoName, RunOneName);
-        }
-
-        [Benchmark]
-        public void GetAllMissing2Test()
-        {
-            DatabaseManager.GetAllMissing2(RunOneName, RunTwoName);
-        }
-
-        [Benchmark]
-        public void GetAllMissingExplicitIndexing()
-        {
-            DatabaseManager.GetAllMissingExplicit(RunOneName, RunTwoName);
-        }
-
         public void PopulateDatabases()
         {
             Setup();
@@ -166,25 +204,9 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             DatabaseManager.CloseDatabase();
         }
 
-        [GlobalSetup]
-        public void GlobalSetup()
-        {
-            PopulateDatabases();
+        #endregion Public Methods
 
-        }
-
-        [GlobalCleanup]
-        public void GlobalCleanup()
-        {
-            Setup();
-            DatabaseManager.Destroy();
-        }
-
-        [IterationSetup]
-        public void IterationSetup()
-        {
-            Setup();
-        }
+        #region Private Methods
 
         private void Setup()
         {
@@ -198,10 +220,6 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             });
         }
 
-        [IterationCleanup]
-        public void IterationCleanup()
-        {
-            DatabaseManager.CloseDatabase();
-        }
+        #endregion Private Methods
     }
 }

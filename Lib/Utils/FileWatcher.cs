@@ -1,21 +1,14 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
-
 namespace AttackSurfaceAnalyzer.Utils
 {
     public class FileWatcher : IDisposable
     {
-        private readonly FileSystemWatcher watcher;
-
-        public List<EventArgs> EventList { get; }
-
-        private static readonly Action<EventArgs> DefaultChangedDelegate = (e) => { FileSystemEventArgs i_e = (FileSystemEventArgs)e; Log.Information(i_e.ChangeType.ToString() + " " + i_e.FullPath); };
-        private static readonly Action<EventArgs> DefaultRenamedDelegate = (e) => { RenamedEventArgs i_e = (RenamedEventArgs)e; Log.Information(i_e.ChangeType.ToString() + " " + i_e.OldFullPath + " " + i_e.FullPath); };
+        #region Private Fields
 
         private const NotifyFilters DefaultFilters = NotifyFilters.Attributes
                                                 | NotifyFilters.CreationTime
@@ -27,29 +20,31 @@ namespace AttackSurfaceAnalyzer.Utils
                                                 | NotifyFilters.Size;
 
         private const bool DefaultIncludeSubdirectories = true;
-
-
+        private static readonly Action<EventArgs> DefaultChangedDelegate = (e) => { FileSystemEventArgs i_e = (FileSystemEventArgs)e; Log.Information(i_e.ChangeType.ToString() + " " + i_e.FullPath); };
+        private static readonly Action<EventArgs> DefaultRenamedDelegate = (e) => { RenamedEventArgs i_e = (RenamedEventArgs)e; Log.Information(i_e.ChangeType.ToString() + " " + i_e.OldFullPath + " " + i_e.FullPath); };
         private readonly Action<EventArgs> OnChangedDelegate;
         private readonly Action<EventArgs> OnCreatedDelegate;
         private readonly Action<EventArgs> OnDeletedDelegate;
         private readonly Action<EventArgs> OnRenamedDelegate;
+        private readonly FileSystemWatcher watcher;
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         // Default constructor which gathers everything and prints to stdout.
         public FileWatcher() : this("/")
         {
-
         }
 
         // 'Choose your directory to stdout' constructor
         public FileWatcher(String DirectoryName) : this(DirectoryName, DefaultChangedDelegate, DefaultChangedDelegate, DefaultChangedDelegate, DefaultRenamedDelegate)
         {
-
         }
 
         // 'Normal' Constructor
         public FileWatcher(String DirectoryName, Action<EventArgs> OnChangedAction, Action<EventArgs> OnCreatedAction, Action<EventArgs> OnDeletedAction, Action<EventArgs> OnRenamedAction) : this(DirectoryName, OnChangedAction, OnCreatedAction, OnDeletedAction, OnRenamedAction, DefaultFilters, DefaultIncludeSubdirectories)
         {
-
         }
 
         // 'About as detailed as possible' Constructor
@@ -77,6 +72,22 @@ namespace AttackSurfaceAnalyzer.Utils
             watcher.EndInit();
         }
 
+        #endregion Public Constructors
+
+        #region Public Properties
+
+        public List<EventArgs> EventList { get; }
+
+        #endregion Public Properties
+
+        #region Public Methods
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
         public bool IsRunning()
         {
             return watcher.EnableRaisingEvents;
@@ -92,6 +103,22 @@ namespace AttackSurfaceAnalyzer.Utils
             watcher.EnableRaisingEvents = false;
             watcher.Dispose();
         }
+
+        #endregion Public Methods
+
+        #region Protected Methods
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                watcher.Dispose();
+            }
+        }
+
+        #endregion Protected Methods
+
+        #region Private Methods
 
         private void OnChanged(object source, FileSystemEventArgs e)
         {
@@ -117,18 +144,6 @@ namespace AttackSurfaceAnalyzer.Utils
             OnRenamedDelegate(e);
         }
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                watcher.Dispose();
-            }
-        }
+        #endregion Private Methods
     }
 }

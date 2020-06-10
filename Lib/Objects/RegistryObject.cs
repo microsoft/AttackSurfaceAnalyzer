@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Types;
 using Microsoft.Win32;
 using System;
@@ -9,25 +8,7 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class RegistryObject : CollectObject
     {
-        /// <summary>
-        /// The Full Path to the Key in the Registry
-        /// </summary>
-        public string Key { get; set; }
-        public Dictionary<string, string>? Values { get; set; }
-        public List<string>? Subkeys { get; set; }
-        public string? PermissionsString { get; set; }
-        public Dictionary<string, List<string>> Permissions { get; set; } = new Dictionary<string, List<string>>();
-
-        public RegistryView View { get; private set; }
-
-        public int ValueCount
-        {
-            get { return Values?.Count ?? 0; }
-        }
-        public int SubkeyCount
-        {
-            get { return Subkeys?.Count ?? 0; }
-        }
+        #region Public Constructors
 
         public RegistryObject(string Key, RegistryView View)
         {
@@ -36,14 +17,44 @@ namespace AttackSurfaceAnalyzer.Objects
             this.Key = Key;
         }
 
-        public void AddSubKeys(string[] subkeysIn)
+        #endregion Public Constructors
+
+        #region Public Properties
+
+        public override string Identity
         {
-            if (Subkeys == null)
+            get
             {
-                Subkeys = new List<string>();
+                return $"{View}_{Key}";
             }
-            Subkeys.AddRange(subkeysIn);
         }
+
+        /// <summary>
+        /// The Full Path to the Key in the Registry
+        /// </summary>
+        public string Key { get; set; }
+
+        public Dictionary<string, List<string>> Permissions { get; set; } = new Dictionary<string, List<string>>();
+        public string? PermissionsString { get; set; }
+
+        public int SubkeyCount
+        {
+            get { return Subkeys?.Count ?? 0; }
+        }
+
+        public List<string>? Subkeys { get; set; }
+
+        public int ValueCount
+        {
+            get { return Values?.Count ?? 0; }
+        }
+
+        public Dictionary<string, string>? Values { get; set; }
+        public RegistryView View { get; private set; }
+
+        #endregion Public Properties
+
+        #region Public Methods
 
         public static Dictionary<string, string> GetValues(RegistryKey key)
         {
@@ -63,13 +74,16 @@ namespace AttackSurfaceAnalyzer.Objects
                     case RegistryValueKind.MultiString:
                         str = string.Join(Environment.NewLine, (string[])key.GetValue(value));
                         break;
+
                     case RegistryValueKind.Binary:
                         str = Convert.ToBase64String((byte[])key.GetValue(value));
                         break;
+
                     case RegistryValueKind.ExpandString:
                     case RegistryValueKind.String:
                         str = (string)key.GetValue(value);
                         break;
+
                     case RegistryValueKind.DWord:
                     case RegistryValueKind.QWord:
                     default:
@@ -81,12 +95,15 @@ namespace AttackSurfaceAnalyzer.Objects
             return values;
         }
 
-        public override string Identity
+        public void AddSubKeys(string[] subkeysIn)
         {
-            get
+            if (Subkeys == null)
             {
-                return $"{View}_{Key}";
+                Subkeys = new List<string>();
             }
+            Subkeys.AddRange(subkeysIn);
         }
+
+        #endregion Public Methods
     }
 }

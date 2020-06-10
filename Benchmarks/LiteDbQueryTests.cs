@@ -11,35 +11,33 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     [JsonExporterAttribute.Full]
     public class LiteDbQueryTests : AsaDatabaseBenchmark
     {
-        // The number random records to populate the database with before the two compare runs are added
-        [Params(0)]
-        public int StartingSize { get; set; }
+        #region Private Fields
 
-        // The amount of padding to add to the object in bytes
-        // Default size is approx 530 bytes serialized
-        // Does not include SQL overhead
-        [Params(0)]
-        public int ObjectPadding { get; set; }
+        // Bag of reusable identities
+        private static readonly ConcurrentBag<(string, string)> BagOfIdentities = new ConcurrentBag<(string, string)>();
 
-        // The number of records in run one
-        [Params(10000)]
-        public int RunOneSize { get; set; }
+        private readonly string RunOneName = "RunOne";
 
-        // The number of records in run two
-        [Params(10000)]
-        public int RunTwoSize { get; set; }
+        private readonly string RunTwoName = "RunTwo";
+
+        #endregion Private Fields
+
+        #region Public Constructors
+
+        public LiteDbQueryTests()
+#nullable restore
+        {
+            Logger.Setup(true, true);
+            Strings.Setup();
+        }
+
+        #endregion Public Constructors
+
+        #region Public Properties
 
         // Percent of identities which should match between the two runs (% of the smaller run)
         [Params(0, .25, .5, .75, 1)]
         public double IdentityMatches { get; set; }
-
-        // Percent of those identities which match which should match in rowkey
-        [Params(0, .25, .5, .75, 1)]
-        public double RowKeyMatches { get; set; }
-
-        // The number of Shards/Threads to use for Database operations
-        [Params(1)]
-        public int Shards { get; set; }
 
         //[Params("OFF","DELETE","WAL","MEMORY")]
         [Params("WAL")]
@@ -49,26 +47,68 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Params("NORMAL")]
         public string LockingMode { get; set; }
 
+        // The amount of padding to add to the object in bytes Default size is approx 530 bytes
+        // serialized Does not include SQL overhead
+        [Params(0)]
+        public int ObjectPadding { get; set; }
+
         // Options are powers of 2 between 512 and 65536
         [Params(4096)]
         public int PageSize { get; set; }
+
+        // Percent of those identities which match which should match in rowkey
+        [Params(0, .25, .5, .75, 1)]
+        public double RowKeyMatches { get; set; }
+
+        // The number of records in run one
+        [Params(10000)]
+        public int RunOneSize { get; set; }
+
+        // The number of records in run two
+        [Params(10000)]
+        public int RunTwoSize { get; set; }
+
+        // The number of Shards/Threads to use for Database operations
+        [Params(1)]
+        public int Shards { get; set; }
+
+        // The number random records to populate the database with before the two compare runs are added
+        [Params(0)]
+        public int StartingSize { get; set; }
 
         // Options are OFF, NORMAL, FULL, EXTRA
         [Params("OFF")]
         public string Synchronous { get; set; }
 
-        private readonly string RunOneName = "RunOne";
-        private readonly string RunTwoName = "RunTwo";
-
-        // Bag of reusable identities
-        private static readonly ConcurrentBag<(string, string)> BagOfIdentities = new ConcurrentBag<(string, string)>();
+        #endregion Public Properties
 
 #nullable disable
-        public LiteDbQueryTests()
-#nullable restore
+
+        #region Public Methods
+
+        [Benchmark]
+        public void GetMissingFromFirstTest()
         {
-            Logger.Setup(true, true);
-            Strings.Setup();
+            LiteDbManager.GetMissingFromFirst(RunOneName, RunTwoName).Count();
+        }
+
+        [Benchmark]
+        public void GetModifiedTest()
+        {
+            LiteDbManager.GetModified(RunOneName, RunTwoName);
+        }
+
+        [GlobalCleanup]
+        public void GlobalCleanup()
+        {
+            Setup();
+            LiteDbManager.Destroy();
+        }
+
+        [GlobalSetup]
+        public void GlobalSetup()
+        {
+            PopulateDatabases();
         }
 
         public void InsertFirstRun()
@@ -96,8 +136,6 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             {
                 var obj = GetRandomObject(ObjectPadding);
 
-
-
                 if (BagOfIdentities.TryTake(out (string, string) Id))
                 {
                     if (CryptoHelpers.GetRandomPositiveDouble(1) > IdentityMatches)
@@ -115,16 +153,16 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             });
         }
 
-        [Benchmark]
-        public void GetMissingFromFirstTest()
+        [IterationCleanup]
+        public void IterationCleanup()
         {
-            LiteDbManager.GetMissingFromFirst(RunOneName, RunTwoName).Count();
+            LiteDbManager.CloseDatabase();
         }
 
-        [Benchmark]
-        public void GetModifiedTest()
+        [IterationSetup]
+        public void IterationSetup()
         {
-            LiteDbManager.GetModified(RunOneName, RunTwoName);
+            Setup();
         }
 
         public void PopulateDatabases()
@@ -144,35 +182,15 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             LiteDbManager.CloseDatabase();
         }
 
-        [GlobalSetup]
-        public void GlobalSetup()
-        {
-            PopulateDatabases();
+        #endregion Public Methods
 
-        }
-
-        [GlobalCleanup]
-        public void GlobalCleanup()
-        {
-            Setup();
-            LiteDbManager.Destroy();
-        }
-
-        [IterationSetup]
-        public void IterationSetup()
-        {
-            Setup();
-        }
+        #region Private Methods
 
         private void Setup()
         {
             LiteDbManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite");
         }
 
-        [IterationCleanup]
-        public void IterationCleanup()
-        {
-            LiteDbManager.CloseDatabase();
-        }
+        #endregion Private Methods
     }
 }

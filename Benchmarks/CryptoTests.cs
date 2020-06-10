@@ -12,28 +12,60 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     [JsonExporterAttribute.Full]
     public class CryptoTests : AsaDatabaseBenchmark
     {
-        // The amount of padding to add to the object in bytes
-        // Default size is approx 530 bytes serialized
-        // Does not include SQL overhead
-        [Params(0)]
-        public int ObjectPadding { get; set; }
+        #region Private Fields
+
+        private static readonly HashAlgorithm murmur128 = MurmurHash.Create128();
+
+        private static readonly HashAlgorithm sha256 = SHA256.Create();
+
+        private static readonly HashAlgorithm sha512 = SHA512.Create();
+
+        private readonly ConcurrentQueue<string> hashObjects = new ConcurrentQueue<string>();
+
+        #endregion Private Fields
+
+        #region Public Constructors
+
+        public CryptoTests()
+#nullable restore
+        {
+        }
+
+        #endregion Public Constructors
+
+        #region Public Properties
 
         // The number of iterations per run
         [Params(100000)]
         public int N { get; set; }
 
-        static readonly HashAlgorithm murmur128 = MurmurHash.Create128();
-        static readonly HashAlgorithm sha256 = SHA256.Create();
+        // The amount of padding to add to the object in bytes Default size is approx 530 bytes
+        // serialized Does not include SQL overhead
+        [Params(0)]
+        public int ObjectPadding { get; set; }
 
-        static readonly HashAlgorithm sha512 = SHA512.Create();
-
-        private readonly ConcurrentQueue<string> hashObjects = new ConcurrentQueue<string>();
+        #endregion Public Properties
 
 #nullable disable
-        public CryptoTests()
-#nullable restore
-        {
 
+        #region Public Methods
+
+        [Benchmark]
+        public void Generate_N_Murmur_Hashes()
+        {
+            for (int i = 0; i < N; i++)
+            {
+                hashObjects.TryDequeue(out string? result);
+                if (result is string)
+                {
+                    _ = murmur128.ComputeHash(Encoding.UTF8.GetBytes(result));
+                    hashObjects.Enqueue(result);
+                }
+                else
+                {
+                    Log.Information("The queue is polluted with nulls");
+                }
+            }
         }
 
         [Benchmark(Baseline = true)]
@@ -72,25 +104,6 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             }
         }
 
-        [Benchmark]
-        public void Generate_N_Murmur_Hashes()
-        {
-            for (int i = 0; i < N; i++)
-            {
-                hashObjects.TryDequeue(out string? result);
-                if (result is string)
-                {
-                    _ = murmur128.ComputeHash(Encoding.UTF8.GetBytes(result));
-                    hashObjects.Enqueue(result);
-                }
-                else
-                {
-                    Log.Information("The queue is polluted with nulls");
-                }
-            }
-        }
-
-
         [GlobalSetup]
         public void GlobalSetup()
         {
@@ -99,5 +112,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
                 hashObjects.Enqueue(JsonConvert.SerializeObject(GetRandomObject(ObjectPadding)));
             }
         }
+
+        #endregion Public Methods
     }
 }
