@@ -937,30 +937,40 @@ namespace AttackSurfaceAnalyzer.Utils
             return false;
         }
 
-        private static object? GetValueByPropertyString(CollectObject? collectObject, string pathToProperty)
+        /// <summary>
+        /// Extracts a value stored at the specified path inside an object.
+        /// Can crawl into List and Dictionaries of strings and return any top-level object.
+        /// </summary>
+        /// <param name="targetObject">The object to parse</param>
+        /// <param name="pathToProperty">The path of the property to fetch</param>
+        /// <returns></returns>
+        public static object? GetValueByPropertyString(object? targetObject, string pathToProperty)
         {
+            if (pathToProperty is null || targetObject is null)
+            {
+                return null;
+            }
             try
             {
-                var splits = pathToProperty.Split('.');
-                var value = GetValueByPropertyName(collectObject, splits[0]);
-                for (int i = 1; i < splits.Length; i++)
+                var pathPortions = pathToProperty.Split('.');
+
+                // We first try to get the first value to get it started
+                var value = GetValueByPropertyName(targetObject, pathPortions[0]);
+
+                // For the rest of the path we walk each portion to get the next object
+                for (int pathPortionIndex = 1; pathPortionIndex < pathPortions.Length; pathPortionIndex++)
                 {
                     if (value == null) { break; }
 
                     switch (value)
                     {
                         case Dictionary<(TpmAlgId, uint), byte[]> algDict:
-                            var elements = Convert.ToString(splits[i], CultureInfo.InvariantCulture)?.Trim('(').Trim(')').Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                            if (Enum.TryParse(typeof(TpmAlgId), elements.First(), out object? result) && result is TpmAlgId Algorithm && uint.TryParse(elements.Last(), out uint Index))
+                            var elements = Convert.ToString(pathPortions[pathPortionIndex], CultureInfo.InvariantCulture)?.Trim('(').Trim(')').Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                            if (Enum.TryParse(typeof(TpmAlgId), elements.First(), out object? result) &&
+                                result is TpmAlgId Algorithm && uint.TryParse(elements.Last(), out uint Index) &&
+                                algDict.TryGetValue((Algorithm, Index), out byte[]? byteArray))
                             {
-                                if (algDict.TryGetValue((Algorithm, Index), out byte[]? byteArray))
-                                {
-                                    value = byteArray;
-                                }
-                                else
-                                {
-                                    value = null;
-                                }
+                                value = byteArray;
                             }
                             else
                             {
@@ -968,7 +978,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             }
                             break;
                         case Dictionary<string, string> stringDict:
-                            if (stringDict.TryGetValue(splits[i], out string? stringValue))
+                            if (stringDict.TryGetValue(pathPortions[pathPortionIndex], out string? stringValue))
                             {
                                 value = stringValue;
                             }
@@ -978,7 +988,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             }
                             break;
                         case List<string> stringList:
-                            if (int.TryParse(splits[i], out int ArrayIndex))
+                            if (int.TryParse(pathPortions[pathPortionIndex], out int ArrayIndex) && stringList.Count > ArrayIndex)
                             {
                                 value = stringList[ArrayIndex];
                             }
@@ -988,7 +998,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             }
                             break;
                         default:
-                            value = GetValueByPropertyName(value, splits[i]);
+                            value = GetValueByPropertyName(value, pathPortions[pathPortionIndex]);
                             break;
                     }
                 }
@@ -996,7 +1006,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             catch (Exception e)
             {
-                Log.Information(e, $"Fetching Field {pathToProperty} failed from {collectObject?.GetType().ToString() ?? "{null}"}");
+                Log.Information("Fetching Field {0} failed from {1} ({2}:{3})", pathToProperty, targetObject.GetType(), e.GetType(), e.Message);
             }
             return null;
         }
