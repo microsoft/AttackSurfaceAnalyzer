@@ -945,55 +945,54 @@ namespace AttackSurfaceAnalyzer.Utils
                 var value = GetValueByPropertyName(collectObject, splits[0]);
                 for (int i = 1; i < splits.Length; i++)
                 {
-                    if (value is Dictionary<object, object> dict)
+                    if (value == null) { break; }
+
+                    switch (value)
                     {
-                        if (dict.TryGetValue(splits[i], out object? dictValue))
-                        {
-                            value = dictValue;
-                        }
-                        else
-                        {
-                            value = null;
-                        }
-                    }
-                    else if (value is List<object> list)
-                    {
-                        if (int.TryParse(splits[i], out int parsedInt))
-                        {
-                            if (list.Count > parsedInt)
+                        case Dictionary<(TpmAlgId, uint), byte[]> algDict:
+                            var elements = Convert.ToString(splits[i], CultureInfo.InvariantCulture)?.Trim('(').Trim(')').Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                            if (Enum.TryParse(typeof(TpmAlgId), elements.First(), out object? result) && result is TpmAlgId Algorithm && uint.TryParse(elements.Last(), out uint Index))
                             {
-                                value = list[parsedInt];
+                                if (algDict.TryGetValue((Algorithm, Index), out byte[]? byteArray))
+                                {
+                                    value = byteArray;
+                                }
+                                else
+                                {
+                                    value = null;
+                                }
                             }
                             else
                             {
                                 value = null;
                             }
-                        }
-                    }
-                    else if (value is Dictionary<(TpmAlgId, uint), byte[]> algDict)
-                    {
-                        var elements = Convert.ToString(splits[i], CultureInfo.InvariantCulture)?.Trim('(').Trim(')').Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                        if (Enum.TryParse(typeof(TpmAlgId), elements.First(), out object? result) && result is TpmAlgId Algorithm && uint.TryParse(elements.Last(), out uint Index))
-                        {
-                            if (algDict.TryGetValue((Algorithm, Index), out byte[]? byteArray))
+                            break;
+                        case Dictionary<string, string> stringDict:
+                            if (stringDict.TryGetValue(splits[i], out string? stringValue))
                             {
-                                value = byteArray;
+                                value = stringValue;
                             }
                             else
                             {
                                 value = null;
                             }
-                        }
-                        else
-                        {
-                            value = null;
-                        }
-                    }
-                    else
-                    {
-                        value = GetValueByPropertyName(value, splits[i]);
+                            break;
+                        case List<string> stringList:
+                            if (int.TryParse(splits[i], out int ArrayIndex))
+                            {
+                                value = stringList[ArrayIndex];
+                            }
+                            else
+                            {
+                                value = null;
+                            }
+                            break;
+                        default:
+                            value = GetValueByPropertyName(value, splits[i]);
+                            break;
                     }
                 }
+                return value;
             }
             catch (Exception e)
             {
