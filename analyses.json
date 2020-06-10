@@ -1004,8 +1004,19 @@
         "WINDOWS",
         "LINUX"
       ],
-      "Expression": "SHA_PCR1 OR SHA_PCR2 OR SHA_PCR3 OR SHA_PCR4 OR SHA_PCR5 OR SHA_PCR6 OR SHA_PCR7",
+      "Expression": "ANY_SHA AND (SHA_PCR0 OR SHA_PCR1 OR SHA_PCR2 OR SHA_PCR3 OR SHA_PCR4 OR SHA_PCR5 OR SHA_PCR6 OR SHA_PCR7)",
       "Clauses": [
+        {
+          "Field": "PCRs",
+          "Operation": "CONTAINS_KEY",
+          "Label": "ANY_SHA",
+          "Data": [ "(Sha, 0)" ]
+        },
+        {
+          "Field": "PCRs.(Sha, 0)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA_PCR0"
+        },
         {
           "Field": "PCRs.(Sha, 1)",
           "Operation": "WAS_MODIFIED",
@@ -1052,8 +1063,19 @@
         "WINDOWS",
         "LINUX"
       ],
-      "Expression": "SHA256_PCR1 OR SHA256_PCR2 OR SHA256_PCR3 OR SHA256_PCR4 OR SHA256_PCR5 OR SHA256_PCR6 OR SHA256_PCR7",
+      "Expression": "ANY_SHA256 AND (SHA256_PCR0 OR SHA256_PCR1 OR SHA256_PCR2 OR SHA256_PCR3 OR SHA256_PCR4 OR SHA256_PCR5 OR SHA256_PCR6 OR SHA256_PCR7)",
       "Clauses": [
+        {
+          "Field": "PCRs",
+          "Operation": "CONTAINS_KEY",
+          "Label": "ANY_SHA256",
+          "Data": [ "(Sha256, 0)" ]
+        },
+        {
+          "Field": "PCRs.(Sha256, 0)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA256_PCR0"
+        },
         {
           "Field": "PCRs.(Sha256, 1)",
           "Operation": "WAS_MODIFIED",
@@ -1100,8 +1122,19 @@
         "WINDOWS",
         "LINUX"
       ],
-      "Expression": "SHA384_PCR1 OR SHA384_PCR2 OR SHA384_PCR3 OR SHA384_PCR4 OR SHA384_PCR5 OR SHA384_PCR6 OR SHA384_PCR7",
+      "Expression": "ANY_SHA384 AND (SHA384_PCR0 OR SHA384_PCR1 OR SHA384_PCR2 OR SHA384_PCR3 OR SHA384_PCR4 OR SHA384_PCR5 OR SHA384_PCR6 OR SHA384_PCR7)",
       "Clauses": [
+        {
+          "Field": "PCRs",
+          "Operation": "CONTAINS_KEY",
+          "Label": "ANY_SHA384",
+          "Data": [ "(Sha384, 0)" ]
+        },
+        {
+          "Field": "PCRs.(Sha384, 0)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA384_PCR0"
+        },
         {
           "Field": "PCRs.(Sha384, 1)",
           "Operation": "WAS_MODIFIED",
@@ -1148,8 +1181,19 @@
         "WINDOWS",
         "LINUX"
       ],
-      "Expression": "SHA512_PCR1 OR SHA512_PCR2 OR SHA512_PCR3 OR SHA512_PCR4 OR SHA512_PCR5 OR SHA512_PCR6 OR SHA512_PCR7",
+      "Expression": "ANY_SHA512 AND (SHA512_PCR0 OR SHA512_PCR1 OR SHA512_PCR2 OR SHA512_PCR3 OR SHA512_PCR4 OR SHA512_PCR5 OR SHA512_PCR6 OR SHA512_PCR7)",
       "Clauses": [
+        {
+          "Field": "PCRs",
+          "Operation": "CONTAINS_KEY",
+          "Label": "ANY_SHA512",
+          "Data": [ "(Sha512, 0)" ]
+        },
+        {
+          "Field": "PCRs.(Sha512, 0)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SHA512_PCR0"
+        },
         {
           "Field": "PCRs.(Sha512, 1)",
           "Operation": "WAS_MODIFIED",
@@ -1196,8 +1240,19 @@
         "WINDOWS",
         "LINUX"
       ],
-      "Expression": "SM3_256_PCR1 OR SM3_256_PCR2 OR SM3_256_PCR3 OR SM3_256_PCR4 OR SM3_256_PCR5 OR SM3_256_PCR6 OR SM3_256_PCR7",
+      "Expression": "ANY_SM3_256 AND (SM3_256_PCR0 OR SM3_256_PCR1 OR SM3_256_PCR2 OR SM3_256_PCR3 OR SM3_256_PCR4 OR SM3_256_PCR5 OR SM3_256_PCR6 OR SM3_256_PCR7)",
       "Clauses": [
+        {
+          "Field": "PCRs",
+          "Operation": "CONTAINS_KEY",
+          "Label": "ANY_SM3_256",
+          "Data": [ "(Sm3256, 0)" ]
+        },
+        {
+          "Field": "PCRs.(Sm3256, 0)",
+          "Operation": "WAS_MODIFIED",
+          "Label": "SM3_256_PCR0"
+        },
         {
           "Field": "PCRs.(Sm3256, 1)",
           "Operation": "WAS_MODIFIED",
