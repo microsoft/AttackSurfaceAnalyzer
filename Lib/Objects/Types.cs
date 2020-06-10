@@ -280,7 +280,8 @@ namespace AttackSurfaceAnalyzer.Types
         /// <summary>
         /// Checks if the specified field, as parsed as time, is before DateTime.Now.
         /// </summary>
-        IS_EXPIRED
+        IS_EXPIRED,
+        CONTAINS_KEY
     }
 
     /// <summary>
