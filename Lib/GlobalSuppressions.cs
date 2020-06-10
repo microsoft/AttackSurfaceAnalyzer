@@ -9,3 +9,4 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Naming", "CA1707:Identifiers should not contain underscores", Justification = "Preferred format.", Scope = "namespace", Target = "AttackSurfaceAnalyzer")]
+[assembly: SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "<Pending>", Scope = "member", Target = "~M:AttackSurfaceAnalyzer.Collectors.TpmCollector.GetLoadedEntities(Tpm2Lib.Tpm2,Tpm2Lib.Ht)~Tpm2Lib.TpmHandle[]")]

@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using Tpm2Lib;
 
 namespace AttackSurfaceAnalyzer.Objects
 {
     public class AsaNvIndex
     {
-        public byte[] value { get; set; }
+        public List<byte>? value { get; set; }
         public uint Index { get; set; }
         public NvAttr Attributes { get; set; }
 

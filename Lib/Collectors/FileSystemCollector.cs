@@ -4,7 +4,7 @@ using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.CodeAnalysis;
-using Microsoft.CST.OpenSource.MultiExtractor;
+using Microsoft.CST.OpenSource.RecursiveExtractor;
 using Mono.Unix;
 using Serilog;
 using System;

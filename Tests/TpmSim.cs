@@ -19,7 +19,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public void Stop()
         {
-            TcpTpmDevice? tpmDevice = new TcpTpmDevice("127.0.0.1", Port);
+            TcpTpmDevice tpmDevice = new TcpTpmDevice("127.0.0.1", Port);
 
             if (tpmDevice is TcpTpmDevice)
             {

@@ -10,8 +10,8 @@
 
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.12.1" />
-    <PackageReference Include="LiteDB" Version="5.0.7" />
-    <PackageReference Include="System.Data.SQLite" Version="1.0.112.2" />
+    <PackageReference Include="LiteDB" Version="5.0.8" />
+    <PackageReference Include="System.Data.SQLite" Version="1.0.113.1" />
     <PackageReference Include="murmurhash" Version="1.0.3" />
   </ItemGroup>
 

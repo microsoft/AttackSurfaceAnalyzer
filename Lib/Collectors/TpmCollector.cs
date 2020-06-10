@@ -304,7 +304,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         try
                         {
-                            index.value = tpm.NvRead(TpmRh.Owner, hh, nvPub.dataSize, 0);
+                            index.value = tpm.NvRead(TpmRh.Owner, hh, nvPub.dataSize, 0).ToList();
                         }
                         catch (TpmException e)
                         {
