@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using System;
 using System.Collections.Generic;
 
@@ -33,12 +32,16 @@ namespace AttackSurfaceAnalyzer.Objects
         //Sealed Resources version=2 rules=13 files=2909
         //Internal requirements count=1 size=220
 
-        public string? HashType { get; set; }
-        public string? CandidateCDHashFull { get; set; }
-        public string? HashChoices { get; set; }
-        public string? CMSDigest { get; set; }
+        #region Public Properties
+
         public List<string>? Authorities { get; set; }
-        public DateTime Timestamp { get; set; }
+        public string? CandidateCDHashFull { get; set; }
+        public string? CMSDigest { get; set; }
+        public string? HashChoices { get; set; }
+        public string? HashType { get; set; }
         public string? TeamIdentifier { get; set; }
+        public DateTime Timestamp { get; set; }
+
+        #endregion Public Properties
     }
 }

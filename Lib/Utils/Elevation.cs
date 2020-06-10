@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -13,18 +12,16 @@ namespace AttackSurfaceAnalyzer.Utils
         #region Helper Functions for Admin Privileges and Elevation Status
 
         /// <summary>
-        /// The function checks whether the primary access token of the process belongs 
-        /// to user account that is a member of the local Administrators group, even if 
-        /// it currently is not elevated.
+        /// The function checks whether the primary access token of the process belongs to user
+        /// account that is a member of the local Administrators group, even if it currently is not elevated.
         /// </summary>
         /// <returns>
-        /// Returns true if the primary access token of the process belongs to user 
-        /// account that is a member of the local Administrators group. Returns false 
-        /// if the token does not.
+        /// Returns true if the primary access token of the process belongs to user account that is
+        /// a member of the local Administrators group. Returns false if the token does not.
         /// </returns>
         /// <exception cref="System.ComponentModel.Win32Exception">
-        /// When any native Windows API call fails, the function throws a Win32Exception 
-        /// with the last error code.
+        /// When any native Windows API call fails, the function throws a Win32Exception with the
+        /// last error code.
         /// </exception>
         internal static bool IsUserInAdminGroup()
         {
@@ -44,13 +41,13 @@ namespace AttackSurfaceAnalyzer.Utils
                     throw new Win32Exception();
                 }
 
-                // Determine whether system is running Windows Vista or later operating 
-                // systems (major version >= 6) because they support linked tokens, but 
-                // previous versions (major version < 6) do not.
+                // Determine whether system is running Windows Vista or later operating systems
+                // (major version >= 6) because they support linked tokens, but previous versions
+                // (major version < 6) do not.
                 if (Environment.OSVersion.Version.Major >= 6)
                 {
-                    // Running Windows Vista or later (major version >= 6). 
-                    // Determine token type: limited, elevated, or default. 
+                    // Running Windows Vista or later (major version >= 6). Determine token type:
+                    // limited, elevated, or default.
 
                     // Allocate a buffer for the elevation type information.
                     cbSize = sizeof(TOKEN_ELEVATION_TYPE);
@@ -97,10 +94,9 @@ namespace AttackSurfaceAnalyzer.Utils
                     }
                 }
 
-                // CheckTokenMembership requires an impersonation token. If we just got 
-                // a linked token, it already is an impersonation token.  If we did not 
-                // get a linked token, duplicate the original into an impersonation 
-                // token for CheckTokenMembership.
+                // CheckTokenMembership requires an impersonation token. If we just got a linked
+                // token, it already is an impersonation token. If we did not get a linked token,
+                // duplicate the original into an impersonation token for CheckTokenMembership.
                 if (hTokenToCheck == null)
                 {
                     if (!NativeMethods.DuplicateToken(hToken,
@@ -118,7 +114,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             finally
             {
-                // Centralized cleanup for all allocated resources. 
+                // Centralized cleanup for all allocated resources.
                 if (hToken != null)
                 {
                     hToken.Close();
@@ -140,17 +136,15 @@ namespace AttackSurfaceAnalyzer.Utils
             return fInAdminGroup;
         }
 
-
         /// <summary>
-        /// The function checks whether the current process is run as administrator.
-        /// In other words, it dictates whether the primary access token of the 
-        /// process belongs to user account that is a member of the local 
-        /// Administrators group and it is elevated.
+        /// The function checks whether the current process is run as administrator. In other words,
+        /// it dictates whether the primary access token of the process belongs to user account that
+        /// is a member of the local Administrators group and it is elevated.
         /// </summary>
         /// <returns>
-        /// Returns true if the primary access token of the process belongs to user 
-        /// account that is a member of the local Administrators group and it is 
-        /// elevated. Returns false if the token does not.
+        /// Returns true if the primary access token of the process belongs to user account that is
+        /// a member of the local Administrators group and it is elevated. Returns false if the
+        /// token does not.
         /// </returns>
         public static bool IsRunAsAdmin()
         {
@@ -159,30 +153,25 @@ namespace AttackSurfaceAnalyzer.Utils
             return principal.IsInRole(WindowsBuiltInRole.Administrator);
         }
 
-
         /// <summary>
-        /// The function gets the elevation information of the current process. It 
-        /// dictates whether the process is elevated or not. Token elevation is only 
-        /// available on Windows Vista and newer operating systems, thus 
-        /// IsProcessElevated throws a C++ exception if it is called on systems prior 
-        /// to Windows Vista. It is not appropriate to use this function to determine 
-        /// whether a process is run as administartor.
+        /// The function gets the elevation information of the current process. It dictates whether
+        /// the process is elevated or not. Token elevation is only available on Windows Vista and
+        /// newer operating systems, thus IsProcessElevated throws a C++ exception if it is called
+        /// on systems prior to Windows Vista. It is not appropriate to use this function to
+        /// determine whether a process is run as administartor.
         /// </summary>
-        /// <returns>
-        /// Returns true if the process is elevated. Returns false if it is not.
-        /// </returns>
+        /// <returns>Returns true if the process is elevated. Returns false if it is not.</returns>
         /// <exception cref="System.ComponentModel.Win32Exception">
-        /// When any native Windows API call fails, the function throws a Win32Exception 
-        /// with the last error code.
+        /// When any native Windows API call fails, the function throws a Win32Exception with the
+        /// last error code.
         /// </exception>
         /// <remarks>
-        /// TOKEN_INFORMATION_CLASS provides TokenElevationType to check the elevation 
-        /// type (TokenElevationTypeDefault / TokenElevationTypeLimited / 
-        /// TokenElevationTypeFull) of the process. It is different from TokenElevation 
-        /// in that, when UAC is turned off, elevation type always returns 
-        /// TokenElevationTypeDefault even though the process is elevated (Integrity 
-        /// Level == High). In other words, it is not safe to say if the process is 
-        /// elevated based on elevation type. Instead, we should use TokenElevation. 
+        /// TOKEN_INFORMATION_CLASS provides TokenElevationType to check the elevation type
+        /// (TokenElevationTypeDefault / TokenElevationTypeLimited /
+        /// TokenElevationTypeFull) of the process. It is different from TokenElevation in that,
+        /// when UAC is turned off, elevation type always returns TokenElevationTypeDefault even
+        /// though the process is elevated (Integrity Level == High). In other words, it is not safe
+        /// to say if the process is elevated based on elevation type. Instead, we should use TokenElevation.
         /// </remarks>
         internal static bool IsProcessElevated()
         {
@@ -213,10 +202,9 @@ namespace AttackSurfaceAnalyzer.Utils
                     TOKEN_INFORMATION_CLASS.TokenElevation, pTokenElevation,
                     cbTokenElevation, out cbTokenElevation))
                 {
-                    // When the process is run on operating systems prior to Windows 
-                    // Vista, GetTokenInformation returns false with the error code 
-                    // ERROR_INVALID_PARAMETER because TokenElevation is not supported 
-                    // on those operating systems.
+                    // When the process is run on operating systems prior to Windows Vista,
+                    // GetTokenInformation returns false with the error code ERROR_INVALID_PARAMETER
+                    // because TokenElevation is not supported on those operating systems.
                     throw new Win32Exception();
                 }
 
@@ -228,8 +216,8 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 if (elevation is TOKEN_ELEVATION elevationToken)
                 {
-                    // TOKEN_ELEVATION.TokenIsElevated is a non-zero value if the token 
-                    // has elevated privileges; otherwise, a zero value.
+                    // TOKEN_ELEVATION.TokenIsElevated is a non-zero value if the token has elevated
+                    // privileges; otherwise, a zero value.
                     fIsElevated = (elevationToken.TokenIsElevated != 0);
                 }
                 else
@@ -241,7 +229,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             finally
             {
-                // Centralized cleanup for all allocated resources. 
+                // Centralized cleanup for all allocated resources.
                 if (hToken != null)
                 {
                     hToken.Close();
@@ -256,40 +244,33 @@ namespace AttackSurfaceAnalyzer.Utils
         }
 
         /// <summary>
-        /// The function gets the integrity level of the current process. Integrity 
-        /// level is only available on Windows Vista and newer operating systems, thus 
-        /// GetProcessIntegrityLevel throws a C++ exception if it is called on systems 
-        /// prior to Windows Vista.
+        /// The function gets the integrity level of the current process. Integrity level is only
+        /// available on Windows Vista and newer operating systems, thus GetProcessIntegrityLevel
+        /// throws a C++ exception if it is called on systems prior to Windows Vista.
         /// </summary>
         /// <returns>
-        /// Returns the integrity level of the current process. It is usually one of 
-        /// these values:
-        /// 
-        ///    SECURITY_MANDATORY_UNTRUSTED_RID - means untrusted level. It is used 
-        ///    by processes started by the Anonymous group. Blocks most write access.
-        ///    (SID: S-1-16-0x0)
-        ///    
-        ///    SECURITY_MANDATORY_LOW_RID - means low integrity level. It is used by
-        ///    Protected Mode Internet Explorer. Blocks write acess to most objects 
-        ///    (such as files and registry keys) on the system. (SID: S-1-16-0x1000)
-        /// 
-        ///    SECURITY_MANDATORY_MEDIUM_RID - means medium integrity level. It is 
-        ///    used by normal applications being launched while UAC is enabled. 
-        ///    (SID: S-1-16-0x2000)
-        ///    
-        ///    SECURITY_MANDATORY_HIGH_RID - means high integrity level. It is used 
-        ///    by administrative applications launched through elevation when UAC is 
-        ///    enabled, or normal applications if UAC is disabled and the user is an 
-        ///    administrator. (SID: S-1-16-0x3000)
-        ///    
-        ///    SECURITY_MANDATORY_SYSTEM_RID - means system integrity level. It is 
-        ///    used by services and other system-level applications (such as Wininit, 
-        ///    Winlogon, Smss, etc.)  (SID: S-1-16-0x4000)
-        /// 
+        /// Returns the integrity level of the current process. It is usually one of these values:
+        ///
+        /// SECURITY_MANDATORY_UNTRUSTED_RID - means untrusted level. It is used by processes
+        /// started by the Anonymous group. Blocks most write access. (SID: S-1-16-0x0)
+        ///
+        /// SECURITY_MANDATORY_LOW_RID - means low integrity level. It is used by Protected Mode
+        /// Internet Explorer. Blocks write acess to most objects (such as files and registry keys)
+        /// on the system. (SID: S-1-16-0x1000)
+        ///
+        /// SECURITY_MANDATORY_MEDIUM_RID - means medium integrity level. It is used by normal
+        /// applications being launched while UAC is enabled. (SID: S-1-16-0x2000)
+        ///
+        /// SECURITY_MANDATORY_HIGH_RID - means high integrity level. It is used by administrative
+        /// applications launched through elevation when UAC is enabled, or normal applications if
+        /// UAC is disabled and the user is an administrator. (SID: S-1-16-0x3000)
+        ///
+        /// SECURITY_MANDATORY_SYSTEM_RID - means system integrity level. It is used by services and
+        /// other system-level applications (such as Wininit, Winlogon, Smss, etc.) (SID: S-1-16-0x4000)
         /// </returns>
         /// <exception cref="System.ComponentModel.Win32Exception">
-        /// When any native Windows API call fails, the function throws a Win32Exception 
-        /// with the last error code.
+        /// When any native Windows API call fails, the function throws a Win32Exception with the
+        /// last error code.
         /// </exception>
         public static int GetProcessIntegrityLevel()
         {
@@ -307,11 +288,10 @@ namespace AttackSurfaceAnalyzer.Utils
                     throw new Win32Exception();
                 }
 
-                // Then we must query the size of the integrity level information 
-                // associated with the token. Note that we expect GetTokenInformation 
-                // to return false with the ERROR_INSUFFICIENT_BUFFER error code 
-                // because we've given it a null buffer. On exit cbTokenIL will tell 
-                // the size of the group information.
+                // Then we must query the size of the integrity level information associated with
+                // the token. Note that we expect GetTokenInformation to return false with the
+                // ERROR_INSUFFICIENT_BUFFER error code because we've given it a null buffer. On
+                // exit cbTokenIL will tell the size of the group information.
                 if (!NativeMethods.GetTokenInformation(hToken,
                     TOKEN_INFORMATION_CLASS.TokenIntegrityLevel, IntPtr.Zero, 0,
                     out cbTokenIL))
@@ -319,10 +299,9 @@ namespace AttackSurfaceAnalyzer.Utils
                     int error = Marshal.GetLastWin32Error();
                     if (error != NativeMethods.ERROR_INSUFFICIENT_BUFFER)
                     {
-                        // When the process is run on operating systems prior to 
-                        // Windows Vista, GetTokenInformation returns false with the 
-                        // ERROR_INVALID_PARAMETER error code because 
-                        // TokenIntegrityLevel is not supported on those OS's.
+                        // When the process is run on operating systems prior to Windows Vista,
+                        // GetTokenInformation returns false with the ERROR_INVALID_PARAMETER error
+                        // code because TokenIntegrityLevel is not supported on those OS's.
                         throw new Win32Exception(error);
                     }
                 }
@@ -334,9 +313,9 @@ namespace AttackSurfaceAnalyzer.Utils
                     throw new Win32Exception();
                 }
 
-                // Now we ask for the integrity level information again. This may fail 
-                // if an administrator has added this account to an additional group 
-                // between our first call to GetTokenInformation and this one.
+                // Now we ask for the integrity level information again. This may fail if an
+                // administrator has added this account to an additional group between our first
+                // call to GetTokenInformation and this one.
                 if (!NativeMethods.GetTokenInformation(hToken,
                     TOKEN_INFORMATION_CLASS.TokenIntegrityLevel, pTokenIL, cbTokenIL,
                     out cbTokenIL))
@@ -349,9 +328,8 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 if (tokenMandatoryLabel is TOKEN_MANDATORY_LABEL tokenIL)
                 {
-                    // Integrity Level SIDs are in the form of S-1-16-0xXXXX. (e.g. 
-                    // S-1-16-0x1000 stands for low integrity level SID). There is one 
-                    // and only one subauthority.
+                    // Integrity Level SIDs are in the form of S-1-16-0xXXXX. (e.g. S-1-16-0x1000
+                    // stands for low integrity level SID). There is one and only one subauthority.
                     IntPtr pIL = NativeMethods.GetSidSubAuthority(tokenIL.Label.Sid, 0);
                     IL = Marshal.ReadInt32(pIL);
                 }
@@ -364,7 +342,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             finally
             {
-                // Centralized cleanup for all allocated resources. 
+                // Centralized cleanup for all allocated resources.
                 if (hToken != null)
                 {
                     hToken.Close();
@@ -378,7 +356,7 @@ namespace AttackSurfaceAnalyzer.Utils
             return IL;
         }
 
-        #endregion
+        #endregion Helper Functions for Admin Privileges and Elevation Status
 
         public static bool QueryElevation()
         {

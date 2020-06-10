@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -15,10 +14,17 @@ namespace AttackSurfaceAnalyzer.Utils
     /// </summary>
     public static class Win32ProcessPorts
     {
+        #region Private Fields
+
         private static List<ProcessPort> CachedProcessPortMap = new List<ProcessPort>();
 
+        #endregion Private Fields
+
+        #region Public Properties
+
         /// <summary>
-        /// A list of ProcesesPorts that contain the mapping of processes and the ports that the process uses.
+        /// A list of ProcesesPorts that contain the mapping of processes and the ports that the
+        /// process uses.
         /// </summary>
         public static List<ProcessPort> ProcessPortMap
         {
@@ -32,10 +38,13 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
+        #endregion Public Properties
+
+        #region Private Methods
 
         /// <summary>
-        /// This method distills the output from netstat -a -n -o into a list of ProcessPorts that provide a mapping between
-        /// the process (name and id) and the ports that the process is using.
+        /// This method distills the output from netstat -a -n -o into a list of ProcessPorts that
+        /// provide a mapping between the process (name and id) and the ports that the process is using.
         /// </summary>
         /// <returns></returns>
         private static List<ProcessPort> GetNetStatPorts()
@@ -46,7 +55,6 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 using (Process Proc = new Process())
                 {
-
                     ProcessStartInfo StartInfo = new ProcessStartInfo()
                     {
                         FileName = "netstat.exe",
@@ -101,7 +109,6 @@ namespace AttackSurfaceAnalyzer.Utils
                                     IpAddress.Contains("1.1.1.1") ? $"{Tokens[1]}v6" : $"{Tokens[1]}v4",
                                     Convert.ToInt32(IpAddress.Split(':')[1], CultureInfo.InvariantCulture)
                                 ));
-
                             }
                             else if (Tokens.Length == 4 && (Tokens[0].Equals("UDP")))
                             {
@@ -151,6 +158,8 @@ namespace AttackSurfaceAnalyzer.Utils
                 return "";
             }
         }
+
+        #endregion Private Methods
     }
 
     /// <summary>
@@ -158,15 +167,21 @@ namespace AttackSurfaceAnalyzer.Utils
     /// </summary>
     public class ProcessPort
     {
-        private readonly string _ProcessName = String.Empty;
-        private readonly int _ProcessId = 0;
-        private readonly string _Protocol = String.Empty;
+        #region Private Fields
+
         private readonly int _PortNumber = 0;
+        private readonly int _ProcessId = 0;
+        private readonly string _ProcessName = String.Empty;
+        private readonly string _Protocol = String.Empty;
+
+        #endregion Private Fields
+
+        #region Internal Constructors
 
         /// <summary>
         /// Internal constructor to initialize the mapping of process to port.
         /// </summary>
-        /// <param name="ProcessName">Name of process to be </param>
+        /// <param name="ProcessName">Name of process to be</param>
         /// <param name="ProcessId"></param>
         /// <param name="Protocol"></param>
         /// <param name="PortNumber"></param>
@@ -178,6 +193,25 @@ namespace AttackSurfaceAnalyzer.Utils
             _PortNumber = PortNumber;
         }
 
+        #endregion Internal Constructors
+
+        #region Public Properties
+
+        public int PortNumber
+        {
+            get { return _PortNumber; }
+        }
+
+        public int ProcessId
+        {
+            get { return _ProcessId; }
+        }
+
+        public string ProcessName
+        {
+            get { return _ProcessName; }
+        }
+
         public string ProcessPortDescription
         {
             get
@@ -185,21 +219,12 @@ namespace AttackSurfaceAnalyzer.Utils
                 return string.Format(CultureInfo.InvariantCulture, "{0} ({1} port {2} pid {3})", _ProcessName, _Protocol, _PortNumber, _ProcessId);
             }
         }
-        public string ProcessName
-        {
-            get { return _ProcessName; }
-        }
-        public int ProcessId
-        {
-            get { return _ProcessId; }
-        }
+
         public string Protocol
         {
             get { return _Protocol; }
         }
-        public int PortNumber
-        {
-            get { return _PortNumber; }
-        }
+
+        #endregion Public Properties
     }
 }

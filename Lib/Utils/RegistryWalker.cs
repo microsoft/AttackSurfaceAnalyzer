@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using Microsoft.Win32;
 using Serilog;
@@ -13,53 +12,7 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public static class RegistryWalker
     {
-        public static IEnumerable<string> WalkHive(RegistryHive Hive, RegistryView View, string startingKey = "")
-        {
-            Stack<string> keys = new Stack<string>();
-
-            RegistryKey? BaseKey = null;
-            try
-            {
-                BaseKey = RegistryKey.OpenBaseKey(Hive, View);
-            }
-            catch (Exception e) when (
-                e is IOException ||
-                e is ArgumentException ||
-                e is UnauthorizedAccessException ||
-                e is System.Security.SecurityException)
-            {
-                Log.Debug($"Failed to open Hive {Hive} for walking.");
-            }
-
-            if (BaseKey != null)
-            {
-                keys.Push(startingKey);
-
-                while (keys.Count > 0)
-                {
-                    var key = keys.Pop();
-                    try
-                    {
-                        RegistryKey currentKey = BaseKey.OpenSubKey(key);
-
-                        if (currentKey != null)
-                        {
-                            foreach (string subkey in currentKey.GetSubKeyNames())
-                            {
-                                keys.Push($"{key}\\{subkey}");
-                            }
-                        }
-                    }
-                    catch (Exception e) {
-                        Log.Verbose("Failed to open SubKey {0} ({1})", key, e.GetType());
-                    }
-
-                    yield return key;
-                }
-            }
-
-            BaseKey?.Dispose();
-        }
+        #region Public Methods
 
         public static RegistryObject? RegistryKeyToRegistryObject(RegistryKey key, RegistryView registryView)
         {
@@ -98,7 +51,6 @@ namespace AttackSurfaceAnalyzer.Utils
                             regObj.Permissions.Add(name, new List<string>() { rule.RegistryRights.ToString() });
                         }
                     }
-
                 }
             }
             catch (Exception e)
@@ -110,5 +62,56 @@ namespace AttackSurfaceAnalyzer.Utils
 
             return regObj;
         }
+
+        public static IEnumerable<string> WalkHive(RegistryHive Hive, RegistryView View, string startingKey = "")
+        {
+            Stack<string> keys = new Stack<string>();
+
+            RegistryKey? BaseKey = null;
+            try
+            {
+                BaseKey = RegistryKey.OpenBaseKey(Hive, View);
+            }
+            catch (Exception e) when (
+                e is IOException ||
+                e is ArgumentException ||
+                e is UnauthorizedAccessException ||
+                e is System.Security.SecurityException)
+            {
+                Log.Debug($"Failed to open Hive {Hive} for walking.");
+            }
+
+            if (BaseKey != null)
+            {
+                keys.Push(startingKey);
+
+                while (keys.Count > 0)
+                {
+                    var key = keys.Pop();
+                    try
+                    {
+                        RegistryKey currentKey = BaseKey.OpenSubKey(key);
+
+                        if (currentKey != null)
+                        {
+                            foreach (string subkey in currentKey.GetSubKeyNames())
+                            {
+                                keys.Push($"{key}\\{subkey}");
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Verbose("Failed to open SubKey {0} ({1})", key, e.GetType());
+                    }
+
+                    yield return key;
+                }
+            }
+
+            BaseKey?.Dispose();
+        }
+
+        #endregion Public Methods
     }
 }

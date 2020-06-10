@@ -9,25 +9,18 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     [JsonExporterAttribute.Full]
     public class SystemSqliteInsertTestsWithoutTransactions : AsaDatabaseBenchmark
     {
-        // The number of records to insert for the benchmark
-        //[Params(25000,50000,100000)]
-        [Params(10000)]
-        public int N { get; set; }
+        #region Public Constructors
 
-        // The number of records to populate the database with before the benchmark
-        //[Params(0,100000,200000,400000,800000,1600000,3200000)]
-        [Params(0)]
-        public int StartingSize { get; set; }
+        public SystemSqliteInsertTestsWithoutTransactions()
+#nullable restore
+        {
+            Logger.Setup(true, true);
+            Strings.Setup();
+        }
 
-        // The amount of padding to add to the object in bytes
-        // Default size is approx 530 bytes serialized
-        // Does not include SQL overhead
-        [Params(0)]
-        public int ObjectPadding { get; set; }
+        #endregion Public Constructors
 
-        // The number of Shards/Threads to use for Database operations
-        [Params(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)]
-        public int Shards { get; set; }
+        #region Public Properties
 
         //[Params("OFF","DELETE","WAL","MEMORY")]
         [Params("WAL")]
@@ -36,21 +29,36 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Params("NORMAL")]
         public string LockingMode { get; set; }
 
+        // The number of records to insert for the benchmark
+        //[Params(25000,50000,100000)]
+        [Params(10000)]
+        public int N { get; set; }
+
+        // The amount of padding to add to the object in bytes Default size is approx 530 bytes
+        // serialized Does not include SQL overhead
+        [Params(0)]
+        public int ObjectPadding { get; set; }
+
         [Params(4096)]
         public int PageSize { get; set; }
 
+        // The number of Shards/Threads to use for Database operations
+        [Params(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)]
+        public int Shards { get; set; }
+
+        // The number of records to populate the database with before the benchmark
+        //[Params(0,100000,200000,400000,800000,1600000,3200000)]
+        [Params(0)]
+        public int StartingSize { get; set; }
+
         [Params("OFF")]
         public string Synchronous { get; set; }
-#nullable disable
-        public SystemSqliteInsertTestsWithoutTransactions()
-#nullable restore
-        {
-            Logger.Setup(true, true);
-            Strings.Setup();
-        }
 
-        [Benchmark]
-        public void Insert_N_Objects() => Insert_X_Objects(N, ObjectPadding, "Insert_N_Objects");
+        #endregion Public Properties
+
+#nullable disable
+
+        #region Public Methods
 
         public static void Insert_X_Objects(int X, int ObjectPadding = 0, string runName = "Insert_X_Objects")
         {
@@ -67,6 +75,35 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             }
         }
 
+        [GlobalCleanup]
+        public void GlobalCleanup()
+        {
+            Setup();
+            SystemSQLiteDatabaseManager.Destroy();
+        }
+
+        [GlobalSetup]
+        public void GlobalSetup()
+        {
+            PopulateDatabases();
+        }
+
+        [Benchmark]
+        public void Insert_N_Objects() => Insert_X_Objects(N, ObjectPadding, "Insert_N_Objects");
+
+        [IterationCleanup]
+        public void IterationCleanup()
+        {
+            SystemSQLiteDatabaseManager.CloseDatabase();
+        }
+
+        [IterationSetup]
+        public void IterationSetup()
+        {
+            Setup();
+            SystemSQLiteDatabaseManager.BeginTransaction();
+        }
+
         public void PopulateDatabases()
         {
             Setup();
@@ -78,25 +115,9 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             SystemSQLiteDatabaseManager.CloseDatabase();
         }
 
-        [GlobalSetup]
-        public void GlobalSetup()
-        {
-            PopulateDatabases();
-        }
+        #endregion Public Methods
 
-        [GlobalCleanup]
-        public void GlobalCleanup()
-        {
-            Setup();
-            SystemSQLiteDatabaseManager.Destroy();
-        }
-
-        [IterationSetup]
-        public void IterationSetup()
-        {
-            Setup();
-            SystemSQLiteDatabaseManager.BeginTransaction();
-        }
+        #region Private Methods
 
         private void Setup()
         {
@@ -110,10 +131,6 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             });
         }
 
-        [IterationCleanup]
-        public void IterationCleanup()
-        {
-            SystemSQLiteDatabaseManager.CloseDatabase();
-        }
+        #endregion Private Methods
     }
 }

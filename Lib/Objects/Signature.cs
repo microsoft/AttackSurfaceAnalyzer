@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using Newtonsoft.Json;
 using PeNet.Header.Authenticode;
 using System;
@@ -9,6 +8,8 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class Signature
     {
+        #region Public Constructors
+
         public Signature(AuthenticodeInfo authenticodeInfo)
         {
             if (authenticodeInfo != null)
@@ -40,10 +41,11 @@ namespace AttackSurfaceAnalyzer.Objects
             this.IsAuthenticodeValid = IsAuthenticodeValid;
         }
 
+        #endregion Public Constructors
+
+        #region Public Properties
+
         public bool IsAuthenticodeValid { get; set; }
-        public string? SignedHash { get; set; }
-        public string? SignerSerialNumber { get; set; }
-        public SerializableCertificate? SigningCertificate { get; set; }
 
         public bool IsTimeValid
         {
@@ -56,5 +58,11 @@ namespace AttackSurfaceAnalyzer.Objects
                 return false;
             }
         }
+
+        public string? SignedHash { get; set; }
+        public string? SignerSerialNumber { get; set; }
+        public SerializableCertificate? SigningCertificate { get; set; }
+
+        #endregion Public Properties
     }
 }

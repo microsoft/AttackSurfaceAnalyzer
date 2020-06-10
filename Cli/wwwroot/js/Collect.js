@@ -22,7 +22,6 @@ group.change(function () {
     $('.monitor').toggle(group.filter(':checked').val() === 'Live');
 }).change();
 
-
 GetCollectors();
 
 function StopMonitoring() {
@@ -83,7 +82,6 @@ function StartCollection() {
             EnableCollectionFields();
         }
         else {
-
             var collect = {
                 Id: ($('#RunId').val() == "") ? $('#RunId').attr('placeholder') : encodeURIComponent($('#RunId').val()),
                 File: $('#enableFileCollector').is(":checked"),

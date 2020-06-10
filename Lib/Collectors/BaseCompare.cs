@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
@@ -20,7 +19,13 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class BaseCompare
     {
-        public ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> Results { get; }
+        #region Private Fields
+
+        private RUN_STATUS _running = RUN_STATUS.NOT_STARTED;
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public BaseCompare()
         {
@@ -35,6 +40,37 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
                 }
             }
+        }
+
+        #endregion Public Constructors
+
+        #region Public Properties
+
+        public ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> Results { get; }
+
+        #endregion Public Properties
+
+        #region Public Methods
+
+        /// <summary>
+        /// Creates a list of Diff objects based on an object property and findings.
+        /// </summary>
+        /// <param name="prop">The property of the referenced object.</param>
+        /// <param name="added">The added findings.</param>
+        /// <param name="removed">The removed findings.</param>
+        /// <returns></returns>
+        public static List<Diff> GetDiffs(PropertyInfo prop, object? added, object? removed)
+        {
+            List<Diff> diffsOut = new List<Diff>();
+            if (added != null && prop != null)
+            {
+                diffsOut.Add(new Diff(FieldIn: prop.Name, AfterIn: added));
+            }
+            if (removed != null && prop != null)
+            {
+                diffsOut.Add(new Diff(FieldIn: prop.Name, BeforeIn: removed));
+            }
+            return diffsOut;
         }
 
         public void Compare(IEnumerable<CollectObject> FirstRunObjects, IEnumerable<CollectObject> SecondRunObjects, string? firstRunId, string secondRunId)
@@ -86,7 +122,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 differentObjects = DatabaseManager.GetAllMissing(firstRunId, secondRunId).Select(y => (y.ColObj, y.RunId));
                 modifyObjects = DatabaseManager.GetModified(firstRunId, secondRunId).Select(y => (y.Item1.ColObj, y.Item2.ColObj));
             }
-            
+
             Compare(differentObjects, modifyObjects, firstRunId, secondRunId);
         }
 
@@ -272,24 +308,28 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Creates a list of Diff objects based on an object property and findings.
+        /// Returns if the comparators are still running.
         /// </summary>
-        /// <param name="prop">The property of the referenced object.</param>
-        /// <param name="added">The added findings.</param>
-        /// <param name="removed">The removed findings.</param>
-        /// <returns></returns>
-        public static List<Diff> GetDiffs(PropertyInfo prop, object? added, object? removed)
+        /// <returns>RUN_STATUS indicating run status.</returns>
+        public RUN_STATUS IsRunning()
         {
-            List<Diff> diffsOut = new List<Diff>();
-            if (added != null && prop != null)
-            {
-                diffsOut.Add(new Diff(FieldIn: prop.Name, AfterIn: added));
-            }
-            if (removed != null && prop != null)
-            {
-                diffsOut.Add(new Diff(FieldIn: prop.Name, BeforeIn: removed));
-            }
-            return diffsOut;
+            return _running;
+        }
+
+        /// <summary>
+        /// Set status to running.
+        /// </summary>
+        public void Start()
+        {
+            _running = RUN_STATUS.RUNNING;
+        }
+
+        /// <summary>
+        /// Sets status to completed.
+        /// </summary>
+        public void Stop()
+        {
+            _running = RUN_STATUS.COMPLETED;
         }
 
         /// <summary>
@@ -306,33 +346,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             return true;
         }
 
-        private RUN_STATUS _running = RUN_STATUS.NOT_STARTED;
-
-        /// <summary>
-        /// Returns if the comparators are still running.
-        /// </summary>
-        /// <returns>RUN_STATUS indicating run status.</returns>
-        public RUN_STATUS IsRunning()
-        {
-            return _running;
-        }
-
-        /// <summary>
-        /// Set status to running.
-        /// </summary>
-        public void Start()
-        {
-            _running = RUN_STATUS.RUNNING;
-
-        }
-
-        /// <summary>
-        /// Sets status to completed.
-        /// </summary>
-        public void Stop()
-        {
-            _running = RUN_STATUS.COMPLETED;
-        }
-
+        #endregion Public Methods
     }
 }

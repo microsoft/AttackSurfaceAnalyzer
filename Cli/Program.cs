@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Collectors;
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
@@ -60,7 +59,8 @@ namespace AttackSurfaceAnalyzer.Cli
 
             var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions, ConfigCommandOptions, GuiCommandOptions, VerifyOptions>(args)
                 .MapResult(
-                    (CollectCommandOptions opts) => {
+                    (CollectCommandOptions opts) =>
+                    {
                         SetupDatabase(opts);
                         return RunCollectCommand(opts);
                     },
@@ -374,7 +374,6 @@ namespace AttackSurfaceAnalyzer.Cli
                 Log.Information(Strings.Get("OutputWrittenTo"), (new FileInfo(path)).FullName);
             }
             return 0;
-
         }
 
         private class AsaExportContractResolver : DefaultContractResolver
@@ -409,7 +408,7 @@ namespace AttackSurfaceAnalyzer.Cli
         {
             var invalidFileNameChars = Path.GetInvalidPathChars().ToList();
             OutputPath = new string(OutputPath.Select(ch => invalidFileNameChars.Contains(ch) ? Convert.ToChar(invalidFileNameChars.IndexOf(ch) + 65) : ch).ToArray());
-            List <RESULT_TYPE> ToExport = new List<RESULT_TYPE> { (RESULT_TYPE)ResultType };
+            List<RESULT_TYPE> ToExport = new List<RESULT_TYPE> { (RESULT_TYPE)ResultType };
             Dictionary<RESULT_TYPE, int> actualExported = new Dictionary<RESULT_TYPE, int>();
             JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings()
             {
@@ -457,7 +456,6 @@ namespace AttackSurfaceAnalyzer.Cli
                     serializer.Serialize(writer, output);
                 }
             }
-
         }
 
         private static void CheckFirstRun()
@@ -541,7 +539,6 @@ namespace AttackSurfaceAnalyzer.Cli
             }
 
             Log.Information(Strings.Get("OutputWrittenTo"), (new FileInfo(path)).FullName);
-
         }
 
         private static int RunMonitorCommand(MonitorCommandOptions opts)
@@ -625,7 +622,6 @@ namespace AttackSurfaceAnalyzer.Cli
 
             foreach (FileSystemMonitor c in monitors)
             {
-
                 Log.Information(Strings.Get("Begin"), c.GetType().Name);
 
                 try
@@ -761,7 +757,6 @@ namespace AttackSurfaceAnalyzer.Cli
                                         t.Seconds,
                                         t.Milliseconds);
                 Log.Information(Strings.Get("Completed"), "Analysis", answer);
-
             }
 
             watch = Stopwatch.StartNew();
@@ -810,7 +805,7 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             if (opts.EnableFileSystemMonitor)
             {
-                monitors.Add(new FileSystemMonitor(opts, x => DatabaseManager.Write(x,opts.RunId)));
+                monitors.Add(new FileSystemMonitor(opts, x => DatabaseManager.Write(x, opts.RunId)));
             }
 
             if (monitors.Count == 0)
@@ -872,7 +867,7 @@ namespace AttackSurfaceAnalyzer.Cli
         {
             if (opts == null) { return -1; }
 #if DEBUG
-                Logger.Setup(true, opts.Verbose, opts.Quiet);
+            Logger.Setup(true, opts.Verbose, opts.Quiet);
 #else
                 Logger.Setup(opts.Debug, opts.Verbose, opts.Quiet);
 #endif
@@ -915,30 +910,39 @@ namespace AttackSurfaceAnalyzer.Cli
                             case RESULT_TYPE.FILE:
                                 opts.EnableFileSystemCollector = true;
                                 break;
+
                             case RESULT_TYPE.PORT:
                                 opts.EnableNetworkPortCollector = true;
                                 break;
+
                             case RESULT_TYPE.CERTIFICATE:
                                 opts.EnableCertificateCollector = true;
                                 break;
+
                             case RESULT_TYPE.COM:
                                 opts.EnableComObjectCollector = true;
                                 break;
+
                             case RESULT_TYPE.FIREWALL:
                                 opts.EnableFirewallCollector = true;
                                 break;
+
                             case RESULT_TYPE.LOG:
                                 opts.EnableEventLogCollector = true;
                                 break;
+
                             case RESULT_TYPE.SERVICE:
                                 opts.EnableServiceCollector = true;
                                 break;
+
                             case RESULT_TYPE.USER:
                                 opts.EnableUserCollector = true;
                                 break;
+
                             case RESULT_TYPE.KEY:
                                 opts.EnableKeyCollector = true;
                                 break;
+
                             case RESULT_TYPE.TPM:
                                 opts.EnableTpmCollector = true;
                                 break;
@@ -1050,7 +1054,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 try
                 {
                     DatabaseManager.BeginTransaction();
-                    
+
                     c.TryExecute(token);
 
                     FlushResults();
@@ -1139,7 +1143,6 @@ namespace AttackSurfaceAnalyzer.Cli
                                     t.Seconds,
                                     t.Milliseconds);
             Log.Debug("Completed flushing in {0}", answer);
-
         }
 
         public static void ClearCollectors()

@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,11 +9,16 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public static class Strings
     {
+        #region Private Fields
 
         /// <summary>
         /// Internal member structure holding string resources
         /// </summary>
         private static readonly Dictionary<string, string> stringList = new Dictionary<string, string>();
+
+        #endregion Private Fields
+
+        #region Public Methods
 
         public static string Get(string key)
         {
@@ -47,5 +51,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
             }
         }
+
+        #endregion Public Methods
     }
 }

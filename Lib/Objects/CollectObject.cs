@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 
@@ -10,8 +9,10 @@ namespace AttackSurfaceAnalyzer.Objects
     /// </summary>
     public abstract class CollectObject
     {
-        public RESULT_TYPE ResultType { get; set; }
+        #region Public Properties
+
         public abstract string Identity { get; }
+        public RESULT_TYPE ResultType { get; set; }
 
         public string RowKey
         {
@@ -21,9 +22,15 @@ namespace AttackSurfaceAnalyzer.Objects
             }
         }
 
+        #endregion Public Properties
+
+        #region Public Methods
+
         public static bool ShouldSerializeRowKey()
         {
             return false;
         }
+
+        #endregion Public Methods
     }
 }

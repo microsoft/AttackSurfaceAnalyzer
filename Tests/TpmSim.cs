@@ -7,31 +7,22 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public class TpmSim
     {
-        [DllImport("Tpm")]
-        public static extern int StartTcpServer(int port);
-
-        public int Port { get; }
-
-        public void Start()
-        {
-            Task.Run(() => StartTcpServer(Port));
-        }
-
-        public void Stop()
-        {
-            TcpTpmDevice? tpmDevice = new TcpTpmDevice("127.0.0.1", Port);
-
-            if (tpmDevice is TcpTpmDevice)
-            {
-                tpmDevice.Connect();
-                tpmDevice.Close();
-            }
-        }
+        #region Public Constructors
 
         public TpmSim(int Port = 2321)
         {
             this.Port = Port;
         }
+
+        #endregion Public Constructors
+
+        #region Public Properties
+
+        public int Port { get; }
+
+        #endregion Public Properties
+
+        #region Public Methods
 
         public static Process GetTpmSimulator()
         {
@@ -48,5 +39,26 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
             };
         }
+
+        [DllImport("Tpm")]
+        public static extern int StartTcpServer(int port);
+
+        public void Start()
+        {
+            Task.Run(() => StartTcpServer(Port));
+        }
+
+        public void Stop()
+        {
+            TcpTpmDevice tpmDevice = new TcpTpmDevice("127.0.0.1", Port);
+
+            if (tpmDevice is TcpTpmDevice)
+            {
+                tpmDevice.Connect();
+                tpmDevice.Close();
+            }
+        }
+
+        #endregion Public Methods
     }
 }

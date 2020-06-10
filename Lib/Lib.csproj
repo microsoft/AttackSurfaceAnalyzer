@@ -34,13 +34,14 @@
   </Target>
   
   <ItemGroup>
+    <PackageReference Include="Microsoft.CST.RecursiveExtractor" Version="0.1.203" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
     <PackageReference Include="CompareNETObjects" Version="4.66.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="3.1.4" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="3.1.5" />
     <PackageReference Include="Microsoft.PowerShell.Commands.Diagnostics" Version="7.0.1" />
     <PackageReference Include="Microsoft.PowerShell.SDK" Version="7.0.1" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
@@ -67,8 +68,7 @@
     <PackageReference Include="CommandLineParser" Version="2.8.0" />
     <PackageReference Include="sqlite" Version="3.13.0" />
     <PackageReference Include="Microsoft.TSS" Version="2.1.1" />
-    <PackageReference Include="PeNet" Version="2.2.7" />
-    <PackageReference Include="Microsoft.CST.MultiExtractor" Version="0.1.194" />
+    <PackageReference Include="PeNet" Version="2.3.0" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\analyses.json" Link="analyses.json" />

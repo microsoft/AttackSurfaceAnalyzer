@@ -91,4 +91,3 @@ function isIE() {
 
     return false;
 }
-

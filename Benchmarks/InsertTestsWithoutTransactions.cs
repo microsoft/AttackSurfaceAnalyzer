@@ -9,25 +9,21 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     [JsonExporterAttribute.Full]
     public class InsertTestsWithoutTransactions : AsaDatabaseBenchmark
     {
-        // The number of records to insert for the benchmark
-        //[Params(25000,50000,100000)]
-        [Params(10000)]
-        public int N { get; set; }
+        #region Public Constructors
 
-        // The number of records to populate the database with before the benchmark
-        //[Params(0,100000,200000,400000,800000,1600000,3200000)]
-        [Params(0)]
-        public int StartingSize { get; set; }
+        public InsertTestsWithoutTransactions()
+#nullable restore
+        {
+            Logger.Setup(true, true);
+            Strings.Setup();
+        }
 
-        // The amount of padding to add to the object in bytes
-        // Default size is approx 530 bytes serialized
-        // Does not include SQL overhead
-        [Params(0, 4500)]
-        public int ObjectPadding { get; set; }
+        #endregion Public Constructors
 
-        // The number of Shards/Threads to use for Database operations
-        [Params(1)]
-        public int Shards { get; set; }
+        #region Public Properties
+
+        [Params(10)]
+        public int BatchSize { get; set; }
 
         //[Params("OFF","DELETE","WAL","MEMORY")]
         [Params("DELETE")]
@@ -36,25 +32,36 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Params("NORMAL")]
         public string LockingMode { get; set; }
 
+        // The number of records to insert for the benchmark
+        //[Params(25000,50000,100000)]
+        [Params(10000)]
+        public int N { get; set; }
+
+        // The amount of padding to add to the object in bytes Default size is approx 530 bytes
+        // serialized Does not include SQL overhead
+        [Params(0, 4500)]
+        public int ObjectPadding { get; set; }
+
         [Params(4096)]
         public int PageSize { get; set; }
+
+        // The number of Shards/Threads to use for Database operations
+        [Params(1)]
+        public int Shards { get; set; }
+
+        // The number of records to populate the database with before the benchmark
+        //[Params(0,100000,200000,400000,800000,1600000,3200000)]
+        [Params(0)]
+        public int StartingSize { get; set; }
 
         [Params("OFF")]
         public string Synchronous { get; set; }
 
-        [Params(10)]
-        public int BatchSize { get; set; }
+        #endregion Public Properties
 
 #nullable disable
-        public InsertTestsWithoutTransactions()
-#nullable restore
-        {
-            Logger.Setup(true, true);
-            Strings.Setup();
-        }
 
-        [Benchmark]
-        public void Insert_N_Objects() => Insert_X_Objects(N, ObjectPadding, "Insert_N_Objects");
+        #region Public Methods
 
         public static void Insert_X_Objects(int X, int ObjectPadding = 0, string runName = "Insert_X_Objects")
         {
@@ -71,6 +78,35 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             }
         }
 
+        [GlobalCleanup]
+        public void GlobalCleanup()
+        {
+            Setup();
+            DatabaseManager.Destroy();
+        }
+
+        [GlobalSetup]
+        public void GlobalSetup()
+        {
+            PopulateDatabases();
+        }
+
+        [Benchmark]
+        public void Insert_N_Objects() => Insert_X_Objects(N, ObjectPadding, "Insert_N_Objects");
+
+        [IterationCleanup]
+        public void IterationCleanup()
+        {
+            DatabaseManager.CloseDatabase();
+        }
+
+        [IterationSetup]
+        public void IterationSetup()
+        {
+            Setup();
+            DatabaseManager.BeginTransaction();
+        }
+
         public void PopulateDatabases()
         {
             Setup();
@@ -82,25 +118,9 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             DatabaseManager.CloseDatabase();
         }
 
-        [GlobalSetup]
-        public void GlobalSetup()
-        {
-            PopulateDatabases();
-        }
+        #endregion Public Methods
 
-        [GlobalCleanup]
-        public void GlobalCleanup()
-        {
-            Setup();
-            DatabaseManager.Destroy();
-        }
-
-        [IterationSetup]
-        public void IterationSetup()
-        {
-            Setup();
-            DatabaseManager.BeginTransaction();
-        }
+        #region Private Methods
 
         private void Setup()
         {
@@ -115,10 +135,6 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             });
         }
 
-        [IterationCleanup]
-        public void IterationCleanup()
-        {
-            DatabaseManager.CloseDatabase();
-        }
+        #endregion Private Methods
     }
 }

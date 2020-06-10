@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using KellermanSoftware.CompareNetObjects;
@@ -12,7 +11,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using Tpm2Lib;
 
@@ -20,13 +18,16 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public class Analyzer
     {
+        #region Private Fields
+
+        private static readonly ConcurrentDictionary<string, Regex> RegexCache = new ConcurrentDictionary<string, Regex>();
+        private readonly ConcurrentDictionary<(CompareResult, Clause), bool> ClauseCache = new ConcurrentDictionary<(CompareResult, Clause), bool>();
         private readonly PLATFORM OsName;
         private RuleFile config;
 
-        private readonly ConcurrentDictionary<(CompareResult, Clause), bool> ClauseCache = new ConcurrentDictionary<(CompareResult, Clause), bool>();
-        public Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DefaultLevels { get { return config.DefaultLevels; } }
+        #endregion Private Fields
 
-        private static readonly ConcurrentDictionary<string, Regex> RegexCache = new ConcurrentDictionary<string, Regex>();
+        #region Public Constructors
 
         public Analyzer(PLATFORM platform, string? filterLocation = null)
         {
@@ -47,6 +48,134 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             OsName = platform;
             config = filters;
+        }
+
+        #endregion Public Constructors
+
+        #region Public Properties
+
+        public Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DefaultLevels { get { return config.DefaultLevels; } }
+
+        #endregion Public Properties
+
+        #region Public Methods
+
+        /// <summary>
+        /// Extracts a value stored at the specified path inside an object. Can crawl into List and
+        /// Dictionaries of strings and return any top-level object.
+        /// </summary>
+        /// <param name="targetObject">The object to parse</param>
+        /// <param name="pathToProperty">The path of the property to fetch</param>
+        /// <returns></returns>
+        public static object? GetValueByPropertyString(object? targetObject, string pathToProperty)
+        {
+            if (pathToProperty is null || targetObject is null)
+            {
+                return null;
+            }
+            try
+            {
+                var pathPortions = pathToProperty.Split('.');
+
+                // We first try to get the first value to get it started
+                var value = GetValueByPropertyName(targetObject, pathPortions[0]);
+
+                // For the rest of the path we walk each portion to get the next object
+                for (int pathPortionIndex = 1; pathPortionIndex < pathPortions.Length; pathPortionIndex++)
+                {
+                    if (value == null) { break; }
+
+                    switch (value)
+                    {
+                        case Dictionary<(TpmAlgId, uint), byte[]> algDict:
+                            var elements = Convert.ToString(pathPortions[pathPortionIndex], CultureInfo.InvariantCulture)?.Trim('(').Trim(')').Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                            if (Enum.TryParse(typeof(TpmAlgId), elements.First(), out object? result) &&
+                                result is TpmAlgId Algorithm && uint.TryParse(elements.Last(), out uint Index) &&
+                                algDict.TryGetValue((Algorithm, Index), out byte[]? byteArray))
+                            {
+                                value = byteArray;
+                            }
+                            else
+                            {
+                                value = null;
+                            }
+                            break;
+
+                        case Dictionary<string, string> stringDict:
+                            if (stringDict.TryGetValue(pathPortions[pathPortionIndex], out string? stringValue))
+                            {
+                                value = stringValue;
+                            }
+                            else
+                            {
+                                value = null;
+                            }
+                            break;
+
+                        case List<string> stringList:
+                            if (int.TryParse(pathPortions[pathPortionIndex], out int ArrayIndex) && stringList.Count > ArrayIndex)
+                            {
+                                value = stringList[ArrayIndex];
+                            }
+                            else
+                            {
+                                value = null;
+                            }
+                            break;
+
+                        default:
+                            value = GetValueByPropertyName(value, pathPortions[pathPortionIndex]);
+                            break;
+                    }
+                }
+                return value;
+            }
+            catch (Exception e)
+            {
+                Log.Information("Fetching Field {0} failed from {1} ({2}:{3})", pathToProperty, targetObject.GetType(), e.GetType(), e.Message);
+            }
+            return null;
+        }
+
+        public static void PrintViolations(List<(string, string[])> violations)
+        {
+            if (violations == null) return;
+            foreach (var violation in violations)
+            {
+                // We expect between 1-3 arguments for these strings. We do this instead of
+                // constructing the strings ahead of time so that the logger gives them pretty formatting.
+                switch (violation.Item2.Length)
+                {
+                    case 0:
+                        Log.Warning(violation.Item1);
+                        break;
+
+                    case 1:
+                        Log.Warning(violation.Item1, violation.Item2[0]);
+                        break;
+
+                    case 2:
+                        Log.Warning(violation.Item1, violation.Item2[0], violation.Item2[1]);
+                        break;
+
+                    case 3:
+                        Log.Warning(violation.Item1, violation.Item2[0], violation.Item2[1], violation.Item2[2]);
+                        break;
+
+                    case 4:
+                        Log.Warning(violation.Item1, violation.Item2[0], violation.Item2[1], violation.Item2[2], violation.Item2[3]);
+                        break;
+
+                    case 5:
+                        Log.Warning(violation.Item1, violation.Item2[0], violation.Item2[1], violation.Item2[2], violation.Item2[3], violation.Item2[4]);
+                        break;
+
+                    default:
+                        Log.Debug("Unexpected number of arguments");
+                        Log.Warning(violation.Item1, violation.Item2);
+                        break;
+                }
+            }
         }
 
         public List<Rule> Analyze(CompareResult compareResult)
@@ -79,36 +208,114 @@ namespace AttackSurfaceAnalyzer.Utils
             return results;
         }
 
-        public static void PrintViolations(List<(string, string[])> violations)
+        public bool Apply(Rule rule, CompareResult compareResult)
         {
-            if (violations == null) return;
-            foreach (var violation in violations)
+            if (compareResult != null && rule != null)
             {
-                // We expect between 1-3 arguments for these strings.  We do this instead of constructing the strings ahead of time so that the logger gives them pretty formatting.
-                switch (violation.Item2.Length)
+                // If we have no clauses we automatically match
+                if (!rule.Clauses.Any())
                 {
-                    case 0:
-                        Log.Warning(violation.Item1);
-                        break;
-                    case 1:
-                        Log.Warning(violation.Item1, violation.Item2[0]);
-                        break;
-                    case 2:
-                        Log.Warning(violation.Item1, violation.Item2[0], violation.Item2[1]);
-                        break;
-                    case 3:
-                        Log.Warning(violation.Item1, violation.Item2[0], violation.Item2[1], violation.Item2[2]);
-                        break;
-                    case 4:
-                        Log.Warning(violation.Item1, violation.Item2[0], violation.Item2[1], violation.Item2[2], violation.Item2[3]);
-                        break;
-                    case 5:
-                        Log.Warning(violation.Item1, violation.Item2[0], violation.Item2[1], violation.Item2[2], violation.Item2[3], violation.Item2[4]);
-                        break;
-                    default:
-                        Log.Debug("Unexpected number of arguments");
-                        Log.Warning(violation.Item1, violation.Item2);
-                        break;
+                    return true;
+                }
+
+                if (rule.Expression == null)
+                {
+                    if (rule.Clauses.All(x => AnalyzeClause(x, compareResult)))
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    if (Evaluate(rule.Expression.Split(" "), rule.Clauses, compareResult))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+            else
+            {
+                throw new NullReferenceException();
+            }
+        }
+
+        public void DumpFilters()
+        {
+            Log.Verbose("Filter dump:");
+            Log.Verbose(JsonConvert.SerializeObject(config));
+        }
+
+        public void LoadEmbeddedFilters()
+        {
+            try
+            {
+                var assembly = typeof(FileSystemObject).Assembly;
+                var resourceName = "AttackSurfaceAnalyzer.analyses.json";
+                using (Stream stream = assembly.GetManifestResourceStream(resourceName) ?? new MemoryStream())
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    config = JsonConvert.DeserializeObject<RuleFile>(reader.ReadToEnd());
+                    Log.Information(Strings.Get("LoadedAnalyses"), "Embedded");
+                }
+                if (config == null)
+                {
+                    Log.Debug("No filters today.");
+                    return;
+                }
+                DumpFilters();
+            }
+            catch (Exception e) when (
+                e is ArgumentNullException
+                || e is ArgumentException
+                || e is FileLoadException
+                || e is FileNotFoundException
+                || e is BadImageFormatException
+                || e is NotImplementedException)
+            {
+                config = new RuleFile();
+                Log.Debug("Could not load filters {0} {1}", "Embedded", e.GetType().ToString());
+
+                // This is interesting. We shouldn't hit exceptions when loading the embedded resource.
+                Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
+                ExceptionEvent.Add("Exception Type", e.GetType().ToString());
+                AsaTelemetry.TrackEvent("EmbeddedAnalysesFilterLoadException", ExceptionEvent);
+            }
+        }
+
+        public void LoadFilters(string filterLoc = "")
+        {
+            if (!string.IsNullOrEmpty(filterLoc))
+            {
+                try
+                {
+                    using (StreamReader file = System.IO.File.OpenText(filterLoc))
+                    {
+                        config = JsonConvert.DeserializeObject<RuleFile>(file.ReadToEnd());
+                        Log.Information(Strings.Get("LoadedAnalyses"), filterLoc);
+                    }
+                    if (config == null)
+                    {
+                        Log.Debug("No filters this time.");
+                        return;
+                    }
+                    DumpFilters();
+                }
+                catch (Exception e) when (
+                    e is UnauthorizedAccessException
+                    || e is ArgumentException
+                    || e is ArgumentNullException
+                    || e is PathTooLongException
+                    || e is DirectoryNotFoundException
+                    || e is FileNotFoundException
+                    || e is NotSupportedException)
+                {
+                    config = new RuleFile();
+                    //Let the user know we couldn't load their file
+                    Log.Warning(Strings.Get("Err_MalformedFilterFile"), filterLoc);
+
+                    return;
                 }
             }
         }
@@ -125,7 +332,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 var duplicateClauses = clauseLabels.Where(x => x.Key != null && x.Count() > 1);
                 foreach (var duplicateClause in duplicateClauses)
                 {
-                    violations.Add((Strings.Get("Err_ClauseDuplicateName"), new string[] {rule.Name, duplicateClause.Key ?? string.Empty})); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                    violations.Add((Strings.Get("Err_ClauseDuplicateName"), new string[] { rule.Name, duplicateClause.Key ?? string.Empty })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                 }
 
                 // If clause label contains illegal characters
@@ -151,6 +358,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                 violations.Add((Strings.Get("Err_ClauseDictDataUnexpected"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation.ToString() })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                             }
                             break;
+
                         case OPERATION.CONTAINS:
                         case OPERATION.CONTAINS_ANY:
                             if ((clause.Data?.Count == null || clause.Data?.Count == 0) && (clause.DictData?.Count == null || clause.DictData?.Count == 0))
@@ -162,6 +370,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                 violations.Add((Strings.Get("Err_ClauseBothDataDictData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                             }
                             break;
+
                         case OPERATION.ENDS_WITH:
                         case OPERATION.STARTS_WITH:
                             if (clause.Data?.Count == null || clause.Data?.Count == 0)
@@ -173,6 +382,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                 violations.Add((Strings.Get("Err_ClauseDictDataUnexpected"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation.ToString() })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                             }
                             break;
+
                         case OPERATION.GT:
                         case OPERATION.LT:
                             if (clause.Data?.Count == null || clause.Data is List<string> clauseList && (clauseList.Count != 1 || !int.TryParse(clause.Data.First(), out int _)))
@@ -184,6 +394,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                 violations.Add((Strings.Get("Err_ClauseDictDataUnexpected"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation.ToString() })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                             }
                             break;
+
                         case OPERATION.REGEX:
                             if (clause.Data?.Count == null || clause.Data?.Count == 0)
                             {
@@ -204,6 +415,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                 violations.Add((Strings.Get("Err_ClauseDictDataUnexpected"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation.ToString() })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                             }
                             break;
+
                         case OPERATION.IS_NULL:
                         case OPERATION.IS_TRUE:
                         case OPERATION.IS_EXPIRED:
@@ -217,6 +429,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                 violations.Add((Strings.Get("Err_ClauseRedundantDictData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                             }
                             break;
+
                         case OPERATION.IS_BEFORE:
                         case OPERATION.IS_AFTER:
                             if (clause.Data?.Count == null || clause.Data is List<string> clauseList2 && (clauseList2.Count != 1 || !DateTime.TryParse(clause.Data.First(), out DateTime _)))
@@ -228,6 +441,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                 violations.Add((Strings.Get("Err_ClauseDictDataUnexpected"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation.ToString() })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                             }
                             break;
+
                         case OPERATION.CONTAINS_KEY:
                             if (clause.DictData != null)
                             {
@@ -238,6 +452,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                 violations.Add((Strings.Get("Err_ClauseMissingListData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                             }
                             break;
+
                         case OPERATION.DOES_NOT_CONTAIN:
                         case OPERATION.DOES_NOT_CONTAIN_ALL:
                         default:
@@ -250,10 +465,8 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 if (rule.Expression is string expression)
                 {
-                    // Are parenthesis balanced
-                    // Are spaces correct
-                    // Are all variables defined by clauses?
-                    // Are variables and operators alternating?
+                    // Are parenthesis balanced Are spaces correct Are all variables defined by
+                    // clauses? Are variables and operators alternating?
                     var splits = expression.Split(" ");
                     int foundStarts = 0;
                     int foundEnds = 0;
@@ -306,7 +519,8 @@ namespace AttackSurfaceAnalyzer.Utils
                                 }
                                 else
                                 {
-                                    // If we've set a close this is invalid because we can't have other characters after it
+                                    // If we've set a close this is invalid because we can't have
+                                    // other characters after it
                                     if (lastClose != -1)
                                     {
                                         violations.Add((Strings.Get("Err_ClauseCharactersAfterClosedParentheses"), new string[] { expression, rule.Name, splits[i] }));
@@ -347,7 +561,8 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
                                 violations.Add((Strings.Get("Err_ClauseInvalidOperator"), new string[] { expression, rule.Name, splits[i] }));
                             }
-                            // We don't allow NOT operators to modify other Operators, so we can't allow NOT here
+                            // We don't allow NOT operators to modify other Operators, so we can't
+                            // allow NOT here
                             else
                             {
                                 if (op is BOOL_OPERATOR boolOp && boolOp == BOOL_OPERATOR.NOT)
@@ -393,246 +608,9 @@ namespace AttackSurfaceAnalyzer.Utils
             return violations;
         }
 
-        public bool Apply(Rule rule, CompareResult compareResult)
-        {
-            if (compareResult != null && rule != null)
-            {
-                // If we have no clauses we automatically match
-                if (!rule.Clauses.Any())
-                {
-                    return true;
-                }
+        #endregion Public Methods
 
-                if (rule.Expression == null)
-                {
-                    if (rule.Clauses.All(x => AnalyzeClause(x, compareResult)))
-                    {
-                        return true;
-                    }
-                }
-                else
-                {
-                    if (Evaluate(rule.Expression.Split(" "), rule.Clauses, compareResult))
-                    {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-            else
-            {
-                throw new NullReferenceException();
-            }
-        }
-
-        private static bool Operate(BOOL_OPERATOR Operator, bool first, bool second)
-        {
-            switch (Operator)
-            {
-                case BOOL_OPERATOR.AND:
-                    return first && second;
-                case BOOL_OPERATOR.OR:
-                    return first || second;
-                case BOOL_OPERATOR.XOR:
-                    return first ^ second;
-                case BOOL_OPERATOR.NAND:
-                    return !(first && second);
-                case BOOL_OPERATOR.NOR:
-                    return !(first || second);
-                case BOOL_OPERATOR.NOT:
-                    return !first;
-                default:
-                    return false;
-            }
-        }
-
-        private static int FindMatchingParen(string[] splits, int startingIndex)
-        {
-            int foundStarts = 0;
-            int foundEnds = 0;
-            for (int i = startingIndex; i < splits.Length; i++)
-            {
-                foundStarts += splits[i].Count(x => x.Equals('('));
-                foundEnds += splits[i].Count(x => x.Equals(')'));
-
-                if (foundStarts <= foundEnds)
-                {
-                    return i;
-                }
-            }
-
-            return splits.Length - 1;
-        }
-
-        private bool Evaluate(string[] splits, List<Clause> Clauses, CompareResult compareResult)
-        {
-            bool current = false;
-
-            var invertNextStatement = false;
-            var operatorExpected = false;
-
-            BOOL_OPERATOR Operator = BOOL_OPERATOR.OR;
-
-            var updated_i = 0;
-
-            for (int i = 0; i < splits.Length; i = updated_i)
-            {
-                if (operatorExpected)
-                {
-                    Operator = (BOOL_OPERATOR)Enum.Parse(typeof(BOOL_OPERATOR), splits[i]);
-                    operatorExpected = false;
-                    updated_i = i + 1;
-                }
-                else
-                {
-                    if (splits[i].StartsWith("("))
-                    {
-                        //Get the substring closing this paren
-                        var matchingParen = FindMatchingParen(splits, i);
-                        // If either argument of an AND statement is false,
-                        // or either argument of a NOR statement is true,
-                        // the result is always false and we can optimize away evaluation of next
-                        if ((Operator == BOOL_OPERATOR.AND && current == false) ||
-                             (Operator == BOOL_OPERATOR.NOR && current == true))
-                        {
-                            current = false;
-                        }
-                        // If either argument of an NAND statement is false,
-                        // or either argument of an OR statement is true,
-                        // the result is always true and we can optimize away evaluation of next
-                        else if ((Operator == BOOL_OPERATOR.OR && current == true) ||
-                                   (Operator == BOOL_OPERATOR.NAND && current == false))
-                        {
-                            current = true;
-                        }
-                        // If we can't shortcut, do the actual evaluation
-                        else
-                        {
-                            // Recursively evaluate the contents of the parentheses
-
-                            splits[i] = splits[i][1..];
-                            splits[matchingParen] = splits[matchingParen][0..^1];
-                            var next = Evaluate(splits[i..(matchingParen + 1)], Clauses, compareResult);
-                            next = invertNextStatement ? !next : next;
-                            current = Operate(Operator, current, next);
-                        }
-                        updated_i = matchingParen + 1;
-                        invertNextStatement = false;
-                        operatorExpected = true;
-                    }
-                    else
-                    {
-                        if (splits[i].Equals(BOOL_OPERATOR.NOT.ToString()))
-                        {
-                            invertNextStatement = true;
-                            operatorExpected = false;
-                        }
-                        else
-                        {
-                            // Ensure we have exactly 1 matching clause defined
-                            var res = Clauses.Where(x => x.Label == splits[i].Replace("(", "").Replace(")", ""));
-                            if (!(res.Count() == 1))
-                            {
-                                return false;
-                            }
-                            // If either argument of an AND statement is false,
-                            // or either argument of a NOR statement is true,
-                            // the result is always false and we can optimize away evaluation of next
-                            if ((Operator == BOOL_OPERATOR.AND && current == false) ||
-                                 (Operator == BOOL_OPERATOR.NOR && current == true))
-                            {
-                                current = false;
-                            }
-                            // If either argument of an NAND statement is false,
-                            // or either argument of an OR statement is true,
-                            // the result is always true and we can optimize away evaluation of next
-                            else if ((Operator == BOOL_OPERATOR.OR && current == true) ||
-                                       (Operator == BOOL_OPERATOR.NAND && current == false))
-                            {
-                                current = true;
-                            }
-                            // If we can't shortcut, do the actual evaluation
-                            else
-                            {
-                                var clause = res.First();
-                                bool next;
-                                if (ClauseCache.TryGetValue((compareResult, clause), out bool cachedValue))
-                                {
-                                    next = cachedValue;
-                                }
-                                else
-                                {
-                                    next = AnalyzeClause(res.First(), compareResult);
-                                    ClauseCache.TryAdd((compareResult, clause), next);
-                                }
-
-                                next = invertNextStatement ? !next : next;
-                                current = Operate(Operator, current, next);
-                            }
-                            operatorExpected = true;
-                        }
-                        updated_i = i + 1;
-                    }
-                }
-            }
-            return current;
-        }
-
-        private static (List<string>, List<KeyValuePair<string, string>>) ObjectToValues(object? obj)
-        {
-            List<string> valsToCheck = new List<string>();
-            List<KeyValuePair<string,string>> dictToCheck = new List<KeyValuePair<string, string>>();
-            if (obj != null)
-            {
-                try
-                {
-                    if (obj is List<string> stringList)
-                    {
-                        valsToCheck.AddRange(stringList);
-                    }
-                    else if (obj is Dictionary<string, string> dictString)
-                    {
-                        dictToCheck = dictString.ToList();
-                    }
-                    else if (obj is Dictionary<string, List<string>> dict)
-                    {
-                        dictToCheck = new List<KeyValuePair<string, string>>();
-                        foreach (var list in dict.ToList())
-                        {
-                            foreach (var entry in list.Value)
-                            {
-                                dictToCheck.Add(new KeyValuePair<string, string>(list.Key, entry));
-                            }
-                        }
-                    }
-                    else if (obj is List<KeyValuePair<string, string>> listKvp)
-                    {
-                        dictToCheck = listKvp;
-                    }
-                    else if (obj is Dictionary<(TpmAlgId,uint),byte[]> algDict)
-                    {
-                        dictToCheck = algDict.ToList().Select(x => new KeyValuePair<string, string>(x.Key.ToString(), Convert.ToBase64String(x.Value))).ToList();
-                    }
-                    else
-                    {
-                        var val = obj?.ToString();
-                        if (!string.IsNullOrEmpty(val))
-                        {
-                            valsToCheck.Add(val);
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
-                    ExceptionEvent.Add("Exception Type", e.GetType().ToString());
-                    AsaTelemetry.TrackEvent("ApplyDeletedModifiedException", ExceptionEvent);
-                }
-            }
-
-            return (valsToCheck, dictToCheck);
-        }
+        #region Protected Methods
 
         protected static bool AnalyzeClause(Clause clause, CompareResult compareResult)
         {
@@ -683,7 +661,6 @@ namespace AttackSurfaceAnalyzer.Utils
                             }
                         }
                         return false;
-
 
                     // If *every* entry of the clause data is matched
                     case OPERATION.CONTAINS:
@@ -759,8 +736,8 @@ namespace AttackSurfaceAnalyzer.Utils
                         }
                         return false;
 
-                    // If any of the data values are greater than the first provided clause value
-                    // We ignore all other clause values
+                    // If any of the data values are greater than the first provided clause value We
+                    // ignore all other clause values
                     case OPERATION.GT:
                         foreach (var val in valsToCheck)
                         {
@@ -777,8 +754,8 @@ namespace AttackSurfaceAnalyzer.Utils
                         }
                         return false;
 
-                    // If any of the data values are less than the first provided clause value
-                    // We ignore all other clause values
+                    // If any of the data values are less than the first provided clause value We
+                    // ignore all other clause values
                     case OPERATION.LT:
                         foreach (var val in valsToCheck)
                         {
@@ -951,164 +928,226 @@ namespace AttackSurfaceAnalyzer.Utils
             return false;
         }
 
-        /// <summary>
-        /// Extracts a value stored at the specified path inside an object.
-        /// Can crawl into List and Dictionaries of strings and return any top-level object.
-        /// </summary>
-        /// <param name="targetObject">The object to parse</param>
-        /// <param name="pathToProperty">The path of the property to fetch</param>
-        /// <returns></returns>
-        public static object? GetValueByPropertyString(object? targetObject, string pathToProperty)
+        #endregion Protected Methods
+
+        #region Private Methods
+
+        private static int FindMatchingParen(string[] splits, int startingIndex)
         {
-            if (pathToProperty is null || targetObject is null)
+            int foundStarts = 0;
+            int foundEnds = 0;
+            for (int i = startingIndex; i < splits.Length; i++)
             {
-                return null;
-            }
-            try
-            {
-                var pathPortions = pathToProperty.Split('.');
+                foundStarts += splits[i].Count(x => x.Equals('('));
+                foundEnds += splits[i].Count(x => x.Equals(')'));
 
-                // We first try to get the first value to get it started
-                var value = GetValueByPropertyName(targetObject, pathPortions[0]);
-
-                // For the rest of the path we walk each portion to get the next object
-                for (int pathPortionIndex = 1; pathPortionIndex < pathPortions.Length; pathPortionIndex++)
+                if (foundStarts <= foundEnds)
                 {
-                    if (value == null) { break; }
-
-                    switch (value)
-                    {
-                        case Dictionary<(TpmAlgId, uint), byte[]> algDict:
-                            var elements = Convert.ToString(pathPortions[pathPortionIndex], CultureInfo.InvariantCulture)?.Trim('(').Trim(')').Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                            if (Enum.TryParse(typeof(TpmAlgId), elements.First(), out object? result) &&
-                                result is TpmAlgId Algorithm && uint.TryParse(elements.Last(), out uint Index) &&
-                                algDict.TryGetValue((Algorithm, Index), out byte[]? byteArray))
-                            {
-                                value = byteArray;
-                            }
-                            else
-                            {
-                                value = null;
-                            }
-                            break;
-                        case Dictionary<string, string> stringDict:
-                            if (stringDict.TryGetValue(pathPortions[pathPortionIndex], out string? stringValue))
-                            {
-                                value = stringValue;
-                            }
-                            else
-                            {
-                                value = null;
-                            }
-                            break;
-                        case List<string> stringList:
-                            if (int.TryParse(pathPortions[pathPortionIndex], out int ArrayIndex) && stringList.Count > ArrayIndex)
-                            {
-                                value = stringList[ArrayIndex];
-                            }
-                            else
-                            {
-                                value = null;
-                            }
-                            break;
-                        default:
-                            value = GetValueByPropertyName(value, pathPortions[pathPortionIndex]);
-                            break;
-                    }
+                    return i;
                 }
-                return value;
             }
-            catch (Exception e)
-            {
-                Log.Information("Fetching Field {0} failed from {1} ({2}:{3})", pathToProperty, targetObject.GetType(), e.GetType(), e.Message);
-            }
-            return null;
+
+            return splits.Length - 1;
         }
 
         private static object? GetValueByPropertyName(object? obj, string? propertyName) => obj?.GetType().GetProperty(propertyName ?? string.Empty)?.GetValue(obj);
 
-
-        public void DumpFilters()
+        private static (List<string>, List<KeyValuePair<string, string>>) ObjectToValues(object? obj)
         {
-            Log.Verbose("Filter dump:");
-            Log.Verbose(JsonConvert.SerializeObject(config));
-        }
-
-        public void LoadEmbeddedFilters()
-        {
-            try
-            {
-                var assembly = typeof(FileSystemObject).Assembly;
-                var resourceName = "AttackSurfaceAnalyzer.analyses.json";
-                using (Stream stream = assembly.GetManifestResourceStream(resourceName) ?? new MemoryStream())
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    config = JsonConvert.DeserializeObject<RuleFile>(reader.ReadToEnd());
-                    Log.Information(Strings.Get("LoadedAnalyses"), "Embedded");
-                }
-                if (config == null)
-                {
-                    Log.Debug("No filters today.");
-                    return;
-                }
-                DumpFilters();
-            }
-            catch (Exception e) when (
-                e is ArgumentNullException
-                || e is ArgumentException
-                || e is FileLoadException
-                || e is FileNotFoundException
-                || e is BadImageFormatException
-                || e is NotImplementedException)
-            {
-
-                config = new RuleFile();
-                Log.Debug("Could not load filters {0} {1}", "Embedded", e.GetType().ToString());
-
-                // This is interesting. We shouldn't hit exceptions when loading the embedded resource.
-                Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
-                ExceptionEvent.Add("Exception Type", e.GetType().ToString());
-                AsaTelemetry.TrackEvent("EmbeddedAnalysesFilterLoadException", ExceptionEvent);
-            }
-        }
-
-        public void LoadFilters(string filterLoc = "")
-        {
-            if (!string.IsNullOrEmpty(filterLoc))
+            List<string> valsToCheck = new List<string>();
+            List<KeyValuePair<string, string>> dictToCheck = new List<KeyValuePair<string, string>>();
+            if (obj != null)
             {
                 try
                 {
-                    using (StreamReader file = System.IO.File.OpenText(filterLoc))
+                    if (obj is List<string> stringList)
                     {
-                        config = JsonConvert.DeserializeObject<RuleFile>(file.ReadToEnd());
-                        Log.Information(Strings.Get("LoadedAnalyses"), filterLoc);
+                        valsToCheck.AddRange(stringList);
                     }
-                    if (config == null)
+                    else if (obj is Dictionary<string, string> dictString)
                     {
-                        Log.Debug("No filters this time.");
-                        return;
+                        dictToCheck = dictString.ToList();
                     }
-                    DumpFilters();
+                    else if (obj is Dictionary<string, List<string>> dict)
+                    {
+                        dictToCheck = new List<KeyValuePair<string, string>>();
+                        foreach (var list in dict.ToList())
+                        {
+                            foreach (var entry in list.Value)
+                            {
+                                dictToCheck.Add(new KeyValuePair<string, string>(list.Key, entry));
+                            }
+                        }
+                    }
+                    else if (obj is List<KeyValuePair<string, string>> listKvp)
+                    {
+                        dictToCheck = listKvp;
+                    }
+                    else if (obj is Dictionary<(TpmAlgId, uint), byte[]> algDict)
+                    {
+                        dictToCheck = algDict.ToList().Select(x => new KeyValuePair<string, string>(x.Key.ToString(), Convert.ToBase64String(x.Value))).ToList();
+                    }
+                    else
+                    {
+                        var val = obj?.ToString();
+                        if (!string.IsNullOrEmpty(val))
+                        {
+                            valsToCheck.Add(val);
+                        }
+                    }
                 }
-                catch (Exception e) when (
-                    e is UnauthorizedAccessException
-                    || e is ArgumentException
-                    || e is ArgumentNullException
-                    || e is PathTooLongException
-                    || e is DirectoryNotFoundException
-                    || e is FileNotFoundException
-                    || e is NotSupportedException)
+                catch (Exception e)
                 {
-                    config = new RuleFile();
-                    //Let the user know we couldn't load their file
-                    Log.Warning(Strings.Get("Err_MalformedFilterFile"), filterLoc);
-
-                    return;
+                    Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
+                    ExceptionEvent.Add("Exception Type", e.GetType().ToString());
+                    AsaTelemetry.TrackEvent("ApplyDeletedModifiedException", ExceptionEvent);
                 }
             }
 
+            return (valsToCheck, dictToCheck);
         }
+
+        private static bool Operate(BOOL_OPERATOR Operator, bool first, bool second)
+        {
+            switch (Operator)
+            {
+                case BOOL_OPERATOR.AND:
+                    return first && second;
+
+                case BOOL_OPERATOR.OR:
+                    return first || second;
+
+                case BOOL_OPERATOR.XOR:
+                    return first ^ second;
+
+                case BOOL_OPERATOR.NAND:
+                    return !(first && second);
+
+                case BOOL_OPERATOR.NOR:
+                    return !(first || second);
+
+                case BOOL_OPERATOR.NOT:
+                    return !first;
+
+                default:
+                    return false;
+            }
+        }
+
+        private bool Evaluate(string[] splits, List<Clause> Clauses, CompareResult compareResult)
+        {
+            bool current = false;
+
+            var invertNextStatement = false;
+            var operatorExpected = false;
+
+            BOOL_OPERATOR Operator = BOOL_OPERATOR.OR;
+
+            var updated_i = 0;
+
+            for (int i = 0; i < splits.Length; i = updated_i)
+            {
+                if (operatorExpected)
+                {
+                    Operator = (BOOL_OPERATOR)Enum.Parse(typeof(BOOL_OPERATOR), splits[i]);
+                    operatorExpected = false;
+                    updated_i = i + 1;
+                }
+                else
+                {
+                    if (splits[i].StartsWith("("))
+                    {
+                        //Get the substring closing this paren
+                        var matchingParen = FindMatchingParen(splits, i);
+                        // If either argument of an AND statement is false, or either argument of a
+                        // NOR statement is true, the result is always false and we can optimize
+                        // away evaluation of next
+                        if ((Operator == BOOL_OPERATOR.AND && current == false) ||
+                             (Operator == BOOL_OPERATOR.NOR && current == true))
+                        {
+                            current = false;
+                        }
+                        // If either argument of an NAND statement is false, or either argument of
+                        // an OR statement is true, the result is always true and we can optimize
+                        // away evaluation of next
+                        else if ((Operator == BOOL_OPERATOR.OR && current == true) ||
+                                   (Operator == BOOL_OPERATOR.NAND && current == false))
+                        {
+                            current = true;
+                        }
+                        // If we can't shortcut, do the actual evaluation
+                        else
+                        {
+                            // Recursively evaluate the contents of the parentheses
+
+                            splits[i] = splits[i][1..];
+                            splits[matchingParen] = splits[matchingParen][0..^1];
+                            var next = Evaluate(splits[i..(matchingParen + 1)], Clauses, compareResult);
+                            next = invertNextStatement ? !next : next;
+                            current = Operate(Operator, current, next);
+                        }
+                        updated_i = matchingParen + 1;
+                        invertNextStatement = false;
+                        operatorExpected = true;
+                    }
+                    else
+                    {
+                        if (splits[i].Equals(BOOL_OPERATOR.NOT.ToString()))
+                        {
+                            invertNextStatement = true;
+                            operatorExpected = false;
+                        }
+                        else
+                        {
+                            // Ensure we have exactly 1 matching clause defined
+                            var res = Clauses.Where(x => x.Label == splits[i].Replace("(", "").Replace(")", ""));
+                            if (!(res.Count() == 1))
+                            {
+                                return false;
+                            }
+                            // If either argument of an AND statement is false, or either argument
+                            // of a NOR statement is true, the result is always false and we can
+                            // optimize away evaluation of next
+                            if ((Operator == BOOL_OPERATOR.AND && current == false) ||
+                                 (Operator == BOOL_OPERATOR.NOR && current == true))
+                            {
+                                current = false;
+                            }
+                            // If either argument of an NAND statement is false, or either argument
+                            // of an OR statement is true, the result is always true and we can
+                            // optimize away evaluation of next
+                            else if ((Operator == BOOL_OPERATOR.OR && current == true) ||
+                                       (Operator == BOOL_OPERATOR.NAND && current == false))
+                            {
+                                current = true;
+                            }
+                            // If we can't shortcut, do the actual evaluation
+                            else
+                            {
+                                var clause = res.First();
+                                bool next;
+                                if (ClauseCache.TryGetValue((compareResult, clause), out bool cachedValue))
+                                {
+                                    next = cachedValue;
+                                }
+                                else
+                                {
+                                    next = AnalyzeClause(res.First(), compareResult);
+                                    ClauseCache.TryAdd((compareResult, clause), next);
+                                }
+
+                                next = invertNextStatement ? !next : next;
+                                current = Operate(Operator, current, next);
+                            }
+                            operatorExpected = true;
+                        }
+                        updated_i = i + 1;
+                    }
+                }
+            }
+            return current;
+        }
+
+        #endregion Private Methods
     }
 }
-
-

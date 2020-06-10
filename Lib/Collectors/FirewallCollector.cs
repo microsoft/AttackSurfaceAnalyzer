@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using Serilog;
@@ -19,60 +18,38 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class FirewallCollector : BaseCollector
     {
-        public FirewallCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler) { }
+        #region Public Constructors
+
+        public FirewallCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
+        {
+        }
+
+        #endregion Public Constructors
+
+        #region Public Methods
 
         public override bool CanRunOnPlatform()
         {
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         }
 
-        /// <summary>
-        /// Uses a library to access the Windows Firewall.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "The specific exceptions thrown by this library are not documented.")]
-        internal void ExecuteWindows(CancellationToken cancellationToken)
-        {
-            try
-            {
-                foreach (IFirewallRule rule in FirewallManager.Instance.Rules)
-                {
-                    if (cancellationToken.IsCancellationRequested) { return; }
+        #endregion Public Methods
 
-                    try
-                    {
-                        var obj = new FirewallObject(rule.Name)
-                        {
-                            Action = rule.Action,
-                            ApplicationName = rule.ApplicationName,
-                            Direction = rule.Direction,
-                            FriendlyName = rule.FriendlyName,
-                            IsEnable = rule.IsEnable,
-                            LocalPortType = rule.LocalPortType,
-                            Profiles = rule.Profiles,
-                            Protocol = rule.Protocol.ProtocolNumber.ToString(CultureInfo.InvariantCulture),
-                            Scope = rule.Scope,
-                            ServiceName = rule.ServiceName
-                        };
-                        obj.LocalAddresses = rule.LocalAddresses.ToList().ConvertAll(address => address.ToString());
-                        obj.LocalPorts = rule.LocalPorts.ToList().ConvertAll(port => port.ToString(CultureInfo.InvariantCulture));
-                        obj.RemoteAddresses = rule.RemoteAddresses.ToList().ConvertAll(address => address.ToString());
-                        obj.RemotePorts = rule.RemotePorts.ToList().ConvertAll(port => port.ToString(CultureInfo.InvariantCulture));
-                        HandleChange(obj);
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Debug(e, "Exception hit while processing Firewall rules");
-                        Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
-                        ExceptionEvent.Add("Exception Type", e.GetType().ToString());
-                        AsaTelemetry.TrackEvent("WindowsFirewallObjectCreationException", ExceptionEvent);
-                    }
-                }
-            }
-            catch (Exception e) when (
-                e is COMException ||
-                e is NotSupportedException)
+        #region Internal Methods
+
+        internal override void ExecuteInternal(CancellationToken cancellationToken)
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                Log.Warning(Strings.Get("CollectorNotSupportedOnPlatform"), GetType().ToString());
+                ExecuteWindows(cancellationToken);
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                ExecuteMacOs(cancellationToken);
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                ExecuteLinux(cancellationToken);
             }
         }
 
@@ -112,7 +89,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                     {
                         var splits = line.Split(' ');
                         var chainName = splits[1];
-
 
                         var obj = new FirewallObject(line)
                         {
@@ -208,12 +184,12 @@ namespace AttackSurfaceAnalyzer.Collectors
             HandleChange(obj);
 
             /* Example Output:
-ALF: total number of apps = 2 
+ALF: total number of apps = 2
 
-1 :  /Applications/AppName.app 
- ( Allow incoming connections ) 
+1 :  /Applications/AppName.app
+ ( Allow incoming connections )
 
-2 :  /Applications/AppName2.app 
+2 :  /Applications/AppName2.app
  ( Block incoming connections ) */
             result = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--listapps");
             string appName = "";
@@ -245,21 +221,56 @@ ALF: total number of apps = 2
             }
         }
 
-        internal override void ExecuteInternal(CancellationToken cancellationToken)
+        /// <summary>
+        /// Uses a library to access the Windows Firewall.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "The specific exceptions thrown by this library are not documented.")]
+        internal void ExecuteWindows(CancellationToken cancellationToken)
         {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            try
             {
-                ExecuteWindows(cancellationToken);
+                foreach (IFirewallRule rule in FirewallManager.Instance.Rules)
+                {
+                    if (cancellationToken.IsCancellationRequested) { return; }
+
+                    try
+                    {
+                        var obj = new FirewallObject(rule.Name)
+                        {
+                            Action = rule.Action,
+                            ApplicationName = rule.ApplicationName,
+                            Direction = rule.Direction,
+                            FriendlyName = rule.FriendlyName,
+                            IsEnable = rule.IsEnable,
+                            LocalPortType = rule.LocalPortType,
+                            Profiles = rule.Profiles,
+                            Protocol = rule.Protocol.ProtocolNumber.ToString(CultureInfo.InvariantCulture),
+                            Scope = rule.Scope,
+                            ServiceName = rule.ServiceName
+                        };
+                        obj.LocalAddresses = rule.LocalAddresses.ToList().ConvertAll(address => address.ToString());
+                        obj.LocalPorts = rule.LocalPorts.ToList().ConvertAll(port => port.ToString(CultureInfo.InvariantCulture));
+                        obj.RemoteAddresses = rule.RemoteAddresses.ToList().ConvertAll(address => address.ToString());
+                        obj.RemotePorts = rule.RemotePorts.ToList().ConvertAll(port => port.ToString(CultureInfo.InvariantCulture));
+                        HandleChange(obj);
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Debug(e, "Exception hit while processing Firewall rules");
+                        Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
+                        ExceptionEvent.Add("Exception Type", e.GetType().ToString());
+                        AsaTelemetry.TrackEvent("WindowsFirewallObjectCreationException", ExceptionEvent);
+                    }
+                }
             }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            catch (Exception e) when (
+                e is COMException ||
+                e is NotSupportedException)
             {
-                ExecuteMacOs(cancellationToken);
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                ExecuteLinux(cancellationToken);
+                Log.Warning(Strings.Get("CollectorNotSupportedOnPlatform"), GetType().ToString());
             }
         }
+
+        #endregion Internal Methods
     }
 }
-

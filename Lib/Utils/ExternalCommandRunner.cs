@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -9,6 +8,8 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public static class ExternalCommandRunner
     {
+        #region Public Methods
+
         public static int RunExternalCommand(string command, string arguments, out string StdOut, out string StdErr)
         {
             using var process = new Process()
@@ -96,6 +97,10 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
+        #endregion Public Methods
+
+        #region Private Methods
+
         private static string Format(string filename, string arguments)
         {
             return "'" + filename +
@@ -103,6 +108,6 @@ namespace AttackSurfaceAnalyzer.Utils
                 "'";
         }
 
-
+        #endregion Private Methods
     }
 }

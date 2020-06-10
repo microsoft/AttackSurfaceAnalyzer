@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.Win32;
@@ -21,11 +20,50 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class UserAccountCollector : BaseCollector
     {
-        public UserAccountCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler) { }
+        #region Public Constructors
+
+        public UserAccountCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
+        {
+        }
+
+        #endregion Public Constructors
+
+        #region Public Methods
 
         public override bool CanRunOnPlatform()
         {
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+        }
+
+        #endregion Public Methods
+
+        #region Internal Methods
+
+        internal static bool IsHiddenWindowsUser(string username)
+        {
+            try
+            {
+                using var BaseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Default);
+                var SpecialAccounts = BaseKey.OpenSubKey("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\UserList");
+                var ValueName = SpecialAccounts.GetValueNames().Where(x => x.ToUpperInvariant().Equals(username.ToUpperInvariant())).FirstOrDefault();
+                if (ValueName != null)
+                {
+                    if (SpecialAccounts.GetValue(ValueName).Equals(0x0))
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch (Exception e) when (//lgtm [cs/empty-catch-block]
+                e is IOException ||
+                e is ArgumentException ||
+                e is UnauthorizedAccessException ||
+                e is System.Security.SecurityException ||
+                e is ArgumentNullException ||
+                e is NullReferenceException)
+            {
+            }
+            return false;
         }
 
         internal override void ExecuteInternal(CancellationToken cancellationToken)
@@ -45,11 +83,212 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
+        /// Executes the User account collector on Linux. Reads /etc/passwd and /etc/shadow.
+        /// </summary>
+        internal void ExecuteLinux(CancellationToken cancellationToken)
+        {
+            var etc_passwd_lines = File.ReadAllLines("/etc/passwd");
+            var etc_shadow_lines = File.ReadAllLines("/etc/shadow");
+
+            Dictionary<string, GroupAccountObject> Groups = new Dictionary<string, GroupAccountObject>();
+
+            var accountDetails = new Dictionary<string, UserAccountObject>();
+
+            foreach (var _line in etc_passwd_lines)
+            {
+                if (cancellationToken.IsCancellationRequested) { break; }
+
+                var parts = _line.Split(':');
+
+                if (!accountDetails.ContainsKey(parts[0]))
+                {
+                    accountDetails[parts[0]] = new UserAccountObject(parts[0])
+                    {
+                        UID = parts[2],
+                        GID = parts[3],
+                        FullName = parts[4],
+                        HomeDirectory = parts[5],
+                        Shell = parts[6]
+                    };
+                }
+            }
+
+            foreach (var _line in etc_shadow_lines)
+            {
+                if (cancellationToken.IsCancellationRequested) { break; }
+
+                var parts = _line.Split(':');
+                var username = parts[0];
+
+                if (!accountDetails.ContainsKey(username))
+                {
+                    accountDetails[username] = new UserAccountObject(username)
+                    {
+                    };
+                }
+                var tempDict = accountDetails[username];
+
+                if (parts[1].Contains("$"))
+                {
+                    tempDict.PasswordStorageAlgorithm = parts[1].Split('$')[1];
+                }
+                tempDict.PasswordExpires = parts[4];
+                tempDict.Inactive = parts[6];
+                tempDict.Disabled = parts[7];
+
+                accountDetails[username] = tempDict;
+            }
+
+            foreach (var username in accountDetails.Keys)
+            {
+                if (cancellationToken.IsCancellationRequested) { break; }
+
+                // Admin user details
+                var groupsRaw = ExternalCommandRunner.RunExternalCommand("groups", username);
+
+                var groups = groupsRaw.Split(' ');
+                foreach (var group in groups)
+                {
+                    if (group.Equals("sudo"))
+                    {
+                        accountDetails[username].Privileged = true;
+                    }
+                    accountDetails[username].Groups.Add(group);
+                    if (Groups.ContainsKey(group))
+                    {
+                        Groups[group].Users.Add(username);
+                    }
+                    else
+                    {
+                        Groups[group] = new GroupAccountObject(group);
+                        Groups[group].Users.Add(username);
+                    }
+                }
+                HandleChange(accountDetails[username]);
+            }
+            foreach (var group in Groups)
+            {
+                if (cancellationToken.IsCancellationRequested) { break; }
+
+                HandleChange(group.Value);
+            }
+        }
+
+        /// <summary>
+        /// Gathers user account details on OS X. Uses dscacheutil.
+        /// </summary>
+        internal void ExecuteOsX(CancellationToken cancellationToken)
+        {
+            Dictionary<string, GroupAccountObject> Groups = new Dictionary<string, GroupAccountObject>();
+
+            // Admin user details
+            var result = ExternalCommandRunner.RunExternalCommand("dscacheutil", "-q group -a name admin");
+
+            var lines = result.Split('\n');
+
+            // The fourth line is a list of usernames Formatted like: 'users: root gabe'
+            var admins = (lines[3].Split(':')[1]).Split(' ');
+
+            // details for all users
+            result = ExternalCommandRunner.RunExternalCommand("dscacheutil", "-q user");
+
+            var accountDetails = new Dictionary<string, UserAccountObject>();
+
+            // We initialize a new object. We know by the formatting of dscacheutil that we will
+            // never have a user without the name coming first, but we don't know the name yet.
+            var newUser = new UserAccountObject("");
+            foreach (var _line in result.Split('\n'))
+            {
+                if (cancellationToken.IsCancellationRequested) { break; }
+
+                var parts = _line.Split(':');
+                if (parts.Length < 2)
+                {
+                    // There is a blank line separating each grouping of user data
+                    continue;
+                }
+                // There is one space of padding, which we strip off here
+                var value = parts[1].Substring(1);
+
+                // dscacheutil prints the user information on multiple lines
+                switch (parts[0])
+                {
+                    case "name":
+                        accountDetails[value] = new UserAccountObject(value)
+                        {
+                            AccountType = (admins.Contains(value)) ? "administrator" : "standard",
+                            Privileged = (admins.Contains(value))
+                        };
+                        newUser = accountDetails[value];
+
+                        break;
+
+                    case "password":
+                        break;
+
+                    case "uid":
+                        newUser.UID = value;
+                        break;
+
+                    case "gid":
+                        newUser.GID = value;
+                        break;
+
+                    case "dir":
+                        newUser.HomeDirectory = value;
+                        break;
+
+                    case "shell":
+                        newUser.Shell = value;
+                        break;
+
+                    case "gecos":
+                        newUser.FullName = value;
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+            foreach (var username in accountDetails.Keys)
+            {
+                if (cancellationToken.IsCancellationRequested) { break; }
+
+                // Admin user details
+                string groupsRaw = string.Empty;
+
+                groupsRaw = ExternalCommandRunner.RunExternalCommand("groups", username);
+
+                var groups = groupsRaw.Split(' ');
+                foreach (var group in groups)
+                {
+                    accountDetails[username].Groups.Add(group);
+                    if (Groups.ContainsKey(group))
+                    {
+                        Groups[group].Users.Add(username);
+                    }
+                    else
+                    {
+                        Groups[group] = new GroupAccountObject(group);
+                        Groups[group].Users.Add(username);
+                    }
+                }
+                accountDetails[username].Groups.AddRange(groups);
+                HandleChange(accountDetails[username]);
+            }
+            foreach (var group in Groups)
+            {
+                if (cancellationToken.IsCancellationRequested) { break; }
+
+                HandleChange(group.Value);
+            }
+        }
+
+        /// <summary>
         /// Executes the UserAccountCollector on Windows. Uses WMI to gather local users.
         /// </summary>
         internal void ExecuteWindows(CancellationToken cancellationToken)
         {
-
             Dictionary<string, UserAccountObject> users = new Dictionary<string, UserAccountObject>();
             Dictionary<string, GroupAccountObject> groups = new Dictionary<string, GroupAccountObject>();
 
@@ -76,8 +315,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                             Domain = Convert.ToString(gmo["Domain"], CultureInfo.InvariantCulture),
                         };
                     }
-
-
                 }
                 else
                 {
@@ -196,7 +433,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                 Log.Error("Failed to run {0}", "net localgroup");
             }
 
-
             foreach (var user in users)
             {
                 HandleChange(user.Value);
@@ -208,229 +444,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
-        internal static bool IsHiddenWindowsUser(string username)
-        {
-            try
-            {
-                using var BaseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Default);
-                var SpecialAccounts = BaseKey.OpenSubKey("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\UserList");
-                var ValueName = SpecialAccounts.GetValueNames().Where(x => x.ToUpperInvariant().Equals(username.ToUpperInvariant())).FirstOrDefault();
-                if (ValueName != null)
-                {
-                    if (SpecialAccounts.GetValue(ValueName).Equals(0x0))
-                    {
-                        return true;
-                    }
-                }
-            }
-            catch (Exception e) when (//lgtm [cs/empty-catch-block]
-                e is IOException ||
-                e is ArgumentException ||
-                e is UnauthorizedAccessException ||
-                e is System.Security.SecurityException ||
-                e is ArgumentNullException ||
-                e is NullReferenceException)
-            {
-
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Executes the User account collector on Linux. Reads /etc/passwd and /etc/shadow.
-        /// </summary>
-        internal void ExecuteLinux(CancellationToken cancellationToken)
-        {
-            var etc_passwd_lines = File.ReadAllLines("/etc/passwd");
-            var etc_shadow_lines = File.ReadAllLines("/etc/shadow");
-
-            Dictionary<string, GroupAccountObject> Groups = new Dictionary<string, GroupAccountObject>();
-
-            var accountDetails = new Dictionary<string, UserAccountObject>();
-
-            foreach (var _line in etc_passwd_lines)
-            {
-                if (cancellationToken.IsCancellationRequested) { break; }
-
-                var parts = _line.Split(':');
-
-                if (!accountDetails.ContainsKey(parts[0]))
-                {
-                    accountDetails[parts[0]] = new UserAccountObject(parts[0])
-                    {
-                        UID = parts[2],
-                        GID = parts[3],
-                        FullName = parts[4],
-                        HomeDirectory = parts[5],
-                        Shell = parts[6]
-                    };
-                }
-            }
-
-            foreach (var _line in etc_shadow_lines)
-            {
-                if (cancellationToken.IsCancellationRequested) { break; }
-
-                var parts = _line.Split(':');
-                var username = parts[0];
-
-                if (!accountDetails.ContainsKey(username))
-                {
-                    accountDetails[username] = new UserAccountObject(username)
-                    {
-                    };
-                }
-                var tempDict = accountDetails[username];
-
-                if (parts[1].Contains("$"))
-                {
-                    tempDict.PasswordStorageAlgorithm = parts[1].Split('$')[1];
-                }
-                tempDict.PasswordExpires = parts[4];
-                tempDict.Inactive = parts[6];
-                tempDict.Disabled = parts[7];
-
-                accountDetails[username] = tempDict;
-            }
-
-            foreach (var username in accountDetails.Keys)
-            {
-                if (cancellationToken.IsCancellationRequested) { break; }
-
-                // Admin user details
-                var groupsRaw = ExternalCommandRunner.RunExternalCommand("groups", username);
-
-                var groups = groupsRaw.Split(' ');
-                foreach (var group in groups)
-                {
-                    if (group.Equals("sudo"))
-                    {
-                        accountDetails[username].Privileged = true;
-                    }
-                    accountDetails[username].Groups.Add(group);
-                    if (Groups.ContainsKey(group))
-                    {
-                        Groups[group].Users.Add(username);
-                    }
-                    else
-                    {
-                        Groups[group] = new GroupAccountObject(group);
-                        Groups[group].Users.Add(username);
-                    }
-                }
-                HandleChange(accountDetails[username]);
-            }
-            foreach (var group in Groups)
-            {
-                if (cancellationToken.IsCancellationRequested) { break; }
-
-                HandleChange(group.Value);
-            }
-        }
-
-        /// <summary>
-        /// Gathers user account details on OS X. Uses dscacheutil.
-        /// </summary>
-        internal void ExecuteOsX(CancellationToken cancellationToken)
-        {
-            Dictionary<string, GroupAccountObject> Groups = new Dictionary<string, GroupAccountObject>();
-
-            // Admin user details
-            var result = ExternalCommandRunner.RunExternalCommand("dscacheutil", "-q group -a name admin");
-
-            var lines = result.Split('\n');
-
-            // The fourth line is a list of usernames
-            // Formatted like: 'users: root gabe'
-            var admins = (lines[3].Split(':')[1]).Split(' ');
-
-            // details for all users
-            result = ExternalCommandRunner.RunExternalCommand("dscacheutil", "-q user");
-
-            var accountDetails = new Dictionary<string, UserAccountObject>();
-
-            //  We initialize a new object.  We know by the formatting of
-            //  dscacheutil that we will never have a user without the name coming
-            //  first, but we don't know the name yet.
-            var newUser = new UserAccountObject("");
-            foreach (var _line in result.Split('\n'))
-            {
-                if (cancellationToken.IsCancellationRequested) { break; }
-
-                var parts = _line.Split(':');
-                if (parts.Length < 2)
-                {
-                    // There is a blank line separating each grouping of user data
-                    continue;
-                }
-                // There is one space of padding, which we strip off here
-                var value = parts[1].Substring(1);
-
-                // dscacheutil prints the user information on multiple lines
-                switch (parts[0])
-                {
-                    case "name":
-                        accountDetails[value] = new UserAccountObject(value)
-                        {
-                            AccountType = (admins.Contains(value)) ? "administrator" : "standard",
-                            Privileged = (admins.Contains(value))
-                        };
-                        newUser = accountDetails[value];
-
-                        break;
-                    case "password":
-                        break;
-                    case "uid":
-                        newUser.UID = value;
-                        break;
-                    case "gid":
-                        newUser.GID = value;
-                        break;
-                    case "dir":
-                        newUser.HomeDirectory = value;
-                        break;
-                    case "shell":
-                        newUser.Shell = value;
-                        break;
-                    case "gecos":
-                        newUser.FullName = value;
-                        break;
-                    default:
-                        break;
-                }
-            }
-            foreach (var username in accountDetails.Keys)
-            {
-                if (cancellationToken.IsCancellationRequested) { break; }
-
-                // Admin user details
-                string groupsRaw = string.Empty;
-
-                groupsRaw = ExternalCommandRunner.RunExternalCommand("groups", username);
-
-                var groups = groupsRaw.Split(' ');
-                foreach (var group in groups)
-                {
-                    accountDetails[username].Groups.Add(group);
-                    if (Groups.ContainsKey(group))
-                    {
-                        Groups[group].Users.Add(username);
-                    }
-                    else
-                    {
-                        Groups[group] = new GroupAccountObject(group);
-                        Groups[group].Users.Add(username);
-                    }
-                }
-                accountDetails[username].Groups.AddRange(groups);
-                HandleChange(accountDetails[username]);
-            }
-            foreach (var group in Groups)
-            {
-                if (cancellationToken.IsCancellationRequested) { break; }
-
-                HandleChange(group.Value);
-            }
-        }
+        #endregion Internal Methods
     }
 }

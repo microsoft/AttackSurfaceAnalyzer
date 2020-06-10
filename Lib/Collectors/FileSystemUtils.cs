@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
@@ -16,6 +15,14 @@ namespace AttackSurfaceAnalyzer.Collectors
 {
     public static class FileSystemUtils
     {
+        #region Public Fields
+
+        // ELF Format
+        public static readonly byte[] ElfMagicNumber = AsaHelpers.HexStringToBytes("7F454C46");
+
+        // Java classes
+        public static readonly byte[] JavaMagicNumber = AsaHelpers.HexStringToBytes("CAFEBEBE");
+
         public static readonly List<byte[]> MacMagicNumbers = new List<byte[]>()
         {
             // 32 Bit Binary
@@ -30,14 +37,101 @@ namespace AttackSurfaceAnalyzer.Collectors
             AsaHelpers.HexStringToBytes("CAFEBEBE")
         };
 
-        // ELF Format
-        public static readonly byte[] ElfMagicNumber = AsaHelpers.HexStringToBytes("7F454C46");
-
         // MZ
         public static readonly byte[] WindowsMagicNumber = AsaHelpers.HexStringToBytes("4D5A");
 
-        // Java classes
-        public static readonly byte[] JavaMagicNumber = AsaHelpers.HexStringToBytes("CAFEBEBE");
+        #endregion Public Fields
+
+        #region Public Methods
+
+        public static EXECUTABLE_TYPE GetExecutableType(string Path)
+        {
+            using var fs = new FileStream(Path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            return GetExecutableType(Path, fs);
+        }
+
+        public static EXECUTABLE_TYPE GetExecutableType(string? Path, Stream input)
+        {
+            if (input == null) { return EXECUTABLE_TYPE.UNKNOWN; }
+            if (input.Length < 4) { return EXECUTABLE_TYPE.NONE; }
+
+            var fourBytes = new byte[4];
+            var initialPosition = input.Position;
+
+            try
+            {
+                input.Read(fourBytes);
+                input.Position = initialPosition;
+            }
+            catch (Exception e)
+            {
+                Log.Verbose("Couldn't chomp 4 bytes of {0} ({1}:{2})", Path, e.GetType().ToString(), e.Message);
+                return EXECUTABLE_TYPE.UNKNOWN;
+            }
+
+            switch (fourBytes)
+            {
+                case var span when span.SequenceEqual(ElfMagicNumber):
+                    return EXECUTABLE_TYPE.LINUX;
+
+                case var span when span.SequenceEqual(JavaMagicNumber):
+                    return EXECUTABLE_TYPE.JAVA;
+
+                case var span when MacMagicNumbers.Contains(span):
+                    return EXECUTABLE_TYPE.MACOS;
+
+                case var span when span[0..2].SequenceEqual(WindowsMagicNumber):
+                    return EXECUTABLE_TYPE.WINDOWS;
+
+                default:
+                    return EXECUTABLE_TYPE.NONE;
+            }
+        }
+
+        public static string GetFileHash(string path)
+        {
+            try
+            {
+                return GetFileHash(new FileInfo(path)) ?? string.Empty;
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
+        }
+
+        public static string? GetFileHash(FileSystemInfo fileInfo)
+        {
+            if (fileInfo != null)
+            {
+                Log.Debug("{0} {1}", Strings.Get("FileHash"), fileInfo.FullName);
+
+                string? hashValue = null;
+                try
+                {
+                    using (var stream = File.OpenRead(fileInfo.FullName))
+                    {
+                        hashValue = CryptoHelpers.CreateHash(stream);
+                    }
+                }
+                catch (Exception e) when (
+                    e is ArgumentNullException
+                    || e is ArgumentException
+                    || e is NotSupportedException
+                    || e is FileNotFoundException
+                    || e is IOException
+                    || e is System.Security.SecurityException
+                    || e is DirectoryNotFoundException
+                    || e is UnauthorizedAccessException
+                    || e is PathTooLongException
+                    || e is ArgumentOutOfRangeException)
+                {
+                    Log.Verbose("{0}: {1} {2}", Strings.Get("Err_UnableToHash"), fileInfo.FullName, e.GetType().ToString());
+                }
+                return hashValue;
+            }
+            return null;
+        }
 
         public static string GetFilePermissions(FileSystemInfo fileInfo)
         {
@@ -73,7 +167,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                     }
 
                     return permissions.ToString();
-
                 }
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
@@ -146,12 +239,15 @@ namespace AttackSurfaceAnalyzer.Collectors
                             case "Hash Type":
                                 signature.HashType = innerSplit[1].Split(' ')[0];
                                 break;
+
                             case "Hash Choices":
                                 signature.HashChoices = innerSplit[1];
                                 break;
+
                             case "CMSDigest":
                                 signature.CMSDigest = innerSplit[1];
                                 break;
+
                             case "Authority":
                                 if (signature.Authorities is null)
                                 {
@@ -159,15 +255,18 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 }
                                 signature.Authorities.Add(innerSplit[1]);
                                 break;
+
                             case "Timestamp":
                                 if (DateTime.TryParse(innerSplit[1], out DateTime result))
                                 {
                                     signature.Timestamp = result;
                                 }
                                 break;
+
                             case "TeamIdentifier":
                                 signature.TeamIdentifier = innerSplit[1];
                                 break;
+
                             default:
                                 if (innerSplit[0].StartsWith("CandidateCDHashFull"))
                                 {
@@ -180,96 +279,13 @@ namespace AttackSurfaceAnalyzer.Collectors
                     return signature;
                 }
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 Log.Verbose("Failed to get Mac CodeSign information for {0} ({1}:{2})", Path, e.GetType(), e.Message);
             }
             return null;
         }
 
-        public static EXECUTABLE_TYPE GetExecutableType(string Path)
-        {
-            using var fs = new FileStream(Path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            return GetExecutableType(Path, fs);
-        }
-
-        public static EXECUTABLE_TYPE GetExecutableType(string? Path, Stream input)
-        {
-            if (input == null) { return EXECUTABLE_TYPE.UNKNOWN; }
-            if (input.Length < 4) { return EXECUTABLE_TYPE.NONE; }
-
-            var fourBytes = new byte[4];
-            var initialPosition = input.Position;
-
-            try
-            {
-                input.Read(fourBytes);
-                input.Position = initialPosition;
-            }
-            catch (Exception e)
-            {
-                Log.Verbose("Couldn't chomp 4 bytes of {0} ({1}:{2})", Path, e.GetType().ToString(), e.Message);
-                return EXECUTABLE_TYPE.UNKNOWN;
-            }
-
-            switch (fourBytes)
-            {
-                case var span when span.SequenceEqual(ElfMagicNumber):
-                    return EXECUTABLE_TYPE.LINUX;
-                case var span when span.SequenceEqual(JavaMagicNumber):
-                    return EXECUTABLE_TYPE.JAVA;
-                case var span when MacMagicNumbers.Contains(span):
-                    return EXECUTABLE_TYPE.MACOS;
-                case var span when span[0..2].SequenceEqual(WindowsMagicNumber):
-                    return EXECUTABLE_TYPE.WINDOWS;
-                default:
-                    return EXECUTABLE_TYPE.NONE;
-
-            }
-        }
-
-        public static string GetFileHash(string path)
-        {
-            try
-            {
-                return GetFileHash(new FileInfo(path)) ?? string.Empty;
-            }
-            catch (Exception)
-            {
-                return string.Empty;
-            }
-        }
-
-        public static string? GetFileHash(FileSystemInfo fileInfo)
-        {
-            if (fileInfo != null)
-            {
-                Log.Debug("{0} {1}", Strings.Get("FileHash"), fileInfo.FullName);
-
-                string? hashValue = null;
-                try
-                {
-                    using (var stream = File.OpenRead(fileInfo.FullName))
-                    {
-                        hashValue = CryptoHelpers.CreateHash(stream);
-                    }
-                }
-                catch (Exception e) when (
-                    e is ArgumentNullException
-                    || e is ArgumentException
-                    || e is NotSupportedException
-                    || e is FileNotFoundException
-                    || e is IOException
-                    || e is System.Security.SecurityException
-                    || e is DirectoryNotFoundException
-                    || e is UnauthorizedAccessException
-                    || e is PathTooLongException
-                    || e is ArgumentOutOfRangeException)
-                {
-                    Log.Verbose("{0}: {1} {2}", Strings.Get("Err_UnableToHash"), fileInfo.FullName, e.GetType().ToString());
-                }
-                return hashValue;
-            }
-            return null;
-        }
+        #endregion Public Methods
     }
 }

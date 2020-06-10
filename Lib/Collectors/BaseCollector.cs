@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
@@ -18,45 +17,20 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public abstract class BaseCollector : IPlatformRunnable
     {
-        public ConcurrentStack<CollectObject> Results { get; } = new ConcurrentStack<CollectObject>();
+        #region Internal Fields
 
         internal CollectCommandOptions opts = new CollectCommandOptions();
 
-        private static CancellationToken GetPlaceholderToken()
-        {
-            using var source = new CancellationTokenSource();
-            return source.Token;
-        }
+        #endregion Internal Fields
 
-        public void TryExecute(CancellationToken? token = null)
-        {
-            var cancellationToken = token is CancellationToken cancelToken ? cancelToken : GetPlaceholderToken();
-            Start();
-            if (!CanRunOnPlatform())
-            {
-                Log.Warning(Strings.Get("Err_PlatIncompat"), GetType().ToString());
-            }
-            else
-            {
-                try
-                {
-                    ExecuteInternal(cancellationToken);
-                }
-                catch(Exception e)
-                {
-                    Log.Debug("Failed to run {0} ({1}:{2})", GetType(), e.GetType(), e.Message);
-                }
-            }
-            Stop();
-        }
-
-        public abstract bool CanRunOnPlatform();
-
-        internal abstract void ExecuteInternal(CancellationToken cancellationToken);
-
-        private Stopwatch? watch;
+        #region Private Fields
 
         private readonly Action<CollectObject>? changeHandler;
+        private Stopwatch? watch;
+
+        #endregion Private Fields
+
+        #region Protected Constructors
 
         protected BaseCollector(CollectCommandOptions? opts, Action<CollectObject>? changeHandler)
         {
@@ -64,22 +38,22 @@ namespace AttackSurfaceAnalyzer.Collectors
             this.changeHandler = changeHandler;
         }
 
-        internal void HandleChange(CollectObject collectObject)
-        {
-            if (changeHandler != null)
-            {
-                changeHandler(collectObject);
-            }
-            else
-            {
-                Results.Push(collectObject);
-            }
-        }
+        #endregion Protected Constructors
+
+        #region Public Properties
+
+        public ConcurrentStack<CollectObject> Results { get; } = new ConcurrentStack<CollectObject>();
 
         public RUN_STATUS RunStatus
         {
             get; private set;
         }
+
+        #endregion Public Properties
+
+        #region Public Methods
+
+        public abstract bool CanRunOnPlatform();
 
         public void Start()
         {
@@ -104,5 +78,57 @@ namespace AttackSurfaceAnalyzer.Collectors
             EndEvent.Add("Duration", watch?.ElapsedMilliseconds.ToString(CultureInfo.InvariantCulture) ?? "");
             AsaTelemetry.TrackEvent("EndScanFunction", EndEvent);
         }
+
+        public void TryExecute(CancellationToken? token = null)
+        {
+            var cancellationToken = token is CancellationToken cancelToken ? cancelToken : GetPlaceholderToken();
+            Start();
+            if (!CanRunOnPlatform())
+            {
+                Log.Warning(Strings.Get("Err_PlatIncompat"), GetType().ToString());
+            }
+            else
+            {
+                try
+                {
+                    ExecuteInternal(cancellationToken);
+                }
+                catch (Exception e)
+                {
+                    Log.Debug("Failed to run {0} ({1}:{2})", GetType(), e.GetType(), e.Message);
+                }
+            }
+            Stop();
+        }
+
+        #endregion Public Methods
+
+        #region Internal Methods
+
+        internal abstract void ExecuteInternal(CancellationToken cancellationToken);
+
+        internal void HandleChange(CollectObject collectObject)
+        {
+            if (changeHandler != null)
+            {
+                changeHandler(collectObject);
+            }
+            else
+            {
+                Results.Push(collectObject);
+            }
+        }
+
+        #endregion Internal Methods
+
+        #region Private Methods
+
+        private static CancellationToken GetPlaceholderToken()
+        {
+            using var source = new CancellationTokenSource();
+            return source.Token;
+        }
+
+        #endregion Private Methods
     }
 }

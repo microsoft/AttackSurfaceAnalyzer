@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Collectors;
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
@@ -14,24 +13,14 @@ namespace AttackSurfaceAnalyzer.Tests
     [TestClass]
     public class InDatabaseComparatorTests
     {
+        #region Public Methods
+
         [ClassInitialize]
         public static void ClassSetup(TestContext _)
         {
             Logger.Setup(false, true);
             Strings.Setup();
             AsaTelemetry.Setup(test: true);
-        }
-
-        [TestInitialize]
-        public void TestSetup()
-        {
-            DatabaseManager.Setup("db.name", new DBSettings() { ShardingFactor = 1 });
-        }
-
-        [TestCleanup]
-        public void TestCleanup()
-        {
-            DatabaseManager.Destroy();
         }
 
         [TestMethod]
@@ -55,25 +44,10 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(results[(RESULT_TYPE.LOG, CHANGE_TYPE.CREATED)].Any(x => x.Compare is EventLogObject));
         }
 
-        [TestMethod]
-        public void TestRemovedInDatabase()
+        [TestCleanup]
+        public void TestCleanup()
         {
-            var elo = new EventLogObject("Entry")
-            {
-                Timestamp = DateTime.Now
-            };
-
-            DatabaseManager.Write(elo, "FirstRun");
-
-            // Let Database Finish Writing
-            Thread.Sleep(1);
-
-            BaseCompare bc = new BaseCompare();
-            bc.Compare("FirstRun", "SecondRun");
-
-            var results = bc.Results;
-
-            Assert.IsTrue(results[(RESULT_TYPE.LOG, CHANGE_TYPE.DELETED)].Any(x => x.Base is EventLogObject));
+            DatabaseManager.Destroy();
         }
 
         [TestMethod]
@@ -101,5 +75,34 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsTrue(results[(RESULT_TYPE.LOG, CHANGE_TYPE.MODIFIED)].Any(x => x.Compare is EventLogObject));
         }
+
+        [TestMethod]
+        public void TestRemovedInDatabase()
+        {
+            var elo = new EventLogObject("Entry")
+            {
+                Timestamp = DateTime.Now
+            };
+
+            DatabaseManager.Write(elo, "FirstRun");
+
+            // Let Database Finish Writing
+            Thread.Sleep(1);
+
+            BaseCompare bc = new BaseCompare();
+            bc.Compare("FirstRun", "SecondRun");
+
+            var results = bc.Results;
+
+            Assert.IsTrue(results[(RESULT_TYPE.LOG, CHANGE_TYPE.DELETED)].Any(x => x.Base is EventLogObject));
+        }
+
+        [TestInitialize]
+        public void TestSetup()
+        {
+            DatabaseManager.Setup("db.name", new DBSettings() { ShardingFactor = 1 });
+        }
+
+        #endregion Public Methods
     }
 }

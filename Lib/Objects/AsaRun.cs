@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Types;
 using System;
 using System.Collections.Generic;
@@ -8,12 +7,7 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class AsaRun
     {
-        public RUN_TYPE Type { get; set; }
-        public string RunId { get; set; }
-        public DateTime Timestamp { get; set; }
-        public string Version { get; set; }
-        public PLATFORM Platform { get; set; }
-        public List<RESULT_TYPE> ResultTypes { get; set; }
+        #region Public Constructors
 
         public AsaRun(string RunId, DateTime Timestamp, string Version, PLATFORM Platform, List<RESULT_TYPE> ResultTypes, RUN_TYPE Type)
         {
@@ -24,5 +18,18 @@ namespace AttackSurfaceAnalyzer.Objects
             this.ResultTypes = ResultTypes;
             this.Type = Type;
         }
+
+        #endregion Public Constructors
+
+        #region Public Properties
+
+        public PLATFORM Platform { get; set; }
+        public List<RESULT_TYPE> ResultTypes { get; set; }
+        public string RunId { get; set; }
+        public DateTime Timestamp { get; set; }
+        public RUN_TYPE Type { get; set; }
+        public string Version { get; set; }
+
+        #endregion Public Properties
     }
 }

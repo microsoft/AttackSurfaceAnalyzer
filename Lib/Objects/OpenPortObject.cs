@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Types;
 using Newtonsoft.Json;
 
@@ -7,21 +6,7 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class OpenPortObject : CollectObject
     {
-        public string? Address { get; set; }
-        /// <summary>
-        /// InterNetwork is IPv4
-        /// InterNetworkV6 is IPv6
-        /// </summary>
-        public ADDRESS_FAMILY AddressFamily { get; set; }
-        /// <summary>
-        /// TCP or UDP
-        /// </summary>
-        public TRANSPORT Type { get; set; }
-        /// <summary>
-        /// The port number
-        /// </summary>
-        public int Port { get; set; }
-        public string? ProcessName { get; set; }
+        #region Public Constructors
 
         [JsonConstructor]
         public OpenPortObject(int Port, TRANSPORT Type) : this(Port, Type, ADDRESS_FAMILY.Unspecified) { }
@@ -34,6 +19,17 @@ namespace AttackSurfaceAnalyzer.Objects
             this.AddressFamily = AddressFamily;
         }
 
+        #endregion Public Constructors
+
+        #region Public Properties
+
+        public string? Address { get; set; }
+
+        /// <summary>
+        /// InterNetwork is IPv4 InterNetworkV6 is IPv6
+        /// </summary>
+        public ADDRESS_FAMILY AddressFamily { get; set; }
+
         /// <summary>
         /// $"{Address}:{Family}:{Type}:{Port}:{ProcessName}"
         /// </summary>
@@ -44,5 +40,19 @@ namespace AttackSurfaceAnalyzer.Objects
                 return $"{Address}:{AddressFamily}:{Type}:{Port}:{ProcessName}";
             }
         }
+
+        /// <summary>
+        /// The port number
+        /// </summary>
+        public int Port { get; set; }
+
+        public string? ProcessName { get; set; }
+
+        /// <summary>
+        /// TCP or UDP
+        /// </summary>
+        public TRANSPORT Type { get; set; }
+
+        #endregion Public Properties
     }
 }

@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using Newtonsoft.Json;
@@ -11,31 +10,24 @@ using Tpm2Lib;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
-    public class TpmPcrTupleConverter<T1, T2> : TypeConverter
-    {
-        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
-        {
-            return sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
-        }
-
-        public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
-        {
-            var elements = Convert.ToString(value, CultureInfo.InvariantCulture)?.Trim('(').Trim(')').Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            if (Enum.TryParse(typeof(TpmAlgId), elements.First(), out object? result) && result is TpmAlgId Algorithm && uint.TryParse(elements.Last(), out uint Index))
-            {
-                return (Algorithm, Index);
-            }
-            return (TpmAlgId.Null, uint.MaxValue);
-        }
-    }
     public static class JsonUtils
     {
+        #region Private Fields
+
         private static readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate, DateFormatHandling = DateFormatHandling.IsoDateFormat };
-        
+
+        #endregion Private Fields
+
+        #region Public Constructors
+
         static JsonUtils()
         {
             TypeDescriptor.AddAttributes(typeof((TpmAlgId, uint)), new TypeConverterAttribute(typeof(TpmPcrTupleConverter<TpmAlgId, uint>)));
         }
+
+        #endregion Public Constructors
+
+        #region Public Methods
 
         /// <summary>
         /// Serialize an object with Newtonsoft.Json
@@ -50,8 +42,13 @@ namespace AttackSurfaceAnalyzer.Utils
         /// <summary>
         /// Deserialize a Collect object from a RawCollectResult
         /// </summary>
-        /// <param name="res">The RawCollectResult containing the msgpack serialized object to hydrate.</param>
-        /// <returns>An appropriately typed collect object based on the collect result passed in, or null if the RESULT_TYPE is unknown.</returns>
+        /// <param name="res">
+        /// The RawCollectResult containing the msgpack serialized object to hydrate.
+        /// </param>
+        /// <returns>
+        /// An appropriately typed collect object based on the collect result passed in, or null if
+        /// the RESULT_TYPE is unknown.
+        /// </returns>
         public static CollectObject? Hydrate(string serialized, RESULT_TYPE type)
         {
             if (serialized == null)
@@ -63,31 +60,67 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 case RESULT_TYPE.CERTIFICATE:
                     return JsonConvert.DeserializeObject<CertificateObject>(serialized, jsonSettings);
+
                 case RESULT_TYPE.FILE:
                     return JsonConvert.DeserializeObject<FileSystemObject>(serialized, jsonSettings);
+
                 case RESULT_TYPE.PORT:
                     return JsonConvert.DeserializeObject<OpenPortObject>(serialized, jsonSettings);
+
                 case RESULT_TYPE.REGISTRY:
                     return JsonConvert.DeserializeObject<RegistryObject>(serialized, jsonSettings);
+
                 case RESULT_TYPE.SERVICE:
                     return JsonConvert.DeserializeObject<ServiceObject>(serialized, jsonSettings);
+
                 case RESULT_TYPE.USER:
                     return JsonConvert.DeserializeObject<UserAccountObject>(serialized, jsonSettings);
+
                 case RESULT_TYPE.GROUP:
                     return JsonConvert.DeserializeObject<GroupAccountObject>(serialized, jsonSettings);
+
                 case RESULT_TYPE.FIREWALL:
                     return JsonConvert.DeserializeObject<FirewallObject>(serialized, jsonSettings);
+
                 case RESULT_TYPE.COM:
                     return JsonConvert.DeserializeObject<ComObject>(serialized, jsonSettings);
+
                 case RESULT_TYPE.LOG:
                     return JsonConvert.DeserializeObject<EventLogObject>(serialized, jsonSettings);
+
                 case RESULT_TYPE.TPM:
                     return JsonConvert.DeserializeObject<TpmObject>(serialized, jsonSettings);
+
                 case RESULT_TYPE.KEY:
                     return JsonConvert.DeserializeObject<CryptographicKeyObject>(serialized, jsonSettings);
+
                 default:
                     return null;
             }
         }
+
+        #endregion Public Methods
+    }
+
+    public class TpmPcrTupleConverter<T1, T2> : TypeConverter
+    {
+        #region Public Methods
+
+        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+        {
+            return sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
+        }
+
+        public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+        {
+            var elements = Convert.ToString(value, CultureInfo.InvariantCulture)?.Trim('(').Trim(')').Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            if (Enum.TryParse(typeof(TpmAlgId), elements.First(), out object? result) && result is TpmAlgId Algorithm && uint.TryParse(elements.Last(), out uint Index))
+            {
+                return (Algorithm, Index);
+            }
+            return (TpmAlgId.Null, uint.MaxValue);
+        }
+
+        #endregion Public Methods
     }
 }

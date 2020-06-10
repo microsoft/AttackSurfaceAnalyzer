@@ -12,18 +12,14 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class SystemSQLiteSqlConnectionHolder
     {
-        public SQLiteTransaction? Transaction { get; set; }
-        public SQLiteConnection Connection { get; set; }
-        public ConcurrentQueue<WriteObject> WriteQueue { get; private set; } = new ConcurrentQueue<WriteObject>();
-        public bool KeepRunning { get; set; }
-        public string Source { get; set; }
-        private int RecordCount { get; set; }
-        public int FlushCount { get; set; } = -1;
-        public int TableShards { get; set; } = 1;
-
-        private readonly DBSettings _settings;
+        #region Private Fields
 
         private const string PRAGMAS = "PRAGMA auto_vacuum = 0; PRAGMA locking_mode = {0};";
+        private readonly DBSettings _settings;
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public SystemSQLiteSqlConnectionHolder(string databaseFilename, DBSettings? dBSettings = default, int tableShards = 1)
         {
@@ -43,12 +39,50 @@ namespace AttackSurfaceAnalyzer.Objects
             FlushCount = _settings.FlushCount;
         }
 
-        internal void StartWriter()
+        #endregion Public Constructors
+
+        #region Public Properties
+
+        public SQLiteConnection Connection { get; set; }
+        public int FlushCount { get; set; } = -1;
+        public bool KeepRunning { get; set; }
+        public string Source { get; set; }
+        public int TableShards { get; set; } = 1;
+        public SQLiteTransaction? Transaction { get; set; }
+        public ConcurrentQueue<WriteObject> WriteQueue { get; private set; } = new ConcurrentQueue<WriteObject>();
+
+        #endregion Public Properties
+
+        #region Private Properties
+
+        private int RecordCount { get; set; }
+
+        #endregion Private Properties
+
+        #region Public Methods
+
+        public void BeginTransaction()
         {
-            ((Action)(async () =>
+            if (Transaction == null && Connection != null)
             {
-                await Task.Run(() => KeepFlushQueue()).ConfigureAwait(false);
-            }))();
+                Transaction = Connection.BeginTransaction();
+            }
+        }
+
+        public void Commit()
+        {
+            try
+            {
+                Transaction?.Commit();
+            }
+            catch (Exception e)
+            {
+                Log.Warning(e, $"Failed to commit data to {Source}, {e.StackTrace}");
+            }
+            finally
+            {
+                Transaction = null;
+            }
         }
 
         public void Destroy()
@@ -85,30 +119,6 @@ namespace AttackSurfaceAnalyzer.Objects
             }
         }
 
-        public void BeginTransaction()
-        {
-            if (Transaction == null && Connection != null)
-            {
-                Transaction = Connection.BeginTransaction();
-            }
-        }
-
-        public void Commit()
-        {
-            try
-            {
-                Transaction?.Commit();
-            }
-            catch (Exception e)
-            {
-                Log.Warning(e, $"Failed to commit data to {Source}, {e.StackTrace}");
-            }
-            finally
-            {
-                Transaction = null;
-            }
-        }
-
         public void WriteNext()
         {
             string SQL_INSERT_COLLECT_RESULT = "insert into collect (run_id, result_type, row_key, identity, serialized) values (@run_id, @result_type, @row_key, @identity, @serialized)";
@@ -135,6 +145,10 @@ namespace AttackSurfaceAnalyzer.Objects
             }
         }
 
+        #endregion Public Methods
+
+        #region Internal Methods
+
         internal void ShutDown()
         {
             KeepRunning = false;
@@ -142,5 +156,15 @@ namespace AttackSurfaceAnalyzer.Objects
             Connection.Dispose();
             Transaction = null;
         }
+
+        internal void StartWriter()
+        {
+            ((Action)(async () =>
+            {
+                await Task.Run(() => KeepFlushQueue()).ConfigureAwait(false);
+            }))();
+        }
+
+        #endregion Internal Methods
     }
 }

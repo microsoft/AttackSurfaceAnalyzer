@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 
 using Newtonsoft.Json;
 using System;
@@ -10,11 +9,17 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class CryptographicKeyObject : CollectObject
     {
-        public string Source { get; set; }
+        #region Public Constructors
 
-        public TpmAlgId tpmAlgId { get; set; } = TpmAlgId.Null;
+        public CryptographicKeyObject(string Source, TpmAlgId tpmAlgId)
+        {
+            this.Source = Source;
+            this.tpmAlgId = tpmAlgId;
+        }
 
-        public RsaKeyDetails? RsaDetails { get; set; }
+        #endregion Public Constructors
+
+        #region Public Properties
 
         public override string Identity
         {
@@ -24,11 +29,12 @@ namespace AttackSurfaceAnalyzer.Objects
             }
         }
 
-        public CryptographicKeyObject(string Source, TpmAlgId tpmAlgId)
-        {
-            this.Source = Source;
-            this.tpmAlgId = tpmAlgId;
-        }
+        public RsaKeyDetails? RsaDetails { get; set; }
+        public string Source { get; set; }
+
+        public TpmAlgId tpmAlgId { get; set; } = TpmAlgId.Null;
+
+        #endregion Public Properties
     }
 
     public class KeyDetailObject
@@ -37,9 +43,14 @@ namespace AttackSurfaceAnalyzer.Objects
 
     public class RsaKeyDetails : KeyDetailObject
     {
-        private RSA rsa;
+        #region Private Fields
 
         private bool ContainsPrivate = false;
+        private RSA rsa;
+
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public RsaKeyDetails(byte[] modulus, byte[] d, byte[]? p = null, byte[]? q = null)
         {
@@ -78,24 +89,9 @@ namespace AttackSurfaceAnalyzer.Objects
             }
         }
 
-        public bool ShouldSerializePublicString()
-        {
-            return !ContainsPrivate;
-        }
+        #endregion Public Constructors
 
-        public bool ShouldSerializeFullString()
-        {
-            return ContainsPrivate;
-        }
-
-        public string PublicString
-        {
-            get
-            {
-
-                return Convert.ToBase64String(rsa.ExportRSAPublicKey());
-            }
-        }
+        #region Public Properties
 
         public string? FullString
         {
@@ -108,5 +104,29 @@ namespace AttackSurfaceAnalyzer.Objects
                 return null;
             }
         }
+
+        public string PublicString
+        {
+            get
+            {
+                return Convert.ToBase64String(rsa.ExportRSAPublicKey());
+            }
+        }
+
+        #endregion Public Properties
+
+        #region Public Methods
+
+        public bool ShouldSerializeFullString()
+        {
+            return ContainsPrivate;
+        }
+
+        public bool ShouldSerializePublicString()
+        {
+            return !ContainsPrivate;
+        }
+
+        #endregion Public Methods
     }
 }

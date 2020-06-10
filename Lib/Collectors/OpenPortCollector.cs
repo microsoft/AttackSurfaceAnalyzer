@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
@@ -18,7 +17,15 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class OpenPortCollector : BaseCollector
     {
-        public OpenPortCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler) { }
+        #region Public Constructors
+
+        public OpenPortCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
+        {
+        }
+
+        #endregion Public Constructors
+
+        #region Public Methods
 
         public override bool CanRunOnPlatform()
         {
@@ -40,6 +47,10 @@ namespace AttackSurfaceAnalyzer.Collectors
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
         }
 
+        #endregion Public Methods
+
+        #region Internal Methods
+
         internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -57,46 +68,8 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Executes the OpenPortCollector on Windows. Uses the .NET Core
-        /// APIs to gather active TCP and UDP listeners and writes them 
-        /// to the database.
-        /// </summary>
-        internal void ExecuteWindows(CancellationToken cancellationToken)
-        {
-            var properties = IPGlobalProperties.GetIPGlobalProperties();
-
-            foreach (var endpoint in properties.GetActiveTcpListeners())
-            {
-                if (cancellationToken.IsCancellationRequested) { return; }
-
-                var obj = new OpenPortObject(endpoint.Port, TRANSPORT.TCP, (ADDRESS_FAMILY)endpoint.AddressFamily)
-                {
-                    Address = endpoint.Address.ToString(),
-                };
-                foreach (ProcessPort p in Win32ProcessPorts.ProcessPortMap.FindAll(x => x.PortNumber == endpoint.Port))
-                {
-                    obj.ProcessName = p.ProcessName;
-                }
-
-                HandleChange(obj);
-            }
-
-            foreach (var endpoint in properties.GetActiveUdpListeners())
-            {
-                var obj = new OpenPortObject(endpoint.Port, TRANSPORT.UDP, (ADDRESS_FAMILY)endpoint.AddressFamily)
-                {
-                    Address = endpoint.Address.ToString()
-                };
-
-                obj.ProcessName = Win32ProcessPorts.ProcessPortMap.Find(x => x.PortNumber == endpoint.Port)?.ProcessName;
-
-                HandleChange(obj);
-            }
-        }
-
-        /// <summary>
-        /// Executes the OpenPortCollector on Linux. Calls out to the `ss`
-        /// command and parses the output, sending the output to the database.
+        /// Executes the OpenPortCollector on Linux. Calls out to the `ss` command and parses the
+        /// output, sending the output to the database.
         /// </summary>
         internal void ExecuteLinux(CancellationToken cancellationToken)
         {
@@ -135,7 +108,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                             };
                             HandleChange(obj);
                         }
-
                     }
                 }
             }
@@ -144,12 +116,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                 Log.Warning(Strings.Get("Err_Iproute2"));
                 Log.Debug(e, "");
             }
-
         }
 
         /// <summary>
-        /// Executes the OpenPortCollector on OS X. Calls out to the `lsof`
-        /// command and parses the output, sending the output to the database.
+        /// Executes the OpenPortCollector on OS X. Calls out to the `lsof` command and parses the
+        /// output, sending the output to the database.
         /// </summary>
         internal void ExecuteOsX(CancellationToken cancellationToken)
         {
@@ -187,9 +158,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 case "IPv4":
                                     family = ADDRESS_FAMILY.InterNetwork;
                                     break;
+
                                 case "IPv6":
                                     family = ADDRESS_FAMILY.InterNetworkV6;
                                     break;
+
                                 default:
                                     family = ADDRESS_FAMILY.Unknown;
                                     break;
@@ -211,5 +184,44 @@ namespace AttackSurfaceAnalyzer.Collectors
                 Log.Error(e, Strings.Get("Err_Lsof"));
             }
         }
+
+        /// <summary>
+        /// Executes the OpenPortCollector on Windows. Uses the .NET Core APIs to gather active TCP
+        /// and UDP listeners and writes them to the database.
+        /// </summary>
+        internal void ExecuteWindows(CancellationToken cancellationToken)
+        {
+            var properties = IPGlobalProperties.GetIPGlobalProperties();
+
+            foreach (var endpoint in properties.GetActiveTcpListeners())
+            {
+                if (cancellationToken.IsCancellationRequested) { return; }
+
+                var obj = new OpenPortObject(endpoint.Port, TRANSPORT.TCP, (ADDRESS_FAMILY)endpoint.AddressFamily)
+                {
+                    Address = endpoint.Address.ToString(),
+                };
+                foreach (ProcessPort p in Win32ProcessPorts.ProcessPortMap.FindAll(x => x.PortNumber == endpoint.Port))
+                {
+                    obj.ProcessName = p.ProcessName;
+                }
+
+                HandleChange(obj);
+            }
+
+            foreach (var endpoint in properties.GetActiveUdpListeners())
+            {
+                var obj = new OpenPortObject(endpoint.Port, TRANSPORT.UDP, (ADDRESS_FAMILY)endpoint.AddressFamily)
+                {
+                    Address = endpoint.Address.ToString()
+                };
+
+                obj.ProcessName = Win32ProcessPorts.ProcessPortMap.Find(x => x.PortNumber == endpoint.Port)?.ProcessName;
+
+                HandleChange(obj);
+            }
+        }
+
+        #endregion Internal Methods
     }
 }

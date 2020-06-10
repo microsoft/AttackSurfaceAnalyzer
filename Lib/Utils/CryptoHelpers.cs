@@ -1,5 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using System;
 using System.IO;
 using System.Linq;
@@ -10,9 +9,19 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public static class CryptoHelpers
     {
-        // These are not intended to be cryptographically secure hashes
-        // These are used as a uniqueness check
-        static readonly HashAlgorithm sha512 = SHA512.Create();
+        #region Private Fields
+
+        private const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+        private static readonly RNGCryptoServiceProvider crypto = new RNGCryptoServiceProvider();
+
+        // These are not intended to be cryptographically secure hashes These are used as a
+        // uniqueness check
+        private static readonly HashAlgorithm sha512 = SHA512.Create();
+
+        #endregion Private Fields
+
+        #region Public Methods
 
         public static string CreateHash(string input)
         {
@@ -30,11 +39,12 @@ namespace AttackSurfaceAnalyzer.Utils
             return Convert.ToBase64String(sha512.ComputeHash(stream) ?? Array.Empty<byte>());
         }
 
-        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
-        private static readonly RNGCryptoServiceProvider crypto = new RNGCryptoServiceProvider();
-
-        public static string GetRandomString(int characters) => new string(Enumerable.Range(1, characters).Select(_ => chars[GetRandomPositiveIndex(chars.Length)]).ToArray());
+        public static double GetRandomPositiveDouble(double max)
+        {
+            var bytes = new byte[8];
+            crypto.GetBytes(bytes);
+            return (BitConverter.ToUInt64(bytes, 0) >> 11) / (double)ulong.MaxValue * max;
+        }
 
         public static int GetRandomPositiveIndex(int max)
         {
@@ -49,12 +59,8 @@ namespace AttackSurfaceAnalyzer.Utils
             return (int)(max * (randomInteger / (double)uint.MaxValue));
         }
 
-        public static double GetRandomPositiveDouble(double max)
-        {
-            var bytes = new byte[8];
-            crypto.GetBytes(bytes);
-            return (BitConverter.ToUInt64(bytes, 0) >> 11) / (double)ulong.MaxValue * max;
-        }
+        public static string GetRandomString(int characters) => new string(Enumerable.Range(1, characters).Select(_ => chars[GetRandomPositiveIndex(chars.Length)]).ToArray());
 
+        #endregion Public Methods
     }
 }
