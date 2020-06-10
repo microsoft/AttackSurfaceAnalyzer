@@ -233,7 +233,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
                                 violations.Add((Strings.Get("Err_ClauseUnexpectedDictData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                             }
-                            if (clause.Data == null || clause.Data?.Count > 0)
+                            if (clause.Data == null || clause.Data?.Count == 0)
                             {
                                 violations.Add((Strings.Get("Err_ClauseMissingListData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                             }
