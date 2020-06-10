@@ -91,7 +91,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                 // TODO: GenerateRandomEcc
 
-                Results.Push(obj);
+                HandleChange(obj);
 
                 tpmDevice.Close();
             }
@@ -213,12 +213,14 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 return output;
             }
+            
+            // Get which PCRs are supported
             tpm.GetCapability(Cap.Pcrs, 0, 255, out ICapabilitiesUnion caps);
             PcrSelection[] pcrs = ((PcrSelectionArray)caps).pcrSelections;
 
             foreach (var selection in pcrs)
             {
-                // Spec defines 24 PCRs
+                // Dump each PCR bank
                 foreach (var pcrVal in DumpPCRs(tpm, selection.hash, new PcrSelection[] { new PcrSelection(selection.hash, selection.GetSelectedPcrs()) }))
                 {
                     output.Add(pcrVal.Key, pcrVal.Value);
@@ -230,8 +232,6 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public static Dictionary<(TpmAlgId, uint), byte[]> DumpPCRs(Tpm2 tpm, TpmAlgId tpmAlgId, PcrSelection[] pcrs)
         {
-            // TODO: Check which PCRs are available first
-
             var output = new Dictionary<(TpmAlgId, uint), byte[]>();
             if (tpm == null || pcrs == null)
             {
