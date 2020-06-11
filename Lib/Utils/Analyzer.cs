@@ -668,7 +668,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         {
                             if (clause.DictData is List<KeyValuePair<string, string>> ContainsData)
                             {
-                                if (ContainsData.All(y => dictToCheck.Where((x) => x.Key == y.Key && x.Value == y.Value).Any()))
+                                if (ContainsData.All(y => dictToCheck.Any((x) => x.Key == y.Key && x.Value == y.Value)))
                                 {
                                     return true;
                                 }
@@ -793,7 +793,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                     }
                                 }
 
-                                if (valsToCheck.Any(x => x != null && RegexCache[built].IsMatch(x)))
+                                if (valsToCheck.Any(x => RegexCache[built].IsMatch(x)))
                                 {
                                     return true;
                                 }
@@ -806,6 +806,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         if (compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
                         {
                             CompareLogic compareLogic = new CompareLogic();
+
                             ComparisonResult result = compareLogic.Compare(before, after);
 
                             return !result.AreEqual;
