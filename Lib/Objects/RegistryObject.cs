@@ -8,18 +8,12 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class RegistryObject : CollectObject
     {
-        #region Public Constructors
-
         public RegistryObject(string Key, RegistryView View)
         {
             ResultType = RESULT_TYPE.REGISTRY;
             this.View = View;
             this.Key = Key;
         }
-
-        #endregion Public Constructors
-
-        #region Public Properties
 
         public override string Identity
         {
@@ -30,7 +24,7 @@ namespace AttackSurfaceAnalyzer.Objects
         }
 
         /// <summary>
-        /// The Full Path to the Key in the Registry
+        ///     The Full Path to the Key in the Registry
         /// </summary>
         public string Key { get; set; }
 
@@ -51,10 +45,6 @@ namespace AttackSurfaceAnalyzer.Objects
 
         public Dictionary<string, string>? Values { get; set; }
         public RegistryView View { get; private set; }
-
-        #endregion Public Properties
-
-        #region Public Methods
 
         public static Dictionary<string, string> GetValues(RegistryKey key)
         {
@@ -103,7 +93,5 @@ namespace AttackSurfaceAnalyzer.Objects
             }
             Subkeys.AddRange(subkeysIn);
         }
-
-        #endregion Public Methods
     }
 }

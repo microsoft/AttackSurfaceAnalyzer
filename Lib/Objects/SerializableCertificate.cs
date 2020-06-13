@@ -7,8 +7,6 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class SerializableCertificate
     {
-        #region Public Constructors
-
         public SerializableCertificate(X509Certificate2 certificate)
         {
             Thumbprint = certificate?.Thumbprint ?? throw new ArgumentNullException(nameof(certificate));
@@ -36,10 +34,6 @@ namespace AttackSurfaceAnalyzer.Objects
             this.Pkcs7 = Pkcs7;
         }
 
-        #endregion Public Constructors
-
-        #region Public Properties
-
         public string CertHashString { get; set; }
         public string Issuer { get; set; }
         public DateTime NotAfter { get; set; }
@@ -49,7 +43,5 @@ namespace AttackSurfaceAnalyzer.Objects
         public string SerialNumber { get; set; }
         public string Subject { get; set; }
         public string Thumbprint { get; set; }
-
-        #endregion Public Properties
     }
 }

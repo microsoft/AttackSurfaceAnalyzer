@@ -6,8 +6,6 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class EventLogObject : CollectObject
     {
-        #region Public Constructors
-
         public EventLogObject(string Event)
         {
             this.Event = Event;
@@ -15,22 +13,18 @@ namespace AttackSurfaceAnalyzer.Objects
             Data = new List<string>();
         }
 
-        #endregion Public Constructors
-
-        #region Public Properties
-
         /// <summary>
-        /// Additional associated data
+        ///     Additional associated data
         /// </summary>
         public List<string>? Data { get; set; }
 
         /// <summary>
-        /// The raw event text
+        ///     The raw event text
         /// </summary>
         public string Event { get; set; }
 
         /// <summary>
-        /// The raw event text
+        ///     The raw event text
         /// </summary>
         public override string Identity
         {
@@ -41,30 +35,28 @@ namespace AttackSurfaceAnalyzer.Objects
         }
 
         /// <summary>
-        /// The severity level of the event message (availability platform dependent)
+        ///     The severity level of the event message (availability platform dependent)
         /// </summary>
         public string? Level { get; set; }
 
         /// <summary>
-        /// The process that the event log is from.
+        ///     The process that the event log is from.
         /// </summary>
         public string? Process { get; set; }
 
         /// <summary>
-        /// The Event Log source
+        ///     The Event Log source
         /// </summary>
         public string? Source { get; set; }
 
         /// <summary>
-        /// A summary description of the event message (availability platform dependent)
+        ///     A summary description of the event message (availability platform dependent)
         /// </summary>
         public string? Summary { get; set; }
 
         /// <summary>
-        /// The recorded Timestamp in the log file
+        ///     The recorded Timestamp in the log file
         /// </summary>
         public DateTime? Timestamp { get; set; }
-
-        #endregion Public Properties
     }
 }

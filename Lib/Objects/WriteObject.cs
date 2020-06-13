@@ -8,8 +8,6 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class WriteObject
     {
-        #region Public Constructors
-
         public WriteObject(CollectObject ColObjIn, string RunIdIn)
         {
             ColObj = ColObjIn ?? throw new ArgumentNullException(nameof(ColObjIn));
@@ -17,10 +15,6 @@ namespace AttackSurfaceAnalyzer.Objects
             Serialized = JsonUtils.Dehydrate(ColObjIn);
             RowKey = ColObj.RowKey;
         }
-
-        #endregion Public Constructors
-
-        #region Public Properties
 
         public CollectObject ColObj { get; }
 
@@ -36,10 +30,6 @@ namespace AttackSurfaceAnalyzer.Objects
         public string RunId { get; }
         public string Serialized { get; }
 
-        #endregion Public Properties
-
-        #region Public Methods
-
         public static WriteObject? FromString(string SerializedIn, RESULT_TYPE ResultTypeIn, string RunIdIn)
         {
             var deserialized = JsonUtils.Hydrate(SerializedIn, ResultTypeIn);
@@ -54,7 +44,5 @@ namespace AttackSurfaceAnalyzer.Objects
                 return null;
             }
         }
-
-        #endregion Public Methods
     }
 }

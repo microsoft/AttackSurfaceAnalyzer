@@ -12,42 +12,28 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public static class JsonUtils
     {
-        #region Private Fields
-
-        private static readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate, DateFormatHandling = DateFormatHandling.IsoDateFormat };
-
-        #endregion Private Fields
-
-        #region Public Constructors
-
         static JsonUtils()
         {
             TypeDescriptor.AddAttributes(typeof((TpmAlgId, uint)), new TypeConverterAttribute(typeof(TpmPcrTupleConverter<TpmAlgId, uint>)));
         }
 
-        #endregion Public Constructors
-
-        #region Public Methods
-
         /// <summary>
-        /// Serialize an object with Newtonsoft.Json
+        ///     Serialize an object with Newtonsoft.Json
         /// </summary>
-        /// <param name="colObj">The object to serialize</param>
-        /// <returns>The bytes of the serialized object</returns>
+        /// <param name="colObj"> The object to serialize </param>
+        /// <returns> The bytes of the serialized object </returns>
         public static string Dehydrate(CollectObject colObj)
         {
             return JsonConvert.SerializeObject(colObj, jsonSettings);
         }
 
         /// <summary>
-        /// Deserialize a Collect object from a RawCollectResult
+        ///     Deserialize a Collect object from a RawCollectResult
         /// </summary>
-        /// <param name="res">
-        /// The RawCollectResult containing the msgpack serialized object to hydrate.
-        /// </param>
+        /// <param name="res"> The RawCollectResult containing the msgpack serialized object to hydrate. </param>
         /// <returns>
-        /// An appropriately typed collect object based on the collect result passed in, or null if
-        /// the RESULT_TYPE is unknown.
+        ///     An appropriately typed collect object based on the collect result passed in, or null if the
+        ///     RESULT_TYPE is unknown.
         /// </returns>
         public static CollectObject? Hydrate(string serialized, RESULT_TYPE type)
         {
@@ -99,13 +85,11 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        #endregion Public Methods
+        private static readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { DefaultValueHandling = DefaultValueHandling.Ignore, DateFormatHandling = DateFormatHandling.IsoDateFormat, NullValueHandling = NullValueHandling.Ignore };
     }
 
     public class TpmPcrTupleConverter<T1, T2> : TypeConverter
     {
-        #region Public Methods
-
         public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
         {
             return sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
@@ -120,7 +104,5 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             return (TpmAlgId.Null, uint.MaxValue);
         }
-
-        #endregion Public Methods
     }
 }

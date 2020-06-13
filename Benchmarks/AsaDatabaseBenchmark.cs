@@ -6,14 +6,8 @@ namespace AttackSurfaceAnalyzer.Benchmarks
 {
     public class AsaDatabaseBenchmark
     {
-        #region Public Fields
-
         // Bag of reusable objects to write to the database.
         public static readonly ConcurrentBag<FileSystemObject> BagOfObjects = new ConcurrentBag<FileSystemObject>();
-
-        #endregion Public Fields
-
-        #region Public Methods
 
         public static FileSystemObject GetRandomObject(int ObjectPadding = 0)
         {
@@ -33,7 +27,5 @@ namespace AttackSurfaceAnalyzer.Benchmarks
                 };
             }
         }
-
-        #endregion Public Methods
     }
 }

@@ -15,8 +15,6 @@ namespace AttackSurfaceAnalyzer.Collectors
 {
     public static class FileSystemUtils
     {
-        #region Public Fields
-
         // ELF Format
         public static readonly byte[] ElfMagicNumber = AsaHelpers.HexStringToBytes("7F454C46");
 
@@ -39,10 +37,6 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         // MZ
         public static readonly byte[] WindowsMagicNumber = AsaHelpers.HexStringToBytes("4D5A");
-
-        #endregion Public Fields
-
-        #region Public Methods
 
         public static EXECUTABLE_TYPE GetExecutableType(string Path)
         {
@@ -285,7 +279,5 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
             return null;
         }
-
-        #endregion Public Methods
     }
 }

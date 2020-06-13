@@ -9,8 +9,6 @@ namespace AttackSurfaceAnalyzer.Tests
     [TestClass]
     public class HydrationTests
     {
-        #region Public Methods
-
         [ClassInitialize]
         public static void ClassSetup(TestContext _)
         {
@@ -123,7 +121,5 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsTrue(uao.RowKey.Equals(JsonUtils.Hydrate(JsonUtils.Dehydrate(uao), RESULT_TYPE.USER)?.RowKey));
         }
-
-        #endregion Public Methods
     }
 }

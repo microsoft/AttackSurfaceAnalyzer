@@ -5,23 +5,15 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class FileMonitorEvent
     {
-        #region Public Constructors
-
         public FileMonitorEvent(string PathIn)
         {
             Path = PathIn;
         }
-
-        #endregion Public Constructors
-
-        #region Public Properties
 
         public CHANGE_TYPE ChangeType { get; set; }
         public string? Name { get; set; }
         public string? OldName { get; set; }
         public string? OldPath { get; set; }
         public string Path { get; set; }
-
-        #endregion Public Properties
     }
 }

@@ -8,30 +8,6 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public class FileWatcher : IDisposable
     {
-        #region Private Fields
-
-        private const NotifyFilters DefaultFilters = NotifyFilters.Attributes
-                                                | NotifyFilters.CreationTime
-                                                | NotifyFilters.DirectoryName
-                                                | NotifyFilters.FileName
-                                                | NotifyFilters.LastAccess
-                                                | NotifyFilters.LastWrite
-                                                | NotifyFilters.Security
-                                                | NotifyFilters.Size;
-
-        private const bool DefaultIncludeSubdirectories = true;
-        private static readonly Action<EventArgs> DefaultChangedDelegate = (e) => { FileSystemEventArgs i_e = (FileSystemEventArgs)e; Log.Information(i_e.ChangeType.ToString() + " " + i_e.FullPath); };
-        private static readonly Action<EventArgs> DefaultRenamedDelegate = (e) => { RenamedEventArgs i_e = (RenamedEventArgs)e; Log.Information(i_e.ChangeType.ToString() + " " + i_e.OldFullPath + " " + i_e.FullPath); };
-        private readonly Action<EventArgs> OnChangedDelegate;
-        private readonly Action<EventArgs> OnCreatedDelegate;
-        private readonly Action<EventArgs> OnDeletedDelegate;
-        private readonly Action<EventArgs> OnRenamedDelegate;
-        private readonly FileSystemWatcher watcher;
-
-        #endregion Private Fields
-
-        #region Public Constructors
-
         // Default constructor which gathers everything and prints to stdout.
         public FileWatcher() : this("/")
         {
@@ -72,15 +48,7 @@ namespace AttackSurfaceAnalyzer.Utils
             watcher.EndInit();
         }
 
-        #endregion Public Constructors
-
-        #region Public Properties
-
         public List<EventArgs> EventList { get; }
-
-        #endregion Public Properties
-
-        #region Public Methods
 
         public void Dispose()
         {
@@ -104,10 +72,6 @@ namespace AttackSurfaceAnalyzer.Utils
             watcher.Dispose();
         }
 
-        #endregion Public Methods
-
-        #region Protected Methods
-
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
@@ -116,9 +80,23 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        #endregion Protected Methods
+        private const NotifyFilters DefaultFilters = NotifyFilters.Attributes
+                                                                                                                                | NotifyFilters.CreationTime
+                                                | NotifyFilters.DirectoryName
+                                                | NotifyFilters.FileName
+                                                | NotifyFilters.LastAccess
+                                                | NotifyFilters.LastWrite
+                                                | NotifyFilters.Security
+                                                | NotifyFilters.Size;
 
-        #region Private Methods
+        private const bool DefaultIncludeSubdirectories = true;
+        private static readonly Action<EventArgs> DefaultChangedDelegate = (e) => { FileSystemEventArgs i_e = (FileSystemEventArgs)e; Log.Information(i_e.ChangeType.ToString() + " " + i_e.FullPath); };
+        private static readonly Action<EventArgs> DefaultRenamedDelegate = (e) => { RenamedEventArgs i_e = (RenamedEventArgs)e; Log.Information(i_e.ChangeType.ToString() + " " + i_e.OldFullPath + " " + i_e.FullPath); };
+        private readonly Action<EventArgs> OnChangedDelegate;
+        private readonly Action<EventArgs> OnCreatedDelegate;
+        private readonly Action<EventArgs> OnDeletedDelegate;
+        private readonly Action<EventArgs> OnRenamedDelegate;
+        private readonly FileSystemWatcher watcher;
 
         private void OnChanged(object source, FileSystemEventArgs e)
         {
@@ -143,7 +121,5 @@ namespace AttackSurfaceAnalyzer.Utils
             EventList.Add(e);
             OnRenamedDelegate(e);
         }
-
-        #endregion Private Methods
     }
 }

@@ -9,17 +9,6 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public static class Strings
     {
-        #region Private Fields
-
-        /// <summary>
-        /// Internal member structure holding string resources
-        /// </summary>
-        private static readonly Dictionary<string, string> stringList = new Dictionary<string, string>();
-
-        #endregion Private Fields
-
-        #region Public Methods
-
         public static string Get(string key)
         {
             if (stringList.ContainsKey(key))
@@ -52,6 +41,9 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        #endregion Public Methods
+        /// <summary>
+        ///     Internal member structure holding string resources
+        /// </summary>
+        private static readonly Dictionary<string, string> stringList = new Dictionary<string, string>();
     }
 }

@@ -16,22 +16,12 @@ namespace AttackSurfaceAnalyzer.Cli
 {
     public class Startup
     {
-        #region Public Constructors
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        #endregion Public Constructors
-
-        #region Public Properties
-
         public IConfiguration Configuration { get; }
-
-        #endregion Public Properties
-
-        #region Public Methods
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -99,7 +89,5 @@ namespace AttackSurfaceAnalyzer.Cli
 
             services.AddControllersWithViews();
         }
-
-        #endregion Public Methods
     }
 }

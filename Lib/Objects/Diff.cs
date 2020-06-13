@@ -3,8 +3,6 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class Diff
     {
-        #region Public Constructors
-
         public Diff(string FieldIn, object? BeforeIn = null, object? AfterIn = null)
         {
             Field = FieldIn;
@@ -12,14 +10,8 @@ namespace AttackSurfaceAnalyzer.Objects
             After = AfterIn;
         }
 
-        #endregion Public Constructors
-
-        #region Public Properties
-
         public object? After { get; }
         public object? Before { get; }
         public string Field { get; }
-
-        #endregion Public Properties
     }
 }

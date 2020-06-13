@@ -16,31 +16,10 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public static class LiteDbManager
     {
-        #region Private Fields
-
-        private const int SCHEMA_VERSION = 1;
-
-        private static readonly ConcurrentBag<ILiteCollection<WriteObject>> WriteObjectCollections = new ConcurrentBag<ILiteCollection<WriteObject>>();
-        private static bool WriterStarted = false;
-
-        #endregion Private Fields
-
-        #region Public Properties
-
         public static LiteDatabase? db { get; private set; }
         public static string Filename { get; private set; } = "asa.litedb";
         public static bool FirstRun { get; private set; } = true;
         public static ConcurrentQueue<WriteObject> WriteQueue { get; private set; } = new ConcurrentQueue<WriteObject>();
-
-        #endregion Public Properties
-
-        #region Private Properties
-
-        private static Settings settings { get; set; } = new Settings() { SchemaVersion = SCHEMA_VERSION, ShardingFactor = 1, TelemetryEnabled = true };
-
-        #endregion Private Properties
-
-        #region Public Methods
 
         public static void BeginTransaction()
         {
@@ -477,10 +456,9 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        // Stopwatch.Stop(); var t = TimeSpan.FromMilliseconds(Stopwatch.ElapsedMilliseconds); var
-        // answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
-        // t.Hours, t.Minutes, t.Seconds, t.Milliseconds); Log.Debug("Completed getting WriteObjects
-        // for {0} in {1}", secondRunId, answer);
+        // Stopwatch.Stop(); var t = TimeSpan.FromMilliseconds(Stopwatch.ElapsedMilliseconds); var answer =
+        // string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms", t.Hours, t.Minutes,
+        // t.Seconds, t.Milliseconds); Log.Debug("Completed getting WriteObjects for {0} in {1}", secondRunId, answer);
         public static void UpdateCompareRun(string firstRunId, string secondRunId, RUN_STATUS runStatus)
         {
             var crs = db?.GetCollection<CompareRun>("CompareRun");
@@ -528,8 +506,11 @@ namespace AttackSurfaceAnalyzer.Utils
             col?.Insert(list);
         }
 
-        #endregion Public Methods
+        private const int SCHEMA_VERSION = 1;
 
+        private static readonly ConcurrentBag<ILiteCollection<WriteObject>> WriteObjectCollections = new ConcurrentBag<ILiteCollection<WriteObject>>();
+        private static bool WriterStarted = false;
+        private static Settings settings { get; set; } = new Settings() { SchemaVersion = SCHEMA_VERSION, ShardingFactor = 1, TelemetryEnabled = true };
         //public static IEnumerable<WriteObject> GetMissingFromFirst2(string firstRunId, string secondRunId)
         //{
         //    var col = db.GetCollection<WriteObject>("WriteObjects");
@@ -538,18 +519,16 @@ namespace AttackSurfaceAnalyzer.Utils
 
         // var Stopwatch = System.Diagnostics.Stopwatch.StartNew();
 
-        // var identityHashes = db.Execute($"SELECT IdentityHash FROM WriteObjects WHERE RunId =
-        // @0", new BsonDocument { ["0"] = secondRunId });
+        // var identityHashes = db.Execute($"SELECT IdentityHash FROM WriteObjects WHERE RunId = @0", new
+        // BsonDocument { ["0"] = secondRunId });
 
-        // Parallel.ForEach(identityHashes.ToEnumerable(), IdentityHash => { if
-        // (WriteObjectExists(firstRunId, IdentityHash["IdentityHash"].AsString)) {
-        // list.Add(GetWriteObject(secondRunId, IdentityHash.AsString)); } });
+        // Parallel.ForEach(identityHashes.ToEnumerable(), IdentityHash => { if (WriteObjectExists(firstRunId,
+        // IdentityHash["IdentityHash"].AsString)) { list.Add(GetWriteObject(secondRunId,
+        // IdentityHash.AsString)); } });
     }
 
     public class CompareRun
     {
-        #region Public Constructors
-
         public CompareRun(string FirstRunIdIn, string SecondRunIdIn, RUN_STATUS RunStatusIn)
         {
             FirstRunId = FirstRunIdIn;
@@ -557,21 +536,13 @@ namespace AttackSurfaceAnalyzer.Utils
             Status = RunStatusIn;
         }
 
-        #endregion Public Constructors
-
-        #region Public Properties
-
         public string FirstRunId { get; }
         public string SecondRunId { get; }
         public RUN_STATUS Status { get; set; }
-
-        #endregion Public Properties
     }
 
     public class Comparison
     {
-        #region Public Constructors
-
         public Comparison(string firstRunId, string secondRunId, RUN_STATUS status)
         {
             FirstRunId = firstRunId;
@@ -579,15 +550,9 @@ namespace AttackSurfaceAnalyzer.Utils
             Status = status;
         }
 
-        #endregion Public Constructors
-
-        #region Public Properties
-
         public string FirstRunId { get; set; }
         public int Id { get; set; }
         public string SecondRunId { get; set; }
         public RUN_STATUS Status { get; set; }
-
-        #endregion Public Properties
     }
 }

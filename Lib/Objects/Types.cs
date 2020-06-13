@@ -2,7 +2,7 @@
 namespace AttackSurfaceAnalyzer.Types
 {
     /// <summary>
-    /// From https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.addressfamily?view=netcore-3.1
+    ///     From https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.addressfamily?view=netcore-3.1
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1069:Enums values should not be duplicated", Justification = "See documentation in comment.")]
     public enum ADDRESS_FAMILY
@@ -43,48 +43,48 @@ namespace AttackSurfaceAnalyzer.Types
     }
 
     /// <summary>
-    /// Flags available for analysis rules.
+    ///     Flags available for analysis rules.
     /// </summary>
     public enum ANALYSIS_RESULT_TYPE
     {
         /// <summary>
-        /// Lowest Level - 0
+        ///     Lowest Level - 0
         /// </summary>
         NONE,
 
         /// <summary>
-        /// 1
+        ///     1
         /// </summary>
         VERBOSE,
 
         /// <summary>
-        /// 2
+        ///     2
         /// </summary>
         DEBUG,
 
         /// <summary>
-        /// 3
+        ///     3
         /// </summary>
         INFORMATION,
 
         /// <summary>
-        /// 4
+        ///     4
         /// </summary>
         WARNING,
 
         /// <summary>
-        /// 5
+        ///     5
         /// </summary>
         ERROR,
 
         /// <summary>
-        /// 6 - Highest level
+        ///     6 - Highest level
         /// </summary>
         FATAL
     }
 
     /// <summary>
-    /// Errors enum.
+    ///     Errors enum.
     /// </summary>
     public enum ASA_ERROR
     {
@@ -111,7 +111,7 @@ namespace AttackSurfaceAnalyzer.Types
     }
 
     /// <summary>
-    /// The change type of a CompareResult object.
+    ///     The change type of a CompareResult object.
     /// </summary>
     public enum CHANGE_TYPE
     {
@@ -123,65 +123,64 @@ namespace AttackSurfaceAnalyzer.Types
     }
 
     /// <summary>
-    /// These are the characteristics defined in the PE Header for Windows executables. See
-    /// https://docs.microsoft.com/en-us/windows/win32/debug/pe-format for the oracle definitions of
-    /// these values
+    ///     These are the characteristics defined in the PE Header for Windows executables. See
+    ///     https://docs.microsoft.com/en-us/windows/win32/debug/pe-format for the oracle definitions of these values
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1717:Only FlagsAttribute enums should have plural names", Justification = "This is the official name for the enum.")]
     public enum DLLCHARACTERISTICS
     {
         /// <summary>
-        /// 64 Bit ASLR
+        ///     64 Bit ASLR
         /// </summary>
         IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA = 0x0020,
 
         /// <summary>
-        /// ASLR
+        ///     ASLR
         /// </summary>
         IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE = 0x0040,
 
         /// <summary>
-        /// Don't run unless properly signed
+        ///     Don't run unless properly signed
         /// </summary>
         IMAGE_DLLCHARACTERISTICS_FORCE_INTEGRITY = 0x0080,
 
         /// <summary>
-        /// DEP
+        ///     DEP
         /// </summary>
         IMAGE_DLLCHARACTERISTICS_NX_COMPAT = 0x0100,
 
         /// <summary>
-        /// No Isolation
+        ///     No Isolation
         /// </summary>
         IMAGE_DLLCHARACTERISTICS_NO_ISOLATION = 0x0200,
 
         /// <summary>
-        /// No Exceptions
+        ///     No Exceptions
         /// </summary>
         IMAGE_DLLCHARACTERISTICS_NO_SEH = 0x0400,
 
         /// <summary>
-        /// Do not bind the image
+        ///     Do not bind the image
         /// </summary>
         IMAGE_DLLCHARACTERISTICS_NO_BIND = 0x0800,
 
         /// <summary>
-        /// Must execute in an app container
+        ///     Must execute in an app container
         /// </summary>
         IMAGE_DLLCHARACTERISTICS_APPCONTAINER = 0x1000,
 
         /// <summary>
-        /// Image is a WDM driver
+        ///     Image is a WDM driver
         /// </summary>
         IMAGE_DLLCHARACTERISTICS_WDM_DRIVER = 0x2000,
 
         /// <summary>
-        /// Supports Control Flow Guard
+        ///     Supports Control Flow Guard
         /// </summary>
         IMAGE_DLLCHARACTERISTICS_GUARD_CF = 0x4000,
 
         /// <summary>
-        /// Image is terminal server aware
+        ///     Image is terminal server aware
         /// </summary>
         IMAGE_DLLCHARACTERISTICS_TERMINAL_SERVER_AWARE = 0x8000
     }
@@ -199,103 +198,103 @@ namespace AttackSurfaceAnalyzer.Types
     }
 
     /// <summary>
-    /// Operations available for Analysis rules.
+    ///     Operations available for Analysis rules.
     /// </summary>
     public enum OPERATION
     {
         /// <summary>
-        /// Generates regular expressions from the Data list provided and tests them against the
-        /// specified field. If any match it is a success.
+        ///     Generates regular expressions from the Data list provided and tests them against the specified
+        ///     field. If any match it is a success.
         /// </summary>
         REGEX,
 
         /// <summary>
-        /// Checks that any value in the Data list or DictData dictionary have a match in the
-        /// specified field's object as appropriate.
+        ///     Checks that any value in the Data list or DictData dictionary have a match in the specified
+        ///     field's object as appropriate.
         /// </summary>
         EQ,
 
         /// <summary>
-        /// Checks that any value in the Data list or DictData dictionary does not have a match in
-        /// the specified field's object as appropriate.
+        ///     Checks that any value in the Data list or DictData dictionary does not have a match in the
+        ///     specified field's object as appropriate.
         /// </summary>
         NEQ,
 
         /// <summary>
-        /// Checks whether the specified fields value when parsed as an int is less than first value
-        /// in the Data list as Parsed as an Int
+        ///     Checks whether the specified fields value when parsed as an int is less than first value in
+        ///     the Data list as Parsed as an Int
         /// </summary>
         LT,
 
         /// <summary>
-        /// Checks whether the specified fields value when parsed as an int is greater than first
-        /// value in the Data list as Parsed as an Int
+        ///     Checks whether the specified fields value when parsed as an int is greater than first value in
+        ///     the Data list as Parsed as an Int
         /// </summary>
         GT,
 
         /// <summary>
-        /// Checks if the specified fields values contain all of the data in the Data list or
-        /// DictData dictionary as appropriate for the field.
+        ///     Checks if the specified fields values contain all of the data in the Data list or DictData
+        ///     dictionary as appropriate for the field.
         /// </summary>
         CONTAINS,
 
         /// <summary>
-        /// Checks if the specified fields values does not contain any of the data in the Data list
-        /// or DictData dictionary as appropriate for the field.
+        ///     Checks if the specified fields values does not contain any of the data in the Data list or
+        ///     DictData dictionary as appropriate for the field.
         /// </summary>
         DOES_NOT_CONTAIN,
 
         /// <summary>
-        /// Checks if the specified field was modified between the two runs.
+        ///     Checks if the specified field was modified between the two runs.
         /// </summary>
         WAS_MODIFIED,
 
         /// <summary>
-        /// Checks if the specified field ends with any of the strings in the Data list.
+        ///     Checks if the specified field ends with any of the strings in the Data list.
         /// </summary>
         ENDS_WITH,
 
         /// <summary>
-        /// Checks if the specified field starts with any of the strings in the Data list.
+        ///     Checks if the specified field starts with any of the strings in the Data list.
         /// </summary>
         STARTS_WITH,
 
         /// <summary>
-        /// Checks if the specified fields values contain any of the data in the Data list or
-        /// DictData dictionary as appropriate for the field.
+        ///     Checks if the specified fields values contain any of the data in the Data list or DictData
+        ///     dictionary as appropriate for the field.
         /// </summary>
         CONTAINS_ANY,
 
         /// <summary>
-        /// Checks if the specified fields values does not contain all of the data in the Data list
-        /// or DictData dictionary as appropriate for the field.
+        ///     Checks if the specified fields values does not contain all of the data in the Data list or
+        ///     DictData dictionary as appropriate for the field.
         /// </summary>
         DOES_NOT_CONTAIN_ALL,
 
         /// <summary>
-        /// Checks if the specified field is null in both runs.
+        ///     Checks if the specified field is null in both runs.
         /// </summary>
         IS_NULL,
 
         /// <summary>
-        /// Checks if the specified field is true in either run.
+        ///     Checks if the specified field is true in either run.
         /// </summary>
         IS_TRUE,
 
         /// <summary>
-        /// Checks if the specified field, as parsed as time, is before the time specified in the
-        /// first entry of the Data list
+        ///     Checks if the specified field, as parsed as time, is before the time specified in the first
+        ///     entry of the Data list
         /// </summary>
         IS_BEFORE,
 
         /// <summary>
-        /// Checks if the specified field, as parsed as time, is after the time specified in the
-        /// first entry of the Data list
+        ///     Checks if the specified field, as parsed as time, is after the time specified in the first
+        ///     entry of the Data list
         /// </summary>
         IS_AFTER,
 
         /// <summary>
-        /// Checks if the specified field, as parsed as time, is before DateTime.Now.
+        ///     Checks if the specified field, as parsed as time, is before DateTime.Now.
         /// </summary>
         IS_EXPIRED,
 
@@ -303,7 +302,7 @@ namespace AttackSurfaceAnalyzer.Types
     }
 
     /// <summary>
-    /// Platform definitions for Analysis rules.
+    ///     Platform definitions for Analysis rules.
     /// </summary>
     public enum PLATFORM
     {
@@ -314,83 +313,83 @@ namespace AttackSurfaceAnalyzer.Types
     }
 
     /// <summary>
-    /// Specifies the child class type for a CollectObject
+    ///     Specifies the child class type for a CollectObject
     /// </summary>
     public enum RESULT_TYPE
     {
         /// <summary>
-        /// Indicates an Invalid CollectObject
+        ///     Indicates an Invalid CollectObject
         /// </summary>
         UNKNOWN,
 
         /// <summary>
-        /// See FileSystemObject
+        ///     See FileSystemObject
         /// </summary>
         FILE,
 
         /// <summary>
-        /// See OpenPortObject
+        ///     See OpenPortObject
         /// </summary>
         PORT,
 
         /// <summary>
-        /// See RegistryObject
+        ///     See RegistryObject
         /// </summary>
         REGISTRY,
 
         /// <summary>
-        /// See CertificateObject
+        ///     See CertificateObject
         /// </summary>
         CERTIFICATE,
 
         /// <summary>
-        /// See ServiceObject
+        ///     See ServiceObject
         /// </summary>
         SERVICE,
 
         /// <summary>
-        /// See UserAccountObject
+        ///     See UserAccountObject
         /// </summary>
         USER,
 
         /// <summary>
-        /// See UserGroupObject
+        ///     See UserGroupObject
         /// </summary>
         GROUP,
 
         /// <summary>
-        /// See FirewallObject
+        ///     See FirewallObject
         /// </summary>
         FIREWALL,
 
         /// <summary>
-        /// See ComObject
+        ///     See ComObject
         /// </summary>
         COM,
 
         /// <summary>
-        /// See EventLogObject
+        ///     See EventLogObject
         /// </summary>
         LOG,
 
         /// <summary>
-        /// See FileMonitorObject
+        ///     See FileMonitorObject
         /// </summary>
         FILEMONITOR,
 
         /// <summary>
-        /// A TPM Device
+        ///     A TPM Device
         /// </summary>
         TPM,
 
         /// <summary>
-        /// A cryptographic key
+        ///     A cryptographic key
         /// </summary>
         KEY
     };
 
     /// <summary>
-    /// The running status of a Comparator or Collector
+    ///     The running status of a Comparator or Collector
     /// </summary>
     public enum RUN_STATUS
     {

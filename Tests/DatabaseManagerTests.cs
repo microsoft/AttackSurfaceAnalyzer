@@ -12,8 +12,6 @@ namespace AttackSurfaceAnalyzer.Tests
     [TestClass]
     public class DatabaseManagerTests
     {
-        #region Public Methods
-
         [ClassInitialize]
         public static void ClassSetup(TestContext _)
         {
@@ -151,7 +149,5 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsTrue(DatabaseManager.GetRuns(RUN_TYPE.COLLECT).Count == 1);
         }
-
-        #endregion Public Methods
     }
 }

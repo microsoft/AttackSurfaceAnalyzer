@@ -6,8 +6,6 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class OpenPortObject : CollectObject
     {
-        #region Public Constructors
-
         [JsonConstructor]
         public OpenPortObject(int Port, TRANSPORT Type) : this(Port, Type, ADDRESS_FAMILY.Unspecified) { }
 
@@ -19,19 +17,15 @@ namespace AttackSurfaceAnalyzer.Objects
             this.AddressFamily = AddressFamily;
         }
 
-        #endregion Public Constructors
-
-        #region Public Properties
-
         public string? Address { get; set; }
 
         /// <summary>
-        /// InterNetwork is IPv4 InterNetworkV6 is IPv6
+        ///     InterNetwork is IPv4 InterNetworkV6 is IPv6
         /// </summary>
         public ADDRESS_FAMILY AddressFamily { get; set; }
 
         /// <summary>
-        /// $"{Address}:{Family}:{Type}:{Port}:{ProcessName}"
+        ///     $"{Address}:{Family}:{Type}:{Port}:{ProcessName}"
         /// </summary>
         public override string Identity
         {
@@ -42,17 +36,15 @@ namespace AttackSurfaceAnalyzer.Objects
         }
 
         /// <summary>
-        /// The port number
+        ///     The port number
         /// </summary>
         public int Port { get; set; }
 
         public string? ProcessName { get; set; }
 
         /// <summary>
-        /// TCP or UDP
+        ///     TCP or UDP
         /// </summary>
         public TRANSPORT Type { get; set; }
-
-        #endregion Public Properties
     }
 }

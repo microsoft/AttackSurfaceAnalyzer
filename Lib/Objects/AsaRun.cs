@@ -7,8 +7,6 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class AsaRun
     {
-        #region Public Constructors
-
         public AsaRun(string RunId, DateTime Timestamp, string Version, PLATFORM Platform, List<RESULT_TYPE> ResultTypes, RUN_TYPE Type)
         {
             this.RunId = RunId;
@@ -19,17 +17,11 @@ namespace AttackSurfaceAnalyzer.Objects
             this.Type = Type;
         }
 
-        #endregion Public Constructors
-
-        #region Public Properties
-
         public PLATFORM Platform { get; set; }
         public List<RESULT_TYPE> ResultTypes { get; set; }
         public string RunId { get; set; }
         public DateTime Timestamp { get; set; }
         public RUN_TYPE Type { get; set; }
         public string Version { get; set; }
-
-        #endregion Public Properties
     }
 }

@@ -7,45 +7,39 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class FileSystemObject : CollectObject
     {
-        #region Public Constructors
-
         public FileSystemObject(string Path)
         {
             this.Path = Path;
             ResultType = RESULT_TYPE.FILE;
         }
 
-        #endregion Public Constructors
-
-        #region Public Properties
-
         /// <summary>
-        /// If this is windows executable what DLL Characteristics are set
+        ///     If this is windows executable what DLL Characteristics are set
         /// </summary>
         public List<DLLCHARACTERISTICS>? Characteristics { get; set; }
 
         /// <summary>
-        /// A hash of the file (if collected)
+        ///     A hash of the file (if collected)
         /// </summary>
         public string? ContentHash { get; set; }
 
         /// <summary>
-        /// When was the file created in UTC
+        ///     When was the file created in UTC
         /// </summary>
         public DateTime Created { get; set; }
 
         /// <summary>
-        /// .ToString of Mono FileTypes result. Not available on Windows.
+        ///     .ToString of Mono FileTypes result. Not available on Windows.
         /// </summary>
         public string? FileType { get; set; }
 
         /// <summary>
-        /// The group of the file.
+        ///     The group of the file.
         /// </summary>
         public string? Group { get; set; }
 
         /// <summary>
-        /// The File's path
+        ///     The File's path
         /// </summary>
         public override string Identity
         {
@@ -56,80 +50,76 @@ namespace AttackSurfaceAnalyzer.Objects
         }
 
         /// <summary>
-        /// If the file is a directory
+        ///     If the file is a directory
         /// </summary>
         public bool? IsDirectory { get; set; }
 
         /// <summary>
-        /// If the file is an executable
+        ///     If the file is an executable
         /// </summary>
         public bool? IsExecutable { get; set; }
 
         /// <summary>
-        /// If the file is a link
+        ///     If the file is a link
         /// </summary>
         public bool? IsLink { get; set; }
 
         /// <summary>
-        /// When was the file last modified in UTC
+        ///     When was the file last modified in UTC
         /// </summary>
         public DateTime LastModified { get; set; }
 
         /// <summary>
-        /// Signature information for signed Mac binaries.
+        ///     Signature information for signed Mac binaries.
         /// </summary>
         public MacSignature? MacSignatureStatus { get; set; }
 
         /// <summary>
-        /// The owner of the file.
+        ///     The owner of the file.
         /// </summary>
         public string? Owner { get; set; }
 
         /// <summary>
-        /// The location on disk of the file
+        ///     The location on disk of the file
         /// </summary>
         public string Path { get; set; }
 
         /// <summary>
-        /// What are the permissions of this file.
+        ///     What are the permissions of this file.
         /// </summary>
         public Dictionary<string, string>? Permissions { get; set; }
 
         /// <summary>
-        /// A string representation of the permissions
+        ///     A string representation of the permissions
         /// </summary>
         public string? PermissionsString { get; set; }
 
         /// <summary>
-        /// If the SetGid bit is set
+        ///     If the SetGid bit is set
         /// </summary>
         public bool? SetGid { get; set; }
 
         /// <summary>
-        /// If the SetUid bit is set
+        ///     If the SetUid bit is set
         /// </summary>
         public bool? SetUid { get; set; }
 
         /// <summary>
-        /// Signature information for signed Windows binaries.
+        ///     Signature information for signed Windows binaries.
         /// </summary>
         public Signature? SignatureStatus { get; set; }
 
         /// <summary>
-        /// File size in bytes
+        ///     File size in bytes
         /// </summary>
         public long? Size { get; set; }
 
         public long? SizeOnDisk { get; internal set; }
 
         /// <summary>
-        /// If this is a link where does it point to.
+        ///     If this is a link where does it point to.
         /// </summary>
         public string? Target { get; set; }
-
-        #endregion Public Properties
-
-        #region Public Methods
 
         public bool ShouldSerializeCharacteristics()
         {
@@ -140,7 +130,5 @@ namespace AttackSurfaceAnalyzer.Objects
         {
             return Permissions?.Count > 0;
         }
-
-        #endregion Public Methods
     }
 }

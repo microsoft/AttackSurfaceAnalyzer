@@ -12,8 +12,6 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public static class RegistryWalker
     {
-        #region Public Methods
-
         public static RegistryObject? RegistryKeyToRegistryObject(RegistryKey key, RegistryView registryView)
         {
             if (key == null)
@@ -111,7 +109,5 @@ namespace AttackSurfaceAnalyzer.Utils
 
             BaseKey?.Dispose();
         }
-
-        #endregion Public Methods
     }
 }

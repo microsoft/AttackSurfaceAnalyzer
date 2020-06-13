@@ -3,10 +3,6 @@ namespace AttackSurfaceAnalyzer.Collectors
 {
     public interface IPlatformRunnable
     {
-        #region Public Methods
-
         bool CanRunOnPlatform();
-
-        #endregion Public Methods
     }
 }

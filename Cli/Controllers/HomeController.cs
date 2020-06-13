@@ -20,8 +20,6 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 {
     public class HomeController : Controller
     {
-        #region Public Methods
-
         public IActionResult Analyze()
         {
             var model = new DataRunListModel
@@ -206,8 +204,8 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
             foreach (BaseCollector c in AttackSurfaceAnalyzerClient.GetCollectors())
             {
-                // The GUI *should* prevent us from getting here. But this is extra protection. We
-                // won't start new collections while existing ones are ongoing.
+                // The GUI *should* prevent us from getting here. But this is extra protection. We won't start
+                // new collections while existing ones are ongoing.
                 if (c.RunStatus == RUN_STATUS.RUNNING)
                 {
                     return Json(ASA_ERROR.ALREADY_RUNNING);
@@ -273,10 +271,6 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             return Json(true);
         }
 
-        #endregion Public Methods
-
-        #region Private Methods
-
         private static IEnumerable<DataRunModel> GetMonitorRunModels()
         {
             List<string> Runs = DatabaseManager.GetRuns(RUN_TYPE.MONITOR);
@@ -311,7 +305,5 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
             return runModels;
         }
-
-        #endregion Private Methods
     }
 }
