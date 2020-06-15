@@ -33,6 +33,10 @@ steps:
   inputs:
     toolMajorVersion: 'V2'
     outputFormat: 'sarif'
+    
+- task: CodeInspector@2
+  inputs:
+    ProductId: 'ac84de32-6898-4dad-ace3-78e8098175dc'
 
 - task: SdtReport@1
   inputs:
