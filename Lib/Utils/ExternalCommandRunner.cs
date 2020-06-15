@@ -8,8 +8,6 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public static class ExternalCommandRunner
     {
-        #region Public Methods
-
         public static int RunExternalCommand(string command, string arguments, out string StdOut, out string StdErr)
         {
             using var process = new Process()
@@ -97,17 +95,11 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        #endregion Public Methods
-
-        #region Private Methods
-
         private static string Format(string filename, string arguments)
         {
             return "'" + filename +
                 ((string.IsNullOrEmpty(arguments)) ? string.Empty : " " + arguments) +
                 "'";
         }
-
-        #endregion Private Methods
     }
 }

@@ -6,15 +6,9 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class CompareResult
     {
-        #region Public Constructors
-
         public CompareResult()
         {
         }
-
-        #endregion Public Constructors
-
-        #region Public Properties
 
         public ANALYSIS_RESULT_TYPE Analysis { get; set; }
 
@@ -101,10 +95,6 @@ namespace AttackSurfaceAnalyzer.Objects
 
         public List<Rule> Rules { get; set; } = new List<Rule>();
 
-        #endregion Public Properties
-
-        #region Public Methods
-
         public bool ShouldSerializeDiffs()
         {
             return Diffs?.Count > 0;
@@ -114,7 +104,5 @@ namespace AttackSurfaceAnalyzer.Objects
         {
             return Rules?.Count > 0;
         }
-
-        #endregion Public Methods
     }
 }

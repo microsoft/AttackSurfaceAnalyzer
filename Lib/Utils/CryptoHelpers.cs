@@ -9,20 +9,6 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public static class CryptoHelpers
     {
-        #region Private Fields
-
-        private const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
-        private static readonly RNGCryptoServiceProvider crypto = new RNGCryptoServiceProvider();
-
-        // These are not intended to be cryptographically secure hashes These are used as a
-        // uniqueness check
-        private static readonly HashAlgorithm sha512 = SHA512.Create();
-
-        #endregion Private Fields
-
-        #region Public Methods
-
         public static string CreateHash(string input)
         {
             byte[] hashOutput = sha512.ComputeHash(Encoding.UTF8.GetBytes(input));
@@ -61,6 +47,11 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static string GetRandomString(int characters) => new string(Enumerable.Range(1, characters).Select(_ => chars[GetRandomPositiveIndex(chars.Length)]).ToArray());
 
-        #endregion Public Methods
+        private const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+        private static readonly RNGCryptoServiceProvider crypto = new RNGCryptoServiceProvider();
+
+        // These are not intended to be cryptographically secure hashes These are used as a uniqueness check
+        private static readonly HashAlgorithm sha512 = SHA512.Create();
     }
 }

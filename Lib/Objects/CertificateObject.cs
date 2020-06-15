@@ -5,8 +5,6 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class CertificateObject : CollectObject
     {
-        #region Public Constructors
-
         public CertificateObject(string StoreLocation, string StoreName, SerializableCertificate Certificate)
         {
             this.StoreLocation = StoreLocation;
@@ -15,23 +13,19 @@ namespace AttackSurfaceAnalyzer.Objects
             ResultType = RESULT_TYPE.CERTIFICATE;
         }
 
-        #endregion Public Constructors
-
-        #region Public Properties
-
         /// <summary>
-        /// A serializable representation of the Certificate.
+        ///     A serializable representation of the Certificate.
         /// </summary>
         public SerializableCertificate Certificate { get; set; }
 
         /// <summary>
-        /// See Certificate.CertHashString
+        ///     See Certificate.CertHashString
         /// </summary>
         public string CertificateHashString { get { return Certificate.CertHashString; } }
 
         /// <summary>
-        /// The identity of a CertificateObject is based on the StoreLocation, StoreName and
-        /// CertificateHashString of the CertificateObject
+        ///     The identity of a CertificateObject is based on the StoreLocation, StoreName and
+        ///     CertificateHashString of the CertificateObject
         /// </summary>
         public override string Identity
         {
@@ -42,25 +36,23 @@ namespace AttackSurfaceAnalyzer.Objects
         }
 
         /// <summary>
-        /// The exported Pkcs7 of the certificate. Not guaranteed to be non-null.
+        ///     The exported Pkcs7 of the certificate. Not guaranteed to be non-null.
         /// </summary>
         public string? Pkcs7 { get { return Certificate.Pkcs7; } }
 
         /// <summary>
-        /// The Store Location or Location on Disk where the Certificate was found
+        ///     The Store Location or Location on Disk where the Certificate was found
         /// </summary>
         public string StoreLocation { get; set; }
 
         /// <summary>
-        /// The Name of an X509 Store or another source (like the filesystem)
+        ///     The Name of an X509 Store or another source (like the filesystem)
         /// </summary>
         public string StoreName { get; set; }
 
         /// <summary>
-        /// See Certificate.Subject
+        ///     See Certificate.Subject
         /// </summary>
         public string Subject { get { return Certificate.Subject; } }
-
-        #endregion Public Properties
     }
 }

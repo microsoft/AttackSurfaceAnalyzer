@@ -17,16 +17,6 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public static class AsaHelpers
     {
-        #region Private Fields
-
-        private static readonly Random random = new Random();
-
-        private static readonly ConcurrentDictionary<string, string> SidMap = new ConcurrentDictionary<string, string>();
-
-        #endregion Private Fields
-
-        #region Public Methods
-
         public static Dictionary<string, string> GenerateMetadata()
         {
             var dict = new Dictionary<string, string>();
@@ -253,6 +243,8 @@ namespace AttackSurfaceAnalyzer.Utils
             return sid;
         }
 
-        #endregion Public Methods
+        private static readonly Random random = new Random();
+
+        private static readonly ConcurrentDictionary<string, string> SidMap = new ConcurrentDictionary<string, string>();
     }
 }

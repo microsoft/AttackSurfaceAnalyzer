@@ -7,18 +7,12 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     [JsonExporterAttribute.Full]
     public class OpenTransactionTest : AsaDatabaseBenchmark
     {
-        #region Public Constructors
-
         public OpenTransactionTest()
 #nullable restore
         {
             Logger.Setup(true, true);
             Strings.Setup();
         }
-
-        #endregion Public Constructors
-
-        #region Public Properties
 
         [Params("OFF", "DELETE", "WAL", "MEMORY")]
         public string JournalMode { get; set; }
@@ -32,11 +26,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Params(0)]
         public int StartingSize { get; set; }
 
-        #endregion Public Properties
-
 #nullable disable
-
-        #region Public Methods
 
         [Benchmark]
         public void BeginTransaction()
@@ -88,7 +78,5 @@ namespace AttackSurfaceAnalyzer.Benchmarks
                 ShardingFactor = Shards
             });
         }
-
-        #endregion Public Methods
     }
 }

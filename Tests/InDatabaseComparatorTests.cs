@@ -13,8 +13,6 @@ namespace AttackSurfaceAnalyzer.Tests
     [TestClass]
     public class InDatabaseComparatorTests
     {
-        #region Public Methods
-
         [ClassInitialize]
         public static void ClassSetup(TestContext _)
         {
@@ -102,7 +100,5 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             DatabaseManager.Setup("db.name", new DBSettings() { ShardingFactor = 1 });
         }
-
-        #endregion Public Methods
     }
 }

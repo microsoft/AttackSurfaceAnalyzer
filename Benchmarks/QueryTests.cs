@@ -10,29 +10,12 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     [JsonExporterAttribute.Full]
     public class QueryTests : AsaDatabaseBenchmark
     {
-        #region Private Fields
-
-        // Bag of reusable identities
-        private static readonly ConcurrentBag<(string, string)> BagOfIdentities = new ConcurrentBag<(string, string)>();
-
-        private readonly string RunOneName = "RunOne";
-
-        private readonly string RunTwoName = "RunTwo";
-
-        #endregion Private Fields
-
-        #region Public Constructors
-
         public QueryTests()
 #nullable restore
         {
             Logger.Setup(true, true);
             Strings.Setup();
         }
-
-        #endregion Public Constructors
-
-        #region Public Properties
 
         // Percent of identities which should match between the two runs (% of the smaller run)
         [Params(0, .25, .5, .75, 1)]
@@ -46,8 +29,8 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Params("NORMAL")]
         public string LockingMode { get; set; }
 
-        // The amount of padding to add to the object in bytes Default size is approx 530 bytes
-        // serialized Does not include SQL overhead
+        // The amount of padding to add to the object in bytes Default size is approx 530 bytes serialized
+        // Does not include SQL overhead
         [Params(0)]
         public int ObjectPadding { get; set; }
 
@@ -78,12 +61,6 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         // Options are OFF, NORMAL, FULL, EXTRA
         [Params("OFF")]
         public string Synchronous { get; set; }
-
-        #endregion Public Properties
-
-#nullable disable
-
-        #region Public Methods
 
         [Benchmark]
         public void GetAllMissing2Test()
@@ -204,9 +181,13 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             DatabaseManager.CloseDatabase();
         }
 
-        #endregion Public Methods
+        // Bag of reusable identities
+        private static readonly ConcurrentBag<(string, string)> BagOfIdentities = new ConcurrentBag<(string, string)>();
 
-        #region Private Methods
+        private readonly string RunOneName = "RunOne";
+
+        private readonly string RunTwoName = "RunTwo";
+#nullable disable
 
         private void Setup()
         {
@@ -219,7 +200,5 @@ namespace AttackSurfaceAnalyzer.Benchmarks
                 Synchronous = Synchronous
             });
         }
-
-        #endregion Private Methods
     }
 }

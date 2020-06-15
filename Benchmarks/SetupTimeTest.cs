@@ -9,18 +9,12 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     [JsonExporterAttribute.Full]
     public class SetupTimeTest : AsaDatabaseBenchmark
     {
-        #region Public Constructors
-
         public SetupTimeTest()
 #nullable restore
         {
             Logger.Setup(true, true);
             Strings.Setup();
         }
-
-        #endregion Public Constructors
-
-        #region Public Properties
 
         //[Params("OFF","DELETE","WAL","MEMORY")]
         [Params("OFF", "DELETE", "WAL", "MEMORY")]
@@ -29,8 +23,8 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Params("NORMAL", "EXCLUSIVE")]
         public string LockingMode { get; set; }
 
-        // The amount of padding to add to the object in bytes Default size is approx 530 bytes
-        // serialized Does not include SQL overhead
+        // The amount of padding to add to the object in bytes Default size is approx 530 bytes serialized
+        // Does not include SQL overhead
         [Params(0)]
         public int ObjectPadding { get; set; }
 
@@ -49,11 +43,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Params("OFF", "NORMAL")]
         public string Synchronous { get; set; }
 
-        #endregion Public Properties
-
 #nullable disable
-
-        #region Public Methods
 
         public static void Insert_X_Objects(int X, int ObjectPadding = 0, string runName = "Insert_X_Objects")
         {
@@ -105,10 +95,6 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             DatabaseManager.CloseDatabase();
         }
 
-        #endregion Public Methods
-
-        #region Private Methods
-
         [Benchmark]
         private void Setup()
         {
@@ -121,7 +107,5 @@ namespace AttackSurfaceAnalyzer.Benchmarks
                 Synchronous = Synchronous
             });
         }
-
-        #endregion Private Methods
     }
 }

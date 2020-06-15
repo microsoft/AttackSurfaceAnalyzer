@@ -12,43 +12,19 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     [JsonExporterAttribute.Full]
     public class CryptoTests : AsaDatabaseBenchmark
     {
-        #region Private Fields
-
-        private static readonly HashAlgorithm murmur128 = MurmurHash.Create128();
-
-        private static readonly HashAlgorithm sha256 = SHA256.Create();
-
-        private static readonly HashAlgorithm sha512 = SHA512.Create();
-
-        private readonly ConcurrentQueue<string> hashObjects = new ConcurrentQueue<string>();
-
-        #endregion Private Fields
-
-        #region Public Constructors
-
         public CryptoTests()
 #nullable restore
         {
         }
 
-        #endregion Public Constructors
-
-        #region Public Properties
-
         // The number of iterations per run
         [Params(100000)]
         public int N { get; set; }
 
-        // The amount of padding to add to the object in bytes Default size is approx 530 bytes
-        // serialized Does not include SQL overhead
+        // The amount of padding to add to the object in bytes Default size is approx 530 bytes serialized
+        // Does not include SQL overhead
         [Params(0)]
         public int ObjectPadding { get; set; }
-
-        #endregion Public Properties
-
-#nullable disable
-
-        #region Public Methods
 
         [Benchmark]
         public void Generate_N_Murmur_Hashes()
@@ -113,6 +89,13 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             }
         }
 
-        #endregion Public Methods
+        private static readonly HashAlgorithm murmur128 = MurmurHash.Create128();
+
+        private static readonly HashAlgorithm sha256 = SHA256.Create();
+
+        private static readonly HashAlgorithm sha512 = SHA512.Create();
+
+        private readonly ConcurrentQueue<string> hashObjects = new ConcurrentQueue<string>();
+#nullable disable
     }
 }

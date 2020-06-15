@@ -6,16 +6,10 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class FileMonitorObject : CollectObject
     {
-        #region Public Constructors
-
         public FileMonitorObject(string PathIn)
         {
             Path = PathIn;
         }
-
-        #endregion Public Constructors
-
-        #region Public Properties
 
         public CHANGE_TYPE? ChangeType { get; set; }
         public string? ExtendedResults { get; set; }
@@ -36,7 +30,5 @@ namespace AttackSurfaceAnalyzer.Objects
         public string Path { get; set; }
         public string? Serialized { get; set; }
         public string? Timestamp { get; set; }
-
-        #endregion Public Properties
     }
 }

@@ -15,8 +15,6 @@ namespace AttackSurfaceAnalyzer.Collectors
 {
     public static class WindowsFileSystemUtils
     {
-        #region Public Methods
-
         public static List<DLLCHARACTERISTICS> GetDllCharacteristics(string Path, Stream input)
         {
             List<DLLCHARACTERISTICS> output = new List<DLLCHARACTERISTICS>();
@@ -197,7 +195,5 @@ namespace AttackSurfaceAnalyzer.Collectors
                 return false;
             }
         }
-
-        #endregion Public Methods
     }
 }

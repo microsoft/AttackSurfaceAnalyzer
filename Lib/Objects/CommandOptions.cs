@@ -6,8 +6,6 @@ namespace AttackSurfaceAnalyzer
     [Verb("collect", HelpText = "Collect operating system metrics")]
     public class CollectCommandOptions : CommandOptions
     {
-        #region Public Properties
-
         [Option("crawl-archives", Required = false, HelpText = "Attempts to crawl every archive file encountered when using File Collector.  May dramatically increase run time of the scan.")]
         public bool CrawlArchives { get; set; }
 
@@ -73,14 +71,10 @@ namespace AttackSurfaceAnalyzer
 
         [Option(HelpText = "Force singlethreaded collectors.")]
         public bool SingleThread { get; set; }
-
-        #endregion Public Properties
     }
 
     public class CommandOptions
     {
-        #region Public Properties
-
         [Option(Required = false, HelpText = "Name of output database (default: asa.sqlite)", Default = "asa.sqlite")]
         public string DatabaseFilename { get; set; } = "asa.sqlite";
 
@@ -98,23 +92,15 @@ namespace AttackSurfaceAnalyzer
 
         [Option(Default = false, HelpText = "Increase logging verbosity")]
         public bool Verbose { get; set; }
-
-        #endregion Public Properties
     }
 
     public class CompareCommandOptions : CommandOptions
     {
-        #region Public Constructors
-
         public CompareCommandOptions(string? FirstRunId, string SecondRunId)
         {
             this.FirstRunId = FirstRunId;
             this.SecondRunId = SecondRunId;
         }
-
-        #endregion Public Constructors
-
-        #region Public Properties
 
         [Option(HelpText = "Custom analysis rules file.")]
         public string? AnalysesFile { get; set; }
@@ -130,15 +116,11 @@ namespace AttackSurfaceAnalyzer
 
         [Option(HelpText = "Second run (post-install) identifier")]
         public string SecondRunId { get; set; }
-
-        #endregion Public Properties
     }
 
     [Verb("config", HelpText = "Configure and query the database")]
     public class ConfigCommandOptions : CommandOptions
     {
-        #region Public Properties
-
         [Option("delete-run", Required = false, HelpText = "Delete a specific run from the database")]
         public string? DeleteRunId { get; set; }
 
@@ -153,15 +135,11 @@ namespace AttackSurfaceAnalyzer
 
         [Option("trim-to-latest", HelpText = "Delete all runs except the latest.")]
         public bool TrimToLatest { get; set; }
-
-        #endregion Public Properties
     }
 
     [Verb("export-collect", HelpText = "Compare ASA executions and output a .json report")]
     public class ExportCollectCommandOptions : CommandOptions
     {
-        #region Public Properties
-
         [Option(HelpText = "Custom analysis rules file.")]
         public string? AnalysesFile { get; set; }
 
@@ -185,22 +163,16 @@ namespace AttackSurfaceAnalyzer
 
         [Option(HelpText = "Second run (post-install) identifier")]
         public string? SecondRunId { get; set; }
-
-        #endregion Public Properties
     }
 
     [Verb("export-monitor", HelpText = "Output a .json report for a monitor run")]
     public class ExportMonitorCommandOptions : CommandOptions
     {
-        #region Public Properties
-
         [Option(HelpText = "Directory to output to")]
         public string? OutputPath { get; set; }
 
         [Option(HelpText = "Monitor run identifier")]
         public string? RunId { get; set; }
-
-        #endregion Public Properties
     }
 
     [Verb("gui", HelpText = "Launch the GUI in a browser")]
@@ -210,8 +182,6 @@ namespace AttackSurfaceAnalyzer
     [Verb("monitor", HelpText = "Continue running and monitor activity")]
     public class MonitorCommandOptions : CommandOptions
     {
-        #region Public Properties
-
         [Option('D', "duration", Required = false, HelpText = "Duration, in minutes, to run for before automatically terminating.")]
         public int Duration { get; set; }
 
@@ -234,18 +204,12 @@ namespace AttackSurfaceAnalyzer
 
         [Option(HelpText = "Identifies which run this is. Monitor output can be combined with collect output, but doesn't need to be compared.", Default = "Timestamp")]
         public string? RunId { get; set; }
-
-        #endregion Public Properties
     }
 
     [Verb("verify", HelpText = "Verify your analysis rules")]
     public class VerifyOptions : CommandOptions
     {
-        #region Public Properties
-
         [Option("filename", Required = false, HelpText = "Path to your analysis file")]
         public string? AnalysisFile { get; set; }
-
-        #endregion Public Properties
     }
 }

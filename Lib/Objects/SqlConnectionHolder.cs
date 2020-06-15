@@ -14,16 +14,6 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class SqlConnectionHolder
     {
-        #region Private Fields
-
-        private const string PRAGMAS = "PRAGMA auto_vacuum = 0; PRAGMA synchronous = {0}; PRAGMA journal_mode = {1}; PRAGMA page_size = {2}; PRAGMA locking_mode = {3};";
-        private readonly WriteObject[] innerQueue;
-        private readonly DBSettings settings;
-
-        #endregion Private Fields
-
-        #region Public Constructors
-
         public SqlConnectionHolder(string databaseFilename, DBSettings? dBSettings = null)
         {
             settings = dBSettings ?? new DBSettings();
@@ -58,20 +48,12 @@ namespace AttackSurfaceAnalyzer.Objects
             _ = Task.Factory.StartNew(() => KeepFlushQueue());
         }
 
-        #endregion Public Constructors
-
-        #region Public Properties
-
         public SqliteConnection Connection { get; set; }
         public bool IsWriting { get; private set; }
         public bool KeepRunning { get; set; }
         public string Source { get; set; }
         public SqliteTransaction? Transaction { get; set; }
         public ConcurrentStack<WriteObject> WriteQueue { get; private set; } = new ConcurrentStack<WriteObject>();
-
-        #endregion Public Properties
-
-        #region Public Methods
 
         public void BeginTransaction()
         {
@@ -124,10 +106,6 @@ namespace AttackSurfaceAnalyzer.Objects
             }
         }
 
-        #endregion Public Methods
-
-        #region Internal Methods
-
         internal void ShutDown()
         {
             KeepRunning = false;
@@ -136,9 +114,9 @@ namespace AttackSurfaceAnalyzer.Objects
             Transaction = null;
         }
 
-        #endregion Internal Methods
-
-        #region Private Methods
+        private const string PRAGMAS = "PRAGMA auto_vacuum = 0; PRAGMA synchronous = {0}; PRAGMA journal_mode = {1}; PRAGMA page_size = {2}; PRAGMA locking_mode = {3};";
+        private readonly WriteObject[] innerQueue;
+        private readonly DBSettings settings;
 
         private void WriteNext()
         {
@@ -179,7 +157,5 @@ namespace AttackSurfaceAnalyzer.Objects
 
             IsWriting = false;
         }
-
-        #endregion Private Methods
     }
 }

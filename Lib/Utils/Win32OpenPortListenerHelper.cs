@@ -10,21 +10,12 @@ using System.Text.RegularExpressions;
 namespace AttackSurfaceAnalyzer.Utils
 {
     /// <summary>
-    /// Static class that returns the list of processes and the ports those processes use.
+    ///     Static class that returns the list of processes and the ports those processes use.
     /// </summary>
     public static class Win32ProcessPorts
     {
-        #region Private Fields
-
-        private static List<ProcessPort> CachedProcessPortMap = new List<ProcessPort>();
-
-        #endregion Private Fields
-
-        #region Public Properties
-
         /// <summary>
-        /// A list of ProcesesPorts that contain the mapping of processes and the ports that the
-        /// process uses.
+        ///     A list of ProcesesPorts that contain the mapping of processes and the ports that the process uses.
         /// </summary>
         public static List<ProcessPort> ProcessPortMap
         {
@@ -38,15 +29,13 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        #endregion Public Properties
-
-        #region Private Methods
+        private static List<ProcessPort> CachedProcessPortMap = new List<ProcessPort>();
 
         /// <summary>
-        /// This method distills the output from netstat -a -n -o into a list of ProcessPorts that
-        /// provide a mapping between the process (name and id) and the ports that the process is using.
+        ///     This method distills the output from netstat -a -n -o into a list of ProcessPorts that provide
+        ///     a mapping between the process (name and id) and the ports that the process is using.
         /// </summary>
-        /// <returns></returns>
+        /// <returns> </returns>
         private static List<ProcessPort> GetNetStatPorts()
         {
             List<ProcessPort> ProcessPorts = new List<ProcessPort>();
@@ -143,10 +132,10 @@ namespace AttackSurfaceAnalyzer.Utils
         }
 
         /// <summary>
-        /// Private method that handles pulling the process name (if one exists) from the process id.
+        ///     Private method that handles pulling the process name (if one exists) from the process id.
         /// </summary>
-        /// <param name="ProcessId"></param>
-        /// <returns></returns>
+        /// <param name="ProcessId"> </param>
+        /// <returns> </returns>
         private static string GetProcessName(int ProcessId)
         {
             try
@@ -158,45 +147,13 @@ namespace AttackSurfaceAnalyzer.Utils
                 return "";
             }
         }
-
-        #endregion Private Methods
     }
 
     /// <summary>
-    /// A mapping for processes to ports and ports to processes that are being used in the system.
+    ///     A mapping for processes to ports and ports to processes that are being used in the system.
     /// </summary>
     public class ProcessPort
     {
-        #region Private Fields
-
-        private readonly int _PortNumber = 0;
-        private readonly int _ProcessId = 0;
-        private readonly string _ProcessName = String.Empty;
-        private readonly string _Protocol = String.Empty;
-
-        #endregion Private Fields
-
-        #region Internal Constructors
-
-        /// <summary>
-        /// Internal constructor to initialize the mapping of process to port.
-        /// </summary>
-        /// <param name="ProcessName">Name of process to be</param>
-        /// <param name="ProcessId"></param>
-        /// <param name="Protocol"></param>
-        /// <param name="PortNumber"></param>
-        internal ProcessPort(string ProcessName, int ProcessId, string Protocol, int PortNumber)
-        {
-            _ProcessName = ProcessName;
-            _ProcessId = ProcessId;
-            _Protocol = Protocol;
-            _PortNumber = PortNumber;
-        }
-
-        #endregion Internal Constructors
-
-        #region Public Properties
-
         public int PortNumber
         {
             get { return _PortNumber; }
@@ -225,6 +182,24 @@ namespace AttackSurfaceAnalyzer.Utils
             get { return _Protocol; }
         }
 
-        #endregion Public Properties
+        /// <summary>
+        ///     Internal constructor to initialize the mapping of process to port.
+        /// </summary>
+        /// <param name="ProcessName"> Name of process to be </param>
+        /// <param name="ProcessId"> </param>
+        /// <param name="Protocol"> </param>
+        /// <param name="PortNumber"> </param>
+        internal ProcessPort(string ProcessName, int ProcessId, string Protocol, int PortNumber)
+        {
+            _ProcessName = ProcessName;
+            _ProcessId = ProcessId;
+            _Protocol = Protocol;
+            _PortNumber = PortNumber;
+        }
+
+        private readonly int _PortNumber = 0;
+        private readonly int _ProcessId = 0;
+        private readonly string _ProcessName = String.Empty;
+        private readonly string _Protocol = String.Empty;
     }
 }

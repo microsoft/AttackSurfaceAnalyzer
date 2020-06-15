@@ -12,15 +12,6 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class SystemSQLiteSqlConnectionHolder
     {
-        #region Private Fields
-
-        private const string PRAGMAS = "PRAGMA auto_vacuum = 0; PRAGMA locking_mode = {0};";
-        private readonly DBSettings _settings;
-
-        #endregion Private Fields
-
-        #region Public Constructors
-
         public SystemSQLiteSqlConnectionHolder(string databaseFilename, DBSettings? dBSettings = default, int tableShards = 1)
         {
             _settings = dBSettings == null ? new DBSettings() : dBSettings;
@@ -39,10 +30,6 @@ namespace AttackSurfaceAnalyzer.Objects
             FlushCount = _settings.FlushCount;
         }
 
-        #endregion Public Constructors
-
-        #region Public Properties
-
         public SQLiteConnection Connection { get; set; }
         public int FlushCount { get; set; } = -1;
         public bool KeepRunning { get; set; }
@@ -50,16 +37,6 @@ namespace AttackSurfaceAnalyzer.Objects
         public int TableShards { get; set; } = 1;
         public SQLiteTransaction? Transaction { get; set; }
         public ConcurrentQueue<WriteObject> WriteQueue { get; private set; } = new ConcurrentQueue<WriteObject>();
-
-        #endregion Public Properties
-
-        #region Private Properties
-
-        private int RecordCount { get; set; }
-
-        #endregion Private Properties
-
-        #region Public Methods
 
         public void BeginTransaction()
         {
@@ -145,10 +122,6 @@ namespace AttackSurfaceAnalyzer.Objects
             }
         }
 
-        #endregion Public Methods
-
-        #region Internal Methods
-
         internal void ShutDown()
         {
             KeepRunning = false;
@@ -165,6 +138,8 @@ namespace AttackSurfaceAnalyzer.Objects
             }))();
         }
 
-        #endregion Internal Methods
+        private const string PRAGMAS = "PRAGMA auto_vacuum = 0; PRAGMA locking_mode = {0};";
+        private readonly DBSettings _settings;
+        private int RecordCount { get; set; }
     }
 }

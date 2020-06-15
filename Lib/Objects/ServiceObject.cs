@@ -7,18 +7,12 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class ServiceObject : CollectObject
     {
-        #region Public Constructors
-
         [JsonConstructor]
         public ServiceObject(string Name)
         {
             this.Name = Name;
             ResultType = RESULT_TYPE.SERVICE;
         }
-
-        #endregion Public Constructors
-
-        #region Public Properties
 
         public bool? AcceptPause { get; set; }
         public bool? AcceptStop { get; set; }
@@ -55,7 +49,5 @@ namespace AttackSurfaceAnalyzer.Objects
         public string? SystemName { get; set; }
         public uint? TagId { get; set; }
         public uint? WaitHint { get; set; }
-
-        #endregion Public Properties
     }
 }

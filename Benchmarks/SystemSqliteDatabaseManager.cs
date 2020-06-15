@@ -15,77 +15,7 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public static class SystemSQLiteDatabaseManager
     {
-        #region Private Fields
-
-        private const string GET_COMPARISON_RESULTS = "select * from findings where comparison_id = @comparison_id and result_type=@result_type order by level des;";
-        private const string GET_COMPARISON_RESULTS_LIMIT = "select * from findings where comparison_id=@comparison_id and result_type=@result_type order by level desc limit @offset,@limit;";
-        private const string GET_MONITOR_RESULTS = "select * from file_system_monitored where run_id=@run_id order by timestamp limit @offset,@limit;";
-
-        //lgtm [cs/literal-as-local]
-        private const string GET_RESULT_COUNT = "select count(*) from findings where comparison_id=@comparison_id and result_type=@result_type";
-
-        //lgtm [cs/literal-as-local]
-        private const string GET_RESULT_COUNT_MONITORED = "select count(*) from file_system_monitored where run_id=@run_id;";
-
-        private const string GET_RUNS = "select run_id from runs order by timestamp desc;";
-        private const string GET_SERIALIZED_RESULTS = "select change_type, Serialized from file_system_monitored where run_id = @run_id";
-        private const string INSERT_RUN_INTO_RESULT_TABLE_SQL = "insert into results (base_run_id, compare_run_id, status) values (@base_run_id, @compare_run_id, @status);";
-        private const int SCHEMA_VERSION = 8;
-        private const string SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED = "select * from results where base_run_id=@base_run_id and compare_run_id=@compare_run_id";
-        private const string SQL_CREATE_COLLECT_RESULTS = "create table if not exists collect (run_id text, result_type text, identity text, row_key blob, serialized blob)";
-        private const string SQL_CREATE_COLLECT_RUN_ID_IDENTITY_INDEX = "create index if not exists i_collect_collect_run_id_identity on collect(run_id, identity)";
-        private const string SQL_CREATE_COLLECT_RUN_ID_INDEX = "create index if not exists i_collect_collect_run_id on collect(run_id)";
-        private const string SQL_CREATE_COLLECT_RUN_KEY_IDENTITY_COMBINED_INDEX = "create index if not exists i_collect_collect_runid_row_type on collect(run_id, identity, row_key, result_type)";
-        private const string SQL_CREATE_FILE_MONITORED = "create table if not exists file_system_monitored (run_id text, row_key text, timestamp text, change_type int, path text, old_path text, name text, old_name text, extended_results text, notify_filters text, serialized text)";
-        private const string SQL_CREATE_FINDINGS_IDENTITY_INDEX = "create index if not exists i_findings_identity on findings(identity)";
-        private const string SQL_CREATE_FINDINGS_LEVEL_INDEX = "create index if not exists i_findings_level on findings(level)";
-        private const string SQL_CREATE_FINDINGS_LEVEL_RESULT_TYPE_INDEX = "create index if not exists i_findings_level_result_type on findings(level, result_type)";
-        private const string SQL_CREATE_FINDINGS_RESULT_TYPE_INDEX = "create index if not exists i_findings_result_type on findings(result_type)";
-        private const string SQL_CREATE_FINDINGS_RESULTS = "create table if not exists findings (first_run_id text, second_run_id text, level int, result_type int, identity text, serialized text)";
-        private const string SQL_CREATE_PERSISTED_SETTINGS = "create table if not exists persisted_settings (id text, serialized text, unique(id))";
-        private const string SQL_CREATE_RESULTS = "create table if not exists results (base_run_id text, compare_run_id text, status text);";
-        private const string SQL_CREATE_RUNS = "create table if not exists runs (run_id text, serialized blob, unique(run_id))";
-        private const string SQL_DELETE_RUN = "delete from collect where run_id=@run_id";
-        private const string SQL_GET_COLLECT_MISSING_IN_B = "select * from collect b where b.run_id = @second_run_id and b.identity not in (select identity from collect a where a.run_id = @first_run_id);";
-
-        private const string SQL_GET_COLLECT_MODIFIED = "select a.serialized as 'a_serialized', a.result_type as 'a_result_type', a.run_id as 'a_run_id'," +
-                                                            "b.serialized as 'b_serialized', b.result_type as 'b_result_type', b.run_id as 'b_run_id'" +
-                                                                " from collect a indexed by i_collect_collect_runid_row_type," +
-                                                                    " collect b indexed by i_collect_collect_runid_row_type" +
-                                                                        " where a.run_id=@first_run_id and b.run_id=@second_run_id and a.identity = b.identity and a.row_key != b.row_key and a.result_type = b.result_type;";
-
-        private const string SQL_GET_NUM_RESULTS = "select count(*) as the_count from collect where run_id = @run_id and result_type = @result_type";
-        private const string SQL_GET_PERSISTED_SETTINGS = "select serialized from persisted_settings where id=@id";
-        private const string SQL_GET_PLATFORM_FROM_RUNID = "select platform from runs where run_id = @run_id";
-        private const string SQL_GET_RESULT_TYPES_COUNTS = "select count(*) as count,result_type from collect where run_id = @run_id group by result_type";
-        private const string SQL_GET_RESULTS_BY_RUN_ID = "select * from collect where run_id = @run_id";
-        private const string SQL_GET_RUN = "select * from runs where run_id = @run_id";
-        private const string SQL_INSERT = "insert into file_system_monitored (run_id, row_key, timestamp, change_type, path, old_path, name, old_name, extended_results, notify_filters, serialized) values (@run_id, @row_key, @timestamp, @change_type, @path, @old_path, @name, @old_name, @extended_results, @notify_filters, @serialized)";
-        private const string SQL_INSERT_FINDINGS_RESULT = "insert into findings (first_run_id, second_run_id, result_type, level, identity, serialized) values (@first_run_id, @second_run_id, @result_type, @level, @identity, @serialized)";
-        private const string SQL_INSERT_RUN = "insert into runs (run_id, type, serialized) values (@run_id, @type, @serialized)";
-        private const string SQL_QUERY_ANALYZED = "select * from results where status = @status";
-        private const string SQL_SELECT_LATEST_N_RUNS = "select run_id from runs where type = @type order by timestamp desc limit 0,@limit;";
-        private const string SQL_TRUNCATE_RUN = "delete from runs where run_id=@run_id";
-        private const string SQL_UPSERT_PERSISTED_SETTINGS = "insert or replace into persisted_settings (id, serialized) values (@id, @serialized)";
-        private const string SQL_VACUUM = "VACUUM";
-        private const string UPDATE_RUN_IN_RESULT_TABLE = "update results set status = @status where (base_run_id = @base_run_id and compare_run_id = @compare_run_id)";
-        //lgtm [cs/literal-as-local]
-
-        //lgtm [cs/literal-as-local]
-
-        //lgtm [cs/literal-as-local]
-
-        //lgtm [cs/literal-as-local]
-
-        //lgtm [cs/literal-as-local]
-        private static DBSettings dbSettings = new DBSettings();
-
-        #endregion Private Fields
-
-        #region Public Properties
-
         public static List<SystemSQLiteSqlConnectionHolder> Connections { get; private set; } = new List<SystemSQLiteSqlConnectionHolder>();
-
         public static bool FirstRun { get; private set; } = true;
 
         public static SystemSQLiteSqlConnectionHolder? MainConnection
@@ -99,10 +29,6 @@ namespace AttackSurfaceAnalyzer.Utils
         }
 
         public static string SQLiteFilename { get; private set; } = "asa.SQLite";
-
-        #endregion Public Properties
-
-        #region Public Methods
 
         public static void BeginTransaction()
         {
@@ -959,9 +885,68 @@ namespace AttackSurfaceAnalyzer.Utils
             cmd.ExecuteNonQuery();
         }
 
-        #endregion Public Methods
+        private const string GET_COMPARISON_RESULTS = "select * from findings where comparison_id = @comparison_id and result_type=@result_type order by level des;";
+        private const string GET_COMPARISON_RESULTS_LIMIT = "select * from findings where comparison_id=@comparison_id and result_type=@result_type order by level desc limit @offset,@limit;";
+        private const string GET_MONITOR_RESULTS = "select * from file_system_monitored where run_id=@run_id order by timestamp limit @offset,@limit;";
 
-        #region Private Methods
+        //lgtm [cs/literal-as-local]
+        private const string GET_RESULT_COUNT = "select count(*) from findings where comparison_id=@comparison_id and result_type=@result_type";
+
+        //lgtm [cs/literal-as-local]
+        private const string GET_RESULT_COUNT_MONITORED = "select count(*) from file_system_monitored where run_id=@run_id;";
+
+        private const string GET_RUNS = "select run_id from runs order by timestamp desc;";
+        private const string GET_SERIALIZED_RESULTS = "select change_type, Serialized from file_system_monitored where run_id = @run_id";
+        private const string INSERT_RUN_INTO_RESULT_TABLE_SQL = "insert into results (base_run_id, compare_run_id, status) values (@base_run_id, @compare_run_id, @status);";
+        private const int SCHEMA_VERSION = 8;
+        private const string SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED = "select * from results where base_run_id=@base_run_id and compare_run_id=@compare_run_id";
+        private const string SQL_CREATE_COLLECT_RESULTS = "create table if not exists collect (run_id text, result_type text, identity text, row_key blob, serialized blob)";
+        private const string SQL_CREATE_COLLECT_RUN_ID_IDENTITY_INDEX = "create index if not exists i_collect_collect_run_id_identity on collect(run_id, identity)";
+        private const string SQL_CREATE_COLLECT_RUN_ID_INDEX = "create index if not exists i_collect_collect_run_id on collect(run_id)";
+        private const string SQL_CREATE_COLLECT_RUN_KEY_IDENTITY_COMBINED_INDEX = "create index if not exists i_collect_collect_runid_row_type on collect(run_id, identity, row_key, result_type)";
+        private const string SQL_CREATE_FILE_MONITORED = "create table if not exists file_system_monitored (run_id text, row_key text, timestamp text, change_type int, path text, old_path text, name text, old_name text, extended_results text, notify_filters text, serialized text)";
+        private const string SQL_CREATE_FINDINGS_IDENTITY_INDEX = "create index if not exists i_findings_identity on findings(identity)";
+        private const string SQL_CREATE_FINDINGS_LEVEL_INDEX = "create index if not exists i_findings_level on findings(level)";
+        private const string SQL_CREATE_FINDINGS_LEVEL_RESULT_TYPE_INDEX = "create index if not exists i_findings_level_result_type on findings(level, result_type)";
+        private const string SQL_CREATE_FINDINGS_RESULT_TYPE_INDEX = "create index if not exists i_findings_result_type on findings(result_type)";
+        private const string SQL_CREATE_FINDINGS_RESULTS = "create table if not exists findings (first_run_id text, second_run_id text, level int, result_type int, identity text, serialized text)";
+        private const string SQL_CREATE_PERSISTED_SETTINGS = "create table if not exists persisted_settings (id text, serialized text, unique(id))";
+        private const string SQL_CREATE_RESULTS = "create table if not exists results (base_run_id text, compare_run_id text, status text);";
+        private const string SQL_CREATE_RUNS = "create table if not exists runs (run_id text, serialized blob, unique(run_id))";
+        private const string SQL_DELETE_RUN = "delete from collect where run_id=@run_id";
+        private const string SQL_GET_COLLECT_MISSING_IN_B = "select * from collect b where b.run_id = @second_run_id and b.identity not in (select identity from collect a where a.run_id = @first_run_id);";
+
+        private const string SQL_GET_COLLECT_MODIFIED = "select a.serialized as 'a_serialized', a.result_type as 'a_result_type', a.run_id as 'a_run_id'," +
+                                                            "b.serialized as 'b_serialized', b.result_type as 'b_result_type', b.run_id as 'b_run_id'" +
+                                                                " from collect a indexed by i_collect_collect_runid_row_type," +
+                                                                    " collect b indexed by i_collect_collect_runid_row_type" +
+                                                                        " where a.run_id=@first_run_id and b.run_id=@second_run_id and a.identity = b.identity and a.row_key != b.row_key and a.result_type = b.result_type;";
+
+        private const string SQL_GET_NUM_RESULTS = "select count(*) as the_count from collect where run_id = @run_id and result_type = @result_type";
+        private const string SQL_GET_PERSISTED_SETTINGS = "select serialized from persisted_settings where id=@id";
+        private const string SQL_GET_PLATFORM_FROM_RUNID = "select platform from runs where run_id = @run_id";
+        private const string SQL_GET_RESULT_TYPES_COUNTS = "select count(*) as count,result_type from collect where run_id = @run_id group by result_type";
+        private const string SQL_GET_RESULTS_BY_RUN_ID = "select * from collect where run_id = @run_id";
+        private const string SQL_GET_RUN = "select * from runs where run_id = @run_id";
+        private const string SQL_INSERT = "insert into file_system_monitored (run_id, row_key, timestamp, change_type, path, old_path, name, old_name, extended_results, notify_filters, serialized) values (@run_id, @row_key, @timestamp, @change_type, @path, @old_path, @name, @old_name, @extended_results, @notify_filters, @serialized)";
+        private const string SQL_INSERT_FINDINGS_RESULT = "insert into findings (first_run_id, second_run_id, result_type, level, identity, serialized) values (@first_run_id, @second_run_id, @result_type, @level, @identity, @serialized)";
+        private const string SQL_INSERT_RUN = "insert into runs (run_id, type, serialized) values (@run_id, @type, @serialized)";
+        private const string SQL_QUERY_ANALYZED = "select * from results where status = @status";
+        private const string SQL_SELECT_LATEST_N_RUNS = "select run_id from runs where type = @type order by timestamp desc limit 0,@limit;";
+        private const string SQL_TRUNCATE_RUN = "delete from runs where run_id=@run_id";
+        private const string SQL_UPSERT_PERSISTED_SETTINGS = "insert or replace into persisted_settings (id, serialized) values (@id, @serialized)";
+        private const string SQL_VACUUM = "VACUUM";
+        private const string UPDATE_RUN_IN_RESULT_TABLE = "update results set status = @status where (base_run_id = @base_run_id and compare_run_id = @compare_run_id)";
+        //lgtm [cs/literal-as-local]
+
+        //lgtm [cs/literal-as-local]
+
+        //lgtm [cs/literal-as-local]
+
+        //lgtm [cs/literal-as-local]
+
+        //lgtm [cs/literal-as-local]
+        private static DBSettings dbSettings = new DBSettings();
 
         private static SystemSQLiteSqlConnectionHolder GenerateSqlConnection(int i)
         {
@@ -1013,7 +998,5 @@ namespace AttackSurfaceAnalyzer.Utils
             // Main Connection is probably null
             catch (NullReferenceException) { }
         }
-
-        #endregion Private Methods
     }
 }

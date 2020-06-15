@@ -9,8 +9,6 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     [JsonExporterAttribute.Full]
     public class InsertTestsWithIntermittentTransactions : AsaDatabaseBenchmark
     {
-        #region Public Constructors
-
         public InsertTestsWithIntermittentTransactions()
 #nullable restore
         {
@@ -18,12 +16,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             Strings.Setup();
         }
 
-        #endregion Public Constructors
-
-        #region Public Properties
-
-        // If not -1, how many records each writer should write before committing. When -1 don't do
-        // checkpoint commits.
+        // If not -1, how many records each writer should write before committing. When -1 don't do checkpoint commits.
         [Params(-1)]
         public int FlushCount { get; set; }
 
@@ -37,8 +30,8 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Params(100000, 1000000)]
         public int N { get; set; }
 
-        // The amount of padding to add to the object in bytes Default size is approx 530 bytes
-        // serialized Does not include SQL overhead
+        // The amount of padding to add to the object in bytes Default size is approx 530 bytes serialized
+        // Does not include SQL overhead
         [Params(0)]
         public int ObjectPadding { get; set; }
 
@@ -51,12 +44,8 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Params(0)]
         public int StartingSize { get; set; }
 
-        #endregion Public Properties
-
         // Bag of reusable objects to write to the database.
 #nullable disable
-
-        #region Public Methods
 
         public static void Insert_X_Objects(int X, int ObjectPadding = 0, string runName = "Insert_X_Objects")
         {
@@ -127,7 +116,5 @@ namespace AttackSurfaceAnalyzer.Benchmarks
                 JournalMode = JournalMode
             });
         }
-
-        #endregion Public Methods
     }
 }

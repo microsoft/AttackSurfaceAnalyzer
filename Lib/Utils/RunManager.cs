@@ -3,12 +3,8 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public class RunManager
     {
-        #region Public Constructors
-
         public RunManager()
         {
         }
-
-        #endregion Public Constructors
     }
 }

@@ -8,8 +8,6 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class Signature
     {
-        #region Public Constructors
-
         public Signature(AuthenticodeInfo authenticodeInfo)
         {
             if (authenticodeInfo != null)
@@ -32,18 +30,14 @@ namespace AttackSurfaceAnalyzer.Objects
         }
 
         /// <summary>
-        /// This constructor is for deserialization.
+        ///     This constructor is for deserialization.
         /// </summary>
-        /// <param name="IsAuthenticodeValid"></param>
+        /// <param name="IsAuthenticodeValid"> </param>
         [JsonConstructor]
         public Signature(bool IsAuthenticodeValid)
         {
             this.IsAuthenticodeValid = IsAuthenticodeValid;
         }
-
-        #endregion Public Constructors
-
-        #region Public Properties
 
         public bool IsAuthenticodeValid { get; set; }
 
@@ -62,7 +56,5 @@ namespace AttackSurfaceAnalyzer.Objects
         public string? SignedHash { get; set; }
         public string? SignerSerialNumber { get; set; }
         public SerializableCertificate? SigningCertificate { get; set; }
-
-        #endregion Public Properties
     }
 }

@@ -7,23 +7,15 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
 #nullable disable
 
-        #region Public Properties
-
         public string RunId { get; set; }
 #nullable restore
 
         public RUN_STATUS RunStatus { get; set; }
-
-        #endregion Public Properties
-
-        #region Public Methods
 
         public abstract bool CanRunOnPlatform();
 
         public abstract void StartRun();
 
         public abstract void StopRun();
-
-        #endregion Public Methods
     }
 }

@@ -7,17 +7,11 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class UserAccountObject : CollectObject
     {
-        #region Public Constructors
-
         public UserAccountObject(string Name)
         {
             this.Name = Name;
             ResultType = RESULT_TYPE.USER;
         }
-
-        #endregion Public Constructors
-
-        #region Public Properties
 
         public string? AccountType { get; set; }
         public string? Caption { get; set; }
@@ -52,7 +46,5 @@ namespace AttackSurfaceAnalyzer.Objects
         public string? Shell { get; set; }
         public string? SID { get; set; }
         public string? UID { get; set; }
-
-        #endregion Public Properties
     }
 }

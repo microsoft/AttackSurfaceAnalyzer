@@ -9,8 +9,6 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     [JsonExporterAttribute.Full]
     public class LiteDbInsertTests : AsaDatabaseBenchmark
     {
-        #region Public Constructors
-
         // Bag of reusable objects to write to the database.
         public LiteDbInsertTests()
         {
@@ -18,17 +16,13 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             Strings.Setup();
         }
 
-        #endregion Public Constructors
-
-        #region Public Properties
-
         // The number of records to insert for the benchmark
         //[Params(25000,50000,100000)]
         [Params(10000)]
         public int N { get; set; }
 
-        // The amount of padding to add to the object in bytes Default size is approx 530 bytes
-        // serialized Does not include SQL overhead
+        // The amount of padding to add to the object in bytes Default size is approx 530 bytes serialized
+        // Does not include SQL overhead
         [Params(0)]
         public int ObjectPadding { get; set; }
 
@@ -41,10 +35,6 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         //[Params(0,100000,200000,400000,800000,1600000,3200000)]
         [Params(0)]
         public int StartingSize { get; set; }
-
-        #endregion Public Properties
-
-        #region Public Methods
 
         public static void Insert_X_Objects(int X, int ObjectPadding = 0, string runName = "Insert_X_Objects")
         {
@@ -101,15 +91,9 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             LiteDbManager.CloseDatabase();
         }
 
-        #endregion Public Methods
-
-        #region Private Methods
-
         private void Setup()
         {
             LiteDbManager.Setup(filename: $"AsaBenchmark_{Shards}.litedb");
         }
-
-        #endregion Private Methods
     }
 }

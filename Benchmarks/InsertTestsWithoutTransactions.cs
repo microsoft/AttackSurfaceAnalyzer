@@ -9,18 +9,12 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     [JsonExporterAttribute.Full]
     public class InsertTestsWithoutTransactions : AsaDatabaseBenchmark
     {
-        #region Public Constructors
-
         public InsertTestsWithoutTransactions()
 #nullable restore
         {
             Logger.Setup(true, true);
             Strings.Setup();
         }
-
-        #endregion Public Constructors
-
-        #region Public Properties
 
         [Params(10)]
         public int BatchSize { get; set; }
@@ -37,8 +31,8 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Params(10000)]
         public int N { get; set; }
 
-        // The amount of padding to add to the object in bytes Default size is approx 530 bytes
-        // serialized Does not include SQL overhead
+        // The amount of padding to add to the object in bytes Default size is approx 530 bytes serialized
+        // Does not include SQL overhead
         [Params(0, 4500)]
         public int ObjectPadding { get; set; }
 
@@ -57,11 +51,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Params("OFF")]
         public string Synchronous { get; set; }
 
-        #endregion Public Properties
-
 #nullable disable
-
-        #region Public Methods
 
         public static void Insert_X_Objects(int X, int ObjectPadding = 0, string runName = "Insert_X_Objects")
         {
@@ -118,10 +108,6 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             DatabaseManager.CloseDatabase();
         }
 
-        #endregion Public Methods
-
-        #region Private Methods
-
         private void Setup()
         {
             DatabaseManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite", new DBSettings()
@@ -134,7 +120,5 @@ namespace AttackSurfaceAnalyzer.Benchmarks
                 BatchSize = BatchSize
             });
         }
-
-        #endregion Private Methods
     }
 }

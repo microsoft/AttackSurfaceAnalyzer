@@ -32,8 +32,6 @@ namespace AttackSurfaceAnalyzer.Objects
         //Sealed Resources version=2 rules=13 files=2909
         //Internal requirements count=1 size=220
 
-        #region Public Properties
-
         public List<string>? Authorities { get; set; }
         public string? CandidateCDHashFull { get; set; }
         public string? CMSDigest { get; set; }
@@ -41,7 +39,5 @@ namespace AttackSurfaceAnalyzer.Objects
         public string? HashType { get; set; }
         public string? TeamIdentifier { get; set; }
         public DateTime Timestamp { get; set; }
-
-        #endregion Public Properties
     }
 }
