@@ -9,7 +9,7 @@ Platform specific binaries for Attack Surface Analyzer are distributed via our G
 ## Note on Version
 The latest stable version of Attack Surface Analyzer is 2.2 (see [Release\v2.2](https://github.com/Microsoft/AttackSurfaceAnalyzer/tree/release/v2.2)).  
 
-2.3 is now in development on the master branch.  You can see the features coming [here](https://github.com/microsoft/attacksurfaceanalyzer/issues?q=is%3Aissue+milestone%3Av2.3+).
+2.3 is now in development on the `main` branch.  You can see the features coming [here](https://github.com/microsoft/attacksurfaceanalyzer/issues?q=is%3Aissue+milestone%3Av2.3+).
 
 ## New Features in 2.2
 
