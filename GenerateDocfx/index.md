@@ -16,7 +16,7 @@ Packages are available on our [releases](https://github.com/Microsoft/AttackSurf
 
 ## Building
 
-To build Attack Surface Analyzer, see [BUILD](https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/BUILD.md).
+To build Attack Surface Analyzer, see [BUILD](https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/main/BUILD.md).
 
 ## Contributing
 
