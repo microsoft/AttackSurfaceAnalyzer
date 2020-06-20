@@ -12,7 +12,7 @@ namespace AttackSurfaceAnalyzer.Objects
         {
             ColObj = ColObjIn ?? throw new ArgumentNullException(nameof(ColObjIn));
             RunId = RunIdIn;
-            Serialized = JsonUtils.Dehydrate(ColObjIn);
+            Serialized = ColObj.Serialized;
             RowKey = ColObj.RowKey;
         }
 

@@ -704,7 +704,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             Dictionary<string, string> EndEvent = new Dictionary<string, string>();
             BaseCompare c = new BaseCompare();
-            var watch = System.Diagnostics.Stopwatch.StartNew();
+            var watch = Stopwatch.StartNew();
             if (!c.TryCompare(opts.FirstRunId, opts.SecondRunId))
             {
                 Log.Warning(Strings.Get("Err_Comparing") + " : {0}", c.GetType().Name);
