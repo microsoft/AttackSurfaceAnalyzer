@@ -37,6 +37,7 @@
     "%NoResults": "No Results",
     "%Rules": "Matched Rule",
     "%Name": "Name",
-    "%Description": "Description"
+    "%Description": "Description",
+    "%FetchingCount": "Fetching results..."
   }
 }
