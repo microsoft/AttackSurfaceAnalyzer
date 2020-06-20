@@ -256,6 +256,8 @@ function UpdateMonitorNumResults(total, offset, requested, actual) {
 
 function GetResults(type, offset, number) {
     var data = { 'BaseId': $('#SelectedBaseRunId').val(), 'CompareId': $('#SelectedCompareRunId').val(), 'ResultType': type, 'Offset': offset, 'NumResults': number };
+    $('#CountStatus').empty();
+    $('#CountStatus').append(l("%FetchingCount"));
     $.getJSON('GetResults', data, function (results) {
         var obj = JSON.parse(results);
         UpdateNumResults(obj.TotalCount, obj.Offset, obj.Requested, obj.Actual);
