@@ -135,7 +135,6 @@ function RunAnalysis() {
                 SetStatus(result);
             });
         }
-        
     }
 }
 
@@ -217,7 +216,6 @@ function GetResultTypes() {
     var data = { 'BaseId': $('#SelectedBaseRunId').val(), 'CompareId': $('#SelectedCompareRunId').val() };
 
     $.getJSON('GetResultTypes', data, function (results) {
-
         if (results.length == 0) {
             SetStatus(l("%NoCommon"));
         }
@@ -258,6 +256,8 @@ function UpdateMonitorNumResults(total, offset, requested, actual) {
 
 function GetResults(type, offset, number) {
     var data = { 'BaseId': $('#SelectedBaseRunId').val(), 'CompareId': $('#SelectedCompareRunId').val(), 'ResultType': type, 'Offset': offset, 'NumResults': number };
+    $('#CountStatus').empty();
+    $('#CountStatus').append(l("%FetchingCount"));
     $.getJSON('GetResults', data, function (results) {
         var obj = JSON.parse(results);
         UpdateNumResults(obj.TotalCount, obj.Offset, obj.Requested, obj.Actual);
@@ -434,7 +434,6 @@ function FlagToString(flag) {
             return "Error";
         case ANALYSIS_RESULT_TYPE.FATAL:
             return "Fatal";
-
     }
 }
 
@@ -593,7 +592,6 @@ function InsertIntoPortTable(result) {
     }).append(GenerateExpandedResultsCard(result));
     tmp.append(tmp2);
     $('#PortResultsTableBody').append(tmp);
-
 }
 
 function InsertIntoRegistryTable(result) {
@@ -704,7 +702,6 @@ function InsertIntoCertificateTable(result) {
     tmp.append(tmp2);
     $('#CertificateResultsTableBody').append(tmp);
 }
-
 
 function InsertIntoServiceTable(result) {
     var appendObj;
@@ -994,7 +991,6 @@ function InsertIntoComTable(result) {
     tmp.append(tmp2);
     $('#ComResultsTableBody').append(tmp);
 }
-
 
 function GenerateExpandedResultsCard(result) {
     var card = $('<div/>', {
