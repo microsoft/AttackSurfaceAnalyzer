@@ -16,35 +16,25 @@ using System.Threading.Tasks;
 namespace AttackSurfaceAnalyzer.Collectors
 {
     /// <summary>
-    /// Collects metadata about services registered on the system.
+    ///     Collects metadata about services registered on the system.
     /// </summary>
     public class ServiceCollector : BaseCollector
     {
-        #region Public Constructors
-
         public ServiceCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
         {
         }
 
-        #endregion Public Constructors
-
-        #region Public Methods
-
         /// <summary>
-        /// Determines whether the ServiceCollector can run or not.
+        ///     Determines whether the ServiceCollector can run or not.
         /// </summary>
-        /// <returns>True on Windows, Linux, Mac OS</returns>
+        /// <returns> True on Windows, Linux, Mac OS </returns>
         public override bool CanRunOnPlatform()
         {
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         }
 
-        #endregion Public Methods
-
-        #region Internal Methods
-
         /// <summary>
-        /// Executes the ServiceCollector.
+        ///     Executes the ServiceCollector.
         /// </summary>
         internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
@@ -63,7 +53,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Uses systemctl (relies on systemd) and also checks /etc/init.d
+        ///     Uses systemctl (relies on systemd) and also checks /etc/init.d
         /// </summary>
         internal void ExecuteLinux(CancellationToken cancellationToken)
         {
@@ -128,12 +118,12 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Uses launchctl
+        ///     Uses launchctl
         /// </summary>
         internal void ExecuteMacOs(CancellationToken cancellationToken)
         {
-            // Get the user processes run "launchtl dumpstate" for the super detailed view However,
-            // dumpstate is difficult to parse
+            // Get the user processes run "launchtl dumpstate" for the super detailed view However, dumpstate
+            // is difficult to parse
             Dictionary<string, ServiceObject> outDict = new Dictionary<string, ServiceObject>();
             try
             {
@@ -170,7 +160,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Uses ServiceController.
+        ///     Uses ServiceController.
         /// </summary>
         internal void ExecuteWindows(CancellationToken cancellationToken)
         {
@@ -223,10 +213,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
-        #endregion Internal Methods
-
-        #region Private Methods
-
         private static string? TryGetPropertyValue(ManagementObject mo, string propertyName)
         {
             string? val = null;
@@ -242,63 +228,55 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             try
             {
-                var val = TryGetPropertyValue(service, "Name");
-                if (val != null)
+                if (TryGetPropertyValue(service, "Name") is string name)
                 {
-                    var obj = new ServiceObject(val);
+                    var obj = new ServiceObject(name);
 
-                    val = TryGetPropertyValue(service, "AcceptPause");
-                    if (!string.IsNullOrEmpty(val))
-                        obj.AcceptPause = bool.Parse(val);
+                    if (bool.TryParse(TryGetPropertyValue(service, "AcceptPause"), out bool acceptPause))
+                        obj.AcceptPause = acceptPause;
 
-                    val = TryGetPropertyValue(service, "AcceptStop");
-                    if (!string.IsNullOrEmpty(val))
-                        obj.AcceptStop = bool.Parse(val);
+                    if (bool.TryParse(TryGetPropertyValue(service, "AcceptStop"), out bool acceptStop))
+                        obj.AcceptStop = acceptStop;
 
                     obj.Caption = TryGetPropertyValue(service, "Caption");
 
-                    val = TryGetPropertyValue(service, "CheckPoint");
-                    if (!string.IsNullOrEmpty(val))
-                        obj.CheckPoint = uint.Parse(val, CultureInfo.InvariantCulture);
+                    if (uint.TryParse(TryGetPropertyValue(service, "CheckPoint"), out uint checkpoint))
+                        obj.CheckPoint = checkpoint;
 
                     obj.CreationClassName = TryGetPropertyValue(service, "CreationClassName");
 
-                    val = TryGetPropertyValue(service, "DelayedAutoStart");
-                    if (!string.IsNullOrEmpty(val))
-                        obj.DelayedAutoStart = bool.Parse(val);
+                    if (bool.TryParse(TryGetPropertyValue(service, "DelayedAutoStart"), out bool delayedAutoStart))
+                        obj.DelayedAutoStart = delayedAutoStart;
 
                     obj.Description = TryGetPropertyValue(service, "Description");
 
-                    val = TryGetPropertyValue(service, "DesktopInteract");
-                    if (!string.IsNullOrEmpty(val))
-                        obj.DesktopInteract = bool.Parse(val);
+                    if (bool.TryParse(TryGetPropertyValue(service, "DesktopInteract"), out bool desktopInteract))
+                        obj.DesktopInteract = desktopInteract;
 
                     obj.DisplayName = TryGetPropertyValue(service, "DisplayName");
+
                     obj.ErrorControl = TryGetPropertyValue(service, "ErrorControl");
 
-                    val = TryGetPropertyValue(service, "ExitCode");
-                    if (!string.IsNullOrEmpty(val))
-                        obj.ExitCode = uint.Parse(val, CultureInfo.InvariantCulture);
+                    if (uint.TryParse(TryGetPropertyValue(service, "ExitCode"), out uint exitCode))
+                        obj.ExitCode = exitCode;
 
                     if (DateTime.TryParse(service.GetPropertyValue("InstallDate")?.ToString(), out DateTime dateTime))
                     {
                         obj.InstallDate = dateTime;
                     }
+
                     obj.PathName = TryGetPropertyValue(service, "PathName");
 
-                    val = TryGetPropertyValue(service, "ProcessId");
-                    if (!string.IsNullOrEmpty(val))
-                        obj.ProcessId = uint.Parse(val, CultureInfo.InvariantCulture);
+                    if (uint.TryParse(TryGetPropertyValue(service, "ProcessId"), out uint processId))
+                        obj.ProcessId = processId;
 
-                    val = TryGetPropertyValue(service, "ServiceSpecificExitCode");
-                    if (!string.IsNullOrEmpty(val))
-                        obj.ServiceSpecificExitCode = uint.Parse(val, CultureInfo.InvariantCulture);
+                    if (uint.TryParse(TryGetPropertyValue(service, "ServiceSpecificExitCode"), out uint serviceSpecificExitCode))
+                        obj.ServiceSpecificExitCode = serviceSpecificExitCode;
 
                     obj.ServiceType = TryGetPropertyValue(service, "ServiceType");
 
-                    val = TryGetPropertyValue(service, "Started");
-                    if (!string.IsNullOrEmpty(val))
-                        obj.Started = bool.Parse(val);
+                    if (bool.TryParse(TryGetPropertyValue(service, "Started"), out bool started))
+                        obj.Started = started;
 
                     obj.StartMode = TryGetPropertyValue(service, "StartMode");
                     obj.StartName = TryGetPropertyValue(service, "StartName");
@@ -307,13 +285,11 @@ namespace AttackSurfaceAnalyzer.Collectors
                     obj.SystemCreationClassName = TryGetPropertyValue(service, "SystemCreationClassName");
                     obj.SystemName = TryGetPropertyValue(service, "SystemName");
 
-                    val = TryGetPropertyValue(service, "TagId");
-                    if (!string.IsNullOrEmpty(val))
-                        obj.TagId = uint.Parse(val, CultureInfo.InvariantCulture);
+                    if (uint.TryParse(TryGetPropertyValue(service, "TagId"), out uint tagId))
+                        obj.TagId = tagId;
 
-                    val = TryGetPropertyValue(service, "WaitHint");
-                    if (!string.IsNullOrEmpty(val))
-                        obj.WaitHint = uint.Parse(val, CultureInfo.InvariantCulture);
+                    if (uint.TryParse(TryGetPropertyValue(service, "WaitHint"), out uint waitHint))
+                        obj.WaitHint = waitHint;
 
                     HandleChange(obj);
                 }
@@ -329,7 +305,5 @@ namespace AttackSurfaceAnalyzer.Collectors
                 Log.Warning(e, "Failed to grok Service Collector object at {0}.", service.Path);
             }
         }
-
-        #endregion Private Methods
     }
 }

@@ -399,12 +399,15 @@ namespace AttackSurfaceAnalyzer.Utils
 
                     if (aRunId != null && bRunId != null && aResultType != null && bResultType != null)
                     {
-                        var val1 = WriteObject.FromString((string)reader["a_serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), aResultType), aRunId);
-                        var val2 = WriteObject.FromString((string)reader["b_serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), bResultType), bRunId);
-
-                        if (val1 is WriteObject V1 && val2 is WriteObject V2)
+                        if (reader["a_serialized"] is string a_serialized && reader["b_serialized"] is string b_serialized)
                         {
-                            output.Enqueue((V1, V2));
+                            var val1 = WriteObject.FromString(a_serialized, (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), aResultType), aRunId);
+                            var val2 = WriteObject.FromString(b_serialized, (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), bResultType), bRunId);
+
+                            if (val1 is WriteObject V1 && val2 is WriteObject V2)
+                            {
+                                output.Enqueue((V1, V2));
+                            }
                         }
                     }
                 }
@@ -1103,7 +1106,8 @@ namespace AttackSurfaceAnalyzer.Utils
                                                             "b.serialized as 'b_serialized', b.result_type as 'b_result_type', b.run_id as 'b_run_id'" +
                                                                 " from collect a indexed by i_collect_collect_runid_row_type," +
                                                                     " collect b indexed by i_collect_collect_runid_row_type" +
-                                                                        " where a.run_id=@first_run_id and b.run_id=@second_run_id and a.identity = b.identity and a.row_key != b.row_key and a.result_type = b.result_type;";
+                                                                        " where a.run_id=@first_run_id and b.run_id=@second_run_id and a.identity = b.identity and " +
+                                                                            "a.row_key != b.row_key and a.result_type = b.result_type and a.serialized != b.serialized;";
 
         private const string SQL_GET_NUM_RESULTS = "select count(*) as the_count from collect where run_id = @run_id and result_type = @result_type";
         private const string SQL_GET_PERSISTED_SETTINGS = "select serialized from persisted_settings where id=@id";

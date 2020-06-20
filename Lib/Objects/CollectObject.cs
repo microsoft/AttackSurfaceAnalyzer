@@ -1,16 +1,15 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
+using System.Globalization;
 
 namespace AttackSurfaceAnalyzer.Objects
 {
     /// <summary>
-    /// Abstract parent class that all Collected data inherits from.
+    ///     Abstract parent class that all Collected data inherits from.
     /// </summary>
     public abstract class CollectObject
     {
-        #region Public Properties
-
         public abstract string Identity { get; }
         public RESULT_TYPE ResultType { get; set; }
 
@@ -18,19 +17,33 @@ namespace AttackSurfaceAnalyzer.Objects
         {
             get
             {
-                return CryptoHelpers.CreateHash(JsonUtils.Dehydrate(this));
+                return Serialized.GetHashCode().ToString(CultureInfo.InvariantCulture);
             }
         }
 
-        #endregion Public Properties
+        public string Serialized
+        {
+            get
+            {
+                if (_serialized == null)
+                {
+                    _serialized = JsonUtils.Dehydrate(this);
+                }
 
-        #region Public Methods
+                return _serialized;
+            }
+        }
 
         public static bool ShouldSerializeRowKey()
         {
             return false;
         }
 
-        #endregion Public Methods
+        public static bool ShouldSerializeSerialized()
+        {
+            return false;
+        }
+
+        private string? _serialized = null;
     }
 }
