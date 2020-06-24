@@ -39,8 +39,6 @@ namespace AttackSurfaceAnalyzer.Objects
 
         public string ProcessName { get; set; }
 
-        public ProcessStartInfo? StartInfo { get; set; }
-
         public DateTime StartTime { get; set; }
 
         public static ProcessObject? FromProcess(Process process)
@@ -53,7 +51,6 @@ namespace AttackSurfaceAnalyzer.Objects
                 MainModule = ProcessModuleObject.FromProcessModule(process.MainModule),
                 Modules = ProcessModuleObject.FromProcessModuleCollection(process.Modules),
                 PriorityClass = process.PriorityClass,
-                StartInfo = process.StartInfo,
                 StartTime = process.StartTime
             };
         }
