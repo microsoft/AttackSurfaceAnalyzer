@@ -9,6 +9,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     [JsonExporterAttribute.Full]
     public class SetupTimeTest : AsaDatabaseBenchmark
     {
+#nullable disable
         public SetupTimeTest()
 #nullable restore
         {
@@ -42,8 +43,6 @@ namespace AttackSurfaceAnalyzer.Benchmarks
 
         [Params("OFF", "NORMAL")]
         public string Synchronous { get; set; }
-
-#nullable disable
 
         public static void Insert_X_Objects(int X, int ObjectPadding = 0, string runName = "Insert_X_Objects")
         {

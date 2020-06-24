@@ -9,6 +9,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     [JsonExporterAttribute.Full]
     public class InsertTestsWithIntermittentTransactions : AsaDatabaseBenchmark
     {
+#nullable disable
         public InsertTestsWithIntermittentTransactions()
 #nullable restore
         {
@@ -45,7 +46,6 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         public int StartingSize { get; set; }
 
         // Bag of reusable objects to write to the database.
-#nullable disable
 
         public static void Insert_X_Objects(int X, int ObjectPadding = 0, string runName = "Insert_X_Objects")
         {

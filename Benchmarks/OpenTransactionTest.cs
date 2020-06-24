@@ -7,6 +7,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     [JsonExporterAttribute.Full]
     public class OpenTransactionTest : AsaDatabaseBenchmark
     {
+#nullable disable
         public OpenTransactionTest()
 #nullable restore
         {
@@ -25,8 +26,6 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         //[Params(0,100000,200000,400000,800000,1600000,3200000)]
         [Params(0)]
         public int StartingSize { get; set; }
-
-#nullable disable
 
         [Benchmark]
         public void BeginTransaction()
