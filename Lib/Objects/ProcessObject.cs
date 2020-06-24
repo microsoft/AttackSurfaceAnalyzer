@@ -29,10 +29,6 @@ namespace AttackSurfaceAnalyzer.Objects
 
         public int BasePriority { get; set; }
 
-        public int ExitCode { get; set; }
-
-        public DateTime ExitTime { get; set; }
-
         public bool HasExited { get; set; }
 
         public ProcessModuleObject? MainModule { get; set; }
@@ -53,8 +49,6 @@ namespace AttackSurfaceAnalyzer.Objects
             return new ProcessObject(process.Id, process.ProcessName)
             {
                 BasePriority = process.BasePriority,
-                ExitCode = process.ExitCode,
-                ExitTime = process.ExitTime,
                 HasExited = process.HasExited,
                 MainModule = ProcessModuleObject.FromProcessModule(process.MainModule),
                 Modules = ProcessModuleObject.FromProcessModuleCollection(process.Modules),
