@@ -73,6 +73,15 @@ namespace AttackSurfaceAnalyzer.Tests
             }
         }
 
+        [TestMethod]
+        public void TestProcessCollector()
+        {
+            var pc = new ProcessCollector(new CollectCommandOptions());
+            pc.TryExecute();
+
+            Assert.IsTrue(pc.Results.Any(x => x is ProcessObject y && y.ProcessName == "dotnet"));
+        }
+
         /// <summary>
         /// Requires Admin
         /// </summary>
