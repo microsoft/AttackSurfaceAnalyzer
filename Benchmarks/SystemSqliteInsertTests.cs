@@ -9,6 +9,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     [JsonExporterAttribute.Full]
     public class SystemSqliteInsertTestsWithoutTransactions : AsaDatabaseBenchmark
     {
+#nullable disable
         public SystemSqliteInsertTestsWithoutTransactions()
 #nullable restore
         {
@@ -47,8 +48,6 @@ namespace AttackSurfaceAnalyzer.Benchmarks
 
         [Params("OFF")]
         public string Synchronous { get; set; }
-
-#nullable disable
 
         public static void Insert_X_Objects(int X, int ObjectPadding = 0, string runName = "Insert_X_Objects")
         {

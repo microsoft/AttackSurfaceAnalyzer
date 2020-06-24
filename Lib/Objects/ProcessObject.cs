@@ -47,8 +47,9 @@ namespace AttackSurfaceAnalyzer.Objects
 
         public DateTime StartTime { get; set; }
 
-        internal static ProcessObject FromProcess(Process process)
+        public static ProcessObject? FromProcess(Process process)
         {
+            if (process == null) return null;
             return new ProcessObject(process.Id, process.ProcessName)
             {
                 BasePriority = process.BasePriority,

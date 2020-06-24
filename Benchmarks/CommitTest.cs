@@ -7,6 +7,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     [JsonExporterAttribute.Full]
     public class CommitTest
     {
+#nullable disable
         public CommitTest()
 #nullable enable
         {
@@ -24,8 +25,6 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         // The number of Shards/Threads to use for Database operations
         [Params(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)]
         public int Shards { get; set; }
-
-#nullable disable
 
         [Benchmark]
         public void CommitTransaction()

@@ -3,6 +3,7 @@ using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Diagnostics;
 
 namespace AttackSurfaceAnalyzer.Tests
 {
@@ -120,6 +121,14 @@ namespace AttackSurfaceAnalyzer.Tests
             var uao = new UserAccountObject("TestUser");
 
             Assert.IsTrue(uao.RowKey.Equals(JsonUtils.Hydrate(JsonUtils.Dehydrate(uao), RESULT_TYPE.USER)?.RowKey));
+        }
+
+        [TestMethod]
+        public void TestSerializeAndDeserializeProcessObject()
+        {
+            var po = ProcessObject.FromProcess(Process.GetCurrentProcess());
+            var serialized = JsonUtils.Dehydrate(po);
+            Assert.IsTrue(serialized == JsonUtils.Dehydrate(JsonUtils.Hydrate(serialized,RESULT_TYPE.PROCESS)));
         }
     }
 }

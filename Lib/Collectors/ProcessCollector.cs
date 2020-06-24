@@ -36,7 +36,8 @@ namespace AttackSurfaceAnalyzer.Collectors
             Process[] allProcesses = Process.GetProcesses();
             foreach (var process in allProcesses)
             {
-                HandleChange(ProcessObject.FromProcess(process));
+                if (ProcessObject.FromProcess(process) is ProcessObject po)
+                    HandleChange(po);
             }
         }
     }
