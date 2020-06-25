@@ -74,6 +74,18 @@ namespace AttackSurfaceAnalyzer.Tests
         }
 
         /// <summary>
+        ///     Administrator not required
+        /// </summary>
+        [TestMethod]
+        public void TestDriverCollector()
+        {
+            var dc = new DriverCollector(new CollectCommandOptions());
+            dc.TryExecute();
+
+            Assert.IsTrue(dc.Results.Any());
+        }
+
+        /// <summary>
         ///     Requires Admin
         /// </summary>
         [TestMethod]
@@ -302,6 +314,9 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(results.Any(x => x is OpenPortObject OPO && OPO.Port == 13000));
         }
 
+        /// <summary>
+        ///     Administrator recommended
+        /// </summary>
         [TestMethod]
         public void TestProcessCollector()
         {

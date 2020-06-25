@@ -51,6 +51,16 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(cko.RowKey.Equals(hydrated.RowKey));
         }
 
+        public void TestSerializeAndDeserializeDriverObject()
+        {
+            var DriverName = "MyName";
+            var driverObject = new DriverObject(DriverName);
+            var serialized = JsonUtils.Dehydrate(driverObject);
+            var rehydrated = JsonUtils.Hydrate(serialized, RESULT_TYPE.DRIVER);
+            Assert.IsTrue(serialized == JsonUtils.Dehydrate(rehydrated));
+            Assert.IsTrue(rehydrated.Identity == DriverName);
+        }
+
         [TestMethod]
         public void TestSerializeAndDeserializeEventLogObject()
         {
@@ -92,6 +102,14 @@ namespace AttackSurfaceAnalyzer.Tests
         }
 
         [TestMethod]
+        public void TestSerializeAndDeserializeProcessObject()
+        {
+            var po = ProcessObject.FromProcess(Process.GetCurrentProcess());
+            var serialized = JsonUtils.Dehydrate(po);
+            Assert.IsTrue(serialized == JsonUtils.Dehydrate(JsonUtils.Hydrate(serialized, RESULT_TYPE.PROCESS)));
+        }
+
+        [TestMethod]
         public void TestSerializeAndDeserializeRegistryObject()
         {
             var ro = new RegistryObject("Test Key", Microsoft.Win32.RegistryView.Default);
@@ -121,14 +139,6 @@ namespace AttackSurfaceAnalyzer.Tests
             var uao = new UserAccountObject("TestUser");
 
             Assert.IsTrue(uao.RowKey.Equals(JsonUtils.Hydrate(JsonUtils.Dehydrate(uao), RESULT_TYPE.USER)?.RowKey));
-        }
-
-        [TestMethod]
-        public void TestSerializeAndDeserializeProcessObject()
-        {
-            var po = ProcessObject.FromProcess(Process.GetCurrentProcess());
-            var serialized = JsonUtils.Dehydrate(po);
-            Assert.IsTrue(serialized == JsonUtils.Dehydrate(JsonUtils.Hydrate(serialized,RESULT_TYPE.PROCESS)));
         }
     }
 }
