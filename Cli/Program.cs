@@ -946,6 +946,10 @@ namespace AttackSurfaceAnalyzer.Cli
                             case RESULT_TYPE.TPM:
                                 opts.EnableTpmCollector = true;
                                 break;
+
+                            case RESULT_TYPE.PROCESS:
+                                opts.EnableProcessCollector = true;
+                                break;
                         }
                     }
                 }
@@ -1009,6 +1013,11 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 collectors.Add(new CryptographicKeyCollector(opts, defaultChangeHandler));
                 dict.Add(RESULT_TYPE.KEY);
+            }
+            if (opts.EnableProcessCollector || opts.EnableAllCollectors)
+            {
+                collectors.Add(new ProcessCollector(opts, defaultChangeHandler));
+                dict.Add(RESULT_TYPE.PROCESS);
             }
 
             if (collectors.Count == 0)

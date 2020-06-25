@@ -36,6 +36,9 @@ namespace AttackSurfaceAnalyzer
         [Option('p', "network-port", Required = false, HelpText = "Enable the network port collector")]
         public bool EnableNetworkPortCollector { get; set; }
 
+        [Option('P', "process", Required = false, HelpText = "Enable the process information collector")]
+        public bool EnableProcessCollector { get; set; }
+
         [Option('r', "registry", Required = false, HelpText = "Enable the registry collector")]
         public bool EnableRegistryCollector { get; set; }
 

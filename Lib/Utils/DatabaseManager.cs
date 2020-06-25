@@ -276,11 +276,11 @@ namespace AttackSurfaceAnalyzer.Utils
 
                             if (reader["first_serialized"] is string first_serialized)
                             {
-                                obj.Base = Deserialize(resultType, first_serialized);
+                                obj.Base = JsonUtils.Hydrate(first_serialized, (RESULT_TYPE)resultType);
                             }
                             if (reader["second_serialized"] is string second_serialized)
                             {
-                                obj.Compare = Deserialize(resultType, second_serialized);
+                                obj.Compare = JsonUtils.Hydrate(second_serialized, (RESULT_TYPE)resultType);
                             }
 
                             results.Add(obj);
@@ -1075,10 +1075,8 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string GET_COMPARISON_RESULTS_LIMIT = "select * from findings where first_run_id = @first_run_id and second_run_id = @second_run_id and result_type=@result_type order by level desc limit @offset,@limit;";
         private const string GET_MONITOR_RESULTS = "select * from file_system_monitored where run_id=@run_id order by timestamp limit @offset,@limit;";
 
-        //lgtm [cs/literal-as-local]
         private const string GET_RESULT_COUNT = "select count(*) from findings where first_run_id = @first_run_id and second_run_id = @second_run_id and result_type=@result_type";
 
-        //lgtm [cs/literal-as-local]
         private const string GET_RESULT_COUNT_MONITORED = "select count(*) from file_system_monitored where run_id=@run_id;";
 
         private const string GET_RUNS = "select run_id from runs order by ROWID desc;";
@@ -1125,63 +1123,11 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string SQL_TRUNCATE_RUN = "delete from runs where run_id=@run_id";
         private const string SQL_UPSERT_PERSISTED_SETTINGS = "insert or replace into persisted_settings (id, serialized) values (@id, @serialized)";
 
-        //lgtm [cs/literal-as-local]
         private const string SQL_VACUUM = "VACUUM";
 
         private const string UPDATE_RUN_IN_RESULT_TABLE = "update results set status = @status where (base_run_id = @base_run_id and compare_run_id = @compare_run_id)";
-        //lgtm [cs/literal-as-local]
 
-        //lgtm [cs/literal-as-local]
-
-        //lgtm [cs/literal-as-local]
-
-        //lgtm [cs/literal-as-local]
         private static DBSettings dbSettings = new DBSettings();
-
-        private static CollectObject? Deserialize(int resultType, string serialized)
-        {
-            switch ((RESULT_TYPE)resultType)
-            {
-                case RESULT_TYPE.CERTIFICATE:
-                    return JsonConvert.DeserializeObject<CertificateObject>(serialized);
-
-                case RESULT_TYPE.COM:
-                    return JsonConvert.DeserializeObject<ComObject>(serialized);
-
-                case RESULT_TYPE.FILE:
-                    return JsonConvert.DeserializeObject<FileSystemObject>(serialized);
-
-                case RESULT_TYPE.FIREWALL:
-                    return JsonConvert.DeserializeObject<FirewallObject>(serialized);
-
-                case RESULT_TYPE.GROUP:
-                    return JsonConvert.DeserializeObject<GroupAccountObject>(serialized);
-
-                case RESULT_TYPE.KEY:
-                    return JsonConvert.DeserializeObject<CryptographicKeyObject>(serialized);
-
-                case RESULT_TYPE.LOG:
-                    return JsonConvert.DeserializeObject<EventLogObject>(serialized);
-
-                case RESULT_TYPE.PORT:
-                    return JsonConvert.DeserializeObject<OpenPortObject>(serialized);
-
-                case RESULT_TYPE.REGISTRY:
-                    return JsonConvert.DeserializeObject<RegistryObject>(serialized);
-
-                case RESULT_TYPE.SERVICE:
-                    return JsonConvert.DeserializeObject<ServiceObject>(serialized);
-
-                case RESULT_TYPE.TPM:
-                    return JsonConvert.DeserializeObject<TpmObject>(serialized);
-
-                case RESULT_TYPE.USER:
-                    return JsonConvert.DeserializeObject<UserAccountObject>(serialized);
-
-                default:
-                    return null;
-            }
-        }
 
         private static SqlConnectionHolder GenerateSqlConnection(int i)
         {

@@ -76,7 +76,7 @@ Packages are available on our [releases](https://github.com/Microsoft/AttackSurf
 
 ## Building
 
-To build Attack Surface Analyzer, see [BUILD](https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/BUILD.md).
+To build Attack Surface Analyzer, see [BUILD](https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/main/BUILD.md).
 
 ## Contributing
 
@@ -108,4 +108,4 @@ the [Security TechCenter](https://technet.microsoft.com/en-us/security/default).
 ## License
 
 Attack Surface Analyzer 2 is licensed under the
-[MIT license](https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/LICENSE).
+[MIT license](https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/main/LICENSE).

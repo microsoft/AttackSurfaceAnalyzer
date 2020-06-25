@@ -80,6 +80,9 @@ namespace AttackSurfaceAnalyzer.Utils
                 case RESULT_TYPE.KEY:
                     return JsonConvert.DeserializeObject<CryptographicKeyObject>(serialized, jsonSettings);
 
+                case RESULT_TYPE.PROCESS:
+                    return JsonConvert.DeserializeObject<ProcessObject>(serialized, jsonSettings);
+
                 default:
                     return null;
             }
