@@ -3,6 +3,7 @@ using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Diagnostics;
 
 namespace AttackSurfaceAnalyzer.Tests
 {
@@ -50,6 +51,16 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(cko.RowKey.Equals(hydrated.RowKey));
         }
 
+        public void TestSerializeAndDeserializeDriverObject()
+        {
+            var DriverName = "MyName";
+            var driverObject = new DriverObject(DriverName);
+            var serialized = JsonUtils.Dehydrate(driverObject);
+            var rehydrated = JsonUtils.Hydrate(serialized, RESULT_TYPE.DRIVER);
+            Assert.IsTrue(serialized == JsonUtils.Dehydrate(rehydrated));
+            Assert.IsTrue(rehydrated.Identity == DriverName);
+        }
+
         [TestMethod]
         public void TestSerializeAndDeserializeEventLogObject()
         {
@@ -88,6 +99,14 @@ namespace AttackSurfaceAnalyzer.Tests
             var opo = new OpenPortObject(1024, TRANSPORT.TCP);
 
             Assert.IsTrue(opo.RowKey.Equals(JsonUtils.Hydrate(JsonUtils.Dehydrate(opo), RESULT_TYPE.PORT)?.RowKey));
+        }
+
+        [TestMethod]
+        public void TestSerializeAndDeserializeProcessObject()
+        {
+            var po = ProcessObject.FromProcess(Process.GetCurrentProcess());
+            var serialized = JsonUtils.Dehydrate(po);
+            Assert.IsTrue(serialized == JsonUtils.Dehydrate(JsonUtils.Hydrate(serialized, RESULT_TYPE.PROCESS)));
         }
 
         [TestMethod]

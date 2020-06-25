@@ -385,7 +385,13 @@ namespace AttackSurfaceAnalyzer.Types
         /// <summary>
         ///     A cryptographic key
         /// </summary>
-        KEY
+        KEY,
+
+        /// <summary>
+        ///     A process running on the system
+        /// </summary>
+        PROCESS,
+        DRIVER
     };
 
     /// <summary>

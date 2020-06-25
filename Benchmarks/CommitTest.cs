@@ -8,6 +8,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     [JsonExporterAttribute.Full]
     public class CommitTest
     {
+#nullable disable
         public CommitTest()
 #nullable enable
         {
