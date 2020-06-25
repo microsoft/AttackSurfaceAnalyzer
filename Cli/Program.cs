@@ -31,6 +31,8 @@ namespace AttackSurfaceAnalyzer.Cli
         private static readonly List<BaseMonitor> monitors = new List<BaseMonitor>();
         private static List<BaseCompare> comparators = new List<BaseCompare>();
 
+        public static DatabaseManager databaseManager { get; private set; }
+
         private static void SetupDatabase(CommandOptions opts)
         {
             var dbSettings = new DBSettings()
@@ -95,7 +97,7 @@ namespace AttackSurfaceAnalyzer.Cli
                     },
                     errs => 1
                 );
-            DatabaseManager.CloseDatabase();
+            SqliteDatabaseManager.CloseDatabase();
             Log.CloseAndFlush();
             Environment.Exit(argsResult);
         }
@@ -121,7 +123,8 @@ namespace AttackSurfaceAnalyzer.Cli
 
         private static void SetupOrDie(string path, DBSettings? dbSettingsIn = null)
         {
-            var errorCode = DatabaseManager.Setup(path, dbSettingsIn);
+            var databaseManager = new SqliteDatabaseManager(path, dbSettingsIn);
+            var errorCode = databaseManager.Setup(path, dbSettingsIn);
 
             if (errorCode != ASA_ERROR.NONE)
             {
@@ -171,7 +174,7 @@ namespace AttackSurfaceAnalyzer.Cli
             if (opts.ResetDatabase)
             {
                 var filename = opts.DatabaseFilename;
-                DatabaseManager.Destroy(opts.DatabaseFilename);
+                SqliteDatabaseManager.Destroy(opts.DatabaseFilename);
                 Log.Information(Strings.Get("DeletedDatabaseAt"), filename);
             }
             else
@@ -182,20 +185,20 @@ namespace AttackSurfaceAnalyzer.Cli
 
                 if (opts.ListRuns)
                 {
-                    if (DatabaseManager.FirstRun)
+                    if (SqliteDatabaseManager.FirstRun)
                     {
                         Log.Warning(Strings.Get("FirstRunListRunsError"), opts.DatabaseFilename);
                     }
                     else
                     {
                         Log.Information(Strings.Get("DumpingDataFromDatabase"), opts.DatabaseFilename);
-                        List<string> CollectRuns = DatabaseManager.GetRuns(RUN_TYPE.COLLECT);
+                        List<string> CollectRuns = SqliteDatabaseManager.GetRuns(RUN_TYPE.COLLECT);
                         if (CollectRuns.Count > 0)
                         {
                             Log.Information(Strings.Get("Begin"), Strings.Get("EnumeratingCollectRunIds"));
                             foreach (string runId in CollectRuns)
                             {
-                                var run = DatabaseManager.GetRun(runId);
+                                var run = SqliteDatabaseManager.GetRun(runId);
 
                                 if (run is AsaRun)
                                 {
@@ -204,7 +207,7 @@ namespace AttackSurfaceAnalyzer.Cli
                                     run.Version,
                                     run.RunId);
 
-                                    var resultTypesAndCounts = DatabaseManager.GetResultTypesAndCounts(run.RunId);
+                                    var resultTypesAndCounts = SqliteDatabaseManager.GetResultTypesAndCounts(run.RunId);
 
                                     foreach (var kvPair in resultTypesAndCounts)
                                     {
@@ -218,14 +221,14 @@ namespace AttackSurfaceAnalyzer.Cli
                             Log.Information(Strings.Get("NoCollectRuns"));
                         }
 
-                        List<string> MonitorRuns = DatabaseManager.GetRuns(RUN_TYPE.MONITOR);
+                        List<string> MonitorRuns = SqliteDatabaseManager.GetRuns(RUN_TYPE.MONITOR);
                         if (MonitorRuns.Count > 0)
                         {
                             Log.Information(Strings.Get("Begin"), Strings.Get("EnumeratingMonitorRunIds"));
 
                             foreach (string monitorRun in MonitorRuns)
                             {
-                                var run = DatabaseManager.GetRun(monitorRun);
+                                var run = SqliteDatabaseManager.GetRun(monitorRun);
 
                                 if (run != null)
                                 {
@@ -247,11 +250,11 @@ namespace AttackSurfaceAnalyzer.Cli
 
                 if (opts.DeleteRunId != null)
                 {
-                    DatabaseManager.DeleteRun(opts.DeleteRunId);
+                    SqliteDatabaseManager.DeleteRun(opts.DeleteRunId);
                 }
                 if (opts.TrimToLatest)
                 {
-                    DatabaseManager.TrimToLatest();
+                    SqliteDatabaseManager.TrimToLatest();
                 }
             }
             return 0;
@@ -279,7 +282,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 if (opts.SecondRunId is null)
                 {
                     Log.Information("Provided null second run id using latest run.");
-                    List<string> runIds = DatabaseManager.GetLatestRunIds(1, RUN_TYPE.COLLECT);
+                    List<string> runIds = SqliteDatabaseManager.GetLatestRunIds(1, RUN_TYPE.COLLECT);
                     if (runIds.Count < 1)
                     {
                         Log.Fatal(Strings.Get("Err_CouldntDetermineOneRun"));
@@ -296,7 +299,7 @@ namespace AttackSurfaceAnalyzer.Cli
             else if (opts.FirstRunId is null || opts.SecondRunId is null)
             {
                 Log.Information("Provided null run Ids using latest two runs.");
-                List<string> runIds = DatabaseManager.GetLatestRunIds(2, RUN_TYPE.COLLECT);
+                List<string> runIds = SqliteDatabaseManager.GetLatestRunIds(2, RUN_TYPE.COLLECT);
 
                 if (runIds.Count < 2)
                 {
@@ -425,7 +428,7 @@ namespace AttackSurfaceAnalyzer.Cli
             foreach (RESULT_TYPE ExportType in ToExport)
             {
                 Log.Information("Exporting {0}", ExportType);
-                List<CompareResult> records = DatabaseManager.GetComparisonResults(BaseId, CompareId, ExportType);
+                List<CompareResult> records = SqliteDatabaseManager.GetComparisonResults(BaseId, CompareId, ExportType);
 
                 actualExported.Add(ExportType, records.Count);
 
@@ -460,7 +463,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
         private static void CheckFirstRun()
         {
-            if (DatabaseManager.FirstRun)
+            if (SqliteDatabaseManager.FirstRun)
             {
                 string exeStr = $"config --telemetry-opt-out";
                 Log.Information(Strings.Get("ApplicationHasTelemetry"));
@@ -488,7 +491,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             if (opts.RunId is null)
             {
-                List<string> runIds = DatabaseManager.GetLatestRunIds(1, RUN_TYPE.MONITOR);
+                List<string> runIds = SqliteDatabaseManager.GetLatestRunIds(1, RUN_TYPE.MONITOR);
 
                 if (runIds.Count < 1)
                 {
@@ -518,7 +521,7 @@ namespace AttackSurfaceAnalyzer.Cli
             var invalidFileNameChars = Path.GetInvalidPathChars().ToList();
             OutputPath = new string(OutputPath.Select(ch => invalidFileNameChars.Contains(ch) ? Convert.ToChar(invalidFileNameChars.IndexOf(ch) + 65) : ch).ToArray());
 
-            List<FileMonitorEvent> records = DatabaseManager.GetSerializedMonitorResults(RunId);
+            List<FileMonitorEvent> records = SqliteDatabaseManager.GetSerializedMonitorResults(RunId);
 
             JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings()
             {
@@ -570,11 +573,11 @@ namespace AttackSurfaceAnalyzer.Cli
 
             if (opts.Overwrite)
             {
-                DatabaseManager.DeleteRun(opts.RunId);
+                SqliteDatabaseManager.DeleteRun(opts.RunId);
             }
             else
             {
-                if (DatabaseManager.GetRun(opts.RunId) != null)
+                if (SqliteDatabaseManager.GetRun(opts.RunId) != null)
                 {
                     Log.Error(Strings.Get("Err_RunIdAlreadyUsed"));
                     return (int)ASA_ERROR.UNIQUE_ID;
@@ -582,13 +585,13 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             var run = new AsaRun(RunId: opts.RunId, Timestamp: DateTime.Now, Version: AsaHelpers.GetVersionString(), Platform: AsaHelpers.GetPlatform(), new List<RESULT_TYPE>() { RESULT_TYPE.FILEMONITOR }, RUN_TYPE.MONITOR);
 
-            DatabaseManager.InsertRun(run);
+            SqliteDatabaseManager.InsertRun(run);
 
             int returnValue = 0;
 
             if (opts.EnableFileSystemMonitor)
             {
-                monitors.Add(new FileSystemMonitor(opts, x => DatabaseManager.WriteFileMonitor(x, opts.RunId)));
+                monitors.Add(new FileSystemMonitor(opts, x => SqliteDatabaseManager.WriteFileMonitor(x, opts.RunId)));
             }
 
             //if (opts.EnableRegistryMonitor)
@@ -668,7 +671,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             FlushResults();
 
-            DatabaseManager.Commit();
+            SqliteDatabaseManager.Commit();
 
             return returnValue;
         }
@@ -697,7 +700,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             if (opts.SaveToDatabase)
             {
-                DatabaseManager.InsertCompareRun(opts.FirstRunId, opts.SecondRunId, RUN_STATUS.RUNNING);
+                SqliteDatabaseManager.InsertCompareRun(opts.FirstRunId, opts.SecondRunId, RUN_STATUS.RUNNING);
             }
 
             comparators = new List<BaseCompare>();
@@ -723,7 +726,7 @@ namespace AttackSurfaceAnalyzer.Cli
             if (opts.Analyze)
             {
                 watch = Stopwatch.StartNew();
-                Analyzer analyzer = new Analyzer(DatabaseManager.RunIdToPlatform(opts.SecondRunId), opts.AnalysesFile);
+                Analyzer analyzer = new Analyzer(SqliteDatabaseManager.RunIdToPlatform(opts.SecondRunId), opts.AnalysesFile);
 
                 var violations = analyzer.VerifyRules();
                 Analyzer.PrintViolations(violations);
@@ -771,7 +774,7 @@ namespace AttackSurfaceAnalyzer.Cli
                         {
                             foreach (var result in Queue)
                             {
-                                DatabaseManager.InsertAnalyzed(result);
+                                SqliteDatabaseManager.InsertAnalyzed(result);
                             }
                         }
                     }
@@ -789,10 +792,10 @@ namespace AttackSurfaceAnalyzer.Cli
 
             if (opts.SaveToDatabase)
             {
-                DatabaseManager.UpdateCompareRun(opts.FirstRunId, opts.SecondRunId, RUN_STATUS.COMPLETED);
+                SqliteDatabaseManager.UpdateCompareRun(opts.FirstRunId, opts.SecondRunId, RUN_STATUS.COMPLETED);
             }
 
-            DatabaseManager.Commit();
+            SqliteDatabaseManager.Commit();
             AsaTelemetry.TrackEvent("End Command", EndEvent);
             return c.Results;
         }
@@ -805,7 +808,7 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             if (opts.EnableFileSystemMonitor)
             {
-                monitors.Add(new FileSystemMonitor(opts, x => DatabaseManager.Write(x, opts.RunId)));
+                monitors.Add(new FileSystemMonitor(opts, x => SqliteDatabaseManager.Write(x, opts.RunId)));
             }
 
             if (monitors.Count == 0)
@@ -832,7 +835,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             FlushResults();
 
-            DatabaseManager.Commit();
+            SqliteDatabaseManager.Commit();
 
             return 0;
         }
@@ -900,7 +903,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             if (opts.MatchedCollectorId != null)
             {
-                var matchedRun = DatabaseManager.GetRun(opts.MatchedCollectorId);
+                var matchedRun = SqliteDatabaseManager.GetRun(opts.MatchedCollectorId);
                 if (matchedRun is AsaRun)
                 {
                     foreach (var resultType in matchedRun.ResultTypes)
@@ -951,7 +954,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
             }
 
-            Action<CollectObject> defaultChangeHandler = x => DatabaseManager.Write(x, opts.RunId);
+            Action<CollectObject> defaultChangeHandler = x => SqliteDatabaseManager.Write(x, opts.RunId);
 
             var dict = new List<RESULT_TYPE>();
 
@@ -1019,11 +1022,11 @@ namespace AttackSurfaceAnalyzer.Cli
 
             if (opts.Overwrite)
             {
-                DatabaseManager.DeleteRun(opts.RunId);
+                SqliteDatabaseManager.DeleteRun(opts.RunId);
             }
             else
             {
-                if (DatabaseManager.GetRun(opts.RunId) != null)
+                if (SqliteDatabaseManager.GetRun(opts.RunId) != null)
                 {
                     Log.Error(Strings.Get("Err_RunIdAlreadyUsed"));
                     return (int)ASA_ERROR.UNIQUE_ID;
@@ -1033,7 +1036,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             var run = new AsaRun(RunId: opts.RunId, Timestamp: DateTime.Now, Version: AsaHelpers.GetVersionString(), Platform: AsaHelpers.GetPlatform(), ResultTypes: dict, Type: RUN_TYPE.COLLECT);
 
-            DatabaseManager.InsertRun(run);
+            SqliteDatabaseManager.InsertRun(run);
 
             Log.Information(Strings.Get("StartingN"), collectors.Count.ToString(CultureInfo.InvariantCulture), Strings.Get("Collectors"));
 
@@ -1044,7 +1047,7 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 Log.Information("Cancelling collection. Rolling back transaction. Please wait to avoid corrupting database.");
                 source.Cancel();
-                DatabaseManager.CloseDatabase();
+                SqliteDatabaseManager.CloseDatabase();
                 Environment.Exit(-1);
             };
 
@@ -1053,13 +1056,13 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 try
                 {
-                    DatabaseManager.BeginTransaction();
+                    SqliteDatabaseManager.BeginTransaction();
 
                     c.TryExecute(token);
 
                     FlushResults();
 
-                    DatabaseManager.Commit();
+                    SqliteDatabaseManager.Commit();
                 }
                 catch (Exception e)
                 {
@@ -1074,13 +1077,13 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             AsaTelemetry.TrackEvent("End Command", EndEvent);
 
-            DatabaseManager.Commit();
+            SqliteDatabaseManager.Commit();
             return returnValue;
         }
 
         private static void FlushResults()
         {
-            var prevFlush = DatabaseManager.QueueSize;
+            var prevFlush = SqliteDatabaseManager.QueueSize;
             var totFlush = prevFlush;
 
             var printInterval = new TimeSpan(0, 0, 10);
@@ -1091,12 +1094,12 @@ namespace AttackSurfaceAnalyzer.Cli
             TimeSpan t = new TimeSpan();
             string answer = string.Empty;
             bool warnedToIncreaseShards = false;
-            var settings = DatabaseManager.GetCurrentSettings();
+            var settings = SqliteDatabaseManager.GetCurrentSettings();
 
-            while (DatabaseManager.HasElements)
+            while (SqliteDatabaseManager.HasElements)
             {
                 Thread.Sleep(100);
-                if (!DatabaseManager.HasElements)
+                if (!SqliteDatabaseManager.HasElements)
                 {
                     break;
                 }
@@ -1109,7 +1112,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 if (now - then > printInterval)
                 {
                     var actualDuration = now - then;
-                    var sample = DatabaseManager.QueueSize;
+                    var sample = SqliteDatabaseManager.QueueSize;
                     var curRate = prevFlush - sample;
                     var totRate = (double)(totFlush - sample) / StopWatch.ElapsedMilliseconds;
 

@@ -100,7 +100,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <param name="firstRunId">The Base run id.</param>
         /// <param name="secondRunId">The Compare run id.</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Collecting telemetry on exceptions.")]
-        public void Compare(string? firstRunId, string secondRunId)
+        public void Compare(string? firstRunId, string secondRunId, DatabaseManager databaseManager)
         {
             if (firstRunId == null)
             {
@@ -110,17 +110,22 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
             }
 
+            if (databaseManager == null)
+            {
+                throw new ArgumentNullException(nameof(databaseManager));
+            }
+
             IEnumerable<(CollectObject, string)> differentObjects;
             IEnumerable<(CollectObject, CollectObject)> modifyObjects = new List<(CollectObject, CollectObject)>();
             // Single run export mode
             if (firstRunId == null)
             {
-                differentObjects = DatabaseManager.GetResultsByRunid(secondRunId).Select(x => (x.ColObj, x.RunId));
+                differentObjects = databaseManager.GetResultsByRunid(secondRunId).Select(x => (x.ColObj, x.RunId));
             }
             else
             {
-                differentObjects = DatabaseManager.GetAllMissing(firstRunId, secondRunId).Select(y => (y.ColObj, y.RunId));
-                modifyObjects = DatabaseManager.GetModified(firstRunId, secondRunId).Select(y => (y.Item1.ColObj, y.Item2.ColObj));
+                differentObjects = databaseManager.GetAllMissing(firstRunId, secondRunId).Select(y => (y.ColObj, y.RunId));
+                modifyObjects = databaseManager.GetModified(firstRunId, secondRunId).Select(y => (y.Item1.ColObj, y.Item2.ColObj));
             }
 
             Compare(differentObjects, modifyObjects, firstRunId, secondRunId);
@@ -338,10 +343,10 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// <param name="firstRunId">The Base run id.</param>
         /// <param name="secondRunId">The Compare run id.</param>
         /// <returns></returns>
-        public bool TryCompare(string? firstRunId, string secondRunId)
+        public bool TryCompare(string? firstRunId, string secondRunId, DatabaseManager databaseManager)
         {
             Start();
-            Compare(firstRunId, secondRunId);
+            Compare(firstRunId, secondRunId, databaseManager);
             Stop();
             return true;
         }
