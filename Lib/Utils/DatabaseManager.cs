@@ -18,6 +18,26 @@ namespace AttackSurfaceAnalyzer.Utils
     public abstract class DatabaseManager
     {
         public bool FirstRun { get; internal set; } = true;
+        public abstract bool HasElements { get; }
+
+        public string Location { get; internal set; } = "asa.db";
+        public abstract int QueueSize { get; }
+
+        public static void Destroy(string sqliteFilename)
+        {
+            var directory = Path.GetDirectoryName(sqliteFilename);
+            if (string.IsNullOrEmpty(directory))
+            {
+                directory = ".";
+            }
+            var toDelete = Directory.EnumerateFiles(directory, sqliteFilename);
+            foreach (var file in toDelete)
+            {
+                File.Delete(file);
+            }
+        }
+
+        public static int ModuloString(string identity, int shardingFactor) => identity.Sum(x => x) % shardingFactor;
 
         public abstract void BeginTransaction();
 
@@ -46,6 +66,8 @@ namespace AttackSurfaceAnalyzer.Utils
         public abstract List<CompareResult> GetComparisonResults(string baseId, string compareId, int resultType, int offset, int numResults);
 
         public abstract int GetComparisonResultsCount(string baseId, string compareId, int resultType);
+
+        public abstract DBSettings GetCurrentSettings();
 
         public abstract List<string> GetLatestRunIds(int numberOfIds, RUN_TYPE type);
 
@@ -99,8 +121,6 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public abstract void InsertRun(AsaRun run);
 
-        public static int ModuloString(string identity, int shardingFactor) => identity.Sum(x => x) % shardingFactor;
-
         public abstract void RollBack();
 
         public abstract PLATFORM RunIdToPlatform(string runid);
@@ -122,7 +142,8 @@ namespace AttackSurfaceAnalyzer.Utils
         public abstract void TrimToLatest();
 
         public abstract void UpdateCompareRun(string? firstRunId, string secondRunId, RUN_STATUS runStatus);
-        public abstract bool HasElements { get; }
+
+        public abstract void Vacuum();
 
         /// <summary>
         ///     Used for testing.

@@ -200,7 +200,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             opts.Debug = Logger.Debug;
             opts.Quiet = Logger.Quiet;
 
-            opts.DatabaseFilename = AttackSurfaceAnalyzerClient.DatabaseManager.SqliteFilename;
+            opts.DatabaseFilename = AttackSurfaceAnalyzerClient.DatabaseManager.Location;
 
             foreach (BaseCollector c in AttackSurfaceAnalyzerClient.GetCollectors())
             {

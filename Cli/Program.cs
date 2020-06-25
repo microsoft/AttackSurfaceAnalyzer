@@ -125,7 +125,7 @@ namespace AttackSurfaceAnalyzer.Cli
         private static void SetupOrDie(string path, DBSettings? dbSettingsIn = null)
         {
             var databaseManager = new SqliteDatabaseManager(path, dbSettingsIn);
-            var errorCode = databaseManager.Setup(path, dbSettingsIn);
+            var errorCode = databaseManager.Setup();
 
             if (errorCode != ASA_ERROR.NONE)
             {
@@ -548,7 +548,6 @@ namespace AttackSurfaceAnalyzer.Cli
 #endif
             AdminOrQuit();
 
-
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("Files", opts.EnableFileSystemMonitor.ToString(CultureInfo.InvariantCulture));
             StartEvent.Add("Admin", AsaHelpers.IsAdmin().ToString(CultureInfo.InvariantCulture));
@@ -702,7 +701,7 @@ namespace AttackSurfaceAnalyzer.Cli
             Dictionary<string, string> EndEvent = new Dictionary<string, string>();
             BaseCompare c = new BaseCompare();
             var watch = System.Diagnostics.Stopwatch.StartNew();
-            if (!c.TryCompare(opts.FirstRunId, opts.SecondRunId))
+            if (!c.TryCompare(opts.FirstRunId, opts.SecondRunId, DatabaseManager))
             {
                 Log.Warning(Strings.Get("Err_Comparing") + " : {0}", c.GetType().Name);
             }

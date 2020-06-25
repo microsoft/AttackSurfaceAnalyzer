@@ -15,10 +15,46 @@ using System.Threading;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
+    public class DBSettings
+    {
+        public int BatchSize { get; set; } = 100;
+        public int FlushCount { get; set; } = -1;
+        public string JournalMode { get; set; } = "DELETE";
+        public string LockingMode { get; set; } = "NORMAL";
+        public bool LowMemoryUsage { get; set; } = false;
+        public int PageSize { get; set; } = 4096;
+        public int ShardingFactor { get; set; } = 7;
+        public string Synchronous { get; set; } = "OFF";
+    }
+
     public class SqliteDatabaseManager : DatabaseManager
     {
         // Max number of elements to keep in Queue if LowMemoryUsage mode is enabled.
         public const int LOW_MEMORY_CUTOFF = 1000;
+
+        public SqliteDatabaseManager(string filename, DBSettings? dbSettingsIn = null)
+        {
+            dbSettings = (dbSettingsIn == null) ? new DBSettings() : dbSettingsIn;
+
+            if (filename != null)
+            {
+                if (Location != filename)
+                {
+                    if (Path.IsPathRooted(filename))
+                    {
+                        Location = filename;
+                    }
+                    else
+                    {
+                        Location = $"{Directory.GetCurrentDirectory()}{Path.DirectorySeparatorChar}{filename}";
+                    }
+                }
+            }
+            else
+            {
+                Location = $"{Directory.GetCurrentDirectory()}{Path.DirectorySeparatorChar}asa.sqlite";
+            }
+        }
 
         public List<SqlConnectionHolder> Connections { get; private set; } = new List<SqlConnectionHolder>();
 
@@ -42,8 +78,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        public int QueueSize { get { return Connections.Sum(x => x.WriteQueue.Count); } }
-        public string SqliteFilename { get; private set; } = "asa.Sqlite";
+        public override int QueueSize { get { return Connections.Sum(x => x.WriteQueue.Count); } }
 
         public override void BeginTransaction()
         {
@@ -84,20 +119,6 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             Connections.AsParallel().ForAll(x => x.Destroy());
             Connections.RemoveAll(x => true);
-        }
-
-        public static void Destroy(string sqliteFilename)
-        {
-            var directory = Path.GetDirectoryName(sqliteFilename);
-            if (string.IsNullOrEmpty(directory))
-            {
-                directory = ".";
-            }
-            var toDelete = Directory.EnumerateFiles(directory, sqliteFilename);
-            foreach (var file in toDelete)
-            {
-                File.Delete(file);
-            }
         }
 
         public bool EstablishMainConnection()
@@ -304,7 +325,7 @@ namespace AttackSurfaceAnalyzer.Utils
             return result_count;
         }
 
-        public DBSettings GetCurrentSettings()
+        public override DBSettings GetCurrentSettings()
         {
             return dbSettings;
         }
@@ -804,26 +825,6 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        public SqliteDatabaseManager(string filename, DBSettings? dbSettingsIn = null)
-        {
-            dbSettings = (dbSettingsIn == null) ? new DBSettings() : dbSettingsIn;
-
-            if (filename != null)
-            {
-                if (SqliteFilename != filename)
-                {
-                    if (Path.IsPathRooted(filename))
-                    {
-                        SqliteFilename = filename;
-                    }
-                    else
-                    {
-                        SqliteFilename = $"{Directory.GetCurrentDirectory()}{Path.DirectorySeparatorChar}{filename}";
-                    }
-                }
-            }
-        }
-
         public override ASA_ERROR Setup()
         {
             // Clean up if we were already open.
@@ -831,14 +832,13 @@ namespace AttackSurfaceAnalyzer.Utils
 
             if (!EstablishMainConnection())
             {
-                Log.Fatal(Strings.Get("FailedToEstablishMainConnection"), SqliteFilename);
+                Log.Fatal(Strings.Get("FailedToEstablishMainConnection"), Location);
                 return ASA_ERROR.FAILED_TO_ESTABLISH_MAIN_DB_CONNECTION;
             }
 
             var settingsFromDb = GetSettings();
             if (settingsFromDb != null)
             {
-
                 FirstRun = false;
 
                 if (SCHEMA_VERSION != settingsFromDb.SchemaVersion)
@@ -865,7 +865,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
             if (MainConnection == null)
             {
-                Log.Fatal(Strings.Get("FailedToEstablishMainConnection"), SqliteFilename);
+                Log.Fatal(Strings.Get("FailedToEstablishMainConnection"), Location);
                 return ASA_ERROR.FAILED_TO_ESTABLISH_MAIN_DB_CONNECTION;
             }
 
@@ -989,7 +989,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        public void Vacuum()
+        public override void Vacuum()
         {
             Connections.AsParallel().ForAll(cxn =>
             {
@@ -1085,24 +1085,12 @@ namespace AttackSurfaceAnalyzer.Utils
         {
             if (i == 0)
             {
-                return new SqlConnectionHolder(SqliteFilename, dbSettings);
+                return new SqlConnectionHolder(Location, dbSettings);
             }
             else
             {
-                return new SqlConnectionHolder($"{SqliteFilename}_{i}", dbSettings);
+                return new SqlConnectionHolder($"{Location}_{i}", dbSettings);
             }
         }
-    }
-
-    public class DBSettings
-    {
-        public int BatchSize { get; set; } = 100;
-        public int FlushCount { get; set; } = -1;
-        public string JournalMode { get; set; } = "DELETE";
-        public string LockingMode { get; set; } = "NORMAL";
-        public bool LowMemoryUsage { get; set; } = false;
-        public int PageSize { get; set; } = 4096;
-        public int ShardingFactor { get; set; } = 7;
-        public string Synchronous { get; set; } = "OFF";
     }
 }
