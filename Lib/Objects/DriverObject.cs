@@ -37,9 +37,10 @@ namespace AttackSurfaceAnalyzer.Objects
         public long? Init { get; set; }
         public DateTime? LinkDate { get; set; }
         public List<string>? LinkedAgainst { get; set; }
-        public string? Name { get; set; }
+        public string Name { get; set; }
         public long? PagedPool { get; set; }
         public string? Path { get; set; }
+        public Dictionary<string, string>? Properties { get; set; }
         public int? Refs { get; set; }
         public Signature? Signature { get; set; }
         public string? Size { get; set; }

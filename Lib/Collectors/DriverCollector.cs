@@ -1,11 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
-using AttackSurfaceAnalyzer.Utils;
 using Medallion.Shell;
 using Serilog;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -27,7 +25,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public override bool CanRunOnPlatform()
         {
-            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         }
 
         /// <summary>
@@ -51,7 +49,50 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         private void ExecuteLinux(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var command = Command.Run("lsmod");
+            command.Wait();
+            var result = command.Result;
+
+            if (result != null)
+            {
+                var lines = result.StandardOutput.Split(Environment.NewLine)[1..];
+                foreach (var driverLine in lines)
+                {
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        return;
+                    }
+
+                    var driverLineSplits = driverLine.Split(' ');
+                    var innerCommand = Command.Run("modinfo", driverLineSplits[0]);
+                    innerCommand.Wait();
+                    var innerResult = innerCommand.Result;
+
+                    if (innerResult != null)
+                    {
+                        var modInfoLines = innerResult.StandardOutput.Split(Environment.NewLine);
+                        var modInfoDict = new Dictionary<string, string>();
+
+                        foreach (var modInfoLine in modInfoLines)
+                        {
+                            var lineSplit = modInfoLine.Split(' ');
+                            modInfoDict[lineSplit[0].Trim(':')] = lineSplit[1];
+                        }
+
+                        // TODO: Extract more of these properties into their own fields
+                        var obj = new DriverObject(modInfoDict["filename"])
+                        {
+                            Description = modInfoDict["description"],
+                            Version = modInfoDict["srcversion"],
+                            Properties = modInfoDict,
+                            Size = driverLineSplits[1],
+                            LinkedAgainst = driverLineSplits.Length > 3 ? driverLineSplits[3].Split(',').ToList() : null
+                        };
+
+                        HandleChange(obj);
+                    }
+                }
+            }
         }
 
         private void ExecuteMacOs(CancellationToken cancellationToken)
