@@ -57,7 +57,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             Dictionary<string, RUN_STATUS> dict = new Dictionary<string, RUN_STATUS>();
             Dictionary<string, object> output = new Dictionary<string, object>();
 
-            var RunId = DatabaseManager.GetLatestRunIds(1, RUN_TYPE.COLLECT);
+            var RunId = AttackSurfaceAnalyzerClient.DatabaseManager.GetLatestRunIds(1, RUN_TYPE.COLLECT);
 
             if (RunId.Count > 0)
             {
@@ -90,17 +90,17 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         public ActionResult GetLatestRunId()
         {
-            return Json(HttpUtility.UrlEncode(DatabaseManager.GetLatestRunIds(1, RUN_TYPE.COLLECT)[0]));
+            return Json(HttpUtility.UrlEncode(AttackSurfaceAnalyzerClient.DatabaseManager.GetLatestRunIds(1, RUN_TYPE.COLLECT)[0]));
         }
 
         public ActionResult GetMonitorResults(string RunId, int Offset, int NumResults)
         {
-            List<FileMonitorObject> results = DatabaseManager.GetMonitorResults(RunId, Offset, NumResults);
+            List<FileMonitorObject> results = AttackSurfaceAnalyzerClient.DatabaseManager.GetMonitorResults(RunId, Offset, NumResults);
 
             Dictionary<string, object> output = new Dictionary<string, object>();
 
             output["Results"] = results;
-            output["TotalCount"] = DatabaseManager.GetNumMonitorResults(RunId); ;
+            output["TotalCount"] = AttackSurfaceAnalyzerClient.DatabaseManager.GetNumMonitorResults(RunId); ;
             output["Offset"] = Offset;
             output["Requested"] = NumResults;
             output["Actual"] = results.Count;
@@ -124,12 +124,12 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         public ActionResult GetResults(string BaseId, string CompareId, int ResultType, int Offset, int NumResults)
         {
-            List<CompareResult> results = DatabaseManager.GetComparisonResults(BaseId, CompareId, ResultType, Offset, NumResults);
+            List<CompareResult> results = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResults(BaseId, CompareId, ResultType, Offset, NumResults);
 
             Dictionary<string, object> output = new Dictionary<string, object>();
 
             output["Results"] = results;
-            output["TotalCount"] = DatabaseManager.GetComparisonResultsCount(BaseId, CompareId, ResultType);
+            output["TotalCount"] = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResultsCount(BaseId, CompareId, ResultType);
             output["Offset"] = Offset;
             output["Requested"] = NumResults;
             output["Actual"] = results.Count;
@@ -138,7 +138,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         public ActionResult GetResultTypes(string BaseId, string CompareId)
         {
-            var json_out = DatabaseManager.GetCommonResultTypes(BaseId, CompareId);
+            var json_out = AttackSurfaceAnalyzerClient.DatabaseManager.GetCommonResultTypes(BaseId, CompareId);
 
             return Json(json_out);
         }
@@ -173,7 +173,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 return Json("Comparators already running!");
             }
 
-            if (DatabaseManager.GetComparisonCompleted(opts.FirstRunId, opts.SecondRunId))
+            if (AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonCompleted(opts.FirstRunId, opts.SecondRunId))
             {
                 return Json("Using cached comparison calculations.");
             }
@@ -200,7 +200,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             opts.Debug = Logger.Debug;
             opts.Quiet = Logger.Quiet;
 
-            opts.DatabaseFilename = DatabaseManager.SqliteFilename;
+            opts.DatabaseFilename = AttackSurfaceAnalyzerClient.DatabaseManager.SqliteFilename;
 
             foreach (BaseCollector c in AttackSurfaceAnalyzerClient.GetCollectors())
             {
@@ -217,7 +217,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 return Json(ASA_ERROR.INVALID_ID);
             }
 
-            if (DatabaseManager.GetRun(Id) != null)
+            if (AttackSurfaceAnalyzerClient.DatabaseManager.GetRun(Id) != null)
             {
                 return Json(ASA_ERROR.UNIQUE_ID);
             }
@@ -230,13 +230,13 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
         {
             if (RunId != null)
             {
-                if (DatabaseManager.GetRun(RunId) != null)
+                if (AttackSurfaceAnalyzerClient.DatabaseManager.GetRun(RunId) != null)
                 {
                     return Json(ASA_ERROR.UNIQUE_ID);
                 }
 
                 var run = new AsaRun(RunId: RunId, Timestamp: DateTime.Now, Version: AsaHelpers.GetVersionString(), Platform: AsaHelpers.GetPlatform(), new List<RESULT_TYPE>() { RESULT_TYPE.FILEMONITOR }, RUN_TYPE.MONITOR);
-                DatabaseManager.InsertRun(run);
+                AttackSurfaceAnalyzerClient.DatabaseManager.InsertRun(run);
 
                 MonitorCommandOptions opts = new MonitorCommandOptions
                 {
@@ -273,7 +273,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         private static IEnumerable<DataRunModel> GetMonitorRunModels()
         {
-            List<string> Runs = DatabaseManager.GetRuns(RUN_TYPE.MONITOR);
+            List<string> Runs = AttackSurfaceAnalyzerClient.DatabaseManager.GetRuns(RUN_TYPE.MONITOR);
 
             List<DataRunModel> runModels = new List<DataRunModel>();
 
@@ -287,14 +287,14 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         private static IEnumerable<DataRunModel> GetResultModels()
         {
-            List<DataRunModel> DataModels = DatabaseManager.GetResultModels(RUN_STATUS.COMPLETED);
+            List<DataRunModel> DataModels = AttackSurfaceAnalyzerClient.DatabaseManager.GetResultModels(RUN_STATUS.COMPLETED);
 
             return DataModels;
         }
 
         private static IEnumerable<DataRunModel> GetRunModels()
         {
-            List<string> Runs = DatabaseManager.GetRuns(RUN_TYPE.COLLECT);
+            List<string> Runs = AttackSurfaceAnalyzerClient.DatabaseManager.GetRuns(RUN_TYPE.COLLECT);
 
             List<DataRunModel> runModels = new List<DataRunModel>();
 
