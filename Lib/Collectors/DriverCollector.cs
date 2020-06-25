@@ -2,7 +2,9 @@
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Utils;
 using Medallion.Shell;
+using Serilog;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
@@ -25,7 +27,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public override bool CanRunOnPlatform()
         {
-            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
         }
 
         /// <summary>
@@ -40,6 +42,53 @@ namespace AttackSurfaceAnalyzer.Collectors
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
                 ExecuteLinux(cancellationToken);
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                ExecuteMacOs(cancellationToken);
+            }
+        }
+
+        private void ExecuteMacOs(CancellationToken cancellationToken)
+        {
+            var command = Command.Run("kextstat", "-a", "-l");
+
+            command.Wait();
+            var result = command.Result;
+
+            var results = new List<DriverObject>();
+            if (result != null)
+            {
+                foreach(var driverLine in result.StandardOutput.Split(Environment.NewLine).Where(x => !string.IsNullOrEmpty(x)))
+                {
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        return;
+                    }
+                    try
+                    {
+                        string[] parts = driverLine.Split(' ').Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                        int[] links = parts.Length > 9 ? parts[9..].Select(x => int.Parse(x.Replace("<", "").Replace(">", ""), CultureInfo.InvariantCulture)).ToArray() : Array.Empty<int>();
+                        var obj = new DriverObject(parts[6])
+                        {
+                            Index = int.Parse(parts[0], CultureInfo.InvariantCulture),
+                            Refs = int.Parse(parts[1], CultureInfo.InvariantCulture),
+                            Address = parts[2],
+                            Size = parts[3],
+                            Wired = parts[4],
+                            Architecture = parts[5],
+                            Version = parts[7].Trim('(').Trim(')'),
+                            UUID = parts[8],
+                            LinkedAgainst = results.Where(x => links.Any(y => y == x.Index)).Select(x => x.Identity).ToList()
+                        };
+                        HandleChange(obj);
+                        results.Add(obj);
+                    }
+                    catch(Exception e)
+                    {
+                        Log.Debug("Failed to parse {0}. ({1}:{2})", driverLine, e.GetType(), e.Message);
+                    }
+                }
             }
         }
 

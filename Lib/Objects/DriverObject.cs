@@ -15,13 +15,31 @@ namespace AttackSurfaceAnalyzer.Objects
             ResultType = RESULT_TYPE.DRIVER;
         }
 
-        public bool AcceptPause { get; set; }
+        public int? Index { get; set; }
 
-        public bool AcceptStop { get; set; }
+        public int? Refs { get; set; }
 
-        public long BSS { get; set; }
+        public string? Address { get; set; }
 
-        public long Code { get; set; }
+        public string? Size { get; set; }
+
+        public string? Wired { get; set; }
+
+        public string? Architecture { get; set; }
+
+        public string? Version { get; set; }
+
+        public string? UUID { get; set; }
+
+        public List<string>? LinkedAgainst { get; set; }
+
+        public bool? AcceptPause { get; set; }
+
+        public bool? AcceptStop { get; set; }
+
+        public long? BSS { get; set; }
+
+        public long? Code { get; set; }
 
         public string? Description { get; set; }
 
@@ -37,10 +55,10 @@ namespace AttackSurfaceAnalyzer.Objects
             }
         }
 
-        public long Init { get; set; }
-        public DateTime LinkDate { get; set; }
-        public string Name { get; set; }
-        public long PagedPool { get; set; }
+        public long? Init { get; set; }
+        public DateTime? LinkDate { get; set; }
+        public string? Name { get; set; }
+        public long? PagedPool { get; set; }
         public string? Path { get; set; }
         public string? StartMode { get; set; }
         public string? State { get; set; }

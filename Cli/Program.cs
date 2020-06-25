@@ -1021,7 +1021,7 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             if (opts.EnableDriverCollector || opts.EnableAllCollectors)
             {
-                collectors.Add(new ProcessCollector(opts, defaultChangeHandler));
+                collectors.Add(new DriverCollector(opts, defaultChangeHandler));
                 dict.Add(RESULT_TYPE.DRIVER);
             }
 
