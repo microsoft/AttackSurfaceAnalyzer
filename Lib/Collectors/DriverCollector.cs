@@ -56,7 +56,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             if (result != null)
             {
                 var lines = result.StandardOutput.Split(Environment.NewLine)[1..];
-                foreach (var driverLine in lines)
+                Parallel.ForEach(lines, new ParallelOptions() { CancellationToken = cancellationToken }, driverLine =>
                 {
                     if (cancellationToken.IsCancellationRequested)
                     {
@@ -91,7 +91,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                         HandleChange(obj);
                     }
-                }
+                });
             }
         }
 
