@@ -28,7 +28,6 @@ namespace AttackSurfaceAnalyzer.Objects
         public string? OldName { get; set; }
         public string? OldPath { get; set; }
         public string Path { get; set; }
-        public string? Serialized { get; set; }
         public string? Timestamp { get; set; }
     }
 }

@@ -83,6 +83,9 @@ namespace AttackSurfaceAnalyzer.Utils
                 case RESULT_TYPE.PROCESS:
                     return JsonConvert.DeserializeObject<ProcessObject>(serialized, jsonSettings);
 
+                case RESULT_TYPE.DRIVER:
+                    return JsonConvert.DeserializeObject<DriverObject>(serialized, jsonSettings);
+
                 default:
                     return null;
             }

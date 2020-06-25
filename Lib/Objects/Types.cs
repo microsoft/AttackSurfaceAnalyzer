@@ -390,7 +390,8 @@ namespace AttackSurfaceAnalyzer.Types
         /// <summary>
         ///     A process running on the system
         /// </summary>
-        PROCESS
+        PROCESS,
+        DRIVER
     };
 
     /// <summary>

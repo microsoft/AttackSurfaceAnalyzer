@@ -34,6 +34,7 @@
   </Target>
   
   <ItemGroup>
+    <PackageReference Include="MedallionShell" Version="1.6.1" />
     <PackageReference Include="Microsoft.CST.RecursiveExtractor" Version="0.1.203" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
     <PackageReference Include="CompareNETObjects" Version="4.66.0" />

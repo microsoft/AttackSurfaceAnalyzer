@@ -21,6 +21,9 @@ namespace AttackSurfaceAnalyzer
         [Option('C', "com", Required = false, HelpText = "Enable the COM object collector")]
         public bool EnableComObjectCollector { get; set; }
 
+        [Option('d', "driver", Required = false, HelpText = "Enable the driver collector")]
+        public bool EnableDriverCollector { get; set; }
+
         [Option('l', "logs", Required = false, HelpText = "Enable the Log collector")]
         public bool EnableEventLogCollector { get; set; }
 

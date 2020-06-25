@@ -1019,6 +1019,11 @@ namespace AttackSurfaceAnalyzer.Cli
                 collectors.Add(new ProcessCollector(opts, defaultChangeHandler));
                 dict.Add(RESULT_TYPE.PROCESS);
             }
+            if (opts.EnableDriverCollector || opts.EnableAllCollectors)
+            {
+                collectors.Add(new DriverCollector(opts, defaultChangeHandler));
+                dict.Add(RESULT_TYPE.DRIVER);
+            }
 
             if (collectors.Count == 0)
             {
