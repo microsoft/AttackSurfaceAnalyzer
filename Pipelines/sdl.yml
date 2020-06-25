@@ -8,7 +8,7 @@ schedules:
   displayName: Daily 2am
   branches:
     include:
-    - master
+    - main
     - releases/*
 
 pool:

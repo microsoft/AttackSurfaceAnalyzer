@@ -11,6 +11,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     [JsonExporterAttribute.Full]
     public class LiteDbQueryTests : AsaDatabaseBenchmark
     {
+#nullable disable
         public LiteDbQueryTests()
 #nullable restore
         {
@@ -165,7 +166,6 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         private readonly string RunOneName = "RunOne";
 
         private readonly string RunTwoName = "RunTwo";
-#nullable disable
 
         private void Setup()
         {

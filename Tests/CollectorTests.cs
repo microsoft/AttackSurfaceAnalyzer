@@ -35,7 +35,7 @@ namespace AttackSurfaceAnalyzer.Tests
         }
 
         /// <summary>
-        /// Does not require admin.
+        ///     Does not require admin.
         /// </summary>
         [TestMethod]
         public void TestCertificateCollectorWindows()
@@ -53,7 +53,7 @@ namespace AttackSurfaceAnalyzer.Tests
         }
 
         /// <summary>
-        /// Requires admin.
+        ///     Requires admin.
         /// </summary>
         [TestMethod]
         public void TestComObjectCollector()
@@ -74,7 +74,19 @@ namespace AttackSurfaceAnalyzer.Tests
         }
 
         /// <summary>
-        /// Requires Admin
+        ///     Administrator not required
+        /// </summary>
+        [TestMethod]
+        public void TestDriverCollector()
+        {
+            var dc = new DriverCollector(new CollectCommandOptions());
+            dc.TryExecute();
+
+            Assert.IsTrue(dc.Results.Any());
+        }
+
+        /// <summary>
+        ///     Requires Admin
         /// </summary>
         [TestMethod]
         public void TestEventCollectorWindows()
@@ -154,7 +166,7 @@ namespace AttackSurfaceAnalyzer.Tests
         }
 
         /// <summary>
-        /// Does not require admin
+        ///     Does not require admin
         /// </summary>
         [TestMethod]
         public void TestFileMonitor()
@@ -180,7 +192,7 @@ namespace AttackSurfaceAnalyzer.Tests
         }
 
         /// <summary>
-        /// Requires root.
+        ///     Requires root.
         /// </summary>
         [TestMethod]
         public void TestFirewallCollectorLinux()
@@ -199,7 +211,7 @@ namespace AttackSurfaceAnalyzer.Tests
         }
 
         /// <summary>
-        /// Requires root.
+        ///     Requires root.
         /// </summary>
         [TestMethod]
         public void TestFirewallCollectorOSX()
@@ -266,7 +278,7 @@ namespace AttackSurfaceAnalyzer.Tests
         }
 
         /// <summary>
-        /// Does not require Admin.
+        ///     Does not require Admin.
         /// </summary>
         [TestMethod]
         public void TestPortCollectorWindows()
@@ -303,7 +315,21 @@ namespace AttackSurfaceAnalyzer.Tests
         }
 
         /// <summary>
-        /// Does not require administrator.
+        ///     Administrator recommended
+        /// </summary>
+        [TestMethod]
+        public void TestProcessCollector()
+        {
+            var pc = new ProcessCollector(new CollectCommandOptions());
+            pc.TryExecute();
+
+            var p = Process.GetCurrentProcess();
+
+            Assert.IsTrue(pc.Results.Any(x => x is ProcessObject y && y.ProcessName == p.ProcessName));
+        }
+
+        /// <summary>
+        ///     Does not require administrator.
         /// </summary>
         [TestMethod]
         public void TestRegistryCollectorWindows()
@@ -338,15 +364,14 @@ namespace AttackSurfaceAnalyzer.Tests
         }
 
         /// <summary>
-        /// Requires Administrator Priviledges.
+        ///     Requires Administrator Priviledges.
         /// </summary>
         [TestMethod]
         public void TestServiceCollectorWindows()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                // Create a service - This won't throw an exception, but it won't work if you are
-                // not an Admin.
+                // Create a service - This won't throw an exception, but it won't work if you are not an Admin.
                 var serviceName = "AsaDemoService";
                 var exeName = "AsaDemoService.exe";
                 var cmd = string.Format("create {0} binPath=\"{1}\"", serviceName, exeName);
@@ -370,7 +395,7 @@ namespace AttackSurfaceAnalyzer.Tests
         }
 
         /// <summary>
-        /// Requires Admin
+        ///     Requires Admin
         /// </summary>
         [TestMethod]
         public void TestTpmCollector()
@@ -474,7 +499,7 @@ namespace AttackSurfaceAnalyzer.Tests
         }
 
         /// <summary>
-        /// Requires Administrator Priviledges.
+        ///     Requires Administrator Priviledges.
         /// </summary>
         [TestMethod]
         public void TestUserCollectorWindows()

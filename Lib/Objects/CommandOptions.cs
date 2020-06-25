@@ -21,6 +21,9 @@ namespace AttackSurfaceAnalyzer
         [Option('C', "com", Required = false, HelpText = "Enable the COM object collector")]
         public bool EnableComObjectCollector { get; set; }
 
+        [Option('d', "driver", Required = false, HelpText = "Enable the driver collector")]
+        public bool EnableDriverCollector { get; set; }
+
         [Option('l', "logs", Required = false, HelpText = "Enable the Log collector")]
         public bool EnableEventLogCollector { get; set; }
 
@@ -35,6 +38,9 @@ namespace AttackSurfaceAnalyzer
 
         [Option('p', "network-port", Required = false, HelpText = "Enable the network port collector")]
         public bool EnableNetworkPortCollector { get; set; }
+
+        [Option('P', "process", Required = false, HelpText = "Enable the process information collector")]
+        public bool EnableProcessCollector { get; set; }
 
         [Option('r', "registry", Required = false, HelpText = "Enable the registry collector")]
         public bool EnableRegistryCollector { get; set; }
