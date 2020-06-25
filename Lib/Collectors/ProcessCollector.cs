@@ -1,26 +1,22 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using AttackSurfaceAnalyzer.Objects;
-using AttackSurfaceAnalyzer.Utils;
-using Serilog;
 using System;
 using System.Diagnostics;
-using System.IO;
 using System.Runtime.InteropServices;
-using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace AttackSurfaceAnalyzer.Collectors
 {
     /// <summary>
-    /// Collects metadata from the local certificate stores.
+    ///     Collects metadata about processes on the local computer.
     /// </summary>
     public class ProcessCollector : BaseCollector
     {
         /// <summary>
         /// </summary>
-        /// <param name="opts"></param>
-        /// <param name=""></param>
+        /// <param name="opts"> </param>
+        /// <param name=""> </param>
         public ProcessCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler) { }
 
         public override bool CanRunOnPlatform()
@@ -29,16 +25,15 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Execute the certificate collector.
+        ///     Execute the Process collector.
         /// </summary>
         internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
-            Process[] allProcesses = Process.GetProcesses();
-            foreach (var process in allProcesses)
+            Parallel.ForEach(Process.GetProcesses(), new ParallelOptions() { CancellationToken = cancellationToken }, process =>
             {
                 if (ProcessObject.FromProcess(process) is ProcessObject po)
                     HandleChange(po);
-            }
+            });
         }
     }
 }

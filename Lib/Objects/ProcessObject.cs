@@ -1,4 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,6 +15,12 @@ namespace AttackSurfaceAnalyzer.Objects
             ResultType = Types.RESULT_TYPE.PROCESS;
         }
 
+        public int BasePriority { get; set; }
+
+        public bool HasExited { get; set; }
+
+        public int Id { get; }
+
         /// <summary>
         ///     The identity of a ProcessObject is just the PID.
         /// </summary>
@@ -24,12 +31,6 @@ namespace AttackSurfaceAnalyzer.Objects
                 return $"{Id}:{ProcessName}";
             }
         }
-
-        public int Id { get; }
-
-        public int BasePriority { get; set; }
-
-        public bool HasExited { get; set; }
 
         public ProcessModuleObject? MainModule { get; set; }
 
@@ -44,15 +45,63 @@ namespace AttackSurfaceAnalyzer.Objects
         public static ProcessObject? FromProcess(Process process)
         {
             if (process == null) return null;
-            return new ProcessObject(process.Id, process.ProcessName)
+            var obj = new ProcessObject(process.Id, process.ProcessName);
+
+            try
             {
-                BasePriority = process.BasePriority,
-                HasExited = process.HasExited,
-                MainModule = ProcessModuleObject.FromProcessModule(process.MainModule),
-                Modules = ProcessModuleObject.FromProcessModuleCollection(process.Modules),
-                PriorityClass = process.PriorityClass,
-                StartTime = process.StartTime
-            };
+                obj.BasePriority = process.BasePriority;
+            }
+            catch (Exception e)
+            {
+                Log.Verbose($"Failed to fetch BasePriority from {obj.ProcessName} ({e.GetType()}:{e.Message})");
+            }
+
+            try
+            {
+                obj.PriorityClass = process.PriorityClass;
+            }
+            catch (Exception e)
+            {
+                Log.Verbose($"Failed to fetch PriorityClass from {obj.ProcessName} ({e.GetType()}:{e.Message})");
+            }
+
+            try
+            {
+                obj.StartTime = process.StartTime;
+            }
+            catch (Exception e)
+            {
+                Log.Verbose($"Failed to fetch StartTime from {obj.ProcessName} ({e.GetType()}:{e.Message})");
+            }
+
+            try
+            {
+                obj.HasExited = process.HasExited;
+            }
+            catch (Exception e)
+            {
+                Log.Verbose($"Failed to fetch HasExited from {obj.ProcessName} ({e.GetType()}:{e.Message})");
+            }
+
+            try
+            {
+                obj.Modules = ProcessModuleObject.FromProcessModuleCollection(process.Modules);
+            }
+            catch (Exception e)
+            {
+                Log.Verbose($"Failed to fetch Modules from {obj.ProcessName} ({e.GetType()}:{e.Message})");
+            }
+
+            try
+            {
+                obj.MainModule = ProcessModuleObject.FromProcessModule(process.MainModule);
+            }
+            catch (Exception e)
+            {
+                Log.Verbose($"Failed to fetch MainModule from {obj.ProcessName} ({e.GetType()}:{e.Message})");
+            }
+
+            return obj;
         }
     }
 }
