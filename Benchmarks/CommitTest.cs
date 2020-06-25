@@ -9,6 +9,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     public class CommitTest
     {
 #nullable disable
+
         public CommitTest()
 #nullable enable
         {
@@ -44,7 +45,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         {
             Setup();
             dbManager.BeginTransaction();
-            InsertTestsWithoutTransactions.Insert_X_Objects(N);
+            InsertTestsWithoutTransactions.Insert_X_Objects(N, dbManager);
         }
 
         public void Setup()
