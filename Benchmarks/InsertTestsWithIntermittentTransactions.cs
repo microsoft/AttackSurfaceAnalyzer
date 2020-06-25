@@ -49,28 +49,28 @@ namespace AttackSurfaceAnalyzer.Benchmarks
 
         public static void Insert_X_Objects(int X, int ObjectPadding = 0, string runName = "Insert_X_Objects")
         {
-            DatabaseManager.BeginTransaction();
+            dbManager.BeginTransaction();
 
             Parallel.For(0, X, i =>
             {
                 var obj = GetRandomObject(ObjectPadding);
-                DatabaseManager.Write(obj, runName);
+                dbManager.Write(obj, runName);
                 BagOfObjects.Add(obj);
             });
 
-            while (DatabaseManager.HasElements)
+            while (dbManager.HasElements)
             {
                 Thread.Sleep(1);
             }
 
-            DatabaseManager.Commit();
+            dbManager.Commit();
         }
 
         [GlobalCleanup]
         public void GlobalCleanup()
         {
             Setup();
-            DatabaseManager.Destroy();
+            dbManager.Destroy();
         }
 
         [GlobalSetup]
@@ -85,11 +85,11 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [IterationCleanup]
         public void IterationCleanup()
         {
-            DatabaseManager.BeginTransaction();
-            DatabaseManager.DeleteRun("Insert_N_Objects");
-            DatabaseManager.Commit();
-            DatabaseManager.Vacuum();
-            DatabaseManager.CloseDatabase();
+            dbManager.BeginTransaction();
+            dbManager.DeleteRun("Insert_N_Objects");
+            dbManager.Commit();
+            dbManager.Vacuum();
+            dbManager.CloseDatabase();
         }
 
         [IterationSetup]
@@ -104,17 +104,20 @@ namespace AttackSurfaceAnalyzer.Benchmarks
 
             Insert_X_Objects(StartingSize, ObjectPadding, "PopulateDatabase");
 
-            DatabaseManager.CloseDatabase();
+            dbManager.CloseDatabase();
         }
 
         public void Setup()
         {
-            DatabaseManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite", new DBSettings()
+            dbManager = new SqliteDatabaseManager(filename: $"AsaBenchmark_{Shards}.sqlite", new DBSettings()
             {
                 ShardingFactor = Shards,
                 FlushCount = FlushCount,
                 JournalMode = JournalMode
             });
+            dbManager.Setup();
         }
+
+        private static DatabaseManager dbManager;
     }
 }

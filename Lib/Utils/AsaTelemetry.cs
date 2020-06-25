@@ -28,24 +28,6 @@ namespace AttackSurfaceAnalyzer.Utils
             Client.Context.Cloud.RoleInstance = "Asa";
             Client.Context.Cloud.RoleName = "Asa";
             Client.Context.Location.Ip = "1.1.1.1";
-            DatabaseManager.SetTelemetryEnabled(Enabled);
-        }
-
-        public static void Setup(bool test = false)
-        {
-            if (Client == null)
-            {
-                using var config = TelemetryConfiguration.CreateDefault();
-                Enabled = test ? true : DatabaseManager.GetTelemetryEnabled();
-                config.InstrumentationKey = INSTRUMENTATION_KEY;
-                config.DisableTelemetry = !Enabled;
-                Client = new TelemetryClient(config);
-                Client.Context.Component.Version = AsaHelpers.GetVersionString();
-                // Force some values to static values to prevent gathering unneeded data
-                Client.Context.Cloud.RoleInstance = "Asa";
-                Client.Context.Cloud.RoleName = "Asa";
-                Client.Context.Location.Ip = "1.1.1.1";
-            }
         }
 
         public static void TrackEvent(string name, Dictionary<string, string> evt)

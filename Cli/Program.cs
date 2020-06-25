@@ -31,6 +31,8 @@ namespace AttackSurfaceAnalyzer.Cli
         private static readonly List<BaseMonitor> monitors = new List<BaseMonitor>();
         private static List<BaseCompare> comparators = new List<BaseCompare>();
 
+        public static DatabaseManager DatabaseManager { get; private set; }
+
         private static void SetupDatabase(CommandOptions opts)
         {
             var dbSettings = new DBSettings()
@@ -62,6 +64,7 @@ namespace AttackSurfaceAnalyzer.Cli
                     (CollectCommandOptions opts) =>
                     {
                         SetupDatabase(opts);
+                        AsaTelemetry.SetEnabled(DatabaseManager.GetTelemetryEnabled());
                         return RunCollectCommand(opts);
                     },
                     (MonitorCommandOptions opts) =>
@@ -121,7 +124,8 @@ namespace AttackSurfaceAnalyzer.Cli
 
         private static void SetupOrDie(string path, DBSettings? dbSettingsIn = null)
         {
-            var errorCode = DatabaseManager.Setup(path, dbSettingsIn);
+            var databaseManager = new SqliteDatabaseManager(path, dbSettingsIn);
+            var errorCode = databaseManager.Setup();
 
             if (errorCode != ASA_ERROR.NONE)
             {
@@ -137,8 +141,6 @@ namespace AttackSurfaceAnalyzer.Cli
 #else
             Logger.Setup(opts.Debug, opts.Verbose, opts.Quiet);
 #endif
-            AsaTelemetry.Setup();
-
             var server = WebHost.CreateDefaultBuilder(Array.Empty<string>())
                     .UseStartup<Startup>()
                     .UseKestrel(options =>
@@ -166,8 +168,6 @@ namespace AttackSurfaceAnalyzer.Cli
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1305:Specify IFormatProvider", Justification = "<Pending>")]
         private static int RunConfigCommand(ConfigCommandOptions opts)
         {
-            AsaTelemetry.Setup();
-
             if (opts.ResetDatabase)
             {
                 var filename = opts.DatabaseFilename;
@@ -272,7 +272,6 @@ namespace AttackSurfaceAnalyzer.Cli
             }
 
             CheckFirstRun();
-            AsaTelemetry.Setup();
 
             if (opts.ExportSingleRun)
             {
@@ -484,7 +483,6 @@ namespace AttackSurfaceAnalyzer.Cli
             }
 
             CheckFirstRun();
-            AsaTelemetry.Setup();
 
             if (opts.RunId is null)
             {
@@ -549,8 +547,6 @@ namespace AttackSurfaceAnalyzer.Cli
             Logger.Setup(opts.Debug, opts.Verbose);
 #endif
             AdminOrQuit();
-
-            AsaTelemetry.Setup();
 
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("Files", opts.EnableFileSystemMonitor.ToString(CultureInfo.InvariantCulture));
@@ -704,8 +700,8 @@ namespace AttackSurfaceAnalyzer.Cli
 
             Dictionary<string, string> EndEvent = new Dictionary<string, string>();
             BaseCompare c = new BaseCompare();
-            var watch = Stopwatch.StartNew();
-            if (!c.TryCompare(opts.FirstRunId, opts.SecondRunId))
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+            if (!c.TryCompare(opts.FirstRunId, opts.SecondRunId, DatabaseManager))
             {
                 Log.Warning(Strings.Get("Err_Comparing") + " : {0}", c.GetType().Name);
             }
@@ -873,8 +869,6 @@ namespace AttackSurfaceAnalyzer.Cli
 #endif
 
             collectors.Clear();
-
-            AsaTelemetry.Setup();
 
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("Files", opts.EnableAllCollectors ? "True" : opts.EnableFileSystemCollector.ToString(CultureInfo.InvariantCulture));

@@ -31,7 +31,7 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             Logger.Setup(false, true);
             Strings.Setup();
-            AsaTelemetry.Setup(test: true);
+            AsaTelemetry.SetEnabled(enabled: false);
         }
 
         /// <summary>
@@ -178,7 +178,9 @@ namespace AttackSurfaceAnalyzer.Tests
             var created = Path.GetTempFileName(); // Create a file
             var renamed = $"{created}-renamed";
             File.WriteAllText(created, "Test"); // Change the size
+            Thread.Sleep(50);
             File.Move(created, renamed); // Rename it
+            Thread.Sleep(50);
             File.Delete(renamed); //Delete it
 
             Thread.Sleep(100);

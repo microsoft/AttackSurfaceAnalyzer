@@ -1,5 +1,6 @@
 ﻿using AttackSurfaceAnalyzer.Utils;
 using BenchmarkDotNet.Attributes;
+using System.Data.Entity;
 
 namespace AttackSurfaceAnalyzer.Benchmarks
 {
@@ -8,6 +9,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     public class CommitTest
     {
 #nullable disable
+
         public CommitTest()
 #nullable enable
         {
@@ -29,30 +31,35 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Benchmark]
         public void CommitTransaction()
         {
-            DatabaseManager.Commit();
+            dbManager.Commit();
         }
 
         [IterationCleanup]
         public void IterationCleanup()
         {
-            DatabaseManager.Destroy();
+            dbManager.Destroy();
         }
 
         [IterationSetup]
         public void IterationSetup()
         {
             Setup();
-            DatabaseManager.BeginTransaction();
-            InsertTestsWithoutTransactions.Insert_X_Objects(N);
+            dbManager.BeginTransaction();
+            InsertTestsWithoutTransactions.Insert_X_Objects(N, dbManager);
         }
 
         public void Setup()
         {
-            DatabaseManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite", new DBSettings()
+            dbManager = new SqliteDatabaseManager(filename: $"AsaBenchmark_{Shards}.sqlite", new DBSettings()
             {
                 JournalMode = JournalMode,
                 ShardingFactor = Shards
             });
+            dbManager.Setup();
         }
+
+        private DatabaseManager dbManager;
+
+#nullable disable
     }
 }

@@ -10,6 +10,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     public class SetupTimeTest : AsaDatabaseBenchmark
     {
 #nullable disable
+
         public SetupTimeTest()
 #nullable restore
         {
@@ -44,26 +45,11 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         [Params("OFF", "NORMAL")]
         public string Synchronous { get; set; }
 
-        public static void Insert_X_Objects(int X, int ObjectPadding = 0, string runName = "Insert_X_Objects")
-        {
-            Parallel.For(0, X, i =>
-            {
-                var obj = GetRandomObject(ObjectPadding);
-                DatabaseManager.Write(obj, runName);
-                BagOfObjects.Add(obj);
-            });
-
-            while (DatabaseManager.HasElements)
-            {
-                Thread.Sleep(1);
-            }
-        }
-
         [GlobalCleanup]
         public void GlobalCleanup()
         {
             Setup();
-            DatabaseManager.Destroy();
+            dbManager.Destroy();
         }
 
         [GlobalSetup]
@@ -72,10 +58,25 @@ namespace AttackSurfaceAnalyzer.Benchmarks
             PopulateDatabases();
         }
 
+        public void Insert_X_Objects(int X, int ObjectPadding = 0, string runName = "Insert_X_Objects")
+        {
+            Parallel.For(0, X, i =>
+            {
+                var obj = GetRandomObject(ObjectPadding);
+                dbManager.Write(obj, runName);
+                BagOfObjects.Add(obj);
+            });
+
+            while (dbManager.HasElements)
+            {
+                Thread.Sleep(1);
+            }
+        }
+
         [IterationCleanup]
         public void IterationCleanup()
         {
-            DatabaseManager.CloseDatabase();
+            dbManager.CloseDatabase();
         }
 
         [IterationSetup]
@@ -86,18 +87,20 @@ namespace AttackSurfaceAnalyzer.Benchmarks
         public void PopulateDatabases()
         {
             Setup();
-            DatabaseManager.BeginTransaction();
+            dbManager.BeginTransaction();
 
             Insert_X_Objects(StartingSize, ObjectPadding, "PopulateDatabase");
 
-            DatabaseManager.Commit();
-            DatabaseManager.CloseDatabase();
+            dbManager.Commit();
+            dbManager.CloseDatabase();
         }
+
+        private DatabaseManager dbManager;
 
         [Benchmark]
         private void Setup()
         {
-            DatabaseManager.Setup(filename: $"AsaBenchmark_{Shards}.sqlite", new DBSettings()
+            dbManager = new SqliteDatabaseManager(filename: $"AsaBenchmark_{Shards}.sqlite", new DBSettings()
             {
                 JournalMode = JournalMode,
                 LockingMode = LockingMode,
@@ -105,6 +108,8 @@ namespace AttackSurfaceAnalyzer.Benchmarks
                 ShardingFactor = Shards,
                 Synchronous = Synchronous
             });
+
+            dbManager.Setup();
         }
     }
 }
