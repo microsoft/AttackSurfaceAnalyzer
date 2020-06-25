@@ -15,36 +15,14 @@ namespace AttackSurfaceAnalyzer.Objects
             ResultType = RESULT_TYPE.DRIVER;
         }
 
-        public int? Index { get; set; }
-
-        public int? Refs { get; set; }
-
-        public string? Address { get; set; }
-
-        public string? Size { get; set; }
-
-        public string? Wired { get; set; }
-
-        public string? Architecture { get; set; }
-
-        public string? Version { get; set; }
-
-        public string? UUID { get; set; }
-
-        public List<string>? LinkedAgainst { get; set; }
-
         public bool? AcceptPause { get; set; }
-
         public bool? AcceptStop { get; set; }
-
+        public string? Address { get; set; }
+        public string? Architecture { get; set; }
         public long? BSS { get; set; }
-
         public long? Code { get; set; }
-
         public string? Description { get; set; }
-
         public string? DisplayName { get; set; }
-
         public string? DriverType { get; set; }
 
         public override string Identity
@@ -55,13 +33,22 @@ namespace AttackSurfaceAnalyzer.Objects
             }
         }
 
+        public int? Index { get; set; }
         public long? Init { get; set; }
         public DateTime? LinkDate { get; set; }
+        public List<string>? LinkedAgainst { get; set; }
         public string? Name { get; set; }
         public long? PagedPool { get; set; }
         public string? Path { get; set; }
+        public int? Refs { get; set; }
+        public Signature? Signature { get; set; }
+        public string? Size { get; set; }
+
         public string? StartMode { get; set; }
         public string? State { get; set; }
         public string? Status { get; set; }
+        public string? UUID { get; set; }
+        public string? Version { get; set; }
+        public string? Wired { get; set; }
     }
 }

@@ -49,6 +49,11 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
+        private void ExecuteLinux(CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
         private void ExecuteMacOs(CancellationToken cancellationToken)
         {
             var command = Command.Run("kextstat", "-a", "-l");
@@ -59,7 +64,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             var results = new List<DriverObject>();
             if (result != null)
             {
-                foreach(var driverLine in result.StandardOutput.Split(Environment.NewLine).Where(x => !string.IsNullOrEmpty(x)))
+                foreach (var driverLine in result.StandardOutput.Split(Environment.NewLine).Where(x => !string.IsNullOrEmpty(x)))
                 {
                     if (cancellationToken.IsCancellationRequested)
                     {
@@ -84,17 +89,12 @@ namespace AttackSurfaceAnalyzer.Collectors
                         HandleChange(obj);
                         results.Add(obj);
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         Log.Debug("Failed to parse {0}. ({1}:{2})", driverLine, e.GetType(), e.Message);
                     }
                 }
             }
-        }
-
-        private void ExecuteLinux(CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
         }
 
         private void ExecuteWindows(CancellationToken cancellationToken)
@@ -123,7 +123,8 @@ namespace AttackSurfaceAnalyzer.Collectors
                         BSS = long.Parse(parts[11].Replace(",", ""), CultureInfo.InvariantCulture),
                         LinkDate = string.IsNullOrEmpty(parts[12]) ? DateTime.MinValue : DateTime.Parse(parts[12], CultureInfo.InvariantCulture),
                         Path = parts[13],
-                        Init = long.Parse(parts[14].Replace(",", ""), CultureInfo.InvariantCulture)
+                        Init = long.Parse(parts[14].Replace(",", ""), CultureInfo.InvariantCulture),
+                        Signature = WindowsFileSystemUtils.GetSignatureStatus(parts[13])
                     });
                 });
             }
