@@ -281,7 +281,7 @@
           "Field": "KEY",
           "Operation": "CONTAINS",
           "Data": [
-            "HKEY_LOCAL_MACHINE\\SOFTWARE\\Classes\\CLSID"
+            "HKEY_LOCAL_MACHINE\\\\SOFTWARE\\Classes\\CLSID"
           ]
         }
       ]
@@ -783,7 +783,7 @@
       "Platforms": [
         "MACOS"
       ],
-      "ResultType": "REGISTRY",
+      "ResultType": "FILE",
       "Clauses": [
         {
           "Field": "Key",
@@ -872,17 +872,167 @@
           ]
         }
       ]
+    },
+    {
+      "Name": "TPM Auth Values Changed",
+      "Description": "These TPM Auth Values have been changed in the registry.",
+      "Flag": "WARNING",
+      "ResultType": "REGISTRY",
+      "Platforms": [
+        "WINDOWS"
+      ],
+      "Expression": "PATH AND (OWNER_FULL OR OWNER_NEW OR OWNER_STATUS OR STORAGE OR LOCKOUT)",
+      "Clauses": [
+        {
+          "Label": "PATH",
+          "Field": "Path",
+          "Operation": "ENDS_WITH",
+          "Data": [
+            "\\System\\CurrentControlSet\\Services\\TPM\\WMI\\Admin"
+          ]
+        },
+        {
+          "Label": "OWNER_FULL",
+          "Field": "Values.OwnerAuthFull",
+          "Operation": "WAS_MODIFIED"
+        },
+        {
+          "Label": "OWNER_NEW",
+          "Field": "Values.OwnerAuthNew",
+          "Operation": "WAS_MODIFIED"
+        },
+        {
+          "Label": "OWNER_STATUS",
+          "Field": "Values.OwnerAuthStatus",
+          "Operation": "WAS_MODIFIED"
+        },
+        {
+          "Label": "STORAGE",
+          "Field": "Values.StorageOwnerAuth",
+          "Operation": "WAS_MODIFIED"
+        },
+        {
+          "Label": "LOCKOUT",
+          "Field": "Values.LockoutHash",
+          "Operation": "WAS_MODIFIED"
+        }
+      ]
+    },
+    {
+      "Name": "TPM Endorsement Auth Value",
+      "Description": "The TPM Endorsement Auth was changed.",
+      "Flag": "WARNING",
+      "ResultType": "REGISTRY",
+      "Platforms": [
+        "WINDOWS"
+      ],
+      "Clauses": [
+        {
+          "Field": "Path",
+          "Operation": "ENDS_WITH",
+          "Data": [
+            "\\System\\CurrentControlSet\\Services\\TPM\\WMI\\Endorsement"
+          ]
+        },
+        {
+          "Field": "Values.EndorsementAuth",
+          "Operation": "WAS_MODIFIED"
+        }
+      ]
+    },
+    {
+      "Name": "Use Null Derived Owner Auth Changed",
+      "Description": "The UseNullDerivedOwnerAuth setting was changed.",
+      "Flag": "WARNING",
+      "ResultType": "REGISTRY",
+      "Platforms": [
+        "WINDOWS"
+      ],
+      "Expression": "UNDOA AND (PATH_WMI OR PATH_POLICIES)",
+      "Clauses": [
+        {
+          "Label": "PATH_WMI",
+          "Field": "Path",
+          "Operation": "ENDS_WITH",
+          "Data": [
+            "\\System\\CurrentControlSet\\Services\\TPM\\WMI"
+          ]
+        },
+        {
+          "Label": "PATH_POLICIES",
+          "Field": "Path",
+          "Operation": "ENDS_WITH",
+          "Data": [
+            "\\Software\\Policies\\Microsoft\\TPM"
+          ]
+        },
+        {
+          "Label": "UNDOA",
+          "Field": "Values.UseNullDerivedOwnerAuth",
+          "Operation": "WAS_MODIFIED"
+        }
+      ]
+    },
+    {
+      "Name": "OS Managed Auth Level Changed",
+      "Description": "The TPM OS Managed Auth Level was Changed.",
+      "Flag": "WARNING",
+      "ResultType": "REGISTRY",
+      "Platforms": [
+        "WINDOWS"
+      ],
+      "Clauses": [
+        {
+          "Field": "Path",
+          "Operation": "ENDS_WITH",
+          "Data": [
+            "\\Software\\Policies\\Microsoft\\TPM"
+          ]
+        },
+        {
+          "Field": "Values.OSManagedAuthLevel",
+          "Operation": "WAS_MODIFIED"
+        }
+      ]
+    },
+    {
+      "Name": "Group Policy Modified",
+      "Description": "These registry keys track group policy history and modification may indicate a change in group policy.",
+      "Flag": "WARNING",
+      "Platforms": [
+        "WINDOWS"
+      ],
+      "ResultType": "REGISTRY",
+      "Expression": "SYSTEM_POLICY OR USER_POLICY",
+      "Clauses": [
+        {
+          "Field": "Key",
+          "Operation": "STARTS_WITH",
+          "Label": "SYSTEM_POLICY",
+          "Data": [
+            "HKEY_LOCAL_MACHINE\\\\Software\\Microsoft\\Windows\\CurrentVersion\\Group Policy\\History"
+          ]
+        },
+        {
+          "Field": "Key",
+          "Operation": "STARTS_WITH",
+          "Label": "USER_POLICY",
+          "Data": [
+            "HKEY_CURRENT_USER\\\\Software\\Microsoft\\Windows\\CurrentVersion\\Group Policy\\History"
+          ]
+        }
+      ]
     }
   ],
   "DefaultLevels": {
-      "PORT": "INFORMATION",
-      "FILE": "DEBUG",
-      "SERVICE": "INFORMATION",
-      "CERTIFICATE": "INFORMATION",
-      "USER": "INFORMATION",
-      "REGISTRY": "DEBUG",
-      "FIREWALL": "INFORMATION",
-      "COM": "INFORMATION",
-      "LOG": "DEBUG"
+    "PORT": "INFORMATION",
+    "FILE": "DEBUG",
+    "SERVICE": "INFORMATION",
+    "CERTIFICATE": "INFORMATION",
+    "USER": "INFORMATION",
+    "REGISTRY": "DEBUG",
+    "FIREWALL": "INFORMATION",
+    "COM": "INFORMATION",
+    "LOG": "DEBUG",
   }
 }
