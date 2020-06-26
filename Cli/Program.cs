@@ -124,8 +124,8 @@ namespace AttackSurfaceAnalyzer.Cli
 
         private static void SetupOrDie(string path, DBSettings? dbSettingsIn = null)
         {
-            var databaseManager = new SqliteDatabaseManager(path, dbSettingsIn);
-            var errorCode = databaseManager.Setup();
+            DatabaseManager = new SqliteDatabaseManager(path, dbSettingsIn);
+            var errorCode = DatabaseManager.Setup();
 
             if (errorCode != ASA_ERROR.NONE)
             {

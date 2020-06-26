@@ -281,7 +281,7 @@
           "Field": "KEY",
           "Operation": "CONTAINS",
           "Data": [
-            "HKEY_LOCAL_MACHINE\\SOFTWARE\\Classes\\CLSID"
+            "HKEY_LOCAL_MACHINE\\\\SOFTWARE\\Classes\\CLSID"
           ]
         }
       ]
@@ -783,7 +783,7 @@
       "Platforms": [
         "MACOS"
       ],
-      "ResultType": "REGISTRY",
+      "ResultType": "FILE",
       "Clauses": [
         {
           "Field": "Key",
@@ -1287,6 +1287,34 @@
           "Field": "PCRs.(Sm3256, 7)",
           "Operation": "WAS_MODIFIED",
           "Label": "SM3_256_PCR7"
+        }
+      ]
+    },
+    {
+      "Name": "Group Policy Modified",
+      "Description": "These registry keys track group policy history and modification may indicate a change in group policy.",
+      "Flag": "WARNING",
+      "Platforms": [
+        "WINDOWS"
+      ],
+      "ResultType": "REGISTRY",
+      "Expression": "SYSTEM_POLICY OR USER_POLICY",
+      "Clauses": [
+        {
+          "Field": "Key",
+          "Operation": "STARTS_WITH",
+          "Label": "SYSTEM_POLICY",
+          "Data": [
+            "HKEY_LOCAL_MACHINE\\\\Software\\Microsoft\\Windows\\CurrentVersion\\Group Policy\\History"
+          ]
+        },
+        {
+          "Field": "Key",
+          "Operation": "STARTS_WITH",
+          "Label": "USER_POLICY",
+          "Data": [
+            "HKEY_CURRENT_USER\\\\Software\\Microsoft\\Windows\\CurrentVersion\\Group Policy\\History"
+          ]
         }
       ]
     }
