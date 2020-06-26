@@ -783,7 +783,7 @@
       "Platforms": [
         "MACOS"
       ],
-      "ResultType": "REGISTRY",
+      "ResultType": "FILE",
       "Clauses": [
         {
           "Field": "Key",
