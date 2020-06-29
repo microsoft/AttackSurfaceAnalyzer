@@ -130,7 +130,7 @@ stages:
       displayName: Code Sign Linux
       inputs:
         ConnectedServiceName: 'CodeSignforATSAN'
-        FolderPath: '$(Build.BinariesDirectory)/linux/ASA_$(ReleaseVersion)'
+        FolderPath: '$(Build.BinariesDirectory)/linux/ASA_linux_$(ReleaseVersion)'
         Pattern: 'Asa.dll, AsaLib.dll, Asa.Views.dll'
         signConfigType: 'inlineSignParams'
         inlineOperation: |
@@ -163,7 +163,7 @@ stages:
       displayName: Code Sign MacOS
       inputs:
         ConnectedServiceName: 'CodeSignforATSAN'
-        FolderPath: '$(Build.BinariesDirectory)/macos/ASA_$(ReleaseVersion)'
+        FolderPath: '$(Build.BinariesDirectory)/macos/ASA_macos_$(ReleaseVersion)'
         Pattern: 'Asa.dll, AsaLib.dll, Asa.Views.dll'
         signConfigType: 'inlineSignParams'
         inlineOperation: |
@@ -196,7 +196,7 @@ stages:
       displayName: Code Sign Windows
       inputs:
         ConnectedServiceName: 'CodeSignforATSAN'
-        FolderPath: '$(Build.BinariesDirectory)/win/ASA_$(ReleaseVersion)'
+        FolderPath: '$(Build.BinariesDirectory)/win/ASA_win_$(ReleaseVersion)'
         Pattern: 'Asa.exe, Asa.dll, AsaLib.dll, Asa.Views.dll'
         signConfigType: 'inlineSignParams'
         inlineOperation: |
@@ -229,7 +229,7 @@ stages:
       displayName: Code Sign .NET Core App
       inputs:
         ConnectedServiceName: 'CodeSignforATSAN'
-        FolderPath: '$(Build.BinariesDirectory)/netcoreapp/ASA_$(ReleaseVersion)'
+        FolderPath: '$(Build.BinariesDirectory)/netcoreapp/ASA_netcoreapp_$(ReleaseVersion)'
         Pattern: 'Asa.exe, Asa.dll, AsaLib.dll, Asa.Views.dll'
         signConfigType: 'inlineSignParams'
         inlineOperation: |
@@ -290,7 +290,7 @@ stages:
     - task: ArchiveFiles@2
       displayName: Archive Artifact - Linux
       inputs:
-        rootFolderOrFile: '$(Build.BinariesDirectory)/linux/ASA_$(ReleaseVersion)'
+        rootFolderOrFile: '$(Build.BinariesDirectory)/linux/ASA_linux_$(ReleaseVersion)'
         includeRootFolder: true
         archiveType: 'zip'
         archiveFile: '$(Build.StagingDirectory)/ASA_linux_$(ReleaseVersion).zip'
@@ -298,7 +298,7 @@ stages:
     - task: ArchiveFiles@2
       displayName: Archive Artifact - MacOS
       inputs:
-        rootFolderOrFile: '$(Build.BinariesDirectory)/macos/ASA_$(ReleaseVersion)'
+        rootFolderOrFile: '$(Build.BinariesDirectory)/macos/ASA_macos_$(ReleaseVersion)'
         includeRootFolder: true
         archiveType: 'zip'
         archiveFile: '$(Build.StagingDirectory)/ASA_macos_$(ReleaseVersion).zip'
@@ -306,7 +306,7 @@ stages:
     - task: ArchiveFiles@2
       displayName: Archive Artifact - Windows
       inputs:
-        rootFolderOrFile: '$(Build.BinariesDirectory)/win/ASA_$(ReleaseVersion)'
+        rootFolderOrFile: '$(Build.BinariesDirectory)/win/ASA_win_$(ReleaseVersion)'
         includeRootFolder: true
         archiveType: 'zip'
         archiveFile: '$(Build.StagingDirectory)/ASA_win_$(ReleaseVersion).zip'
@@ -314,7 +314,7 @@ stages:
     - task: ArchiveFiles@2
       displayName: Archive Artifact - .NET Core App
       inputs:
-        rootFolderOrFile: '$(Build.BinariesDirectory)/netcoreapp/ASA_$(ReleaseVersion)'
+        rootFolderOrFile: '$(Build.BinariesDirectory)/netcoreapp/ASA_netcoreapp_$(ReleaseVersion)'
         includeRootFolder: true
         archiveType: 'zip'
         archiveFile: '$(Build.StagingDirectory)/ASA_netcoreapp_$(ReleaseVersion).zip'
