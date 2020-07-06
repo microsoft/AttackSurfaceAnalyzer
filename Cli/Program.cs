@@ -882,6 +882,9 @@ namespace AttackSurfaceAnalyzer.Cli
             StartEvent.Add("EventLog", opts.EnableEventLogCollector.ToString(CultureInfo.InvariantCulture));
             StartEvent.Add("Tpm", opts.EnableEventLogCollector.ToString(CultureInfo.InvariantCulture));
             StartEvent.Add("Keys", opts.EnableKeyCollector.ToString(CultureInfo.InvariantCulture));
+            StartEvent.Add("Drivers", opts.EnableDriverCollector.ToString(CultureInfo.InvariantCulture));
+            StartEvent.Add("Process", opts.EnableProcessCollector.ToString(CultureInfo.InvariantCulture));
+            StartEvent.Add("Wifi", opts.EnableWifiCollector.ToString(CultureInfo.InvariantCulture));
             StartEvent.Add("Admin", AsaHelpers.IsAdmin().ToString(CultureInfo.InvariantCulture));
             AsaTelemetry.TrackEvent("Run Command", StartEvent);
 
@@ -943,6 +946,14 @@ namespace AttackSurfaceAnalyzer.Cli
 
                             case RESULT_TYPE.PROCESS:
                                 opts.EnableProcessCollector = true;
+                                break;
+
+                            case RESULT_TYPE.DRIVER:
+                                opts.EnableDriverCollector = true;
+                                break;
+
+                            case RESULT_TYPE.WIFI:
+                                opts.EnableWifiCollector = true;
                                 break;
                         }
                     }
@@ -1017,6 +1028,11 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 collectors.Add(new DriverCollector(opts, defaultChangeHandler));
                 dict.Add(RESULT_TYPE.DRIVER);
+            }
+            if (opts.EnableWifiCollector || opts.EnableAllCollectors)
+            {
+                collectors.Add(new WifiCollector(opts, defaultChangeHandler));
+                dict.Add(RESULT_TYPE.WIFI);
             }
 
             if (collectors.Count == 0)
