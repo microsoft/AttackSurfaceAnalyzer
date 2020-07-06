@@ -54,6 +54,9 @@ namespace AttackSurfaceAnalyzer
         [Option('u', "user", Required = false, HelpText = "Enable the user and group account collector")]
         public bool EnableUserCollector { get; set; }
 
+        [Option('w', "wifi", Required = false, HelpText = "Enable the saved Wifi information collector")]
+        public bool EnableWifiCollector { get; set; }
+
         [Option('h', "gather-hashes", Required = false, HelpText = "Hashes every file when using the File Collector.  May dramatically increase run time of the scan.")]
         public bool GatherHashes { get; set; }
 
@@ -77,6 +80,9 @@ namespace AttackSurfaceAnalyzer
 
         [Option(HelpText = "Force singlethreaded collectors.")]
         public bool SingleThread { get; set; }
+
+        [Option(HelpText = "Gather passwords when gathering wifi networks.")]
+        public bool GatherWifiPasswords { get; internal set; }
     }
 
     public class CommandOptions
