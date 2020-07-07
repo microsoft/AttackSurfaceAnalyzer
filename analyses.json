@@ -58,7 +58,7 @@
         {
           "Label": "valid_windows_signature",
           "Field": "SignatureStatus",
-          "Operation": "NEQ",
+          "Operation": "EQ",
           "Data": [
             "Valid"
           ]
@@ -1330,6 +1330,10 @@
     "COM": "INFORMATION",
     "LOG": "DEBUG",
     "TPM": "INFORMATION",
-    "KEY": "INFORMATION"
+    "KEY": "INFORMATION",
+    "PROCESS": "INFORMATION",
+    "DRIVER": "INFORMATION",
+    "WIFI": "INFORMATION",
+    "FILEMONITOR": "DEBUG"
   }
 }

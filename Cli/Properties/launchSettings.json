@@ -12,52 +12,52 @@
       "commandName": "Project",
       "commandLineArgs": "collect -w --singlethread",
       "launchBrowser": true,
+      "applicationUrl": "http://localhost:5002",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "http://localhost:5002"
+      }
     },
     "Verify Rules": {
       "commandName": "Project",
       "commandLineArgs": "verify",
+      "applicationUrl": "http://localhost:5000/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "http://localhost:5000/"
+      }
     },
     "AttackSurfaceAnalyzer.Cli": {
       "commandName": "Project",
       "launchBrowser": true,
+      "applicationUrl": "http://localhost:44285",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "http://localhost:44285"
+      }
     },
     "Export-Collect": {
       "commandName": "Project",
       "commandLineArgs": "export-collect",
       "launchBrowser": true,
+      "applicationUrl": "http://localhost:5000/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "http://localhost:5000/"
+      }
     },
     "Gui": {
       "commandName": "Project",
       "commandLineArgs": "gui",
+      "applicationUrl": "http://localhost:5000/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "http://localhost:5000/"
+      }
     },
     "Asa": {
       "commandName": "Project",
       "commandLineArgs": "gui",
       "launchBrowser": true,
+      "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "http://localhost:5000"
+      }
     }
   }
 }

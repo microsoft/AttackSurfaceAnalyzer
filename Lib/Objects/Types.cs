@@ -391,7 +391,15 @@ namespace AttackSurfaceAnalyzer.Types
         ///     A process running on the system
         /// </summary>
         PROCESS,
+
+        /// <summary>
+        ///     A driver
+        /// </summary>
         DRIVER,
+
+        /// <summary>
+        ///     A wifi network
+        /// </summary>
         WIFI
     };
 
