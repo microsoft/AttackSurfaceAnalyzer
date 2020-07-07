@@ -98,17 +98,16 @@ namespace AttackSurfaceAnalyzer.Collectors
                 try
                 {
                     XElement wifiDump = XElement.Load(path);
-                    var name = wifiDump.Descendants().Where(x => x.Name.LocalName == "name").First().Value;
-                    string? password = null;
-                    var passwdEnumerable = wifiDump.Descendants().Where(x => x.Name.LocalName == "keyMaterial");
-                    if (passwdEnumerable.Any())
+                    var name = wifiDump.Descendants().Where(x => x.Name.LocalName == "name").FirstOrDefault().Value;
+                    
+                    if (name != null)
                     {
-                        password = passwdEnumerable.First().Value;
+                        HandleChange(new WifiObject(name) {
+                            Password = wifiDump.Descendants().Where(x => x.Name.LocalName == "keyMaterial").FirstOrDefault()?.Value,
+                            Authentication = wifiDump.Descendants().Where(x => x.Name.LocalName == "authentication").FirstOrDefault().Value,
+                            Encryption = wifiDump.Descendants().Where(x => x.Name.LocalName == "encryption").FirstOrDefault().Value
+                        });
                     }
-                    var authentication = wifiDump.Descendants().Where(x => x.Name.LocalName == "authentication").First().Value;
-                    var encryption = wifiDump.Descendants().Where(x => x.Name.LocalName == "encryption").First().Value;
-
-                    HandleChange(new WifiObject(name) { Password = password, Authentication = authentication, Encryption = encryption });
                 }
                 catch(Exception e)
                 {
