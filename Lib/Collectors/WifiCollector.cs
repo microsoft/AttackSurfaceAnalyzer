@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -41,12 +42,17 @@ namespace AttackSurfaceAnalyzer.Collectors
             string tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
             Directory.CreateDirectory(tempDirectory);
 
+            var monitoredFiles = new List<string>();
+
             using var fsm = new FileSystemMonitor(new MonitorCommandOptions() 
             { 
                 FileNamesOnly = true, 
                 MonitoredDirectories = tempDirectory 
             }, 
-            x => ParseNetShXmlFromFile(x?.Path));
+            x =>
+            {
+                if (x != null) { monitoredFiles.Add(x.Path); }
+            });
 
             fsm.StartRun();
             
@@ -62,19 +68,47 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
 
             fsm.StopRun();
+
+            var distinctXmlFiles = monitoredFiles.Distinct().Where(x => Path.GetExtension(x) == ".xml");
+
+            if (opts.SingleThread)
+            {
+                foreach(var xmlFile in distinctXmlFiles)
+                {
+                    if (token.IsCancellationRequested)
+                    {
+                        return;
+                    }
+                    ParseNetShXmlFromFile(xmlFile);
+                }
+            }
+            else
+            {
+                Parallel.ForEach(distinctXmlFiles, new ParallelOptions() { CancellationToken = token }, xmlFile =>
+                {
+                    ParseNetShXmlFromFile(xmlFile);
+                });
+            }
         }
 
-        private void ParseNetShXmlFromFile(string? nullablePath)
+        private void ParseNetShXmlFromFile(string path)
         {
-            if (nullablePath is string path && Path.GetExtension(nullablePath) == ".xml")
+            if (Path.GetExtension(path) == ".xml")
             {
                 try
                 {
                     XElement wifiDump = XElement.Load(path);
                     var name = wifiDump.Descendants().Where(x => x.Name.LocalName == "name").First().Value;
-                    var password = wifiDump.Descendants().Where(x => x.Name.LocalName == "keyMaterial").First().Value;
+                    string? password = null;
+                    var passwdEnumerable = wifiDump.Descendants().Where(x => x.Name.LocalName == "keyMaterial");
+                    if (passwdEnumerable.Any())
+                    {
+                        password = passwdEnumerable.First().Value;
+                    }
+                    var authentication = wifiDump.Descendants().Where(x => x.Name.LocalName == "authentication").First().Value;
+                    var encryption = wifiDump.Descendants().Where(x => x.Name.LocalName == "encryption").First().Value;
 
-                    HandleChange(new WifiObject(name) { Password = password });
+                    HandleChange(new WifiObject(name) { Password = password, Authentication = authentication, Encryption = encryption });
                 }
                 catch(Exception e)
                 {

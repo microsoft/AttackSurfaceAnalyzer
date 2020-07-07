@@ -14,6 +14,8 @@ namespace AttackSurfaceAnalyzer.Objects
         public string SSID { get; }
 
         public string? Password { get; set; }
+        public string? Authentication { get; set; }
+        public string? Encryption { get; set; }
 
         public WifiObject(string SSID)
         {

@@ -10,7 +10,7 @@
   "profiles": {
     "Collect": {
       "commandName": "Project",
-      "commandLineArgs": "collect -w",
+      "commandLineArgs": "collect -w --singlethread",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
