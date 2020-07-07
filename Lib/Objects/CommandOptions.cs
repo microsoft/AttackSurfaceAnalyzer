@@ -82,7 +82,7 @@ namespace AttackSurfaceAnalyzer
         public bool SingleThread { get; set; }
 
         [Option(HelpText = "Gather passwords when gathering wifi networks.")]
-        public bool GatherWifiPasswords { get; internal set; }
+        public bool GatherWifiPasswords { get; set; }
     }
 
     public class CommandOptions

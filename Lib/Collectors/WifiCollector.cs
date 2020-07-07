@@ -16,7 +16,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 {
     public class WifiCollector : BaseCollector
     {
-        public WifiCollector(CollectCommandOptions? options, Action<CollectObject>? action):base(options,action)
+        public WifiCollector(CollectCommandOptions? options = null, Action<CollectObject>? action = null):base(options,action)
         {
         }
 
