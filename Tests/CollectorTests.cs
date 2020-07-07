@@ -42,7 +42,7 @@ namespace AttackSurfaceAnalyzer.Tests
         public void TestWifiCollector()
         {
             var wc = new WifiCollector();
-            wc.ExecuteInternal();
+            wc.TryExecute();
         }
 
         /// <summary>
