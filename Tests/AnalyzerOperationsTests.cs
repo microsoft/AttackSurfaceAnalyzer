@@ -11,8 +11,6 @@ namespace AttackSurfaceAnalyzer.Tests
     [TestClass]
     public class AnalyzerTests
     {
-        #region Private Fields
-
         private const string TestPathOne = "TestPath1";
         private const string TestPathTwo = "TestPath2";
 
@@ -42,10 +40,6 @@ namespace AttackSurfaceAnalyzer.Tests
             Base = new FileSystemObject(TestPathTwo)
         };
 
-        #endregion Private Fields
-
-        #region Public Methods
-
         [ClassInitialize]
         public static void ClassSetup(TestContext _)
         {
@@ -58,7 +52,7 @@ namespace AttackSurfaceAnalyzer.Tests
         public void TestXorFromNand()
         {
             var RuleName = "XOR from NAND";
-            var norRule = new Rule(RuleName)
+            var norRule = new AsaRule(RuleName)
             {
                 Expression = "(0 NAND (0 NAND 1)) NAND (1 NAND (0 NAND 1))",
                 ResultType = RESULT_TYPE.FILE,
@@ -80,12 +74,13 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var analyzer = GetAnalyzerForRule(norRule);
+            var analyzer = new Analyzer();
+            var ruleList = new List<Rule>() { norRule };
 
-            Assert.IsTrue(analyzer.Analyze(testPathOneObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(!analyzer.Analyze(testPathTwoObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(!analyzer.Analyze(testPathOneExecutableObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(analyzer.Analyze(ruleList, testPathOneObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(!analyzer.Analyze(ruleList, testPathTwoObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(!analyzer.Analyze(ruleList, testPathOneExecutableObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(analyzer.Analyze(ruleList, testPathTwoExecutableObject).Any(x => x.Name == RuleName));
         }
 
         [TestMethod]
@@ -103,7 +98,7 @@ namespace AttackSurfaceAnalyzer.Tests
             };
 
             var RuleName = "ContainsRule";
-            var containsRule = new Rule(RuleName)
+            var containsRule = new AsaRule(RuleName)
             {
                 ResultType = RESULT_TYPE.REGISTRY,
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
@@ -120,15 +115,16 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var analyzer = GetAnalyzerForRule(containsRule);
-            Assert.IsTrue(analyzer.Analyze(regObj).Any(x => x.Name == RuleName));
+            var analyzer = new Analyzer();
+            var ruleList = new List<Rule>() { containsRule };
+            Assert.IsTrue(analyzer.Analyze(ruleList,regObj).Any(x => x.Name == RuleName));
         }
 
         [TestMethod]
         public void VerifyAnd()
         {
             var RuleName = "AndRule";
-            var andRule = new Rule(RuleName)
+            var andRule = new AsaRule(RuleName)
             {
                 Expression = "0 AND 1",
                 ResultType = RESULT_TYPE.FILE,
@@ -150,26 +146,26 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var analyzer = GetAnalyzerForRule(andRule);
+            var analyzer = new Analyzer();
+            var ruleList = new List<Rule>() { andRule };
 
-            Assert.IsTrue(!analyzer.Analyze(testPathOneObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(!analyzer.Analyze(testPathTwoObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(!analyzer.Analyze(testPathTwoExecutableObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(!analyzer.Analyze(ruleList, testPathOneObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(!analyzer.Analyze(ruleList, testPathTwoObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(analyzer.Analyze(ruleList, testPathOneExecutableObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(!analyzer.Analyze(ruleList, testPathTwoExecutableObject).Any(x => x.Name == RuleName));
         }
 
         [TestMethod]
         public void VerifyEmbeddedRulesAreValid()
         {
             var ruleFile = RuleFile.LoadEmbeddedFilters();
-            var analyzer = new Analyzer(ruleFile.GetRules(),ruleFile.DefaultLevels);
-            Assert.IsTrue(!analyzer.VerifyRules().Any());
+            Assert.IsTrue(!Analyzer.VerifyRules(ruleFile.GetRules()).Any());
         }
 
         [TestMethod]
         public void VerifyInvalidRuleDetection()
         {
-            var invalidRule = new Rule("Unbalanced Parentheses")
+            var invalidRule = new AsaRule("Unbalanced Parentheses")
             {
                 Expression = "( 0 AND 1",
                 ResultType = RESULT_TYPE.FILE,
@@ -197,7 +193,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsFalse(VerifyRule(invalidRule));
 
-            invalidRule = new Rule("ClauseInParenthesesLabel")
+            invalidRule = new AsaRule("ClauseInParenthesesLabel")
             {
                 Expression = "WITH(PARENTHESIS)",
                 ResultType = RESULT_TYPE.FILE,
@@ -213,7 +209,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsFalse(VerifyRule(invalidRule));
 
-            invalidRule = new Rule("CharactersBetweenParentheses")
+            invalidRule = new AsaRule("CharactersBetweenParentheses")
             {
                 Expression = "(W(I",
                 ResultType = RESULT_TYPE.FILE,
@@ -229,7 +225,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsFalse(VerifyRule(invalidRule));
 
-            invalidRule = new Rule("CharactersBeforeOpenParentheses")
+            invalidRule = new AsaRule("CharactersBeforeOpenParentheses")
             {
                 Expression = "W(I",
                 ResultType = RESULT_TYPE.FILE,
@@ -245,7 +241,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsFalse(VerifyRule(invalidRule));
 
-            invalidRule = new Rule("CharactersBetweenClosedParentheses")
+            invalidRule = new AsaRule("CharactersBetweenClosedParentheses")
             {
                 Expression = "(0 AND W)I)",
                 ResultType = RESULT_TYPE.FILE,
@@ -265,7 +261,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsFalse(VerifyRule(invalidRule));
 
-            invalidRule = new Rule("CharactersAfterClosedParentheses")
+            invalidRule = new AsaRule("CharactersAfterClosedParentheses")
             {
                 Expression = "0 AND W)I",
                 ResultType = RESULT_TYPE.FILE,
@@ -285,7 +281,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsFalse(VerifyRule(invalidRule));
 
-            invalidRule = new Rule("MultipleConsecutiveNots")
+            invalidRule = new AsaRule("MultipleConsecutiveNots")
             {
                 Expression = "0 AND NOT NOT 1",
                 ResultType = RESULT_TYPE.FILE,
@@ -305,7 +301,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsFalse(VerifyRule(invalidRule));
 
-            invalidRule = new Rule("CloseParenthesesWithNot")
+            invalidRule = new AsaRule("CloseParenthesesWithNot")
             {
                 Expression = "(0 AND NOT) 1",
                 ResultType = RESULT_TYPE.FILE,
@@ -325,7 +321,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsFalse(VerifyRule(invalidRule));
 
-            invalidRule = new Rule("WhiteSpaceLabel")
+            invalidRule = new AsaRule("WhiteSpaceLabel")
             {
                 Expression = "0 AND   ",
                 ResultType = RESULT_TYPE.FILE,
@@ -341,7 +337,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsFalse(VerifyRule(invalidRule));
 
-            invalidRule = new Rule("InvalidOperator")
+            invalidRule = new AsaRule("InvalidOperator")
             {
                 Expression = "0 XAND 1",
                 ResultType = RESULT_TYPE.FILE,
@@ -361,7 +357,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsFalse(VerifyRule(invalidRule));
 
-            invalidRule = new Rule("InvalidNotOperator")
+            invalidRule = new AsaRule("InvalidNotOperator")
             {
                 Expression = "0 NOT AND 1",
                 ResultType = RESULT_TYPE.FILE,
@@ -381,7 +377,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsFalse(VerifyRule(invalidRule));
 
-            invalidRule = new Rule("EndsWithOperator")
+            invalidRule = new AsaRule("EndsWithOperator")
             {
                 Expression = "0 AND",
                 ResultType = RESULT_TYPE.FILE,
@@ -397,7 +393,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsFalse(VerifyRule(invalidRule));
 
-            invalidRule = new Rule("UnusedLabel")
+            invalidRule = new AsaRule("UnusedLabel")
             {
                 Expression = "0",
                 ResultType = RESULT_TYPE.FILE,
@@ -417,7 +413,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsFalse(VerifyRule(invalidRule));
 
-            invalidRule = new Rule("MissingLabel")
+            invalidRule = new AsaRule("MissingLabel")
             {
                 ResultType = RESULT_TYPE.FILE,
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
@@ -433,7 +429,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsFalse(VerifyRule(invalidRule));
 
-            invalidRule = new Rule("ExpressionRequiresLabels")
+            invalidRule = new AsaRule("ExpressionRequiresLabels")
             {
                 Expression = "0 AND 1",
                 ResultType = RESULT_TYPE.FILE,
@@ -447,7 +443,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsFalse(VerifyRule(invalidRule));
 
-            invalidRule = new Rule("OutOfOrder")
+            invalidRule = new AsaRule("OutOfOrder")
             {
                 Expression = "0 1 AND",
                 ResultType = RESULT_TYPE.FILE,
@@ -471,7 +467,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsFalse(VerifyRule(invalidRule));
 
-            invalidRule = new Rule("StartWithOperator")
+            invalidRule = new AsaRule("StartWithOperator")
             {
                 Expression = "OR 0 1",
                 ResultType = RESULT_TYPE.FILE,
@@ -499,7 +495,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsFalse(VerifyRule(invalidRule));
 
-            invalidRule = new Rule("Case Sensitivity")
+            invalidRule = new AsaRule("Case Sensitivity")
             {
                 Expression = "Variable",
                 ResultType = RESULT_TYPE.FILE,
@@ -520,7 +516,7 @@ namespace AttackSurfaceAnalyzer.Tests
         public void VerifyNand()
         {
             var RuleName = "NandRule";
-            var nandRule = new Rule(RuleName)
+            var nandRule = new AsaRule(RuleName)
             {
                 Expression = "0 NAND 1",
                 ResultType = RESULT_TYPE.FILE,
@@ -542,19 +538,20 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var analyzer = GetAnalyzerForRule(nandRule);
+            var analyzer = new Analyzer();
+            var ruleList = new List<Rule>() { nandRule };
 
-            Assert.IsTrue(!analyzer.Analyze(testPathOneObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(analyzer.Analyze(testPathTwoObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(!analyzer.Analyze(ruleList, testPathOneObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(analyzer.Analyze(ruleList, testPathTwoObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(analyzer.Analyze(ruleList, testPathOneExecutableObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(analyzer.Analyze(ruleList, testPathTwoExecutableObject).Any(x => x.Name == RuleName));
         }
 
         [TestMethod]
         public void VerifyNor()
         {
             var RuleName = "NorRule";
-            var norRule = new Rule(RuleName)
+            var norRule = new AsaRule(RuleName)
             {
                 Expression = "0 NOR 1",
                 ResultType = RESULT_TYPE.FILE,
@@ -580,19 +577,20 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var analyzer = GetAnalyzerForRule(norRule);
+            var analyzer = new Analyzer();
+            var ruleList = new List<Rule>() { norRule };
 
-            Assert.IsTrue(!analyzer.Analyze(testPathOneObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(analyzer.Analyze(testPathTwoObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(!analyzer.Analyze(testPathOneExecutableObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(!analyzer.Analyze(testPathTwoExecutableObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(!analyzer.Analyze(ruleList, testPathOneObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(analyzer.Analyze(ruleList, testPathTwoObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(!analyzer.Analyze(ruleList, testPathOneExecutableObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(!analyzer.Analyze(ruleList, testPathTwoExecutableObject).Any(x => x.Name == RuleName));
         }
 
         [TestMethod]
         public void VerifyNot()
         {
             var RuleName = "NotRule";
-            var notRule = new Rule(RuleName)
+            var notRule = new AsaRule(RuleName)
             {
                 Expression = "NOT 0",
                 ResultType = RESULT_TYPE.FILE,
@@ -610,17 +608,18 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var analyzer = GetAnalyzerForRule(notRule);
+            var analyzer = new Analyzer();
+            var ruleList = new List<Rule>() { notRule };
 
-            Assert.IsTrue(!analyzer.Analyze(testPathOneObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(analyzer.Analyze(testPathTwoObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(!analyzer.Analyze(ruleList, testPathOneObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(analyzer.Analyze(ruleList, testPathTwoObject).Any(x => x.Name == RuleName));
         }
 
         [TestMethod]
         public void VerifyOr()
         {
             var RuleName = "OrRule";
-            var orRule = new Rule(RuleName)
+            var orRule = new AsaRule(RuleName)
             {
                 Expression = "0 OR 1",
                 ResultType = RESULT_TYPE.FILE,
@@ -642,18 +641,19 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var analyzer = GetAnalyzerForRule(orRule);
+            var analyzer = new Analyzer();
+            var ruleList = new List<Rule>() { orRule };
 
-            Assert.IsTrue(analyzer.Analyze(testPathOneObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(!analyzer.Analyze(testPathTwoObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(analyzer.Analyze(testPathOneExecutableObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(analyzer.Analyze(ruleList, testPathOneObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(!analyzer.Analyze(ruleList, testPathTwoObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(analyzer.Analyze(ruleList, testPathOneExecutableObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(analyzer.Analyze(ruleList, testPathTwoExecutableObject).Any(x => x.Name == RuleName));
         }
 
         [TestMethod]
         public void VerifyValidRuleDetection()
         {
-            var validRule = new Rule("Regular Rule")
+            var validRule = new AsaRule("Regular Rule")
             {
                 Expression = "0 AND 1",
                 ResultType = RESULT_TYPE.FILE,
@@ -681,7 +681,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsTrue(VerifyRule(validRule));
 
-            validRule = new Rule("Extraneous Parenthesis")
+            validRule = new AsaRule("Extraneous Parenthesis")
             {
                 Expression = "(0 AND 1)",
                 ResultType = RESULT_TYPE.FILE,
@@ -709,7 +709,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsTrue(VerifyRule(validRule));
 
-            validRule = new Rule("Deeply Nested Expression")
+            validRule = new AsaRule("Deeply Nested Expression")
             {
                 Expression = "(0 AND 1) OR (2 XOR (3 AND (4 NAND 5)) OR 6)",
                 ResultType = RESULT_TYPE.FILE,
@@ -757,7 +757,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsTrue(VerifyRule(validRule));
 
-            validRule = new Rule("StringsForClauseLabels")
+            validRule = new AsaRule("StringsForClauseLabels")
             {
                 Expression = "FOO AND BAR OR BA$_*",
                 ResultType = RESULT_TYPE.FILE,
@@ -786,7 +786,7 @@ namespace AttackSurfaceAnalyzer.Tests
         public void VerifyXor()
         {
             var RuleName = "XorRule";
-            var xorRule = new Rule(RuleName)
+            var xorRule = new AsaRule(RuleName)
             {
                 Expression = "0 XOR 1",
                 ResultType = RESULT_TYPE.FILE,
@@ -808,32 +808,18 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var analyzer = GetAnalyzerForRule(xorRule);
+            var analyzer = new Analyzer();
+            var ruleList = new List<Rule>() { xorRule };
 
-            Assert.IsTrue(analyzer.Analyze(testPathOneObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(!analyzer.Analyze(testPathTwoObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(!analyzer.Analyze(testPathOneExecutableObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(analyzer.Analyze(testPathTwoExecutableObject).Any(x => x.Name == RuleName));
-        }
-
-        #endregion Public Methods
-
-        #region Private Methods
-
-        private Analyzer GetAnalyzerForRule(Rule rule)
-        {
-            return new Analyzer(new List<Rule>()
-                {
-                    rule
-                }, null);
+            Assert.IsTrue(analyzer.Analyze(ruleList, testPathOneObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(!analyzer.Analyze(ruleList, testPathTwoObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(!analyzer.Analyze(ruleList, testPathOneExecutableObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(analyzer.Analyze(ruleList, testPathTwoExecutableObject).Any(x => x.Name == RuleName));
         }
 
         private bool VerifyRule(Rule rule)
         {
-            var analyzer = GetAnalyzerForRule(rule);
-            return !analyzer.VerifyRules().Any();
+            return !Analyzer.VerifyRules(new List<Rule>() { rule }).Any();
         }
-
-        #endregion Private Methods
     }
 }

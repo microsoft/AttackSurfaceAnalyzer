@@ -10,6 +10,8 @@ namespace AttackSurfaceAnalyzer.Objects
 
         public List<CHANGE_TYPE> ChangeTypes { get; set; } = new List<CHANGE_TYPE>() { CHANGE_TYPE.CREATED, CHANGE_TYPE.DELETED, CHANGE_TYPE.MODIFIED };
         public List<PLATFORM> Platforms { get; set; } = new List<PLATFORM>() { PLATFORM.LINUX, PLATFORM.MACOS, PLATFORM.WINDOWS };
+        public ANALYSIS_RESULT_TYPE Flag { get; set; }
+        public RESULT_TYPE ResultType { get; set; }
     }
 
     public class Rule
@@ -19,11 +21,11 @@ namespace AttackSurfaceAnalyzer.Objects
             this.Name = Name;
         }
 
-        public RESULT_TYPE ResultType { get; set; }
         public List<Clause> Clauses { get; set; } = new List<Clause>();
         public string? Description { get; set; }
         public string? Expression { get; set; }
         public string Name { get; set; }
-        public ANALYSIS_RESULT_TYPE Flag { get; set; }
+        public string Target { get; set; }
+        public int Severity { get; set; }
     }
 }
