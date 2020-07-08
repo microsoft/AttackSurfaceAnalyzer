@@ -18,16 +18,10 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public class Analyzer
     {
-        #region Private Fields
-
         private static readonly ConcurrentDictionary<string, Regex> RegexCache = new ConcurrentDictionary<string, Regex>();
         private readonly ConcurrentDictionary<(CompareResult, Clause), bool> ClauseCache = new ConcurrentDictionary<(CompareResult, Clause), bool>();
         private readonly PLATFORM OsName;
         private RuleFile config;
-
-        #endregion Private Fields
-
-        #region Public Constructors
 
         public Analyzer(PLATFORM platform, string? filterLocation = null)
         {
@@ -50,15 +44,7 @@ namespace AttackSurfaceAnalyzer.Utils
             config = filters;
         }
 
-        #endregion Public Constructors
-
-        #region Public Properties
-
         public Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DefaultLevels { get { return config.DefaultLevels; } }
-
-        #endregion Public Properties
-
-        #region Public Methods
 
         /// <summary>
         /// Extracts a value stored at the specified path inside an object. Can crawl into List and
@@ -181,9 +167,12 @@ namespace AttackSurfaceAnalyzer.Utils
         public List<Rule> Analyze(CompareResult compareResult)
         {
             var results = new List<Rule>();
+
             if (compareResult == null) { return results; }
+
             compareResult.Analysis = ANALYSIS_RESULT_TYPE.NONE;
             compareResult.Rules = new List<Rule>();
+
             var curFilters = config.Rules.Where((rule) => (rule.ChangeTypes == null || rule.ChangeTypes.Contains(compareResult.ChangeType))
                                                      && (rule.Platforms == null || rule.Platforms.Contains(OsName))
                                                      && (rule.ResultType.Equals(compareResult.ResultType)))
@@ -193,24 +182,19 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 foreach (Rule rule in curFilters)
                 {
-                    if (Apply(rule, compareResult))
+                    if (Apply(rule, compareResult.Base, compareResult.Compare))
                     {
                         results.Add(rule);
                     }
                 }
             }
 
-            foreach (var item in ClauseCache.Where(x => x.Key.Item1 == compareResult).ToList())
-            {
-                ClauseCache.Remove(item.Key, out bool _);
-            }
-
             return results;
         }
 
-        public bool Apply(Rule rule, CompareResult compareResult)
+        public bool Apply(Rule rule, object? before = null, object? after = null)
         {
-            if (compareResult != null && rule != null)
+            if ((before != null || after != null) && rule != null)
             {
                 // If we have no clauses we automatically match
                 if (!rule.Clauses.Any())
@@ -220,14 +204,14 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 if (rule.Expression == null)
                 {
-                    if (rule.Clauses.All(x => AnalyzeClause(x, compareResult)))
+                    if (rule.Clauses.All(x => AnalyzeClause(x, before, after)))
                     {
                         return true;
                     }
                 }
                 else
                 {
-                    if (Evaluate(rule.Expression.Split(" "), rule.Clauses, compareResult))
+                    if (Evaluate(rule.Expression.Split(" "), rule.Clauses, before, after))
                     {
                         return true;
                     }
@@ -608,29 +592,17 @@ namespace AttackSurfaceAnalyzer.Utils
             return violations;
         }
 
-        #endregion Public Methods
-
-        #region Protected Methods
-
-        protected static bool AnalyzeClause(Clause clause, CompareResult compareResult)
+        protected static bool AnalyzeClause(Clause clause, object? before = null, object? after = null)
         {
-            if (clause == null || compareResult == null)
+            if (clause == null || (before == null && after == null))
             {
                 return false;
             }
             try
             {
-                object? before = null;
-                object? after = null;
-
-                if (compareResult.ChangeType == CHANGE_TYPE.CREATED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
-                {
-                    after = GetValueByPropertyString(compareResult.Compare, clause.Field);
-                }
-                if (compareResult.ChangeType == CHANGE_TYPE.DELETED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
-                {
-                    before = GetValueByPropertyString(compareResult.Base, clause.Field);
-                }
+                after = GetValueByPropertyString(after, clause.Field);
+                before = GetValueByPropertyString(before, clause.Field);
+                
 
                 var typeHolder = before is null ? after : before;
 
@@ -803,15 +775,11 @@ namespace AttackSurfaceAnalyzer.Utils
 
                     // Ignores provided data. Checks if the named property has changed.
                     case OPERATION.WAS_MODIFIED:
-                        if (compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
-                        {
-                            CompareLogic compareLogic = new CompareLogic();
+                        CompareLogic compareLogic = new CompareLogic();
 
-                            ComparisonResult result = compareLogic.Compare(before, after);
+                        ComparisonResult result = compareLogic.Compare(before, after);
 
-                            return !result.AreEqual;
-                        }
-                        return false;
+                        return !result.AreEqual;
 
                     // Ends with any of the provided data
                     case OPERATION.ENDS_WITH:
@@ -929,10 +897,6 @@ namespace AttackSurfaceAnalyzer.Utils
             return false;
         }
 
-        #endregion Protected Methods
-
-        #region Private Methods
-
         private static int FindMatchingParen(string[] splits, int startingIndex)
         {
             int foundStarts = 0;
@@ -1035,7 +999,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        private bool Evaluate(string[] splits, List<Clause> Clauses, CompareResult compareResult)
+        private bool Evaluate(string[] splits, List<Clause> Clauses, object? before, object? after)
         {
             bool current = false;
 
@@ -1083,7 +1047,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
                             splits[i] = splits[i][1..];
                             splits[matchingParen] = splits[matchingParen][0..^1];
-                            var next = Evaluate(splits[i..(matchingParen + 1)], Clauses, compareResult);
+                            var next = Evaluate(splits[i..(matchingParen + 1)], Clauses, before, after);
                             next = invertNextStatement ? !next : next;
                             current = Operate(Operator, current, next);
                         }
@@ -1127,17 +1091,11 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
                                 var clause = res.First();
                                 bool next;
-                                if (ClauseCache.TryGetValue((compareResult, clause), out bool cachedValue))
-                                {
-                                    next = cachedValue;
-                                }
-                                else
-                                {
-                                    next = AnalyzeClause(res.First(), compareResult);
-                                    ClauseCache.TryAdd((compareResult, clause), next);
-                                }
+
+                                next = AnalyzeClause(res.First(), before, after);
 
                                 next = invertNextStatement ? !next : next;
+
                                 current = Operate(Operator, current, next);
                             }
                             operatorExpected = true;
@@ -1148,7 +1106,5 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             return current;
         }
-
-        #endregion Private Methods
     }
 }
