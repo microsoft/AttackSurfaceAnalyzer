@@ -161,7 +161,8 @@ namespace AttackSurfaceAnalyzer.Tests
         [TestMethod]
         public void VerifyEmbeddedRulesAreValid()
         {
-            var analyzer = new Analyzer(AsaHelpers.GetPlatform());
+            var ruleFile = RuleFile.LoadEmbeddedFilters();
+            var analyzer = new Analyzer(ruleFile.GetRules(),ruleFile.DefaultLevels);
             Assert.IsTrue(!analyzer.VerifyRules().Any());
         }
 
@@ -821,15 +822,10 @@ namespace AttackSurfaceAnalyzer.Tests
 
         private Analyzer GetAnalyzerForRule(Rule rule)
         {
-            var file = new RuleFile()
-            {
-                Rules = new List<Rule>()
+            return new Analyzer(new List<Rule>()
                 {
                     rule
-                }
-            };
-
-            return new Analyzer(AsaHelpers.GetPlatform(), file);
+                }, null);
         }
 
         private bool VerifyRule(Rule rule)

@@ -110,7 +110,8 @@ namespace AttackSurfaceAnalyzer.Cli
 #else
             Logger.Setup(opts.Debug, opts.Verbose, opts.Quiet);
 #endif
-            var analyzer = new Analyzer(AsaHelpers.GetPlatform(), opts.AnalysisFile);
+            var ruleFile = RuleFile.FromFile(opts.AnalysisFile);
+            var analyzer = new Analyzer(ruleFile.GetRules(), ruleFile.DefaultLevels);
             var violations = analyzer.VerifyRules();
             Analyzer.PrintViolations(violations);
             if (violations.Any())
@@ -118,7 +119,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 Log.Error("Encountered {0} issues with rules at {1}", violations.Count, opts.AnalysisFile ?? "Embedded");
                 return (int)ASA_ERROR.INVALID_RULES;
             }
-            Log.Information("Rules successfully verified. ✅");
+            Log.Information("{0} Rules successfully verified. ✅", ruleFile.AsaRules.Count());
             return (int)ASA_ERROR.NONE;
         }
 
@@ -719,7 +720,8 @@ namespace AttackSurfaceAnalyzer.Cli
             if (opts.Analyze)
             {
                 watch = Stopwatch.StartNew();
-                Analyzer analyzer = new Analyzer(DatabaseManager.RunIdToPlatform(opts.SecondRunId), opts.AnalysesFile);
+                var ruleFile = string.IsNullOrEmpty(opts.AnalysesFile) ? RuleFile.LoadEmbeddedFilters() : RuleFile.FromFile(opts.AnalysesFile);
+                Analyzer analyzer = new Analyzer(ruleFile.GetRulesForPlatform(DatabaseManager.RunIdToPlatform(opts.SecondRunId)), ruleFile.DefaultLevels);
 
                 var violations = analyzer.VerifyRules();
                 Analyzer.PrintViolations(violations);
@@ -737,7 +739,12 @@ namespace AttackSurfaceAnalyzer.Cli
                             {
                                 queue.AsParallel().ForAll(res =>
                                 {
-                                    res.Rules = analyzer.Analyze(res);
+                                    //var rulesIn = analyzer.config.Rules.Where((rule) => (rule.ChangeTypes == null || rule.ChangeTypes.Contains(compareResult.ChangeType))
+                                    //                 && (rule.Platforms == null || rule.Platforms.Contains(OsName))
+                                    //                 && (rule.ResultType.Equals(compareResult.ResultType)))
+                                    //                .ToList();
+                                    // Move the logic to load rules separate from the analyzer which should be static
+                                    res.Rules = analyzer.Analyze(rules,res);
                                     res.Analysis = res.Rules.Count > 0 ? res.Rules.Max(x => x.Flag) : analyzer.DefaultLevels[res.ResultType];
                                 });
                             }
