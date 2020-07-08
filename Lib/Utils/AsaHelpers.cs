@@ -247,7 +247,7 @@ namespace AttackSurfaceAnalyzer.Utils
             return sid;
         }
 
-        private static bool? _elevated = false;
+        private static bool? _elevated = null;
 
         private static readonly Random random = new Random();
 
