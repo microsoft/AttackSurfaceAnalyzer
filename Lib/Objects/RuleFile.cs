@@ -6,6 +6,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace AttackSurfaceAnalyzer.Objects
 {
@@ -115,6 +116,11 @@ namespace AttackSurfaceAnalyzer.Objects
         public List<Rule> GetRules()
         {
             return (List<Rule>)AsaRules;
+        }
+
+        public List<Rule> GetRulesForPlatform(PLATFORM platform)
+        {
+            return (List<Rule>)AsaRules.Where(x => x.Platforms.Contains(platform) || !x.Platforms.Any());
         }
     }
 }

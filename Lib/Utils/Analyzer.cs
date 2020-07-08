@@ -21,15 +21,9 @@ namespace AttackSurfaceAnalyzer.Utils
     {
         private readonly ConcurrentDictionary<string, Regex> RegexCache = new ConcurrentDictionary<string, Regex>();
 
-        public List<Rule> Rules { get; }
-
-        public Analyzer(List<Rule> rules, Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> defaultLevels)
+        public Analyzer()
         {
-            Rules = rules;
-            DefaultLevels = defaultLevels;
         }
-
-        public Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DefaultLevels { get; }
 
         /// <summary>
         /// Extracts a value stored at the specified path inside an object. Can crawl into List and
@@ -149,15 +143,29 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        public IEnumerable<Rule> Analyze(CompareResult compareResult)
+        public IEnumerable<Rule> Analyze(IEnumerable<Rule> rules, CompareResult compareResult)
         {
+
+            if (compareResult == null)
+            {
+                return Array.Empty<Rule>();
+            }
+
+            return Analyze(rules, compareResult.Base, compareResult.Compare);
+        }
+
+        public IEnumerable<Rule> Analyze(IEnumerable<Rule> rules, object? before = null, object? after = null)
+        {
+            if (before is null && after is null)
+            {
+                return Array.Empty<Rule>();
+            }
+
             var results = new ConcurrentStack<Rule>();
 
-            if (compareResult == null) { return results; }
-
-            Parallel.ForEach(Rules, rule =>
+            Parallel.ForEach(rules, rule =>
             {
-                if (Apply(rule, compareResult.Base, compareResult.Compare))
+                if (Applies(rule, before, after))
                 {
                     results.Push(rule);
                 }
@@ -166,28 +174,31 @@ namespace AttackSurfaceAnalyzer.Utils
             return results;
         }
 
-        public bool Apply(Rule rule, object? before = null, object? after = null)
+        public bool Applies(Rule rule, object? before = null, object? after = null)
         {
             if ((before != null || after != null) && rule != null)
             {
-                // If we have no clauses we automatically match
-                if (!rule.Clauses.Any())
-                {
-                    return true;
-                }
+                var sample = before is null ? after : before;
 
-                if (rule.Expression == null)
+                // Does the name of this class match the Target in the rule?
+                if (sample?.GetType().Name == rule.Target)
                 {
-                    if (rule.Clauses.All(x => AnalyzeClause(x, before, after)))
+                    // If the expression is null the default is that all clauses must be true
+                    // If we have no clauses .All will still match
+                    if (rule.Expression is null)
                     {
-                        return true;
+                        if (rule.Clauses.All(x => AnalyzeClause(x, before, after)))
+                        {
+                            return true;
+                        }
                     }
-                }
-                else
-                {
-                    if (Evaluate(rule.Expression.Split(" "), rule.Clauses, before, after))
+                    // Otherwise we evaluate the expression
+                    else
                     {
-                        return true;
+                        if (Evaluate(rule.Expression.Split(" "), rule.Clauses, before, after))
+                        {
+                            return true;
+                        }
                     }
                 }
 
@@ -199,11 +210,11 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        public List<(string, string[])> VerifyRules()
+        public static List<(string, string[])> VerifyRules(IEnumerable<Rule> rules)
         {
             var violations = new List<(string, string[])>();
 
-            foreach (Rule rule in Rules)
+            foreach (Rule rule in rules)
             {
                 var clauseLabels = rule.Clauses.GroupBy(x => x.Label);
 
@@ -894,7 +905,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        private static bool Evaluate(string[] splits, List<Clause> Clauses, object? before, object? after)
+        private bool Evaluate(string[] splits, List<Clause> Clauses, object? before, object? after)
         {
             bool current = false;
 
@@ -919,33 +930,27 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         //Get the substring closing this paren
                         var matchingParen = FindMatchingParen(splits, i);
-                        // If either argument of an AND statement is false, or either argument of a
-                        // NOR statement is true, the result is always false and we can optimize
-                        // away evaluation of next
-                        if ((Operator == BOOL_OPERATOR.AND && current == false) ||
-                             (Operator == BOOL_OPERATOR.NOR && current == true))
+
+                        // First remove the parenthesis from the beginning and end
+                        splits[i] = splits[i][1..];
+                        splits[matchingParen] = splits[matchingParen][0..^1];
+
+                        var shortcut = TryShortcut(current, Operator);
+
+                        if (shortcut.CanShortcut)
                         {
-                            current = false;
+                            current = shortcut.Value;
                         }
-                        // If either argument of an NAND statement is false, or either argument of
-                        // an OR statement is true, the result is always true and we can optimize
-                        // away evaluation of next
-                        else if ((Operator == BOOL_OPERATOR.OR && current == true) ||
-                                   (Operator == BOOL_OPERATOR.NAND && current == false))
-                        {
-                            current = true;
-                        }
-                        // If we can't shortcut, do the actual evaluation
                         else
                         {
                             // Recursively evaluate the contents of the parentheses
-
-                            splits[i] = splits[i][1..];
-                            splits[matchingParen] = splits[matchingParen][0..^1];
                             var next = Evaluate(splits[i..(matchingParen + 1)], Clauses, before, after);
+
                             next = invertNextStatement ? !next : next;
+
                             current = Operate(Operator, current, next);
                         }
+                            
                         updated_i = matchingParen + 1;
                         invertNextStatement = false;
                         operatorExpected = true;
@@ -965,26 +970,17 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
                                 return false;
                             }
-                            // If either argument of an AND statement is false, or either argument
-                            // of a NOR statement is true, the result is always false and we can
-                            // optimize away evaluation of next
-                            if ((Operator == BOOL_OPERATOR.AND && current == false) ||
-                                 (Operator == BOOL_OPERATOR.NOR && current == true))
+
+                            var clause = res.First();
+
+                            var shortcut = TryShortcut(current, Operator);
+
+                            if (shortcut.CanShortcut)
                             {
-                                current = false;
+                                current = shortcut.Value;
                             }
-                            // If either argument of an NAND statement is false, or either argument
-                            // of an OR statement is true, the result is always true and we can
-                            // optimize away evaluation of next
-                            else if ((Operator == BOOL_OPERATOR.OR && current == true) ||
-                                       (Operator == BOOL_OPERATOR.NAND && current == false))
-                            {
-                                current = true;
-                            }
-                            // If we can't shortcut, do the actual evaluation
                             else
                             {
-                                var clause = res.First();
                                 bool next;
 
                                 next = AnalyzeClause(res.First(), before, after);
@@ -993,6 +989,8 @@ namespace AttackSurfaceAnalyzer.Utils
 
                                 current = Operate(Operator, current, next);
                             }
+
+                            invertNextStatement = false;   
                             operatorExpected = true;
                         }
                         updated_i = i + 1;
@@ -1000,6 +998,27 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
             }
             return current;
+        }
+
+        public static (bool CanShortcut, bool Value) TryShortcut(bool current, BOOL_OPERATOR operation)
+        {
+            // If either argument of an AND statement is false, or either argument of a
+            // NOR statement is true, the result is always false and we can optimize
+            // away evaluation of next
+            if ((operation == BOOL_OPERATOR.AND && current == false) ||
+                (operation == BOOL_OPERATOR.NOR && current == true))
+            {
+                return (true,false);
+            }
+            // If either argument of an NAND statement is false, or either argument of
+            // an OR statement is true, the result is always true and we can optimize
+            // away evaluation of next
+            if ((operation == BOOL_OPERATOR.OR && current == true) ||
+                (operation == BOOL_OPERATOR.NAND && current == false))
+            {
+                return (true,true);
+            }
+            return (false,false);
         }
     }
 }
