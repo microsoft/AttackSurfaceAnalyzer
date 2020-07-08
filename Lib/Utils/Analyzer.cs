@@ -19,7 +19,6 @@ namespace AttackSurfaceAnalyzer.Utils
     public class Analyzer
     {
         private static readonly ConcurrentDictionary<string, Regex> RegexCache = new ConcurrentDictionary<string, Regex>();
-        private readonly ConcurrentDictionary<(CompareResult, Clause), bool> ClauseCache = new ConcurrentDictionary<(CompareResult, Clause), bool>();
         private readonly PLATFORM OsName;
         private RuleFile config;
 
@@ -777,9 +776,9 @@ namespace AttackSurfaceAnalyzer.Utils
                     case OPERATION.WAS_MODIFIED:
                         CompareLogic compareLogic = new CompareLogic();
 
-                        ComparisonResult result = compareLogic.Compare(before, after);
+                        ComparisonResult comparisonResult = compareLogic.Compare(before, after);
 
-                        return !result.AreEqual;
+                        return !comparisonResult.AreEqual;
 
                     // Ends with any of the provided data
                     case OPERATION.ENDS_WITH:
@@ -888,7 +887,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             catch (Exception e)
             {
-                Log.Debug(e, $"Hit while parsing {JsonConvert.SerializeObject(clause)} onto {JsonConvert.SerializeObject(compareResult)}");
+                Log.Debug(e, $"Hit while parsing {JsonConvert.SerializeObject(clause)} onto ({JsonConvert.SerializeObject(before)},{JsonConvert.SerializeObject(after)})");
                 Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
                 ExceptionEvent.Add("Exception Type", e.GetType().ToString());
                 AsaTelemetry.TrackEvent("ApplyOverallException", ExceptionEvent);
