@@ -21,7 +21,6 @@ namespace AttackSurfaceAnalyzer.Utils
         #region Private Fields
 
         private static readonly ConcurrentDictionary<string, Regex> RegexCache = new ConcurrentDictionary<string, Regex>();
-        private readonly ConcurrentDictionary<(CompareResult, Clause), bool> ClauseCache = new ConcurrentDictionary<(CompareResult, Clause), bool>();
         private readonly PLATFORM OsName;
         private RuleFile config;
 
@@ -920,7 +919,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             catch (Exception e)
             {
-                Log.Debug(e, $"Hit while parsing {JsonConvert.SerializeObject(clause)} onto {JsonConvert.SerializeObject(compareResult)}");
+                Log.Debug(e, $"Hit while parsing {JsonConvert.SerializeObject(clause)} onto ({JsonConvert.SerializeObject(before)},{JsonConvert.SerializeObject(after)})");
                 Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
                 ExceptionEvent.Add("Exception Type", e.GetType().ToString());
                 AsaTelemetry.TrackEvent("ApplyOverallException", ExceptionEvent);
