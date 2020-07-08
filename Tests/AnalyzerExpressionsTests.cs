@@ -1240,23 +1240,12 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsFalse(pcrAnalyzer.Analyze(falseAlgDict).Any());
         }
 
-        #endregion Public Methods
-
-        #region Private Methods
-
         private Analyzer GetAnalyzerForRule(Rule rule)
         {
-            var file = new RuleFile()
-            {
-                Rules = new List<Rule>()
+            return new Analyzer(new List<Rule>()
                 {
                     rule
-                }
-            };
-
-            return new Analyzer(AsaHelpers.GetPlatform(), file);
+                }, null);
         }
-
-        #endregion Private Methods
     }
 }

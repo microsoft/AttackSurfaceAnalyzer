@@ -12,48 +12,24 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Tpm2Lib;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
     public class Analyzer
     {
-        #region Private Fields
+        private readonly ConcurrentDictionary<string, Regex> RegexCache = new ConcurrentDictionary<string, Regex>();
 
-        private static readonly ConcurrentDictionary<string, Regex> RegexCache = new ConcurrentDictionary<string, Regex>();
-        private readonly PLATFORM OsName;
-        private RuleFile config;
+        public List<Rule> Rules { get; }
 
-        #endregion Private Fields
-
-        #region Public Constructors
-
-        public Analyzer(PLATFORM platform, string? filterLocation = null)
+        public Analyzer(List<Rule> rules, Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> defaultLevels)
         {
-            config = new RuleFile();
-
-            if (string.IsNullOrEmpty(filterLocation))
-            {
-                LoadEmbeddedFilters();
-            }
-            else
-            {
-                LoadFilters(filterLocation);
-            }
-            OsName = platform;
+            Rules = rules;
+            DefaultLevels = defaultLevels;
         }
 
-        public Analyzer(PLATFORM platform, RuleFile filters)
-        {
-            OsName = platform;
-            config = filters;
-        }
-
-        #endregion Public Constructors
-
-        #region Public Properties
-
-        public Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DefaultLevels { get { return config.DefaultLevels; } }
+        public Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DefaultLevels { get; }
 
         #endregion Public Properties
 
@@ -177,27 +153,26 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        public List<Rule> Analyze(CompareResult compareResult)
+        public IEnumerable<Rule> Analyze(CompareResult compareResult)
         {
-            var results = new List<Rule>();
-            if (compareResult == null) { return results; }
-            compareResult.Analysis = ANALYSIS_RESULT_TYPE.NONE;
-            compareResult.Rules = new List<Rule>();
-            var curFilters = config.Rules.Where((rule) => (rule.ChangeTypes == null || rule.ChangeTypes.Contains(compareResult.ChangeType))
-                                                     && (rule.Platforms == null || rule.Platforms.Contains(OsName))
-                                                     && (rule.ResultType.Equals(compareResult.ResultType)))
-                                                    .ToList();
+            var results = new ConcurrentStack<Rule>();
 
-            if (curFilters.Count > 0)
+            if (compareResult == null) { return results; }
+
+            Parallel.ForEach(Rules, rule =>
             {
-                foreach (Rule rule in curFilters)
+                if (Apply(rule, compareResult.Base, compareResult.Compare))
                 {
+<<<<<<< HEAD
                     if (Apply(rule, compareResult))
                     {
                         results.Add(rule);
                     }
+=======
+                    results.Push(rule);
+>>>>>>> bab73ff... More Analyzer Refactoring.
                 }
-            }
+            });
 
             foreach (var item in ClauseCache.Where(x => x.Key.Item1 == compareResult).ToList())
             {
@@ -240,90 +215,11 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        public void DumpFilters()
-        {
-            Log.Verbose("Filter dump:");
-            Log.Verbose(JsonConvert.SerializeObject(config));
-        }
-
-        public void LoadEmbeddedFilters()
-        {
-            try
-            {
-                var assembly = typeof(FileSystemObject).Assembly;
-                var resourceName = "AttackSurfaceAnalyzer.analyses.json";
-                using (Stream stream = assembly.GetManifestResourceStream(resourceName) ?? new MemoryStream())
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    config = JsonConvert.DeserializeObject<RuleFile>(reader.ReadToEnd());
-                    Log.Information(Strings.Get("LoadedAnalyses"), "Embedded");
-                }
-                if (config == null)
-                {
-                    Log.Debug("No filters today.");
-                    return;
-                }
-                DumpFilters();
-            }
-            catch (Exception e) when (
-                e is ArgumentNullException
-                || e is ArgumentException
-                || e is FileLoadException
-                || e is FileNotFoundException
-                || e is BadImageFormatException
-                || e is NotImplementedException)
-            {
-                config = new RuleFile();
-                Log.Debug("Could not load filters {0} {1}", "Embedded", e.GetType().ToString());
-
-                // This is interesting. We shouldn't hit exceptions when loading the embedded resource.
-                Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
-                ExceptionEvent.Add("Exception Type", e.GetType().ToString());
-                AsaTelemetry.TrackEvent("EmbeddedAnalysesFilterLoadException", ExceptionEvent);
-            }
-        }
-
-        public void LoadFilters(string filterLoc = "")
-        {
-            if (!string.IsNullOrEmpty(filterLoc))
-            {
-                try
-                {
-                    using (StreamReader file = System.IO.File.OpenText(filterLoc))
-                    {
-                        config = JsonConvert.DeserializeObject<RuleFile>(file.ReadToEnd());
-                        Log.Information(Strings.Get("LoadedAnalyses"), filterLoc);
-                    }
-                    if (config == null)
-                    {
-                        Log.Debug("No filters this time.");
-                        return;
-                    }
-                    DumpFilters();
-                }
-                catch (Exception e) when (
-                    e is UnauthorizedAccessException
-                    || e is ArgumentException
-                    || e is ArgumentNullException
-                    || e is PathTooLongException
-                    || e is DirectoryNotFoundException
-                    || e is FileNotFoundException
-                    || e is NotSupportedException)
-                {
-                    config = new RuleFile();
-                    //Let the user know we couldn't load their file
-                    Log.Warning(Strings.Get("Err_MalformedFilterFile"), filterLoc);
-
-                    return;
-                }
-            }
-        }
-
         public List<(string, string[])> VerifyRules()
         {
             var violations = new List<(string, string[])>();
 
-            foreach (Rule rule in config.Rules)
+            foreach (Rule rule in Rules)
             {
                 var clauseLabels = rule.Clauses.GroupBy(x => x.Label);
 
@@ -607,11 +503,7 @@ namespace AttackSurfaceAnalyzer.Utils
             return violations;
         }
 
-        #endregion Public Methods
-
-        #region Protected Methods
-
-        protected static bool AnalyzeClause(Clause clause, CompareResult compareResult)
+        protected bool AnalyzeClause(Clause clause, object? before = null, object? after = null)
         {
             if (clause == null || compareResult == null)
             {
@@ -1034,7 +926,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        private bool Evaluate(string[] splits, List<Clause> Clauses, CompareResult compareResult)
+        private static bool Evaluate(string[] splits, List<Clause> Clauses, object? before, object? after)
         {
             bool current = false;
 
