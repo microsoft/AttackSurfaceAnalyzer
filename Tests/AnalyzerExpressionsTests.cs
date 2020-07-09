@@ -58,7 +58,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var stringAnalyzer = new Analyzer();
+            var stringAnalyzer = new AsaAnalyzer();
             var ruleList = new List<Rule>() { stringContains }; ;
 
             Assert.IsTrue(stringAnalyzer.Analyze(ruleList, trueStringObject).Any());
@@ -113,7 +113,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var listAnalyzer = new Analyzer();
+            var listAnalyzer = new AsaAnalyzer();
             ruleList = new List<Rule>() { listContains }; ;
 
             Assert.IsTrue(listAnalyzer.Analyze(ruleList, trueListObject).Any());
@@ -175,7 +175,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var stringDictAnalyzer = new Analyzer();
+            var stringDictAnalyzer = new AsaAnalyzer();
             ruleList = new List<Rule>() { stringDictContains }; ;
 
             Assert.IsTrue(stringDictAnalyzer.Analyze(ruleList, trueStringDictObject).Any());
@@ -249,7 +249,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var listDictAnalyzer = new Analyzer();
+            var listDictAnalyzer = new AsaAnalyzer();
             ruleList = new List<Rule>() { listDictContains }; ;
 
             Assert.IsTrue(listDictAnalyzer.Analyze(ruleList, trueListDictObject).Any());
@@ -298,7 +298,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var algDictAnalyzer = new Analyzer();
+            var algDictAnalyzer = new AsaAnalyzer();
             var ruleList = new List<Rule>() { algDictContains }; ;
 
             Assert.IsTrue(algDictAnalyzer.Analyze(ruleList, trueAlgDict).Any());
@@ -341,7 +341,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var stringAnalyzer = new Analyzer();
+            var stringAnalyzer = new AsaAnalyzer();
             var ruleList = new List<Rule>() { stringContains }; ;
 
             Assert.IsTrue(stringAnalyzer.Analyze(ruleList, trueStringObject).Any());
@@ -396,7 +396,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var listAnalyzer = new Analyzer();
+            var listAnalyzer = new AsaAnalyzer();
             ruleList = new List<Rule>() { listContains }; ;
 
             Assert.IsTrue(listAnalyzer.Analyze(ruleList, trueListObject).Any());
@@ -458,7 +458,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var stringDictAnalyzer = new Analyzer();
+            var stringDictAnalyzer = new AsaAnalyzer();
             ruleList = new List<Rule>() { stringDictContains }; ;
 
             Assert.IsTrue(stringDictAnalyzer.Analyze(ruleList, trueStringDictObject).Any());
@@ -532,7 +532,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var listDictAnalyzer = new Analyzer();
+            var listDictAnalyzer = new AsaAnalyzer();
             ruleList = new List<Rule>() { listDictContains }; ;
 
             Assert.IsTrue(listDictAnalyzer.Analyze(ruleList, trueListDictObject).Any());
@@ -568,7 +568,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var endsWithAnalyzer = new Analyzer();
+            var endsWithAnalyzer = new AsaAnalyzer();
             var ruleList = new List<Rule>() { endsWithRule }; ;
 
             Assert.IsTrue(endsWithAnalyzer.Analyze(ruleList, trueEndsWithObject).Any());
@@ -644,7 +644,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var analyzer = new Analyzer();
+            var analyzer = new AsaAnalyzer();
             var ruleList = new List<Rule>() { boolEquals , intEquals, stringEquals };
 
             var trueObjectResults = analyzer.Analyze(ruleList, assertTrueObject);
@@ -703,13 +703,13 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var gtAnalyzer = new Analyzer();
+            var gtAnalyzer = new AsaAnalyzer();
             var ruleList = new List<Rule>() { gtRule }; ;
 
             Assert.IsTrue(gtAnalyzer.Analyze(ruleList, trueGtObject).Any());
             Assert.IsFalse(gtAnalyzer.Analyze(ruleList, falseGtObject).Any());
 
-            var badGtAnalyzer = new Analyzer();
+            var badGtAnalyzer = new AsaAnalyzer();
             ruleList = new List<Rule>() { badGtRule }; ;
 
             Assert.IsFalse(badGtAnalyzer.Analyze(ruleList, trueGtObject).Any());
@@ -757,7 +757,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var isAfterAnalyzer = new Analyzer();
+            var isAfterAnalyzer = new AsaAnalyzer();
             var ruleList = new List<Rule>() { isAfterRule }; ;
 
             Assert.IsTrue(isAfterAnalyzer.Analyze(ruleList, trueIsAfterObject).Any());
@@ -779,7 +779,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var isAfterShortAnalyzer = new Analyzer();
+            var isAfterShortAnalyzer = new AsaAnalyzer();
             ruleList = new List<Rule>() { isAfterRuleShortDate }; ;
 
             Assert.IsTrue(isAfterShortAnalyzer.Analyze(ruleList, trueIsAfterObject).Any());
@@ -827,7 +827,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var isBeforeAnalyzer = new Analyzer();
+            var isBeforeAnalyzer = new AsaAnalyzer();
             var ruleList = new List<Rule>() { isBeforeRule }; ;
 
             Assert.IsTrue(isBeforeAnalyzer.Analyze(ruleList, trueIsBeforeObject).Any());
@@ -849,7 +849,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var isBeforeShortAnalyzer = new Analyzer();
+            var isBeforeShortAnalyzer = new AsaAnalyzer();
             ruleList = new List<Rule>() { isBeforeShortRule }; ;
 
             Assert.IsTrue(isBeforeShortAnalyzer.Analyze(ruleList, trueIsBeforeObject).Any());
@@ -891,7 +891,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var isExpiredAnalyzer = new Analyzer();
+            var isExpiredAnalyzer = new AsaAnalyzer();
             var ruleList = new List<Rule>() { isExpiredRule }; ;
 
             Assert.IsTrue(isExpiredAnalyzer.Analyze(ruleList, trueIsExpiredObject).Any());
@@ -923,7 +923,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var isNullAnalyzer = new Analyzer();
+            var isNullAnalyzer = new AsaAnalyzer();
             var ruleList = new List<Rule>() { isNullRule }; ;
 
             Assert.IsTrue(isNullAnalyzer.Analyze(ruleList, trueIsNullObject).Any());
@@ -955,7 +955,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var isTrueAnalyzer = new Analyzer();
+            var isTrueAnalyzer = new AsaAnalyzer();
             var ruleList = new List<Rule>() { isTrueRule }; ;
 
             Assert.IsTrue(isTrueAnalyzer.Analyze(ruleList, trueIsTrueObject).Any());
@@ -990,7 +990,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var ltAnalyzer = new Analyzer();
+            var ltAnalyzer = new AsaAnalyzer();
             var ruleList = new List<Rule>() { ltRule }; ;
 
             Assert.IsTrue(ltAnalyzer.Analyze(ruleList, trueLtObject).Any());
@@ -1012,7 +1012,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var badLtAnalyzer = new Analyzer();
+            var badLtAnalyzer = new AsaAnalyzer();
             ruleList = new List<Rule>() { badLtRule }; ;
 
             Assert.IsFalse(badLtAnalyzer.Analyze(ruleList, trueLtObject).Any());
@@ -1088,7 +1088,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var analyzer = new Analyzer();
+            var analyzer = new AsaAnalyzer();
             var ruleList = new List<Rule>() { boolEquals, intEquals, stringEquals }; ;
 
             Assert.IsFalse(analyzer.Analyze(ruleList, assertTrueObject).Any(x => x.Name == "Bool Equals Rule"));
@@ -1128,7 +1128,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var regexAnalyzer = new Analyzer();
+            var regexAnalyzer = new AsaAnalyzer();
             var ruleList = new List<Rule>() { regexRule }; ;
 
             Assert.IsTrue(regexAnalyzer.Analyze(ruleList, trueRegexObject).Any());
@@ -1163,7 +1163,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var endsWithAnalyzer = new Analyzer();
+            var endsWithAnalyzer = new AsaAnalyzer();
             var ruleList = new List<Rule>() { endsWithRule }; ;
 
             Assert.IsTrue(endsWithAnalyzer.Analyze(ruleList, trueEndsWithObject).Any());
@@ -1206,7 +1206,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var regexAnalyzer = new Analyzer();
+            var regexAnalyzer = new AsaAnalyzer();
             var ruleList = new List<Rule>() { wasModifiedRule }; ;
 
             Assert.IsTrue(regexAnalyzer.Analyze(ruleList, trueModifiedObject).Any());
@@ -1259,7 +1259,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var pcrAnalyzer = new Analyzer();
+            var pcrAnalyzer = new AsaAnalyzer();
             ruleList = new List<Rule>() { pcrsModified }; ;
 
             Assert.IsTrue(pcrAnalyzer.Analyze(ruleList, trueAlgDict).Any());
