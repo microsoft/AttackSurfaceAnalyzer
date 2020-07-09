@@ -4,7 +4,7 @@
       "Name": "Privileged ports",
       "Description": "Flag when privileged ports are opened.",
       "Flag": "WARNING",
-      "ResultType": "PORT",
+      "Target": "OpenPortObject",
       "Clauses": [
         {
           "Field": "port",
@@ -47,7 +47,7 @@
         "CREATED",
         "MODIFIED"
       ],
-      "ResultType": "FILE",
+      "Target": "FileSystemObject",
       "Expression": "is_exe AND NOT valid_windows_signature AND null_mac_signature",
       "Clauses": [
         {
@@ -82,7 +82,7 @@
         "CREATED",
         "MODIFIED"
       ],
-      "ResultType": "FILE",
+      "Target": "FileSystemObject",
       "Clauses": [
         {
           "Field": "SetUid",
@@ -102,7 +102,7 @@
         "CREATED",
         "MODIFIED"
       ],
-      "ResultType": "FILE",
+      "Target": "FileSystemObject",
       "Clauses": [
         {
           "Field": "SetGid",
@@ -121,7 +121,7 @@
         "CREATED",
         "MODIFIED"
       ],
-      "ResultType": "FILE",
+      "Target": "FileSystemObject",
       "Expression": "EXE AND NOT ASLR",
       "Clauses": [
         {
@@ -151,7 +151,7 @@
         "CREATED",
         "MODIFIED"
       ],
-      "ResultType": "FILE",
+      "Target": "FileSystemObject",
       "Expression": "EXE AND NOT DEP",
       "Clauses": [
         {
@@ -180,7 +180,7 @@
         "CREATED",
         "MODIFIED"
       ],
-      "ResultType": "FILE",
+      "Target": "FileSystemObject",
       "Expression": "EXE AND SIGNED AND NOT INTEGRITYFLAG",
       "Clauses": [
         {
@@ -207,7 +207,7 @@
       "Name": "Certificates",
       "Description": "Flag when certificates are placed on disk.",
       "Flag": "INFORMATION",
-      "ResultType": "FILE",
+      "Target": "FileSystemObject",
       "Clauses": [
         {
           "Field": "Path",
@@ -224,7 +224,7 @@
       "Name": "UPNP Ports",
       "Description": "Universal Plug n' Play.",
       "Flag": "INFORMATION",
-      "ResultType": "PORT",
+      "Target": "OpenPortObject",
       "Clauses": [
         {
           "Field": "port",
@@ -239,7 +239,7 @@
       "Name": "Keystore Files",
       "Description": "Java keystore files contain encryption keys and certificates.",
       "Flag": "INFORMATION",
-      "ResultType": "FILE",
+      "Target": "FileSystemObject",
       "Clauses": [
         {
           "Field": "Path",
@@ -257,7 +257,7 @@
       "Platforms": [
         "MACOS"
       ],
-      "ResultType": "FILE",
+      "Target": "FileSystemObject",
       "Clauses": [
         {
           "Field": "Path",
@@ -275,7 +275,7 @@
       "Platforms": [
         "WINDOWS"
       ],
-      "ResultType": "REGISTRY",
+      "Target": "RegistryObject",
       "Clauses": [
         {
           "Field": "KEY",
@@ -294,7 +294,7 @@
         "LINUX",
         "MACOS"
       ],
-      "ResultType": "FILE",
+      "Target": "FileSystemObject",
       "Clauses": [
         {
           "Field": "IsExecutable",
@@ -324,7 +324,7 @@
         "LINUX",
         "MACOS"
       ],
-      "ResultType": "FILE",
+      "Target": "FileSystemObject",
       "Clauses": [
         {
           "Field": "IsExecutable",
@@ -372,7 +372,7 @@
       "ChangeTypes": [
         "MODIFIED"
       ],
-      "ResultType": "FILE",
+      "Target": "FileSystemObject",
       "Clauses": [
         {
           "Field": "SignatureStatus.SigningCertificate.Issuer",
@@ -390,7 +390,7 @@
       "ChangeTypes": [
         "MODIFIED"
       ],
-      "ResultType": "FILE",
+      "Target": "FileSystemObject",
       "Clauses": [
         {
           "Field": "Path",
@@ -412,7 +412,7 @@
       "ChangeTypes": [
         "MODIFIED"
       ],
-      "ResultType": "FILE",
+      "Target": "FileSystemObject",
       "Expression": "0 AND NOT 1",
       "Clauses": [
         {
@@ -450,7 +450,7 @@
         "LINUX",
         "MACOS"
       ],
-      "ResultType": "FILE",
+      "Target": "FileSystemObject",
       "Expression": "0 AND 1",
       "Clauses": [
         {
@@ -666,7 +666,7 @@
       "ChangeTypes": [
         "MODIFIED"
       ],
-      "ResultType": "FILE",
+      "Target": "FileSystemObject",
       "Expression": "WINDOWS OR NIX",
       "Clauses": [
         {
@@ -694,7 +694,7 @@
       "ChangeTypes": [
         "MODIFIED"
       ],
-      "ResultType": "FILE",
+      "Target": "FileSystemObject",
       "Expression": "is_exe AND (windows OR NOT macos_null)",
       "Clauses": [
         {
@@ -724,7 +724,7 @@
       "Platforms": [
         "WINDOWS"
       ],
-      "ResultType": "FILE",
+      "Target": "FileSystemObject",
       "Clauses": [
         {
           "Field": "Path",
@@ -765,7 +765,7 @@
       "Platforms": [
         "WINDOWS"
       ],
-      "ResultType": "REGISTRY",
+      "Target": "RegistryObject",
       "Clauses": [
         {
           "Field": "Key",
@@ -783,7 +783,7 @@
       "Platforms": [
         "MACOS"
       ],
-      "ResultType": "FILE",
+      "Target": "FileSystemObject",
       "Clauses": [
         {
           "Field": "Key",
@@ -801,7 +801,7 @@
       "Platforms": [
         "WINDOWS"
       ],
-      "ResultType": "FILE",
+      "Target": "FileSystemObject",
       "Clauses": [
         {
           "Operation": "IS_TRUE",
@@ -843,7 +843,7 @@
       "Name": "Binaries with expired signatures",
       "Description": "These binaries have expired signatures.",
       "Flag": "WARNING",
-      "ResultType": "FILE",
+      "Target": "FileSystemObject",
       "ChangeTypes": [
         "MODIFIED",
         "CREATED"
@@ -859,7 +859,7 @@
       "Name": "TPM Keys",
       "Description": "These TPM Keys have been changed.",
       "Flag": "WARNING",
-      "ResultType": "FILE",
+      "Target": "FileSystemObject",
       "Platforms": [
         "WINDOWS"
       ],
@@ -877,7 +877,7 @@
       "Name": "TPM Auth Values Changed",
       "Description": "These TPM Auth Values have been changed in the registry.",
       "Flag": "WARNING",
-      "ResultType": "REGISTRY",
+      "Target": "RegistryObject",
       "Platforms": [
         "WINDOWS"
       ],
@@ -922,7 +922,7 @@
       "Name": "TPM Endorsement Auth Value",
       "Description": "The TPM Endorsement Auth was changed.",
       "Flag": "WARNING",
-      "ResultType": "REGISTRY",
+      "Target": "RegistryObject",
       "Platforms": [
         "WINDOWS"
       ],
@@ -944,7 +944,7 @@
       "Name": "Use Null Derived Owner Auth Changed",
       "Description": "The UseNullDerivedOwnerAuth setting was changed.",
       "Flag": "WARNING",
-      "ResultType": "REGISTRY",
+      "Target": "RegistryObject",
       "Platforms": [
         "WINDOWS"
       ],
@@ -977,7 +977,7 @@
       "Name": "OS Managed Auth Level Changed",
       "Description": "The TPM OS Managed Auth Level was Changed.",
       "Flag": "WARNING",
-      "ResultType": "REGISTRY",
+      "Target": "RegistryObject",
       "Platforms": [
         "WINDOWS"
       ],
@@ -999,7 +999,7 @@
       "Name": "SHA Root of Trust Modified",
       "Description": "The systems root of trust has been modified.",
       "Flag": "WARNING",
-      "ResultType": "TPM",
+      "Target": "TpmObject",
       "Platforms": [
         "WINDOWS",
         "LINUX"
@@ -1058,7 +1058,7 @@
       "Name": "SHA256 Root of Trust Modified",
       "Description": "The systems root of trust has been modified.",
       "Flag": "WARNING",
-      "ResultType": "TPM",
+      "Target": "TpmObject",
       "Platforms": [
         "WINDOWS",
         "LINUX"
@@ -1117,7 +1117,7 @@
       "Name": "SHA384 Root of Trust Modified",
       "Description": "The systems root of trust has been modified.",
       "Flag": "WARNING",
-      "ResultType": "TPM",
+      "Target": "TpmObject",
       "Platforms": [
         "WINDOWS",
         "LINUX"
@@ -1176,7 +1176,7 @@
       "Name": "SHA512 Root of Trust Modified",
       "Description": "The systems root of trust has been modified.",
       "Flag": "WARNING",
-      "ResultType": "TPM",
+      "Target": "TpmObject",
       "Platforms": [
         "WINDOWS",
         "LINUX"
@@ -1235,7 +1235,7 @@
       "Name": "SM3_256 Root of Trust Modified",
       "Description": "The systems root of trust has been modified.",
       "Flag": "WARNING",
-      "ResultType": "TPM",
+      "Target": "TpmObject",
       "Platforms": [
         "WINDOWS",
         "LINUX"
@@ -1297,7 +1297,7 @@
       "Platforms": [
         "WINDOWS"
       ],
-      "ResultType": "REGISTRY",
+      "Target": "RegistryObject",
       "Expression": "SYSTEM_POLICY OR USER_POLICY",
       "Clauses": [
         {

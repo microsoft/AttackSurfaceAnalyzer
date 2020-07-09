@@ -44,7 +44,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var stringContains = new AsaRule("String Contains Any Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -97,7 +97,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var listContains = new AsaRule("List Contains Any Rule")
             {
-                ResultType = RESULT_TYPE.REGISTRY,
+                Target = "RegistryObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -159,7 +159,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var stringDictContains = new AsaRule("String Dict Contains Any Rule")
             {
-                ResultType = RESULT_TYPE.REGISTRY,
+                Target = "RegistryObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -234,7 +234,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var listDictContains = new AsaRule("List Dict Contains Any Rule")
             {
-                ResultType = RESULT_TYPE.REGISTRY,
+                Target = "RegistryObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -284,7 +284,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var algDictContains = new AsaRule("Alg Dict Changed PCR 1")
             {
-                ResultType = RESULT_TYPE.TPM,
+                Target = "TpmObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -325,7 +325,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var stringContains = new AsaRule("String Contains Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -380,7 +380,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var listContains = new AsaRule("List Contains Rule")
             {
-                ResultType = RESULT_TYPE.REGISTRY,
+                Target = "RegistryObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -442,7 +442,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var stringDictContains = new AsaRule("String Dict Contains Rule")
             {
-                ResultType = RESULT_TYPE.REGISTRY,
+                Target = "RegistryObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -517,7 +517,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var listDictContains = new AsaRule("List Dict Contains Rule")
             {
-                ResultType = RESULT_TYPE.REGISTRY,
+                Target = "RegistryObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -554,7 +554,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var endsWithRule = new AsaRule("Ends With Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -598,7 +598,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var stringEquals = new AsaRule("String Equals Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -614,7 +614,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var boolEquals = new AsaRule("Bool Equals Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -630,7 +630,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var intEquals = new AsaRule("Int Equals Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -673,7 +673,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var gtRule = new AsaRule("Gt Rule")
             {
-                ResultType = RESULT_TYPE.PORT,
+                Target = "OpenPortObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -689,7 +689,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var badGtRule = new AsaRule("Bad Gt Rule")
             {
-                ResultType = RESULT_TYPE.PORT,
+                Target = "OpenPortObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -743,7 +743,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var isAfterRule = new AsaRule("Is After Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -765,7 +765,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var isAfterRuleShortDate = new AsaRule("Is After Short Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -813,7 +813,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var isBeforeRule = new AsaRule("Is Before Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -835,7 +835,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var isBeforeShortRule = new AsaRule("Is Before Short Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -883,7 +883,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var isExpiredRule = new AsaRule("Is Expired Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -915,7 +915,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var isNullRule = new AsaRule("Is Null Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -947,7 +947,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var isTrueRule = new AsaRule("Is True Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -976,7 +976,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var ltRule = new AsaRule("Lt Rule")
             {
-                ResultType = RESULT_TYPE.PORT,
+                Target = "OpenPortObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -998,7 +998,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var badLtRule = new AsaRule("Bad Lt Rule")
             {
-                ResultType = RESULT_TYPE.PORT,
+                Target = "OpenPortObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -1042,7 +1042,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var stringEquals = new AsaRule("String Equals Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -1058,7 +1058,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var boolEquals = new AsaRule("Bool Equals Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -1074,7 +1074,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var intEquals = new AsaRule("Int Equals Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -1114,7 +1114,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var regexRule = new AsaRule("Regex Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -1149,7 +1149,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var endsWithRule = new AsaRule("Ends With Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -1198,7 +1198,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var wasModifiedRule = new AsaRule("Was Modified Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -1251,7 +1251,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var pcrsModified = new AsaRule("Alg Dict Changed PCR 1")
             {
-                ResultType = RESULT_TYPE.TPM,
+                Target = "TpmObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {

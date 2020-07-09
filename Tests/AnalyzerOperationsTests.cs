@@ -55,7 +55,7 @@ namespace AttackSurfaceAnalyzer.Tests
             var norRule = new AsaRule(RuleName)
             {
                 Expression = "(0 NAND (0 NAND 1)) NAND (1 NAND (0 NAND 1))",
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -100,7 +100,7 @@ namespace AttackSurfaceAnalyzer.Tests
             var RuleName = "ContainsRule";
             var containsRule = new AsaRule(RuleName)
             {
-                ResultType = RESULT_TYPE.REGISTRY,
+                Target = "RegistryObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -127,7 +127,7 @@ namespace AttackSurfaceAnalyzer.Tests
             var andRule = new AsaRule(RuleName)
             {
                 Expression = "0 AND 1",
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -168,7 +168,7 @@ namespace AttackSurfaceAnalyzer.Tests
             var invalidRule = new AsaRule("Unbalanced Parentheses")
             {
                 Expression = "( 0 AND 1",
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -196,7 +196,7 @@ namespace AttackSurfaceAnalyzer.Tests
             invalidRule = new AsaRule("ClauseInParenthesesLabel")
             {
                 Expression = "WITH(PARENTHESIS)",
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -212,7 +212,7 @@ namespace AttackSurfaceAnalyzer.Tests
             invalidRule = new AsaRule("CharactersBetweenParentheses")
             {
                 Expression = "(W(I",
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -228,7 +228,7 @@ namespace AttackSurfaceAnalyzer.Tests
             invalidRule = new AsaRule("CharactersBeforeOpenParentheses")
             {
                 Expression = "W(I",
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -244,7 +244,7 @@ namespace AttackSurfaceAnalyzer.Tests
             invalidRule = new AsaRule("CharactersBetweenClosedParentheses")
             {
                 Expression = "(0 AND W)I)",
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -264,7 +264,7 @@ namespace AttackSurfaceAnalyzer.Tests
             invalidRule = new AsaRule("CharactersAfterClosedParentheses")
             {
                 Expression = "0 AND W)I",
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -284,7 +284,7 @@ namespace AttackSurfaceAnalyzer.Tests
             invalidRule = new AsaRule("MultipleConsecutiveNots")
             {
                 Expression = "0 AND NOT NOT 1",
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -304,7 +304,7 @@ namespace AttackSurfaceAnalyzer.Tests
             invalidRule = new AsaRule("CloseParenthesesWithNot")
             {
                 Expression = "(0 AND NOT) 1",
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -324,7 +324,7 @@ namespace AttackSurfaceAnalyzer.Tests
             invalidRule = new AsaRule("WhiteSpaceLabel")
             {
                 Expression = "0 AND   ",
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -340,7 +340,7 @@ namespace AttackSurfaceAnalyzer.Tests
             invalidRule = new AsaRule("InvalidOperator")
             {
                 Expression = "0 XAND 1",
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -360,7 +360,7 @@ namespace AttackSurfaceAnalyzer.Tests
             invalidRule = new AsaRule("InvalidNotOperator")
             {
                 Expression = "0 NOT AND 1",
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -380,7 +380,7 @@ namespace AttackSurfaceAnalyzer.Tests
             invalidRule = new AsaRule("EndsWithOperator")
             {
                 Expression = "0 AND",
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -396,7 +396,7 @@ namespace AttackSurfaceAnalyzer.Tests
             invalidRule = new AsaRule("UnusedLabel")
             {
                 Expression = "0",
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -415,7 +415,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             invalidRule = new AsaRule("MissingLabel")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -432,7 +432,7 @@ namespace AttackSurfaceAnalyzer.Tests
             invalidRule = new AsaRule("ExpressionRequiresLabels")
             {
                 Expression = "0 AND 1",
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -446,7 +446,7 @@ namespace AttackSurfaceAnalyzer.Tests
             invalidRule = new AsaRule("OutOfOrder")
             {
                 Expression = "0 1 AND",
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -470,7 +470,7 @@ namespace AttackSurfaceAnalyzer.Tests
             invalidRule = new AsaRule("StartWithOperator")
             {
                 Expression = "OR 0 1",
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -498,7 +498,7 @@ namespace AttackSurfaceAnalyzer.Tests
             invalidRule = new AsaRule("Case Sensitivity")
             {
                 Expression = "Variable",
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -519,7 +519,7 @@ namespace AttackSurfaceAnalyzer.Tests
             var nandRule = new AsaRule(RuleName)
             {
                 Expression = "0 NAND 1",
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -554,7 +554,7 @@ namespace AttackSurfaceAnalyzer.Tests
             var norRule = new AsaRule(RuleName)
             {
                 Expression = "0 NOR 1",
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -593,7 +593,7 @@ namespace AttackSurfaceAnalyzer.Tests
             var notRule = new AsaRule(RuleName)
             {
                 Expression = "NOT 0",
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -622,7 +622,7 @@ namespace AttackSurfaceAnalyzer.Tests
             var orRule = new AsaRule(RuleName)
             {
                 Expression = "0 OR 1",
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -656,7 +656,7 @@ namespace AttackSurfaceAnalyzer.Tests
             var validRule = new AsaRule("Regular Rule")
             {
                 Expression = "0 AND 1",
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -684,7 +684,7 @@ namespace AttackSurfaceAnalyzer.Tests
             validRule = new AsaRule("Extraneous Parenthesis")
             {
                 Expression = "(0 AND 1)",
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -712,7 +712,7 @@ namespace AttackSurfaceAnalyzer.Tests
             validRule = new AsaRule("Deeply Nested Expression")
             {
                 Expression = "(0 AND 1) OR (2 XOR (3 AND (4 NAND 5)) OR 6)",
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -760,7 +760,7 @@ namespace AttackSurfaceAnalyzer.Tests
             validRule = new AsaRule("StringsForClauseLabels")
             {
                 Expression = "FOO AND BAR OR BA$_*",
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -789,7 +789,7 @@ namespace AttackSurfaceAnalyzer.Tests
             var xorRule = new AsaRule(RuleName)
             {
                 Expression = "0 XOR 1",
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
