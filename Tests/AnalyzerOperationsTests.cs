@@ -841,6 +841,43 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(analyzer.IsRuleValid(validRule));
         }
 
+
+        [TestMethod]
+        public void VerifyAsaRuleResultType()
+        {
+            var RuleName = "XorRule";
+            var xorRule = new AsaRule(RuleName)
+            {
+                Expression = "0 XOR 1",
+                // This test tests that creating an AsaRule with ResultType instead of Target works.
+                ResultType = RESULT_TYPE.FILE,
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Path", OPERATION.EQ)
+                    {
+                        Label = "0",
+                        Data = new List<string>()
+                        {
+                            TestPathOne
+                        }
+                    },
+                    new Clause("IsExecutable", OPERATION.IS_TRUE)
+                    {
+                        Label = "1"
+                    }
+                }
+            };
+
+            var analyzer = new AsaAnalyzer();
+            var ruleList = new List<Rule>() { xorRule };
+
+            Assert.IsTrue(analyzer.Analyze(ruleList, testPathOneObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(!analyzer.Analyze(ruleList, testPathTwoObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(!analyzer.Analyze(ruleList, testPathOneExecutableObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(analyzer.Analyze(ruleList, testPathTwoExecutableObject).Any(x => x.Name == RuleName));
+        }
+
         [TestMethod]
         public void VerifyXor()
         {
