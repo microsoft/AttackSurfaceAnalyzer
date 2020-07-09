@@ -5,6 +5,7 @@ using AttackSurfaceAnalyzer.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
+using System.Management.Automation;
 
 namespace AttackSurfaceAnalyzer.Tests
 {
@@ -510,6 +511,21 @@ namespace AttackSurfaceAnalyzer.Tests
             };
 
             Assert.IsFalse(VerifyRule(invalidRule));
+
+            invalidRule = new AsaRule("OPERATION.Custom without CustomOperation")
+            {
+                Target = "FileSystemObject",
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Path", OPERATION.CUSTOM)
+                    {
+                        Label = "VARIABLE"
+                    }
+                }
+            };
+
+            Assert.IsFalse(VerifyRule(invalidRule));
         }
 
         [TestMethod]
@@ -584,6 +600,46 @@ namespace AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(analyzer.Analyze(ruleList, testPathTwoObject).Any(x => x.Name == RuleName));
             Assert.IsTrue(!analyzer.Analyze(ruleList, testPathOneExecutableObject).Any(x => x.Name == RuleName));
             Assert.IsTrue(!analyzer.Analyze(ruleList, testPathTwoExecutableObject).Any(x => x.Name == RuleName));
+        }
+
+        [TestMethod]
+        public void VerifyCustom()
+        {
+            var RuleName = "CustomRule";
+            var customRule = new AsaRule(RuleName)
+            {
+                Target = "FileSystemObject",
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Path", OPERATION.CUSTOM)
+                    {
+                        CustomOperation = "RETURN_TRUE",
+                        Data = new List<string>()
+                        {
+                            "TestPath1"
+                        }
+                    },
+                }
+            };
+
+            var analyzer = new AsaAnalyzer();
+            
+            analyzer.CustomOperationDelegate = (x, y, z) =>
+            {
+                if (x.Operation == OPERATION.CUSTOM)
+                {
+                    if (x.CustomOperation == "RETURN_TRUE")
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            };
+
+            var ruleList = new List<Rule>() { customRule };
+
+            Assert.IsTrue(analyzer.Analyze(ruleList, testPathOneObject).Any(x => x.Name == RuleName));
         }
 
         [TestMethod]

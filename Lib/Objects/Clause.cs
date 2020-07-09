@@ -23,6 +23,7 @@ namespace AttackSurfaceAnalyzer.Objects
         public string Field { get; set; }
         public string? Label { get; set; }
         public OPERATION Operation { get; set; }
+        public string? CustomOperation { get; set; }
 
         #endregion Public Properties
     }

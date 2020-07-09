@@ -298,7 +298,8 @@ namespace AttackSurfaceAnalyzer.Types
         /// </summary>
         IS_EXPIRED,
 
-        CONTAINS_KEY
+        CONTAINS_KEY,
+        CUSTOM
     }
 
     /// <summary>
