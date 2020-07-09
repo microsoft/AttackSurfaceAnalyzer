@@ -181,7 +181,8 @@ namespace AttackSurfaceAnalyzer.Utils
                 var sample = before is null ? after : before;
 
                 // Does the name of this class match the Target in the rule?
-                if (sample?.GetType().Name == rule.Target)
+                // Or has no target been specified (match all)
+                if (rule.Target is null || (sample?.GetType().Name.Equals(rule.Target, StringComparison.InvariantCultureIgnoreCase) ?? false))
                 {
                     // If the expression is null the default is that all clauses must be true
                     // If we have no clauses .All will still match

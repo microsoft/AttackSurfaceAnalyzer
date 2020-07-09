@@ -115,7 +115,7 @@ namespace AttackSurfaceAnalyzer.Objects
 
         public List<Rule> GetRules()
         {
-            return (List<Rule>)AsaRules;
+            return AsaRules.Select(x => (Rule)x).ToList(); ;
         }
 
         public List<Rule> GetRulesForPlatform(PLATFORM platform)
