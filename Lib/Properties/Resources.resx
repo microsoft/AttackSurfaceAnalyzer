@@ -600,4 +600,7 @@
   <data name="Err_ClauseUnexpectedDictData" xml:space="preserve">
     <value>Rule {0} Clause {1} contains unexpected Dictionary Data.</value>
   </data>
+  <data name="Err_ClauseMissingCustomOperation" xml:space="preserve">
+    <value>Rule {0} Clause {1} has specified custom operation but the CustomOperation field is missing.</value>
+  </data>
 </root>

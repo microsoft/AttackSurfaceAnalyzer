@@ -36,6 +36,10 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public delegate (bool Processed, IEnumerable<string> valsExtracted, IEnumerable<KeyValuePair<string, string>> dictExtracted) ParseObjectToValues(object? obj);
 
+        public delegate bool OperationDelegate(Clause clause, IEnumerable<string>? valsToCheck, IEnumerable<KeyValuePair<string,string>> dictToCheck);
+
+        public OperationDelegate? CustomOperationDelegate { get; set; }
+
         /// <summary>
         /// Extracts a value stored at the specified path inside an object. Can crawl into List and
         /// Dictionaries of strings and return any top-level object.
@@ -354,6 +358,13 @@ namespace AttackSurfaceAnalyzer.Utils
                             if (clause.Data == null || clause.Data?.Count == 0)
                             {
                                 violations.Add((Strings.Get("Err_ClauseMissingListData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                            }
+                            break;
+
+                        case OPERATION.CUSTOM:
+                            if (clause.CustomOperation == null)
+                            {
+                                violations.Add((Strings.Get("Err_ClauseMissingCustomOperation"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                             }
                             break;
 
@@ -812,6 +823,17 @@ namespace AttackSurfaceAnalyzer.Utils
 
                     case OPERATION.CONTAINS_KEY:
                         return dictToCheck.Any(x => clause.Data.Any(y => x.Key == y));
+
+                    case OPERATION.CUSTOM:
+                        if (CustomOperationDelegate is null)
+                        {
+                            Log.Debug("Custom operation hit but {0} isn't set.", nameof(CustomOperationDelegate));
+                            return false;
+                        }
+                        else
+                        {
+                            return CustomOperationDelegate.Invoke(clause, valsToCheck, dictToCheck);
+                        }
 
                     default:
                         Log.Debug("Unimplemented operation {0}", clause.Operation);
