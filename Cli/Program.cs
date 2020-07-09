@@ -112,11 +112,11 @@ namespace AttackSurfaceAnalyzer.Cli
 #endif
             var analyzer = new AsaAnalyzer();
             var ruleFile = RuleFile.FromFile(opts.AnalysisFile);
-            var violations = analyzer.VerifyRules(ruleFile.GetRules());
+            var violations = analyzer.EnumerateRuleIssues(ruleFile.GetRules());
             Analyzer.PrintViolations(violations);
             if (violations.Any())
             {
-                Log.Error("Encountered {0} issues with rules at {1}", violations.Count, opts.AnalysisFile ?? "Embedded");
+                Log.Error("Encountered {0} issues with rules at {1}", violations.Count(), opts.AnalysisFile ?? "Embedded");
                 return (int)ASA_ERROR.INVALID_RULES;
             }
             Log.Information("{0} Rules successfully verified. ✅", ruleFile.AsaRules.Count());
@@ -723,11 +723,11 @@ namespace AttackSurfaceAnalyzer.Cli
                 var ruleFile = string.IsNullOrEmpty(opts.AnalysesFile) ? RuleFile.LoadEmbeddedFilters() : RuleFile.FromFile(opts.AnalysesFile);
                 Analyzer analyzer = new AsaAnalyzer();
                 var platform = DatabaseManager.RunIdToPlatform(opts.SecondRunId);
-                var violations = analyzer.VerifyRules(ruleFile.GetRules());
+                var violations = analyzer.EnumerateRuleIssues(ruleFile.GetRules());
                 Analyzer.PrintViolations(violations);
                 if (violations.Any())
                 {
-                    Log.Error("Encountered {0} issues with rules in {1}. Skipping analysis.", violations.Count, opts.AnalysesFile ?? "Embedded");
+                    Log.Error("Encountered {0} issues with rules in {1}. Skipping analysis.", violations.Count(), opts.AnalysesFile ?? "Embedded");
                 }
                 else
                 {
