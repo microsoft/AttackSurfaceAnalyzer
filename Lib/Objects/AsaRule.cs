@@ -1,4 +1,5 @@
 ﻿using AttackSurfaceAnalyzer.Types;
+using Microsoft.CST.LogicalAnalyzer;
 using System;
 using System.Collections.Generic;
 using System.Text;

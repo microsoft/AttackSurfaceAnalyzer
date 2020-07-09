@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
-using AttackSurfaceAnalyzer.Objects;
-using AttackSurfaceAnalyzer.Types;
 using KellermanSoftware.CompareNetObjects;
-using Microsoft.CodeAnalysis;
+using Microsoft.CST.LogicalAnalyzer.Utils;
 using Newtonsoft.Json;
 using Serilog;
 using System;
@@ -13,7 +11,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace AttackSurfaceAnalyzer.Utils
+namespace Microsoft.CST.LogicalAnalyzer
 {
     public class Analyzer
     {
@@ -151,18 +149,6 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        // TODO: Refactor calls to this
-        public IEnumerable<Rule> Analyze(IEnumerable<Rule> rules, CompareResult compareResult)
-        {
-
-            if (compareResult == null)
-            {
-                return Array.Empty<Rule>();
-            }
-
-            return Analyze(rules, compareResult.Base, compareResult.Compare);
-        }
-
         public IEnumerable<Rule> Analyze(IEnumerable<Rule> rules, object? before = null, object? after = null)
         {
             if (before is null && after is null)
@@ -205,7 +191,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     // Otherwise we evaluate the expression
                     else
                     {
-                        if (Evaluate(rule.Expression.Split(" "), rule.Clauses, before, after))
+                        if (Evaluate(rule.Expression.Split(' '), rule.Clauses, before, after))
                         {
                             return true;
                         }
@@ -314,7 +300,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
                                 foreach (var regex in regexList)
                                 {
-                                    if (!AsaHelpers.IsValidRegex(regex))
+                                    if (!Helpers.IsValidRegex(regex))
                                     {
                                         yield return ((Strings.Get("Err_ClauseInvalidRegex"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), regex })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                                     }
@@ -391,7 +377,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     // Are parenthesis balanced Are spaces correct Are all variables defined by
                     // clauses? Are variables and operators alternating?
-                    var splits = expression.Split(" ");
+                    var splits = expression.Split(' ');
                     int foundStarts = 0;
                     int foundEnds = 0;
                     bool expectingOperator = false;
@@ -481,7 +467,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         else
                         {
                             // If we can't enum parse the operator
-                            if (!Enum.TryParse(typeof(BOOL_OPERATOR), splits[i], out object? op))
+                            if (!Enum.TryParse<BOOL_OPERATOR>(splits[i], out BOOL_OPERATOR op))
                             {
                                 yield return ((Strings.Get("Err_ClauseInvalidOperator"), new string[] { expression, rule.Name, splits[i] }));
                             }
@@ -839,9 +825,6 @@ namespace AttackSurfaceAnalyzer.Utils
             catch (Exception e)
             {
                 Log.Debug(e, $"Hit while parsing {JsonConvert.SerializeObject(clause)} onto ({JsonConvert.SerializeObject(before)},{JsonConvert.SerializeObject(after)})");
-                Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
-                ExceptionEvent.Add("Exception Type", e.GetType().ToString());
-                AsaTelemetry.TrackEvent("ApplyOverallException", ExceptionEvent);
             }
 
             return false;
@@ -917,9 +900,9 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
                 catch (Exception e)
                 {
-                    Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
-                    ExceptionEvent.Add("Exception Type", e.GetType().ToString());
-                    AsaTelemetry.TrackEvent("ApplyDeletedModifiedException", ExceptionEvent);
+                    //Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
+                    //ExceptionEvent.Add("Exception Type", e.GetType().ToString());
+                    //AsaTelemetry.TrackEvent("ApplyDeletedModifiedException", ExceptionEvent);
                 }
             }
 
