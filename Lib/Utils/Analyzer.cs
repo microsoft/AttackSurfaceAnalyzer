@@ -116,7 +116,7 @@ namespace AttackSurfaceAnalyzer.Utils
             return null;
         }
 
-        public static void PrintViolations(List<(string, string[])> violations)
+        public static void PrintViolations(IEnumerable<(string, string[])> violations)
         {
             if (violations == null) return;
             foreach (var violation in violations)
@@ -235,18 +235,16 @@ namespace AttackSurfaceAnalyzer.Utils
         /// Determines if there are any problems with the provided rule.
         /// </summary>
         /// <param name="rule">The rule to parse.</param>
-        /// <returns>True if there are issues.</returns>
-        public bool VerifyRule(Rule rule) => VerifyRules(new Rule[] { rule }).Any();
+        /// <returns>True if there are no issues.</returns>
+        public bool IsRuleValid(Rule rule) => !EnumerateRuleIssues(new Rule[] { rule }).Any();
 
         /// <summary>
         /// Verifies the provided rules and provides a list of issues with the rules.
         /// </summary>
         /// <param name="rules"></param>
         /// <returns>List of issues with the rules.</returns>
-        public List<(string, string[])> VerifyRules(IEnumerable<Rule> rules)
+        public IEnumerable<(string, string[])> EnumerateRuleIssues(IEnumerable<Rule> rules)
         {
-            var violations = new List<(string, string[])>();
-
             foreach (Rule rule in rules ?? Array.Empty<Rule>())
             {
                 var clauseLabels = rule.Clauses.GroupBy(x => x.Label);
@@ -255,7 +253,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 var duplicateClauses = clauseLabels.Where(x => x.Key != null && x.Count() > 1);
                 foreach (var duplicateClause in duplicateClauses)
                 {
-                    violations.Add((Strings.Get("Err_ClauseDuplicateName"), new string[] { rule.Name, duplicateClause.Key ?? string.Empty })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                    yield return ((Strings.Get("Err_ClauseDuplicateName"), new string[] { rule.Name, duplicateClause.Key ?? string.Empty })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                 }
 
                 // If clause label contains illegal characters
@@ -265,7 +263,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         if (label.Contains(" ") || label.Contains("(") || label.Contains(")"))
                         {
-                            violations.Add((Strings.Get("Err_ClauseInvalidLabel"), new string[] { rule.Name, label })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                            yield return ((Strings.Get("Err_ClauseInvalidLabel"), new string[] { rule.Name, label })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                         }
                     }
                     switch (clause.Operation)
@@ -274,11 +272,11 @@ namespace AttackSurfaceAnalyzer.Utils
                         case OPERATION.NEQ:
                             if ((clause.Data?.Count == null || clause.Data?.Count == 0))
                             {
-                                violations.Add((Strings.Get("Err_ClauseNoData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return ((Strings.Get("Err_ClauseNoData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                             }
                             if (clause.DictData != null || clause.DictData?.Count > 0)
                             {
-                                violations.Add((Strings.Get("Err_ClauseDictDataUnexpected"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation.ToString() })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return ((Strings.Get("Err_ClauseDictDataUnexpected"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation.ToString() })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                             }
                             break;
 
@@ -286,11 +284,11 @@ namespace AttackSurfaceAnalyzer.Utils
                         case OPERATION.CONTAINS_ANY:
                             if ((clause.Data?.Count == null || clause.Data?.Count == 0) && (clause.DictData?.Count == null || clause.DictData?.Count == 0))
                             {
-                                violations.Add((Strings.Get("Err_ClauseNoDataOrDictData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return ((Strings.Get("Err_ClauseNoDataOrDictData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                             }
                             if ((clause.Data is List<string> list && list.Count > 0) && (clause.DictData is List<KeyValuePair<string, string>> dictList && dictList.Count > 0))
                             {
-                                violations.Add((Strings.Get("Err_ClauseBothDataDictData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return ((Strings.Get("Err_ClauseBothDataDictData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                             }
                             break;
 
@@ -298,11 +296,11 @@ namespace AttackSurfaceAnalyzer.Utils
                         case OPERATION.STARTS_WITH:
                             if (clause.Data?.Count == null || clause.Data?.Count == 0)
                             {
-                                violations.Add((Strings.Get("Err_ClauseNoData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return ((Strings.Get("Err_ClauseNoData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                             }
                             if (clause.DictData != null || clause.DictData?.Count > 0)
                             {
-                                violations.Add((Strings.Get("Err_ClauseDictDataUnexpected"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation.ToString() })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return ((Strings.Get("Err_ClauseDictDataUnexpected"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation.ToString() })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                             }
                             break;
 
@@ -310,18 +308,18 @@ namespace AttackSurfaceAnalyzer.Utils
                         case OPERATION.LT:
                             if (clause.Data?.Count == null || clause.Data is List<string> clauseList && (clauseList.Count != 1 || !int.TryParse(clause.Data.First(), out int _)))
                             {
-                                violations.Add((Strings.Get("Err_ClauseExpectedInt"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return ((Strings.Get("Err_ClauseExpectedInt"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                             }
                             if (clause.DictData != null || clause.DictData?.Count > 0)
                             {
-                                violations.Add((Strings.Get("Err_ClauseDictDataUnexpected"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation.ToString() })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return ((Strings.Get("Err_ClauseDictDataUnexpected"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation.ToString() })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                             }
                             break;
 
                         case OPERATION.REGEX:
                             if (clause.Data?.Count == null || clause.Data?.Count == 0)
                             {
-                                violations.Add((Strings.Get("Err_ClauseNoData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return ((Strings.Get("Err_ClauseNoData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                             }
                             else if (clause.Data is List<string> regexList)
                             {
@@ -329,13 +327,13 @@ namespace AttackSurfaceAnalyzer.Utils
                                 {
                                     if (!AsaHelpers.IsValidRegex(regex))
                                     {
-                                        violations.Add((Strings.Get("Err_ClauseInvalidRegex"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), regex })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                        yield return ((Strings.Get("Err_ClauseInvalidRegex"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), regex })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                                     }
                                 }
                             }
                             if (clause.DictData != null || clause.DictData?.Count > 0)
                             {
-                                violations.Add((Strings.Get("Err_ClauseDictDataUnexpected"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation.ToString() })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return ((Strings.Get("Err_ClauseDictDataUnexpected"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation.ToString() })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                             }
                             break;
 
@@ -345,11 +343,11 @@ namespace AttackSurfaceAnalyzer.Utils
                         case OPERATION.WAS_MODIFIED:
                             if (!(clause.Data?.Count == null || clause.Data?.Count == 0))
                             {
-                                violations.Add((Strings.Get("Err_ClauseRedundantData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return ((Strings.Get("Err_ClauseRedundantData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                             }
                             else if (!(clause.DictData?.Count == null || clause.DictData?.Count == 0))
                             {
-                                violations.Add((Strings.Get("Err_ClauseRedundantDictData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return ((Strings.Get("Err_ClauseRedundantDictData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                             }
                             break;
 
@@ -357,40 +355,43 @@ namespace AttackSurfaceAnalyzer.Utils
                         case OPERATION.IS_AFTER:
                             if (clause.Data?.Count == null || clause.Data is List<string> clauseList2 && (clauseList2.Count != 1 || !DateTime.TryParse(clause.Data.First(), out DateTime _)))
                             {
-                                violations.Add((Strings.Get("Err_ClauseExpectedDateTime"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return ((Strings.Get("Err_ClauseExpectedDateTime"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                             }
                             if (clause.DictData != null || clause.DictData?.Count > 0)
                             {
-                                violations.Add((Strings.Get("Err_ClauseDictDataUnexpected"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation.ToString() })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return ((Strings.Get("Err_ClauseDictDataUnexpected"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation.ToString() })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                             }
                             break;
 
                         case OPERATION.CONTAINS_KEY:
                             if (clause.DictData != null)
                             {
-                                violations.Add((Strings.Get("Err_ClauseUnexpectedDictData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return ((Strings.Get("Err_ClauseUnexpectedDictData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                             }
                             if (clause.Data == null || clause.Data?.Count == 0)
                             {
-                                violations.Add((Strings.Get("Err_ClauseMissingListData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return ((Strings.Get("Err_ClauseMissingListData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                             }
                             break;
 
                         case OPERATION.CUSTOM:
                             if (clause.CustomOperation == null)
                             {
-                                violations.Add((Strings.Get("Err_ClauseMissingCustomOperation"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return ((Strings.Get("Err_ClauseMissingCustomOperation"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                             }
                             if (CustomOperationValidationDelegate != null)
                             {
-                                violations.AddRange(CustomOperationValidationDelegate(rule, clause));
+                                foreach(var violation in CustomOperationValidationDelegate(rule, clause))
+                                {
+                                    yield return violation;
+                                }
                             }
                             break;
 
                         case OPERATION.DOES_NOT_CONTAIN:
                         case OPERATION.DOES_NOT_CONTAIN_ALL:
                         default:
-                            violations.Add((Strings.Get("Err_ClauseUnsuppportedOperator"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation.ToString() })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                            yield return ((Strings.Get("Err_ClauseUnsuppportedOperator"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation.ToString() })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
                             break;
                     }
                 }
@@ -412,7 +413,7 @@ namespace AttackSurfaceAnalyzer.Utils
                         foundEnds += splits[i].Count(x => x.Equals(')'));
                         if (foundEnds > foundStarts)
                         {
-                            violations.Add((Strings.Get("Err_ClauseUnbalancedParentheses"), new string[] { expression, rule.Name }));
+                            yield return ((Strings.Get("Err_ClauseUnbalancedParentheses"), new string[] { expression, rule.Name }));
                         }
                         // Variable
                         if (!expectingOperator)
@@ -428,17 +429,17 @@ namespace AttackSurfaceAnalyzer.Utils
                                     // If we've seen a ) this is now invalid
                                     if (lastClose != -1)
                                     {
-                                        violations.Add((Strings.Get("Err_ClauseParenthesisInLabel"), new string[] { expression, rule.Name, splits[i] }));
+                                        yield return ((Strings.Get("Err_ClauseParenthesisInLabel"), new string[] { expression, rule.Name, splits[i] }));
                                     }
                                     // If there were any characters between open parenthesis
                                     if (j - lastOpen != 1)
                                     {
-                                        violations.Add((Strings.Get("Err_ClauseCharactersBetweenOpenParentheses"), new string[] { expression, rule.Name, splits[i] }));
+                                        yield return ((Strings.Get("Err_ClauseCharactersBetweenOpenParentheses"), new string[] { expression, rule.Name, splits[i] }));
                                     }
                                     // If there was a random parenthesis not starting the variable
                                     else if (j > 0)
                                     {
-                                        violations.Add((Strings.Get("Err_ClauseCharactersBeforeOpenParentheses"), new string[] { expression, rule.Name, splits[i] }));
+                                        yield return ((Strings.Get("Err_ClauseCharactersBeforeOpenParentheses"), new string[] { expression, rule.Name, splits[i] }));
                                     }
                                     lastOpen = j;
                                 }
@@ -447,7 +448,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                     // If we've seen a close before update last
                                     if (lastClose != -1 && j - lastClose != 1)
                                     {
-                                        violations.Add((Strings.Get("Err_ClauseCharactersBetweenClosedParentheses"), new string[] { expression, rule.Name, splits[i] }));
+                                        yield return ((Strings.Get("Err_ClauseCharactersBetweenClosedParentheses"), new string[] { expression, rule.Name, splits[i] }));
                                     }
                                     lastClose = j;
                                 }
@@ -457,7 +458,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                     // other characters after it
                                     if (lastClose != -1)
                                     {
-                                        violations.Add((Strings.Get("Err_ClauseCharactersAfterClosedParentheses"), new string[] { expression, rule.Name, splits[i] }));
+                                        yield return ((Strings.Get("Err_ClauseCharactersAfterClosedParentheses"), new string[] { expression, rule.Name, splits[i] }));
                                     }
                                 }
                             }
@@ -468,11 +469,11 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
                                 if (previouslyNot)
                                 {
-                                    violations.Add((Strings.Get("Err_ClauseMultipleConsecutiveNots"), new string[] { expression, rule.Name }));
+                                    yield return ((Strings.Get("Err_ClauseMultipleConsecutiveNots"), new string[] { expression, rule.Name }));
                                 }
                                 else if (splits[i].Contains(")"))
                                 {
-                                    violations.Add((Strings.Get("Err_ClauseCloseParenthesesInNot"), new string[] { expression, rule.Name, splits[i] }));
+                                    yield return ((Strings.Get("Err_ClauseCloseParenthesesInNot"), new string[] { expression, rule.Name, splits[i] }));
                                 }
                                 previouslyNot = true;
                             }
@@ -482,7 +483,7 @@ namespace AttackSurfaceAnalyzer.Utils
                                 previouslyNot = false;
                                 if (string.IsNullOrWhiteSpace(variable) || !rule.Clauses.Any(x => x.Label == variable))
                                 {
-                                    violations.Add((Strings.Get("Err_ClauseUndefinedLabel"), new string[] { expression, rule.Name, splits[i].Replace("(", "").Replace(")", "") }));
+                                    yield return ((Strings.Get("Err_ClauseUndefinedLabel"), new string[] { expression, rule.Name, splits[i].Replace("(", "").Replace(")", "") }));
                                 }
                                 expectingOperator = true;
                             }
@@ -493,7 +494,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             // If we can't enum parse the operator
                             if (!Enum.TryParse(typeof(BOOL_OPERATOR), splits[i], out object? op))
                             {
-                                violations.Add((Strings.Get("Err_ClauseInvalidOperator"), new string[] { expression, rule.Name, splits[i] }));
+                                yield return ((Strings.Get("Err_ClauseInvalidOperator"), new string[] { expression, rule.Name, splits[i] }));
                             }
                             // We don't allow NOT operators to modify other Operators, so we can't
                             // allow NOT here
@@ -501,7 +502,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             {
                                 if (op is BOOL_OPERATOR boolOp && boolOp == BOOL_OPERATOR.NOT)
                                 {
-                                    violations.Add((Strings.Get("Err_ClauseInvalidNotOperator"), new string[] { expression, rule.Name }));
+                                    yield return ((Strings.Get("Err_ClauseInvalidNotOperator"), new string[] { expression, rule.Name }));
                                 }
                             }
                             expectingOperator = false;
@@ -511,7 +512,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     // We should always end on expecting an operator (having gotten a variable)
                     if (!expectingOperator)
                     {
-                        violations.Add((Strings.Get("Err_ClauseEndsWithOperator"), new string[] { expression, rule.Name }));
+                        yield return ((Strings.Get("Err_ClauseEndsWithOperator"), new string[] { expression, rule.Name }));
                     }
                 }
 
@@ -522,7 +523,7 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         if (!foundLabels.Contains(label))
                         {
-                            violations.Add((Strings.Get("Err_ClauseUnusedLabel"), new string[] { label, rule.Name }));
+                            yield return ((Strings.Get("Err_ClauseUnusedLabel"), new string[] { label, rule.Name }));
                         }
                     }
                 }
@@ -531,15 +532,14 @@ namespace AttackSurfaceAnalyzer.Utils
                 // If any clause has a label they all must have labels
                 if (justTheLabels.Any(x => x is string) && justTheLabels.Any(x => x is null))
                 {
-                    violations.Add((Strings.Get("Err_ClauseMissingLabels"), new string[] { rule.Name }));
+                    yield return ((Strings.Get("Err_ClauseMissingLabels"), new string[] { rule.Name }));
                 }
                 // If the clause has an expression it may not have any null labels
                 if (rule.Expression != null && justTheLabels.Any(x => x is null))
                 {
-                    violations.Add((Strings.Get("Err_ClauseExpressionButMissingLabels"), new string[] { rule.Name }));
+                    yield return ((Strings.Get("Err_ClauseExpressionButMissingLabels"), new string[] { rule.Name }));
                 }
             }
-            return violations;
         }
 
         protected bool AnalyzeClause(Clause clause, object? before = null, object? after = null)

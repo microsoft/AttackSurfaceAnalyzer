@@ -162,7 +162,7 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             var analyzer = new AsaAnalyzer();
             var ruleFile = RuleFile.LoadEmbeddedFilters();
-            Assert.IsTrue(!analyzer.VerifyRules(ruleFile.GetRules()).Any());
+            Assert.IsTrue(!analyzer.EnumerateRuleIssues(ruleFile.GetRules()).Any());
         }
 
         [TestMethod]
@@ -194,7 +194,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
             var analyzer = new AsaAnalyzer();
-            Assert.IsFalse(analyzer.VerifyRule(invalidRule));
+            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
 
             invalidRule = new AsaRule("ClauseInParenthesesLabel")
             {
@@ -210,7 +210,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            Assert.IsFalse(analyzer.VerifyRule(invalidRule));
+            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
 
             invalidRule = new AsaRule("CharactersBetweenParentheses")
             {
@@ -226,7 +226,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            Assert.IsFalse(analyzer.VerifyRule(invalidRule));
+            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
 
             invalidRule = new AsaRule("CharactersBeforeOpenParentheses")
             {
@@ -242,7 +242,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            Assert.IsFalse(analyzer.VerifyRule(invalidRule));
+            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
 
             invalidRule = new AsaRule("CharactersBetweenClosedParentheses")
             {
@@ -262,7 +262,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            Assert.IsFalse(analyzer.VerifyRule(invalidRule));
+            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
 
             invalidRule = new AsaRule("CharactersAfterClosedParentheses")
             {
@@ -282,7 +282,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            Assert.IsFalse(analyzer.VerifyRule(invalidRule));
+            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
 
             invalidRule = new AsaRule("MultipleConsecutiveNots")
             {
@@ -302,7 +302,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            Assert.IsFalse(analyzer.VerifyRule(invalidRule));
+            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
 
             invalidRule = new AsaRule("CloseParenthesesWithNot")
             {
@@ -322,7 +322,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            Assert.IsFalse(analyzer.VerifyRule(invalidRule));
+            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
 
             invalidRule = new AsaRule("WhiteSpaceLabel")
             {
@@ -338,7 +338,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            Assert.IsFalse(analyzer.VerifyRule(invalidRule));
+            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
 
             invalidRule = new AsaRule("InvalidOperator")
             {
@@ -358,7 +358,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            Assert.IsFalse(analyzer.VerifyRule(invalidRule));
+            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
 
             invalidRule = new AsaRule("InvalidNotOperator")
             {
@@ -378,7 +378,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            Assert.IsFalse(analyzer.VerifyRule(invalidRule));
+            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
 
             invalidRule = new AsaRule("EndsWithOperator")
             {
@@ -394,7 +394,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            Assert.IsFalse(analyzer.VerifyRule(invalidRule));
+            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
 
             invalidRule = new AsaRule("UnusedLabel")
             {
@@ -414,7 +414,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            Assert.IsFalse(analyzer.VerifyRule(invalidRule));
+            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
 
             invalidRule = new AsaRule("MissingLabel")
             {
@@ -430,7 +430,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            Assert.IsFalse(analyzer.VerifyRule(invalidRule));
+            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
 
             invalidRule = new AsaRule("ExpressionRequiresLabels")
             {
@@ -444,7 +444,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            Assert.IsFalse(analyzer.VerifyRule(invalidRule));
+            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
 
             invalidRule = new AsaRule("OutOfOrder")
             {
@@ -468,7 +468,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            Assert.IsFalse(analyzer.VerifyRule(invalidRule));
+            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
 
             invalidRule = new AsaRule("StartWithOperator")
             {
@@ -496,7 +496,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            Assert.IsFalse(analyzer.VerifyRule(invalidRule));
+            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
 
             invalidRule = new AsaRule("Case Sensitivity")
             {
@@ -512,7 +512,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            Assert.IsFalse(analyzer.VerifyRule(invalidRule));
+            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
 
             invalidRule = new AsaRule("OPERATION.Custom without CustomOperation")
             {
@@ -527,7 +527,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            Assert.IsFalse(analyzer.VerifyRule(invalidRule));
+            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
         }
 
         [TestMethod]
@@ -738,7 +738,7 @@ namespace AttackSurfaceAnalyzer.Tests
             };
 
             var analyzer = new AsaAnalyzer();
-            Assert.IsTrue(analyzer.VerifyRule(validRule));
+            Assert.IsTrue(analyzer.IsRuleValid(validRule));
 
             validRule = new AsaRule("Extraneous Parenthesis")
             {
@@ -766,7 +766,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            Assert.IsTrue(analyzer.VerifyRule(validRule));
+            Assert.IsTrue(analyzer.IsRuleValid(validRule));
 
             validRule = new AsaRule("Deeply Nested Expression")
             {
@@ -814,7 +814,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            Assert.IsTrue(analyzer.VerifyRule(validRule));
+            Assert.IsTrue(analyzer.IsRuleValid(validRule));
 
             validRule = new AsaRule("StringsForClauseLabels")
             {
@@ -838,7 +838,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            Assert.IsTrue(analyzer.VerifyRule(validRule));
+            Assert.IsTrue(analyzer.IsRuleValid(validRule));
         }
 
         [TestMethod]
@@ -928,8 +928,8 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            Assert.IsFalse(analyzer.VerifyRule(supportedCustomOperation));
-            Assert.IsTrue(analyzer.VerifyRule(unsupportedCustomOperation));
+            Assert.IsTrue(analyzer.IsRuleValid(supportedCustomOperation));
+            Assert.IsFalse(analyzer.IsRuleValid(unsupportedCustomOperation));
         }
     }
 }
