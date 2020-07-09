@@ -9,7 +9,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -21,19 +20,21 @@ namespace AttackSurfaceAnalyzer.Utils
     {
         private readonly ConcurrentDictionary<string, Regex> RegexCache = new ConcurrentDictionary<string, Regex>();
 
-        public Analyzer()
+        public Analyzer(ParseCustomProperty? customPropertyParse = null)
         {
+            CustomPropertyParse = customPropertyParse;
         }
 
-<<<<<<< HEAD
         public Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DefaultLevels { get; }
 
         #endregion Public Properties
 
         #region Public Methods
 
-=======
->>>>>>> 8f03cfd... More analyzer refactor
+        public delegate (bool Processed,object? Result) ParseCustomProperty(object? obj, string index);
+
+        private readonly ParseCustomProperty? CustomPropertyParse;
+
         /// <summary>
         /// Extracts a value stored at the specified path inside an object. Can crawl into List and
         /// Dictionaries of strings and return any top-level object.
@@ -41,7 +42,7 @@ namespace AttackSurfaceAnalyzer.Utils
         /// <param name="targetObject">The object to parse</param>
         /// <param name="pathToProperty">The path of the property to fetch</param>
         /// <returns></returns>
-        public static object? GetValueByPropertyString(object? targetObject, string pathToProperty)
+        public object? GetValueByPropertyString(object? targetObject, string pathToProperty)
         {
             if (pathToProperty is null || targetObject is null)
             {
@@ -61,20 +62,6 @@ namespace AttackSurfaceAnalyzer.Utils
 
                     switch (value)
                     {
-                        case Dictionary<(TpmAlgId, uint), byte[]> algDict:
-                            var elements = Convert.ToString(pathPortions[pathPortionIndex], CultureInfo.InvariantCulture)?.Trim('(').Trim(')').Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                            if (Enum.TryParse(typeof(TpmAlgId), elements.First(), out object? result) &&
-                                result is TpmAlgId Algorithm && uint.TryParse(elements.Last(), out uint Index) &&
-                                algDict.TryGetValue((Algorithm, Index), out byte[]? byteArray))
-                            {
-                                value = byteArray;
-                            }
-                            else
-                            {
-                                value = null;
-                            }
-                            break;
-
                         case Dictionary<string, string> stringDict:
                             if (stringDict.TryGetValue(pathPortions[pathPortionIndex], out string? stringValue))
                             {
@@ -98,7 +85,17 @@ namespace AttackSurfaceAnalyzer.Utils
                             break;
 
                         default:
-                            value = GetValueByPropertyName(value, pathPortions[pathPortionIndex]);
+                            var res = CustomPropertyParse?.Invoke(value, pathPortions[pathPortionIndex]);
+                            
+                            // If we couldn't do any custom parsing fall back to the default
+                            if (!res.HasValue || res.Value.Processed == false)
+                            {
+                                value = GetValueByPropertyName(value, pathPortions[pathPortionIndex]);
+                            }
+                            else
+                            {
+                                value = res.Value.Result;
+                            }
                             break;
                     }
                 }
@@ -152,6 +149,7 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
+        // TODO: Refactor calls to this
         public IEnumerable<Rule> Analyze(IEnumerable<Rule> rules, CompareResult compareResult)
         {
 
@@ -975,15 +973,8 @@ namespace AttackSurfaceAnalyzer.Utils
                         else
                         {
                             // Recursively evaluate the contents of the parentheses
-<<<<<<< HEAD
-
-                            splits[i] = splits[i][1..];
-                            splits[matchingParen] = splits[matchingParen][0..^1];
-                            var next = Evaluate(splits[i..(matchingParen + 1)], Clauses, compareResult);
-=======
                             var next = Evaluate(splits[i..(matchingParen + 1)], Clauses, before, after);
 
->>>>>>> 8f03cfd... More analyzer refactor
                             next = invertNextStatement ? !next : next;
 
                             current = Operate(Operator, current, next);
@@ -1044,9 +1035,6 @@ namespace AttackSurfaceAnalyzer.Utils
             return current;
         }
 
-<<<<<<< HEAD
-        #endregion Private Methods
-=======
         public static (bool CanShortcut, bool Value) TryShortcut(bool current, BOOL_OPERATOR operation)
         {
             // If either argument of an AND statement is false, or either argument of a
@@ -1067,6 +1055,5 @@ namespace AttackSurfaceAnalyzer.Utils
             }
             return (false,false);
         }
->>>>>>> 8f03cfd... More analyzer refactor
     }
 }

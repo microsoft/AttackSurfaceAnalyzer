@@ -720,7 +720,7 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 watch = Stopwatch.StartNew();
                 var ruleFile = string.IsNullOrEmpty(opts.AnalysesFile) ? RuleFile.LoadEmbeddedFilters() : RuleFile.FromFile(opts.AnalysesFile);
-                Analyzer analyzer = new Analyzer();
+                Analyzer analyzer = new AsaAnalyzer();
                 var platform = DatabaseManager.RunIdToPlatform(opts.SecondRunId);
                 var violations = Analyzer.VerifyRules(ruleFile.GetRules());
                 Analyzer.PrintViolations(violations);

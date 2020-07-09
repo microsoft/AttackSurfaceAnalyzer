@@ -74,7 +74,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var analyzer = new Analyzer();
+            var analyzer = new AsaAnalyzer();
             var ruleList = new List<Rule>() { norRule };
 
             Assert.IsTrue(analyzer.Analyze(ruleList, testPathOneObject).Any(x => x.Name == RuleName));
@@ -115,7 +115,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var analyzer = new Analyzer();
+            var analyzer = new AsaAnalyzer();
             var ruleList = new List<Rule>() { containsRule };
             Assert.IsTrue(analyzer.Analyze(ruleList,regObj).Any(x => x.Name == RuleName));
         }
@@ -146,7 +146,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var analyzer = new Analyzer();
+            var analyzer = new AsaAnalyzer();
             var ruleList = new List<Rule>() { andRule };
 
             Assert.IsTrue(!analyzer.Analyze(ruleList, testPathOneObject).Any(x => x.Name == RuleName));
@@ -538,7 +538,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var analyzer = new Analyzer();
+            var analyzer = new AsaAnalyzer();
             var ruleList = new List<Rule>() { nandRule };
 
             Assert.IsTrue(!analyzer.Analyze(ruleList, testPathOneObject).Any(x => x.Name == RuleName));
@@ -577,7 +577,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var analyzer = new Analyzer();
+            var analyzer = new AsaAnalyzer();
             var ruleList = new List<Rule>() { norRule };
 
             Assert.IsTrue(!analyzer.Analyze(ruleList, testPathOneObject).Any(x => x.Name == RuleName));
@@ -608,7 +608,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var analyzer = new Analyzer();
+            var analyzer = new AsaAnalyzer();
             var ruleList = new List<Rule>() { notRule };
 
             Assert.IsTrue(!analyzer.Analyze(ruleList, testPathOneObject).Any(x => x.Name == RuleName));
@@ -641,7 +641,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var analyzer = new Analyzer();
+            var analyzer = new AsaAnalyzer();
             var ruleList = new List<Rule>() { orRule };
 
             Assert.IsTrue(analyzer.Analyze(ruleList, testPathOneObject).Any(x => x.Name == RuleName));
@@ -808,7 +808,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var analyzer = new Analyzer();
+            var analyzer = new AsaAnalyzer();
             var ruleList = new List<Rule>() { xorRule };
 
             Assert.IsTrue(analyzer.Analyze(ruleList, testPathOneObject).Any(x => x.Name == RuleName));
