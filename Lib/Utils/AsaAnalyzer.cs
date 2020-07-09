@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using Tpm2Lib;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
     public class AsaAnalyzer : Analyzer
     {
-        public static (bool,object?) ParseCustomAsaProperties(object? obj, string index)
+        public static (bool, object?) ParseCustomAsaProperties(object? obj, string index)
         {
             switch (obj)
             {
@@ -19,22 +18,28 @@ namespace AttackSurfaceAnalyzer.Utils
                         result is TpmAlgId Algorithm && uint.TryParse(elements.Last(), out uint Index) &&
                         algDict.TryGetValue((Algorithm, Index), out byte[]? byteArray))
                     {
-                        return (true,byteArray);
+                        return (true, byteArray);
                     }
                     else
                     {
-                        return (true,null);
+                        return (true, null);
                     }
             }
-            return (false,null);
+            return (false, null);
         }
-        public AsaAnalyzer() : base(ParseCustomAsaProperties)
+
+        public static (bool Processed, IEnumerable<string> valsExtracted, IEnumerable<KeyValuePair<string, string>> dictExtracted) ParseCustomAsaObjectValues(object? obj)
         {
-
+            if (obj is Dictionary<(TpmAlgId, uint), byte[]> algDict)
+            {
+                return (true,Array.Empty<string>(), algDict.ToList().Select(x => new KeyValuePair<string, string>(x.Key.ToString(), Convert.ToBase64String(x.Value))).ToList());
+            }
+            return (false, Array.Empty<string>(), Array.Empty<KeyValuePair<string,string>>());
         }
-        //// TODO:
-        //                // This should be provided by the caller as a custom parser
-        //                
-
+        public AsaAnalyzer() : base()
+        {
+            CustomPropertyDelegate = ParseCustomAsaProperties;
+            CustomObjectToValuesDelegate = ParseCustomAsaObjectValues;
+        }
     }
 }

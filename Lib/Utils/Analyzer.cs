@@ -12,7 +12,6 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Tpm2Lib;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -20,9 +19,8 @@ namespace AttackSurfaceAnalyzer.Utils
     {
         private readonly ConcurrentDictionary<string, Regex> RegexCache = new ConcurrentDictionary<string, Regex>();
 
-        public Analyzer(ParseCustomProperty? customPropertyParse = null)
+        public Analyzer()
         {
-            CustomPropertyParse = customPropertyParse;
         }
 
         public Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DefaultLevels { get; }
@@ -33,7 +31,10 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public delegate (bool Processed,object? Result) ParseCustomProperty(object? obj, string index);
 
-        private readonly ParseCustomProperty? CustomPropertyParse;
+        public ParseCustomProperty? CustomPropertyDelegate { get; set; }
+        public ParseObjectToValues? CustomObjectToValuesDelegate { get; set; }
+
+        public delegate (bool Processed, IEnumerable<string> valsExtracted, IEnumerable<KeyValuePair<string, string>> dictExtracted) ParseObjectToValues(object? obj);
 
         /// <summary>
         /// Extracts a value stored at the specified path inside an object. Can crawl into List and
@@ -85,7 +86,7 @@ namespace AttackSurfaceAnalyzer.Utils
                             break;
 
                         default:
-                            var res = CustomPropertyParse?.Invoke(value, pathPortions[pathPortionIndex]);
+                            var res = CustomPropertyDelegate?.Invoke(value, pathPortions[pathPortionIndex]);
                             
                             // If we couldn't do any custom parsing fall back to the default
                             if (!res.HasValue || res.Value.Processed == false)
@@ -852,7 +853,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private static object? GetValueByPropertyName(object? obj, string? propertyName) => obj?.GetType().GetProperty(propertyName ?? string.Empty)?.GetValue(obj);
 
-        private static (List<string>, List<KeyValuePair<string, string>>) ObjectToValues(object? obj)
+        private (List<string>, List<KeyValuePair<string, string>>) ObjectToValues(object? obj)
         {
             List<string> valsToCheck = new List<string>();
             List<KeyValuePair<string, string>> dictToCheck = new List<KeyValuePair<string, string>>();
@@ -883,16 +884,20 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         dictToCheck = listKvp;
                     }
-                    else if (obj is Dictionary<(TpmAlgId, uint), byte[]> algDict)
-                    {
-                        dictToCheck = algDict.ToList().Select(x => new KeyValuePair<string, string>(x.Key.ToString(), Convert.ToBase64String(x.Value))).ToList();
-                    }
                     else
                     {
-                        var val = obj?.ToString();
-                        if (!string.IsNullOrEmpty(val))
+                        var res = CustomObjectToValuesDelegate?.Invoke(obj);
+                        if (res.HasValue && res.Value.Processed == true)
                         {
-                            valsToCheck.Add(val);
+                            (valsToCheck, dictToCheck) = (res.Value.valsExtracted.ToList(), res.Value.dictExtracted.ToList());
+                        }
+                        else
+                        {
+                            var val = obj?.ToString();
+                            if (!string.IsNullOrEmpty(val))
+                            {
+                                valsToCheck.Add(val);
+                            }
                         }
                     }
                 }
