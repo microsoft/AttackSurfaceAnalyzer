@@ -627,11 +627,11 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var analyzer = new AsaAnalyzer();
             
-            analyzer.CustomOperationDelegate = (x, y, z) =>
+            analyzer.CustomOperationDelegate = (clause, listValues, dictionaryValues) =>
             {
-                if (x.Operation == OPERATION.CUSTOM)
+                if (clause.Operation == OPERATION.CUSTOM)
                 {
-                    if (x.CustomOperation == "RETURN_TRUE")
+                    if (clause.CustomOperation == "RETURN_TRUE")
                     {
                         return true;
                     }
