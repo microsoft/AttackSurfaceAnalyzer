@@ -81,4 +81,7 @@
 	<None Include="..\icon-128.png" Pack="true" PackagePath="" />
 	<None Include="..\LICENSE.txt" Pack="true" PackagePath="" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LogicalAnalyzer\LogicalAnalyzer\LogicalAnalyzer.csproj" />
+  </ItemGroup>
 </Project>

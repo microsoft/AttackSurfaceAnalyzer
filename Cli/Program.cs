@@ -6,6 +6,7 @@ using AttackSurfaceAnalyzer.Utils;
 using CommandLine;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.CST.LogicalAnalyzer;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -745,8 +746,9 @@ namespace AttackSurfaceAnalyzer.Cli
                                         (rule.ChangeTypes == null || rule.ChangeTypes.Contains(res.ChangeType))
                                             && (rule.Platforms == null || rule.Platforms.Contains(platform))
                                             && (rule.ResultType == res.ResultType));
-                                    res.Rules = analyzer.Analyze(selectedRules,res.Base,res.Compare).ToList();
-                                    res.Analysis = res.Rules.Count > 0 ? res.Rules.Max(x => ((AsaRule)x).Flag) : ruleFile.DefaultLevels[res.ResultType];
+                                    res.Rules = analyzer.Analyze(selectedRules, res.Base, res.Compare).ToList();
+                                    res.Analysis = res.Rules.Count
+                                                   > 0 ? res.Rules.Max(x => ((AsaRule)x).Flag) : ruleFile.DefaultLevels[res.ResultType];
                                 });
                             }
                         }

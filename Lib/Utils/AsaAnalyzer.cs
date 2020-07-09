@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AttackSurfaceAnalyzer.Objects;
+using Microsoft.CST.LogicalAnalyzer;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -8,6 +10,16 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public class AsaAnalyzer : Analyzer
     {
+        public IEnumerable<Rule> Analyze(IEnumerable<Rule> rules, CompareResult compareResult)
+        {
+
+            if (compareResult == null)
+            {
+                return Array.Empty<Rule>();
+            }
+
+            return Analyze(rules, compareResult.Base, compareResult.Compare);
+        }
         public static (bool, object?) ParseCustomAsaProperties(object? obj, string index)
         {
             switch (obj)
