@@ -879,6 +879,47 @@ namespace AttackSurfaceAnalyzer.Tests
         }
 
         [TestMethod]
+        public void VerifyBareObjectQuery()
+        {
+            var RuleName = "BareObjectRule";
+            var bareObjectRule = new AsaRule(RuleName)
+            {
+                Target = "string",
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause(OPERATION.EQ)
+                    {
+                        Data = new List<string>()
+                        {
+                            TestPathOne
+                        }
+                    }
+                }
+            };
+
+            var bareObjectRuleNoTarget = new AsaRule(RuleName)
+            {
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause(OPERATION.EQ)
+                    {
+                        Data = new List<string>()
+                        {
+                            TestPathOne
+                        }
+                    }
+                }
+            };
+
+            var analyzer = new AsaAnalyzer();
+            var ruleList = new List<Rule>() { bareObjectRule, bareObjectRuleNoTarget };
+
+            Assert.IsTrue(analyzer.Analyze(ruleList, TestPathOne).Count() == 2);
+        }
+
+        [TestMethod]
         public void VerifyXor()
         {
             var RuleName = "XorRule";

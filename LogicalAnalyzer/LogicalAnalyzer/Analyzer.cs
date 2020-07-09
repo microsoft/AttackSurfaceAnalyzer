@@ -525,8 +525,12 @@ namespace Microsoft.CST.LogicalAnalyzer
             }
             try
             {
-                after = GetValueByPropertyString(after, clause.Field);
-                before = GetValueByPropertyString(before, clause.Field);
+                // Support bare objects
+                if (clause.Field is string)
+                {
+                    after = GetValueByPropertyString(after, clause.Field);
+                    before = GetValueByPropertyString(before, clause.Field);
+                }
                 
 
                 var typeHolder = before is null ? after : before;
