@@ -35,6 +35,17 @@ namespace AttackSurfaceAnalyzer.Tests
         }
 
         /// <summary>
+        /// We can't actually guarantee there's any wifi networks on the test system.
+        /// So we just check that it doesn't crash.
+        /// </summary>
+        [TestMethod]
+        public void TestWifiCollector()
+        {
+            var wc = new WifiCollector();
+            wc.TryExecute();
+        }
+
+        /// <summary>
         ///     Does not require admin.
         /// </summary>
         [TestMethod]

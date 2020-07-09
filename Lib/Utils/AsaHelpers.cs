@@ -145,7 +145,11 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public static bool IsAdmin()
         {
-            return Elevation.IsAdministrator() || Elevation.IsRunningAsRoot();
+            if (_elevated is null)
+            {
+                _elevated = Elevation.IsAdministrator() || Elevation.IsRunningAsRoot();
+            }
+            return (bool)_elevated;
         }
 
         public static bool IsDictionary(object o)
@@ -242,6 +246,8 @@ namespace AttackSurfaceAnalyzer.Utils
 
             return sid;
         }
+
+        private static bool? _elevated = null;
 
         private static readonly Random random = new Random();
 

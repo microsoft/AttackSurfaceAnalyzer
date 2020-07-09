@@ -10,7 +10,7 @@
   "profiles": {
     "Collect": {
       "commandName": "Project",
-      "commandLineArgs": "collect -f --directories C:\\temp",
+      "commandLineArgs": "collect -w --singlethread",
       "launchBrowser": true,
       "applicationUrl": "http://localhost:5002",
       "environmentVariables": {
