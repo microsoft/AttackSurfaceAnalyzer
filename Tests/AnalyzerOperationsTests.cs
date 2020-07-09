@@ -925,7 +925,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 {
                     new Clause("Path", OPERATION.CUSTOM)
                     {
-                        CustomOperation = "CHEESE",
+                        CustomOperation = "FOO",
                         Data = new List<string>()
                         {
                             TestPathOne
@@ -942,7 +942,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 {
                     new Clause("Path", OPERATION.CUSTOM)
                     {
-                        CustomOperation = "BACON",
+                        CustomOperation = "BAR",
                         Data = new List<string>()
                         {
                             TestPathOne
@@ -955,7 +955,7 @@ namespace AttackSurfaceAnalyzer.Tests
             var analyzer = new AsaAnalyzer();
 
             analyzer.CustomOperationValidationDelegate = (Rule r, Clause c) => {
-                if (c.CustomOperation == "CHEESE")
+                if (c.CustomOperation == "FOO")
                 {
                     return new List<(string, string[])>();
                 }
