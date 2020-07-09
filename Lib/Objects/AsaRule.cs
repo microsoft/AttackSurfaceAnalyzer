@@ -11,7 +11,18 @@ namespace AttackSurfaceAnalyzer.Objects
 
         public List<CHANGE_TYPE> ChangeTypes { get; set; } = new List<CHANGE_TYPE>() { CHANGE_TYPE.CREATED, CHANGE_TYPE.DELETED, CHANGE_TYPE.MODIFIED };
         public List<PLATFORM> Platforms { get; set; } = new List<PLATFORM>() { PLATFORM.LINUX, PLATFORM.MACOS, PLATFORM.WINDOWS };
-        public ANALYSIS_RESULT_TYPE Flag { get; set; }
+        public ANALYSIS_RESULT_TYPE Flag
+        {
+            get
+            {
+                return _flag;
+            } 
+            set
+            {
+                _flag = value;
+                Severity = (int)value;
+            }
+        }
         public RESULT_TYPE ResultType
         {
             get
@@ -67,5 +78,6 @@ namespace AttackSurfaceAnalyzer.Objects
         }
 
         private RESULT_TYPE _resultType;
+        private ANALYSIS_RESULT_TYPE _flag;
     }
 }
