@@ -21,12 +21,6 @@ namespace Microsoft.CST.LogicalAnalyzer
         {
         }
 
-        public Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DefaultLevels { get; }
-
-        #endregion Public Properties
-
-        #region Public Methods
-
         public delegate (bool Processed,object? Result) ParseCustomProperty(object? obj, string index);
 
         public delegate (bool Processed, IEnumerable<string> valsExtracted, IEnumerable<KeyValuePair<string, string>> dictExtracted) ParseObjectToValues(object? obj);
@@ -172,17 +166,12 @@ namespace Microsoft.CST.LogicalAnalyzer
                 }
             });
 
-            foreach (var item in ClauseCache.Where(x => x.Key.Item1 == compareResult).ToList())
-            {
-                ClauseCache.Remove(item.Key, out bool _);
-            }
-
             return results;
         }
 
         public bool Applies(Rule rule, object? before = null, object? after = null)
         {
-            if (compareResult != null && rule != null)
+            if ((before != null || after != null) && rule != null)
             {
                 var sample = before is null ? after : before;
 
@@ -530,23 +519,15 @@ namespace Microsoft.CST.LogicalAnalyzer
 
         protected bool AnalyzeClause(Clause clause, object? before = null, object? after = null)
         {
-            if (clause == null || compareResult == null)
+            if (clause == null || (before == null && after == null))
             {
                 return false;
             }
             try
             {
-                object? before = null;
-                object? after = null;
-
-                if (compareResult.ChangeType == CHANGE_TYPE.CREATED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
-                {
-                    after = GetValueByPropertyString(compareResult.Compare, clause.Field);
-                }
-                if (compareResult.ChangeType == CHANGE_TYPE.DELETED || compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
-                {
-                    before = GetValueByPropertyString(compareResult.Base, clause.Field);
-                }
+                after = GetValueByPropertyString(after, clause.Field);
+                before = GetValueByPropertyString(before, clause.Field);
+                
 
                 var typeHolder = before is null ? after : before;
 
@@ -719,15 +700,11 @@ namespace Microsoft.CST.LogicalAnalyzer
 
                     // Ignores provided data. Checks if the named property has changed.
                     case OPERATION.WAS_MODIFIED:
-                        if (compareResult.ChangeType == CHANGE_TYPE.MODIFIED)
-                        {
-                            CompareLogic compareLogic = new CompareLogic();
+                        CompareLogic compareLogic = new CompareLogic();
 
-                            ComparisonResult result = compareLogic.Compare(before, after);
+                        ComparisonResult comparisonResult = compareLogic.Compare(before, after);
 
-                            return !result.AreEqual;
-                        }
-                        return false;
+                        return !comparisonResult.AreEqual;
 
                     // Ends with any of the provided data
                     case OPERATION.ENDS_WITH:
@@ -852,10 +829,6 @@ namespace Microsoft.CST.LogicalAnalyzer
 
             return false;
         }
-
-        #endregion Protected Methods
-
-        #region Private Methods
 
         private static int FindMatchingParen(string[] splits, int startingIndex)
         {
@@ -1040,17 +1013,11 @@ namespace Microsoft.CST.LogicalAnalyzer
                             else
                             {
                                 bool next;
-                                if (ClauseCache.TryGetValue((compareResult, clause), out bool cachedValue))
-                                {
-                                    next = cachedValue;
-                                }
-                                else
-                                {
-                                    next = AnalyzeClause(res.First(), compareResult);
-                                    ClauseCache.TryAdd((compareResult, clause), next);
-                                }
+
+                                next = AnalyzeClause(res.First(), before, after);
 
                                 next = invertNextStatement ? !next : next;
+
                                 current = Operate(Operator, current, next);
                             }
 
