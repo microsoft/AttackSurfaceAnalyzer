@@ -738,10 +738,13 @@ namespace AttackSurfaceAnalyzer.Cli
                             {
                                 queue.AsParallel().ForAll(res =>
                                 {
-                                    res.Rules = analyzer.Analyze(ruleFile.AsaRules.Where((rule) =>
+                                    // Select rules with the appropriate change type, platform and target
+                                    // - Target is also checked inside Analyze, but this shortcuts repeatedly checking
+                                    var selectedRules = ruleFile.AsaRules.Where((rule) =>
                                         (rule.ChangeTypes == null || rule.ChangeTypes.Contains(res.ChangeType))
-                                        && (rule.Platforms == null || rule.Platforms.Contains(platform))
-                                        && rule.ResultType.Equals(res.ResultType)),res).ToList();
+                                            && (rule.Platforms == null || rule.Platforms.Contains(platform))
+                                            && (rule.Target?.Equals(res.GetType().Name, StringComparison.InvariantCultureIgnoreCase) ?? false));
+                                    res.Rules = analyzer.Analyze(selectedRules,res.Base,res.Compare).ToList();
                                     res.Analysis = res.Rules.Count > 0 ? res.Rules.Max(x => ((AsaRule)x).Flag) : ruleFile.DefaultLevels[res.ResultType];
                                 });
                             }
