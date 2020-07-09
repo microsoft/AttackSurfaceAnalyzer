@@ -25,14 +25,18 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public delegate (bool Processed,object? Result) ParseCustomProperty(object? obj, string index);
 
-        public ParseCustomProperty? CustomPropertyDelegate { get; set; }
-        public ParseObjectToValues? CustomObjectToValuesDelegate { get; set; }
-
         public delegate (bool Processed, IEnumerable<string> valsExtracted, IEnumerable<KeyValuePair<string, string>> dictExtracted) ParseObjectToValues(object? obj);
 
         public delegate bool OperationDelegate(Clause clause, IEnumerable<string>? valsToCheck, IEnumerable<KeyValuePair<string,string>> dictToCheck);
 
+        public delegate List<(string, string[])> ParseClauseForRules(Rule r, Clause c);
+        public ParseCustomProperty? CustomPropertyDelegate { get; set; }
+        public ParseObjectToValues? CustomObjectToValuesDelegate { get; set; }
+
         public OperationDelegate? CustomOperationDelegate { get; set; }
+
+        public ParseClauseForRules? CustomOperationValidationDelegate { get; set; }
+        public 
 
         /// <summary>
         /// Extracts a value stored at the specified path inside an object. Can crawl into List and
@@ -217,11 +221,11 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        public static List<(string, string[])> VerifyRules(IEnumerable<Rule> rules)
+        public List<(string, string[])> VerifyRules(IEnumerable<Rule> rules)
         {
             var violations = new List<(string, string[])>();
 
-            foreach (Rule rule in rules)
+            foreach (Rule rule in rules ?? Array.Empty<Rule>())
             {
                 var clauseLabels = rule.Clauses.GroupBy(x => x.Label);
 
@@ -354,6 +358,10 @@ namespace AttackSurfaceAnalyzer.Utils
                             if (clause.CustomOperation == null)
                             {
                                 violations.Add((Strings.Get("Err_ClauseMissingCustomOperation"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                            }
+                            if (CustomOperationValidationDelegate != null)
+                            {
+                                violations.AddRange(CustomOperationValidationDelegate(rule, clause));
                             }
                             break;
 
