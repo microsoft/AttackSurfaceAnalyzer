@@ -110,8 +110,9 @@ namespace AttackSurfaceAnalyzer.Cli
 #else
             Logger.Setup(opts.Debug, opts.Verbose, opts.Quiet);
 #endif
+            var analyzer = new AsaAnalyzer();
             var ruleFile = RuleFile.FromFile(opts.AnalysisFile);
-            var violations = Analyzer.VerifyRules(ruleFile.GetRules());
+            var violations = analyzer.VerifyRules(ruleFile.GetRules());
             Analyzer.PrintViolations(violations);
             if (violations.Any())
             {
@@ -722,7 +723,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 var ruleFile = string.IsNullOrEmpty(opts.AnalysesFile) ? RuleFile.LoadEmbeddedFilters() : RuleFile.FromFile(opts.AnalysesFile);
                 Analyzer analyzer = new AsaAnalyzer();
                 var platform = DatabaseManager.RunIdToPlatform(opts.SecondRunId);
-                var violations = Analyzer.VerifyRules(ruleFile.GetRules());
+                var violations = analyzer.VerifyRules(ruleFile.GetRules());
                 Analyzer.PrintViolations(violations);
                 if (violations.Any())
                 {

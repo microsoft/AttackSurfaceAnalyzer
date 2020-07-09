@@ -42,7 +42,6 @@ namespace AttackSurfaceAnalyzer.Utils
         public OperationDelegate? CustomOperationDelegate { get; set; }
 
         public ParseClauseForRules? CustomOperationValidationDelegate { get; set; }
-        public 
 
         /// <summary>
         /// Extracts a value stored at the specified path inside an object. Can crawl into List and
@@ -232,6 +231,18 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
+        /// <summary>
+        /// Determines if there are any problems with the provided rule.
+        /// </summary>
+        /// <param name="rule">The rule to parse.</param>
+        /// <returns>True if there are issues.</returns>
+        public bool VerifyRule(Rule rule) => VerifyRules(new Rule[] { rule }).Any();
+
+        /// <summary>
+        /// Verifies the provided rules and provides a list of issues with the rules.
+        /// </summary>
+        /// <param name="rules"></param>
+        /// <returns>List of issues with the rules.</returns>
         public List<(string, string[])> VerifyRules(IEnumerable<Rule> rules)
         {
             var violations = new List<(string, string[])>();
