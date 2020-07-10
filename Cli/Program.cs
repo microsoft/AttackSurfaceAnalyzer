@@ -43,6 +43,15 @@ namespace AttackSurfaceAnalyzer.Cli
             SetupOrDie(opts.DatabaseFilename, dbSettings);
         }
 
+        private static void SetupLogging(CommandOptions opts)
+        {
+#if DEBUG
+            Logger.Setup(true, opts.Verbose, opts.Quiet);
+#else
+            Logger.Setup(opts.Debug, opts.Verbose, opts.Quiet);
+#endif
+        }
+
         private static void Main(string[] args)
         {
 #if DEBUG
@@ -59,67 +68,114 @@ namespace AttackSurfaceAnalyzer.Cli
 
             Strings.Setup();
 
-            var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions, ConfigCommandOptions, GuiCommandOptions, VerifyOptions>(args)
+            var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions, ConfigCommandOptions, GuiCommandOptions, VerifyOptions, GuidedModeCommandOptions>(args)
                 .MapResult(
                     (CollectCommandOptions opts) =>
                     {
+                        SetupLogging(opts);
                         SetupDatabase(opts);
                         AsaTelemetry.SetEnabled(DatabaseManager.GetTelemetryEnabled());
                         return RunCollectCommand(opts);
                     },
                     (MonitorCommandOptions opts) =>
                     {
+                        SetupLogging(opts);
                         SetupDatabase(opts);
                         return RunMonitorCommand(opts);
                     },
                     (ExportCollectCommandOptions opts) =>
                     {
+                        SetupLogging(opts);
                         SetupDatabase(opts);
                         return RunExportCollectCommand(opts);
                     },
                     (ExportMonitorCommandOptions opts) =>
                     {
+                        SetupLogging(opts);
                         SetupDatabase(opts);
                         return RunExportMonitorCommand(opts);
                     },
                     (ConfigCommandOptions opts) =>
                     {
+                        SetupLogging(opts);
                         return RunConfigCommand(opts);
                     },
                     (GuiCommandOptions opts) =>
                     {
+                        SetupLogging(opts);
                         SetupDatabase(opts);
                         return RunGuiCommand(opts);
                     },
                     (VerifyOptions opts) =>
                     {
+                        SetupLogging(opts);
                         SetupDatabase(opts);
                         return RunVerifyRulesCommand(opts);
                     },
-                    errs => 1
+                    (GuidedModeCommandOptions opts) =>
+                    {
+                        SetupLogging(opts);
+                        SetupDatabase(opts);
+                        return RunGuidedModeCommand(opts);
+                    },
+                    errs => ASA_ERROR.UNKNOWN
                 );
             DatabaseManager.CloseDatabase();
             Log.CloseAndFlush();
-            Environment.Exit(argsResult);
+            Environment.Exit((int)argsResult);
         }
 
-        private static int RunVerifyRulesCommand(VerifyOptions opts)
+        private static ASA_ERROR RunGuidedModeCommand(GuidedModeCommandOptions opts)
         {
-#if DEBUG
-            Logger.Setup(true, opts.Verbose, opts.Quiet);
-#else
-            Logger.Setup(opts.Debug, opts.Verbose, opts.Quiet);
-#endif
+            var firstCollectRunId = $"{opts.RunId}-baseline";
+            var secondCollectRunId = $"{opts.RunId}-after";
+            var monitorRunId = $"{opts.RunId}-monitoring";
+
+            var tempOpts = opts;
+            tempOpts.RunId = firstCollectRunId;
+            RunCollectCommand(tempOpts);
+            
+            var monitorOpts = new MonitorCommandOptions()
+            {
+                Duration = opts.Duration,
+                MonitoredDirectories = opts.MonitoredDirectories,
+                EnableFileSystemMonitor = opts.EnableFileSystemMonitor,
+                GatherHashes = opts.GatherHashes,
+                FileNamesOnly = opts.FileNamesOnly,
+                RunId = monitorRunId
+            };
+            RunMonitorCommand(monitorOpts);
+
+            tempOpts.RunId = secondCollectRunId;
+            RunCollectCommand(tempOpts);
+
+            var compareOpts = new CompareCommandOptions(firstCollectRunId, secondCollectRunId)
+            {
+                DatabaseFilename = opts.DatabaseFilename,
+                DisableAnalysis = opts.DisableAnalysis,
+                SaveToDatabase = opts.SaveToDatabase,
+                AnalysesFile = opts.AnalysesFile
+            };
+
+            var result = CompareRuns(compareOpts);
+
+            // Add the file monitor results to the result here
+
+            return ASA_ERROR.NONE;
+        }
+
+        private static ASA_ERROR RunVerifyRulesCommand(VerifyOptions opts)
+        {
             var analyzer = new Analyzer(AsaHelpers.GetPlatform(), opts.AnalysisFile);
             var violations = analyzer.VerifyRules();
             Analyzer.PrintViolations(violations);
             if (violations.Any())
             {
                 Log.Error("Encountered {0} issues with rules at {1}", violations.Count, opts.AnalysisFile ?? "Embedded");
-                return (int)ASA_ERROR.INVALID_RULES;
+                return ASA_ERROR.INVALID_RULES;
             }
             Log.Information("Rules successfully verified. ✅");
-            return (int)ASA_ERROR.NONE;
+            return ASA_ERROR.NONE;
         }
 
         private static void SetupOrDie(string path, DBSettings? dbSettingsIn = null)
@@ -134,13 +190,8 @@ namespace AttackSurfaceAnalyzer.Cli
             }
         }
 
-        private static int RunGuiCommand(GuiCommandOptions opts)
+        private static ASA_ERROR RunGuiCommand(GuiCommandOptions opts)
         {
-#if DEBUG
-            Logger.Setup(true, opts.Verbose, opts.Quiet);
-#else
-            Logger.Setup(opts.Debug, opts.Verbose, opts.Quiet);
-#endif
             var server = WebHost.CreateDefaultBuilder(Array.Empty<string>())
                     .UseStartup<Startup>()
                     .UseKestrel(options =>
@@ -166,7 +217,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2241:Provide correct arguments to formatting methods", Justification = "<Pending>")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1305:Specify IFormatProvider", Justification = "<Pending>")]
-        private static int RunConfigCommand(ConfigCommandOptions opts)
+        private static ASA_ERROR RunConfigCommand(ConfigCommandOptions opts)
         {
             if (opts.ResetDatabase)
             {
@@ -254,17 +305,11 @@ namespace AttackSurfaceAnalyzer.Cli
                     DatabaseManager.TrimToLatest();
                 }
             }
-            return 0;
+            return ASA_ERROR.NONE;
         }
 
-        private static int RunExportCollectCommand(ExportCollectCommandOptions opts)
+        private static ASA_ERROR RunExportCollectCommand(ExportCollectCommandOptions opts)
         {
-#if DEBUG
-            Logger.Setup(true, opts.Verbose, opts.Quiet);
-#else
-            Logger.Setup(opts.Debug, opts.Verbose, opts.Quiet);
-#endif
-
             if (opts.OutputPath != null && !Directory.Exists(opts.OutputPath))
             {
                 Log.Fatal(Strings.Get("Err_OutputPathNotExist"), opts.OutputPath);
@@ -320,7 +365,7 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 DatabaseFilename = opts.DatabaseFilename,
                 AnalysesFile = opts.AnalysesFile,
-                Analyze = opts.Analyze,
+                DisableAnalysis = opts.DisableAnalysis,
                 SaveToDatabase = opts.SaveToDatabase
             };
 
@@ -468,13 +513,8 @@ namespace AttackSurfaceAnalyzer.Cli
             }
         }
 
-        private static int RunExportMonitorCommand(ExportMonitorCommandOptions opts)
+        private static ASA_ERROR RunExportMonitorCommand(ExportMonitorCommandOptions opts)
         {
-#if DEBUG
-            Logger.Setup(true, opts.Verbose);
-#else
-            Logger.Setup(opts.Debug, opts.Verbose);
-#endif
             var outPath = opts.OutputPath ?? Directory.GetCurrentDirectory();
             if (!Directory.Exists(outPath))
             {
@@ -539,15 +579,8 @@ namespace AttackSurfaceAnalyzer.Cli
             Log.Information(Strings.Get("OutputWrittenTo"), (new FileInfo(path)).FullName);
         }
 
-        private static int RunMonitorCommand(MonitorCommandOptions opts)
+        private static ASA_ERROR RunMonitorCommand(MonitorCommandOptions opts)
         {
-#if DEBUG
-            Logger.Setup(true, opts.Verbose);
-#else
-            Logger.Setup(opts.Debug, opts.Verbose);
-#endif
-            AdminOrQuit();
-
             Dictionary<string, string> StartEvent = new Dictionary<string, string>();
             StartEvent.Add("Files", opts.EnableFileSystemMonitor.ToString(CultureInfo.InvariantCulture));
             StartEvent.Add("Admin", AsaHelpers.IsAdmin().ToString(CultureInfo.InvariantCulture));
@@ -573,14 +606,14 @@ namespace AttackSurfaceAnalyzer.Cli
                 if (DatabaseManager.GetRun(opts.RunId) != null)
                 {
                     Log.Error(Strings.Get("Err_RunIdAlreadyUsed"));
-                    return (int)ASA_ERROR.UNIQUE_ID;
+                    return ASA_ERROR.UNIQUE_ID;
                 }
             }
             var run = new AsaRun(RunId: opts.RunId, Timestamp: DateTime.Now, Version: AsaHelpers.GetVersionString(), Platform: AsaHelpers.GetPlatform(), new List<RESULT_TYPE>() { RESULT_TYPE.FILEMONITOR }, RUN_TYPE.MONITOR);
 
             DatabaseManager.InsertRun(run);
 
-            int returnValue = 0;
+            ASA_ERROR returnValue = ASA_ERROR.NONE;
 
             if (opts.EnableFileSystemMonitor)
             {
@@ -596,7 +629,7 @@ namespace AttackSurfaceAnalyzer.Cli
             if (monitors.Count == 0)
             {
                 Log.Warning(Strings.Get("Err_NoMonitors"));
-                returnValue = (int)ASA_ERROR.NO_COLLECTORS;
+                returnValue = ASA_ERROR.NO_COLLECTORS;
             }
 
             using var exitEvent = new ManualResetEvent(false);
@@ -627,7 +660,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 catch (Exception ex)
                 {
                     Log.Error(Strings.Get("Err_CollectingFrom"), c.GetType().Name, ex.Message, ex.StackTrace);
-                    returnValue = 1;
+                    returnValue = ASA_ERROR.NONE;
                 }
             }
 
@@ -716,7 +749,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             Log.Information(Strings.Get("Completed"), "Comparing", answer);
 
-            if (opts.Analyze)
+            if (!opts.DisableAnalysis)
             {
                 watch = Stopwatch.StartNew();
                 Analyzer analyzer = new Analyzer(DatabaseManager.RunIdToPlatform(opts.SecondRunId), opts.AnalysesFile);
@@ -859,14 +892,9 @@ namespace AttackSurfaceAnalyzer.Cli
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Acceptable tradeoff with telemetry (to identify issues) to lessen severity of individual collector crashes.")]
-        public static int RunCollectCommand(CollectCommandOptions opts)
+        public static ASA_ERROR RunCollectCommand(CollectCommandOptions opts)
         {
             if (opts == null) { return -1; }
-#if DEBUG
-            Logger.Setup(true, opts.Verbose, opts.Quiet);
-#else
-                Logger.Setup(opts.Debug, opts.Verbose, opts.Quiet);
-#endif
 
             collectors.Clear();
 

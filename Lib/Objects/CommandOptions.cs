@@ -1,8 +1,36 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using CommandLine;
+using System.Collections.Generic;
 
 namespace AttackSurfaceAnalyzer
 {
+    [Verb("guide", HelpText = "Gather and Analyze metrics using a combination of Collectors and Monitors.")]
+    public class GuidedModeCommandOptions : CollectCommandOptions
+    {
+        // These are from ExportCollectCommandOptions
+        [Option(HelpText = "Custom analysis rules file.")]
+        public string? AnalysesFile { get; set; }
+
+        [Option(HelpText = "Set Disable Analysis.")]
+        public bool DisableAnalysis { get; set; }
+
+        [Option(HelpText = "Save to internal database for review in GUI")]
+        public bool SaveToDatabase { get; set; }
+
+        // These are from MonitorCommandOptions
+        [Option("duration", Required = false, HelpText = "Duration, in minutes, to run for before automatically terminating.")]
+        public int Duration { get; set; }
+
+        [Option('F', "file-system-monitor", Required = false, HelpText = "Enable the file system monitor. Unless -d is specified will monitor the entire file system.")]
+        public bool EnableFileSystemMonitor { get; set; }
+
+        [Option(HelpText = "Don't gather extended information when monitoring files.")]
+        public bool FileNamesOnly { get; set; }
+
+        [Option(HelpText = "Comma-separated list of directories to monitor.", Separator = ',')]
+        public IEnumerable<string>? MonitoredDirectories { get; set; }
+    }
+
     [Verb("collect", HelpText = "Collect operating system metrics")]
     public class CollectCommandOptions : CommandOptions
     {
@@ -117,8 +145,8 @@ namespace AttackSurfaceAnalyzer
         [Option(HelpText = "Custom analysis rules file.")]
         public string? AnalysesFile { get; set; }
 
-        [Option(HelpText = "Set Enable/Disable Analysis.")]
-        public bool Analyze { get; set; } = true;
+        [Option(HelpText = "Set Disable Analysis.")]
+        public bool DisableAnalysis { get; set; }
 
         [Option(HelpText = "First run (pre-install) identifier")]
         public string? FirstRunId { get; set; }
@@ -155,8 +183,8 @@ namespace AttackSurfaceAnalyzer
         [Option(HelpText = "Custom analysis rules file.")]
         public string? AnalysesFile { get; set; }
 
-        [Option(HelpText = "Set Enable/Disable Analysis.")]
-        public bool Analyze { get; set; } = true;
+        [Option(HelpText = "Set to Disable Analysis.")]
+        public bool DisableAnalysis { get; set; }
 
         [Option(HelpText = "Exploded output")]
         public bool ExplodedOutput { get; set; }
@@ -197,7 +225,7 @@ namespace AttackSurfaceAnalyzer
         [Option('D', "duration", Required = false, HelpText = "Duration, in minutes, to run for before automatically terminating.")]
         public int Duration { get; set; }
 
-        [Option('f', "file-system", Required = false, HelpText = "Enable the file system monitor. Unless -d is specified will monitor the entire file system.")]
+        [Option('F', "file-system-monitor", Required = false, HelpText = "Enable the file system monitor. Unless -d is specified will monitor the entire file system.")]
         public bool EnableFileSystemMonitor { get; set; }
 
         [Option('a', "File names only", Required = false, HelpText = "Don't gather extended information. Overrides any argument to include additional data.")]
@@ -206,8 +234,8 @@ namespace AttackSurfaceAnalyzer
         [Option('h', "gather-hashes", Required = false, HelpText = "Gather a hash of each file that is modified or created.")]
         public bool GatherHashes { get; set; }
 
-        [Option('d', "directories", Required = false, HelpText = "Comma-separated list of directories to monitor.")]
-        public string? MonitoredDirectories { get; set; }
+        [Option('d', "directories", Required = false, HelpText = "Comma-separated list of directories to monitor.",Separator = ',')]
+        public IEnumerable<string>? MonitoredDirectories { get; set; }
 
         //[Option('r', "registry", Required = false, HelpText = "Monitor the registry for changes. (Windows Only)")]
         //public bool EnableRegistryMonitor { get; set; }

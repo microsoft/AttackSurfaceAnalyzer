@@ -183,7 +183,7 @@ namespace AttackSurfaceAnalyzer.Tests
         public void TestFileMonitor()
         {
             var stack = new ConcurrentStack<FileMonitorObject>();
-            var monitor = new FileSystemMonitor(new MonitorCommandOptions() { MonitoredDirectories = Path.GetTempPath() }, x => stack.Push(x));
+            var monitor = new FileSystemMonitor(new MonitorCommandOptions() { MonitoredDirectories = new string[] { Path.GetTempPath() } }, x => stack.Push(x));
             monitor.StartRun();
 
             var created = Path.GetTempFileName(); // Create a file

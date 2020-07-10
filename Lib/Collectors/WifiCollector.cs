@@ -47,7 +47,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             using var fsm = new FileSystemMonitor(new MonitorCommandOptions() 
             { 
                 FileNamesOnly = true, 
-                MonitoredDirectories = tempDirectory 
+                MonitoredDirectories = new string[] { tempDirectory }
             }, 
             x =>
             {

@@ -155,7 +155,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
             CompareCommandOptions opts = new CompareCommandOptions(SelectedBaseRunId, SelectedCompareRunId)
             {
-                Analyze = true,
+                DisableAnalysis = false,
                 SaveToDatabase = true
             };
 
@@ -242,7 +242,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 {
                     RunId = RunId,
                     EnableFileSystemMonitor = true,
-                    MonitoredDirectories = Directory,
+                    MonitoredDirectories = new string[] { Directory },
                     Verbose = Logger.Verbose,
                     Debug = Logger.Debug,
                     Quiet = Logger.Quiet

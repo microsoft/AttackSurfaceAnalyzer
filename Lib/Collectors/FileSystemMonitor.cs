@@ -84,7 +84,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 GatherHashes = options.GatherHashes,
             });
 
-            foreach (var dir in options.MonitoredDirectories?.Split(',') ?? fsc.Roots.ToArray())
+            foreach (var dir in options.MonitoredDirectories ?? fsc.Roots.ToArray())
             {
                 foreach (var filter in defaultFiltersList)
                 {
