@@ -1261,7 +1261,7 @@ namespace AttackSurfaceAnalyzer.Tests
             };
 
             var pcrAnalyzer = new AsaAnalyzer();
-            ruleList = new List<Rule>() { pcrsModified }; ;
+            ruleList = new List<Rule>() { pcrsModified };
 
             Assert.IsTrue(pcrAnalyzer.Analyze(ruleList, trueAlgDict).Any());
             Assert.IsFalse(pcrAnalyzer.Analyze(ruleList, falseAlgDict).Any());
