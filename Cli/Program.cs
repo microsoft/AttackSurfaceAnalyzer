@@ -1240,6 +1240,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 {
                     break;
                 }
+                // 7 is the magic number based on benchmarking
                 if (!warnedToIncreaseShards && StopWatch.ElapsedMilliseconds > 10000 && settings.ShardingFactor < 7)
                 {
                     Log.Information("It is taking a while to flush results to the database.  Try increasing the sharding level to improve performance.");
