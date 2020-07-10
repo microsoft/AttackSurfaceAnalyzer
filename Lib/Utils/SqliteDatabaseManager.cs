@@ -428,24 +428,45 @@ namespace AttackSurfaceAnalyzer.Utils
             return output;
         }
 
-        public override List<FileMonitorObject> GetMonitorResults(string runId, int offset, int numResults)
+        public override IEnumerable<FileMonitorObject> GetMonitorResults(string runId, int offset = 0, int numResults = -1)
         {
             var results = new List<FileMonitorObject>();
             if (MainConnection != null)
             {
-                using (var cmd = new SqliteCommand(GET_MONITOR_RESULTS, MainConnection.Connection, MainConnection.Transaction))
+                if (numResults == -1)
                 {
-                    cmd.Parameters.AddWithValue("@run_id", runId);
-                    cmd.Parameters.AddWithValue("@offset", offset);
-                    cmd.Parameters.AddWithValue("@limit", numResults);
-                    using (var reader = cmd.ExecuteReader())
+                    using (var cmd = new SqliteCommand(GET_MONITOR_RESULTS_LIMIT, MainConnection.Connection, MainConnection.Transaction))
                     {
-                        while (reader.Read())
+                        cmd.Parameters.AddWithValue("@run_id", runId);
+                        cmd.Parameters.AddWithValue("@offset", offset);
+                        cmd.Parameters.AddWithValue("@limit", numResults);
+                        using (var reader = cmd.ExecuteReader())
                         {
-                            if (reader["serialized"] is string serialized)
+                            while (reader.Read())
                             {
-                                var obj = JsonConvert.DeserializeObject<FileMonitorObject>(serialized);
-                                results.Add(obj);
+                                if (reader["serialized"] is string serialized)
+                                {
+                                    var obj = JsonConvert.DeserializeObject<FileMonitorObject>(serialized);
+                                    yield return obj;
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    using (var cmd = new SqliteCommand(GET_MONITOR_RESULTS, MainConnection.Connection, MainConnection.Transaction))
+                    {
+                        cmd.Parameters.AddWithValue("@run_id", runId);;
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                if (reader["serialized"] is string serialized)
+                                {
+                                    var obj = JsonConvert.DeserializeObject<FileMonitorObject>(serialized);
+                                    yield return obj;
+                                }
                             }
                         }
                     }
@@ -455,8 +476,6 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 Log.Debug("Failed to GetMonitorResults. MainConnection was null.");
             }
-
-            return results;
         }
 
         public override int GetNumMonitorResults(string runId)
@@ -1025,7 +1044,8 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private const string GET_COMPARISON_RESULTS = "select * from findings where first_run_id = @first_run_id and second_run_id = @second_run_id and result_type=@result_type order by level desc;";
         private const string GET_COMPARISON_RESULTS_LIMIT = "select * from findings where first_run_id = @first_run_id and second_run_id = @second_run_id and result_type=@result_type order by level desc limit @offset,@limit;";
-        private const string GET_MONITOR_RESULTS = "select * from file_system_monitored where run_id=@run_id order by timestamp limit @offset,@limit;";
+        private const string GET_MONITOR_RESULTS = "select * from file_system_monitored where run_id=@run_id order by timestamp;";
+        private const string GET_MONITOR_RESULTS_LIMIT = "select * from file_system_monitored where run_id=@run_id order by timestamp limit @offset,@limit;";
 
         private const string GET_RESULT_COUNT = "select count(*) from findings where first_run_id = @first_run_id and second_run_id = @second_run_id and result_type=@result_type";
 

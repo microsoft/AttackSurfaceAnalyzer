@@ -151,19 +151,54 @@ namespace AttackSurfaceAnalyzer.Cli
 
             var compareOpts = new CompareCommandOptions(firstCollectRunId, secondCollectRunId)
             {
-                DatabaseFilename = opts.DatabaseFilename,
                 DisableAnalysis = opts.DisableAnalysis,
-                SaveToDatabase = opts.SaveToDatabase,
                 AnalysesFile = opts.AnalysesFile
             };
 
-            var result = CompareRuns(compareOpts);
+            var results = CompareRuns(compareOpts);
+            if (opts.SaveToDatabase)
+            {
+                InsertCompareResults(results, firstCollectRunId, secondCollectRunId);
+            }
 
-            // Add the file monitor results to the result dictionary here
+            var monitorCompareOpts = new CompareCommandOptions(null, monitorRunId)
+            {
+                DisableAnalysis = opts.DisableAnalysis,
+                AnalysesFile = opts.AnalysesFile
+            };
+            
+            var monitorResult = AnalyzeMonitored(monitorCompareOpts);
+            if (opts.SaveToDatabase)
+            {
+                InsertCompareResults(monitorResult, null, monitorRunId);
+            }
 
-            // Print out the results the way the user wants them here
+            Parallel.ForEach(monitorResult.Keys, key =>
+            {
+                results.TryAdd(key, monitorResult[key]);
+            });
 
-            return ASA_ERROR.NONE;
+            return ExportGuidedModeResults(results, opts);
+        }
+
+        private static ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> AnalyzeMonitored(CompareCommandOptions opts)
+        {
+            var results = new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>>();
+            Analyzer analyzer = new Analyzer(DatabaseManager.RunIdToPlatform(opts.SecondRunId), opts.AnalysesFile);
+            Parallel.ForEach(DatabaseManager.GetMonitorResults(opts.SecondRunId), monitorResult =>
+            {
+                var shellResult = new CompareResult()
+                {
+                    Compare = monitorResult,
+                    CompareRunId = opts.SecondRunId
+                };
+                shellResult.Rules = analyzer.Analyze(shellResult);
+                shellResult.Analysis = shellResult.Rules.Count > 0 ? shellResult.Rules.Max(x => x.Flag) : analyzer.DefaultLevels[shellResult.ResultType];
+
+                results.TryAdd((monitorResult.ResultType, monitorResult.ChangeType), new List<CompareResult>());
+                results[(monitorResult.ResultType, monitorResult.ChangeType)].Add(shellResult);
+            });
+            return results;
         }
 
         private static ASA_ERROR RunVerifyRulesCommand(VerifyOptions opts)
@@ -401,6 +436,64 @@ namespace AttackSurfaceAnalyzer.Cli
 
             return ExportCompareResults(results, opts);
         }
+
+        private static ASA_ERROR ExportGuidedModeResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> resultsIn, GuidedModeCommandOptions opts)
+        {
+            if (opts.RunId == null)
+            {
+                return ASA_ERROR.INVALID_ID;
+            }
+            var results = resultsIn.Select(x => new KeyValuePair<string, object>($"{x.Key.Item1}_{x.Key.Item2}", x.Value)).ToDictionary(x => x.Key, x => x.Value);
+            JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings()
+            {
+                Formatting = Formatting.Indented,
+                NullValueHandling = NullValueHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Ignore,
+                Converters = new List<JsonConverter>() { new StringEnumConverter() },
+                ContractResolver = new AsaExportContractResolver()
+            });
+            var outputPath = opts.OutputPath;
+            if (outputPath is null)
+            {
+                outputPath = Directory.GetCurrentDirectory();
+            }
+            if (opts.ExplodedOutput)
+            {
+                results.Add("metadata", AsaHelpers.GenerateMetadata());
+
+                string path = Path.Combine(outputPath, AsaHelpers.MakeValidFileName(opts.RunId));
+                Directory.CreateDirectory(path);
+                foreach (var key in results.Keys)
+                {
+                    string filePath = Path.Combine(path, AsaHelpers.MakeValidFileName(key));
+                    using (StreamWriter sw = new StreamWriter(filePath)) //lgtm[cs/path-injection]
+                    {
+                        using (JsonWriter writer = new JsonTextWriter(sw))
+                        {
+                            serializer.Serialize(writer, results[key]);
+                        }
+                    }
+                }
+                Log.Information(Strings.Get("OutputWrittenTo"), (new DirectoryInfo(path)).FullName);
+            }
+            else
+            {
+                string path = Path.Combine(outputPath, AsaHelpers.MakeValidFileName(opts.RunId+"_summary.json.txt"));
+                var output = new Dictionary<string, object>();
+                output["results"] = results;
+                output["metadata"] = AsaHelpers.GenerateMetadata();
+                using (StreamWriter sw = new StreamWriter(path)) //lgtm[cs/path-injection]
+                {
+                    using (JsonWriter writer = new JsonTextWriter(sw))
+                    {
+                        serializer.Serialize(writer, output);
+                    }
+                }
+                Log.Information(Strings.Get("OutputWrittenTo"), (new FileInfo(path)).FullName);
+            }
+            return ASA_ERROR.NONE;
+        }
+
 
         private static ASA_ERROR ExportCompareResults(ConcurrentDictionary<(RESULT_TYPE,CHANGE_TYPE),List<CompareResult>> resultsIn, ExportCollectCommandOptions opts)
         {

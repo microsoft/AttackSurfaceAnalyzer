@@ -29,6 +29,8 @@ namespace AttackSurfaceAnalyzer
 
         [Option(HelpText = "Comma-separated list of directories to monitor.", Separator = ',')]
         public IEnumerable<string>? MonitoredDirectories { get; set; }
+        public string? OutputPath { get; set; }
+        public bool ExplodedOutput { get; set; }
     }
 
     [Verb("collect", HelpText = "Collect operating system metrics")]
