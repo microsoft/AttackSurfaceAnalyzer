@@ -30,8 +30,12 @@ namespace AttackSurfaceAnalyzer
 
         [Option(HelpText = "Comma-separated list of directories to monitor.", Separator = ',')]
         public IEnumerable<string>? MonitoredDirectories { get; set; }
+        [Option(HelpText = "Directory to output to.")]
         public string? OutputPath { get; set; }
+        [Option(HelpText = "Put each result type in its own document.")]
         public bool ExplodedOutput { get; set; }
+        [Option(HelpText = "Apply Rules to SubCollect objects of Monitor objects.")]
+        public bool ApplySubObjectRulesToMonitor { get; set; }
     }
 
     [Verb("collect", HelpText = "Collect operating system metrics")]

@@ -175,6 +175,7 @@ namespace AttackSurfaceAnalyzer.Cli
             };
 
             var results = CompareRuns(compareOpts);
+
             if (opts.SaveToDatabase)
             {
                 InsertCompareResults(results, firstCollectRunId, secondCollectRunId);
@@ -183,10 +184,12 @@ namespace AttackSurfaceAnalyzer.Cli
             var monitorCompareOpts = new CompareCommandOptions(null, monitorRunId)
             {
                 DisableAnalysis = opts.DisableAnalysis,
-                AnalysesFile = opts.AnalysesFile
+                AnalysesFile = opts.AnalysesFile,
+                ApplySubObjectRulesToMonitor = opts.ApplySubObjectRulesToMonitor,
             };
             
             var monitorResult = AnalyzeMonitored(monitorCompareOpts);
+
             if (opts.SaveToDatabase)
             {
                 InsertCompareResults(monitorResult, null, monitorRunId);
