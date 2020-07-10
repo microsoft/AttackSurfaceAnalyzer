@@ -95,7 +95,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         public ActionResult GetMonitorResults(string RunId, int Offset, int NumResults)
         {
-            List<FileMonitorObject> results = AttackSurfaceAnalyzerClient.DatabaseManager.GetMonitorResults(RunId, Offset, NumResults);
+            var results = AttackSurfaceAnalyzerClient.DatabaseManager.GetMonitorResults(RunId, Offset, NumResults);
 
             Dictionary<string, object> output = new Dictionary<string, object>();
 
@@ -103,7 +103,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             output["TotalCount"] = AttackSurfaceAnalyzerClient.DatabaseManager.GetNumMonitorResults(RunId); ;
             output["Offset"] = Offset;
             output["Requested"] = NumResults;
-            output["Actual"] = results.Count;
+            output["Actual"] = results.Count();
 
             return Json(JsonConvert.SerializeObject(output));
         }

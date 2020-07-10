@@ -983,7 +983,7 @@ namespace AttackSurfaceAnalyzer.Cli
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Acceptable tradeoff with telemetry (to identify issues) to lessen severity of individual collector crashes.")]
         public static ASA_ERROR RunCollectCommand(CollectCommandOptions opts)
         {
-            if (opts == null) { return -1; }
+            if (opts == null) { return ASA_ERROR.NO_COLLECTORS; }
 
             collectors.Clear();
 
@@ -1009,7 +1009,6 @@ namespace AttackSurfaceAnalyzer.Cli
 
             CheckFirstRun();
 
-            int returnValue = (int)ASA_ERROR.NONE;
             opts.RunId = opts.RunId?.Trim() ?? DateTime.Now.ToString("o", CultureInfo.InvariantCulture);
 
             if (opts.MatchedCollectorId != null)
@@ -1155,7 +1154,7 @@ namespace AttackSurfaceAnalyzer.Cli
             if (collectors.Count == 0)
             {
                 Log.Warning(Strings.Get("Err_NoCollectors"));
-                return (int)ASA_ERROR.NO_COLLECTORS;
+                return ASA_ERROR.NO_COLLECTORS;
             }
 
             if (opts.Overwrite)
@@ -1167,7 +1166,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 if (DatabaseManager.GetRun(opts.RunId) != null)
                 {
                     Log.Error(Strings.Get("Err_RunIdAlreadyUsed"));
-                    return (int)ASA_ERROR.UNIQUE_ID;
+                    return ASA_ERROR.UNIQUE_ID;
                 }
             }
             Log.Information(Strings.Get("Begin"), opts.RunId);
@@ -1186,12 +1185,13 @@ namespace AttackSurfaceAnalyzer.Cli
                 Log.Information("Cancelling collection. Rolling back transaction. Please wait to avoid corrupting database.");
                 source.Cancel();
                 DatabaseManager.CloseDatabase();
-                Environment.Exit(-1);
+                Environment.Exit((int)ASA_ERROR.CANCELLED);
             };
 
             Dictionary<string, string> EndEvent = new Dictionary<string, string>();
             foreach (BaseCollector c in collectors)
             {
+                // Begin Transaction and Commit can both throw.
                 try
                 {
                     DatabaseManager.BeginTransaction();
@@ -1210,13 +1210,13 @@ namespace AttackSurfaceAnalyzer.Cli
                     ExceptionEvent.Add("Stack Trace", e.StackTrace ?? string.Empty);
                     ExceptionEvent.Add("Message", e.Message);
                     AsaTelemetry.TrackEvent("CollectorCrashRogueException", ExceptionEvent);
-                    returnValue = 1;
+                    return ASA_ERROR.FAILED_TO_COMMIT;
                 }
             }
             AsaTelemetry.TrackEvent("End Command", EndEvent);
 
             DatabaseManager.Commit();
-            return returnValue;
+            return ASA_ERROR.NONE;
         }
 
         private static void FlushResults()
@@ -1225,7 +1225,6 @@ namespace AttackSurfaceAnalyzer.Cli
             var totFlush = prevFlush;
 
             var printInterval = new TimeSpan(0, 0, 10);
-            var now = DateTime.Now;
             var then = DateTime.Now;
 
             var StopWatch = Stopwatch.StartNew();
@@ -1246,7 +1245,7 @@ namespace AttackSurfaceAnalyzer.Cli
                     Log.Information("It is taking a while to flush results to the database.  Try increasing the sharding level to improve performance.");
                     warnedToIncreaseShards = true;
                 }
-                now = DateTime.Now;
+                DateTime now = DateTime.Now;
                 if (now - then > printInterval)
                 {
                     var actualDuration = now - then;

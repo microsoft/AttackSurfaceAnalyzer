@@ -98,7 +98,9 @@ namespace AttackSurfaceAnalyzer.Types
         INVALID_ID,
         INVALID_RULES,
         FAILED_TO_ESTABLISH_MAIN_DB_CONNECTION,
-        UNKNOWN
+        UNKNOWN,
+        CANCELLED,
+        FAILED_TO_COMMIT
     }
 
     public enum BOOL_OPERATOR
