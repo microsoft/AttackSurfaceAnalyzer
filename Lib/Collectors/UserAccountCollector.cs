@@ -22,7 +22,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         #region Public Constructors
 
-        public UserAccountCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
+        public UserAccountCollector(CollectorOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
         {
         }
 

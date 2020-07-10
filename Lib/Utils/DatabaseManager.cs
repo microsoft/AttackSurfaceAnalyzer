@@ -157,7 +157,5 @@ namespace AttackSurfaceAnalyzer.Utils
         }
 
         public abstract void Write(CollectObject? colObj, string? runId);
-
-        public abstract void WriteFileMonitor(FileMonitorObject fmo, string RunId);
     }
 }

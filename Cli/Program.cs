@@ -20,6 +20,7 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -74,6 +75,7 @@ namespace AttackSurfaceAnalyzer.Cli
                     {
                         SetupLogging(opts);
                         SetupDatabase(opts);
+                        CheckFirstRun();
                         AsaTelemetry.SetEnabled(DatabaseManager.GetTelemetryEnabled());
                         return RunCollectCommand(opts);
                     },
@@ -81,18 +83,24 @@ namespace AttackSurfaceAnalyzer.Cli
                     {
                         SetupLogging(opts);
                         SetupDatabase(opts);
+                        CheckFirstRun();
+                        AsaTelemetry.SetEnabled(DatabaseManager.GetTelemetryEnabled());
                         return RunMonitorCommand(opts);
                     },
                     (ExportCollectCommandOptions opts) =>
                     {
                         SetupLogging(opts);
                         SetupDatabase(opts);
+                        CheckFirstRun();
+                        AsaTelemetry.SetEnabled(DatabaseManager.GetTelemetryEnabled());
                         return RunExportCollectCommand(opts);
                     },
                     (ExportMonitorCommandOptions opts) =>
                     {
                         SetupLogging(opts);
                         SetupDatabase(opts);
+                        CheckFirstRun();
+                        AsaTelemetry.SetEnabled(DatabaseManager.GetTelemetryEnabled());
                         return RunExportMonitorCommand(opts);
                     },
                     (ConfigCommandOptions opts) =>
@@ -104,18 +112,24 @@ namespace AttackSurfaceAnalyzer.Cli
                     {
                         SetupLogging(opts);
                         SetupDatabase(opts);
+                        CheckFirstRun();
+                        AsaTelemetry.SetEnabled(DatabaseManager.GetTelemetryEnabled());
                         return RunGuiCommand(opts);
                     },
                     (VerifyOptions opts) =>
                     {
                         SetupLogging(opts);
                         SetupDatabase(opts);
+                        CheckFirstRun();
+                        AsaTelemetry.SetEnabled(DatabaseManager.GetTelemetryEnabled());
                         return RunVerifyRulesCommand(opts);
                     },
                     (GuidedModeCommandOptions opts) =>
                     {
                         SetupLogging(opts);
                         SetupDatabase(opts);
+                        CheckFirstRun();
+                        AsaTelemetry.SetEnabled(DatabaseManager.GetTelemetryEnabled());
                         return RunGuidedModeCommand(opts);
                     },
                     errs => ASA_ERROR.UNKNOWN
@@ -127,13 +141,17 @@ namespace AttackSurfaceAnalyzer.Cli
 
         private static ASA_ERROR RunGuidedModeCommand(GuidedModeCommandOptions opts)
         {
+                        opts.RunId = opts.RunId?.Trim() ?? DateTime.Now.ToString("o", CultureInfo.InvariantCulture);
+
             var firstCollectRunId = $"{opts.RunId}-baseline";
             var secondCollectRunId = $"{opts.RunId}-after";
             var monitorRunId = $"{opts.RunId}-monitoring";
 
-            var tempOpts = opts;
-            tempOpts.RunId = firstCollectRunId;
-            RunCollectCommand(tempOpts);
+            var collectorOpts = CollectCommandOptions.FromCollectorOptions(opts);
+
+            collectorOpts.RunId = firstCollectRunId;
+            
+            RunCollectCommand(collectorOpts);
             
             var monitorOpts = new MonitorCommandOptions()
             {
@@ -144,10 +162,11 @@ namespace AttackSurfaceAnalyzer.Cli
                 FileNamesOnly = opts.FileNamesOnly,
                 RunId = monitorRunId
             };
+
             RunMonitorCommand(monitorOpts);
 
-            tempOpts.RunId = secondCollectRunId;
-            RunCollectCommand(tempOpts);
+            collectorOpts.RunId = secondCollectRunId;
+            RunCollectCommand(collectorOpts);
 
             var compareOpts = new CompareCommandOptions(firstCollectRunId, secondCollectRunId)
             {
@@ -285,9 +304,8 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             else
             {
-                CheckFirstRun();
-
                 SetupDatabase(opts);
+                CheckFirstRun();
 
                 if (opts.ListRuns)
                 {
@@ -373,8 +391,6 @@ namespace AttackSurfaceAnalyzer.Cli
                 Log.Fatal(Strings.Get("Err_OutputPathNotExist"), opts.OutputPath);
                 return 0;
             }
-
-            CheckFirstRun();
 
             if (opts.ExportSingleRun)
             {
@@ -632,7 +648,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
         private static void CheckFirstRun()
         {
-            if (DatabaseManager.FirstRun)
+            if (DatabaseManager == null || DatabaseManager.FirstRun)
             {
                 string exeStr = $"config --telemetry-opt-out";
                 Log.Information(Strings.Get("ApplicationHasTelemetry"));
@@ -649,9 +665,6 @@ namespace AttackSurfaceAnalyzer.Cli
                 Log.Fatal(Strings.Get("Err_OutputPathNotExist"), opts.OutputPath);
                 return 0;
             }
-
-            CheckFirstRun();
-
             if (opts.RunId is null)
             {
                 List<string> runIds = DatabaseManager.GetLatestRunIds(1, RUN_TYPE.MONITOR);
@@ -714,8 +727,6 @@ namespace AttackSurfaceAnalyzer.Cli
             StartEvent.Add("Admin", AsaHelpers.IsAdmin().ToString(CultureInfo.InvariantCulture));
             AsaTelemetry.TrackEvent("Begin monitoring", StartEvent);
 
-            CheckFirstRun();
-
             if (opts.RunId is string)
             {
                 opts.RunId = opts.RunId.Trim();
@@ -745,7 +756,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             if (opts.EnableFileSystemMonitor)
             {
-                monitors.Add(new FileSystemMonitor(opts, x => DatabaseManager.WriteFileMonitor(x, opts.RunId)));
+                monitors.Add(new FileSystemMonitor(opts, x => DatabaseManager.Write(x, opts.RunId)));
             }
 
             //if (opts.EnableRegistryMonitor)
@@ -792,13 +803,15 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
             }
 
-            // Set up the event to capture CTRL+C
-            Console.CancelKeyPress += (sender, eventArgs) =>
+            void consoleCancelDelegate(object sender, ConsoleCancelEventArgs args)
             {
-                eventArgs.Cancel = true;
+                args.Cancel = true;
                 exitEvent.Set();
             };
 
+            // Set up the event to capture CTRL+C
+            Console.CancelKeyPress += consoleCancelDelegate;
+            
             Console.Write(Strings.Get("MonitoringPressC"));
 
             // Write a spinner and wait until CTRL+C
@@ -826,6 +839,8 @@ namespace AttackSurfaceAnalyzer.Cli
             FlushResults();
 
             DatabaseManager.Commit();
+
+            Console.CancelKeyPress -= consoleCancelDelegate;
 
             return returnValue;
         }
@@ -1007,8 +1022,6 @@ namespace AttackSurfaceAnalyzer.Cli
 
             AdminOrQuit();
 
-            CheckFirstRun();
-
             opts.RunId = opts.RunId?.Trim() ?? DateTime.Now.ToString("o", CultureInfo.InvariantCulture);
 
             if (opts.MatchedCollectorId != null)
@@ -1180,13 +1193,15 @@ namespace AttackSurfaceAnalyzer.Cli
             using CancellationTokenSource source = new CancellationTokenSource();
             CancellationToken token = source.Token;
 
-            Console.CancelKeyPress += delegate
+            void cancelKeyDelegate(object sender, ConsoleCancelEventArgs args)
             {
                 Log.Information("Cancelling collection. Rolling back transaction. Please wait to avoid corrupting database.");
                 source.Cancel();
                 DatabaseManager.CloseDatabase();
                 Environment.Exit((int)ASA_ERROR.CANCELLED);
-            };
+            }
+
+            Console.CancelKeyPress += cancelKeyDelegate;
 
             Dictionary<string, string> EndEvent = new Dictionary<string, string>();
             foreach (BaseCollector c in collectors)
@@ -1210,12 +1225,17 @@ namespace AttackSurfaceAnalyzer.Cli
                     ExceptionEvent.Add("Stack Trace", e.StackTrace ?? string.Empty);
                     ExceptionEvent.Add("Message", e.Message);
                     AsaTelemetry.TrackEvent("CollectorCrashRogueException", ExceptionEvent);
+                    Console.CancelKeyPress -= cancelKeyDelegate;
+
                     return ASA_ERROR.FAILED_TO_COMMIT;
                 }
             }
             AsaTelemetry.TrackEvent("End Command", EndEvent);
 
             DatabaseManager.Commit();
+
+            Console.CancelKeyPress -= cancelKeyDelegate;
+
             return ASA_ERROR.NONE;
         }
 

@@ -188,7 +188,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         public ActionResult StartCollection(string Id, bool File, bool Port, bool Service, bool User, bool Registry, bool Certificates, bool Com, bool Firewall, bool Log)
         {
-            CollectCommandOptions opts = new CollectCommandOptions();
+            var opts = new CollectCommandOptions();
             opts.RunId = Id?.Trim();
             opts.EnableFileSystemCollector = File;
             opts.EnableNetworkPortCollector = Port;

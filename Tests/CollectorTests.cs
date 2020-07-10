@@ -71,7 +71,7 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                var coc = new ComObjectCollector(new CollectCommandOptions());
+                var coc = new ComObjectCollector(new CollectorOptions());
                 coc.TryExecute();
 
                 Assert.IsTrue(coc.Results.Any(x => x is ComObject y && y.x86_Binary != null));
@@ -90,7 +90,7 @@ namespace AttackSurfaceAnalyzer.Tests
         [TestMethod]
         public void TestDriverCollector()
         {
-            var dc = new DriverCollector(new CollectCommandOptions());
+            var dc = new DriverCollector(new CollectorOptions());
             dc.TryExecute();
 
             Assert.IsTrue(dc.Results.Any());
@@ -119,13 +119,13 @@ namespace AttackSurfaceAnalyzer.Tests
             eventLog.Source = "Attack Surface Analyzer Tests";
             eventLog.WriteEntry("This Log Entry was created for testing the Attack Surface Analyzer library.", EventLogEntryType.Warning, 101, 1);
 
-            var elc = new EventLogCollector(new CollectCommandOptions());
+            var elc = new EventLogCollector(new CollectorOptions());
             elc.TryExecute();
 
             Assert.IsTrue(elc.Results.Any(x => x is EventLogObject ELO && ELO.Source == "Attack Surface Analyzer Tests" && ELO.Timestamp is DateTime DT && DT.AddMinutes(1).CompareTo(DateTime.Now) > 0));
 
             ConcurrentStack<CollectObject> results = new ConcurrentStack<CollectObject>();
-            elc = new EventLogCollector(new CollectCommandOptions(), x => results.Push(x));
+            elc = new EventLogCollector(new CollectorOptions(), x => results.Push(x));
             elc.TryExecute();
 
             Assert.IsTrue(results.Any(x => x is EventLogObject ELO && ELO.Source == "Attack Surface Analyzer Tests" && ELO.Timestamp is DateTime DT && DT.AddMinutes(1).CompareTo(DateTime.Now) > 0));
@@ -140,11 +140,11 @@ namespace AttackSurfaceAnalyzer.Tests
             var testFolder = AsaHelpers.GetTempFolder();
             Directory.CreateDirectory(testFolder);
 
-            var opts = new CollectCommandOptions()
+            var opts = new CollectorOptions()
             {
                 EnableFileSystemCollector = true,
                 GatherHashes = true,
-                SelectedDirectories = testFolder,
+                SelectedDirectories = new string[] { testFolder },
                 DownloadCloud = false,
             };
 
@@ -333,7 +333,7 @@ namespace AttackSurfaceAnalyzer.Tests
         [TestMethod]
         public void TestProcessCollector()
         {
-            var pc = new ProcessCollector(new CollectCommandOptions());
+            var pc = new ProcessCollector(new CollectorOptions());
             pc.TryExecute();
 
             var p = Process.GetCurrentProcess();
@@ -359,14 +359,14 @@ namespace AttackSurfaceAnalyzer.Tests
                 key.SetValue(value, value2);
                 key.Close();
 
-                var rc = new RegistryCollector(new CollectCommandOptions() { SingleThread = true, SelectedHives = $"CurrentUser\\{name}" });
+                var rc = new RegistryCollector(new CollectorOptions() { SingleThread = true, SelectedHives = $"CurrentUser\\{name}" });
                 rc.TryExecute();
 
                 Assert.IsTrue(rc.Results.Any(x => x is RegistryObject RO && RO.Key.EndsWith(name)));
                 Assert.IsTrue(rc.Results.Any(x => x is RegistryObject RO && RO.Key.EndsWith(name) && RO.Values.ContainsKey(value) && RO.Values[value] == value2));
 
                 ConcurrentStack<CollectObject> results = new ConcurrentStack<CollectObject>();
-                rc = new RegistryCollector(new CollectCommandOptions() { SingleThread = true, SelectedHives = $"CurrentUser\\{name}" }, x => results.Push(x));
+                rc = new RegistryCollector(new CollectorOptions() { SingleThread = true, SelectedHives = $"CurrentUser\\{name}" }, x => results.Push(x));
                 rc.TryExecute();
 
                 Assert.IsTrue(results.Any(x => x is RegistryObject RO && RO.Key.EndsWith(name)));
@@ -390,7 +390,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 var cmd = string.Format("create {0} binPath=\"{1}\"", serviceName, exeName);
                 ExternalCommandRunner.RunExternalCommand("sc.exe", cmd);
 
-                var sc = new ServiceCollector(new CollectCommandOptions());
+                var sc = new ServiceCollector(new CollectorOptions());
                 sc.TryExecute();
 
                 Assert.IsTrue(sc.Results.Any(x => x is ServiceObject RO && RO.Name.Equals(serviceName)));
@@ -422,7 +422,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 var nvData = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7 };
                 uint nvIndex = 3001;
 
-                var tpmc = new TpmCollector(new CollectCommandOptions() { Verbose = true }, null, TestMode: true);
+                var tpmc = new TpmCollector(new CollectorOptions() { Verbose = true }, null, TestMode: true);
                 // Prepare to write to NV 3001
                 TpmHandle nvHandle = TpmHandle.NV(nvIndex);
 

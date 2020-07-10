@@ -23,7 +23,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         #region Public Constructors
 
-        public TpmCollector(CollectCommandOptions? opts, Action<CollectObject>? changeHandler, bool TestMode = false) : base(opts, changeHandler)
+        public TpmCollector(CollectorOptions? opts, Action<CollectObject>? changeHandler, bool TestMode = false) : base(opts, changeHandler)
         {
             this.TestMode = TestMode;
         }
