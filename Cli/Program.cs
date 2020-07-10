@@ -159,7 +159,9 @@ namespace AttackSurfaceAnalyzer.Cli
 
             var result = CompareRuns(compareOpts);
 
-            // Add the file monitor results to the result here
+            // Add the file monitor results to the result dictionary here
+
+            // Print out the results the way the user wants them here
 
             return ASA_ERROR.NONE;
         }
@@ -369,7 +371,13 @@ namespace AttackSurfaceAnalyzer.Cli
                 SaveToDatabase = opts.SaveToDatabase
             };
 
-            var results = CompareRuns(options).Select(x => new KeyValuePair<string, object>($"{x.Key.Item1}_{x.Key.Item2}", x.Value)).ToDictionary(x => x.Key, x => x.Value);
+            var results = CompareRuns(options);
+            return ExportCompareResults(results, opts);
+        }
+
+        private static ASA_ERROR ExportCompareResults(ConcurrentDictionary<(RESULT_TYPE,CHANGE_TYPE),List<CompareResult>> resultsIn, ExportCollectCommandOptions opts)
+        {
+            var results = resultsIn.Select(x => new KeyValuePair<string, object>($"{x.Key.Item1}_{x.Key.Item2}", x.Value)).ToDictionary(x => x.Key, x => x.Value);
             JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings()
             {
                 Formatting = Formatting.Indented,
@@ -417,7 +425,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
                 Log.Information(Strings.Get("OutputWrittenTo"), (new FileInfo(path)).FullName);
             }
-            return 0;
+            return ASA_ERROR.NONE;
         }
 
         private class AsaExportContractResolver : DefaultContractResolver
