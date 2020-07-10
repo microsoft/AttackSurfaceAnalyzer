@@ -188,6 +188,9 @@ namespace AttackSurfaceAnalyzer
         [Option(HelpText = "Custom analysis rules file.")]
         public string? AnalysesFile { get; set; }
 
+        [Option(HelpText = "When analyzing Monitor Objects apply rules that would apply to the base type.")]
+        public bool ApplySubObjectRulesToMonitor { get; set; }
+
         [Option(HelpText = "Set Disable Analysis.")]
         public bool DisableAnalysis { get; set; }
 

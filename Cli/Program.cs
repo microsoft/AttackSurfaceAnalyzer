@@ -212,6 +212,22 @@ namespace AttackSurfaceAnalyzer.Cli
                     CompareRunId = opts.SecondRunId
                 };
                 shellResult.Rules = analyzer.Analyze(shellResult);
+
+                if (opts.ApplySubObjectRulesToMonitor)
+                {
+                    switch (monitorResult)
+                    {
+                        case FileMonitorObject fmo:
+                            var innerShell = new CompareResult()
+                            {
+                                Compare = fmo.FileSystemObject,
+                                CompareRunId = opts.SecondRunId
+                            };
+                            shellResult.Rules.AddRange(analyzer.Analyze(innerShell));
+                            break;
+                    }
+                }
+
                 shellResult.Analysis = shellResult.Rules.Count > 0 ? shellResult.Rules.Max(x => x.Flag) : analyzer.DefaultLevels[shellResult.ResultType];
 
                 results.TryAdd((monitorResult.ResultType, monitorResult.ChangeType), new List<CompareResult>());
