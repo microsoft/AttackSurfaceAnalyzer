@@ -180,6 +180,27 @@ namespace AttackSurfaceAnalyzer.Cli
             return ASA_ERROR.NONE;
         }
 
+        internal static void InsertCompareResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> results, string? FirstRunId, string SecondRunId)
+        {
+            DatabaseManager.InsertCompareRun(FirstRunId, SecondRunId, RUN_STATUS.RUNNING);
+            foreach (var key in results.Keys)
+            {
+                if (results.TryGetValue(key, out List<CompareResult>? obj))
+                {
+                    if (obj is List<CompareResult> Queue)
+                    {
+                        foreach (var result in Queue)
+                        {
+                            DatabaseManager.InsertAnalyzed(result);
+                        }
+                    }
+                }
+            }
+            DatabaseManager.UpdateCompareRun(FirstRunId, SecondRunId, RUN_STATUS.COMPLETED);
+
+            DatabaseManager.Commit();
+        }
+
         private static void SetupOrDie(string path, DBSettings? dbSettingsIn = null)
         {
             DatabaseManager = new SqliteDatabaseManager(path, dbSettingsIn);
@@ -372,6 +393,12 @@ namespace AttackSurfaceAnalyzer.Cli
             };
 
             var results = CompareRuns(options);
+            
+            if (opts.SaveToDatabase)
+            {
+                InsertCompareResults(results, opts.FirstRunId, opts.SecondRunId);
+            }
+
             return ExportCompareResults(results, opts);
         }
 
@@ -732,11 +759,6 @@ namespace AttackSurfaceAnalyzer.Cli
                 throw new ArgumentNullException(nameof(opts));
             }
 
-            if (opts.SaveToDatabase)
-            {
-                DatabaseManager.InsertCompareRun(opts.FirstRunId, opts.SecondRunId, RUN_STATUS.RUNNING);
-            }
-
             comparators = new List<BaseCompare>();
 
             Dictionary<string, string> EndEvent = new Dictionary<string, string>();
@@ -796,40 +818,6 @@ namespace AttackSurfaceAnalyzer.Cli
                 Log.Information(Strings.Get("Completed"), "Analysis", answer);
             }
 
-            watch = Stopwatch.StartNew();
-
-            if (opts.SaveToDatabase)
-            {
-                foreach (var key in c.Results.Keys)
-                {
-                    if (c.Results.TryGetValue(key, out List<CompareResult>? obj))
-                    {
-                        if (obj is List<CompareResult> Queue)
-                        {
-                            foreach (var result in Queue)
-                            {
-                                DatabaseManager.InsertAnalyzed(result);
-                            }
-                        }
-                    }
-                }
-            }
-
-            watch.Stop();
-            t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
-            answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
-                                    t.Hours,
-                                    t.Minutes,
-                                    t.Seconds,
-                                    t.Milliseconds);
-            Log.Information(Strings.Get("Completed"), "Flushing", answer);
-
-            if (opts.SaveToDatabase)
-            {
-                DatabaseManager.UpdateCompareRun(opts.FirstRunId, opts.SecondRunId, RUN_STATUS.COMPLETED);
-            }
-
-            DatabaseManager.Commit();
             AsaTelemetry.TrackEvent("End Command", EndEvent);
             return c.Results;
         }
