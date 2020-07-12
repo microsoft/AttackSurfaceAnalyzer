@@ -203,10 +203,15 @@ namespace AttackSurfaceAnalyzer.Cli
             return ExportGuidedModeResults(results, opts);
         }
 
-        private static ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> AnalyzeMonitored(CompareCommandOptions opts)
+        internal static ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> AnalyzeMonitored(CompareCommandOptions opts)
+        {
+            Analyzer analyzer = new Analyzer(DatabaseManager.RunIdToPlatform(opts.SecondRunId), opts.AnalysesFile);
+            return AnalyzeMonitored(opts, analyzer);
+        }
+
+        internal static ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> AnalyzeMonitored(CompareCommandOptions opts, Analyzer analyzer)
         {
             var results = new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>>();
-            Analyzer analyzer = new Analyzer(DatabaseManager.RunIdToPlatform(opts.SecondRunId), opts.AnalysesFile);
             Parallel.ForEach(DatabaseManager.GetMonitorResults(opts.SecondRunId), monitorResult =>
             {
                 var shellResult = new CompareResult()
