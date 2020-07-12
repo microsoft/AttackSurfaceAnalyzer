@@ -11,7 +11,6 @@ namespace AttackSurfaceAnalyzer.Objects
             Path = PathIn;
         }
 
-        public CHANGE_TYPE? ChangeType { get; set; }
         public string? ExtendedResults { get; set; }
         public FileSystemObject? FileSystemObject { get; set; }
 

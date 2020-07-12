@@ -28,7 +28,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class FileSystemCollector : BaseCollector
     {
-        #region Public Constructors
+        
 
         public FileSystemCollector(CollectorOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
         {
@@ -57,16 +57,16 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
-        #endregion Public Constructors
+        
 
-        #region Public Properties
+        
 
         public static ConcurrentDictionary<string, uint> ClusterSizes { get; set; } = new ConcurrentDictionary<string, uint>();
         public List<string> Roots { get; } = new List<string>();
 
-        #endregion Public Properties
+        
 
-        #region Public Methods
+        
 
         public override bool CanRunOnPlatform()
         {
@@ -340,10 +340,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             return obj;
         }
 
-        #endregion Public Methods
-
-        #region Internal Methods
-
         internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
             foreach (var Root in Roots)
@@ -382,9 +378,9 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
-        #endregion Internal Methods
+        
 
-        #region Private Methods
+        
 
         private static long WindowsSizeOnDisk(FileInfo path)
         {
@@ -518,6 +514,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             Log.Verbose("Finished parsing {0}", path);
         }
 
-        #endregion Private Methods
+        
     }
 }

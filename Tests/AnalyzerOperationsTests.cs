@@ -7,487 +7,1064 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Tpm2Lib;
+using Signature = AttackSurfaceAnalyzer.Objects.Signature;
 
 namespace AttackSurfaceAnalyzer.Tests
 {
     [TestClass]
-    public class AnalyzerTests
+    public class AnalyzerOperationsTests
     {
-        private const string TestPathOne = "TestPath1";
-        private const string TestPathTwo = "TestPath2";
 
-        private readonly CompareResult testPathOneExecutableObject = new CompareResult()
-        {
-            Base = new FileSystemObject(TestPathOne)
-            {
-                IsExecutable = true
-            }
-        };
-
-        private readonly CompareResult testPathOneObject = new CompareResult()
-        {
-            Base = new FileSystemObject(TestPathOne)
-        };
-
-        private readonly CompareResult testPathTwoExecutableObject = new CompareResult()
-        {
-            Base = new FileSystemObject(TestPathTwo)
-            {
-                IsExecutable = true
-            }
-        };
-
-        private readonly CompareResult testPathTwoObject = new CompareResult()
-        {
-            Base = new FileSystemObject(TestPathTwo)
-        };
 
         [ClassInitialize]
         public static void ClassSetup(TestContext _)
         {
             Logger.Setup(false, true);
             Strings.Setup();
-            AsaTelemetry.SetEnabled(enabled:false);
+            AsaTelemetry.SetEnabled(enabled: false);
         }
 
         [TestMethod]
-        public void TestXorFromNand()
+        public void VerifyContainsAnyOperator()
         {
-            var RuleName = "XOR from NAND";
-            var norRule = new AsaRule(RuleName)
+            var trueStringObject = new CompareResult()
             {
-                Expression = "(0 NAND (0 NAND 1)) NAND (1 NAND (0 NAND 1))",
+                Base = new FileSystemObject("ContainsStringObject")
+            };
+
+            var alsoTrueStringObject = new CompareResult()
+            {
+                Base = new FileSystemObject("StringObject")
+            };
+
+            var falseStringObject = new CompareResult()
+            {
+                Base = new FileSystemObject("NothingInCommon")
+            };
+
+            var stringContains = new AsaRule("String Contains Any Rule")
+            {
                 Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
-                    new Clause("Path", OPERATION.EQ)
+                    new Clause("Path", OPERATION.CONTAINS_ANY)
                     {
-                        Label = "0",
                         Data = new List<string>()
                         {
-                            "TestPath1"
+                            "String",
                         }
-                    },
-                    new Clause("IsExecutable", OPERATION.IS_TRUE)
-                    {
-                        Label = "1"
                     }
                 }
             };
 
-            var analyzer = new AsaAnalyzer();
-            var ruleList = new List<Rule>() { norRule };
+            var stringAnalyzer = new AsaAnalyzer();
+            var ruleList = new List<Rule>() { stringContains }; ;
 
-            Assert.IsTrue(analyzer.Analyze(ruleList, testPathOneObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(!analyzer.Analyze(ruleList, testPathTwoObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(!analyzer.Analyze(ruleList, testPathOneExecutableObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(analyzer.Analyze(ruleList, testPathTwoExecutableObject).Any(x => x.Name == RuleName));
-        }
+            Assert.IsTrue(stringAnalyzer.Analyze(ruleList, trueStringObject).Any());
+            Assert.IsTrue(stringAnalyzer.Analyze(ruleList, alsoTrueStringObject).Any());
+            Assert.IsFalse(stringAnalyzer.Analyze(ruleList, falseStringObject).Any());
 
-        [TestMethod]
-        public void VerifyAccessSubproperties()
-        {
-            var regObj = new CompareResult()
+            var trueListObject = new CompareResult()
             {
                 Base = new RegistryObject("ContainsListObject", Microsoft.Win32.RegistryView.Registry32)
                 {
-                    Values = new Dictionary<string, string>()
+                    Subkeys = new List<string>()
                     {
-                        { "One", "Two"}
+                        "One",
+                        "Two",
+                        "Three"
                     }
                 }
             };
 
-            var RuleName = "ContainsRule";
-            var containsRule = new AsaRule(RuleName)
+            var alsoTrueListObject = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsListObject", Microsoft.Win32.RegistryView.Registry32)
+                {
+                    Subkeys = new List<string>()
+                    {
+                        "One",
+                        "Two",
+                    }
+                }
+            };
+
+            var falseListObject = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsListObject", Microsoft.Win32.RegistryView.Registry32)
+            };
+
+            var listContains = new AsaRule("List Contains Any Rule")
             {
                 Target = "RegistryObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
-                    new Clause("Values.One", OPERATION.EQ)
+                    new Clause("Subkeys", OPERATION.CONTAINS_ANY)
                     {
-                        Label = "0",
                         Data = new List<string>()
                         {
-                            "Two"
+                            "One",
+                            "Two",
+                            "Three"
                         }
                     }
                 }
             };
 
-            var analyzer = new AsaAnalyzer();
-            var ruleList = new List<Rule>() { containsRule };
-            Assert.IsTrue(analyzer.Analyze(ruleList,regObj).Any(x => x.Name == RuleName));
+            var listAnalyzer = new AsaAnalyzer();
+            ruleList = new List<Rule>() { listContains }; ;
+
+            Assert.IsTrue(listAnalyzer.Analyze(ruleList, trueListObject).Any());
+            Assert.IsTrue(listAnalyzer.Analyze(ruleList, alsoTrueListObject).Any());
+            Assert.IsFalse(listAnalyzer.Analyze(ruleList, falseListObject).Any());
+
+            var trueStringDictObject = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsStringDictObject", Microsoft.Win32.RegistryView.Registry32)
+                {
+                    Values = new Dictionary<string, string>()
+                    {
+                        { "One", "One" },
+                        { "Two", "Two" },
+                        { "Three", "Three" }
+                    }
+                }
+            };
+
+            var alsoTrueStringDict = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsStringDictObject", Microsoft.Win32.RegistryView.Registry32)
+                {
+                    Values = new Dictionary<string, string>()
+                    {
+                        { "One", "One" },
+                        { "Two", "Three" },
+                    }
+                }
+            };
+
+            var superFalseStringDictObject = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsStringDictObject", Microsoft.Win32.RegistryView.Registry32)
+                {
+                    Values = new Dictionary<string, string>()
+                    {
+                        { "One", "Two" },
+                        { "Three", "Four" },
+                    }
+                }
+            };
+
+            var stringDictContains = new AsaRule("String Dict Contains Any Rule")
+            {
+                Target = "RegistryObject",
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Values", OPERATION.CONTAINS_ANY)
+                    {
+                        DictData = new List<KeyValuePair<string, string>>()
+                        {
+                            new KeyValuePair<string, string>("One","One"),
+                            new KeyValuePair<string, string>("Two","Two"),
+                            new KeyValuePair<string, string>("Three","Three")
+                        }
+                    }
+                }
+            };
+
+            var stringDictAnalyzer = new AsaAnalyzer();
+            ruleList = new List<Rule>() { stringDictContains }; ;
+
+            Assert.IsTrue(stringDictAnalyzer.Analyze(ruleList, trueStringDictObject).Any());
+            Assert.IsTrue(stringDictAnalyzer.Analyze(ruleList, alsoTrueStringDict).Any());
+            Assert.IsFalse(stringDictAnalyzer.Analyze(ruleList, superFalseStringDictObject).Any());
+
+            var trueListDictObject = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsListDictObject", Microsoft.Win32.RegistryView.Registry32)
+                {
+                    Permissions = new Dictionary<string, List<string>>()
+                    {
+                        {
+                            "User", new List<string>()
+                            {
+                                "Read",
+                                "Execute"
+                            }
+                        }
+                    }
+                }
+            };
+
+            var alsoTrueListDictObject = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsListDictObject", Microsoft.Win32.RegistryView.Registry32)
+                {
+                    Permissions = new Dictionary<string, List<string>>()
+                    {
+                        {
+                            "User", new List<string>()
+                            {
+                                "Read",
+                            }
+                        }
+                    }
+                }
+            };
+
+            var falseListDictObject = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsListDictObject", Microsoft.Win32.RegistryView.Registry32)
+                {
+                    Permissions = new Dictionary<string, List<string>>()
+                    {
+                        {
+                            "Taco", new List<string>()
+                            {
+                                "Read",
+                                "Execute"
+                            }
+                        }
+                    }
+                }
+            };
+
+            var listDictContains = new AsaRule("List Dict Contains Any Rule")
+            {
+                Target = "RegistryObject",
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Permissions", OPERATION.CONTAINS_ANY)
+                    {
+                        DictData = new List<KeyValuePair<string, string>>()
+                        {
+                            new KeyValuePair<string, string>("User","Execute"),
+                            new KeyValuePair<string, string>("User","Read")
+                        }
+                    }
+                }
+            };
+
+            var listDictAnalyzer = new AsaAnalyzer();
+            ruleList = new List<Rule>() { listDictContains }; ;
+
+            Assert.IsTrue(listDictAnalyzer.Analyze(ruleList, trueListDictObject).Any());
+            Assert.IsTrue(listDictAnalyzer.Analyze(ruleList, alsoTrueListDictObject).Any());
+            Assert.IsFalse(listDictAnalyzer.Analyze(ruleList, falseListDictObject).Any());
         }
 
         [TestMethod]
-        public void VerifyAnd()
+        public void VerifyContainsKeyOperator()
         {
-            var RuleName = "AndRule";
-            var andRule = new AsaRule(RuleName)
+            var trueAlgDict = new CompareResult()
             {
-                Expression = "0 AND 1",
+                Base = new TpmObject("TestLocal")
+                {
+                    PCRs = new Dictionary<(Tpm2Lib.TpmAlgId, uint), byte[]>()
+                    {
+                        { (TpmAlgId.Sha,1), Array.Empty<byte>() }
+                    }
+                }
+            };
+
+            var falseAlgDict = new CompareResult()
+            {
+                Base = new TpmObject("TestLocal")
+                {
+                    PCRs = new Dictionary<(Tpm2Lib.TpmAlgId, uint), byte[]>()
+                    {
+                        { (TpmAlgId.Sha,15), Array.Empty<byte>() }
+                    }
+                }
+            };
+
+            var algDictContains = new AsaRule("Alg Dict Changed PCR 1")
+            {
+                Target = "TpmObject",
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("PCRs", OPERATION.CONTAINS_KEY)
+                    {
+                        Data = new List<string>()
+                        {
+                            "(Sha, 1)"
+                        }
+                    }
+                }
+            };
+
+            var algDictAnalyzer = new AsaAnalyzer();
+            var ruleList = new List<Rule>() { algDictContains }; ;
+
+            Assert.IsTrue(algDictAnalyzer.Analyze(ruleList, trueAlgDict).Any());
+            Assert.IsFalse(algDictAnalyzer.Analyze(ruleList, falseAlgDict).Any());
+        }
+
+        [TestMethod]
+        public void VerifyContainsOperator()
+        {
+            var trueStringObject = new CompareResult()
+            {
+                Base = new FileSystemObject("ContainsStringObject")
+            };
+
+            var falseStringObject = new CompareResult()
+            {
+                Base = new FileSystemObject("StringObject")
+            };
+
+            var superFalseStringObject = new CompareResult()
+            {
+                Base = new FileSystemObject("NothingInCommon")
+            };
+
+            var stringContains = new AsaRule("String Contains Rule")
+            {
+                Target = "FileSystemObject",
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Path", OPERATION.CONTAINS)
+                    {
+                        Data = new List<string>()
+                        {
+                            "Contains",
+                            "String",
+                            "Object"
+                        }
+                    }
+                }
+            };
+
+            var stringAnalyzer = new AsaAnalyzer();
+            var ruleList = new List<Rule>() { stringContains }; ;
+
+            Assert.IsTrue(stringAnalyzer.Analyze(ruleList, trueStringObject).Any());
+            Assert.IsFalse(stringAnalyzer.Analyze(ruleList, falseStringObject).Any());
+            Assert.IsFalse(stringAnalyzer.Analyze(ruleList, superFalseStringObject).Any());
+
+            var trueListObject = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsListObject", Microsoft.Win32.RegistryView.Registry32)
+                {
+                    Subkeys = new List<string>()
+                    {
+                        "One",
+                        "Two",
+                        "Three"
+                    }
+                }
+            };
+
+            var falseListObject = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsListObject", Microsoft.Win32.RegistryView.Registry32)
+                {
+                    Subkeys = new List<string>()
+                    {
+                        "One",
+                        "Two",
+                    }
+                }
+            };
+
+            var superFalseListObject = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsListObject", Microsoft.Win32.RegistryView.Registry32)
+            };
+
+            var listContains = new AsaRule("List Contains Rule")
+            {
+                Target = "RegistryObject",
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Subkeys", OPERATION.CONTAINS)
+                    {
+                        Data = new List<string>()
+                        {
+                            "One",
+                            "Two",
+                            "Three"
+                        }
+                    }
+                }
+            };
+
+            var listAnalyzer = new AsaAnalyzer();
+            ruleList = new List<Rule>() { listContains }; ;
+
+            Assert.IsTrue(listAnalyzer.Analyze(ruleList, trueListObject).Any());
+            Assert.IsFalse(listAnalyzer.Analyze(ruleList, falseListObject).Any());
+            Assert.IsFalse(listAnalyzer.Analyze(ruleList, superFalseListObject).Any());
+
+            var trueStringDictObject = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsStringDictObject", Microsoft.Win32.RegistryView.Registry32)
+                {
+                    Values = new Dictionary<string, string>()
+                    {
+                        { "One", "One" },
+                        { "Two", "Two" },
+                        { "Three", "Three" }
+                    }
+                }
+            };
+
+            var falseStringDictObject = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsStringDictObject", Microsoft.Win32.RegistryView.Registry32)
+                {
+                    Values = new Dictionary<string, string>()
+                    {
+                        { "One", "One" },
+                        { "Two", "Three" },
+                    }
+                }
+            };
+
+            var superFalseStringDictObject = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsStringDictObject", Microsoft.Win32.RegistryView.Registry32)
+                {
+                    Values = new Dictionary<string, string>()
+                    {
+                        { "One", "Two" },
+                        { "Three", "Four" },
+                    }
+                }
+            };
+
+            var stringDictContains = new AsaRule("String Dict Contains Rule")
+            {
+                Target = "RegistryObject",
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Values", OPERATION.CONTAINS)
+                    {
+                        DictData = new List<KeyValuePair<string, string>>()
+                        {
+                            new KeyValuePair<string, string>("One","One"),
+                            new KeyValuePair<string, string>("Two","Two"),
+                            new KeyValuePair<string, string>("Three","Three")
+                        }
+                    }
+                }
+            };
+
+            var stringDictAnalyzer = new AsaAnalyzer();
+            ruleList = new List<Rule>() { stringDictContains }; ;
+
+            Assert.IsTrue(stringDictAnalyzer.Analyze(ruleList, trueStringDictObject).Any());
+            Assert.IsFalse(stringDictAnalyzer.Analyze(ruleList, falseStringDictObject).Any());
+            Assert.IsFalse(stringDictAnalyzer.Analyze(ruleList, superFalseStringDictObject).Any());
+
+            var trueListDictObject = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsListDictObject", Microsoft.Win32.RegistryView.Registry32)
+                {
+                    Permissions = new Dictionary<string, List<string>>()
+                    {
+                        {
+                            "User", new List<string>()
+                            {
+                                "Read",
+                                "Execute"
+                            }
+                        }
+                    }
+                }
+            };
+
+            var falseListDictObject = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsListDictObject", Microsoft.Win32.RegistryView.Registry32)
+                {
+                    Permissions = new Dictionary<string, List<string>>()
+                    {
+                        {
+                            "User", new List<string>()
+                            {
+                                "Read",
+                            }
+                        }
+                    }
+                }
+            };
+
+            var alsoFalseListDictObject = new CompareResult()
+            {
+                Base = new RegistryObject("ContainsListDictObject", Microsoft.Win32.RegistryView.Registry32)
+                {
+                    Permissions = new Dictionary<string, List<string>>()
+                    {
+                        {
+                            "Contoso", new List<string>()
+                            {
+                                "Read",
+                                "Execute"
+                            }
+                        }
+                    }
+                }
+            };
+
+            var listDictContains = new AsaRule("List Dict Contains Rule")
+            {
+                Target = "RegistryObject",
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Permissions", OPERATION.CONTAINS)
+                    {
+                        DictData = new List<KeyValuePair<string, string>>()
+                        {
+                            new KeyValuePair<string, string>("User","Execute"),
+                            new KeyValuePair<string, string>("User","Read"),
+                        }
+                    }
+                }
+            };
+
+            var listDictAnalyzer = new AsaAnalyzer();
+            ruleList = new List<Rule>() { listDictContains }; ;
+
+            Assert.IsTrue(listDictAnalyzer.Analyze(ruleList, trueListDictObject).Any());
+            Assert.IsFalse(listDictAnalyzer.Analyze(ruleList, falseListDictObject).Any());
+            Assert.IsFalse(listDictAnalyzer.Analyze(ruleList, alsoFalseListDictObject).Any());
+        }
+
+        [TestMethod]
+        public void VerifyEndsWithOperator()
+        {
+            var trueEndsWithObject = new CompareResult()
+            {
+                Base = new FileSystemObject("App.exe")
+            };
+            var falseEndsWithObject = new CompareResult()
+            {
+                Base = new FileSystemObject("App.pdf")
+            };
+
+            var endsWithRule = new AsaRule("Ends With Rule")
+            {
+                Target = "FileSystemObject",
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Path", OPERATION.ENDS_WITH)
+                    {
+                        Data = new List<string>()
+                        {
+                            ".exe"
+                        }
+                    }
+                }
+            };
+
+            var endsWithAnalyzer = new AsaAnalyzer();
+            var ruleList = new List<Rule>() { endsWithRule }; ;
+
+            Assert.IsTrue(endsWithAnalyzer.Analyze(ruleList, trueEndsWithObject).Any());
+            Assert.IsFalse(endsWithAnalyzer.Analyze(ruleList, falseEndsWithObject).Any());
+        }
+
+        [TestMethod]
+        public void VerifyEqOperator()
+        {
+            var assertTrueObject = new CompareResult()
+            {
+                Base = new FileSystemObject("TestPath")
+                {
+                    IsDirectory = true,
+                    Size = 700
+                }
+            };
+
+            var assertFalseObject = new CompareResult()
+            {
+                Base = new FileSystemObject("TestPath2")
+                {
+                    IsDirectory = false,
+                    Size = 701
+                }
+            };
+
+            var stringEquals = new AsaRule("String Equals Rule")
+            {
                 Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
                     new Clause("Path", OPERATION.EQ)
                     {
-                        Label = "0",
                         Data = new List<string>()
                         {
-                            "TestPath1"
+                            "TestPath"
                         }
-                    },
+                    }
+                }
+            };
+
+            var boolEquals = new AsaRule("Bool Equals Rule")
+            {
+                Target = "FileSystemObject",
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("IsDirectory", OPERATION.EQ)
+                    {
+                        Data = new List<string>()
+                        {
+                            "True"
+                        }
+                    }
+                }
+            };
+
+            var intEquals = new AsaRule("Int Equals Rule")
+            {
+                Target = "FileSystemObject",
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Size", OPERATION.EQ)
+                    {
+                        Data = new List<string>()
+                        {
+                            "700"
+                        }
+                    }
+                }
+            };
+
+            var analyzer = new AsaAnalyzer();
+            var ruleList = new List<Rule>() { boolEquals , intEquals, stringEquals };
+
+            var trueObjectResults = analyzer.Analyze(ruleList, assertTrueObject);
+            var falseObjectResults = analyzer.Analyze(ruleList, assertFalseObject);
+
+            Assert.IsTrue(trueObjectResults.Any(x => x.Name == "Bool Equals Rule"));
+            Assert.IsTrue(trueObjectResults.Any(x => x.Name == "Int Equals Rule"));
+            Assert.IsTrue(trueObjectResults.Any(x => x.Name == "String Equals Rule"));
+
+            Assert.IsFalse(falseObjectResults.Any(x => x.Name == "Bool Equals Rule"));
+            Assert.IsFalse(falseObjectResults.Any(x => x.Name == "Int Equals Rule"));
+            Assert.IsFalse(falseObjectResults.Any(x => x.Name == "String Equals Rule"));
+        }
+
+        [TestMethod]
+        public void VerifyGtOperator()
+        {
+            var trueGtObject = new CompareResult()
+            {
+                Base = new OpenPortObject(1025, TRANSPORT.TCP, ADDRESS_FAMILY.InterNetwork)
+            };
+            var falseGtObject = new CompareResult()
+            {
+                Base = new OpenPortObject(1023, TRANSPORT.TCP, ADDRESS_FAMILY.InterNetwork)
+            };
+
+            var gtRule = new AsaRule("Gt Rule")
+            {
+                Target = "OpenPortObject",
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Port", OPERATION.GT)
+                    {
+                        Data = new List<string>()
+                        {
+                            "1024"
+                        }
+                    }
+                }
+            };
+
+            var badGtRule = new AsaRule("Bad Gt Rule")
+            {
+                Target = "OpenPortObject",
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Port", OPERATION.GT)
+                    {
+                        Data = new List<string>()
+                        {
+                            "CONTOSO"
+                        }
+                    }
+                }
+            };
+
+            var gtAnalyzer = new AsaAnalyzer();
+            var ruleList = new List<Rule>() { gtRule }; ;
+
+            Assert.IsTrue(gtAnalyzer.Analyze(ruleList, trueGtObject).Any());
+            Assert.IsFalse(gtAnalyzer.Analyze(ruleList, falseGtObject).Any());
+
+            var badGtAnalyzer = new AsaAnalyzer();
+            ruleList = new List<Rule>() { badGtRule }; ;
+
+            Assert.IsFalse(badGtAnalyzer.Analyze(ruleList, trueGtObject).Any());
+            Assert.IsFalse(badGtAnalyzer.Analyze(ruleList, falseGtObject).Any());
+        }
+
+        [TestMethod]
+        public void VerifyIsAfterOperator()
+        {
+            var falseIsAfterObject = new CompareResult()
+            {
+                Base = new FileSystemObject("App.exe")
+                {
+                    SignatureStatus = new Signature(true)
+                    {
+                        SigningCertificate = new SerializableCertificate(Thumbprint: string.Empty, Subject: string.Empty, PublicKey: string.Empty, NotAfter: DateTime.Now, NotBefore: DateTime.Now, Issuer: string.Empty, SerialNumber: string.Empty, CertHashString: string.Empty, Pkcs7: string.Empty)
+                    }
+                }
+            };
+
+            var trueIsAfterObject = new CompareResult()
+            {
+                Base = new FileSystemObject("App.exe")
+                {
+                    SignatureStatus = new Signature(true)
+                    {
+                        SigningCertificate = new SerializableCertificate(Thumbprint: string.Empty, Subject: string.Empty, PublicKey: string.Empty, NotAfter: DateTime.Now.AddYears(1), NotBefore: DateTime.Now, Issuer: string.Empty, SerialNumber: string.Empty, CertHashString: string.Empty, Pkcs7: string.Empty)
+                    }
+                }
+            };
+
+            var isAfterRule = new AsaRule("Is After Rule")
+            {
+                Target = "FileSystemObject",
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("SignatureStatus.SigningCertificate.NotAfter", OPERATION.IS_AFTER)
+                    {
+                        Data = new List<string>()
+                        {
+                            DateTime.Now.AddDays(1).ToString()
+                        }
+                    }
+                }
+            };
+
+            var isAfterAnalyzer = new AsaAnalyzer();
+            var ruleList = new List<Rule>() { isAfterRule }; ;
+
+            Assert.IsTrue(isAfterAnalyzer.Analyze(ruleList, trueIsAfterObject).Any());
+            Assert.IsFalse(isAfterAnalyzer.Analyze(ruleList, falseIsAfterObject).Any());
+
+            var isAfterRuleShortDate = new AsaRule("Is After Short Rule")
+            {
+                Target = "FileSystemObject",
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("SignatureStatus.SigningCertificate.NotAfter", OPERATION.IS_AFTER)
+                    {
+                        Data = new List<string>()
+                        {
+                            DateTime.Now.AddDays(1).ToShortDateString()
+                        }
+                    }
+                }
+            };
+
+            var isAfterShortAnalyzer = new AsaAnalyzer();
+            ruleList = new List<Rule>() { isAfterRuleShortDate }; ;
+
+            Assert.IsTrue(isAfterShortAnalyzer.Analyze(ruleList, trueIsAfterObject).Any());
+            Assert.IsFalse(isAfterShortAnalyzer.Analyze(ruleList, falseIsAfterObject).Any());
+        }
+
+        [TestMethod]
+        public void VerifyIsBeforeOperator()
+        {
+            var trueIsBeforeObject = new CompareResult()
+            {
+                Base = new FileSystemObject("App.exe")
+                {
+                    SignatureStatus = new Signature(true)
+                    {
+                        SigningCertificate = new SerializableCertificate(Thumbprint: string.Empty, Subject: string.Empty, PublicKey: string.Empty, NotAfter: DateTime.Now, NotBefore: DateTime.Now, Issuer: string.Empty, SerialNumber: string.Empty, CertHashString: string.Empty, Pkcs7: string.Empty)
+                    }
+                }
+            };
+
+            var falseIsBeforeObject = new CompareResult()
+            {
+                Base = new FileSystemObject("App.exe")
+                {
+                    SignatureStatus = new Signature(true)
+                    {
+                        SigningCertificate = new SerializableCertificate(Thumbprint: string.Empty, Subject: string.Empty, PublicKey: string.Empty, NotAfter: DateTime.Now.AddYears(1), NotBefore: DateTime.Now, Issuer: string.Empty, SerialNumber: string.Empty, CertHashString: string.Empty, Pkcs7: string.Empty)
+                    }
+                }
+            };
+
+            var isBeforeRule = new AsaRule("Is Before Rule")
+            {
+                Target = "FileSystemObject",
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("SignatureStatus.SigningCertificate.NotAfter", OPERATION.IS_BEFORE)
+                    {
+                        Data = new List<string>()
+                        {
+                            DateTime.Now.AddDays(1).ToString()
+                        }
+                    }
+                }
+            };
+
+            var isBeforeAnalyzer = new AsaAnalyzer();
+            var ruleList = new List<Rule>() { isBeforeRule }; ;
+
+            Assert.IsTrue(isBeforeAnalyzer.Analyze(ruleList, trueIsBeforeObject).Any());
+            Assert.IsFalse(isBeforeAnalyzer.Analyze(ruleList, falseIsBeforeObject).Any());
+
+            var isBeforeShortRule = new AsaRule("Is Before Short Rule")
+            {
+                Target = "FileSystemObject",
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("SignatureStatus.SigningCertificate.NotAfter", OPERATION.IS_BEFORE)
+                    {
+                        Data = new List<string>()
+                        {
+                            DateTime.Now.AddDays(1).ToShortDateString()
+                        }
+                    }
+                }
+            };
+
+            var isBeforeShortAnalyzer = new AsaAnalyzer();
+            ruleList = new List<Rule>() { isBeforeShortRule }; ;
+
+            Assert.IsTrue(isBeforeShortAnalyzer.Analyze(ruleList, trueIsBeforeObject).Any());
+            Assert.IsFalse(isBeforeShortAnalyzer.Analyze(ruleList, falseIsBeforeObject).Any());
+        }
+
+        [TestMethod]
+        public void VerifyIsExpiredOperator()
+        {
+            var trueIsExpiredObject = new CompareResult()
+            {
+                Base = new FileSystemObject("App.exe")
+                {
+                    SignatureStatus = new Signature(true)
+                    {
+                        SigningCertificate = new SerializableCertificate(Thumbprint: string.Empty, Subject: string.Empty, PublicKey: string.Empty, NotAfter: DateTime.MinValue, NotBefore: DateTime.Now, Issuer: string.Empty, SerialNumber: string.Empty, CertHashString: string.Empty, Pkcs7: string.Empty)
+                    }
+                }
+            };
+
+            var falseIsExpiredObject = new CompareResult()
+            {
+                Base = new FileSystemObject("App.exe")
+                {
+                    SignatureStatus = new Signature(true)
+                    {
+                        SigningCertificate = new SerializableCertificate(Thumbprint: string.Empty, Subject: string.Empty, PublicKey: string.Empty, NotAfter: DateTime.MaxValue, NotBefore: DateTime.Now, Issuer: string.Empty, SerialNumber: string.Empty, CertHashString: string.Empty, Pkcs7: string.Empty)
+                    }
+                }
+            };
+
+            var isExpiredRule = new AsaRule("Is Expired Rule")
+            {
+                Target = "FileSystemObject",
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("SignatureStatus.SigningCertificate.NotAfter", OPERATION.IS_EXPIRED)
+                }
+            };
+
+            var isExpiredAnalyzer = new AsaAnalyzer();
+            var ruleList = new List<Rule>() { isExpiredRule }; ;
+
+            Assert.IsTrue(isExpiredAnalyzer.Analyze(ruleList, trueIsExpiredObject).Any());
+            Assert.IsFalse(isExpiredAnalyzer.Analyze(ruleList, falseIsExpiredObject).Any());
+        }
+
+        [TestMethod]
+        public void VerifyIsNullOperator()
+        {
+            var falseIsNullObject = new CompareResult()
+            {
+                Base = new FileSystemObject("App.exe")
+                {
+                    ContentHash = "HASH"
+                }
+            };
+            var trueIsNullObject = new CompareResult()
+            {
+                Base = new FileSystemObject("NotAnApp.pdf")
+            };
+
+            var isNullRule = new AsaRule("Is Null Rule")
+            {
+                Target = "FileSystemObject",
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("ContentHash", OPERATION.IS_NULL)
+                }
+            };
+
+            var isNullAnalyzer = new AsaAnalyzer();
+            var ruleList = new List<Rule>() { isNullRule }; ;
+
+            Assert.IsTrue(isNullAnalyzer.Analyze(ruleList, trueIsNullObject).Any());
+            Assert.IsFalse(isNullAnalyzer.Analyze(ruleList, falseIsNullObject).Any());
+        }
+
+        [TestMethod]
+        public void VerifyIsTrueOperator()
+        {
+            var trueIsTrueObject = new CompareResult()
+            {
+                Base = new FileSystemObject("App.exe")
+                {
+                    IsExecutable = true
+                }
+            };
+            var falseIsTrueObject = new CompareResult()
+            {
+                Base = new FileSystemObject("NotAnApp.pdf")
+            };
+
+            var isTrueRule = new AsaRule("Is True Rule")
+            {
+                Target = "FileSystemObject",
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
                     new Clause("IsExecutable", OPERATION.IS_TRUE)
-                    {
-                        Label = "1"
-                    }
                 }
             };
 
-            var analyzer = new AsaAnalyzer();
-            var ruleList = new List<Rule>() { andRule };
+            var isTrueAnalyzer = new AsaAnalyzer();
+            var ruleList = new List<Rule>() { isTrueRule }; ;
 
-            Assert.IsTrue(!analyzer.Analyze(ruleList, testPathOneObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(!analyzer.Analyze(ruleList, testPathTwoObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(analyzer.Analyze(ruleList, testPathOneExecutableObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(!analyzer.Analyze(ruleList, testPathTwoExecutableObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(isTrueAnalyzer.Analyze(ruleList, trueIsTrueObject).Any());
+            Assert.IsFalse(isTrueAnalyzer.Analyze(ruleList, falseIsTrueObject).Any());
         }
 
         [TestMethod]
-        public void VerifyEmbeddedRulesAreValid()
+        public void VerifyLtOperator()
         {
-            var analyzer = new AsaAnalyzer();
-            var ruleFile = RuleFile.LoadEmbeddedFilters();
-            Assert.IsTrue(!analyzer.EnumerateRuleIssues(ruleFile.GetRules()).Any());
+            var falseLtObject = new CompareResult()
+            {
+                Base = new OpenPortObject(1025, TRANSPORT.TCP, ADDRESS_FAMILY.InterNetwork)
+            };
+            var trueLtObject = new CompareResult()
+            {
+                Base = new OpenPortObject(1023, TRANSPORT.TCP, ADDRESS_FAMILY.InterNetwork)
+            };
+
+            var ltRule = new AsaRule("Lt Rule")
+            {
+                Target = "OpenPortObject",
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Port", OPERATION.LT)
+                    {
+                        Data = new List<string>()
+                        {
+                            "1024"
+                        }
+                    }
+                }
+            };
+
+            var ltAnalyzer = new AsaAnalyzer();
+            var ruleList = new List<Rule>() { ltRule }; ;
+
+            Assert.IsTrue(ltAnalyzer.Analyze(ruleList, trueLtObject).Any());
+            Assert.IsFalse(ltAnalyzer.Analyze(ruleList, falseLtObject).Any());
+
+            var badLtRule = new AsaRule("Bad Lt Rule")
+            {
+                Target = "OpenPortObject",
+                Flag = ANALYSIS_RESULT_TYPE.FATAL,
+                Clauses = new List<Clause>()
+                {
+                    new Clause("Port", OPERATION.GT)
+                    {
+                        Data = new List<string>()
+                        {
+                            "CONTOSO"
+                        }
+                    }
+                }
+            };
+
+            var badLtAnalyzer = new AsaAnalyzer();
+            ruleList = new List<Rule>() { badLtRule }; ;
+
+            Assert.IsFalse(badLtAnalyzer.Analyze(ruleList, trueLtObject).Any());
+            Assert.IsFalse(badLtAnalyzer.Analyze(ruleList, falseLtObject).Any());
         }
 
         [TestMethod]
-        public void VerifyInvalidRuleDetection()
+        public void VerifyNeqOperator()
         {
-            var invalidRule = new AsaRule("Unbalanced Parentheses")
+            var assertTrueObject = new CompareResult()
             {
-                Expression = "( 0 AND 1",
+                Base = new FileSystemObject("TestPath")
+                {
+                    IsDirectory = true,
+                    Size = 700
+                }
+            };
+
+            var assertFalseObject = new CompareResult()
+            {
+                Base = new FileSystemObject("TestPath2")
+                {
+                    IsDirectory = false,
+                    Size = 701
+                }
+            };
+
+            var stringEquals = new AsaRule("String Equals Rule")
+            {
                 Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
-                    new Clause("Path", OPERATION.EQ)
+                    new Clause("Path", OPERATION.NEQ)
                     {
-                        Label = "0",
                         Data = new List<string>()
                         {
-                            "TestPath2"
-                        }
-                    },
-                    new Clause("IsExecutable", OPERATION.EQ)
-                    {
-                        Label = "1",
-                        Data = new List<string>()
-                        {
-                            "True"
+                            "TestPath"
                         }
                     }
                 }
             };
-            var analyzer = new AsaAnalyzer();
-            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
 
-            invalidRule = new AsaRule("ClauseInParenthesesLabel")
-            {
-                Expression = "WITH(PARENTHESIS)",
-                Target = "FileSystemObject",
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
-                {
-                    new Clause("Path", OPERATION.IS_NULL)
-                    {
-                        Label = "WITH(PARENTHESIS)"
-                    }
-                }
-            };
-
-            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
-
-            invalidRule = new AsaRule("CharactersBetweenParentheses")
-            {
-                Expression = "(W(I",
-                Target = "FileSystemObject",
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
-                {
-                    new Clause("Path", OPERATION.IS_NULL)
-                    {
-                        Label = "W(I"
-                    }
-                }
-            };
-
-            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
-
-            invalidRule = new AsaRule("CharactersBeforeOpenParentheses")
-            {
-                Expression = "W(I",
-                Target = "FileSystemObject",
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
-                {
-                    new Clause("Path", OPERATION.IS_NULL)
-                    {
-                        Label = "W(I"
-                    }
-                }
-            };
-
-            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
-
-            invalidRule = new AsaRule("CharactersBetweenClosedParentheses")
-            {
-                Expression = "(0 AND W)I)",
-                Target = "FileSystemObject",
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
-                {
-                    new Clause("Path", OPERATION.IS_NULL)
-                    {
-                        Label = "W)I"
-                    },
-                    new Clause("Path", OPERATION.IS_NULL)
-                    {
-                        Label = "0"
-                    }
-                }
-            };
-
-            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
-
-            invalidRule = new AsaRule("CharactersAfterClosedParentheses")
-            {
-                Expression = "0 AND W)I",
-                Target = "FileSystemObject",
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
-                {
-                    new Clause("Path", OPERATION.IS_NULL)
-                    {
-                        Label = "W)I"
-                    },
-                    new Clause("Path", OPERATION.IS_NULL)
-                    {
-                        Label = "0"
-                    }
-                }
-            };
-
-            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
-
-            invalidRule = new AsaRule("MultipleConsecutiveNots")
-            {
-                Expression = "0 AND NOT NOT 1",
-                Target = "FileSystemObject",
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
-                {
-                    new Clause("Path", OPERATION.IS_NULL)
-                    {
-                        Label = "1"
-                    },
-                    new Clause("Path", OPERATION.IS_NULL)
-                    {
-                        Label = "0"
-                    }
-                }
-            };
-
-            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
-
-            invalidRule = new AsaRule("CloseParenthesesWithNot")
-            {
-                Expression = "(0 AND NOT) 1",
-                Target = "FileSystemObject",
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
-                {
-                    new Clause("Path", OPERATION.IS_NULL)
-                    {
-                        Label = "1"
-                    },
-                    new Clause("Path", OPERATION.IS_NULL)
-                    {
-                        Label = "0"
-                    }
-                }
-            };
-
-            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
-
-            invalidRule = new AsaRule("WhiteSpaceLabel")
-            {
-                Expression = "0 AND   ",
-                Target = "FileSystemObject",
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
-                {
-                    new Clause("Path", OPERATION.IS_NULL)
-                    {
-                        Label = "0"
-                    }
-                }
-            };
-
-            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
-
-            invalidRule = new AsaRule("InvalidOperator")
-            {
-                Expression = "0 XAND 1",
-                Target = "FileSystemObject",
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
-                {
-                    new Clause("Path", OPERATION.IS_NULL)
-                    {
-                        Label = "1"
-                    },
-                    new Clause("Path", OPERATION.IS_NULL)
-                    {
-                        Label = "0"
-                    }
-                }
-            };
-
-            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
-
-            invalidRule = new AsaRule("InvalidNotOperator")
-            {
-                Expression = "0 NOT AND 1",
-                Target = "FileSystemObject",
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
-                {
-                    new Clause("Path", OPERATION.IS_NULL)
-                    {
-                        Label = "1"
-                    },
-                    new Clause("Path", OPERATION.IS_NULL)
-                    {
-                        Label = "0"
-                    }
-                }
-            };
-
-            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
-
-            invalidRule = new AsaRule("EndsWithOperator")
-            {
-                Expression = "0 AND",
-                Target = "FileSystemObject",
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
-                {
-                    new Clause("Path", OPERATION.IS_NULL)
-                    {
-                        Label = "0"
-                    }
-                }
-            };
-
-            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
-
-            invalidRule = new AsaRule("UnusedLabel")
-            {
-                Expression = "0",
-                Target = "FileSystemObject",
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
-                {
-                    new Clause("Path", OPERATION.IS_NULL)
-                    {
-                        Label = "1"
-                    },
-                    new Clause("Path", OPERATION.IS_NULL)
-                    {
-                        Label = "0"
-                    }
-                }
-            };
-
-            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
-
-            invalidRule = new AsaRule("MissingLabel")
+            var boolEquals = new AsaRule("Bool Equals Rule")
             {
                 Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
-                    new Clause("Path", OPERATION.IS_NULL)
+                    new Clause("IsDirectory", OPERATION.NEQ)
                     {
-                        Label = "0"
-                    },
-                    new Clause("Path", OPERATION.IS_NULL)
-                }
-            };
-
-            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
-
-            invalidRule = new AsaRule("ExpressionRequiresLabels")
-            {
-                Expression = "0 AND 1",
-                Target = "FileSystemObject",
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
-                {
-                    new Clause("Path", OPERATION.IS_NULL),
-                    new Clause("Path", OPERATION.IS_NULL)
-                }
-            };
-
-            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
-
-            invalidRule = new AsaRule("OutOfOrder")
-            {
-                Expression = "0 1 AND",
-                Target = "FileSystemObject",
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
-                {
-                    new Clause("Path", OPERATION.EQ)
-                    {
-                        Label = "0",
-                        Data = new List<string>()
-                        {
-                            "TestPath2"
-                        }
-                    },
-                    new Clause("IsExecutable", OPERATION.IS_TRUE)
-                    {
-                        Label = "1"
-                    }
-                }
-            };
-
-            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
-
-            invalidRule = new AsaRule("StartWithOperator")
-            {
-                Expression = "OR 0 1",
-                Target = "FileSystemObject",
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
-                {
-                    new Clause("Path", OPERATION.EQ)
-                    {
-                        Label = "0",
-                        Data = new List<string>()
-                        {
-                            "TestPath2"
-                        }
-                    },
-                    new Clause("IsExecutable", OPERATION.EQ)
-                    {
-                        Label = "1",
                         Data = new List<string>()
                         {
                             "True"
@@ -496,525 +1073,198 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
-
-            invalidRule = new AsaRule("Case Sensitivity")
-            {
-                Expression = "Variable",
-                Target = "FileSystemObject",
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
-                {
-                    new Clause("Path", OPERATION.IS_NULL)
-                    {
-                        Label = "VARIABLE"
-                    }
-                }
-            };
-
-            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
-
-            invalidRule = new AsaRule("OPERATION.Custom without CustomOperation")
+            var intEquals = new AsaRule("Int Equals Rule")
             {
                 Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
-                    new Clause("Path", OPERATION.CUSTOM)
+                    new Clause("Size", OPERATION.NEQ)
                     {
-                        Label = "VARIABLE"
-                    }
-                }
-            };
-
-            Assert.IsFalse(analyzer.IsRuleValid(invalidRule));
-        }
-
-        [TestMethod]
-        public void VerifyNand()
-        {
-            var RuleName = "NandRule";
-            var nandRule = new AsaRule(RuleName)
-            {
-                Expression = "0 NAND 1",
-                Target = "FileSystemObject",
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
-                {
-                    new Clause("Path", OPERATION.EQ)
-                    {
-                        Label = "0",
                         Data = new List<string>()
                         {
-                            "TestPath1"
-                        }
-                    },
-                    new Clause("IsExecutable", OPERATION.IS_NULL)
-                    {
-                        Label = "1",
-                    }
-                }
-            };
-
-            var analyzer = new AsaAnalyzer();
-            var ruleList = new List<Rule>() { nandRule };
-
-            Assert.IsTrue(!analyzer.Analyze(ruleList, testPathOneObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(analyzer.Analyze(ruleList, testPathTwoObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(analyzer.Analyze(ruleList, testPathOneExecutableObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(analyzer.Analyze(ruleList, testPathTwoExecutableObject).Any(x => x.Name == RuleName));
-        }
-
-        [TestMethod]
-        public void VerifyNor()
-        {
-            var RuleName = "NorRule";
-            var norRule = new AsaRule(RuleName)
-            {
-                Expression = "0 NOR 1",
-                Target = "FileSystemObject",
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
-                {
-                    new Clause("Path", OPERATION.EQ)
-                    {
-                        Label = "0",
-                        Data = new List<string>()
-                        {
-                            "TestPath1"
-                        }
-                    },
-                    new Clause("IsExecutable", OPERATION.EQ)
-                    {
-                        Label = "1",
-                        Data = new List<string>()
-                        {
-                            "True"
+                            "700"
                         }
                     }
                 }
             };
 
             var analyzer = new AsaAnalyzer();
-            var ruleList = new List<Rule>() { norRule };
+            var ruleList = new List<Rule>() { boolEquals, intEquals, stringEquals }; ;
 
-            Assert.IsTrue(!analyzer.Analyze(ruleList, testPathOneObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(analyzer.Analyze(ruleList, testPathTwoObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(!analyzer.Analyze(ruleList, testPathOneExecutableObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(!analyzer.Analyze(ruleList, testPathTwoExecutableObject).Any(x => x.Name == RuleName));
+            Assert.IsFalse(analyzer.Analyze(ruleList, assertTrueObject).Any(x => x.Name == "Bool Equals Rule"));
+            Assert.IsFalse(analyzer.Analyze(ruleList, assertTrueObject).Any(x => x.Name == "Int Equals Rule"));
+            Assert.IsFalse(analyzer.Analyze(ruleList, assertTrueObject).Any(x => x.Name == "String Equals Rule"));
+
+            Assert.IsTrue(analyzer.Analyze(ruleList, assertFalseObject).Any(x => x.Name == "Bool Equals Rule"));
+            Assert.IsTrue(analyzer.Analyze(ruleList, assertFalseObject).Any(x => x.Name == "Int Equals Rule"));
+            Assert.IsTrue(analyzer.Analyze(ruleList, assertFalseObject).Any(x => x.Name == "String Equals Rule"));
         }
 
         [TestMethod]
-        public void VerifyCustom()
+        public void VerifyRegexOperator()
         {
-            var RuleName = "CustomRule";
-            var customRule = new AsaRule(RuleName)
+            var falseRegexObject = new CompareResult()
+            {
+                Base = new FileSystemObject("TestPathHere")
+            };
+            var trueRegexObject = new CompareResult()
+            {
+                Base = new FileSystemObject("Directory/File")
+            };
+
+            var regexRule = new AsaRule("Regex Rule")
             {
                 Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
-                    new Clause("Path", OPERATION.CUSTOM)
+                    new Clause("Path", OPERATION.REGEX)
                     {
-                        CustomOperation = "RETURN_TRUE",
                         Data = new List<string>()
                         {
-                            "TestPath1"
+                            ".+\\/.+"
                         }
-                    },
-                }
-            };
-
-            var analyzer = new AsaAnalyzer();
-            
-            analyzer.CustomOperationDelegate = (clause, listValues, dictionaryValues) =>
-            {
-                if (clause.Operation == OPERATION.CUSTOM)
-                {
-                    if (clause.CustomOperation == "RETURN_TRUE")
-                    {
-                        return true;
                     }
                 }
-                return false;
             };
 
-            var ruleList = new List<Rule>() { customRule };
+            var regexAnalyzer = new AsaAnalyzer();
+            var ruleList = new List<Rule>() { regexRule }; ;
 
-            Assert.IsTrue(analyzer.Analyze(ruleList, testPathOneObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(regexAnalyzer.Analyze(ruleList, trueRegexObject).Any());
+            Assert.IsFalse(regexAnalyzer.Analyze(ruleList, falseRegexObject).Any());
         }
 
         [TestMethod]
-        public void VerifyNot()
+        public void VerifyStartsWithOperator()
         {
-            var RuleName = "NotRule";
-            var notRule = new AsaRule(RuleName)
+            var trueEndsWithObject = new CompareResult()
             {
-                Expression = "NOT 0",
+                Base = new FileSystemObject("App.exe")
+            };
+            var falseEndsWithObject = new CompareResult()
+            {
+                Base = new FileSystemObject("NotAnApp.pdf")
+            };
+
+            var endsWithRule = new AsaRule("Ends With Rule")
+            {
                 Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
-                    new Clause("Path", OPERATION.EQ)
+                    new Clause("Path", OPERATION.STARTS_WITH)
                     {
-                        Label = "0",
                         Data = new List<string>()
                         {
-                            TestPathOne
+                            "App"
                         }
                     }
                 }
             };
 
-            var analyzer = new AsaAnalyzer();
-            var ruleList = new List<Rule>() { notRule };
+            var endsWithAnalyzer = new AsaAnalyzer();
+            var ruleList = new List<Rule>() { endsWithRule }; ;
 
-            Assert.IsTrue(!analyzer.Analyze(ruleList, testPathOneObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(analyzer.Analyze(ruleList, testPathTwoObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(endsWithAnalyzer.Analyze(ruleList, trueEndsWithObject).Any());
+            Assert.IsFalse(endsWithAnalyzer.Analyze(ruleList, falseEndsWithObject).Any());
         }
 
         [TestMethod]
-        public void VerifyOr()
+        public void VerifyWasModifiedOperator()
         {
-            var RuleName = "OrRule";
-            var orRule = new AsaRule(RuleName)
+            var falseModifiedObject = new CompareResult()
             {
-                Expression = "0 OR 1",
-                Target = "FileSystemObject",
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
+                Base = new FileSystemObject("TestPathHere")
+            };
+
+            var alsoFalseModifiedObject = new CompareResult()
+            {
+                Base = new FileSystemObject("TestPathHere"),
+                Compare = new FileSystemObject("TestPathHere")
                 {
-                    new Clause("Path", OPERATION.EQ)
-                    {
-                        Label = "0",
-                        Data = new List<string>()
-                        {
-                            "TestPath1"
-                        }
-                    },
-                    new Clause("IsExecutable", OPERATION.IS_TRUE)
-                    {
-                        Label = "1"
-                    }
+                    IsDirectory = true
                 }
             };
 
-            var analyzer = new AsaAnalyzer();
-            var ruleList = new List<Rule>() { orRule };
-
-            Assert.IsTrue(analyzer.Analyze(ruleList, testPathOneObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(!analyzer.Analyze(ruleList, testPathTwoObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(analyzer.Analyze(ruleList, testPathOneExecutableObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(analyzer.Analyze(ruleList, testPathTwoExecutableObject).Any(x => x.Name == RuleName));
-        }
-
-        [TestMethod]
-        public void VerifyValidRuleDetection()
-        {
-            var validRule = new AsaRule("Regular Rule")
+            var trueModifiedObject = new CompareResult()
             {
-                Expression = "0 AND 1",
-                Target = "FileSystemObject",
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
+                Base = new FileSystemObject("Directory/File")
                 {
-                    new Clause("Path", OPERATION.EQ)
-                    {
-                        Label = "0",
-                        Data = new List<string>()
-                        {
-                            "TestPath2"
-                        }
-                    },
-                    new Clause("IsExecutable", OPERATION.EQ)
-                    {
-                        Label = "1",
-                        Data = new List<string>()
-                        {
-                            "True"
-                        }
-                    }
-                }
+                    IsExecutable = true
+                },
+                Compare = new FileSystemObject("Directory/File")
             };
 
-            var analyzer = new AsaAnalyzer();
-            Assert.IsTrue(analyzer.IsRuleValid(validRule));
-
-            validRule = new AsaRule("Extraneous Parenthesis")
-            {
-                Expression = "(0 AND 1)",
-                Target = "FileSystemObject",
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
-                {
-                    new Clause("Path", OPERATION.EQ)
-                    {
-                        Label = "0",
-                        Data = new List<string>()
-                        {
-                            "TestPath2"
-                        }
-                    },
-                    new Clause("IsExecutable", OPERATION.EQ)
-                    {
-                        Label = "1",
-                        Data = new List<string>()
-                        {
-                            "True"
-                        }
-                    }
-                }
-            };
-
-            Assert.IsTrue(analyzer.IsRuleValid(validRule));
-
-            validRule = new AsaRule("Deeply Nested Expression")
-            {
-                Expression = "(0 AND 1) OR (2 XOR (3 AND (4 NAND 5)) OR 6)",
-                Target = "FileSystemObject",
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
-                {
-                    new Clause("Path", OPERATION.EQ)
-                    {
-                        Label = "0",
-                        Data = new List<string>()
-                        {
-                            "TestPath2"
-                        }
-                    },
-                    new Clause("IsExecutable", OPERATION.EQ)
-                    {
-                        Label = "1",
-                        Data = new List<string>()
-                        {
-                            "True"
-                        }
-                    },
-                    new Clause("IsExecutable", OPERATION.IS_NULL)
-                    {
-                        Label = "2"
-                    },
-                    new Clause("IsExecutable", OPERATION.IS_NULL)
-                    {
-                        Label = "3"
-                    },
-                    new Clause("IsExecutable", OPERATION.IS_NULL)
-                    {
-                        Label = "4"
-                    },
-                    new Clause("IsExecutable", OPERATION.IS_NULL)
-                    {
-                        Label = "5"
-                    },
-                    new Clause("IsExecutable", OPERATION.IS_NULL)
-                    {
-                        Label = "6"
-                    }
-                }
-            };
-
-            Assert.IsTrue(analyzer.IsRuleValid(validRule));
-
-            validRule = new AsaRule("StringsForClauseLabels")
-            {
-                Expression = "FOO AND BAR OR BA$_*",
-                Target = "FileSystemObject",
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
-                {
-                    new Clause("IsExecutable", OPERATION.IS_NULL)
-                    {
-                        Label = "FOO"
-                    },
-                    new Clause("IsExecutable", OPERATION.IS_NULL)
-                    {
-                        Label = "BAR"
-                    },
-                    new Clause("IsExecutable", OPERATION.IS_NULL)
-                    {
-                        Label = "BA$_*"
-                    }
-                }
-            };
-
-            Assert.IsTrue(analyzer.IsRuleValid(validRule));
-        }
-
-
-        [TestMethod]
-        public void VerifyAsaRuleResultType()
-        {
-            var RuleName = "XorRule";
-            var xorRule = new AsaRule(RuleName)
-            {
-                Expression = "0 XOR 1",
-                // This test tests that creating an AsaRule with ResultType instead of Target works.
-                ResultType = RESULT_TYPE.FILE,
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
-                {
-                    new Clause("Path", OPERATION.EQ)
-                    {
-                        Label = "0",
-                        Data = new List<string>()
-                        {
-                            TestPathOne
-                        }
-                    },
-                    new Clause("IsExecutable", OPERATION.IS_TRUE)
-                    {
-                        Label = "1"
-                    }
-                }
-            };
-
-            var analyzer = new AsaAnalyzer();
-            var ruleList = new List<Rule>() { xorRule };
-
-            Assert.IsTrue(analyzer.Analyze(ruleList, testPathOneObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(!analyzer.Analyze(ruleList, testPathTwoObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(!analyzer.Analyze(ruleList, testPathOneExecutableObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(analyzer.Analyze(ruleList, testPathTwoExecutableObject).Any(x => x.Name == RuleName));
-        }
-
-        [TestMethod]
-        public void VerifyBareObjectQuery()
-        {
-            var RuleName = "BareObjectRule";
-            var bareObjectRule = new AsaRule(RuleName)
-            {
-                Target = "string",
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
-                {
-                    new Clause(OPERATION.EQ)
-                    {
-                        Data = new List<string>()
-                        {
-                            TestPathOne
-                        }
-                    }
-                }
-            };
-
-            var bareObjectRuleNoTarget = new AsaRule(RuleName)
-            {
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
-                {
-                    new Clause(OPERATION.EQ)
-                    {
-                        Data = new List<string>()
-                        {
-                            TestPathOne
-                        }
-                    }
-                }
-            };
-
-            var analyzer = new AsaAnalyzer();
-            var ruleList = new List<Rule>() { bareObjectRule, bareObjectRuleNoTarget };
-
-            Assert.IsTrue(analyzer.Analyze(ruleList, TestPathOne).Count() == 2);
-        }
-
-        [TestMethod]
-        public void VerifyXor()
-        {
-            var RuleName = "XorRule";
-            var xorRule = new AsaRule(RuleName)
-            {
-                Expression = "0 XOR 1",
-                Target = "FileSystemObject",
-                Flag = ANALYSIS_RESULT_TYPE.FATAL,
-                Clauses = new List<Clause>()
-                {
-                    new Clause("Path", OPERATION.EQ)
-                    {
-                        Label = "0",
-                        Data = new List<string>()
-                        {
-                            TestPathOne
-                        }
-                    },
-                    new Clause("IsExecutable", OPERATION.IS_TRUE)
-                    {
-                        Label = "1"
-                    }
-                }
-            };
-
-            var analyzer = new AsaAnalyzer();
-            var ruleList = new List<Rule>() { xorRule };
-
-            Assert.IsTrue(analyzer.Analyze(ruleList, testPathOneObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(!analyzer.Analyze(ruleList, testPathTwoObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(!analyzer.Analyze(ruleList, testPathOneExecutableObject).Any(x => x.Name == RuleName));
-            Assert.IsTrue(analyzer.Analyze(ruleList, testPathTwoExecutableObject).Any(x => x.Name == RuleName));
-        }
-
-        [TestMethod]
-        public void VerifyCustomRuleValidation()
-        {
-            var RuleName = "CustomRuleValidation";
-            var supportedCustomOperation = new AsaRule(RuleName)
+            var wasModifiedRule = new AsaRule("Was Modified Rule")
             {
                 Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
-                    new Clause("Path", OPERATION.CUSTOM)
-                    {
-                        CustomOperation = "FOO",
-                        Data = new List<string>()
-                        {
-                            TestPathOne
-                        }
-                    },
+                    new Clause("IsExecutable", OPERATION.WAS_MODIFIED)
                 }
             };
 
-            var unsupportedCustomOperation = new AsaRule(RuleName)
+            var regexAnalyzer = new AsaAnalyzer();
+            var ruleList = new List<Rule>() { wasModifiedRule }; ;
+
+            Assert.IsTrue(regexAnalyzer.Analyze(ruleList, trueModifiedObject).Any());
+            Assert.IsFalse(regexAnalyzer.Analyze(ruleList, falseModifiedObject).Any());
+            Assert.IsFalse(regexAnalyzer.Analyze(ruleList, alsoFalseModifiedObject).Any());
+
+            var trueAlgDict = new CompareResult()
             {
-                Target = "FileSystemObject",
+                Base = new TpmObject("TestLocal")
+                {
+                    PCRs = new Dictionary<(Tpm2Lib.TpmAlgId, uint), byte[]>()
+                    {
+                        { (TpmAlgId.Sha,1), new byte[5] { 1,2,3,4,5 } }
+                    }
+                },
+                Compare = new TpmObject("TestLocal")
+                {
+                    PCRs = new Dictionary<(Tpm2Lib.TpmAlgId, uint), byte[]>()
+                    {
+                        { (TpmAlgId.Sha,1), new byte[5] { 0,0,0,0,0 } }
+                    }
+                }
+            };
+
+            var falseAlgDict = new CompareResult()
+            {
+                Base = new TpmObject("TestLocal")
+                {
+                    PCRs = new Dictionary<(Tpm2Lib.TpmAlgId, uint), byte[]>()
+                    {
+                        { (TpmAlgId.Sha,1), new byte[5] { 1,2,3,4,5 } }
+                    }
+                },
+                Compare = new TpmObject("TestLocal")
+                {
+                    PCRs = new Dictionary<(Tpm2Lib.TpmAlgId, uint), byte[]>()
+                    {
+                        { (TpmAlgId.Sha,1), new byte[5] { 1, 2, 3, 4, 5 } }
+                    }
+                }
+            };
+
+            var pcrsModified = new AsaRule("Alg Dict Changed PCR 1")
+            {
+                Target = "TpmObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
-                    new Clause("Path", OPERATION.CUSTOM)
-                    {
-                        CustomOperation = "BAR",
-                        Data = new List<string>()
-                        {
-                            TestPathOne
-                        }
-                    },
+                    new Clause("PCRs.(Sha, 1)", OPERATION.WAS_MODIFIED)
                 }
             };
 
+            var pcrAnalyzer = new AsaAnalyzer();
+            ruleList = new List<Rule>() { pcrsModified };
 
-            var analyzer = new AsaAnalyzer();
-
-            analyzer.CustomOperationValidationDelegate = parseFooOperations;
-
-            IEnumerable<Violation> parseFooOperations(Rule r, Clause c)
-            {
-                switch (c.CustomOperation)
-                {
-                    case "FOO":
-                        if (!c.Data.Any())
-                        {
-                            yield return new Violation("FOO Operation expects data", r, c);
-                        }
-                        break;
-                    default:
-                        yield return new Violation($"{c.CustomOperation} is unexpected", r, c);
-                        break;
-                }
-            };
-
-            Assert.IsTrue(analyzer.IsRuleValid(supportedCustomOperation));
-            Assert.IsFalse(analyzer.IsRuleValid(unsupportedCustomOperation));
+            Assert.IsTrue(pcrAnalyzer.Analyze(ruleList, trueAlgDict).Any());
+            Assert.IsFalse(pcrAnalyzer.Analyze(ruleList, falseAlgDict).Any());
         }
     }
 }
