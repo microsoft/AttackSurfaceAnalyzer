@@ -17,10 +17,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
         private const string TestPathOne = "TestPath1";
 
-        private readonly CompareResult testPathOneObject = new CompareResult()
-        {
-            Base = new FileMonitorObject(TestPathOne) { FileSystemObject = new FileSystemObject(TestPathOne) { IsExecutable = true } }
-        };
+        private readonly FileMonitorObject testPathOneObject = new FileMonitorObject(TestPathOne) { FileSystemObject = new FileSystemObject(TestPathOne) { IsExecutable = true } };
 
         [ClassInitialize]
         public static void ClassSetup(TestContext _)
@@ -60,9 +57,9 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var opts = new CompareCommandOptions(null, "SecondRun") { ApplySubObjectRulesToMonitor = true };
 
-            var results = AttackSurfaceAnalyzerClient.AnalyzeMonitored(opts, analyzer);
+            var results = AttackSurfaceAnalyzerClient.AnalyzeMonitored(opts, analyzer, new CollectObject[] { testPathOneObject });
 
-            Assert.IsTrue(analyzer.Analyze(testPathOneObject).Any(x => x.Name == RuleName));
+            Assert.IsTrue(results.Any(x => x.Value.Any(y => y.Identity == testPathOneObject.Identity)));
         }
 
         private Analyzer GetAnalyzerForRule(Rule rule)
