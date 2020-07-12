@@ -21,13 +21,13 @@ namespace Microsoft.CST.LogicalAnalyzer
         {
         }
 
-        public delegate (bool Processed,object? Result) ParseCustomProperty(object? obj, string index);
+        public delegate (bool Processed, object? Result) ParseCustomProperty(object? obj, string index);
 
         public delegate (bool Processed, IEnumerable<string> valsExtracted, IEnumerable<KeyValuePair<string, string>> dictExtracted) ParseObjectToValues(object? obj);
 
-        public delegate bool OperationDelegate(Clause clause, IEnumerable<string>? valsToCheck, IEnumerable<KeyValuePair<string,string>> dictToCheck);
+        public delegate bool OperationDelegate(Clause clause, IEnumerable<string>? valsToCheck, IEnumerable<KeyValuePair<string, string>> dictToCheck);
 
-        public delegate List<(string, string[])> ParseClauseForRules(Rule r, Clause c);
+        public delegate IEnumerable<Violation> ParseClauseForRules(Rule r, Clause c);
         public ParseCustomProperty? CustomPropertyDelegate { get; set; }
         public ParseObjectToValues? CustomObjectToValuesDelegate { get; set; }
 
@@ -86,7 +86,7 @@ namespace Microsoft.CST.LogicalAnalyzer
 
                         default:
                             var res = CustomPropertyDelegate?.Invoke(value, pathPortions[pathPortionIndex]);
-                            
+
                             // If we couldn't do any custom parsing fall back to the default
                             if (!res.HasValue || res.Value.Processed == false)
                             {
@@ -108,44 +108,12 @@ namespace Microsoft.CST.LogicalAnalyzer
             return null;
         }
 
-        public static void PrintViolations(IEnumerable<(string, string[])> violations)
+        public static void PrintViolations(IEnumerable<Violation> violations)
         {
             if (violations == null) return;
             foreach (var violation in violations)
             {
-                // We expect between 1-3 arguments for these strings. We do this instead of
-                // constructing the strings ahead of time so that the logger gives them pretty formatting.
-                switch (violation.Item2.Length)
-                {
-                    case 0:
-                        Log.Warning(violation.Item1);
-                        break;
-
-                    case 1:
-                        Log.Warning(violation.Item1, violation.Item2[0]);
-                        break;
-
-                    case 2:
-                        Log.Warning(violation.Item1, violation.Item2[0], violation.Item2[1]);
-                        break;
-
-                    case 3:
-                        Log.Warning(violation.Item1, violation.Item2[0], violation.Item2[1], violation.Item2[2]);
-                        break;
-
-                    case 4:
-                        Log.Warning(violation.Item1, violation.Item2[0], violation.Item2[1], violation.Item2[2], violation.Item2[3]);
-                        break;
-
-                    case 5:
-                        Log.Warning(violation.Item1, violation.Item2[0], violation.Item2[1], violation.Item2[2], violation.Item2[3], violation.Item2[4]);
-                        break;
-
-                    default:
-                        Log.Debug("Unexpected number of arguments");
-                        Log.Warning(violation.Item1, violation.Item2);
-                        break;
-                }
+                Log.Warning(violation.ToString());
             }
         }
 
@@ -218,7 +186,7 @@ namespace Microsoft.CST.LogicalAnalyzer
         /// </summary>
         /// <param name="rules"></param>
         /// <returns>List of issues with the rules.</returns>
-        public IEnumerable<(string, string[])> EnumerateRuleIssues(IEnumerable<Rule> rules)
+        public IEnumerable<Violation> EnumerateRuleIssues(IEnumerable<Rule> rules)
         {
             foreach (Rule rule in rules ?? Array.Empty<Rule>())
             {
@@ -228,7 +196,7 @@ namespace Microsoft.CST.LogicalAnalyzer
                 var duplicateClauses = clauseLabels.Where(x => x.Key != null && x.Count() > 1);
                 foreach (var duplicateClause in duplicateClauses)
                 {
-                    yield return ((Strings.Get("Err_ClauseDuplicateName"), new string[] { rule.Name, duplicateClause.Key ?? string.Empty })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                    yield return new Violation(string.Format(Strings.Get("Err_ClauseDuplicateName"), rule.Name, duplicateClause.Key ?? string.Empty), rule, duplicateClause.AsEnumerable().ToArray());
                 }
 
                 // If clause label contains illegal characters
@@ -238,7 +206,7 @@ namespace Microsoft.CST.LogicalAnalyzer
                     {
                         if (label.Contains(" ") || label.Contains("(") || label.Contains(")"))
                         {
-                            yield return ((Strings.Get("Err_ClauseInvalidLabel"), new string[] { rule.Name, label })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                            yield return new Violation(string.Format(Strings.Get("Err_ClauseInvalidLabel"), rule.Name, label), rule, clause);
                         }
                     }
                     switch (clause.Operation)
@@ -247,11 +215,11 @@ namespace Microsoft.CST.LogicalAnalyzer
                         case OPERATION.NEQ:
                             if ((clause.Data?.Count == null || clause.Data?.Count == 0))
                             {
-                                yield return ((Strings.Get("Err_ClauseNoData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return new Violation(string.Format(Strings.Get("Err_ClauseNoData"), rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)), rule, clause);
                             }
                             if (clause.DictData != null || clause.DictData?.Count > 0)
                             {
-                                yield return ((Strings.Get("Err_ClauseDictDataUnexpected"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation.ToString() })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return new Violation(string.Format(Strings.Get("Err_ClauseDictDataUnexpected"), rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation.ToString()), rule, clause);
                             }
                             break;
 
@@ -259,11 +227,11 @@ namespace Microsoft.CST.LogicalAnalyzer
                         case OPERATION.CONTAINS_ANY:
                             if ((clause.Data?.Count == null || clause.Data?.Count == 0) && (clause.DictData?.Count == null || clause.DictData?.Count == 0))
                             {
-                                yield return ((Strings.Get("Err_ClauseNoDataOrDictData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return new Violation(string.Format(Strings.Get("Err_ClauseNoDataOrDictData"), rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)), rule, clause);
                             }
                             if ((clause.Data is List<string> list && list.Count > 0) && (clause.DictData is List<KeyValuePair<string, string>> dictList && dictList.Count > 0))
                             {
-                                yield return ((Strings.Get("Err_ClauseBothDataDictData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return new Violation(string.Format(Strings.Get("Err_ClauseBothDataDictData"), rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)), rule, clause);
                             }
                             break;
 
@@ -271,11 +239,11 @@ namespace Microsoft.CST.LogicalAnalyzer
                         case OPERATION.STARTS_WITH:
                             if (clause.Data?.Count == null || clause.Data?.Count == 0)
                             {
-                                yield return ((Strings.Get("Err_ClauseNoData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return new Violation(string.Format(Strings.Get("Err_ClauseNoData"), rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)), rule, clause);
                             }
                             if (clause.DictData != null || clause.DictData?.Count > 0)
                             {
-                                yield return ((Strings.Get("Err_ClauseDictDataUnexpected"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation.ToString() })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return new Violation(string.Format(Strings.Get("Err_ClauseDictDataUnexpected"), rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation.ToString()), rule, clause);
                             }
                             break;
 
@@ -283,18 +251,18 @@ namespace Microsoft.CST.LogicalAnalyzer
                         case OPERATION.LT:
                             if (clause.Data?.Count == null || clause.Data is List<string> clauseList && (clauseList.Count != 1 || !int.TryParse(clause.Data.First(), out int _)))
                             {
-                                yield return ((Strings.Get("Err_ClauseExpectedInt"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return new Violation(string.Format(Strings.Get("Err_ClauseExpectedInt"), rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)), rule, clause);
                             }
                             if (clause.DictData != null || clause.DictData?.Count > 0)
                             {
-                                yield return ((Strings.Get("Err_ClauseDictDataUnexpected"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation.ToString() })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return new Violation(string.Format(Strings.Get("Err_ClauseDictDataUnexpected"), rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation.ToString()), rule, clause);
                             }
                             break;
 
                         case OPERATION.REGEX:
                             if (clause.Data?.Count == null || clause.Data?.Count == 0)
                             {
-                                yield return ((Strings.Get("Err_ClauseNoData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return new Violation(string.Format(Strings.Get("Err_ClauseNoData"), rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)), rule, clause);
                             }
                             else if (clause.Data is List<string> regexList)
                             {
@@ -302,13 +270,13 @@ namespace Microsoft.CST.LogicalAnalyzer
                                 {
                                     if (!Helpers.IsValidRegex(regex))
                                     {
-                                        yield return ((Strings.Get("Err_ClauseInvalidRegex"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), regex })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                        yield return new Violation(string.Format(Strings.Get("Err_ClauseInvalidRegex"), rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), regex), rule, clause);
                                     }
                                 }
                             }
                             if (clause.DictData != null || clause.DictData?.Count > 0)
                             {
-                                yield return ((Strings.Get("Err_ClauseDictDataUnexpected"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation.ToString() })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return new Violation(string.Format(Strings.Get("Err_ClauseDictDataUnexpected"), rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation.ToString()), rule, clause);
                             }
                             break;
 
@@ -318,11 +286,11 @@ namespace Microsoft.CST.LogicalAnalyzer
                         case OPERATION.WAS_MODIFIED:
                             if (!(clause.Data?.Count == null || clause.Data?.Count == 0))
                             {
-                                yield return ((Strings.Get("Err_ClauseRedundantData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return new Violation(string.Format(Strings.Get("Err_ClauseRedundantData"), rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)), rule, clause);
                             }
                             else if (!(clause.DictData?.Count == null || clause.DictData?.Count == 0))
                             {
-                                yield return ((Strings.Get("Err_ClauseRedundantDictData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return new Violation(string.Format(Strings.Get("Err_ClauseRedundantDictData"), rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)), rule, clause);
                             }
                             break;
 
@@ -330,33 +298,33 @@ namespace Microsoft.CST.LogicalAnalyzer
                         case OPERATION.IS_AFTER:
                             if (clause.Data?.Count == null || clause.Data is List<string> clauseList2 && (clauseList2.Count != 1 || !DateTime.TryParse(clause.Data.First(), out DateTime _)))
                             {
-                                yield return ((Strings.Get("Err_ClauseExpectedDateTime"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return new Violation(string.Format(Strings.Get("Err_ClauseExpectedDateTime"), rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)), rule, clause);
                             }
                             if (clause.DictData != null || clause.DictData?.Count > 0)
                             {
-                                yield return ((Strings.Get("Err_ClauseDictDataUnexpected"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation.ToString() })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return new Violation(string.Format(Strings.Get("Err_ClauseDictDataUnexpected"), rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation.ToString()), rule, clause);
                             }
                             break;
 
                         case OPERATION.CONTAINS_KEY:
                             if (clause.DictData != null)
                             {
-                                yield return ((Strings.Get("Err_ClauseUnexpectedDictData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return new Violation(string.Format(Strings.Get("Err_ClauseUnexpectedDictData"), rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)), rule, clause);
                             }
                             if (clause.Data == null || clause.Data?.Count == 0)
                             {
-                                yield return ((Strings.Get("Err_ClauseMissingListData"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return new Violation(string.Format(Strings.Get("Err_ClauseMissingListData"), rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)), rule, clause);
                             }
                             break;
 
                         case OPERATION.CUSTOM:
                             if (clause.CustomOperation == null)
                             {
-                                yield return ((Strings.Get("Err_ClauseMissingCustomOperation"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture) })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                                yield return new Violation(string.Format(Strings.Get("Err_ClauseMissingCustomOperation"), rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture)), rule, clause);
                             }
                             if (CustomOperationValidationDelegate != null)
                             {
-                                foreach(var violation in CustomOperationValidationDelegate(rule, clause))
+                                foreach (var violation in CustomOperationValidationDelegate(rule, clause))
                                 {
                                     yield return violation;
                                 }
@@ -366,7 +334,7 @@ namespace Microsoft.CST.LogicalAnalyzer
                         case OPERATION.DOES_NOT_CONTAIN:
                         case OPERATION.DOES_NOT_CONTAIN_ALL:
                         default:
-                            yield return ((Strings.Get("Err_ClauseUnsuppportedOperator"), new string[] { rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation.ToString() })); // lgtm [cs/format-argument-unused] - These arguments are defined in the String.Get result
+                            yield return new Violation(string.Format(Strings.Get("Err_ClauseUnsuppportedOperator"), rule.Name, clause.Label ?? rule.Clauses.IndexOf(clause).ToString(CultureInfo.InvariantCulture), clause.Operation.ToString()), rule, clause);
                             break;
                     }
                 }
@@ -388,7 +356,7 @@ namespace Microsoft.CST.LogicalAnalyzer
                         foundEnds += splits[i].Count(x => x.Equals(')'));
                         if (foundEnds > foundStarts)
                         {
-                            yield return ((Strings.Get("Err_ClauseUnbalancedParentheses"), new string[] { expression, rule.Name }));
+                            yield return new Violation(string.Format(Strings.Get("Err_ClauseUnbalancedParentheses"), expression, rule.Name), rule);
                         }
                         // Variable
                         if (!expectingOperator)
@@ -404,17 +372,17 @@ namespace Microsoft.CST.LogicalAnalyzer
                                     // If we've seen a ) this is now invalid
                                     if (lastClose != -1)
                                     {
-                                        yield return ((Strings.Get("Err_ClauseParenthesisInLabel"), new string[] { expression, rule.Name, splits[i] }));
+                                        yield return new Violation(string.Format(Strings.Get("Err_ClauseParenthesisInLabel"), expression, rule.Name, splits[i]), rule);
                                     }
                                     // If there were any characters between open parenthesis
                                     if (j - lastOpen != 1)
                                     {
-                                        yield return ((Strings.Get("Err_ClauseCharactersBetweenOpenParentheses"), new string[] { expression, rule.Name, splits[i] }));
+                                        yield return new Violation(string.Format(Strings.Get("Err_ClauseCharactersBetweenOpenParentheses"), expression, rule.Name, splits[i]), rule);
                                     }
                                     // If there was a random parenthesis not starting the variable
                                     else if (j > 0)
                                     {
-                                        yield return ((Strings.Get("Err_ClauseCharactersBeforeOpenParentheses"), new string[] { expression, rule.Name, splits[i] }));
+                                        yield return new Violation(string.Format(Strings.Get("Err_ClauseCharactersBeforeOpenParentheses"), expression, rule.Name, splits[i]), rule);
                                     }
                                     lastOpen = j;
                                 }
@@ -423,7 +391,7 @@ namespace Microsoft.CST.LogicalAnalyzer
                                     // If we've seen a close before update last
                                     if (lastClose != -1 && j - lastClose != 1)
                                     {
-                                        yield return ((Strings.Get("Err_ClauseCharactersBetweenClosedParentheses"), new string[] { expression, rule.Name, splits[i] }));
+                                        yield return new Violation(string.Format(Strings.Get("Err_ClauseCharactersBetweenClosedParentheses"), expression, rule.Name, splits[i]), rule);
                                     }
                                     lastClose = j;
                                 }
@@ -433,7 +401,7 @@ namespace Microsoft.CST.LogicalAnalyzer
                                     // other characters after it
                                     if (lastClose != -1)
                                     {
-                                        yield return ((Strings.Get("Err_ClauseCharactersAfterClosedParentheses"), new string[] { expression, rule.Name, splits[i] }));
+                                        yield return new Violation(string.Format(Strings.Get("Err_ClauseCharactersAfterClosedParentheses"), expression, rule.Name, splits[i]), rule);
                                     }
                                 }
                             }
@@ -444,11 +412,11 @@ namespace Microsoft.CST.LogicalAnalyzer
                             {
                                 if (previouslyNot)
                                 {
-                                    yield return ((Strings.Get("Err_ClauseMultipleConsecutiveNots"), new string[] { expression, rule.Name }));
+                                    yield return new Violation(string.Format(Strings.Get("Err_ClauseMultipleConsecutiveNots"), expression, rule.Name), rule);
                                 }
                                 else if (splits[i].Contains(")"))
                                 {
-                                    yield return ((Strings.Get("Err_ClauseCloseParenthesesInNot"), new string[] { expression, rule.Name, splits[i] }));
+                                    yield return new Violation(string.Format(Strings.Get("Err_ClauseCloseParenthesesInNot"), expression, rule.Name, splits[i]), rule);
                                 }
                                 previouslyNot = true;
                             }
@@ -458,7 +426,7 @@ namespace Microsoft.CST.LogicalAnalyzer
                                 previouslyNot = false;
                                 if (string.IsNullOrWhiteSpace(variable) || !rule.Clauses.Any(x => x.Label == variable))
                                 {
-                                    yield return ((Strings.Get("Err_ClauseUndefinedLabel"), new string[] { expression, rule.Name, splits[i].Replace("(", "").Replace(")", "") }));
+                                    yield return new Violation(string.Format(Strings.Get("Err_ClauseUndefinedLabel"), expression, rule.Name, splits[i].Replace("(", "").Replace(")", "")), rule);
                                 }
                                 expectingOperator = true;
                             }
@@ -469,7 +437,7 @@ namespace Microsoft.CST.LogicalAnalyzer
                             // If we can't enum parse the operator
                             if (!Enum.TryParse<BOOL_OPERATOR>(splits[i], out BOOL_OPERATOR op))
                             {
-                                yield return ((Strings.Get("Err_ClauseInvalidOperator"), new string[] { expression, rule.Name, splits[i] }));
+                                yield return new Violation(string.Format(Strings.Get("Err_ClauseInvalidOperator"), expression, rule.Name, splits[i]), rule);
                             }
                             // We don't allow NOT operators to modify other Operators, so we can't
                             // allow NOT here
@@ -477,7 +445,7 @@ namespace Microsoft.CST.LogicalAnalyzer
                             {
                                 if (op is BOOL_OPERATOR boolOp && boolOp == BOOL_OPERATOR.NOT)
                                 {
-                                    yield return ((Strings.Get("Err_ClauseInvalidNotOperator"), new string[] { expression, rule.Name }));
+                                    yield return new Violation(string.Format(Strings.Get("Err_ClauseInvalidNotOperator"), expression, rule.Name), rule);
                                 }
                             }
                             expectingOperator = false;
@@ -487,7 +455,7 @@ namespace Microsoft.CST.LogicalAnalyzer
                     // We should always end on expecting an operator (having gotten a variable)
                     if (!expectingOperator)
                     {
-                        yield return ((Strings.Get("Err_ClauseEndsWithOperator"), new string[] { expression, rule.Name }));
+                        yield return new Violation(string.Format(Strings.Get("Err_ClauseEndsWithOperator"), expression, rule.Name), rule);
                     }
                 }
 
@@ -498,7 +466,7 @@ namespace Microsoft.CST.LogicalAnalyzer
                     {
                         if (!foundLabels.Contains(label))
                         {
-                            yield return ((Strings.Get("Err_ClauseUnusedLabel"), new string[] { label, rule.Name }));
+                            yield return new Violation(string.Format(Strings.Get("Err_ClauseUnusedLabel"), label, rule.Name), rule);
                         }
                     }
                 }
@@ -507,12 +475,12 @@ namespace Microsoft.CST.LogicalAnalyzer
                 // If any clause has a label they all must have labels
                 if (justTheLabels.Any(x => x is string) && justTheLabels.Any(x => x is null))
                 {
-                    yield return ((Strings.Get("Err_ClauseMissingLabels"), new string[] { rule.Name }));
+                    yield return new Violation(string.Format(Strings.Get("Err_ClauseMissingLabels"), rule.Name), rule);
                 }
                 // If the clause has an expression it may not have any null labels
                 if (rule.Expression != null && justTheLabels.Any(x => x is null))
                 {
-                    yield return ((Strings.Get("Err_ClauseExpressionButMissingLabels"), new string[] { rule.Name }));
+                    yield return new Violation(string.Format(Strings.Get("Err_ClauseExpressionButMissingLabels"), rule.Name), rule);
                 }
             }
         }
@@ -531,7 +499,7 @@ namespace Microsoft.CST.LogicalAnalyzer
                     after = GetValueByPropertyString(after, clause.Field);
                     before = GetValueByPropertyString(before, clause.Field);
                 }
-                
+
 
                 var typeHolder = before is null ? after : before;
 
@@ -985,7 +953,7 @@ namespace Microsoft.CST.LogicalAnalyzer
 
                             current = Operate(Operator, current, next);
                         }
-                            
+
                         updated_i = matchingParen + 1;
                         invertNextStatement = false;
                         operatorExpected = true;
@@ -1025,7 +993,7 @@ namespace Microsoft.CST.LogicalAnalyzer
                                 current = Operate(Operator, current, next);
                             }
 
-                            invertNextStatement = false;   
+                            invertNextStatement = false;
                             operatorExpected = true;
                         }
                         updated_i = i + 1;
@@ -1043,7 +1011,7 @@ namespace Microsoft.CST.LogicalAnalyzer
             if ((operation == BOOL_OPERATOR.AND && current == false) ||
                 (operation == BOOL_OPERATOR.NOR && current == true))
             {
-                return (true,false);
+                return (true, false);
             }
             // If either argument of an NAND statement is false, or either argument of
             // an OR statement is true, the result is always true and we can optimize
@@ -1051,9 +1019,9 @@ namespace Microsoft.CST.LogicalAnalyzer
             if ((operation == BOOL_OPERATOR.OR && current == true) ||
                 (operation == BOOL_OPERATOR.NAND && current == false))
             {
-                return (true,true);
+                return (true, true);
             }
-            return (false,false);
+            return (false, false);
         }
     }
 }

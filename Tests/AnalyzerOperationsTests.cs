@@ -995,14 +995,21 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var analyzer = new AsaAnalyzer();
 
-            analyzer.CustomOperationValidationDelegate = (Rule r, Clause c) => {
-                if (c.CustomOperation == "FOO")
+            analyzer.CustomOperationValidationDelegate = parseFooOperations;
+
+            IEnumerable<Violation> parseFooOperations(Rule r, Clause c)
+            {
+                switch (c.CustomOperation)
                 {
-                    return new List<(string, string[])>();
-                }
-                else 
-                {
-                    return new List<(string, string[])>() { ("Violation", Array.Empty<string>()) };
+                    case "FOO":
+                        if (!c.Data.Any())
+                        {
+                            yield return new Violation("FOO Operation expects data", r, c);
+                        }
+                        break;
+                    default:
+                        yield return new Violation($"{c.CustomOperation} is unexpected", r, c);
+                        break;
                 }
             };
 
