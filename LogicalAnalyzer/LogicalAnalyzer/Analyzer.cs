@@ -113,7 +113,7 @@ namespace Microsoft.CST.LogicalAnalyzer
             if (violations == null) return;
             foreach (var violation in violations)
             {
-                Log.Warning(violation.ToString());
+                Log.Warning(violation.description);
             }
         }
 
