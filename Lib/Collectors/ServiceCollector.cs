@@ -20,7 +20,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class ServiceCollector : BaseCollector
     {
-        public ServiceCollector(CollectorOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
+        public ServiceCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
         {
         }
 
@@ -195,7 +195,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 Log.Warning(e, "Failed to run Service Collector.");
             }
 
-            var fsc = new FileSystemCollector(new CollectorOptions() { SingleThread = opts.SingleThread });
+            var fsc = new FileSystemCollector(new CollectCommandOptions() { SingleThread = opts.SingleThread });
 
             foreach (var file in Directory.EnumerateFiles("C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"))
             {

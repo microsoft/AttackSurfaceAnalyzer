@@ -19,7 +19,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         #region Public Constructors
 
-        public OpenPortCollector(CollectorOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
+        public OpenPortCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
         {
         }
 

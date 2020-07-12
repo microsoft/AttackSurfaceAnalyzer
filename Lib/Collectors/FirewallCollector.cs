@@ -20,7 +20,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         #region Public Constructors
 
-        public FirewallCollector(CollectorOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
+        public FirewallCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
         {
         }
 

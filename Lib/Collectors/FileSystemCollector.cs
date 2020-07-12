@@ -28,45 +28,22 @@ namespace AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class FileSystemCollector : BaseCollector
     {
-        
+        #region Public Constructors
 
-        public FileSystemCollector(CollectorOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
+        public FileSystemCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
         {
-            Roots.AddRange(opts?.SelectedDirectories ?? Array.Empty<string>());
-
-            if (!Roots.Any())
-            {
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                {
-                    foreach (var driveInfo in DriveInfo.GetDrives())
-                    {
-                        if (driveInfo.IsReady && driveInfo.DriveType == DriveType.Fixed)
-                        {
-                            Roots.Add(driveInfo.Name);
-                        }
-                    }
-                }
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                {
-                    Roots.Add("/");
-                }
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                {
-                    Roots.Add("/");
-                }
-            }
         }
 
-        
+        #endregion Public Constructors
 
-        
+        #region Public Properties
 
         public static ConcurrentDictionary<string, uint> ClusterSizes { get; set; } = new ConcurrentDictionary<string, uint>();
         public List<string> Roots { get; } = new List<string>();
 
-        
+        #endregion Public Properties
 
-        
+        #region Public Methods
 
         public override bool CanRunOnPlatform()
         {
@@ -340,8 +317,39 @@ namespace AttackSurfaceAnalyzer.Collectors
             return obj;
         }
 
+        #endregion Public Methods
+
+        #region Internal Methods
+
         internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
+            if (!string.IsNullOrEmpty(opts.SelectedDirectories))
+            {
+                Roots.AddRange(opts.SelectedDirectories.Split('^'));
+            }
+
+            if (!Roots.Any())
+            {
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    foreach (var driveInfo in DriveInfo.GetDrives())
+                    {
+                        if (driveInfo.IsReady && driveInfo.DriveType == DriveType.Fixed)
+                        {
+                            Roots.Add(driveInfo.Name);
+                        }
+                    }
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                {
+                    Roots.Add("/");
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                {
+                    Roots.Add("/");
+                }
+            }
+
             foreach (var Root in Roots)
             {
                 Log.Information("{0} root {1}", Strings.Get("Scanning"), Root);
@@ -378,9 +386,9 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
-        
+        #endregion Internal Methods
 
-        
+        #region Private Methods
 
         private static long WindowsSizeOnDisk(FileInfo path)
         {
@@ -514,6 +522,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             Log.Verbose("Finished parsing {0}", path);
         }
 
-        
+        #endregion Private Methods
     }
 }

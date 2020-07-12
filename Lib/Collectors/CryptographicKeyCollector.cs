@@ -8,7 +8,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 {
     public class CryptographicKeyCollector : BaseCollector
     {
-        public CryptographicKeyCollector(CollectorOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
+        public CryptographicKeyCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
         {
         }
 
