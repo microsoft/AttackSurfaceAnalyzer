@@ -57,7 +57,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var opts = new CompareCommandOptions(null, "SecondRun") { ApplySubObjectRulesToMonitor = true };
 
-            var results = AttackSurfaceAnalyzerClient.AnalyzeMonitored(opts, analyzer, new CollectObject[] { testPathOneObject });
+            var results = AttackSurfaceAnalyzerClient.AnalyzeMonitored(opts, analyzer, new MonitorObject[] { testPathOneObject });
 
             Assert.IsTrue(results.Any(x => x.Value.Any(y => y.Identity == testPathOneObject.Identity)));
         }
