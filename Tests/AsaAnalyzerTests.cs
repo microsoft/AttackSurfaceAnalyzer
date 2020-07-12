@@ -61,6 +61,12 @@ namespace AttackSurfaceAnalyzer.Tests
             var results = AttackSurfaceAnalyzerClient.AnalyzeMonitored(opts, analyzer, new MonitorObject[] { testPathOneObject });
 
             Assert.IsTrue(results.Any(x => x.Value.Any(y => y.Identity == testPathOneObject.Identity && y.Rules.Contains(andRule))));
+
+            opts = new CompareCommandOptions(null, "SecondRun") { ApplySubObjectRulesToMonitor = false };
+
+            results = AttackSurfaceAnalyzerClient.AnalyzeMonitored(opts, analyzer, new MonitorObject[] { testPathOneObject });
+
+            Assert.IsFalse(results.Any(x => x.Value.Any(y => y.Identity == testPathOneObject.Identity && y.Rules.Contains(andRule))));
         }
 
         private Analyzer GetAnalyzerForRule(Rule rule)
