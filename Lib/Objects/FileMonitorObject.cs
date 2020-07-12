@@ -4,14 +4,13 @@ using System.IO;
 
 namespace AttackSurfaceAnalyzer.Objects
 {
-    public class FileMonitorObject : CollectObject
+    public class FileMonitorObject : MonitorObject
     {
         public FileMonitorObject(string PathIn)
         {
             Path = PathIn;
         }
 
-        public CHANGE_TYPE? ChangeType { get; set; }
         public string? ExtendedResults { get; set; }
         public FileSystemObject? FileSystemObject { get; set; }
 

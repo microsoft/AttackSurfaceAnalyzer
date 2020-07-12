@@ -1,10 +1,88 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using CommandLine;
+using System;
+using System.Collections.Generic;
 
 namespace AttackSurfaceAnalyzer
 {
+    [Verb("guide", HelpText = "Gather and Analyze metrics using a combination of Collectors and Monitors.")]
+    public class GuidedModeCommandOptions : CollectorOptions
+    {
+        // These are from ExportCollectCommandOptions
+        [Option(HelpText = "Custom analysis rules file.")]
+        public string? AnalysesFile { get; set; }
+
+        [Option(HelpText = "Set Disable Analysis.")]
+        public bool DisableAnalysis { get; set; }
+
+        [Option(HelpText = "Save to internal database for review in GUI")]
+        public bool SaveToDatabase { get; set; }
+
+        // These are from MonitorCommandOptions
+        [Option("duration", Required = false, HelpText = "Duration, in minutes, to run for before automatically terminating.")]
+        public int Duration { get; set; }
+
+        [Option('m', "file-system-monitor", Required = false, HelpText = "Enable the file system monitor. Unless -d is specified will monitor the entire file system.")]
+        public bool EnableFileSystemMonitor { get; set; }
+
+        [Option(HelpText = "Don't gather extended information when monitoring files.")]
+        public bool FileNamesOnly { get; set; }
+
+        [Option(HelpText = "Comma-separated list of directories to monitor.", Separator = ',')]
+        public IEnumerable<string>? MonitoredDirectories { get; set; }
+        [Option(HelpText = "Directory to output to.")]
+        public string? OutputPath { get; set; }
+        [Option(HelpText = "Put each result type in its own document.")]
+        public bool ExplodedOutput { get; set; }
+        [Option(HelpText = "Apply Rules to SubCollect objects of Monitor objects.")]
+        public bool ApplySubObjectRulesToMonitor { get; set; }
+    }
+
     [Verb("collect", HelpText = "Collect operating system metrics")]
-    public class CollectCommandOptions : CommandOptions
+    public class CollectCommandOptions: CollectorOptions
+    {
+
+        [Option("match-run-id", Required = false, HelpText = "Match the collectors used on another run id")]
+        public string? MatchedCollectorId { get; set; }
+
+        public static CollectCommandOptions FromCollectorOptions(CollectorOptions opts)
+        {
+            if (opts == null) throw new ArgumentNullException(nameof(opts));
+            return new CollectCommandOptions()
+            {
+                CrawlArchives = opts.CrawlArchives,
+                DatabaseFilename = opts.DatabaseFilename,
+                Debug = opts.Debug,
+                DownloadCloud = opts.DownloadCloud,
+                EnableAllCollectors = opts.EnableAllCollectors,
+                EnableCertificateCollector = opts.EnableCertificateCollector,
+                EnableComObjectCollector = opts.EnableComObjectCollector,
+                EnableDriverCollector = opts.EnableDriverCollector,
+                EnableEventLogCollector = opts.EnableEventLogCollector,
+                EnableFileSystemCollector = opts.EnableFileSystemCollector,
+                EnableFirewallCollector = opts.EnableFirewallCollector,
+                EnableKeyCollector = opts.EnableKeyCollector,
+                EnableNetworkPortCollector = opts.EnableNetworkPortCollector,
+                EnableProcessCollector = opts.EnableProcessCollector,
+                EnableRegistryCollector = opts.EnableRegistryCollector,
+                EnableServiceCollector = opts.EnableServiceCollector,
+                EnableTpmCollector = opts.EnableTpmCollector,
+                EnableUserCollector = opts.EnableUserCollector,
+                EnableWifiCollector = opts.EnableWifiCollector,
+                GatherHashes = opts.GatherHashes,
+                GatherVerboseLogs = opts.GatherVerboseLogs,
+                GatherWifiPasswords = opts.GatherWifiPasswords,
+                Overwrite = opts.Overwrite,
+                Quiet = opts.Quiet,
+                RunId = opts.RunId,
+                SelectedDirectories = opts.SelectedDirectories,
+                SelectedHives = opts.SelectedHives,
+                SingleThread = opts.SingleThread,
+                Verbose = opts.Verbose
+            };
+        }
+    }
+    public class CollectorOptions : CommandOptions
     {
         [Option("crawl-archives", Required = false, HelpText = "Attempts to crawl every archive file encountered when using File Collector.  May dramatically increase run time of the scan.")]
         public bool CrawlArchives { get; set; }
@@ -63,17 +141,14 @@ namespace AttackSurfaceAnalyzer
         [Option(HelpText = "Gather all levels in the Log collector. (Default: Only gather Error and Warning when possible.)")]
         public bool GatherVerboseLogs { get; set; }
 
-        [Option("match-run-id", Required = false, HelpText = "Match the collectors used on another run id")]
-        public string? MatchedCollectorId { get; set; }
-
         [Option(HelpText = "If the specified runid already exists delete all data from that run before proceeding.")]
         public bool Overwrite { get; set; }
 
         [Option(HelpText = "Identifies which run this is.")]
         public string? RunId { get; set; }
 
-        [Option("directories", Required = false, HelpText = "^ separated list of paths to scan with FileSystemCollector")]
-        public string? SelectedDirectories { get; set; }
+        [Option("directories", Required = false, HelpText = ", separated list of paths to scan with FileSystemCollector", Separator = ',')]
+        public IEnumerable<string>? SelectedDirectories { get; set; }
 
         [Option("hives", Required = false, HelpText = "^ separated list of hives and subkeys to search.")]
         public string? SelectedHives { get; set; }
@@ -117,8 +192,11 @@ namespace AttackSurfaceAnalyzer
         [Option(HelpText = "Custom analysis rules file.")]
         public string? AnalysesFile { get; set; }
 
-        [Option(HelpText = "Set Enable/Disable Analysis.")]
-        public bool Analyze { get; set; } = true;
+        [Option(HelpText = "When analyzing Monitor Objects apply rules that would apply to the base type.")]
+        public bool ApplySubObjectRulesToMonitor { get; set; }
+
+        [Option(HelpText = "Set Disable Analysis.")]
+        public bool DisableAnalysis { get; set; }
 
         [Option(HelpText = "First run (pre-install) identifier")]
         public string? FirstRunId { get; set; }
@@ -155,8 +233,8 @@ namespace AttackSurfaceAnalyzer
         [Option(HelpText = "Custom analysis rules file.")]
         public string? AnalysesFile { get; set; }
 
-        [Option(HelpText = "Set Enable/Disable Analysis.")]
-        public bool Analyze { get; set; } = true;
+        [Option(HelpText = "Set to Disable Analysis.")]
+        public bool DisableAnalysis { get; set; }
 
         [Option(HelpText = "Exploded output")]
         public bool ExplodedOutput { get; set; }
@@ -197,7 +275,7 @@ namespace AttackSurfaceAnalyzer
         [Option('D', "duration", Required = false, HelpText = "Duration, in minutes, to run for before automatically terminating.")]
         public int Duration { get; set; }
 
-        [Option('f', "file-system", Required = false, HelpText = "Enable the file system monitor. Unless -d is specified will monitor the entire file system.")]
+        [Option('F', "file-system-monitor", Required = false, HelpText = "Enable the file system monitor. Unless -d is specified will monitor the entire file system.")]
         public bool EnableFileSystemMonitor { get; set; }
 
         [Option('a', "File names only", Required = false, HelpText = "Don't gather extended information. Overrides any argument to include additional data.")]
@@ -206,8 +284,8 @@ namespace AttackSurfaceAnalyzer
         [Option('h', "gather-hashes", Required = false, HelpText = "Gather a hash of each file that is modified or created.")]
         public bool GatherHashes { get; set; }
 
-        [Option('d', "directories", Required = false, HelpText = "Comma-separated list of directories to monitor.")]
-        public string? MonitoredDirectories { get; set; }
+        [Option('d', "directories", Required = false, HelpText = "Comma-separated list of directories to monitor.",Separator = ',')]
+        public IEnumerable<string>? MonitoredDirectories { get; set; }
 
         //[Option('r', "registry", Required = false, HelpText = "Monitor the registry for changes. (Windows Only)")]
         //public bool EnableRegistryMonitor { get; set; }

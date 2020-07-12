@@ -75,7 +75,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public abstract IEnumerable<(WriteObject, WriteObject)> GetModified(string firstRunId, string secondRunId);
 
-        public abstract List<FileMonitorObject> GetMonitorResults(string runId, int offset, int numResults);
+        public abstract IEnumerable<FileMonitorObject> GetMonitorResults(string runId, int offset = 0, int numResults = -1);
 
         public List<string> GetMonitorRuns()
         {
@@ -157,7 +157,5 @@ namespace AttackSurfaceAnalyzer.Utils
         }
 
         public abstract void Write(CollectObject? colObj, string? runId);
-
-        public abstract void WriteFileMonitor(FileMonitorObject fmo, string RunId);
     }
 }

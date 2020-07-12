@@ -57,6 +57,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Lib\Lib.csproj" />
+    <ProjectReference Include="..\Cli\Cli.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="InDatabaseComparatorTests.cs" />

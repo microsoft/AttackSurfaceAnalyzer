@@ -22,7 +22,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// </summary>
         /// <param name="opts"></param>
         /// <param name=""></param>
-        public CertificateCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler) { }
+        public CertificateCollector(CollectorOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler) { }
 
         #endregion Public Constructors
 
