@@ -4,6 +4,7 @@ using AttackSurfaceAnalyzer.Cli;
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
+using DiscUtils.Streams;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AttackSurfaceAnalyzer.Tests
@@ -59,7 +60,7 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var results = AttackSurfaceAnalyzerClient.AnalyzeMonitored(opts, analyzer, new MonitorObject[] { testPathOneObject });
 
-            Assert.IsTrue(results.Any(x => x.Value.Any(y => y.Identity == testPathOneObject.Identity)));
+            Assert.IsTrue(results.Any(x => x.Value.Any(y => y.Identity == testPathOneObject.Identity && y.Rules.Contains(andRule))));
         }
 
         private Analyzer GetAnalyzerForRule(Rule rule)
