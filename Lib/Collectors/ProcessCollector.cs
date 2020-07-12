@@ -17,7 +17,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// </summary>
         /// <param name="opts"> </param>
         /// <param name=""> </param>
-        public ProcessCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler) { }
+        public ProcessCollector(CollectorOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler) { }
 
         public override bool CanRunOnPlatform()
         {

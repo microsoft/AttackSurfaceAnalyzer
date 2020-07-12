@@ -95,7 +95,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         public ActionResult GetMonitorResults(string RunId, int Offset, int NumResults)
         {
-            List<FileMonitorObject> results = AttackSurfaceAnalyzerClient.DatabaseManager.GetMonitorResults(RunId, Offset, NumResults);
+            var results = AttackSurfaceAnalyzerClient.DatabaseManager.GetMonitorResults(RunId, Offset, NumResults);
 
             Dictionary<string, object> output = new Dictionary<string, object>();
 
@@ -103,7 +103,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             output["TotalCount"] = AttackSurfaceAnalyzerClient.DatabaseManager.GetNumMonitorResults(RunId); ;
             output["Offset"] = Offset;
             output["Requested"] = NumResults;
-            output["Actual"] = results.Count;
+            output["Actual"] = results.Count();
 
             return Json(JsonConvert.SerializeObject(output));
         }
@@ -155,7 +155,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
             CompareCommandOptions opts = new CompareCommandOptions(SelectedBaseRunId, SelectedCompareRunId)
             {
-                Analyze = true,
+                DisableAnalysis = false,
                 SaveToDatabase = true
             };
 
@@ -178,7 +178,10 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 return Json("Using cached comparison calculations.");
             }
 
-            Task.Factory.StartNew(() => AttackSurfaceAnalyzerClient.CompareRuns(opts));
+            Task.Factory.StartNew(() => {
+                var results = AttackSurfaceAnalyzerClient.CompareRuns(opts);
+                AttackSurfaceAnalyzerClient.InsertCompareResults(results, opts.FirstRunId, opts.SecondRunId);
+            });
 
             return Json("Started Analysis");
         }
@@ -242,7 +245,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 {
                     RunId = RunId,
                     EnableFileSystemMonitor = true,
-                    MonitoredDirectories = Directory,
+                    MonitoredDirectories = new string[] { Directory },
                     Verbose = Logger.Verbose,
                     Debug = Logger.Debug,
                     Quiet = Logger.Quiet

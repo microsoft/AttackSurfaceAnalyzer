@@ -30,8 +30,31 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         #region Public Constructors
 
-        public FileSystemCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
+        public FileSystemCollector(CollectorOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
         {
+            Roots.AddRange(opts?.SelectedDirectories ?? Array.Empty<string>());
+
+            if (!Roots.Any())
+            {
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    foreach (var driveInfo in DriveInfo.GetDrives())
+                    {
+                        if (driveInfo.IsReady && driveInfo.DriveType == DriveType.Fixed)
+                        {
+                            Roots.Add(driveInfo.Name);
+                        }
+                    }
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                {
+                    Roots.Add("/");
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                {
+                    Roots.Add("/");
+                }
+            }
         }
 
         #endregion Public Constructors
@@ -323,33 +346,6 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
-            if (!string.IsNullOrEmpty(opts.SelectedDirectories))
-            {
-                Roots.AddRange(opts.SelectedDirectories.Split('^'));
-            }
-
-            if (!Roots.Any())
-            {
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                {
-                    foreach (var driveInfo in DriveInfo.GetDrives())
-                    {
-                        if (driveInfo.IsReady && driveInfo.DriveType == DriveType.Fixed)
-                        {
-                            Roots.Add(driveInfo.Name);
-                        }
-                    }
-                }
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                {
-                    Roots.Add("/");
-                }
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                {
-                    Roots.Add("/");
-                }
-            }
-
             foreach (var Root in Roots)
             {
                 Log.Information("{0} root {1}", Strings.Get("Scanning"), Root);

@@ -428,24 +428,45 @@ namespace AttackSurfaceAnalyzer.Utils
             return output;
         }
 
-        public override List<FileMonitorObject> GetMonitorResults(string runId, int offset, int numResults)
+        public override IEnumerable<FileMonitorObject> GetMonitorResults(string runId, int offset = 0, int numResults = -1)
         {
             var results = new List<FileMonitorObject>();
             if (MainConnection != null)
             {
-                using (var cmd = new SqliteCommand(GET_MONITOR_RESULTS, MainConnection.Connection, MainConnection.Transaction))
+                if (numResults == -1)
                 {
-                    cmd.Parameters.AddWithValue("@run_id", runId);
-                    cmd.Parameters.AddWithValue("@offset", offset);
-                    cmd.Parameters.AddWithValue("@limit", numResults);
-                    using (var reader = cmd.ExecuteReader())
+                    using (var cmd = new SqliteCommand(GET_MONITOR_RESULTS_LIMIT, MainConnection.Connection, MainConnection.Transaction))
                     {
-                        while (reader.Read())
+                        cmd.Parameters.AddWithValue("@run_id", runId);
+                        cmd.Parameters.AddWithValue("@offset", offset);
+                        cmd.Parameters.AddWithValue("@limit", numResults);
+                        using (var reader = cmd.ExecuteReader())
                         {
-                            if (reader["serialized"] is string serialized)
+                            while (reader.Read())
                             {
-                                var obj = JsonConvert.DeserializeObject<FileMonitorObject>(serialized);
-                                results.Add(obj);
+                                if (reader["serialized"] is string serialized)
+                                {
+                                    var obj = JsonConvert.DeserializeObject<FileMonitorObject>(serialized);
+                                    yield return obj;
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    using (var cmd = new SqliteCommand(GET_MONITOR_RESULTS, MainConnection.Connection, MainConnection.Transaction))
+                    {
+                        cmd.Parameters.AddWithValue("@run_id", runId); ;
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                if (reader["serialized"] is string serialized)
+                                {
+                                    var obj = JsonConvert.DeserializeObject<FileMonitorObject>(serialized);
+                                    yield return obj;
+                                }
                             }
                         }
                     }
@@ -455,8 +476,6 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 Log.Debug("Failed to GetMonitorResults. MainConnection was null.");
             }
-
-            return results;
         }
 
         public override int GetNumMonitorResults(string runId)
@@ -896,9 +915,6 @@ namespace AttackSurfaceAnalyzer.Utils
                     cmd2.CommandText = SQL_CREATE_FINDINGS_LEVEL_RESULT_TYPE_INDEX;
                     cmd2.ExecuteNonQuery();
 
-                    cmd2.CommandText = SQL_CREATE_FILE_MONITORED;
-                    cmd2.ExecuteNonQuery();
-
                     cmd2.CommandText = SQL_CREATE_PERSISTED_SETTINGS;
                     cmd2.ExecuteNonQuery();
 
@@ -1007,25 +1023,10 @@ namespace AttackSurfaceAnalyzer.Utils
             }
         }
 
-        public override void WriteFileMonitor(FileMonitorObject fmo, string RunId)
-        {
-            if (fmo == null)
-            {
-                return;
-            }
-            _ = MainConnection ?? throw new NullReferenceException(Strings.Get("MainConnection"));
-            using var cmd = new SqliteCommand(SQL_INSERT, MainConnection.Connection, MainConnection.Transaction);
-            cmd.Parameters.AddWithValue("@run_id", RunId);
-            cmd.Parameters.AddWithValue("@path", fmo.Path);
-            cmd.Parameters.AddWithValue("@timestamp", fmo.Timestamp);
-            cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(fmo));
-
-            cmd.ExecuteNonQuery();
-        }
-
         private const string GET_COMPARISON_RESULTS = "select * from findings where first_run_id = @first_run_id and second_run_id = @second_run_id and result_type=@result_type order by level desc;";
         private const string GET_COMPARISON_RESULTS_LIMIT = "select * from findings where first_run_id = @first_run_id and second_run_id = @second_run_id and result_type=@result_type order by level desc limit @offset,@limit;";
-        private const string GET_MONITOR_RESULTS = "select * from file_system_monitored where run_id=@run_id order by timestamp limit @offset,@limit;";
+        private const string GET_MONITOR_RESULTS = "select * from collect where run_id=@run_id order by timestamp;";
+        private const string GET_MONITOR_RESULTS_LIMIT = "select * from collect where run_id=@run_id order by timestamp limit @offset,@limit;";
 
         private const string GET_RESULT_COUNT = "select count(*) from findings where first_run_id = @first_run_id and second_run_id = @second_run_id and result_type=@result_type";
 
@@ -1034,13 +1035,12 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string GET_RUNS = "select run_id from runs order by ROWID desc;";
         private const string GET_SERIALIZED_RESULTS = "select change_type, Serialized from file_system_monitored where run_id = @run_id";
         private const string INSERT_RUN_INTO_RESULT_TABLE_SQL = "insert into results (base_run_id, compare_run_id, status) values (@base_run_id, @compare_run_id, @status);";
-        private const int SCHEMA_VERSION = 10;
+        private const int SCHEMA_VERSION = 11;
         private const string SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED = "select * from results where base_run_id=@base_run_id and compare_run_id=@compare_run_id";
-        private const string SQL_CREATE_COLLECT_RESULTS = "create table if not exists collect (run_id text, result_type text, identity text, row_key blob, serialized blob, UNIQUE(run_id, identity))";
+        private const string SQL_CREATE_COLLECT_RESULTS = "create table if not exists collect (run_id text, result_type text, identity text, row_key blob, timestamp text, serialized blob, UNIQUE(run_id, identity))";
         private const string SQL_CREATE_COLLECT_RUN_ID_IDENTITY_INDEX = "create index if not exists i_collect_collect_run_id_identity on collect(run_id, identity)";
         private const string SQL_CREATE_COLLECT_RUN_ID_INDEX = "create index if not exists i_collect_collect_run_id on collect(run_id)";
         private const string SQL_CREATE_COLLECT_RUN_KEY_IDENTITY_COMBINED_INDEX = "create index if not exists i_collect_collect_runid_row_type on collect(run_id, identity, row_key, result_type)";
-        private const string SQL_CREATE_FILE_MONITORED = "create table if not exists file_system_monitored (run_id text, path text, timestamp text, serialized text)";
         private const string SQL_CREATE_FINDINGS_IDENTITY_INDEX = "create index if not exists i_findings_identity on findings(identity)";
         private const string SQL_CREATE_FINDINGS_LEVEL_INDEX = "create index if not exists i_findings_level on findings(level)";
         private const string SQL_CREATE_FINDINGS_LEVEL_RESULT_TYPE_INDEX = "create index if not exists i_findings_level_result_type on findings(level, result_type)";
@@ -1066,7 +1066,6 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string SQL_GET_RUN = "select * from runs where run_id = @run_id";
         private const string SQL_GET_UNIQUE_BETWEEN_RUNS = "SELECT run_id, result_type, serialized, COUNT (*) FROM collect WHERE run_id = @first_run_id or run_id = @second_run_id GROUP BY identity, result_type HAVING COUNT(*) == 1;";
         private const string SQL_GET_UNIQUE_BETWEEN_RUNS_EXPLICIT = "SELECT run_id, result_type, serialized, COUNT (*) FROM collect indexed by i_collect_collect_runid_row_type WHERE run_id = @first_run_id or run_id = @second_run_id GROUP BY identity, result_type HAVING COUNT(*) == 1;";
-        private const string SQL_INSERT = "insert into file_system_monitored (run_id, path, timestamp, serialized) values (@run_id, @path, @timestamp, @serialized)";
         private const string SQL_INSERT_FINDINGS_RESULT = "insert into findings (first_run_id, second_run_id, result_type, level, identity, first_serialized, second_serialized, meta_serialized) values (@first_run_id, @second_run_id, @result_type, @level, @identity, @first_serialized, @second_serialized, @meta_serialized)";
         private const string SQL_INSERT_RUN = "insert into runs (run_id, type, serialized) values (@run_id, @type, @serialized)";
         private const string SQL_QUERY_ANALYZED = "select * from results where status = @status";

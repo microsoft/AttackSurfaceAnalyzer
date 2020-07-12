@@ -4,7 +4,7 @@ using System.IO;
 
 namespace AttackSurfaceAnalyzer.Objects
 {
-    public class FileMonitorObject : CollectObject
+    public class FileMonitorObject : MonitorObject
     {
         public FileMonitorObject(string PathIn)
         {

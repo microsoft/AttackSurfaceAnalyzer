@@ -19,7 +19,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         #region Public Constructors
 
-        public ComObjectCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
+        public ComObjectCollector(CollectorOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
         {
         }
 
@@ -36,7 +36,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             if (SearchKey == null) { return new List<CollectObject>(); }
             List<ComObject> comObjects = new List<ComObject>();
-            var fsc = new FileSystemCollector(new CollectCommandOptions() { SingleThread = SingleThreaded });
+            var fsc = new FileSystemCollector(new CollectorOptions() { SingleThread = SingleThreaded });
             Action<string> ParseComObjectsIn = SubKeyName =>
             {
                 try
