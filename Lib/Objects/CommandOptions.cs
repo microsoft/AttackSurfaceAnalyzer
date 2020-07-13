@@ -228,39 +228,21 @@ namespace AttackSurfaceAnalyzer
     }
 
     [Verb("export-collect", HelpText = "Compare ASA executions and output a .json report")]
-    public class ExportCollectCommandOptions : CommandOptions
+    public class ExportCollectCommandOptions : ExportOptions
     {
-        [Option(HelpText = "Custom analysis rules file.")]
-        public string? AnalysesFile { get; set; }
-
-        [Option(HelpText = "Set to Disable Analysis.")]
-        public bool DisableAnalysis { get; set; }
-
-        [Option(HelpText = "Exploded output")]
-        public bool ExplodedOutput { get; set; }
-
         [Option(HelpText = "Export single run. (Specify runid with SecondRunId.)")]
         public bool ExportSingleRun { get; set; }
 
         [Option(HelpText = "First run (pre-install) identifier")]
         public string? FirstRunId { get; set; }
 
-        [Option(HelpText = "Directory to output to")]
-        public string? OutputPath { get; set; }
-
-        [Option(HelpText = "Save to internal database for review in GUI")]
-        public bool SaveToDatabase { get; set; }
-
         [Option(HelpText = "Second run (post-install) identifier")]
         public string? SecondRunId { get; set; }
     }
 
     [Verb("export-monitor", HelpText = "Output a .json report for a monitor run")]
-    public class ExportMonitorCommandOptions : CommandOptions
+    public class ExportMonitorCommandOptions : ExportOptions
     {
-        [Option(HelpText = "Directory to output to")]
-        public string? OutputPath { get; set; }
-
         [Option(HelpText = "Monitor run identifier")]
         public string? RunId { get; set; }
     }
@@ -312,6 +294,24 @@ namespace AttackSurfaceAnalyzer
 
         [Option(HelpText = "Save to internal database for review in GUI")]
         public bool SaveAnalysisToDatabase { get; set; }
+    }
+
+    public class ExportOptions : CommandOptions
+    {
+        [Option("filename",HelpText = "Custom analysis rules file.")]
+        public string? AnalysesFile { get; set; }
+
+        [Option(HelpText = "Set to Disable Analysis.")]
+        public bool DisableAnalysis { get; set; }
+
+        [Option(HelpText = "Exploded output")]
+        public bool ExplodedOutput { get; set; }
+
+        [Option(HelpText = "Directory to output to")]
+        public string? OutputPath { get; set; }
+
+        [Option(HelpText = "Save to internal database for review in GUI")]
+        public bool SaveToDatabase { get; set; }
     }
 
     [Verb("verify", HelpText = "Verify your analysis rules")]
