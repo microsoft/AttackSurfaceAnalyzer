@@ -294,6 +294,24 @@ namespace AttackSurfaceAnalyzer
 
         [Option(HelpText = "Identifies which run this is. Monitor output can be combined with collect output, but doesn't need to be compared.", Default = "Timestamp")]
         public string? RunId { get; set; }
+
+        [Option(HelpText = "Directory to output to")]
+        public string? OutputPath { get; set; }
+
+        [Option(HelpText = "Put each result type in its own document.")]
+        public bool ExplodedOutput { get; set; }
+
+        [Option(HelpText = "Apply Rules to SubCollect objects of Monitor objects.")]
+        public bool ApplySubObjectRulesToMonitor { get; set; }
+
+        [Option(HelpText = "Custom analysis rules file.")]
+        public string? AnalysesFile { get; set; }
+
+        [Option(HelpText = "Set Disable Analysis.")]
+        public bool DisableAnalysis { get; set; }
+
+        [Option(HelpText = "Save to internal database for review in GUI")]
+        public bool SaveToDatabase { get; set; }
     }
 
     [Verb("verify", HelpText = "Verify your analysis rules")]

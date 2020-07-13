@@ -541,6 +541,63 @@ namespace AttackSurfaceAnalyzer.Cli
             return ASA_ERROR.NONE;
         }
 
+        private static ASA_ERROR ExportMonitorResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> resultsIn, MonitorCommandOptions opts)
+        {
+            if (opts.RunId == null)
+            {
+                return ASA_ERROR.INVALID_ID;
+            }
+            var results = resultsIn.Select(x => new KeyValuePair<string, object>($"{x.Key.Item1}_{x.Key.Item2}", x.Value)).ToDictionary(x => x.Key, x => x.Value);
+            JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings()
+            {
+                Formatting = Formatting.Indented,
+                NullValueHandling = NullValueHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Ignore,
+                Converters = new List<JsonConverter>() { new StringEnumConverter() },
+                ContractResolver = new AsaExportContractResolver()
+            });
+            var outputPath = opts.OutputPath;
+            if (outputPath is null)
+            {
+                outputPath = Directory.GetCurrentDirectory();
+            }
+            if (opts.ExplodedOutput)
+            {
+                results.Add("metadata", AsaHelpers.GenerateMetadata());
+
+                string path = Path.Combine(outputPath, AsaHelpers.MakeValidFileName(opts.RunId));
+                Directory.CreateDirectory(path);
+                foreach (var key in results.Keys)
+                {
+                    string filePath = Path.Combine(path, AsaHelpers.MakeValidFileName(key));
+                    using (StreamWriter sw = new StreamWriter(filePath)) //lgtm[cs/path-injection]
+                    {
+                        using (JsonWriter writer = new JsonTextWriter(sw))
+                        {
+                            serializer.Serialize(writer, results[key]);
+                        }
+                    }
+                }
+                Log.Information(Strings.Get("OutputWrittenTo"), (new DirectoryInfo(path)).FullName);
+            }
+            else
+            {
+                string path = Path.Combine(outputPath, AsaHelpers.MakeValidFileName(opts.RunId + "_summary.json.txt"));
+                var output = new Dictionary<string, object>();
+                output["results"] = results;
+                output["metadata"] = AsaHelpers.GenerateMetadata();
+                using (StreamWriter sw = new StreamWriter(path)) //lgtm[cs/path-injection]
+                {
+                    using (JsonWriter writer = new JsonTextWriter(sw))
+                    {
+                        serializer.Serialize(writer, output);
+                    }
+                }
+                Log.Information(Strings.Get("OutputWrittenTo"), (new FileInfo(path)).FullName);
+            }
+            return ASA_ERROR.NONE;
+        }
+
 
         private static ASA_ERROR ExportCompareResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> resultsIn, ExportCollectCommandOptions opts)
         {
@@ -866,6 +923,29 @@ namespace AttackSurfaceAnalyzer.Cli
             DatabaseManager.Commit();
 
             Console.CancelKeyPress -= consoleCancelDelegate;
+
+            if (returnValue != ASA_ERROR.NONE)
+            {
+                return returnValue;
+            }
+
+            if (!opts.DisableAnalysis)
+            {
+                var monitorCompareOpts = new CompareCommandOptions(null, opts.RunId)
+                {
+                    DisableAnalysis = opts.DisableAnalysis,
+                    AnalysesFile = opts.AnalysesFile,
+                    ApplySubObjectRulesToMonitor = opts.ApplySubObjectRulesToMonitor,
+                };
+
+                var monitorResult = AnalyzeMonitored(monitorCompareOpts);
+
+                if (opts.SaveToDatabase)
+                {
+                    InsertCompareResults(monitorResult, null, opts.RunId);
+                }
+                return ExportMonitorResults(monitorResult, opts);
+            }
 
             return returnValue;
         }
