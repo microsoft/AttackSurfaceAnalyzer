@@ -95,7 +95,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
         public ActionResult GetMonitorResults(string RunId, int Offset, int NumResults)
         {
-            var results = AttackSurfaceAnalyzerClient.DatabaseManager.GetMonitorResults(RunId, Offset, NumResults);
+            List<FileMonitorObject> results = AttackSurfaceAnalyzerClient.DatabaseManager.GetMonitorResults(RunId, Offset, NumResults);
 
             Dictionary<string, object> output = new Dictionary<string, object>();
 
@@ -103,7 +103,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             output["TotalCount"] = AttackSurfaceAnalyzerClient.DatabaseManager.GetNumMonitorResults(RunId); ;
             output["Offset"] = Offset;
             output["Requested"] = NumResults;
-            output["Actual"] = results.Count();
+            output["Actual"] = results.Count;
 
             return Json(JsonConvert.SerializeObject(output));
         }
@@ -155,7 +155,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
 
             CompareCommandOptions opts = new CompareCommandOptions(SelectedBaseRunId, SelectedCompareRunId)
             {
-                DisableAnalysis = false,
+                Analyze = true,
                 SaveToDatabase = true
             };
 
@@ -178,17 +178,14 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 return Json("Using cached comparison calculations.");
             }
 
-            Task.Factory.StartNew(() => {
-                var results = AttackSurfaceAnalyzerClient.CompareRuns(opts);
-                AttackSurfaceAnalyzerClient.InsertCompareResults(results, opts.FirstRunId, opts.SecondRunId);
-            });
+            Task.Factory.StartNew(() => AttackSurfaceAnalyzerClient.CompareRuns(opts));
 
             return Json("Started Analysis");
         }
 
         public ActionResult StartCollection(string Id, bool File, bool Port, bool Service, bool User, bool Registry, bool Certificates, bool Com, bool Firewall, bool Log)
         {
-            var opts = new CollectCommandOptions();
+            CollectCommandOptions opts = new CollectCommandOptions();
             opts.RunId = Id?.Trim();
             opts.EnableFileSystemCollector = File;
             opts.EnableNetworkPortCollector = Port;
@@ -245,7 +242,7 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 {
                     RunId = RunId,
                     EnableFileSystemMonitor = true,
-                    MonitoredDirectories = new string[] { Directory },
+                    MonitoredDirectories = Directory,
                     Verbose = Logger.Verbose,
                     Debug = Logger.Debug,
                     Quiet = Logger.Quiet

@@ -22,7 +22,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         #region Public Constructors
 
-        public EventLogCollector(CollectorOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
+        public EventLogCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
         {
         }
 

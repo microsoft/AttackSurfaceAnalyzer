@@ -31,7 +31,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         #region Public Constructors
 
-        public RegistryCollector(CollectorOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
+        public RegistryCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
         {
             this.opts = opts ?? this.opts;
             Hives = DefaultHives;

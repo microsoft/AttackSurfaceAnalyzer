@@ -19,7 +19,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         #region Internal Fields
 
-        internal CollectorOptions opts = new CollectorOptions();
+        internal CollectCommandOptions opts = new CollectCommandOptions();
 
         #endregion Internal Fields
 
@@ -32,9 +32,9 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         #region Protected Constructors
 
-        protected BaseCollector(CollectorOptions? opts, Action<CollectObject>? changeHandler)
+        protected BaseCollector(CollectCommandOptions? opts, Action<CollectObject>? changeHandler)
         {
-            this.opts = opts ?? new CollectorOptions();
+            this.opts = opts ?? new CollectCommandOptions();
             this.changeHandler = changeHandler;
         }
 
