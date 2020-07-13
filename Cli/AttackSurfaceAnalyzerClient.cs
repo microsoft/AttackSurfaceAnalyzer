@@ -160,12 +160,14 @@ namespace AttackSurfaceAnalyzer.Cli
                 EnableFileSystemMonitor = opts.EnableFileSystemMonitor,
                 GatherHashes = opts.GatherHashes,
                 FileNamesOnly = opts.FileNamesOnly,
-                RunId = monitorRunId
+                RunId = monitorRunId,
+                DisableAnalysis = true
             };
 
             RunMonitorCommand(monitorOpts);
 
             collectorOpts.RunId = secondCollectRunId;
+
             RunCollectCommand(collectorOpts);
 
             var compareOpts = new CompareCommandOptions(firstCollectRunId, secondCollectRunId)
@@ -940,10 +942,11 @@ namespace AttackSurfaceAnalyzer.Cli
 
                 var monitorResult = AnalyzeMonitored(monitorCompareOpts);
 
-                if (opts.SaveToDatabase)
+                if (opts.SaveAnalysisToDatabase)
                 {
                     InsertCompareResults(monitorResult, null, opts.RunId);
                 }
+
                 return ExportMonitorResults(monitorResult, opts);
             }
 

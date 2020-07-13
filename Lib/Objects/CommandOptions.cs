@@ -311,7 +311,7 @@ namespace AttackSurfaceAnalyzer
         public bool DisableAnalysis { get; set; }
 
         [Option(HelpText = "Save to internal database for review in GUI")]
-        public bool SaveToDatabase { get; set; }
+        public bool SaveAnalysisToDatabase { get; set; }
     }
 
     [Verb("verify", HelpText = "Verify your analysis rules")]
