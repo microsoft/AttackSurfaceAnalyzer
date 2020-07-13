@@ -134,7 +134,7 @@ namespace AttackSurfaceAnalyzer.Cli
                     },
                     errs => ASA_ERROR.UNKNOWN
                 );
-            DatabaseManager.CloseDatabase();
+            DatabaseManager?.CloseDatabase();
             Log.CloseAndFlush();
             Environment.Exit((int)argsResult);
         }
