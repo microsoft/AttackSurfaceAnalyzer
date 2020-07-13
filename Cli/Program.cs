@@ -223,7 +223,7 @@ namespace AttackSurfaceAnalyzer.Cli
                     CompareRunId = opts.SecondRunId
                 };
 
-                shellResult.Rules = analyzer.Analyze(ruleFile.AsaRules, shellResult).ToList();
+                shellResult.Rules = analyzer.Analyze(ruleFile.AsaRules,shellResult).ToList();
 
                 if (opts.ApplySubObjectRulesToMonitor)
                 {
@@ -830,7 +830,7 @@ namespace AttackSurfaceAnalyzer.Cli
             }
 
             void consoleCancelDelegate(object sender, ConsoleCancelEventArgs args)
-            {
+            { 
                 args.Cancel = true;
                 exitEvent.Set();
             };
