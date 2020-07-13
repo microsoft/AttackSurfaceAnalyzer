@@ -2,8 +2,8 @@
 
 ## Pre-requisites
 
-### CLI + GUI:
-- .NET Core SDK 2.2.105 or better (https://dotnet.microsoft.com/download)
+### All Components:
+- Latest .NET Core SDK 3.1 (https://dotnet.microsoft.com/download)
 - GitVersioning (```dotnet tool install -g nbgv```)
 
 ### GUI: 
