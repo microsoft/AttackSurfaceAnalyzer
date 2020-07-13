@@ -161,7 +161,6 @@ namespace AttackSurfaceAnalyzer.Cli
                 GatherHashes = opts.GatherHashes,
                 FileNamesOnly = opts.FileNamesOnly,
                 RunId = monitorRunId,
-                DisableAnalysis = true
             };
 
             RunMonitorCommand(monitorOpts);
@@ -434,7 +433,7 @@ namespace AttackSurfaceAnalyzer.Cli
                     if (runIds.Count < 1)
                     {
                         Log.Fatal(Strings.Get("Err_CouldntDetermineOneRun"));
-                        System.Environment.Exit(-1);
+                        return ASA_ERROR.INVALID_ID;
                     }
                     else
                     {
@@ -483,7 +482,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 InsertCompareResults(results, opts.FirstRunId, opts.SecondRunId);
             }
 
-            return ExportCompareResults(results, opts);
+            return ExportCompareResults(results, opts, AsaHelpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId));
         }
 
         private static ASA_ERROR ExportGuidedModeResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> resultsIn, GuidedModeCommandOptions opts)
@@ -543,65 +542,7 @@ namespace AttackSurfaceAnalyzer.Cli
             return ASA_ERROR.NONE;
         }
 
-        private static ASA_ERROR ExportMonitorResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> resultsIn, MonitorCommandOptions opts)
-        {
-            if (opts.RunId == null)
-            {
-                return ASA_ERROR.INVALID_ID;
-            }
-            var results = resultsIn.Select(x => new KeyValuePair<string, object>($"{x.Key.Item1}_{x.Key.Item2}", x.Value)).ToDictionary(x => x.Key, x => x.Value);
-            JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings()
-            {
-                Formatting = Formatting.Indented,
-                NullValueHandling = NullValueHandling.Ignore,
-                DefaultValueHandling = DefaultValueHandling.Ignore,
-                Converters = new List<JsonConverter>() { new StringEnumConverter() },
-                ContractResolver = new AsaExportContractResolver()
-            });
-            var outputPath = opts.OutputPath;
-            if (outputPath is null)
-            {
-                outputPath = Directory.GetCurrentDirectory();
-            }
-            if (opts.ExplodedOutput)
-            {
-                results.Add("metadata", AsaHelpers.GenerateMetadata());
-
-                string path = Path.Combine(outputPath, AsaHelpers.MakeValidFileName(opts.RunId));
-                Directory.CreateDirectory(path);
-                foreach (var key in results.Keys)
-                {
-                    string filePath = Path.Combine(path, AsaHelpers.MakeValidFileName(key));
-                    using (StreamWriter sw = new StreamWriter(filePath)) //lgtm[cs/path-injection]
-                    {
-                        using (JsonWriter writer = new JsonTextWriter(sw))
-                        {
-                            serializer.Serialize(writer, results[key]);
-                        }
-                    }
-                }
-                Log.Information(Strings.Get("OutputWrittenTo"), (new DirectoryInfo(path)).FullName);
-            }
-            else
-            {
-                string path = Path.Combine(outputPath, AsaHelpers.MakeValidFileName(opts.RunId + "_summary.json.txt"));
-                var output = new Dictionary<string, object>();
-                output["results"] = results;
-                output["metadata"] = AsaHelpers.GenerateMetadata();
-                using (StreamWriter sw = new StreamWriter(path)) //lgtm[cs/path-injection]
-                {
-                    using (JsonWriter writer = new JsonTextWriter(sw))
-                    {
-                        serializer.Serialize(writer, output);
-                    }
-                }
-                Log.Information(Strings.Get("OutputWrittenTo"), (new FileInfo(path)).FullName);
-            }
-            return ASA_ERROR.NONE;
-        }
-
-
-        private static ASA_ERROR ExportCompareResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> resultsIn, ExportCollectCommandOptions opts)
+        private static ASA_ERROR ExportCompareResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> resultsIn, ExportOptions opts, string baseFileName)
         {
             var results = resultsIn.Select(x => new KeyValuePair<string, object>($"{x.Key.Item1}_{x.Key.Item2}", x.Value)).ToDictionary(x => x.Key, x => x.Value);
             JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings()
@@ -621,7 +562,7 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 results.Add("metadata", AsaHelpers.GenerateMetadata());
 
-                string path = Path.Combine(outputPath, AsaHelpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId));
+                string path = Path.Combine(outputPath, AsaHelpers.MakeValidFileName(baseFileName));
                 Directory.CreateDirectory(path);
                 foreach (var key in results.Keys)
                 {
@@ -638,7 +579,7 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             else
             {
-                string path = Path.Combine(outputPath, AsaHelpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId + "_summary.json.txt"));
+                string path = Path.Combine(outputPath, AsaHelpers.MakeValidFileName(baseFileName+"_summary.json.txt"));
                 var output = new Dictionary<string, object>();
                 output["results"] = results;
                 output["metadata"] = AsaHelpers.GenerateMetadata();
@@ -749,38 +690,35 @@ namespace AttackSurfaceAnalyzer.Cli
 
         private static ASA_ERROR RunExportMonitorCommand(ExportMonitorCommandOptions opts)
         {
-            var outPath = opts.OutputPath ?? Directory.GetCurrentDirectory();
-            if (!Directory.Exists(outPath))
-            {
-                Log.Fatal(Strings.Get("Err_OutputPathNotExist"), opts.OutputPath);
-                return 0;
-            }
-
             if (opts.RunId is null)
             {
-                List<string> runIds = DatabaseManager.GetLatestRunIds(1, RUN_TYPE.MONITOR);
-
-                if (runIds.Count < 1)
-                {
-                    Log.Fatal(Strings.Get("Err_CouldntDetermineOneRun"));
-                    System.Environment.Exit(-1);
-                }
-                else
+                var runIds = DatabaseManager.GetLatestRunIds(1, RUN_TYPE.MONITOR);
+                if (runIds.Any())
                 {
                     opts.RunId = runIds.First();
                 }
+                else
+                {
+                    Log.Fatal(Strings.Get("Err_CouldntDetermineOneRun"));
+                    return ASA_ERROR.INVALID_ID;
+                }
+            }
+            var monitorCompareOpts = new CompareCommandOptions(null, opts.RunId)
+            {
+                DisableAnalysis = opts.DisableAnalysis,
+                AnalysesFile = opts.AnalysesFile,
+                ApplySubObjectRulesToMonitor = opts.ApplySubObjectRulesToMonitor,
+            };
+
+            var monitorResult = AnalyzeMonitored(monitorCompareOpts);
+
+            if (opts.SaveToDatabase)
+            {
+                InsertCompareResults(monitorResult, null, opts.RunId);
             }
 
-            Log.Information("{0} {1}", Strings.Get("Exporting"), opts.RunId);
-
-            Dictionary<string, string> StartEvent = new Dictionary<string, string>();
-            StartEvent.Add("OutputPathSet", (opts.OutputPath != null).ToString(CultureInfo.InvariantCulture));
-
-            AsaTelemetry.TrackEvent("Begin Export Monitor", StartEvent);
-
-            WriteMonitorJson(opts.RunId, (int)RESULT_TYPE.FILE, opts.OutputPath ?? "monitor.json");
-
-            return 0;
+            return ExportCompareResults(monitorResult, opts, AsaHelpers.MakeValidFileName(opts.RunId));
+            
         }
 
         public static void WriteMonitorJson(string RunId, int ResultType, string OutputPath)
@@ -925,30 +863,6 @@ namespace AttackSurfaceAnalyzer.Cli
             DatabaseManager.Commit();
 
             Console.CancelKeyPress -= consoleCancelDelegate;
-
-            if (returnValue != ASA_ERROR.NONE)
-            {
-                return returnValue;
-            }
-
-            if (!opts.DisableAnalysis)
-            {
-                var monitorCompareOpts = new CompareCommandOptions(null, opts.RunId)
-                {
-                    DisableAnalysis = opts.DisableAnalysis,
-                    AnalysesFile = opts.AnalysesFile,
-                    ApplySubObjectRulesToMonitor = opts.ApplySubObjectRulesToMonitor,
-                };
-
-                var monitorResult = AnalyzeMonitored(monitorCompareOpts);
-
-                if (opts.SaveAnalysisToDatabase)
-                {
-                    InsertCompareResults(monitorResult, null, opts.RunId);
-                }
-
-                return ExportMonitorResults(monitorResult, opts);
-            }
 
             return returnValue;
         }
@@ -1136,7 +1050,6 @@ namespace AttackSurfaceAnalyzer.Cli
 
             AdminOrWarn();
 
-            var returnValue = ASA_ERROR.NONE;
             opts.RunId = opts.RunId?.Trim() ?? DateTime.Now.ToString("o", CultureInfo.InvariantCulture);
 
             if (opts.MatchedCollectorId != null)

@@ -245,6 +245,9 @@ namespace AttackSurfaceAnalyzer
     {
         [Option(HelpText = "Monitor run identifier")]
         public string? RunId { get; set; }
+
+        [Option(HelpText = "Apply rules for FileTypes contained in Monitor objects to those objects. (For example, FILE rules against FILE_MONITOR objects internal File object)")]
+        public bool ApplySubObjectRulesToMonitor { get; set; }
     }
 
     [Verb("gui", HelpText = "Launch the GUI in a browser")]
@@ -276,24 +279,6 @@ namespace AttackSurfaceAnalyzer
 
         [Option(HelpText = "Identifies which run this is. Monitor output can be combined with collect output, but doesn't need to be compared.", Default = "Timestamp")]
         public string? RunId { get; set; }
-
-        [Option(HelpText = "Directory to output to")]
-        public string? OutputPath { get; set; }
-
-        [Option(HelpText = "Put each result type in its own document.")]
-        public bool ExplodedOutput { get; set; }
-
-        [Option(HelpText = "Apply Rules to SubCollect objects of Monitor objects.")]
-        public bool ApplySubObjectRulesToMonitor { get; set; }
-
-        [Option(HelpText = "Custom analysis rules file.")]
-        public string? AnalysesFile { get; set; }
-
-        [Option(HelpText = "Set Disable Analysis.")]
-        public bool DisableAnalysis { get; set; }
-
-        [Option(HelpText = "Save to internal database for review in GUI")]
-        public bool SaveAnalysisToDatabase { get; set; }
     }
 
     public class ExportOptions : CommandOptions
