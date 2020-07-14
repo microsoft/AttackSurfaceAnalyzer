@@ -6,6 +6,7 @@ using AttackSurfaceAnalyzer.Utils;
 using CommandLine;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.CST.LogicalAnalyzer;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -110,15 +111,16 @@ namespace AttackSurfaceAnalyzer.Cli
 #else
             Logger.Setup(opts.Debug, opts.Verbose, opts.Quiet);
 #endif
-            var analyzer = new Analyzer(AsaHelpers.GetPlatform(), opts.AnalysisFile);
-            var violations = analyzer.VerifyRules();
+            var analyzer = new AsaAnalyzer();
+            var ruleFile = RuleFile.FromFile(opts.AnalysisFile);
+            var violations = analyzer.EnumerateRuleIssues(ruleFile.GetRules());
             Analyzer.PrintViolations(violations);
             if (violations.Any())
             {
-                Log.Error("Encountered {0} issues with rules at {1}", violations.Count, opts.AnalysisFile ?? "Embedded");
+                Log.Error("Encountered {0} issues with rules at {1}", violations.Count(), opts.AnalysisFile ?? "Embedded");
                 return (int)ASA_ERROR.INVALID_RULES;
             }
-            Log.Information("Rules successfully verified. ✅");
+            Log.Information("{0} Rules successfully verified. ✅", ruleFile.AsaRules.Count());
             return (int)ASA_ERROR.NONE;
         }
 
@@ -719,13 +721,14 @@ namespace AttackSurfaceAnalyzer.Cli
             if (opts.Analyze)
             {
                 watch = Stopwatch.StartNew();
-                Analyzer analyzer = new Analyzer(DatabaseManager.RunIdToPlatform(opts.SecondRunId), opts.AnalysesFile);
-
-                var violations = analyzer.VerifyRules();
+                var ruleFile = string.IsNullOrEmpty(opts.AnalysesFile) ? RuleFile.LoadEmbeddedFilters() : RuleFile.FromFile(opts.AnalysesFile);
+                Analyzer analyzer = new AsaAnalyzer();
+                var platform = DatabaseManager.RunIdToPlatform(opts.SecondRunId);
+                var violations = analyzer.EnumerateRuleIssues(ruleFile.GetRules());
                 Analyzer.PrintViolations(violations);
                 if (violations.Any())
                 {
-                    Log.Error("Encountered {0} issues with rules in {1}. Skipping analysis.", violations.Count, opts.AnalysesFile ?? "Embedded");
+                    Log.Error("Encountered {0} issues with rules in {1}. Skipping analysis.", violations.Count(), opts.AnalysesFile ?? "Embedded");
                 }
                 else
                 {
@@ -737,8 +740,15 @@ namespace AttackSurfaceAnalyzer.Cli
                             {
                                 queue.AsParallel().ForAll(res =>
                                 {
-                                    res.Rules = analyzer.Analyze(res);
-                                    res.Analysis = res.Rules.Count > 0 ? res.Rules.Max(x => x.Flag) : analyzer.DefaultLevels[res.ResultType];
+                                    // Select rules with the appropriate change type, platform and target
+                                    // - Target is also checked inside Analyze, but this shortcuts repeatedly checking rules which don't apply
+                                    var selectedRules = ruleFile.AsaRules.Where((rule) =>
+                                        (rule.ChangeTypes == null || rule.ChangeTypes.Contains(res.ChangeType))
+                                            && (rule.Platforms == null || rule.Platforms.Contains(platform))
+                                            && (rule.ResultType == res.ResultType));
+                                    res.Rules = analyzer.Analyze(selectedRules, res.Base, res.Compare).ToList();
+                                    res.Analysis = res.Rules.Count
+                                                   > 0 ? res.Rules.Max(x => ((AsaRule)x).Flag) : ruleFile.DefaultLevels[res.ResultType];
                                 });
                             }
                         }

@@ -2,6 +2,7 @@
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
+using Microsoft.CST.LogicalAnalyzer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace AttackSurfaceAnalyzer.Tests
     [TestClass]
     public class AnalyzerOperationsTests
     {
-        #region Public Methods
+
 
         [ClassInitialize]
         public static void ClassSetup(TestContext _)
@@ -42,9 +43,9 @@ namespace AttackSurfaceAnalyzer.Tests
                 Base = new FileSystemObject("NothingInCommon")
             };
 
-            var stringContains = new Rule("String Contains Any Rule")
+            var stringContains = new AsaRule("String Contains Any Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -58,11 +59,12 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var stringAnalyzer = GetAnalyzerForRule(stringContains);
+            var stringAnalyzer = new AsaAnalyzer();
+            var ruleList = new List<Rule>() { stringContains }; ;
 
-            Assert.IsTrue(stringAnalyzer.Analyze(trueStringObject).Any());
-            Assert.IsTrue(stringAnalyzer.Analyze(alsoTrueStringObject).Any());
-            Assert.IsFalse(stringAnalyzer.Analyze(falseStringObject).Any());
+            Assert.IsTrue(stringAnalyzer.Analyze(ruleList, trueStringObject).Any());
+            Assert.IsTrue(stringAnalyzer.Analyze(ruleList, alsoTrueStringObject).Any());
+            Assert.IsFalse(stringAnalyzer.Analyze(ruleList, falseStringObject).Any());
 
             var trueListObject = new CompareResult()
             {
@@ -94,9 +96,9 @@ namespace AttackSurfaceAnalyzer.Tests
                 Base = new RegistryObject("ContainsListObject", Microsoft.Win32.RegistryView.Registry32)
             };
 
-            var listContains = new Rule("List Contains Any Rule")
+            var listContains = new AsaRule("List Contains Any Rule")
             {
-                ResultType = RESULT_TYPE.REGISTRY,
+                Target = "RegistryObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -112,11 +114,12 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var listAnalyzer = GetAnalyzerForRule(listContains);
+            var listAnalyzer = new AsaAnalyzer();
+            ruleList = new List<Rule>() { listContains }; ;
 
-            Assert.IsTrue(listAnalyzer.Analyze(trueListObject).Any());
-            Assert.IsTrue(listAnalyzer.Analyze(alsoTrueListObject).Any());
-            Assert.IsFalse(listAnalyzer.Analyze(falseListObject).Any());
+            Assert.IsTrue(listAnalyzer.Analyze(ruleList, trueListObject).Any());
+            Assert.IsTrue(listAnalyzer.Analyze(ruleList, alsoTrueListObject).Any());
+            Assert.IsFalse(listAnalyzer.Analyze(ruleList, falseListObject).Any());
 
             var trueStringDictObject = new CompareResult()
             {
@@ -155,9 +158,9 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var stringDictContains = new Rule("String Dict Contains Any Rule")
+            var stringDictContains = new AsaRule("String Dict Contains Any Rule")
             {
-                ResultType = RESULT_TYPE.REGISTRY,
+                Target = "RegistryObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -173,11 +176,12 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var stringDictAnalyzer = GetAnalyzerForRule(stringDictContains);
+            var stringDictAnalyzer = new AsaAnalyzer();
+            ruleList = new List<Rule>() { stringDictContains }; ;
 
-            Assert.IsTrue(stringDictAnalyzer.Analyze(trueStringDictObject).Any());
-            Assert.IsTrue(stringDictAnalyzer.Analyze(alsoTrueStringDict).Any());
-            Assert.IsFalse(stringDictAnalyzer.Analyze(superFalseStringDictObject).Any());
+            Assert.IsTrue(stringDictAnalyzer.Analyze(ruleList, trueStringDictObject).Any());
+            Assert.IsTrue(stringDictAnalyzer.Analyze(ruleList, alsoTrueStringDict).Any());
+            Assert.IsFalse(stringDictAnalyzer.Analyze(ruleList, superFalseStringDictObject).Any());
 
             var trueListDictObject = new CompareResult()
             {
@@ -229,9 +233,9 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var listDictContains = new Rule("List Dict Contains Any Rule")
+            var listDictContains = new AsaRule("List Dict Contains Any Rule")
             {
-                ResultType = RESULT_TYPE.REGISTRY,
+                Target = "RegistryObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -246,11 +250,12 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var listDictAnalyzer = GetAnalyzerForRule(listDictContains);
+            var listDictAnalyzer = new AsaAnalyzer();
+            ruleList = new List<Rule>() { listDictContains }; ;
 
-            Assert.IsTrue(listDictAnalyzer.Analyze(trueListDictObject).Any());
-            Assert.IsTrue(listDictAnalyzer.Analyze(alsoTrueListDictObject).Any());
-            Assert.IsFalse(listDictAnalyzer.Analyze(falseListDictObject).Any());
+            Assert.IsTrue(listDictAnalyzer.Analyze(ruleList, trueListDictObject).Any());
+            Assert.IsTrue(listDictAnalyzer.Analyze(ruleList, alsoTrueListDictObject).Any());
+            Assert.IsFalse(listDictAnalyzer.Analyze(ruleList, falseListDictObject).Any());
         }
 
         [TestMethod]
@@ -278,9 +283,9 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var algDictContains = new Rule("Alg Dict Changed PCR 1")
+            var algDictContains = new AsaRule("Alg Dict Changed PCR 1")
             {
-                ResultType = RESULT_TYPE.TPM,
+                Target = "TpmObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -294,10 +299,11 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var algDictAnalyzer = GetAnalyzerForRule(algDictContains);
+            var algDictAnalyzer = new AsaAnalyzer();
+            var ruleList = new List<Rule>() { algDictContains }; ;
 
-            Assert.IsTrue(algDictAnalyzer.Analyze(trueAlgDict).Any());
-            Assert.IsFalse(algDictAnalyzer.Analyze(falseAlgDict).Any());
+            Assert.IsTrue(algDictAnalyzer.Analyze(ruleList, trueAlgDict).Any());
+            Assert.IsFalse(algDictAnalyzer.Analyze(ruleList, falseAlgDict).Any());
         }
 
         [TestMethod]
@@ -318,9 +324,9 @@ namespace AttackSurfaceAnalyzer.Tests
                 Base = new FileSystemObject("NothingInCommon")
             };
 
-            var stringContains = new Rule("String Contains Rule")
+            var stringContains = new AsaRule("String Contains Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -336,11 +342,12 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var stringAnalyzer = GetAnalyzerForRule(stringContains);
+            var stringAnalyzer = new AsaAnalyzer();
+            var ruleList = new List<Rule>() { stringContains }; ;
 
-            Assert.IsTrue(stringAnalyzer.Analyze(trueStringObject).Any());
-            Assert.IsFalse(stringAnalyzer.Analyze(falseStringObject).Any());
-            Assert.IsFalse(stringAnalyzer.Analyze(superFalseStringObject).Any());
+            Assert.IsTrue(stringAnalyzer.Analyze(ruleList, trueStringObject).Any());
+            Assert.IsFalse(stringAnalyzer.Analyze(ruleList, falseStringObject).Any());
+            Assert.IsFalse(stringAnalyzer.Analyze(ruleList, superFalseStringObject).Any());
 
             var trueListObject = new CompareResult()
             {
@@ -372,9 +379,9 @@ namespace AttackSurfaceAnalyzer.Tests
                 Base = new RegistryObject("ContainsListObject", Microsoft.Win32.RegistryView.Registry32)
             };
 
-            var listContains = new Rule("List Contains Rule")
+            var listContains = new AsaRule("List Contains Rule")
             {
-                ResultType = RESULT_TYPE.REGISTRY,
+                Target = "RegistryObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -390,11 +397,12 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var listAnalyzer = GetAnalyzerForRule(listContains);
+            var listAnalyzer = new AsaAnalyzer();
+            ruleList = new List<Rule>() { listContains }; ;
 
-            Assert.IsTrue(listAnalyzer.Analyze(trueListObject).Any());
-            Assert.IsFalse(listAnalyzer.Analyze(falseListObject).Any());
-            Assert.IsFalse(listAnalyzer.Analyze(superFalseListObject).Any());
+            Assert.IsTrue(listAnalyzer.Analyze(ruleList, trueListObject).Any());
+            Assert.IsFalse(listAnalyzer.Analyze(ruleList, falseListObject).Any());
+            Assert.IsFalse(listAnalyzer.Analyze(ruleList, superFalseListObject).Any());
 
             var trueStringDictObject = new CompareResult()
             {
@@ -433,9 +441,9 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var stringDictContains = new Rule("String Dict Contains Rule")
+            var stringDictContains = new AsaRule("String Dict Contains Rule")
             {
-                ResultType = RESULT_TYPE.REGISTRY,
+                Target = "RegistryObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -451,11 +459,12 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var stringDictAnalyzer = GetAnalyzerForRule(stringDictContains);
+            var stringDictAnalyzer = new AsaAnalyzer();
+            ruleList = new List<Rule>() { stringDictContains }; ;
 
-            Assert.IsTrue(stringDictAnalyzer.Analyze(trueStringDictObject).Any());
-            Assert.IsFalse(stringDictAnalyzer.Analyze(falseStringDictObject).Any());
-            Assert.IsFalse(stringDictAnalyzer.Analyze(superFalseStringDictObject).Any());
+            Assert.IsTrue(stringDictAnalyzer.Analyze(ruleList, trueStringDictObject).Any());
+            Assert.IsFalse(stringDictAnalyzer.Analyze(ruleList, falseStringDictObject).Any());
+            Assert.IsFalse(stringDictAnalyzer.Analyze(ruleList, superFalseStringDictObject).Any());
 
             var trueListDictObject = new CompareResult()
             {
@@ -507,9 +516,9 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var listDictContains = new Rule("List Dict Contains Rule")
+            var listDictContains = new AsaRule("List Dict Contains Rule")
             {
-                ResultType = RESULT_TYPE.REGISTRY,
+                Target = "RegistryObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -524,11 +533,12 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var listDictAnalyzer = GetAnalyzerForRule(listDictContains);
+            var listDictAnalyzer = new AsaAnalyzer();
+            ruleList = new List<Rule>() { listDictContains }; ;
 
-            Assert.IsTrue(listDictAnalyzer.Analyze(trueListDictObject).Any());
-            Assert.IsFalse(listDictAnalyzer.Analyze(falseListDictObject).Any());
-            Assert.IsFalse(listDictAnalyzer.Analyze(alsoFalseListDictObject).Any());
+            Assert.IsTrue(listDictAnalyzer.Analyze(ruleList, trueListDictObject).Any());
+            Assert.IsFalse(listDictAnalyzer.Analyze(ruleList, falseListDictObject).Any());
+            Assert.IsFalse(listDictAnalyzer.Analyze(ruleList, alsoFalseListDictObject).Any());
         }
 
         [TestMethod]
@@ -543,9 +553,9 @@ namespace AttackSurfaceAnalyzer.Tests
                 Base = new FileSystemObject("App.pdf")
             };
 
-            var endsWithRule = new Rule("Ends With Rule")
+            var endsWithRule = new AsaRule("Ends With Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -559,10 +569,11 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var endsWithAnalyzer = GetAnalyzerForRule(endsWithRule);
+            var endsWithAnalyzer = new AsaAnalyzer();
+            var ruleList = new List<Rule>() { endsWithRule }; ;
 
-            Assert.IsTrue(endsWithAnalyzer.Analyze(trueEndsWithObject).Any());
-            Assert.IsFalse(endsWithAnalyzer.Analyze(falseEndsWithObject).Any());
+            Assert.IsTrue(endsWithAnalyzer.Analyze(ruleList, trueEndsWithObject).Any());
+            Assert.IsFalse(endsWithAnalyzer.Analyze(ruleList, falseEndsWithObject).Any());
         }
 
         [TestMethod]
@@ -586,9 +597,9 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var stringEquals = new Rule("String Equals Rule")
+            var stringEquals = new AsaRule("String Equals Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -602,9 +613,9 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var boolEquals = new Rule("Bool Equals Rule")
+            var boolEquals = new AsaRule("Bool Equals Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -618,9 +629,9 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var intEquals = new Rule("Int Equals Rule")
+            var intEquals = new AsaRule("Int Equals Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -634,17 +645,19 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var boolAnalyzer = GetAnalyzerForRule(boolEquals);
-            var intAnalyzer = GetAnalyzerForRule(intEquals);
-            var stringAnalyzer = GetAnalyzerForRule(stringEquals);
+            var analyzer = new AsaAnalyzer();
+            var ruleList = new List<Rule>() { boolEquals , intEquals, stringEquals };
 
-            Assert.IsTrue(boolAnalyzer.Analyze(assertTrueObject).Any(x => x.Name == "Bool Equals Rule"));
-            Assert.IsTrue(intAnalyzer.Analyze(assertTrueObject).Any(x => x.Name == "Int Equals Rule"));
-            Assert.IsTrue(stringAnalyzer.Analyze(assertTrueObject).Any(x => x.Name == "String Equals Rule"));
+            var trueObjectResults = analyzer.Analyze(ruleList, assertTrueObject);
+            var falseObjectResults = analyzer.Analyze(ruleList, assertFalseObject);
 
-            Assert.IsFalse(boolAnalyzer.Analyze(assertFalseObject).Any(x => x.Name == "Bool Equals Rule"));
-            Assert.IsFalse(intAnalyzer.Analyze(assertFalseObject).Any(x => x.Name == "Int Equals Rule"));
-            Assert.IsFalse(stringAnalyzer.Analyze(assertFalseObject).Any(x => x.Name == "String Equals Rule"));
+            Assert.IsTrue(trueObjectResults.Any(x => x.Name == "Bool Equals Rule"));
+            Assert.IsTrue(trueObjectResults.Any(x => x.Name == "Int Equals Rule"));
+            Assert.IsTrue(trueObjectResults.Any(x => x.Name == "String Equals Rule"));
+
+            Assert.IsFalse(falseObjectResults.Any(x => x.Name == "Bool Equals Rule"));
+            Assert.IsFalse(falseObjectResults.Any(x => x.Name == "Int Equals Rule"));
+            Assert.IsFalse(falseObjectResults.Any(x => x.Name == "String Equals Rule"));
         }
 
         [TestMethod]
@@ -659,9 +672,9 @@ namespace AttackSurfaceAnalyzer.Tests
                 Base = new OpenPortObject(1023, TRANSPORT.TCP, ADDRESS_FAMILY.InterNetwork)
             };
 
-            var gtRule = new Rule("Gt Rule")
+            var gtRule = new AsaRule("Gt Rule")
             {
-                ResultType = RESULT_TYPE.PORT,
+                Target = "OpenPortObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -675,9 +688,9 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var badGtRule = new Rule("Bad Gt Rule")
+            var badGtRule = new AsaRule("Bad Gt Rule")
             {
-                ResultType = RESULT_TYPE.PORT,
+                Target = "OpenPortObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -691,15 +704,17 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var gtAnalyzer = GetAnalyzerForRule(gtRule);
+            var gtAnalyzer = new AsaAnalyzer();
+            var ruleList = new List<Rule>() { gtRule }; ;
 
-            Assert.IsTrue(gtAnalyzer.Analyze(trueGtObject).Any());
-            Assert.IsFalse(gtAnalyzer.Analyze(falseGtObject).Any());
+            Assert.IsTrue(gtAnalyzer.Analyze(ruleList, trueGtObject).Any());
+            Assert.IsFalse(gtAnalyzer.Analyze(ruleList, falseGtObject).Any());
 
-            var badGtAnalyzer = GetAnalyzerForRule(badGtRule);
+            var badGtAnalyzer = new AsaAnalyzer();
+            ruleList = new List<Rule>() { badGtRule }; ;
 
-            Assert.IsFalse(badGtAnalyzer.Analyze(trueGtObject).Any());
-            Assert.IsFalse(badGtAnalyzer.Analyze(falseGtObject).Any());
+            Assert.IsFalse(badGtAnalyzer.Analyze(ruleList, trueGtObject).Any());
+            Assert.IsFalse(badGtAnalyzer.Analyze(ruleList, falseGtObject).Any());
         }
 
         [TestMethod]
@@ -727,9 +742,9 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var isAfterRule = new Rule("Is After Rule")
+            var isAfterRule = new AsaRule("Is After Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -743,14 +758,15 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var isAfterAnalyzer = GetAnalyzerForRule(isAfterRule);
+            var isAfterAnalyzer = new AsaAnalyzer();
+            var ruleList = new List<Rule>() { isAfterRule }; ;
 
-            Assert.IsTrue(isAfterAnalyzer.Analyze(trueIsAfterObject).Any());
-            Assert.IsFalse(isAfterAnalyzer.Analyze(falseIsAfterObject).Any());
+            Assert.IsTrue(isAfterAnalyzer.Analyze(ruleList, trueIsAfterObject).Any());
+            Assert.IsFalse(isAfterAnalyzer.Analyze(ruleList, falseIsAfterObject).Any());
 
-            var isAfterRuleShortDate = new Rule("Is After Short Rule")
+            var isAfterRuleShortDate = new AsaRule("Is After Short Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -764,10 +780,11 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var isAfterShortAnalyzer = GetAnalyzerForRule(isAfterRuleShortDate);
+            var isAfterShortAnalyzer = new AsaAnalyzer();
+            ruleList = new List<Rule>() { isAfterRuleShortDate }; ;
 
-            Assert.IsTrue(isAfterShortAnalyzer.Analyze(trueIsAfterObject).Any());
-            Assert.IsFalse(isAfterShortAnalyzer.Analyze(falseIsAfterObject).Any());
+            Assert.IsTrue(isAfterShortAnalyzer.Analyze(ruleList, trueIsAfterObject).Any());
+            Assert.IsFalse(isAfterShortAnalyzer.Analyze(ruleList, falseIsAfterObject).Any());
         }
 
         [TestMethod]
@@ -795,9 +812,9 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var isBeforeRule = new Rule("Is Before Rule")
+            var isBeforeRule = new AsaRule("Is Before Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -811,14 +828,15 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var isBeforeAnalyzer = GetAnalyzerForRule(isBeforeRule);
+            var isBeforeAnalyzer = new AsaAnalyzer();
+            var ruleList = new List<Rule>() { isBeforeRule }; ;
 
-            Assert.IsTrue(isBeforeAnalyzer.Analyze(trueIsBeforeObject).Any());
-            Assert.IsFalse(isBeforeAnalyzer.Analyze(falseIsBeforeObject).Any());
+            Assert.IsTrue(isBeforeAnalyzer.Analyze(ruleList, trueIsBeforeObject).Any());
+            Assert.IsFalse(isBeforeAnalyzer.Analyze(ruleList, falseIsBeforeObject).Any());
 
-            var isBeforeShortRule = new Rule("Is Before Short Rule")
+            var isBeforeShortRule = new AsaRule("Is Before Short Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -832,10 +850,11 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var isBeforeShortAnalyzer = GetAnalyzerForRule(isBeforeShortRule);
+            var isBeforeShortAnalyzer = new AsaAnalyzer();
+            ruleList = new List<Rule>() { isBeforeShortRule }; ;
 
-            Assert.IsTrue(isBeforeShortAnalyzer.Analyze(trueIsBeforeObject).Any());
-            Assert.IsFalse(isBeforeShortAnalyzer.Analyze(falseIsBeforeObject).Any());
+            Assert.IsTrue(isBeforeShortAnalyzer.Analyze(ruleList, trueIsBeforeObject).Any());
+            Assert.IsFalse(isBeforeShortAnalyzer.Analyze(ruleList, falseIsBeforeObject).Any());
         }
 
         [TestMethod]
@@ -863,9 +882,9 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var isExpiredRule = new Rule("Is Expired Rule")
+            var isExpiredRule = new AsaRule("Is Expired Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -873,10 +892,11 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var isExpiredAnalyzer = GetAnalyzerForRule(isExpiredRule);
+            var isExpiredAnalyzer = new AsaAnalyzer();
+            var ruleList = new List<Rule>() { isExpiredRule }; ;
 
-            Assert.IsTrue(isExpiredAnalyzer.Analyze(trueIsExpiredObject).Any());
-            Assert.IsFalse(isExpiredAnalyzer.Analyze(falseIsExpiredObject).Any());
+            Assert.IsTrue(isExpiredAnalyzer.Analyze(ruleList, trueIsExpiredObject).Any());
+            Assert.IsFalse(isExpiredAnalyzer.Analyze(ruleList, falseIsExpiredObject).Any());
         }
 
         [TestMethod]
@@ -894,9 +914,9 @@ namespace AttackSurfaceAnalyzer.Tests
                 Base = new FileSystemObject("NotAnApp.pdf")
             };
 
-            var isNullRule = new Rule("Is Null Rule")
+            var isNullRule = new AsaRule("Is Null Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -904,10 +924,11 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var isNullAnalyzer = GetAnalyzerForRule(isNullRule);
+            var isNullAnalyzer = new AsaAnalyzer();
+            var ruleList = new List<Rule>() { isNullRule }; ;
 
-            Assert.IsTrue(isNullAnalyzer.Analyze(trueIsNullObject).Any());
-            Assert.IsFalse(isNullAnalyzer.Analyze(falseIsNullObject).Any());
+            Assert.IsTrue(isNullAnalyzer.Analyze(ruleList, trueIsNullObject).Any());
+            Assert.IsFalse(isNullAnalyzer.Analyze(ruleList, falseIsNullObject).Any());
         }
 
         [TestMethod]
@@ -925,9 +946,9 @@ namespace AttackSurfaceAnalyzer.Tests
                 Base = new FileSystemObject("NotAnApp.pdf")
             };
 
-            var isTrueRule = new Rule("Is True Rule")
+            var isTrueRule = new AsaRule("Is True Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -935,10 +956,11 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var isTrueAnalyzer = GetAnalyzerForRule(isTrueRule);
+            var isTrueAnalyzer = new AsaAnalyzer();
+            var ruleList = new List<Rule>() { isTrueRule }; ;
 
-            Assert.IsTrue(isTrueAnalyzer.Analyze(trueIsTrueObject).Any());
-            Assert.IsFalse(isTrueAnalyzer.Analyze(falseIsTrueObject).Any());
+            Assert.IsTrue(isTrueAnalyzer.Analyze(ruleList, trueIsTrueObject).Any());
+            Assert.IsFalse(isTrueAnalyzer.Analyze(ruleList, falseIsTrueObject).Any());
         }
 
         [TestMethod]
@@ -953,9 +975,9 @@ namespace AttackSurfaceAnalyzer.Tests
                 Base = new OpenPortObject(1023, TRANSPORT.TCP, ADDRESS_FAMILY.InterNetwork)
             };
 
-            var ltRule = new Rule("Lt Rule")
+            var ltRule = new AsaRule("Lt Rule")
             {
-                ResultType = RESULT_TYPE.PORT,
+                Target = "OpenPortObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -969,14 +991,15 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var ltAnalyzer = GetAnalyzerForRule(ltRule);
+            var ltAnalyzer = new AsaAnalyzer();
+            var ruleList = new List<Rule>() { ltRule }; ;
 
-            Assert.IsTrue(ltAnalyzer.Analyze(trueLtObject).Any());
-            Assert.IsFalse(ltAnalyzer.Analyze(falseLtObject).Any());
+            Assert.IsTrue(ltAnalyzer.Analyze(ruleList, trueLtObject).Any());
+            Assert.IsFalse(ltAnalyzer.Analyze(ruleList, falseLtObject).Any());
 
-            var badLtRule = new Rule("Bad Lt Rule")
+            var badLtRule = new AsaRule("Bad Lt Rule")
             {
-                ResultType = RESULT_TYPE.PORT,
+                Target = "OpenPortObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -990,10 +1013,11 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var badLtAnalyzer = GetAnalyzerForRule(badLtRule);
+            var badLtAnalyzer = new AsaAnalyzer();
+            ruleList = new List<Rule>() { badLtRule }; ;
 
-            Assert.IsFalse(badLtAnalyzer.Analyze(trueLtObject).Any());
-            Assert.IsFalse(badLtAnalyzer.Analyze(falseLtObject).Any());
+            Assert.IsFalse(badLtAnalyzer.Analyze(ruleList, trueLtObject).Any());
+            Assert.IsFalse(badLtAnalyzer.Analyze(ruleList, falseLtObject).Any());
         }
 
         [TestMethod]
@@ -1017,9 +1041,9 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var stringEquals = new Rule("String Equals Rule")
+            var stringEquals = new AsaRule("String Equals Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -1033,9 +1057,9 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var boolEquals = new Rule("Bool Equals Rule")
+            var boolEquals = new AsaRule("Bool Equals Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -1049,9 +1073,9 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var intEquals = new Rule("Int Equals Rule")
+            var intEquals = new AsaRule("Int Equals Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -1065,17 +1089,16 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var boolAnalyzer = GetAnalyzerForRule(boolEquals);
-            var intAnalyzer = GetAnalyzerForRule(intEquals);
-            var stringAnalyzer = GetAnalyzerForRule(stringEquals);
+            var analyzer = new AsaAnalyzer();
+            var ruleList = new List<Rule>() { boolEquals, intEquals, stringEquals }; ;
 
-            Assert.IsFalse(boolAnalyzer.Analyze(assertTrueObject).Any(x => x.Name == "Bool Equals Rule"));
-            Assert.IsFalse(intAnalyzer.Analyze(assertTrueObject).Any(x => x.Name == "Int Equals Rule"));
-            Assert.IsFalse(stringAnalyzer.Analyze(assertTrueObject).Any(x => x.Name == "String Equals Rule"));
+            Assert.IsFalse(analyzer.Analyze(ruleList, assertTrueObject).Any(x => x.Name == "Bool Equals Rule"));
+            Assert.IsFalse(analyzer.Analyze(ruleList, assertTrueObject).Any(x => x.Name == "Int Equals Rule"));
+            Assert.IsFalse(analyzer.Analyze(ruleList, assertTrueObject).Any(x => x.Name == "String Equals Rule"));
 
-            Assert.IsTrue(boolAnalyzer.Analyze(assertFalseObject).Any(x => x.Name == "Bool Equals Rule"));
-            Assert.IsTrue(intAnalyzer.Analyze(assertFalseObject).Any(x => x.Name == "Int Equals Rule"));
-            Assert.IsTrue(stringAnalyzer.Analyze(assertFalseObject).Any(x => x.Name == "String Equals Rule"));
+            Assert.IsTrue(analyzer.Analyze(ruleList, assertFalseObject).Any(x => x.Name == "Bool Equals Rule"));
+            Assert.IsTrue(analyzer.Analyze(ruleList, assertFalseObject).Any(x => x.Name == "Int Equals Rule"));
+            Assert.IsTrue(analyzer.Analyze(ruleList, assertFalseObject).Any(x => x.Name == "String Equals Rule"));
         }
 
         [TestMethod]
@@ -1090,9 +1113,9 @@ namespace AttackSurfaceAnalyzer.Tests
                 Base = new FileSystemObject("Directory/File")
             };
 
-            var regexRule = new Rule("Regex Rule")
+            var regexRule = new AsaRule("Regex Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -1106,10 +1129,11 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var regexAnalyzer = GetAnalyzerForRule(regexRule);
+            var regexAnalyzer = new AsaAnalyzer();
+            var ruleList = new List<Rule>() { regexRule }; ;
 
-            Assert.IsTrue(regexAnalyzer.Analyze(trueRegexObject).Any());
-            Assert.IsFalse(regexAnalyzer.Analyze(falseRegexObject).Any());
+            Assert.IsTrue(regexAnalyzer.Analyze(ruleList, trueRegexObject).Any());
+            Assert.IsFalse(regexAnalyzer.Analyze(ruleList, falseRegexObject).Any());
         }
 
         [TestMethod]
@@ -1124,9 +1148,9 @@ namespace AttackSurfaceAnalyzer.Tests
                 Base = new FileSystemObject("NotAnApp.pdf")
             };
 
-            var endsWithRule = new Rule("Ends With Rule")
+            var endsWithRule = new AsaRule("Ends With Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -1140,10 +1164,11 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var endsWithAnalyzer = GetAnalyzerForRule(endsWithRule);
+            var endsWithAnalyzer = new AsaAnalyzer();
+            var ruleList = new List<Rule>() { endsWithRule }; ;
 
-            Assert.IsTrue(endsWithAnalyzer.Analyze(trueEndsWithObject).Any());
-            Assert.IsFalse(endsWithAnalyzer.Analyze(falseEndsWithObject).Any());
+            Assert.IsTrue(endsWithAnalyzer.Analyze(ruleList, trueEndsWithObject).Any());
+            Assert.IsFalse(endsWithAnalyzer.Analyze(ruleList, falseEndsWithObject).Any());
         }
 
         [TestMethod]
@@ -1172,9 +1197,9 @@ namespace AttackSurfaceAnalyzer.Tests
                 Compare = new FileSystemObject("Directory/File")
             };
 
-            var wasModifiedRule = new Rule("Was Modified Rule")
+            var wasModifiedRule = new AsaRule("Was Modified Rule")
             {
-                ResultType = RESULT_TYPE.FILE,
+                Target = "FileSystemObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -1182,11 +1207,12 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var regexAnalyzer = GetAnalyzerForRule(wasModifiedRule);
+            var regexAnalyzer = new AsaAnalyzer();
+            var ruleList = new List<Rule>() { wasModifiedRule }; ;
 
-            Assert.IsTrue(regexAnalyzer.Analyze(trueModifiedObject).Any());
-            Assert.IsFalse(regexAnalyzer.Analyze(falseModifiedObject).Any());
-            Assert.IsFalse(regexAnalyzer.Analyze(alsoFalseModifiedObject).Any());
+            Assert.IsTrue(regexAnalyzer.Analyze(ruleList, trueModifiedObject).Any());
+            Assert.IsFalse(regexAnalyzer.Analyze(ruleList, falseModifiedObject).Any());
+            Assert.IsFalse(regexAnalyzer.Analyze(ruleList, alsoFalseModifiedObject).Any());
 
             var trueAlgDict = new CompareResult()
             {
@@ -1224,9 +1250,9 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var pcrsModified = new Rule("Alg Dict Changed PCR 1")
+            var pcrsModified = new AsaRule("Alg Dict Changed PCR 1")
             {
-                ResultType = RESULT_TYPE.TPM,
+                Target = "TpmObject",
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
@@ -1234,29 +1260,11 @@ namespace AttackSurfaceAnalyzer.Tests
                 }
             };
 
-            var pcrAnalyzer = GetAnalyzerForRule(pcrsModified);
+            var pcrAnalyzer = new AsaAnalyzer();
+            ruleList = new List<Rule>() { pcrsModified };
 
-            Assert.IsTrue(pcrAnalyzer.Analyze(trueAlgDict).Any());
-            Assert.IsFalse(pcrAnalyzer.Analyze(falseAlgDict).Any());
+            Assert.IsTrue(pcrAnalyzer.Analyze(ruleList, trueAlgDict).Any());
+            Assert.IsFalse(pcrAnalyzer.Analyze(ruleList, falseAlgDict).Any());
         }
-
-        #endregion Public Methods
-
-        #region Private Methods
-
-        private Analyzer GetAnalyzerForRule(Rule rule)
-        {
-            var file = new RuleFile()
-            {
-                Rules = new List<Rule>()
-                {
-                    rule
-                }
-            };
-
-            return new Analyzer(AsaHelpers.GetPlatform(), file);
-        }
-
-        #endregion Private Methods
     }
 }
