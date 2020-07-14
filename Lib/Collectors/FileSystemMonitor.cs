@@ -78,13 +78,13 @@ namespace AttackSurfaceAnalyzer.Collectors
             this.changeHandler = changeHandler ?? throw new NullReferenceException(nameof(changeHandler));
 #pragma warning restore CA1303 // This string doesn't need to be localized, it is the name of the variable
 
-            fsc = new FileSystemCollector(new CollectCommandOptions()
+            fsc = new FileSystemCollector(new CollectorOptions()
             {
                 DownloadCloud = false,
                 GatherHashes = options.GatherHashes,
             });
 
-            foreach (var dir in options.MonitoredDirectories?.Split(',') ?? fsc.Roots.ToArray())
+            foreach (var dir in options?.MonitoredDirectories?.Any() is true ? options.MonitoredDirectories : fsc.Roots.ToArray())
             {
                 foreach (var filter in defaultFiltersList)
                 {
@@ -364,7 +364,17 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         private static bool IsInvalidFile(string Path)
         {
-            return Path.StartsWith("/private/var/db/uuidtext");
+            // This file gets changed on every write to the console on Mac OS
+            if (Path.StartsWith("/private/var/db/uuidtext"))
+            {
+                return true;
+            }
+            // The sqlite journal for ASA gets written to on ~every file change.
+            else if (Path.EndsWith("-journal"))
+            {
+                return true;
+            }
+            return false;
         }
 
         public void Dispose()

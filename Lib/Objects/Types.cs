@@ -97,7 +97,10 @@ namespace AttackSurfaceAnalyzer.Types
         FAILED_TO_CREATE_DATABASE,
         INVALID_ID,
         INVALID_RULES,
-        FAILED_TO_ESTABLISH_MAIN_DB_CONNECTION
+        FAILED_TO_ESTABLISH_MAIN_DB_CONNECTION,
+        UNKNOWN,
+        CANCELLED,
+        FAILED_TO_COMMIT
     }
 
     /// <summary>

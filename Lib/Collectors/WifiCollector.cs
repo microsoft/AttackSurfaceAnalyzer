@@ -16,7 +16,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 {
     public class WifiCollector : BaseCollector
     {
-        public WifiCollector(CollectCommandOptions? options = null, Action<CollectObject>? action = null):base(options,action)
+        public WifiCollector(CollectorOptions? options = null, Action<CollectObject>? action = null):base(options,action)
         {
         }
 
@@ -44,10 +44,10 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             var monitoredFiles = new List<string>();
 
-            using var fsm = new FileSystemMonitor(new MonitorCommandOptions() 
-            { 
-                FileNamesOnly = true, 
-                MonitoredDirectories = tempDirectory 
+            using var fsm = new FileSystemMonitor(new MonitorCommandOptions()
+            {
+                FileNamesOnly = true,
+                MonitoredDirectories = new string[] { tempDirectory } 
             }, 
             x =>
             {

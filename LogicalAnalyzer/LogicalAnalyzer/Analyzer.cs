@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Microsoft.CST.LogicalAnalyzer
@@ -28,7 +29,9 @@ namespace Microsoft.CST.LogicalAnalyzer
         public delegate bool OperationDelegate(Clause clause, IEnumerable<string>? valsToCheck, IEnumerable<KeyValuePair<string, string>> dictToCheck);
 
         public delegate IEnumerable<Violation> ParseClauseForRules(Rule r, Clause c);
+
         public ParseCustomProperty? CustomPropertyDelegate { get; set; }
+
         public ParseObjectToValues? CustomObjectToValuesDelegate { get; set; }
 
         public OperationDelegate? CustomOperationDelegate { get; set; }
@@ -117,14 +120,32 @@ namespace Microsoft.CST.LogicalAnalyzer
             }
         }
 
-        public IEnumerable<Rule> Analyze(IEnumerable<Rule> rules, object? before = null, object? after = null)
+        public string[] GetTags(IEnumerable<Rule> rules, object? before = null, object? after = null)
         {
+            var tags = new ConcurrentDictionary<string, byte>();
+
+            Parallel.ForEach(rules, rule =>
+            {
+                if (!rule.Tags.All(x => tags.Keys.Any(y => y == x)) && Applies(rule, before, after))
+                {
+                    foreach(var tag in rule.Tags)
+                    {
+                        tags.TryAdd(tag, 0);
+                    }
+                }
+            });
+
+            return tags.Keys.ToArray();
+        }
+
+        public ConcurrentStack<Rule> Analyze(IEnumerable<Rule> rules, object? before = null, object? after = null)
+        {
+            var results = new ConcurrentStack<Rule>();
+
             if (before is null && after is null)
             {
-                return Array.Empty<Rule>();
+                return results;
             }
-
-            var results = new ConcurrentStack<Rule>();
 
             Parallel.ForEach(rules, rule =>
             {

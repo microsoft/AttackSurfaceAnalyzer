@@ -2,8 +2,8 @@
 
 ## Pre-requisites
 
-### CLI + GUI:
-- .NET Core SDK 2.2.105 or better (https://dotnet.microsoft.com/download)
+### All Components:
+- Latest .NET Core SDK 3.1 (https://dotnet.microsoft.com/download)
 - GitVersioning (```dotnet tool install -g nbgv```)
 
 ### GUI: 
@@ -11,28 +11,27 @@
 
 ## Building
 
-Run these commands in the ```Asa``` directory.
+Run these commands in the appropriate project directory.  For example, ```Cli``` for the Cli and Gui.
 
 ### Building a Debug version
 
-Windows
 ```
 dotnet build
-```
-
-Linux/Mac
-```
-make
 ```
 
 ### Building a Release version
 
 Windows
 ```
-dotnet publish -c Release -r win10-x64
+dotnet publish -c Release -r win-x86
 ```
 
-Linux/Mac
+Linux
 ```
-make release
+dotnet publish -c Release -r linux-x64
+```
+
+Mac
+```
+dotnet publish -c Release -r osx-x64
 ```
