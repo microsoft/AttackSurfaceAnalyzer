@@ -4,8 +4,7 @@ using AttackSurfaceAnalyzer.Cli;
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
-using DiscUtils.Streams;
-using Microsoft.CST.LogicalAnalyzer;
+using Microsoft.CST.OAT;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AttackSurfaceAnalyzer.Tests
@@ -30,6 +29,14 @@ namespace AttackSurfaceAnalyzer.Tests
         }
 
         [TestMethod]
+        public void VerifyEmbeddedRulesAreValid()
+        {
+            var analyzer = new AsaAnalyzer();
+            var ruleFile = RuleFile.LoadEmbeddedFilters();
+            Assert.IsTrue(!analyzer.EnumerateRuleIssues(ruleFile.GetRules()).Any());
+        }
+
+        [TestMethod]
         public void VerifyFileMonitorAsFile()
         {
             var RuleName = "AndRule";
@@ -40,7 +47,7 @@ namespace AttackSurfaceAnalyzer.Tests
                 Flag = ANALYSIS_RESULT_TYPE.FATAL,
                 Clauses = new List<Clause>()
                 {
-                    new Clause("Path", OPERATION.EQ)
+                    new Clause(Operation.Equals,"Path")
                     {
                         Label = "0",
                         Data = new List<string>()
@@ -48,7 +55,7 @@ namespace AttackSurfaceAnalyzer.Tests
                             "TestPath1"
                         }
                     },
-                    new Clause("IsExecutable", OPERATION.IS_TRUE)
+                    new Clause(Operation.IsTrue,"IsExecutable")
                     {
                         Label = "1"
                     }
