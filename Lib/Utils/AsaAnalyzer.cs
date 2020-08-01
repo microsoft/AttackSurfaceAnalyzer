@@ -1,5 +1,5 @@
 ﻿using AttackSurfaceAnalyzer.Objects;
-using Microsoft.CST.LogicalAnalyzer;
+using Microsoft.CST.OAT;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -50,8 +50,8 @@ namespace AttackSurfaceAnalyzer.Utils
         }
         public AsaAnalyzer() : base()
         {
-            CustomPropertyDelegate = ParseCustomAsaProperties;
-            CustomObjectToValuesDelegate = ParseCustomAsaObjectValues;
+            CustomPropertyExtractionDelegates.Add(ParseCustomAsaProperties);
+            CustomObjectToValuesDelegates.Add(ParseCustomAsaObjectValues);
         }
     }
 }

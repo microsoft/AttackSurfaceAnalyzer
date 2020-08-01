@@ -4,11 +4,11 @@
       "Name": "Privileged ports",
       "Description": "Flag when privileged ports are opened.",
       "Flag": "WARNING",
-      "ResultType": "PORT",
+      "ResuLessThanType": "PORT",
       "Clauses": [
         {
           "Field": "port",
-          "Operation": "LT",
+          "Operation": "LessThan",
           "Data": [
             "1024"
           ]
@@ -19,11 +19,11 @@
       "Name": "Privileged users",
       "Description": "Flag when privileged users are modified.",
       "Flag": "WARNING",
-      "ResultType": "USER",
+      "ResuLessThanType": "USER",
       "Clauses": [
         {
           "Field": "Privileged",
-          "Operation": "IS_TRUE"
+          "Operation": "IsTrue"
         }
       ]
     },
@@ -31,11 +31,11 @@
       "Name": "Hidden users",
       "Description": "Flag when hidden user accounts are modified.",
       "Flag": "WARNING",
-      "ResultType": "USER",
+      "ResuLessThanType": "USER",
       "Clauses": [
         {
           "Field": "Hidden",
-          "Operation": "IS_TRUE"
+          "Operation": "IsTrue"
         }
       ]
     },
@@ -47,18 +47,18 @@
         "CREATED",
         "MODIFIED"
       ],
-      "ResultType": "FILE",
+      "ResuLessThanType": "FILE",
       "Expression": "is_exe AND NOT valid_windows_signature AND null_mac_signature",
       "Clauses": [
         {
           "Label": "is_exe",
           "Field": "IsExecutable",
-          "Operation": "IS_TRUE"
+          "Operation": "IsTrue"
         },
         {
           "Label": "valid_windows_signature",
           "Field": "SignatureStatus",
-          "Operation": "EQ",
+          "Operation": "Equals",
           "Data": [
             "Valid"
           ]
@@ -66,7 +66,7 @@
         {
           "Label": "null_mac_signature",
           "Field": "MacSignatureStatus",
-          "Operation": "IS_NULL"
+          "Operation": "IsNull"
         }
       ]
     },
@@ -82,11 +82,11 @@
         "CREATED",
         "MODIFIED"
       ],
-      "ResultType": "FILE",
+      "ResuLessThanType": "FILE",
       "Clauses": [
         {
           "Field": "SetUid",
-          "Operation": "IS_TRUE"
+          "Operation": "IsTrue"
         }
       ]
     },
@@ -102,11 +102,11 @@
         "CREATED",
         "MODIFIED"
       ],
-      "ResultType": "FILE",
+      "ResuLessThanType": "FILE",
       "Clauses": [
         {
           "Field": "SetGid",
-          "Operation": "IS_TRUE"
+          "Operation": "IsTrue"
         }
       ]
     },
@@ -121,18 +121,18 @@
         "CREATED",
         "MODIFIED"
       ],
-      "ResultType": "FILE",
+      "ResuLessThanType": "FILE",
       "Expression": "EXE AND NOT ASLR",
       "Clauses": [
         {
           "Label": "EXE",
           "Field": "IsExecutable",
-          "Operation": "IS_TRUE"
+          "Operation": "IsTrue"
         },
         {
           "Label": "ASLR",
           "Field": "Characteristics",
-          "Operation": "CONTAINS",
+          "Operation": "Contains",
           "Data": [
             "IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE",
             "IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA"
@@ -151,18 +151,18 @@
         "CREATED",
         "MODIFIED"
       ],
-      "ResultType": "FILE",
+      "ResuLessThanType": "FILE",
       "Expression": "EXE AND NOT DEP",
       "Clauses": [
         {
           "Label": "EXE",
           "Field": "IsExecutable",
-          "Operation": "IS_TRUE"
+          "Operation": "IsTrue"
         },
         {
           "Label": "DEP",
           "Field": "Characteristics",
-          "Operation": "CONTAINS",
+          "Operation": "Contains",
           "Data": [
             "IMAGE_DLLCHARACTERISTICS_NX_COMPAT"
           ]
@@ -180,23 +180,23 @@
         "CREATED",
         "MODIFIED"
       ],
-      "ResultType": "FILE",
+      "ResuLessThanType": "FILE",
       "Expression": "EXE AND SIGNED AND NOT INTEGRITYFLAG",
       "Clauses": [
         {
           "Label": "EXE",
           "Field": "IsExecutable",
-          "Operation": "IS_TRUE"
+          "Operation": "IsTrue"
         },
         {
           "Label": "SIGNED",
           "Field": "SignatureStatus",
-          "Operation": "IS_TRUE"
+          "Operation": "IsTrue"
         },
         {
           "Label": "INTEGRITYFLAG",
           "Field": "Characteristics",
-          "Operation": "CONTAINS",
+          "Operation": "Contains",
           "Data": [
             "IMAGE_DLLCHARACTERISTICS_FORCE_INTEGRITY"
           ]
@@ -207,11 +207,11 @@
       "Name": "Certificates",
       "Description": "Flag when certificates are placed on disk.",
       "Flag": "INFORMATION",
-      "ResultType": "FILE",
+      "ResuLessThanType": "FILE",
       "Clauses": [
         {
           "Field": "Path",
-          "Operation": "ENDS_WITH",
+          "Operation": "EndsWith",
           "Data": [
             ".cer",
             ".der",
@@ -224,11 +224,11 @@
       "Name": "UPNP Ports",
       "Description": "Universal Plug n' Play.",
       "Flag": "INFORMATION",
-      "ResultType": "PORT",
+      "ResuLessThanType": "PORT",
       "Clauses": [
         {
           "Field": "port",
-          "Operation": "EQ",
+          "Operation": "Equals",
           "Data": [
             "1900"
           ]
@@ -239,11 +239,11 @@
       "Name": "Keystore Files",
       "Description": "Java keystore files contain encryption keys and certificates.",
       "Flag": "INFORMATION",
-      "ResultType": "FILE",
+      "ResuLessThanType": "FILE",
       "Clauses": [
         {
           "Field": "Path",
-          "Operation": "ENDS_WITH",
+          "Operation": "EndsWith",
           "Data": [
             ".keystore"
           ]
@@ -257,11 +257,11 @@
       "Platforms": [
         "MACOS"
       ],
-      "ResultType": "FILE",
+      "ResuLessThanType": "FILE",
       "Clauses": [
         {
           "Field": "Path",
-          "Operation": "EQ",
+          "Operation": "Equals",
           "Data": [
             "/Library/Preferences/com.apple.alf.plist"
           ]
@@ -275,11 +275,11 @@
       "Platforms": [
         "WINDOWS"
       ],
-      "ResultType": "REGISTRY",
+      "ResuLessThanType": "REGISTRY",
       "Clauses": [
         {
           "Field": "KEY",
-          "Operation": "CONTAINS",
+          "Operation": "Contains",
           "Data": [
             "HKEY_LOCAL_MACHINE\\\\SOFTWARE\\Classes\\CLSID"
           ]
@@ -294,19 +294,19 @@
         "LINUX",
         "MACOS"
       ],
-      "ResultType": "FILE",
+      "ResuLessThanType": "FILE",
       "Clauses": [
         {
           "Field": "IsExecutable",
-          "Operation": "IS_TRUE"
+          "Operation": "IsTrue"
         },
         {
           "Field": "SetUid",
-          "Operation": "IS_TRUE"
+          "Operation": "IsTrue"
         },
         {
           "Field": "Permissions",
-          "Operation": "CONTAINS",
+          "Operation": "Contains",
           "DictData": [
             {
               "Key": "Other",
@@ -324,19 +324,19 @@
         "LINUX",
         "MACOS"
       ],
-      "ResultType": "FILE",
+      "ResuLessThanType": "FILE",
       "Clauses": [
         {
           "Field": "IsExecutable",
-          "Operation": "IS_TRUE"
+          "Operation": "IsTrue"
         },
         {
           "Field": "SetGid",
-          "Operation": "IS_TRUE"
+          "Operation": "IsTrue"
         },
         {
           "Field": "Permissions",
-          "Operation": "CONTAINS",
+          "Operation": "Contains",
           "DictData": [
             {
               "Key": "Other",
@@ -353,11 +353,11 @@
       "Platforms": [
         "MACOS"
       ],
-      "ResultType": "LOG",
+      "ResuLessThanType": "LOG",
       "Clauses": [
         {
           "Field": "Summary",
-          "Operation": "CONTAINS",
+          "Operation": "Contains",
           "Data": [ "sandbox" ]
         }
       ]
@@ -372,11 +372,11 @@
       "ChangeTypes": [
         "MODIFIED"
       ],
-      "ResultType": "FILE",
+      "ResuLessThanType": "FILE",
       "Clauses": [
         {
           "Field": "SignatureStatus.SigningCertificate.Issuer",
-          "Operation": "WAS_MODIFIED"
+          "Operation": "WasModified"
         }
       ]
     },
@@ -390,11 +390,11 @@
       "ChangeTypes": [
         "MODIFIED"
       ],
-      "ResultType": "FILE",
+      "ResuLessThanType": "FILE",
       "Clauses": [
         {
           "Field": "Path",
-          "Operation": "REGEX",
+          "Operation": "Regex",
           "Data": [
             "[A-Z]:\\\\Program Files\\\\",
             "[A-Z]:\\\\Program Files \\(x86\\)\\\\"
@@ -412,19 +412,19 @@
       "ChangeTypes": [
         "MODIFIED"
       ],
-      "ResultType": "FILE",
+      "ResuLessThanType": "FILE",
       "Expression": "0 AND NOT 1",
       "Clauses": [
         {
           "Label": "0",
           "Field": "Path",
-          "Operation": "REGEX",
+          "Operation": "Regex",
           "Data": [ "[A-Z]:\\\\Windows\\\\" ]
         },
         {
           "Label": "1",
           "Field": "PATH",
-          "Operation": "REGEX",
+          "Operation": "Regex",
           "Data": [
             "[A-Z]:\\+Windows\\+appcompat\\+Programs\\+.*",
             "[A-Z]:\\+Windows\\+AppReadiness\\+.*",
@@ -443,20 +443,20 @@
       ]
     },
     {
-      "Name": "Frequently attacked binaries",
+      "Name": "FrEqualsuently attacked binaries",
       "Description": "List from GTFOBINS.",
       "Flag": "WARNING",
       "Platforms": [
         "LINUX",
         "MACOS"
       ],
-      "ResultType": "FILE",
+      "ResuLessThanType": "FILE",
       "Expression": "0 AND 1",
       "Clauses": [
         {
           "Label": "0",
           "Field": "Path",
-          "Operation": "REGEX",
+          "Operation": "Regex",
           "Data": [
             "\/apt-get^",
             "\/apt^",
@@ -501,7 +501,7 @@
             "\/ed^",
             "\/emacs^",
             "\/env^",
-            "\/eqn^",
+            "\/Equalsn^",
             "\/expand^",
             "\/expect^",
             "\/facter^",
@@ -540,10 +540,10 @@
             "\/less^",
             "\/logsave^",
             "\/look^",
-            "\/ltrace^",
+            "\/LessThanrace^",
             "\/lua^",
             "\/lwp-download^",
-            "\/lwp-request^",
+            "\/lwp-rEqualsuest^",
             "\/mail^",
             "\/make^",
             "\/man^",
@@ -646,7 +646,7 @@
         {
           "Label": "1",
           "Field": "IsExecutable",
-          "Operation": "IS_TRUE"
+          "Operation": "IsTrue"
         }
       ]
     },
@@ -657,7 +657,7 @@
       "ChangeTypes": [
         "MODIFIED"
       ],
-      "ResultType": "SERVICE"
+      "ResuLessThanType": "SERVICE"
     },
     {
       "Name": "Modified Hosts File",
@@ -666,13 +666,13 @@
       "ChangeTypes": [
         "MODIFIED"
       ],
-      "ResultType": "FILE",
+      "ResuLessThanType": "FILE",
       "Expression": "WINDOWS OR NIX",
       "Clauses": [
         {
           "Label": "WINDOWS",
           "Field": "Path",
-          "Operation": "REGEX",
+          "Operation": "Regex",
           "Data": [
             "[A-Z]:\\\\Windows\\\\System32\\\\drivers\\\\etc\\\\hosts"
           ]
@@ -680,7 +680,7 @@
         {
           "Label": "NIX",
           "Field": "Path",
-          "Operation": "EQ",
+          "Operation": "Equals",
           "Data": [
             "/etc/hosts"
           ]
@@ -694,18 +694,18 @@
       "ChangeTypes": [
         "MODIFIED"
       ],
-      "ResultType": "FILE",
+      "ResuLessThanType": "FILE",
       "Expression": "is_exe AND (windows OR NOT macos_null)",
       "Clauses": [
         {
           "Label": "is_exe",
           "Field": "IsExecutable",
-          "Operation": "IS_TRUE"
+          "Operation": "IsTrue"
         },
         {
           "Label": "windows",
           "Field": "SignatureStatus",
-          "Operation": "EQ",
+          "Operation": "Equals",
           "Data": [
             "Valid"
           ]
@@ -713,22 +713,22 @@
         {
           "Label": "macos_null",
           "Field": "MacSignatureStatus",
-          "Operation": "IS_NULL"
+          "Operation": "IsNull"
         }
       ]
     },
     {
-      "Name": "Files Frequently Modified by Windows",
-      "Description": "These files are frequently modified by the system itself.",
+      "Name": "Files FrEqualsuently Modified by Windows",
+      "Description": "These files are frEqualsuently modified by the system itself.",
       "Flag": "VERBOSE",
       "Platforms": [
         "WINDOWS"
       ],
-      "ResultType": "FILE",
+      "ResuLessThanType": "FILE",
       "Clauses": [
         {
           "Field": "Path",
-          "Operation": "REGEX",
+          "Operation": "Regex",
           "Data": [
             "[A-Z]:\\+ProgramData\\+Microsoft\\+DiagnosticLogCSP\\+.*",
             "[A-Z]:\\+ProgramData\\+Microsoft\\+SmsRouter\\+MessageStore\\+.*",
@@ -759,17 +759,17 @@
       ]
     },
     {
-      "Name": "Registry Keys Frequently Modified by Windows",
-      "Description": "These registry keys are frequently modified by the system itself.",
+      "Name": "Registry Keys FrEqualsuently Modified by Windows",
+      "Description": "These registry keys are frEqualsuently modified by the system itself.",
       "Flag": "VERBOSE",
       "Platforms": [
         "WINDOWS"
       ],
-      "ResultType": "REGISTRY",
+      "ResuLessThanType": "REGISTRY",
       "Clauses": [
         {
           "Field": "Key",
-          "Operation": "REGEX",
+          "Operation": "Regex",
           "Data": [
             "MrtCache"
           ]
@@ -777,17 +777,17 @@
       ]
     },
     {
-      "Name": "Files Frequently Modified by Macos",
-      "Description": "These files are frequently modified by the system itself.",
+      "Name": "Files FrEqualsuently Modified by Macos",
+      "Description": "These files are frEqualsuently modified by the system itself.",
       "Flag": "VERBOSE",
       "Platforms": [
         "MACOS"
       ],
-      "ResultType": "FILE",
+      "ResuLessThanType": "FILE",
       "Clauses": [
         {
           "Field": "Key",
-          "Operation": "REGEX",
+          "Operation": "Regex",
           "Data": [
             "^/.Spotlight-V100"
           ]
@@ -801,15 +801,15 @@
       "Platforms": [
         "WINDOWS"
       ],
-      "ResultType": "FILE",
+      "ResuLessThanType": "FILE",
       "Clauses": [
         {
-          "Operation": "IS_TRUE",
+          "Operation": "IsTrue",
           "Field": "IsExecutable"
         },
         {
           "Field": "Path",
-          "Operation": "ENDS_WITH",
+          "Operation": "EndsWith",
           "Data": [
             "\\Bginfo.exe",
             "\\dnx.exe",
@@ -827,7 +827,7 @@
       "Name": "Expired Certificates",
       "Description": "These Certificates are expired.",
       "Flag": "WARNING",
-      "ResultType": "CERTIFICATE",
+      "ResuLessThanType": "CERTIFICATE",
       "ChangeTypes": [
         "MODIFIED",
         "CREATED"
@@ -835,7 +835,7 @@
       "Clauses": [
         {
           "Field": "Certificate.NotAfter",
-          "Operation": "IS_EXPIRED"
+          "Operation": "IsExpired"
         }
       ]
     },
@@ -843,7 +843,7 @@
       "Name": "Binaries with expired signatures",
       "Description": "These binaries have expired signatures.",
       "Flag": "WARNING",
-      "ResultType": "FILE",
+      "ResuLessThanType": "FILE",
       "ChangeTypes": [
         "MODIFIED",
         "CREATED"
@@ -851,7 +851,7 @@
       "Clauses": [
         {
           "Field": "SignatureStatus.SigningCertificate.NotAfter",
-          "Operation": "IS_EXPIRED"
+          "Operation": "IsExpired"
         }
       ]
     },
@@ -859,14 +859,14 @@
       "Name": "TPM Keys",
       "Description": "These TPM Keys have been changed.",
       "Flag": "WARNING",
-      "ResultType": "FILE",
+      "ResuLessThanType": "FILE",
       "Platforms": [
         "WINDOWS"
       ],
       "Clauses": [
         {
           "Field": "Path",
-          "Operation": "ENDS_WITH",
+          "Operation": "EndsWith",
           "Data": [
             ".PCPKEY"
           ]
@@ -877,7 +877,7 @@
       "Name": "TPM Auth Values Changed",
       "Description": "These TPM Auth Values have been changed in the registry.",
       "Flag": "WARNING",
-      "ResultType": "REGISTRY",
+      "ResuLessThanType": "REGISTRY",
       "Platforms": [
         "WINDOWS"
       ],
@@ -886,7 +886,7 @@
         {
           "Label": "PATH",
           "Field": "Path",
-          "Operation": "ENDS_WITH",
+          "Operation": "EndsWith",
           "Data": [
             "\\System\\CurrentControlSet\\Services\\TPM\\WMI\\Admin"
           ]
@@ -894,27 +894,27 @@
         {
           "Label": "OWNER_FULL",
           "Field": "Values.OwnerAuthFull",
-          "Operation": "WAS_MODIFIED"
+          "Operation": "WasModified"
         },
         {
           "Label": "OWNER_NEW",
           "Field": "Values.OwnerAuthNew",
-          "Operation": "WAS_MODIFIED"
+          "Operation": "WasModified"
         },
         {
           "Label": "OWNER_STATUS",
           "Field": "Values.OwnerAuthStatus",
-          "Operation": "WAS_MODIFIED"
+          "Operation": "WasModified"
         },
         {
           "Label": "STORAGE",
           "Field": "Values.StorageOwnerAuth",
-          "Operation": "WAS_MODIFIED"
+          "Operation": "WasModified"
         },
         {
           "Label": "LOCKOUT",
           "Field": "Values.LockoutHash",
-          "Operation": "WAS_MODIFIED"
+          "Operation": "WasModified"
         }
       ]
     },
@@ -922,21 +922,21 @@
       "Name": "TPM Endorsement Auth Value",
       "Description": "The TPM Endorsement Auth was changed.",
       "Flag": "WARNING",
-      "ResultType": "REGISTRY",
+      "ResuLessThanType": "REGISTRY",
       "Platforms": [
         "WINDOWS"
       ],
       "Clauses": [
         {
           "Field": "Path",
-          "Operation": "ENDS_WITH",
+          "Operation": "EndsWith",
           "Data": [
             "\\System\\CurrentControlSet\\Services\\TPM\\WMI\\Endorsement"
           ]
         },
         {
           "Field": "Values.EndorsementAuth",
-          "Operation": "WAS_MODIFIED"
+          "Operation": "WasModified"
         }
       ]
     },
@@ -944,7 +944,7 @@
       "Name": "Use Null Derived Owner Auth Changed",
       "Description": "The UseNullDerivedOwnerAuth setting was changed.",
       "Flag": "WARNING",
-      "ResultType": "REGISTRY",
+      "ResuLessThanType": "REGISTRY",
       "Platforms": [
         "WINDOWS"
       ],
@@ -953,7 +953,7 @@
         {
           "Label": "PATH_WMI",
           "Field": "Path",
-          "Operation": "ENDS_WITH",
+          "Operation": "EndsWith",
           "Data": [
             "\\System\\CurrentControlSet\\Services\\TPM\\WMI"
           ]
@@ -961,7 +961,7 @@
         {
           "Label": "PATH_POLICIES",
           "Field": "Path",
-          "Operation": "ENDS_WITH",
+          "Operation": "EndsWith",
           "Data": [
             "\\Software\\Policies\\Microsoft\\TPM"
           ]
@@ -969,7 +969,7 @@
         {
           "Label": "UNDOA",
           "Field": "Values.UseNullDerivedOwnerAuth",
-          "Operation": "WAS_MODIFIED"
+          "Operation": "WasModified"
         }
       ]
     },
@@ -977,21 +977,21 @@
       "Name": "OS Managed Auth Level Changed",
       "Description": "The TPM OS Managed Auth Level was Changed.",
       "Flag": "WARNING",
-      "ResultType": "REGISTRY",
+      "ResuLessThanType": "REGISTRY",
       "Platforms": [
         "WINDOWS"
       ],
       "Clauses": [
         {
           "Field": "Path",
-          "Operation": "ENDS_WITH",
+          "Operation": "EndsWith",
           "Data": [
             "\\Software\\Policies\\Microsoft\\TPM"
           ]
         },
         {
           "Field": "Values.OSManagedAuthLevel",
-          "Operation": "WAS_MODIFIED"
+          "Operation": "WasModified"
         }
       ]
     },
@@ -999,7 +999,7 @@
       "Name": "SHA Root of Trust Modified",
       "Description": "The systems root of trust has been modified.",
       "Flag": "WARNING",
-      "ResultType": "TPM",
+      "ResuLessThanType": "TPM",
       "Platforms": [
         "WINDOWS",
         "LINUX"
@@ -1008,48 +1008,48 @@
       "Clauses": [
         {
           "Field": "PCRs",
-          "Operation": "CONTAINS_KEY",
+          "Operation": "ContainsKey",
           "Label": "ANY_SHA",
           "Data": [ "(Sha, 0)" ]
         },
         {
           "Field": "PCRs.(Sha, 0)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SHA_PCR0"
         },
         {
           "Field": "PCRs.(Sha, 1)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SHA_PCR1"
         },
         {
           "Field": "PCRs.(Sha, 2)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SHA_PCR2"
         },
         {
           "Field": "PCRs.(Sha, 3)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SHA_PCR3"
         },
         {
           "Field": "PCRs.(Sha, 4)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SHA_PCR4"
         },
         {
           "Field": "PCRs.(Sha, 5)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SHA_PCR5"
         },
         {
           "Field": "PCRs.(Sha, 6)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SHA_PCR6"
         },
         {
           "Field": "PCRs.(Sha, 7)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SHA_PCR7"
         }
       ]
@@ -1058,7 +1058,7 @@
       "Name": "SHA256 Root of Trust Modified",
       "Description": "The systems root of trust has been modified.",
       "Flag": "WARNING",
-      "ResultType": "TPM",
+      "ResuLessThanType": "TPM",
       "Platforms": [
         "WINDOWS",
         "LINUX"
@@ -1067,48 +1067,48 @@
       "Clauses": [
         {
           "Field": "PCRs",
-          "Operation": "CONTAINS_KEY",
+          "Operation": "ContainsKey",
           "Label": "ANY_SHA256",
           "Data": [ "(Sha256, 0)" ]
         },
         {
           "Field": "PCRs.(Sha256, 0)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SHA256_PCR0"
         },
         {
           "Field": "PCRs.(Sha256, 1)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SHA256_PCR1"
         },
         {
           "Field": "PCRs.(Sha256, 2)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SHA256_PCR2"
         },
         {
           "Field": "PCRs.(Sha256, 3)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SHA256_PCR3"
         },
         {
           "Field": "PCRs.(Sha256, 4)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SHA256_PCR4"
         },
         {
           "Field": "PCRs.(Sha256, 5)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SHA256_PCR5"
         },
         {
           "Field": "PCRs.(Sha256, 6)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SHA256_PCR6"
         },
         {
           "Field": "PCRs.(Sha256, 7)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SHA256_PCR7"
         }
       ]
@@ -1117,7 +1117,7 @@
       "Name": "SHA384 Root of Trust Modified",
       "Description": "The systems root of trust has been modified.",
       "Flag": "WARNING",
-      "ResultType": "TPM",
+      "ResuLessThanType": "TPM",
       "Platforms": [
         "WINDOWS",
         "LINUX"
@@ -1126,48 +1126,48 @@
       "Clauses": [
         {
           "Field": "PCRs",
-          "Operation": "CONTAINS_KEY",
+          "Operation": "ContainsKey",
           "Label": "ANY_SHA384",
           "Data": [ "(Sha384, 0)" ]
         },
         {
           "Field": "PCRs.(Sha384, 0)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SHA384_PCR0"
         },
         {
           "Field": "PCRs.(Sha384, 1)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SHA384_PCR1"
         },
         {
           "Field": "PCRs.(Sha384, 2)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SHA384_PCR2"
         },
         {
           "Field": "PCRs.(Sha384, 3)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SHA384_PCR3"
         },
         {
           "Field": "PCRs.(Sha384, 4)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SHA384_PCR4"
         },
         {
           "Field": "PCRs.(Sha384, 5)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SHA384_PCR5"
         },
         {
           "Field": "PCRs.(Sha384, 6)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SHA384_PCR6"
         },
         {
           "Field": "PCRs.(Sha384, 7)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SHA384_PCR7"
         }
       ]
@@ -1176,7 +1176,7 @@
       "Name": "SHA512 Root of Trust Modified",
       "Description": "The systems root of trust has been modified.",
       "Flag": "WARNING",
-      "ResultType": "TPM",
+      "ResuLessThanType": "TPM",
       "Platforms": [
         "WINDOWS",
         "LINUX"
@@ -1185,48 +1185,48 @@
       "Clauses": [
         {
           "Field": "PCRs",
-          "Operation": "CONTAINS_KEY",
+          "Operation": "ContainsKey",
           "Label": "ANY_SHA512",
           "Data": [ "(Sha512, 0)" ]
         },
         {
           "Field": "PCRs.(Sha512, 0)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SHA512_PCR0"
         },
         {
           "Field": "PCRs.(Sha512, 1)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SHA512_PCR1"
         },
         {
           "Field": "PCRs.(Sha512, 2)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SHA512_PCR2"
         },
         {
           "Field": "PCRs.(Sha512, 3)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SHA512_PCR3"
         },
         {
           "Field": "PCRs.(Sha512, 4)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SHA512_PCR4"
         },
         {
           "Field": "PCRs.(Sha512, 5)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SHA512_PCR5"
         },
         {
           "Field": "PCRs.(Sha512, 6)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SHA512_PCR6"
         },
         {
           "Field": "PCRs.(Sha512, 7)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SHA512_PCR7"
         }
       ]
@@ -1235,7 +1235,7 @@
       "Name": "SM3_256 Root of Trust Modified",
       "Description": "The systems root of trust has been modified.",
       "Flag": "WARNING",
-      "ResultType": "TPM",
+      "ResuLessThanType": "TPM",
       "Platforms": [
         "WINDOWS",
         "LINUX"
@@ -1244,48 +1244,48 @@
       "Clauses": [
         {
           "Field": "PCRs",
-          "Operation": "CONTAINS_KEY",
+          "Operation": "ContainsKey",
           "Label": "ANY_SM3_256",
           "Data": [ "(Sm3256, 0)" ]
         },
         {
           "Field": "PCRs.(Sm3256, 0)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SM3_256_PCR0"
         },
         {
           "Field": "PCRs.(Sm3256, 1)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SM3_256_PCR1"
         },
         {
           "Field": "PCRs.(Sm3256, 2)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SM3_256_PCR2"
         },
         {
           "Field": "PCRs.(Sm3256, 3)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SM3_256_PCR3"
         },
         {
           "Field": "PCRs.(Sm3256, 4)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SM3_256_PCR4"
         },
         {
           "Field": "PCRs.(Sm3256, 5)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SM3_256_PCR5"
         },
         {
           "Field": "PCRs.(Sm3256, 6)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SM3_256_PCR6"
         },
         {
           "Field": "PCRs.(Sm3256, 7)",
-          "Operation": "WAS_MODIFIED",
+          "Operation": "WasModified",
           "Label": "SM3_256_PCR7"
         }
       ]
@@ -1297,12 +1297,12 @@
       "Platforms": [
         "WINDOWS"
       ],
-      "ResultType": "REGISTRY",
+      "ResuLessThanType": "REGISTRY",
       "Expression": "SYSTEM_POLICY OR USER_POLICY",
       "Clauses": [
         {
           "Field": "Key",
-          "Operation": "STARTS_WITH",
+          "Operation": "StartsWith",
           "Label": "SYSTEM_POLICY",
           "Data": [
             "HKEY_LOCAL_MACHINE\\\\Software\\Microsoft\\Windows\\CurrentVersion\\Group Policy\\History"
@@ -1310,7 +1310,7 @@
         },
         {
           "Field": "Key",
-          "Operation": "STARTS_WITH",
+          "Operation": "StartsWith",
           "Label": "USER_POLICY",
           "Data": [
             "HKEY_CURRENT_USER\\\\Software\\Microsoft\\Windows\\CurrentVersion\\Group Policy\\History"
@@ -1319,7 +1319,7 @@
       ]
     }
   ],
-  "DefaultLevels": {
+  "DefauLessThanLevels": {
     "PORT": "INFORMATION",
     "FILE": "DEBUG",
     "SERVICE": "INFORMATION",

@@ -35,6 +35,7 @@
   
   <ItemGroup>
     <PackageReference Include="MedallionShell" Version="1.6.1" />
+    <PackageReference Include="Microsoft.CST.OAT" Version="1.0.41-beta" />
     <PackageReference Include="Microsoft.CST.RecursiveExtractor" Version="0.1.203" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
     <PackageReference Include="CompareNETObjects" Version="4.66.0" />
@@ -80,8 +81,5 @@
     <None Include="..\README.md" Link="README.md" />
 	<None Include="..\icon-128.png" Pack="true" PackagePath="" />
 	<None Include="..\LICENSE.txt" Pack="true" PackagePath="" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LogicalAnalyzer\LogicalAnalyzer\LogicalAnalyzer.csproj" />
   </ItemGroup>
 </Project>
