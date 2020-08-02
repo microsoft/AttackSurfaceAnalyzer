@@ -16,19 +16,13 @@ using System.Threading.Tasks;
 namespace AttackSurfaceAnalyzer.Collectors
 {
     /// <summary>
-    /// Collects system event logs.
+    ///     Collects system event logs.
     /// </summary>
     public class EventLogCollector : BaseCollector
     {
-        #region Public Constructors
-
         public EventLogCollector(CollectorOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
         {
         }
-
-        #endregion Public Constructors
-
-        #region Public Methods
 
         public override bool CanRunOnPlatform()
         {
@@ -36,7 +30,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Parses /var/log/auth.log and /var/log/syslog (no way to distinguish severity)
+        ///     Parses /var/log/auth.log and /var/log/syslog (no way to distinguish severity)
         /// </summary>
         public void ExecuteLinux(CancellationToken cancellationToken)
         {
@@ -105,12 +99,12 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Collect event logs on macOS using the 'log' utility
+        ///     Collect event logs on macOS using the 'log' utility
         /// </summary>
         public void ExecuteMacOs(CancellationToken cancellationToken)
         {
-            // New log entries start with a timestamp like so: 2019-09-25 20:38:53.784594-0700
-            // 0xdbf47 Error 0x0 0 0 kernel: (Sandbox) Sandbox: mdworker(15726) deny(1) mach-lookup com.apple.security.syspolicy
+            // New log entries start with a timestamp like so: 2019-09-25 20:38:53.784594-0700 0xdbf47 Error
+            // 0x0 0 0 kernel: (Sandbox) Sandbox: mdworker(15726) deny(1) mach-lookup com.apple.security.syspolicy
             Regex MacLogHeader = new Regex("^([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-2][0-9]:[0-5][0-9]:[0-5][0-9]).*?0x[0-9a-f]*[\\s]*([A-Za-z]*)[\\s]*0x[0-9a-f][\\s]*[0-9]*[\\s]*([0-9]*)[\\s]*(.*?):(.*)", RegexOptions.Compiled);
             EventLogObject? curObject = null;
 
@@ -187,7 +181,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Collect event logs on Windows using System.Diagnostics.EventLog
+        ///     Collect event logs on Windows using System.Diagnostics.EventLog
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Official documentation for this functionality does not specify what exceptions it throws. https://docs.microsoft.com/en-us/dotnet/api/system.diagnostics.eventlogentrycollection?view=netcore-3.0")]
         public void ExecuteWindows(CancellationToken cancellationToken)
@@ -262,10 +256,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
-        #endregion Public Methods
-
-        #region Internal Methods
-
         internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -281,7 +271,5 @@ namespace AttackSurfaceAnalyzer.Collectors
                 ExecuteMacOs(cancellationToken);
             }
         }
-
-        #endregion Internal Methods
     }
 }

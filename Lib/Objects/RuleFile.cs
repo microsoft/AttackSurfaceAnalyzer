@@ -26,6 +26,8 @@ namespace AttackSurfaceAnalyzer.Objects
         {
         }
 
+        public IEnumerable<AsaRule> AsaRules { get; set; } = new List<AsaRule>();
+
         public Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DefaultLevels { get; set; } = new Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>()
         {
             { RESULT_TYPE.CERTIFICATE, ANALYSIS_RESULT_TYPE.INFORMATION },
@@ -43,8 +45,6 @@ namespace AttackSurfaceAnalyzer.Objects
             { RESULT_TYPE.PROCESS, ANALYSIS_RESULT_TYPE.INFORMATION },
             { RESULT_TYPE.DRIVER, ANALYSIS_RESULT_TYPE.INFORMATION }
         };
-
-        public IEnumerable<AsaRule> AsaRules { get; set; } = new List<AsaRule>();
 
         public static RuleFile FromFile(string? filterLoc = "")
         {
@@ -73,13 +73,6 @@ namespace AttackSurfaceAnalyzer.Objects
                 }
             }
             return new RuleFile();
-        }
-
-
-        public void DumpFilters()
-        {
-            Log.Verbose("Filter dump:");
-            Log.Verbose(JsonConvert.SerializeObject(this));
         }
 
         public static RuleFile LoadEmbeddedFilters()
@@ -112,6 +105,12 @@ namespace AttackSurfaceAnalyzer.Objects
                 AsaTelemetry.TrackEvent("EmbeddedAnalysesFilterLoadException", ExceptionEvent);
             }
             return new RuleFile();
+        }
+
+        public void DumpFilters()
+        {
+            Log.Verbose("Filter dump:");
+            Log.Verbose(JsonConvert.SerializeObject(this));
         }
 
         public List<Rule> GetRules()

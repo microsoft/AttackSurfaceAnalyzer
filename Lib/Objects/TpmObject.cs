@@ -7,17 +7,11 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class TpmObject : CollectObject
     {
-        #region Public Constructors
-
         public TpmObject(string Location)
         {
             ResultType = Types.RESULT_TYPE.TPM;
             this.Location = Location;
         }
-
-        #endregion Public Constructors
-
-        #region Public Properties
 
         public List<AlgProperty> Algorithms { get; set; } = new List<AlgProperty>();
         public List<TpmCc> Commands { get; set; } = new List<TpmCc>();
@@ -38,7 +32,5 @@ namespace AttackSurfaceAnalyzer.Objects
         public List<CryptographicKeyObject> RandomKeys { get; set; } = new List<CryptographicKeyObject>();
         public DateTime TpmSpecDate { get; set; }
         public string? Version { get; set; }
-
-        #endregion Public Properties
     }
 }

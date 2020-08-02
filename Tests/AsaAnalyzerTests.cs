@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using AttackSurfaceAnalyzer.Cli;
+﻿using AttackSurfaceAnalyzer.Cli;
 using AttackSurfaceAnalyzer.Objects;
 using AttackSurfaceAnalyzer.Types;
 using AttackSurfaceAnalyzer.Utils;
 using Microsoft.CST.OAT;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AttackSurfaceAnalyzer.Tests
 {
@@ -15,10 +15,6 @@ namespace AttackSurfaceAnalyzer.Tests
         public AsaAnalyzerTests()
         {
         }
-
-        private const string TestPathOne = "TestPath1";
-
-        private readonly FileMonitorObject testPathOneObject = new FileMonitorObject(TestPathOne) { FileSystemObject = new FileSystemObject(TestPathOne) { IsExecutable = true } };
 
         [ClassInitialize]
         public static void ClassSetup(TestContext _)
@@ -66,8 +62,8 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var opts = new CompareCommandOptions(null, "SecondRun") { ApplySubObjectRulesToMonitor = true };
 
-            var results = AttackSurfaceAnalyzerClient.AnalyzeMonitored(opts, analyzer, new MonitorObject[] { testPathOneObject },new RuleFile() { AsaRules = new AsaRule[] { andRule } });
-            
+            var results = AttackSurfaceAnalyzerClient.AnalyzeMonitored(opts, analyzer, new MonitorObject[] { testPathOneObject }, new RuleFile() { AsaRules = new AsaRule[] { andRule } });
+
             Assert.IsTrue(results.Any(x => x.Value.Any(y => y.Identity == testPathOneObject.Identity && y.Rules.Contains(andRule))));
 
             opts = new CompareCommandOptions(null, "SecondRun") { ApplySubObjectRulesToMonitor = false };
@@ -76,6 +72,10 @@ namespace AttackSurfaceAnalyzer.Tests
 
             Assert.IsFalse(results.Any(x => x.Value.Any(y => y.Identity == testPathOneObject.Identity && y.Rules.Contains(andRule))));
         }
+
+        private const string TestPathOne = "TestPath1";
+
+        private readonly FileMonitorObject testPathOneObject = new FileMonitorObject(TestPathOne) { FileSystemObject = new FileSystemObject(TestPathOne) { IsExecutable = true } };
 
         private Analyzer GetAnalyzerForRule(AsaRule rule)
         {

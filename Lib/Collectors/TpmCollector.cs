@@ -14,29 +14,12 @@ namespace AttackSurfaceAnalyzer.Collectors
 {
     public class TpmCollector : BaseCollector
     {
-        #region Private Fields
-
-        private const string DefaultSimulatorName = "127.0.0.1";
-        private const int DefaultSimulatorPort = 2321;
-
-        #endregion Private Fields
-
-        #region Public Constructors
-
         public TpmCollector(CollectorOptions? opts, Action<CollectObject>? changeHandler, bool TestMode = false) : base(opts, changeHandler)
         {
             this.TestMode = TestMode;
         }
 
-        #endregion Public Constructors
-
-        #region Public Properties
-
         public bool TestMode { get; }
-
-        #endregion Public Properties
-
-        #region Public Methods
 
         public static List<AsaNvIndex> DumpNV(Tpm2 tpm)
         {
@@ -246,10 +229,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         }
 
-        #endregion Public Methods
-
-        #region Internal Methods
-
         internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
             Tpm2Device? tpmDevice = null;
@@ -319,9 +298,8 @@ namespace AttackSurfaceAnalyzer.Collectors
             tpmDevice?.Dispose();
         }
 
-        #endregion Internal Methods
-
-        #region Private Methods
+        private const string DefaultSimulatorName = "127.0.0.1";
+        private const int DefaultSimulatorPort = 2321;
 
         private static TpmHandle[] GetLoadedEntities(Tpm2 tpm, Ht rangeToQuery)
         {
@@ -340,7 +318,5 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
             return (h as HandleArray)?.handle ?? Array.Empty<TpmHandle>();
         }
-
-        #endregion Private Methods
     }
 }

@@ -13,19 +13,13 @@ using System.Threading;
 namespace AttackSurfaceAnalyzer.Collectors
 {
     /// <summary>
-    /// Collects data about the local ports open.
+    ///     Collects data about the local ports open.
     /// </summary>
     public class OpenPortCollector : BaseCollector
     {
-        #region Public Constructors
-
         public OpenPortCollector(CollectorOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
         {
         }
-
-        #endregion Public Constructors
-
-        #region Public Methods
 
         public override bool CanRunOnPlatform()
         {
@@ -47,10 +41,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
         }
 
-        #endregion Public Methods
-
-        #region Internal Methods
-
         internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -68,8 +58,8 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Executes the OpenPortCollector on Linux. Calls out to the `ss` command and parses the
-        /// output, sending the output to the database.
+        ///     Executes the OpenPortCollector on Linux. Calls out to the `ss` command and parses the output,
+        ///     sending the output to the database.
         /// </summary>
         internal void ExecuteLinux(CancellationToken cancellationToken)
         {
@@ -119,8 +109,8 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Executes the OpenPortCollector on OS X. Calls out to the `lsof` command and parses the
-        /// output, sending the output to the database.
+        ///     Executes the OpenPortCollector on OS X. Calls out to the `lsof` command and parses the output,
+        ///     sending the output to the database.
         /// </summary>
         internal void ExecuteOsX(CancellationToken cancellationToken)
         {
@@ -186,8 +176,8 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Executes the OpenPortCollector on Windows. Uses the .NET Core APIs to gather active TCP
-        /// and UDP listeners and writes them to the database.
+        ///     Executes the OpenPortCollector on Windows. Uses the .NET Core APIs to gather active TCP and
+        ///     UDP listeners and writes them to the database.
         /// </summary>
         internal void ExecuteWindows(CancellationToken cancellationToken)
         {
@@ -221,7 +211,5 @@ namespace AttackSurfaceAnalyzer.Collectors
                 HandleChange(obj);
             }
         }
-
-        #endregion Internal Methods
     }
 }

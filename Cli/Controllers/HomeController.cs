@@ -178,7 +178,8 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
                 return Json("Using cached comparison calculations.");
             }
 
-            Task.Factory.StartNew(() => {
+            Task.Factory.StartNew(() =>
+            {
                 var results = AttackSurfaceAnalyzerClient.CompareRuns(opts);
                 AttackSurfaceAnalyzerClient.InsertCompareResults(results, opts.FirstRunId, opts.SecondRunId);
             });

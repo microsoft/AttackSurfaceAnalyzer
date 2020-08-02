@@ -5,43 +5,9 @@ using System.Collections.Generic;
 
 namespace AttackSurfaceAnalyzer
 {
-    [Verb("guide", HelpText = "Gather and Analyze metrics using a combination of Collectors and Monitors.")]
-    public class GuidedModeCommandOptions : CollectorOptions
-    {
-        // These are from ExportCollectCommandOptions
-        [Option(HelpText = "Custom analysis rules file.")]
-        public string? AnalysesFile { get; set; }
-
-        [Option(HelpText = "Set Disable Analysis.")]
-        public bool DisableAnalysis { get; set; }
-
-        [Option(HelpText = "Save to internal database for review in GUI")]
-        public bool SaveToDatabase { get; set; }
-
-        // These are from MonitorCommandOptions
-        [Option("duration", Required = false, HelpText = "Duration, in minutes, to run for before automatically terminating.")]
-        public int Duration { get; set; }
-
-        [Option('m', "file-system-monitor", Required = false, HelpText = "Enable the file system monitor. Unless -d is specified will monitor the entire file system.")]
-        public bool EnableFileSystemMonitor { get; set; }
-
-        [Option(HelpText = "Don't gather extended information when monitoring files.")]
-        public bool FileNamesOnly { get; set; }
-
-        [Option(HelpText = "Comma-separated list of directories to monitor.", Separator = ',')]
-        public IEnumerable<string>? MonitoredDirectories { get; set; }
-        [Option(HelpText = "Directory to output to.")]
-        public string? OutputPath { get; set; }
-        [Option(HelpText = "Put each result type in its own document.")]
-        public bool ExplodedOutput { get; set; }
-        [Option(HelpText = "Apply Rules to SubCollect objects of Monitor objects.")]
-        public bool ApplySubObjectRulesToMonitor { get; set; }
-    }
-
     [Verb("collect", HelpText = "Collect operating system metrics")]
     public class CollectCommandOptions : CollectorOptions
     {
-
         [Option("match-run-id", Required = false, HelpText = "Match the collectors used on another run id")]
         public string? MatchedCollectorId { get; set; }
 
@@ -82,6 +48,7 @@ namespace AttackSurfaceAnalyzer
             };
         }
     }
+
     public class CollectorOptions : CommandOptions
     {
         [Option("crawl-archives", Required = false, HelpText = "Attempts to crawl every archive file encountered when using File Collector.  May dramatically increase run time of the scan.")]
@@ -141,6 +108,9 @@ namespace AttackSurfaceAnalyzer
         [Option(HelpText = "Gather all levels in the Log collector. (Default: Only gather Error and Warning when possible.)")]
         public bool GatherVerboseLogs { get; set; }
 
+        [Option(HelpText = "Gather passwords when gathering wifi networks.")]
+        public bool GatherWifiPasswords { get; set; }
+
         [Option(HelpText = "If the specified runid already exists delete all data from that run before proceeding.")]
         public bool Overwrite { get; set; }
 
@@ -155,9 +125,6 @@ namespace AttackSurfaceAnalyzer
 
         [Option(HelpText = "Force singlethreaded collectors.")]
         public bool SingleThread { get; set; }
-
-        [Option(HelpText = "Gather passwords when gathering wifi networks.")]
-        public bool GatherWifiPasswords { get; set; }
     }
 
     public class CommandOptions
@@ -243,16 +210,70 @@ namespace AttackSurfaceAnalyzer
     [Verb("export-monitor", HelpText = "Output a .json report for a monitor run")]
     public class ExportMonitorCommandOptions : ExportOptions
     {
-        [Option(HelpText = "Monitor run identifier")]
-        public string? RunId { get; set; }
-
         [Option(HelpText = "Apply rules for FileTypes contained in Monitor objects to those objects. (For example, FILE rules against FILE_MONITOR objects internal File object)")]
         public bool ApplySubObjectRulesToMonitor { get; set; }
+
+        [Option(HelpText = "Monitor run identifier")]
+        public string? RunId { get; set; }
+    }
+
+    public class ExportOptions : CommandOptions
+    {
+        [Option("filename", HelpText = "Custom analysis rules file.")]
+        public string? AnalysesFile { get; set; }
+
+        [Option(HelpText = "Set to Disable Analysis.")]
+        public bool DisableAnalysis { get; set; }
+
+        [Option(HelpText = "Exploded output")]
+        public bool ExplodedOutput { get; set; }
+
+        [Option(HelpText = "Directory to output to")]
+        public string? OutputPath { get; set; }
+
+        [Option(HelpText = "Save to internal database for review in GUI")]
+        public bool SaveToDatabase { get; set; }
     }
 
     [Verb("gui", HelpText = "Launch the GUI in a browser")]
     public class GuiCommandOptions : CommandOptions
     { }
+
+    [Verb("guide", HelpText = "Gather and Analyze metrics using a combination of Collectors and Monitors.")]
+    public class GuidedModeCommandOptions : CollectorOptions
+    {
+        // These are from ExportCollectCommandOptions
+        [Option(HelpText = "Custom analysis rules file.")]
+        public string? AnalysesFile { get; set; }
+
+        [Option(HelpText = "Apply Rules to SubCollect objects of Monitor objects.")]
+        public bool ApplySubObjectRulesToMonitor { get; set; }
+
+        [Option(HelpText = "Set Disable Analysis.")]
+        public bool DisableAnalysis { get; set; }
+
+        // These are from MonitorCommandOptions
+        [Option("duration", Required = false, HelpText = "Duration, in minutes, to run for before automatically terminating.")]
+        public int Duration { get; set; }
+
+        [Option('m', "file-system-monitor", Required = false, HelpText = "Enable the file system monitor. Unless -d is specified will monitor the entire file system.")]
+        public bool EnableFileSystemMonitor { get; set; }
+
+        [Option(HelpText = "Put each result type in its own document.")]
+        public bool ExplodedOutput { get; set; }
+
+        [Option(HelpText = "Don't gather extended information when monitoring files.")]
+        public bool FileNamesOnly { get; set; }
+
+        [Option(HelpText = "Comma-separated list of directories to monitor.", Separator = ',')]
+        public IEnumerable<string>? MonitoredDirectories { get; set; }
+
+        [Option(HelpText = "Directory to output to.")]
+        public string? OutputPath { get; set; }
+
+        [Option(HelpText = "Save to internal database for review in GUI")]
+        public bool SaveToDatabase { get; set; }
+    }
 
     [Verb("monitor", HelpText = "Continue running and monitor activity")]
     public class MonitorCommandOptions : CommandOptions
@@ -279,24 +300,6 @@ namespace AttackSurfaceAnalyzer
 
         [Option(HelpText = "Identifies which run this is. Monitor output can be combined with collect output, but doesn't need to be compared.", Default = "Timestamp")]
         public string? RunId { get; set; }
-    }
-
-    public class ExportOptions : CommandOptions
-    {
-        [Option("filename",HelpText = "Custom analysis rules file.")]
-        public string? AnalysesFile { get; set; }
-
-        [Option(HelpText = "Set to Disable Analysis.")]
-        public bool DisableAnalysis { get; set; }
-
-        [Option(HelpText = "Exploded output")]
-        public bool ExplodedOutput { get; set; }
-
-        [Option(HelpText = "Directory to output to")]
-        public string? OutputPath { get; set; }
-
-        [Option(HelpText = "Save to internal database for review in GUI")]
-        public bool SaveToDatabase { get; set; }
     }
 
     [Verb("verify", HelpText = "Verify your analysis rules")]

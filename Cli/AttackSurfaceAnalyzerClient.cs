@@ -224,7 +224,7 @@ namespace AttackSurfaceAnalyzer.Cli
                     CompareRunId = opts.SecondRunId
                 };
 
-                shellResult.Rules = analyzer.Analyze(ruleFile.AsaRules,shellResult).ToList();
+                shellResult.Rules = analyzer.Analyze(ruleFile.AsaRules, shellResult).ToList();
 
                 if (opts.ApplySubObjectRulesToMonitor)
                 {
@@ -251,7 +251,6 @@ namespace AttackSurfaceAnalyzer.Cli
 
         private static ASA_ERROR RunVerifyRulesCommand(VerifyOptions opts)
         {
-
             var analyzer = new AsaAnalyzer();
             var ruleFile = string.IsNullOrEmpty(opts.AnalysisFile) ? RuleFile.LoadEmbeddedFilters() : RuleFile.FromFile(opts.AnalysisFile);
             var violations = analyzer.EnumerateRuleIssues(ruleFile.GetRules());
@@ -300,7 +299,6 @@ namespace AttackSurfaceAnalyzer.Cli
 
         private static ASA_ERROR RunGuiCommand(GuiCommandOptions opts)
         {
-
             var server = WebHost.CreateDefaultBuilder(Array.Empty<string>())
                     .UseStartup<Startup>()
                     .UseKestrel(options =>
@@ -579,7 +577,7 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             else
             {
-                string path = Path.Combine(outputPath, AsaHelpers.MakeValidFileName(baseFileName+"_summary.json.txt"));
+                string path = Path.Combine(outputPath, AsaHelpers.MakeValidFileName(baseFileName + "_summary.json.txt"));
                 var output = new Dictionary<string, object>();
                 output["results"] = results;
                 output["metadata"] = AsaHelpers.GenerateMetadata();
@@ -718,7 +716,6 @@ namespace AttackSurfaceAnalyzer.Cli
             }
 
             return ExportCompareResults(monitorResult, opts, AsaHelpers.MakeValidFileName(opts.RunId));
-            
         }
 
         public static void WriteMonitorJson(string RunId, int ResultType, string OutputPath)
@@ -827,7 +824,7 @@ namespace AttackSurfaceAnalyzer.Cli
             }
 
             void consoleCancelDelegate(object sender, ConsoleCancelEventArgs args)
-            { 
+            {
                 args.Cancel = true;
                 exitEvent.Set();
             };
@@ -932,7 +929,8 @@ namespace AttackSurfaceAnalyzer.Cli
                                 queue.AsParallel().ForAll(res =>
                                 {
                                     // Select rules with the appropriate change type, platform and target
-                                    // - Target is also checked inside Analyze, but this shortcuts repeatedly checking rules which don't apply
+                                    // - Target is also checked inside Analyze, but this shortcuts repeatedly
+                                    // checking rules which don't apply
                                     var selectedRules = ruleFile.AsaRules.Where((rule) =>
                                         (rule.ChangeTypes == null || rule.ChangeTypes.Contains(res.ChangeType))
                                             && (rule.Platforms == null || rule.Platforms.Contains(platform))

@@ -10,24 +10,9 @@ namespace AttackSurfaceAnalyzer.Collectors
 {
     public class RegistryMonitor : BaseMonitor, IDisposable
     {
-        #region Private Fields
-
-        // I believe auditpol results will go into the system log
-        private readonly EventLog log = new EventLog("System");
-
-        private readonly string tmpFileName = Path.GetTempFileName();
-
-        #endregion Private Fields
-
-        #region Public Constructors
-
         public RegistryMonitor()
         {
         }
-
-        #endregion Public Constructors
-
-        #region Public Methods
 
         public override bool CanRunOnPlatform()
         {
@@ -72,10 +57,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             log.EnableRaisingEvents = false;
         }
 
-        #endregion Public Methods
-
-        #region Protected Methods
-
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
@@ -84,6 +65,9 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
-        #endregion Protected Methods
+        // I believe auditpol results will go into the system log
+        private readonly EventLog log = new EventLog("System");
+
+        private readonly string tmpFileName = Path.GetTempFileName();
     }
 }

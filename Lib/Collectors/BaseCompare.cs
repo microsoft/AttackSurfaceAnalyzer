@@ -15,18 +15,10 @@ using Tpm2Lib;
 namespace AttackSurfaceAnalyzer.Collectors
 {
     /// <summary>
-    /// The Generic Compare class.
+    ///     The Generic Compare class.
     /// </summary>
     public class BaseCompare
     {
-        #region Private Fields
-
-        private RUN_STATUS _running = RUN_STATUS.NOT_STARTED;
-
-        #endregion Private Fields
-
-        #region Public Constructors
-
         public BaseCompare()
         {
             Results = new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>>();
@@ -42,23 +34,15 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
-        #endregion Public Constructors
-
-        #region Public Properties
-
         public ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> Results { get; }
 
-        #endregion Public Properties
-
-        #region Public Methods
-
         /// <summary>
-        /// Creates a list of Diff objects based on an object property and findings.
+        ///     Creates a list of Diff objects based on an object property and findings.
         /// </summary>
-        /// <param name="prop">The property of the referenced object.</param>
-        /// <param name="added">The added findings.</param>
-        /// <param name="removed">The removed findings.</param>
-        /// <returns></returns>
+        /// <param name="prop"> The property of the referenced object. </param>
+        /// <param name="added"> The added findings. </param>
+        /// <param name="removed"> The removed findings. </param>
+        /// <returns> </returns>
         public static List<Diff> GetDiffs(PropertyInfo prop, object? added, object? removed)
         {
             List<Diff> diffsOut = new List<Diff>();
@@ -95,10 +79,10 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Compares all the common collectors between two runs.
+        ///     Compares all the common collectors between two runs.
         /// </summary>
-        /// <param name="firstRunId">The Base run id.</param>
-        /// <param name="secondRunId">The Compare run id.</param>
+        /// <param name="firstRunId"> The Base run id. </param>
+        /// <param name="secondRunId"> The Compare run id. </param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Collecting telemetry on exceptions.")]
         public void Compare(string? firstRunId, string secondRunId, DatabaseManager databaseManager)
         {
@@ -313,16 +297,16 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Returns if the comparators are still running.
+        ///     Returns if the comparators are still running.
         /// </summary>
-        /// <returns>RUN_STATUS indicating run status.</returns>
+        /// <returns> RUN_STATUS indicating run status. </returns>
         public RUN_STATUS IsRunning()
         {
             return _running;
         }
 
         /// <summary>
-        /// Set status to running.
+        ///     Set status to running.
         /// </summary>
         public void Start()
         {
@@ -330,7 +314,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Sets status to completed.
+        ///     Sets status to completed.
         /// </summary>
         public void Stop()
         {
@@ -338,11 +322,11 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Compare but with Start/Stop automatic
+        ///     Compare but with Start/Stop automatic
         /// </summary>
-        /// <param name="firstRunId">The Base run id.</param>
-        /// <param name="secondRunId">The Compare run id.</param>
-        /// <returns></returns>
+        /// <param name="firstRunId"> The Base run id. </param>
+        /// <param name="secondRunId"> The Compare run id. </param>
+        /// <returns> </returns>
         public bool TryCompare(string? firstRunId, string secondRunId, DatabaseManager databaseManager)
         {
             Start();
@@ -351,6 +335,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             return true;
         }
 
-        #endregion Public Methods
+        private RUN_STATUS _running = RUN_STATUS.NOT_STARTED;
     }
 }

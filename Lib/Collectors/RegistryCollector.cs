@@ -12,25 +12,10 @@ using System.Threading.Tasks;
 namespace AttackSurfaceAnalyzer.Collectors
 {
     /// <summary>
-    /// Collects data from the local registry on Windows systems.
+    ///     Collects data from the local registry on Windows systems.
     /// </summary>
     public class RegistryCollector : BaseCollector
     {
-        #region Private Fields
-
-        private static readonly List<(RegistryHive, string)> DefaultHives = new List<(RegistryHive, string)>()
-        {
-            (RegistryHive.ClassesRoot,string.Empty), (RegistryHive.CurrentConfig,string.Empty), (RegistryHive.CurrentUser,string.Empty), (RegistryHive.LocalMachine,string.Empty), (RegistryHive.Users,string.Empty)
-        };
-
-        private readonly List<(RegistryHive, string)> Hives;
-
-        private readonly bool Parallelize;
-
-        #endregion Private Fields
-
-        #region Public Constructors
-
         public RegistryCollector(CollectorOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
         {
             this.opts = opts ?? this.opts;
@@ -57,18 +42,10 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
-        #endregion Public Constructors
-
-        #region Public Methods
-
         public override bool CanRunOnPlatform()
         {
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
         }
-
-        #endregion Public Methods
-
-        #region Internal Methods
 
         internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
@@ -131,6 +108,13 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
-        #endregion Internal Methods
+        private static readonly List<(RegistryHive, string)> DefaultHives = new List<(RegistryHive, string)>()
+        {
+            (RegistryHive.ClassesRoot,string.Empty), (RegistryHive.CurrentConfig,string.Empty), (RegistryHive.CurrentUser,string.Empty), (RegistryHive.LocalMachine,string.Empty), (RegistryHive.Users,string.Empty)
+        };
+
+        private readonly List<(RegistryHive, string)> Hives;
+
+        private readonly bool Parallelize;
     }
 }

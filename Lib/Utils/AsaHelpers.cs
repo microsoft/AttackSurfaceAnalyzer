@@ -11,7 +11,6 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
-using System.Text.RegularExpressions;
 
 namespace AttackSurfaceAnalyzer.Utils
 {
@@ -231,10 +230,8 @@ namespace AttackSurfaceAnalyzer.Utils
             return sid;
         }
 
-        private static bool? _elevated = null;
-
         private static readonly Random random = new Random();
-
         private static readonly ConcurrentDictionary<string, string> SidMap = new ConcurrentDictionary<string, string>();
+        private static bool? _elevated = null;
     }
 }

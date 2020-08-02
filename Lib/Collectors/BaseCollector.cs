@@ -13,45 +13,16 @@ using System.Threading;
 namespace AttackSurfaceAnalyzer.Collectors
 {
     /// <summary>
-    /// Base class for all collectors.
+    ///     Base class for all collectors.
     /// </summary>
     public abstract class BaseCollector : IPlatformRunnable
     {
-        #region Internal Fields
-
-        internal CollectorOptions opts = new CollectorOptions();
-
-        #endregion Internal Fields
-
-        #region Private Fields
-
-        private readonly Action<CollectObject>? changeHandler;
-        private Stopwatch? watch;
-
-        #endregion Private Fields
-
-        #region Protected Constructors
-
-        protected BaseCollector(CollectorOptions? opts, Action<CollectObject>? changeHandler)
-        {
-            this.opts = opts ?? new CollectorOptions();
-            this.changeHandler = changeHandler;
-        }
-
-        #endregion Protected Constructors
-
-        #region Public Properties
-
         public ConcurrentStack<CollectObject> Results { get; } = new ConcurrentStack<CollectObject>();
 
         public RUN_STATUS RunStatus
         {
             get; private set;
         }
-
-        #endregion Public Properties
-
-        #region Public Methods
 
         public abstract bool CanRunOnPlatform();
 
@@ -101,9 +72,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             Stop();
         }
 
-        #endregion Public Methods
-
-        #region Internal Methods
+        internal CollectorOptions opts = new CollectorOptions();
 
         internal abstract void ExecuteInternal(CancellationToken cancellationToken);
 
@@ -119,16 +88,19 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
-        #endregion Internal Methods
+        protected BaseCollector(CollectorOptions? opts, Action<CollectObject>? changeHandler)
+        {
+            this.opts = opts ?? new CollectorOptions();
+            this.changeHandler = changeHandler;
+        }
 
-        #region Private Methods
+        private readonly Action<CollectObject>? changeHandler;
+        private Stopwatch? watch;
 
         private static CancellationToken GetPlaceholderToken()
         {
             using var source = new CancellationTokenSource();
             return source.Token;
         }
-
-        #endregion Private Methods
     }
 }

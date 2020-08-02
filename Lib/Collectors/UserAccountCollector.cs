@@ -16,28 +16,18 @@ using System.Threading;
 namespace AttackSurfaceAnalyzer.Collectors
 {
     /// <summary>
-    /// Collects data about the local user and group accounts.
+    ///     Collects data about the local user and group accounts.
     /// </summary>
     public class UserAccountCollector : BaseCollector
     {
-        #region Public Constructors
-
         public UserAccountCollector(CollectorOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
         {
         }
-
-        #endregion Public Constructors
-
-        #region Public Methods
 
         public override bool CanRunOnPlatform()
         {
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
         }
-
-        #endregion Public Methods
-
-        #region Internal Methods
 
         internal static bool IsHiddenWindowsUser(string username)
         {
@@ -83,7 +73,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Executes the User account collector on Linux. Reads /etc/passwd and /etc/shadow.
+        ///     Executes the User account collector on Linux. Reads /etc/passwd and /etc/shadow.
         /// </summary>
         internal void ExecuteLinux(CancellationToken cancellationToken)
         {
@@ -175,7 +165,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Gathers user account details on OS X. Uses dscacheutil.
+        ///     Gathers user account details on OS X. Uses dscacheutil.
         /// </summary>
         internal void ExecuteOsX(CancellationToken cancellationToken)
         {
@@ -194,8 +184,8 @@ namespace AttackSurfaceAnalyzer.Collectors
 
             var accountDetails = new Dictionary<string, UserAccountObject>();
 
-            // We initialize a new object. We know by the formatting of dscacheutil that we will
-            // never have a user without the name coming first, but we don't know the name yet.
+            // We initialize a new object. We know by the formatting of dscacheutil that we will never have a
+            // user without the name coming first, but we don't know the name yet.
             var newUser = new UserAccountObject("");
             foreach (var _line in result.Split('\n'))
             {
@@ -285,7 +275,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Executes the UserAccountCollector on Windows. Uses WMI to gather local users.
+        ///     Executes the UserAccountCollector on Windows. Uses WMI to gather local users.
         /// </summary>
         internal void ExecuteWindows(CancellationToken cancellationToken)
         {
@@ -443,7 +433,5 @@ namespace AttackSurfaceAnalyzer.Collectors
                 HandleChange(group.Value);
             }
         }
-
-        #endregion Internal Methods
     }
 }

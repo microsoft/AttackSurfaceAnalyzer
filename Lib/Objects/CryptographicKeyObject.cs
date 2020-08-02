@@ -9,17 +9,11 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class CryptographicKeyObject : CollectObject
     {
-        #region Public Constructors
-
         public CryptographicKeyObject(string Source, TpmAlgId tpmAlgId)
         {
             this.Source = Source;
             this.tpmAlgId = tpmAlgId;
         }
-
-        #endregion Public Constructors
-
-        #region Public Properties
 
         public override string Identity
         {
@@ -33,8 +27,6 @@ namespace AttackSurfaceAnalyzer.Objects
         public string Source { get; set; }
 
         public TpmAlgId tpmAlgId { get; set; } = TpmAlgId.Null;
-
-        #endregion Public Properties
     }
 
     public class KeyDetailObject
@@ -43,15 +35,6 @@ namespace AttackSurfaceAnalyzer.Objects
 
     public class RsaKeyDetails : KeyDetailObject
     {
-        #region Private Fields
-
-        private bool ContainsPrivate = false;
-        private RSA rsa;
-
-        #endregion Private Fields
-
-        #region Public Constructors
-
         public RsaKeyDetails(byte[] modulus, byte[] d, byte[]? p = null, byte[]? q = null)
         {
             var parameters = new RSAParameters()
@@ -89,10 +72,6 @@ namespace AttackSurfaceAnalyzer.Objects
             }
         }
 
-        #endregion Public Constructors
-
-        #region Public Properties
-
         public string? FullString
         {
             get
@@ -113,10 +92,6 @@ namespace AttackSurfaceAnalyzer.Objects
             }
         }
 
-        #endregion Public Properties
-
-        #region Public Methods
-
         public bool ShouldSerializeFullString()
         {
             return ContainsPrivate;
@@ -127,6 +102,7 @@ namespace AttackSurfaceAnalyzer.Objects
             return !ContainsPrivate;
         }
 
-        #endregion Public Methods
+        private bool ContainsPrivate = false;
+        private RSA rsa;
     }
 }

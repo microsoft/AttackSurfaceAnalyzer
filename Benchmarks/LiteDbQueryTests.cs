@@ -12,6 +12,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     public class LiteDbQueryTests : AsaDatabaseBenchmark
     {
 #nullable disable
+
         public LiteDbQueryTests()
 #nullable restore
         {

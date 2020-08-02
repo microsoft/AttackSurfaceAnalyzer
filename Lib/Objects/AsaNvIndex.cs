@@ -5,12 +5,10 @@ namespace AttackSurfaceAnalyzer.Objects
 {
     public class AsaNvIndex
     {
-        #region Public Properties
-
         public NvAttr Attributes { get; set; }
 
-        // These are all derived properties of the NvAttr flags. Separating them like this allows
-        // analysis rules to be written against them
+        // These are all derived properties of the NvAttr flags. Separating them like this allows analysis
+        // rules to be written against them
         public bool AuthRead { get { return Attributes.HasFlag(NvAttr.Authread); } }
 
         public bool AuthWrite { get { return Attributes.HasFlag(NvAttr.Authwrite); } }
@@ -49,10 +47,6 @@ namespace AttackSurfaceAnalyzer.Objects
         public bool Writelocked { get { return Attributes.HasFlag(NvAttr.Writelocked); } }
         public bool WriteStclear { get { return Attributes.HasFlag(NvAttr.WriteStclear); } }
         public bool Written { get { return Attributes.HasFlag(NvAttr.Written); } }
-
-        #endregion Public Properties
-
-        #region Public Methods
 
         // Don't serialize any of these derived properties
         public static bool ShouldSerializeAuthRead() { return false; }
@@ -226,7 +220,5 @@ namespace AttackSurfaceAnalyzer.Objects
         {
             return false;
         }
-
-        #endregion Public Methods
     }
 }

@@ -14,28 +14,18 @@ using WindowsFirewallHelper;
 namespace AttackSurfaceAnalyzer.Collectors
 {
     /// <summary>
-    /// Collects metadata from the local firewall.
+    ///     Collects metadata from the local firewall.
     /// </summary>
     public class FirewallCollector : BaseCollector
     {
-        #region Public Constructors
-
         public FirewallCollector(CollectorOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
         {
         }
-
-        #endregion Public Constructors
-
-        #region Public Methods
 
         public override bool CanRunOnPlatform()
         {
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         }
-
-        #endregion Public Methods
-
-        #region Internal Methods
 
         internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
@@ -54,7 +44,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Dumps from iptables.
+        ///     Dumps from iptables.
         /// </summary>
         internal void ExecuteLinux(CancellationToken cancellationToken)
         {
@@ -130,7 +120,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Talks to socketfilterfw
+        ///     Talks to socketfilterfw
         /// </summary>
         internal void ExecuteMacOs(CancellationToken cancellationToken)
         {
@@ -222,7 +212,7 @@ ALF: total number of apps = 2
         }
 
         /// <summary>
-        /// Uses a library to access the Windows Firewall.
+        ///     Uses a library to access the Windows Firewall.
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "The specific exceptions thrown by this library are not documented.")]
         internal void ExecuteWindows(CancellationToken cancellationToken)
@@ -270,7 +260,5 @@ ALF: total number of apps = 2
                 Log.Warning(Strings.Get("CollectorNotSupportedOnPlatform"), GetType().ToString());
             }
         }
-
-        #endregion Internal Methods
     }
 }

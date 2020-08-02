@@ -13,25 +13,19 @@ using System.Threading;
 namespace AttackSurfaceAnalyzer.Collectors
 {
     /// <summary>
-    /// Collects Com Objects referenced by the registry
+    ///     Collects Com Objects referenced by the registry
     /// </summary>
     public class ComObjectCollector : BaseCollector
     {
-        #region Public Constructors
-
         public ComObjectCollector(CollectorOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
         {
         }
 
-        #endregion Public Constructors
-
-        #region Public Methods
-
         /// <summary>
-        /// Parse all the Subkeys of the given SearchKey into ComObjects and returns a list of them
+        ///     Parse all the Subkeys of the given SearchKey into ComObjects and returns a list of them
         /// </summary>
-        /// <param name="SearchKey">The Registry Key to search</param>
-        /// <param name="View">The View of the registry to use</param>
+        /// <param name="SearchKey"> The Registry Key to search </param>
+        /// <param name="View"> The View of the registry to use </param>
         public static IEnumerable<CollectObject> ParseComObjects(RegistryKey SearchKey, RegistryView View, bool SingleThreaded = false)
         {
             if (SearchKey == null) { return new List<CollectObject>(); }
@@ -61,11 +55,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 {
                                     if (successful && BinaryPath32 != null)
                                     {
-                                        // Clean up cases where some extra spaces are thrown into
-                                        // the start (breaks our permission checker)
+                                        // Clean up cases where some extra spaces are thrown into the start
+                                        // (breaks our permission checker)
                                         BinaryPath32 = BinaryPath32.Trim();
-                                        // Clean up cases where the binary is quoted (also breaks
-                                        // permission checker)
+                                        // Clean up cases where the binary is quoted (also breaks permission checker)
                                         if (BinaryPath32.StartsWith("\"") && BinaryPath32.EndsWith("\""))
                                         {
                                             BinaryPath32 = BinaryPath32.AsSpan().Slice(1, BinaryPath32.Length - 2).ToString();
@@ -90,11 +83,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                                 {
                                     if (successful && BinaryPath64 != null)
                                     {
-                                        // Clean up cases where some extra spaces are thrown into
-                                        // the start (breaks our permission checker)
+                                        // Clean up cases where some extra spaces are thrown into the start
+                                        // (breaks our permission checker)
                                         BinaryPath64 = BinaryPath64.Trim();
-                                        // Clean up cases where the binary is quoted (also breaks
-                                        // permission checker)
+                                        // Clean up cases where the binary is quoted (also breaks permission checker)
                                         if (BinaryPath64.StartsWith("\"") && BinaryPath64.EndsWith("\""))
                                         {
                                             BinaryPath64 = BinaryPath64.AsSpan().Slice(1, BinaryPath64.Length - 2).ToString();
@@ -147,21 +139,17 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Com Objects only exist on Windows.
+        ///     Com Objects only exist on Windows.
         /// </summary>
-        /// <returns></returns>
+        /// <returns> </returns>
         public override bool CanRunOnPlatform()
         {
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
         }
 
-        #endregion Public Methods
-
-        #region Internal Methods
-
         /// <summary>
-        /// Execute the Com Collector. We collect the list of Com Objects registered in the registry
-        /// and then examine each binary on the disk they point to.
+        ///     Execute the Com Collector. We collect the list of Com Objects registered in the registry and
+        ///     then examine each binary on the disk they point to.
         /// </summary>
         internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
@@ -215,7 +203,5 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
             }
         }
-
-        #endregion Internal Methods
     }
 }

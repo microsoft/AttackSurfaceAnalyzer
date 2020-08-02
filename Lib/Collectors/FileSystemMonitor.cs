@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 namespace AttackSurfaceAnalyzer.Collectors
 {
     /// <summary>
-    /// Actively monitors the filesystem for changes.
+    ///     Actively monitors the filesystem for changes.
     /// </summary>
     public class FileSystemMonitor : BaseMonitor, IDisposable
     {
@@ -96,8 +96,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
                     watcher.IncludeSubdirectories = true;
 
-                    // Changed, Created and Deleted can share a handler, because they throw the same
-                    // type of event
+                    // Changed, Created and Deleted can share a handler, because they throw the same type of event
                     watcher.Changed += GetFunctionForFilterType(filter);
                     watcher.Created += GetFunctionForFilterType(filter);
                     watcher.Deleted += GetFunctionForFilterType(filter);
@@ -270,16 +269,16 @@ namespace AttackSurfaceAnalyzer.Collectors
                     return;
                 }
 
-                // If we are gathering extended details LastAccess times aren't meaningful since we
-                // will trigger them Instead we note they are gathered and clean up in StopRun
+                // If we are gathering extended details LastAccess times aren't meaningful since we will
+                // trigger them Instead we note they are gathered and clean up in StopRun
                 if (!options.FileNamesOnly && filters.HasFlag(NotifyFilters.LastAccess))
                 {
                     filesAccessed.TryAdd(objIn.FullPath, objIn);
                 }
                 else
                 {
-                    // We skip gathering extended information when The File was Deleted We are set
-                    // to gather names only
+                    // We skip gathering extended information when The File was Deleted We are set to gather
+                    // names only
                     var fso = (objIn.ChangeType == WatcherChangeTypes.Deleted || options.FileNamesOnly) ? null : fsc.FilePathToFileSystemObject(objIn.FullPath);
                     var ToWrite = new FileMonitorObject(objIn.FullPath)
                     {

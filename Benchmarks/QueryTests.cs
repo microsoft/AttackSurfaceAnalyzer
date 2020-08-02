@@ -1,7 +1,6 @@
 ﻿using AttackSurfaceAnalyzer.Utils;
 using BenchmarkDotNet.Attributes;
 using System.Collections.Concurrent;
-using System.Data.Entity;
 using System.Threading;
 using System.Threading.Tasks;
 

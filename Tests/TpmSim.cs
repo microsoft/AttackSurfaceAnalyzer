@@ -7,22 +7,12 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public class TpmSim
     {
-        #region Public Constructors
-
         public TpmSim(int Port = 2321)
         {
             this.Port = Port;
         }
 
-        #endregion Public Constructors
-
-        #region Public Properties
-
         public int Port { get; }
-
-        #endregion Public Properties
-
-        #region Public Methods
 
         public static Process GetTpmSimulator()
         {
@@ -58,7 +48,5 @@ namespace AttackSurfaceAnalyzer.Utils
                 tpmDevice.Close();
             }
         }
-
-        #endregion Public Methods
     }
 }

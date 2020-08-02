@@ -10,6 +10,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     public class InsertTestsWithIntermittentTransactions : AsaDatabaseBenchmark
     {
 #nullable disable
+
         public InsertTestsWithIntermittentTransactions()
 #nullable restore
         {

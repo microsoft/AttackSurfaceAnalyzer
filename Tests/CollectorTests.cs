@@ -24,25 +24,12 @@ namespace AttackSurfaceAnalyzer.Tests
     [TestClass]
     public class CollectorTests
     {
-        #region Public Methods
-
         [ClassInitialize]
         public static void ClassSetup(TestContext _)
         {
             Logger.Setup(false, true);
             Strings.Setup();
             AsaTelemetry.SetEnabled(enabled: false);
-        }
-
-        /// <summary>
-        /// We can't actually guarantee there's any wifi networks on the test system.
-        /// So we just check that it doesn't crash.
-        /// </summary>
-        [TestMethod]
-        public void TestWifiCollector()
-        {
-            var wc = new WifiCollector();
-            wc.TryExecute();
         }
 
         /// <summary>
@@ -542,6 +529,15 @@ namespace AttackSurfaceAnalyzer.Tests
             }
         }
 
-        #endregion Public Methods
+        /// <summary>
+        ///     We can't actually guarantee there's any wifi networks on the test system. So we just check
+        ///     that it doesn't crash.
+        /// </summary>
+        [TestMethod]
+        public void TestWifiCollector()
+        {
+            var wc = new WifiCollector();
+            wc.TryExecute();
+        }
     }
 }

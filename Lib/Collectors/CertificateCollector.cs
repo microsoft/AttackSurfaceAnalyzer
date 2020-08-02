@@ -12,33 +12,23 @@ using System.Threading;
 namespace AttackSurfaceAnalyzer.Collectors
 {
     /// <summary>
-    /// Collects metadata from the local certificate stores.
+    ///     Collects metadata from the local certificate stores.
     /// </summary>
     public class CertificateCollector : BaseCollector
     {
-        #region Public Constructors
-
         /// <summary>
         /// </summary>
-        /// <param name="opts"></param>
-        /// <param name=""></param>
+        /// <param name="opts"> </param>
+        /// <param name=""> </param>
         public CertificateCollector(CollectorOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler) { }
-
-        #endregion Public Constructors
-
-        #region Public Methods
 
         public override bool CanRunOnPlatform()
         {
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
         }
 
-        #endregion Public Methods
-
-        #region Internal Methods
-
         /// <summary>
-        /// Execute the certificate collector.
+        ///     Execute the certificate collector.
         /// </summary>
         internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
@@ -57,9 +47,9 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// On linux we check the central trusted root store (a folder), which has symlinks to
-        /// actual cert locations scattered across the db We list all the certificates and then
-        /// create a new X509Certificate2 object for each by filename.
+        ///     On linux we check the central trusted root store (a folder), which has symlinks to actual cert
+        ///     locations scattered across the db We list all the certificates and then create a new
+        ///     X509Certificate2 object for each by filename.
         /// </summary>
         internal void ExecuteLinux(CancellationToken cancellationToken)
         {
@@ -96,10 +86,10 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// On macos we use the keychain and export the certificates as .pem. However, on macos
-        /// Certificate2 doesn't support loading from a pem. So first we need pkcs12s instead, we
-        /// convert using openssl, which requires we set a password we import the pkcs12 with all
-        /// our certs, delete the temp files and then iterate over it the certs
+        ///     On macos we use the keychain and export the certificates as .pem. However, on macos
+        ///     Certificate2 doesn't support loading from a pem. So first we need pkcs12s instead, we convert
+        ///     using openssl, which requires we set a password we import the pkcs12 with all our certs,
+        ///     delete the temp files and then iterate over it the certs
         /// </summary>
         internal void ExecuteMacOs(CancellationToken cancellationToken)
         {
@@ -148,7 +138,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// On Windows we can use the .NET API to iterate through all the stores.
+        ///     On Windows we can use the .NET API to iterate through all the stores.
         /// </summary>
         internal void ExecuteWindows(CancellationToken cancellationToken)
         {
@@ -179,7 +169,5 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
             }
         }
-
-        #endregion Internal Methods
     }
 }

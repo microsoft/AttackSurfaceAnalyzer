@@ -1,6 +1,5 @@
 ﻿using AttackSurfaceAnalyzer.Utils;
 using BenchmarkDotNet.Attributes;
-using System.Data.Entity;
 
 namespace AttackSurfaceAnalyzer.Benchmarks
 {

@@ -24,12 +24,10 @@ using System.Threading.Tasks;
 namespace AttackSurfaceAnalyzer.Collectors
 {
     /// <summary>
-    /// Collects Filesystem Data from the local file system.
+    ///     Collects Filesystem Data from the local file system.
     /// </summary>
     public class FileSystemCollector : BaseCollector
     {
-        #region Public Constructors
-
         public FileSystemCollector(CollectorOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
         {
             Roots.AddRange(opts?.SelectedDirectories ?? Array.Empty<string>());
@@ -57,16 +55,8 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
         }
 
-        #endregion Public Constructors
-
-        #region Public Properties
-
         public static ConcurrentDictionary<string, uint> ClusterSizes { get; set; } = new ConcurrentDictionary<string, uint>();
         public List<string> Roots { get; } = new List<string>();
-
-        #endregion Public Properties
-
-        #region Public Methods
 
         public override bool CanRunOnPlatform()
         {
@@ -74,14 +64,14 @@ namespace AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
-        /// Converts a FileSystemInfo into a FileSystemObject by reading in data about the file
+        ///     Converts a FileSystemInfo into a FileSystemObject by reading in data about the file
         /// </summary>
-        /// <param name="fileInfo">A reference to a file on disk.</param>
+        /// <param name="fileInfo"> A reference to a file on disk. </param>
         /// <param name="downloadCloud">
-        /// If the file is hosted in the cloud, the user has the option to include cloud files or not.
+        ///     If the file is hosted in the cloud, the user has the option to include cloud files or not.
         /// </param>
-        /// <param name="includeContentHash">If we should generate a hash of the file.</param>
-        /// <returns></returns>
+        /// <param name="includeContentHash"> If we should generate a hash of the file. </param>
+        /// <returns> </returns>
         public FileSystemObject FilePathToFileSystemObject(string path)
         {
             FileSystemObject obj = new FileSystemObject(path);
@@ -217,9 +207,9 @@ namespace AttackSurfaceAnalyzer.Collectors
                         obj.Size = fileInfo.Length;
                         obj.SizeOnDisk = WindowsSizeOnDisk(fileInfo);
 
-                        // This check is to try to prevent reading of cloud based files (like a
-                        // dropbox folder) and subsequently causing a download, unless the user
-                        // specifically requests it with DownloadCloud.
+                        // This check is to try to prevent reading of cloud based files (like a dropbox
+                        // folder) and subsequently causing a download, unless the user specifically requests
+                        // it with DownloadCloud.
                         if (opts.DownloadCloud || obj.SizeOnDisk > 0 || WindowsFileSystemUtils.IsLocal(obj.Path))
                         {
                             obj.LastModified = File.GetLastWriteTimeUtc(path);
@@ -340,10 +330,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             return obj;
         }
 
-        #endregion Public Methods
-
-        #region Internal Methods
-
         internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
             foreach (var Root in Roots)
@@ -381,10 +367,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
             }
         }
-
-        #endregion Internal Methods
-
-        #region Private Methods
 
         private static long WindowsSizeOnDisk(FileInfo path)
         {
@@ -517,7 +499,5 @@ namespace AttackSurfaceAnalyzer.Collectors
             }
             Log.Verbose("Finished parsing {0}", path);
         }
-
-        #endregion Private Methods
     }
 }

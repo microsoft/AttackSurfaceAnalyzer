@@ -18,7 +18,7 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             Logger.Setup(false, true);
             Strings.Setup();
-            AsaTelemetry.SetEnabled(enabled:false);
+            AsaTelemetry.SetEnabled(enabled: false);
         }
 
         [TestMethod]

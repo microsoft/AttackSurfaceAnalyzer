@@ -10,6 +10,7 @@ namespace AttackSurfaceAnalyzer.Benchmarks
     public class SystemSqliteInsertTestsWithoutTransactions : AsaDatabaseBenchmark
     {
 #nullable disable
+
         public SystemSqliteInsertTestsWithoutTransactions()
 #nullable restore
         {
