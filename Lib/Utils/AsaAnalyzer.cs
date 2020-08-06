@@ -10,7 +10,7 @@ namespace AttackSurfaceAnalyzer.Utils
 {
     public class AsaAnalyzer : Analyzer
     {
-        public AsaAnalyzer() : base()
+        public AsaAnalyzer(AnalyzerOptions? opts = null) : base(opts)
         {
             CustomPropertyExtractionDelegates.Add(ParseCustomAsaProperties);
             CustomObjectToValuesDelegates.Add(ParseCustomAsaObjectValues);

@@ -173,6 +173,9 @@ namespace AttackSurfaceAnalyzer
 
         [Option(HelpText = "Second run (post-install) identifier")]
         public string SecondRunId { get; set; }
+
+        [Option(HelpText = "Run Scripts")]
+        public bool RunScripts { get; set; }
     }
 
     [Verb("config", HelpText = "Configure and query the database")]
@@ -233,6 +236,9 @@ namespace AttackSurfaceAnalyzer
 
         [Option(HelpText = "Save to internal database for review in GUI")]
         public bool SaveToDatabase { get; set; }
+
+        [Option(HelpText = "Enable running Scripts in rules")]
+        public bool RunScripts { get; set; }
     }
 
     [Verb("gui", HelpText = "Launch the GUI in a browser")]
@@ -273,6 +279,9 @@ namespace AttackSurfaceAnalyzer
 
         [Option(HelpText = "Save to internal database for review in GUI")]
         public bool SaveToDatabase { get; set; }
+
+        [Option(HelpText = "Run Scripts")]
+        public bool RunScripts { get; set; }
     }
 
     [Verb("monitor", HelpText = "Continue running and monitor activity")]
@@ -307,5 +316,8 @@ namespace AttackSurfaceAnalyzer
     {
         [Option("filename", Required = false, HelpText = "Path to your rule file (leave blank to test the embedded rules)")]
         public string? AnalysisFile { get; set; }
+
+        [Option(HelpText = "Run Scripts in Rules")]
+        public bool RunScripts { get; set; }
     }
 }
