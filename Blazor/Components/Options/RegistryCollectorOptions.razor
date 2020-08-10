@@ -1,0 +1,5 @@
+﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
+
+<h3>Registry Collector Options</h3>
+<input id="enableRegistryCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableRegistryCollector" /><label for="enableRegistryCollectionCheckbox">Enable</label>
+<input id="selectedHivesString" type="text" @bind="appData.CollectOptions.SelectedHives" /><label for="selectedHivesString">Selected Hives (comma separated)</label>

@@ -1,7 +1,22 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
-<h3>FileCollectorOptions</h3>
-<label for="enableFileSystemCollectorCheckbox">Enable</label>
-<input id="enableFileSystemCollectorCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableFileSystemCollector"/>
-@code {
 
+<h3>FileCollectorOptions</h3>
+<input id="enableFileSystemCollectorCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableFileSystemCollector" /><label for="enableFileSystemCollectorCheckbox">Enable</label>
+<input id="enableGatherHashesCheckbox" type="checkbox" @bind="appData.CollectOptions.GatherHashes" /><label for="enableGatherHashesCheckbox">Gather Hashes</label>
+<input id="enableCrawlArchivesCheckbox" type="checkbox" @bind="appData.CollectOptions.CrawlArchives" /><label for="enableCrawlArchivesCheckbox">Crawl Archives</label>
+<input id="enableDownloadCloudCheckbox" type="checkbox" @bind="appData.CollectOptions.DownloadCloud" /><label for="enableDownloadCloudCheckbox">Download Cloud Files</label>
+<input id="selectedDirectoriesString" type="text" @bind="SelectedDirectories" /><label for="selectedDirectoriesString">Selected Directories</label>
+
+@code {
+    string SelectedDirectories
+    {
+        get
+        {
+            return string.Join(',', appData.CollectOptions.SelectedDirectories ?? Array.Empty<string>());
+        }
+        set
+        {
+            appData.CollectOptions.SelectedDirectories = value.Split(',');
+        }
+    }
 }
