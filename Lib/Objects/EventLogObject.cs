@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AttackSurfaceAnalyzer.Objects
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
     public class EventLogObject : CollectObject
     {

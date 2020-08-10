@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
-using AttackSurfaceAnalyzer.Types;
-using AttackSurfaceAnalyzer.Utils;
+using Microsoft.CST.AttackSurfaceAnalyzer.Types;
+using Microsoft.CST.AttackSurfaceAnalyzer.Utils;
 using Microsoft.CST.OAT;
 using Newtonsoft.Json;
 using Serilog;
@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace AttackSurfaceAnalyzer.Objects
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
     public class RuleFile
     {

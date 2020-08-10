@@ -3,6 +3,6 @@ using System.Resources;
 
 [assembly: NeutralResourcesLanguage("en")]
 
-namespace AttackSurfaceAnalyzer.Utils
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 {
 }

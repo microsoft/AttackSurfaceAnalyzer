@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 
-namespace AttackSurfaceAnalyzer.Utils
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 {
     public static class Elevation
     {

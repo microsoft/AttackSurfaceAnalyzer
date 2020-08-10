@@ -1,6 +1,6 @@
 ﻿using BenchmarkDotNet.Running;
 
-namespace AttackSurfaceAnalyzer.Benchmarks
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Benchmarks
 {
     public class Program
     {

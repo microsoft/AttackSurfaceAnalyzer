@@ -1,7 +1,7 @@
-﻿using AttackSurfaceAnalyzer.Utils;
+﻿using Microsoft.CST.AttackSurfaceAnalyzer.Utils;
 using BenchmarkDotNet.Attributes;
 
-namespace AttackSurfaceAnalyzer.Benchmarks
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Benchmarks
 {
     [MarkdownExporterAttribute.GitHub]
     [JsonExporterAttribute.Full]

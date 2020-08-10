@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace AttackSurfaceAnalyzer.Utils
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 {
     public class FileWatcher : IDisposable
     {

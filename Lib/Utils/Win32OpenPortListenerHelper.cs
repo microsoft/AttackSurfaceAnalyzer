@@ -7,7 +7,7 @@ using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace AttackSurfaceAnalyzer.Utils
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 {
     /// <summary>
     ///     Static class that returns the list of processes and the ports those processes use.

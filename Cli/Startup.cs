@@ -12,7 +12,7 @@ using System;
 using System.IO;
 using System.Reflection;
 
-namespace AttackSurfaceAnalyzer.Cli
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 {
     public class Startup
     {

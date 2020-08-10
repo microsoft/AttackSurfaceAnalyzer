@@ -1,5 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
-namespace AttackSurfaceAnalyzer.Utils
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 {
     public class RunManager
     {

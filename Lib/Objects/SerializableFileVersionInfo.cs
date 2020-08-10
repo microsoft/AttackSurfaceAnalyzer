@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace AttackSurfaceAnalyzer.Objects
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
     public class SerializableFileVersionInfo
     {

@@ -1,5 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
-using AttackSurfaceAnalyzer.Objects;
+using Microsoft.CST.AttackSurfaceAnalyzer.Objects;
 using Microsoft.Win32;
 using Serilog;
 using System;
@@ -8,7 +8,7 @@ using System.IO;
 using System.Security.AccessControl;
 using System.Security.Principal;
 
-namespace AttackSurfaceAnalyzer.Utils
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 {
     public static class RegistryWalker
     {

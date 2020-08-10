@@ -1,8 +1,8 @@
-﻿using AttackSurfaceAnalyzer.Types;
+﻿using Microsoft.CST.AttackSurfaceAnalyzer.Types;
 using Microsoft.CST.OAT;
 using System.Collections.Generic;
 
-namespace AttackSurfaceAnalyzer.Objects
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
     public class AsaRule : Rule
     {

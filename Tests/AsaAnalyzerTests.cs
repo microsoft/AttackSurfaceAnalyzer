@@ -1,13 +1,13 @@
-﻿using AttackSurfaceAnalyzer.Cli;
-using AttackSurfaceAnalyzer.Objects;
-using AttackSurfaceAnalyzer.Types;
-using AttackSurfaceAnalyzer.Utils;
+﻿using Microsoft.CST.AttackSurfaceAnalyzer.Cli;
+using Microsoft.CST.AttackSurfaceAnalyzer.Objects;
+using Microsoft.CST.AttackSurfaceAnalyzer.Types;
+using Microsoft.CST.AttackSurfaceAnalyzer.Utils;
 using Microsoft.CST.OAT;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AttackSurfaceAnalyzer.Tests
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
 {
     [TestClass]
     public class AsaAnalyzerTests

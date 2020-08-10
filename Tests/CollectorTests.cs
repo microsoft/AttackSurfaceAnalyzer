@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
-using AttackSurfaceAnalyzer.Collectors;
-using AttackSurfaceAnalyzer.Objects;
-using AttackSurfaceAnalyzer.Types;
-using AttackSurfaceAnalyzer.Utils;
+using Microsoft.CST.AttackSurfaceAnalyzer.Collectors;
+using Microsoft.CST.AttackSurfaceAnalyzer.Objects;
+using Microsoft.CST.AttackSurfaceAnalyzer.Types;
+using Microsoft.CST.AttackSurfaceAnalyzer.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Win32;
 using Serilog;
@@ -19,7 +19,7 @@ using System.Threading;
 using Tpm2Lib;
 using WindowsFirewallHelper;
 
-namespace AttackSurfaceAnalyzer.Tests
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
 {
     [TestClass]
     public class CollectorTests

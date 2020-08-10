@@ -5,7 +5,7 @@ using System;
 using System.Security.Cryptography;
 using Tpm2Lib;
 
-namespace AttackSurfaceAnalyzer.Objects
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
     public class CryptographicKeyObject : CollectObject
     {

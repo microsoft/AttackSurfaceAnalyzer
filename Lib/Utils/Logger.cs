@@ -2,7 +2,7 @@
 using Serilog;
 using Serilog.Events;
 
-namespace AttackSurfaceAnalyzer.Utils
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 {
     public static class Logger
     {

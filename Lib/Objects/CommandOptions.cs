@@ -3,7 +3,7 @@ using CommandLine;
 using System;
 using System.Collections.Generic;
 
-namespace AttackSurfaceAnalyzer
+namespace Microsoft.CST.AttackSurfaceAnalyzer
 {
     [Verb("collect", HelpText = "Collect operating system metrics")]
     public class CollectCommandOptions : CollectorOptions

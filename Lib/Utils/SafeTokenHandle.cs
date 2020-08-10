@@ -2,7 +2,7 @@
 using Microsoft.Win32.SafeHandles;
 using System;
 
-namespace AttackSurfaceAnalyzer.Utils
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 {
     /// <summary>
     ///     Represents a wrapper class for a token handle.

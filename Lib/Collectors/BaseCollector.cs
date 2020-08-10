@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
-using AttackSurfaceAnalyzer.Objects;
-using AttackSurfaceAnalyzer.Types;
-using AttackSurfaceAnalyzer.Utils;
+using Microsoft.CST.AttackSurfaceAnalyzer.Objects;
+using Microsoft.CST.AttackSurfaceAnalyzer.Types;
+using Microsoft.CST.AttackSurfaceAnalyzer.Utils;
 using Serilog;
 using System;
 using System.Collections.Concurrent;
@@ -10,7 +10,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
 
-namespace AttackSurfaceAnalyzer.Collectors
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 {
     /// <summary>
     ///     Base class for all collectors.

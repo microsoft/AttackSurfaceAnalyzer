@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
-using AttackSurfaceAnalyzer.Collectors;
-using AttackSurfaceAnalyzer.Objects;
-using AttackSurfaceAnalyzer.Types;
-using AttackSurfaceAnalyzer.Utils;
+using Microsoft.CST.AttackSurfaceAnalyzer.Collectors;
+using Microsoft.CST.AttackSurfaceAnalyzer.Objects;
+using Microsoft.CST.AttackSurfaceAnalyzer.Types;
+using Microsoft.CST.AttackSurfaceAnalyzer.Utils;
 using CommandLine;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -24,7 +24,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AttackSurfaceAnalyzer.Cli
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 {
     public static class AttackSurfaceAnalyzerClient
     {

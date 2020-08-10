@@ -1,12 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
-using AttackSurfaceAnalyzer.Utils;
+using Microsoft.CST.AttackSurfaceAnalyzer.Utils;
 using Serilog;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace AttackSurfaceAnalyzer.Collectors
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 {
     public class RegistryMonitor : BaseMonitor, IDisposable
     {

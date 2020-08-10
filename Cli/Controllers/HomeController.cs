@@ -1,10 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
-using AttackSurfaceAnalyzer.Cli;
-using AttackSurfaceAnalyzer.Collectors;
-using AttackSurfaceAnalyzer.Models;
-using AttackSurfaceAnalyzer.Objects;
-using AttackSurfaceAnalyzer.Types;
-using AttackSurfaceAnalyzer.Utils;
+using Microsoft.CST.AttackSurfaceAnalyzer.Cli;
+using Microsoft.CST.AttackSurfaceAnalyzer.Collectors;
+using Microsoft.CST.AttackSurfaceAnalyzer.Models;
+using Microsoft.CST.AttackSurfaceAnalyzer.Objects;
+using Microsoft.CST.AttackSurfaceAnalyzer.Types;
+using Microsoft.CST.AttackSurfaceAnalyzer.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -16,7 +16,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace AttackSurfaceAnalyzer.Gui.Controllers
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Gui.Controllers
 {
     public class HomeController : Controller
     {
