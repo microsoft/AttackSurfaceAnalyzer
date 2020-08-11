@@ -1,13 +1,15 @@
-﻿@using Microsoft.CST.AttackSurfaceAnalyzer.Cli.Components 
+﻿@using Microsoft.CST.AttackSurfaceAnalyzer.Cli.Components
+@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
+
 @page "/"
 
 @switch (pageState)
 {
     case PageState.Options:
         <button @onclick="BeginGuided">Go</button>
-        <CollectorOptionsRazor/>
-        <MonitorOptionsRazor/>
-        <AnalyzeOptionsRazor/>
+        <CollectorOptionsRazor />
+        <MonitorOptionsRazor />
+        <AnalyzeOptionsRazor />
         break;
     case PageState.Scanning:
         <p>Running Scan.</p>
@@ -47,7 +49,7 @@
     void BeginScan()
     {
         pageState = PageState.Scanning;
-        // Run Collect
+        _ = Task.Factory.StartNew(() => AttackSurfaceAnalyzerClient.RunCollectCommand(appData.CollectOptions));
     }
 
     void BeginMonitor()
