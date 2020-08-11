@@ -1,0 +1,21 @@
+﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
+
+<h3>FileMonitorOptions</h3>
+<input id="enableFileSystemCollectorCheckbox" type="checkbox" @bind="appData.MonitorOptions.EnableFileSystemMonitor" /><label for="enableFileSystemCollectorCheckbox">Enable</label>
+<input id="enableGatherHashesCheckbox" type="checkbox" @bind="appData.MonitorOptions.GatherHashes" /><label for="enableGatherHashesCheckbox">Gather Hashes</label>
+<input id="enableFileNamesOnlyCheckbox" type="checkbox" @bind="appData.MonitorOptions.FileNamesOnly" /><label for="enableFileNamesOnlyCheckbox">File Names Only</label>
+<input id="selectedDirectoriesString" type="text" @bind="SelectedDirectories" /><label for="selectedDirectoriesString">Selected Directories</label>
+
+@code {
+    string SelectedDirectories
+    {
+        get
+        {
+            return string.Join(',', appData.MonitorOptions.MonitoredDirectories ?? Array.Empty<string>());
+        }
+        set
+        {
+            appData.MonitorOptions.MonitoredDirectories = value.Split(',');
+        }
+    }
+}

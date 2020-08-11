@@ -1,0 +1,11 @@
+﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
+
+<input @bind="EnableAnalysis" type="checkbox" id="enableAnalysisCheckbox"/><label for="enableAnalysisCheckbox">Enable Analysis</label>
+
+@code{
+    bool EnableAnalysis
+    {
+        get { return !appData.ExportCollectCommandOptions.DisableAnalysis; }
+        set { appData.ExportCollectCommandOptions.DisableAnalysis = !value; }
+    }
+}

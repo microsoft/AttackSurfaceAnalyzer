@@ -1,19 +1,69 @@
-﻿@using Microsoft.CST.AttackSurfaceAnalyzer.Cli.Components.Options
+﻿@using Microsoft.CST.AttackSurfaceAnalyzer.Cli.Components 
 @page "/"
 
-<FileCollectorOptions/>
-<CertificateCollectorOptions/>
-<ComObjectCollector/>
-<CryptographicKeyCollectorOptions/>
-<DriverCollectorOptions/>
-<EventLogCollector/>
-<FilewallCollectorOptions/>
-<OpenPortCollectorOptions/>
-<ProcessCollectorOptions/>
-<RegistryCollectorOptions/>
-<ServiceCollectorOptions/>
-<TpmCollectorOptions/>
-<UserCollectorOptions/>
-<WifiCollectorOptions/>
-@*<MonitorOptions />
-<AnalyzeOptions />*@
+@switch (pageState)
+{
+    case PageState.Options:
+        <button @onclick="BeginGuided">Go</button>
+        <CollectorOptionsRazor/>
+        <MonitorOptionsRazor/>
+        <AnalyzeOptionsRazor/>
+        break;
+    case PageState.Scanning:
+        <p>Running Scan.</p>
+        break;
+    case PageState.Monitoring:
+        <p>Running Monitoring.</p>
+        break;
+    case PageState.Analyzing:
+        <p>Running Analysis.</p>
+        break;
+    case PageState.Results:
+        <p>Showing Results.</p>
+        break;
+}
+
+
+@code{
+    enum PageState
+    {
+        Options,
+        Scanning,
+        Monitoring,
+        Analyzing,
+        Results
+    }
+
+    PageState pageState = PageState.Options;
+
+    void BeginGuided()
+    {
+        BeginScan();
+        BeginMonitor();
+        BeginAnalyze();
+        ShowResults();
+    }
+
+    void BeginScan()
+    {
+        pageState = PageState.Scanning;
+        // Run Collect
+    }
+
+    void BeginMonitor()
+    {
+        pageState = PageState.Monitoring;
+        // Run Monitor
+    }
+
+    void BeginAnalyze()
+    {
+        pageState = PageState.Analyzing;
+        // Run analysis
+    }
+
+    void ShowResults()
+    {
+        pageState = PageState.Results;
+    }
+}
