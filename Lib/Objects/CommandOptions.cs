@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using CommandLine;
+using Microsoft.CST.AttackSurfaceAnalyzer.Objects;
 using System;
 using System.Collections.Generic;
 
@@ -157,7 +158,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer
         }
 
         [Option(HelpText = "Custom analysis rules file.")]
-        public string? AnalysesFile { get; set; }
+        public RuleFile? AnalysesFile { get; set; }
 
         [Option(HelpText = "When analyzing Monitor Objects apply rules that would apply to the base type.")]
         public bool ApplySubObjectRulesToMonitor { get; set; }

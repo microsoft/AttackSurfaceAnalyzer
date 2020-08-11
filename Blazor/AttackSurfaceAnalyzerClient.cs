@@ -211,8 +211,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
         {
             if (opts is null) { return new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>>(); }
             var analyzer = new AsaAnalyzer(new AnalyzerOptions(opts.RunScripts));
-            var ruleFile = string.IsNullOrEmpty(opts.AnalysesFile) ? RuleFile.LoadEmbeddedFilters() : RuleFile.FromFile(opts.AnalysesFile);
-            return AnalyzeMonitored(opts, analyzer, DatabaseManager.GetMonitorResults(opts.SecondRunId), ruleFile);
+            return AnalyzeMonitored(opts, analyzer, DatabaseManager.GetMonitorResults(opts.SecondRunId), opts.AnalysesFile);
         }
 
         public static ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> AnalyzeMonitored(CompareCommandOptions opts, AsaAnalyzer analyzer, IEnumerable<MonitorObject> collectObjects, RuleFile ruleFile)
@@ -913,14 +912,13 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             if (!opts.DisableAnalysis)
             {
                 watch = Stopwatch.StartNew();
-                var ruleFile = string.IsNullOrEmpty(opts.AnalysesFile) ? RuleFile.LoadEmbeddedFilters() : RuleFile.FromFile(opts.AnalysesFile);
                 var analyzer = new AsaAnalyzer(new AnalyzerOptions(opts.RunScripts));
                 var platform = DatabaseManager.RunIdToPlatform(opts.SecondRunId);
-                var violations = analyzer.EnumerateRuleIssues(ruleFile.GetRules());
+                var violations = analyzer.EnumerateRuleIssues(opts.AnalysesFile.GetRules());
                 Analyzer.PrintViolations(violations);
                 if (violations.Any())
                 {
-                    Log.Error("Encountered {0} issues with rules in {1}. Skipping analysis.", violations.Count(), opts.AnalysesFile ?? "Embedded");
+                    Log.Error("Encountered {0} issues with rules in {1}. Skipping analysis.", violations.Count(), opts.AnalysesFile.Source ?? "Embedded");
                 }
                 else
                 {

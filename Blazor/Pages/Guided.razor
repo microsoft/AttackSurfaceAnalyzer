@@ -1,4 +1,5 @@
 ﻿@using Microsoft.CST.AttackSurfaceAnalyzer.Cli.Components
+@using Microsoft.CST.AttackSurfaceAnalyzer.Types 
 @inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 
 @page "/"
@@ -38,34 +39,38 @@
 
     PageState pageState = PageState.Options;
 
-    void BeginGuided()
+    async void BeginGuided()
     {
-        BeginScan();
-        BeginMonitor();
-        BeginAnalyze();
-        ShowResults();
+        await BeginScan();
+        await BeginMonitor();
     }
 
-    void BeginScan()
+    async void ContinueGuided()
+    {
+        await BeginAnalyze();
+
+        pageState = PageState.Results;
+    }
+
+    async Task<ASA_ERROR> BeginScan()
     {
         pageState = PageState.Scanning;
-        _ = Task.Factory.StartNew(() => AttackSurfaceAnalyzerClient.RunCollectCommand(appData.CollectOptions));
+        return await Task.Factory.StartNew(() => AttackSurfaceAnalyzerClient.RunCollectCommand(appData.CollectOptions));
     }
 
-    void BeginMonitor()
+    async Task<ASA_ERROR> BeginMonitor()
     {
         pageState = PageState.Monitoring;
-        // Run Monitor
+        return await Task.Factory.StartNew(() => AttackSurfaceAnalyzerClient.RunGuiMonitorCommand(appData.MonitorOptions));
     }
 
-    void BeginAnalyze()
+    async Task<ASA_ERROR> BeginAnalyze()
     {
         pageState = PageState.Analyzing;
-        // Run analysis
-    }
-
-    void ShowResults()
-    {
-        pageState = PageState.Results;
+        Task.Factory.StartNew(() =>
+        {
+            var results = AttackSurfaceAnalyzerClient.CompareRuns(appData.CompareOptions);
+            AttackSurfaceAnalyzerClient.InsertCompareResults(results, opts.FirstRunId, opts.SecondRunId);
+        });
     }
 }

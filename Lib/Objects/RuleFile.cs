@@ -26,6 +26,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         {
         }
 
+        public string? Source { get; set; } // An Identifier for the source of the rules
+
         public IEnumerable<AsaRule> AsaRules { get; set; } = new List<AsaRule>();
 
         public Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DefaultLevels { get; set; } = new Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>()
@@ -46,6 +48,36 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
             { RESULT_TYPE.DRIVER, ANALYSIS_RESULT_TYPE.INFORMATION }
         };
 
+        public static RuleFile FromStream(Stream? stream)
+        {
+            if (stream is null)
+                throw new NullReferenceException(nameof(stream));
+            try
+            {
+                using (StreamReader file = new StreamReader(stream))
+                {
+                    var config = JsonConvert.DeserializeObject<RuleFile>(file.ReadToEnd());
+                    if (config.Source is null)
+                        config.Source = "Stream";
+                    Log.Information(Strings.Get("LoadedAnalyses"), config.Source);
+                    return config;
+                }
+            }
+            catch (Exception e) when (
+                e is UnauthorizedAccessException
+                || e is ArgumentException
+                || e is ArgumentNullException
+                || e is PathTooLongException
+                || e is DirectoryNotFoundException
+                || e is FileNotFoundException
+                || e is NotSupportedException)
+            {
+                //Let the user know we couldn't load their file
+                Log.Warning(Strings.Get("Err_MalformedFilterFile"), "Stream");
+            }
+            return new RuleFile();
+        }
+
         public static RuleFile FromFile(string? filterLoc = "")
         {
             if (!string.IsNullOrEmpty(filterLoc))
@@ -55,7 +87,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
                     using (StreamReader file = System.IO.File.OpenText(filterLoc))
                     {
                         var config = JsonConvert.DeserializeObject<RuleFile>(file.ReadToEnd());
-                        Log.Information(Strings.Get("LoadedAnalyses"), filterLoc);
+                        if (config.Source is null)
+                            config.Source = filterLoc;
+                        Log.Information(Strings.Get("LoadedAnalyses"), config.Source);
                         return config;
                     }
                 }
@@ -85,6 +119,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
                 using (StreamReader reader = new StreamReader(stream))
                 {
                     var file = JsonConvert.DeserializeObject<RuleFile>(reader.ReadToEnd());
+                    file.Source = "Embedded Rules";
                     Log.Information(Strings.Get("LoadedAnalyses"), "Embedded");
                     return file;
                 }
