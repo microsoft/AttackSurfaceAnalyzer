@@ -149,24 +149,25 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 Parallel.ForEach(result.StandardOutput.Split(Environment.NewLine), new ParallelOptions() { CancellationToken = cancellationToken }, driverLine =>
                 {
                     var parts = driverLine.Split('"').Where(x => x != ",").ToArray()[1..];
-                    HandleChange(new DriverObject(parts[0])
-                    {
-                        DisplayName = parts[1],
-                        Description = parts[2],
-                        DriverType = parts[3],
-                        StartMode = parts[4],
-                        State = parts[5],
-                        Status = parts[6],
-                        AcceptStop = bool.Parse(parts[7]),
-                        AcceptPause = bool.Parse(parts[8]),
-                        PagedPool = long.Parse(parts[9].Replace(",", ""), CultureInfo.InvariantCulture),
-                        Code = long.Parse(parts[10].Replace(",", ""), CultureInfo.InvariantCulture),
-                        BSS = long.Parse(parts[11].Replace(",", ""), CultureInfo.InvariantCulture),
-                        LinkDate = string.IsNullOrEmpty(parts[12]) ? DateTime.MinValue : DateTime.Parse(parts[12], CultureInfo.InvariantCulture),
-                        Path = parts[13],
-                        Init = long.Parse(parts[14].Replace(",", ""), CultureInfo.InvariantCulture),
-                        Signature = WindowsFileSystemUtils.GetSignatureStatus(parts[13])
-                    });
+                    if (parts.Length >= 15)
+                        HandleChange(new DriverObject(parts[0])
+                        {
+                            DisplayName = parts[1],
+                            Description = parts[2],
+                            DriverType = parts[3],
+                            StartMode = parts[4],
+                            State = parts[5],
+                            Status = parts[6],
+                            AcceptStop = bool.Parse(parts[7]),
+                            AcceptPause = bool.Parse(parts[8]),
+                            PagedPool = long.Parse(parts[9].Replace(",", ""), CultureInfo.InvariantCulture),
+                            Code = long.Parse(parts[10].Replace(",", ""), CultureInfo.InvariantCulture),
+                            BSS = long.Parse(parts[11].Replace(",", ""), CultureInfo.InvariantCulture),
+                            LinkDate = string.IsNullOrEmpty(parts[12]) ? DateTime.MinValue : DateTime.Parse(parts[12], CultureInfo.InvariantCulture),
+                            Path = parts[13],
+                            Init = long.Parse(parts[14].Replace(",", ""), CultureInfo.InvariantCulture),
+                            Signature = WindowsFileSystemUtils.GetSignatureStatus(parts[13])
+                        });
                 });
             }
         }

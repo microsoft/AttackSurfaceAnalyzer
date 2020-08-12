@@ -170,10 +170,12 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
             RunCollectCommand(collectorOpts);
 
+            var analysisFile = string.IsNullOrEmpty(opts.AnalysesFile) ? RuleFile.LoadEmbeddedFilters() : RuleFile.FromFile(opts.AnalysesFile);
+
             var compareOpts = new CompareCommandOptions(firstCollectRunId, secondCollectRunId)
             {
                 DisableAnalysis = opts.DisableAnalysis,
-                AnalysesFile = opts.AnalysesFile,
+                AnalysesFile = analysisFile,
                 RunScripts = opts.RunScripts
             };
 
@@ -187,7 +189,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             var monitorCompareOpts = new CompareCommandOptions(null, monitorRunId)
             {
                 DisableAnalysis = opts.DisableAnalysis,
-                AnalysesFile = opts.AnalysesFile,
+                AnalysesFile = analysisFile,
                 ApplySubObjectRulesToMonitor = opts.ApplySubObjectRulesToMonitor,
                 RunScripts = opts.RunScripts
             };
@@ -469,7 +471,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             CompareCommandOptions options = new CompareCommandOptions(opts.FirstRunId, opts.SecondRunId)
             {
                 DatabaseFilename = opts.DatabaseFilename,
-                AnalysesFile = opts.AnalysesFile,
+                AnalysesFile = string.IsNullOrEmpty(opts.AnalysesFile) ? RuleFile.LoadEmbeddedFilters() : RuleFile.FromFile(opts.AnalysesFile),
                 DisableAnalysis = opts.DisableAnalysis,
                 SaveToDatabase = opts.SaveToDatabase,
                 RunScripts = opts.RunScripts
@@ -706,7 +708,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             var monitorCompareOpts = new CompareCommandOptions(null, opts.RunId)
             {
                 DisableAnalysis = opts.DisableAnalysis,
-                AnalysesFile = opts.AnalysesFile,
+                AnalysesFile = string.IsNullOrEmpty(opts.AnalysesFile) ? RuleFile.LoadEmbeddedFilters() : RuleFile.FromFile(opts.AnalysesFile),
                 ApplySubObjectRulesToMonitor = opts.ApplySubObjectRulesToMonitor,
                 RunScripts = opts.RunScripts
             };
@@ -933,13 +935,13 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                                     // Select rules with the appropriate change type, platform and target
                                     // - Target is also checked inside Analyze, but this shortcuts repeatedly
                                     // checking rules which don't apply
-                                    var selectedRules = ruleFile.AsaRules.Where((rule) =>
+                                    var selectedRules = opts.AnalysesFile.AsaRules.Where((rule) =>
                                         (rule.ChangeTypes == null || rule.ChangeTypes.Contains(res.ChangeType))
                                             && (rule.Platforms == null || rule.Platforms.Contains(platform))
                                             && (rule.ResultType == res.ResultType));
                                     res.Rules = analyzer.Analyze(selectedRules, res.Base, res.Compare).ToList();
                                     res.Analysis = res.Rules.Count
-                                                   > 0 ? res.Rules.Max(x => ((AsaRule)x).Flag) : ruleFile.DefaultLevels[res.ResultType];
+                                                   > 0 ? res.Rules.Max(x => ((AsaRule)x).Flag) : opts.AnalysesFile.DefaultLevels[res.ResultType];
                                 });
                             }
                         }

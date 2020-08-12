@@ -14,7 +14,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 return new CompareCommandOptions(ExportCollectCommandOptions.FirstRunId, ExportCollectCommandOptions.SecondRunId)
                 {
                     ApplySubObjectRulesToMonitor = true,
-                    AnalysesFile = RuleFile.LoadEmbeddedFilters()
+                    AnalysesFile = RuleFile.LoadEmbeddedFilters(),
+                    DatabaseFilename = ExportCollectCommandOptions.DatabaseFilename,
+                    DisableAnalysis = ExportCollectCommandOptions.DisableAnalysis,
+                    SaveToDatabase = ExportCollectCommandOptions.SaveToDatabase,
+                    RunScripts = ExportCollectCommandOptions.RunScripts
                 };
             } 
         }

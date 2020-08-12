@@ -148,45 +148,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Gui.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult RunAnalysisWithAnalyses(string SelectedBaseRunId, string SelectedCompareRunId, IFormFile AnalysisFilterFile)
-        {
-            var filePath = Path.GetTempFileName();
-
-            CompareCommandOptions opts = new CompareCommandOptions(SelectedBaseRunId, SelectedCompareRunId)
-            {
-                DisableAnalysis = false,
-                SaveToDatabase = true
-            };
-
-            if (AnalysisFilterFile != null)
-            {
-                using (var stream = System.IO.File.Create(filePath))
-                {
-                    AnalysisFilterFile.CopyTo(stream);
-                }
-                opts.AnalysesFile = filePath;
-            }
-
-            if (AttackSurfaceAnalyzerClient.GetComparators().Where(c => c.IsRunning() == RUN_STATUS.RUNNING).Any())
-            {
-                return Json("Comparators already running!");
-            }
-
-            if (AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonCompleted(opts.FirstRunId, opts.SecondRunId))
-            {
-                return Json("Using cached comparison calculations.");
-            }
-
-            Task.Factory.StartNew(() =>
-            {
-                var results = AttackSurfaceAnalyzerClient.CompareRuns(opts);
-                AttackSurfaceAnalyzerClient.InsertCompareResults(results, opts.FirstRunId, opts.SecondRunId);
-            });
-
-            return Json("Started Analysis");
-        }
-
         public ActionResult StartCollection(string Id, bool File, bool Port, bool Service, bool User, bool Registry, bool Certificates, bool Com, bool Firewall, bool Log)
         {
             CollectCommandOptions opts = new CollectCommandOptions();
