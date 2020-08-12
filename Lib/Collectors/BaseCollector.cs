@@ -95,6 +95,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
         }
 
         private readonly Action<CollectObject>? changeHandler;
+        
         private Stopwatch? watch;
 
         private static CancellationToken GetPlaceholderToken()

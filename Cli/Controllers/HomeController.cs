@@ -124,7 +124,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Gui.Controllers
 
         public ActionResult GetResults(string BaseId, string CompareId, int ResultType, int Offset, int NumResults)
         {
-            List<CompareResult> results = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResults(BaseId, CompareId, ResultType, Offset, NumResults);
+            List<CompareResult> results = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResults(BaseId, CompareId, (RESULT_TYPE)ResultType, Offset, NumResults);
 
             Dictionary<string, object> output = new Dictionary<string, object>();
 

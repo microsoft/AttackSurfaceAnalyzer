@@ -1,4 +1,5 @@
 ﻿@inherits LayoutComponentBase
+@using Microsoft.CST.AttackSurfaceAnalyzer.Utils
 
 <div class="sidebar">
     <NavMenu />
@@ -14,5 +15,5 @@
     </div>
 </div>
 <nav class="navbar fixed-bottom navbar-light bg-light">
-    <img src="images/microsoft-gray.png" style="height:30px" alt="Microsoft Corporation Logo" /> v. GetVersionString
+    <img src="images/microsoft-gray.png" style="height:30px" alt="Microsoft Corporation Logo" /> v. @AsaHelpers.GetVersionString()
 </nav>

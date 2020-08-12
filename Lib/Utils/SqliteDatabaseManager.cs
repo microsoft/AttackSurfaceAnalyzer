@@ -267,7 +267,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             return records;
         }
 
-        public override List<CompareResult> GetComparisonResults(string baseId, string compareId, int resultType, int offset, int numResults)
+        public override List<CompareResult> GetComparisonResults(string baseId, string compareId, RESULT_TYPE resultType, int offset, int numResults)
         {
             _ = MainConnection ?? throw new NullReferenceException(Strings.Get("MainConnection"));
             var results = new List<CompareResult>();
@@ -275,7 +275,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             {
                 cmd.Parameters.AddWithValue("@first_run_id", baseId);
                 cmd.Parameters.AddWithValue("@second_run_id", compareId);
-                cmd.Parameters.AddWithValue("@result_type", resultType);
+                cmd.Parameters.AddWithValue("@result_type", (int)resultType);
                 cmd.Parameters.AddWithValue("@offset", offset);
                 cmd.Parameters.AddWithValue("@limit", numResults);
                 using (var reader = cmd.ExecuteReader())

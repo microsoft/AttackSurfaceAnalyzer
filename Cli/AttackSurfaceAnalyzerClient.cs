@@ -172,7 +172,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             var compareOpts = new CompareCommandOptions(firstCollectRunId, secondCollectRunId)
             {
                 DisableAnalysis = opts.DisableAnalysis,
-                AnalysesFile = opts.AnalysesFile,
+                AnalysesFile = string.IsNullOrEmpty(opts.AnalysesFile) ? RuleFile.LoadEmbeddedFilters() : RuleFile.FromFile(opts.AnalysesFile),
                 RunScripts = opts.RunScripts
             };
 
@@ -186,7 +186,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             var monitorCompareOpts = new CompareCommandOptions(null, monitorRunId)
             {
                 DisableAnalysis = opts.DisableAnalysis,
-                AnalysesFile = opts.AnalysesFile,
+                AnalysesFile = string.IsNullOrEmpty(opts.AnalysesFile) ? RuleFile.LoadEmbeddedFilters() : RuleFile.FromFile(opts.AnalysesFile),
                 ApplySubObjectRulesToMonitor = opts.ApplySubObjectRulesToMonitor,
                 RunScripts = opts.RunScripts
             };
@@ -210,8 +210,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
         {
             if (opts is null) { return new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>>(); }
             var analyzer = new AsaAnalyzer(new AnalyzerOptions(opts.RunScripts));
-            var ruleFile = string.IsNullOrEmpty(opts.AnalysesFile) ? RuleFile.LoadEmbeddedFilters() : RuleFile.FromFile(opts.AnalysesFile);
-            return AnalyzeMonitored(opts, analyzer, DatabaseManager.GetMonitorResults(opts.SecondRunId), ruleFile);
+            return AnalyzeMonitored(opts, analyzer, DatabaseManager.GetMonitorResults(opts.SecondRunId), opts.AnalysesFile);
         }
 
         public static ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> AnalyzeMonitored(CompareCommandOptions opts, AsaAnalyzer analyzer, IEnumerable<MonitorObject> collectObjects, RuleFile ruleFile)
@@ -470,7 +469,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             CompareCommandOptions options = new CompareCommandOptions(opts.FirstRunId, opts.SecondRunId)
             {
                 DatabaseFilename = opts.DatabaseFilename,
-                AnalysesFile = opts.AnalysesFile,
+                AnalysesFile = string.IsNullOrEmpty(opts.AnalysesFile) ? RuleFile.LoadEmbeddedFilters() : RuleFile.FromFile(opts.AnalysesFile),
                 DisableAnalysis = opts.DisableAnalysis,
                 SaveToDatabase = opts.SaveToDatabase,
                 RunScripts = opts.RunScripts
@@ -707,7 +706,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             var monitorCompareOpts = new CompareCommandOptions(null, opts.RunId)
             {
                 DisableAnalysis = opts.DisableAnalysis,
-                AnalysesFile = opts.AnalysesFile,
+                AnalysesFile = string.IsNullOrEmpty(opts.AnalysesFile) ? RuleFile.LoadEmbeddedFilters() : RuleFile.FromFile(opts.AnalysesFile),
                 ApplySubObjectRulesToMonitor = opts.ApplySubObjectRulesToMonitor,
                 RunScripts = opts.RunScripts
             };
@@ -913,14 +912,14 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             if (!opts.DisableAnalysis)
             {
                 watch = Stopwatch.StartNew();
-                var ruleFile = string.IsNullOrEmpty(opts.AnalysesFile) ? RuleFile.LoadEmbeddedFilters() : RuleFile.FromFile(opts.AnalysesFile);
+                var ruleFile = opts.AnalysesFile;
                 var analyzer = new AsaAnalyzer(new AnalyzerOptions(opts.RunScripts));
                 var platform = DatabaseManager.RunIdToPlatform(opts.SecondRunId);
                 var violations = analyzer.EnumerateRuleIssues(ruleFile.GetRules());
                 Analyzer.PrintViolations(violations);
                 if (violations.Any())
                 {
-                    Log.Error("Encountered {0} issues with rules in {1}. Skipping analysis.", violations.Count(), opts.AnalysesFile ?? "Embedded");
+                    Log.Error("Encountered {0} issues with rules. Skipping analysis.", violations.Count());
                 }
                 else
                 {

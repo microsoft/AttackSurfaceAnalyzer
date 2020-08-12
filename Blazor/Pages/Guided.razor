@@ -1,5 +1,7 @@
 ﻿@using Microsoft.CST.AttackSurfaceAnalyzer.Cli.Components
-@using Microsoft.CST.AttackSurfaceAnalyzer.Types 
+@using Microsoft.CST.AttackSurfaceAnalyzer.Types
+@using Microsoft.CST.AttackSurfaceAnalyzer.Objects
+@using Microsoft.CST.AttackSurfaceAnalyzer.Collectors  
 @inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 
 @page "/"
@@ -7,7 +9,8 @@
 @switch (pageState)
 {
     case PageState.Options:
-        <label for="RunId">Run Id:</label><input id="RunId" type="text" @bind="RunIdInput" />
+        <label for="RunId">Run Id:</label>
+        <input id="RunId" type="text" @bind="RunIdInput" />
         <button @onclick="BeginGuided">Go</button>
         <CollectorOptionsRazor />
         <MonitorOptionsRazor />
@@ -15,7 +18,7 @@
         break;
     case PageState.Scanning:
         <p>Running Scan.</p>
-        @foreach(Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCollector collector in AttackSurfaceAnalyzerClient.GetCollectors())
+        @foreach (BaseCollector collector in AttackSurfaceAnalyzerClient.GetCollectors())
         {
             <div>@collector.GetType().ToString(): @collector.RunStatus</div>
         }
@@ -28,7 +31,28 @@
         <p>Running Analysis.</p>
         break;
     case PageState.Results:
-        <p>Showing Results.</p>
+        if (numAnalysisResults == 0)
+        {
+            <p>No results.</p>
+        }
+        else
+        {
+            <select @bind="SelectedResultType">
+                @foreach(var resultType in foundResultTypes)
+                {
+                    <option value="@resultType.Key">@resultType.Key : @resultType.Value </option>
+                }
+            </select>
+            <button @onclick="MoreAnalysisResults">More results</button>
+            foreach (var result in analysisResults)
+            {
+                <p>result.Identity : result.Flag</p>
+            }
+            <p>Showing Results.</p>
+        }
+        break;
+    case PageState.Error:
+        <p>An Error Occured while collecting.</p>
         break;
 }
 
@@ -41,50 +65,103 @@
         Scanning,
         Monitoring,
         Analyzing,
-        Results
+        Results,
+        Error
     }
 
+    string SelectedResultType
+    {
+        get { return _selectedResultType; }
+        set { _selectedResultType = value; offset = 0; GetAnalysisResults(); }
+    }
+
+    string _selectedResultType;
+
+
+    void GetAnalysisResults()
+    {
+        analysisResults = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResults(FirstRunId, SecondRunId, (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE),SelectedResultType), offset, count);
+    }
+
+    void MoreAnalysisResults()
+    {
+        offset += count;
+        GetAnalysisResults();
+    }
+
+    int offset = 0;
+    int count = 100;
+
+    List<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult> analysisResults = new List<Objects.CompareResult>();
+
+    int numAnalysisResults = 0;
+
     string RunIdInput = "Use Timestamp";
-    string FirstRunId {
+
+    string FirstRunId
+    {
         get
         {
-            return $"{RunIdInput}-before";
+            return $"{RunId}-before";
         }
     }
+
     string SecondRunId
     {
         get
         {
-            return $"{RunIdInput}-after";
+            return $"{RunId}-after";
         }
     }
+
     string MonitorRunId
     {
         get
         {
-            return $"{RunIdInput}-monitoring";
+            return $"{RunId}-monitoring";
         }
     }
+
     private string RunId = string.Empty;
     PageState pageState = PageState.Options;
+    Dictionary<RESULT_TYPE,int> foundResultTypes = new Dictionary<RESULT_TYPE,int>();
 
     async void BeginGuided()
     {
         RunId = RunIdInput.Equals("Use Timestamp") ? DateTime.Now.ToString() : RunIdInput;
-        timer = new System.Threading.Timer((_) => InvokeAsync(()=>StateHasChanged()), null, 0, 100);
+        timer = new System.Threading.Timer((_) => InvokeAsync(() => StateHasChanged()), null, 0, 100);
         appData.CollectOptions.RunId = FirstRunId;
-        await BeginScan();
-        appData.MonitorOptions.RunId = MonitorRunId;
-        await BeginMonitor();
+        if (await BeginScan() == ASA_ERROR.NONE)
+        {
+            appData.MonitorOptions.RunId = MonitorRunId;
+            await BeginMonitor();
+        }
+        else
+        {
+            pageState = PageState.Error;
+        }
+    }
+
+    void ParseOptsToResultTypes()
+    {
+        foreach(var resultType in Enum.GetValues(typeof(RESULT_TYPE)))
+        {
+            foundResultTypes.Add((RESULT_TYPE)resultType, AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResultsCount(FirstRunId, SecondRunId, (int)resultType));
+        }
     }
 
     async void ContinueGuided()
     {
+        AttackSurfaceAnalyzerClient.StopMonitors();
+
         appData.CollectOptions.RunId = SecondRunId;
         await BeginScan();
+
+        appData.ExportCollectCommandOptions.SaveToDatabase = true;
         appData.ExportCollectCommandOptions.FirstRunId = FirstRunId;
         appData.ExportCollectCommandOptions.SecondRunId = SecondRunId;
         await BeginAnalyze();
+        ParseOptsToResultTypes();
         pageState = PageState.Results;
     }
 

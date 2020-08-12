@@ -56,7 +56,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 
         public abstract List<CompareResult> GetComparisonResults(string baseId, string compareId, RESULT_TYPE exportType);
 
-        public abstract List<CompareResult> GetComparisonResults(string baseId, string compareId, int resultType, int offset, int numResults);
+        public abstract List<CompareResult> GetComparisonResults(string baseId, string compareId, RESULT_TYPE resultType, int offset, int numResults);
 
         public abstract int GetComparisonResultsCount(string baseId, string compareId, int resultType);
 
