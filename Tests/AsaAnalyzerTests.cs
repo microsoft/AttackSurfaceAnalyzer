@@ -62,13 +62,13 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
 
             var opts = new CompareCommandOptions(null, "SecondRun") { ApplySubObjectRulesToMonitor = true };
 
-            var results = AttackSurfaceAnalyzerClient.AnalyzeMonitored(opts, analyzer, new MonitorObject[] { testPathOneObject }, new RuleFile() { AsaRules = new AsaRule[] { andRule } });
+            var results = AttackSurfaceAnalyzerClient.AnalyzeMonitored(opts, analyzer, new MonitorObject[] { testPathOneObject }, new RuleFile() { Rules = new AsaRule[] { andRule } });
 
             Assert.IsTrue(results.Any(x => x.Value.Any(y => y.Identity == testPathOneObject.Identity && y.Rules.Contains(andRule))));
 
             opts = new CompareCommandOptions(null, "SecondRun") { ApplySubObjectRulesToMonitor = false };
 
-            results = AttackSurfaceAnalyzerClient.AnalyzeMonitored(opts, analyzer, new MonitorObject[] { testPathOneObject }, new RuleFile() { AsaRules = new AsaRule[] { andRule } });
+            results = AttackSurfaceAnalyzerClient.AnalyzeMonitored(opts, analyzer, new MonitorObject[] { testPathOneObject }, new RuleFile() { Rules = new AsaRule[] { andRule } });
 
             Assert.IsFalse(results.Any(x => x.Value.Any(y => y.Identity == testPathOneObject.Identity && y.Rules.Contains(andRule))));
         }
@@ -81,7 +81,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         {
             var file = new RuleFile()
             {
-                AsaRules = new List<AsaRule>()
+                Rules = new List<AsaRule>()
                 {
                     rule
                 }

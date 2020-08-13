@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using Microsoft.CST.AttackSurfaceAnalyzer.Objects;
 using Microsoft.CST.AttackSurfaceAnalyzer.Types;
+using Microsoft.CST.OAT.Operations;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
 using Serilog;
@@ -134,26 +135,37 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             }
         }
 
-        public override IEnumerable<WriteObject> GetAllMissing(string firstRunId, string secondRunId)
+        public override IEnumerable<WriteObject> GetAllMissing(string? firstRunId, string secondRunId)
         {
             var output = new ConcurrentQueue<WriteObject>();
 
             Connections.AsParallel().ForAll(cxn =>
             {
-                using var cmd = new SqliteCommand(SQL_GET_UNIQUE_BETWEEN_RUNS, cxn.Connection, cxn.Transaction);
-                cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
-                cmd.Parameters.AddWithValue("@second_run_id", secondRunId);
-                using (var reader = cmd.ExecuteReader())
+                if (string.IsNullOrEmpty(firstRunId))
                 {
-                    while (reader.Read())
+                    var res = GetResultsByRunid(secondRunId);
+                    foreach (var result in res)
                     {
-                        var runId = reader["run_id"].ToString();
-                        var resultTypeString = reader["result_type"].ToString();
-                        if (runId != null && resultTypeString != null)
+                        output.Enqueue(result);
+                    }
+                }
+                else
+                {
+                    using var cmd = new SqliteCommand(SQL_GET_UNIQUE_BETWEEN_RUNS, cxn.Connection, cxn.Transaction);
+                    cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
+                    cmd.Parameters.AddWithValue("@second_run_id", secondRunId);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
                         {
-                            var wo = WriteObject.FromString((string)reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
-                            if (wo is WriteObject WO)
-                                output.Enqueue(WO);
+                            var runId = reader["run_id"].ToString();
+                            var resultTypeString = reader["result_type"].ToString();
+                            if (runId != null && resultTypeString != null)
+                            {
+                                var wo = WriteObject.FromString((string)reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
+                                if (wo is WriteObject WO)
+                                    output.Enqueue(WO);
+                            }
                         }
                     }
                 }
@@ -225,7 +237,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             {
                 using (var cmd = new SqliteCommand(SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED, MainConnection.Connection, MainConnection.Transaction))
                 {
-                    cmd.Parameters.AddWithValue("@base_run_id", firstRunId);
+                    cmd.Parameters.AddWithValue("@base_run_id", firstRunId ?? string.Empty);
                     cmd.Parameters.AddWithValue("@compare_run_id", secondRunId);
                     using (var reader = cmd.ExecuteReader())
                     {
@@ -244,14 +256,14 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             return false;
         }
 
-        public override List<CompareResult> GetComparisonResults(string baseId, string compareId, RESULT_TYPE exportType)
+        public override List<CompareResult> GetComparisonResults(string? baseId, string compareId, RESULT_TYPE exportType)
         {
             List<CompareResult> records = new List<CompareResult>();
             if (MainConnection != null)
             {
                 using (var cmd = new SqliteCommand(GET_COMPARISON_RESULTS, MainConnection.Connection, MainConnection.Transaction))
                 {
-                    cmd.Parameters.AddWithValue("@first_run_id", baseId);
+                    cmd.Parameters.AddWithValue("@first_run_id", baseId ?? string.Empty);
                     cmd.Parameters.AddWithValue("@second_run_id", compareId);
                     cmd.Parameters.AddWithValue("@result_type", exportType);
                     using (var reader = cmd.ExecuteReader())
@@ -267,13 +279,13 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             return records;
         }
 
-        public override List<CompareResult> GetComparisonResults(string baseId, string compareId, RESULT_TYPE resultType, int offset, int numResults)
+        public override List<CompareResult> GetComparisonResults(string? baseId, string compareId, RESULT_TYPE resultType, int offset, int numResults)
         {
             _ = MainConnection ?? throw new NullReferenceException(Strings.Get("MainConnection"));
             var results = new List<CompareResult>();
             using (var cmd = new SqliteCommand(GET_COMPARISON_RESULTS_LIMIT, MainConnection.Connection, MainConnection.Transaction))
             {
-                cmd.Parameters.AddWithValue("@first_run_id", baseId);
+                cmd.Parameters.AddWithValue("@first_run_id", baseId ?? string.Empty);
                 cmd.Parameters.AddWithValue("@second_run_id", compareId);
                 cmd.Parameters.AddWithValue("@result_type", (int)resultType);
                 cmd.Parameters.AddWithValue("@offset", offset);
@@ -304,13 +316,13 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             return results;
         }
 
-        public override int GetComparisonResultsCount(string baseId, string compareId, int resultType)
+        public override int GetComparisonResultsCount(string? baseId, string compareId, int resultType)
         {
             _ = MainConnection ?? throw new NullReferenceException(Strings.Get("MainConnection"));
             var result_count = 0;
             using (var cmd = new SqliteCommand(GET_RESULT_COUNT, MainConnection.Connection, MainConnection.Transaction))
             {
-                cmd.Parameters.AddWithValue("@first_run_id", baseId);
+                cmd.Parameters.AddWithValue("@first_run_id", baseId ?? string.Empty);
                 cmd.Parameters.AddWithValue("@second_run_id", compareId);
                 cmd.Parameters.AddWithValue("@result_type", resultType);
                 using (var reader = cmd.ExecuteReader())
@@ -709,7 +721,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             {
                 using (var cmd = new SqliteCommand(SQL_INSERT_FINDINGS_RESULT, MainConnection.Connection, MainConnection.Transaction))
                 {
-                    cmd.Parameters.AddWithValue("@first_run_id", objIn.BaseRunId);
+                    cmd.Parameters.AddWithValue("@first_run_id", objIn.BaseRunId ?? string.Empty);
                     cmd.Parameters.AddWithValue("@second_run_id", objIn.CompareRunId);
                     cmd.Parameters.AddWithValue("@result_type", objIn.ResultType);
                     cmd.Parameters.AddWithValue("@level", objIn.Analysis);
@@ -734,7 +746,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             _ = MainConnection ?? throw new NullReferenceException(Strings.Get("MainConnection"));
             using (var cmd = new SqliteCommand(INSERT_RUN_INTO_RESULT_TABLE_SQL, MainConnection.Connection, MainConnection.Transaction))
             {
-                cmd.Parameters.AddWithValue("@base_run_id", firstRunId);
+                cmd.Parameters.AddWithValue("@base_run_id", firstRunId ?? string.Empty);
                 cmd.Parameters.AddWithValue("@compare_run_id", secondRunId);
                 cmd.Parameters.AddWithValue("@status", runStatus);
                 cmd.ExecuteNonQuery();
@@ -998,7 +1010,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             _ = MainConnection ?? throw new NullReferenceException(Strings.Get("MainConnection"));
             using (var cmd = new SqliteCommand(UPDATE_RUN_IN_RESULT_TABLE, MainConnection.Connection, MainConnection.Transaction))
             {
-                cmd.Parameters.AddWithValue("@base_run_id", firstRunId);
+                cmd.Parameters.AddWithValue("@base_run_id", firstRunId ?? string.Empty);
                 cmd.Parameters.AddWithValue("@compare_run_id", secondRunId);
                 cmd.Parameters.AddWithValue("@status", runStatus);
                 cmd.ExecuteNonQuery();

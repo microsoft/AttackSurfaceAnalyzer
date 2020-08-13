@@ -228,7 +228,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                     CompareRunId = opts.SecondRunId
                 };
 
-                shellResult.Rules = analyzer.Analyze(ruleFile.AsaRules, shellResult).ToList();
+                shellResult.Rules = analyzer.Analyze(ruleFile.Rules, shellResult).ToList();
 
                 if (opts.ApplySubObjectRulesToMonitor)
                 {
@@ -240,7 +240,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                                 Compare = fmo.FileSystemObject,
                                 CompareRunId = opts.SecondRunId
                             };
-                            shellResult.Rules.AddRange(analyzer.Analyze(ruleFile.AsaRules, innerShell));
+                            shellResult.Rules.AddRange(analyzer.Analyze(ruleFile.Rules, innerShell));
                             break;
                     }
                 }
@@ -264,7 +264,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 Log.Error("Encountered {0} issues with rules at {1}", violations.Count(), opts.AnalysisFile ?? "Embedded");
                 return ASA_ERROR.INVALID_RULES;
             }
-            Log.Information("{0} Rules successfully verified. ✅", ruleFile.AsaRules.Count());
+            Log.Information("{0} Rules successfully verified. ✅", ruleFile.Rules.Count());
             return ASA_ERROR.NONE;
         }
 
@@ -935,7 +935,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                                     // Select rules with the appropriate change type, platform and target
                                     // - Target is also checked inside Analyze, but this shortcuts repeatedly
                                     // checking rules which don't apply
-                                    var selectedRules = opts.AnalysesFile.AsaRules.Where((rule) =>
+                                    var selectedRules = opts.AnalysesFile.Rules.Where((rule) =>
                                         (rule.ChangeTypes == null || rule.ChangeTypes.Contains(res.ChangeType))
                                             && (rule.Platforms == null || rule.Platforms.Contains(platform))
                                             && (rule.ResultType == res.ResultType));

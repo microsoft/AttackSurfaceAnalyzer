@@ -1,10 +1,10 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 
 <h3>FileMonitorOptions</h3>
-<input id="enableFileSystemCollectorCheckbox" type="checkbox" @bind="appData.MonitorOptions.EnableFileSystemMonitor" /><label for="enableFileSystemCollectorCheckbox">Enable</label>
-<input id="enableGatherHashesCheckbox" type="checkbox" @bind="appData.MonitorOptions.GatherHashes" /><label for="enableGatherHashesCheckbox">Gather Hashes</label>
+<input id="enableFileSystemMonitorCheckbox" type="checkbox" @bind="appData.MonitorOptions.EnableFileSystemMonitor" /><label for="enableFileSystemMonitorCheckbox">Enable</label>
+<input id="enableGatherHashesFileMonitorCheckbox" type="checkbox" @bind="appData.MonitorOptions.GatherHashes" /><label for="enableGatherHashesFileMonitorCheckbox">Gather Hashes</label>
 <input id="enableFileNamesOnlyCheckbox" type="checkbox" @bind="appData.MonitorOptions.FileNamesOnly" /><label for="enableFileNamesOnlyCheckbox">File Names Only</label>
-<input id="selectedDirectoriesString" type="text" @bind="SelectedDirectories" /><label for="selectedDirectoriesString">Selected Directories</label>
+<input id="selectedDirectoriesFileMonitorString" type="text" @bind="SelectedDirectories" /><label for="selectedDirectoriesFileMonitorString">Selected Directories</label>
 
 @code {
     string SelectedDirectories

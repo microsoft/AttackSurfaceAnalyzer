@@ -31,24 +31,23 @@
         <p>Running Analysis.</p>
         break;
     case PageState.Results:
-        if (numAnalysisResults == 0)
-        {
-            <p>No results.</p>
-        }
-        else
-        {
-            <select @bind="SelectedResultType">
-                @foreach(var resultType in foundResultTypes)
-                {
-                    <option value="@resultType.Key">@resultType.Key : @resultType.Value </option>
-                }
-            </select>
-            <button @onclick="MoreAnalysisResults">More results</button>
-            foreach (var result in analysisResults)
+        <select @bind="SelectedResultType">
+            @foreach(var resultType in foundResultTypes)
             {
-                <p>result.Identity : result.Flag</p>
+                <option value="@resultType.Key">@resultType.Key : @resultType.Value </option>
             }
-            <p>Showing Results.</p>
+        </select>
+        <button @onclick="MoreAnalysisResults">More results</button>
+        foreach (var result in analysisResults)
+        {
+<div style="border:2px solid black">
+    <p><i>@result.Analysis</i> : @result.Identity</p>
+    <p>@result.Rules.Count @(@result.Rules.Count == 1 ? "rule" : "rules") applied.</p>     
+    @foreach (var rule in result.Rules)
+    {
+        <div style="border:2px solid gray">@rule.Name : @rule.Description</div>
+    }
+</div>
         }
         break;
     case PageState.Error:
@@ -75,12 +74,21 @@
         set { _selectedResultType = value; offset = 0; GetAnalysisResults(); }
     }
 
-    string _selectedResultType;
+    string _selectedResultType = "FILEMONITOR";
 
 
     void GetAnalysisResults()
     {
-        analysisResults = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResults(FirstRunId, SecondRunId, (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE),SelectedResultType), offset, count);
+        var resultType = (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), SelectedResultType);
+        switch (resultType)
+        {
+            case RESULT_TYPE.FILEMONITOR:
+                analysisResults = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResults(string.Empty, MonitorRunId, resultType, offset, count);
+                break;
+            default:
+                analysisResults = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResults(FirstRunId, SecondRunId, resultType, offset, count);
+                break;
+        }
     }
 
     void MoreAnalysisResults()
@@ -93,8 +101,6 @@
     int count = 100;
 
     List<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult> analysisResults = new List<Objects.CompareResult>();
-
-    int numAnalysisResults = 0;
 
     string RunIdInput = "Use Timestamp";
 
@@ -146,7 +152,12 @@
     {
         foreach(var resultType in Enum.GetValues(typeof(RESULT_TYPE)))
         {
-            foundResultTypes.Add((RESULT_TYPE)resultType, AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResultsCount(FirstRunId, SecondRunId, (int)resultType));
+            var found = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResultsCount(FirstRunId, SecondRunId, (int)resultType);
+            if (found == 0)
+            {
+                found = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResultsCount(null, MonitorRunId, (int)resultType);
+            }
+            foundResultTypes.Add((RESULT_TYPE)resultType, found);
         }
     }
 
@@ -162,6 +173,7 @@
         appData.ExportCollectCommandOptions.SecondRunId = SecondRunId;
         await BeginAnalyze();
         ParseOptsToResultTypes();
+        GetAnalysisResults();
         pageState = PageState.Results;
     }
 
@@ -182,10 +194,24 @@
     async Task<ASA_ERROR> BeginAnalyze()
     {
         pageState = PageState.Analyzing;
+
         await Task.Factory.StartNew(() =>
         {
-            var results = AttackSurfaceAnalyzerClient.CompareRuns(appData.CompareCommandOptions);
+            var CompareOneOptions = appData.CompareCommandOptions;
+            CompareOneOptions.FirstRunId = FirstRunId;
+            CompareOneOptions.SecondRunId = SecondRunId;
+            var results = AttackSurfaceAnalyzerClient.CompareRuns(CompareOneOptions);
             AttackSurfaceAnalyzerClient.InsertCompareResults(results, appData.ExportCollectCommandOptions.FirstRunId, appData.ExportCollectCommandOptions.SecondRunId);
+        });
+
+        await Task.Factory.StartNew(() =>
+        {
+            var CompareTwoOptions = appData.CompareCommandOptions;
+
+            CompareTwoOptions.FirstRunId = null;
+            CompareTwoOptions.SecondRunId = MonitorRunId;
+            var results = AttackSurfaceAnalyzerClient.CompareRuns(CompareTwoOptions);
+            AttackSurfaceAnalyzerClient.InsertCompareResults(results, null, MonitorRunId);
         });
         return ASA_ERROR.NONE;
     }

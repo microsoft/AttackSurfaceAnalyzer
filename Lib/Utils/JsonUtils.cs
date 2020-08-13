@@ -85,7 +85,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 
                 case RESULT_TYPE.DRIVER:
                     return JsonConvert.DeserializeObject<DriverObject>(serialized, jsonSettings);
-
+                case RESULT_TYPE.FILEMONITOR:
+                    return JsonConvert.DeserializeObject<FileMonitorObject>(serialized, jsonSettings);
                 default:
                     return null;
             }

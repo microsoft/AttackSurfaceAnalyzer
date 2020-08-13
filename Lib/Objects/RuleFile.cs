@@ -15,11 +15,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
     {
         public RuleFile(Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>? DefaultLevels = null, List<AsaRule>? Rules = null)
         {
-            if (DefaultLevels != null)
-            {
-                this.DefaultLevels = DefaultLevels;
-            }
-            this.AsaRules = Rules ?? new List<AsaRule>();
+            this.DefaultLevels = DefaultLevels ?? this.DefaultLevels;
+            this.Rules = Rules ?? new List<AsaRule>();
         }
 
         public RuleFile()
@@ -28,7 +25,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 
         public string? Source { get; set; } // An Identifier for the source of the rules
 
-        public IEnumerable<AsaRule> AsaRules { get; set; } = new List<AsaRule>();
+        public IEnumerable<AsaRule> Rules { get; set; } = new List<AsaRule>();
 
         public Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DefaultLevels { get; set; } = new Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>()
         {
@@ -45,7 +42,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
             { RESULT_TYPE.KEY, ANALYSIS_RESULT_TYPE.INFORMATION },
             { RESULT_TYPE.TPM, ANALYSIS_RESULT_TYPE.INFORMATION },
             { RESULT_TYPE.PROCESS, ANALYSIS_RESULT_TYPE.INFORMATION },
-            { RESULT_TYPE.DRIVER, ANALYSIS_RESULT_TYPE.INFORMATION }
+            { RESULT_TYPE.DRIVER, ANALYSIS_RESULT_TYPE.INFORMATION },
+            { RESULT_TYPE.FILEMONITOR, ANALYSIS_RESULT_TYPE.INFORMATION }
         };
 
         public static RuleFile FromStream(Stream? stream)
@@ -115,14 +113,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
             {
                 var assembly = typeof(FileSystemObject).Assembly;
                 var resourceName = "AttackSurfaceAnalyzer.analyses.json";
-                using (Stream stream = assembly.GetManifestResourceStream(resourceName) ?? new MemoryStream())
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    var file = JsonConvert.DeserializeObject<RuleFile>(reader.ReadToEnd());
-                    file.Source = "Embedded Rules";
-                    Log.Information(Strings.Get("LoadedAnalyses"), "Embedded");
-                    return file;
-                }
+                using Stream stream = assembly.GetManifestResourceStream(resourceName) ?? throw new NullReferenceException($"assembly.GetManifestResourceStream couldn't load {resourceName}");
+                var file = FromStream(stream);
+                file.Source = "Embedded Rules";
+                Log.Information(Strings.Get("LoadedAnalyses"), "Embedded");
+                return file;
             }
             catch (Exception e) when (
                 e is ArgumentNullException
@@ -130,7 +125,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
                 || e is FileLoadException
                 || e is FileNotFoundException
                 || e is BadImageFormatException
-                || e is NotImplementedException)
+                || e is NotImplementedException
+                || e is NullReferenceException)
             {
                 Log.Debug("Could not load filters {0} {1}", "Embedded", e.GetType().ToString());
 
@@ -150,12 +146,12 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 
         public List<Rule> GetRules()
         {
-            return AsaRules.Select(x => (Rule)x).ToList(); ;
+            return Rules.Select(x => (Rule)x).ToList(); ;
         }
 
         public List<Rule> GetRulesForPlatform(PLATFORM platform)
         {
-            return (List<Rule>)AsaRules.Where(x => x.Platforms.Contains(platform) || !x.Platforms.Any());
+            return (List<Rule>)Rules.Where(x => x.Platforms.Contains(platform) || !x.Platforms.Any());
         }
     }
 }

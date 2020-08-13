@@ -4,7 +4,7 @@
       "Name": "Privileged ports",
       "Description": "Flag when privileged ports are opened.",
       "Flag": "WARNING",
-      "ResuLessThanType": "PORT",
+      "ResultType": "PORT",
       "Clauses": [
         {
           "Field": "port",
@@ -19,7 +19,7 @@
       "Name": "Privileged users",
       "Description": "Flag when privileged users are modified.",
       "Flag": "WARNING",
-      "ResuLessThanType": "USER",
+      "ResultType": "USER",
       "Clauses": [
         {
           "Field": "Privileged",
@@ -31,7 +31,7 @@
       "Name": "Hidden users",
       "Description": "Flag when hidden user accounts are modified.",
       "Flag": "WARNING",
-      "ResuLessThanType": "USER",
+      "ResultType": "USER",
       "Clauses": [
         {
           "Field": "Hidden",
@@ -47,7 +47,7 @@
         "CREATED",
         "MODIFIED"
       ],
-      "ResuLessThanType": "FILE",
+      "ResultType": "FILE",
       "Expression": "is_exe AND NOT valid_windows_signature AND null_mac_signature",
       "Clauses": [
         {
@@ -82,7 +82,7 @@
         "CREATED",
         "MODIFIED"
       ],
-      "ResuLessThanType": "FILE",
+      "ResultType": "FILE",
       "Clauses": [
         {
           "Field": "SetUid",
@@ -102,7 +102,7 @@
         "CREATED",
         "MODIFIED"
       ],
-      "ResuLessThanType": "FILE",
+      "ResultType": "FILE",
       "Clauses": [
         {
           "Field": "SetGid",
@@ -121,7 +121,7 @@
         "CREATED",
         "MODIFIED"
       ],
-      "ResuLessThanType": "FILE",
+      "ResultType": "FILE",
       "Expression": "EXE AND NOT ASLR",
       "Clauses": [
         {
@@ -151,7 +151,7 @@
         "CREATED",
         "MODIFIED"
       ],
-      "ResuLessThanType": "FILE",
+      "ResultType": "FILE",
       "Expression": "EXE AND NOT DEP",
       "Clauses": [
         {
@@ -180,7 +180,7 @@
         "CREATED",
         "MODIFIED"
       ],
-      "ResuLessThanType": "FILE",
+      "ResultType": "FILE",
       "Expression": "EXE AND SIGNED AND NOT INTEGRITYFLAG",
       "Clauses": [
         {
@@ -207,7 +207,7 @@
       "Name": "Certificates",
       "Description": "Flag when certificates are placed on disk.",
       "Flag": "INFORMATION",
-      "ResuLessThanType": "FILE",
+      "ResultType": "FILE",
       "Clauses": [
         {
           "Field": "Path",
@@ -224,7 +224,7 @@
       "Name": "UPNP Ports",
       "Description": "Universal Plug n' Play.",
       "Flag": "INFORMATION",
-      "ResuLessThanType": "PORT",
+      "ResultType": "PORT",
       "Clauses": [
         {
           "Field": "port",
@@ -239,7 +239,7 @@
       "Name": "Keystore Files",
       "Description": "Java keystore files contain encryption keys and certificates.",
       "Flag": "INFORMATION",
-      "ResuLessThanType": "FILE",
+      "ResultType": "FILE",
       "Clauses": [
         {
           "Field": "Path",
@@ -257,7 +257,7 @@
       "Platforms": [
         "MACOS"
       ],
-      "ResuLessThanType": "FILE",
+      "ResultType": "FILE",
       "Clauses": [
         {
           "Field": "Path",
@@ -275,7 +275,7 @@
       "Platforms": [
         "WINDOWS"
       ],
-      "ResuLessThanType": "REGISTRY",
+      "ResultType": "REGISTRY",
       "Clauses": [
         {
           "Field": "KEY",
@@ -294,7 +294,7 @@
         "LINUX",
         "MACOS"
       ],
-      "ResuLessThanType": "FILE",
+      "ResultType": "FILE",
       "Clauses": [
         {
           "Field": "IsExecutable",
@@ -324,7 +324,7 @@
         "LINUX",
         "MACOS"
       ],
-      "ResuLessThanType": "FILE",
+      "ResultType": "FILE",
       "Clauses": [
         {
           "Field": "IsExecutable",
@@ -353,7 +353,7 @@
       "Platforms": [
         "MACOS"
       ],
-      "ResuLessThanType": "LOG",
+      "ResultType": "LOG",
       "Clauses": [
         {
           "Field": "Summary",
@@ -372,7 +372,7 @@
       "ChangeTypes": [
         "MODIFIED"
       ],
-      "ResuLessThanType": "FILE",
+      "ResultType": "FILE",
       "Clauses": [
         {
           "Field": "SignatureStatus.SigningCertificate.Issuer",
@@ -390,7 +390,7 @@
       "ChangeTypes": [
         "MODIFIED"
       ],
-      "ResuLessThanType": "FILE",
+      "ResultType": "FILE",
       "Clauses": [
         {
           "Field": "Path",
@@ -412,7 +412,7 @@
       "ChangeTypes": [
         "MODIFIED"
       ],
-      "ResuLessThanType": "FILE",
+      "ResultType": "FILE",
       "Expression": "0 AND NOT 1",
       "Clauses": [
         {
@@ -450,7 +450,7 @@
         "LINUX",
         "MACOS"
       ],
-      "ResuLessThanType": "FILE",
+      "ResultType": "FILE",
       "Expression": "0 AND 1",
       "Clauses": [
         {
@@ -657,7 +657,7 @@
       "ChangeTypes": [
         "MODIFIED"
       ],
-      "ResuLessThanType": "SERVICE"
+      "ResultType": "SERVICE"
     },
     {
       "Name": "Modified Hosts File",
@@ -666,7 +666,7 @@
       "ChangeTypes": [
         "MODIFIED"
       ],
-      "ResuLessThanType": "FILE",
+      "ResultType": "FILE",
       "Expression": "WINDOWS OR NIX",
       "Clauses": [
         {
@@ -694,7 +694,7 @@
       "ChangeTypes": [
         "MODIFIED"
       ],
-      "ResuLessThanType": "FILE",
+      "ResultType": "FILE",
       "Expression": "is_exe AND (windows OR NOT macos_null)",
       "Clauses": [
         {
@@ -724,7 +724,7 @@
       "Platforms": [
         "WINDOWS"
       ],
-      "ResuLessThanType": "FILE",
+      "ResultType": "FILE",
       "Clauses": [
         {
           "Field": "Path",
@@ -765,7 +765,7 @@
       "Platforms": [
         "WINDOWS"
       ],
-      "ResuLessThanType": "REGISTRY",
+      "ResultType": "REGISTRY",
       "Clauses": [
         {
           "Field": "Key",
@@ -783,7 +783,7 @@
       "Platforms": [
         "MACOS"
       ],
-      "ResuLessThanType": "FILE",
+      "ResultType": "FILE",
       "Clauses": [
         {
           "Field": "Key",
@@ -801,7 +801,7 @@
       "Platforms": [
         "WINDOWS"
       ],
-      "ResuLessThanType": "FILE",
+      "ResultType": "FILE",
       "Clauses": [
         {
           "Operation": "IsTrue",
@@ -827,7 +827,7 @@
       "Name": "Expired Certificates",
       "Description": "These Certificates are expired.",
       "Flag": "WARNING",
-      "ResuLessThanType": "CERTIFICATE",
+      "ResultType": "CERTIFICATE",
       "ChangeTypes": [
         "MODIFIED",
         "CREATED"
@@ -843,7 +843,7 @@
       "Name": "Binaries with expired signatures",
       "Description": "These binaries have expired signatures.",
       "Flag": "WARNING",
-      "ResuLessThanType": "FILE",
+      "ResultType": "FILE",
       "ChangeTypes": [
         "MODIFIED",
         "CREATED"
@@ -859,7 +859,7 @@
       "Name": "TPM Keys",
       "Description": "These TPM Keys have been changed.",
       "Flag": "WARNING",
-      "ResuLessThanType": "FILE",
+      "ResultType": "FILE",
       "Platforms": [
         "WINDOWS"
       ],
@@ -877,7 +877,7 @@
       "Name": "TPM Auth Values Changed",
       "Description": "These TPM Auth Values have been changed in the registry.",
       "Flag": "WARNING",
-      "ResuLessThanType": "REGISTRY",
+      "ResultType": "REGISTRY",
       "Platforms": [
         "WINDOWS"
       ],
@@ -922,7 +922,7 @@
       "Name": "TPM Endorsement Auth Value",
       "Description": "The TPM Endorsement Auth was changed.",
       "Flag": "WARNING",
-      "ResuLessThanType": "REGISTRY",
+      "ResultType": "REGISTRY",
       "Platforms": [
         "WINDOWS"
       ],
@@ -944,7 +944,7 @@
       "Name": "Use Null Derived Owner Auth Changed",
       "Description": "The UseNullDerivedOwnerAuth setting was changed.",
       "Flag": "WARNING",
-      "ResuLessThanType": "REGISTRY",
+      "ResultType": "REGISTRY",
       "Platforms": [
         "WINDOWS"
       ],
@@ -977,7 +977,7 @@
       "Name": "OS Managed Auth Level Changed",
       "Description": "The TPM OS Managed Auth Level was Changed.",
       "Flag": "WARNING",
-      "ResuLessThanType": "REGISTRY",
+      "ResultType": "REGISTRY",
       "Platforms": [
         "WINDOWS"
       ],
@@ -999,7 +999,7 @@
       "Name": "SHA Root of Trust Modified",
       "Description": "The systems root of trust has been modified.",
       "Flag": "WARNING",
-      "ResuLessThanType": "TPM",
+      "ResultType": "TPM",
       "Platforms": [
         "WINDOWS",
         "LINUX"
@@ -1058,7 +1058,7 @@
       "Name": "SHA256 Root of Trust Modified",
       "Description": "The systems root of trust has been modified.",
       "Flag": "WARNING",
-      "ResuLessThanType": "TPM",
+      "ResultType": "TPM",
       "Platforms": [
         "WINDOWS",
         "LINUX"
@@ -1117,7 +1117,7 @@
       "Name": "SHA384 Root of Trust Modified",
       "Description": "The systems root of trust has been modified.",
       "Flag": "WARNING",
-      "ResuLessThanType": "TPM",
+      "ResultType": "TPM",
       "Platforms": [
         "WINDOWS",
         "LINUX"
@@ -1176,7 +1176,7 @@
       "Name": "SHA512 Root of Trust Modified",
       "Description": "The systems root of trust has been modified.",
       "Flag": "WARNING",
-      "ResuLessThanType": "TPM",
+      "ResultType": "TPM",
       "Platforms": [
         "WINDOWS",
         "LINUX"
@@ -1235,7 +1235,7 @@
       "Name": "SM3_256 Root of Trust Modified",
       "Description": "The systems root of trust has been modified.",
       "Flag": "WARNING",
-      "ResuLessThanType": "TPM",
+      "ResultType": "TPM",
       "Platforms": [
         "WINDOWS",
         "LINUX"
@@ -1297,7 +1297,7 @@
       "Platforms": [
         "WINDOWS"
       ],
-      "ResuLessThanType": "REGISTRY",
+      "ResultType": "REGISTRY",
       "Expression": "SYSTEM_POLICY OR USER_POLICY",
       "Clauses": [
         {
@@ -1319,7 +1319,7 @@
       ]
     }
   ],
-  "DefauLessThanLevels": {
+  "DefaultLevels": {
     "PORT": "INFORMATION",
     "FILE": "DEBUG",
     "SERVICE": "INFORMATION",

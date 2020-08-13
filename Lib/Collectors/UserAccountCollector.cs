@@ -35,8 +35,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
             {
                 using var BaseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Default);
                 var SpecialAccounts = BaseKey.OpenSubKey("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\UserList");
-                var ValueName = SpecialAccounts.GetValueNames().Where(x => x.ToUpperInvariant().Equals(username.ToUpperInvariant())).FirstOrDefault();
-                if (ValueName != null)
+                var ValueName = SpecialAccounts?.GetValueNames().Where(x => x.ToUpperInvariant().Equals(username.ToUpperInvariant())).FirstOrDefault();
+                if (ValueName != null && SpecialAccounts != null)
                 {
                     if (SpecialAccounts.GetValue(ValueName).Equals(0x0))
                     {
