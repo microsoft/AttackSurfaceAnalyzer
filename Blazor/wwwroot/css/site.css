@@ -13,6 +13,18 @@ a, .btn-link {
     background-color: #1b6ec2;
     border-color: #1861ac;
 }
+.navbar-brand {
+    font-weight: bold;
+    font-family: "Segoe UI", Helvetica, sans-serif;
+}
+.nav-link {
+    font-family: "Segoe UI", Helvetica, sans-serif;
+}
+.nav-link.active {
+    font-weight: bold;
+    font-family: "Segoe UI", Helvetica, sans-serif;
+}
+
 
 app {
     position: relative;
@@ -47,7 +59,7 @@ app {
 }
 
 .sidebar {
-    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    background-color: rgba(36, 58, 94, 1);
 }
 
     .sidebar .top-row {
