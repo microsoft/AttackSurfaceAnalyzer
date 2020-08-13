@@ -1,8 +1,8 @@
 ﻿@using Microsoft.CST.AttackSurfaceAnalyzer.Cli.Components
-@using Microsoft.CST.AttackSurfaceAnalyzer.Cli.Components.States 
+@using Microsoft.CST.AttackSurfaceAnalyzer.Cli.Components.States
 @using Microsoft.CST.AttackSurfaceAnalyzer.Types
 @using Microsoft.CST.AttackSurfaceAnalyzer.Objects
-@using Microsoft.CST.AttackSurfaceAnalyzer.Collectors  
+@using Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 @inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 
 @page "/"
@@ -21,7 +21,10 @@
         <Scanning />
         break;
     case PageState.Monitoring:
-        <Monitoring ContinueGuided="@ContinueGuided" />
+        <Monitoring Continue="@ContinueGuided" />
+        break;
+    case PageState.MonitorFlushing:
+        <MonitorFlushing />
         break;
     case PageState.Analyzing:
         <Analyzing />
@@ -42,6 +45,7 @@
         Options,
         Scanning,
         Monitoring,
+        MonitorFlushing,
         Analyzing,
         Results,
         Error
@@ -61,6 +65,7 @@
         {
             appData.MonitorOptions.RunId = appData.MonitorRunId;
             await BeginMonitor();
+            AttackSurfaceAnalyzerClient.ClearCollectors();
         }
         else
         {
@@ -71,6 +76,8 @@
 
     async void ContinueGuided()
     {
+        pageState = PageState.MonitorFlushing;
+        this.StateHasChanged();
         AttackSurfaceAnalyzerClient.StopMonitors();
 
         appData.CollectOptions.RunId = appData.SecondRunId;
@@ -88,6 +95,7 @@
     async Task<ASA_ERROR> BeginScan()
     {
         pageState = PageState.Scanning;
+        this.StateHasChanged();
         return await Task.Factory.StartNew(() => AttackSurfaceAnalyzerClient.RunCollectCommand(appData.CollectOptions));
     }
 

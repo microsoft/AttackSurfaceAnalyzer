@@ -109,9 +109,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 
         public static string GetVersionString()
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
-            return fileVersionInfo.ProductVersion;
+            return (Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false) as AssemblyInformationalVersionAttribute[])?[0].InformationalVersion ?? "Unknown";
         }
 
         public static byte[] HexStringToBytes(string hex)
