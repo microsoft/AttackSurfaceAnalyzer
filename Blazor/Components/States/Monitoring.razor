@@ -1,0 +1,7 @@
+﻿<p>Running Monitoring. Run your software under test now and press Stop when done.</p>
+<button @onclick="ContinueGuided">Stop</button>
+
+@code{
+    [Parameter]
+    public Action ContinueGuided { get; set; }
+}
