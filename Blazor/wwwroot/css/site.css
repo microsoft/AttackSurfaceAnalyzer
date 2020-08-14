@@ -8,6 +8,10 @@ a, .btn-link {
     color: #0366d6;
 }
 
+label {
+    font-family: "Segoe UI", Helvetica, sans-serif;
+}
+
 input {
     -webkit-transition: border 0.1s linear, box-shadow 0.1s linear;
     -moz-transition: border 0.1s linear, box-shadow 0.1s linear;
@@ -95,7 +99,7 @@ app {
 }
 
 .sidebar {
-    background-color: rgba(36, 58, 94, 1);
+    background-color: #243a5e;
 }
 
     .sidebar .top-row {
@@ -164,6 +168,33 @@ app {
 .validation-message {
     color: red;
 }
+
+.options-card {
+    border-radius: 8px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    color: black;
+    background-color: #596d8d;
+    max-width: 50vh;
+}
+.options-card .first-entry {
+    display: block;
+    font-weight: 500;
+    font-size: x-large;
+    font-style: italic;
+    color: white;
+}
+.options-card .options-entry {
+    display: block;
+}
+.options-card .options-hr {
+    margin-top: auto;
+    border-top: 3px solid #243a5e;
+    border-radius: 5px;
+}
+
 
 #blazor-error-ui {
     background: lightyellow;
