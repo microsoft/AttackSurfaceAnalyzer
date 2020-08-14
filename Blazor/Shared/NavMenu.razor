@@ -1,4 +1,6 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
+﻿@using Microsoft.CST.AttackSurfaceAnalyzer.Utils
+
+<div class="top-row pl-4 navbar navbar-dark">
     <a class="navbar-brand" href="">Attack Surface Analyzer</a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
@@ -28,6 +30,11 @@
             </NavLink>
         </li>
     </ul>
+</div>
+
+<div class="bottom-row pl-4 navbar">
+    <div class="version">v.@AsaHelpers.GetVersionString()</div>
+    <img class="logo" src="images/microsoft-logo.png" alt="Microsoft Corporation Logo" />
 </div>
 
 @code {

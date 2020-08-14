@@ -58,6 +58,22 @@ app {
     text-overflow: ellipsis;
 }
 
+
+.bottom-row {
+    position: absolute;
+    bottom: 0px;
+}
+
+.bottom-row .version {
+    color: white;
+    text-align: center;
+}
+
+.bottom-row .logo {
+    height: 90px;
+    width: 201px;
+}
+
 .sidebar {
     background-color: rgba(36, 58, 94, 1);
 }
@@ -192,4 +208,6 @@ app {
         /* Never collapse the sidebar for wide screens */
         display: block;
     }
+
+  
 }
