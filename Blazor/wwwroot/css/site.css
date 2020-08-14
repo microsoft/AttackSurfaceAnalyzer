@@ -79,10 +79,11 @@ app {
     bottom: 0px;
 }
 
-.bottom-row .version {
-    color: white;
-    text-align: center;
-}
+    .bottom-row .version {
+        color: white;
+        text-align: center;
+        font-family: "Segoe UI", Helvetica, sans-serif;
+    }
 
 .bottom-row .logo {
     height: 90px;
