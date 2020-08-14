@@ -1,5 +1,43 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 
-<h3>Wifi Collector Options</h3>
-<input id="enableWifiCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableWifiCollector" /><label for="enableWifiCollectionCheckbox">Enable</label>
-<input id="enableWifiPasswordsCheckbox" type="checkbox" @bind="appData.CollectOptions.GatherWifiPasswords" /><label for="enableWifiPasswordsCheckbox">Gather Wifi Passwords</label>
+<p>
+    <input class="@enableWifiCollectionCheckboxGlowClass" id="enableWifiCollectionCheckbox" type="checkbox" @onchange="HandleEnableWifiCollector" /><label for="enableWifiCollectionCheckbox">Enable Saved Wifi Network Collector</label>
+    <input class="@enableWifiPasswordCollectionCheckboxGlowClass" id="enableWifiPasswordCollectionCheckbox" type="checkbox" @onchange="HandleEnableWifiPasswordCollector" /><label for="enableWifiPasswordCollectionCheckbox">Enable Password Collection</label>
+</p>
+@code{
+    string enableWifiCollectionCheckboxGlowClass;
+
+    async void HandleEnableWifiCollector(ChangeEventArgs evt)
+    {
+        appData.CollectOptions.EnableWifiCollector = (bool)evt.Value;
+        if (appData.CollectOptions.EnableWifiCollector)
+        {
+            enableWifiCollectionCheckboxGlowClass = "glowBlue";
+        }
+        else
+        {
+            enableWifiCollectionCheckboxGlowClass = "glowRed";
+        }
+        await Task.Delay(500);
+        enableWifiCollectionCheckboxGlowClass = string.Empty;
+        StateHasChanged();
+    }
+
+    string enableWifiPasswordCollectionCheckboxGlowClass;
+
+    async void HandleEnableWifiPasswordCollector(ChangeEventArgs evt)
+    {
+        appData.CollectOptions.GatherWifiPasswords = (bool)evt.Value;
+        if (appData.CollectOptions.GatherWifiPasswords)
+        {
+            enableWifiCollectionCheckboxGlowClass = "glowBlue";
+        }
+        else
+        {
+            enableWifiCollectionCheckboxGlowClass = "glowRed";
+        }
+        await Task.Delay(500);
+        enableWifiCollectionCheckboxGlowClass = string.Empty;
+        StateHasChanged();
+    }
+}

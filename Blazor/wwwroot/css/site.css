@@ -8,6 +8,26 @@ a, .btn-link {
     color: #0366d6;
 }
 
+input {
+    -webkit-transition: border 0.1s linear, box-shadow 0.1s linear;
+    -moz-transition: border 0.1s linear, box-shadow 0.1s linear;
+    transition: border 0.1s linear, box-shadow 0.1s linear;
+}
+
+input.glowBlue {
+    border-color: blue;
+    -webkit-box-shadow: 0 0 8px blue;
+    -moz-box-shadow: 0 0 8px blue;
+    box-shadow: 0 0 8px blue;
+}
+
+input.glowRed {
+    border-color: red;
+    -webkit-box-shadow: 0 0 5px red;
+    -moz-box-shadow: 0 0 5px red;
+    box-shadow: 0 0 5px red;
+}
+
 .btn-primary {
     color: #fff;
     background-color: #1b6ec2;

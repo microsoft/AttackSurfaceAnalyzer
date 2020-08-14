@@ -1,5 +1,43 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 
-<h3>Event Log Collector Options</h3>
-<input id="enableEventLogCollectorCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableEventLogCollector" /><label for="enableEventLogCollectorCheckbox">Enable</label>
-<input id="enableEventLogVerboseCheckbox" type="checkbox" @bind="appData.CollectOptions.GatherVerboseLogs" /><label for="enableEventLogVerboseCheckbox">Gather Verbose Logs</label>
+<p>
+    <input class="@enableEventLogCollectorCheckboxGlowClass" id="enableEventLogCollectorCheckbox" type="checkbox" @onchange="HandleEnableEventLogCollector" /><label for="enableEventLogCollectorCheckbox">Enable Event Log Collector</label>
+    <input class="@enableVerboseEventLogCollectorCheckboxGlowClass" id="enableVerboseEventLogCollectorCheckbox" type="checkbox" @onchange="HandleEnableEventLogCollectorVerbose" /><label for="enableVerboseEventLogCollectorCheckbox">Enable Gathering Verbose Event Logs</label>
+</p>
+@code{
+    string enableEventLogCollectorCheckboxGlowClass;
+
+    async void HandleEnableEventLogCollector(ChangeEventArgs evt)
+    {
+        appData.CollectOptions.EnableEventLogCollector = (bool)evt.Value;
+        if (appData.CollectOptions.EnableEventLogCollector)
+        {
+            enableEventLogCollectorCheckboxGlowClass = "glowBlue";
+        }
+        else
+        {
+            enableEventLogCollectorCheckboxGlowClass = "glowRed";
+        }
+        await Task.Delay(500);
+        enableEventLogCollectorCheckboxGlowClass = string.Empty;
+        StateHasChanged();
+    }
+
+    string enableVerboseEventLogCollectorCheckboxGlowClass;
+
+    async void HandleEnableEventLogCollectorVerbose(ChangeEventArgs evt)
+    {
+        appData.CollectOptions.GatherVerboseLogs = (bool)evt.Value;
+        if (appData.CollectOptions.GatherVerboseLogs)
+        {
+            enableVerboseEventLogCollectorCheckboxGlowClass = "glowBlue";
+        }
+        else
+        {
+            enableVerboseEventLogCollectorCheckboxGlowClass = "glowRed";
+        }
+        await Task.Delay(500);
+        enableVerboseEventLogCollectorCheckboxGlowClass = string.Empty;
+        StateHasChanged();
+    }
+}

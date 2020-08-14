@@ -1,4 +1,24 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 
-<h3>Service Collector Options</h3>
-<input id="enableServiceCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableServiceCollector" /><label for="enableServiceCollectionCheckbox">Enable</label>
+<p>
+    <input class="@enableServiceCollectionCheckboxGlowClass" id="enableServiceCollectionCheckbox" type="checkbox" @onchange="HandleEnableServiceCollector" /><label for="enableServiceCollectionCheckbox">Enable Service Collector</label>
+</p>
+@code{
+    string enableServiceCollectionCheckboxGlowClass;
+
+    async void HandleEnableServiceCollector(ChangeEventArgs evt)
+    {
+        appData.CollectOptions.EnableServiceCollector = (bool)evt.Value;
+        if (appData.CollectOptions.EnableServiceCollector)
+        {
+            enableServiceCollectionCheckboxGlowClass = "glowBlue";
+        }
+        else
+        {
+            enableServiceCollectionCheckboxGlowClass = "glowRed";
+        }
+        await Task.Delay(500);
+        enableServiceCollectionCheckboxGlowClass = string.Empty;
+        StateHasChanged();
+    }
+}

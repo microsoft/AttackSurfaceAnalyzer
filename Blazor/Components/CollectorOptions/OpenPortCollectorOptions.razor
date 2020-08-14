@@ -1,4 +1,24 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 
-<h3>Open Port Collector Options</h3>
-<input id="enableNetworkPortCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableNetworkPortCollector" /><label for="enableNetworkPortCollectionCheckbox">Enable</label>
+<p>
+    <input class="@enableNetworkPortCollectionCheckboxGlowClass" id="enableNetworkPortCollectionCheckbox" type="checkbox" @onchange="HandleEnablePortCollector" /><label for="enableNetworkPortCollectionCheckbox">Enable Firewall Collector</label>
+</p>
+@code{
+    string enableNetworkPortCollectionCheckboxGlowClass;
+
+    async void HandleEnablePortCollector(ChangeEventArgs evt)
+    {
+        appData.CollectOptions.EnableNetworkPortCollector = (bool)evt.Value;
+        if (appData.CollectOptions.EnableNetworkPortCollector)
+        {
+            enableNetworkPortCollectionCheckboxGlowClass = "glowBlue";
+        }
+        else
+        {
+            enableNetworkPortCollectionCheckboxGlowClass = "glowRed";
+        }
+        await Task.Delay(500);
+        enableNetworkPortCollectionCheckboxGlowClass = string.Empty;
+        StateHasChanged();
+    }
+}

@@ -1,4 +1,24 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 
-<h3>COM Object Options</h3>
-<input id="enableComObjectCollectorCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableComObjectCollector" /><label for="enableComObjectCollectorCheckbox">Enable</label>
+<p>
+    <input class="@enableComObjectCollectorCheckboxGlowClass" id="enableComObjectCollectorCheckbox" type="checkbox" @onchange="HandleEnableComObjectCollector" /><label for="enableComObjectCollectorCheckbox">Enable COM Object Collector</label>
+</p>
+@code{
+    string enableComObjectCollectorCheckboxGlowClass;
+
+    async void HandleEnableComObjectCollector(ChangeEventArgs evt)
+    {
+        appData.CollectOptions.EnableComObjectCollector = (bool)evt.Value;
+        if (appData.CollectOptions.EnableComObjectCollector)
+        {
+            enableComObjectCollectorCheckboxGlowClass = "glowBlue";
+        }
+        else
+        {
+            enableComObjectCollectorCheckboxGlowClass = "glowRed";
+        }
+        await Task.Delay(500);
+        enableComObjectCollectorCheckboxGlowClass = string.Empty;
+        StateHasChanged();
+    }
+}
