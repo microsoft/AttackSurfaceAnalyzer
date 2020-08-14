@@ -38,7 +38,7 @@ input.glowRed {
     font-family: "Segoe UI", Helvetica, sans-serif;
 }
 .nav-link {
-    font-family: "Segoe UI", Helvetica, sans-serif;
+    font-family: "Segoe UI Semibold", Helvetica, sans-serif;
 }
 .nav-link.active {
     font-weight: bold;
