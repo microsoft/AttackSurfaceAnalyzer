@@ -52,20 +52,15 @@ app {
     flex-direction: column;
 }
 
-.top-row {
-    height: 3.5rem;
-    display: flex;
-    align-items: center;
-}
-
 .main {
     flex: 1;
 }
 
     .main .top-row {
-        background-color: #f7f7f7;
-        border-bottom: 1px solid #d6d5d5;
+        background-color: #d5d9e0;
         justify-content: flex-end;
+        display: flex;
+        height: 3.25rem;
     }
 
         .main .top-row > a, .main .top-row .btn-link {
@@ -92,6 +87,10 @@ app {
 .bottom-row .logo {
     height: 90px;
     width: 201px;
+}
+
+.top-link {
+    align-self: center;
 }
 
 .sidebar {
