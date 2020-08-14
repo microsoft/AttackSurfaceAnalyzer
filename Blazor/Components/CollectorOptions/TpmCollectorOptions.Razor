@@ -1,22 +1,15 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 
 <p>
-    <input class="@enableTpmCollectionCheckboxGlowClass" id="enableTpmCollectionCheckbox" type="checkbox" @onchange="HandleEnableTpmCollector" /><label for="enableTpmCollectionCheckbox">Enable TPM Collector</label>
+    <input @onclick="ToggleGlowClassTpmCollector" class="@enableTpmCollectionCheckboxGlowClass" id="enableTpmCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableTpmCollector" /><label @onclick="ToggleGlowClassTpmCollector" for="enableTpmCollectionCheckbox">Enable Tpm Collector</label>
+
 </p>
 @code{
     string enableTpmCollectionCheckboxGlowClass;
 
-    async void HandleEnableTpmCollector(ChangeEventArgs evt)
+    async void ToggleGlowClassTpmCollector(MouseEventArgs _)
     {
-        appData.CollectOptions.EnableTpmCollector = (bool)evt.Value;
-        if (appData.CollectOptions.EnableTpmCollector)
-        {
-            enableTpmCollectionCheckboxGlowClass = "glowBlue";
-        }
-        else
-        {
-            enableTpmCollectionCheckboxGlowClass = "glowRed";
-        }
+        enableTpmCollectionCheckboxGlowClass = Helper.GetGlowClass(appData.CollectOptions.EnableTpmCollector);
         await Task.Delay(500);
         enableTpmCollectionCheckboxGlowClass = string.Empty;
         StateHasChanged();

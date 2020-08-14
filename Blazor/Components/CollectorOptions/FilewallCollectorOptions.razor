@@ -1,24 +1,17 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 
 <p>
-    <input class="@enableFirewallCollectorCheckboxGlowClass" id="enableFirewallCollectionCheckbox" type="checkbox" @onchange="HandleEnableFirewallCollector" /><label for="enableFirewallCollectionCheckbox">Enable Firewall Collector</label>
+    <input @onclick="ToggleGlowClassFirewallCollector" class="@enableFirewallCollectionCheckboxGlowClass" id="enableFirewallCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableFirewallCollector" /><label @onclick="ToggleGlowClassFirewallCollector" for="enableFirewallCollectionCheckbox">Enable Firewall Collector</label>
+
 </p>
 @code{
-    string enableFirewallCollectorCheckboxGlowClass;
+    string enableFirewallCollectionCheckboxGlowClass;
 
-    async void HandleEnableFirewallCollector(ChangeEventArgs evt)
+    async void ToggleGlowClassFirewallCollector(MouseEventArgs _)
     {
-        appData.CollectOptions.EnableFirewallCollector = (bool)evt.Value;
-        if (appData.CollectOptions.EnableFirewallCollector)
-        {
-            enableFirewallCollectorCheckboxGlowClass = "glowBlue";
-        }
-        else
-        {
-            enableFirewallCollectorCheckboxGlowClass = "glowRed";
-        }
+        enableFirewallCollectionCheckboxGlowClass = Helper.GetGlowClass(appData.CollectOptions.EnableFirewallCollector);
         await Task.Delay(500);
-        enableFirewallCollectorCheckboxGlowClass = string.Empty;
+        enableFirewallCollectionCheckboxGlowClass = string.Empty;
         StateHasChanged();
     }
 }

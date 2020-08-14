@@ -1,24 +1,17 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 
-    <p>
-        <input class="@enableCertificateCollectorCheckboxGlowClass" id="enableCertificateCollectorCheckbox" type="checkbox" @onchange="HandleEnableCertificateCollector" /><label for="enableCertificateCollectorCheckbox">Enable Certificate Collector</label>
-    </p>
-    @code{
-        string enableCertificateCollectorCheckboxGlowClass;
+<p>
+    <input @onclick="ToggleGlowClassCertificateCollector" class="@enableCertificateCollectionCheckboxGlowClass" id="enableCertificateCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableCertificateCollector" /><label @onclick="ToggleGlowClassCertificateCollector" for="enableCertificateCollectionCheckbox">Enable Certificate Collector</label>
 
-        async void HandleEnableCertificateCollector(ChangeEventArgs evt)
-        {
-            appData.CollectOptions.EnableCertificateCollector = (bool)evt.Value;
-            if (appData.CollectOptions.EnableCertificateCollector)
-            {
-                enableCertificateCollectorCheckboxGlowClass = "glowBlue";
-            }
-            else
-            {
-                enableCertificateCollectorCheckboxGlowClass = "glowRed";
-            }
-            await Task.Delay(500);
-            enableCertificateCollectorCheckboxGlowClass = string.Empty;
-            StateHasChanged();
-        }
+</p>
+@code{
+    string enableCertificateCollectionCheckboxGlowClass;
+
+    async void ToggleGlowClassCertificateCollector(MouseEventArgs _)
+    {
+        enableCertificateCollectionCheckboxGlowClass = Helper.GetGlowClass(appData.CollectOptions.EnableCertificateCollector);
+        await Task.Delay(500);
+        enableCertificateCollectionCheckboxGlowClass = string.Empty;
+        StateHasChanged();
     }
+}

@@ -1,43 +1,28 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 
 <p>
-    <input class="@enableEventLogCollectorCheckboxGlowClass" id="enableEventLogCollectorCheckbox" type="checkbox" @onchange="HandleEnableEventLogCollector" /><label for="enableEventLogCollectorCheckbox">Enable Event Log Collector</label>
-    <input class="@enableVerboseEventLogCollectorCheckboxGlowClass" id="enableVerboseEventLogCollectorCheckbox" type="checkbox" @onchange="HandleEnableEventLogCollectorVerbose" /><label for="enableVerboseEventLogCollectorCheckbox">Enable Gathering Verbose Event Logs</label>
+    <input @onclick="ToggleGlowClassEventLogCollector" class="@enableEventLogCollectionCheckboxGlowClass" id="enableEventLogCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableEventLogCollector" /><label @onclick="ToggleGlowClassEventLogCollector" for="enableEventLogCollectionCheckbox">Enable EventLog Collector</label>
+    <input @onclick="ToggleGlowClassVerboseEventLogCollector" class="@enableVerboseEventLogCollectionCheckboxGlowClass" id="enableVerboseEventLogCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.GatherVerboseLogs" /><label @onclick="ToggleGlowClassVerboseEventLogCollector" for="enableVerboseEventLogCollectionCheckbox">Enable Verbose Event Log Collector</label>
+
 </p>
 @code{
-    string enableEventLogCollectorCheckboxGlowClass;
+    string enableEventLogCollectionCheckboxGlowClass;
 
-    async void HandleEnableEventLogCollector(ChangeEventArgs evt)
+    async void ToggleGlowClassEventLogCollector(MouseEventArgs _)
     {
-        appData.CollectOptions.EnableEventLogCollector = (bool)evt.Value;
-        if (appData.CollectOptions.EnableEventLogCollector)
-        {
-            enableEventLogCollectorCheckboxGlowClass = "glowBlue";
-        }
-        else
-        {
-            enableEventLogCollectorCheckboxGlowClass = "glowRed";
-        }
+        enableEventLogCollectionCheckboxGlowClass = Helper.GetGlowClass(appData.CollectOptions.EnableEventLogCollector);
         await Task.Delay(500);
-        enableEventLogCollectorCheckboxGlowClass = string.Empty;
+        enableEventLogCollectionCheckboxGlowClass = string.Empty;
         StateHasChanged();
     }
 
-    string enableVerboseEventLogCollectorCheckboxGlowClass;
+    string enableVerboseEventLogCollectionCheckboxGlowClass;
 
-    async void HandleEnableEventLogCollectorVerbose(ChangeEventArgs evt)
+    async void ToggleGlowClassVerboseEventLogCollector(MouseEventArgs _)
     {
-        appData.CollectOptions.GatherVerboseLogs = (bool)evt.Value;
-        if (appData.CollectOptions.GatherVerboseLogs)
-        {
-            enableVerboseEventLogCollectorCheckboxGlowClass = "glowBlue";
-        }
-        else
-        {
-            enableVerboseEventLogCollectorCheckboxGlowClass = "glowRed";
-        }
+        enableVerboseEventLogCollectionCheckboxGlowClass = Helper.GetGlowClass(appData.CollectOptions.GatherVerboseLogs);
         await Task.Delay(500);
-        enableVerboseEventLogCollectorCheckboxGlowClass = string.Empty;
+        enableVerboseEventLogCollectionCheckboxGlowClass = string.Empty;
         StateHasChanged();
     }
 }

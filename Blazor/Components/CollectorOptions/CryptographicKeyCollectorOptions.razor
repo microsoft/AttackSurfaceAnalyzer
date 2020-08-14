@@ -1,24 +1,17 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 
 <p>
-    <input class="@enableCryptographicKeyCollectorCheckboxGlowClass" id="enableCryptographicKeyCollectorCheckbox" type="checkbox" @onchange="HandleEnableKeyCollector" /><label for="enableCryptographicKeyCollectorCheckbox">Enable Cryptographic Key Collector</label>
+    <input @onclick="ToggleGlowClassKeyCollector" class="@enableKeyCollectionCheckboxGlowClass" id="enableKeyCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableKeyCollector" /><label @onclick="ToggleGlowClassKeyCollector" for="enableKeyCollectionCheckbox">Enable Key Collector</label>
+
 </p>
 @code{
-    string enableCryptographicKeyCollectorCheckboxGlowClass;
+    string enableKeyCollectionCheckboxGlowClass;
 
-    async void HandleEnableKeyCollector(ChangeEventArgs evt)
+    async void ToggleGlowClassKeyCollector(MouseEventArgs _)
     {
-        appData.CollectOptions.EnableKeyCollector = (bool)evt.Value;
-        if (appData.CollectOptions.EnableKeyCollector)
-        {
-            enableCryptographicKeyCollectorCheckboxGlowClass = "glowBlue";
-        }
-        else
-        {
-            enableCryptographicKeyCollectorCheckboxGlowClass = "glowRed";
-        }
+        enableKeyCollectionCheckboxGlowClass = Helper.GetGlowClass(appData.CollectOptions.EnableKeyCollector);
         await Task.Delay(500);
-        enableCryptographicKeyCollectorCheckboxGlowClass = string.Empty;
+        enableKeyCollectionCheckboxGlowClass = string.Empty;
         StateHasChanged();
     }
 }

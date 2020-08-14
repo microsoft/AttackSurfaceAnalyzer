@@ -1,22 +1,15 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 
 <p>
-    <input class="@enableProcessCollectionCheckboxGlowClass" id="enableProcessCollectionCheckbox" type="checkbox" @onchange="HandleEnableProcessCollector" /><label for="enableProcessCollectionCheckbox">Enable Process Collector</label>
+    <input @onclick="ToggleGlowClassProcessCollector" class="@enableProcessCollectionCheckboxGlowClass" id="enableProcessCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableProcessCollector" /><label @onclick="ToggleGlowClassProcessCollector" for="enableProcessCollectionCheckbox">Enable Process Collector</label>
+
 </p>
 @code{
     string enableProcessCollectionCheckboxGlowClass;
 
-    async void HandleEnableProcessCollector(ChangeEventArgs evt)
+    async void ToggleGlowClassProcessCollector(MouseEventArgs _)
     {
-        appData.CollectOptions.EnableProcessCollector = (bool)evt.Value;
-        if (appData.CollectOptions.EnableProcessCollector)
-        {
-            enableProcessCollectionCheckboxGlowClass = "glowBlue";
-        }
-        else
-        {
-            enableProcessCollectionCheckboxGlowClass = "glowRed";
-        }
+        enableProcessCollectionCheckboxGlowClass = Helper.GetGlowClass(appData.CollectOptions.EnableProcessCollector);
         await Task.Delay(500);
         enableProcessCollectionCheckboxGlowClass = string.Empty;
         StateHasChanged();
