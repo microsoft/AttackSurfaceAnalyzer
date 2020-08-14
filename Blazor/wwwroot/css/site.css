@@ -194,7 +194,8 @@ app {
     padding-right: 15px;
     color: black;
     background-color: #596d8d;
-    max-width: 50vh;
+    max-width: 30vw;
+    display: block;
 }
 .options-card .first-entry {
     display: block;

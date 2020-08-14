@@ -10,12 +10,26 @@
 @switch (pageState)
 {
     case PageState.Options:
-        <label for="RunId">Run Id:</label>
-        <input id="RunId" type="text" @bind="RunIdInput" />
-        <button @onclick="BeginGuided">Go</button>
-        <CollectorOptionsRazor />
-        <MonitorOptionsRazor />
-        <AnalyzeOptionsRazor />
+        <div style="display:block">
+            <label for="RunId">Run Id:</label>
+            <input id="RunId" type="text" @bind="RunIdInput" />
+            <button @onclick="BeginGuided">Go</button>
+        </div>
+        <div class="options-card-container">
+            Collector Options
+            <hr />
+            <CollectorOptionsRazor />
+        </div>
+        <div class="options-card-container">
+            Monitor Options
+            <hr />
+            <MonitorOptionsRazor />
+        </div>
+        <div class="options-card-container">
+            Analysis Options
+            <hr />
+            <AnalyzeOptionsRazor />
+        </div>
         break;
     case PageState.Scanning:
         <Scanning />
