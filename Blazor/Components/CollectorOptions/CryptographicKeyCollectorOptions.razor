@@ -1,17 +1,23 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
+@using Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
 <p>
-    <input @onclick="ToggleGlowClassKeyCollector" class="@enableKeyCollectionCheckboxGlowClass" id="enableKeyCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableKeyCollector" /><label @onclick="ToggleGlowClassKeyCollector" for="enableKeyCollectionCheckbox">Enable Key Collector</label>
-
+    <input class="@enableKeyCollectionCheckboxGlowClass.ClassName" id="enableKeyCollectionCheckbox" type="checkbox" @bind="EnableKeyCollector" />
+    <label for="enableKeyCollectionCheckbox">Enable Key Collector</label>
 </p>
 @code{
-    string enableKeyCollectionCheckboxGlowClass;
+    Helper.GlowClass enableKeyCollectionCheckboxGlowClass = new Helper.GlowClass();
 
-    async void ToggleGlowClassKeyCollector(MouseEventArgs _)
+    bool EnableKeyCollector
     {
-        enableKeyCollectionCheckboxGlowClass = Helper.GetGlowClass(appData.CollectOptions.EnableKeyCollector);
-        await Task.Delay(500);
-        enableKeyCollectionCheckboxGlowClass = string.Empty;
-        StateHasChanged();
+        get
+        {
+            return appData.CollectOptions.EnableKeyCollector;
+        }
+        set
+        {
+            appData.CollectOptions.EnableKeyCollector = value;
+            Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), enableKeyCollectionCheckboxGlowClass, value);
+        }
     }
 }

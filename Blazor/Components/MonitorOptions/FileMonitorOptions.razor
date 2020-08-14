@@ -1,45 +1,46 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
-
-<h3>FileMonitorOptions</h3>
-<input id="enableFileSystemMonitorCheckbox" type="checkbox" @bind="appData.MonitorOptions.EnableFileSystemMonitor" /><label for="enableFileSystemMonitorCheckbox">Enable</label>
-<input id="enableGatherHashesFileMonitorCheckbox" type="checkbox" @bind="appData.MonitorOptions.GatherHashes" /><label for="enableGatherHashesFileMonitorCheckbox">Gather Hashes</label>
-<input id="enableFileNamesOnlyCheckbox" type="checkbox" @bind="appData.MonitorOptions.FileNamesOnly" /><label for="enableFileNamesOnlyCheckbox">File Names Only</label>
+@using Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
 <p>
-    <input @onclick="ToggleGlowClassFileSystemMonitor" class="@enableFileSystemMonitorCheckboxGlowClass" id="enableFileSystemMonitorCheckbox" type="checkbox" @bind="appData.MonitorOptions.EnableFileSystemMonitor" /><label @onclick="ToggleGlowClassFileSystemMonitor" for="enableFileSystemMonitorCheckbox">Enable File System Monitor</label>
-    <input @onclick="ToggleGlowClassGatherHashes" class="@enableGatherHashesFileMonitorCheckboxGlowClass" id="enableGatherHashesFileMonitorCheckbox" type="checkbox" @bind="appData.MonitorOptions.GatherHashes" /><label @onclick="ToggleGlowClassFileSystemMonitor" for="enableGatherHashesFileMonitorCheckbox">Gather File Hashes</label>
-    <input @onclick="ToggleGlowClassNamesOnly" class="@enableFileNamesOnlyCheckboxGlowClass" id="enableFileNamesOnlyCheckbox" type="checkbox" @bind="appData.MonitorOptions.FileNamesOnly" /><label @onclick="ToggleGlowClassNamesOnly" for="enableFileNamesOnlyCheckbox">Only gather Filenames</label>
-    <input id="selectedDirectoriesFileMonitorString" type="text" @bind="SelectedDirectories" /><label for="selectedDirectoriesFileMonitorString">Selected Directories</label>
+    <input class="@enableFileSystemMonitorCheckboxGlowClass.ClassName" id="enableFileSystemMonitorCheckbox" type="checkbox" @bind="EnableFileSystemMonitor" />
+    <label for="enableFileSystemMonitorCheckbox">Enable FileSystem Monitor</label>
+    <input class="@enableGatherHashesCheckboxGlowClass.ClassName" id="enableGatherHashesMonitorCheckbox" type="checkbox" @bind="enableGatherHashes" />
+    <label for="enableGatherHashesMonitorCheckbox">Gather File Hashes</label>
+    <input class="@enableFileNamesOnlyCheckboxGlowClass.ClassName" id="enableFileNamesOnlyCheckbox" type="checkbox" @bind="enableNamesOnly" />
+    <label for="enableFileNamesOnlyCheckbox">Crawl into Archives</label>
 </p>
+<p>
+    <input id="selectedDirectoriesString" type="text" @bind="SelectedDirectories" /><label for="selectedDirectoriesString">Selected Directories</label>
+</p>
+
 @code{
-    string enableFileSystemMonitorCheckboxGlowClass;
+    Helper.GlowClass enableFileSystemMonitorCheckboxGlowClass = new Helper.GlowClass();
+    Helper.GlowClass enableGatherHashesCheckboxGlowClass = new Helper.GlowClass();
+    Helper.GlowClass enableFileNamesOnlyCheckboxGlowClass = new Helper.GlowClass();
 
-    async void ToggleGlowClassFileSystemMonitor(MouseEventArgs _)
+    bool enableGatherHashes
     {
-        enableFileSystemMonitorCheckboxGlowClass = Helper.GetGlowClass(appData.MonitorOptions.EnableFileSystemMonitor);
-        await Task.Delay(500);
-        enableFileSystemMonitorCheckboxGlowClass = string.Empty;
-        StateHasChanged();
+        get { return appData.MonitorOptions.GatherHashes; }
+        set { appData.MonitorOptions.GatherHashes = value; Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), enableGatherHashesCheckboxGlowClass, value); }
     }
 
-    string enableGatherHashesFileMonitorCheckboxGlowClass;
-
-    async void ToggleGlowClassGatherHashes(MouseEventArgs _)
+    bool enableNamesOnly
     {
-        enableGatherHashesFileMonitorCheckboxGlowClass = Helper.GetGlowClass(appData.MonitorOptions.GatherHashes);
-        await Task.Delay(500);
-        enableGatherHashesFileMonitorCheckboxGlowClass = string.Empty;
-        StateHasChanged();
+        get { return appData.MonitorOptions.FileNamesOnly; }
+        set { appData.MonitorOptions.FileNamesOnly = value; Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), enableFileNamesOnlyCheckboxGlowClass, value); }
     }
 
-    string enableFileNamesOnlyCheckboxGlowClass;
-
-    async void ToggleGlowClassNamesOnly(MouseEventArgs _)
+    bool EnableFileSystemMonitor
     {
-        enableFileNamesOnlyCheckboxGlowClass = Helper.GetGlowClass(appData.MonitorOptions.FileNamesOnly);
-        await Task.Delay(500);
-        enableFileNamesOnlyCheckboxGlowClass = string.Empty;
-        StateHasChanged();
+        get
+        {
+            return appData.MonitorOptions.EnableFileSystemMonitor;
+        }
+        set
+        {
+            appData.MonitorOptions.EnableFileSystemMonitor = value;
+            Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), enableFileSystemMonitorCheckboxGlowClass, value);
+        }
     }
 
     string SelectedDirectories

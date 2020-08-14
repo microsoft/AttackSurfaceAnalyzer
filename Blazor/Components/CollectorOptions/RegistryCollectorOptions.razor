@@ -1,17 +1,25 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
+@using Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
 <p>
-    <input @onclick="ToggleGlowClassRegistryCollector" class="@enableRegistryCollectionCheckboxGlowClass" id="enableRegistryCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableRegistryCollector" /><label @onclick="ToggleGlowClassRegistryCollector" for="enableRegistryCollectionCheckbox">Enable Registry Collector</label>
+    <input class="@enableRegistryCollectionCheckboxGlowClass.ClassName" id="enableRegistryCollectionCheckbox" type="checkbox" @bind="EnableRegistryCollector" />
+    <label for="enableRegistryCollectionCheckbox">Enable Registry Collector</label>
     <input id="selectedHivesString" type="text" @bind="appData.CollectOptions.SelectedHives" /><label for="selectedHivesString">Selected Hives (comma separated)</label>
+
 </p>
 @code{
-    string enableRegistryCollectionCheckboxGlowClass;
+    Helper.GlowClass enableRegistryCollectionCheckboxGlowClass = new Helper.GlowClass();
 
-    async void ToggleGlowClassRegistryCollector(MouseEventArgs _)
+    bool EnableRegistryCollector
     {
-        enableRegistryCollectionCheckboxGlowClass = Helper.GetGlowClass(appData.CollectOptions.EnableRegistryCollector);
-        await Task.Delay(500);
-        enableRegistryCollectionCheckboxGlowClass = string.Empty;
-        StateHasChanged();
+        get
+        {
+            return appData.CollectOptions.EnableRegistryCollector;
+        }
+        set
+        {
+            appData.CollectOptions.EnableRegistryCollector = value;
+            Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), enableRegistryCollectionCheckboxGlowClass, value);
+        }
     }
 }

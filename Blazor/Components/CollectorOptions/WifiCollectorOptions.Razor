@@ -1,31 +1,40 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
-@using Microsoft.CST.AttackSurfaceAnalyzer.Cli 
+@using Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
 <p>
-    <input @onclick="ToggleGlowClassWifiCollector" class="@enableWifiCollectionCheckboxGlowClass" id="enableWifiCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableWifiCollector" /><label @onclick="ToggleGlowClassWifiCollector" for="enableWifiCollectionCheckbox">Enable Saved Wifi Network Collector</label>
-    <input @onclick="ToggleGlowClassWifiCollectorPasswords" class="@enableWifiPasswordCollectionCheckboxGlowClass" id="enableWifiPasswordCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.GatherWifiPasswords" /><label @onclick="ToggleGlowClassWifiCollectorPasswords" for="enableWifiPasswordCollectionCheckbox">Enable Password Collection</label>
-
+    <input class="@enableWifiCollectionCheckboxGlowClass.ClassName" id="enableWifiCollectionCheckbox" type="checkbox" @bind="EnableWifiCollector" />
+    <label for="enableWifiCollectionCheckbox">Enable Wifi Collector</label>
+    <input class="@gatherWifiPasswordsCheckboxGlowClass.ClassName" id="enableWifiPasswordCollectionCheckbox" type="checkbox" @bind="GatherWifiPasswords" />
+    <label for="enableWifiPasswordCollectionCheckbox">Enable Password Collection</label>
 </p>
 @code{
-    ElementReference collectionCheckboxRef;
+    Helper.GlowClass enableWifiCollectionCheckboxGlowClass = new Helper.GlowClass();
 
-    string enableWifiCollectionCheckboxGlowClass;
-
-    async void ToggleGlowClassWifiCollector(MouseEventArgs _)
+    bool EnableWifiCollector
     {
-        enableWifiCollectionCheckboxGlowClass = Helper.GetGlowClass(appData.CollectOptions.EnableWifiCollector);
-        await Task.Delay(500);
-        enableWifiCollectionCheckboxGlowClass = string.Empty;
-        StateHasChanged();
+        get
+        {
+            return appData.CollectOptions.EnableWifiCollector;
+        }
+        set
+        {
+            appData.CollectOptions.EnableWifiCollector = value;
+            Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), enableWifiCollectionCheckboxGlowClass, value);
+        }
     }
 
-    string enableWifiPasswordCollectionCheckboxGlowClass;
+    Helper.GlowClass gatherWifiPasswordsCheckboxGlowClass = new Helper.GlowClass();
 
-    async void ToggleGlowClassWifiCollectorPasswords(MouseEventArgs _)
+    bool GatherWifiPasswords
     {
-        enableWifiPasswordCollectionCheckboxGlowClass = Helper.GetGlowClass(appData.CollectOptions.GatherWifiPasswords);
-        await Task.Delay(500);
-        enableWifiPasswordCollectionCheckboxGlowClass = string.Empty;
-        StateHasChanged();
+        get
+        {
+            return appData.CollectOptions.GatherWifiPasswords;
+        }
+        set
+        {
+            appData.CollectOptions.GatherWifiPasswords = value;
+            Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), gatherWifiPasswordsCheckboxGlowClass, value);
+        }
     }
 }

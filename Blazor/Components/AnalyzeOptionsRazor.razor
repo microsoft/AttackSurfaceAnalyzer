@@ -1,24 +1,23 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
+@using Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
 <p>
-    <input @onclick="ToggleGlowClassAnalysis" class="@enableAnalysisCheckboxGlowClass" id="enableAnalysisCheckbox" type="checkbox" @bind="EnableAnalysis" />
-    <label @onclick="ToggleGlowClassAnalysis" for="enableAnalysisCheckbox">Enable Analysis</label>
-
+    <input class="@enableAnalysisCheckboxGlowClass.ClassName" id="enableAnalysisCheckbox" type="checkbox" @bind="EnableAnalysis" />
+    <label for="enableAnalysisCheckbox">Enable Analysis</label>
 </p>
 @code{
+    Helper.GlowClass enableAnalysisCheckboxGlowClass = new Helper.GlowClass();
+
     bool EnableAnalysis
     {
-        get { return !appData.ExportCollectCommandOptions.DisableAnalysis; }
-        set { appData.ExportCollectCommandOptions.DisableAnalysis = !value; }
-    }
-
-    string enableAnalysisCheckboxGlowClass;
-
-    async void ToggleGlowClassAnalysis(MouseEventArgs _)
-    {
-        enableAnalysisCheckboxGlowClass = Helper.GetGlowClass(EnableAnalysis);
-        await Task.Delay(500);
-        enableAnalysisCheckboxGlowClass = string.Empty;
-        StateHasChanged();
+        get
+        {
+            return !appData.ExportCollectCommandOptions.DisableAnalysis;
+        }
+        set
+        {
+            appData.ExportCollectCommandOptions.DisableAnalysis = !value;
+            Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), enableAnalysisCheckboxGlowClass, value);
+        }
     }
 }
