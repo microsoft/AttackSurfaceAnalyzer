@@ -1,55 +1,55 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
+@using Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
 <p>
-    <input @onclick="ToggleGlowClassFileSystemCollector" class="@enableFileSystemCollectionCheckboxGlowClass" id="enableFileSystemCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableFileSystemCollector" /><label @onclick="ToggleGlowClassFileSystemCollector" for="enableFileSystemCollectionCheckbox">Enable FileSystem Collector</label>
-    <input @onclick="ToggleGlowClassGatherHashes" class="@enableGatherHashesCheckboxGlowClass" id="enableGatherHashesCheckbox" type="checkbox" @bind="appData.CollectOptions.GatherHashes" /><label @onclick="ToggleGlowClassGatherHashes" for="enableGatherHashesCheckbox">Gather File Hashes</label>
-    <input @onclick="ToggleGlowClassCrawlArchives" class="@enableCrawlArchivesCheckboxGlowClass" id="enableCrawlArchivesCheckbox" type="checkbox" @bind="appData.CollectOptions.CrawlArchives" /><label @onclick="ToggleGlowClassCrawlArchives" for="enableCrawlArchivesCheckbox">Crawl into Archives</label>
-    <input @onclick="ToggleGlowClassDownloadCloud" class="@enableDownloadCloudCheckboxGlowClass" id="enableDownloadCloudCheckbox" type="checkbox" @bind="appData.CollectOptions.DownloadCloud" /><label @onclick="ToggleGlowClassDownloadCloud" for="enableDownloadCloudCheckbox">Download Cloud Files</label>
+    <input class="@enableFileSystemCollectionCheckboxGlowClass.ClassName" id="enableFileSystemCollectionCheckbox" type="checkbox" @bind="EnableFileSystemCollector" />
+    <label for="enableFileSystemCollectionCheckbox">Enable FileSystem Collector</label>
+    <input class="@enableGatherHashesCheckboxGlowClass.ClassName" id="enableGatherHashesCheckbox" type="checkbox" @bind="enableGatherHashes" />
+    <label for="enableGatherHashesCheckbox">Gather File Hashes</label>
+    <input class="@enableCrawlArchivesCheckboxGlowClass.ClassName" id="enableCrawlArchivesCheckbox" type="checkbox" @bind="enableCrawlArchives" />
+    <label for="enableCrawlArchivesCheckbox">Crawl into Archives</label>
+    <input class="@enableDownloadCloudCheckboxGlowClass.ClassName" id="enableDownloadCloudCheckbox" type="checkbox" @bind="enableDownloadCloud" />
+    <label for="enableDownloadCloudCheckbox">Download Cloud Files</label>
 </p>
-
 <p>
     <input id="selectedDirectoriesString" type="text" @bind="SelectedDirectories" /><label for="selectedDirectoriesString">Selected Directories</label>
 </p>
 
 @code{
-    string enableFileSystemCollectionCheckboxGlowClass;
+    Helper.GlowClass enableFileSystemCollectionCheckboxGlowClass = new Helper.GlowClass();
+    Helper.GlowClass enableGatherHashesCheckboxGlowClass = new Helper.GlowClass();
+    Helper.GlowClass enableCrawlArchivesCheckboxGlowClass = new Helper.GlowClass();
+    Helper.GlowClass enableDownloadCloudCheckboxGlowClass = new Helper.GlowClass();
 
-    async void ToggleGlowClassFileSystemCollector(MouseEventArgs _)
+    bool enableGatherHashes
     {
-        enableFileSystemCollectionCheckboxGlowClass = Helper.GetGlowClass(appData.CollectOptions.EnableFileSystemCollector);
-        await Task.Delay(500);
-        enableFileSystemCollectionCheckboxGlowClass = string.Empty;
-        StateHasChanged();
+        get { return appData.CollectOptions.GatherHashes; }
+        set { appData.CollectOptions.GatherHashes = value; Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), enableGatherHashesCheckboxGlowClass, value);        }
     }
 
-    string enableGatherHashesCheckboxGlowClass;
-
-    async void ToggleGlowClassGatherHashes(MouseEventArgs _)
+    bool enableCrawlArchives
     {
-        enableGatherHashesCheckboxGlowClass = Helper.GetGlowClass(appData.CollectOptions.GatherHashes);
-        await Task.Delay(500);
-        enableGatherHashesCheckboxGlowClass = string.Empty;
-        StateHasChanged();
+        get { return appData.CollectOptions.CrawlArchives; }
+        set { appData.CollectOptions.CrawlArchives = value; Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), enableCrawlArchivesCheckboxGlowClass, value);        }
     }
 
-    string enableCrawlArchivesCheckboxGlowClass;
-
-    async void ToggleGlowClassCrawlArchives(MouseEventArgs _)
+    bool enableDownloadCloud
     {
-        enableCrawlArchivesCheckboxGlowClass = Helper.GetGlowClass(appData.CollectOptions.CrawlArchives);
-        await Task.Delay(500);
-        enableCrawlArchivesCheckboxGlowClass = string.Empty;
-        StateHasChanged();
+        get { return appData.CollectOptions.DownloadCloud; }
+        set { appData.CollectOptions.DownloadCloud = value; Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), enableDownloadCloudCheckboxGlowClass, value); }
     }
 
-    string enableDownloadCloudCheckboxGlowClass;
-
-    async void ToggleGlowClassDownloadCloud(MouseEventArgs _)
+    bool EnableFileSystemCollector
     {
-        enableDownloadCloudCheckboxGlowClass = Helper.GetGlowClass(appData.CollectOptions.DownloadCloud);
-        await Task.Delay(500);
-        enableDownloadCloudCheckboxGlowClass = string.Empty;
-        StateHasChanged();
+        get
+        {
+            return appData.CollectOptions.EnableFileSystemCollector;
+        }
+        set
+        {
+            appData.CollectOptions.EnableFileSystemCollector = value;
+            Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), enableFileSystemCollectionCheckboxGlowClass, value);
+        }
     }
 
     string SelectedDirectories

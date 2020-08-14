@@ -1,17 +1,23 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
+@using Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
 <p>
-    <input @onclick="ToggleGlowClassComObjectCollector" class="@enableComObjectCollectionCheckboxGlowClass" id="enableComObjectCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableComObjectCollector" /><label @onclick="ToggleGlowClassComObjectCollector" for="enableComObjectCollectionCheckbox">Enable ComObject Collector</label>
-
+    <input class="@enableComObjectCollectionCheckboxGlowClass.ClassName" id="enableComObjectCollectionCheckbox" type="checkbox" @bind="EnableComObjectCollector" />
+    <label for="enableComObjectCollectionCheckbox">Enable ComObject Collector</label>
 </p>
 @code{
-    string enableComObjectCollectionCheckboxGlowClass;
+    Helper.GlowClass enableComObjectCollectionCheckboxGlowClass = new Helper.GlowClass();
 
-    async void ToggleGlowClassComObjectCollector(MouseEventArgs _)
+    bool EnableComObjectCollector
     {
-        enableComObjectCollectionCheckboxGlowClass = Helper.GetGlowClass(appData.CollectOptions.EnableComObjectCollector);
-        await Task.Delay(500);
-        enableComObjectCollectionCheckboxGlowClass = string.Empty;
-        StateHasChanged();
+        get
+        {
+            return appData.CollectOptions.EnableComObjectCollector;
+        }
+        set
+        {
+            appData.CollectOptions.EnableComObjectCollector = value;
+            Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), enableComObjectCollectionCheckboxGlowClass, value);
+        }
     }
 }

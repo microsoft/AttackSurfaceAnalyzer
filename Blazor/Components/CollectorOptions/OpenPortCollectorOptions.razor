@@ -1,17 +1,23 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
+@using Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
 <p>
-    <input @onclick="ToggleGlowClassNetworkPortCollector" class="@enableNetworkPortCollectionCheckboxGlowClass" id="enableNetworkPortCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableNetworkPortCollector" /><label @onclick="ToggleGlowClassNetworkPortCollector" for="enableNetworkPortCollectionCheckbox">Enable NetworkPort Collector</label>
-
+    <input class="@enableNetworkPortCollectionCheckboxGlowClass.ClassName" id="enableNetworkPortCollectionCheckbox" type="checkbox" @bind="EnableNetworkPortCollector" />
+    <label for="enableNetworkPortCollectionCheckbox">Enable NetworkPort Collector</label>
 </p>
 @code{
-    string enableNetworkPortCollectionCheckboxGlowClass;
+    Helper.GlowClass enableNetworkPortCollectionCheckboxGlowClass = new Helper.GlowClass();
 
-    async void ToggleGlowClassNetworkPortCollector(MouseEventArgs _)
+    bool EnableNetworkPortCollector
     {
-        enableNetworkPortCollectionCheckboxGlowClass = Helper.GetGlowClass(appData.CollectOptions.EnableNetworkPortCollector);
-        await Task.Delay(500);
-        enableNetworkPortCollectionCheckboxGlowClass = string.Empty;
-        StateHasChanged();
+        get
+        {
+            return appData.CollectOptions.EnableNetworkPortCollector;
+        }
+        set
+        {
+            appData.CollectOptions.EnableNetworkPortCollector = value;
+            Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), enableNetworkPortCollectionCheckboxGlowClass, value);
+        }
     }
 }

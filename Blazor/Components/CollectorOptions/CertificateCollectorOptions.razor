@@ -1,17 +1,23 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
-
+@using Microsoft.CST.AttackSurfaceAnalyzer.Cli
+ 
 <p>
-    <input @onclick="ToggleGlowClassCertificateCollector" class="@enableCertificateCollectionCheckboxGlowClass" id="enableCertificateCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableCertificateCollector" /><label @onclick="ToggleGlowClassCertificateCollector" for="enableCertificateCollectionCheckbox">Enable Certificate Collector</label>
-
+    <input class="@enableCertificateCollectionCheckboxGlowClass.ClassName" id="enableCertificateCollectionCheckbox" type="checkbox" @bind="EnableCertificateCollector" />
+    <label for="enableCertificateCollectionCheckbox">Enable Certificate Collector</label>
 </p>
 @code{
-    string enableCertificateCollectionCheckboxGlowClass;
+    Helper.GlowClass enableCertificateCollectionCheckboxGlowClass = new Helper.GlowClass();
 
-    async void ToggleGlowClassCertificateCollector(MouseEventArgs _)
+    bool EnableCertificateCollector
     {
-        enableCertificateCollectionCheckboxGlowClass = Helper.GetGlowClass(appData.CollectOptions.EnableCertificateCollector);
-        await Task.Delay(500);
-        enableCertificateCollectionCheckboxGlowClass = string.Empty;
-        StateHasChanged();
+        get
+        {
+            return appData.CollectOptions.EnableCertificateCollector;
+        }
+        set
+        {
+            appData.CollectOptions.EnableCertificateCollector = value;
+            Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), enableCertificateCollectionCheckboxGlowClass, value);
+        }
     }
 }
