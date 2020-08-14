@@ -1,10 +1,13 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 @using Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
-<p>
-    <input class="@enableAnalysisCheckboxGlowClass.ClassName" id="enableAnalysisCheckbox" type="checkbox" @bind="EnableAnalysis" />
-    <label for="enableAnalysisCheckbox">Enable Analysis</label>
-</p>
+<div class="options-card">
+    <div class="first-entry">
+        <input class="@enableAnalysisCheckboxGlowClass.ClassName" id="enableAnalysisCheckbox" type="checkbox" @bind="EnableAnalysis" />
+        <label for="enableAnalysisCheckbox">Enable Analysis</label>
+    </div>
+</div>
+
 @code{
     Helper.GlowClass enableAnalysisCheckboxGlowClass = new Helper.GlowClass();
 

@@ -1,17 +1,23 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 @using Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
-<p>
-    <input class="@enableFileSystemMonitorCheckboxGlowClass.ClassName" id="enableFileSystemMonitorCheckbox" type="checkbox" @bind="EnableFileSystemMonitor" />
-    <label for="enableFileSystemMonitorCheckbox">Enable FileSystem Monitor</label>
-    <input class="@enableGatherHashesCheckboxGlowClass.ClassName" id="enableGatherHashesMonitorCheckbox" type="checkbox" @bind="enableGatherHashes" />
-    <label for="enableGatherHashesMonitorCheckbox">Gather File Hashes</label>
-    <input class="@enableFileNamesOnlyCheckboxGlowClass.ClassName" id="enableFileNamesOnlyCheckbox" type="checkbox" @bind="enableNamesOnly" />
-    <label for="enableFileNamesOnlyCheckbox">Crawl into Archives</label>
-</p>
-<p>
-    <input id="selectedDirectoriesString" type="text" @bind="SelectedDirectories" /><label for="selectedDirectoriesString">Selected Directories</label>
-</p>
+<div class="options-card">
+    <div class="first-entry">
+        <input class="@enableFileSystemMonitorCheckboxGlowClass.ClassName" id="enableFileSystemMonitorCheckbox" type="checkbox" @bind="EnableFileSystemMonitor" />
+        <label for="enableFileSystemMonitorCheckbox">Enable FileSystem Monitor</label>
+    </div>
+    <div class="options-entry">
+        <input class="@enableGatherHashesCheckboxGlowClass.ClassName" id="enableGatherHashesMonitorCheckbox" type="checkbox" @bind="enableGatherHashes" />
+        <label for="enableGatherHashesMonitorCheckbox">Gather File Hashes</label>
+    </div>
+    <div class="options-entry">
+        <input class="@enableFileNamesOnlyCheckboxGlowClass.ClassName" id="enableFileNamesOnlyCheckbox" type="checkbox" @bind="enableNamesOnly" />
+        <label for="enableFileNamesOnlyCheckbox">Crawl into Archives</label>
+    </div>
+    <div class="options-entry">
+        <input id="selectedDirectoriesString" type="text" @bind="SelectedDirectories" /><label for="selectedDirectoriesString">Selected Directories</label>
+    </div>
+</div>
 
 @code{
     Helper.GlowClass enableFileSystemMonitorCheckboxGlowClass = new Helper.GlowClass();

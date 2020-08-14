@@ -67,7 +67,6 @@ input[type=text]:focus, textarea:focus {
     font-family: "Segoe UI", Helvetica, sans-serif;
 }
 
-
 app {
     position: relative;
     display: flex;
@@ -201,7 +200,6 @@ app {
     display: block;
     font-weight: 500;
     font-size: x-large;
-    font-style: italic;
     color: white;
 }
 .options-card .options-entry {

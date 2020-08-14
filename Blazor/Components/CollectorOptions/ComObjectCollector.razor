@@ -1,10 +1,13 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 @using Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
-<p>
-    <input class="@enableComObjectCollectionCheckboxGlowClass.ClassName" id="enableComObjectCollectionCheckbox" type="checkbox" @bind="EnableComObjectCollector" />
-    <label for="enableComObjectCollectionCheckbox">Enable ComObject Collector</label>
-</p>
+<div class="options-card">
+    <div class="first-entry">
+        <input class="@enableComObjectCollectionCheckboxGlowClass.ClassName" id="enableComObjectCollectionCheckbox" type="checkbox" @bind="EnableComObjectCollector" />
+        <label for="enableComObjectCollectionCheckbox">Enable ComObject Collector</label>
+    </div>
+</div>
+
 @code{
     Helper.GlowClass enableComObjectCollectionCheckboxGlowClass = new Helper.GlowClass();
 

@@ -1,12 +1,17 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 @using Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
-<p>
-    <input class="@enableWifiCollectionCheckboxGlowClass.ClassName" id="enableWifiCollectionCheckbox" type="checkbox" @bind="EnableWifiCollector" />
-    <label for="enableWifiCollectionCheckbox">Enable Wifi Collector</label>
-    <input class="@gatherWifiPasswordsCheckboxGlowClass.ClassName" id="enableWifiPasswordCollectionCheckbox" type="checkbox" @bind="GatherWifiPasswords" />
-    <label for="enableWifiPasswordCollectionCheckbox">Enable Password Collection</label>
-</p>
+<div class="options-card">
+    <div class="first-entry">
+        <input class="@enableWifiCollectionCheckboxGlowClass.ClassName" id="enableWifiCollectionCheckbox" type="checkbox" @bind="EnableWifiCollector" />
+        <label for="enableWifiCollectionCheckbox">Enable Wifi Collector</label>
+    </div>
+    <div class="options-entry">
+        <input class="@gatherWifiPasswordsCheckboxGlowClass.ClassName" id="enableWifiPasswordCollectionCheckbox" type="checkbox" @bind="GatherWifiPasswords" />
+        <label for="enableWifiPasswordCollectionCheckbox">Enable Password Collection</label>
+    </div>
+</div>
+
 @code{
     Helper.GlowClass enableWifiCollectionCheckboxGlowClass = new Helper.GlowClass();
 

@@ -1,12 +1,17 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 @using Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
-<p>
-    <input class="@enableEventLogCollectionCheckboxGlowClass.ClassName" id="enableEventLogCollectionCheckbox" type="checkbox" @bind="EnableEventLogCollector" />
-    <label for="enableEventLogCollectionCheckbox">Enable EventLog Collector</label>
-    <input class="@enableVerboseEventLogCollectionCheckboxGlowClass.ClassName" id="enableVerboseEventLogCollectionCheckbox" type="checkbox" @bind="EnableVerboseCollection" />
-    <label for="enableVerboseEventLogCollectionCheckbox">Enable Verbose Event Log Collector</label>
-</p>
+<div class="options-card">
+    <div class="first-entry">
+        <input class="@enableEventLogCollectionCheckboxGlowClass.ClassName" id="enableEventLogCollectionCheckbox" type="checkbox" @bind="EnableEventLogCollector" />
+        <label for="enableEventLogCollectionCheckbox">Enable EventLog Collector</label>
+    </div>
+    <div class="options-entry">
+        <input class="@enableVerboseEventLogCollectionCheckboxGlowClass.ClassName" id="enableVerboseEventLogCollectionCheckbox" type="checkbox" @bind="EnableVerboseCollection" />
+        <label for="enableVerboseEventLogCollectionCheckbox">Enable Verbose Event Log Collector</label>
+    </div>
+</div>
+
 @code{
     Helper.GlowClass enableEventLogCollectionCheckboxGlowClass = new Helper.GlowClass();
     Helper.GlowClass enableVerboseEventLogCollectionCheckboxGlowClass = new Helper.GlowClass();

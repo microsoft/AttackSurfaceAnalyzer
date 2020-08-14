@@ -1,10 +1,13 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 @using Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
-<p>
-    <input class="@enableUserCollectionCheckboxGlowClass.ClassName" id="enableUserCollectionCheckbox" type="checkbox" @bind="EnableUserCollector" />
-    <label for="enableUserCollectionCheckbox">Enable User Collector</label>
-</p>
+<div class="options-card">
+    <div class="first-entry">
+        <input class="@enableUserCollectionCheckboxGlowClass.ClassName" id="enableUserCollectionCheckbox" type="checkbox" @bind="EnableUserCollector" />
+        <label for="enableUserCollectionCheckbox">Enable User Collector</label>
+    </div>
+</div>
+
 @code{
     Helper.GlowClass enableUserCollectionCheckboxGlowClass = new Helper.GlowClass();
 
