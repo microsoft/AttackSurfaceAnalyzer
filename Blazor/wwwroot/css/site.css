@@ -12,7 +12,7 @@ label {
     font-family: "Segoe UI", Helvetica, sans-serif;
 }
 
-input {
+input, select {
     -webkit-transition: border 0.1s linear, box-shadow 0.1s linear;
     -moz-transition: border 0.1s linear, box-shadow 0.1s linear;
     transition: border 0.1s linear, box-shadow 0.1s linear;

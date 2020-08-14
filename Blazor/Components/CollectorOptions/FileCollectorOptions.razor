@@ -1,12 +1,13 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 @using Microsoft.CST.AttackSurfaceAnalyzer.Cli
+@using System.Linq; 
 
 <div class="options-card">
     <div class="first-entry">
         <input class="@enableFileSystemCollectionCheckboxGlowClass.ClassName" id="enableFileSystemCollectionCheckbox" type="checkbox" @bind="EnableFileSystemCollector" />
         <label for="enableFileSystemCollectionCheckbox">Enable FileSystem Collector</label>
     </div>
-    <hr class="options-hr"/>
+    <hr class="options-hr" />
     <div class="options-entry">
         <input class="@enableGatherHashesCheckboxGlowClass.ClassName" id="enableGatherHashesCheckbox" type="checkbox" @bind="enableGatherHashes" />
         <label for="enableGatherHashesCheckbox">Gather File Hashes</label>
@@ -20,8 +21,18 @@
         <label for="enableDownloadCloudCheckbox">Download Cloud Files</label>
     </div>
     <div class="options-entry">
-        <label for="selectedDirectoriesString">Selected Directories</label>
-        <input id="selectedDirectoriesString" type="text" @bind="SelectedDirectories" />
+        <label for="selectedDirectoriesString">Add Path to Scan</label>
+        <input id="selectedDirectoriesString" type="text" @bind="SelectedDirectoryInput" /><button @onclick="PushInputToList">Add</button>
+    </div>
+    <div class="options-entry">
+        <label for="selectedDirectoriesList">Selected Directories</label>
+        <select class="@directorySelectElementGlowClass.ClassName" style="width:200px" id="selectedDirectoriesList" @bind="SelectedDirectoryTop">
+            @for (var i = 0; i < appData.CollectOptions.SelectedDirectories.Count; i++)
+            {
+                <option value="@i">@appData.CollectOptions.SelectedDirectories[i]</option>
+            }
+        </select>
+        <button @onclick="RemoveInputFromList">Remove</button>
     </div>
 </div>
 
@@ -30,6 +41,23 @@
     Helper.GlowClass enableGatherHashesCheckboxGlowClass = new Helper.GlowClass();
     Helper.GlowClass enableCrawlArchivesCheckboxGlowClass = new Helper.GlowClass();
     Helper.GlowClass enableDownloadCloudCheckboxGlowClass = new Helper.GlowClass();
+    Helper.GlowClass directorySelectElementGlowClass = new Helper.GlowClass();
+
+    string SelectedDirectoryInput;
+    string SelectedDirectoryTop;
+
+    void RemoveInputFromList()
+    {
+        appData.CollectOptions.SelectedDirectories = appData.CollectOptions.SelectedDirectories.GetRange(0, appData.CollectOptions.SelectedDirectories.Count - 1);
+        Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), directorySelectElementGlowClass, false);
+    }
+
+    void PushInputToList()
+    {
+        appData.CollectOptions.SelectedDirectories.Add(SelectedDirectoryInput);
+        Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), directorySelectElementGlowClass, true);
+        SelectedDirectoryInput = string.Empty;
+    }
 
     bool enableGatherHashes
     {
@@ -59,18 +87,6 @@
         {
             appData.CollectOptions.EnableFileSystemCollector = value;
             Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), enableFileSystemCollectionCheckboxGlowClass, value);
-        }
-    }
-
-    string SelectedDirectories
-    {
-        get
-        {
-            return string.Join(',', appData.CollectOptions.SelectedDirectories ?? Array.Empty<string>());
-        }
-        set
-        {
-            appData.CollectOptions.SelectedDirectories = value.Split(',');
         }
     }
 }

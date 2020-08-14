@@ -119,7 +119,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer
         public string? RunId { get; set; }
 
         [Option("directories", Required = false, HelpText = ", separated list of paths to scan with FileSystemCollector", Separator = ',')]
-        public IEnumerable<string>? SelectedDirectories { get; set; }
+        public List<string> SelectedDirectories { get; set; } = new List<string>();
 
         [Option("hives", Required = false, HelpText = "^ separated list of hives and subkeys to search.")]
         public string? SelectedHives { get; set; }

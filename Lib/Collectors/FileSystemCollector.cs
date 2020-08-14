@@ -30,7 +30,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
     {
         public FileSystemCollector(CollectorOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
         {
-            Roots.AddRange(opts?.SelectedDirectories ?? Array.Empty<string>());
+            Roots.AddRange(opts?.SelectedDirectories ?? new List<string>());
 
             if (!Roots.Any())
             {
