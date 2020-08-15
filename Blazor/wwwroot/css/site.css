@@ -78,7 +78,7 @@ app {
 }
 
     .main .top-row {
-        background-color: #d5d9e0;
+        background-color: #7d8fad;
         justify-content: flex-end;
         display: flex;
         height: 3.25rem;
@@ -113,6 +113,10 @@ app {
 
 .top-link {
     align-self: center;
+    color: white;
+}
+.top-link:hover{
+    color: lightgray;
 }
 
 .sidebar {
@@ -187,18 +191,19 @@ app {
 }
 
 .options-card {
-    border-radius: 8px;
     color: black;
-    /* background-color: #596d8d; */
     padding-top: .5vw;
     padding-bottom: .5vw;
     padding-left: 1vw;
     padding-right: 1vw;
-    background-color: white;
+    margin-top: .5vw;
+    margin-right: 1vw;
     min-width: 20vw;
     width: 29vw;
     display: block;
-    border: 3px solid black;
+    /*border: 3px solid black; */
+    border-radius: 8px;
+    background-color: #d5d9e0;
 }
 .options-card .first-entry {
     font-weight: 700;
@@ -226,9 +231,14 @@ app {
     margin-top: 0.5vh;
 }
 .options-card-container {
-    display: block;
+    display: flex;
 }
-
+.options-card-container:after {
+    clear: both;
+}
+.options-card-container .column{
+    display: inline;
+}
 
 #blazor-error-ui {
     background: lightyellow;
