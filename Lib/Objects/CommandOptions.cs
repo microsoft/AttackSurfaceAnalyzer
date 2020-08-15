@@ -121,8 +121,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer
         [Option("directories", Required = false, HelpText = ", separated list of paths to scan with FileSystemCollector", Separator = ',')]
         public List<string> SelectedDirectories { get; set; } = new List<string>();
 
-        [Option("hives", Required = false, HelpText = "^ separated list of hives and subkeys to search.")]
-        public string? SelectedHives { get; set; }
+        [Option("hives", Required = false, HelpText = ", separated list of hives and subkeys to search.", Separator = ',')]
+        public List<string> SelectedHives { get; set; } = new List<string>();
 
         [Option(HelpText = "Force singlethreaded collectors.")]
         public bool SingleThread { get; set; }

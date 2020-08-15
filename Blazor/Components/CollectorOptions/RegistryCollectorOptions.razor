@@ -7,6 +7,38 @@
     </div>
     <hr class="options-hr" />
     <div class="options-entry">
-        <input id="selectedHivesString" type="text" @bind="appData.CollectOptions.SelectedHives" /><label for="selectedHivesString">Selected Hives (comma separated)</label>
+        <label for="selectedPathsString">Add Path to Scan (i.e. "LocalMachine\\SOFTWARE\Microsoft")</label>
+        <input id="selectedPathsString" type="text" @bind="SelectedHiveInput" /><button @onclick="PushInputToList">Add</button>
     </div>
+    <div class="options-entry">
+        <label for="selectedPathsList">Selected Paths</label>
+        <select class="@directorySelectElementGlowClass.ClassName" style="width:200px" id="selectedPathsList" @bind="SelectedHiveTop">
+            @for (var i = 0; i < appData.CollectOptions.SelectedHives.Count; i++)
+            {
+                <option value="@i">@appData.CollectOptions.SelectedHives[i]</option>
+            }
+        </select>
+        <button @onclick="RemoveInputFromList">Remove</button>
+    </div>
+
 </div>
+
+@code{
+    Helper.GlowClass directorySelectElementGlowClass = new Helper.GlowClass();
+
+    string SelectedHiveInput;
+    string SelectedHiveTop;
+
+    void RemoveInputFromList()
+    {
+        appData.CollectOptions.SelectedHives = appData.CollectOptions.SelectedHives.GetRange(0, appData.CollectOptions.SelectedDirectories.Count - 1);
+        Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), directorySelectElementGlowClass, false);
+    }
+
+    void PushInputToList()
+    {
+        appData.CollectOptions.SelectedHives.Add(SelectedHiveInput);
+        Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), directorySelectElementGlowClass, true);
+        SelectedHiveInput = string.Empty;
+    }
+}
