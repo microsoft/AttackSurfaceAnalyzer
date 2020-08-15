@@ -211,6 +211,10 @@ app {
     color: black;
     display: block;
 }
+.options-card .first-entry input[type=checkbox] {
+    height: 1.3vw;
+    width: 1.3vw;
+}
 .options-card .options-entry {
     display: block;
     font-size: medium;
