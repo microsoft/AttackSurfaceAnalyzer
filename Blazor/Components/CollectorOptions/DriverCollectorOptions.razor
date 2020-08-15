@@ -1,26 +1,8 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
-@using Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
 <div class="options-card">
     <div class="first-entry">
-        <input class="@enableDriverCollectionCheckboxGlowClass.ClassName" id="enableDriverCollectionCheckbox" type="checkbox" @bind="EnableDriverCollector" />
+        <input id="enableDriverCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableDriverCollector" />
         <label for="enableDriverCollectionCheckbox">Enable Driver Collector</label>
     </div>
 </div>
-
-@code{
-    Helper.GlowClass enableDriverCollectionCheckboxGlowClass = new Helper.GlowClass();
-
-    bool EnableDriverCollector
-    {
-        get
-        {
-            return appData.CollectOptions.EnableDriverCollector;
-        }
-        set
-        {
-            appData.CollectOptions.EnableDriverCollector = value;
-            Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), enableDriverCollectionCheckboxGlowClass, value);
-        }
-    }
-}

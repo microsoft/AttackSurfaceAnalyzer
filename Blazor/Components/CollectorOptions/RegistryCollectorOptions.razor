@@ -1,9 +1,8 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
-@using Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
 <div class="options-card">
     <div class="first-entry">
-        <input class="@enableRegistryCollectionCheckboxGlowClass.ClassName" id="enableRegistryCollectionCheckbox" type="checkbox" @bind="EnableRegistryCollector" />
+        <input id="enableRegistryCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableRegistryCollector" />
         <label for="enableRegistryCollectionCheckbox">Enable Registry Collector</label>
     </div>
     <hr class="options-hr" />
@@ -11,20 +10,3 @@
         <input id="selectedHivesString" type="text" @bind="appData.CollectOptions.SelectedHives" /><label for="selectedHivesString">Selected Hives (comma separated)</label>
     </div>
 </div>
-
-@code{
-    Helper.GlowClass enableRegistryCollectionCheckboxGlowClass = new Helper.GlowClass();
-
-    bool EnableRegistryCollector
-    {
-        get
-        {
-            return appData.CollectOptions.EnableRegistryCollector;
-        }
-        set
-        {
-            appData.CollectOptions.EnableRegistryCollector = value;
-            Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), enableRegistryCollectionCheckboxGlowClass, value);
-        }
-    }
-}

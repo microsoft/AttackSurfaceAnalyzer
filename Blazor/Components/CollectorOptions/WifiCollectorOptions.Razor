@@ -1,46 +1,13 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
-@using Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
 <div class="options-card">
     <div class="first-entry">
-        <input class="@enableWifiCollectionCheckboxGlowClass.ClassName" id="enableWifiCollectionCheckbox" type="checkbox" @bind="EnableWifiCollector" />
+        <input id="enableWifiCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableWifiCollector" />
         <label for="enableWifiCollectionCheckbox">Enable Wifi Collector</label>
     </div>
     <hr class="options-hr" />
     <div class="options-entry">
-        <input class="@gatherWifiPasswordsCheckboxGlowClass.ClassName" id="enableWifiPasswordCollectionCheckbox" type="checkbox" @bind="GatherWifiPasswords" />
+        <input id="enableWifiPasswordCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.GatherWifiPasswords" />
         <label for="enableWifiPasswordCollectionCheckbox">Enable Password Collection</label>
     </div>
 </div>
-
-@code{
-    Helper.GlowClass enableWifiCollectionCheckboxGlowClass = new Helper.GlowClass();
-
-    bool EnableWifiCollector
-    {
-        get
-        {
-            return appData.CollectOptions.EnableWifiCollector;
-        }
-        set
-        {
-            appData.CollectOptions.EnableWifiCollector = value;
-            Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), enableWifiCollectionCheckboxGlowClass, value);
-        }
-    }
-
-    Helper.GlowClass gatherWifiPasswordsCheckboxGlowClass = new Helper.GlowClass();
-
-    bool GatherWifiPasswords
-    {
-        get
-        {
-            return appData.CollectOptions.GatherWifiPasswords;
-        }
-        set
-        {
-            appData.CollectOptions.GatherWifiPasswords = value;
-            Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), gatherWifiPasswordsCheckboxGlowClass, value);
-        }
-    }
-}

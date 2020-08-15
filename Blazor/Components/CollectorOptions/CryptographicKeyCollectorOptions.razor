@@ -1,26 +1,8 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
-@using Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
 <div class="options-card">
     <div class="first-entry">
-        <input class="@enableKeyCollectionCheckboxGlowClass.ClassName" id="enableKeyCollectionCheckbox" type="checkbox" @bind="EnableKeyCollector" />
+        <input id="enableKeyCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableKeyCollector" />
         <label for="enableKeyCollectionCheckbox">Enable Key Collector</label>
     </div>
 </div>
-
-@code{
-    Helper.GlowClass enableKeyCollectionCheckboxGlowClass = new Helper.GlowClass();
-
-    bool EnableKeyCollector
-    {
-        get
-        {
-            return appData.CollectOptions.EnableKeyCollector;
-        }
-        set
-        {
-            appData.CollectOptions.EnableKeyCollector = value;
-            Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), enableKeyCollectionCheckboxGlowClass, value);
-        }
-    }
-}

@@ -1,26 +1,8 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
-@using Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
 <div class="options-card">
     <div class="first-entry">
-        <input class="@enableFirewallCollectionCheckboxGlowClass.ClassName" id="enableFirewallCollectionCheckbox" type="checkbox" @bind="EnableFirewallCollector" />
+        <input id="enableFirewallCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableFirewallCollector" />
         <label for="enableFirewallCollectionCheckbox">Enable Firewall Collector</label>
     </div>
 </div>
-
-@code{
-    Helper.GlowClass enableFirewallCollectionCheckboxGlowClass = new Helper.GlowClass();
-
-    bool EnableFirewallCollector
-    {
-        get
-        {
-            return appData.CollectOptions.EnableFirewallCollector;
-        }
-        set
-        {
-            appData.CollectOptions.EnableFirewallCollector = value;
-            Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), enableFirewallCollectionCheckboxGlowClass, value);
-        }
-    }
-}
