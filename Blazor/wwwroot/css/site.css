@@ -16,7 +16,9 @@ input, select {
     -webkit-transition: border 0.1s linear, box-shadow 0.1s linear;
     -moz-transition: border 0.1s linear, box-shadow 0.1s linear;
     transition: border 0.1s linear, box-shadow 0.1s linear;
+    border-radius: 7px;
 }
+
 
 input[type=text], textarea {
     -webkit-transition: all 0.30s ease-in-out;
@@ -27,6 +29,8 @@ input[type=text], textarea {
     padding: 3px 0px 3px 3px;
     margin: 5px 1px 3px 0px;
     border: 1px solid #DDDDDD;
+    border-radius: 7px;
+
 }
 
 input[type=text]:focus, textarea:focus {
@@ -34,6 +38,9 @@ input[type=text]:focus, textarea:focus {
     padding: 3px 0px 3px 3px;
     margin: 5px 1px 3px 0px;
     border: 1px solid rgba(81, 203, 238, 1);
+}
+button{
+    border-radius: 7px;
 }
 
 .glowBlue {
@@ -153,7 +160,7 @@ app {
 
         .sidebar .nav-item a {
             color: #d7d7d7;
-            border-radius: 4px;
+            border-radius: 7px;
             height: 3rem;
             display: flex;
             align-items: center;
@@ -202,7 +209,7 @@ app {
     width: 29vw;
     display: block;
     /*border: 3px solid black; */
-    border-radius: 8px;
+    border-radius: 7px;
     background-color: #d5d9e0;
 }
 .options-card .first-entry {
@@ -212,8 +219,10 @@ app {
     display: block;
 }
 .options-card .first-entry input[type=checkbox] {
-    height: 1.3vw;
-    width: 1.3vw;
+    height: 1.6vh;
+    width: 1.6vh;
+    max-height: 1.6vh;
+    max-width: 1.6vh;
 }
 .options-card .options-entry {
     display: block;
@@ -222,7 +231,7 @@ app {
 .options-card .options-hr {
     margin-top: auto;
     border-top: 3px solid #243a5e;
-    border-radius: 5px;
+    border-radius: 7px;
 }
 .options-pane {
     font-family: "Segoe UI Semibold", Helvetica, sans-serif;
@@ -231,7 +240,7 @@ app {
 }
 .options-pane hr {
     border-top: 3px solid #243a5e;
-    border-radius: 5px;
+    border-radius: 7px;
     margin-top: 0.5vh;
 }
 .options-card-container {
@@ -242,6 +251,14 @@ app {
 }
 .options-card-container .column{
     display: inline;
+}
+.runid-box {
+    display: block;
+    font-weight: bold;
+}
+.runid-box .start-scan-button {
+    display: inline;
+    margin-left: 1vw;
 }
 
 #blazor-error-ui {

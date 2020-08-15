@@ -10,10 +10,12 @@
 @switch (pageState)
 {
     case PageState.Options:
-        <div style="display:block">
-            <label for="RunId">Run Id:</label>
+        <div class="runid-box">
+            <label for="RunId">Run ID:</label>
             <input id="RunId" type="text" @bind="RunIdInput" />
-            <button @onclick="BeginGuided">Go</button>
+            <input id="UseTimestampCheckbox" type="checkbox" />
+            <label for="UseTimestampCheckbox">Use Timestamp</label>
+            <button class="start-scan-button" @onclick="BeginGuided">Start Guided Scan</button>
         </div>
         <div class="options-pane">
             <span class="oi oi-wrench" aria-hidden="true"></span>  Collector Options
