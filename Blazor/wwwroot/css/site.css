@@ -193,7 +193,8 @@ app {
     padding-left: 15px;
     padding-right: 15px;
     color: black;
-    background-color: #596d8d;
+    /* background-color: #596d8d; */
+    background-color: white;
     max-width: 30vw;
     display: block;
 }
@@ -201,7 +202,7 @@ app {
     display: block;
     font-weight: 500;
     font-size: x-large;
-    color: white;
+    color: black;
 }
 .options-card .options-entry {
     display: block;
@@ -210,6 +211,16 @@ app {
     margin-top: auto;
     border-top: 3px solid #243a5e;
     border-radius: 5px;
+}
+.options-card-container {
+    font-family: "Segoe UI Semibold", Helvetica, sans-serif;
+    font-size: 20px;
+    margin-top: 1vh;
+}
+.options-card-container hr {
+    border-top: 3px solid #243a5e;
+    border-radius: 5px;
+    margin-top: 0.5vh;
 }
 
 
