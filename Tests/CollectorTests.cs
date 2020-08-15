@@ -131,7 +131,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
             {
                 EnableFileSystemCollector = true,
                 GatherHashes = true,
-                SelectedDirectories = new string[] { testFolder },
+                SelectedDirectories = new List<string>(){ testFolder },
                 DownloadCloud = false,
             };
 
