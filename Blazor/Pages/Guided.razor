@@ -15,20 +15,26 @@
             <input id="RunId" type="text" @bind="RunIdInput" />
             <button @onclick="BeginGuided">Go</button>
         </div>
-        <div class="options-card-container">
+        <div class="options-pane">
             <span class="oi oi-wrench" aria-hidden="true"></span>Collector Options
             <hr />
-            <CollectorOptionsRazor />
+            <div class="options-card-container">
+                <CollectorOptionsRazor />
+            </div>
         </div>
-        <div class="options-card-container">
+        <div class="options-pane">
             <span class="oi oi-wrench" aria-hidden="true"></span>Monitor Options
             <hr />
-            <MonitorOptionsRazor />
+            <div class="options-card-container">
+                <MonitorOptionsRazor />
+            </div>
         </div>
-        <div class="options-card-container">
+        <div class="options-pane">
             <span class="oi oi-wrench" aria-hidden="true"></span>Analysis Options
             <hr />
-            <AnalyzeOptionsRazor />
+            <div class="options-card-container">
+                <AnalyzeOptionsRazor />
+            </div>
         </div>
         break;
     case PageState.Scanning:
