@@ -1,5 +1,5 @@
 # Attack Surface Analyzer 
-![Nuget](https://img.shields.io/nuget/v/Microsoft.CST.AttackSurfaceAnalyzer?label=Lib) ![Nuget](https://img.shields.io/nuget/dt/Microsoft.CST.AttackSurfaceAnalyzer?label=Lib)![Nuget](https://img.shields.io/nuget/v/Microsoft.CST.AttackSurfaceAnalyzer.CLI?label=Cli) ![Nuget](https://img.shields.io/nuget/dt/Microsoft.CST.AttackSurfaceAnalyzer.CLI?label=Cli)
+![Nuget](https://img.shields.io/nuget/v/Microsoft.CST.AttackSurfaceAnalyzer?label=Lib) ![Nuget](https://img.shields.io/nuget/dt/Microsoft.CST.AttackSurfaceAnalyzer?label=Lib) ![Nuget](https://img.shields.io/nuget/v/Microsoft.CST.AttackSurfaceAnalyzer.CLI?label=Cli) ![Nuget](https://img.shields.io/nuget/dt/Microsoft.CST.AttackSurfaceAnalyzer.CLI?label=Cli)
 
 ## Getting Attack Surface Analyzer
 
