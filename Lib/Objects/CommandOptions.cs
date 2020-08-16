@@ -273,7 +273,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer
         public bool FileNamesOnly { get; set; }
 
         [Option(HelpText = "Comma-separated list of directories to monitor.", Separator = ',')]
-        public IEnumerable<string>? MonitoredDirectories { get; set; }
+        public List<string> MonitoredDirectories { get; set; } = new List<string>();
 
         [Option(HelpText = "Directory to output to.")]
         public string? OutputPath { get; set; }
@@ -301,7 +301,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer
         public bool GatherHashes { get; set; }
 
         [Option('d', "directories", Required = false, HelpText = "Comma-separated list of directories to monitor.", Separator = ',')]
-        public IEnumerable<string>? MonitoredDirectories { get; set; }
+        public List<string> MonitoredDirectories { get; set; } = new List<string>();
 
         //[Option('r', "registry", Required = false, HelpText = "Monitor the registry for changes. (Windows Only)")]
         //public bool EnableRegistryMonitor { get; set; }

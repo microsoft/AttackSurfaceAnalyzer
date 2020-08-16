@@ -3,62 +3,51 @@
 
 <div class="options-card">
     <div class="first-entry">
-        <input class="@enableFileSystemMonitorCheckboxGlowClass.ClassName" id="enableFileSystemMonitorCheckbox" type="checkbox" @bind="EnableFileSystemMonitor" />
+        <input id="enableFileSystemMonitorCheckbox" type="checkbox" @bind="appData.MonitorOptions.GatherHashes" />
         <label for="enableFileSystemMonitorCheckbox">Enable FileSystem Monitor</label>
     </div>
     <hr class="options-hr" />
     <div class="options-entry">
-        <input class="@enableGatherHashesCheckboxGlowClass.ClassName" id="enableGatherHashesMonitorCheckbox" type="checkbox" @bind="enableGatherHashes" />
+        <input id="enableGatherHashesMonitorCheckbox" type="checkbox" @bind="appData.MonitorOptions.FileNamesOnly" />
         <label for="enableGatherHashesMonitorCheckbox">Gather File Hashes</label>
     </div>
     <div class="options-entry">
-        <input class="@enableFileNamesOnlyCheckboxGlowClass.ClassName" id="enableFileNamesOnlyCheckbox" type="checkbox" @bind="enableNamesOnly" />
+        <input id="enableFileNamesOnlyCheckbox" type="checkbox" @bind="appData.MonitorOptions.EnableFileSystemMonitor" />
         <label for="enableFileNamesOnlyCheckbox">Crawl into Archives</label>
     </div>
     <div class="options-entry">
-        <input id="selectedDirectoriesString" type="text" @bind="SelectedDirectories" /><label for="selectedDirectoriesString">Selected Directories</label>
+        <label for="selectedDirectoriesString">Add Path to Scan</label>
+        <input id="selectedDirectoriesString" type="text" @bind="SelectedDirectoryInput" /><button @onclick="PushInputToList">Add</button>
+    </div>
+    <div class="options-entry">
+        <label for="selectedDirectoriesList">Selected Directories</label>
+        <select class="@directorySelectElementGlowClass.ClassName" style="width:200px" id="selectedDirectoriesList" @bind="SelectedDirectoryTop">
+            @for (var i = 0; i < appData.MonitorOptions.MonitoredDirectories.Count; i++)
+            {
+                <option value="@i">@appData.MonitorOptions.MonitoredDirectories[i]</option>
+            }
+        </select>
+        <button @onclick="RemoveInputFromList">Remove</button>
     </div>
 </div>
 
 @code{
-    Helper.GlowClass enableFileSystemMonitorCheckboxGlowClass = new Helper.GlowClass();
-    Helper.GlowClass enableGatherHashesCheckboxGlowClass = new Helper.GlowClass();
-    Helper.GlowClass enableFileNamesOnlyCheckboxGlowClass = new Helper.GlowClass();
+    Helper.GlowClass directorySelectElementGlowClass = new Helper.GlowClass();
 
-    bool enableGatherHashes
+    string SelectedDirectoryInput;
+    int SelectedDirectoryTop;
+
+    void RemoveInputFromList()
     {
-        get { return appData.MonitorOptions.GatherHashes; }
-        set { appData.MonitorOptions.GatherHashes = value; Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), enableGatherHashesCheckboxGlowClass, value); }
+        appData.MonitorOptions.MonitoredDirectories.RemoveAt(SelectedDirectoryTop);
+        Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), directorySelectElementGlowClass, false);
     }
 
-    bool enableNamesOnly
+    void PushInputToList()
     {
-        get { return appData.MonitorOptions.FileNamesOnly; }
-        set { appData.MonitorOptions.FileNamesOnly = value; Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), enableFileNamesOnlyCheckboxGlowClass, value); }
-    }
-
-    bool EnableFileSystemMonitor
-    {
-        get
-        {
-            return appData.MonitorOptions.EnableFileSystemMonitor;
-        }
-        set
-        {
-            appData.MonitorOptions.EnableFileSystemMonitor = value;
-            Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), enableFileSystemMonitorCheckboxGlowClass, value);
-        }
-    }
-
-    string SelectedDirectories
-    {
-        get
-        {
-            return string.Join(',', appData.MonitorOptions.MonitoredDirectories ?? Array.Empty<string>());
-        }
-        set
-        {
-            appData.MonitorOptions.MonitoredDirectories = value.Split(',');
-        }
+        appData.MonitorOptions.MonitoredDirectories.Add(SelectedDirectoryInput);
+        SelectedDirectoryTop = appData.MonitorOptions.MonitoredDirectories.Count - 1;
+        Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), directorySelectElementGlowClass, true);
+        SelectedDirectoryInput = string.Empty;
     }
 }

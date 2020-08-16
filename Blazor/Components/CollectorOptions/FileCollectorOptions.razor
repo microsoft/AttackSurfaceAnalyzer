@@ -39,17 +39,18 @@
     Helper.GlowClass directorySelectElementGlowClass = new Helper.GlowClass();
 
     string SelectedDirectoryInput;
-    string SelectedDirectoryTop;
+    int SelectedDirectoryTop;
 
     void RemoveInputFromList()
     {
-        appData.CollectOptions.SelectedDirectories = appData.CollectOptions.SelectedDirectories.GetRange(0, appData.CollectOptions.SelectedDirectories.Count - 1);
+        appData.CollectOptions.SelectedDirectories.RemoveAt(SelectedDirectoryTop);
         Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), directorySelectElementGlowClass, false);
     }
 
     void PushInputToList()
     {
         appData.CollectOptions.SelectedDirectories.Add(SelectedDirectoryInput);
+        SelectedDirectoryTop = appData.CollectOptions.SelectedDirectories.Count - 1;
         Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), directorySelectElementGlowClass, true);
         SelectedDirectoryInput = string.Empty;
     }

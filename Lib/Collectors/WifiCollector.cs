@@ -75,7 +75,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
             using var fsm = new FileSystemMonitor(new MonitorCommandOptions()
             {
                 FileNamesOnly = true,
-                MonitoredDirectories = new string[] { tempDirectory }
+                MonitoredDirectories = new List<string>(){ tempDirectory }
             },
             x =>
             {

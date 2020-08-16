@@ -27,17 +27,18 @@
     Helper.GlowClass directorySelectElementGlowClass = new Helper.GlowClass();
 
     string SelectedHiveInput;
-    string SelectedHiveTop;
+    int SelectedHiveTop;
 
     void RemoveInputFromList()
     {
-        appData.CollectOptions.SelectedHives = appData.CollectOptions.SelectedHives.GetRange(0, appData.CollectOptions.SelectedDirectories.Count - 1);
+        appData.CollectOptions.SelectedHives.RemoveAt(SelectedHiveTop);
         Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), directorySelectElementGlowClass, false);
     }
 
     void PushInputToList()
     {
         appData.CollectOptions.SelectedHives.Add(SelectedHiveInput);
+        SelectedHiveTop = appData.CollectOptions.SelectedHives.Count - 1;
         Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), directorySelectElementGlowClass, true);
         SelectedHiveInput = string.Empty;
     }
