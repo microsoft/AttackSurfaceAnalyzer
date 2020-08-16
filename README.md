@@ -1,4 +1,7 @@
 # Attack Surface Analyzer 
+Attack Surface Analyzer is a Microsoft-developed open source security tool that analyzes the attack 
+surface of a target system and reports on potential security vulnerabilities introduced during
+the installation of software or system misconfiguration. 
 
 ## Getting Attack Surface Analyzer
 ![Nuget](https://img.shields.io/nuget/v/Microsoft.CST.AttackSurfaceAnalyzer.Cli) ![Nuget](https://img.shields.io/nuget/dt/Microsoft.CST.AttackSurfaceAnalyzer.Cli)
@@ -17,10 +20,6 @@ Platform specific binaries for Attack Surface Analyzer are distributed via our G
 - Updated [API documentation](https://microsoft.github.io/AttackSurfaceAnalyzer/api/index.html) and [Developer guide](https://github.com/microsoft/AttackSurfaceAnalyzer/wiki/Using-AsaLib)
 
 ## Overview
-
-Attack Surface Analyzer is a Microsoft-developed open source security tool that analyzes the attack 
-surface of a target system and reports on potential security vulnerabilities introduced during
-the installation of software or system misconfiguration. 
 
 Attack Surface Analyzer 2 replaces the original [Attack Surface Analyzer](https://www.microsoft.com/en-us/download/details.aspx?id=24487) tool, released publicly in 2012.
 
