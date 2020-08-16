@@ -1,16 +1,11 @@
 # Attack Surface Analyzer 
-![Nuget](https://img.shields.io/nuget/v/Microsoft.CST.AttackSurfaceAnalyzer.CLI) ![Nuget](https://img.shields.io/nuget/dt/Microsoft.CST.AttackSurfaceAnalyzer.CLI)
 
 ## Getting Attack Surface Analyzer
+![Nuget](https://img.shields.io/nuget/v/Microsoft.CST.AttackSurfaceAnalyzer.Cli) ![Nuget](https://img.shields.io/nuget/dt/Microsoft.CST.AttackSurfaceAnalyzer.Cli)
 
-If you have .NET Core 3.1 installed you can install Attack Surface Analyzer with `dotnet tool install -g Microsoft.CST.AttackSurfaceAnalyzer.CLI`.
+If you have the [.NET Core SDK](https://dotnet.microsoft.com/download) installed you can install Attack Surface Analyzer with `dotnet tool install -g Microsoft.CST.AttackSurfaceAnalyzer.CLI`.
 
 Platform specific binaries for Attack Surface Analyzer are distributed via our GitHub [releases](https://github.com/Microsoft/AttackSurfaceAnalyzer/releases/latest) page.
-
-## Note on Version
-The latest stable version of Attack Surface Analyzer is 2.2 (see [Release\v2.2](https://github.com/Microsoft/AttackSurfaceAnalyzer/tree/release/v2.2)).  
-
-2.3 is now in development on the `main` branch.  You can see the features coming [here](https://github.com/microsoft/attacksurfaceanalyzer/issues?q=is%3Aissue+milestone%3Av2.3+).
 
 ## New Features in 2.2
 
@@ -69,15 +64,14 @@ For the GUI interface run: ```asa gui``` and a browser window should open direct
 Detailed information on how to use Attack Surface Analyzer can be found on our
 [wiki](https://github.com/Microsoft/AttackSurfaceAnalyzer/wiki).
 
-## Installation
-
-Attack Surface Analyzer runs on Windows, Linux, and MacOS, and is built using [.NET Core](https://dotnet.microsoft.com/).
-
-Packages are available on our [releases](https://github.com/Microsoft/AttackSurfaceAnalyzer/releases) page as compressed archives.
-
 ## Building
 
 To build Attack Surface Analyzer, see [BUILD](https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/main/BUILD.md).
+
+## Versions
+The latest stable version of Attack Surface Analyzer is 2.2 (see [Release\v2.2](https://github.com/Microsoft/AttackSurfaceAnalyzer/tree/release/v2.2)).  
+
+2.3 is now in development on the `main` branch.  You can see the features coming [here](https://github.com/microsoft/attacksurfaceanalyzer/issues?q=is%3Aissue+milestone%3Av2.3+).
 
 ## Contributing
 
