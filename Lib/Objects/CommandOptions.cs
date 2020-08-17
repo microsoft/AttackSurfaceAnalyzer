@@ -242,9 +242,12 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer
         public bool RunScripts { get; set; }
     }
 
-    [Verb("gui", HelpText = "Launch the GUI in a browser")]
+    [Verb("gui", HelpText = "Launch the GUI in a browser.")]
     public class GuiCommandOptions : CommandOptions
-    { }
+    {
+        [Option(HelpText = "Disable launching a browser after gui starts.")]
+        public bool NoLaunch { get; set; }
+    }
 
     [Verb("guide", HelpText = "Gather and Analyze metrics using a combination of Collectors and Monitors.")]
     public class GuidedModeCommandOptions : CollectorOptions

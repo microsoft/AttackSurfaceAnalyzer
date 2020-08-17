@@ -310,10 +310,13 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 })
                 .Build();
 
-            ((Action)(async () =>
+            if (!opts.NoLaunch)
             {
-                await Task.Run(() => SleepAndOpenBrowser(1500)).ConfigureAwait(false);
-            }))();
+                ((Action)(async () =>
+                {
+                    await Task.Run(() => SleepAndOpenBrowser(1500)).ConfigureAwait(false);
+                }))();
+            }
 
             server.Run();
             return 0;

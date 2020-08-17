@@ -10,15 +10,15 @@
   "profiles": {
     "IIS Express": {
       "commandName": "Project",
-      "commandLineArgs": "gui",
+      "commandLineArgs": "gui --nolaunch",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "Blazor": {
-      "commandName": "Project",
-      "commandLineArgs": "gui",
+      "commandName": "IISExpress",
+      "commandLineArgs": "gui --nolaunch",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
