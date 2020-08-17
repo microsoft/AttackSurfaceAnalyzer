@@ -19,17 +19,17 @@
             <button class="start-scan-button" @onclick="BeginGuided">Start Guided Scan</button>
         </div>
         <div class="options-pane">
-            <span class="oi oi-wrench" aria-hidden="true"></span>  Collector Options
+            <span class="oi oi-wrench options-icon" aria-hidden="true"></span>  Collector Options
             <hr />
             <CollectorOptionsRazor />
         </div>
         <div class="options-pane">
-            <span class="oi oi-wrench" aria-hidden="true"></span>  Monitor Options
+            <span class="oi oi-wrench options-icon" aria-hidden="true"></span>  Monitor Options
             <hr />
             <MonitorOptionsRazor />
         </div>
         <div class="options-pane">
-            <span class="oi oi-wrench" aria-hidden="true"></span>  Analysis Options
+            <span class="oi oi-wrench options-icon" aria-hidden="true"></span>  Analysis Options
             <hr />
             <AnalyzeOptionsRazor />
         </div>
@@ -69,7 +69,7 @@
     }
 
     bool UseTimestamp = true;
-    string RunIdInput = "Enter Run Id";
+    string RunIdInput = "Enter Run ID";
 
     PageState pageState = PageState.Options;
 
