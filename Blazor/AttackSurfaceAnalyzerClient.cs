@@ -968,16 +968,20 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             {
                 return ASA_ERROR.NO_COLLECTORS;
             }
+            var setResultTypes = new List<RESULT_TYPE>();
             if (opts.EnableFileSystemMonitor)
             {
                 monitors.Add(new FileSystemMonitor(opts, x => DatabaseManager.Write(x, opts.RunId)));
+                setResultTypes.Add(RESULT_TYPE.FILEMONITOR);
             }
 
             if (monitors.Count == 0)
             {
                 Log.Warning(Strings.Get("Err_NoMonitors"));
             }
+            var run = new AsaRun(RunId: opts.RunId, Timestamp: DateTime.Now, Version: AsaHelpers.GetVersionString(), Platform: AsaHelpers.GetPlatform(), ResultTypes: setResultTypes, Type: RUN_TYPE.MONITOR);
 
+            DatabaseManager.InsertRun(run);
             foreach (var c in monitors)
             {
                 c.StartRun();
