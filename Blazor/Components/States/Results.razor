@@ -15,10 +15,8 @@
     <div class="results-entry">
         <div class="results-label">@result.Analysis:</div> @result.Identity
     </div>
+
     <br />
-    <div class="results-entry">
-        <div class="results-count">@result.Rules.Count @(@result.Rules.Count == 1 ? "rule" : "rules") applied.</div>
-    </div>
     
     @foreach (var rule in result.Rules)
     {
