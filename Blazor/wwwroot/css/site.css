@@ -213,11 +213,15 @@ app {
     margin-top: .5vw;
     margin-right: 1vw;
     min-width: 20vw;
-    width: 30vw;
+    max-width: 47vw;
     display: block;
     /*border: 3px solid black; */
     border-radius: 7px;
     background-color: #d5d9e0;
+}
+.options-card label {
+    word-wrap: break-word;
+    max-width: 38vw;
 }
 .options-card .first-entry {
     font-weight: 700;
@@ -258,6 +262,7 @@ app {
 }
 .options-card-container .column{
     display: inline;
+    width: 50%;
 }
 .results-card {
     color: black;
