@@ -3,14 +3,12 @@
 
 <div class="options-card">
     <div class="first-entry">
-        <input class="@enableAnalysisCheckboxGlowClass.ClassName" id="enableAnalysisCheckbox" type="checkbox" @bind="EnableAnalysis" />
+        <input id="enableAnalysisCheckbox" type="checkbox" @bind="EnableAnalysis" />
         <label for="enableAnalysisCheckbox">Enable Analysis</label>
     </div>
 </div>
 
 @code{
-    Helper.GlowClass enableAnalysisCheckboxGlowClass = new Helper.GlowClass();
-
     bool EnableAnalysis
     {
         get
@@ -20,7 +18,6 @@
         set
         {
             appData.ExportCollectCommandOptions.DisableAnalysis = !value;
-            Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), enableAnalysisCheckboxGlowClass, value);
         }
     }
 }
