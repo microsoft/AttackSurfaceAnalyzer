@@ -7,6 +7,9 @@ html, body {
 a, .btn-link {
     color: #0366d6;
 }
+p {
+    font-family: "Segoe UI", Helvetica, sans-serif;
+}
 
 label {
     font-family: "Segoe UI", Helvetica, sans-serif;
