@@ -9,17 +9,26 @@
     }
 </select>
 <button @onclick="MoreAnalysisResults">More results</button>
-        @foreach (var result in analysisResults)
-        {
-<div style="border:2px solid black">
-    <p><i>@result.Analysis</i> : @result.Identity</p>
-    <p>@result.Rules.Count @(@result.Rules.Count == 1 ? "rule" : "rules") applied.</p>
+        
+@foreach (var result in analysisResults) {
+<div class="results-card">
+    <div class="results-entry">
+        <div class="results-label">@result.Analysis:</div> @result.Identity
+    </div>
+    <br />
+    <div class="results-entry">
+        <div class="results-count">@result.Rules.Count @(@result.Rules.Count == 1 ? "rule" : "rules") applied.</div>
+    </div>
+    
     @foreach (var rule in result.Rules)
     {
-        <div style="border:2px solid gray">@rule.Name : @rule.Description</div>
+    <div class="results-entry">
+        <div class="rule-label">@rule.Name:</div> @rule.Description
+    </div>
     }
 </div>
-        }
+}
+
 @code {        
     protected override void OnInitialized()
     {

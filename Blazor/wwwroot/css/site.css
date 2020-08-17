@@ -73,6 +73,9 @@ button{
     font-weight: bold;
     font-family: "Segoe UI", Helvetica, sans-serif;
 }
+.options-icon {
+    z-index: -1;
+}
 
 app {
     position: relative;
@@ -179,6 +182,7 @@ app {
 
 .content {
     padding-top: 1.1rem;
+    display: inline-block;
 }
 
 .navbar-toggler {
@@ -206,7 +210,7 @@ app {
     margin-top: .5vw;
     margin-right: 1vw;
     min-width: 20vw;
-    width: 29vw;
+    width: 30vw;
     display: block;
     /*border: 3px solid black; */
     border-radius: 7px;
@@ -252,6 +256,35 @@ app {
 .options-card-container .column{
     display: inline;
 }
+.results-card {
+    color: black;
+    padding-top: .5vw;
+    padding-bottom: .5vw;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    margin-top: .5vw;
+    min-width: 20vw;
+    width: 60vw;
+    display: block;
+    /*border: 3px solid black; */
+    border-radius: 7px;
+    background-color: #d5d9e0;
+    font-family: "Segoe UI", Helvetica, sans-serif;
+    word-wrap: break-word;
+}
+.results-card .results-entry {
+    display: block;
+}
+.results-card .results-entry .results-label {
+    font-family: "Segoe UI Semibold", Helvetica, sans-serif;
+    font-style: italic;
+    display: inline;
+}
+.results-card .results-entry .rule-label {
+    font-family: "Segoe UI Semibold", Helvetica, sans-serif;
+    display: inline;
+}
+
 .runid-box {
     display: block;
     font-weight: bold;
