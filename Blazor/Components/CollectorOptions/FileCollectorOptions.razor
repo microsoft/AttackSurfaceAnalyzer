@@ -43,8 +43,11 @@
 
     void RemoveInputFromList()
     {
-        appData.CollectOptions.SelectedDirectories.RemoveAt(SelectedDirectoryTop);
-        Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), directorySelectElementGlowClass, false);
+        if (appData.CollectOptions.SelectedDirectories.Count > SelectedDirectoryTop)
+        {
+            appData.CollectOptions.SelectedDirectories.RemoveAt(SelectedDirectoryTop);
+            Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), directorySelectElementGlowClass, false);
+        }
     }
 
     void PushInputToList()
