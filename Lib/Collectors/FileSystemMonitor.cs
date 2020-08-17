@@ -8,6 +8,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 {
@@ -49,7 +50,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
             watchers.ForEach(x => x.EnableRaisingEvents = false);
 
             // Write each accessed file once.
-            foreach (var e in filesAccessed)
+            Parallel.ForEach(filesAccessed, e =>
             {
                 var ToWrite = new FileMonitorObject(e.Value.FullPath)
                 {
@@ -61,7 +62,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                     NotifyFilters = NotifyFilters.LastAccess
                 };
                 changeHandler(ToWrite);
-            }
+            });
 
             RunStatus = RUN_STATUS.COMPLETED;
         }
@@ -74,9 +75,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
         public FileSystemMonitor(MonitorCommandOptions opts, Action<FileMonitorObject> changeHandler)
         {
             options = opts ?? new MonitorCommandOptions();
-#pragma warning disable CA1303 // Do not pass literals as localized parameters
             this.changeHandler = changeHandler ?? throw new NullReferenceException(nameof(changeHandler));
-#pragma warning restore CA1303 // This string doesn't need to be localized, it is the name of the variable
 
             fsc = new FileSystemCollector(new CollectorOptions()
             {

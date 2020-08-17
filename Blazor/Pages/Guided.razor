@@ -1,6 +1,7 @@
 ﻿@using Microsoft.CST.AttackSurfaceAnalyzer.Cli.Components
 @using Microsoft.CST.AttackSurfaceAnalyzer.Cli.Components.States
 @using Microsoft.CST.AttackSurfaceAnalyzer.Types
+@using System.Threading; 
 @using Microsoft.CST.AttackSurfaceAnalyzer.Objects
 @using Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 @inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
@@ -94,6 +95,10 @@
         pageState = PageState.MonitorFlushing;
         this.StateHasChanged();
         AttackSurfaceAnalyzerClient.StopMonitors();
+        while (AttackSurfaceAnalyzerClient.DatabaseManager.HasElements)
+        {
+            Thread.Sleep(1);
+        }
 
         appData.CollectOptions.RunId = appData.SecondRunId;
         await BeginScan();

@@ -3,17 +3,13 @@
 
 <div class="options-card">
     <div class="first-entry">
-        <input id="enableFileSystemMonitorCheckbox" type="checkbox" @bind="appData.MonitorOptions.GatherHashes" />
+        <input id="enableFileSystemMonitorCheckbox" type="checkbox" @bind="appData.MonitorOptions.EnableFileSystemMonitor" />
         <label for="enableFileSystemMonitorCheckbox">Enable FileSystem Monitor</label>
     </div>
     <hr class="options-hr" />
     <div class="options-entry">
-        <input id="enableGatherHashesMonitorCheckbox" type="checkbox" @bind="appData.MonitorOptions.FileNamesOnly" />
+        <input id="enableGatherHashesMonitorCheckbox" type="checkbox" @bind="appData.MonitorOptions.GatherHashes" />
         <label for="enableGatherHashesMonitorCheckbox">Gather File Hashes</label>
-    </div>
-    <div class="options-entry">
-        <input id="enableFileNamesOnlyCheckbox" type="checkbox" @bind="appData.MonitorOptions.EnableFileSystemMonitor" />
-        <label for="enableFileNamesOnlyCheckbox">Crawl into Archives</label>
     </div>
     <div class="options-entry">
         <label for="selectedDirectoriesString">Add Path to Scan</label>
