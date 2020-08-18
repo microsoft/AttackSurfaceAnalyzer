@@ -12,7 +12,7 @@ Platform specific binaries for Attack Surface Analyzer are distributed via our G
 
 ## New Features in 2.2
 
-- Expanded analysis engine allowing users to define arbitrary boolean expressions across clauses and access sub properties of objects. See https://github.com/microsoft/AttackSurfaceAnalyzer/wiki/Analysis-Ruleset for more information on creating rules.
+- Expanded analysis engine allowing users to define arbitrary boolean expressions across clauses and access sub properties of objects. See [Authoring Rules](https://github.com/microsoft/AttackSurfaceAnalyzer/wiki/Authoring-Analysis-Rules) on the wiki for more information on creating rules.
 - Significantly improved collection and analysis performance.
 - MacOS binary signature checking
 - Support for C# 8 [nullable reference types](https://docs.microsoft.com/en-us/dotnet/csharp/nullable-references)
