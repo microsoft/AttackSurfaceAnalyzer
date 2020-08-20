@@ -170,7 +170,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         public void TestFileMonitor()
         {
             var stack = new ConcurrentStack<FileMonitorObject>();
-            var monitor = new FileSystemMonitor(new MonitorCommandOptions() { MonitoredDirectories = new string[] { Path.GetTempPath() } }, x => stack.Push(x));
+            var monitor = new FileSystemMonitor(new MonitorCommandOptions() { MonitoredDirectories = new List<string> { Path.GetTempPath() } }, x => stack.Push(x));
             monitor.StartRun();
 
             var created = Path.GetTempFileName(); // Create a file
@@ -346,14 +346,14 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
                 key.SetValue(value, value2);
                 key.Close();
 
-                var rc = new RegistryCollector(new CollectorOptions() { SingleThread = true, SelectedHives = $"CurrentUser\\{name}" });
+                var rc = new RegistryCollector(new CollectorOptions() { SingleThread = true, SelectedHives = new List<string> { $"CurrentUser\\{name}" } });
                 rc.TryExecute();
 
                 Assert.IsTrue(rc.Results.Any(x => x is RegistryObject RO && RO.Key.EndsWith(name)));
                 Assert.IsTrue(rc.Results.Any(x => x is RegistryObject RO && RO.Key.EndsWith(name) && RO.Values.ContainsKey(value) && RO.Values[value] == value2));
 
                 ConcurrentStack<CollectObject> results = new ConcurrentStack<CollectObject>();
-                rc = new RegistryCollector(new CollectorOptions() { SingleThread = true, SelectedHives = $"CurrentUser\\{name}" }, x => results.Push(x));
+                rc = new RegistryCollector(new CollectorOptions() { SingleThread = true, SelectedHives = new List<string> { $"CurrentUser\\{name}" } }, x => results.Push(x));
                 rc.TryExecute();
 
                 Assert.IsTrue(results.Any(x => x is RegistryObject RO && RO.Key.EndsWith(name)));
