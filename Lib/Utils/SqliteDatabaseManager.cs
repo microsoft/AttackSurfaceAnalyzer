@@ -279,14 +279,14 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             return records;
         }
 
-        public override List<CompareResult> GetComparisonResults(string? baseId, string compareId, RESULT_TYPE resultType, int offset, int numResults)
+        public override List<CompareResult> GetComparisonResults(string? baseId, string? compareId, RESULT_TYPE resultType, int offset, int numResults)
         {
             _ = MainConnection ?? throw new NullReferenceException(Strings.Get("MainConnection"));
             var results = new List<CompareResult>();
             using (var cmd = new SqliteCommand(GET_COMPARISON_RESULTS_LIMIT, MainConnection.Connection, MainConnection.Transaction))
             {
                 cmd.Parameters.AddWithValue("@first_run_id", baseId ?? string.Empty);
-                cmd.Parameters.AddWithValue("@second_run_id", compareId);
+                cmd.Parameters.AddWithValue("@second_run_id", compareId ?? string.Empty);
                 cmd.Parameters.AddWithValue("@result_type", (int)resultType);
                 cmd.Parameters.AddWithValue("@offset", offset);
                 cmd.Parameters.AddWithValue("@limit", numResults);
@@ -640,13 +640,46 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             return null;
         }
 
-        public override List<string> GetRuns(RUN_TYPE type)
+        public override List<(string firstRunId, string secondRunId, RUN_STATUS runStatus)> GetCompareRuns()
+        {
+            _ = MainConnection ?? throw new NullReferenceException(Strings.Get("MainConnection"));
+
+            var Runs = new List<(string firstRunId, string secondRunId, RUN_STATUS runStatus)>();
+
+            using var cmd = new SqliteCommand(SQL_SELECT_COMPARE_RUNS, MainConnection.Connection, MainConnection.Transaction);
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    Runs.Add(((string) reader["base_run_id"], (string) reader["compare_run_id"], (RUN_STATUS)Enum.Parse(typeof(RUN_STATUS), (string)reader["status"])));
+                }
+            }
+            return Runs;
+        }
+        public override List<string> GetRuns()
         {
             _ = MainConnection ?? throw new NullReferenceException(Strings.Get("MainConnection"));
 
             List<string> Runs = new List<string>();
 
             using var cmd = new SqliteCommand(SQL_SELECT_RUNS, MainConnection.Connection, MainConnection.Transaction);
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    Runs.Add((string)reader["run_id"]);
+                }
+            }
+            return Runs;
+        }
+
+        public override List<string> GetRuns(RUN_TYPE type)
+        {
+            _ = MainConnection ?? throw new NullReferenceException(Strings.Get("MainConnection"));
+
+            List<string> Runs = new List<string>();
+
+            using var cmd = new SqliteCommand(SQL_SELECT_RUNS_BY_TYPE, MainConnection.Connection, MainConnection.Transaction);
             cmd.Parameters.AddWithValue("@type", type);
             using (var reader = cmd.ExecuteReader())
             {
@@ -1082,7 +1115,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
         private const string SQL_INSERT_RUN = "insert into runs (run_id, type, serialized) values (@run_id, @type, @serialized)";
         private const string SQL_QUERY_ANALYZED = "select * from results where status = @status";
         private const string SQL_SELECT_LATEST_N_RUNS = "select run_id from runs where type = @type order by ROWID desc limit 0,@limit;";
-        private const string SQL_SELECT_RUNS = "select distinct run_id from runs where type=@type order by ROWID asc;";
+        private const string SQL_SELECT_RUNS_BY_TYPE = "select distinct run_id from runs where type=@type order by ROWID asc;";
+        private const string SQL_SELECT_RUNS = "select distinct run_id from runs order by ROWID asc;";
+        private const string SQL_SELECT_COMPARE_RUNS = "select * from results order by ROWID asc";
         private const string SQL_TRUNCATE_RUN = "delete from runs where run_id=@run_id";
         private const string SQL_UPSERT_PERSISTED_SETTINGS = "insert or replace into persisted_settings (id, serialized) values (@id, @serialized)";
 

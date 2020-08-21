@@ -1,7 +1,126 @@
 ﻿@page "/analyze"
 
 <h3>Analyze</h3>
+@switch (pageState)
+{
+    case PageState.Options:
+    <div class="runid-box">
+    <label for="RunId">Run ID:</label>
+    <select id="RunId" @bind="RunIdInput">
+        <option value="-1"></option>
+        @for (int i = 0; i < Runs.Count; i++)
+        {
+            <option value="@i">@Runs[i]</option>
+        }
+    </select>
+    <br/>
+    <label for="SecondRunId">Second Run ID: (optional)</label>
+    <select id="SecondRunId" @bind="RunIdInput2">
+        <option value="-1"></option>
+        @for (int i = 0; i < Runs.Count; i++)
+        {
+            <option value="@i">@Runs[i]</option>
+        }
+    </select>
+    <button class="start-scan-button" @onclick="BeginAnalyze">Start Analysis Scan</button>
+</div>
+        <div class="options-pane">
+            <span class="oi oi-wrench options-icon" aria-hidden="true"></span>  Analysis Options
+            <hr />
+            <AnalyzeOptionsRazor />
+        </div>
+        break;
+    case PageState.Analyzing:
+        <Analyzing />
+        break;
+    case PageState.Finished:
+        <button @onclick="GoToOptions">Analyze Again.</button>
+        break;
+    case PageState.Error:
+        <p>An Error Occured while Analyzing.</p>
+        break;
+}
 
-@code {
+@code{
+    enum PageState
+    {
+        Options,
+        Analyzing,
+        Finished,
+        Error
+    }
+
+    List<string> Runs = AttackSurfaceAnalyzerClient.DatabaseManager.GetRuns();
+
+    int RunIdInput {
+        get
+        {
+            return Runs.IndexOf(appData.ExportCollectCommandOptions.FirstRunId ?? string.Empty);
+        }
+        set
+        {
+            if (value >= 0)
+            {
+                appData.ExportCollectCommandOptions.FirstRunId = Runs[value];
+            }
+            else
+            {
+                appData.ExportCollectCommandOptions.FirstRunId = string.Empty;
+            }
+        }
+    }
+    int RunIdInput2
+    {
+        get
+        {
+            return Runs.IndexOf(appData.ExportCollectCommandOptions.SecondRunId ?? string.Empty);
+        }
+        set
+        {
+            if (value >= 0)
+            {
+                appData.ExportCollectCommandOptions.SecondRunId = Runs[value];
+            }
+            else
+            {
+                appData.ExportCollectCommandOptions.SecondRunId = string.Empty;
+            }
+        }
+    }
+
+    PageState pageState = PageState.Options;
+
+    void GoToOptions()
+    {
+        pageState = PageState.Options;
+    }
+
+    async void BeginAnalyze()
+    {
+        await AnalyzeIt();
+        pageState = PageState.Finished;
+    }
+    System.Threading.Timer timer;
+
+    async Task<ASA_ERROR> AnalyzeIt()
+    {
+        timer = new System.Threading.Timer((_) => InvokeAsync(() => StateHasChanged()), null, 0, 100);
+        var firstRunId = Runs[RunIdInput];
+        var secondRunId = Runs[RunIdInput2];
+        appData.ExportCollectCommandOptions.FirstRunId = string.IsNullOrEmpty(secondRunId) ? secondRunId : firstRunId;
+        appData.ExportCollectCommandOptions.SecondRunId = string.IsNullOrEmpty(secondRunId) ? firstRunId : secondRunId;
+        pageState = PageState.Analyzing;
+
+        await Task.Factory.StartNew(() =>
+        {
+            var CompareOneOptions = appData.CompareCommandOptions;
+            CompareOneOptions.FirstRunId = appData.ExportCollectCommandOptions.FirstRunId;
+            CompareOneOptions.SecondRunId = appData.ExportCollectCommandOptions.SecondRunId;
+            var results = AttackSurfaceAnalyzerClient.CompareRuns(CompareOneOptions);
+            AttackSurfaceAnalyzerClient.InsertCompareResults(results, CompareOneOptions.FirstRunId, CompareOneOptions.SecondRunId);
+        });
+
+        return ASA_ERROR.NONE;
+    }
 
 }

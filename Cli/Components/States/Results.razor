@@ -27,7 +27,15 @@
 </div>
 }
 
-@code {        
+@code {
+
+    [Parameter]
+    public string FirstRunId { get; set; }
+    [Parameter]
+    public string SecondRunId { get; set; }
+    [Parameter]
+    public string MonitorRunId { get; set; }
+
     protected override void OnInitialized()
     {
         ParseOptsToResultTypes();
@@ -58,10 +66,10 @@
         switch (resultType)
         {
             case RESULT_TYPE.FILEMONITOR:
-                analysisResults = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResults(string.Empty, appData.MonitorRunId, resultType, offset, count);
+                analysisResults = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResults(string.Empty, MonitorRunId, resultType, offset, count);
                 break;
             default:
-                analysisResults = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResults(appData.FirstRunId, appData.SecondRunId, resultType, offset, count);
+                analysisResults = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResults(FirstRunId, SecondRunId, resultType, offset, count);
                 break;
         }
     }

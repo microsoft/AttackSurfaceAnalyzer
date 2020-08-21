@@ -47,7 +47,7 @@
         <Analyzing />
         break;
     case PageState.Results:
-        <Results />
+        <Results FirstRunId="@appData.ExportCollectCommandOptions.FirstRunId" SecondRunId="@appData.ExportCollectCommandOptions.SecondRunId" MonitorRunId="@appData.MonitorOptions.RunId"/>
         break;
     case PageState.Error:
         <p>An Error Occured while collecting.</p>
@@ -130,10 +130,10 @@
         await Task.Factory.StartNew(() =>
         {
             var CompareOneOptions = appData.CompareCommandOptions;
-            CompareOneOptions.FirstRunId = appData.FirstRunId;
-            CompareOneOptions.SecondRunId = appData.SecondRunId;
+            CompareOneOptions.FirstRunId = appData.ExportCollectCommandOptions.FirstRunId;
+            CompareOneOptions.SecondRunId = appData.ExportCollectCommandOptions.SecondRunId ?? string.Empty;
             var results = AttackSurfaceAnalyzerClient.CompareRuns(CompareOneOptions);
-            AttackSurfaceAnalyzerClient.InsertCompareResults(results, appData.ExportCollectCommandOptions.FirstRunId, appData.ExportCollectCommandOptions.SecondRunId);
+            AttackSurfaceAnalyzerClient.InsertCompareResults(results, appData.ExportCollectCommandOptions.FirstRunId, appData.ExportCollectCommandOptions.SecondRunId ?? string.Empty);
         });
 
         await Task.Factory.StartNew(() =>
