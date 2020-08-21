@@ -1,5 +1,5 @@
-﻿using AttackSurfaceAnalyzer.Objects;
-using AttackSurfaceAnalyzer.Utils;
+﻿using Microsoft.CST.AttackSurfaceAnalyzer.Objects;
+using Microsoft.CST.AttackSurfaceAnalyzer.Utils;
 using Medallion.Shell;
 using Serilog;
 using System;
@@ -11,7 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace AttackSurfaceAnalyzer.Collectors
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 {
     public class WifiCollector : BaseCollector
     {
@@ -75,7 +75,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             using var fsm = new FileSystemMonitor(new MonitorCommandOptions()
             {
                 FileNamesOnly = true,
-                MonitoredDirectories = new string[] { tempDirectory }
+                MonitoredDirectories = new List<string>(){ tempDirectory }
             },
             x =>
             {

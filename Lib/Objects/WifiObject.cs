@@ -1,4 +1,4 @@
-﻿namespace AttackSurfaceAnalyzer.Objects
+﻿namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
     public class WifiObject : CollectObject
     {

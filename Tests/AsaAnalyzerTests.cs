@@ -1,13 +1,13 @@
-﻿using AttackSurfaceAnalyzer.Cli;
-using AttackSurfaceAnalyzer.Objects;
-using AttackSurfaceAnalyzer.Types;
-using AttackSurfaceAnalyzer.Utils;
+﻿using Microsoft.CST.AttackSurfaceAnalyzer.Cli;
+using Microsoft.CST.AttackSurfaceAnalyzer.Objects;
+using Microsoft.CST.AttackSurfaceAnalyzer.Types;
+using Microsoft.CST.AttackSurfaceAnalyzer.Utils;
 using Microsoft.CST.OAT;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AttackSurfaceAnalyzer.Tests
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
 {
     [TestClass]
     public class AsaAnalyzerTests
@@ -62,13 +62,13 @@ namespace AttackSurfaceAnalyzer.Tests
 
             var opts = new CompareCommandOptions(null, "SecondRun") { ApplySubObjectRulesToMonitor = true };
 
-            var results = AttackSurfaceAnalyzerClient.AnalyzeMonitored(opts, analyzer, new MonitorObject[] { testPathOneObject }, new RuleFile() { AsaRules = new AsaRule[] { andRule } });
+            var results = AttackSurfaceAnalyzerClient.AnalyzeMonitored(opts, analyzer, new MonitorObject[] { testPathOneObject }, new RuleFile() { Rules = new AsaRule[] { andRule } });
 
             Assert.IsTrue(results.Any(x => x.Value.Any(y => y.Identity == testPathOneObject.Identity && y.Rules.Contains(andRule))));
 
             opts = new CompareCommandOptions(null, "SecondRun") { ApplySubObjectRulesToMonitor = false };
 
-            results = AttackSurfaceAnalyzerClient.AnalyzeMonitored(opts, analyzer, new MonitorObject[] { testPathOneObject }, new RuleFile() { AsaRules = new AsaRule[] { andRule } });
+            results = AttackSurfaceAnalyzerClient.AnalyzeMonitored(opts, analyzer, new MonitorObject[] { testPathOneObject }, new RuleFile() { Rules = new AsaRule[] { andRule } });
 
             Assert.IsFalse(results.Any(x => x.Value.Any(y => y.Identity == testPathOneObject.Identity && y.Rules.Contains(andRule))));
         }
@@ -81,7 +81,7 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             var file = new RuleFile()
             {
-                AsaRules = new List<AsaRule>()
+                Rules = new List<AsaRule>()
                 {
                     rule
                 }

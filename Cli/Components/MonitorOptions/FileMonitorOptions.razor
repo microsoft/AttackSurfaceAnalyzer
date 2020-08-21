@@ -1,0 +1,49 @@
+﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
+@using Microsoft.CST.AttackSurfaceAnalyzer.Cli
+
+<div class="options-card">
+    <div class="first-entry">
+        <input id="enableFileSystemMonitorCheckbox" type="checkbox" @bind="appData.MonitorOptions.EnableFileSystemMonitor" />
+        <label for="enableFileSystemMonitorCheckbox">Enable FileSystem Monitor</label>
+    </div>
+    <hr class="options-hr" />
+    <div class="options-entry">
+        <input id="enableGatherHashesMonitorCheckbox" type="checkbox" @bind="appData.MonitorOptions.GatherHashes" />
+        <label for="enableGatherHashesMonitorCheckbox">Gather File Hashes</label>
+    </div>
+    <div class="options-entry">
+        <label for="selectedDirectoriesString">Add Path to Scan</label>
+        <input id="selectedDirectoriesString" type="text" @bind="SelectedDirectoryInput" /><button @onclick="PushInputToList">Add</button>
+    </div>
+    <div class="options-entry">
+        <label for="selectedDirectoriesList">Selected Directories</label>
+        <select class="@directorySelectElementGlowClass.ClassName" style="width:200px" id="selectedDirectoriesList" @bind="SelectedDirectoryTop">
+            @for (var i = 0; i < appData.MonitorOptions.MonitoredDirectories.Count; i++)
+            {
+                <option value="@i">@appData.MonitorOptions.MonitoredDirectories[i]</option>
+            }
+        </select>
+        <button @onclick="RemoveInputFromList">Remove</button>
+    </div>
+</div>
+
+@code{
+    Helper.GlowClass directorySelectElementGlowClass = new Helper.GlowClass();
+
+    string SelectedDirectoryInput;
+    int SelectedDirectoryTop;
+
+    void RemoveInputFromList()
+    {
+        appData.MonitorOptions.MonitoredDirectories.RemoveAt(SelectedDirectoryTop);
+        Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), directorySelectElementGlowClass, false);
+    }
+
+    void PushInputToList()
+    {
+        appData.MonitorOptions.MonitoredDirectories.Add(SelectedDirectoryInput);
+        SelectedDirectoryTop = appData.MonitorOptions.MonitoredDirectories.Count - 1;
+        Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), directorySelectElementGlowClass, true);
+        SelectedDirectoryInput = string.Empty;
+    }
+}

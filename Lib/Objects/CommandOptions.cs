@@ -1,9 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using CommandLine;
+using Microsoft.CST.AttackSurfaceAnalyzer.Objects;
 using System;
 using System.Collections.Generic;
 
-namespace AttackSurfaceAnalyzer
+namespace Microsoft.CST.AttackSurfaceAnalyzer
 {
     [Verb("collect", HelpText = "Collect operating system metrics")]
     public class CollectCommandOptions : CollectorOptions
@@ -118,10 +119,10 @@ namespace AttackSurfaceAnalyzer
         public string? RunId { get; set; }
 
         [Option("directories", Required = false, HelpText = ", separated list of paths to scan with FileSystemCollector", Separator = ',')]
-        public IEnumerable<string>? SelectedDirectories { get; set; }
+        public List<string> SelectedDirectories { get; set; } = new List<string>();
 
-        [Option("hives", Required = false, HelpText = "^ separated list of hives and subkeys to search.")]
-        public string? SelectedHives { get; set; }
+        [Option("hives", Required = false, HelpText = ", separated list of hives and subkeys to search.", Separator = ',')]
+        public List<string> SelectedHives { get; set; } = new List<string>();
 
         [Option(HelpText = "Force singlethreaded collectors.")]
         public bool SingleThread { get; set; }
@@ -157,7 +158,7 @@ namespace AttackSurfaceAnalyzer
         }
 
         [Option(HelpText = "Custom analysis rules file.")]
-        public string? AnalysesFile { get; set; }
+        public RuleFile? AnalysesFile { get; set; }
 
         [Option(HelpText = "When analyzing Monitor Objects apply rules that would apply to the base type.")]
         public bool ApplySubObjectRulesToMonitor { get; set; }
@@ -241,9 +242,12 @@ namespace AttackSurfaceAnalyzer
         public bool RunScripts { get; set; }
     }
 
-    [Verb("gui", HelpText = "Launch the GUI in a browser")]
+    [Verb("gui", HelpText = "Launch the GUI in a browser.")]
     public class GuiCommandOptions : CommandOptions
-    { }
+    {
+        [Option(HelpText = "Disable launching a browser after gui starts.")]
+        public bool NoLaunch { get; set; }
+    }
 
     [Verb("guide", HelpText = "Gather and Analyze metrics using a combination of Collectors and Monitors.")]
     public class GuidedModeCommandOptions : CollectorOptions
@@ -272,7 +276,7 @@ namespace AttackSurfaceAnalyzer
         public bool FileNamesOnly { get; set; }
 
         [Option(HelpText = "Comma-separated list of directories to monitor.", Separator = ',')]
-        public IEnumerable<string>? MonitoredDirectories { get; set; }
+        public List<string> MonitoredDirectories { get; set; } = new List<string>();
 
         [Option(HelpText = "Directory to output to.")]
         public string? OutputPath { get; set; }
@@ -300,7 +304,7 @@ namespace AttackSurfaceAnalyzer
         public bool GatherHashes { get; set; }
 
         [Option('d', "directories", Required = false, HelpText = "Comma-separated list of directories to monitor.", Separator = ',')]
-        public IEnumerable<string>? MonitoredDirectories { get; set; }
+        public List<string> MonitoredDirectories { get; set; } = new List<string>();
 
         //[Option('r', "registry", Required = false, HelpText = "Monitor the registry for changes. (Windows Only)")]
         //public bool EnableRegistryMonitor { get; set; }

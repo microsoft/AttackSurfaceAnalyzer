@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Tpm2Lib;
 
-namespace AttackSurfaceAnalyzer.Objects
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
     public class AsaNvIndex
     {

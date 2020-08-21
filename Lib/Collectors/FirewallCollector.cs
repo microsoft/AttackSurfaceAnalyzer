@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
-using AttackSurfaceAnalyzer.Objects;
-using AttackSurfaceAnalyzer.Utils;
+using Microsoft.CST.AttackSurfaceAnalyzer.Objects;
+using Microsoft.CST.AttackSurfaceAnalyzer.Utils;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using WindowsFirewallHelper;
 
-namespace AttackSurfaceAnalyzer.Collectors
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 {
     /// <summary>
     ///     Collects metadata from the local firewall.

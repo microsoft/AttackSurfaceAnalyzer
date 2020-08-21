@@ -4,7 +4,7 @@ using PeNet.Header.Authenticode;
 using System;
 using System.Security.Cryptography.X509Certificates;
 
-namespace AttackSurfaceAnalyzer.Objects
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
     public class Signature
     {

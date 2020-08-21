@@ -1,0 +1,150 @@
+﻿@using Microsoft.CST.AttackSurfaceAnalyzer.Cli.Components
+@using Microsoft.CST.AttackSurfaceAnalyzer.Cli.Components.States
+@using Microsoft.CST.AttackSurfaceAnalyzer.Types
+@using System.Threading; 
+@using Microsoft.CST.AttackSurfaceAnalyzer.Objects
+@using Microsoft.CST.AttackSurfaceAnalyzer.Collectors
+@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
+
+@page "/guided"
+
+@switch (pageState)
+{
+    case PageState.Options:
+        <div class="runid-box">
+            <label for="RunId">Run ID:</label>
+            <input id="RunId" type="text" @bind="RunIdInput" />
+            <input id="UseTimestampCheckbox" type="checkbox" @bind="UseTimestamp"/>
+            <label for="UseTimestampCheckbox">Use Timestamp</label>
+            <button class="start-scan-button" @onclick="BeginGuided">Start Guided Scan</button>
+        </div>
+        <div class="options-pane">
+            <span class="oi oi-wrench options-icon" aria-hidden="true"></span>  Collector Options
+            <hr />
+            <CollectorOptionsRazor />
+        </div>
+        <div class="options-pane">
+            <span class="oi oi-wrench options-icon" aria-hidden="true"></span>  Monitor Options
+            <hr />
+            <MonitorOptionsRazor />
+        </div>
+        <div class="options-pane">
+            <span class="oi oi-wrench options-icon" aria-hidden="true"></span>  Analysis Options
+            <hr />
+            <AnalyzeOptionsRazor />
+        </div>
+        break;
+    case PageState.Scanning:
+        <Scanning />
+        break;
+    case PageState.Monitoring:
+        <Monitoring Continue="@ContinueGuided" />
+        break;
+    case PageState.MonitorFlushing:
+        <MonitorFlushing />
+        break;
+    case PageState.Analyzing:
+        <Analyzing />
+        break;
+    case PageState.Results:
+        <Results FirstRunId="@appData.ExportCollectCommandOptions.FirstRunId" SecondRunId="@appData.ExportCollectCommandOptions.SecondRunId" MonitorRunId="@appData.MonitorOptions.RunId"/>
+        break;
+    case PageState.Error:
+        <p>An Error Occured while collecting.</p>
+        break;
+}
+
+@code{
+    enum PageState
+    {
+        Options,
+        Scanning,
+        Monitoring,
+        MonitorFlushing,
+        Analyzing,
+        Results,
+        Error
+    }
+
+    bool UseTimestamp = true;
+    string RunIdInput = "Enter Run ID";
+
+    PageState pageState = PageState.Options;
+
+    async void BeginGuided()
+    {
+        appData.RunId = UseTimestamp ? DateTime.Now.ToString() : RunIdInput;
+        timer = new System.Threading.Timer((_) => InvokeAsync(() => StateHasChanged()), null, 0, 100);
+        appData.CollectOptions.RunId = appData.FirstRunId;
+        if (await BeginScan() == ASA_ERROR.NONE)
+        {
+            appData.MonitorOptions.RunId = appData.MonitorRunId;
+            await BeginMonitor();
+            AttackSurfaceAnalyzerClient.ClearCollectors();
+        }
+        else
+        {
+            pageState = PageState.Error;
+        }
+    }
+
+    async void ContinueGuided()
+    {
+        pageState = PageState.MonitorFlushing;
+        this.StateHasChanged();
+        AttackSurfaceAnalyzerClient.StopMonitors();
+        while (AttackSurfaceAnalyzerClient.DatabaseManager.HasElements)
+        {
+            Thread.Sleep(1);
+        }
+
+        appData.CollectOptions.RunId = appData.SecondRunId;
+        await BeginScan();
+
+        appData.ExportCollectCommandOptions.SaveToDatabase = true;
+        appData.ExportCollectCommandOptions.FirstRunId = appData.FirstRunId;
+        appData.ExportCollectCommandOptions.SecondRunId = appData.SecondRunId;
+        await BeginAnalyze();
+        pageState = PageState.Results;
+    }
+
+    System.Threading.Timer timer;
+
+    async Task<ASA_ERROR> BeginScan()
+    {
+        pageState = PageState.Scanning;
+        this.StateHasChanged();
+        return await Task.Factory.StartNew(() => AttackSurfaceAnalyzerClient.RunCollectCommand(appData.CollectOptions));
+    }
+
+    async Task<ASA_ERROR> BeginMonitor()
+    {
+        pageState = PageState.Monitoring;
+        return await Task.Factory.StartNew(() => AttackSurfaceAnalyzerClient.RunGuiMonitorCommand(appData.MonitorOptions));
+    }
+
+    async Task<ASA_ERROR> BeginAnalyze()
+    {
+        pageState = PageState.Analyzing;
+
+        await Task.Factory.StartNew(() =>
+        {
+            var CompareOneOptions = appData.CompareCommandOptions;
+            CompareOneOptions.FirstRunId = appData.ExportCollectCommandOptions.FirstRunId;
+            CompareOneOptions.SecondRunId = appData.ExportCollectCommandOptions.SecondRunId ?? string.Empty;
+            var results = AttackSurfaceAnalyzerClient.CompareRuns(CompareOneOptions);
+            AttackSurfaceAnalyzerClient.InsertCompareResults(results, appData.ExportCollectCommandOptions.FirstRunId, appData.ExportCollectCommandOptions.SecondRunId ?? string.Empty);
+        });
+
+        await Task.Factory.StartNew(() =>
+        {
+            var CompareTwoOptions = appData.CompareCommandOptions;
+
+            CompareTwoOptions.FirstRunId = null;
+            CompareTwoOptions.SecondRunId = appData.MonitorRunId;
+            var results = AttackSurfaceAnalyzerClient.CompareRuns(CompareTwoOptions);
+            AttackSurfaceAnalyzerClient.InsertCompareResults(results, null, appData.MonitorRunId);
+        });
+        return ASA_ERROR.NONE;
+    }
+}

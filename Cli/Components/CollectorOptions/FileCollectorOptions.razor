@@ -1,0 +1,60 @@
+﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
+@using Microsoft.CST.AttackSurfaceAnalyzer.Cli
+
+<div class="options-card">
+    <div class="first-entry">
+        <input id="enableFileSystemCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableFileSystemCollector" />
+        <label for="enableFileSystemCollectionCheckbox">Enable FileSystem Collector</label>
+    </div>
+    <hr class="options-hr" />
+    <div class="options-entry">
+        <input id="enableGatherHashesCheckbox" type="checkbox" @bind="appData.CollectOptions.GatherHashes" />
+        <label for="enableGatherHashesCheckbox">Gather File Hashes</label>
+    </div>
+    <div class="options-entry">
+        <input id="enableCrawlArchivesCheckbox" type="checkbox" @bind="appData.CollectOptions.CrawlArchives" />
+        <label for="enableCrawlArchivesCheckbox">Crawl into Archives</label>
+    </div>
+    <div class="options-entry">
+        <input id="enableDownloadCloudCheckbox" type="checkbox" @bind="appData.CollectOptions.DownloadCloud" />
+        <label for="enableDownloadCloudCheckbox">Download Cloud Files</label>
+    </div>
+    <div class="options-entry">
+        <label for="selectedDirectoriesString">Add Path to Scan</label>
+        <input id="selectedDirectoriesString" type="text" @bind="SelectedDirectoryInput" /><button @onclick="PushInputToList">Add</button>
+    </div>
+    <div class="options-entry">
+        <label for="selectedDirectoriesList">Selected Directories</label>
+        <select class="@directorySelectElementGlowClass.ClassName" style="width:200px" id="selectedDirectoriesList" @bind="SelectedDirectoryTop">
+            @for (var i = 0; i < appData.CollectOptions.SelectedDirectories.Count; i++)
+            {
+                <option value="@i">@appData.CollectOptions.SelectedDirectories[i]</option>
+            }
+        </select>
+        <button @onclick="RemoveInputFromList">Remove</button>
+    </div>
+</div>
+
+@code{
+    Helper.GlowClass directorySelectElementGlowClass = new Helper.GlowClass();
+
+    string SelectedDirectoryInput;
+    int SelectedDirectoryTop;
+
+    void RemoveInputFromList()
+    {
+        if (appData.CollectOptions.SelectedDirectories.Count > SelectedDirectoryTop)
+        {
+            appData.CollectOptions.SelectedDirectories.RemoveAt(SelectedDirectoryTop);
+            Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), directorySelectElementGlowClass, false);
+        }
+    }
+
+    void PushInputToList()
+    {
+        appData.CollectOptions.SelectedDirectories.Add(SelectedDirectoryInput);
+        SelectedDirectoryTop = appData.CollectOptions.SelectedDirectories.Count - 1;
+        Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), directorySelectElementGlowClass, true);
+        SelectedDirectoryInput = string.Empty;
+    }
+}

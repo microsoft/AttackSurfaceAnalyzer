@@ -1,8 +1,8 @@
-﻿using AttackSurfaceAnalyzer.Objects;
-using AttackSurfaceAnalyzer.Utils;
+﻿using Microsoft.CST.AttackSurfaceAnalyzer.Objects;
+using Microsoft.CST.AttackSurfaceAnalyzer.Utils;
 using System.Collections.Concurrent;
 
-namespace AttackSurfaceAnalyzer.Benchmarks
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Benchmarks
 {
     public class AsaDatabaseBenchmark
     {

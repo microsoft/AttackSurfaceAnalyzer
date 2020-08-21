@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
-using AttackSurfaceAnalyzer.Objects;
-using AttackSurfaceAnalyzer.Utils;
+using Microsoft.CST.AttackSurfaceAnalyzer.Objects;
+using Microsoft.CST.AttackSurfaceAnalyzer.Utils;
 using Microsoft.Win32;
 using Serilog;
 using System;
@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 
-namespace AttackSurfaceAnalyzer.Collectors
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 {
     /// <summary>
     ///     Collects data about the local user and group accounts.
@@ -35,8 +35,8 @@ namespace AttackSurfaceAnalyzer.Collectors
             {
                 using var BaseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Default);
                 var SpecialAccounts = BaseKey.OpenSubKey("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\UserList");
-                var ValueName = SpecialAccounts.GetValueNames().Where(x => x.ToUpperInvariant().Equals(username.ToUpperInvariant())).FirstOrDefault();
-                if (ValueName != null)
+                var ValueName = SpecialAccounts?.GetValueNames().Where(x => x.ToUpperInvariant().Equals(username.ToUpperInvariant())).FirstOrDefault();
+                if (ValueName != null && SpecialAccounts != null)
                 {
                     if (SpecialAccounts.GetValue(ValueName).Equals(0x0))
                     {

@@ -1,0 +1,92 @@
+﻿@using Microsoft.CST.AttackSurfaceAnalyzer.Types
+@using Microsoft.CST.AttackSurfaceAnalyzer.Objects
+@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
+
+<select @bind="SelectedResultType">
+    @foreach (var resultType in foundResultTypes)
+    {
+        <option value="@resultType.Key">@resultType.Key : @resultType.Value </option>
+    }
+</select>
+<button @onclick="MoreAnalysisResults">More results</button>
+        
+@foreach (var result in analysisResults) {
+<div class="results-card">
+    <div class="results-entry">
+        <div class="results-label">@result.Analysis:</div> @result.Identity
+    </div>
+
+    <br />
+    
+    @foreach (var rule in result.Rules)
+    {
+    <div class="results-entry">
+        <div class="rule-label">@rule.Name:</div> @rule.Description
+    </div>
+    }
+</div>
+}
+
+@code {
+
+    [Parameter]
+    public string FirstRunId { get; set; }
+    [Parameter]
+    public string SecondRunId { get; set; }
+    [Parameter]
+    public string MonitorRunId { get; set; }
+
+    protected override void OnInitialized()
+    {
+        ParseOptsToResultTypes();
+        GetAnalysisResults();
+        base.OnInitialized();
+    }
+
+    void MoreAnalysisResults()
+    {
+        offset += count;
+        GetAnalysisResults();
+    }
+
+    int offset = 0;
+    int count = 100;
+
+    string SelectedResultType
+    {
+        get { return _selectedResultType; }
+        set { _selectedResultType = value; offset = 0; GetAnalysisResults(); }
+    }
+
+    string _selectedResultType = "FILEMONITOR";
+
+    public void GetAnalysisResults()
+    {
+        var resultType = (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), SelectedResultType);
+        switch (resultType)
+        {
+            case RESULT_TYPE.FILEMONITOR:
+                analysisResults = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResults(string.Empty, MonitorRunId, resultType, offset, count);
+                break;
+            default:
+                analysisResults = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResults(FirstRunId, SecondRunId, resultType, offset, count);
+                break;
+        }
+    }
+
+    public void ParseOptsToResultTypes()
+    {
+        foreach (var resultType in Enum.GetValues(typeof(RESULT_TYPE)))
+        {
+            var found = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResultsCount(appData.FirstRunId, appData.SecondRunId, (int)resultType);
+            if (found == 0)
+            {
+                found = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResultsCount(null, appData.MonitorRunId, (int)resultType);
+            }
+            foundResultTypes.Add((RESULT_TYPE)resultType, found);
+        }
+    }
+
+    Dictionary<RESULT_TYPE, int> foundResultTypes = new Dictionary<RESULT_TYPE, int>();
+    public List<CompareResult> analysisResults = new List<CompareResult>();
+}

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
-using AttackSurfaceAnalyzer.Objects;
-using AttackSurfaceAnalyzer.Types;
-using AttackSurfaceAnalyzer.Utils;
+using Microsoft.CST.AttackSurfaceAnalyzer.Objects;
+using Microsoft.CST.AttackSurfaceAnalyzer.Types;
+using Microsoft.CST.AttackSurfaceAnalyzer.Utils;
 using Microsoft.CodeAnalysis;
 using Microsoft.CST.OpenSource.RecursiveExtractor;
 using Mono.Unix;
@@ -21,7 +21,7 @@ using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AttackSurfaceAnalyzer.Collectors
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 {
     /// <summary>
     ///     Collects Filesystem Data from the local file system.
@@ -30,7 +30,7 @@ namespace AttackSurfaceAnalyzer.Collectors
     {
         public FileSystemCollector(CollectorOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
         {
-            Roots.AddRange(opts?.SelectedDirectories ?? Array.Empty<string>());
+            Roots.AddRange(opts?.SelectedDirectories ?? new List<string>());
 
             if (!Roots.Any())
             {

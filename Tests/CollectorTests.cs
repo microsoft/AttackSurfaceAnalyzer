@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
-using AttackSurfaceAnalyzer.Collectors;
-using AttackSurfaceAnalyzer.Objects;
-using AttackSurfaceAnalyzer.Types;
-using AttackSurfaceAnalyzer.Utils;
+using Microsoft.CST.AttackSurfaceAnalyzer.Collectors;
+using Microsoft.CST.AttackSurfaceAnalyzer.Objects;
+using Microsoft.CST.AttackSurfaceAnalyzer.Types;
+using Microsoft.CST.AttackSurfaceAnalyzer.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Win32;
 using Serilog;
@@ -19,7 +19,7 @@ using System.Threading;
 using Tpm2Lib;
 using WindowsFirewallHelper;
 
-namespace AttackSurfaceAnalyzer.Tests
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
 {
     [TestClass]
     public class CollectorTests
@@ -131,7 +131,7 @@ namespace AttackSurfaceAnalyzer.Tests
             {
                 EnableFileSystemCollector = true,
                 GatherHashes = true,
-                SelectedDirectories = new string[] { testFolder },
+                SelectedDirectories = new List<string>(){ testFolder },
                 DownloadCloud = false,
             };
 
@@ -170,7 +170,7 @@ namespace AttackSurfaceAnalyzer.Tests
         public void TestFileMonitor()
         {
             var stack = new ConcurrentStack<FileMonitorObject>();
-            var monitor = new FileSystemMonitor(new MonitorCommandOptions() { MonitoredDirectories = new string[] { Path.GetTempPath() } }, x => stack.Push(x));
+            var monitor = new FileSystemMonitor(new MonitorCommandOptions() { MonitoredDirectories = new List<string> { Path.GetTempPath() } }, x => stack.Push(x));
             monitor.StartRun();
 
             var created = Path.GetTempFileName(); // Create a file
@@ -346,14 +346,14 @@ namespace AttackSurfaceAnalyzer.Tests
                 key.SetValue(value, value2);
                 key.Close();
 
-                var rc = new RegistryCollector(new CollectorOptions() { SingleThread = true, SelectedHives = $"CurrentUser\\{name}" });
+                var rc = new RegistryCollector(new CollectorOptions() { SingleThread = true, SelectedHives = new List<string> { $"CurrentUser\\{name}" } });
                 rc.TryExecute();
 
                 Assert.IsTrue(rc.Results.Any(x => x is RegistryObject RO && RO.Key.EndsWith(name)));
                 Assert.IsTrue(rc.Results.Any(x => x is RegistryObject RO && RO.Key.EndsWith(name) && RO.Values.ContainsKey(value) && RO.Values[value] == value2));
 
                 ConcurrentStack<CollectObject> results = new ConcurrentStack<CollectObject>();
-                rc = new RegistryCollector(new CollectorOptions() { SingleThread = true, SelectedHives = $"CurrentUser\\{name}" }, x => results.Push(x));
+                rc = new RegistryCollector(new CollectorOptions() { SingleThread = true, SelectedHives = new List<string> { $"CurrentUser\\{name}" } }, x => results.Push(x));
                 rc.TryExecute();
 
                 Assert.IsTrue(results.Any(x => x is RegistryObject RO && RO.Key.EndsWith(name)));

@@ -1,4 +1,4 @@
-﻿using AttackSurfaceAnalyzer.Objects;
+﻿using Microsoft.CST.AttackSurfaceAnalyzer.Objects;
 using Microsoft.CST.OAT;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Globalization;
 using System.Linq;
 using Tpm2Lib;
 
-namespace AttackSurfaceAnalyzer.Utils
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 {
     public class AsaAnalyzer : Analyzer
     {

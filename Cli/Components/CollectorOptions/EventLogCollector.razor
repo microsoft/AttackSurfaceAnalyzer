@@ -1,0 +1,13 @@
+﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
+
+<div class="options-card">
+    <div class="first-entry">
+        <input id="enableEventLogCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableEventLogCollector" />
+        <label for="enableEventLogCollectionCheckbox">Enable EventLog Collector</label>
+    </div>
+    <hr class="options-hr" />
+    <div class="options-entry">
+        <input id="enableVerboseEventLogCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.GatherVerboseLogs" />
+        <label for="enableVerboseEventLogCollectionCheckbox">Enable Verbose Event Log Collector</label>
+    </div>
+</div>

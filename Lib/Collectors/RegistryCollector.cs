@@ -1,15 +1,16 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
-using AttackSurfaceAnalyzer.Objects;
-using AttackSurfaceAnalyzer.Utils;
+using Microsoft.CST.AttackSurfaceAnalyzer.Objects;
+using Microsoft.CST.AttackSurfaceAnalyzer.Utils;
 using Microsoft.Win32;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AttackSurfaceAnalyzer.Collectors
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 {
     /// <summary>
     ///     Collects data from the local registry on Windows systems.
@@ -23,13 +24,12 @@ namespace AttackSurfaceAnalyzer.Collectors
             if (opts != null)
             {
                 Parallelize = !opts.SingleThread;
-                if (opts.SelectedHives is string hiveString)
+                if (opts.SelectedHives.Any())
                 {
                     Hives = new List<(RegistryHive, string)>();
-                    var splits = hiveString.Split('^');
-                    foreach (var split in splits)
+                    foreach (var hive in opts.SelectedHives)
                     {
-                        var innerSplit = split.Split('\\');
+                        var innerSplit = hive.Split('\\');
                         if (Enum.TryParse(typeof(RegistryHive), innerSplit[0], out object? result))
                         {
                             if (result is RegistryHive selectedHive)

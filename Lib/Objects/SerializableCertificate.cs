@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Security.Cryptography.X509Certificates;
 
-namespace AttackSurfaceAnalyzer.Objects
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
     public class SerializableCertificate
     {

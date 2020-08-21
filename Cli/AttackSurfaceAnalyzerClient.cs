@@ -1,12 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
-using AttackSurfaceAnalyzer.Collectors;
-using AttackSurfaceAnalyzer.Objects;
-using AttackSurfaceAnalyzer.Types;
-using AttackSurfaceAnalyzer.Utils;
+using Microsoft.CST.AttackSurfaceAnalyzer.Collectors;
+using Microsoft.CST.AttackSurfaceAnalyzer.Objects;
+using Microsoft.CST.AttackSurfaceAnalyzer.Types;
+using Microsoft.CST.AttackSurfaceAnalyzer.Utils;
 using CommandLine;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.CST.OAT;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -24,7 +25,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AttackSurfaceAnalyzer.Cli
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 {
     public static class AttackSurfaceAnalyzerClient
     {
@@ -169,10 +170,12 @@ namespace AttackSurfaceAnalyzer.Cli
 
             RunCollectCommand(collectorOpts);
 
+            var analysisFile = string.IsNullOrEmpty(opts.AnalysesFile) ? RuleFile.LoadEmbeddedFilters() : RuleFile.FromFile(opts.AnalysesFile);
+
             var compareOpts = new CompareCommandOptions(firstCollectRunId, secondCollectRunId)
             {
                 DisableAnalysis = opts.DisableAnalysis,
-                AnalysesFile = opts.AnalysesFile,
+                AnalysesFile = analysisFile,
                 RunScripts = opts.RunScripts
             };
 
@@ -186,7 +189,7 @@ namespace AttackSurfaceAnalyzer.Cli
             var monitorCompareOpts = new CompareCommandOptions(null, monitorRunId)
             {
                 DisableAnalysis = opts.DisableAnalysis,
-                AnalysesFile = opts.AnalysesFile,
+                AnalysesFile = analysisFile,
                 ApplySubObjectRulesToMonitor = opts.ApplySubObjectRulesToMonitor,
                 RunScripts = opts.RunScripts
             };
@@ -210,8 +213,7 @@ namespace AttackSurfaceAnalyzer.Cli
         {
             if (opts is null) { return new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>>(); }
             var analyzer = new AsaAnalyzer(new AnalyzerOptions(opts.RunScripts));
-            var ruleFile = string.IsNullOrEmpty(opts.AnalysesFile) ? RuleFile.LoadEmbeddedFilters() : RuleFile.FromFile(opts.AnalysesFile);
-            return AnalyzeMonitored(opts, analyzer, DatabaseManager.GetMonitorResults(opts.SecondRunId), ruleFile);
+            return AnalyzeMonitored(opts, analyzer, DatabaseManager.GetMonitorResults(opts.SecondRunId), opts.AnalysesFile);
         }
 
         public static ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> AnalyzeMonitored(CompareCommandOptions opts, AsaAnalyzer analyzer, IEnumerable<MonitorObject> collectObjects, RuleFile ruleFile)
@@ -226,7 +228,7 @@ namespace AttackSurfaceAnalyzer.Cli
                     CompareRunId = opts.SecondRunId
                 };
 
-                shellResult.Rules = analyzer.Analyze(ruleFile.AsaRules, shellResult).ToList();
+                shellResult.Rules = analyzer.Analyze(ruleFile.Rules, shellResult).ToList();
 
                 if (opts.ApplySubObjectRulesToMonitor)
                 {
@@ -238,7 +240,7 @@ namespace AttackSurfaceAnalyzer.Cli
                                 Compare = fmo.FileSystemObject,
                                 CompareRunId = opts.SecondRunId
                             };
-                            shellResult.Rules.AddRange(analyzer.Analyze(ruleFile.AsaRules, innerShell));
+                            shellResult.Rules.AddRange(analyzer.Analyze(ruleFile.Rules, innerShell));
                             break;
                     }
                 }
@@ -262,7 +264,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 Log.Error("Encountered {0} issues with rules at {1}", violations.Count(), opts.AnalysisFile ?? "Embedded");
                 return ASA_ERROR.INVALID_RULES;
             }
-            Log.Information("{0} Rules successfully verified. ✅", ruleFile.AsaRules.Count());
+            Log.Information("{0} Rules successfully verified. ✅", ruleFile.Rules.Count());
             return ASA_ERROR.NONE;
         }
 
@@ -301,18 +303,20 @@ namespace AttackSurfaceAnalyzer.Cli
 
         private static ASA_ERROR RunGuiCommand(GuiCommandOptions opts)
         {
-            var server = WebHost.CreateDefaultBuilder(Array.Empty<string>())
-                    .UseStartup<Startup>()
-                    .UseKestrel(options =>
-                    {
-                        options.Listen(IPAddress.Loopback, 5000);
-                    })
-                    .Build();
+            var server = Host.CreateDefaultBuilder(Array.Empty<string>())
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                })
+                .Build();
 
-            ((Action)(async () =>
+            if (!opts.NoLaunch)
             {
-                await Task.Run(() => SleepAndOpenBrowser(1500)).ConfigureAwait(false);
-            }))();
+                ((Action)(async () =>
+                {
+                    await Task.Run(() => SleepAndOpenBrowser(1500)).ConfigureAwait(false);
+                }))();
+            }
 
             server.Run();
             return 0;
@@ -470,7 +474,7 @@ namespace AttackSurfaceAnalyzer.Cli
             CompareCommandOptions options = new CompareCommandOptions(opts.FirstRunId, opts.SecondRunId)
             {
                 DatabaseFilename = opts.DatabaseFilename,
-                AnalysesFile = opts.AnalysesFile,
+                AnalysesFile = string.IsNullOrEmpty(opts.AnalysesFile) ? RuleFile.LoadEmbeddedFilters() : RuleFile.FromFile(opts.AnalysesFile),
                 DisableAnalysis = opts.DisableAnalysis,
                 SaveToDatabase = opts.SaveToDatabase,
                 RunScripts = opts.RunScripts
@@ -707,7 +711,7 @@ namespace AttackSurfaceAnalyzer.Cli
             var monitorCompareOpts = new CompareCommandOptions(null, opts.RunId)
             {
                 DisableAnalysis = opts.DisableAnalysis,
-                AnalysesFile = opts.AnalysesFile,
+                AnalysesFile = string.IsNullOrEmpty(opts.AnalysesFile) ? RuleFile.LoadEmbeddedFilters() : RuleFile.FromFile(opts.AnalysesFile),
                 ApplySubObjectRulesToMonitor = opts.ApplySubObjectRulesToMonitor,
                 RunScripts = opts.RunScripts
             };
@@ -913,14 +917,13 @@ namespace AttackSurfaceAnalyzer.Cli
             if (!opts.DisableAnalysis)
             {
                 watch = Stopwatch.StartNew();
-                var ruleFile = string.IsNullOrEmpty(opts.AnalysesFile) ? RuleFile.LoadEmbeddedFilters() : RuleFile.FromFile(opts.AnalysesFile);
                 var analyzer = new AsaAnalyzer(new AnalyzerOptions(opts.RunScripts));
                 var platform = DatabaseManager.RunIdToPlatform(opts.SecondRunId);
-                var violations = analyzer.EnumerateRuleIssues(ruleFile.GetRules());
+                var violations = analyzer.EnumerateRuleIssues(opts.AnalysesFile.GetRules());
                 Analyzer.PrintViolations(violations);
                 if (violations.Any())
                 {
-                    Log.Error("Encountered {0} issues with rules in {1}. Skipping analysis.", violations.Count(), opts.AnalysesFile ?? "Embedded");
+                    Log.Error("Encountered {0} issues with rules in {1}. Skipping analysis.", violations.Count(), opts.AnalysesFile.Source ?? "Embedded");
                 }
                 else
                 {
@@ -935,13 +938,13 @@ namespace AttackSurfaceAnalyzer.Cli
                                     // Select rules with the appropriate change type, platform and target
                                     // - Target is also checked inside Analyze, but this shortcuts repeatedly
                                     // checking rules which don't apply
-                                    var selectedRules = ruleFile.AsaRules.Where((rule) =>
+                                    var selectedRules = opts.AnalysesFile.Rules.Where((rule) =>
                                         (rule.ChangeTypes == null || rule.ChangeTypes.Contains(res.ChangeType))
                                             && (rule.Platforms == null || rule.Platforms.Contains(platform))
                                             && (rule.ResultType == res.ResultType));
                                     res.Rules = analyzer.Analyze(selectedRules, res.Base, res.Compare).ToList();
                                     res.Analysis = res.Rules.Count
-                                                   > 0 ? res.Rules.Max(x => ((AsaRule)x).Flag) : ruleFile.DefaultLevels[res.ResultType];
+                                                   > 0 ? res.Rules.Max(x => ((AsaRule)x).Flag) : opts.AnalysesFile.DefaultLevels[res.ResultType];
                                 });
                             }
                         }
@@ -968,16 +971,20 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 return ASA_ERROR.NO_COLLECTORS;
             }
+            var setResultTypes = new List<RESULT_TYPE>();
             if (opts.EnableFileSystemMonitor)
             {
                 monitors.Add(new FileSystemMonitor(opts, x => DatabaseManager.Write(x, opts.RunId)));
+                setResultTypes.Add(RESULT_TYPE.FILEMONITOR);
             }
 
             if (monitors.Count == 0)
             {
                 Log.Warning(Strings.Get("Err_NoMonitors"));
             }
+            var run = new AsaRun(RunId: opts.RunId, Timestamp: DateTime.Now, Version: AsaHelpers.GetVersionString(), Platform: AsaHelpers.GetPlatform(), ResultTypes: setResultTypes, Type: RUN_TYPE.MONITOR);
 
+            DatabaseManager.InsertRun(run);
             foreach (var c in monitors)
             {
                 c.StartRun();

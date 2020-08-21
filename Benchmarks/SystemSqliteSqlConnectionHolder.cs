@@ -1,4 +1,4 @@
-﻿using AttackSurfaceAnalyzer.Utils;
+﻿using Microsoft.CST.AttackSurfaceAnalyzer.Utils;
 using Serilog;
 using System;
 using System.Collections.Concurrent;
@@ -8,7 +8,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AttackSurfaceAnalyzer.Objects
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
     public class SystemSQLiteSqlConnectionHolder
     {

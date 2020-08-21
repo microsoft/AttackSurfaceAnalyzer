@@ -1,0 +1,7 @@
+﻿<p>Running Monitoring. Perform desired system changes and press 'Stop' when finished.</p>
+<button @onclick="Continue">Stop</button>
+
+@code{
+    [Parameter]
+    public Action Continue { get; set; }
+}

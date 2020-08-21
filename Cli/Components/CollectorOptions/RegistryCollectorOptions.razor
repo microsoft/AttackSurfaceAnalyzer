@@ -1,0 +1,45 @@
+﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
+
+<div class="options-card">
+    <div class="first-entry">
+        <input id="enableRegistryCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableRegistryCollector" />
+        <label for="enableRegistryCollectionCheckbox">Enable Registry Collector</label>
+    </div>
+    <hr class="options-hr" />
+    <div class="options-entry">
+        <label for="selectedPathsString">Add Path to Scan (e.g. "LocalMachine\\SOFTWARE\Microsoft")</label>
+        <input id="selectedPathsString" type="text" @bind="SelectedHiveInput" /><button @onclick="PushInputToList">Add</button>
+    </div>
+    <div class="options-entry">
+        <label for="selectedPathsList">Selected Paths</label>
+        <select class="@directorySelectElementGlowClass.ClassName" style="width:200px" id="selectedPathsList" @bind="SelectedHiveTop">
+            @for (var i = 0; i < appData.CollectOptions.SelectedHives.Count; i++)
+            {
+                <option value="@i">@appData.CollectOptions.SelectedHives[i]</option>
+            }
+        </select>
+        <button @onclick="RemoveInputFromList">Remove</button>
+    </div>
+
+</div>
+
+@code{
+    Helper.GlowClass directorySelectElementGlowClass = new Helper.GlowClass();
+
+    string SelectedHiveInput;
+    int SelectedHiveTop;
+
+    void RemoveInputFromList()
+    {
+        appData.CollectOptions.SelectedHives.RemoveAt(SelectedHiveTop);
+        Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), directorySelectElementGlowClass, false);
+    }
+
+    void PushInputToList()
+    {
+        appData.CollectOptions.SelectedHives.Add(SelectedHiveInput);
+        SelectedHiveTop = appData.CollectOptions.SelectedHives.Count - 1;
+        Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), directorySelectElementGlowClass, true);
+        SelectedHiveInput = string.Empty;
+    }
+}

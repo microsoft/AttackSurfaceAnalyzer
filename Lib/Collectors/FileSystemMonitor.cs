@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
-using AttackSurfaceAnalyzer.Objects;
-using AttackSurfaceAnalyzer.Types;
+using Microsoft.CST.AttackSurfaceAnalyzer.Objects;
+using Microsoft.CST.AttackSurfaceAnalyzer.Types;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -8,8 +8,9 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
-namespace AttackSurfaceAnalyzer.Collectors
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 {
     /// <summary>
     ///     Actively monitors the filesystem for changes.
@@ -49,7 +50,7 @@ namespace AttackSurfaceAnalyzer.Collectors
             watchers.ForEach(x => x.EnableRaisingEvents = false);
 
             // Write each accessed file once.
-            foreach (var e in filesAccessed)
+            Parallel.ForEach(filesAccessed, e =>
             {
                 var ToWrite = new FileMonitorObject(e.Value.FullPath)
                 {
@@ -61,7 +62,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     NotifyFilters = NotifyFilters.LastAccess
                 };
                 changeHandler(ToWrite);
-            }
+            });
 
             RunStatus = RUN_STATUS.COMPLETED;
         }
@@ -74,9 +75,7 @@ namespace AttackSurfaceAnalyzer.Collectors
         public FileSystemMonitor(MonitorCommandOptions opts, Action<FileMonitorObject> changeHandler)
         {
             options = opts ?? new MonitorCommandOptions();
-#pragma warning disable CA1303 // Do not pass literals as localized parameters
             this.changeHandler = changeHandler ?? throw new NullReferenceException(nameof(changeHandler));
-#pragma warning restore CA1303 // This string doesn't need to be localized, it is the name of the variable
 
             fsc = new FileSystemCollector(new CollectorOptions()
             {
@@ -84,7 +83,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 GatherHashes = options.GatherHashes,
             });
 
-            foreach (var dir in options?.MonitoredDirectories?.Any() is true ? options.MonitoredDirectories : fsc.Roots.ToArray())
+            foreach (var dir in options?.MonitoredDirectories.Any() is true ? options.MonitoredDirectories : fsc.Roots.ToList())
             {
                 foreach (var filter in defaultFiltersList)
                 {

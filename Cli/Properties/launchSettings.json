@@ -2,62 +2,28 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
-    "iis": {
-      "applicationUrl": "http://localhost/Asa",
+    "iisExpress": {
+      "applicationUrl": "http://localhost:50108",
       "sslPort": 0
     }
   },
   "profiles": {
-    "Collect": {
+    "IIS Express": {
       "commandName": "Project",
-      "commandLineArgs": "collect -w --singlethread",
+      "commandLineArgs": "gui --nolaunch",
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:5002",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Verify Rules": {
-      "commandName": "Project",
-      "commandLineArgs": "verify",
-      "applicationUrl": "http://localhost:5000/",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
-    "AttackSurfaceAnalyzer.Cli": {
-      "commandName": "Project",
+    "Blazor": {
+      "commandName": "IISExpress",
+      "commandLineArgs": "gui --nolaunch",
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:44285",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
-    "Export-Collect": {
-      "commandName": "Project",
-      "commandLineArgs": "export-collect",
-      "launchBrowser": true,
-      "applicationUrl": "http://localhost:5000/",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
-    "Gui": {
-      "commandName": "Project",
-      "commandLineArgs": "gui",
-      "applicationUrl": "http://localhost:5000/",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
-    "Asa": {
-      "commandName": "Project",
-      "commandLineArgs": "gui",
-      "launchBrowser": true,
-      "applicationUrl": "http://localhost:5000",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "applicationUrl": "http://localhost:5000"
     }
   }
 }

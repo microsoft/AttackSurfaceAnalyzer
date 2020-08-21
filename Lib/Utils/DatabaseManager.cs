@@ -1,12 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
-using AttackSurfaceAnalyzer.Objects;
-using AttackSurfaceAnalyzer.Types;
+using Microsoft.CST.AttackSurfaceAnalyzer.Objects;
+using Microsoft.CST.AttackSurfaceAnalyzer.Types;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
 
-namespace AttackSurfaceAnalyzer.Utils
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 {
     public abstract class DatabaseManager
     {
@@ -56,7 +56,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public abstract List<CompareResult> GetComparisonResults(string baseId, string compareId, RESULT_TYPE exportType);
 
-        public abstract List<CompareResult> GetComparisonResults(string baseId, string compareId, int resultType, int offset, int numResults);
+        public abstract List<CompareResult> GetComparisonResults(string baseId, string compareId, RESULT_TYPE resultType, int offset, int numResults);
 
         public abstract int GetComparisonResultsCount(string baseId, string compareId, int resultType);
 
@@ -89,10 +89,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         public abstract List<string> GetRuns(RUN_TYPE type);
 
-        public List<string> GetRuns()
-        {
-            return GetRuns(RUN_TYPE.COLLECT);
-        }
+        public abstract List<string> GetRuns();
 
         public abstract List<FileMonitorEvent> GetSerializedMonitorResults(string runId);
 
@@ -111,6 +108,8 @@ namespace AttackSurfaceAnalyzer.Utils
         public abstract void InsertAnalyzed(CompareResult objIn);
 
         public abstract void InsertCompareRun(string? firstRunId, string secondRunId, RUN_STATUS runStatus);
+
+        public abstract List<(string firstRunId, string secondRunId, RUN_STATUS runStatus)> GetCompareRuns();
 
         public abstract void InsertRun(AsaRun run);
 

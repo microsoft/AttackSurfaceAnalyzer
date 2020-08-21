@@ -1,5 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
-namespace AttackSurfaceAnalyzer.Types
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Types
 {
     /// <summary>
     ///     From https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.addressfamily?view=netcore-3.1
