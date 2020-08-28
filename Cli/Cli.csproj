@@ -29,4 +29,9 @@
     <ProjectReference Include="..\Lib\Lib.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+	<None Include="..\icon-128.png" Pack="true" PackagePath="" />
+	<None Include="..\LICENSE.txt" Pack="true" PackagePath="" />
+  </ItemGroup>
+
 </Project>
