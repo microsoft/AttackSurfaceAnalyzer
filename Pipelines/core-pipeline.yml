@@ -1,0 +1,366 @@
+# Azure Pipelines
+# https://aka.ms/yaml
+
+name: ASA_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
+trigger:
+  batch: true
+  branches:
+    include:
+    - release/v2.*
+    exclude:
+    - release/v2.0
+  paths:
+    include:
+    - Cli
+    - Lib
+    - Pipelines
+    - analyses.json
+pr:
+  branches:
+    include:
+    - main
+    - release/*
+  paths:
+    include:
+    - Benchmarks
+    - Cli
+    - Lib
+    - Pipelines
+    - Tests
+    - analyses.json
+
+stages:
+- stage: Test
+  jobs:
+  - template: templates/dotnet-test-job.yml
+    parameters:
+      dotnetVersion: 3.1.x
+      projectPath: 'Tests/Tests.csproj'
+
+- stage: SDL
+  dependsOn: Test
+  jobs:
+  - template: templates/sdl-job.yml
+    parameters:
+      serviceTreeID: 'ac84de32-6898-4dad-ace3-78e8098175dc'
+
+- stage: Build
+  dependsOn: Test
+  jobs:
+  - template: templates/dotnet-publish-linux-mac-job.yml
+    parameters:
+      dotnetVersion: '3.1.x'
+      projectPath: 'Cli/Cli.csproj'
+      projectName: 'ASA'
+      preBuild:
+      - template: templates/nbgv-set-version-steps.yml
+  - template: templates/dotnet-publish-win-netcore-job.yml
+    parameters:
+      dotnetVersion: '3.1.x'
+      projectPath: 'Cli/Cli.csproj'
+      projectName: 'ASA'
+      preBuild:
+      - template: templates/nbgv-set-version-steps.yml
+  - template: templates/nuget-build-job.yml
+    parameters:
+      jobName: 'pack_lib'
+      dotnetVersion: '3.1.x'
+      projectPath: 'Lib/Lib.csproj'
+      projectName: 'ASA_Lib'
+  - template: templates/nuget-build-job.yml
+    parameters:
+      jobName: 'pack_cli'
+      dotnetVersion: '3.1.x'
+      projectPath: 'Cli/Cli.csproj'
+      projectName: 'ASA_CLI'
+
+- stage: Release
+  dependsOn:
+  - SDL
+  - Build
+  condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'))
+  jobs:
+  - job: sign_hash_release
+    displayName: Code Sign, Generate Hashes, Publish Public Releases
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'sdk'
+        version: '3.1.x'
+    - script: 'dotnet tool install -g nbgv'
+      displayName: 'Install GitVersioning'
+    - task: PowerShell@2
+      displayName: Set Release Version
+      inputs:
+        targetType: 'inline'
+        script: |
+          $version = (nbgv get-version -v AssemblyInformationalVersion).split('+')[0]
+          Write-Host "##vso[task.setvariable variable=ReleaseVersion;]$version"
+    - task: DownloadBuildArtifacts@0
+      displayName: Download Unsigned Archives
+      inputs:
+        buildType: 'current'
+        downloadType: 'specific'
+        itemPattern: 'Unsigned_Binaries/*.zip'
+        downloadPath: '$(Build.BinariesDirectory)'
+    - task: ExtractFiles@1
+      displayName: Extract Artifacts for Signing
+      inputs:
+        archiveFilePatterns: '$(Build.BinariesDirectory)\*.zip'
+        destinationFolder: '$(Build.BinariesDirectory)'
+        cleanDestinationFolder: false
+    - task: AntiMalware@3
+      displayName: Anti-Malware Scan
+      inputs:
+        InputType: 'Basic'
+        ScanType: 'CustomScan'
+        FileDirPath: '$(Build.BinariesDirectory)'
+        EnableServices: true
+        SupportLogOnError: true
+        TreatSignatureUpdateFailureAs: 'Warning'
+        SignatureFreshness: 'UpToDate'
+        TreatStaleSignatureAs: 'Warning'
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'sdk'
+        version: '2.1.804'
+    - task: EsrpCodeSigning@1
+      displayName: Code Sign Linux
+      inputs:
+        ConnectedServiceName: 'CodeSignforATSAN'
+        FolderPath: '$(Build.BinariesDirectory)/linux/ASA_linux_$(ReleaseVersion)'
+        Pattern: 'Asa.dll, AsaLib.dll, Asa.Views.dll'
+        signConfigType: 'inlineSignParams'
+        inlineOperation: |
+          [
+                  {
+                      "KeyCode" : "CP-230012",
+                      "OperationCode" : "SigntoolSign",
+                      "Parameters" : {
+                          "OpusName" : "Microsoft",
+                          "OpusInfo" : "http://www.microsoft.com",
+                          "FileDigest" : "/fd \"SHA256\"",
+                          "PageHash" : "/NPH",
+                          "TimeStamp" : "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
+                      },
+                      "ToolName" : "sign",
+                      "ToolVersion" : "1.0"
+                  },
+                  {
+                      "KeyCode" : "CP-230012",
+                      "OperationCode" : "SigntoolVerify",
+                      "Parameters" : {},
+                      "ToolName" : "sign",
+                      "ToolVersion" : "1.0"
+                  }
+              ]
+        SessionTimeout: '60'
+        MaxConcurrency: '50'
+        MaxRetryAttempts: '5'
+    - task: EsrpCodeSigning@1
+      displayName: Code Sign MacOS
+      inputs:
+        ConnectedServiceName: 'CodeSignforATSAN'
+        FolderPath: '$(Build.BinariesDirectory)/macos/ASA_macos_$(ReleaseVersion)'
+        Pattern: 'Asa.dll, AsaLib.dll, Asa.Views.dll'
+        signConfigType: 'inlineSignParams'
+        inlineOperation: |
+          [
+                  {
+                      "KeyCode" : "CP-230012",
+                      "OperationCode" : "SigntoolSign",
+                      "Parameters" : {
+                          "OpusName" : "Microsoft",
+                          "OpusInfo" : "http://www.microsoft.com",
+                          "FileDigest" : "/fd \"SHA256\"",
+                          "PageHash" : "/NPH",
+                          "TimeStamp" : "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
+                      },
+                      "ToolName" : "sign",
+                      "ToolVersion" : "1.0"
+                  },
+                  {
+                      "KeyCode" : "CP-230012",
+                      "OperationCode" : "SigntoolVerify",
+                      "Parameters" : {},
+                      "ToolName" : "sign",
+                      "ToolVersion" : "1.0"
+                  }
+              ]
+        SessionTimeout: '60'
+        MaxConcurrency: '50'
+        MaxRetryAttempts: '5'
+    - task: EsrpCodeSigning@1
+      displayName: Code Sign Windows
+      inputs:
+        ConnectedServiceName: 'CodeSignforATSAN'
+        FolderPath: '$(Build.BinariesDirectory)/win/ASA_win_$(ReleaseVersion)'
+        Pattern: 'Asa.exe, Asa.dll, AsaLib.dll, Asa.Views.dll'
+        signConfigType: 'inlineSignParams'
+        inlineOperation: |
+          [
+                  {
+                      "KeyCode" : "CP-230012",
+                      "OperationCode" : "SigntoolSign",
+                      "Parameters" : {
+                          "OpusName" : "Microsoft",
+                          "OpusInfo" : "http://www.microsoft.com",
+                          "FileDigest" : "/fd \"SHA256\"",
+                          "PageHash" : "/NPH",
+                          "TimeStamp" : "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
+                      },
+                      "ToolName" : "sign",
+                      "ToolVersion" : "1.0"
+                  },
+                  {
+                      "KeyCode" : "CP-230012",
+                      "OperationCode" : "SigntoolVerify",
+                      "Parameters" : {},
+                      "ToolName" : "sign",
+                      "ToolVersion" : "1.0"
+                  }
+              ]
+        SessionTimeout: '60'
+        MaxConcurrency: '50'
+        MaxRetryAttempts: '5'
+    - task: EsrpCodeSigning@1
+      displayName: Code Sign .NET Core App
+      inputs:
+        ConnectedServiceName: 'CodeSignforATSAN'
+        FolderPath: '$(Build.BinariesDirectory)/netcoreapp/ASA_netcoreapp_$(ReleaseVersion)'
+        Pattern: 'Asa.exe, Asa.dll, AsaLib.dll, Asa.Views.dll'
+        signConfigType: 'inlineSignParams'
+        inlineOperation: |
+          [
+                  {
+                      "KeyCode" : "CP-230012",
+                      "OperationCode" : "SigntoolSign",
+                      "Parameters" : {
+                          "OpusName" : "Microsoft",
+                          "OpusInfo" : "http://www.microsoft.com",
+                          "FileDigest" : "/fd \"SHA256\"",
+                          "PageHash" : "/NPH",
+                          "TimeStamp" : "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
+                      },
+                      "ToolName" : "sign",
+                      "ToolVersion" : "1.0"
+                  },
+                  {
+                      "KeyCode" : "CP-230012",
+                      "OperationCode" : "SigntoolVerify",
+                      "Parameters" : {},
+                      "ToolName" : "sign",
+                      "ToolVersion" : "1.0"
+                  }
+              ]
+        SessionTimeout: '60'
+        MaxConcurrency: '50'
+        MaxRetryAttempts: '5'
+    - task: EsrpCodeSigning@1
+      displayName: Code Sign Nuget Packages
+      inputs:
+        ConnectedServiceName: 'CodeSignforATSAN'
+        FolderPath: '$(Build.BinariesDirectory)'
+        Pattern: '*.nupkg, *.snupkg'
+        signConfigType: 'inlineSignParams'
+        inlineOperation: |
+          [
+                  {
+                      "KeyCode" : "CP-401405",
+                      "OperationCode" : "NuGetSign",
+                      "Parameters" : {},
+                      "ToolName" : "sign",
+                      "ToolVersion" : "1.0"
+                  },
+                  {
+                      "KeyCode" : "CP-401405",
+                      "OperationCode" : "NuGetVerify",
+                      "Parameters" : {},
+                      "ToolName" : "sign",
+                      "ToolVersion" : "1.0"
+                  }
+              ]
+        SessionTimeout: '60'
+        MaxConcurrency: '50'
+        MaxRetryAttempts: '5'
+    - powershell: 'Get-ChildItem -Path ''$(Build.BinariesDirectory)'' -Recurse CodeSign* | foreach { Remove-Item -Path $_.FullName }'
+      displayName: 'Delete Code Sign Summaries'
+    - task: ArchiveFiles@2
+      displayName: Archive Artifact - Linux
+      inputs:
+        rootFolderOrFile: '$(Build.BinariesDirectory)/linux/ASA_linux_$(ReleaseVersion)'
+        includeRootFolder: true
+        archiveType: 'zip'
+        archiveFile: '$(Build.StagingDirectory)/ASA_linux_$(ReleaseVersion).zip'
+        replaceExistingArchive: true
+    - task: ArchiveFiles@2
+      displayName: Archive Artifact - MacOS
+      inputs:
+        rootFolderOrFile: '$(Build.BinariesDirectory)/macos/ASA_macos_$(ReleaseVersion)'
+        includeRootFolder: true
+        archiveType: 'zip'
+        archiveFile: '$(Build.StagingDirectory)/ASA_macos_$(ReleaseVersion).zip'
+        replaceExistingArchive: true
+    - task: ArchiveFiles@2
+      displayName: Archive Artifact - Windows
+      inputs:
+        rootFolderOrFile: '$(Build.BinariesDirectory)/win/ASA_win_$(ReleaseVersion)'
+        includeRootFolder: true
+        archiveType: 'zip'
+        archiveFile: '$(Build.StagingDirectory)/ASA_win_$(ReleaseVersion).zip'
+        replaceExistingArchive: true
+    - task: ArchiveFiles@2
+      displayName: Archive Artifact - .NET Core App
+      inputs:
+        rootFolderOrFile: '$(Build.BinariesDirectory)/netcoreapp/ASA_netcoreapp_$(ReleaseVersion)'
+        includeRootFolder: true
+        archiveType: 'zip'
+        archiveFile: '$(Build.StagingDirectory)/ASA_netcoreapp_$(ReleaseVersion).zip'
+        replaceExistingArchive: true
+    - task: PowerShell@2
+      displayName: Generate Hashes
+      inputs:
+        targetType: 'inline'
+        script: |
+          Get-ChildItem $(Build.StagingDirectory) | Foreach-Object {
+            $name = $_.Name
+            $tmp = (Get-FileHash "$(Build.StagingDirectory)\$name").Hash
+            Add-Content $(Build.StagingDirectory)\HASHES.txt "$tmp`t$name"
+          }
+    - task: PowerShell@2
+      displayName: Move NuGet Packages
+      inputs:
+        targetType: 'inline'
+        script: |
+          mv $env:BUILD_BINARIESDIRECTORY/*.nupkg $env:BUILD_STAGINGDIRECTORY/
+          mv $env:BUILD_BINARIESDIRECTORY/*.snupkg $env:BUILD_STAGINGDIRECTORY/
+    - task: PublishPipelineArtifact@1
+      displayName: Publish Signed Artifacts to Pipeline
+      inputs:
+        targetPath: '$(Build.StagingDirectory)'
+        artifact: 'Signed_Binaries'
+    - task: GitHubRelease@1
+      displayName: Release to GitHub
+      inputs:
+        gitHubConnection: 'Gabe-Asa'
+        repositoryName: 'microsoft/AttackSurfaceAnalyzer'
+        action: 'create'
+        target: '$(Build.SourceVersion)'
+        tagSource: 'userSpecifiedTag'
+        tag: 'v$(ReleaseVersion)'
+        title: 'v$(ReleaseVersion)'
+        assets: |
+          $(Build.StagingDirectory)/*.zip
+          $(Build.StagingDirectory)/HASHES.txt
+        changeLogCompareToRelease: 'lastNonDraftRelease'
+        changeLogType: 'commitBased'
+    - task: NuGetCommand@2
+      displayName: Push NuGet Packages
+      inputs:
+        command: 'push'
+        packagesToPush: '$(Build.StagingDirectory)/*.nupkg'
+        nuGetFeedType: 'external'
+        publishFeedCredentials: 'CST-E Nuget CI'
+        verbosityPush: 'Normal'
