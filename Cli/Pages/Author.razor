@@ -44,7 +44,7 @@
             <p>Processing Issues for Rule...</p>
         }
 
-        <RuleInput Rule="rule" CollapsedState="ComponentCollapsedState.Collapsed" Types="GetTypes()" />
+        <RuleInput Rule="rule" CollapsedState="ComponentCollapsedState.Collapsed" Types="Types" />
     </div>
 }
 @code
@@ -69,7 +69,7 @@
         var filters = RuleFile.LoadEmbeddedFilters();
         AppState.DefaultLevels = filters.DefaultLevels;
         AppState.Rules = filters.Rules.ToList();
-        RefreshPage();
+        ValidateRules();
     }
 
     public async void DownloadRules()
@@ -82,13 +82,7 @@
         );
     }
 
-    Type[] Types = typeof(AsaRule).Assembly.DefinedTypes.Where(x => x.Name.EndsWith("Object")).ToArray();
-
-    Type[] GetTypes()
-    {
-        //
-        return Types;
-    }
+    Type[] Types = typeof(AsaRule).Assembly.DefinedTypes.Where(x => typeof(CollectObject).IsAssignableFrom(x)).ToArray();
 
     Analyzer analyzer = new Analyzer();
 
@@ -125,6 +119,7 @@
     {
         SetLoadRules();
         ValidateRules();
+        OAT.Utils.Strings.Setup();
         base.OnInitialized();
     }
 

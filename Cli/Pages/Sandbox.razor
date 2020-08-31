@@ -40,6 +40,7 @@
             <option value="@type.FullName">@type.FullName</option>
         }
     </select>
+    <br/>
     <label for="constructorToUse">Constructor to Create:</label>
     <select id="constructorToUse" @bind="constructorToInvoke">
         @{
@@ -106,178 +107,178 @@
         </div>
     }
 @code {
-        Func<Stream, Task> LoadSandbox;
+    Func<Stream, Task> LoadSandbox;
 
-        void ClearSandbox()
+    void ClearSandbox()
+    {
+        AppState.TestObjects.Clear();
+        SandBoxErrors.Clear();
+        ParseErrors.Clear();
+        this.StateHasChanged();
+    }
+
+    void RefreshPage()
+    {
+        this.StateHasChanged();
+    }
+
+    Type[] TypesList = typeof(AsaRule).Assembly.DefinedTypes.Where(x => typeof(CollectObject).IsAssignableFrom(x)).ToArray();
+
+    void SetLoadSandbox()
+    {
+        LoadSandbox = async assemblyStream =>
         {
-            AppState.TestObjects.Clear();
             SandBoxErrors.Clear();
-            ParseErrors.Clear();
-            this.StateHasChanged();
-        }
 
-        void RefreshPage()
-        {
-            this.StateHasChanged();
-        }
-
-        Type[] TypesList = typeof(AsaRule).Assembly.DefinedTypes.Where(x => x.IsAssignableFrom(typeof(CollectObject))).ToArray();
-
-        void SetLoadSandbox()
-        {
-            LoadSandbox = async assemblyStream =>
+            try
             {
-                SandBoxErrors.Clear();
+                using var sr = new StreamReader(assemblyStream);
+                JObject sandboxState = JObject.Parse(await sr.ReadToEndAsync());
 
-                try
+                if (sandboxState["Objects"] is JObject sandBoxObjects)
                 {
-                    using var sr = new StreamReader(assemblyStream);
-                    JObject sandboxState = JObject.Parse(await sr.ReadToEndAsync());
-
-                    if (sandboxState["Objects"] is JObject sandBoxObjects)
+                    foreach (var objectType in sandBoxObjects.Properties().Select(x => x.Name).ToList())
                     {
-                        foreach (var objectType in sandBoxObjects.Properties().Select(x => x.Name).ToList())
+                        var types = TypesList;
+                        var results = new List<(Type, ConstructorInfo)>();
+                        foreach (var typed in types)
                         {
-                            var types = TypesList;
-                            var results = new List<(Type, ConstructorInfo)>();
-                            foreach (var typed in types)
+                            var constructor = typed.GetConstructor(Type.EmptyTypes);
+                            if (constructor != null)
                             {
-                                var constructor = typed.GetConstructor(Type.EmptyTypes);
-                                if (constructor != null)
-                                {
-                                    results.Add((typed, constructor));
-                                }
-                                else
-                                {
-                                    foreach (var ctor in typed.GetConstructors())
-                                    {
-                                        var ctorFailed = false;
-                                        foreach (var param in ctor.GetParameters())
-                                        {
-                                            if (!Helpers.IsBasicType(param.ParameterType))
-                                            {
-                                                ctorFailed = true;
-                                                break;
-                                            }
-                                        }
-                                        if (!ctorFailed)
-                                        {
-                                            results.Add((typed, ctor));
-                                        }
-                                    }
-                                }
-                            }
-                            var selected = results.Select(x => $"{x.Item1.FullName}");
-                            var resultTypes = results.Where(x => $"{x.Item1.Namespace}.{x.Item1.Name}" == objectType);
-                            if (resultTypes.Any())
-                            {
-                                var type = resultTypes.First();
-                                if (sandboxState["Objects"]?[objectType] is JArray jArray)
-                                {
-                                    foreach (var objState in jArray)
-                                    {
-                                        var ctor = type.Item2;
-                                        var inputs = new List<object?>();
-                                        foreach (var param in ctor.GetParameters())
-                                        {
-                                            var representation = objState?[param.Name]?.ToObject<string>();
-                                            if (representation != null && GetValueFromJObject(param.ParameterType, representation) is { } obj)
-                                            {
-                                                inputs.Add(obj);
-                                            }
-                                            else
-                                            {
-                                                inputs.Add(null);
-                                            }
-                                        }
-                                        var empty = ctor.Invoke(inputs.ToArray());
-                                        foreach (var prop in Helpers.GetAllNestedFieldsAndPropertiesMemberInfo(type.Item1))
-                                        {
-                                            var obj = objState;
-                                            foreach (var split in prop.Path.Split('.'))
-                                            {
-                                                obj = obj?[split];
-                                            }
-                                            var stringRepresentation = obj.ToObject<string>();
-                                            if (stringRepresentation is string representation)
-                                            {
-                                                if (prop.MemInfo is PropertyInfo propInfo)
-                                                {
-                                                    object? value = GetValueFromJObject(propInfo.PropertyType, representation);
-                                                    Helpers.SetValueByPropertyOrFieldName(empty, prop.Path, value);
-                                                }
-                                                if (prop.MemInfo is FieldInfo fieldInfo)
-                                                {
-                                                    object? value = GetValueFromJObject(fieldInfo.FieldType, representation);
-                                                    Helpers.SetValueByPropertyOrFieldName(empty, prop.Path, value);
-                                                }
-                                            }
-                                        }
-                                        AppState.TestObjects.Add((CollectObject)empty);
-                                    }
-
-                                }
+                                results.Add((typed, constructor));
                             }
                             else
                             {
-                                SandBoxErrors.Add($"Type {objectType} isn't loaded and won't be loaded.");
+                                foreach (var ctor in typed.GetConstructors())
+                                {
+                                    var ctorFailed = false;
+                                    foreach (var param in ctor.GetParameters())
+                                    {
+                                        if (!Helpers.IsBasicType(param.ParameterType))
+                                        {
+                                            ctorFailed = true;
+                                            break;
+                                        }
+                                    }
+                                    if (!ctorFailed)
+                                    {
+                                        results.Add((typed, ctor));
+                                    }
+                                }
                             }
+                        }
+                        var selected = results.Select(x => $"{x.Item1.FullName}");
+                        var resultTypes = results.Where(x => $"{x.Item1.Namespace}.{x.Item1.Name}" == objectType);
+                        if (resultTypes.Any())
+                        {
+                            var type = resultTypes.First();
+                            if (sandboxState["Objects"]?[objectType] is JArray jArray)
+                            {
+                                foreach (var objState in jArray)
+                                {
+                                    var ctor = type.Item2;
+                                    var inputs = new List<object?>();
+                                    foreach (var param in ctor.GetParameters())
+                                    {
+                                        var representation = objState?[param.Name]?.ToObject<string>();
+                                        if (representation != null && GetValueFromJObject(param.ParameterType, representation) is { } obj)
+                                        {
+                                            inputs.Add(obj);
+                                        }
+                                        else
+                                        {
+                                            inputs.Add(null);
+                                        }
+                                    }
+                                    var empty = ctor.Invoke(inputs.ToArray());
+                                    foreach (var prop in Helpers.GetAllNestedFieldsAndPropertiesMemberInfo(type.Item1))
+                                    {
+                                        var obj = objState;
+                                        foreach (var split in prop.Path.Split('.'))
+                                        {
+                                            obj = obj?[split];
+                                        }
+                                        var stringRepresentation = obj.ToObject<string>();
+                                        if (stringRepresentation is string representation)
+                                        {
+                                            if (prop.MemInfo is PropertyInfo propInfo)
+                                            {
+                                                object? value = GetValueFromJObject(propInfo.PropertyType, representation);
+                                                Helpers.SetValueByPropertyOrFieldName(empty, prop.Path, value);
+                                            }
+                                            if (prop.MemInfo is FieldInfo fieldInfo)
+                                            {
+                                                object? value = GetValueFromJObject(fieldInfo.FieldType, representation);
+                                                Helpers.SetValueByPropertyOrFieldName(empty, prop.Path, value);
+                                            }
+                                        }
+                                    }
+                                    AppState.TestObjects.Add((CollectObject)empty);
+                                }
+
+                            }
+                        }
+                        else
+                        {
+                            SandBoxErrors.Add($"Type {objectType} isn't loaded and won't be loaded.");
                         }
                     }
                 }
-                catch (OperationCanceledException)
-                {
-                    await InvokeAsync(StateHasChanged);
-                    await Task.Delay(1);
-                }
-                catch (Exception e)
-                {
-                    var message = e.Message;
-                    var stackTrace = e.StackTrace;
-                    var type = e.GetType();
-                    var name = type.Name;
-                    type = e.GetType();
-                    Console.WriteLine($"{name}: {message} ({type}:{stackTrace})");
-                }
-                RefreshPage();
-            };
-        }
+            }
+            catch (OperationCanceledException)
+            {
+                await InvokeAsync(StateHasChanged);
+                await Task.Delay(1);
+            }
+            catch (Exception e)
+            {
+                var message = e.Message;
+                var stackTrace = e.StackTrace;
+                var type = e.GetType();
+                var name = type.Name;
+                type = e.GetType();
+                Console.WriteLine($"{name}: {message} ({type}:{stackTrace})");
+            }
+            RefreshPage();
+        };
+    }
 
-        List<string> ParseErrors = new List<string>();
+    List<string> ParseErrors = new List<string>();
 
-        AsaAnalyzer analyzer = new AsaAnalyzer();
+    AsaAnalyzer analyzer = new AsaAnalyzer();
 
-        List<string> SandBoxErrors = new List<string>();
+    List<string> SandBoxErrors = new List<string>();
 
-        Dictionary<string, object> values = new Dictionary<string, object>();
+    Dictionary<string, object> values = new Dictionary<string, object>();
 
-        int constructorToInvoke
+    int constructorToInvoke
     {
-            get
+        get
         {
-                return _constructorToInvoke;
-            }
-            set
-        {
-                _constructorToInvoke = value;
-                RefreshState();
-            }
+            return _constructorToInvoke;
         }
+        set
+        {
+            _constructorToInvoke = value;
+            RefreshState();
+        }
+    }
 
-        string typeToInvoke
+    string typeToInvoke
     {
-            get
+        get
         {
-                return _typeToInvoke;
-            }
-            set
-        {
-                _typeToInvoke = value;
-                RefreshState();
-            }
+            return _typeToInvoke;
         }
+        set
+        {
+            _typeToInvoke = value;
+            RefreshState();
+        }
+    }
 
-        string _typeToInvoke = string.Empty;
+    string _typeToInvoke = string.Empty;
 
     public bool removeDisabled => AppState.TestObjects.Count == 0;
 
@@ -287,9 +288,46 @@
 
     protected override async Task OnInitializedAsync()
     {
+        UpdateTypes();
         SetLoadSandbox();
         var results = analyzer.Analyze(AppState.Rules);
         await base.OnInitializedAsync();
+    }
+
+    void UpdateTypes()
+    {
+        var types = TypesList;
+        var results = new Dictionary<Type, List<ConstructorInfo>>();
+        foreach (var type in types)
+        {
+            try
+            {
+                var allowedConstructors = new List<ConstructorInfo>();
+                var constructors = type.GetConstructors(BindingFlags.Instance | BindingFlags.Public);
+                foreach (var constructorItr in constructors)
+                {
+                    foreach (var parameter in constructorItr.GetParameters())
+                    {
+                        if (!Helpers.IsBasicType(parameter.ParameterType))
+                        {
+                            break;
+                        }
+                    }
+                    allowedConstructors.Add(constructorItr);
+                }
+                if (allowedConstructors.Any())
+                {
+                    results.Add(type, allowedConstructors);
+                }
+            }
+            catch (Exception)
+            {
+                // Skip this constructor, we can't make it work.
+                //Console.WriteLine($"Failed to get constructor:{e.Message}");
+            }
+        }
+        Types = results;
+        RefreshState();
     }
 
     void RefreshState()
