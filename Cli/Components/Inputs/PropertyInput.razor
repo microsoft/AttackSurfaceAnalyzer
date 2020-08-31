@@ -1,0 +1,97 @@
+﻿@if (type != null)
+{
+    @if (type.Equals(typeof(string)))
+    {
+        <StringInput id="@id" Object="Object" SubPath="@SubPath" />
+    }
+    else if (type.Equals(typeof(bool)))
+    {
+        <BoolInput id="@id" Object="Object" SubPath="@SubPath" />
+    }
+    else if (type.Equals(typeof(int)))
+    {
+        <IntInput id="@id" Object="Object" SubPath="@SubPath" />
+    }
+    else if (type.IsEnum)
+    {
+        if (type.IsDefined(typeof(FlagsAttribute), false))
+        {
+            <FlagsInput id="@id" Object="Object" SubPath="@SubPath" />
+        }
+        else
+        {
+            <EnumInput id="@id" Object="Object" SubPath="@SubPath" />
+        }
+    }
+    else if (type.Equals(typeof(DateTime)))
+    {
+        <DateTimeInput id="@id" Object="Object" SubPath="@SubPath" />
+    }
+    else if (type.Equals(typeof(List<string>)))
+    {
+        <ListStringInput id="@id" Object="Object" SubPath="@SubPath" />
+    }
+    else if (type.Equals(typeof(List<KeyValuePair<string, string>>)))
+    {
+        <ListKvpStringStringInput id="@id" Object="Object" SubPath="@SubPath" />
+    }
+    else if (type.Equals(typeof(uint)))
+    {
+        <UintInput id="@id" Object="Object" SubPath="@SubPath" />
+    }
+    else if (type.Equals(typeof(long)))
+    {
+        <LongInput id="@id" Object="Object" SubPath="@SubPath" />
+    }
+    else if (type.Equals(typeof(ulong)))
+    {
+        <UlongInput id="@id" Object="Object" SubPath="@SubPath" />
+    }
+    else if (type.Equals(typeof(short)))
+    {
+        <ShortInput id="@id" Object="Object" SubPath="@SubPath" />
+    }
+    else if (type.Equals(typeof(ushort)))
+    {
+        <UshortInput id="@id" Object="Object" SubPath="@SubPath" />
+    }
+    else if (type.Equals(typeof(byte)))
+    {
+        <ByteInput id="@id" Object="Object" SubPath="@SubPath" />
+    }
+    else if (type.Equals(typeof(char)))
+    {
+        <CharInput id="@id" Object="Object" SubPath="@SubPath" />
+    }
+    else if (type.Equals(typeof(float)))
+    {
+        <FloatInput id="@id" Object="Object" SubPath="@SubPath" />
+    }
+    else if (type.Equals(typeof(double)))
+    {
+        <DoubleInput id="@id" Object="Object" SubPath="@SubPath" />
+    }
+    else if (type.Equals(typeof(decimal)))
+    {
+        <DecimalInput id="@id" Object="Object" SubPath="@SubPath" />
+    }
+    else
+    {
+        <br />
+        <ObjectInput id="@id" Object="Object" SubPath="@SubPath" />
+    }
+}
+<br />
+@code {
+    [Parameter]
+    public object? Object { get; set; }
+
+    [Parameter]
+    public string? SubPath { get; set; }
+
+    [Parameter]
+    public string id { get; set; } = string.Empty;
+
+    [Parameter]
+    public Type? type { get; set; }
+}

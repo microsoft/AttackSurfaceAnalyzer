@@ -1,7 +1,157 @@
 ﻿@page "/author"
+@using System.Reflection.Metadata;
+@using Microsoft.CodeAnalysis;
+@using System.Reflection;
+@using System.IO;
+@using Tewr.Blazor.FileReader;
+@using Microsoft.CST.OAT;
+@using System.Runtime.Loader;
+@using System.Diagnostics;
+@using Microsoft.CST.AttackSurfaceAnalyzer.Cli.Components.Inputs;
 
-<h3>Author Rules</h3>
+@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData AppState;
+@inject IFileReaderService fileReaderService;
+@inject IJSRuntime JSRuntime
 
-@code {
+<h2>Rules</h2>
+<p>Load in JSON serialized rules.</p>
+<FileUpload ProcessFile="LoadRules" ReadLabel="Load Rules" ClearAction="ClearRules" ClearLabel="Clear Rules" />
+<button @onclick="AddRule">Add Rule</button>
+<button @onclick="RemoveLastRule" disabled=@removeDisabled>Remove Last Rule</button>
+<button @onclick="ValidateRules">Validate Rules</button>
+<button @onclick="DownloadRules">Export Rules to JSON</button>
+<button @onclick="LoadDefaultRules">Load Embedded Rules</button>
+<br />
+@foreach (var rule in AppState.Rules)
+{
+    <div class="card">
+        @if (issues.ContainsKey(rule))
+        {
+            @foreach (var problem in issues[rule])
+            {
+                <div class="problem">
+                    <span class="oi oi-warning"></span>
+                    @problem.Description
+                </div>
+            }
+            @if (issues[rule].Count() > 0)
+            {
+                <br />
+            }
+        }
+        else
+        {
+            <p>Processing Issues for Rule...</p>
+        }
 
+        <RuleInput Rule="rule" CollapsedState="ComponentCollapsedState.Collapsed" Types="GetTypes()" />
+    </div>
+}
+@code
+{
+
+    void ClearRules()
+    {
+        AppState.Rules.Clear();
+    }
+
+    public bool removeDisabled => AppState.Rules.Count == 0;
+
+    Func<Stream, Task> LoadRules;
+
+    void RefreshPage()
+    {
+        this.StateHasChanged();
+    }
+
+    public void LoadDefaultRules()
+    {
+        var filters = RuleFile.LoadEmbeddedFilters();
+        AppState.DefaultLevels = filters.DefaultLevels;
+        AppState.Rules = filters.Rules.ToList();
+        RefreshPage();
+    }
+
+    public async void DownloadRules()
+    {
+        await JSRuntime.InvokeAsync<object>(
+            "FileSaveAs",
+            "Asa-Rules.json",
+            "data:text/plain;charset=utf-8,",
+            Newtonsoft.Json.JsonConvert.SerializeObject(AppState.Rules)
+        );
+    }
+
+    Type[] Types = typeof(AsaRule).Assembly.DefinedTypes.Where(x => x.Name.EndsWith("Object")).ToArray();
+
+    Type[] GetTypes()
+    {
+        //
+        return Types;
+    }
+
+    Analyzer analyzer = new Analyzer();
+
+    void SetLoadRules()
+    {
+        LoadRules = async stream =>
+        {
+            try
+            {
+                using var sr = new StreamReader(stream);
+                var RulesFile = Newtonsoft.Json.JsonConvert.DeserializeObject<RuleFile>(await sr.ReadToEndAsync());
+                AppState.Rules = RulesFile.Rules.ToList();
+                AppState.DefaultLevels = RulesFile.DefaultLevels;
+            }
+            catch (OperationCanceledException)
+            {
+                await InvokeAsync(StateHasChanged);
+                await Task.Delay(1);
+            }
+            catch (Exception e)
+            {
+                var message = e.Message;
+                var stackTrace = e.StackTrace;
+                var type = e.GetType();
+                var name = type.Name;
+                type = e.GetType();
+                Console.WriteLine(e.Message);
+            }
+            ValidateRules();
+        };
+    }
+
+    protected override void OnInitialized()
+    {
+        SetLoadRules();
+        ValidateRules();
+        base.OnInitialized();
+    }
+
+    Dictionary<AsaRule, IEnumerable<Violation>> issues = new Dictionary<AsaRule, IEnumerable<Violation>>();
+
+    void ValidateRules()
+    {
+        issues.Clear();
+        foreach (var rule in AppState.Rules)
+        {
+            issues[rule] = analyzer.EnumerateRuleIssues(rule);
+        }
+        this.StateHasChanged();
+    }
+
+    void RemoveLastRule()
+    {
+        if (AppState.Rules.Count > 0)
+        {
+            AppState.Rules.RemoveAt(AppState.Rules.Count - 1);
+        }
+        ValidateRules();
+    }
+
+    void AddRule()
+    {
+        AppState.Rules.Add(new AsaRule("Rule Name Here"));
+        ValidateRules();
+    }
 }

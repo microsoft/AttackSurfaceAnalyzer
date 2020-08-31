@@ -1,0 +1,33 @@
+﻿@using Microsoft.CST.OAT.Utils;
+@using System;
+
+<input id="@id" type="text" @bind="SubProperty"/>
+@code {
+    [Parameter]
+    public object? Object { get; set; }
+
+    [Parameter]
+    public string? SubPath { get; set; }
+
+    [Parameter]
+    public string id { get; set; } = string.Empty;
+
+    public string SubProperty
+    {
+        get
+        {
+            if (Helpers.GetValueByPropertyOrFieldName(Object, SubPath) is long val)
+            {
+                return val.ToString();
+            }
+            return string.Empty;
+        }
+        set
+        {
+            if (long.TryParse(value, out long longVal))
+            {
+                Helpers.SetValueByPropertyOrFieldName(Object, SubPath, longVal);
+            }
+        }
+    }
+}

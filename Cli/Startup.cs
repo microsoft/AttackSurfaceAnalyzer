@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Tewr.Blazor.FileReader;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 {
@@ -27,6 +28,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<AppData>();
+            services.AddFileReaderService();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

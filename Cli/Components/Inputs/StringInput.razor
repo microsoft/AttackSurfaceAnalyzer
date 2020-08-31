@@ -1,0 +1,33 @@
+﻿@using Microsoft.CST.OAT.Utils;
+@using Newtonsoft.Json;
+
+<input id="@id" type="text" class="form-control" @bind="SubProperty" placeholder="@placeholder"/>
+@code {
+    [Parameter]
+    public object? Object { get; set; }
+
+    [Parameter]
+    public string? SubPath { get; set; }
+
+    [Parameter]
+    public string id { get; set; } = string.Empty;
+
+    [Parameter]
+    public string placeholder { get; set; } = string.Empty;
+
+    public string SubProperty
+    {
+        get
+        {
+            if (Helpers.GetValueByPropertyOrFieldName(Object, SubPath) is string val)
+            {
+                return val;
+            }
+            return string.Empty;
+        }
+        set
+        {
+            Helpers.SetValueByPropertyOrFieldName(Object, SubPath, value);
+        }
+    }
+}

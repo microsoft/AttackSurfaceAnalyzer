@@ -1,0 +1,36 @@
+﻿@using Microsoft.CST.OAT.Utils;
+
+<input id="@id" type="text" @bind="SubProperty"/>
+@code {
+    [Parameter]
+    public object? Object { get; set; }
+
+    [Parameter]
+    public string? SubPath { get; set; }
+
+    [Parameter]
+    public string id { get; set; } = string.Empty;
+
+    public string SubProperty
+    {
+        get
+        {
+            var obj = Helpers.GetValueByPropertyOrFieldName(Object, SubPath);
+            if (obj is DateTime dt)
+            {
+                return dt.ToString();
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+        set
+        {
+            if (DateTime.TryParse(value, out DateTime res))
+            {
+                Helpers.SetValueByPropertyOrFieldName(Object, SubPath, res);
+            }
+        }
+    }
+}

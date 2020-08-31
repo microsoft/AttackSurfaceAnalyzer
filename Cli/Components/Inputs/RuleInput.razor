@@ -1,0 +1,109 @@
+﻿@using Microsoft.CST.OAT;
+@using System.Reflection;
+@using Microsoft.CST.AttackSurfaceAnalyzer.Cli;
+
+@switch (CollapsedState)
+{
+    case ComponentCollapsedState.Expanded:
+        <button class="card-top" type="button" @onclick="Collapse">
+            <span class="oi oi-chevron-top mx-3"></span>
+            <span>@Rule?.Name</span>
+        </button>
+        <div class="card-bottom">
+            <form class="mx-3 pt-2" onsubmit="return false;">
+                <div class="form-row">
+                    <div class="form-group col-6">
+                        <label for="ruleName">Name:</label>
+                        <StringInput id="ruleName" Object="Rule" SubPath="Name" placeholder="Name" />
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="ruleDescription">Description:</label>
+                        <StringInput id="ruleDescription" Object="Rule" SubPath="Description" placeholder="Description" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ruleExpression">Expression:</label>
+                    <StringInput id="ruleExpression" Object="Rule" SubPath="Expression" placeholder="Expression" />
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-6">
+                        <label for="ruleTarget">Target:</label>
+                        @if (Types.Any())
+                        {
+            <TypesInput id="ruleTarget" Object="Rule" SubPath="Target" Types="Types" BindIndex="idx" /> }
+                                else
+                                {
+            <StringInput id="ruleTarget" Object="Rule" SubPath="Target" placeholder="Target" />}
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="ruleSeverity">Severity:</label>
+                        <IntInput id="ruleSeverity" Object="Rule" SubPath="Severity" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-secondary" @onclick="AddClause">Add Clause</button>
+                    <button class="btn btn-secondary" @onclick="RemoveLastClause" disabled="@HasNoClauses()">Remove Last Clause</button>
+                </div>
+
+                <div class="form-group">
+                    @for (var i = 0; i < Rule?.Clauses.Count; i++)
+                    {
+            @if (Types.Any())
+            {
+            <ClauseInput Rule="@Rule" Clause="@i" Types="@Types" TypeIndex="@idx" /> }
+        else
+        {
+            <ClauseInput Rule="@Rule" Clause="@i" />                        }                    }
+                </div>
+            </form>
+        </div>        
+        break;
+
+    case ComponentCollapsedState.Collapsed:
+        <button class="card-top mb-2" type="button" @onclick="Expand">
+            <span class="oi oi-chevron-bottom mx-3"></span>
+            <span>@Rule?.Name</span>
+        </button>
+        break;
+}
+
+@code {
+    [Parameter]
+    public Type[] Types { get; set; } = Array.Empty<Type>();
+
+    IntHolder idx = new IntHolder();
+
+    void Expand(EventArgs eventArgs)
+    {
+        CollapsedState = ComponentCollapsedState.Expanded;
+    }
+
+    void Collapse(EventArgs eventArgs)
+    {
+        CollapsedState = ComponentCollapsedState.Collapsed;
+    }
+
+    bool HasNoClauses()
+    {
+        return Rule?.Clauses.Count == 0;
+    }
+
+    [Parameter]
+    public ComponentCollapsedState CollapsedState { get; set; } = ComponentCollapsedState.Collapsed;
+
+    [Parameter]
+    public Rule? Rule { get; set; }
+
+    void RemoveLastClause()
+    {
+        Rule?.Clauses.RemoveAt(Rule.Clauses.Count - 1);
+    }
+
+    void AddClause()
+    {
+        Rule?.Clauses.Add(new Clause(Operation.Regex));
+    }
+}
