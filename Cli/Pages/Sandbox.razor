@@ -10,6 +10,7 @@
 @using Microsoft.CST.OAT.Utils;
 @using Microsoft.CST.OAT;
 @using Microsoft.CST.AttackSurfaceAnalyzer.Utils;
+@using Microsoft.CST.AttackSurfaceAnalyzer.Cli.Components.Inputs;
 
 @inject NavigationManager NavigationManager;
 @inject AppData AppState;
@@ -61,7 +62,14 @@
     }
     @foreach (var parameter in constructors?[constructorToInvoke].GetParameters() ?? Array.Empty<ParameterInfo>())
     {
-        Parameters.Add(parameter.Name, parameter.DefaultValue);
+        if (parameter.HasDefaultValue)
+        {
+            Parameters.Add(parameter.Name, parameter.DefaultValue);
+        }
+        else
+        {
+            Parameters.Add(parameter.Name, Helpers.GetDefaultValueForType(parameter.ParameterType));
+        }
         <label for="@parameter.Name">@parameter.Name</label>
         <PropertyInput Id="@parameter.Name" Object="@Parameters" SubPath="@parameter.Name" Type="@parameter.ParameterType" />
     }
