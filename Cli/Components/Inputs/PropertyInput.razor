@@ -1,4 +1,4 @@
-﻿@type.ToString();
+﻿@using Microsoft.CST.OAT.Utils;
 @if (type != null)
 {
     @if (type.Equals(typeof(string)))
@@ -75,6 +75,13 @@
     else if (type.Equals(typeof(decimal)))
     {
         <DecimalInput id="@id" Object="Object" SubPath="@SubPath" />
+    }
+    else if (type.Equals(typeof(Scaffold))){
+        <br/>
+        var obj = Helpers.GetValueByPropertyOrFieldName(Object,SubPath);
+        if (obj is Scaffold scaffold){
+            <ScaffoldInput Scaffold="scaffold" />
+        }
     }
     else
     {

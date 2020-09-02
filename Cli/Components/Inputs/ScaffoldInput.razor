@@ -1,0 +1,11 @@
+﻿@foreach (var parameter in Scaffold?.Parameters ?? new Dictionary<string, object?>())
+{
+    <label for="@parameter.Key">@parameter.Key</label>
+    <PropertyInput Id="@parameter.Key" Object="@Scaffold.Parameters" SubPath="@parameter.Key" Type="@parameter.Value?.GetType()" />
+}
+
+
+@code {
+    [Parameter]
+    public Scaffold? Scaffold { get; set; }
+}
