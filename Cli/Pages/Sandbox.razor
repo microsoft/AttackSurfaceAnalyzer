@@ -10,7 +10,8 @@
 @using Microsoft.CST.OAT.Utils;
 @using Microsoft.CST.OAT;
 @using Microsoft.CST.AttackSurfaceAnalyzer.Utils;
-@using Microsoft.CST.AttackSurfaceAnalyzer.Cli.Components.Inputs;
+@using Microsoft.CST.OAT.Blazor.Components.Inputs;
+@using Microsoft.CST.OAT.Blazor.Components; 
 
 @inject NavigationManager NavigationManager;
 @inject AppData AppState;
@@ -317,14 +318,10 @@
                 var constructors = type.GetConstructors(BindingFlags.Instance | BindingFlags.Public);
                 foreach (var constructorItr in constructors)
                 {
-                    foreach (var parameter in constructorItr.GetParameters())
+                    if (Helpers.ConstructedOfBasicTypes(constructorItr))
                     {
-                        if (!Helpers.IsBasicType(parameter.ParameterType))
-                        {
-                            break;
-                        }
+                        allowedConstructors.Add(constructorItr);
                     }
-                    allowedConstructors.Add(constructorItr);
                 }
                 if (allowedConstructors.Any())
                 {
