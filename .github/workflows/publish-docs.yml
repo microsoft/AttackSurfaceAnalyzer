@@ -17,10 +17,10 @@ jobs:
     - name: Set Docs Locations
       id: branch
       run: |
-        $branchName = "${{ github.ref }}"
+        $branchName = "${{ github.base_ref }}"
         if ([string]::IsNullOrWhiteSpace($branchName))
         {
-          $branchName = "${{ github.base_ref }}"
+          $branchName = "${{ github.ref }}"
         }
         echo "The branch name is $branchName"
         if($branchName.StartsWith("release")) 
@@ -28,21 +28,21 @@ jobs:
           $branchName = $branchName.Substring(8)
         }
         echo "::set-output name=DOCS_LOCATION::$branchName" 
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '3.1.x'
-    - name: Install chocolatey
-      run: Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-    - name: Install docfx
-      run: choco install docfx
-    - name: Run DocFx
-      run: docfx docfx/docfx.json
-    - name: Upload to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3.7.0-8
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: docfx/_site
-        destination_dir: ${{ steps.branch.outputs.DOCS_LOCATION }}
-        keep_files: true
-        full_commit_message: Deploy ${{ steps.branch.outputs.DOCS_LOCATION }} to GitHub Pages
+    # - name: Setup .NET Core
+    #   uses: actions/setup-dotnet@v1
+    #   with:
+    #     dotnet-version: '3.1.x'
+    # - name: Install chocolatey
+    #   run: Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+    # - name: Install docfx
+    #   run: choco install docfx
+    # - name: Run DocFx
+    #   run: docfx docfx/docfx.json
+    # - name: Upload to GitHub Pages
+    #   uses: peaceiris/actions-gh-pages@v3.7.0-8
+    #   with:
+    #     github_token: ${{ secrets.GITHUB_TOKEN }}
+    #     publish_dir: docfx/_site
+    #     destination_dir: ${{ steps.branch.outputs.DOCS_LOCATION }}
+    #     keep_files: true
+    #     full_commit_message: Deploy ${{ steps.branch.outputs.DOCS_LOCATION }} to GitHub Pages
