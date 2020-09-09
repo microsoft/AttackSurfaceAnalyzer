@@ -22,11 +22,15 @@ jobs:
         {
           $branchName = "${{ github.ref }}"
         }
-        echo "The branch name is $branchName"
         if($branchName.StartsWith("release")) 
         { 
           $branchName = $branchName.Substring(8)
         }
+        if ($branchName -eq "main")
+        {
+          $branchName = ""
+        }
+        echo $branchName
         echo "::set-output name=DOCS_LOCATION::$branchName" 
     # - name: Setup .NET Core
     #   uses: actions/setup-dotnet@v1
