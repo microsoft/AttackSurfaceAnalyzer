@@ -18,7 +18,7 @@ jobs:
       id: branch
       run: |
         $branchName = "${GITHUB_REF##*/}"
-        if ($branchName -eq "")
+        if ([string]::IsNullOrWhiteSpace($branchName))
         {
           $branchName = ${{ github.base_ref }}
         }
