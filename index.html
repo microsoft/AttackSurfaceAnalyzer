@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Object Analysis Toolkit </title>
+    <title>Attack Surface Analyzer </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Object Analysis Toolkit ">
+    <meta name="title" content="Attack Surface Analyzer ">
     <meta name="generator" content="docfx 2.56.2.0">
     
     <link rel="shortcut icon" href="favicon.ico">
@@ -60,54 +60,89 @@
         <div class="article row grid">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="object-analysis-toolkit">Object Analysis Toolkit</h1>
+<h1 id="attack-surface-analyzer">Attack Surface Analyzer</h1>
 
-<p><img src="https://img.shields.io/nuget/v/Microsoft.CST.OAT?link=https://www.nuget.org/packages/Microsoft.CST.OAT/&amp;link=https://www.nuget.org/packages/Microsoft.CST.OAT/" alt="Nuget"> <img src="https://img.shields.io/nuget/dt/Microsoft.CST.OAT?link=https://www.nuget.org/packages/Microsoft.CST.OAT/&amp;link=https://www.nuget.org/packages/Microsoft.CST.OAT/" alt="Nuget"></p>
-<p>Object Analysis Toolkit (OAT) is a rules driven metaprogramming engine for arbitrary C# objects.</p>
-<h2 id="getting-oat">Getting OAT</h2>
-<p>OAT is available on NuGet as <a href="https://www.nuget.org/packages/Microsoft.CST.OAT/">Microsoft.CST.OAT</a>.</p>
-<p><a href="https://microsoft.github.io/OAT/Blazor/">OAT Blazor</a> runs in your browser and allows you to Author Rules and test them in a Sandbox using Objects instantiated from your provided Assembly.</p>
+<p>Attack Surface Analyzer is a <a href="https://github.com/microsoft/">Microsoft</a> developed open source security tool that analyzes the attack
+surface of a target system and reports on potential security vulnerabilities introduced during
+the installation of software or system misconfiguration.</p>
+<h2 id="getting-attack-surface-analyzer">Getting Attack Surface Analyzer</h2>
+<p><img src="https://img.shields.io/nuget/v/Microsoft.CST.AttackSurfaceAnalyzer.Cli?link=https://www.nuget.org/packages/Microsoft.CST.AttackSurfaceAnalyzer.CLI&amp;link=https://www.nuget.org/packages/Microsoft.CST.AttackSurfaceAnalyzer.CLI" alt="Nuget"> <img src="https://img.shields.io/nuget/dt/Microsoft.CST.AttackSurfaceAnalyzer.Cli?link=https://www.nuget.org/packages/Microsoft.CST.AttackSurfaceAnalyzer.CLI&amp;link=https://www.nuget.org/packages/Microsoft.CST.AttackSurfaceAnalyzer.CLI" alt="Nuget"></p>
+<p>If you have the <a href="https://dotnet.microsoft.com/download">.NET Core SDK</a> installed you can install Attack Surface Analyzer with <code>dotnet tool install -g Microsoft.CST.AttackSurfaceAnalyzer.CLI</code>.</p>
+<p>Platform specific binaries for Attack Surface Analyzer are distributed via our GitHub <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/releases/latest">releases</a> page.</p>
 <h2 id="documentation">Documentation</h2>
-<p>Docuemtnation for usage is on the <a href="https://github.com/microsoft/OAT/wiki">Wiki</a>.</p>
-<p>Documentation for the API is available on <a href="https://microsoft.github.io/OAT/api">GitHub Pages</a></p>
-<h2 id="overview">Overview</h2>
+<p>Documentation is available on the <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/wiki/">Wiki</a>.</p>
+<h3 id="api-documentation">API Documentation</h3>
+<h4 id="main-branch">Main Branch</h4>
+<p><a href="https://microsoft.github.io/AttackSurfaceAnalyzer/api/">https://microsoft.github.io/AttackSurfaceAnalyzer/api/</a></p>
+<h4 id="version-23">Version 2.3</h4>
+<p><a href="https://microsoft.github.io/AttackSurfaceAnalyzer/v2.3/api/">https://microsoft.github.io/AttackSurfaceAnalyzer/v2.3/api/</a></p>
+<h4 id="version-22">Version 2.2</h4>
+<p><a href="https://microsoft.github.io/AttackSurfaceAnalyzer/v2.2/api/">https://microsoft.github.io/AttackSurfaceAnalyzer/v2.2/api/</a></p>
+<h2 id="new-features-in-23">New Features in 2.3</h2>
 <ul>
-<li><a href="https://microsoft.github.io/OAT/api/Microsoft.CST.OAT.Rule.html">Rules</a> contain a object Target, an int Severity, a string boolean Expression and a List of <a href="https://microsoft.github.io/OAT/api/Microsoft.CST.OAT.Clause.html">Clauses</a> which are applied to the targeted object.</li>
-<li><a href="https://microsoft.github.io/OAT/api/Microsoft.CST.OAT.Clause.html">Clauses</a> perform a specified <a href="https://microsoft.github.io/OAT/api/Microsoft.CST.OAT.Operation.html">Operation</a> on a specified Field of the Target.  The Field can be any property or subproperty or field of the object. For example, <code>SomeFieldOfTarget.SomeObject.SomeProperty</code>.</li>
-<li>Clauses can also Capture the result of their operation, to be returned with the applied Rule.</li>
-<li>The Operation set can be expanded with delegates.</li>
-<li>The object types supported by existing operations can also be expanded with delegates.</li>
+<li>Rewritten GUI with Rule Authoring and Testing in GUI.</li>
+<li>New Collectors</li>
 </ul>
-<h2 id="basic-usage">Basic Usage</h2>
-<p>The basic usage of OAT is applying rules to targets using the Analyze function.</p>
-<pre><code class="lang-csharp">object target;
-IEnumerable&lt;Rule&gt; rules;
-var analyzer = new Analyzer();
-var rulesWhichApply = analyzer.Analyze(rules,target);
-</code></pre>
-<h2 id="capturing">Capturing</h2>
-<p>OAT also supports capturing and returning results of clauses.</p>
-<pre><code class="lang-csharp">object target;
-IEnumerable&lt;Rule&gt; rules;
-var analyzer = new Analyzer();
-var res = analyzer.GetCaptures(rules, target);
-</code></pre>
-<h2 id="detailed-usage">Detailed Usage</h2>
-<p>A full <a href="https://github.com/microsoft/OAT/wiki/Walkthrough">walkthrough</a> including creating a custom operation and validating your custom operation rules and capturing Clause values is available on the wiki.</p>
-<h2 id="authoring-rules">Authoring Rules</h2>
-<p>Detailed information on how to <a href="https://github.com/microsoft/OAT/wiki/Authoring-Rules">author rules</a> is available on on the wiki.</p>
-<h2 id="delegates">Delegates</h2>
-<p>Documentation for implementing each <a href="https://github.com/microsoft/OAT/wiki/Delegates">delegate</a> is available on the wiki.</p>
-<h1 id="contributing">Contributing</h1>
-<p>This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit <a href="https://cla.opensource.microsoft.com">https://cla.opensource.microsoft.com</a>.</p>
-<p>When you submit a pull request, a CLA bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.</p>
-<p>This project has adopted the <a href="https://opensource.microsoft.com/codeofconduct/">Microsoft Open Source Code of Conduct</a>.
-For more information see the <a href="https://opensource.microsoft.com/codeofconduct/faq/">Code of Conduct FAQ</a> or
+<h2 id="overview">Overview</h2>
+<p>Attack Surface Analyzer 2 replaces the original <a href="https://www.microsoft.com/en-us/download/details.aspx?id=24487">Attack Surface Analyzer</a> tool, released publicly in 2012.</p>
+<p>Potential users of Attack Surface Analyzer include:</p>
+<ul>
+<li>DevOps Engineers - View changes to the system attack surface introduced when your software is installed.</li>
+<li>IT Security Auditors - Evaluate risk presented by when third-party software is installed.</li>
+</ul>
+<h2 id="core-features">Core Features</h2>
+<p>The core feature of Attack Surface Analyzer is the ability to &quot;diff&quot; an operating system's security configuration, before and after a software component is installed and to run arbitrary complex rules on the results to surface interesting findings. This is important because most installation processes require elevated privileges, and once granted, can lead to unintended system configuration changes.</p>
+<p>Attack Surface Analyzer currently reports on changes to the following operating system components:</p>
+<ul>
+<li>File system (static snapshot and live monitoring available)</li>
+<li>User accounts</li>
+<li>Services</li>
+<li>Network Ports</li>
+<li>Certificates</li>
+<li>Registry</li>
+<li>COM Objects</li>
+<li>Event Logs</li>
+<li>Firewall Settings</li>
+</ul>
+<p>All data collected is stored in a set of local SQLite databases.</p>
+<h2 id="how-to-use-attack-surface-analyzer">How to Use Attack Surface Analyzer</h2>
+<p>Run the following commands in an Administrator Shell (or as root).  Replace <code>asa</code> with <code>asa.exe</code> as appropriate for your platform.</p>
+<h3 id="cli-mode">CLI Mode</h3>
+<p>To start a default all collectors run: <code>asa collect -a</code></p>
+<p>To compare the last two collection runs: <code>asa export-collect</code></p>
+<p>For other commands run: <code>asa --help</code></p>
+<h3 id="gui-mode">GUI Mode</h3>
+<p>For the GUI interface run: <code>asa gui</code> and a browser window should open directed at <code>http://localhost:5000</code> with the web based interface.</p>
+<p>Detailed information on how to use Attack Surface Analyzer can be found on our
+<a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/wiki">wiki</a>.</p>
+<h2 id="building">Building</h2>
+<p>To build Attack Surface Analyzer, see <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/main/BUILD.md">BUILD</a>.</p>
+<h2 id="versions">Versions</h2>
+<p>The latest stable version of Attack Surface Analyzer is 2.2 (see <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/tree/release/v2.2">Release\v2.2</a>).</p>
+<p>2.3 is now in development on the <code>main</code> branch.  You can see the features coming <a href="https://github.com/microsoft/attacksurfaceanalyzer/issues?q=is%3Aissue+milestone%3Av2.3+">here</a>.</p>
+<h2 id="contributing">Contributing</h2>
+<p>This project welcomes contributions and suggestions. Most contributions require you to
+agree to a Contributor License Agreement (CLA) declaring that you have the right to,
+and actually do, grant us the rights to use your contribution. For details, visit
+<a href="https://cla.microsoft.com">https://cla.microsoft.com</a>.</p>
+<p>When you submit a pull request, a CLA-bot will automatically determine whether you
+need to provide a CLA and decorate the PR appropriately (e.g., label, comment). Simply
+follow the instructions provided by the bot. You will only need to do this once across all
+repos using our CLA.</p>
+<p>This project has adopted the
+<a href="https://opensource.microsoft.com/codeofconduct/">Microsoft Open Source Code of Conduct</a>.</p>
+<p>For more information see the <a href="https://opensource.microsoft.com/codeofconduct/faq/">Code of Conduct FAQ</a> or
 contact <a href="mailto:opencode@microsoft.com">opencode@microsoft.com</a> with any additional questions or comments.</p>
+<h2 id="reporting-security-issues">Reporting Security Issues</h2>
+<p>Security issues and bugs should be reported privately, via email, to the Microsoft Security
+Response Center (MSRC) at <a href="mailto:secure@microsoft.com">secure@microsoft.com</a>. You should
+receive a response within 24 hours. If for some reason you do not, please follow up via
+email to ensure we received your original message. Further information, including the
+<a href="https://technet.microsoft.com/en-us/security/dn606155">MSRC PGP</a> key, can be found in
+the <a href="https://technet.microsoft.com/en-us/security/default">Security TechCenter</a>.</p>
+<h2 id="license">License</h2>
+<p>Attack Surface Analyzer 2 is licensed under the
+<a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/main/LICENSE">MIT license</a>.</p>
 </article>
           </div>
           
@@ -116,7 +151,7 @@ contact <a href="mailto:opencode@microsoft.com">opencode@microsoft.com</a> with 
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/943293b891bc275b3ecec1de8963664e2d14216d/docfx/index.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/bad7155f9bb7b2aa7a3540ae9eabdce6430e3e71/docfx/index.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>
