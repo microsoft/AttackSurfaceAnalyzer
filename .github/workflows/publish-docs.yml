@@ -27,16 +27,16 @@ jobs:
     - name: Set Docs Locations
       id: branch
       run: |
-      $branchName = "${GITHUB_REF##*/}"
-      if($branchName.StartsWith("release")) 
-      { 
-        $branchName = $branchName.Substring(8)
-      } 
-      elseif($branchName -eq "main")
-      {
-        $branchName = ""
-      }
-      echo "::set-output name=DOCS_LOCATION::$branchName" 
+        $branchName = "${GITHUB_REF##*/}"
+        if($branchName.StartsWith("release")) 
+        { 
+          $branchName = $branchName.Substring(8)
+        } 
+        elseif($branchName -eq "main")
+        {
+          $branchName = ""
+        }
+        echo "::set-output name=DOCS_LOCATION::$branchName" 
     - name: Upload to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3.7.0-8
       with:
