@@ -18,6 +18,7 @@ jobs:
       id: branch
       run: |
         $branchName = "${GITHUB_REF##*/}"
+        echo ${GITHUB_REF##*/}
         echo "The branch name is $branchName"
         if($branchName.StartsWith("release")) 
         { 
