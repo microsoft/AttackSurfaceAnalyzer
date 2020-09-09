@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <OutputType>Exe</OutputType>
-    <ReleaseVersion>0.0.0-placeholder</ReleaseVersion>
+    <ReleaseVersion>2.1-alpha</ReleaseVersion>
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
     <AssemblyName>Asa</AssemblyName>
@@ -34,4 +34,13 @@
 	<None Include="..\LICENSE.txt" Pack="true" PackagePath="" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CST.OAT.Blazor.Components" Version="1.0.70" />
+    <PackageReference Include="Tewr.Blazor.FileReader" Version="2.0.0.20242" />
+    <PackageReference Include="Tewr.Blazor.FileReader.Wasm" Version="0.11.19128" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Nerdbank.GitVersioning" Version="3.2.31" />
+  </ItemGroup>
 </Project>

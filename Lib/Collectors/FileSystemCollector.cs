@@ -3,7 +3,7 @@ using Microsoft.CST.AttackSurfaceAnalyzer.Objects;
 using Microsoft.CST.AttackSurfaceAnalyzer.Types;
 using Microsoft.CST.AttackSurfaceAnalyzer.Utils;
 using Microsoft.CodeAnalysis;
-using Microsoft.CST.OpenSource.RecursiveExtractor;
+using Microsoft.CST.RecursiveExtractor;
 using Mono.Unix;
 using Serilog;
 using System;
@@ -437,8 +437,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 // If we know how to handle this as an archive, and crawling archives is enabled
                 if (opts.CrawlArchives && MiniMagic.DetectFileType(path) != ArchiveFileType.UNKNOWN)
                 {
-                    Extractor extractor = new Extractor(new ExtractorOptions() { ExtractSelfOnFail = false });
-                    foreach (var fso in extractor.ExtractFile(path, !opts.SingleThread).Select(fileEntry => FileEntryToFileSystemObject(fileEntry)))
+                    var opts = new ExtractorOptions() { ExtractSelfOnFail = false };
+                    Extractor extractor = new Extractor();
+                    foreach (var fso in extractor.ExtractFile(path, opts).Select(fileEntry => FileEntryToFileSystemObject(fileEntry)))
                     {
                         HandleChange(fso);
                     }

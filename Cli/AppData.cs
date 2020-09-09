@@ -1,4 +1,5 @@
 ﻿using Microsoft.CST.AttackSurfaceAnalyzer.Objects;
+using Microsoft.CST.AttackSurfaceAnalyzer.Types;
 using System.Collections.Generic;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
@@ -31,6 +32,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 return $"{RunId}-monitoring";
             }
         }
+
+        public Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DefaultLevels = new Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>();
+        public List<AsaRule> Rules { get; set; } = new List<AsaRule>();
+        public List<CollectObject> TestObjects { get; set; } = new List<CollectObject>();
 
         public string RunId { get; set; } = string.Empty;
         public CompareCommandOptions CompareCommandOptions { 

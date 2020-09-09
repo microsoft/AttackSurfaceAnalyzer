@@ -57,9 +57,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
         private static void Main(string[] args)
         {
 #if DEBUG
-            Logger.Setup(true, false);
+            AttackSurfaceAnalyzer.Utils.Logger.Setup(true, false);
 #else
-            Logger.Setup(false, false);
+            AttackSurfaceAnalyzer.Utils.Logger.Setup(false, false);
 #endif
             var version = (Assembly
                         .GetEntryAssembly()?
@@ -68,7 +68,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
             Log.Information("AttackSurfaceAnalyzer v.{0}", version);
 
-            Strings.Setup();
+            AttackSurfaceAnalyzer.Utils.Strings.Setup();
 
             var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions, ConfigCommandOptions, GuiCommandOptions, VerifyOptions>(args)
                 .MapResult(
@@ -258,7 +258,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             var analyzer = new AsaAnalyzer(new AnalyzerOptions(opts.RunScripts));
             var ruleFile = string.IsNullOrEmpty(opts.AnalysisFile) ? RuleFile.LoadEmbeddedFilters() : RuleFile.FromFile(opts.AnalysisFile);
             var violations = analyzer.EnumerateRuleIssues(ruleFile.GetRules());
-            Analyzer.PrintViolations(violations);
+            OAT.Utils.Strings.Setup();
+            OAT.Utils.Helpers.PrintViolations(violations);
             if (violations.Any())
             {
                 Log.Error("Encountered {0} issues with rules at {1}", violations.Count(), opts.AnalysisFile ?? "Embedded");
@@ -296,7 +297,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
             if (errorCode != ASA_ERROR.NONE)
             {
-                Log.Fatal(Strings.Get("CouldNotSetupDatabase"));
+                Log.Fatal(AttackSurfaceAnalyzer.Utils.Strings.Get("CouldNotSetupDatabase"));
                 Environment.Exit((int)errorCode);
             }
         }
@@ -920,7 +921,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 var analyzer = new AsaAnalyzer(new AnalyzerOptions(opts.RunScripts));
                 var platform = DatabaseManager.RunIdToPlatform(opts.SecondRunId);
                 var violations = analyzer.EnumerateRuleIssues(opts.AnalysesFile.GetRules());
-                Analyzer.PrintViolations(violations);
+                OAT.Utils.Strings.Setup();
+                OAT.Utils.Helpers.PrintViolations(violations);
                 if (violations.Any())
                 {
                     Log.Error("Encountered {0} issues with rules in {1}. Skipping analysis.", violations.Count(), opts.AnalysesFile.Source ?? "Embedded");
