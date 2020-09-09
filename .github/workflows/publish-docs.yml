@@ -28,6 +28,7 @@ jobs:
         {
           $branchName = ""
         }
+        echo "$branchName is the docs location set"
         echo "::set-output name=DOCS_LOCATION::$branchName" 
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
