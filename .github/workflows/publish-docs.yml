@@ -39,5 +39,5 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: docfx/_site
         destination_dir: ${{ steps.branch.outputs.DOCS_LOCATION }}
-        keep_files: false
+        keep_files: true
         full_commit_message: Deploy ${{ steps.branch.outputs.DOCS_LOCATION }} to GitHub Pages
