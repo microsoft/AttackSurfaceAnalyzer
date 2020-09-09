@@ -17,13 +17,11 @@ jobs:
     - name: Set Docs Locations
       id: branch
       run: |
-        $branchName = "${GITHUB_REF##*/}"
+        $branchName = "${{ github.ref }}"
         if ([string]::IsNullOrWhiteSpace($branchName))
         {
-          $branchName = ${{ github.base_ref }}
+          $branchName = "${{ github.base_ref }}"
         }
-        echo ${GITHUB_REF##*/}
-        echo ${{ github.base_ref }}
         echo "The branch name is $branchName"
         if($branchName.StartsWith("release")) 
         { 
