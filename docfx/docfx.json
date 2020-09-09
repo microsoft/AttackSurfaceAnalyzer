@@ -3,10 +3,11 @@
     {
       "src": [
         {
-          "cwd": "../",
           "files": [
-            "Lib/Lib.csproj"
-          ]
+            "Lib.csproj"
+          ],
+          "exclude": [ "**/bin/**", "**/obj/**" ],
+          "src":"../Lib"
         }
       ],
       "dest": "api",
@@ -19,7 +20,11 @@
       {
         "files": [
           "api/**.yml",
-          "api/index.md",
+          "api/index.md"
+        ]
+      },
+      {
+        "files": [
           "articles/**.md",
           "articles/**/toc.yml",
           "toc.yml",
@@ -45,7 +50,7 @@
         ]
       }
     ],
-    "dest": "../docs",
+    "dest": "_site",
     "globalMetadataFiles": [],
     "fileMetadataFiles": [],
     "template": [
