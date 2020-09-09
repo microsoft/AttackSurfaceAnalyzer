@@ -11,21 +11,25 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
     - name: Set Docs Locations
       id: branch
       run: |
         $branchName = "${GITHUB_REF##*/}"
+        if ($branchName -eq "")
+        {
+          $branchName = ${{ github.base_ref }}
+        }
         echo ${GITHUB_REF##*/}
+        echo ${{ github.base_ref }}
         echo "The branch name is $branchName"
         if($branchName.StartsWith("release")) 
         { 
           $branchName = $branchName.Substring(8)
         }
         echo "::set-output name=DOCS_LOCATION::$branchName" 
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
