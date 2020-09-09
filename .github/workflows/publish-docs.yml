@@ -24,7 +24,7 @@ jobs:
         { 
           $branchName = $branchName.Substring(8)
         }
-        else if ($branchName -eq "main")
+        elseif ($branchName -eq "main")
         {
           $branchName = ""
         }
