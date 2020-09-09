@@ -18,14 +18,21 @@ jobs:
       id: branch
       run: |
         $branchName = "${{ github.base_ref }}"
+        echo $branchName
         if ([string]::IsNullOrWhiteSpace($branchName))
         {
           $branchName = "${{ github.ref }}"
+          # refs/heads/ is 11 characters
+          $branchName = $branchName.Substring(11)
         }
+        echo $branchName
+
         if($branchName.StartsWith("release")) 
         { 
           $branchName = $branchName.Substring(8)
         }
+        echo $branchName
+
         if ($branchName -eq "main")
         {
           $branchName = ""
