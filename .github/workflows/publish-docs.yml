@@ -2,6 +2,8 @@ name: Publish GH - Pages
 
 on:
   push:
+    branches: [ main, release/v2.2, release/v2.3 ]
+  pull-request:
     branches: [ main ]
 jobs:
   build:
@@ -22,10 +24,24 @@ jobs:
       run: choco install docfx
     - name: Run DocFx
       run: docfx docfx/docfx.json
-
-    - name: GitHub Pages action
-      uses: peaceiris/actions-gh-pages@v3.6.4
+    - name: Set Docs Locations
+      id: branch
+      run: |
+      $branchName = "${GITHUB_REF##*/}"
+      if($branchName.StartsWith("release")) 
+      { 
+        $branchName = $branchName.Substring(8)
+      } 
+      elseif($branchName -eq "main")
+      {
+        $branchName = ""
+      }
+      echo "::set-output name=DOCS_LOCATION::$branchName" 
+    - name: Upload to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3.7.0-8
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_branch: gh-pages
         publish_dir: docfx/_site
+        destination_dir: ${( steps.branch.outputs.BRANCH_NAME }}
+        keep_files: false
+        full_commit_message: Deploy ${{ steps.branch.outputs.BRANCH_NAME }} to GitHub Pages
