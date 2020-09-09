@@ -1,6 +1,16 @@
 # Attack Surface Analyzer 
 Attack Surface Analyzer is a [Microsoft](https://github.com/microsoft/) developed open source security tool that analyzes the attack surface of a target system and reports on potential security vulnerabilities introduced during the installation of software or system misconfiguration. 
 
+## Quick Info
+
+### Version
+This is the Documentation for Attack Surface Analyzer 2.2
+
+For an overview of docs avaiable for different versions go up one level to [https://microsoft.github.io/AttackSurfaceAnalyzer/].
+
+### API Documentation 
+The API Documentation for version 2.2 is available here: [https://microsoft.github.io/AttackSurfaceAnalyzer/v2.2/api/](https://microsoft.github.io/AttackSurfaceAnalyzer/v2.2/api/)
+
 ## Getting Attack Surface Analyzer
 ![Nuget](https://img.shields.io/nuget/v/Microsoft.CST.AttackSurfaceAnalyzer.Cli?link=https://www.nuget.org/packages/Microsoft.CST.AttackSurfaceAnalyzer.CLI&link=https://www.nuget.org/packages/Microsoft.CST.AttackSurfaceAnalyzer.CLI) ![Nuget](https://img.shields.io/nuget/dt/Microsoft.CST.AttackSurfaceAnalyzer.Cli?link=https://www.nuget.org/packages/Microsoft.CST.AttackSurfaceAnalyzer.CLI&link=https://www.nuget.org/packages/Microsoft.CST.AttackSurfaceAnalyzer.CLI)
 
@@ -10,24 +20,7 @@ Platform specific binaries for Attack Surface Analyzer are distributed via our G
 
 ## Documentation
 
-Documentation is available on the [Wiki](https://github.com/Microsoft/AttackSurfaceAnalyzer/wiki/).
-
-### API Documentation
-
-#### Main Branch
-
-[https://microsoft.github.io/AttackSurfaceAnalyzer/api/](https://microsoft.github.io/AttackSurfaceAnalyzer/api/)
-
-#### Version 2.3
-[https://microsoft.github.io/AttackSurfaceAnalyzer/v2.3/api/](https://microsoft.github.io/AttackSurfaceAnalyzer/v2.3/api/)
-
-#### Version 2.2
-[https://microsoft.github.io/AttackSurfaceAnalyzer/v2.2/api/](https://microsoft.github.io/AttackSurfaceAnalyzer/v2.2/api/)
-
-## New Features in 2.3
-
-- Rewritten GUI with Rule Authoring and Testing in GUI.
-- New Collectors
+Documentation for usage is available on the [Wiki](https://github.com/Microsoft/AttackSurfaceAnalyzer/wiki/).
 
 ## Overview
 
@@ -53,7 +46,6 @@ Attack Surface Analyzer currently reports on changes to the following operating 
 - COM Objects
 - Event Logs
 - Firewall Settings
-- Saved Wifi Networks
 
 All data collected is stored in a set of local SQLite databases.
 
