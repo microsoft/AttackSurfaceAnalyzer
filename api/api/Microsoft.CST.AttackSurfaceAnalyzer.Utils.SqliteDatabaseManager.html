@@ -1,0 +1,2063 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class SqliteDatabaseManager
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class SqliteDatabaseManager
+   ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager">
+  
+  
+  <h1 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager" class="text-break">Class SqliteDatabaseManager
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html">DatabaseManager</a></div>
+    <div class="level2"><span class="xref">SqliteDatabaseManager</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_FirstRun">DatabaseManager.FirstRun</a>
+    </div>
+    <div>
+      <a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_Location">DatabaseManager.Location</a>
+    </div>
+    <div>
+      <a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_Destroy_System_String_">DatabaseManager.Destroy(String)</a>
+    </div>
+    <div>
+      <a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_ModuloString_System_String_System_Int32_">DatabaseManager.ModuloString(String, Int32)</a>
+    </div>
+    <div>
+      <a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_GetCommonResultTypes_System_String_System_String_">DatabaseManager.GetCommonResultTypes(String, String)</a>
+    </div>
+    <div>
+      <a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_GetMonitorRuns">DatabaseManager.GetMonitorRuns()</a>
+    </div>
+    <div>
+      <a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_GetTelemetryEnabled">DatabaseManager.GetTelemetryEnabled()</a>
+    </div>
+    <div>
+      <a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_SetTelemetryEnabled_System_Boolean_">DatabaseManager.SetTelemetryEnabled(Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_WaitUntilFlushed">DatabaseManager.WaitUntilFlushed()</a>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.html">Microsoft.CST.AttackSurfaceAnalyzer.Utils</a></h6>
+  <h6><strong>Assembly</strong>: AsaLib.dll</h6>
+  <h5 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class SqliteDatabaseManager : DatabaseManager</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager__ctor_System_String_Microsoft_CST_AttackSurfaceAnalyzer_Utils_DBSettings_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.%23ctor(System.String%2CMicrosoft.CST.AttackSurfaceAnalyzer.Utils.DBSettings)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L36">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager__ctor_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.#ctor*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager__ctor_System_String_Microsoft_CST_AttackSurfaceAnalyzer_Utils_DBSettings_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.#ctor(System.String,Microsoft.CST.AttackSurfaceAnalyzer.Utils.DBSettings)">SqliteDatabaseManager(String, DBSettings)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public SqliteDatabaseManager(string filename, DBSettings dbSettingsIn = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">filename</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DBSettings.html">DBSettings</a></td>
+        <td><span class="parametername">dbSettingsIn</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="fields">Fields
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_LOW_MEMORY_CUTOFF.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.LOW_MEMORY_CUTOFF%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L34">View Source</a>
+  </span>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_LOW_MEMORY_CUTOFF" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.LOW_MEMORY_CUTOFF">LOW_MEMORY_CUTOFF</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public const int LOW_MEMORY_CUTOFF = 1000</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_Connections.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.Connections%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L60">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_Connections_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.Connections*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_Connections" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.Connections">Connections</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;SqlConnectionHolder&gt; Connections { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.SqlConnectionHolder.html">SqlConnectionHolder</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_HasElements.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.HasElements%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L62">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_HasElements_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.HasElements*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_HasElements" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.HasElements">HasElements</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool HasElements { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_HasElements">DatabaseManager.HasElements</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_MainConnection.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.MainConnection%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L72">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_MainConnection_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.MainConnection*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_MainConnection" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.MainConnection">MainConnection</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public SqlConnectionHolder MainConnection { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.SqlConnectionHolder.html">SqlConnectionHolder</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_QueueSize.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.QueueSize%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L82">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_QueueSize_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.QueueSize*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_QueueSize" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.QueueSize">QueueSize</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override int QueueSize { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_QueueSize">DatabaseManager.QueueSize</a></div>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_BeginTransaction.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.BeginTransaction%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L84">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_BeginTransaction_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.BeginTransaction*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_BeginTransaction" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.BeginTransaction">BeginTransaction()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void BeginTransaction()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_BeginTransaction">DatabaseManager.BeginTransaction()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_CloseDatabase.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.CloseDatabase%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L89">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_CloseDatabase_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.CloseDatabase*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_CloseDatabase" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.CloseDatabase">CloseDatabase()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void CloseDatabase()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_CloseDatabase">DatabaseManager.CloseDatabase()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_Commit.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.Commit%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L99">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_Commit_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.Commit*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_Commit" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.Commit">Commit()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void Commit()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_Commit">DatabaseManager.Commit()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_DeleteRun_System_String_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.DeleteRun(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L104">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_DeleteRun_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.DeleteRun*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_DeleteRun_System_String_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.DeleteRun(System.String)">DeleteRun(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void DeleteRun(string runid)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">runid</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_DeleteRun_System_String_">DatabaseManager.DeleteRun(String)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_Destroy.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.Destroy%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L119">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_Destroy_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.Destroy*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_Destroy" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.Destroy">Destroy()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void Destroy()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_Destroy">DatabaseManager.Destroy()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_EstablishMainConnection.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.EstablishMainConnection%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L125">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_EstablishMainConnection_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.EstablishMainConnection*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_EstablishMainConnection" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.EstablishMainConnection">EstablishMainConnection()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool EstablishMainConnection()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetAllMissing_System_String_System_String_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetAllMissing(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L138">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetAllMissing_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetAllMissing*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetAllMissing_System_String_System_String_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetAllMissing(System.String,System.String)">GetAllMissing(String, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override IEnumerable&lt;WriteObject&gt; GetAllMissing(string firstRunId, string secondRunId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">firstRunId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">secondRunId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.WriteObject.html">WriteObject</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_GetAllMissing_System_String_System_String_">DatabaseManager.GetAllMissing(String, String)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetAllMissing2_System_String_System_String_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetAllMissing2(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L177">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetAllMissing2_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetAllMissing2*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetAllMissing2_System_String_System_String_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetAllMissing2(System.String,System.String)">GetAllMissing2(String, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IEnumerable&lt;WriteObject&gt; GetAllMissing2(string firstRunId, string secondRunId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">firstRunId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">secondRunId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.WriteObject.html">WriteObject</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetAllMissingExplicit_System_String_System_String_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetAllMissingExplicit(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L206">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetAllMissingExplicit_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetAllMissingExplicit*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetAllMissingExplicit_System_String_System_String_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetAllMissingExplicit(System.String,System.String)">GetAllMissingExplicit(String, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IEnumerable&lt;WriteObject&gt; GetAllMissingExplicit(string firstRunId, string secondRunId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">firstRunId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">secondRunId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.WriteObject.html">WriteObject</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetCompareRuns.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetCompareRuns%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L643">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetCompareRuns_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetCompareRuns*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetCompareRuns" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetCompareRuns">GetCompareRuns()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override List&lt;(string firstRunId, string secondRunId, RUN_STATUS runStatus)&gt; GetCompareRuns()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.ValueTuple</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>, <a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS.html">RUN_STATUS</a>&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_GetCompareRuns">DatabaseManager.GetCompareRuns()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetComparisonCompleted_System_String_System_String_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonCompleted(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L234">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetComparisonCompleted_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonCompleted*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetComparisonCompleted_System_String_System_String_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonCompleted(System.String,System.String)">GetComparisonCompleted(String, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool GetComparisonCompleted(string firstRunId, string secondRunId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">firstRunId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">secondRunId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonCompleted_System_String_System_String_">DatabaseManager.GetComparisonCompleted(String, String)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetComparisonResults_System_String_System_String_Microsoft_CST_AttackSurfaceAnalyzer_Types_RESULT_TYPE_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonResults(System.String%2CSystem.String%2CMicrosoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L259">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetComparisonResults_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonResults*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetComparisonResults_System_String_System_String_Microsoft_CST_AttackSurfaceAnalyzer_Types_RESULT_TYPE_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonResults(System.String,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE)">GetComparisonResults(String, String, RESULT_TYPE)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override List&lt;CompareResult&gt; GetComparisonResults(string baseId, string compareId, RESULT_TYPE exportType)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">baseId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">compareId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE.html">RESULT_TYPE</a></td>
+        <td><span class="parametername">exportType</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult.html">CompareResult</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonResults_System_String_System_String_Microsoft_CST_AttackSurfaceAnalyzer_Types_RESULT_TYPE_">DatabaseManager.GetComparisonResults(String, String, RESULT_TYPE)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetComparisonResults_System_String_System_String_Microsoft_CST_AttackSurfaceAnalyzer_Types_RESULT_TYPE_System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonResults(System.String%2CSystem.String%2CMicrosoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE%2CSystem.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L282">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetComparisonResults_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonResults*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetComparisonResults_System_String_System_String_Microsoft_CST_AttackSurfaceAnalyzer_Types_RESULT_TYPE_System_Int32_System_Int32_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonResults(System.String,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE,System.Int32,System.Int32)">GetComparisonResults(String, String, RESULT_TYPE, Int32, Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override List&lt;CompareResult&gt; GetComparisonResults(string baseId, string compareId, RESULT_TYPE resultType, int offset, int numResults)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">baseId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">compareId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE.html">RESULT_TYPE</a></td>
+        <td><span class="parametername">resultType</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">offset</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">numResults</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult.html">CompareResult</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonResults_System_String_System_String_Microsoft_CST_AttackSurfaceAnalyzer_Types_RESULT_TYPE_System_Int32_System_Int32_">DatabaseManager.GetComparisonResults(String, String, RESULT_TYPE, Int32, Int32)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetComparisonResultsCount_System_String_System_String_System_Int32_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonResultsCount(System.String%2CSystem.String%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L319">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetComparisonResultsCount_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonResultsCount*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetComparisonResultsCount_System_String_System_String_System_Int32_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonResultsCount(System.String,System.String,System.Int32)">GetComparisonResultsCount(String, String, Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override int GetComparisonResultsCount(string baseId, string compareId, int resultType)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">baseId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">compareId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">resultType</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonResultsCount_System_String_System_String_System_Int32_">DatabaseManager.GetComparisonResultsCount(String, String, Int32)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetCurrentSettings.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetCurrentSettings%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L340">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetCurrentSettings_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetCurrentSettings*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetCurrentSettings" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetCurrentSettings">GetCurrentSettings()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override DBSettings GetCurrentSettings()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DBSettings.html">DBSettings</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_GetCurrentSettings">DatabaseManager.GetCurrentSettings()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetLatestRunIds_System_Int32_Microsoft_CST_AttackSurfaceAnalyzer_Types_RUN_TYPE_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetLatestRunIds(System.Int32%2CMicrosoft.CST.AttackSurfaceAnalyzer.Types.RUN_TYPE)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L345">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetLatestRunIds_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetLatestRunIds*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetLatestRunIds_System_Int32_Microsoft_CST_AttackSurfaceAnalyzer_Types_RUN_TYPE_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetLatestRunIds(System.Int32,Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_TYPE)">GetLatestRunIds(Int32, RUN_TYPE)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override List&lt;string&gt; GetLatestRunIds(int numberOfIds, RUN_TYPE type)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">numberOfIds</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_TYPE.html">RUN_TYPE</a></td>
+        <td><span class="parametername">type</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_GetLatestRunIds_System_Int32_Microsoft_CST_AttackSurfaceAnalyzer_Types_RUN_TYPE_">DatabaseManager.GetLatestRunIds(Int32, RUN_TYPE)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetMissingFromFirst_System_String_System_String_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetMissingFromFirst(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L379">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetMissingFromFirst_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetMissingFromFirst*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetMissingFromFirst_System_String_System_String_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetMissingFromFirst(System.String,System.String)">GetMissingFromFirst(String, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override IEnumerable&lt;WriteObject&gt; GetMissingFromFirst(string firstRunId, string secondRunId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">firstRunId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">secondRunId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.WriteObject.html">WriteObject</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_GetMissingFromFirst_System_String_System_String_">DatabaseManager.GetMissingFromFirst(String, String)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetModified_System_String_System_String_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetModified(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L407">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetModified_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetModified*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetModified_System_String_System_String_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetModified(System.String,System.String)">GetModified(String, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override IEnumerable&lt;(WriteObject, WriteObject)&gt; GetModified(string firstRunId, string secondRunId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">firstRunId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">secondRunId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.ValueTuple</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.WriteObject.html">WriteObject</a>, <a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.WriteObject.html">WriteObject</a>&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_GetModified_System_String_System_String_">DatabaseManager.GetModified(String, String)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetMonitorResults_System_String_System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetMonitorResults(System.String%2CSystem.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L443">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetMonitorResults_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetMonitorResults*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetMonitorResults_System_String_System_Int32_System_Int32_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetMonitorResults(System.String,System.Int32,System.Int32)">GetMonitorResults(String, Int32, Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override IEnumerable&lt;FileMonitorObject&gt; GetMonitorResults(string runId, int offset = 0, int numResults = -1)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">runId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">offset</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">numResults</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileMonitorObject.html">FileMonitorObject</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_GetMonitorResults_System_String_System_Int32_System_Int32_">DatabaseManager.GetMonitorResults(String, Int32, Int32)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetNumMonitorResults_System_String_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetNumMonitorResults(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L493">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetNumMonitorResults_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetNumMonitorResults*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetNumMonitorResults_System_String_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetNumMonitorResults(System.String)">GetNumMonitorResults(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override int GetNumMonitorResults(string runId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">runId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_GetNumMonitorResults_System_String_">DatabaseManager.GetNumMonitorResults(String)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetNumResults_Microsoft_CST_AttackSurfaceAnalyzer_Types_RESULT_TYPE_System_String_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetNumResults(Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L513">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetNumResults_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetNumResults*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetNumResults_Microsoft_CST_AttackSurfaceAnalyzer_Types_RESULT_TYPE_System_String_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetNumResults(Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE,System.String)">GetNumResults(RESULT_TYPE, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override int GetNumResults(RESULT_TYPE ResultType, string runId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE.html">RESULT_TYPE</a></td>
+        <td><span class="parametername">ResultType</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">runId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_GetNumResults_Microsoft_CST_AttackSurfaceAnalyzer_Types_RESULT_TYPE_System_String_">DatabaseManager.GetNumResults(RESULT_TYPE, String)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetResultModels_Microsoft_CST_AttackSurfaceAnalyzer_Types_RUN_STATUS_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetResultModels(Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L541">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetResultModels_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetResultModels*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetResultModels_Microsoft_CST_AttackSurfaceAnalyzer_Types_RUN_STATUS_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetResultModels(Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)">GetResultModels(RUN_STATUS)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override List&lt;DataRunModel&gt; GetResultModels(RUN_STATUS runStatus)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS.html">RUN_STATUS</a></td>
+        <td><span class="parametername">runStatus</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.DataRunModel.html">DataRunModel</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_GetResultModels_Microsoft_CST_AttackSurfaceAnalyzer_Types_RUN_STATUS_">DatabaseManager.GetResultModels(RUN_STATUS)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetResultsByRunid_System_String_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetResultsByRunid(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L567">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetResultsByRunid_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetResultsByRunid*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetResultsByRunid_System_String_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetResultsByRunid(System.String)">GetResultsByRunid(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override IEnumerable&lt;WriteObject&gt; GetResultsByRunid(string runid)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">runid</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.WriteObject.html">WriteObject</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_GetResultsByRunid_System_String_">DatabaseManager.GetResultsByRunid(String)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetResultTypesAndCounts_System_String_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetResultTypesAndCounts(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L593">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetResultTypesAndCounts_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetResultTypesAndCounts*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetResultTypesAndCounts_System_String_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetResultTypesAndCounts(System.String)">GetResultTypesAndCounts(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override Dictionary&lt;RESULT_TYPE, int&gt; GetResultTypesAndCounts(string runId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">runId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE.html">RESULT_TYPE</a>, <span class="xref">System.Int32</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_GetResultTypesAndCounts_System_String_">DatabaseManager.GetResultTypesAndCounts(String)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetRun_System_String_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetRun(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L624">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetRun_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetRun*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetRun_System_String_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetRun(System.String)">GetRun(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override AsaRun GetRun(string RunId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">RunId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRun.html">AsaRun</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_GetRun_System_String_">DatabaseManager.GetRun(String)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetRuns.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetRuns%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L659">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetRuns_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetRuns*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetRuns" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetRuns">GetRuns()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override List&lt;string&gt; GetRuns()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_GetRuns">DatabaseManager.GetRuns()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetRuns_Microsoft_CST_AttackSurfaceAnalyzer_Types_RUN_TYPE_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetRuns(Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_TYPE)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L676">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetRuns_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetRuns*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetRuns_Microsoft_CST_AttackSurfaceAnalyzer_Types_RUN_TYPE_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetRuns(Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_TYPE)">GetRuns(RUN_TYPE)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override List&lt;string&gt; GetRuns(RUN_TYPE type)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_TYPE.html">RUN_TYPE</a></td>
+        <td><span class="parametername">type</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_GetRuns_Microsoft_CST_AttackSurfaceAnalyzer_Types_RUN_TYPE_">DatabaseManager.GetRuns(RUN_TYPE)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetSerializedMonitorResults_System_String_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetSerializedMonitorResults(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L694">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetSerializedMonitorResults_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetSerializedMonitorResults*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetSerializedMonitorResults_System_String_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetSerializedMonitorResults(System.String)">GetSerializedMonitorResults(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override List&lt;FileMonitorEvent&gt; GetSerializedMonitorResults(string runId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">runId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileMonitorEvent.html">FileMonitorEvent</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_GetSerializedMonitorResults_System_String_">DatabaseManager.GetSerializedMonitorResults(String)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetSettings.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetSettings%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L722">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetSettings_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetSettings*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetSettings" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetSettings">GetSettings()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override Settings GetSettings()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.Settings.html">Settings</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_GetSettings">DatabaseManager.GetSettings()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_InsertAnalyzed_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CompareResult_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.InsertAnalyzed(Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L751">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_InsertAnalyzed_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.InsertAnalyzed*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_InsertAnalyzed_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CompareResult_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.InsertAnalyzed(Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult)">InsertAnalyzed(CompareResult)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void InsertAnalyzed(CompareResult objIn)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult.html">CompareResult</a></td>
+        <td><span class="parametername">objIn</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_InsertAnalyzed_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CompareResult_">DatabaseManager.InsertAnalyzed(CompareResult)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_InsertCompareRun_System_String_System_String_Microsoft_CST_AttackSurfaceAnalyzer_Types_RUN_STATUS_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.InsertCompareRun(System.String%2CSystem.String%2CMicrosoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L777">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_InsertCompareRun_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.InsertCompareRun*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_InsertCompareRun_System_String_System_String_Microsoft_CST_AttackSurfaceAnalyzer_Types_RUN_STATUS_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.InsertCompareRun(System.String,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)">InsertCompareRun(String, String, RUN_STATUS)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void InsertCompareRun(string firstRunId, string secondRunId, RUN_STATUS runStatus)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">firstRunId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">secondRunId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS.html">RUN_STATUS</a></td>
+        <td><span class="parametername">runStatus</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_InsertCompareRun_System_String_System_String_Microsoft_CST_AttackSurfaceAnalyzer_Types_RUN_STATUS_">DatabaseManager.InsertCompareRun(String, String, RUN_STATUS)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_InsertRun_Microsoft_CST_AttackSurfaceAnalyzer_Objects_AsaRun_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.InsertRun(Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRun)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L789">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_InsertRun_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.InsertRun*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_InsertRun_Microsoft_CST_AttackSurfaceAnalyzer_Objects_AsaRun_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.InsertRun(Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRun)">InsertRun(AsaRun)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void InsertRun(AsaRun run)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRun.html">AsaRun</a></td>
+        <td><span class="parametername">run</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_InsertRun_Microsoft_CST_AttackSurfaceAnalyzer_Objects_AsaRun_">DatabaseManager.InsertRun(AsaRun)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_PopulateConnections.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.PopulateConnections%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L819">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_PopulateConnections_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.PopulateConnections*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_PopulateConnections" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.PopulateConnections">PopulateConnections()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int PopulateConnections()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_RollBack.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.RollBack%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L830">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_RollBack_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.RollBack*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_RollBack" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.RollBack">RollBack()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void RollBack()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_RollBack">DatabaseManager.RollBack()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_RunIdToPlatform_System_String_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.RunIdToPlatform(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L849">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_RunIdToPlatform_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.RunIdToPlatform*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_RunIdToPlatform_System_String_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.RunIdToPlatform(System.String)">RunIdToPlatform(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override PLATFORM RunIdToPlatform(string runid)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">runid</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Types.PLATFORM.html">PLATFORM</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_RunIdToPlatform_System_String_">DatabaseManager.RunIdToPlatform(String)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_SetSettings_Microsoft_CST_AttackSurfaceAnalyzer_Objects_Settings_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.SetSettings(Microsoft.CST.AttackSurfaceAnalyzer.Objects.Settings)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L870">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_SetSettings_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.SetSettings*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_SetSettings_Microsoft_CST_AttackSurfaceAnalyzer_Objects_Settings_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.SetSettings(Microsoft.CST.AttackSurfaceAnalyzer.Objects.Settings)">SetSettings(Settings)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void SetSettings(Settings settings)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.Settings.html">Settings</a></td>
+        <td><span class="parametername">settings</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_SetSettings_Microsoft_CST_AttackSurfaceAnalyzer_Objects_Settings_">DatabaseManager.SetSettings(Settings)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_Setup.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.Setup%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L892">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_Setup_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.Setup*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_Setup" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.Setup">Setup()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override ASA_ERROR Setup()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Types.ASA_ERROR.html">ASA_ERROR</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_Setup">DatabaseManager.Setup()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_StallIfHighMemoryUsageAndLowMemoryModeEnabled.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.StallIfHighMemoryUsageAndLowMemoryModeEnabled%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L1003">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_StallIfHighMemoryUsageAndLowMemoryModeEnabled_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.StallIfHighMemoryUsageAndLowMemoryModeEnabled*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_StallIfHighMemoryUsageAndLowMemoryModeEnabled" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.StallIfHighMemoryUsageAndLowMemoryModeEnabled">StallIfHighMemoryUsageAndLowMemoryModeEnabled()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void StallIfHighMemoryUsageAndLowMemoryModeEnabled()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_TrimToLatest.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.TrimToLatest%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L1019">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_TrimToLatest_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.TrimToLatest*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_TrimToLatest" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.TrimToLatest">TrimToLatest()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void TrimToLatest()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_TrimToLatest">DatabaseManager.TrimToLatest()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_UpdateCompareRun_System_String_System_String_Microsoft_CST_AttackSurfaceAnalyzer_Types_RUN_STATUS_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.UpdateCompareRun(System.String%2CSystem.String%2CMicrosoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L1041">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_UpdateCompareRun_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.UpdateCompareRun*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_UpdateCompareRun_System_String_System_String_Microsoft_CST_AttackSurfaceAnalyzer_Types_RUN_STATUS_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.UpdateCompareRun(System.String,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)">UpdateCompareRun(String, String, RUN_STATUS)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void UpdateCompareRun(string firstRunId, string secondRunId, RUN_STATUS runStatus)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">firstRunId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">secondRunId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS.html">RUN_STATUS</a></td>
+        <td><span class="parametername">runStatus</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_UpdateCompareRun_System_String_System_String_Microsoft_CST_AttackSurfaceAnalyzer_Types_RUN_STATUS_">DatabaseManager.UpdateCompareRun(String, String, RUN_STATUS)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_Vacuum.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.Vacuum%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L1053">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_Vacuum_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.Vacuum*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_Vacuum" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.Vacuum">Vacuum()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void Vacuum()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_Vacuum">DatabaseManager.Vacuum()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_Write_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject_System_String_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.Write(Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L1062">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_Write_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.Write*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_Write_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject_System_String_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.Write(Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject,System.String)">Write(CollectObject, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void Write(CollectObject colObj, string runId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.html">CollectObject</a></td>
+        <td><span class="parametername">colObj</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">runId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_Write_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject_System_String_">DatabaseManager.Write(CollectObject, String)</a></div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/4e45073380c0a80b7f1610294c46300e53c6f36a/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/4e45073380c0a80b7f1610294c46300e53c6f36a/Lib/Utils/SqliteDatabaseManager.cs/#L31" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
