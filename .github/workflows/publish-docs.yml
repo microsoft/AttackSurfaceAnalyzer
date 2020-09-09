@@ -31,10 +31,6 @@ jobs:
         if($branchName.StartsWith("release")) 
         { 
           $branchName = $branchName.Substring(8)
-        } 
-        elseif($branchName -eq "main")
-        {
-          $branchName = ""
         }
         echo "::set-output name=DOCS_LOCATION::$branchName" 
     - name: Upload to GitHub Pages
