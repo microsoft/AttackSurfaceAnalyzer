@@ -11,9 +11,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
+    - uses: actions/checkout@v1
     - name: Set Docs Locations
       id: branch
       run: |
@@ -25,6 +23,9 @@ jobs:
           $branchName = $branchName.Substring(8)
         }
         echo "::set-output name=DOCS_LOCATION::$branchName" 
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
