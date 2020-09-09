@@ -14,16 +14,6 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '3.1.x'
-    - name: Install chocolatey
-      run: Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-    - name: Install docfx
-      run: choco install docfx
-    - name: Run DocFx
-      run: docfx docfx/docfx.json
     - name: Set Docs Locations
       id: branch
       run: |
@@ -34,6 +24,16 @@ jobs:
           $branchName = $branchName.Substring(8)
         }
         echo "::set-output name=DOCS_LOCATION::$branchName" 
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '3.1.x'
+    - name: Install chocolatey
+      run: Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+    - name: Install docfx
+      run: choco install docfx
+    - name: Run DocFx
+      run: docfx docfx/docfx.json
     - name: Upload to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3.7.0-8
       with:
