@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Object Analysis Toolkit </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Object Analysis Toolkit ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles/docfx.vendor.css">
+    <link rel="stylesheet" href="styles/docfx.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <meta property="docfx:navrel" content="toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="index.html">
+                <img id="logo" class="svg" src="logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="article row grid">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="object-analysis-toolkit">Object Analysis Toolkit</h1>
+
+<p><img src="https://img.shields.io/nuget/v/Microsoft.CST.OAT?link=https://www.nuget.org/packages/Microsoft.CST.OAT/&amp;link=https://www.nuget.org/packages/Microsoft.CST.OAT/" alt="Nuget"> <img src="https://img.shields.io/nuget/dt/Microsoft.CST.OAT?link=https://www.nuget.org/packages/Microsoft.CST.OAT/&amp;link=https://www.nuget.org/packages/Microsoft.CST.OAT/" alt="Nuget"></p>
+<p>Object Analysis Toolkit (OAT) is a rules driven metaprogramming engine for arbitrary C# objects.</p>
+<h2 id="getting-oat">Getting OAT</h2>
+<p>OAT is available on NuGet as <a href="https://www.nuget.org/packages/Microsoft.CST.OAT/">Microsoft.CST.OAT</a>.</p>
+<p><a href="https://microsoft.github.io/OAT/Blazor/">OAT Blazor</a> runs in your browser and allows you to Author Rules and test them in a Sandbox using Objects instantiated from your provided Assembly.</p>
+<h2 id="documentation">Documentation</h2>
+<p>Docuemtnation for usage is on the <a href="https://github.com/microsoft/OAT/wiki">Wiki</a>.</p>
+<p>Documentation for the API is available on <a href="https://microsoft.github.io/OAT/api">GitHub Pages</a></p>
+<h2 id="overview">Overview</h2>
+<ul>
+<li><a href="https://microsoft.github.io/OAT/api/Microsoft.CST.OAT.Rule.html">Rules</a> contain a object Target, an int Severity, a string boolean Expression and a List of <a href="https://microsoft.github.io/OAT/api/Microsoft.CST.OAT.Clause.html">Clauses</a> which are applied to the targeted object.</li>
+<li><a href="https://microsoft.github.io/OAT/api/Microsoft.CST.OAT.Clause.html">Clauses</a> perform a specified <a href="https://microsoft.github.io/OAT/api/Microsoft.CST.OAT.Operation.html">Operation</a> on a specified Field of the Target.  The Field can be any property or subproperty or field of the object. For example, <code>SomeFieldOfTarget.SomeObject.SomeProperty</code>.</li>
+<li>Clauses can also Capture the result of their operation, to be returned with the applied Rule.</li>
+<li>The Operation set can be expanded with delegates.</li>
+<li>The object types supported by existing operations can also be expanded with delegates.</li>
+</ul>
+<h2 id="basic-usage">Basic Usage</h2>
+<p>The basic usage of OAT is applying rules to targets using the Analyze function.</p>
+<pre><code class="lang-csharp">object target;
+IEnumerable&lt;Rule&gt; rules;
+var analyzer = new Analyzer();
+var rulesWhichApply = analyzer.Analyze(rules,target);
+</code></pre>
+<h2 id="capturing">Capturing</h2>
+<p>OAT also supports capturing and returning results of clauses.</p>
+<pre><code class="lang-csharp">object target;
+IEnumerable&lt;Rule&gt; rules;
+var analyzer = new Analyzer();
+var res = analyzer.GetCaptures(rules, target);
+</code></pre>
+<h2 id="detailed-usage">Detailed Usage</h2>
+<p>A full <a href="https://github.com/microsoft/OAT/wiki/Walkthrough">walkthrough</a> including creating a custom operation and validating your custom operation rules and capturing Clause values is available on the wiki.</p>
+<h2 id="authoring-rules">Authoring Rules</h2>
+<p>Detailed information on how to <a href="https://github.com/microsoft/OAT/wiki/Authoring-Rules">author rules</a> is available on on the wiki.</p>
+<h2 id="delegates">Delegates</h2>
+<p>Documentation for implementing each <a href="https://github.com/microsoft/OAT/wiki/Delegates">delegate</a> is available on the wiki.</p>
+<h1 id="contributing">Contributing</h1>
+<p>This project welcomes contributions and suggestions.  Most contributions require you to agree to a
+Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
+the rights to use your contribution. For details, visit <a href="https://cla.opensource.microsoft.com">https://cla.opensource.microsoft.com</a>.</p>
+<p>When you submit a pull request, a CLA bot will automatically determine whether you need to provide
+a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
+provided by the bot. You will only need to do this once across all repos using our CLA.</p>
+<p>This project has adopted the <a href="https://opensource.microsoft.com/codeofconduct/">Microsoft Open Source Code of Conduct</a>.
+For more information see the <a href="https://opensource.microsoft.com/codeofconduct/faq/">Code of Conduct FAQ</a> or
+contact <a href="mailto:opencode@microsoft.com">opencode@microsoft.com</a> with any additional questions or comments.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/e0f74f7b00f9f7567b77648226904298f32358eb/docfx/index.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="styles/docfx.js"></script>
+    <script type="text/javascript" src="styles/main.js"></script>
+  </body>
+</html>
