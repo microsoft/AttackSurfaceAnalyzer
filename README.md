@@ -10,6 +10,12 @@ If you have the [.NET Core SDK](https://dotnet.microsoft.com/download) installed
 
 Platform specific binaries for Attack Surface Analyzer are distributed via our GitHub [releases](https://github.com/Microsoft/AttackSurfaceAnalyzer/releases/latest) page.
 
+## Documentation
+
+Documentation is available on the [Wiki](https://github.com/Microsoft/AttackSurfaceAnalyzer/wiki/).
+
+Documentation for the [API](https://microsoft.github.io/AttackSurfaceAnalyzer/api/) is available on GitHub Pages.
+
 ## New Features in 2.2
 
 - Expanded analysis engine allowing users to define arbitrary boolean expressions across clauses and access sub properties of objects. See [Authoring Rules](https://github.com/microsoft/AttackSurfaceAnalyzer/wiki/Authoring-Analysis-Rules) on the wiki for more information on creating rules.
