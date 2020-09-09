@@ -1,7 +1,5 @@
 # Attack Surface Analyzer 
-Attack Surface Analyzer is a Microsoft-developed open source security tool that analyzes the attack 
-surface of a target system and reports on potential security vulnerabilities introduced during
-the installation of software or system misconfiguration. 
+Attack Surface Analyzer is a [Microsoft](https://github.com/microsoft/) developed open source security tool that analyzes the attack surface of a target system and reports on potential security vulnerabilities introduced during the installation of software or system misconfiguration. 
 
 ## Getting Attack Surface Analyzer
 ![Nuget](https://img.shields.io/nuget/v/Microsoft.CST.AttackSurfaceAnalyzer.Cli?link=https://www.nuget.org/packages/Microsoft.CST.AttackSurfaceAnalyzer.CLI&link=https://www.nuget.org/packages/Microsoft.CST.AttackSurfaceAnalyzer.CLI) ![Nuget](https://img.shields.io/nuget/dt/Microsoft.CST.AttackSurfaceAnalyzer.Cli?link=https://www.nuget.org/packages/Microsoft.CST.AttackSurfaceAnalyzer.CLI&link=https://www.nuget.org/packages/Microsoft.CST.AttackSurfaceAnalyzer.CLI)
@@ -14,16 +12,22 @@ Platform specific binaries for Attack Surface Analyzer are distributed via our G
 
 Documentation is available on the [Wiki](https://github.com/Microsoft/AttackSurfaceAnalyzer/wiki/).
 
-Documentation for the [API](https://microsoft.github.io/AttackSurfaceAnalyzer/api/) is available on GitHub Pages.
+### API Documentation
 
-## New Features in 2.2
+#### Main Branch
 
-- Expanded analysis engine allowing users to define arbitrary boolean expressions across clauses and access sub properties of objects. See [Authoring Rules](https://github.com/microsoft/AttackSurfaceAnalyzer/wiki/Authoring-Analysis-Rules) on the wiki for more information on creating rules.
-- Significantly improved collection and analysis performance.
-- MacOS binary signature checking
-- Support for C# 8 [nullable reference types](https://docs.microsoft.com/en-us/dotnet/csharp/nullable-references)
-- Improved database independent API
-- Updated [API documentation](https://microsoft.github.io/AttackSurfaceAnalyzer/api/index.html) and [Developer guide](https://github.com/microsoft/AttackSurfaceAnalyzer/wiki/Using-AsaLib)
+[https://microsoft.github.io/AttackSurfaceAnalyzer/api/](https://microsoft.github.io/AttackSurfaceAnalyzer/api/)
+
+#### Version 2.3
+[https://microsoft.github.io/AttackSurfaceAnalyzer/v2.3/api/](https://microsoft.github.io/AttackSurfaceAnalyzer/v2.3/api/)
+
+#### Version 2.2
+[https://microsoft.github.io/AttackSurfaceAnalyzer/v2.2/api/](https://microsoft.github.io/AttackSurfaceAnalyzer/v2.2/api/)
+
+## New Features in 2.3
+
+- Rewritten GUI with Rule Authoring and Testing in GUI.
+- New Collectors
 
 ## Overview
 
