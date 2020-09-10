@@ -6,7 +6,7 @@ Attack Surface Analyzer is a [Microsoft](https://github.com/microsoft/) develope
 ### Version
 This is the Documentation for Attack Surface Analyzer 2.2
 
-For an overview of docs avaiable for different versions go up one level to [https://microsoft.github.io/AttackSurfaceAnalyzer/](https://microsoft.github.io/AttackSurfaceAnalyzer/).
+For an overview of docs available for different versions go up one level to [https://microsoft.github.io/AttackSurfaceAnalyzer/](https://microsoft.github.io/AttackSurfaceAnalyzer/).
 
 ### API Documentation 
 The API Documentation for version 2.2 is available here: [https://microsoft.github.io/AttackSurfaceAnalyzer/v2.2/api/](https://microsoft.github.io/AttackSurfaceAnalyzer/v2.2/api/)
