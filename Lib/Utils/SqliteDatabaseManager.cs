@@ -119,6 +119,12 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
         public override void DeleteCompareRun(string firstRunId, string secondRunId, string analysesHash)
         {
             _ = MainConnection ?? throw new NullReferenceException(Strings.Get("MainConnection"));
+            using var deleteCompareRun = new SqliteCommand(SQL_DELETE_COMPARE_RUN, MainConnection.Connection, MainConnection.Transaction);
+            deleteCompareRun.Parameters.AddWithValue("@first_run_id", firstRunId);
+            deleteCompareRun.Parameters.AddWithValue("@second_run_id", secondRunId);
+            deleteCompareRun.Parameters.AddWithValue("@analyses_hash", analysesHash);
+            deleteCompareRun.ExecuteNonQuery();
+
             using var truncateRunsTable = new SqliteCommand(SQL_TRUNCATE_COMPARE_RUN, MainConnection.Connection, MainConnection.Transaction);
             truncateRunsTable.Parameters.AddWithValue("@first_run_id", firstRunId);
             truncateRunsTable.Parameters.AddWithValue("@second_run_id", secondRunId);
@@ -1096,7 +1102,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 
         private const string GET_RUNS = "select run_id from runs order by ROWID desc;";
         private const string GET_SERIALIZED_RESULTS = "select change_type, Serialized from file_system_monitored where run_id = @run_id";
-        private const string INSERT_RUN_INTO_RESULT_TABLE_SQL = "insert into results (base_run_id, compare_run_id, analyses_hash, status) values (@base_run_id, @compare_run_id, @analyses_hash @status);";
+        private const string INSERT_RUN_INTO_RESULT_TABLE_SQL = "insert into results (base_run_id, compare_run_id, analyses_hash, status) values (@base_run_id, @compare_run_id, @analyses_hash, @status);";
         private const int SCHEMA_VERSION = 12;
         private const string SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED = "select * from results where base_run_id=@base_run_id and compare_run_id=@compare_run_id and analyses_hash=@analyses_hash";
         private const string SQL_CREATE_COLLECT_RESULTS = "create table if not exists collect (run_id text, result_type text, identity text, row_key blob, timestamp text, serialized blob, UNIQUE(run_id, identity))";
@@ -1112,6 +1118,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
         private const string SQL_CREATE_RESULTS = "create table if not exists results (base_run_id text, compare_run_id text, analyses_hash text, status text);";
         private const string SQL_CREATE_RUNS = "create table if not exists runs (run_id text, type string, serialized blob, unique(run_id))";
         private const string SQL_DELETE_RUN = "delete from collect where run_id=@run_id";
+        private const string SQL_DELETE_COMPARE_RUN = "delete from results where base_run_id=@first_run_id and compare_run_id=@second_run_id and analyses_hash=@analyses_hash";
         private const string SQL_GET_COLLECT_MISSING_IN_B = "SELECT * FROM collect b WHERE b.run_id = @second_run_id AND b.identity NOT IN (SELECT identity FROM collect a WHERE a.run_id = @first_run_id);";
 
         private const string SQL_GET_COLLECT_MODIFIED = "select a.serialized as 'a_serialized', a.result_type as 'a_result_type', a.run_id as 'a_run_id'," +

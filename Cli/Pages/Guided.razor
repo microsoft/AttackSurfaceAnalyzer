@@ -47,7 +47,7 @@
         <Analyzing />
         break;
     case PageState.Results:
-        <Results FirstRunId="@appData.ExportCollectCommandOptions.FirstRunId" SecondRunId="@appData.ExportCollectCommandOptions.SecondRunId" MonitorRunId="@appData.MonitorOptions.RunId"/>
+        <Results FirstRunId="@appData.ExportCollectCommandOptions.FirstRunId" SecondRunId="@appData.ExportCollectCommandOptions.SecondRunId" AnalysesHash="@appData.CompareCommandOptions.AnalysesFile.GetHash()" MonitorRunId="@appData.MonitorOptions.RunId"/>
         break;
     case PageState.Error:
         <p>An Error Occured while collecting.</p>

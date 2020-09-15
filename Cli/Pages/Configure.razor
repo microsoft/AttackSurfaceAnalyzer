@@ -11,7 +11,7 @@
 <button @onclick="DeleteSelected">Delete Selected Run</button>
 <br />
 <label for="CompareRunsSelect">Comparison Runs</label>
-<select id="CompareRunsSelect" @bind="SelectedRun">
+<select id="CompareRunsSelect" @bind="SelectedCompareRun">
     @for (int i = 0; i < CompareRuns.Count; i++)
     {
         <option value="@i">@CompareRuns[i]</option>
@@ -20,10 +20,10 @@
 <button @onclick="DeleteSelectedCompare">Delete Selected Run</button>
 <br />
 
-
-
 @code {
     public int SelectedRun { get; set; }
+
+    public int SelectedCompareRun { get; set; }
 
     public List<string> Runs = AttackSurfaceAnalyzerClient.DatabaseManager.GetRuns();
 
@@ -32,10 +32,14 @@
     public void DeleteSelected()
     {
         AttackSurfaceAnalyzerClient.DatabaseManager.DeleteRun(Runs[SelectedRun]);
+        Runs = AttackSurfaceAnalyzerClient.DatabaseManager.GetRuns();
+        this.StateHasChanged();
     }
 
     public void DeleteSelectedCompare()
     {
-        AttackSurfaceAnalyzerClient.DatabaseManager.DeleteCompareRun(CompareRuns[SelectedRun].firstRunId, CompareRuns[SelectedRun].secondRunId, CompareRuns[SelectedRun].analysesHash);
+        AttackSurfaceAnalyzerClient.DatabaseManager.DeleteCompareRun(CompareRuns[SelectedCompareRun].firstRunId, CompareRuns[SelectedCompareRun].secondRunId, CompareRuns[SelectedCompareRun].analysesHash);
+        CompareRuns = AttackSurfaceAnalyzerClient.DatabaseManager.GetCompareRuns();
+        this.StateHasChanged();
     }
 }
