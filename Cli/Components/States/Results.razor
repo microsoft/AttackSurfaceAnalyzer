@@ -34,6 +34,8 @@
     [Parameter]
     public string SecondRunId { get; set; }
     [Parameter]
+    public string AnalysesHash { get; set; }
+    [Parameter]
     public string MonitorRunId { get; set; }
 
     protected override void OnInitialized()
@@ -66,10 +68,10 @@
         switch (resultType)
         {
             case RESULT_TYPE.FILEMONITOR:
-                analysisResults = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResults(string.Empty, MonitorRunId, resultType, offset, count);
+                analysisResults = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResults(string.Empty, MonitorRunId, AnalysesHash, resultType, offset, count);
                 break;
             default:
-                analysisResults = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResults(FirstRunId, SecondRunId, resultType, offset, count);
+                analysisResults = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResults(FirstRunId, SecondRunId, AnalysesHash, resultType, offset, count);
                 break;
         }
     }

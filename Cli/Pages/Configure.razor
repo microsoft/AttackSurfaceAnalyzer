@@ -1,7 +1,41 @@
 ﻿@page "/configure"
 
-<h3>Configure</h3>
+<h3>Manage Runs</h3>
+<label for="CollectionRunsSelect">Collection Runs</label>
+<select id="CollectionRunsSelect" @bind="SelectedRun">
+    @for (int i = 0; i < Runs.Count; i++)
+    {
+        <option value="@i">@Runs[i]</option>
+    }
+</select>
+<button @onclick="DeleteSelected">Delete Selected Run</button>
+<br />
+<label for="CompareRunsSelect">Comparison Runs</label>
+<select id="CompareRunsSelect" @bind="SelectedRun">
+    @for (int i = 0; i < CompareRuns.Count; i++)
+    {
+        <option value="@i">@CompareRuns[i]</option>
+    }
+</select>
+<button @onclick="DeleteSelectedCompare">Delete Selected Run</button>
+<br />
+
+
 
 @code {
+    public int SelectedRun { get; set; }
 
+    public List<string> Runs = AttackSurfaceAnalyzerClient.DatabaseManager.GetRuns();
+
+    public List<(string firstRunId, string secondRunId, string analysesHash, RUN_STATUS runStatus)> CompareRuns = AttackSurfaceAnalyzerClient.DatabaseManager.GetCompareRuns();
+
+    public void DeleteSelected()
+    {
+        AttackSurfaceAnalyzerClient.DatabaseManager.DeleteRun(Runs[SelectedRun]);
+    }
+
+    public void DeleteSelectedCompare()
+    {
+        AttackSurfaceAnalyzerClient.DatabaseManager.DeleteCompareRun(CompareRuns[SelectedRun].firstRunId, CompareRuns[SelectedRun].secondRunId, CompareRuns[SelectedRun].analysesHash);
+    }
 }

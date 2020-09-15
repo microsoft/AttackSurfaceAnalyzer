@@ -10,10 +10,10 @@
         }
     </select>
 </div>
-<Results FirstRunId="@Runs[RunIdInput].firstRunId" SecondRunId="@Runs[RunIdInput].secondRunId" MonitorRunId="@Runs[RunIdInput].secondRunId"/>
+<Results FirstRunId="@Runs[RunIdInput].firstRunId" SecondRunId="@Runs[RunIdInput].secondRunId" AnalysesFile="@Runs[RunIdInput].analysesHash" MonitorRunId="@Runs[RunIdInput].secondRunId"/>
 @code {
 
-    List<(string firstRunId, string secondRunId, RUN_STATUS runStatus)> Runs = AttackSurfaceAnalyzerClient.DatabaseManager.GetCompareRuns();
+    List<(string firstRunId, string secondRunId, string analysesHash, RUN_STATUS runStatus)> Runs = AttackSurfaceAnalyzerClient.DatabaseManager.GetCompareRuns();
 
     private int _runIdInput;
 

@@ -183,7 +183,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
             if (opts.SaveToDatabase)
             {
-                InsertCompareResults(results, firstCollectRunId, secondCollectRunId);
+                InsertCompareResults(results, firstCollectRunId, secondCollectRunId, analysisFile.GetHash());
             }
 
             var monitorCompareOpts = new CompareCommandOptions(null, monitorRunId)
@@ -198,7 +198,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
             if (opts.SaveToDatabase)
             {
-                InsertCompareResults(monitorResult, null, monitorRunId);
+                InsertCompareResults(monitorResult, null, monitorRunId, analysisFile.GetHash());
             }
 
             Parallel.ForEach(monitorResult.Keys, key =>
@@ -213,7 +213,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
         {
             if (opts is null) { return new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>>(); }
             var analyzer = new AsaAnalyzer(new AnalyzerOptions(opts.RunScripts));
-            return AnalyzeMonitored(opts, analyzer, DatabaseManager.GetMonitorResults(opts.SecondRunId), opts.AnalysesFile);
+            return AnalyzeMonitored(opts, analyzer, DatabaseManager.GetMonitorResults(opts.SecondRunId), opts.AnalysesFile ?? throw new ArgumentNullException(nameof(opts.AnalysesFile)));
         }
 
         public static ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> AnalyzeMonitored(CompareCommandOptions opts, AsaAnalyzer analyzer, IEnumerable<MonitorObject> collectObjects, RuleFile ruleFile)
@@ -269,9 +269,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             return ASA_ERROR.NONE;
         }
 
-        internal static void InsertCompareResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> results, string? FirstRunId, string SecondRunId)
+        internal static void InsertCompareResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> results, string? FirstRunId, string SecondRunId, string AnalysesHash)
         {
-            DatabaseManager.InsertCompareRun(FirstRunId, SecondRunId, RUN_STATUS.RUNNING);
+            DatabaseManager.InsertCompareRun(FirstRunId, SecondRunId, AnalysesHash, RUN_STATUS.RUNNING);
             foreach (var key in results.Keys)
             {
                 if (results.TryGetValue(key, out List<CompareResult>? obj))
@@ -485,7 +485,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
             if (opts.SaveToDatabase)
             {
-                InsertCompareResults(results, opts.FirstRunId, opts.SecondRunId);
+                InsertCompareResults(results, opts.FirstRunId, opts.SecondRunId, options.AnalysesFile.GetHash());
             }
 
             return ExportCompareResults(results, opts, AsaHelpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId));
@@ -629,60 +629,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             }
         }
 
-        public static void WriteScanJson(int ResultType, string BaseId, string CompareId, bool ExportAll, string OutputPath)
-        {
-            var invalidFileNameChars = Path.GetInvalidPathChars().ToList();
-            OutputPath = new string(OutputPath.Select(ch => invalidFileNameChars.Contains(ch) ? Convert.ToChar(invalidFileNameChars.IndexOf(ch) + 65) : ch).ToArray());
-            List<RESULT_TYPE> ToExport = new List<RESULT_TYPE> { (RESULT_TYPE)ResultType };
-            Dictionary<RESULT_TYPE, int> actualExported = new Dictionary<RESULT_TYPE, int>();
-            JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings()
-            {
-                Formatting = Formatting.Indented,
-                NullValueHandling = NullValueHandling.Ignore,
-                DefaultValueHandling = DefaultValueHandling.Ignore,
-                Converters = new List<JsonConverter>() { new StringEnumConverter() }
-            });
-            if (ExportAll)
-            {
-                ToExport = new List<RESULT_TYPE> { RESULT_TYPE.FILE, RESULT_TYPE.CERTIFICATE, RESULT_TYPE.PORT, RESULT_TYPE.REGISTRY, RESULT_TYPE.SERVICE, RESULT_TYPE.USER };
-            }
-
-            foreach (RESULT_TYPE ExportType in ToExport)
-            {
-                Log.Information("Exporting {0}", ExportType);
-                List<CompareResult> records = DatabaseManager.GetComparisonResults(BaseId, CompareId, ExportType);
-
-                actualExported.Add(ExportType, records.Count);
-
-                if (records.Count > 0)
-                {
-                    serializer.Converters.Add(new StringEnumConverter());
-                    var o = new Dictionary<string, Object>();
-                    o["results"] = records;
-                    o["metadata"] = AsaHelpers.GenerateMetadata();
-                    using (StreamWriter sw = new StreamWriter(Path.Combine(OutputPath, AsaHelpers.MakeValidFileName(BaseId + "_vs_" + CompareId + "_" + ExportType.ToString() + ".json.txt")))) //lgtm [cs/path-injection]
-                    {
-                        using (JsonWriter writer = new JsonTextWriter(sw))
-                        {
-                            serializer.Serialize(writer, o);
-                        }
-                    }
-                }
-            }
-
-            serializer.Converters.Add(new StringEnumConverter());
-            var output = new Dictionary<string, Object>();
-            output["results"] = actualExported;
-            output["metadata"] = AsaHelpers.GenerateMetadata();
-            using (StreamWriter sw = new StreamWriter(Path.Combine(OutputPath, AsaHelpers.MakeValidFileName(BaseId + "_vs_" + CompareId + "_summary.json.txt")))) //lgtm [cs/path-injection]
-            {
-                using (JsonWriter writer = new JsonTextWriter(sw))
-                {
-                    serializer.Serialize(writer, output);
-                }
-            }
-        }
-
         private static void CheckFirstRun()
         {
             if (DatabaseManager == null || DatabaseManager.FirstRun)
@@ -721,7 +667,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
             if (opts.SaveToDatabase)
             {
-                InsertCompareResults(monitorResult, null, opts.RunId);
+                InsertCompareResults(monitorResult, null, opts.RunId, monitorCompareOpts.AnalysesFile.GetHash());
             }
 
             return ExportCompareResults(monitorResult, opts, AsaHelpers.MakeValidFileName(opts.RunId));
