@@ -117,7 +117,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.html",
-          "hash": "Dg+x+i2C1btoznz3uOepww=="
+          "hash": "3E28M45vsxf7v0myvlznmg=="
         }
       },
       "is_incremental": false,
@@ -753,7 +753,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html",
-          "hash": "6nrOhFvNfYDnvD3lWhUlxg=="
+          "hash": "MedQQ2rA4CVLw+iadXvMVA=="
         }
       },
       "is_incremental": false,
@@ -1125,7 +1125,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html",
-          "hash": "Q3NPGCDvZPRdHKSHtxyHwg=="
+          "hash": "qgrwCc+3l0JIabe0NaWjkA=="
         }
       },
       "is_incremental": false,
@@ -1233,7 +1233,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.html",
-          "hash": "XmAJXPdL73nt8mYwGUadRw=="
+          "hash": "C4bNN4/PVvIbNSCpaohg+A=="
         }
       },
       "is_incremental": false,
