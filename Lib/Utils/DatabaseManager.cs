@@ -39,6 +39,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
         public abstract void Commit();
 
         public abstract void DeleteRun(string runid);
+        public abstract void DeleteCompareRun(string firstRunid, string secondRunid, string analysisHash);
 
         public abstract void Destroy();
 
@@ -52,13 +53,13 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             return runOne?.ResultTypes.Intersect(runTwo?.ResultTypes).ToList() ?? new List<RESULT_TYPE>();
         }
 
-        public abstract bool GetComparisonCompleted(string? firstRunId, string secondRunId);
+        public abstract bool GetComparisonCompleted(string? firstRunId, string secondRunId, string analysesHash);
 
-        public abstract List<CompareResult> GetComparisonResults(string baseId, string compareId, RESULT_TYPE exportType);
+        public abstract List<CompareResult> GetComparisonResults(string baseId, string compareId, string analysesHash, RESULT_TYPE exportType);
 
-        public abstract List<CompareResult> GetComparisonResults(string baseId, string compareId, RESULT_TYPE resultType, int offset, int numResults);
+        public abstract List<CompareResult> GetComparisonResults(string baseId, string compareId, string analysesHash, RESULT_TYPE resultType, int offset, int numResults);
 
-        public abstract int GetComparisonResultsCount(string baseId, string compareId, int resultType);
+        public abstract int GetComparisonResultsCount(string baseId, string compareId, string analysesHash, int resultType);
 
         public abstract DBSettings GetCurrentSettings();
 
@@ -107,9 +108,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 
         public abstract void InsertAnalyzed(CompareResult objIn);
 
-        public abstract void InsertCompareRun(string? firstRunId, string secondRunId, RUN_STATUS runStatus);
+        public abstract void InsertCompareRun(string? firstRunId, string secondRunId, string analysesHash, RUN_STATUS runStatus);
 
-        public abstract List<(string firstRunId, string secondRunId, RUN_STATUS runStatus)> GetCompareRuns();
+        public abstract List<(string firstRunId, string secondRunId, string analysesHash, RUN_STATUS runStatus)> GetCompareRuns();
 
         public abstract void InsertRun(AsaRun run);
 

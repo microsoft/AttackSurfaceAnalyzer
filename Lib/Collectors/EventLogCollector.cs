@@ -160,11 +160,14 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                     {
                         if (curObject != null)
                         {
-                            if (curObject.Data == null)
+                            if (evt != null)
                             {
-                                curObject.Data = new List<string>();
+                                if (curObject.Data == null)
+                                {
+                                    curObject.Data = new List<string>();
+                                }
+                                curObject.Data.Add(evt);
                             }
-                            curObject.Data.Append(evt);
                         }
                     }
                 }

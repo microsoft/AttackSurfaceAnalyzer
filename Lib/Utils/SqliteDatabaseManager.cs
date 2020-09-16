@@ -116,6 +116,24 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             });
         }
 
+        public override void DeleteCompareRun(string firstRunId, string secondRunId, string analysesHash)
+        {
+            _ = MainConnection ?? throw new NullReferenceException(Strings.Get("MainConnection"));
+            using var deleteCompareRun = new SqliteCommand(SQL_DELETE_COMPARE_RUN, MainConnection.Connection, MainConnection.Transaction);
+            deleteCompareRun.Parameters.AddWithValue("@first_run_id", firstRunId);
+            deleteCompareRun.Parameters.AddWithValue("@second_run_id", secondRunId);
+            deleteCompareRun.Parameters.AddWithValue("@analyses_hash", analysesHash);
+            deleteCompareRun.ExecuteNonQuery();
+
+            using var truncateRunsTable = new SqliteCommand(SQL_TRUNCATE_COMPARE_RUN, MainConnection.Connection, MainConnection.Transaction);
+            truncateRunsTable.Parameters.AddWithValue("@first_run_id", firstRunId);
+            truncateRunsTable.Parameters.AddWithValue("@second_run_id", secondRunId);
+            truncateRunsTable.Parameters.AddWithValue("@analyses_hash", analysesHash);
+
+            truncateRunsTable.ExecuteNonQuery();
+        }
+
+
         public override void Destroy()
         {
             Connections.AsParallel().ForAll(x => x.Destroy());
@@ -231,7 +249,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             return output;
         }
 
-        public override bool GetComparisonCompleted(string? firstRunId, string secondRunId)
+        public override bool GetComparisonCompleted(string? firstRunId, string secondRunId, string analysesHash)
         {
             if (MainConnection != null)
             {
@@ -239,6 +257,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                 {
                     cmd.Parameters.AddWithValue("@base_run_id", firstRunId ?? string.Empty);
                     cmd.Parameters.AddWithValue("@compare_run_id", secondRunId);
+                    cmd.Parameters.AddWithValue("@analyses_hash", analysesHash);
                     using (var reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
@@ -256,7 +275,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             return false;
         }
 
-        public override List<CompareResult> GetComparisonResults(string? baseId, string compareId, RESULT_TYPE exportType)
+        public override List<CompareResult> GetComparisonResults(string? baseId, string compareId, string analysesHash, RESULT_TYPE exportType)
         {
             List<CompareResult> records = new List<CompareResult>();
             if (MainConnection != null)
@@ -265,6 +284,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                 {
                     cmd.Parameters.AddWithValue("@first_run_id", baseId ?? string.Empty);
                     cmd.Parameters.AddWithValue("@second_run_id", compareId);
+                    cmd.Parameters.AddWithValue("@analyses_hash", analysesHash);
                     cmd.Parameters.AddWithValue("@result_type", exportType);
                     using (var reader = cmd.ExecuteReader())
                     {
@@ -279,7 +299,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             return records;
         }
 
-        public override List<CompareResult> GetComparisonResults(string? baseId, string? compareId, RESULT_TYPE resultType, int offset, int numResults)
+        public override List<CompareResult> GetComparisonResults(string? baseId, string? compareId, string analysesHash, RESULT_TYPE resultType, int offset, int numResults)
         {
             _ = MainConnection ?? throw new NullReferenceException(Strings.Get("MainConnection"));
             var results = new List<CompareResult>();
@@ -287,6 +307,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             {
                 cmd.Parameters.AddWithValue("@first_run_id", baseId ?? string.Empty);
                 cmd.Parameters.AddWithValue("@second_run_id", compareId ?? string.Empty);
+                cmd.Parameters.AddWithValue("@analyses_hash", analysesHash);
                 cmd.Parameters.AddWithValue("@result_type", (int)resultType);
                 cmd.Parameters.AddWithValue("@offset", offset);
                 cmd.Parameters.AddWithValue("@limit", numResults);
@@ -316,7 +337,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             return results;
         }
 
-        public override int GetComparisonResultsCount(string? baseId, string compareId, int resultType)
+        public override int GetComparisonResultsCount(string? baseId, string compareId, string analysesHash, int resultType)
         {
             _ = MainConnection ?? throw new NullReferenceException(Strings.Get("MainConnection"));
             var result_count = 0;
@@ -324,6 +345,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             {
                 cmd.Parameters.AddWithValue("@first_run_id", baseId ?? string.Empty);
                 cmd.Parameters.AddWithValue("@second_run_id", compareId);
+                cmd.Parameters.AddWithValue("@analyses_hash", analysesHash);
                 cmd.Parameters.AddWithValue("@result_type", resultType);
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -640,18 +662,18 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             return null;
         }
 
-        public override List<(string firstRunId, string secondRunId, RUN_STATUS runStatus)> GetCompareRuns()
+        public override List<(string firstRunId, string secondRunId, string analysesHash, RUN_STATUS runStatus)> GetCompareRuns()
         {
             _ = MainConnection ?? throw new NullReferenceException(Strings.Get("MainConnection"));
 
-            var Runs = new List<(string firstRunId, string secondRunId, RUN_STATUS runStatus)>();
+            var Runs = new List<(string firstRunId, string secondRunId, string analysesHash, RUN_STATUS runStatus)>();
 
             using var cmd = new SqliteCommand(SQL_SELECT_COMPARE_RUNS, MainConnection.Connection, MainConnection.Transaction);
             using (var reader = cmd.ExecuteReader())
             {
                 while (reader.Read())
                 {
-                    Runs.Add(((string) reader["base_run_id"], (string) reader["compare_run_id"], (RUN_STATUS)Enum.Parse(typeof(RUN_STATUS), (string)reader["status"])));
+                    Runs.Add(((string)reader["base_run_id"], (string)reader["compare_run_id"], (string)reader["analyses_hash"], (RUN_STATUS)Enum.Parse(typeof(RUN_STATUS), (string)reader["status"])));
                 }
             }
             return Runs;
@@ -774,13 +796,14 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             }
         }
 
-        public override void InsertCompareRun(string? firstRunId, string secondRunId, RUN_STATUS runStatus)
+        public override void InsertCompareRun(string? firstRunId, string secondRunId, string analysesHash, RUN_STATUS runStatus)
         {
             _ = MainConnection ?? throw new NullReferenceException(Strings.Get("MainConnection"));
             using (var cmd = new SqliteCommand(INSERT_RUN_INTO_RESULT_TABLE_SQL, MainConnection.Connection, MainConnection.Transaction))
             {
                 cmd.Parameters.AddWithValue("@base_run_id", firstRunId ?? string.Empty);
                 cmd.Parameters.AddWithValue("@compare_run_id", secondRunId);
+                cmd.Parameters.AddWithValue("@analyses_hash", analysesHash);
                 cmd.Parameters.AddWithValue("@status", runStatus);
                 cmd.ExecuteNonQuery();
             }
@@ -1069,19 +1092,19 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
         }
 
         private const string GET_COMPARISON_RESULTS = "select * from findings where first_run_id = @first_run_id and second_run_id = @second_run_id and result_type=@result_type order by level desc;";
-        private const string GET_COMPARISON_RESULTS_LIMIT = "select * from findings where first_run_id = @first_run_id and second_run_id = @second_run_id and result_type=@result_type order by level desc limit @offset,@limit;";
+        private const string GET_COMPARISON_RESULTS_LIMIT = "select * from findings where first_run_id = @first_run_id and second_run_id = @second_run_id and analyses_hash=@analyses_hash and result_type=@result_type order by level desc limit @offset,@limit;";
         private const string GET_MONITOR_RESULTS = "select * from collect where run_id=@run_id order by timestamp;";
         private const string GET_MONITOR_RESULTS_LIMIT = "select * from collect where run_id=@run_id order by timestamp limit @offset,@limit;";
 
-        private const string GET_RESULT_COUNT = "select count(*) from findings where first_run_id = @first_run_id and second_run_id = @second_run_id and result_type=@result_type";
+        private const string GET_RESULT_COUNT = "select count(*) from findings where first_run_id = @first_run_id and second_run_id = @second_run_id and analyses_hash=@analyses_hash and result_type=@result_type";
 
         private const string GET_RESULT_COUNT_MONITORED = "select count(*) from file_system_monitored where run_id=@run_id;";
 
         private const string GET_RUNS = "select run_id from runs order by ROWID desc;";
         private const string GET_SERIALIZED_RESULTS = "select change_type, Serialized from file_system_monitored where run_id = @run_id";
-        private const string INSERT_RUN_INTO_RESULT_TABLE_SQL = "insert into results (base_run_id, compare_run_id, status) values (@base_run_id, @compare_run_id, @status);";
-        private const int SCHEMA_VERSION = 11;
-        private const string SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED = "select * from results where base_run_id=@base_run_id and compare_run_id=@compare_run_id";
+        private const string INSERT_RUN_INTO_RESULT_TABLE_SQL = "insert into results (base_run_id, compare_run_id, analyses_hash, status) values (@base_run_id, @compare_run_id, @analyses_hash, @status);";
+        private const int SCHEMA_VERSION = 12;
+        private const string SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED = "select * from results where base_run_id=@base_run_id and compare_run_id=@compare_run_id and analyses_hash=@analyses_hash";
         private const string SQL_CREATE_COLLECT_RESULTS = "create table if not exists collect (run_id text, result_type text, identity text, row_key blob, timestamp text, serialized blob, UNIQUE(run_id, identity))";
         private const string SQL_CREATE_COLLECT_RUN_ID_IDENTITY_INDEX = "create index if not exists i_collect_collect_run_id_identity on collect(run_id, identity)";
         private const string SQL_CREATE_COLLECT_RUN_ID_INDEX = "create index if not exists i_collect_collect_run_id on collect(run_id)";
@@ -1090,11 +1113,12 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
         private const string SQL_CREATE_FINDINGS_LEVEL_INDEX = "create index if not exists i_findings_level on findings(level)";
         private const string SQL_CREATE_FINDINGS_LEVEL_RESULT_TYPE_INDEX = "create index if not exists i_findings_level_result_type on findings(level, result_type)";
         private const string SQL_CREATE_FINDINGS_RESULT_TYPE_INDEX = "create index if not exists i_findings_result_type on findings(result_type)";
-        private const string SQL_CREATE_FINDINGS_RESULTS = "create table if not exists findings (first_run_id text, second_run_id text, level int, result_type int, identity text, first_serialized text, second_serialized text, meta_serialized text)";
+        private const string SQL_CREATE_FINDINGS_RESULTS = "create table if not exists findings (first_run_id text, second_run_id text, analyses_hash text, level int, result_type int, identity text, first_serialized text, second_serialized text, meta_serialized text)";
         private const string SQL_CREATE_PERSISTED_SETTINGS = "create table if not exists persisted_settings (id text, serialized text, unique(id))";
-        private const string SQL_CREATE_RESULTS = "create table if not exists results (base_run_id text, compare_run_id text, status text);";
+        private const string SQL_CREATE_RESULTS = "create table if not exists results (base_run_id text, compare_run_id text, analyses_hash text, status text);";
         private const string SQL_CREATE_RUNS = "create table if not exists runs (run_id text, type string, serialized blob, unique(run_id))";
         private const string SQL_DELETE_RUN = "delete from collect where run_id=@run_id";
+        private const string SQL_DELETE_COMPARE_RUN = "delete from results where base_run_id=@first_run_id and compare_run_id=@second_run_id and analyses_hash=@analyses_hash";
         private const string SQL_GET_COLLECT_MISSING_IN_B = "SELECT * FROM collect b WHERE b.run_id = @second_run_id AND b.identity NOT IN (SELECT identity FROM collect a WHERE a.run_id = @first_run_id);";
 
         private const string SQL_GET_COLLECT_MODIFIED = "select a.serialized as 'a_serialized', a.result_type as 'a_result_type', a.run_id as 'a_run_id'," +
@@ -1111,7 +1135,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
         private const string SQL_GET_RUN = "select * from runs where run_id = @run_id";
         private const string SQL_GET_UNIQUE_BETWEEN_RUNS = "SELECT run_id, result_type, serialized, COUNT (*) FROM collect WHERE run_id = @first_run_id or run_id = @second_run_id GROUP BY identity, result_type HAVING COUNT(*) == 1;";
         private const string SQL_GET_UNIQUE_BETWEEN_RUNS_EXPLICIT = "SELECT run_id, result_type, serialized, COUNT (*) FROM collect indexed by i_collect_collect_runid_row_type WHERE run_id = @first_run_id or run_id = @second_run_id GROUP BY identity, result_type HAVING COUNT(*) == 1;";
-        private const string SQL_INSERT_FINDINGS_RESULT = "insert into findings (first_run_id, second_run_id, result_type, level, identity, first_serialized, second_serialized, meta_serialized) values (@first_run_id, @second_run_id, @result_type, @level, @identity, @first_serialized, @second_serialized, @meta_serialized)";
+        private const string SQL_INSERT_FINDINGS_RESULT = "insert into findings (first_run_id, second_run_id, analyses_hash, result_type, level, identity, first_serialized, second_serialized, meta_serialized) values (@first_run_id, @second_run_id, @analyses_hash, @result_type, @level, @identity, @first_serialized, @second_serialized, @meta_serialized)";
         private const string SQL_INSERT_RUN = "insert into runs (run_id, type, serialized) values (@run_id, @type, @serialized)";
         private const string SQL_QUERY_ANALYZED = "select * from results where status = @status";
         private const string SQL_SELECT_LATEST_N_RUNS = "select run_id from runs where type = @type order by ROWID desc limit 0,@limit;";
@@ -1119,6 +1143,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
         private const string SQL_SELECT_RUNS = "select distinct run_id from runs order by ROWID asc;";
         private const string SQL_SELECT_COMPARE_RUNS = "select * from results order by ROWID asc";
         private const string SQL_TRUNCATE_RUN = "delete from runs where run_id=@run_id";
+        private const string SQL_TRUNCATE_COMPARE_RUN = "delete from findings where first_run_id=@first_run_id and second_run_id=@second_run_id and analyses_hash=@analyses_hash";
         private const string SQL_UPSERT_PERSISTED_SETTINGS = "insert or replace into persisted_settings (id, serialized) values (@id, @serialized)";
 
         private const string SQL_VACUUM = "VACUUM";

@@ -47,7 +47,7 @@
         <Analyzing />
         break;
     case PageState.Results:
-        <Results FirstRunId="@appData.ExportCollectCommandOptions.FirstRunId" SecondRunId="@appData.ExportCollectCommandOptions.SecondRunId" MonitorRunId="@appData.MonitorOptions.RunId"/>
+        <Results FirstRunId="@appData.ExportCollectCommandOptions.FirstRunId" SecondRunId="@appData.ExportCollectCommandOptions.SecondRunId" AnalysesHash="@appData.CompareCommandOptions.AnalysesFile.GetHash()" MonitorRunId="@appData.MonitorOptions.RunId"/>
         break;
     case PageState.Error:
         <p>An Error Occured while collecting.</p>
@@ -133,7 +133,7 @@
             CompareOneOptions.FirstRunId = appData.ExportCollectCommandOptions.FirstRunId;
             CompareOneOptions.SecondRunId = appData.ExportCollectCommandOptions.SecondRunId ?? string.Empty;
             var results = AttackSurfaceAnalyzerClient.CompareRuns(CompareOneOptions);
-            AttackSurfaceAnalyzerClient.InsertCompareResults(results, appData.ExportCollectCommandOptions.FirstRunId, appData.ExportCollectCommandOptions.SecondRunId ?? string.Empty);
+            AttackSurfaceAnalyzerClient.InsertCompareResults(results, appData.ExportCollectCommandOptions.FirstRunId, appData.ExportCollectCommandOptions.SecondRunId ?? string.Empty, appData.CompareCommandOptions.AnalysesFile?.GetHash() ?? "");
         });
 
         await Task.Factory.StartNew(() =>
@@ -143,7 +143,7 @@
             CompareTwoOptions.FirstRunId = null;
             CompareTwoOptions.SecondRunId = appData.MonitorRunId;
             var results = AttackSurfaceAnalyzerClient.CompareRuns(CompareTwoOptions);
-            AttackSurfaceAnalyzerClient.InsertCompareResults(results, null, appData.MonitorRunId);
+            AttackSurfaceAnalyzerClient.InsertCompareResults(results, null, appData.MonitorRunId, appData.CompareCommandOptions.AnalysesFile?.GetHash() ?? "");
         });
         return ASA_ERROR.NONE;
     }

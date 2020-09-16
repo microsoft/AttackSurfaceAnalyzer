@@ -76,6 +76,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
             return new RuleFile();
         }
 
+        public string GetHash()
+        {
+            return CryptoHelpers.CreateHash(JsonConvert.SerializeObject(this));
+        }
+
         public static RuleFile FromFile(string? filterLoc = "")
         {
             if (!string.IsNullOrEmpty(filterLoc))
